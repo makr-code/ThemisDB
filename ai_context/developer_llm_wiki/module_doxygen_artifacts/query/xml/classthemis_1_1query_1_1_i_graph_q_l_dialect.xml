@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_i_graph_q_l_dialect" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::query::IGraphQLDialect</compoundname>
+    <includes refid="graphql__dialect_8h" local="no">graphql_dialect.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a5b248b15dbabe77b3da2f20ace879418" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::query::IGraphQLDialect::~IGraphQLDialect</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IGraphQLDialect</name>
+        <qualifiedname>themis::query::IGraphQLDialect::~IGraphQLDialect</qualifiedname>
+        <briefdescription>
+<para>IGraph QLDialect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/graphql_dialect.h" line="51" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_graph_q_l_dialect_1ad55f018ba1d9222c348ce28d80725ad7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_graph_q_l_query" kindref="compound">GraphQLQuery</ref></type>
+        <definition>virtual GraphQLQuery themis::query::IGraphQLDialect::parse</definition>
+        <argsstring>(const std::string &amp;query_str)=0</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::query::IGraphQLDialect::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_str</declname>
+        </param>
+        <briefdescription>
+<para>Parse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/graphql_dialect.h" line="57" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a5294447669eaec27b371a50a9329d261" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::query::IGraphQLDialect::toAQL</definition>
+        <argsstring>(const GraphQLQuery &amp;query)=0</argsstring>
+        <name>toAQL</name>
+        <qualifiedname>themis::query::IGraphQLDialect::toAQL</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_graph_q_l_query" kindref="compound">GraphQLQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>To AQL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/graphql_dialect.h" line="63" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a9bf395bd33adfb7fdfc92aa8e186f0da" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_graph_q_l_result" kindref="compound">GraphQLResult</ref></type>
+        <definition>virtual GraphQLResult themis::query::IGraphQLDialect::execute</definition>
+        <argsstring>(const std::string &amp;query_str, const std::map&lt; std::string, std::string &gt; &amp;variables={})=0</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::query::IGraphQLDialect::execute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_str</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>variables</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/graphql_dialect.h" line="64" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a97fcc0abfc1045209a08f6b9c24ada1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::query::IGraphQLDialect::registerTypeResolver</definition>
+        <argsstring>(const std::string &amp;type_name, std::function&lt; std::string(const GraphQLField &amp;)&gt; resolver)=0</argsstring>
+        <name>registerTypeResolver</name>
+        <qualifiedname>themis::query::IGraphQLDialect::registerTypeResolver</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type_name</declname>
+        </param>
+        <param>
+          <type>std::function&lt; std::string(const <ref refid="structthemis_1_1query_1_1_graph_q_l_field" kindref="compound">GraphQLField</ref> &amp;)&gt;</type>
+          <declname>resolver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/graphql_dialect.h" line="66" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a623bf527f395888e0d43b669094e19fd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::query::IGraphQLDialect::schemaSDL</definition>
+        <argsstring>() const =0</argsstring>
+        <name>schemaSDL</name>
+        <qualifiedname>themis::query::IGraphQLDialect::schemaSDL</qualifiedname>
+        <briefdescription>
+<para>Schema SDL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/graphql_dialect.h" line="72" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/graphql_dialect.h" line="45" column="1" bodyfile="include/query/graphql_dialect.h" bodystart="45" bodyend="73"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a9bf395bd33adfb7fdfc92aa8e186f0da" prot="public" virt="pure-virtual"><scope>themis::query::IGraphQLDialect</scope><name>execute</name></member>
+      <member refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1ad55f018ba1d9222c348ce28d80725ad7" prot="public" virt="pure-virtual"><scope>themis::query::IGraphQLDialect</scope><name>parse</name></member>
+      <member refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a97fcc0abfc1045209a08f6b9c24ada1f" prot="public" virt="pure-virtual"><scope>themis::query::IGraphQLDialect</scope><name>registerTypeResolver</name></member>
+      <member refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a623bf527f395888e0d43b669094e19fd" prot="public" virt="pure-virtual"><scope>themis::query::IGraphQLDialect</scope><name>schemaSDL</name></member>
+      <member refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a5294447669eaec27b371a50a9329d261" prot="public" virt="pure-virtual"><scope>themis::query::IGraphQLDialect</scope><name>toAQL</name></member>
+      <member refid="classthemis_1_1query_1_1_i_graph_q_l_dialect_1a5b248b15dbabe77b3da2f20ace879418" prot="public" virt="virtual"><scope>themis::query::IGraphQLDialect</scope><name>~IGraphQLDialect</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

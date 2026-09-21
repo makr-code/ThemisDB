@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_retrieval_quality_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::RetrievalQualityMetrics</compoundname>
+    <includes refid="retrieval__metrics_8h" local="no">retrieval_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1a6d8b28388c11d77d09fd9e2ffe1bfea8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::RetrievalQualityMetrics::recall_at_k</definition>
+        <argsstring></argsstring>
+        <name>recall_at_k</name>
+        <qualifiedname>themis::evaluation::RetrievalQualityMetrics::recall_at_k</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Recall@k: fraction of ground-truth items in top-k. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="99" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1ae935f4b6fff14f598247f7d1878391ce" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::RetrievalQualityMetrics::precision_at_k</definition>
+        <argsstring></argsstring>
+        <name>precision_at_k</name>
+        <qualifiedname>themis::evaluation::RetrievalQualityMetrics::precision_at_k</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Precision@k: fraction of top-k items that are relevant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="100" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1af1904eb62b6a47a7e4ecf10f00e82ae8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::RetrievalQualityMetrics::ndcg_at_k</definition>
+        <argsstring></argsstring>
+        <name>ndcg_at_k</name>
+        <qualifiedname>themis::evaluation::RetrievalQualityMetrics::ndcg_at_k</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Normalized Discounted Cumulative Gain@k. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="101" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1a792e6b836d677a4f305f62df6655618d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::RetrievalQualityMetrics::mrr</definition>
+        <argsstring></argsstring>
+        <name>mrr</name>
+        <qualifiedname>themis::evaluation::RetrievalQualityMetrics::mrr</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Mean Reciprocal Rank of the first relevant result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="102" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1a5320b354c978d93a0421ec5c9b1ce0f5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::RetrievalQualityMetrics::candidate_reduction_ratio</definition>
+        <argsstring></argsstring>
+        <name>candidate_reduction_ratio</name>
+        <qualifiedname>themis::evaluation::RetrievalQualityMetrics::candidate_reduction_ratio</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>(1 – top_k / total_candidates); 0 when total == 0. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="103" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/retrieval_metrics.h" line="98" column="1" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="98" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1a5320b354c978d93a0421ec5c9b1ce0f5" prot="public" virt="non-virtual"><scope>themis::evaluation::RetrievalQualityMetrics</scope><name>candidate_reduction_ratio</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1a792e6b836d677a4f305f62df6655618d" prot="public" virt="non-virtual"><scope>themis::evaluation::RetrievalQualityMetrics</scope><name>mrr</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1af1904eb62b6a47a7e4ecf10f00e82ae8" prot="public" virt="non-virtual"><scope>themis::evaluation::RetrievalQualityMetrics</scope><name>ndcg_at_k</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1ae935f4b6fff14f598247f7d1878391ce" prot="public" virt="non-virtual"><scope>themis::evaluation::RetrievalQualityMetrics</scope><name>precision_at_k</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1a6d8b28388c11d77d09fd9e2ffe1bfea8" prot="public" virt="non-virtual"><scope>themis::evaluation::RetrievalQualityMetrics</scope><name>recall_at_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

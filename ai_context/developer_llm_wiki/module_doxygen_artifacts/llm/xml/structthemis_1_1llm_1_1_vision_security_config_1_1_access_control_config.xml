@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vision_security_config_1_1_access_control_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::VisionSecurityConfig::AccessControlConfig</compoundname>
+    <includes refid="vision__config_8h" local="no">vision_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_security_config_1_1_access_control_config_1a3d60bcab8e4f50073239db38dca97d43" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionSecurityConfig::AccessControlConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::VisionSecurityConfig::AccessControlConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="205" column="14" bodyfile="include/llm/vision_config.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_security_config_1_1_access_control_config_1a406d2232828013e81bba5987577863c5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionSecurityConfig::AccessControlConfig::require_authentication</definition>
+        <argsstring></argsstring>
+        <name>require_authentication</name>
+        <qualifiedname>themis::llm::VisionSecurityConfig::AccessControlConfig::require_authentication</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="206" column="14" bodyfile="include/llm/vision_config.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_security_config_1_1_access_control_config_1aa274c03ff12275c3a8691e24248d3032" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionSecurityConfig::AccessControlConfig::role_based_access</definition>
+        <argsstring></argsstring>
+        <name>role_based_access</name>
+        <qualifiedname>themis::llm::VisionSecurityConfig::AccessControlConfig::role_based_access</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="207" column="14" bodyfile="include/llm/vision_config.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_security_config_1_1_access_control_config_1a62842cc9d48f05d050a83eff8aeafb85" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::VisionSecurityConfig::AccessControlConfig::allowed_roles</definition>
+        <argsstring></argsstring>
+        <name>allowed_roles</name>
+        <qualifiedname>themis::llm::VisionSecurityConfig::AccessControlConfig::allowed_roles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="208" column="21" bodyfile="include/llm/vision_config.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_security_config_1_1_access_control_config_1a1740730185e3ac79fcd1de4c5694cf5d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionSecurityConfig::AccessControlConfig::require_api_key</definition>
+        <argsstring></argsstring>
+        <name>require_api_key</name>
+        <qualifiedname>themis::llm::VisionSecurityConfig::AccessControlConfig::require_api_key</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="209" column="14" bodyfile="include/llm/vision_config.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_security_config_1_1_access_control_config_1a389214a29333c5b96da40a900f287f3a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionSecurityConfig::AccessControlConfig::api_key_header</definition>
+        <argsstring></argsstring>
+        <name>api_key_header</name>
+        <qualifiedname>themis::llm::VisionSecurityConfig::AccessControlConfig::api_key_header</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="210" column="21" bodyfile="include/llm/vision_config.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_config.h" line="204" column="5" bodyfile="include/llm/vision_config.h" bodystart="204" bodyend="211"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vision_security_config_1_1_access_control_config_1a62842cc9d48f05d050a83eff8aeafb85" prot="public" virt="non-virtual"><scope>themis::llm::VisionSecurityConfig::AccessControlConfig</scope><name>allowed_roles</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_security_config_1_1_access_control_config_1a389214a29333c5b96da40a900f287f3a" prot="public" virt="non-virtual"><scope>themis::llm::VisionSecurityConfig::AccessControlConfig</scope><name>api_key_header</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_security_config_1_1_access_control_config_1a3d60bcab8e4f50073239db38dca97d43" prot="public" virt="non-virtual"><scope>themis::llm::VisionSecurityConfig::AccessControlConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_security_config_1_1_access_control_config_1a1740730185e3ac79fcd1de4c5694cf5d" prot="public" virt="non-virtual"><scope>themis::llm::VisionSecurityConfig::AccessControlConfig</scope><name>require_api_key</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_security_config_1_1_access_control_config_1a406d2232828013e81bba5987577863c5" prot="public" virt="non-virtual"><scope>themis::llm::VisionSecurityConfig::AccessControlConfig</scope><name>require_authentication</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_security_config_1_1_access_control_config_1aa274c03ff12275c3a8691e24248d3032" prot="public" virt="non-virtual"><scope>themis::llm::VisionSecurityConfig::AccessControlConfig</scope><name>role_based_access</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1performance_1_1_0d352332277004364041160311144257105376144072013067" kind="namespace" language="C++">
+    <compoundname>themis::performance::@352332277004364041160311144257105376144072013067</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/performance/numa_topology.cpp" line="297" column="1"/>
+  </compounddef>
+</doxygen>

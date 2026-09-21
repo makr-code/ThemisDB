@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_log_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::CrashRecoveryManager::LogEntry</compoundname>
+    <includes refid="crash__recovery__manager_8h" local="no">crash_recovery_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_log_entry_1a4169eb8d1332a549668a81e17b602c81" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::transaction::CrashRecoveryManager::LogEntry::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::LogEntry::timestamp_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="54" column="24" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_log_entry_1a16f18d85f85279d8e139d5f79071a609" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::transaction::CrashRecoveryManager::LogEntry::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::LogEntry::txn_id</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="55" column="24" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_log_entry_1a6913cacf1bf6e2c40e25e46346f65aa1" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a8b031ef64f0a6d7b217f0921b1ac1d71" kindref="member">EntryType</ref></type>
+        <definition>EntryType themis::transaction::CrashRecoveryManager::LogEntry::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::LogEntry::type</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1transaction_1_1_crash_recovery_manager_1a8b031ef64f0a6d7b217f0921b1ac1d71a19aad9f2fe3ce0023298ab83f7e75775" kindref="member">EntryType::BEGIN</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="56" column="24" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_log_entry_1a573b3c8cb870583732f1b093ae5b717b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7" kindref="member">IsolationLevel</ref></type>
+        <definition>IsolationLevel themis::transaction::CrashRecoveryManager::LogEntry::isolation</definition>
+        <argsstring></argsstring>
+        <name>isolation</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::LogEntry::isolation</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">IsolationLevel::READ_COMMITTED</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="57" column="24" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_log_entry_1af7b0280f8bde9f472f44e6f019c82361" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_operation_entry" kindref="compound">OperationEntry</ref></type>
+        <definition>OperationEntry themis::transaction::CrashRecoveryManager::LogEntry::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::LogEntry::operation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="58" column="24" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::transaction::CrashRecoveryManager::LogEntry</label>
+        <link refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_log_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>operation</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::transaction::CrashRecoveryManager::OperationEntry</label>
+        <link refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_operation_entry"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/transaction/crash_recovery_manager.h" line="53" column="5" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="53" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_log_entry_1a573b3c8cb870583732f1b093ae5b717b" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager::LogEntry</scope><name>isolation</name></member>
+      <member refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_log_entry_1af7b0280f8bde9f472f44e6f019c82361" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager::LogEntry</scope><name>operation</name></member>
+      <member refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_log_entry_1a4169eb8d1332a549668a81e17b602c81" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager::LogEntry</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_log_entry_1a16f18d85f85279d8e139d5f79071a609" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager::LogEntry</scope><name>txn_id</name></member>
+      <member refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_log_entry_1a6913cacf1bf6e2c40e25e46346f65aa1" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager::LogEntry</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

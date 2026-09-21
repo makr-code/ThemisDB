@@ -1,0 +1,278 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="zstd__codec_8h" kind="file" language="C++">
+    <compoundname>zstd_codec.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="expected_8h" local="yes">utils/expected.h</includes>
+    <includedby refid="zstd__codec_8cpp" local="yes">src/utils/zstd_codec.cpp</includedby>
+    <includedby refid="test__utils__compression__hardening_8cpp" local="yes">tests/utils/test_utils_compression_hardening.cpp</includedby>
+    <includedby refid="test__utils__future__interfaces_8cpp" local="yes">tests/utils/test_utils_future_interfaces.cpp</includedby>
+    <includedby refid="test__utils__stress__concurrency_8cpp" local="yes">tests/utils/test_utils_stress_concurrency.cpp</includedby>
+    <incdepgraph>
+      <node id="12">
+        <label>utils/error_registry.h</label>
+        <link refid="error__registry_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>utils/expected.h</label>
+        <link refid="expected_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/utils/zstd_codec.h</label>
+        <link refid="zstd__codec_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="17">
+        <label>fmt/format.h</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>shared_mutex</label>
+      </node>
+      <node id="16">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="8">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="18">
+        <label>system_error</label>
+      </node>
+      <node id="9">
+        <label>type_traits</label>
+      </node>
+      <node id="13">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>utility</label>
+      </node>
+      <node id="11">
+        <label>variant</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/utils/zstd_codec.h</label>
+        <link refid="zstd__codec_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/utils/zstd_codec.cpp</label>
+        <link refid="zstd__codec_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/utils/test_utils_compression_hardening.cpp</label>
+        <link refid="test__utils__compression__hardening_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/utils/test_utils_future_interfaces.cpp</label>
+        <link refid="test__utils__future__interfaces_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/utils/test_utils_stress_concurrency.cpp</label>
+        <link refid="test__utils__stress__concurrency_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1utils_1_1_zstd_stream_compressor" prot="public">themis::utils::ZstdStreamCompressor</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_zstd_stream_decompressor" prot="public">themis::utils::ZstdStreamDecompressor</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils_1_1compression">themis::utils::compression</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="expected_8h" kindref="compound">utils/expected.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thin<sp/>wrapper<sp/>around<sp/>Zstandard<sp/>(ZSTD)<sp/>compression<sp/>library</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Functions<sp/>are<sp/>available<sp/>only<sp/>if<sp/>compiled<sp/>with<sp/>THEMIS_HAS_ZSTD.<sp/>If<sp/>not,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>functions<sp/>will<sp/>return<sp/>empty<sp/>vectors<sp/>to<sp/>signal<sp/>unsupported<sp/>operation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Maximum<sp/>sizes<sp/>to<sp/>prevent<sp/>denial<sp/>of<sp/>service<sp/>attacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1utils_1_1compression" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils_1_1compression" kindref="compound">compression</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1utils_1_1compression_1a60de6b45b1ebc3f25bf059cb62bc4588" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1_1compression_1a60de6b45b1ebc3f25bf059cb62bc4588" kindref="member">MAX_INPUT_SIZE</ref><sp/>=<sp/>1024ULL<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1GB<sp/>max<sp/>input</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1utils_1_1compression_1a17f2cdf81dbd9324c5156dac235374dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1_1compression_1a17f2cdf81dbd9324c5156dac235374dc" kindref="member">MAX_OUTPUT_SIZE</ref><sp/>=<sp/>1024ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>2;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2GB<sp/>max<sp/>compressed<sp/>output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1utils_1_1compression_1aa04d6d099d906f4964ee715288e9ad3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1_1compression_1aa04d6d099d906f4964ee715288e9ad3e" kindref="member">MAX_DECOMPRESSED_SIZE</ref><sp/>=<sp/>1024ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>4;<sp/></highlight><highlight class="comment">//<sp/>4GB<sp/>max<sp/>decompressed<sp/>output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1utils_1_1compression_1aa5f066c553da46d3ee22b1e1836aafe2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1_1compression_1aa5f066c553da46d3ee22b1e1836aafe2" kindref="member">MAX_COMPRESSION_RATIO</ref><sp/>=<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2.4a:<sp/>Max<sp/>expansion<sp/>ratio<sp/>(output<sp/>&lt;=<sp/>input<sp/>*<sp/>ratio)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1utils_1_1compression_1addb012e1e20306741b8c16b060d0527d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1_1compression_1addb012e1e20306741b8c16b060d0527d" kindref="member">STREAM_CHUNK_SIZE</ref><sp/>=<sp/>256<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compress<sp/>a<sp/>buffer<sp/>with<sp/>ZSTD.<sp/>Returns<sp/>compressed<sp/>bytes<sp/>on<sp/>success;<sp/>empty<sp/>on<sp/>failure/unsupported.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Now<sp/>includes<sp/>size<sp/>validation<sp/>to<sp/>prevent<sp/>buffer<sp/>overflow<sp/>and<sp/>denial<sp/>of<sp/>service.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">std::vector&lt;uint8_t&gt;<sp/><ref refid="namespacethemis_1_1utils_1a42164c16be4ec889cf9c82734f5b2ec3" kindref="member">zstd_compress</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>level<sp/>=<sp/>3);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compress<sp/>a<sp/>string<sp/>with<sp/>ZSTD.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1utils_1a096455005c6a72f1fe172cc8690747ba" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="namespacethemis_1_1utils_1a42164c16be4ec889cf9c82734f5b2ec3" kindref="member">zstd_compress</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>level<sp/>=<sp/>3)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a42164c16be4ec889cf9c82734f5b2ec3" kindref="member">zstd_compress</ref>(</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s.data()),<sp/>s.size(),<sp/>level);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compress<sp/>a<sp/>vector<sp/>with<sp/>ZSTD.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1utils_1adcb0769a3e876dbb9fb671b8a9e91bd4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="namespacethemis_1_1utils_1a42164c16be4ec889cf9c82734f5b2ec3" kindref="member">zstd_compress</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>input,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>level<sp/>=<sp/>3)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a42164c16be4ec889cf9c82734f5b2ec3" kindref="member">zstd_compress</ref>(input.data(),<sp/>input.size(),<sp/>level);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Decompress<sp/>a<sp/>buffer<sp/>that<sp/>contains<sp/>ZSTD<sp/>frame.<sp/>Empty<sp/>on<sp/>failure/unsupported.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Now<sp/>includes<sp/>size<sp/>validation<sp/>to<sp/>prevent<sp/>buffer<sp/>overflow<sp/>and<sp/>denial<sp/>of<sp/>service.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">std::vector&lt;uint8_t&gt;<sp/><ref refid="namespacethemis_1_1utils_1a41d885c02ce2fc2934fe0995c7cff98a" kindref="member">zstd_decompress</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>compressed);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>New<sp/>Result&lt;T&gt;-based<sp/>API<sp/>for<sp/>better<sp/>error<sp/>handling<sp/>and<sp/>security<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>provide<sp/>detailed<sp/>error<sp/>information<sp/>and<sp/>are<sp/>recommended<sp/>for<sp/>new<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;std::vector&lt;uint8_t&gt;</ref>&gt;<sp/><ref refid="namespacethemis_1_1utils_1a4af8c484cfac65ab4905f523edc746e8" kindref="member">zstd_compress_safe</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>level<sp/>=<sp/>3);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;std::vector&lt;uint8_t&gt;</ref>&gt;<sp/><ref refid="namespacethemis_1_1utils_1a5d04d41c685d0fa4843083f71ab49016" kindref="member">zstd_decompress_safe</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>compressed);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Streaming<sp/>compression<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="classthemis_1_1utils_1_1_zstd_stream_compressor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a9c2fc3c1e46bbce04bc7f7ee062f255e" kindref="member">ZstdStreamCompressor</ref><sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a9c2fc3c1e46bbce04bc7f7ee062f255e" kindref="member">ZstdStreamCompressor</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>level<sp/>=<sp/>3);</highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a3f70f20205caf2aa52db0fad17ffa8f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a3f70f20205caf2aa52db0fad17ffa8f3" kindref="member">~ZstdStreamCompressor</ref>();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable;<sp/>movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a38233a7f4795a4d7d0c56a0a5d779f57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a38233a7f4795a4d7d0c56a0a5d779f57" kindref="member">ZstdStreamCompressor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a9c2fc3c1e46bbce04bc7f7ee062f255e" kindref="member">ZstdStreamCompressor</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1ac90aee8e8abe77e6fc22684e85f46d07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a9c2fc3c1e46bbce04bc7f7ee062f255e" kindref="member">ZstdStreamCompressor</ref>&amp;<sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1ac90aee8e8abe77e6fc22684e85f46d07" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a9c2fc3c1e46bbce04bc7f7ee062f255e" kindref="member">ZstdStreamCompressor</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a216a9b14e2465d7dacc30e3165a96069" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a216a9b14e2465d7dacc30e3165a96069" kindref="member">ZstdStreamCompressor</ref>(<ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a9c2fc3c1e46bbce04bc7f7ee062f255e" kindref="member">ZstdStreamCompressor</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a8b740782e4ed185970f3593e143734a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a9c2fc3c1e46bbce04bc7f7ee062f255e" kindref="member">ZstdStreamCompressor</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a9c2fc3c1e46bbce04bc7f7ee062f255e" kindref="member">ZstdStreamCompressor</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a1028c122951f13d87089e84c08c17b2e" kindref="member">compress_chunk</ref>(const<sp/>uint8_t*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1ad9adfccaf313709ba28c2c069e244d74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a1028c122951f13d87089e84c08c17b2e" kindref="member">compress_chunk</ref>(const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a1028c122951f13d87089e84c08c17b2e" kindref="member">compress_chunk</ref>(data.data(),<sp/>data.size());</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;std::vector&lt;uint8_t&gt;</ref>&gt;<sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1aeef4bcc9bdcbfb37de7ebb6462bb459a" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a6bc97c21c82a8ed5b830cc9251dd75fb" kindref="member">reset</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>level<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="classthemis_1_1utils_1_1_zstd_stream_decompressor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a330df2e45766cf7e7f5964d05d987a7d" kindref="member">ZstdStreamDecompressor</ref><sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a330df2e45766cf7e7f5964d05d987a7d" kindref="member">ZstdStreamDecompressor</ref>();</highlight></codeline>
+<codeline lineno="190" refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a9d8a9fe69986ddd993ebf673583f3870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a9d8a9fe69986ddd993ebf673583f3870" kindref="member">~ZstdStreamDecompressor</ref>();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable;<sp/>movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a3d3bf34f0b0831c47483473130dbcc16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a3d3bf34f0b0831c47483473130dbcc16" kindref="member">ZstdStreamDecompressor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a330df2e45766cf7e7f5964d05d987a7d" kindref="member">ZstdStreamDecompressor</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a501920d614e227daead72aba9fed1999" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a330df2e45766cf7e7f5964d05d987a7d" kindref="member">ZstdStreamDecompressor</ref>&amp;<sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a501920d614e227daead72aba9fed1999" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a330df2e45766cf7e7f5964d05d987a7d" kindref="member">ZstdStreamDecompressor</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a045435353caef67cfef5344b86560a38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a045435353caef67cfef5344b86560a38" kindref="member">ZstdStreamDecompressor</ref>(<ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a330df2e45766cf7e7f5964d05d987a7d" kindref="member">ZstdStreamDecompressor</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="196" refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a2f6a745e0c936740c6b74f1335cffbbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a330df2e45766cf7e7f5964d05d987a7d" kindref="member">ZstdStreamDecompressor</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a330df2e45766cf7e7f5964d05d987a7d" kindref="member">ZstdStreamDecompressor</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a21f83a89c4807d5d98a892e14ec4e41b" kindref="member">decompress_chunk</ref>(const<sp/>uint8_t*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a49f8e146c03693fd4bd93b10d46b9710" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a21f83a89c4807d5d98a892e14ec4e41b" kindref="member">decompress_chunk</ref>(const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a21f83a89c4807d5d98a892e14ec4e41b" kindref="member">decompress_chunk</ref>(data.data(),<sp/>data.size());</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a9e9473dc059d038709613c40ffa861a3" kindref="member">is_done</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_zstd_stream_decompressor_1a6af49da2fd8adc13ed1ac6ee33a18f7b" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/zstd_codec.h"/>
+  </compounddef>
+</doxygen>

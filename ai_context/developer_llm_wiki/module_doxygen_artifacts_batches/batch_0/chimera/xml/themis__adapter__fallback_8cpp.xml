@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="themis__adapter__fallback_8cpp" kind="file" language="C++">
+    <compoundname>themis_adapter_fallback.cpp</compoundname>
+    <includes refid="themisdb__adapter_8hpp" local="yes">chimera/themisdb_adapter.hpp</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>chimera/database_adapter.hpp</label>
+        <link refid="database__adapter_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chimera/themisdb_adapter.hpp</label>
+        <link refid="themisdb__adapter_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/chimera/themis_adapter_fallback.cpp</label>
+        <link refid="themis__adapter__fallback_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>future</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>unordered_set</label>
+      </node>
+      <node id="15">
+        <label>utility</label>
+      </node>
+      <node id="5">
+        <label>variant</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacechimera">chimera</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="themisdb__adapter_8hpp" kindref="compound">chimera/themisdb_adapter.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Machine-readable<sp/>stub<sp/>tag<sp/>for<sp/>static<sp/>scans</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STUB_TAG:<sp/>CHIMERA_FALLBACK_STUB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacechimera" kindref="compound">chimera</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NOTE:<sp/>Constructors<sp/>and<sp/>methods<sp/>below<sp/>intentionally<sp/>minimal.<sp/>Do<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>implement<sp/>real<sp/>production<sp/>behavior<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="classchimera_1_1_themis_d_b_adapter_1a2c1f663b0e5fb778a8e5cbd4b8377d66" kindref="member">ThemisDBAdapter::ThemisDBAdapter</ref>(themis::QueryEngine*<sp/>q,<sp/>themis::VectorIndexManager*<sp/>v,<sp/>themis::GraphIndexManager*<sp/>g)</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>query_engine_(q),<sp/>vector_index_(v),<sp/>graph_index_(g)<sp/>{}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">Result&lt;std::string&gt;<sp/>ThemisDBAdapter::insert_document(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Document&amp;<sp/>doc)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;std::string&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>insert_document&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">Result&lt;size_t&gt;<sp/>ThemisDBAdapter::batch_insert_documents(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Document&gt;&amp;<sp/>docs)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;size_t&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>batch_insert_documents&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">Result&lt;std::vector&lt;Document&gt;&gt;<sp/>ThemisDBAdapter::find_documents(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>Scalar&gt;&amp;<sp/>filter,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;std::vector&lt;Document&gt;&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>find_documents&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">Result&lt;size_t&gt;<sp/>ThemisDBAdapter::update_documents(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>Scalar&gt;&amp;<sp/>filter,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>Scalar&gt;&amp;<sp/>updates)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;size_t&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>update_documents&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">Result&lt;std::string&gt;<sp/>ThemisDBAdapter::begin_transaction(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TransactionOptions&amp;<sp/>options)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;std::string&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>begin_transaction&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal">Result&lt;bool&gt;<sp/>ThemisDBAdapter::commit_transaction(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>transaction_id)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;bool&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>commit_transaction&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">Result&lt;bool&gt;<sp/>ThemisDBAdapter::rollback_transaction(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>transaction_id)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;bool&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>rollback_transaction&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal">Result&lt;std::string&gt;<sp/>ThemisDBAdapter::create_savepoint(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>transaction_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>savepoint_name)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;std::string&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>create_savepoint&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal">Result&lt;bool&gt;<sp/>ThemisDBAdapter::rollback_to_savepoint(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>transaction_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>savepoint_name)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;bool&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>rollback_to_savepoint&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal">Result&lt;bool&gt;<sp/>ThemisDBAdapter::release_savepoint(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>transaction_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>savepoint_name)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;bool&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>release_savepoint&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal">Result&lt;TransactionStats&gt;<sp/>ThemisDBAdapter::get_transaction_stats(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>transaction_id)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;TransactionStats&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>get_transaction_stats&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">Result&lt;TransactionState&gt;<sp/>ThemisDBAdapter::get_transaction_state(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>transaction_id)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;TransactionState&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>get_transaction_state&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal">Result&lt;SystemInfo&gt;<sp/>ThemisDBAdapter::get_system_info()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;SystemInfo&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>get_system_info&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal">Result&lt;SystemMetrics&gt;<sp/>ThemisDBAdapter::get_metrics()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;SystemMetrics&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>get_metrics&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ThemisDBAdapter::has_capability(Capability<sp/>cap)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)cap;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal">std::vector&lt;Capability&gt;<sp/>ThemisDBAdapter::get_capabilities()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal">std::future&lt;Result&lt;RelationalTable&gt;&gt;<sp/>ThemisDBAdapter::execute_query_async(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="bench__chimera__adapter_8cpp_1ad5c6c8845f7e8aa5e4e8355154d4af59" kindref="member">query</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Scalar&gt;&amp;<sp/>params,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AsyncQueryOptions&amp;<sp/>opts)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::async(std::launch::deferred,<sp/>[](){<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;RelationalTable&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>execute_query_async&quot;</highlight><highlight class="normal">);<sp/>});</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal">std::future&lt;Result&lt;size_t&gt;&gt;<sp/>ThemisDBAdapter::batch_insert_async(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>table_name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RelationalRow&gt;&amp;<sp/>rows,<sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">)&gt;<sp/>progress_callback,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AsyncQueryOptions&amp;<sp/>opts)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)progress_callback;<sp/>(void)opts;<sp/>(void)table_name;<sp/>(void)rows;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::async(std::launch::deferred,<sp/>[](){<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;size_t&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>batch_insert_async&quot;</highlight><highlight class="normal">);<sp/>});</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal">std::future&lt;Result&lt;std::vector&lt;std::pair&lt;Vector,double&gt;&gt;&gt;&gt;<sp/>ThemisDBAdapter::search_vectors_async(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Vector&amp;<sp/>query_vector,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>Scalar&gt;&amp;<sp/>filters,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AsyncQueryOptions&amp;<sp/>opts)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)collection;<sp/>(void)query_vector;<sp/>(void)k;<sp/>(void)filters;<sp/>(void)opts;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::async(std::launch::deferred,<sp/>[](){<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;std::vector&lt;std::pair&lt;Vector,double&gt;&gt;&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>search_vectors_async&quot;</highlight><highlight class="normal">);<sp/>});</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal">Result&lt;bool&gt;<sp/>ThemisDBAdapter::cancel_async(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation_id)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)operation_id;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;bool&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>cancel_async&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">Result&lt;std::unique_ptr&lt;IResultStream&gt;&gt;<sp/>ThemisDBAdapter::execute_query_stream(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="bench__chimera__adapter_8cpp_1ad5c6c8845f7e8aa5e4e8355154d4af59" kindref="member">query</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Scalar&gt;&amp;<sp/>params)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)<ref refid="bench__chimera__adapter_8cpp_1ad5c6c8845f7e8aa5e4e8355154d4af59" kindref="member">query</ref>;<sp/>(void)params;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;std::unique_ptr&lt;IResultStream&gt;&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>execute_query_stream&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal">Result&lt;bool&gt;<sp/>ThemisDBAdapter::set_stream_config(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StreamConfig&amp;<sp/>config)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)config;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;bool&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>set_stream_config&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal">Result&lt;std::unique_ptr&lt;IPreparedStatement&gt;&gt;<sp/>ThemisDBAdapter::prepare(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="bench__chimera__adapter_8cpp_1ad5c6c8845f7e8aa5e4e8355154d4af59" kindref="member">query</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)<ref refid="bench__chimera__adapter_8cpp_1ad5c6c8845f7e8aa5e4e8355154d4af59" kindref="member">query</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;std::unique_ptr&lt;IPreparedStatement&gt;&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>prepare&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal">Result&lt;bool&gt;<sp/>ThemisDBAdapter::unprepare(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>statement_id)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)statement_id;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;bool&gt;::err(ErrorCode::NOT_IMPLEMENTED,<sp/></highlight><highlight class="stringliteral">&quot;stub:<sp/>unprepare&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal">Result&lt;std::vector&lt;std::string&gt;&gt;<sp/>ThemisDBAdapter::list_prepared()<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;std::vector&lt;std::string&gt;&gt;::ok({});</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>chimera</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/chimera/themis_adapter_fallback.cpp"/>
+  </compounddef>
+</doxygen>

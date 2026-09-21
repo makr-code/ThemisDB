@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="faithfulness__evaluator_8h" kind="file" language="C++">
+    <compoundname>faithfulness_evaluator.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">unordered_map</includes>
+    <includedby refid="faithfulness__evaluator_8cpp" local="yes">src/rag/faithfulness_evaluator.cpp</includedby>
+    <includedby refid="nli__faithfulness__verifier_8cpp" local="yes">src/rag/nli_faithfulness_verifier.cpp</includedby>
+    <includedby refid="rag__judge_8cpp" local="yes">src/rag/rag_judge.cpp</includedby>
+    <includedby refid="test__rag__judge__phase2_8cpp" local="yes">tests/rag/test_rag_judge_phase2.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/faithfulness_evaluator.h</label>
+        <link refid="faithfulness__evaluator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/faithfulness_evaluator.h</label>
+        <link refid="faithfulness__evaluator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/faithfulness_evaluator.cpp</label>
+        <link refid="faithfulness__evaluator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/rag/nli_faithfulness_verifier.cpp</label>
+        <link refid="nli__faithfulness__verifier_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/rag/rag_judge.cpp</label>
+        <link refid="rag__judge_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/rag/test_rag_judge_phase2.cpp</label>
+        <link refid="test__rag__judge__phase2_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_claim" prot="public">themis::rag::judge::Claim</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_citation" prot="public">themis::rag::judge::Citation</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result" prot="public">themis::rag::judge::FaithfulnessResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator" prot="public">themis::rag::judge::FaithfulnessEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config" prot="public">themis::rag::judge::FaithfulnessEvaluator::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1judge">themis::rag::judge</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376b" kindref="member">SupportLevel</ref><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376bae1a3c81329e3f06e91d73f9646aa951c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376bae1a3c81329e3f06e91d73f9646aa951c" kindref="member">FULLY_SUPPORTED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376ba267c24ca77db884f0d0cf0b266376e3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376ba267c24ca77db884f0d0cf0b266376e3d" kindref="member">PARTIALLY_SUPPORTED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376ba40aa75f8e8cfdf7b660c5620e953229f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376ba40aa75f8e8cfdf7b660c5620e953229f" kindref="member">UNSUPPORTED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376bad43587aa29f10d482c31e28a097a1fd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376bad43587aa29f10d482c31e28a097a1fd5" kindref="member">CONTRADICTED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1rag_1_1judge_1_1_claim" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_claim" kindref="compound">Claim</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1rag_1_1judge_1_1_claim_1af2fcf6e55c5fdca251c680943fe85d6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_claim_1af2fcf6e55c5fdca251c680943fe85d6e" kindref="member">text</ref>;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1rag_1_1judge_1_1_claim_1a59b16445eae1c25e811ec0b765dd9e45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_claim_1a59b16445eae1c25e811ec0b765dd9e45" kindref="member">category</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1rag_1_1judge_1_1_claim_1a7cedf6f7bfe0d921729cd348a20f007e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376b" kindref="member">SupportLevel</ref><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_claim_1a7cedf6f7bfe0d921729cd348a20f007e" kindref="member">support_level</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1rag_1_1judge_1_1_claim_1abcf3a46950bd6019f9ea498b125da9b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_claim_1abcf3a46950bd6019f9ea498b125da9b6" kindref="member">supporting_doc_ids</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1rag_1_1judge_1_1_claim_1a049e852bb8c5b66ce7d0779c8f0cb2f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_claim_1a049e852bb8c5b66ce7d0779c8f0cb2f6" kindref="member">confidence</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1rag_1_1judge_1_1_citation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_citation" kindref="compound">Citation</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1rag_1_1judge_1_1_citation_1a12dc1992418c3e44a88baa1914115916" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_citation_1a12dc1992418c3e44a88baa1914115916" kindref="member">claim_text</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1rag_1_1judge_1_1_citation_1a874195ef53462af4b6b0f5c2c74ebb04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_citation_1a874195ef53462af4b6b0f5c2c74ebb04" kindref="member">cited_doc_ids</ref>;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1rag_1_1judge_1_1_citation_1a1747c982cfc76d7657f35797eda684b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_citation_1a1747c982cfc76d7657f35797eda684b0" kindref="member">has_explicit_reference</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1rag_1_1judge_1_1_citation_1a8141c6d961a8149777cd2d50427f33a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_citation_1a8141c6d961a8149777cd2d50427f33a1" kindref="member">quality_score</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result" kindref="compound">FaithfulnessResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result_1a4de16bd9d78fb0c6df2d93b27a2d9552" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result_1a4de16bd9d78fb0c6df2d93b27a2d9552" kindref="member">faithfulness_score</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result_1acfad6fa6561275b6d86b470a2a81b12f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Claim&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result_1acfad6fa6561275b6d86b470a2a81b12f" kindref="member">claims</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result_1a1e4601656bd4efdf2183842ccd0cb5de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Citation&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result_1a1e4601656bd4efdf2183842ccd0cb5de" kindref="member">citations</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result_1ae4040b7e9f3880e933e0ace3dca8aa1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result_1ae4040b7e9f3880e933e0ace3dca8aa1b" kindref="member">supported_claims_count</ref>;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result_1a7365522348eb1e4c3e708f3eed17da31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result_1a7365522348eb1e4c3e708f3eed17da31" kindref="member">total_claims_count</ref>;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result_1a2627353218cc278dd275ce719c004404" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result_1a2627353218cc278dd275ce719c004404" kindref="member">citation_quality_score</ref>;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result_1acf318547cedb4daee1cd71f3cff05ba9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result_1acf318547cedb4daee1cd71f3cff05ba9" kindref="member">explanation</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a41da68fb00a7ad615e85b1b9dce7a163" kindref="member">FaithfulnessEvaluator</ref><sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config_1ad155d43fd7df40b8bd79b8c26d37d1fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config_1ad155d43fd7df40b8bd79b8c26d37d1fc" kindref="member">max_claims_to_extract</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config_1a47d6eec2f68482c9b15f997583485339" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config_1a47d6eec2f68482c9b15f997583485339" kindref="member">entailment_threshold</ref><sp/>=<sp/>0.7;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config_1aaa78e55e8371449b6bf3efffb0f1dc04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config_1aaa78e55e8371449b6bf3efffb0f1dc04" kindref="member">enable_citation_check</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config_1a7823e8823af517460c3d996a906c9c75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config_1a7823e8823af517460c3d996a906c9c75" kindref="member">enable_claim_deduplication</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a41da68fb00a7ad615e85b1b9dce7a163" kindref="member">FaithfulnessEvaluator</ref>();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a41da68fb00a7ad615e85b1b9dce7a163" kindref="member">FaithfulnessEvaluator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1afd0e60624bfa0b2494dd2391173dba44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1afd0e60624bfa0b2494dd2391173dba44" kindref="member">~FaithfulnessEvaluator</ref>();</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result" kindref="compound">FaithfulnessResult</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a765ee3536246c9ddd4dd807f850ec963" kindref="member">evaluate</ref>(</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>answer,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&amp;<sp/>documents,<sp/><sp/></highlight><highlight class="comment">//<sp/>id,<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Claim&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1ace6f2c7f3f360491567ab5a970ec5b81" kindref="member">extractClaims</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>answer);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376b" kindref="member">SupportLevel</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a0890b263d2f957f4b977dd9d121c6580" kindref="member">checkEntailment</ref>(</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>claim,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&amp;<sp/>documents</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Citation&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a4497250a54e576a62897a243b525446e" kindref="member">verifyCitations</ref>(</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>answer,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&amp;<sp/>documents,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Claim&gt;&amp;<sp/>claims</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::judge</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/faithfulness_evaluator.h"/>
+  </compounddef>
+</doxygen>

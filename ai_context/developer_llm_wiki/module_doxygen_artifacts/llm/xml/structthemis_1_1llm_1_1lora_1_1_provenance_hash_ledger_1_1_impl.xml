@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::ProvenanceHashLedger::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl_1a5fab87175dd8a9d6cbfc21795bf93053" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::lora::ProvenanceHashLedger::Impl::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::Impl::mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_package_provenance.cpp" line="472" column="24" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="472" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl_1abc9ff0d433a948ee4d8f734869fdf86c" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, LoRAPackage&gt; themis::llm::lora::ProvenanceHashLedger::Impl::packages_by_id</definition>
+        <argsstring></argsstring>
+        <name>packages_by_id</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::Impl::packages_by_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_package_provenance.cpp" line="475" column="24" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="475" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl_1a394df107f98aef87c774bc1a3e257c11" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;LoRAPackage&gt; &gt; themis::llm::lora::ProvenanceHashLedger::Impl::package_chains</definition>
+        <argsstring></argsstring>
+        <name>package_chains</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::Impl::package_chains</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_package_provenance.cpp" line="477" column="24" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="477" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl_1a0277c6035370b91c6260a83a7c4543aa" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_product" kindref="compound">AdapterProduct</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, AdapterProduct&gt; themis::llm::lora::ProvenanceHashLedger::Impl::products_by_id</definition>
+        <argsstring></argsstring>
+        <name>products_by_id</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::Impl::products_by_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_package_provenance.cpp" line="480" column="24" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="480" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl_1ae2d41185d416720c008938bcea1b3a89" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_product" kindref="compound">AdapterProduct</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;AdapterProduct&gt; &gt; themis::llm::lora::ProvenanceHashLedger::Impl::product_chains</definition>
+        <argsstring></argsstring>
+        <name>product_chains</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::Impl::product_chains</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_package_provenance.cpp" line="482" column="24" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="482" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl_1aa34bbebb4af8686934d75f05ac3f409d" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1lora_1_1_receipt_chain" kindref="compound">ReceiptChain</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ReceiptChain&gt; themis::llm::lora::ProvenanceHashLedger::Impl::receipt_chains</definition>
+        <argsstring></argsstring>
+        <name>receipt_chains</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::Impl::receipt_chains</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_package_provenance.cpp" line="485" column="24" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="485" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl_1abdcf00114104a34d1326d6fb80a745a7" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1lora_1_1_receipt_manifest" kindref="compound">ReceiptManifest</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ReceiptManifest&gt; themis::llm::lora::ProvenanceHashLedger::Impl::manifests</definition>
+        <argsstring></argsstring>
+        <name>manifests</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::Impl::manifests</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_package_provenance.cpp" line="488" column="24" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="488" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl_1abaf1d193b5ec25c673800bf51a59bc1a" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry" kindref="compound">ShardLedgerEntry</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;ShardLedgerEntry&gt; &gt; themis::llm::lora::ProvenanceHashLedger::Impl::shard_ledgers</definition>
+        <argsstring></argsstring>
+        <name>shard_ledgers</name>
+        <qualifiedname>themis::llm::lora::ProvenanceHashLedger::Impl::shard_ledgers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_package_provenance.cpp" line="491" column="24" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="491" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/lora_framework/lora_package_provenance.cpp" line="471" column="1" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="471" bodyend="492"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl_1abdcf00114104a34d1326d6fb80a745a7" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger::Impl</scope><name>manifests</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl_1a5fab87175dd8a9d6cbfc21795bf93053" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger::Impl</scope><name>mu</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl_1a394df107f98aef87c774bc1a3e257c11" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger::Impl</scope><name>package_chains</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl_1abc9ff0d433a948ee4d8f734869fdf86c" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger::Impl</scope><name>packages_by_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl_1ae2d41185d416720c008938bcea1b3a89" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger::Impl</scope><name>product_chains</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl_1a0277c6035370b91c6260a83a7c4543aa" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger::Impl</scope><name>products_by_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl_1aa34bbebb4af8686934d75f05ac3f409d" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger::Impl</scope><name>receipt_chains</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger_1_1_impl_1abaf1d193b5ec25c673800bf51a59bc1a" prot="public" virt="non-virtual"><scope>themis::llm::lora::ProvenanceHashLedger::Impl</scope><name>shard_ledgers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

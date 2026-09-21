@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_p_u_foundations_test" kind="class" language="C++" prot="public">
+    <compoundname>GPUFoundationsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <derivedcompoundref refid="class_acceptance_tests" prot="public" virt="non-virtual">AcceptanceTests</derivedcompoundref>
+    <derivedcompoundref refid="class_checked_c_u_d_a_macros_test" prot="public" virt="non-virtual">CheckedCUDAMacrosTest</derivedcompoundref>
+    <derivedcompoundref refid="class_error_taxonomy_test" prot="public" virt="non-virtual">ErrorTaxonomyTest</derivedcompoundref>
+    <derivedcompoundref refid="class_fail_closed_contract_test" prot="public" virt="non-virtual">FailClosedContractTest</derivedcompoundref>
+    <derivedcompoundref refid="class_integration_test" prot="public" virt="non-virtual">IntegrationTest</derivedcompoundref>
+    <derivedcompoundref refid="class_kernel_s_l_a_guard_test" prot="public" virt="non-virtual">KernelSLAGuardTest</derivedcompoundref>
+    <derivedcompoundref refid="class_recovery_policies_test" prot="public" virt="non-virtual">RecoveryPoliciesTest</derivedcompoundref>
+    <derivedcompoundref refid="class_unique_g_p_u_ptr_test" prot="public" virt="non-virtual">UniqueGPUPtrTest</derivedcompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_g_p_u_foundations_test_1a88eacf983f2f34d301c23b2bb92ef2da" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GPUErrorHandler &gt;</type>
+        <definition>std::shared_ptr&lt;GPUErrorHandler&gt; GPUFoundationsTest::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>GPUFoundationsTest::handler</qualifiedname>
+        <initializer>= GPUErrorHandler::Create()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase1_foundations.cpp" line="65" column="19" bodyfile="tests/gpu/test_gpu_phase1_foundations.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_p_u_foundations_test_1a0141f3aa002b931bc59b9237445fba24" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>GPUFoundationsTest::GPUFoundationsTest</definition>
+        <argsstring>()</argsstring>
+        <name>GPUFoundationsTest</name>
+        <qualifiedname>GPUFoundationsTest::GPUFoundationsTest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase1_foundations.cpp" line="67" column="3" bodyfile="tests/gpu/test_gpu_phase1_foundations.cpp" bodystart="67" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base fixture for GPU error handling tests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AcceptanceTests</label>
+        <link refid="class_acceptance_tests"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>CheckedCUDAMacrosTest</label>
+        <link refid="class_checked_c_u_d_a_macros_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>ErrorTaxonomyTest</label>
+        <link refid="class_error_taxonomy_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>FailClosedContractTest</label>
+        <link refid="class_fail_closed_contract_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>GPUFoundationsTest</label>
+        <link refid="class_g_p_u_foundations_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>IntegrationTest</label>
+        <link refid="class_integration_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>KernelSLAGuardTest</label>
+        <link refid="class_kernel_s_l_a_guard_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>RecoveryPoliciesTest</label>
+        <link refid="class_recovery_policies_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>UniqueGPUPtrTest</label>
+        <link refid="class_unique_g_p_u_ptr_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GPUFoundationsTest</label>
+        <link refid="class_g_p_u_foundations_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_phase1_foundations.cpp" line="63" column="1" bodyfile="tests/gpu/test_gpu_phase1_foundations.cpp" bodystart="63" bodyend="72"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_foundations_test_1a0141f3aa002b931bc59b9237445fba24" prot="protected" virt="non-virtual"><scope>GPUFoundationsTest</scope><name>GPUFoundationsTest</name></member>
+      <member refid="class_g_p_u_foundations_test_1a88eacf983f2f34d301c23b2bb92ef2da" prot="protected" virt="non-virtual"><scope>GPUFoundationsTest</scope><name>handler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

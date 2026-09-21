@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_durable_node_state" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::DurableNodeState</compoundname>
+    <includes refid="paxos__state__persistence_8h" local="no">paxos_state_persistence.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_durable_node_state_1ab975085545a8ab0f2acfa9b9889571f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::DurableNodeState::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::sharding::DurableNodeState::node_id</qualifiedname>
+        <briefdescription>
+<para>This node&apos;s identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="57" column="17" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_durable_node_state_1a140b9b0deac22ce35408ed67444a2995" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::DurableNodeState::current_round</definition>
+        <argsstring></argsstring>
+        <name>current_round</name>
+        <qualifiedname>themisdb::sharding::DurableNodeState::current_round</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Global proposal round counter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="58" column="17" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_durable_node_state_1a0940023ba02d135dfd7d59af49267fc8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::DurableNodeState::last_committed</definition>
+        <argsstring></argsstring>
+        <name>last_committed</name>
+        <qualifiedname>themisdb::sharding::DurableNodeState::last_committed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Highest committed slot seen. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="59" column="17" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_durable_node_state_1aeca79c7dfc7faefa9a345feff35ef0aa" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themisdb::sharding::DurableNodeState::last_lsn</definition>
+        <argsstring></argsstring>
+        <name>last_lsn</name>
+        <qualifiedname>themisdb::sharding::DurableNodeState::last_lsn</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+<para>WAL <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> of the last persisted entry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="60" column="17" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Process-scoped durable state (persisted across restarts). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::LSN</label>
+        <link refid="structthemis_1_1sharding_1_1_l_s_n"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::DurableNodeState</label>
+        <link refid="structthemisdb_1_1sharding_1_1_durable_node_state"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>last_lsn</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/paxos_state_persistence.h" line="56" column="1" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="56" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_durable_node_state_1a140b9b0deac22ce35408ed67444a2995" prot="public" virt="non-virtual"><scope>themisdb::sharding::DurableNodeState</scope><name>current_round</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_durable_node_state_1a0940023ba02d135dfd7d59af49267fc8" prot="public" virt="non-virtual"><scope>themisdb::sharding::DurableNodeState</scope><name>last_committed</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_durable_node_state_1aeca79c7dfc7faefa9a345feff35ef0aa" prot="public" virt="non-virtual"><scope>themisdb::sharding::DurableNodeState</scope><name>last_lsn</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_durable_node_state_1ab975085545a8ab0f2acfa9b9889571f5" prot="public" virt="non-virtual"><scope>themisdb::sharding::DurableNodeState</scope><name>node_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

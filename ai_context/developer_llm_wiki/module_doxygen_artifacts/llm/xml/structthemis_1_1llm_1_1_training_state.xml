@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_training_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::TrainingState</compoundname>
+    <includes refid="inline__training__engine_8h" local="no">inline_training_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_state_1ac6c5022fa1cc6766c7c8ad1cac1dbf3f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::TrainingState::current_epoch</definition>
+        <argsstring></argsstring>
+        <name>current_epoch</name>
+        <qualifiedname>themis::llm::TrainingState::current_epoch</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="146" column="9" bodyfile="include/llm/inline_training_engine.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_state_1ab35a6206a5189ebfa3c2e3236954dd85" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::TrainingState::current_step</definition>
+        <argsstring></argsstring>
+        <name>current_step</name>
+        <qualifiedname>themis::llm::TrainingState::current_step</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="147" column="9" bodyfile="include/llm/inline_training_engine.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_state_1a8b9d2d2dabf5369b3bac5fd4aa518755" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::TrainingState::best_loss</definition>
+        <argsstring></argsstring>
+        <name>best_loss</name>
+        <qualifiedname>themis::llm::TrainingState::best_loss</qualifiedname>
+        <initializer>= std::numeric_limits&lt;float&gt;::max()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="148" column="11" bodyfile="include/llm/inline_training_engine.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_state_1aa8fbc1001aa6f93d2cbc579c68192f30" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::TrainingState::loss_history</definition>
+        <argsstring></argsstring>
+        <name>loss_history</name>
+        <qualifiedname>themis::llm::TrainingState::loss_history</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="149" column="17" bodyfile="include/llm/inline_training_engine.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_state_1ae9ed540ec40019a1d9b541f35d507ddf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::llm::TrainingState::optimizer_state</definition>
+        <argsstring></argsstring>
+        <name>optimizer_state</name>
+        <qualifiedname>themis::llm::TrainingState::optimizer_state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="152" column="17" bodyfile="include/llm/inline_training_engine.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_training_state_1a0a12d213eb16f22425bef24a548a45b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::TrainingState::~TrainingState</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TrainingState</name>
+        <qualifiedname>themis::llm::TrainingState::~TrainingState</qualifiedname>
+        <briefdescription>
+<para>Training State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="145" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_training_state_1a3122e3d406fdf480a719767a1a68a9e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::llm::TrainingState::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::TrainingState::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="158" column="20" bodyfile="src/llm/inline_training_engine.cpp" bodystart="172" bodyend="180"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_training_state_1a7736bcb0ca52c5eae00df2aafb41920c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_training_state" kindref="compound">TrainingState</ref></type>
+        <definition>TrainingState themis::llm::TrainingState::fromJSON</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::TrainingState::fromJSON</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inline_training_engine.h" line="164" column="26" bodyfile="src/llm/inline_training_engine.cpp" bodystart="188" bodyend="206"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/inline_training_engine.h" line="140" column="1" bodyfile="include/llm/inline_training_engine.h" bodystart="140" bodyend="165"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_training_state_1a8b9d2d2dabf5369b3bac5fd4aa518755" prot="public" virt="non-virtual"><scope>themis::llm::TrainingState</scope><name>best_loss</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_state_1ac6c5022fa1cc6766c7c8ad1cac1dbf3f" prot="public" virt="non-virtual"><scope>themis::llm::TrainingState</scope><name>current_epoch</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_state_1ab35a6206a5189ebfa3c2e3236954dd85" prot="public" virt="non-virtual"><scope>themis::llm::TrainingState</scope><name>current_step</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_state_1a7736bcb0ca52c5eae00df2aafb41920c" prot="public" virt="non-virtual"><scope>themis::llm::TrainingState</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_state_1aa8fbc1001aa6f93d2cbc579c68192f30" prot="public" virt="non-virtual"><scope>themis::llm::TrainingState</scope><name>loss_history</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_state_1ae9ed540ec40019a1d9b541f35d507ddf" prot="public" virt="non-virtual"><scope>themis::llm::TrainingState</scope><name>optimizer_state</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_state_1a3122e3d406fdf480a719767a1a68a9e2" prot="public" virt="non-virtual"><scope>themis::llm::TrainingState</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_state_1a0a12d213eb16f22425bef24a548a45b3" prot="public" virt="virtual"><scope>themis::llm::TrainingState</scope><name>~TrainingState</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

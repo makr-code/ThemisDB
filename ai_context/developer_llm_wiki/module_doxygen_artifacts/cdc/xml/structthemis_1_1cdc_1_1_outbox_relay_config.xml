@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_outbox_relay_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::OutboxRelayConfig</compoundname>
+    <includes refid="outbox_8h" local="no">outbox.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_outbox_relay_config_1ad758daa3bd42f7ff1e9f80d8179ed8c3" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cdc::OutboxRelayConfig::poll_interval</definition>
+        <argsstring></argsstring>
+        <name>poll_interval</name>
+        <qualifiedname>themis::cdc::OutboxRelayConfig::poll_interval</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="147" column="31" bodyfile="include/cdc/outbox.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_outbox_relay_config_1a8c287ed57a38a83953adc9be3e37d332" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::OutboxRelayConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::cdc::OutboxRelayConfig::batch_size</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="149" column="12" bodyfile="include/cdc/outbox.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_outbox_relay_config_1a8bbebaed653239d240b03930ccc543ec" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::cdc::OutboxRelayConfig::max_relay_attempts</definition>
+        <argsstring></argsstring>
+        <name>max_relay_attempts</name>
+        <qualifiedname>themis::cdc::OutboxRelayConfig::max_relay_attempts</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="151" column="9" bodyfile="include/cdc/outbox.h" bodystart="151" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/outbox.h" line="146" column="1" bodyfile="include/cdc/outbox.h" bodystart="146" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_outbox_relay_config_1a8c287ed57a38a83953adc9be3e37d332" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxRelayConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1cdc_1_1_outbox_relay_config_1a8bbebaed653239d240b03930ccc543ec" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxRelayConfig</scope><name>max_relay_attempts</name></member>
+      <member refid="structthemis_1_1cdc_1_1_outbox_relay_config_1ad758daa3bd42f7ff1e9f80d8179ed8c3" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxRelayConfig</scope><name>poll_interval</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

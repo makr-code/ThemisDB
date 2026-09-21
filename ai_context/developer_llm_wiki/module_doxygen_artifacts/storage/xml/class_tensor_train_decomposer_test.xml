@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_tensor_train_decomposer_test" kind="class" language="C++" prot="public">
+    <compoundname>TensorTrainDecomposerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_tensor_train_decomposer_test_1a7912d91eccbd41113ccfe9796005b416" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer" kindref="compound">TensorTrainDecomposer</ref></type>
+        <definition>TensorTrainDecomposer TensorTrainDecomposerTest::decomposer</definition>
+        <argsstring></argsstring>
+        <name>decomposer</name>
+        <qualifiedname>TensorTrainDecomposerTest::decomposer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="110" column="27" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TensorTrainDecomposerTest</label>
+        <link refid="class_tensor_train_decomposer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TensorTrainDecomposerTest</label>
+        <link refid="class_tensor_train_decomposer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>decomposer</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::storage::TensorTrainDecomposer</label>
+        <link refid="classthemis_1_1storage_1_1_tensor_train_decomposer"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/storage/test_tensor_train_decomposer.cpp" line="108" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="108" bodyend="111"/>
+    <listofallmembers>
+      <member refid="class_tensor_train_decomposer_test_1a7912d91eccbd41113ccfe9796005b416" prot="protected" virt="non-virtual"><scope>TensorTrainDecomposerTest</scope><name>decomposer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

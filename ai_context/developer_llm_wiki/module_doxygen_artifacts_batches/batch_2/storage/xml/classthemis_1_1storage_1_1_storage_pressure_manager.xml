@@ -1,0 +1,683 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_storage_pressure_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::StoragePressureManager</compoundname>
+    <includes refid="storage__pressure__manager_8h" local="no">storage_pressure_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_storage_pressure_manager_1ae12acbb8975d87b403539605c8856661" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::StoragePressureManager::mtx_</definition>
+        <argsstring></argsstring>
+        <name>mtx_</name>
+        <qualifiedname>themis::storage::StoragePressureManager::mtx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="290" column="24" bodyfile="include/storage/storage_pressure_manager.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_storage_pressure_manager_1adeb76dfdcd74829d0b02519260bd0f29" prot="private" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::storage::StoragePressureManager::total_capacity_bytes_</definition>
+        <argsstring></argsstring>
+        <name>total_capacity_bytes_</name>
+        <qualifiedname>themis::storage::StoragePressureManager::total_capacity_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="293" column="19" bodyfile="include/storage/storage_pressure_manager.h" bodystart="293" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_storage_pressure_manager_1a72196240ff6caff812c62b63bbc8d4fe" prot="private" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::storage::StoragePressureManager::used_bytes_</definition>
+        <argsstring></argsstring>
+        <name>used_bytes_</name>
+        <qualifiedname>themis::storage::StoragePressureManager::used_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="294" column="19" bodyfile="include/storage/storage_pressure_manager.h" bodystart="294" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_storage_pressure_manager_1ae5024ac216c160fc195d3e65a62939cc" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4b" kindref="member">PressureEscalationLevel</ref></type>
+        <definition>PressureEscalationLevel themis::storage::StoragePressureManager::current_level_</definition>
+        <argsstring></argsstring>
+        <name>current_level_</name>
+        <qualifiedname>themis::storage::StoragePressureManager::current_level_</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4ba1e23852820b9154316c7c06e2b7ba051" kindref="member">PressureEscalationLevel::NORMAL</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="295" column="29" bodyfile="include/storage/storage_pressure_manager.h" bodystart="295" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_storage_pressure_manager_1a39062c5eefc0c59e713d34542f6f26f8" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::StoragePressureManager::reject_writes_at_utilization_</definition>
+        <argsstring></argsstring>
+        <name>reject_writes_at_utilization_</name>
+        <qualifiedname>themis::storage::StoragePressureManager::reject_writes_at_utilization_</qualifiedname>
+        <initializer>{99.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="298" column="12" bodyfile="include/storage/storage_pressure_manager.h" bodystart="298" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_storage_pressure_manager_1a7ac56e57db7ccbf8548c5c0af5ed86c8" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::StoragePressureManager::reject_backups_at_utilization_</definition>
+        <argsstring></argsstring>
+        <name>reject_backups_at_utilization_</name>
+        <qualifiedname>themis::storage::StoragePressureManager::reject_backups_at_utilization_</qualifiedname>
+        <initializer>{95.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="299" column="12" bodyfile="include/storage/storage_pressure_manager.h" bodystart="299" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_storage_pressure_manager_1af62054b0dbe2d7b62f8a4c8f70c1f447" prot="private" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::storage::StoragePressureManager::reserved_capacity_bytes_</definition>
+        <argsstring></argsstring>
+        <name>reserved_capacity_bytes_</name>
+        <qualifiedname>themis::storage::StoragePressureManager::reserved_capacity_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="300" column="19" bodyfile="include/storage/storage_pressure_manager.h" bodystart="300" bodyend="300"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_pressure_manager_1aa25be6d7e35afb81faf66d2fa49d8082" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::StoragePressureManager::StoragePressureManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>StoragePressureManager</name>
+        <qualifiedname>themis::storage::StoragePressureManager::StoragePressureManager</qualifiedname>
+        <briefdescription>
+<para>Constructor: initializes with default capacity thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="131" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_pressure_manager_1a1f44550df01496205ff0a335a0af4e47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::StoragePressureManager::StoragePressureManager</definition>
+        <argsstring>(const StoragePressureManager &amp;)=delete</argsstring>
+        <name>StoragePressureManager</name>
+        <qualifiedname>themis::storage::StoragePressureManager::StoragePressureManager</qualifiedname>
+        <param>
+          <type>const StoragePressureManager &amp;</type>
+        </param>
+        <briefdescription>
+<para>Non-copyable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="134" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_pressure_manager_1afbdf290956f515d09d7652ec080e1f87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_storage_pressure_manager_1aa25be6d7e35afb81faf66d2fa49d8082" kindref="member">StoragePressureManager</ref> &amp;</type>
+        <definition>StoragePressureManager &amp; themis::storage::StoragePressureManager::operator=</definition>
+        <argsstring>(const StoragePressureManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::StoragePressureManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1storage_1_1_storage_pressure_manager_1aa25be6d7e35afb81faf66d2fa49d8082" kindref="member">StoragePressureManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="135" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_pressure_manager_1a94c88f368c91cac7058c46793f54e20c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::StoragePressureManager::StoragePressureManager</definition>
+        <argsstring>(StoragePressureManager &amp;&amp;) noexcept=default</argsstring>
+        <name>StoragePressureManager</name>
+        <qualifiedname>themis::storage::StoragePressureManager::StoragePressureManager</qualifiedname>
+        <param>
+          <type>StoragePressureManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+<para>Move-enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="138" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_pressure_manager_1a36415e3bfc5e1b4099bdc13b829d5874" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_storage_pressure_manager_1aa25be6d7e35afb81faf66d2fa49d8082" kindref="member">StoragePressureManager</ref> &amp;</type>
+        <definition>StoragePressureManager &amp; themis::storage::StoragePressureManager::operator=</definition>
+        <argsstring>(StoragePressureManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::StoragePressureManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_storage_pressure_manager_1aa25be6d7e35afb81faf66d2fa49d8082" kindref="member">StoragePressureManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="139" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_pressure_manager_1a7a9d6dcc5788be59db7eb475200cc30d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::StoragePressureManager::~StoragePressureManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~StoragePressureManager</name>
+        <qualifiedname>themis::storage::StoragePressureManager::~StoragePressureManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="141" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_pressure_manager_1a2e14bb774452d1b1e7718aaded70d765" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_storage_capacity_metrics" kindref="compound">StorageCapacityMetrics</ref></type>
+        <definition>StorageCapacityMetrics themis::storage::StoragePressureManager::getCapacityMetrics</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getCapacityMetrics</name>
+        <qualifiedname>themis::storage::StoragePressureManager::getCapacityMetrics</qualifiedname>
+        <briefdescription>
+<para>Get current storage capacity metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1storage_1_1_storage_capacity_metrics" kindref="compound">StorageCapacityMetrics</ref> with current usage and pressure state</para>
+</simplesect>
+Thread-safe: Returns consistent snapshot of current metrics. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mtx_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="152" column="29" bodyfile="src/storage/storage_pressure_manager.cpp" bodystart="50" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_pressure_manager_1a6235d10806cd7572e70e83de1943a05d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::StoragePressureManager::canAcceptWrite</definition>
+        <argsstring>(std::uint64_t requested_bytes) const noexcept</argsstring>
+        <name>canAcceptWrite</name>
+        <qualifiedname>themis::storage::StoragePressureManager::canAcceptWrite</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>requested_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Check if storage has sufficient space for a write operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns false if:<itemizedlist>
+<listitem><para>Available space &lt; requested_bytes + reserved_bytes</para>
+</listitem><listitem><para>Pressure level is EXHAUSTED</para>
+</listitem><listitem><para>Operation would cross reject_at_utilization threshold</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>requested_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes needed for write operation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if write should be accepted, false if should be rejected </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mtx_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="165" column="11" bodyfile="src/storage/storage_pressure_manager.cpp" bodystart="68" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_pressure_manager_1aa31930a28df0e0019c2cd825a2f922e9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::StoragePressureManager::canStartBackup</definition>
+        <argsstring>(std::uint64_t backup_size_estimate, int active_backup_count) const noexcept</argsstring>
+        <name>canStartBackup</name>
+        <qualifiedname>themis::storage::StoragePressureManager::canStartBackup</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>backup_size_estimate</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>active_backup_count</declname>
+        </param>
+        <briefdescription>
+<para>Check if storage supports a backup operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns false if:<itemizedlist>
+<listitem><para>Concurrent backup limit (kMaxConcurrentBackups) reached</para>
+</listitem><listitem><para>Available space &lt; backup_size_estimate + reserved_bytes</para>
+</listitem><listitem><para>Pressure level is CRITICAL or EXHAUSTED</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_size_estimate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected backup size in bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>active_backup_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current number of in-flight backups </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if backup can be started, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mtx_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="179" column="11" bodyfile="src/storage/storage_pressure_manager.cpp" bodystart="99" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_pressure_manager_1ad54b75bd8d4ee48f27348c855dea8eca" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_storage_capacity_metrics" kindref="compound">StorageCapacityMetrics</ref></type>
+        <definition>StorageCapacityMetrics themis::storage::StoragePressureManager::updateCapacity</definition>
+        <argsstring>(std::uint64_t total_capacity, std::uint64_t used_bytes) noexcept</argsstring>
+        <name>updateCapacity</name>
+        <qualifiedname>themis::storage::StoragePressureManager::updateCapacity</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>total_capacity</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>used_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Update storage capacity metrics and determine pressure level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Should be called periodically or when capacity changes detected.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>total_capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total storage capacity in bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>used_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes currently used </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1storage_1_1_storage_capacity_metrics" kindref="compound">StorageCapacityMetrics</ref> with updated escalation_level</para>
+</simplesect>
+Escalation levels are determined by utilization percentage:<itemizedlist>
+<listitem><para>0-75%: NORMAL</para>
+</listitem><listitem><para>75-85%: WARNING</para>
+</listitem><listitem><para>85-95%: ALERT</para>
+</listitem><listitem><para>95-99%: CRITICAL</para>
+</listitem><listitem><para>&gt;=99%: EXHAUSTED </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mtx_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="200" column="29" bodyfile="src/storage/storage_pressure_manager.cpp" bodystart="136" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_pressure_manager_1ab15692f4a366bf319574dadbbecdb273" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_storage_error_context" kindref="compound">StorageErrorContext</ref></type>
+        <definition>StorageErrorContext themis::storage::StoragePressureManager::reportStorageExhausted</definition>
+        <argsstring>(std::string_view operation_context, std::uint64_t total_capacity, std::uint64_t used_bytes) noexcept</argsstring>
+        <name>reportStorageExhausted</name>
+        <qualifiedname>themis::storage::StoragePressureManager::reportStorageExhausted</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>operation_context</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>total_capacity</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>used_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Report a storage exhaustion event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called when STORAGE_EXHAUSTED error is detected. Emits diagnostic event and updates pressure state.</para>
+<para>Guaranteed behavior:<itemizedlist>
+<listitem><para>Emits CRITICAL severity diagnostic</para>
+</listitem><listitem><para>Sets escalation level to EXHAUSTED</para>
+</listitem><listitem><para>Suggests mitigation (free space, tiering, archiving)</para>
+</listitem><listitem><para>Triggers operator alert</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Context of the operation that failed (e.g., &quot;write(key=foo)&quot;, &quot;checkpoint()&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>total_capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total storage capacity </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>used_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current usage </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1storage_1_1_storage_error_context" kindref="compound">StorageErrorContext</ref> with CRITICAL severity </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="221" column="26" bodyfile="src/storage/storage_pressure_manager.cpp" bodystart="182" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_pressure_manager_1ac54d4080e16f178533f534b0337d26cc" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_storage_error_context" kindref="compound">StorageErrorContext</ref></type>
+        <definition>StorageErrorContext themis::storage::StoragePressureManager::reportBackupLimitExceeded</definition>
+        <argsstring>(int active_backup_count, int max_concurrent_backups) noexcept</argsstring>
+        <name>reportBackupLimitExceeded</name>
+        <qualifiedname>themis::storage::StoragePressureManager::reportBackupLimitExceeded</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>active_backup_count</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_concurrent_backups</declname>
+        </param>
+        <briefdescription>
+<para>Report backup limit exceeded event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called when BACKUP_LIMIT_EXCEEDED error would be returned. Emits diagnostic event.</para>
+<para>Guaranteed behavior:<itemizedlist>
+<listitem><para>Emits HIGH severity diagnostic</para>
+</listitem><listitem><para>Suggests waiting for backup to complete</para>
+</listitem><listitem><para>Provides information about concurrent backup limit</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>active_backup_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current number of active backups </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_concurrent_backups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum allowed concurrent backups </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1storage_1_1_storage_error_context" kindref="compound">StorageErrorContext</ref> with HIGH severity </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="241" column="26" bodyfile="src/storage/storage_pressure_manager.cpp" bodystart="219" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_pressure_manager_1a8aaddb9553ba79ff4834f0d580c1021b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::StoragePressureManager::setRejectWritesAtUtilization</definition>
+        <argsstring>(double percent) noexcept</argsstring>
+        <name>setRejectWritesAtUtilization</name>
+        <qualifiedname>themis::storage::StoragePressureManager::setRejectWritesAtUtilization</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>percent</declname>
+        </param>
+        <briefdescription>
+<para>Set the utilization threshold at which writes should be rejected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default: 99% (equivalent to <ref refid="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4bac30a2ebffd3127f9dc4bb1cff2e29cea" kindref="member">PressureEscalationLevel::EXHAUSTED</ref>).</para>
+<para>Writes requested when utilization &gt;= this threshold will be rejected with STORAGE_EXHAUSTED.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>percent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Utilization percentage (0-100) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="257" column="10" bodyfile="include/storage/storage_pressure_manager.h" bodystart="257" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_pressure_manager_1a520d5ed45731d02ed9510242afc87ba9" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::StoragePressureManager::setRejectBackupsAtUtilization</definition>
+        <argsstring>(double percent) noexcept</argsstring>
+        <name>setRejectBackupsAtUtilization</name>
+        <qualifiedname>themis::storage::StoragePressureManager::setRejectBackupsAtUtilization</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>percent</declname>
+        </param>
+        <briefdescription>
+<para>Set the utilization threshold at which new backups should be rejected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default: 95% (equivalent to <ref refid="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4ba99cd1c61610c76a57cb8d10d6df6b870" kindref="member">PressureEscalationLevel::CRITICAL</ref>).</para>
+<para>Backup requests when utilization &gt;= this threshold will be rejected with BACKUP_LIMIT_EXCEEDED (or similar).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>percent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Utilization percentage (0-100) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="271" column="10" bodyfile="include/storage/storage_pressure_manager.h" bodystart="271" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_pressure_manager_1a5812ef33842cad695c865def2ff9bbc9" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::StoragePressureManager::setReservedCapacity</definition>
+        <argsstring>(std::uint64_t reserved_bytes) noexcept</argsstring>
+        <name>setReservedCapacity</name>
+        <qualifiedname>themis::storage::StoragePressureManager::setReservedCapacity</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>reserved_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Set bytes reserved for system operations (crash recovery, temp files). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default: 5% of total capacity.</para>
+<para>Available space is computed as: total - used - reserved. This reserve ensures system operations don&apos;t fail unexpectedly under pressure.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reserved_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes to reserve for system use </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="285" column="10" bodyfile="include/storage/storage_pressure_manager.h" bodystart="285" bodyend="287"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_pressure_manager_1a82737ab316862930e1da1f5f5644385d" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4b" kindref="member">PressureEscalationLevel</ref></type>
+        <definition>PressureEscalationLevel themis::storage::StoragePressureManager::classifyPressure</definition>
+        <argsstring>(double utilization_percent) const noexcept</argsstring>
+        <name>classifyPressure</name>
+        <qualifiedname>themis::storage::StoragePressureManager::classifyPressure</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>utilization_percent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="302" column="30" bodyfile="src/storage/storage_pressure_manager.cpp" bodystart="248" bodyend="251"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Centralized manager for storage capacity and pressure-related errors. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides:<itemizedlist>
+<listitem><para>Capacity monitoring and escalation tracking</para>
+</listitem><listitem><para>Write acceptance decisions under pressure</para>
+</listitem><listitem><para>Fail-safe behavior for STORAGE_EXHAUSTED and BACKUP_LIMIT_EXCEEDED</para>
+</listitem><listitem><para>Diagnostic event emission for operator awareness</para>
+</listitem><listitem><para>Mitigation strategy recommendations</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe: Safe to call concurrently from multiple storage operations. </para>
+    </detaileddescription>
+    <location file="include/storage/storage_pressure_manager.h" line="128" column="1" bodyfile="include/storage/storage_pressure_manager.h" bodystart="128" bodyend="304"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1a6235d10806cd7572e70e83de1943a05d" prot="public" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>canAcceptWrite</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1aa31930a28df0e0019c2cd825a2f922e9" prot="public" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>canStartBackup</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1a82737ab316862930e1da1f5f5644385d" prot="private" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>classifyPressure</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1ae5024ac216c160fc195d3e65a62939cc" prot="private" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>current_level_</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1a2e14bb774452d1b1e7718aaded70d765" prot="public" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>getCapacityMetrics</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1ae12acbb8975d87b403539605c8856661" prot="private" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>mtx_</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1afbdf290956f515d09d7652ec080e1f87" prot="public" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1a36415e3bfc5e1b4099bdc13b829d5874" prot="public" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1a7ac56e57db7ccbf8548c5c0af5ed86c8" prot="private" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>reject_backups_at_utilization_</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1a39062c5eefc0c59e713d34542f6f26f8" prot="private" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>reject_writes_at_utilization_</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1ac54d4080e16f178533f534b0337d26cc" prot="public" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>reportBackupLimitExceeded</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1ab15692f4a366bf319574dadbbecdb273" prot="public" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>reportStorageExhausted</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1af62054b0dbe2d7b62f8a4c8f70c1f447" prot="private" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>reserved_capacity_bytes_</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1a520d5ed45731d02ed9510242afc87ba9" prot="public" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>setRejectBackupsAtUtilization</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1a8aaddb9553ba79ff4834f0d580c1021b" prot="public" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>setRejectWritesAtUtilization</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1a5812ef33842cad695c865def2ff9bbc9" prot="public" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>setReservedCapacity</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1aa25be6d7e35afb81faf66d2fa49d8082" prot="public" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>StoragePressureManager</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1a1f44550df01496205ff0a335a0af4e47" prot="public" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>StoragePressureManager</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1a94c88f368c91cac7058c46793f54e20c" prot="public" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>StoragePressureManager</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1adeb76dfdcd74829d0b02519260bd0f29" prot="private" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>total_capacity_bytes_</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1ad54b75bd8d4ee48f27348c855dea8eca" prot="public" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>updateCapacity</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1a72196240ff6caff812c62b63bbc8d4fe" prot="private" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>used_bytes_</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_pressure_manager_1a7a9d6dcc5788be59db7eb475200cc30d" prot="public" virt="non-virtual"><scope>themis::storage::StoragePressureManager</scope><name>~StoragePressureManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

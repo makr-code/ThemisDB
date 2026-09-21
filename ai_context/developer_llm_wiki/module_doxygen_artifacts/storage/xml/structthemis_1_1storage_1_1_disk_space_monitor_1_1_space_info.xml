@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::DiskSpaceMonitor::SpaceInfo</compoundname>
+    <includes refid="disk__space__monitor_8h" local="no">disk_space_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1af768c0a6985c387f4e3b07c52c0481cd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::DiskSpaceMonitor::SpaceInfo::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::SpaceInfo::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="75" column="21" bodyfile="include/storage/disk_space_monitor.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1ac9068a62bfeb39a58a138be3c27b5f04" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DiskSpaceMonitor::SpaceInfo::total_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_bytes</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::SpaceInfo::total_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="76" column="16" bodyfile="include/storage/disk_space_monitor.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a93209ea67479492da8da1710e84e52d5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DiskSpaceMonitor::SpaceInfo::used_bytes</definition>
+        <argsstring></argsstring>
+        <name>used_bytes</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::SpaceInfo::used_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="77" column="16" bodyfile="include/storage/disk_space_monitor.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1ad701b1d58c6dfbfe2fcba50a9254f605" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DiskSpaceMonitor::SpaceInfo::free_bytes</definition>
+        <argsstring></argsstring>
+        <name>free_bytes</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::SpaceInfo::free_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="78" column="16" bodyfile="include/storage/disk_space_monitor.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a209d1061790f68b6d3b97fa305a4c27a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DiskSpaceMonitor::SpaceInfo::available_bytes</definition>
+        <argsstring></argsstring>
+        <name>available_bytes</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::SpaceInfo::available_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="79" column="16" bodyfile="include/storage/disk_space_monitor.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a9c9fbc41c4a90b7745390c9b36d392c1" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::storage::DiskSpaceMonitor::SpaceInfo::usage_percent</definition>
+        <argsstring></argsstring>
+        <name>usage_percent</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::SpaceInfo::usage_percent</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="80" column="15" bodyfile="include/storage/disk_space_monitor.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a07898d429a342f7e92c0752731f7c4a6" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::storage::DiskSpaceMonitor::SpaceInfo::free_percent</definition>
+        <argsstring></argsstring>
+        <name>free_percent</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::SpaceInfo::free_percent</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="81" column="15" bodyfile="include/storage/disk_space_monitor.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1aa94b0e26fb5a2b3a77f8514c481a74c2" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003d" kindref="member">SpaceLevel</ref></type>
+        <definition>SpaceLevel themis::storage::DiskSpaceMonitor::SpaceInfo::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::SpaceInfo::level</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003da1e23852820b9154316c7c06e2b7ba051" kindref="member">SpaceLevel::NORMAL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="82" column="20" bodyfile="include/storage/disk_space_monitor.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1aa491ba1052985d780f0237913d7a5335" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::DiskSpaceMonitor::SpaceInfo::writes_blocked</definition>
+        <argsstring></argsstring>
+        <name>writes_blocked</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::SpaceInfo::writes_blocked</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="83" column="14" bodyfile="include/storage/disk_space_monitor.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1ae01c06347a6285c6d7cf0e230e298b69" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::DiskSpaceMonitor::SpaceInfo::read_only</definition>
+        <argsstring></argsstring>
+        <name>read_only</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::SpaceInfo::read_only</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="84" column="14" bodyfile="include/storage/disk_space_monitor.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a1f1bc195c8c070927f570c726423e389" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::DiskSpaceMonitor::SpaceInfo::rocksdb_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>rocksdb_size_bytes</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::SpaceInfo::rocksdb_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="85" column="18" bodyfile="include/storage/disk_space_monitor.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/disk_space_monitor.h" line="74" column="5" bodyfile="include/storage/disk_space_monitor.h" bodystart="74" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a209d1061790f68b6d3b97fa305a4c27a" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::SpaceInfo</scope><name>available_bytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1ad701b1d58c6dfbfe2fcba50a9254f605" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::SpaceInfo</scope><name>free_bytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a07898d429a342f7e92c0752731f7c4a6" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::SpaceInfo</scope><name>free_percent</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1aa94b0e26fb5a2b3a77f8514c481a74c2" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::SpaceInfo</scope><name>level</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1af768c0a6985c387f4e3b07c52c0481cd" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::SpaceInfo</scope><name>path</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1ae01c06347a6285c6d7cf0e230e298b69" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::SpaceInfo</scope><name>read_only</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a1f1bc195c8c070927f570c726423e389" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::SpaceInfo</scope><name>rocksdb_size_bytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1ac9068a62bfeb39a58a138be3c27b5f04" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::SpaceInfo</scope><name>total_bytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a9c9fbc41c4a90b7745390c9b36d392c1" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::SpaceInfo</scope><name>usage_percent</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a93209ea67479492da8da1710e84e52d5" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::SpaceInfo</scope><name>used_bytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1aa491ba1052985d780f0237913d7a5335" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::SpaceInfo</scope><name>writes_blocked</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

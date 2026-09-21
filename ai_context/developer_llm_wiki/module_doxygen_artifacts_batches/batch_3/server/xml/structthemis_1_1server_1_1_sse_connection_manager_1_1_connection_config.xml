@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::SseConnectionManager::ConnectionConfig</compoundname>
+    <includes refid="sse__connection__manager_8h" local="no">sse_connection_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_config_1a6021cfb8a9cda961f6b3a764846a7bfc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::SseConnectionManager::ConnectionConfig::heartbeat_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_interval_ms</name>
+        <qualifiedname>themis::server::SseConnectionManager::ConnectionConfig::heartbeat_interval_ms</qualifiedname>
+        <initializer>= 15000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="36" column="18" bodyfile="include/server/sse_connection_manager.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_config_1a931b80128aa96f712a055e7324181c53" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::SseConnectionManager::ConnectionConfig::max_buffered_events</definition>
+        <argsstring></argsstring>
+        <name>max_buffered_events</name>
+        <qualifiedname>themis::server::SseConnectionManager::ConnectionConfig::max_buffered_events</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="37" column="18" bodyfile="include/server/sse_connection_manager.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_config_1a882ef2f9229b6188280f23d8a6c5ae32" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::SseConnectionManager::ConnectionConfig::event_poll_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>event_poll_interval_ms</name>
+        <qualifiedname>themis::server::SseConnectionManager::ConnectionConfig::event_poll_interval_ms</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="38" column="18" bodyfile="include/server/sse_connection_manager.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_config_1a50b8346386c9727c5f44ce90cc60ff1b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::SseConnectionManager::ConnectionConfig::retry_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_ms</name>
+        <qualifiedname>themis::server::SseConnectionManager::ConnectionConfig::retry_ms</qualifiedname>
+        <initializer>= 3000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="39" column="18" bodyfile="include/server/sse_connection_manager.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_config_1a3acaf8d5f236e7bd23e9ed746c90aaf3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::SseConnectionManager::ConnectionConfig::max_events_per_second</definition>
+        <argsstring></argsstring>
+        <name>max_events_per_second</name>
+        <qualifiedname>themis::server::SseConnectionManager::ConnectionConfig::max_events_per_second</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="40" column="18" bodyfile="include/server/sse_connection_manager.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_config_1ade78c12198b44f6dd43fd8ec51a91040" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::SseConnectionManager::ConnectionConfig::drop_oldest_on_overflow</definition>
+        <argsstring></argsstring>
+        <name>drop_oldest_on_overflow</name>
+        <qualifiedname>themis::server::SseConnectionManager::ConnectionConfig::drop_oldest_on_overflow</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="41" column="14" bodyfile="include/server/sse_connection_manager.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/sse_connection_manager.h" line="35" column="5" bodyfile="include/server/sse_connection_manager.h" bodystart="35" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_config_1ade78c12198b44f6dd43fd8ec51a91040" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager::ConnectionConfig</scope><name>drop_oldest_on_overflow</name></member>
+      <member refid="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_config_1a882ef2f9229b6188280f23d8a6c5ae32" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager::ConnectionConfig</scope><name>event_poll_interval_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_config_1a6021cfb8a9cda961f6b3a764846a7bfc" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager::ConnectionConfig</scope><name>heartbeat_interval_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_config_1a931b80128aa96f712a055e7324181c53" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager::ConnectionConfig</scope><name>max_buffered_events</name></member>
+      <member refid="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_config_1a3acaf8d5f236e7bd23e9ed746c90aaf3" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager::ConnectionConfig</scope><name>max_events_per_second</name></member>
+      <member refid="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_config_1a50b8346386c9727c5f44ce90cc60ff1b" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager::ConnectionConfig</scope><name>retry_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

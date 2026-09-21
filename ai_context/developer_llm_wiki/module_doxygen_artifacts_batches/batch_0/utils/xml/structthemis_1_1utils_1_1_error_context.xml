@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_error_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::ErrorContext</compoundname>
+    <includes refid="error__contracts_8h" local="no">error_contracts.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_context_1aeb4ef82f1568e94e5f0242f831abfca7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref></type>
+        <definition>ErrorCode themis::utils::ErrorContext::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::utils::ErrorContext::code</qualifiedname>
+        <briefdescription>
+<para>Specific error code. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="251" column="15" bodyfile="include/utils/error_contracts.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_context_1adceed34fe29bbe8205c411d168cb1f41" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6" kindref="member">ErrorCategory</ref></type>
+        <definition>ErrorCategory themis::utils::ErrorContext::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::utils::ErrorContext::category</qualifiedname>
+        <briefdescription>
+<para>Subsystem category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="252" column="19" bodyfile="include/utils/error_contracts.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_context_1a5031614cf34d3cb4b53e08cc84223a81" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161" kindref="member">ErrorSeverity</ref></type>
+        <definition>ErrorSeverity themis::utils::ErrorContext::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::utils::ErrorContext::severity</qualifiedname>
+        <briefdescription>
+<para>Impact level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="253" column="19" bodyfile="include/utils/error_contracts.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_context_1a5c2a0bbfef6e6403ff5f20ca3702623f" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::utils::ErrorContext::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::utils::ErrorContext::timestamp</qualifiedname>
+        <briefdescription>
+<para>When error occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="256" column="43" bodyfile="include/utils/error_contracts.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_context_1a7c8d7673b0ca6be262b5a8b6e1c20b87" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::utils::ErrorContext::elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themis::utils::ErrorContext::elapsed_ms</qualifiedname>
+        <briefdescription>
+<para>Duration of failed operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="257" column="31" bodyfile="include/utils/error_contracts.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_context_1a1d455fb0258005cd5306022c68d97122" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::ErrorContext::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::utils::ErrorContext::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable error message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="260" column="17" bodyfile="include/utils/error_contracts.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_context_1ad25c6b735ceb01ff414f7aec75522161" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::ErrorContext::component</definition>
+        <argsstring></argsstring>
+        <name>component</name>
+        <qualifiedname>themis::utils::ErrorContext::component</qualifiedname>
+        <briefdescription>
+<para>Component/function where error occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="261" column="17" bodyfile="include/utils/error_contracts.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_context_1a9f043f38816a59ddee6073a94b3eff3a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::ErrorContext::context_info</definition>
+        <argsstring></argsstring>
+        <name>context_info</name>
+        <qualifiedname>themis::utils::ErrorContext::context_info</qualifiedname>
+        <briefdescription>
+<para>Additional context (bounded size). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="262" column="17" bodyfile="include/utils/error_contracts.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_context_1a35bfebf13ff8ff6c07139a47fd4d9571" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::ErrorContext::recovery_hint</definition>
+        <argsstring></argsstring>
+        <name>recovery_hint</name>
+        <qualifiedname>themis::utils::ErrorContext::recovery_hint</qualifiedname>
+        <briefdescription>
+<para>Suggested recovery action. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="265" column="17" bodyfile="include/utils/error_contracts.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_context_1a1d2a856e54abf015a760780f5207b99b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::ErrorContext::is_recoverable</definition>
+        <argsstring></argsstring>
+        <name>is_recoverable</name>
+        <qualifiedname>themis::utils::ErrorContext::is_recoverable</qualifiedname>
+        <briefdescription>
+<para>Whether recovery is possible. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="266" column="10" bodyfile="include/utils/error_contracts.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_context_1a36687bc702a287bffeed4993b670f4ab" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::utils::ErrorContext::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::utils::ErrorContext::retry_count</qualifiedname>
+        <briefdescription>
+<para>Number of retries attempted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="267" column="14" bodyfile="include/utils/error_contracts.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_context_1ae726aa4ead37d6181c71446d06e3b4de" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::ErrorContext::resource_limit</definition>
+        <argsstring></argsstring>
+        <name>resource_limit</name>
+        <qualifiedname>themis::utils::ErrorContext::resource_limit</qualifiedname>
+        <briefdescription>
+<para>Relevant resource limit (if applicable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="270" column="14" bodyfile="include/utils/error_contracts.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_context_1a19ab442149509ac526c6891736d42318" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::ErrorContext::resource_current</definition>
+        <argsstring></argsstring>
+        <name>resource_current</name>
+        <qualifiedname>themis::utils::ErrorContext::resource_current</qualifiedname>
+        <briefdescription>
+<para>Current resource usage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="271" column="14" bodyfile="include/utils/error_contracts.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_error_context_1a78222632b617a83b52c27505d1cfbcfc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ErrorContext::ErrorContext</definition>
+        <argsstring>(ErrorCode code_, const std::string &amp;message_, const std::string &amp;component_)</argsstring>
+        <name>ErrorContext</name>
+        <qualifiedname>themis::utils::ErrorContext::ErrorContext</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref></type>
+          <declname>code_</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message_</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component_</declname>
+        </param>
+        <briefdescription>
+<para>Convenient constructor for common error scenarios. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="276" column="5" bodyfile="include/utils/error_contracts.h" bodystart="276" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_error_context_1abfc6840de8dde311affff304e1f82a63" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ErrorContext::ErrorContext</definition>
+        <argsstring>()</argsstring>
+        <name>ErrorContext</name>
+        <qualifiedname>themis::utils::ErrorContext::ErrorContext</qualifiedname>
+        <briefdescription>
+<para>Default constructor for aggregation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="286" column="5" bodyfile="include/utils/error_contracts.h" bodystart="286" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_error_context_1a63621aa8fa6f7e5154e6cf1a7e8378e1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::ErrorContext::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::utils::ErrorContext::toJSON</qualifiedname>
+        <briefdescription>
+<para>Convert error context to structured log-friendly format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON representation for structured logging </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="297" column="17" bodyfile="src/utils/error_contracts.cpp" bodystart="28" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_error_context_1a417c08b2bf6e570220d34a41c64004ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::ErrorContext::toFormattedString</definition>
+        <argsstring>() const</argsstring>
+        <name>toFormattedString</name>
+        <qualifiedname>themis::utils::ErrorContext::toFormattedString</qualifiedname>
+        <briefdescription>
+<para>Produce human-readable diagnostic summary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Formatted string suitable for error reports </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="303" column="17" bodyfile="src/utils/error_contracts.cpp" bodystart="66" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Complete error context for diagnostic and recovery decisions. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures the error code, category, severity, and rich diagnostic information to enable operators to understand what went wrong and how to respond.</para>
+<para>Thread-safe for read access; created and populated by error sources. </para>
+    </detaileddescription>
+    <location file="include/utils/error_contracts.h" line="249" column="1" bodyfile="include/utils/error_contracts.h" bodystart="249" bodyend="304"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_error_context_1adceed34fe29bbe8205c411d168cb1f41" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContext</scope><name>category</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_context_1aeb4ef82f1568e94e5f0242f831abfca7" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContext</scope><name>code</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_context_1ad25c6b735ceb01ff414f7aec75522161" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContext</scope><name>component</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_context_1a9f043f38816a59ddee6073a94b3eff3a" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContext</scope><name>context_info</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_context_1a7c8d7673b0ca6be262b5a8b6e1c20b87" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContext</scope><name>elapsed_ms</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_context_1a78222632b617a83b52c27505d1cfbcfc" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContext</scope><name>ErrorContext</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_context_1abfc6840de8dde311affff304e1f82a63" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContext</scope><name>ErrorContext</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_context_1a1d2a856e54abf015a760780f5207b99b" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContext</scope><name>is_recoverable</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_context_1a1d455fb0258005cd5306022c68d97122" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContext</scope><name>message</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_context_1a35bfebf13ff8ff6c07139a47fd4d9571" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContext</scope><name>recovery_hint</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_context_1a19ab442149509ac526c6891736d42318" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContext</scope><name>resource_current</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_context_1ae726aa4ead37d6181c71446d06e3b4de" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContext</scope><name>resource_limit</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_context_1a36687bc702a287bffeed4993b670f4ab" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContext</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_context_1a5031614cf34d3cb4b53e08cc84223a81" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContext</scope><name>severity</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_context_1a5c2a0bbfef6e6403ff5f20ca3702623f" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContext</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_context_1a417c08b2bf6e570220d34a41c64004ad" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContext</scope><name>toFormattedString</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_context_1a63621aa8fa6f7e5154e6cf1a7e8378e1" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContext</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

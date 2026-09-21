@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cte__cache_8h" kind="file" language="C++">
+    <compoundname>cte_cache.h</compoundname>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">filesystem</includes>
+    <includedby refid="cte__cache_8cpp" local="yes">src/query/cte_cache.cpp</includedby>
+    <includedby refid="query__engine_8cpp" local="yes">src/query/query_engine.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/cte_cache.h</label>
+        <link refid="cte__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>filesystem</label>
+      </node>
+      <node id="8">
+        <label>fstream</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/cte_cache.h</label>
+        <link refid="cte__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/query/cte_cache.cpp</label>
+        <link refid="cte__cache_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/query/query_engine.cpp</label>
+        <link refid="query__engine_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1query_1_1_c_t_e_cache" prot="public">themis::query::CTECache</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_config" prot="public">themis::query::CTECache::Config</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry" prot="public">themis::query::CTECache::CacheEntry</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats" prot="public">themis::query::CTECache::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase<sp/>4.3:<sp/>CTE<sp/>Memory<sp/>Management<sp/>and<sp/>Spill-to-Disk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1query_1_1_c_t_e_cache" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a70f4b64fae7900f34635daaa4c0f958e" kindref="member">CTECache</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_config_1a5fb8eefa9cf27e9a55fa505c0c261132" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_config_1a5fb8eefa9cf27e9a55fa505c0c261132" kindref="member">max_memory_bytes</ref><sp/>=<sp/>100<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>100<sp/>MB<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_config_1a7adce1922883e741b0e38f18955ce9c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_config_1a7adce1922883e741b0e38f18955ce9c3" kindref="member">spill_directory</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./themis_cte_spill&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_config_1aea568657085be66e4322807c647d67c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_config_1aea568657085be66e4322807c647d67c3" kindref="member">enable_compression</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_config_1a8bf30972d92329e9a6f618396c4a9bd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_config_1a8bf30972d92329e9a6f618396c4a9bd4" kindref="member">auto_cleanup</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>spill<sp/>files<sp/>on<sp/>destruction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry" kindref="compound">CacheEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a992faa9b6c5955455cbf758add73d1f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a992faa9b6c5955455cbf758add73d1f9" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a0ce6940da636c3b152be4503e5a2cc3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a0ce6940da636c3b152be4503e5a2cc3f" kindref="member">result_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1ab973226309045960d9ba8a44a8c04756" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1ab973226309045960d9ba8a44a8c04756" kindref="member">estimated_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a960f86bded75d065ac06899f703cbc05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a960f86bded75d065ac06899f703cbc05" kindref="member">is_spilled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a30f9406ee3ac4a44ea10e91f71170859" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a30f9406ee3ac4a44ea10e91f71170859" kindref="member">spill_file_path</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a8cde05f9e375ccf7eac04b7c1c200dfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;nlohmann::json&gt;<sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a8cde05f9e375ccf7eac04b7c1c200dfd" kindref="member">in_memory_data</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>populated<sp/>if<sp/>not<sp/>spilled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a70f4b64fae7900f34635daaa4c0f958e" kindref="member">CTECache</ref>();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a70f4b64fae7900f34635daaa4c0f958e" kindref="member">CTECache</ref>(<ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_config" kindref="compound">Config</ref><sp/>config);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a825b2922f06ea8ed3805eedb06bf8519" kindref="member">~CTECache</ref>();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>copy<sp/>constructor<sp/>and<sp/>assignment<sp/>(cache<sp/>is<sp/>not<sp/>copyable)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1query_1_1_c_t_e_cache_1a8061991fecd37bb71241ea1dfa2a11c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a8061991fecd37bb71241ea1dfa2a11c2" kindref="member">CTECache</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a70f4b64fae7900f34635daaa4c0f958e" kindref="member">CTECache</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57" refid="classthemis_1_1query_1_1_c_t_e_cache_1a5ffca5abd782e195c75448ada46899df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a70f4b64fae7900f34635daaa4c0f958e" kindref="member">CTECache</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a5ffca5abd782e195c75448ada46899df" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a70f4b64fae7900f34635daaa4c0f958e" kindref="member">CTECache</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1query_1_1_c_t_e_cache_1ad86441e347018624142bfccfd016d2b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1ad86441e347018624142bfccfd016d2b8" kindref="member">CTECache</ref>(<ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a70f4b64fae7900f34635daaa4c0f958e" kindref="member">CTECache</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1query_1_1_c_t_e_cache_1a9c8a821c787600f56b5c1524f9dc05b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a70f4b64fae7900f34635daaa4c0f958e" kindref="member">CTECache</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a70f4b64fae7900f34635daaa4c0f958e" kindref="member">CTECache</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1ad48fc62b958e9971510bed85057ecab8" kindref="member">store</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>name,<sp/>std::vector&lt;nlohmann::json&gt;<sp/>results);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;nlohmann::json&gt;&gt;<sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a624adb1e51af108bc73a03aea57a76b3" kindref="member">get</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a549afe8ae6d41f823012d21f92fc00b0" kindref="member">contains</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>name)<sp/>const;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1aac2a29348ef4a453514c42d838c88a7e" kindref="member">remove</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1aae1121a4ef8d1acb651c4d80ec7dfd0f" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1query_1_1_c_t_e_cache_1a38e40bcf9069b1d18c58286c5b93af40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a38e40bcf9069b1d18c58286c5b93af40" kindref="member">getCurrentMemoryUsage</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_memory_usage_;<sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1query_1_1_c_t_e_cache_1ad981790ad652c351bf1afd8f5018b5de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1ad981790ad652c351bf1afd8f5018b5de" kindref="member">size</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>entries_.size();<sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1a71d3a87f477646a3b20c3bd918a82c8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1a71d3a87f477646a3b20c3bd918a82c8d" kindref="member">total_ctes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1a382db3a3424b1e54a486cda939e7ae40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1a382db3a3424b1e54a486cda939e7ae40" kindref="member">in_memory_ctes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1ad92b187644878280ce2f27daa17f5ed4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1ad92b187644878280ce2f27daa17f5ed4" kindref="member">spilled_ctes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1ac0561e9177480d2b7ab439d403155717" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1ac0561e9177480d2b7ab439d403155717" kindref="member">memory_usage_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1a54c9697552ff37adbcfbd7af31814bfc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1a54c9697552ff37adbcfbd7af31814bfc" kindref="member">total_results</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1ad7ffdd8b51a393ef509b79ebbc0bf17c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1ad7ffdd8b51a393ef509b79ebbc0bf17c" kindref="member">spill_operations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1adfe4ec1e19151b4dc6f7f2a43bcb9c21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1adfe4ec1e19151b4dc6f7f2a43bcb9c21" kindref="member">disk_reads</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1query_1_1_c_t_e_cache_1a64aea4ee88cbaff70348c2466d5a3a96" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>estimateSize(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>data)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>spillToDisk(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;nlohmann::json&gt;&gt;<sp/>loadFromDisk(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>makeRoom(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>required_bytes);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>getSpillFilePath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ensureSpillDirectory();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>CacheEntry&gt;<sp/>entries_;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_memory_usage_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>stat_spill_operations_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>stat_disk_reads_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/cte_cache.h"/>
+  </compounddef>
+</doxygen>

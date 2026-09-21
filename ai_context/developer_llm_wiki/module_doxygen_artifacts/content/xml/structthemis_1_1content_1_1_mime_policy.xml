@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_mime_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::MimePolicy</compoundname>
+    <includes refid="content__policy_8h" local="no">content_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_mime_policy_1ac96b9976ca08ae06cf4829a242ba7f4c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::MimePolicy::mime_type</definition>
+        <argsstring></argsstring>
+        <name>mime_type</name>
+        <qualifiedname>themis::content::MimePolicy::mime_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="24" column="17" bodyfile="include/content/content_policy.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_mime_policy_1acb92e74b7c132a12bb71576df6fe1f50" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::MimePolicy::max_size</definition>
+        <argsstring></argsstring>
+        <name>max_size</name>
+        <qualifiedname>themis::content::MimePolicy::max_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Maximum file size in bytes (0 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="25" column="14" bodyfile="include/content/content_policy.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_mime_policy_1a9133412391b58a3022c8ebcd0fa14d59" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::MimePolicy::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::content::MimePolicy::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="26" column="17" bodyfile="include/content/content_policy.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_mime_policy_1aa6d2d2a124b409cd6933d994a2d2b0c5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::MimePolicy::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::content::MimePolicy::reason</qualifiedname>
+        <briefdescription>
+<para>Reason for denial (for blacklist entries). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="27" column="17" bodyfile="include/content/content_policy.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_policy.h" line="23" column="1" bodyfile="include/content/content_policy.h" bodystart="23" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_mime_policy_1a9133412391b58a3022c8ebcd0fa14d59" prot="public" virt="non-virtual"><scope>themis::content::MimePolicy</scope><name>description</name></member>
+      <member refid="structthemis_1_1content_1_1_mime_policy_1acb92e74b7c132a12bb71576df6fe1f50" prot="public" virt="non-virtual"><scope>themis::content::MimePolicy</scope><name>max_size</name></member>
+      <member refid="structthemis_1_1content_1_1_mime_policy_1ac96b9976ca08ae06cf4829a242ba7f4c" prot="public" virt="non-virtual"><scope>themis::content::MimePolicy</scope><name>mime_type</name></member>
+      <member refid="structthemis_1_1content_1_1_mime_policy_1aa6d2d2a124b409cd6933d994a2d2b0c5" prot="public" virt="non-virtual"><scope>themis::content::MimePolicy</scope><name>reason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

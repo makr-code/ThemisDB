@@ -1,0 +1,1704 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1cache" kind="namespace" language="C++">
+    <compoundname>themis::cache</compoundname>
+    <innerclass refid="structthemis_1_1cache_1_1_access_pattern" prot="public">themis::cache::AccessPattern</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_access_record" prot="public">themis::cache::AccessRecord</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config" prot="public">themis::cache::AdaptiveTTLPolicyConfig</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_adaptive_t_t_l_suggestion" prot="public">themis::cache::AdaptiveTTLSuggestion</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_aligned_vector_allocator" prot="public">themis::cache::AlignedVectorAllocator</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_a_r_c_cache" prot="public">themis::cache::ARCCache</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_a_r_c_eviction_policy" prot="public">themis::cache::ARCEvictionPolicy</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_bench_listener" prot="public">themis::cache::BenchListener</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache" prot="public">themis::cache::BoundedLRUCache</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_entry" prot="public">themis::cache::CacheEntry</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_event" prot="public">themis::cache::CacheEvent</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_cache_eviction_coordinator_integration_test" prot="public">themis::cache::CacheEvictionCoordinatorIntegrationTest</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_eviction_event" prot="public">themis::cache::CacheEvictionEvent</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_cache_eviction_policy" prot="public">themis::cache::CacheEvictionPolicy</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor" prot="public">themis::cache::CacheHitRateSloMonitor</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_key_descriptor" prot="public">themis::cache::CacheKeyDescriptor</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_cache_manager" prot="public">themis::cache::CacheManager</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_manager_config" prot="public">themis::cache::CacheManagerConfig</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_metrics" prot="public">themis::cache::CacheMetrics</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_cache_provider" prot="public">themis::cache::CacheProvider</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_replica_state" prot="public">themis::cache::CacheReplicaState</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_replication_config" prot="public">themis::cache::CacheReplicationConfig</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_cache_replication_coordinator" prot="public">themis::cache::CacheReplicationCoordinator</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_replication_event" prot="public">themis::cache::CacheReplicationEvent</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_cache_replication_manager" prot="public">themis::cache::CacheReplicationManager</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_replication_stats" prot="public">themis::cache::CacheReplicationStats</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_stats" prot="public">themis::cache::CacheStats</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_value" prot="public">themis::cache::CacheValue</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_circuit_breaker" prot="public">themis::cache::CircuitBreaker</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_distributed_eviction_event" prot="public">themis::cache::DistributedEvictionEvent</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_distributed_eviction_stats" prot="public">themis::cache::DistributedEvictionStats</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_enhanced_query_cache" prot="public">themis::cache::EnhancedQueryCache</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_eviction_candidate" prot="public">themis::cache::EvictionCandidate</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_eviction_event" prot="public">themis::cache::EvictionEvent</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_eviction_listener_manager" prot="public">themis::cache::EvictionListenerManager</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_eviction_listener_manager_impl" prot="public">themis::cache::EvictionListenerManagerImpl</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_eviction_policy_factory" prot="public">themis::cache::EvictionPolicyFactory</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_eviction_result" prot="public">themis::cache::EvictionResult</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_eviction_scheduler" prot="public">themis::cache::EvictionScheduler</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_f_i_f_o_eviction_policy" prot="public">themis::cache::FIFOEvictionPolicy</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_grpc_remote_cache_peer" prot="public">themis::cache::GrpcRemoteCachePeer</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy" prot="public">themis::cache::IAdaptiveTTLPolicy</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_cache_admin_ops" prot="public">themis::cache::ICacheAdminOps</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_cache_backend" prot="public">themis::cache::ICacheBackend</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_i_cache_coordinator" prot="public">themis::cache::ICacheCoordinator</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_cache_partition" prot="public">themis::cache::ICachePartition</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_i_cache_replication_listener" prot="public">themis::cache::ICacheReplicationListener</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_cache_warmup" prot="public">themis::cache::ICacheWarmup</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_i_cluster_view" prot="public">themis::cache::IClusterView</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_distributed_eviction" prot="public">themis::cache::IDistributedEviction</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_i_eviction_listener" prot="public">themis::cache::IEvictionListener</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_eviction_policy" prot="public">themis::cache::IEvictionPolicy</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook" prot="public">themis::cache::IGDPRPurgeHook</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_i_l3_cache_encryption_manager" prot="public">themis::cache::IL3CacheEncryptionManager</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_in_process_cache_coordinator" prot="public">themis::cache::InProcessCacheCoordinator</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_i_redis_t_l_s_enforcer" prot="public">themis::cache::IRedisTLSEnforcer</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_i_remote_cache_peer" prot="public">themis::cache::IRemoteCachePeer</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_t_t_l_adapter" prot="public">themis::cache::ITTLAdapter</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_warmup_source" prot="public">themis::cache::IWarmupSource</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_key_filter" prot="public">themis::cache::KeyFilter</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_l3_encryption_config" prot="public">themis::cache::L3EncryptionConfig</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_l_f_u_eviction_policy" prot="public">themis::cache::LFUEvictionPolicy</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_l_r_u_cache" prot="public">themis::cache::LRUCache</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_l_r_u_eviction_policy" prot="public">themis::cache::LRUEvictionPolicy</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_mock_access_coordinator" prot="public">themis::cache::MockAccessCoordinator</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_partition_stats" prot="public">themis::cache::PartitionStats</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_predictive_prefetcher" prot="public">themis::cache::PredictivePrefetcher</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_purge_descriptor" prot="public">themis::cache::PurgeDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_purge_result" prot="public">themis::cache::PurgeResult</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_rate_limiter" prot="public">themis::cache::RateLimiter</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_redis_cache_coordinator" prot="public">themis::cache::RedisCacheCoordinator</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_redis_cache_coordinator_config" prot="public">themis::cache::RedisCacheCoordinatorConfig</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_redis_t_l_s_config" prot="public">themis::cache::RedisTLSConfig</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_replication_message" prot="public">themis::cache::ReplicationMessage</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_request_coalescer" prot="public">themis::cache::RequestCoalescer</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_result_cache" prot="public">themis::cache::ResultCache</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_test_eviction_listener_manager" prot="public">themis::cache::TestEvictionListenerManager</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_t_t_l_adapter_config" prot="public">themis::cache::TTLAdapterConfig</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_warmup_result" prot="public">themis::cache::WarmupResult</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_warmup_stats" prot="public">themis::cache::WarmupStats</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy" prot="public">themis::cache::WeightedTieredLRUEvictionPolicy</innerclass>
+    <innernamespace refid="namespacethemis_1_1cache_1_1test">themis::cache::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288f" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>CacheFailureClass</name>
+        <qualifiedname>themis::cache::CacheFailureClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fa7291f1f874c6a81c7ed928d01c4d4f85" prot="public">
+          <name>MalformedKey</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Input key is structurally malformed: empty, oversized, invalid encoding, or fails tenant-ID format validation. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fab1259a7cd66512f0d2a5213e668e8832" prot="public">
+          <name>MalformedValue</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Input value is structurally invalid: JSON primitive (not object/array), null value, or exceeds the kMaxCacheValueBytes hard cap. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fa1cd5ecce6fe138df5c3f7e8854a1a66d" prot="public">
+          <name>InvalidOperation</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>The requested operation is not permitted in the current cache state (e.g. put on a read-only cache, invalidate on a sealed snapshot). </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288faee209a5aaba890ae219619b5d2655417" prot="public">
+          <name>TenantViolation</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>A tenant-aware operation was rejected because the caller attempted to access a key outside their assigned tenant namespace. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288faed5b648f8df4459fc4ea2522fbabfb4e" prot="public">
+          <name>DegradedBackend</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>A backend tier (L3 / Redis / gRPC coordinator) is unreachable or returned an unexpected error. Treated as fail-closed: operations that require the backend are denied unless a locally-cached positive confirmation is still valid. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fa39b34ba21394611a2b75571bffb1faec" prot="public">
+          <name>PartialDelivery</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>A distributed invalidation or replication event completed partially: some peers acknowledged, others timed out or rejected. The local cache operation succeeded; the partial delivery is surfaced as a non-fatal diagnostic event. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fa8462b58246e70e5c83e5b939a9332cb5" prot="public">
+          <name>InternalError</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+<para>Unclassified internal error; always fail-closed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical failure classes for cache operation errors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Every failure path in the cache pipeline must carry one of these classes so that callers can apply uniform policy regardless of the underlying adapter or tier.</para>
+<para>Integer values are stable across v1.x; do NOT renumber or remove entries. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="126" column="1" bodyfile="include/cache/cache_contract.h" bodystart="126" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" prot="public" static="no" strong="yes">
+        <type>unsigned int</type>
+        <name>CoordinatorCapability</name>
+        <qualifiedname>themis::cache::CoordinatorCapability</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343ea6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <initializer>= 0u</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343eae111446745a1825b862f8727ae63bce4" prot="public">
+          <name>Redis</name>
+          <initializer>= 1u &lt;&lt; 0</initializer>
+          <briefdescription>
+<para>Adapter requires a reachable Redis server with valid pub/sub channels. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343ea12acd14e73603d7c8860624f02021b15" prot="public">
+          <name>gRPC</name>
+          <initializer>= 1u &lt;&lt; 1</initializer>
+          <briefdescription>
+<para>Adapter requires active gRPC connections to all configured peer nodes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343ea627bbf9e0e1c51e63cf911c4e49dbeaa" prot="public">
+          <name>LocalBus</name>
+          <initializer>= 1u &lt;&lt; 2</initializer>
+          <briefdescription>
+<para>Adapter uses the in-process local bus (always available; no network). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343ea099d7d04319e5191b7473e016c55e320" prot="public">
+          <name>TLS</name>
+          <initializer>= 1u &lt;&lt; 3</initializer>
+          <briefdescription>
+<para>Adapter requires TLS/mTLS for all outbound coordinator connections. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Capability flags that a coordinator adapter may require at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flags are OR-combinable with operator|. Declare composite requirements by combining flags: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>needed<sp/>=<sp/><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343eae111446745a1825b862f8727ae63bce4" kindref="member">CoordinatorCapability::Redis</ref><sp/>|<sp/><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343ea099d7d04319e5191b7473e016c55e320" kindref="member">CoordinatorCapability::TLS</ref>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="namespacethemis_1_1cache_1a38de3689b491ba069c8fff6ee0cc4c1c" kindref="member">hasCoordinatorCapability</ref>(runtime_caps,<sp/>needed))<sp/>{<sp/>...<sp/>}</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="262" column="1" bodyfile="include/cache/cache_contract.h" bodystart="262" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cache_1a2ab5c1e8c77352e8274a9caaf9767446" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>EvictionEventType</name>
+        <qualifiedname>themis::cache::EvictionEventType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cache_1a2ab5c1e8c77352e8274a9caaf9767446a0a3f43b00ddd148f64178deb155a9f45" prot="public">
+          <name>ACCESS</name>
+          <briefdescription>
+<para>An existing entry was read (cache hit). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a2ab5c1e8c77352e8274a9caaf9767446a61ee777e7f71dc466c3b2c685d8d313b" prot="public">
+          <name>INSERT</name>
+          <briefdescription>
+<para>A new entry was inserted into the cache. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a2ab5c1e8c77352e8274a9caaf9767446a78baf367c4626442174307cdf41c6538" prot="public">
+          <name>REMOVE</name>
+          <briefdescription>
+<para>An entry was explicitly removed or evicted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a2ab5c1e8c77352e8274a9caaf9767446ab737102a48b5eb1adc0a12385033af09" prot="public">
+          <name>EXPIRY</name>
+          <briefdescription>
+<para>An entry&apos;s TTL expired. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="29" column="1" bodyfile="include/cache/cache_interfaces.h" bodystart="29" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cache_1a74662f04f973b9c18e730f9198c875ec" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>PurgeReason</name>
+        <qualifiedname>themis::cache::PurgeReason</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cache_1a74662f04f973b9c18e730f9198c875ecaca2e94daa9d43b931594e4d2fe42e3e4" prot="public">
+          <name>RIGHT_TO_ERASURE</name>
+          <briefdescription>
+<para>GDPR Art. 17 – data subject requested erasure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a74662f04f973b9c18e730f9198c875eca9c4fd5af7d236e9a899fd6b42e3de4a8" prot="public">
+          <name>RETENTION_EXPIRED</name>
+          <briefdescription>
+<para>Retention period exceeded; data must be deleted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a74662f04f973b9c18e730f9198c875eca5d0feebedcf2daa52c247891fb33c670" prot="public">
+          <name>CONSENT_WITHDRAWN</name>
+          <briefdescription>
+<para>Data subject withdrew processing consent. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a74662f04f973b9c18e730f9198c875eca03570470bad94692ce93e32700d2e1cb" prot="public">
+          <name>OTHER</name>
+          <briefdescription>
+<para>Any other reason; details in <ref refid="structthemis_1_1cache_1_1_purge_descriptor_1a027bc5a1061ec2e2b2f87cc36ccc1e48" kindref="member">PurgeDescriptor::notes</ref>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="161" column="1" bodyfile="include/cache/cache_interfaces.h" bodystart="161" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CacheReplicationEventType</name>
+        <qualifiedname>themis::cache::CacheReplicationEventType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acdad4b9e47f65b6e79b010582f15785867e" prot="public">
+          <name>WRITE</name>
+          <briefdescription>
+<para>A new entry was written (put). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acdac7ba4bde5fe21a5ad38e8ddb71e2ae2a" prot="public">
+          <name>INVALIDATE</name>
+          <briefdescription>
+<para>One or more entries were invalidated by pattern. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acda099eea076c7110a8bd0f0758e7e615e7" prot="public">
+          <name>INVALIDATE_TENANT</name>
+          <briefdescription>
+<para>All entries for a tenant were invalidated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acda46b8744c6bc840d2cb241fa165f3e204" prot="public">
+          <name>SNAPSHOT</name>
+          <briefdescription>
+<para>Full snapshot for bootstrapping a new replica. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="50" column="1" bodyfile="include/cache/cache_replication.h" bodystart="50" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CacheReplicaHealth</name>
+        <qualifiedname>themis::cache::CacheReplicaHealth</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0af068ebe4133e3e6563080836268ea979" prot="public">
+          <name>HEALTHY</name>
+          <briefdescription>
+<para>Replica is reachable and receiving events. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0a0021017005f0e5134b204c2e69d3d4ed" prot="public">
+          <name>DEGRADED</name>
+          <briefdescription>
+<para>Some events were dropped; replica may be lagging. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0a7438a7e4e4f36f04fda32fa100121e47" prot="public">
+          <name>UNHEALTHY</name>
+          <briefdescription>
+<para>Replica is not responding; events are being discarded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="96" column="1" bodyfile="include/cache/cache_replication.h" bodystart="96" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>DistributedEvictionReason</name>
+        <qualifiedname>themis::cache::DistributedEvictionReason</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929ae069607ebd993cd70f61c9b2ecb1b0ec" prot="public">
+          <name>CAPACITY_PRESSURE</name>
+          <briefdescription>
+<para>Local tier reached capacity; LRU/LFU victim selected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929a6719f326972268407121fe93dbe8a033" prot="public">
+          <name>TTL_EXPIRED</name>
+          <briefdescription>
+<para>Entry TTL elapsed on the originating node. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929ad37798d559220d8f99cc63a651eb3e4f" prot="public">
+          <name>EXPLICIT_EVICT</name>
+          <briefdescription>
+<para>Caller explicitly requested eviction via the API. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929a1018edd407007b6d058570bf95749e38" prot="public">
+          <name>PATTERN_EVICT</name>
+          <briefdescription>
+<para>Glob/regex pattern eviction was requested. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929a9c49b11eda069857d3a6f1f8e505f661" prot="public">
+          <name>TENANT_EVICT</name>
+          <briefdescription>
+<para>All entries for a tenant were evicted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929a26eed7f078fc015c5252f817059a6f9f" prot="public">
+          <name>FLUSH</name>
+          <briefdescription>
+<para>Entire cache (or tenant partition) was flushed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="26" column="1" bodyfile="include/cache/distributed_eviction.h" bodystart="26" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cache_1abe2c67d7127a32edaea2089841eafd0d" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>TierLevel</name>
+        <qualifiedname>themis::cache::TierLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cache_1abe2c67d7127a32edaea2089841eafd0da9ec4c0afd450ceac7adb81c3bcfc9732" prot="public">
+          <name>L1</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Hot cache tier (in-memory, microsecond latency). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1abe2c67d7127a32edaea2089841eafd0da7e6aa2d53f6ee2b1a34b017fa403cb76" prot="public">
+          <name>L2</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Warm cache tier (compressed, millisecond latency). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1abe2c67d7127a32edaea2089841eafd0da842ce6eb510f7e7047da883915ec90e0" prot="public">
+          <name>L3</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Cold cache tier (persistent, multi-millisecond latency). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction_listener.h" line="31" column="1" bodyfile="include/cache/eviction_listener.h" bodystart="31" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cache_1a78754d312fb33f4cf4c23bf294d36417" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>EvictionReason</name>
+        <qualifiedname>themis::cache::EvictionReason</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cache_1a78754d312fb33f4cf4c23bf294d36417a3b8f7696879f77dfc8c74aa8df8db24b" prot="public">
+          <name>Capacity</name>
+          <briefdescription>
+<para>Cache tier reached capacity; LRU/LFU victim selected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a78754d312fb33f4cf4c23bf294d36417a15843e730e3aa39c87a6dfcafc1504e0" prot="public">
+          <name>TTL_Expired</name>
+          <briefdescription>
+<para>Entry TTL elapsed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a78754d312fb33f4cf4c23bf294d36417adcbccc9a7362c6ef0a8a3d610cbc2cc2" prot="public">
+          <name>AccessCount</name>
+          <briefdescription>
+<para>Access count fell below retention threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a78754d312fb33f4cf4c23bf294d36417ae1ba155a9f2e8c3be94020eef32a0301" prot="public">
+          <name>Manual</name>
+          <briefdescription>
+<para>Caller explicitly requested eviction. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a78754d312fb33f4cf4c23bf294d36417a57391192dfa1f247ad015a0fe2eca48e" prot="public">
+          <name>Pattern</name>
+          <briefdescription>
+<para>Glob/regex pattern eviction. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a78754d312fb33f4cf4c23bf294d36417a3da78b80d8f50c16c069ee585bdbe2a2" prot="public">
+          <name>TenantEviction</name>
+          <briefdescription>
+<para>All entries for a tenant evicted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a78754d312fb33f4cf4c23bf294d36417a75f33789f924a80667bcdf8e195c1a1d" prot="public">
+          <name>Flush</name>
+          <briefdescription>
+<para>Entire cache or partition flushed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction_listener.h" line="37" column="1" bodyfile="include/cache/eviction_listener.h" bodystart="37" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cache_1a94f306eedae4fad203f5f8b2b887d0f1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EvictionPolicy</name>
+        <qualifiedname>themis::cache::EvictionPolicy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cache_1a94f306eedae4fad203f5f8b2b887d0f1a875ecb34f6d21d13d4b9fd4980a8b5af" prot="public">
+          <name>LRU</name>
+          <briefdescription>
+<para>Least Recently Used. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a94f306eedae4fad203f5f8b2b887d0f1a96a74b4240085d5b2a73287deef3a5fa" prot="public">
+          <name>LFU</name>
+          <briefdescription>
+<para>Least Frequently Used. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a94f306eedae4fad203f5f8b2b887d0f1ad72a48a8ebd238e1497a911e938f46e8" prot="public">
+          <name>ARC</name>
+          <briefdescription>
+<para>Adaptive Replacement Cache (scan-resistant, self-tuning). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Eviction policy selector for <ref refid="classthemis_1_1_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref> tiers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Selects the victim-selection algorithm used by L1 and L2 cache tiers. Defaults to LRU for backward compatibility. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction_policy.h" line="29" column="1" bodyfile="include/cache/eviction_policy.h" bodystart="29" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1cache_1a1b4690da76ee7a9f02a1271e2cd60e33" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>L3EncryptionMode</name>
+        <qualifiedname>themis::cache::L3EncryptionMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1cache_1a1b4690da76ee7a9f02a1271e2cd60e33a055c1a591abb0e8cd86dc969727bcc0b" prot="public">
+          <name>DISABLED</name>
+          <briefdescription>
+<para>No encryption. Development-only. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a1b4690da76ee7a9f02a1271e2cd60e33abe0f06b885034bb30ebb9fd868bba087" prot="public">
+          <name>AES_256_GCM</name>
+          <briefdescription>
+<para>AES-256-GCM authenticated encryption (default). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a1b4690da76ee7a9f02a1271e2cd60e33a31a23b8b2578a404dd9994c89a772bc6" prot="public">
+          <name>CHACHA20_POLY1305</name>
+          <briefdescription>
+<para>ChaCha20-Poly1305 — preferred on ARM/mobile. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1cache_1a1b4690da76ee7a9f02a1271e2cd60e33afb98606c19976ffd1768255ee62a9644" prot="public">
+          <name>XTS_AES_256</name>
+          <briefdescription>
+<para>XTS-AES-256 for block-level (sector) encryption. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/l3_encryption_config.h" line="24" column="1" bodyfile="include/cache/l3_encryption_config.h" bodystart="24" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1cache_1a3d21af20aa13f6ba9687bc4c334dfb23" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::vector&lt; T, <ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator" kindref="compound">AlignedVectorAllocator</ref>&lt; T, 32 &gt; &gt;</type>
+        <definition>using themis::cache::AlignedVector = std::vector&lt;T, AlignedVectorAllocator&lt;T, 32&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>AlignedVector</name>
+        <qualifiedname>themis::cache::AlignedVector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/aligned_vector_allocator.h" line="121" column="1" bodyfile="include/cache/aligned_vector_allocator.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1cache_1adb192b1c75a13319c79904ca80288ccc" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::vector&lt; T, <ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator" kindref="compound">AlignedVectorAllocator</ref>&lt; T, 64 &gt; &gt;</type>
+        <definition>using themis::cache::CacheLineVector = std::vector&lt;T, AlignedVectorAllocator&lt;T, 64&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>CacheLineVector</name>
+        <qualifiedname>themis::cache::CacheLineVector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/aligned_vector_allocator.h" line="124" column="1" bodyfile="include/cache/aligned_vector_allocator.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1cache_1a286ae5052ec85f345b10ed86376e7964" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::vector&lt; T, <ref refid="classthemis_1_1cache_1_1_aligned_vector_allocator" kindref="compound">AlignedVectorAllocator</ref>&lt; T, 16 &gt; &gt;</type>
+        <definition>using themis::cache::SimdVector = std::vector&lt;T, AlignedVectorAllocator&lt;T, 16&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>SimdVector</name>
+        <qualifiedname>themis::cache::SimdVector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/aligned_vector_allocator.h" line="127" column="1" bodyfile="include/cache/aligned_vector_allocator.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1cache_1a89cff469bdec64570cd4a120d0d0929b" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;key, const std::string &amp;tenant_id)&gt;</type>
+        <definition>using themis::cache::EvictionListener = std::function&lt;void(const std::string&amp; key,
+                                            const std::string&amp; tenant_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EvictionListener</name>
+        <qualifiedname>themis::cache::EvictionListener</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="47" column="1" bodyfile="include/cache/cache_eviction_policy.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1cache_1a8ccf6d50f436cfecacaa417d735628e4" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1cache_1_1_distributed_eviction_event" kindref="compound">DistributedEvictionEvent</ref> &amp;event)&gt;</type>
+        <definition>using themis::cache::DistributedEvictionListener = 
+std::function&lt;void(const DistributedEvictionEvent&amp; event)&gt;</definition>
+        <argsstring></argsstring>
+        <name>DistributedEvictionListener</name>
+        <qualifiedname>themis::cache::DistributedEvictionListener</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="60" column="1" bodyfile="include/cache/distributed_eviction.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1cache_1acfcf928a61bd2f19f8d25d891ef910af" prot="public" static="no">
+        <type>std::function&lt; double(const <ref refid="structthemis_1_1cache_1_1_eviction_candidate" kindref="compound">EvictionCandidate</ref> &amp;)&gt;</type>
+        <definition>using themis::cache::EvictionScoringFn = std::function&lt;double(const EvictionCandidate&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EvictionScoringFn</name>
+        <qualifiedname>themis::cache::EvictionScoringFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction.h" line="50" column="1" bodyfile="include/cache/eviction.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1cache_1ae1a1a37a29a66eaee712021c5110b65e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cache::kMaxCacheKeyBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxCacheKeyBytes</name>
+        <qualifiedname>themis::cache::kMaxCacheKeyBytes</qualifiedname>
+        <initializer>= 4&apos;096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum accepted cache key size in bytes (fingerprint + prefix overhead). Keys exceeding this limit are rejected with a MalformedKey failure. Kept in sync with the SHA-256 hex output length (64 bytes) plus tenant prefix; practical effective ceiling for human-readable keys. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="55" column="30" bodyfile="include/cache/cache_contract.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cache_1a2219848df33021bbc752e33b388dd246" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cache::kMaxCacheValueBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxCacheValueBytes</name>
+        <qualifiedname>themis::cache::kMaxCacheValueBytes</qualifiedname>
+        <initializer>= 512ULL * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum accepted cache value size in bytes per entry (hard cap).</para>
+<para>Entries whose serialised JSON value exceeds this limit are rejected by put() before any tier-selection or compression work. 512 MiB matches the multi-tier design assumption for very large OLAP result sets. In most deployments per-tier limits (l1_max_entry_size, l2_max_entry_size) apply before this global hard cap. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="64" column="30" bodyfile="include/cache/cache_contract.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cache_1a0196a1e27223f499e1466785dc07c575" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cache::kMaxTenantIdBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxTenantIdBytes</name>
+        <qualifiedname>themis::cache::kMaxTenantIdBytes</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum tenant-ID length in UTF-8 bytes. Tenant IDs exceeding this limit are rejected with a MalformedKey failure. Kept in sync with the URL-path budget in CacheAdminApiHandler route parsing. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="69" column="30" bodyfile="include/cache/cache_contract.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cache_1aef4e6de2aef9b98ce4c9544677eca9a1" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cache::kMinTenantIdNonEmptyBytes</definition>
+        <argsstring></argsstring>
+        <name>kMinTenantIdNonEmptyBytes</name>
+        <qualifiedname>themis::cache::kMinTenantIdNonEmptyBytes</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum non-empty tenant ID length in bytes. Empty string is reserved for the global (no-tenant) namespace; a non-empty tenant ID that is shorter than this limit is rejected as malformed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="74" column="30" bodyfile="include/cache/cache_contract.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cache_1ac1e801f6e526e8e5221e5e482febcd68" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cache::kMaxL3RetrievalLatency</definition>
+        <argsstring></argsstring>
+        <name>kMaxL3RetrievalLatency</name>
+        <qualifiedname>themis::cache::kMaxL3RetrievalLatency</qualifiedname>
+        <initializer>{5&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum acceptable L3 retrieval latency before the L3 read path is considered degraded and the circuit breaker may open. Implementations that exceed this p99 threshold must surface the degraded state via <ref refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1af64167e47513dca43a7e364d40f5c058" kindref="member">ICacheAdminOps::stats()</ref> and the SLO monitor. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="88" column="44" bodyfile="include/cache/cache_contract.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cache_1ac049b2471b46c2731f2ca019cbe47c10" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::cache::kMaxCoordinatorTransitionTime</definition>
+        <argsstring></argsstring>
+        <name>kMaxCoordinatorTransitionTime</name>
+        <qualifiedname>themis::cache::kMaxCoordinatorTransitionTime</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Maximum time allowed for a coordinator state transition (OPEN → HALF_OPEN → CLOSED). Transitions taking longer than this value are logged as degraded-coordination incidents and surfaced via diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="93" column="39" bodyfile="include/cache/cache_contract.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cache_1ae063895a29a195224082575d2b3949a5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cache::kMaxReplicationDeliveryMs</definition>
+        <argsstring></argsstring>
+        <name>kMaxReplicationDeliveryMs</name>
+        <qualifiedname>themis::cache::kMaxReplicationDeliveryMs</qualifiedname>
+        <initializer>{30&apos;000}</initializer>
+        <briefdescription>
+<para>Maximum acceptable replication delivery delay for a single invalidation/entry event. Events not delivered within this window are treated as lost; the coordinator must record the failure and not retry indefinitely without bounded backoff. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="99" column="44" bodyfile="include/cache/cache_contract.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cache_1a39eb21b113a20b6f3606e01396b71dc8" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::cache::kMinCacheTtlSeconds</definition>
+        <argsstring></argsstring>
+        <name>kMinCacheTtlSeconds</name>
+        <qualifiedname>themis::cache::kMinCacheTtlSeconds</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum TTL that can be stored in any cache tier (enforces non-zero TTL at ingest time; entries with TTL &lt; kMinCacheTtlSeconds are rejected). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="103" column="22" bodyfile="include/cache/cache_contract.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cache_1ab9ff5b69f1cd340c1ca302b5afd5f032" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::cache::kCoordinatorCacheMaxStaleness</definition>
+        <argsstring></argsstring>
+        <name>kCoordinatorCacheMaxStaleness</name>
+        <qualifiedname>themis::cache::kCoordinatorCacheMaxStaleness</qualifiedname>
+        <initializer>{120}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum staleness of a locally-cached coordinator confirmation that is still considered authoritative when the primary coordinator is unreachable. After this window expires, the fail-closed predicate applies. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="231" column="39" bodyfile="include/cache/cache_contract.h" bodystart="231" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cache_1a8ce47eb291a80331b2e970be85bc9d9d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cache::kCircuitBreakerDefaultFailureThreshold</definition>
+        <argsstring></argsstring>
+        <name>kCircuitBreakerDefaultFailureThreshold</name>
+        <qualifiedname>themis::cache::kCircuitBreakerDefaultFailureThreshold</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of consecutive L3 or coordinator failures before the circuit breaker opens. Implementations MUST use this constant (or a configurable override bounded by this value) as the default threshold. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="236" column="27" bodyfile="include/cache/cache_contract.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cache_1aecd03485cf25a3cc9479f760bef7ceb7" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cache::kCoordinatorMinRetryBackoff</definition>
+        <argsstring></argsstring>
+        <name>kCoordinatorMinRetryBackoff</name>
+        <qualifiedname>themis::cache::kCoordinatorMinRetryBackoff</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum backoff between coordinator retry attempts. Implementations MUST wait at least this long between successive attempts when the circuit breaker is in HALF_OPEN state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="241" column="44" bodyfile="include/cache/cache_contract.h" bodystart="241" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cache_1ae73e6e337844ac875d52d5d784f7b5ef" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cache::kAsyncReplicationDefaultTimeout</definition>
+        <argsstring></argsstring>
+        <name>kAsyncReplicationDefaultTimeout</name>
+        <qualifiedname>themis::cache::kAsyncReplicationDefaultTimeout</qualifiedname>
+        <initializer>{30&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default per-event replication timeout. Used by <ref refid="classthemis_1_1cache_1_1_cache_replication_coordinator" kindref="compound">CacheReplicationCoordinator</ref> when no explicit timeout is configured. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="322" column="44" bodyfile="include/cache/cache_contract.h" bodystart="322" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cache_1a2017ac3a0bf3dbe7fabfd1eb3bf9f312" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cache::kAsyncReplicationMaxTimeout</definition>
+        <argsstring></argsstring>
+        <name>kAsyncReplicationMaxTimeout</name>
+        <qualifiedname>themis::cache::kAsyncReplicationMaxTimeout</qualifiedname>
+        <initializer>{120&apos;000}</initializer>
+        <briefdescription>
+<para>Hard maximum allowed per-event replication timeout. Operator-configurable timeout values MUST be bounded by this constant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="326" column="44" bodyfile="include/cache/cache_contract.h" bodystart="326" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cache_1abbcf2b43a525323484a7185cf6d4824e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::kUnsequencedReplicationEvent</definition>
+        <argsstring></argsstring>
+        <name>kUnsequencedReplicationEvent</name>
+        <qualifiedname>themis::cache::kUnsequencedReplicationEvent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sequence number used to indicate an unsequenced (legacy) replication event. New implementations MUST assign monotonically increasing sequence numbers; events with this value are accepted but cannot participate in ordering. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="331" column="27" bodyfile="include/cache/cache_contract.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1cache_1a2a40d71c7aa9edf7b5e3aa00334508c7" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>char</type>
+        <definition>char themis::cache::PREFETCH_MODEL_PREFIX[]</definition>
+        <argsstring>[]</argsstring>
+        <name>PREFETCH_MODEL_PREFIX</name>
+        <qualifiedname>themis::cache::PREFETCH_MODEL_PREFIX</qualifiedname>
+        <initializer>= &quot;prefetch_model::&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/predictive_prefetcher.cpp" line="29" column="23" bodyfile="src/cache/predictive_prefetcher.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1cache_1a7d0f141ef89c0be5010b4060d757317b" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::isFailClosedClass</definition>
+        <argsstring>(CacheFailureClass fc) noexcept</argsstring>
+        <name>isFailClosedClass</name>
+        <qualifiedname>themis::cache::isFailClosedClass</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288f" kindref="member">CacheFailureClass</ref></type>
+          <declname>fc</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the given failure class mandates fail-closed denial. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use this predicate in catch/error-handling blocks to decide whether to propagate the denial or attempt a graceful fallback:</para>
+<para><programlisting><codeline><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>result<sp/>=<sp/>coordinator-&gt;publishEntry(key,<sp/>value,<sp/>ttl,<sp/>tenant_id);</highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>ex)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fc<sp/>=<sp/>classifyCacheFailure(ex);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="namespacethemis_1_1cache_1a7d0f141ef89c0be5010b4060d757317b" kindref="member">themis::cache::isFailClosedClass</ref>(fc))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>hard<sp/>denial<sp/>—<sp/>no<sp/>fallback<sp/>permitted</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>partial<sp/>delivery<sp/>or<sp/>format<sp/>issue<sp/>—<sp/>log<sp/>and<sp/>continue</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The failure class to evaluate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if <computeroutput>fc</computeroutput> mandates fail-closed behaviour. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="194" column="24" bodyfile="include/cache/cache_contract.h" bodystart="194" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1acaec704752332f49f373d2c2ea07400c" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::isMalformedInputClass</definition>
+        <argsstring>(CacheFailureClass fc) noexcept</argsstring>
+        <name>isMalformedInputClass</name>
+        <qualifiedname>themis::cache::isMalformedInputClass</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288f" kindref="member">CacheFailureClass</ref></type>
+          <declname>fc</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the failure is due to a malformed input artifact. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Malformed inputs (MalformedKey, MalformedValue) are always rejected immediately without fallback, but for diagnostic purposes they are classified separately from fail-closed backend failures.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The failure class to evaluate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if <computeroutput>fc</computeroutput> indicates a malformed input rejection. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="209" column="24" bodyfile="include/cache/cache_contract.h" bodystart="209" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1aaf7b82427b38d1c3efe8d507bcba3ef8" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref></type>
+        <definition>CoordinatorCapability themis::cache::operator|</definition>
+        <argsstring>(CoordinatorCapability a, CoordinatorCapability b) noexcept</argsstring>
+        <name>operator|</name>
+        <qualifiedname>themis::cache::operator|</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref></type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref></type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Bitwise-OR for <ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref> flags. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="275" column="41" bodyfile="include/cache/cache_contract.h" bodystart="275" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1aafdba3f402b382bfcca16d2af2a2c0bb" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref></type>
+        <definition>CoordinatorCapability themis::cache::operator&amp;</definition>
+        <argsstring>(CoordinatorCapability a, CoordinatorCapability b) noexcept</argsstring>
+        <name>operator&amp;</name>
+        <qualifiedname>themis::cache::operator&amp;</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref></type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref></type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Bitwise-AND for <ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref> flags (intersection). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="282" column="41" bodyfile="include/cache/cache_contract.h" bodystart="282" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1a38de3689b491ba069c8fff6ee0cc4c1c" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::hasCoordinatorCapability</definition>
+        <argsstring>(CoordinatorCapability set, CoordinatorCapability required) noexcept</argsstring>
+        <name>hasCoordinatorCapability</name>
+        <qualifiedname>themis::cache::hasCoordinatorCapability</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref></type>
+          <declname>set</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref></type>
+          <declname>required</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when <computeroutput>set</computeroutput> includes every bit in <computeroutput>required</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bitmask of capabilities available at runtime. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bitmask of capabilities required by the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if all bits in <computeroutput>required</computeroutput> are set in <computeroutput>set</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_contract.h" line="295" column="24" bodyfile="include/cache/cache_contract.h" bodystart="295" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1a298d749279ddafd1f60ada5a35dc1490" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cache::makeEntityKey</definition>
+        <argsstring>(const std::string &amp;urn)</argsstring>
+        <name>makeEntityKey</name>
+        <qualifiedname>themis::cache::makeEntityKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>urn</declname>
+        </param>
+        <briefdescription>
+<para>Make Entity Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">urn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeEntityKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_provider.h" line="54" column="20" bodyfile="include/cache/cache_provider.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1a1c995983a96d39df8e350dee7c96b7da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cache_1_1_eviction_listener_manager" kindref="compound">EvictionListenerManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; EvictionListenerManager &gt; themis::cache::createEvictionListenerManager</definition>
+        <argsstring>()</argsstring>
+        <name>createEvictionListenerManager</name>
+        <qualifiedname>themis::cache::createEvictionListenerManager</qualifiedname>
+        <briefdescription>
+<para>Create Eviction Listener Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createEvictionListenerManager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/eviction_listener.cpp" line="135" column="17" bodyfile="src/cache/eviction_listener.cpp" bodystart="135" bodyend="137" declfile="include/cache/eviction_listener.h" declline="132" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1aca7eb8946c5c2b753d7278ca645715af" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unique_ptr&lt; core::concerns::IEvictionStrategy &gt;</type>
+        <definition>std::unique_ptr&lt; core::concerns::IEvictionStrategy &gt; themis::cache::makeEvictionStrategy</definition>
+        <argsstring>(EvictionPolicy policy, size_t arc_capacity=128)</argsstring>
+        <name>makeEvictionStrategy</name>
+        <qualifiedname>themis::cache::makeEvictionStrategy</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1a94f306eedae4fad203f5f8b2b887d0f1" kindref="member">EvictionPolicy</ref></type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>arc_capacity</declname>
+          <defval>128</defval>
+        </param>
+        <briefdescription>
+<para>Factory: create an IEvictionStrategy for the given policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The desired eviction policy. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>arc_capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Capacity hint passed to ARCEvictionStrategy; ignored for LRU and LFU policies. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Owning pointer to a new strategy instance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction_policy.h" line="44" column="1" bodyfile="include/cache/eviction_policy.h" bodystart="44" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1aeffb8becdfa586e24fbcdb657dad00bd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>static int64_t themis::cache::nowMs</definition>
+        <argsstring>()</argsstring>
+        <name>nowMs</name>
+        <qualifiedname>themis::cache::nowMs</qualifiedname>
+        <briefdescription>
+<para>Now Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/cache_replication.cpp" line="40" column="16" bodyfile="src/cache/cache_replication.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1a6a887f161d929f1323d83b390f7e8cbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::TEST_F</definition>
+        <argsstring>(CacheEvictionCoordinatorIntegrationTest, RegisterListener_ReturnsValidHandle)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_eviction_coordinator_integration_test" kindref="compound">CacheEvictionCoordinatorIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>RegisterListener_ReturnsValidHandle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CEI-01: Register listener and verify initial state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="198" column="1" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="198" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1a1ef56db2b5e5772956063633c09d16e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::TEST_F</definition>
+        <argsstring>(CacheEvictionCoordinatorIntegrationTest, EmitEvictionEvent_ListenerReceivesEvent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_eviction_coordinator_integration_test" kindref="compound">CacheEvictionCoordinatorIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>EmitEvictionEvent_ListenerReceivesEvent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CEI-02: Emit eviction event and verify listener receives it. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="214" column="1" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="214" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1a934a201b50fcdd5800503d59f90a0368" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::TEST_F</definition>
+        <argsstring>(CacheEvictionCoordinatorIntegrationTest, MultipleListeners_AllReceiveEvent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_eviction_coordinator_integration_test" kindref="compound">CacheEvictionCoordinatorIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleListeners_AllReceiveEvent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CEI-03: Multiple listeners receive same event. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="244" column="1" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="244" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1a3669eeb538bbe4b77c115d035c79f79b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::TEST_F</definition>
+        <argsstring>(CacheEvictionCoordinatorIntegrationTest, UnregisterListener_NoMoreEvents)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_eviction_coordinator_integration_test" kindref="compound">CacheEvictionCoordinatorIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>UnregisterListener_NoMoreEvents</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CEI-04: Unregister listener and verify it no longer receives events. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="276" column="1" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="276" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1a2701ff50595a9f2a1023e38d822ae4aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::TEST_F</definition>
+        <argsstring>(CacheEvictionCoordinatorIntegrationTest, CapacityPressure_NotificationSent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_eviction_coordinator_integration_test" kindref="compound">CacheEvictionCoordinatorIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>CapacityPressure_NotificationSent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CEI-05: Capacity pressure notification. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="300" column="1" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="300" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1ad8840f031e1ba291625366a30456c7ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::TEST_F</definition>
+        <argsstring>(CacheEvictionCoordinatorIntegrationTest, HighAccessEviction_PromotionSignal)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_eviction_coordinator_integration_test" kindref="compound">CacheEvictionCoordinatorIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>HighAccessEviction_PromotionSignal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CEI-06: High-access entries trigger promotion decision. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="327" column="1" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="327" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1af73107c43bd63777f8dd9ad56647dc95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::TEST_F</definition>
+        <argsstring>(CacheEvictionCoordinatorIntegrationTest, LowAccessEviction_DemotionSignal)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_eviction_coordinator_integration_test" kindref="compound">CacheEvictionCoordinatorIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LowAccessEviction_DemotionSignal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CEI-07: Low-access entries trigger demotion decision. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="355" column="1" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="355" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1adece8e5e69418fbf6d7a61ad05c803c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::TEST_F</definition>
+        <argsstring>(CacheEvictionCoordinatorIntegrationTest, CorrelationID_PropagatedInEvent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_eviction_coordinator_integration_test" kindref="compound">CacheEvictionCoordinatorIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>CorrelationID_PropagatedInEvent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CEI-08: Correlation ID tracking for distributed tracing. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="383" column="1" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="383" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1a664cc7efc120deb11223203d9a111a80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::TEST_F</definition>
+        <argsstring>(CacheEvictionCoordinatorIntegrationTest, EvictionListener_FunctionRegistration_IsAccepted)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_eviction_coordinator_integration_test" kindref="compound">CacheEvictionCoordinatorIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>EvictionListener_FunctionRegistration_IsAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CEI-09: <ref refid="namespacethemis_1_1cache_1a89cff469bdec64570cd4a120d0d0929b" kindref="member">EvictionListener</ref> callback registration is accepted without error.</para>
+<para>Wave D: Verifies that registerEvictionListener() stores a std::function callback without throwing, satisfying the Q4 2026 AccessCoordinator hook API. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="418" column="1" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="418" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1ad19b60f82cddb83320cff15e012dbe10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::TEST_F</definition>
+        <argsstring>(CacheEvictionCoordinatorIntegrationTest, EvictionListener_FunctionCallback_InvokedOnEviction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_cache_eviction_coordinator_integration_test" kindref="compound">CacheEvictionCoordinatorIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>EvictionListener_FunctionCallback_InvokedOnEviction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CEI-10: <ref refid="namespacethemis_1_1cache_1a89cff469bdec64570cd4a120d0d0929b" kindref="member">EvictionListener</ref> callback is invoked with the correct key and tenant_id when choose_victim() selects an eviction victim.</para>
+<para>Wave D: Verifies the storage-demotion feedback hook fires with the victim key. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="439" column="1" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="439" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1aa838f197aabfabf4468e20a574b35660" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::cache::BenchEvictionEventEmissionSingleListener</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchEvictionEventEmissionSingleListener</name>
+        <qualifiedname>themis::cache::BenchEvictionEventEmissionSingleListener</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>GATE-CAP-01: Single eviction event emission latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures time to emit one eviction event to a single listener. Gate: ≤10µs (single event, single listener) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cache/bench_cache_eviction_coordinator.cpp" line="52" column="13" bodyfile="benchmarks/cache/bench_cache_eviction_coordinator.cpp" bodystart="52" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1a4da5625a02610259f159c32ced579f29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::BENCHMARK</definition>
+        <argsstring>(BenchEvictionEventEmissionSingleListener) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::cache::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchEvictionEventEmissionSingleListener</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cache/bench_cache_eviction_coordinator.cpp" line="71" column="1" declfile="benchmarks/cache/bench_cache_eviction_coordinator.cpp" declline="71" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1ac072b0cd5ace513ad69801dc218fb0e2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::cache::BenchEvictionEventEmissionMultipleListeners</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchEvictionEventEmissionMultipleListeners</name>
+        <qualifiedname>themis::cache::BenchEvictionEventEmissionMultipleListeners</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>GATE-CAP-02: Multiple listener event delivery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures event emission to N listeners in sequence. Gate: ≤50µs for 10 listeners </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cache/bench_cache_eviction_coordinator.cpp" line="79" column="13" bodyfile="benchmarks/cache/bench_cache_eviction_coordinator.cpp" bodystart="79" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1aa449312569f5710688776a1a6d81730e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::UseRealTime</definition>
+        <argsstring>() -&gt; Arg(1) -&gt;Arg(5) -&gt;Arg(10)</argsstring>
+        <name>UseRealTime</name>
+        <qualifiedname>themis::cache::UseRealTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cache/bench_cache_eviction_coordinator.cpp" line="101" column="5" declfile="benchmarks/cache/bench_cache_eviction_coordinator.cpp" declline="101" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1aef272408a430db4f2432a071d76a7860" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::cache::BenchCapacityPressureNotification</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchCapacityPressureNotification</name>
+        <qualifiedname>themis::cache::BenchCapacityPressureNotification</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>GATE-CAP-03: Capacity pressure notification latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures time to notify listeners of capacity pressure. Gate: ≤30µs </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cache/bench_cache_eviction_coordinator.cpp" line="112" column="13" bodyfile="benchmarks/cache/bench_cache_eviction_coordinator.cpp" bodystart="112" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1a72f40e800b5220f2cd188277a39bc200" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::BENCHMARK</definition>
+        <argsstring>(BenchCapacityPressureNotification) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::cache::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchCapacityPressureNotification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cache/bench_cache_eviction_coordinator.cpp" line="124" column="1" declfile="benchmarks/cache/bench_cache_eviction_coordinator.cpp" declline="124" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1a1b91742ac38e54bdb2e7405ce647cc72" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::cache::BenchListenerRegistration</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchListenerRegistration</name>
+        <qualifiedname>themis::cache::BenchListenerRegistration</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>GATE-CAP-04: Listener registration and unregistration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures overhead of dynamic listener management. Gate: ≤5µs per operation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cache/bench_cache_eviction_coordinator.cpp" line="132" column="13" bodyfile="benchmarks/cache/bench_cache_eviction_coordinator.cpp" bodystart="132" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1a757b0e45224fff892fdb1c7bb78d2e69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::BENCHMARK</definition>
+        <argsstring>(BenchListenerRegistration) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::cache::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchListenerRegistration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cache/bench_cache_eviction_coordinator.cpp" line="145" column="1" declfile="benchmarks/cache/bench_cache_eviction_coordinator.cpp" declline="145" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1aa7eb0af6bf536fcf20effaf424e785da" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::cache::BenchPromotionDecisionLatency</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchPromotionDecisionLatency</name>
+        <qualifiedname>themis::cache::BenchPromotionDecisionLatency</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>GATE-CAP-05: L1→L2 promotion decision latency (via high-access signal). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates detecting high-access eviction and making promotion decision. Gate: ≤50µs for event analysis + decision </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cache/bench_cache_eviction_coordinator.cpp" line="153" column="13" bodyfile="benchmarks/cache/bench_cache_eviction_coordinator.cpp" bodystart="153" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1aaccb5068045f90c378141c7dabcf2cbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::BENCHMARK</definition>
+        <argsstring>(BenchPromotionDecisionLatency) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::cache::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchPromotionDecisionLatency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cache/bench_cache_eviction_coordinator.cpp" line="183" column="1" declfile="benchmarks/cache/bench_cache_eviction_coordinator.cpp" declline="183" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1a4f79709fd4bffdb1aa665b420d6f1e8e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::cache::BenchCacheStorageFeedbackLatency</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchCacheStorageFeedbackLatency</name>
+        <qualifiedname>themis::cache::BenchCacheStorageFeedbackLatency</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>GATE-CAP-06: Cache→storage feedback loop latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures end-to-end latency from cache eviction to storage demotion signal. Gate: ≤100µs </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cache/bench_cache_eviction_coordinator.cpp" line="191" column="13" bodyfile="benchmarks/cache/bench_cache_eviction_coordinator.cpp" bodystart="191" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1a2901ba72014e7e68dcf9d6ee0d4eec51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::BENCHMARK</definition>
+        <argsstring>(BenchCacheStorageFeedbackLatency) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::cache::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchCacheStorageFeedbackLatency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cache/bench_cache_eviction_coordinator.cpp" line="223" column="1" declfile="benchmarks/cache/bench_cache_eviction_coordinator.cpp" declline="223" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/adaptive_ttl_policy.h" line="20" column="1"/>
+  </compounddef>
+</doxygen>

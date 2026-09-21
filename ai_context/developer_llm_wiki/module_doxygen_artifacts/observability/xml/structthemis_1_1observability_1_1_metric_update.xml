@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_metric_update" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::MetricUpdate</compoundname>
+    <includes refid="metrics__stream__server_8h" local="no">metrics_stream_server.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_update_1a2fd9209b3b05a85b83c94fd965aeebfd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricUpdate::metric_name</definition>
+        <argsstring></argsstring>
+        <name>metric_name</name>
+        <qualifiedname>themis::observability::MetricUpdate::metric_name</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name (e.g. &quot;query_latency_ms&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="71" column="17" bodyfile="include/observability/metrics_stream_server.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_update_1ac605647be4b6618aad08f1cef3e722f6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::MetricUpdate::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::observability::MetricUpdate::value</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Observed value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="73" column="12" bodyfile="include/observability/metrics_stream_server.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_update_1ae48444c53001ef79163ad65a43efc086" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::MetricUpdate::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::observability::MetricUpdate::labels</qualifiedname>
+        <briefdescription>
+<para>Optional label set attached to this observation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="75" column="14" bodyfile="include/observability/metrics_stream_server.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_update_1a17a9a021227712732de3868ade69961a" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::MetricUpdate::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::MetricUpdate::timestamp</qualifiedname>
+        <initializer>{
+        std::chrono::system_clock::now()}</initializer>
+        <briefdescription>
+<para>Wall-clock timestamp of the observation (defaults to now). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="77" column="43" bodyfile="include/observability/metrics_stream_server.h" bodystart="77" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single metric observation pushed to the streaming server. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Contains the metric name, its current value, an optional label set, and a wall-clock timestamp. <computeroutput>pushMetrics()</computeroutput> fans this out to all matching subscriptions. </para>
+    </detaileddescription>
+    <location file="include/observability/metrics_stream_server.h" line="69" column="1" bodyfile="include/observability/metrics_stream_server.h" bodystart="69" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_metric_update_1ae48444c53001ef79163ad65a43efc086" prot="public" virt="non-virtual"><scope>themis::observability::MetricUpdate</scope><name>labels</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_update_1a2fd9209b3b05a85b83c94fd965aeebfd" prot="public" virt="non-virtual"><scope>themis::observability::MetricUpdate</scope><name>metric_name</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_update_1a17a9a021227712732de3868ade69961a" prot="public" virt="non-virtual"><scope>themis::observability::MetricUpdate</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_update_1ac605647be4b6618aad08f1cef3e722f6" prot="public" virt="non-virtual"><scope>themis::observability::MetricUpdate</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::WALManager::Statistics</compoundname>
+    <includes refid="wal__manager_8h" local="no">wal_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1a2f028bc06a2feef2c05f6df71f71d59f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WALManager::Statistics::total_entries</definition>
+        <argsstring></argsstring>
+        <name>total_entries</name>
+        <qualifiedname>themis::sharding::WALManager::Statistics::total_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total number of appended WAL entries since process start. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="268" column="14" bodyfile="include/sharding/wal_manager.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1a4b3d8fd1b2eeb5b7b9d18e7cea9a54a4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WALManager::Statistics::total_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_bytes</name>
+        <qualifiedname>themis::sharding::WALManager::Statistics::total_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total number of payload bytes appended since process start. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="270" column="14" bodyfile="include/sharding/wal_manager.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1a038d392fdf55401da6134f073d692878" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WALManager::Statistics::segments</definition>
+        <argsstring></argsstring>
+        <name>segments</name>
+        <qualifiedname>themis::sharding::WALManager::Statistics::segments</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of on-disk segment files currently retained. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="272" column="14" bodyfile="include/sharding/wal_manager.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1a22a877a7c9f99968a6931c0048b40617" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::WALManager::Statistics::current_lsn</definition>
+        <argsstring></argsstring>
+        <name>current_lsn</name>
+        <qualifiedname>themis::sharding::WALManager::Statistics::current_lsn</qualifiedname>
+        <briefdescription>
+<para>Current append cursor (position of next append). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="274" column="9" bodyfile="include/sharding/wal_manager.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1acad26baaec44792c106da5dd33e4833a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::WALManager::Statistics::oldest_lsn</definition>
+        <argsstring></argsstring>
+        <name>oldest_lsn</name>
+        <qualifiedname>themis::sharding::WALManager::Statistics::oldest_lsn</qualifiedname>
+        <briefdescription>
+<para>Oldest retained <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> after retention/truncation cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="276" column="9" bodyfile="include/sharding/wal_manager.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot counters and cursor positions for WAL manager state. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::LSN</label>
+        <link refid="structthemis_1_1sharding_1_1_l_s_n"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::WALManager::Statistics</label>
+        <link refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>current_lsn</edgelabel>
+          <edgelabel>oldest_lsn</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/wal_manager.h" line="266" column="1" bodyfile="include/sharding/wal_manager.h" bodystart="266" bodyend="277"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1a22a877a7c9f99968a6931c0048b40617" prot="public" virt="non-virtual"><scope>themis::sharding::WALManager::Statistics</scope><name>current_lsn</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1acad26baaec44792c106da5dd33e4833a" prot="public" virt="non-virtual"><scope>themis::sharding::WALManager::Statistics</scope><name>oldest_lsn</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1a038d392fdf55401da6134f073d692878" prot="public" virt="non-virtual"><scope>themis::sharding::WALManager::Statistics</scope><name>segments</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1a4b3d8fd1b2eeb5b7b9d18e7cea9a54a4" prot="public" virt="non-virtual"><scope>themis::sharding::WALManager::Statistics</scope><name>total_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_manager_1_1_statistics_1a2f028bc06a2feef2c05f6df71f71d59f" prot="public" virt="non-virtual"><scope>themis::sharding::WALManager::Statistics</scope><name>total_entries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_no_op_audit_log" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::NoOpAuditLog</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log" prot="public" virt="non-virtual">themis::core::concerns::IAuditLog</basecompoundref>
+    <includes refid="noop__implementations_8h" local="no">noop_implementations.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_audit_log_1a151232b5e737ae645b97cff2b39d485d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpAuditLog::record</definition>
+        <argsstring>(const AuditEvent &amp;) noexcept override</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::core::concerns::NoOpAuditLog::record</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1a56ffdfabec07471bd9d3ddcf4a0963c5">record</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1core_1_1concerns_1_1_audit_event" kindref="compound">AuditEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="216" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="216" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_audit_log_1a9715dbea0af41573fd113159c23b22b6" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpAuditLog::flush</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::core::concerns::NoOpAuditLog::flush</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1a06e3357f276d00e6c26ca2affe279461">flush</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="218" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="218" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_audit_log_1a6008a98e45512c4e53d8ab05318c79f0" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpAuditLog::shutdown</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::core::concerns::NoOpAuditLog::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1a6259ba30cf6a331f5a008e2fad43f01b">shutdown</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="219" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="219" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_audit_log_1a3f6dedf3ec9beb8594a37f8e07538391" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::NoOpAuditLog::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::core::concerns::NoOpAuditLog::isHealthy</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1acac1f85564bdbbf1a32b8851e541c5fd">isHealthy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="220" column="17" bodyfile="include/core/concerns/noop_implementations.h" bodystart="220" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>No-op audit log — silently discards all events. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Use in unit tests or builds where compliance audit logging is not needed. All lifecycle hooks are no-ops; <ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_audit_log_1a3f6dedf3ec9beb8594a37f8e07538391" kindref="member">isHealthy()</ref> always returns healthy. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::IAuditLog</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::NoOpAuditLog</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_audit_log"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::IAuditLog</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::NoOpAuditLog</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_audit_log"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/noop_implementations.h" line="214" column="1" bodyfile="include/core/concerns/noop_implementations.h" bodystart="214" bodyend="221"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_audit_log_1a9715dbea0af41573fd113159c23b22b6" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpAuditLog</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_audit_log_1a3f6dedf3ec9beb8594a37f8e07538391" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpAuditLog</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_audit_log_1a151232b5e737ae645b97cff2b39d485d" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpAuditLog</scope><name>record</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_audit_log_1a6008a98e45512c4e53d8ab05318c79f0" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpAuditLog</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log_1acdfe176daf140fec578238b9cd2caeb7" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpAuditLog</scope><name>~IAuditLog</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

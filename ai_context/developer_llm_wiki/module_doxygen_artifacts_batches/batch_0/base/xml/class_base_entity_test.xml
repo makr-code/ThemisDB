@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_base_entity_test" kind="class" language="C++" prot="public">
+    <compoundname>BaseEntityTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_base_entity_test_1ac2c1eee77a4c812999fa888eb5cd37e1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BaseEntityTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>BaseEntityTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="10" column="10" bodyfile="tests/base/test_base_entity.cpp" bodystart="10" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="class_base_entity_test_1a003bf4c4ea66443fa8aeb7b90bdc412f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BaseEntityTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>BaseEntityTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity.cpp" line="14" column="10" bodyfile="tests/base/test_base_entity.cpp" bodystart="14" bodyend="16"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BaseEntityTest</label>
+        <link refid="class_base_entity_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BaseEntityTest</label>
+        <link refid="class_base_entity_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/base/test_base_entity.cpp" line="8" column="1" bodyfile="tests/base/test_base_entity.cpp" bodystart="8" bodyend="17"/>
+    <listofallmembers>
+      <member refid="class_base_entity_test_1ac2c1eee77a4c812999fa888eb5cd37e1" prot="protected" virt="non-virtual"><scope>BaseEntityTest</scope><name>SetUp</name></member>
+      <member refid="class_base_entity_test_1a003bf4c4ea66443fa8aeb7b90bdc412f" prot="protected" virt="non-virtual"><scope>BaseEntityTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

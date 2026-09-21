@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_scheduled_query" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::graph::test::phase3::lbs::ScheduledQuery</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_scheduled_query_1a5aedd6150454916241c4755df3761114" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::graph::test::phase3::lbs::ScheduledQuery::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::ScheduledQuery::id</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2054" column="17" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2054" bodyend="2054"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_scheduled_query_1a0ab6012f1e22f6f2cdeeede8f4cd0b6d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::graph::test::phase3::lbs::ScheduledQuery::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::ScheduledQuery::priority</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+<para>1 = highest, 10 = lowest </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2055" column="17" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2055" bodyend="2055"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_scheduled_query_1aa880a5581560d92df9411a2e8c9dab50" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::graph::test::phase3::lbs::ScheduledQuery::deadline</definition>
+        <argsstring></argsstring>
+        <name>deadline</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::ScheduledQuery::deadline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2056" column="43" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2056" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_scheduled_query_1ae3f9ad3084a73343b24eb87e403ef7ae" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::graph::test::phase3::lbs::ScheduledQuery::operator&gt;</definition>
+        <argsstring>(const ScheduledQuery &amp;o) const</argsstring>
+        <name>operator&gt;</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::ScheduledQuery::operator&gt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_scheduled_query" kindref="compound">ScheduledQuery</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2057" column="10" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2057" bodyend="2063"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Priority query representing a scheduled request. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2053" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2053" bodyend="2064"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_scheduled_query_1aa880a5581560d92df9411a2e8c9dab50" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::ScheduledQuery</scope><name>deadline</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_scheduled_query_1a5aedd6150454916241c4755df3761114" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::ScheduledQuery</scope><name>id</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_scheduled_query_1ae3f9ad3084a73343b24eb87e403ef7ae" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::ScheduledQuery</scope><name>operator&gt;</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_scheduled_query_1a0ab6012f1e22f6f2cdeeede8f4cd0b6d" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::ScheduledQuery</scope><name>priority</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

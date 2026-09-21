@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_s_a_g_a_step" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SAGAStep</compoundname>
+    <includes refid="saga__orchestrator_8h" local="no">saga_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_step_1a783cac28d251df922adcb36d765e9c7c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SAGAStep::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::SAGAStep::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="70" column="17" bodyfile="include/transaction/saga_orchestrator.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_step_1a0f0db9306227a844811282372a3346fa" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>std::function&lt;void()&gt; themis::SAGAStep::forward</definition>
+        <argsstring></argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::SAGAStep::forward</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="72" column="19" bodyfile="include/transaction/saga_orchestrator.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_step_1a1a8948cb8779ad280ebfb561939470e8" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>std::function&lt;void()&gt; themis::SAGAStep::compensate</definition>
+        <argsstring></argsstring>
+        <name>compensate</name>
+        <qualifiedname>themis::SAGAStep::compensate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="74" column="19" bodyfile="include/transaction/saga_orchestrator.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_step_1adb2e7b527acf7b61c8bdaeba39235792" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themis::SAGAStep::depends_on</definition>
+        <argsstring></argsstring>
+        <name>depends_on</name>
+        <qualifiedname>themis::SAGAStep::depends_on</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="76" column="14" bodyfile="include/transaction/saga_orchestrator.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_step_1a7252025bf6f5418049b3b5828be5de3c" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool()&gt;</type>
+        <definition>std::function&lt;bool()&gt; themis::SAGAStep::condition</definition>
+        <argsstring></argsstring>
+        <name>condition</name>
+        <qualifiedname>themis::SAGAStep::condition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="78" column="19" bodyfile="include/transaction/saga_orchestrator.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_step_1afc75bcfd1536d13081f0a1edadf8e94b" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::SAGAStep::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>themis::SAGAStep::timeout</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="80" column="31" bodyfile="include/transaction/saga_orchestrator.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_step_1aa68ba0478e052148a29fe313653449bb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SAGAStep::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::SAGAStep::max_retries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="82" column="12" bodyfile="include/transaction/saga_orchestrator.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_step_1a181e8f804dd6a536a92d602fd82eb01d" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::SAGAStep::retry_delay</definition>
+        <argsstring></argsstring>
+        <name>retry_delay</name>
+        <qualifiedname>themis::SAGAStep::retry_delay</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="84" column="31" bodyfile="include/transaction/saga_orchestrator.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/saga_orchestrator.h" line="69" column="1" bodyfile="include/transaction/saga_orchestrator.h" bodystart="69" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_s_a_g_a_step_1a1a8948cb8779ad280ebfb561939470e8" prot="public" virt="non-virtual"><scope>themis::SAGAStep</scope><name>compensate</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_step_1a7252025bf6f5418049b3b5828be5de3c" prot="public" virt="non-virtual"><scope>themis::SAGAStep</scope><name>condition</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_step_1adb2e7b527acf7b61c8bdaeba39235792" prot="public" virt="non-virtual"><scope>themis::SAGAStep</scope><name>depends_on</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_step_1a0f0db9306227a844811282372a3346fa" prot="public" virt="non-virtual"><scope>themis::SAGAStep</scope><name>forward</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_step_1aa68ba0478e052148a29fe313653449bb" prot="public" virt="non-virtual"><scope>themis::SAGAStep</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_step_1a783cac28d251df922adcb36d765e9c7c" prot="public" virt="non-virtual"><scope>themis::SAGAStep</scope><name>name</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_step_1a181e8f804dd6a536a92d602fd82eb01d" prot="public" virt="non-virtual"><scope>themis::SAGAStep</scope><name>retry_delay</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_step_1afc75bcfd1536d13081f0a1edadf8e94b" prot="public" virt="non-virtual"><scope>themis::SAGAStep</scope><name>timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

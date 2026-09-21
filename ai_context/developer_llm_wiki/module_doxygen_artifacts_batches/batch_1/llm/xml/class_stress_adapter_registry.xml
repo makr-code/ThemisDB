@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stress_adapter_registry" kind="class" language="C++" prot="public">
+    <compoundname>StressAdapterRegistry</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stress_adapter_registry_1a77a78cc8e251c69d34d2a94ac263ac25" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex StressAdapterRegistry::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StressAdapterRegistry::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_highcardinality_stress.cpp" line="79" column="45" bodyfile="tests/llm/test_llm_highcardinality_stress.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stress_adapter_registry_1a641841b63cdd1fd735b5741d40a6daeb" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint32_t, uint32_t &gt;</type>
+        <definition>std::unordered_map&lt;uint32_t, uint32_t&gt; StressAdapterRegistry::ref_counts_</definition>
+        <argsstring></argsstring>
+        <name>ref_counts_</name>
+        <qualifiedname>StressAdapterRegistry::ref_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_highcardinality_stress.cpp" line="80" column="25" bodyfile="tests/llm/test_llm_highcardinality_stress.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stress_adapter_registry_1aaa381354a78a074ffc44b0ea0856fb14" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StressAdapterRegistry::live_count_</definition>
+        <argsstring></argsstring>
+        <name>live_count_</name>
+        <qualifiedname>StressAdapterRegistry::live_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_highcardinality_stress.cpp" line="81" column="35" bodyfile="tests/llm/test_llm_highcardinality_stress.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stress_adapter_registry_1a09ea62bf6f6ea942f37c4d1400e1a6c7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StressAdapterRegistry::load</definition>
+        <argsstring>(uint32_t id)</argsstring>
+        <name>load</name>
+        <qualifiedname>StressAdapterRegistry::load</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_highcardinality_stress.cpp" line="55" column="10" bodyfile="tests/llm/test_llm_highcardinality_stress.cpp" bodystart="55" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_adapter_registry_1a6ea4600fcd0480e8a96b2089eb6a2f45" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StressAdapterRegistry::unload</definition>
+        <argsstring>(uint32_t id)</argsstring>
+        <name>unload</name>
+        <qualifiedname>StressAdapterRegistry::unload</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_highcardinality_stress.cpp" line="63" column="10" bodyfile="tests/llm/test_llm_highcardinality_stress.cpp" bodystart="63" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_adapter_registry_1a9e5f820f78c02c621346ca3df4eaadac" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StressAdapterRegistry::liveCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>liveCount</name>
+        <qualifiedname>StressAdapterRegistry::liveCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_highcardinality_stress.cpp" line="74" column="14" bodyfile="tests/llm/test_llm_highcardinality_stress.cpp" bodystart="74" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_highcardinality_stress.cpp" line="53" column="1" bodyfile="tests/llm/test_llm_highcardinality_stress.cpp" bodystart="53" bodyend="82"/>
+    <listofallmembers>
+      <member refid="class_stress_adapter_registry_1aaa381354a78a074ffc44b0ea0856fb14" prot="private" virt="non-virtual"><scope>StressAdapterRegistry</scope><name>live_count_</name></member>
+      <member refid="class_stress_adapter_registry_1a9e5f820f78c02c621346ca3df4eaadac" prot="public" virt="non-virtual"><scope>StressAdapterRegistry</scope><name>liveCount</name></member>
+      <member refid="class_stress_adapter_registry_1a09ea62bf6f6ea942f37c4d1400e1a6c7" prot="public" virt="non-virtual"><scope>StressAdapterRegistry</scope><name>load</name></member>
+      <member refid="class_stress_adapter_registry_1a77a78cc8e251c69d34d2a94ac263ac25" prot="private" virt="non-virtual"><scope>StressAdapterRegistry</scope><name>mu_</name></member>
+      <member refid="class_stress_adapter_registry_1a641841b63cdd1fd735b5741d40a6daeb" prot="private" virt="non-virtual"><scope>StressAdapterRegistry</scope><name>ref_counts_</name></member>
+      <member refid="class_stress_adapter_registry_1a6ea4600fcd0480e8a96b2089eb6a2f45" prot="public" virt="non-virtual"><scope>StressAdapterRegistry</scope><name>unload</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

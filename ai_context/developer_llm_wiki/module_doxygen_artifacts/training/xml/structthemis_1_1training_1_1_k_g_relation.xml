@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_k_g_relation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::KGRelation</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_k_g_relation_1aae485cb5c757a1962866b64cd54655f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::KGRelation::relation_type</definition>
+        <argsstring></argsstring>
+        <name>relation_type</name>
+        <qualifiedname>themis::training::KGRelation::relation_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="107" column="17" bodyfile="include/training/training_interfaces.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_k_g_relation_1a810df84247567259ddf67a50e00bb885" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::KGRelation::target_entity_key</definition>
+        <argsstring></argsstring>
+        <name>target_entity_key</name>
+        <qualifiedname>themis::training::KGRelation::target_entity_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="108" column="17" bodyfile="include/training/training_interfaces.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_k_g_relation_1a56852cd375a49620251a8d8732c0e6fc" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::KGRelation::weight</definition>
+        <argsstring></argsstring>
+        <name>weight</name>
+        <qualifiedname>themis::training::KGRelation::weight</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="109" column="17" bodyfile="include/training/training_interfaces.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_k_g_relation_1ae5411caca3c598a73c40f60e25b98776" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::KGRelation::KGRelation</definition>
+        <argsstring>()=default</argsstring>
+        <name>KGRelation</name>
+        <qualifiedname>themis::training::KGRelation::KGRelation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="111" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single relation returned by knowledge-graph enrichment. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="106" column="1" bodyfile="include/training/training_interfaces.h" bodystart="106" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_k_g_relation_1ae5411caca3c598a73c40f60e25b98776" prot="public" virt="non-virtual"><scope>themis::training::KGRelation</scope><name>KGRelation</name></member>
+      <member refid="structthemis_1_1training_1_1_k_g_relation_1aae485cb5c757a1962866b64cd54655f0" prot="public" virt="non-virtual"><scope>themis::training::KGRelation</scope><name>relation_type</name></member>
+      <member refid="structthemis_1_1training_1_1_k_g_relation_1a810df84247567259ddf67a50e00bb885" prot="public" virt="non-virtual"><scope>themis::training::KGRelation</scope><name>target_entity_key</name></member>
+      <member refid="structthemis_1_1training_1_1_k_g_relation_1a56852cd375a49620251a8d8732c0e6fc" prot="public" virt="non-virtual"><scope>themis::training::KGRelation</scope><name>weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

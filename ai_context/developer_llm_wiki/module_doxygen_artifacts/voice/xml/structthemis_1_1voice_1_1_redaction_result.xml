@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_redaction_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::RedactionResult</compoundname>
+    <includes refid="voice__security_8h" local="no">voice_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_redaction_result_1a06d4d11fdc343077e194db6833560f06" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::RedactionResult::redacted_text</definition>
+        <argsstring></argsstring>
+        <name>redacted_text</name>
+        <qualifiedname>themis::voice::RedactionResult::redacted_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="95" column="17" bodyfile="include/voice/voice_security.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_redaction_result_1ad014234d893a840310c0e25b3858d265" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; <ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827" kindref="member">PIIType</ref>, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;PIIType, std::string&gt; &gt; themis::voice::RedactionResult::found_pii</definition>
+        <argsstring></argsstring>
+        <name>found_pii</name>
+        <qualifiedname>themis::voice::RedactionResult::found_pii</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="96" column="17" bodyfile="include/voice/voice_security.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_redaction_result_1a1d7f76e91ddb85cbbf7f63be1dbce159" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::RedactionResult::redaction_count</definition>
+        <argsstring></argsstring>
+        <name>redaction_count</name>
+        <qualifiedname>themis::voice::RedactionResult::redaction_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="97" column="9" bodyfile="include/voice/voice_security.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_redaction_result_1a3bf71599332f7883da604a482fb7d1c8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::RedactionResult::has_pii</definition>
+        <argsstring></argsstring>
+        <name>has_pii</name>
+        <qualifiedname>themis::voice::RedactionResult::has_pii</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="98" column="10" bodyfile="include/voice/voice_security.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_security.h" line="94" column="1" bodyfile="include/voice/voice_security.h" bodystart="94" bodyend="99"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_redaction_result_1ad014234d893a840310c0e25b3858d265" prot="public" virt="non-virtual"><scope>themis::voice::RedactionResult</scope><name>found_pii</name></member>
+      <member refid="structthemis_1_1voice_1_1_redaction_result_1a3bf71599332f7883da604a482fb7d1c8" prot="public" virt="non-virtual"><scope>themis::voice::RedactionResult</scope><name>has_pii</name></member>
+      <member refid="structthemis_1_1voice_1_1_redaction_result_1a06d4d11fdc343077e194db6833560f06" prot="public" virt="non-virtual"><scope>themis::voice::RedactionResult</scope><name>redacted_text</name></member>
+      <member refid="structthemis_1_1voice_1_1_redaction_result_1a1d7f76e91ddb85cbbf7f63be1dbce159" prot="public" virt="non-virtual"><scope>themis::voice::RedactionResult</scope><name>redaction_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

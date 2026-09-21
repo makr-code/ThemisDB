@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacegpu__gates" kind="namespace" language="C++">
+    <compoundname>gpu_gates</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacegpu__gates_1a62c813b1a2ba66746d1bd0a1bf1d2caa" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gpu_gates::GPU_FORWARD_PASS_US</definition>
+        <argsstring></argsstring>
+        <name>GPU_FORWARD_PASS_US</name>
+        <qualifiedname>gpu_gates::GPU_FORWARD_PASS_US</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_training_cycle.cpp" line="15" column="22" bodyfile="benchmarks/gpu/bench_gpu_training_cycle.cpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegpu__gates_1adc2d166735faa8cdcb4f3c503232a490" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gpu_gates::GPU_BACKWARD_PASS_US</definition>
+        <argsstring></argsstring>
+        <name>GPU_BACKWARD_PASS_US</name>
+        <qualifiedname>gpu_gates::GPU_BACKWARD_PASS_US</qualifiedname>
+        <initializer>= 300.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_training_cycle.cpp" line="16" column="22" bodyfile="benchmarks/gpu/bench_gpu_training_cycle.cpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegpu__gates_1a34b24f660f550cd7918ede9942fa0ac2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gpu_gates::GPU_MEMORY_CLEANUP_MS</definition>
+        <argsstring></argsstring>
+        <name>GPU_MEMORY_CLEANUP_MS</name>
+        <qualifiedname>gpu_gates::GPU_MEMORY_CLEANUP_MS</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_training_cycle.cpp" line="17" column="22" bodyfile="benchmarks/gpu/bench_gpu_training_cycle.cpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegpu__gates_1aa944ea82228ad295c146cb4aa771a677" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gpu_gates::GPU_TO_CPU_TRANSFER_MS</definition>
+        <argsstring></argsstring>
+        <name>GPU_TO_CPU_TRANSFER_MS</name>
+        <qualifiedname>gpu_gates::GPU_TO_CPU_TRANSFER_MS</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_training_cycle.cpp" line="18" column="22" bodyfile="benchmarks/gpu/bench_gpu_training_cycle.cpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegpu__gates_1a610a64b3d2a14d18bb15def834cde6b8" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gpu_gates::MIN_GPU_SPEEDUP</definition>
+        <argsstring></argsstring>
+        <name>MIN_GPU_SPEEDUP</name>
+        <qualifiedname>gpu_gates::MIN_GPU_SPEEDUP</qualifiedname>
+        <initializer>= 1.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_training_cycle.cpp" line="21" column="22" bodyfile="benchmarks/gpu/bench_gpu_training_cycle.cpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegpu__gates_1a1ba1869d4252941f033316cd6e915e85" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gpu_gates::GPU_MEMORY_REGRESSION_TOLERANCE_PCT</definition>
+        <argsstring></argsstring>
+        <name>GPU_MEMORY_REGRESSION_TOLERANCE_PCT</name>
+        <qualifiedname>gpu_gates::GPU_MEMORY_REGRESSION_TOLERANCE_PCT</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_training_cycle.cpp" line="24" column="22" bodyfile="benchmarks/gpu/bench_gpu_training_cycle.cpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacegpu__gates_1af11d460a438fe829f0f4dd00004e4df6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void gpu_gates::report_gate_violation</definition>
+        <argsstring>(const std::string &amp;gate_name, double measured_ms, double gate_ms)</argsstring>
+        <name>report_gate_violation</name>
+        <qualifiedname>gpu_gates::report_gate_violation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>gate_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>measured_ms</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>gate_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_training_cycle.cpp" line="27" column="17" bodyfile="benchmarks/gpu/bench_gpu_training_cycle.cpp" bodystart="27" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacegpu__gates_1a7fc1318db54f69a2fb7b2387ba6bcccc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void gpu_gates::report_speedup_violation</definition>
+        <argsstring>(const std::string &amp;test_name, double speedup_factor)</argsstring>
+        <name>report_speedup_violation</name>
+        <qualifiedname>gpu_gates::report_speedup_violation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>speedup_factor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_training_cycle.cpp" line="37" column="17" bodyfile="benchmarks/gpu/bench_gpu_training_cycle.cpp" bodystart="37" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/gpu/bench_gpu_training_cycle.cpp" line="13" column="1"/>
+  </compounddef>
+</doxygen>

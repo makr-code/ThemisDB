@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_modular_r_a_g_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::ModularRAGContext</compoundname>
+    <includes refid="modular__rag__pipeline_8h" local="no">modular_rag_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_modular_r_a_g_context_1a0a38bea57e3ad3b6b8d9d32ec36234f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::ModularRAGContext::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::rag::ModularRAGContext::query</qualifiedname>
+        <briefdescription>
+<para>Original user query text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="153" column="17" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_modular_r_a_g_context_1aba43171eacab48575176896d510b1123" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::ModularRAGContext::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::rag::ModularRAGContext::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Tenant identifier for isolation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="154" column="17" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_modular_r_a_g_context_1a4395c4c082bc9cf2981ceb4342878a3f" prot="public" static="no" mutable="no">
+        <type>llm::LLMCorrelationContext</type>
+        <definition>llm::LLMCorrelationContext themis::rag::ModularRAGContext::correlation</definition>
+        <argsstring></argsstring>
+        <name>correlation</name>
+        <qualifiedname>themis::rag::ModularRAGContext::correlation</qualifiedname>
+        <briefdescription>
+<para>W3C trace context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="155" column="32" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_modular_r_a_g_context_1ae1b78334e38194528f6ca2e095cf6c67" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::ModularRAGContext::max_candidates</definition>
+        <argsstring></argsstring>
+        <name>max_candidates</name>
+        <qualifiedname>themis::rag::ModularRAGContext::max_candidates</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>Maximum candidates after Retrieve. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="158" column="17" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_modular_r_a_g_context_1ac2a31b1cf17ad90a772549e3513ec794" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::ModularRAGContext::top_k_after_rerank</definition>
+        <argsstring></argsstring>
+        <name>top_k_after_rerank</name>
+        <qualifiedname>themis::rag::ModularRAGContext::top_k_after_rerank</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Candidates forwarded past Rerank. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="159" column="17" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_modular_r_a_g_context_1a1aba69b02bfe44f33033376e56091d97" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::ModularRAGContext::max_context_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_context_tokens</name>
+        <qualifiedname>themis::rag::ModularRAGContext::max_context_tokens</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Hard cap for Assemble. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="162" column="17" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_modular_r_a_g_context_1afb0e55350c2387822241e39f8727fc7e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::ModularRAGContext::provenance_chain</definition>
+        <argsstring></argsstring>
+        <name>provenance_chain</name>
+        <qualifiedname>themis::rag::ModularRAGContext::provenance_chain</qualifiedname>
+        <briefdescription>
+<para>Ordered list of source annotations from each stage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="166" column="17" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_modular_r_a_g_context_1a89f59e7b6a4d1fd56f3571ef8a3cd34f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_r_a_g_candidate" kindref="compound">RAGCandidate</ref> &gt;</type>
+        <definition>std::vector&lt;RAGCandidate&gt; themis::rag::ModularRAGContext::candidates</definition>
+        <argsstring></argsstring>
+        <name>candidates</name>
+        <qualifiedname>themis::rag::ModularRAGContext::candidates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="169" column="17" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_modular_r_a_g_context_1a707e3e75e8b141d4ffb09136584ae589" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::rag::ModularRAGContext::assembled_prompt</definition>
+        <argsstring></argsstring>
+        <name>assembled_prompt</name>
+        <qualifiedname>themis::rag::ModularRAGContext::assembled_prompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="170" column="19" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_modular_r_a_g_context_1ae9fa9f6aabc0d8d6abd00738a9e0cc5a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; llm::InferenceResponse &gt;</type>
+        <definition>std::optional&lt;llm::InferenceResponse&gt; themis::rag::ModularRAGContext::inference_response</definition>
+        <argsstring></argsstring>
+        <name>inference_response</name>
+        <qualifiedname>themis::rag::ModularRAGContext::inference_response</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="171" column="19" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_modular_r_a_g_context_1a9d61977dd69ab0f9c8c1797e5326212f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_stage_result" kindref="compound">StageResult</ref> &gt;</type>
+        <definition>std::vector&lt;StageResult&gt; themis::rag::ModularRAGContext::stage_results</definition>
+        <argsstring></argsstring>
+        <name>stage_results</name>
+        <qualifiedname>themis::rag::ModularRAGContext::stage_results</qualifiedname>
+        <briefdescription>
+<para>One entry per executed stage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="174" column="17" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_modular_r_a_g_context_1ade431674a6bced74067aa2cd7bf0a050" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::rag::ModularRAGContext::pipeline_start</definition>
+        <argsstring></argsstring>
+        <name>pipeline_start</name>
+        <qualifiedname>themis::rag::ModularRAGContext::pipeline_start</qualifiedname>
+        <initializer>{
+        std::chrono::steady_clock::now()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="175" column="43" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="175" bodyend="176"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_modular_r_a_g_context_1a25a45898e7bd3b67fab5673536d7f4e7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::rag::ModularRAGContext::totalElapsed</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalElapsed</name>
+        <qualifiedname>themis::rag::ModularRAGContext::totalElapsed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Total elapsed time since pipeline_start. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="181" column="32" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="181" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_modular_r_a_g_context_1aa98d2ca55ed3b1c66ee2cd1afe1219ae" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::ModularRAGContext::addProvenance</definition>
+        <argsstring>(RAGStageId stage, std::string note)</argsstring>
+        <name>addProvenance</name>
+        <qualifiedname>themis::rag::ModularRAGContext::addProvenance</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1ab3688ecbd60d48b60c831770c3d42b85" kindref="member">RAGStageId</ref></type>
+          <declname>stage</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>note</declname>
+        </param>
+        <briefdescription>
+<para>Append a provenance annotation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Stage that produced this annotation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>note</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Short human-readable note. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="191" column="10" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="191" bodyend="194"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Accumulated state for a single pipeline invocation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Passed by reference to each stage handler. Stages READ the current state and WRITE their output into the appropriate fields. </para>
+    </detaileddescription>
+    <location file="include/rag/modular_rag_pipeline.h" line="151" column="1" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="151" bodyend="195"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_modular_r_a_g_context_1aa98d2ca55ed3b1c66ee2cd1afe1219ae" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGContext</scope><name>addProvenance</name></member>
+      <member refid="structthemis_1_1rag_1_1_modular_r_a_g_context_1a707e3e75e8b141d4ffb09136584ae589" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGContext</scope><name>assembled_prompt</name></member>
+      <member refid="structthemis_1_1rag_1_1_modular_r_a_g_context_1a89f59e7b6a4d1fd56f3571ef8a3cd34f" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGContext</scope><name>candidates</name></member>
+      <member refid="structthemis_1_1rag_1_1_modular_r_a_g_context_1a4395c4c082bc9cf2981ceb4342878a3f" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGContext</scope><name>correlation</name></member>
+      <member refid="structthemis_1_1rag_1_1_modular_r_a_g_context_1ae9fa9f6aabc0d8d6abd00738a9e0cc5a" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGContext</scope><name>inference_response</name></member>
+      <member refid="structthemis_1_1rag_1_1_modular_r_a_g_context_1ae1b78334e38194528f6ca2e095cf6c67" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGContext</scope><name>max_candidates</name></member>
+      <member refid="structthemis_1_1rag_1_1_modular_r_a_g_context_1a1aba69b02bfe44f33033376e56091d97" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGContext</scope><name>max_context_tokens</name></member>
+      <member refid="structthemis_1_1rag_1_1_modular_r_a_g_context_1ade431674a6bced74067aa2cd7bf0a050" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGContext</scope><name>pipeline_start</name></member>
+      <member refid="structthemis_1_1rag_1_1_modular_r_a_g_context_1afb0e55350c2387822241e39f8727fc7e" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGContext</scope><name>provenance_chain</name></member>
+      <member refid="structthemis_1_1rag_1_1_modular_r_a_g_context_1a0a38bea57e3ad3b6b8d9d32ec36234f2" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGContext</scope><name>query</name></member>
+      <member refid="structthemis_1_1rag_1_1_modular_r_a_g_context_1a9d61977dd69ab0f9c8c1797e5326212f" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGContext</scope><name>stage_results</name></member>
+      <member refid="structthemis_1_1rag_1_1_modular_r_a_g_context_1aba43171eacab48575176896d510b1123" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGContext</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_modular_r_a_g_context_1ac2a31b1cf17ad90a772549e3513ec794" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGContext</scope><name>top_k_after_rerank</name></member>
+      <member refid="structthemis_1_1rag_1_1_modular_r_a_g_context_1a25a45898e7bd3b67fab5673536d7f4e7" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGContext</scope><name>totalElapsed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

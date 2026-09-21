@@ -1,0 +1,728 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_training_pipeline" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::TrainingPipeline</compoundname>
+    <includes refid="training__pipeline_8h" local="no">training_pipeline.h</includes>
+    <innerclass refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl" prot="public">themis::training::TrainingPipeline::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_pipeline_1a7efd0ae598f5202932896ed70036072f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::training::TrainingPipeline::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::training::TrainingPipeline::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="481" column="21" bodyfile="include/training/training_pipeline.h" bodystart="481" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1a27aef71859bc7e506894af1ea7ebcd4c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::TrainingPipeline::sanitizeCallbackMessage</definition>
+        <argsstring>(const std::string &amp;message)</argsstring>
+        <name>sanitizeCallbackMessage</name>
+        <qualifiedname>themis::training::TrainingPipeline::sanitizeCallbackMessage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize a pipeline callback/progress message with the shared prompt-safety policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sanitize Callback Message.</para>
+<para>The returned string is safe to emit through telemetry, logs, or external callback sinks:<itemizedlist>
+<listitem><para>blocked prompt-injection patterns are fail-closed to a constant marker</para>
+</listitem><listitem><para>allowed payloads are returned with control-token redaction applied</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw callback/progress message. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Sanitized callback message suitable for downstream emission.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: sanitizeTrainingPipelineMessage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="334" column="24" bodyfile="src/training/training_pipeline.cpp" bodystart="695" bodyend="697"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1a35731da818fd8a287d7e0784b6e279ac" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::TrainingPipeline::TrainingPipeline</definition>
+        <argsstring>(const PipelineConfig &amp;config, const std::string &amp;db_connection)</argsstring>
+        <name>TrainingPipeline</name>
+        <qualifiedname>themis::training::TrainingPipeline::TrainingPipeline</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_pipeline_config" kindref="compound">PipelineConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>db_connection</declname>
+        </param>
+        <briefdescription>
+<para>Construct pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pipeline configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>db_connection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Database connection string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="341" column="14" bodyfile="src/training/training_pipeline.cpp" bodystart="673" bodyend="675"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1af5e5224f7f5710d1ab84e0ea096e241a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::TrainingPipeline::~TrainingPipeline</definition>
+        <argsstring>()</argsstring>
+        <name>~TrainingPipeline</name>
+        <qualifiedname>themis::training::TrainingPipeline::~TrainingPipeline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="344" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1a7988d98bdaa9ed415d087f97edbbf2a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::TrainingPipeline::TrainingPipeline</definition>
+        <argsstring>(const TrainingPipeline &amp;)=delete</argsstring>
+        <name>TrainingPipeline</name>
+        <qualifiedname>themis::training::TrainingPipeline::TrainingPipeline</qualifiedname>
+        <param>
+          <type>const TrainingPipeline &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="347" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1a3b9d6532efa223b5e7a37c9881a6c453" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1training_1_1_training_pipeline_1a35731da818fd8a287d7e0784b6e279ac" kindref="member">TrainingPipeline</ref> &amp;</type>
+        <definition>TrainingPipeline &amp; themis::training::TrainingPipeline::operator=</definition>
+        <argsstring>(const TrainingPipeline &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::training::TrainingPipeline::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1training_1_1_training_pipeline_1a35731da818fd8a287d7e0784b6e279ac" kindref="member">TrainingPipeline</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="348" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1a695c7c973bd85123379591688be3ac16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_pipeline_stats" kindref="compound">PipelineStats</ref></type>
+        <definition>PipelineStats themis::training::TrainingPipeline::run</definition>
+        <argsstring>(PipelineCallback callback=nullptr)</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::training::TrainingPipeline::run</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a6b72290fe0e22756fdaaf857c0315ee9" kindref="member">PipelineCallback</ref></type>
+          <declname>callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Execute the full training pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional per-stage progress callback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aggregated pipeline statistics</para>
+</simplesect>
+<simplesect kind="note"><para>Fail-closed guards (QW-40): Validates critical inputs before execution:<itemizedlist>
+<listitem><para>target_collection non-empty (prompt injection prevention)</para>
+</listitem><listitem><para>drift_threshold in valid range [0, 1] (prevent invalid LLM queries)</para>
+</listitem><listitem><para>data_selection collection_name non-empty (prevent injection) If any guard fails, returns error_message in stats and avoids LLM calls.</para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements run without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="361" column="19" bodyfile="src/training/training_pipeline.cpp" bodystart="685" bodyend="687"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1a83e0e93ab18addcf96ae1aa218a7e06b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_labeling_stats" kindref="compound">LabelingStats</ref></type>
+        <definition>LabelingStats themis::training::TrainingPipeline::runLabeling</definition>
+        <argsstring>(LabelingCallback callback=nullptr)</argsstring>
+        <name>runLabeling</name>
+        <qualifiedname>themis::training::TrainingPipeline::runLabeling</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1aa74730bdbe99bcd1d8f3268982e72465" kindref="member">LabelingCallback</ref></type>
+          <declname>callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Run only the auto-labeling stage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Labeling.</para>
+<para>Callback messages are sanitized via the shared prompt-safety policy before emission.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements runLabeling without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="369" column="19" bodyfile="src/training/training_pipeline.cpp" bodystart="705" bodyend="707"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1aeaa4bed926d4a9471812c5cd15fc921a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_enrichment_stats" kindref="compound">EnrichmentStats</ref></type>
+        <definition>EnrichmentStats themis::training::TrainingPipeline::runEnrichment</definition>
+        <argsstring>(EnrichmentCallback callback=nullptr)</argsstring>
+        <name>runEnrichment</name>
+        <qualifiedname>themis::training::TrainingPipeline::runEnrichment</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a4bbbc514a6d2387b8fb13ce2854cf50e" kindref="member">EnrichmentCallback</ref></type>
+          <declname>callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Run only the enrichment stage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Enrichment.</para>
+<para>Callback messages are sanitized via the shared prompt-safety policy before emission.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements runEnrichment without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="377" column="21" bodyfile="src/training/training_pipeline.cpp" bodystart="715" bodyend="717"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1a41aa41e71df5fcbb3ecfa1ca49594fdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_data_selection_result" kindref="compound">DataSelectionResult</ref></type>
+        <definition>DataSelectionResult themis::training::TrainingPipeline::runDataSelection</definition>
+        <argsstring>(SelectionProgressCallback callback=nullptr)</argsstring>
+        <name>runDataSelection</name>
+        <qualifiedname>themis::training::TrainingPipeline::runDataSelection</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1ab62c68864316cf850af982b4c5370ee3" kindref="member">SelectionProgressCallback</ref></type>
+          <declname>callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Run only the automated data selection stage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Data Selection.</para>
+<para>Executes all five selection sub-stages (quality filter, deduplication, clustering, scoring, curriculum sampling) on the current training collection and returns the selection result with audit entry.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional per-stage progress callback. Emitted messages are sanitized via the shared prompt-safety policy before callback invocation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Selection result including selected samples and provenance.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="391" column="25" bodyfile="src/training/training_pipeline.cpp" bodystart="725" bodyend="728"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1a9feef68a067c43deb4a9b8bad83ffe83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_training_result" kindref="compound">TrainingResult</ref></type>
+        <definition>TrainingResult themis::training::TrainingPipeline::runTraining</definition>
+        <argsstring>(TrainingCallback callback=nullptr)</argsstring>
+        <name>runTraining</name>
+        <qualifiedname>themis::training::TrainingPipeline::runTraining</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1aef71c1e7bfba4652c7ba87452e1d4f9a" kindref="member">TrainingCallback</ref></type>
+          <declname>callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Run only the training stage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Training.</para>
+<para>Callback messages are sanitized via the shared prompt-safety policy before emission.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements runTraining without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="400" column="20" bodyfile="src/training/training_pipeline.cpp" bodystart="736" bodyend="738"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1ac4b9c75362df8fd62180b64c37cd4467" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_calibration_result" kindref="compound">CalibrationResult</ref></type>
+        <definition>CalibrationResult themis::training::TrainingPipeline::runCalibration</definition>
+        <argsstring>()</argsstring>
+        <name>runCalibration</name>
+        <qualifiedname>themis::training::TrainingPipeline::runCalibration</qualifiedname>
+        <briefdescription>
+<para>Run the confidence calibration stage and persist the result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Calibration.</para>
+<para>Executes <computeroutput><ref refid="classthemis_1_1training_1_1_confidence_calibrator_1a5b94985c22d3e1ab1149d12060ad3f27" kindref="member">ConfidenceCalibrator::calibrate()</ref></computeroutput> on any accumulated per-sample (confidence, correct) pairs and, when <computeroutput>enable_checkpoint_manager</computeroutput> is true, writes a <computeroutput>calibration_manifest.json</computeroutput> to the checkpoint directory via <computeroutput><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kindref="compound">LoRACheckpointManager</ref></computeroutput>.</para>
+<para><simplesect kind="return"><para>Calibration result with per-category thresholds.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements runCalibration without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="412" column="23" bodyfile="src/training/training_pipeline.cpp" bodystart="745" bodyend="747"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1ac57bb162ad2eca62a578b2d31d3d2db7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::TrainingPipeline::addCalibrationSample</definition>
+        <argsstring>(const std::string &amp;category, float confidence, bool model_correct)</argsstring>
+        <name>addCalibrationSample</name>
+        <qualifiedname>themis::training::TrainingPipeline::addCalibrationSample</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>confidence</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>model_correct</declname>
+        </param>
+        <briefdescription>
+<para>Feed a per-sample validation pair to the internal calibrator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Calibration Sample.</para>
+<para>Should be called once per sample after the validation loop in <computeroutput><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer" kindref="compound">IncrementalLoRATrainer</ref></computeroutput> to accumulate data for <computeroutput><ref refid="classthemis_1_1training_1_1_training_pipeline_1ac4b9c75362df8fd62180b64c37cd4467" kindref="member">runCalibration()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Legal category of the sample. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model confidence score in [0, 1]. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>model_correct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the model produced the correct label.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_correct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements addCalibrationSample without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="424" column="10" bodyfile="src/training/training_pipeline.cpp" bodystart="756" bodyend="760"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1acc8cb7e688ad085f482d5d293825cf49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_data_quality_report" kindref="compound">DataQualityReport</ref></type>
+        <definition>DataQualityReport themis::training::TrainingPipeline::checkDataQuality</definition>
+        <argsstring>(float min_confidence=0.5f)</argsstring>
+        <name>checkDataQuality</name>
+        <qualifiedname>themis::training::TrainingPipeline::checkDataQuality</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>min_confidence</declname>
+          <defval>0.5f</defval>
+        </param>
+        <briefdescription>
+<para>Perform data-quality checks on the training collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Data Quality.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>min_confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum acceptable sample confidence </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Data quality report</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">min_confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements checkDataQuality without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="433" column="23" bodyfile="src/training/training_pipeline.cpp" bodystart="768" bodyend="770"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1ad72788ee4520d03c61f3b741a3c7ab00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_drift_report" kindref="compound">DriftReport</ref></type>
+        <definition>DriftReport themis::training::TrainingPipeline::detectLabelDrift</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;reference_samples={})</argsstring>
+        <name>detectLabelDrift</name>
+        <qualifiedname>themis::training::TrainingPipeline::detectLabelDrift</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>reference_samples</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Detect label drift between training samples and new data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect Label Drift.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reference_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Baseline sample IDs for comparison </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Drift detection report</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reference_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements detectLabelDrift without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="440" column="17" bodyfile="src/training/training_pipeline.cpp" bodystart="778" bodyend="780"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1a716349df1b00ea5c81a36c2d88b0dcf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::TrainingPipeline::scheduleRetraining</definition>
+        <argsstring>(size_t interval_hours, PipelineCallback callback=nullptr)</argsstring>
+        <name>scheduleRetraining</name>
+        <qualifiedname>themis::training::TrainingPipeline::scheduleRetraining</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>interval_hours</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a6b72290fe0e22756fdaaf857c0315ee9" kindref="member">PipelineCallback</ref></type>
+          <declname>callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Schedule automated retraining at a fixed interval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Schedule Retraining.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>interval_hours</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How often to retrain (in hours) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional per-run callback</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">interval_hours</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements scheduleRetraining without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="447" column="10" bodyfile="src/training/training_pipeline.cpp" bodystart="788" bodyend="790"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1a90dfb6e4773b5b168ee59abc3a01ad98" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_pipeline_stats" kindref="compound">PipelineStats</ref></type>
+        <definition>PipelineStats themis::training::TrainingPipeline::getLastStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastStats</name>
+        <qualifiedname>themis::training::TrainingPipeline::getLastStats</qualifiedname>
+        <briefdescription>
+<para>Get the last pipeline execution statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="453" column="19" bodyfile="src/training/training_pipeline.cpp" bodystart="792" bodyend="794"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1a7de295e6cb0560546be8c1a2a33204f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_hyperparam_result" kindref="compound">HyperparamResult</ref></type>
+        <definition>HyperparamResult themis::training::TrainingPipeline::runHyperparamSearch</definition>
+        <argsstring>(const HyperparamSearchConfig &amp;config, HyperparamSearchCallback callback=nullptr)</argsstring>
+        <name>runHyperparamSearch</name>
+        <qualifiedname>themis::training::TrainingPipeline::runHyperparamSearch</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_hyperparam_search_config" kindref="compound">HyperparamSearchConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a6ede5cf06216649fc11faae8420b3dec" kindref="member">HyperparamSearchCallback</ref></type>
+          <declname>callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Run an automated hyperparameter search over rank × lr combinations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Hyperparam Search.</para>
+<para>Generates the Cartesian product of <computeroutput>config.rank_candidates</computeroutput> and <computeroutput>config.lr_candidates</computeroutput>, shuffles the trial list with <computeroutput>config.seed</computeroutput> for deterministic ordering, then executes up to <computeroutput>config.max_trials</computeroutput> trials. Each trial clones the pipeline&apos;s trainer config with the trial&apos;s rank and learning rate and runs a single-pass training simulation.</para>
+<para>When <computeroutput>config.budget_seconds &gt; 0</computeroutput> the search stops early once the wall-clock budget is exceeded and returns the best result seen so far.</para>
+<para>On success, the best (rank, lr) pair is automatically applied to the pipeline&apos;s internal trainer configuration so subsequent calls to <computeroutput><ref refid="classthemis_1_1training_1_1_training_pipeline_1a695c7c973bd85123379591688be3ac16" kindref="member">run()</ref></computeroutput> or <computeroutput><ref refid="classthemis_1_1training_1_1_training_pipeline_1a9feef68a067c43deb4a9b8bad83ffe83" kindref="member">runTraining()</ref></computeroutput> use the optimised hyperparameters.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Search configuration (candidates, budget, seed). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional per-trial callback. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Search result with best rank, lr, val_loss, and trial log.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="475" column="22" bodyfile="src/training/training_pipeline.cpp" bodystart="803" bodyend="807"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>End-to-end training pipeline orchestrator (Phase 7). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Coordinates all training stages: Stage 1 – Auto-Labeling: label raw legal documents → training samples Stage 2 – Graph Enrichment: add knowledge-graph context to samples Stage 3 – Data Quality: validate sample quality, detect drift Stage 4 – LoRA Training: fine-tune LoRA adapter on enriched samples</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal">PipelineConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.labeler_config.source_collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;legal_documents&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.trainer_config.num_epochs<sp/>=<sp/>3;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1training_1_1_training_pipeline_1a35731da818fd8a287d7e0784b6e279ac" kindref="member">TrainingPipeline</ref><sp/>pipeline(cfg,<sp/></highlight><highlight class="stringliteral">&quot;arango://localhost:8529&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>pipeline.run();</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Adapter<sp/>version:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>stats.adapter_version<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/training/training_pipeline.h" line="320" column="1" bodyfile="include/training/training_pipeline.h" bodystart="320" bodyend="482"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1ac57bb162ad2eca62a578b2d31d3d2db7" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>addCalibrationSample</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1acc8cb7e688ad085f482d5d293825cf49" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>checkDataQuality</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1ad72788ee4520d03c61f3b741a3c7ab00" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>detectLabelDrift</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1a90dfb6e4773b5b168ee59abc3a01ad98" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>getLastStats</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1a7efd0ae598f5202932896ed70036072f" prot="private" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1a3b9d6532efa223b5e7a37c9881a6c453" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1a695c7c973bd85123379591688be3ac16" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>run</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1ac4b9c75362df8fd62180b64c37cd4467" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>runCalibration</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1a41aa41e71df5fcbb3ecfa1ca49594fdf" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>runDataSelection</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1aeaa4bed926d4a9471812c5cd15fc921a" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>runEnrichment</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1a7de295e6cb0560546be8c1a2a33204f9" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>runHyperparamSearch</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1a83e0e93ab18addcf96ae1aa218a7e06b" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>runLabeling</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1a9feef68a067c43deb4a9b8bad83ffe83" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>runTraining</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1a27aef71859bc7e506894af1ea7ebcd4c" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>sanitizeCallbackMessage</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1a716349df1b00ea5c81a36c2d88b0dcf4" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>scheduleRetraining</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1a35731da818fd8a287d7e0784b6e279ac" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>TrainingPipeline</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1a7988d98bdaa9ed415d087f97edbbf2a2" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>TrainingPipeline</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1af5e5224f7f5710d1ab84e0ea096e241a" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline</scope><name>~TrainingPipeline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

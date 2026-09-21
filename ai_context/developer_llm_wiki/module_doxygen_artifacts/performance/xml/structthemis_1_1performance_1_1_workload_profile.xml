@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_workload_profile" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::WorkloadProfile</compoundname>
+    <includes refid="workload__adaptive__optimizer_8h" local="no">workload_adaptive_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_profile_1adb21fad0018d647ef9e6ce54933d07c9" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1performance_1aecb65b69acb8cebd5d5bba70b9b22a10" kindref="member">WorkloadType</ref></type>
+        <definition>WorkloadType themis::performance::WorkloadProfile::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::performance::WorkloadProfile::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1performance_1aecb65b69acb8cebd5d5bba70b9b22a10a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">WorkloadType::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="52" column="18" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_profile_1a1956d7b467dae7ee7e3958f8f2801141" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::WorkloadProfile::read_write_ratio</definition>
+        <argsstring></argsstring>
+        <name>read_write_ratio</name>
+        <qualifiedname>themis::performance::WorkloadProfile::read_write_ratio</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>reads / (reads + writes) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="53" column="18" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_profile_1ad812b06b94000b52a05c2173613943bd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::WorkloadProfile::avg_query_complexity</definition>
+        <argsstring></argsstring>
+        <name>avg_query_complexity</name>
+        <qualifiedname>themis::performance::WorkloadProfile::avg_query_complexity</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>relative units [1..10] </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="54" column="18" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_profile_1abe6e7050bc6b563865b8bb6b65dbf771" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::WorkloadProfile::avg_result_size</definition>
+        <argsstring></argsstring>
+        <name>avg_result_size</name>
+        <qualifiedname>themis::performance::WorkloadProfile::avg_result_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>rows </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="55" column="18" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_profile_1a60ce06bae3bb511adb27a2e8b15f3a7e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::WorkloadProfile::concurrent_queries</definition>
+        <argsstring></argsstring>
+        <name>concurrent_queries</name>
+        <qualifiedname>themis::performance::WorkloadProfile::concurrent_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="56" column="18" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_profile_1a9b93086ecca3e03d30e870ba7a0e228b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::performance::WorkloadProfile::hot_tables</definition>
+        <argsstring></argsstring>
+        <name>hot_tables</name>
+        <qualifiedname>themis::performance::WorkloadProfile::hot_tables</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="57" column="17" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot of runtime workload characteristics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/workload_adaptive_optimizer.h" line="51" column="1" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="51" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_workload_profile_1ad812b06b94000b52a05c2173613943bd" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadProfile</scope><name>avg_query_complexity</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_profile_1abe6e7050bc6b563865b8bb6b65dbf771" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadProfile</scope><name>avg_result_size</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_profile_1a60ce06bae3bb511adb27a2e8b15f3a7e" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadProfile</scope><name>concurrent_queries</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_profile_1a9b93086ecca3e03d30e870ba7a0e228b" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadProfile</scope><name>hot_tables</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_profile_1a1956d7b467dae7ee7e3958f8f2801141" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadProfile</scope><name>read_write_ratio</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_profile_1adb21fad0018d647ef9e6ce54933d07c9" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadProfile</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

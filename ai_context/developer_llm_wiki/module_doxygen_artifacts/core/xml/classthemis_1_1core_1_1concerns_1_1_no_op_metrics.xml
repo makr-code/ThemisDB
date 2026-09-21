@@ -1,0 +1,351 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_no_op_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::NoOpMetrics</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics" prot="public" virt="non-virtual">themis::core::concerns::IMetrics</basecompoundref>
+    <includes refid="noop__implementations_8h" local="no">noop_implementations.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1aa31b9129a9ac1cd84989b5ba11add5b3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpMetrics::incrementCounter</definition>
+        <argsstring>(const std::string &amp;name, int64_t value=1, const Labels &amp;labels={}) override</argsstring>
+        <name>incrementCounter</name>
+        <qualifiedname>themis::core::concerns::NoOpMetrics::incrementCounter</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ab5e2da4141f1ef00cb1f204f1bdab514">incrementCounter</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="108" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a4f767c129ea06f3c1643e61499697c37" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpMetrics::setGauge</definition>
+        <argsstring>(const std::string &amp;name, double value, const Labels &amp;labels={}) override</argsstring>
+        <name>setGauge</name>
+        <qualifiedname>themis::core::concerns::NoOpMetrics::setGauge</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ae92ea90ef8e492892b5472d6ec2f6c8e">setGauge</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="109" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a65cec2097e10e794494fe9bd14c4920b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpMetrics::incrementGauge</definition>
+        <argsstring>(const std::string &amp;name, double delta, const Labels &amp;labels={}) override</argsstring>
+        <name>incrementGauge</name>
+        <qualifiedname>themis::core::concerns::NoOpMetrics::incrementGauge</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1aa984519f2f0b13cef90250466ba68c47">incrementGauge</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="110" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a710cf499662e2996b84c62db4654a74a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpMetrics::decrementGauge</definition>
+        <argsstring>(const std::string &amp;name, double delta, const Labels &amp;labels={}) override</argsstring>
+        <name>decrementGauge</name>
+        <qualifiedname>themis::core::concerns::NoOpMetrics::decrementGauge</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a5218ccd9b66d548de08758259a4ca7d6">decrementGauge</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="111" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1ae52432b6d40d8680d28d902c5dfa4b0a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpMetrics::observeHistogram</definition>
+        <argsstring>(const std::string &amp;name, double value, const Labels &amp;labels={}) override</argsstring>
+        <name>observeHistogram</name>
+        <qualifiedname>themis::core::concerns::NoOpMetrics::observeHistogram</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1aee67ce101bf4545e6ff4602d0de166f9">observeHistogram</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="112" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1adecc9ab53939a0429c14c762f57d4125" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpMetrics::recordLatency</definition>
+        <argsstring>(const std::string &amp;operation, double latencyMs, const Labels &amp;labels={}) override</argsstring>
+        <name>recordLatency</name>
+        <qualifiedname>themis::core::concerns::NoOpMetrics::recordLatency</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a405b7ee2f1fdc763a21f76adabacbe36">recordLatency</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latencyMs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="113" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1abf366a910de004cd20c26dc5b7f93fc5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpMetrics::recordError</definition>
+        <argsstring>(const std::string &amp;operation, const Labels &amp;labels={}) override</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::core::concerns::NoOpMetrics::recordError</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ae470d0739b8826c44949bffca16e8d12">recordError</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="114" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a0500c33b8c250082987ec7184aa7d3c7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpMetrics::recordSuccess</definition>
+        <argsstring>(const std::string &amp;operation, const Labels &amp;labels={}) override</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::core::concerns::NoOpMetrics::recordSuccess</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1aa4737019b02468a24b15000746a332db">recordSuccess</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="115" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a4e3dd8637552db1453c162ae6fb25960" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::NoOpMetrics::exportMetrics</definition>
+        <argsstring>() const override</argsstring>
+        <name>exportMetrics</name>
+        <qualifiedname>themis::core::concerns::NoOpMetrics::exportMetrics</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1afc76a2a81a190436f4b76a3c043759e4">exportMetrics</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="116" column="17" bodyfile="include/core/concerns/noop_implementations.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a38a8cf809da49641570789c794d3ff1b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpMetrics::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::core::concerns::NoOpMetrics::reset</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ad161732b3c913ef087834614d4d0fc53">reset</reimplements>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="117" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a75315f5f281544f3f4b7f4381f3efc86" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpMetrics::flush</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::core::concerns::NoOpMetrics::flush</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ad2d7aad28e18efff00caf672e7db042d">flush</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="119" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a437220ca421ce5baecd914a698b38f71" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpMetrics::shutdown</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::core::concerns::NoOpMetrics::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ac2a0a0c241a2d8e72930e8b9758a9f0b">shutdown</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="120" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a67e0bf32663d62981daac44e5e3369dd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::NoOpMetrics::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::core::concerns::NoOpMetrics::isHealthy</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a9e5fc304c04d9b4f302964ee36a31576">isHealthy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="121" column="17" bodyfile="include/core/concerns/noop_implementations.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>No-op metrics implementation for testing or when metrics are disabled. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All writes are discarded; <ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a4e3dd8637552db1453c162ae6fb25960" kindref="member">exportMetrics()</ref> always returns an empty payload. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::IMetrics</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_metrics"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::NoOpMetrics</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::IMetrics</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_metrics"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::NoOpMetrics</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/noop_implementations.h" line="106" column="1" bodyfile="include/core/concerns/noop_implementations.h" bodystart="106" bodyend="122"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a710cf499662e2996b84c62db4654a74a" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpMetrics</scope><name>decrementGauge</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a4e3dd8637552db1453c162ae6fb25960" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpMetrics</scope><name>exportMetrics</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a75315f5f281544f3f4b7f4381f3efc86" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpMetrics</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1aa31b9129a9ac1cd84989b5ba11add5b3" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpMetrics</scope><name>incrementCounter</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a65cec2097e10e794494fe9bd14c4920b" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpMetrics</scope><name>incrementGauge</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a67e0bf32663d62981daac44e5e3369dd" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpMetrics</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" prot="public" virt="non-virtual"><scope>themis::core::concerns::NoOpMetrics</scope><name>Labels</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1ae52432b6d40d8680d28d902c5dfa4b0a" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpMetrics</scope><name>observeHistogram</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1abf366a910de004cd20c26dc5b7f93fc5" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpMetrics</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1adecc9ab53939a0429c14c762f57d4125" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpMetrics</scope><name>recordLatency</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a0500c33b8c250082987ec7184aa7d3c7" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpMetrics</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a38a8cf809da49641570789c794d3ff1b" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpMetrics</scope><name>reset</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a4f767c129ea06f3c1643e61499697c37" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpMetrics</scope><name>setGauge</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a437220ca421ce5baecd914a698b38f71" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpMetrics</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a675060462eaa14e716339b54f8358227" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpMetrics</scope><name>~IMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_deontic_extraction_fixture" kind="class" language="C++" prot="public">
+    <compoundname>DeonticExtractionFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_deontic_extraction_fixture_1a2d43b99155ba06b44c00e945d3ad3d50" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_deontic_extractor" kindref="compound">DeonticExtractor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DeonticExtractor&gt; DeonticExtractionFixture::extractor</definition>
+        <argsstring></argsstring>
+        <name>extractor</name>
+        <qualifiedname>DeonticExtractionFixture::extractor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="102" column="21" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_deontic_extraction_fixture_1aa2f51f238b2167a589aaffd8f3263d45" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DeonticExtractionFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DeonticExtractionFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="94" column="10" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="class_deontic_extraction_fixture_1aff968b9a4043fe6b43e8c99577656871" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DeonticExtractionFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>DeonticExtractionFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="98" column="10" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="98" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DeonticExtractionFixture</label>
+        <link refid="class_deontic_extraction_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DeonticExtractionFixture</label>
+        <link refid="class_deontic_extraction_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="92" column="1" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="92" bodyend="103"/>
+    <listofallmembers>
+      <member refid="class_deontic_extraction_fixture_1a2d43b99155ba06b44c00e945d3ad3d50" prot="public" virt="non-virtual"><scope>DeonticExtractionFixture</scope><name>extractor</name></member>
+      <member refid="class_deontic_extraction_fixture_1aa2f51f238b2167a589aaffd8f3263d45" prot="public" virt="non-virtual"><scope>DeonticExtractionFixture</scope><name>SetUp</name></member>
+      <member refid="class_deontic_extraction_fixture_1aff968b9a4043fe6b43e8c99577656871" prot="public" virt="non-virtual"><scope>DeonticExtractionFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_secondary_index_metadata_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::SecondaryIndexMetadataCache</compoundname>
+    <includes refid="secondary__index__metadata__cache_8h" local="no">secondary_index_metadata_cache.h</includes>
+    <innerclass refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cached_fulltext_config" prot="public">themis::SecondaryIndexMetadataCache::CachedFulltextConfig</innerclass>
+    <innerclass refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata" prot="public">themis::SecondaryIndexMetadataCache::IndexMetadata</innerclass>
+    <innerclass refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats" prot="public">themis::SecondaryIndexMetadataCache::CacheStats</innerclass>
+    <innerclass refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_entry" prot="private">themis::SecondaryIndexMetadataCache::CacheEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_secondary_index_metadata_cache_1adb02cf99fb6bcede424e05f724f9b389" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, CacheEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, CacheEntry&gt; themis::SecondaryIndexMetadataCache::metadata_cache_</definition>
+        <argsstring></argsstring>
+        <name>metadata_cache_</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::metadata_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="155" column="24" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_secondary_index_metadata_cache_1aaf4ea6672546d9ec1d1a746578da6bf1" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::SecondaryIndexMetadataCache::cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex_</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="156" column="31" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_secondary_index_metadata_cache_1af322cd92ce6f5c02390c4768ec5e166d" prot="private" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::SecondaryIndexMetadataCache::cache_ttl_</definition>
+        <argsstring></argsstring>
+        <name>cache_ttl_</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::cache_ttl_</qualifiedname>
+        <initializer>= std::chrono::seconds(60)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="157" column="26" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_secondary_index_metadata_cache_1aebf18fafe7eee4fe1e09aa3f3a0b02c0" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>CacheStats themis::SecondaryIndexMetadataCache::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="158" column="24" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_secondary_index_metadata_cache_1a13d7ec87e8c463ea3b61964c82eaa050" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>SecondaryIndexMetadataCache &amp;</type>
+        <definition>static SecondaryIndexMetadataCache &amp; themis::SecondaryIndexMetadataCache::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::instance</qualifiedname>
+        <briefdescription>
+<para>Singleton instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="72" column="40" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="72" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_secondary_index_metadata_cache_1aa836c023b1f50d7ff40a1efe912c65a1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata" kindref="compound">IndexMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; IndexMetadata &gt; themis::SecondaryIndexMetadataCache::get</definition>
+        <argsstring>(std::string_view table)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::get</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get cached metadata für Tabelle Returns: <ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata" kindref="compound">IndexMetadata</ref> if cached, std::nullopt if cache miss </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="89" column="19" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="89" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_secondary_index_metadata_cache_1a721c9153ad037dbb2bd3c87c421e48f5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SecondaryIndexMetadataCache::set</definition>
+        <argsstring>(std::string_view table, const IndexMetadata &amp;metadata)</argsstring>
+        <name>set</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::set</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_index_metadata" kindref="compound">IndexMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Set cached metadata für Tabelle. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="111" column="10" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="111" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_secondary_index_metadata_cache_1a47425357bc7b98492439236456d4f047" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SecondaryIndexMetadataCache::invalidate</definition>
+        <argsstring>(std::string_view table)</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::invalidate</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate cache für Tabelle (z.B. nach createIndex/dropIndex). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="122" column="10" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="122" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_secondary_index_metadata_cache_1ac0ddd36c2fb614fedde37177128bcf2e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SecondaryIndexMetadataCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear entire cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="128" column="10" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="128" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_secondary_index_metadata_cache_1a0c486d10d04789f084bb7cda149ed418" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>CacheStats themis::SecondaryIndexMetadataCache::get_stats</definition>
+        <argsstring>() const</argsstring>
+        <name>get_stats</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::get_stats</qualifiedname>
+        <briefdescription>
+<para>Get cache statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="137" column="16" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="137" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_secondary_index_metadata_cache_1aaeddb45cd02f5b618f09f5a84feef358" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SecondaryIndexMetadataCache::set_ttl</definition>
+        <argsstring>(std::chrono::seconds ttl)</argsstring>
+        <name>set_ttl</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::set_ttl</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>ttl</declname>
+        </param>
+        <briefdescription>
+<para>Set cache TTL (default: 60 seconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="143" column="10" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="143" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_secondary_index_metadata_cache_1aadf1fc2f8d86a938bac886a6b8f1a8a1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SecondaryIndexMetadataCache::SecondaryIndexMetadataCache</definition>
+        <argsstring>()=default</argsstring>
+        <name>SecondaryIndexMetadataCache</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::SecondaryIndexMetadataCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="148" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_secondary_index_metadata_cache" kindref="compound">SecondaryIndexMetadataCache</ref> - In-Memory Cache für Index-Konfigurationen</para>
+<para>Optimierung für v1.3.4: Cached Index-Metadaten um DB-Scans bei jedem Insert zu vermeiden Expected Improvement: +60-200x für Metadata-Lookups (600-2000 µs → &lt;10 µs) </para>
+    </detaileddescription>
+    <location file="include/index/secondary_index_metadata_cache.h" line="31" column="1" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="31" bodyend="159"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_secondary_index_metadata_cache_1aaf4ea6672546d9ec1d1a746578da6bf1" prot="private" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache</scope><name>cache_mutex_</name></member>
+      <member refid="classthemis_1_1_secondary_index_metadata_cache_1af322cd92ce6f5c02390c4768ec5e166d" prot="private" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache</scope><name>cache_ttl_</name></member>
+      <member refid="classthemis_1_1_secondary_index_metadata_cache_1ac0ddd36c2fb614fedde37177128bcf2e" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_secondary_index_metadata_cache_1aa836c023b1f50d7ff40a1efe912c65a1" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1_secondary_index_metadata_cache_1a0c486d10d04789f084bb7cda149ed418" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache</scope><name>get_stats</name></member>
+      <member refid="classthemis_1_1_secondary_index_metadata_cache_1a13d7ec87e8c463ea3b61964c82eaa050" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache</scope><name>instance</name></member>
+      <member refid="classthemis_1_1_secondary_index_metadata_cache_1a47425357bc7b98492439236456d4f047" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1_secondary_index_metadata_cache_1adb02cf99fb6bcede424e05f724f9b389" prot="private" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache</scope><name>metadata_cache_</name></member>
+      <member refid="classthemis_1_1_secondary_index_metadata_cache_1aadf1fc2f8d86a938bac886a6b8f1a8a1" prot="private" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache</scope><name>SecondaryIndexMetadataCache</name></member>
+      <member refid="classthemis_1_1_secondary_index_metadata_cache_1a721c9153ad037dbb2bd3c87c421e48f5" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache</scope><name>set</name></member>
+      <member refid="classthemis_1_1_secondary_index_metadata_cache_1aaeddb45cd02f5b618f09f5a84feef358" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache</scope><name>set_ttl</name></member>
+      <member refid="classthemis_1_1_secondary_index_metadata_cache_1aebf18fafe7eee4fe1e09aa3f3a0b02c0" prot="private" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache</scope><name>stats_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

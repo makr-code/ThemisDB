@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1_1_cache_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::OLAPEngine::Impl::CacheEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1_1_cache_entry_1a821cfb67b98b0162e1a3c7e4fd210649" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref></type>
+        <definition>OLAPResult themis::analytics::OLAPEngine::Impl::CacheEntry::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::CacheEntry::result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="230" column="20" bodyfile="src/analytics/olap.cpp" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1_1_cache_entry_1ad544532571636ed832d9771838cb3f79" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::analytics::OLAPEngine::Impl::CacheEntry::expiry</definition>
+        <argsstring></argsstring>
+        <name>expiry</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::CacheEntry::expiry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="231" column="47" bodyfile="src/analytics/olap.cpp" bodystart="231" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::analytics::OLAPEngine::Impl::CacheEntry</label>
+        <link refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1_1_cache_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>result</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::analytics::OLAPResult</label>
+        <link refid="structthemis_1_1analytics_1_1_o_l_a_p_result"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/analytics/olap.cpp" line="229" column="5" bodyfile="src/analytics/olap.cpp" bodystart="229" bodyend="232"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1_1_cache_entry_1ad544532571636ed832d9771838cb3f79" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl::CacheEntry</scope><name>expiry</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1_1_cache_entry_1a821cfb67b98b0162e1a3c7e4fd210649" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl::CacheEntry</scope><name>result</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

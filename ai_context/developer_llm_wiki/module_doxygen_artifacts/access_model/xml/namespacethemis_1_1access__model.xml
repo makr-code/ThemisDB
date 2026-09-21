@@ -1,0 +1,2160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1access__model" kind="namespace" language="C++">
+    <compoundname>themis::access_model</compoundname>
+    <innerclass refid="classthemis_1_1access__model_1_1_access_coordinator" prot="public">themis::access_model::AccessCoordinator</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" prot="public">themis::access_model::AccessCoordinatorConcurrencyTest</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" prot="public">themis::access_model::AccessCoordinatorFocusedTest</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_access_coordinator_impl" prot="public">themis::access_model::AccessCoordinatorImpl</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_access_coordinator_test" prot="public">themis::access_model::AccessCoordinatorTest</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_access_event" prot="public">themis::access_model::AccessEvent</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_access_metrics" prot="public">themis::access_model::AccessMetrics</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" prot="public">themis::access_model::AccessModelE2ETest</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_access_model_logger" prot="public">themis::access_model::AccessModelLogger</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_access_model_metrics" prot="public">themis::access_model::AccessModelMetrics</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_access_operation_counters" prot="public">themis::access_model::AccessOperationCounters</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_access_tier" prot="public">themis::access_model::AccessTier</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_access_transition_event" prot="public">themis::access_model::AccessTransitionEvent</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_age_based_policy" prot="public">themis::access_model::AgeBasedPolicy</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_bench_access_coordinator" prot="public">themis::access_model::BenchAccessCoordinator</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_benchmark_access_tier" prot="public">themis::access_model::BenchmarkAccessTier</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_cache_tier" prot="public">themis::access_model::CacheTier</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_coordinator_lifecycle_log" prot="public">themis::access_model::CoordinatorLifecycleLog</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_default_access_model_logger" prot="public">themis::access_model::DefaultAccessModelLogger</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_demotion_plan" prot="public">themis::access_model::DemotionPlan</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_demotion_result" prot="public">themis::access_model::DemotionResult</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_eviction_event" prot="public">themis::access_model::EvictionEvent</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_eviction_event_log" prot="public">themis::access_model::EvictionEventLog</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_eviction_listener" prot="public">themis::access_model::EvictionListener</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_latency_histogram" prot="public">themis::access_model::LatencyHistogram</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_logging_test" prot="public">themis::access_model::LoggingTest</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_mock_access_tier" prot="public">themis::access_model::MockAccessTier</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_observability_integration_test" prot="public">themis::access_model::ObservabilityIntegrationTest</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_promotion_decision_log" prot="public">themis::access_model::PromotionDecisionLog</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_promotion_demotion_test" prot="public">themis::access_model::PromotionDemotionTest</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_promotion_listener" prot="public">themis::access_model::PromotionListener</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_promotion_result" prot="public">themis::access_model::PromotionResult</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_storage_tier" prot="public">themis::access_model::StorageTier</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_test_access_tier" prot="public">themis::access_model::TestAccessTier</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_tier_access_options" prot="public">themis::access_model::TierAccessOptions</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_tier_get_result" prot="public">themis::access_model::TierGetResult</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_tier_promotion_result" prot="public">themis::access_model::TierPromotionResult</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_tier_put_result" prot="public">themis::access_model::TierPutResult</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_tier_transition_log" prot="public">themis::access_model::TierTransitionLog</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_trace_context" prot="public">themis::access_model::TraceContext</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_trace_context_manager" prot="public">themis::access_model::TraceContextManager</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_trace_context_test" prot="public">themis::access_model::TraceContextTest</innerclass>
+    <innernamespace refid="namespacethemis_1_1access__model_1_1gates">themis::access_model::gates</innernamespace>
+    <innernamespace refid="namespacethemis_1_1access__model_1_1test">themis::access_model::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TierLevel</name>
+        <qualifiedname>themis::access_model::TierLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a76af21ee6d887a8835430a0ab5545cfe" prot="public">
+          <name>L1_WORKING</name>
+          <briefdescription>
+<para>Cache: Working memory (register-like, &lt;1µs latency). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a5ca54551257176a0a9d2feab971c35ab" prot="public">
+          <name>L2_EPISODIC</name>
+          <briefdescription>
+<para>Cache: Episodic/result-set memory (1-10µs). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ad2a2dc333458714fced472d9e54543d8" prot="public">
+          <name>L3_SEMANTIC</name>
+          <briefdescription>
+<para>Cache: Semantic/RAG index memory (10-100µs). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ade4d685b730efe177401248677a6ac93" prot="public">
+          <name>STORAGE_HOT</name>
+          <briefdescription>
+<para>Storage: NVMe-backed tier (1-10ms). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a7b8382acfc182c62a04eda7fad995451" prot="public">
+          <name>STORAGE_WARM</name>
+          <briefdescription>
+<para>Storage: HDD-backed tier (10-100ms). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ad604dd45c3a16f03da7f92cb85203073" prot="public">
+          <name>STORAGE_COLD</name>
+          <briefdescription>
+<para>Storage: Object-store tier (100ms-1s). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+<para>Sentinel value: tier not yet determined or invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_tier_interface.h" line="46" column="1" bodyfile="include/access_model/access_tier_interface.h" bodystart="46" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1access__model_1a173b9e13e9393b11e27589a8e332bbbb" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TierClassification</name>
+        <qualifiedname>themis::access_model::TierClassification</qualifiedname>
+        <enumvalue id="namespacethemis_1_1access__model_1a173b9e13e9393b11e27589a8e332bbbba08e1be4b785493d9fc2ae52c5ba9ab2e" prot="public">
+          <name>CACHE</name>
+          <briefdescription>
+<para>In-memory tier (L1/L2/L3). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1access__model_1a173b9e13e9393b11e27589a8e332bbbba754a5d433173b5ddc7debc2110ac575f" prot="public">
+          <name>STORAGE</name>
+          <briefdescription>
+<para>Persistent tier (hot/warm/cold). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_tier_interface.h" line="56" column="1" bodyfile="include/access_model/access_tier_interface.h" bodystart="56" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1access__model_1a99eaa17605689e748fabd6223fde9cc0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DataHotnessLevel</name>
+        <qualifiedname>themis::access_model::DataHotnessLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1access__model_1a99eaa17605689e748fabd6223fde9cc0ac429fde8b1b986d42f84ba63dbfef6ac" prot="public">
+          <name>HOT</name>
+          <briefdescription>
+<para>Very recent, high-frequency access — keep in L1 cache. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1access__model_1a99eaa17605689e748fabd6223fde9cc0a11523c55fca0d056eda7dbbe810490ca" prot="public">
+          <name>WARM</name>
+          <briefdescription>
+<para>Moderate age and frequency — keep in L2/L3 cache. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1access__model_1a99eaa17605689e748fabd6223fde9cc0a79ce8508b165746597039bd1dbeb6957" prot="public">
+          <name>COOL</name>
+          <briefdescription>
+<para>Older with low frequency — move to warm storage. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1access__model_1a99eaa17605689e748fabd6223fde9cc0a3f7ff4daa99912d1b0c8c64340edb9fb" prot="public">
+          <name>COLD</name>
+          <briefdescription>
+<para>Rarely accessed, very old — archive to cold storage. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="32" column="1" bodyfile="include/access_model/age_based_policy.h" bodystart="32" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1access__model_1ab01a4801866919f23f947fd47e2a6619" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themis::access_model::CorrelationID = std::string</definition>
+        <argsstring></argsstring>
+        <name>CorrelationID</name>
+        <qualifiedname>themis::access_model::CorrelationID</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="41" column="1" bodyfile="include/access_model/access_model_trace.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1a0fe83c062f8c9780c1eac6142e22c8d7" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::access_model::kMaxTierCapacity</definition>
+        <argsstring></argsstring>
+        <name>kMaxTierCapacity</name>
+        <qualifiedname>themis::access_model::kMaxTierCapacity</qualifiedname>
+        <initializer>= std::numeric_limits&lt;std::size_t&gt;::max()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_tier_interface.h" line="346" column="30" bodyfile="include/access_model/access_tier_interface.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1ae5f0a5dcca7d14ba087a0cd84ba5bffc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+        <definition>TierLevel themis::access_model::kNoTier</definition>
+        <argsstring></argsstring>
+        <name>kNoTier</name>
+        <qualifiedname>themis::access_model::kNoTier</qualifiedname>
+        <initializer>= static_cast&lt;<ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref>&gt;(-1)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_tier_interface.h" line="348" column="28" bodyfile="include/access_model/access_tier_interface.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1a833ad5d3e42b6e31543df7c95ccdbc22" prot="public" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1access__model_1_1_default_access_model_logger" kindref="compound">DefaultAccessModelLogger</ref></type>
+        <definition>DefaultAccessModelLogger themis::access_model::g_default_logger</definition>
+        <argsstring></argsstring>
+        <name>g_default_logger</name>
+        <qualifiedname>themis::access_model::g_default_logger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/access_model/access_model_logging.cpp" line="132" column="33" bodyfile="src/access_model/access_model_logging.cpp" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1a9e3c51a3dfb745b3f217798c6eb70aed" prot="public" static="no" mutable="no" thread_local="yes">
+        <type><ref refid="structthemis_1_1access__model_1_1_trace_context" kindref="compound">TraceContext</ref></type>
+        <definition>TraceContext themis::access_model::g_thread_local_context</definition>
+        <argsstring></argsstring>
+        <name>g_thread_local_context</name>
+        <qualifiedname>themis::access_model::g_thread_local_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/access_model/access_model_trace.cpp" line="21" column="27" bodyfile="src/access_model/access_model_trace.cpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1ae80f59efef5ffb980dccafbb3e3f0a57" prot="public" static="no" mutable="no" thread_local="yes">
+        <type>bool</type>
+        <definition>bool themis::access_model::g_context_initialized</definition>
+        <argsstring></argsstring>
+        <name>g_context_initialized</name>
+        <qualifiedname>themis::access_model::g_context_initialized</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/access_model/access_model_trace.cpp" line="22" column="19" bodyfile="src/access_model/access_model_trace.cpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1a593039b6566fc00a82460af296e05df9" prot="public" static="no" mutable="no">
+        <type>benchmark::State &amp;</type>
+        <definition>benchmark::State &amp; themis::access_model::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::access_model::state</qualifiedname>
+        <initializer>{
+    
+    std::mt19937 rng(<ref refid="classthemis_1_1access__model_1_1_bench_access_coordinator_1a12d4bb41d1b47170496a725afadac57a" kindref="member">BenchAccessCoordinator::kCanonicalSeed</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="218" column="18" bodyfile="benchmarks/access_model/bench_access_coordinator_gates.cpp" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1ac2fe2ce6fb82923d1ab8b4eee21d7609" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::access_model::key_counter</definition>
+        <argsstring></argsstring>
+        <name>key_counter</name>
+        <qualifiedname>themis::access_model::key_counter</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="223" column="9" bodyfile="benchmarks/access_model/bench_access_coordinator_gates.cpp" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1aa0a791ab2cc9e4a709701c0025e591e8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::access_model::us</definition>
+        <argsstring></argsstring>
+        <name>us</name>
+        <qualifiedname>themis::access_model::us</qualifiedname>
+        <initializer>= state.iterations()
+ ? state.elapsed_real_time() * 1e6 /
+       static_cast&lt;double&gt;(state.iterations())
+ : 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="236" column="12" bodyfile="benchmarks/access_model/bench_access_coordinator_gates.cpp" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1a9375200bc77a0fa87bd01730e60d83c6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::access_model::ms</definition>
+        <argsstring></argsstring>
+        <name>ms</name>
+        <qualifiedname>themis::access_model::ms</qualifiedname>
+        <initializer>= state.iterations()
+ ? state.elapsed_real_time() * 1e3 /
+       static_cast&lt;double&gt;(state.iterations())
+ : 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="304" column="12" bodyfile="benchmarks/access_model/bench_access_coordinator_gates.cpp" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1a7338fe6c9501a125347949b63fe88c0d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::access_model::seconds_elapsed</definition>
+        <argsstring></argsstring>
+        <name>seconds_elapsed</name>
+        <qualifiedname>themis::access_model::seconds_elapsed</qualifiedname>
+        <initializer>= state.elapsed_real_time()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="340" column="12" bodyfile="benchmarks/access_model/bench_access_coordinator_gates.cpp" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1a10d652a7f021593f95288048eee934f3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::access_model::events_per_sec</definition>
+        <argsstring></argsstring>
+        <name>events_per_sec</name>
+        <qualifiedname>themis::access_model::events_per_sec</qualifiedname>
+        <initializer>= state.iterations() / <ref refid="namespacethemis_1_1access__model_1a7338fe6c9501a125347949b63fe88c0d" kindref="member">seconds_elapsed</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="341" column="12" bodyfile="benchmarks/access_model/bench_access_coordinator_gates.cpp" bodystart="341" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a69604678d6a13ced9a8332dbcc0a3145" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1_access_coordinator" kindref="compound">AccessCoordinator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; AccessCoordinator &gt; themis::access_model::createAccessCoordinator</definition>
+        <argsstring>(std::size_t thread_pool_size=4)</argsstring>
+        <name>createAccessCoordinator</name>
+        <qualifiedname>themis::access_model::createAccessCoordinator</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>thread_pool_size</declname>
+          <defval>4</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="328" column="17" declfile="include/access_model/access_coordinator.h" declline="328" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a3660a45eab4812682bdc078ffe03991a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1access__model_1_1_access_model_logger" kindref="compound">AccessModelLogger</ref> &amp;</type>
+        <definition>AccessModelLogger &amp; themis::access_model::accessModelLogger</definition>
+        <argsstring>()</argsstring>
+        <name>accessModelLogger</name>
+        <qualifiedname>themis::access_model::accessModelLogger</qualifiedname>
+        <briefdescription>
+<para>Access Model Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements accessModelLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/access_model/access_model_logging.cpp" line="139" column="19" bodyfile="src/access_model/access_model_logging.cpp" bodystart="139" bodyend="141" declfile="include/access_model/access_model_logging.h" declline="172" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a065b1f8455f2a9abc2d58764b8b1551f" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1access__model_1a173b9e13e9393b11e27589a8e332bbbb" kindref="member">TierClassification</ref></type>
+        <definition>TierClassification themis::access_model::classifyTier</definition>
+        <argsstring>(TierLevel level)</argsstring>
+        <name>classifyTier</name>
+        <qualifiedname>themis::access_model::classifyTier</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Classify Tier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="access__tier__interface_8h_1a7ee3ac13fd32fe14752456d3b5c81c37" kindref="member">THEMIS_UNREACHABLE()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_tier_interface.h" line="67" column="30" bodyfile="include/access_model/access_tier_interface.h" bodystart="67" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a85f72306bf9b8d3b7bd1edc45037206c" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::access_model::tierLevelName</definition>
+        <argsstring>(TierLevel level)</argsstring>
+        <name>tierLevelName</name>
+        <qualifiedname>themis::access_model::tierLevelName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Tier Level Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements tierLevelName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_tier_interface.h" line="88" column="28" bodyfile="include/access_model/access_tier_interface.h" bodystart="88" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a98b660a0ab050742c0f03b4c9c214d7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1_access_coordinator" kindref="compound">AccessCoordinator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; AccessCoordinator &gt; themis::access_model::createAccessCoordinator</definition>
+        <argsstring>(size_t thread_pool_size)</argsstring>
+        <name>createAccessCoordinator</name>
+        <qualifiedname>themis::access_model::createAccessCoordinator</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>thread_pool_size</declname>
+        </param>
+        <briefdescription>
+<para>Create Access Coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">thread_pool_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createAccessCoordinator without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/access_model/access_coordinator.cpp" line="722" column="17" bodyfile="src/access_model/access_coordinator.cpp" bodystart="722" bodyend="725"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a4710a2bcdca479d114ed285996f7b8bf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::access_model::isPlanExecutable</definition>
+        <argsstring>(const DemotionPlan &amp;plan)</argsstring>
+        <name>isPlanExecutable</name>
+        <qualifiedname>themis::access_model::isPlanExecutable</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1access__model_1_1_demotion_plan" kindref="compound">DemotionPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the grace period has elapsed and the plan is ready for execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used by <ref refid="classthemis_1_1access__model_1_1_access_coordinator_1a2ced68a9ad581ce5d3888388757ac808" kindref="member">AccessCoordinator::executeDemotion()</ref> to guard against early execution.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Demotion plan created by <ref refid="classthemis_1_1access__model_1_1_access_coordinator_1ae703dd886f984b8b2339785807ef345c" kindref="member">AccessCoordinator::planDemotion()</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if now &gt;= plan.scheduled_execution_time </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/access_model/promotion_demotion.cpp" line="30" column="14" bodyfile="src/access_model/promotion_demotion.cpp" bodystart="30" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1afa806e316bf1577a9d3dedfb37b0cc16" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::access_model::describeResult</definition>
+        <argsstring>(const DemotionResult &amp;result)</argsstring>
+        <name>describeResult</name>
+        <qualifiedname>themis::access_model::describeResult</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1access__model_1_1_demotion_result" kindref="compound">DemotionResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Returns a human-readable description of a <ref refid="structthemis_1_1access__model_1_1_demotion_result" kindref="compound">DemotionResult</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Intended for logging and diagnostic output.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Completed demotion result </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted string representation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/access_model/promotion_demotion.cpp" line="46" column="21" bodyfile="src/access_model/promotion_demotion.cpp" bodystart="46" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a61b06e265097af5a2567e459575f2e26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorTest, ACM_01_InitializeWithTiers)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>ACM_01_InitializeWithTiers</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="129" column="1" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="129" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a899dc78c2f473167f5fe4ae75b23795a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorTest, ACM_02_InitializeEmptyTiers)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>ACM_02_InitializeEmptyTiers</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="138" column="1" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="138" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a2823dca5bb18b27bb379741b67c06f1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorTest, ACM_03_SetAgePolicy)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>ACM_03_SetAgePolicy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="144" column="1" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="144" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a69affeeb5805ee7706a3f197fbf00e1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorTest, ACM_04_OnEvictionLowAccessCount)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>ACM_04_OnEvictionLowAccessCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="157" column="1" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="157" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1ab8ae92fe13c3afde79b73215b3cf3d8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorTest, ACM_05_OnEvictionHighAccessCount)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>ACM_05_OnEvictionHighAccessCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="182" column="1" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="182" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a3179d9472b71b9482a52de67927a9de9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorTest, ACM_06_OnHotAccessAboveThreshold)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>ACM_06_OnHotAccessAboveThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="209" column="1" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="209" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a909a0b2901c4bbd551d242231d96bc5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorTest, ACM_07_OnHotAccessColdTierPromotesToWarm)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>ACM_07_OnHotAccessColdTierPromotesToWarm</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="230" column="1" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="230" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1ad0ea4d5e134ef55805fc4825d9800ae9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorTest, ACM_08_PromoteAsyncReturnsCorrectTiers)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>ACM_08_PromoteAsyncReturnsCorrectTiers</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="262" column="1" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="262" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a354b29a78e20f843b8f53fcaacf0d764" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorTest, ACM_09_PromoteAsyncNotRunning)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>ACM_09_PromoteAsyncNotRunning</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="277" column="1" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="277" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1abbb9e1ed341195e5bb697ba683a577ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorTest, ACM_10_PlanDemotionReturnsValidPlan)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>ACM_10_PlanDemotionReturnsValidPlan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="293" column="1" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="293" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1aea95cdb5017360e74dd3267478e2099f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorTest, ACM_11_ExecuteDemotionValidPlan)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>ACM_11_ExecuteDemotionValidPlan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="308" column="1" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="308" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1adbef8e618095c36c965f6d28eb71af70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorTest, ACM_12_ExecuteDemotionUnknownPlan)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>ACM_12_ExecuteDemotionUnknownPlan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="324" column="1" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="324" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a8a166ece34029faa34d95d0fa4fc42c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorTest, ACM_13_GetMetricsReturnsSaneValues)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>ACM_13_GetMetricsReturnsSaneValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="334" column="1" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="334" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a18ea7579acaa6f1c0a5e91ab2454752c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorTest, ACM_14_GetRecentTransitionsAfterEviction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>ACM_14_GetRecentTransitionsAfterEviction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="345" column="1" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="345" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a9f96eb799f4193c64408afd0413fac19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorTest, ACM_15_SetPromotionThresholds)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>ACM_15_SetPromotionThresholds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator.cpp" line="368" column="1" bodyfile="tests/access_model/test_access_coordinator.cpp" bodystart="368" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1af41b2db5d6af015ee94532373392a702" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorFocusedTest, ACM01_TierRegistryInitialization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+        </param>
+        <param>
+          <type>ACM01_TierRegistryInitialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator_focused.cpp" line="127" column="1" bodyfile="tests/access_model/test_access_coordinator_focused.cpp" bodystart="127" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a0d643d1ff6af02b1e63e46a974f46a27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorFocusedTest, ACM01_MultipleTiersRegistration)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+        </param>
+        <param>
+          <type>ACM01_MultipleTiersRegistration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator_focused.cpp" line="138" column="1" bodyfile="tests/access_model/test_access_coordinator_focused.cpp" bodystart="138" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1abf405035d9d0b68fcbdf8841454bc178" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorFocusedTest, ACM02_CacheEvictionEventProcessing)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+        </param>
+        <param>
+          <type>ACM02_CacheEvictionEventProcessing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator_focused.cpp" line="153" column="1" bodyfile="tests/access_model/test_access_coordinator_focused.cpp" bodystart="153" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1aacba49231e5d767379b0b3e7edf4fe7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorFocusedTest, ACM02_HotAccessEventProcessing)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+        </param>
+        <param>
+          <type>ACM02_HotAccessEventProcessing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator_focused.cpp" line="172" column="1" bodyfile="tests/access_model/test_access_coordinator_focused.cpp" bodystart="172" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1abea804acdd21d7df534a0a9a00687288" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorFocusedTest, ACM02_MultipleEventsProcessing)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+        </param>
+        <param>
+          <type>ACM02_MultipleEventsProcessing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator_focused.cpp" line="197" column="1" bodyfile="tests/access_model/test_access_coordinator_focused.cpp" bodystart="197" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a04be231271d9930b53d4e56283ca63f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorFocusedTest, ACM03_L1ToL2Promotion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+        </param>
+        <param>
+          <type>ACM03_L1ToL2Promotion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator_focused.cpp" line="221" column="1" bodyfile="tests/access_model/test_access_coordinator_focused.cpp" bodystart="221" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a42761fab5fa34deba0271564ee7810da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorFocusedTest, ACM03_HotnessClassification)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+        </param>
+        <param>
+          <type>ACM03_HotnessClassification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator_focused.cpp" line="238" column="1" bodyfile="tests/access_model/test_access_coordinator_focused.cpp" bodystart="238" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a624cbfcd519fb0e3b78e98bda3256283" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorFocusedTest, ACM03_TierRecommendation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+        </param>
+        <param>
+          <type>ACM03_TierRecommendation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator_focused.cpp" line="258" column="1" bodyfile="tests/access_model/test_access_coordinator_focused.cpp" bodystart="258" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1afff443a1b0817766b7767b1b1e978d01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorFocusedTest, ACM04_AsyncPromotionExecution)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+        </param>
+        <param>
+          <type>ACM04_AsyncPromotionExecution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator_focused.cpp" line="276" column="1" bodyfile="tests/access_model/test_access_coordinator_focused.cpp" bodystart="276" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a73b1600a6d3e3bfc18d877b863805dfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorFocusedTest, ACM04_MultipleAsyncPromotions)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+        </param>
+        <param>
+          <type>ACM04_MultipleAsyncPromotions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator_focused.cpp" line="300" column="1" bodyfile="tests/access_model/test_access_coordinator_focused.cpp" bodystart="300" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a257e52de2b6db11e5ba3ef07aea38259" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorFocusedTest, ACM05_DemotionPlanCreation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+        </param>
+        <param>
+          <type>ACM05_DemotionPlanCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator_focused.cpp" line="330" column="1" bodyfile="tests/access_model/test_access_coordinator_focused.cpp" bodystart="330" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a868adc9a25bda69816ff2758abc7f94c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorFocusedTest, ACM05_DemotionPlanExecution)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+        </param>
+        <param>
+          <type>ACM05_DemotionPlanExecution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator_focused.cpp" line="348" column="1" bodyfile="tests/access_model/test_access_coordinator_focused.cpp" bodystart="348" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a7a1e012a7dfb667594802d598a3cf43c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorFocusedTest, ACM06_CorrelationIDGeneration)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+        </param>
+        <param>
+          <type>ACM06_CorrelationIDGeneration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator_focused.cpp" line="377" column="1" bodyfile="tests/access_model/test_access_coordinator_focused.cpp" bodystart="377" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a281ae2eba435c8cec49ae26e4c867e11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorFocusedTest, ACM07_MetricsCollection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+        </param>
+        <param>
+          <type>ACM07_MetricsCollection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator_focused.cpp" line="421" column="1" bodyfile="tests/access_model/test_access_coordinator_focused.cpp" bodystart="421" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a0d59d9df8d5653c0a701c41cd4c05c9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorFocusedTest, ACM07_LatencyHistogramTracking)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+        </param>
+        <param>
+          <type>ACM07_LatencyHistogramTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator_focused.cpp" line="443" column="1" bodyfile="tests/access_model/test_access_coordinator_focused.cpp" bodystart="443" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a6a6bed7c4ae22505be0c2e7b2e07d323" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorFocusedTest, ACM08_ConcurrentEvictionAndPromotion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+        </param>
+        <param>
+          <type>ACM08_ConcurrentEvictionAndPromotion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator_focused.cpp" line="481" column="1" bodyfile="tests/access_model/test_access_coordinator_focused.cpp" bodystart="481" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1afaec948fbc949702e21d9d481ea9bc57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorFocusedTest, ACM08_ConcurrentPromotionAndMetricsRead)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+        </param>
+        <param>
+          <type>ACM08_ConcurrentPromotionAndMetricsRead</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_coordinator_focused.cpp" line="531" column="1" bodyfile="tests/access_model/test_access_coordinator_focused.cpp" bodystart="531" bodyend="567"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1aec8176819291a508a74c1df77a200ef3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessModelE2ETest, T1_SingleKeyColdToWarmOnThreeAccesses)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+        </param>
+        <param>
+          <type>T1_SingleKeyColdToWarmOnThreeAccesses</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="139" column="1" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="139" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a8cb543bfb6cce20683451c31c262f0ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessModelE2ETest, T2_MultipleKeysLRUOrderPreservation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+        </param>
+        <param>
+          <type>T2_MultipleKeysLRUOrderPreservation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="165" column="1" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="165" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1af9fedb3f79b82e806e49970001b7066d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessModelE2ETest, T3_ConcurrentPromotions_10KeysParallelAccess)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+        </param>
+        <param>
+          <type>T3_ConcurrentPromotions_10KeysParallelAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="184" column="1" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="184" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1aed4dc0e29b5c5339c256d064d84dec56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessModelE2ETest, T4_PromotionCascades_L3ToL2ToL1BackToBackWithin1s)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+        </param>
+        <param>
+          <type>T4_PromotionCascades_L3ToL2ToL1BackToBackWithin1s</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="216" column="1" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="216" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a05c678e82bcb98a374eff5404b9a5c1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessModelE2ETest, T5_CacheL1FullL2EvictionStorageColdFeedback)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+        </param>
+        <param>
+          <type>T5_CacheL1FullL2EvictionStorageColdFeedback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="249" column="1" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="249" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1abfd446342233aafe0f0dbc3d03019eda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessModelE2ETest, T6_DemotionRejection_TierAlreadyFullBackpressure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+        </param>
+        <param>
+          <type>T6_DemotionRejection_TierAlreadyFullBackpressure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="271" column="1" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="271" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a8dbda6bf933464d32a75e54f6c329ec9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessModelE2ETest, T7_CascadingDemotions_L1FillL2FillL3Eviction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+        </param>
+        <param>
+          <type>T7_CascadingDemotions_L1FillL2FillL3Eviction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="295" column="1" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="295" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1ab080949108866f648d82241a45483521" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessModelE2ETest, T8_AgeBasedAutomaticDemotion_AgeExceedsPolicy)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+        </param>
+        <param>
+          <type>T8_AgeBasedAutomaticDemotion_AgeExceedsPolicy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="316" column="1" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="316" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a2a13aaa25dadfb0e3bc1e35db5ceb052" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessModelE2ETest, T9_SizeBasedBlockingFromL1_LargeObjectL2OnlyPath)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+        </param>
+        <param>
+          <type>T9_SizeBasedBlockingFromL1_LargeObjectL2OnlyPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="334" column="1" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="334" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1acb34cb4bf78411928770e51956ac40bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessModelE2ETest, T10_HotHotspot_Single1000xAccessPriorityPromotion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+        </param>
+        <param>
+          <type>T10_HotHotspot_Single1000xAccessPriorityPromotion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="351" column="1" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="351" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a1447a1e09282ba1be9fd76fb5e26f509" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessModelE2ETest, T11_EmptyCoordinator_NoTiersRegistered)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+        </param>
+        <param>
+          <type>T11_EmptyCoordinator_NoTiersRegistered</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="377" column="1" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="377" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a5bd1384684de195a1df4d961b17549e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessModelE2ETest, T12_SingleTierPromotion_DemotionNOP)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+        </param>
+        <param>
+          <type>T12_SingleTierPromotion_DemotionNOP</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="398" column="1" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="398" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a2c8a1c5b86229c0ba28707934a4823a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessModelE2ETest, T13_RapidFireEvents_100EventsIn10ms_QueueBackpressure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+        </param>
+        <param>
+          <type>T13_RapidFireEvents_100EventsIn10ms_QueueBackpressure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="427" column="1" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="427" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1ae6aee4c1c4a16adf375d0585a8a21a2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessModelE2ETest, T14_WorkerThreadFailureRecovery_OneThreadDiesOthersContinue)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+        </param>
+        <param>
+          <type>T14_WorkerThreadFailureRecovery_OneThreadDiesOthersContinue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="445" column="1" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="445" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a32ff5089f731194418fb2a8b7cfe50c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessModelE2ETest, T15_LongRunning_1000OperationsOver10sWithoutDeadlock)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+        </param>
+        <param>
+          <type>T15_LongRunning_1000OperationsOver10sWithoutDeadlock</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="465" column="1" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="465" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1afa55b00fce94edab43b3b0cc4c5d288a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(TraceContextTest, GenerateCorrelationID)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_trace_context_test" kindref="compound">TraceContextTest</ref></type>
+        </param>
+        <param>
+          <type>GenerateCorrelationID</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_observability.cpp" line="36" column="1" bodyfile="tests/access_model/test_access_model_observability.cpp" bodystart="36" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a98571a787deabf95d88bde52f4f1e2c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(TraceContextTest, SetAndGetContext)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_trace_context_test" kindref="compound">TraceContextTest</ref></type>
+        </param>
+        <param>
+          <type>SetAndGetContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_observability.cpp" line="52" column="1" bodyfile="tests/access_model/test_access_model_observability.cpp" bodystart="52" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1af10502971c477ad00b76ddfaef04d925" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(TraceContextTest, CurrentCorrelationID)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_trace_context_test" kindref="compound">TraceContextTest</ref></type>
+        </param>
+        <param>
+          <type>CurrentCorrelationID</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_observability.cpp" line="62" column="1" bodyfile="tests/access_model/test_access_model_observability.cpp" bodystart="62" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a0112adcff44d6e0ccd74dcf3a4152fed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(TraceContextTest, ScopedContextRAII)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_trace_context_test" kindref="compound">TraceContextTest</ref></type>
+        </param>
+        <param>
+          <type>ScopedContextRAII</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_observability.cpp" line="72" column="1" bodyfile="tests/access_model/test_access_model_observability.cpp" bodystart="72" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1acaae0e105c9ea8c57249a89b0d3aa744" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(TraceContextTest, ThreadLocalIsolation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_trace_context_test" kindref="compound">TraceContextTest</ref></type>
+        </param>
+        <param>
+          <type>ThreadLocalIsolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_observability.cpp" line="92" column="1" bodyfile="tests/access_model/test_access_model_observability.cpp" bodystart="92" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a4d16c17ab003b63fad7cb6de9439c08d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(LoggingTest, LogTierTransition)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_logging_test" kindref="compound">LoggingTest</ref></type>
+        </param>
+        <param>
+          <type>LogTierTransition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_observability.cpp" line="123" column="1" bodyfile="tests/access_model/test_access_model_observability.cpp" bodystart="123" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1af33f060c9dd027e78e86f061be8b2522" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(LoggingTest, LogEvictionEvent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_logging_test" kindref="compound">LoggingTest</ref></type>
+        </param>
+        <param>
+          <type>LogEvictionEvent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_observability.cpp" line="140" column="1" bodyfile="tests/access_model/test_access_model_observability.cpp" bodystart="140" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1ae259f18c1ce3eeff0d73c1f82cc0b81f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(LoggingTest, LogPromotionDecision)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_logging_test" kindref="compound">LoggingTest</ref></type>
+        </param>
+        <param>
+          <type>LogPromotionDecision</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_observability.cpp" line="158" column="1" bodyfile="tests/access_model/test_access_model_observability.cpp" bodystart="158" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a43078ca114fd019cb9f1c3319990efca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(LoggingTest, LogCoordinatorLifecycle)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_logging_test" kindref="compound">LoggingTest</ref></type>
+        </param>
+        <param>
+          <type>LogCoordinatorLifecycle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_observability.cpp" line="179" column="1" bodyfile="tests/access_model/test_access_model_observability.cpp" bodystart="179" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1ad1b75afbac390e45748f43ffabd4b97b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(ObservabilityIntegrationTest, CorrelationPropagation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_observability_integration_test" kindref="compound">ObservabilityIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>CorrelationPropagation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_observability.cpp" line="203" column="1" bodyfile="tests/access_model/test_access_model_observability.cpp" bodystart="203" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a7a79695c5503f35b1d42e58d8c8f6ff8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(ObservabilityIntegrationTest, HierarchicalTracing)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_observability_integration_test" kindref="compound">ObservabilityIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>HierarchicalTracing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_observability.cpp" line="231" column="1" bodyfile="tests/access_model/test_access_model_observability.cpp" bodystart="231" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1af95b5b530fdac71d4f49939d0096845b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorConcurrencyTest, C1_ConcurrentEvictionEvents_10Threads_100Each)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>C1_ConcurrentEvictionEvents_10Threads_100Each</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="140" column="1" bodyfile="tests/access_model/test_coordination_concurrency.cpp" bodystart="140" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1afed488a29169283024dd09776cc05028" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorConcurrencyTest, C2_ConcurrentPromotionEvents_5Threads_200Each)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>C2_ConcurrentPromotionEvents_5Threads_200Each</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="174" column="1" bodyfile="tests/access_model/test_coordination_concurrency.cpp" bodystart="174" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1ae03e7abb7416b0509469e81ad0c5ac17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorConcurrencyTest, C3_MixedConcurrentEvents_5Threads_AlternatingEvictionPromotion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>C3_MixedConcurrentEvents_5Threads_AlternatingEvictionPromotion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="209" column="1" bodyfile="tests/access_model/test_coordination_concurrency.cpp" bodystart="209" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a6f2f2b97e822fb904d952f3663ff8238" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorConcurrencyTest, C4_ConcurrentPromoteCallsOnSameKey_Idempotent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>C4_ConcurrentPromoteCallsOnSameKey_Idempotent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="254" column="1" bodyfile="tests/access_model/test_coordination_concurrency.cpp" bodystart="254" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1ac7861e5bd874fa87cdd814210fcfb2f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorConcurrencyTest, C5_ConcurrentDemotePromoteOnSameKey_NoDataLoss)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>C5_ConcurrentDemotePromoteOnSameKey_NoDataLoss</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="283" column="1" bodyfile="tests/access_model/test_coordination_concurrency.cpp" bodystart="283" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1afbb0a09c130d1efd21281f1aeceef395" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorConcurrencyTest, C6_ConcurrentTierRegistration_AddRemoveDynamic)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>C6_ConcurrentTierRegistration_AddRemoveDynamic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="323" column="1" bodyfile="tests/access_model/test_coordination_concurrency.cpp" bodystart="323" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a72d0883baae6924e976fa77f5f825f24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorConcurrencyTest, C7_WorkerThreadScaling_1To8ThreadsThroughputCheck)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>C7_WorkerThreadScaling_1To8ThreadsThroughputCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="358" column="1" bodyfile="tests/access_model/test_coordination_concurrency.cpp" bodystart="358" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a07e63f9bee4705525233fe87d033b46e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorConcurrencyTest, C8_WorkerUnderprovisioningWith1000Events_QueueStability)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>C8_WorkerUnderprovisioningWith1000Events_QueueStability</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="398" column="1" bodyfile="tests/access_model/test_coordination_concurrency.cpp" bodystart="398" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a54f2042777a13da90f913f458bf938a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorConcurrencyTest, C9_WorkerShutdownDuringInflightEvents_GracefulDrain)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>C9_WorkerShutdownDuringInflightEvents_GracefulDrain</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="425" column="1" bodyfile="tests/access_model/test_coordination_concurrency.cpp" bodystart="425" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1ab7440570aeaaec23b5b00e447b277dd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(AccessCoordinatorConcurrencyTest, C10_MetricsAtomicity_100ThreadsDecrementCounter)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+        </param>
+        <param>
+          <type>C10_MetricsAtomicity_100ThreadsDecrementCounter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="455" column="1" bodyfile="tests/access_model/test_coordination_concurrency.cpp" bodystart="455" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1ad804e8b7dcdb5df0cce2ef1ffa5eb71b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(PromotionDemotionTest, APD_01_CreateDemotionPlan)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref></type>
+        </param>
+        <param>
+          <type>APD_01_CreateDemotionPlan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_promotion_demotion.cpp" line="27" column="1" bodyfile="tests/access_model/test_promotion_demotion.cpp" bodystart="27" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a8230c52769c09d5af5b146ffd1a71ced" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(PromotionDemotionTest, APD_02_GracePeriodCalculation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref></type>
+        </param>
+        <param>
+          <type>APD_02_GracePeriodCalculation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_promotion_demotion.cpp" line="48" column="1" bodyfile="tests/access_model/test_promotion_demotion.cpp" bodystart="48" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1aba342dbf579ef06a0006fc648bd043e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(PromotionDemotionTest, APD_03_SuccessfulDemotionResult)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref></type>
+        </param>
+        <param>
+          <type>APD_03_SuccessfulDemotionResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_promotion_demotion.cpp" line="74" column="1" bodyfile="tests/access_model/test_promotion_demotion.cpp" bodystart="74" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1ad11bfb09fb10796639c4e8270f5ed5a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(PromotionDemotionTest, APD_04_FailedDemotionResult)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref></type>
+        </param>
+        <param>
+          <type>APD_04_FailedDemotionResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_promotion_demotion.cpp" line="92" column="1" bodyfile="tests/access_model/test_promotion_demotion.cpp" bodystart="92" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a55b46631af8a29498a8f9f5a108d5375" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(PromotionDemotionTest, APD_05_ShouldDemoteL1ToL2)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref></type>
+        </param>
+        <param>
+          <type>APD_05_ShouldDemoteL1ToL2</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_promotion_demotion.cpp" line="112" column="1" bodyfile="tests/access_model/test_promotion_demotion.cpp" bodystart="112" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a5de71ed5ac257023c679deb08be6f335" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(PromotionDemotionTest, APD_06_ShouldDemoteHotToWarm)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref></type>
+        </param>
+        <param>
+          <type>APD_06_ShouldDemoteHotToWarm</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_promotion_demotion.cpp" line="124" column="1" bodyfile="tests/access_model/test_promotion_demotion.cpp" bodystart="124" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a41cbb3560159e72c91e1972f5d9c5729" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(PromotionDemotionTest, APD_07_ShouldPromoteStorageToCache)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref></type>
+        </param>
+        <param>
+          <type>APD_07_ShouldPromoteStorageToCache</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_promotion_demotion.cpp" line="140" column="1" bodyfile="tests/access_model/test_promotion_demotion.cpp" bodystart="140" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1aa948962db94c3558a40490123188474b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TEST_F</definition>
+        <argsstring>(PromotionDemotionTest, APD_08_PolicyDescription)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::access_model::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref></type>
+        </param>
+        <param>
+          <type>APD_08_PolicyDescription</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_promotion_demotion.cpp" line="151" column="1" bodyfile="tests/access_model/test_promotion_demotion.cpp" bodystart="151" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1a54dc252b3e60a5d259be3acbcdda1779" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::uniform_int_distribution</type>
+        <definition>std::uniform_int_distribution themis::access_model::key_dist</definition>
+        <argsstring>(0, 99)</argsstring>
+        <name>key_dist</name>
+        <qualifiedname>themis::access_model::key_dist</qualifiedname>
+        <param>
+          <type>0</type>
+        </param>
+        <param>
+          <type>99</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="221" column="6" declfile="benchmarks/access_model/bench_access_coordinator_gates.cpp" declline="221" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1ae31a613835472ec7a5246d318f626049" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::for</definition>
+        <argsstring>(auto _ :state)</argsstring>
+        <name>for</name>
+        <qualifiedname>themis::access_model::for</qualifiedname>
+        <param>
+          <type>auto _ :<ref refid="namespacethemis_1_1access__model_1a593039b6566fc00a82460af296e05df9" kindref="member">state</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="225" column="5" bodyfile="benchmarks/access_model/bench_access_coordinator_gates.cpp" bodystart="225" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1ac54c47ff9e3cb4b70aae94e0184622e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1access__model_1a593039b6566fc00a82460af296e05df9" kindref="member">state</ref></type>
+        <definition>state themis::access_model::SetItemsProcessed</definition>
+        <argsstring>(state.iterations())</argsstring>
+        <name>SetItemsProcessed</name>
+        <qualifiedname>themis::access_model::SetItemsProcessed</qualifiedname>
+        <param>
+          <type>state.</type>
+          <declname>iterations</declname>
+          <array>()</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="244" column="10" declfile="benchmarks/access_model/bench_access_coordinator_gates.cpp" declline="244" declcolumn="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/access_model/access_coordinator.h" line="44" column="1"/>
+  </compounddef>
+</doxygen>

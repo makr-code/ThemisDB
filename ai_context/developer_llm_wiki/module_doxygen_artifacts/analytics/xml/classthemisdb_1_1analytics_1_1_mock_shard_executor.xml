@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_mock_shard_executor" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::MockShardExecutor</compoundname>
+    <basecompoundref refid="classthemisdb_1_1analytics_1_1_shard_query_executor" prot="public" virt="non-virtual">themisdb::analytics::ShardQueryExecutor</basecompoundref>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemisdb_1_1analytics_1_1_mock_shard_executor_1ade3f7397ce251d4f06f1e9cd3bc4fc95" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Mode</name>
+        <qualifiedname>themisdb::analytics::MockShardExecutor::Mode</qualifiedname>
+        <enumvalue id="classthemisdb_1_1analytics_1_1_mock_shard_executor_1ade3f7397ce251d4f06f1e9cd3bc4fc95ad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1analytics_1_1_mock_shard_executor_1ade3f7397ce251d4f06f1e9cd3bc4fc95a36fc6065a3e970bc3e6b2e59da52bf2a" prot="public">
+          <name>FAILURE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1analytics_1_1_mock_shard_executor_1ade3f7397ce251d4f06f1e9cd3bc4fc95a070a0fb40f6c308ab544b227660aadff" prot="public">
+          <name>TIMEOUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1analytics_1_1_mock_shard_executor_1ade3f7397ce251d4f06f1e9cd3bc4fc95a0e3066cbbd284dce8b76e7c4620d6d75" prot="public">
+          <name>SLOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="33" column="5" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="33" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_mock_shard_executor_1ab4982a893a78406a7507111e15694aca" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_mock_shard_executor_1ade3f7397ce251d4f06f1e9cd3bc4fc95" kindref="member">Mode</ref></type>
+        <definition>Mode themisdb::analytics::MockShardExecutor::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themisdb::analytics::MockShardExecutor::mode</qualifiedname>
+        <initializer>= <ref refid="classthemisdb_1_1analytics_1_1_mock_shard_executor_1ade3f7397ce251d4f06f1e9cd3bc4fc95ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">Mode::SUCCESS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="40" column="10" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_mock_shard_executor_1ae39ddd0c7059f61b15340abea08acca0" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::MockShardExecutor::delay</definition>
+        <argsstring></argsstring>
+        <name>delay</name>
+        <qualifiedname>themisdb::analytics::MockShardExecutor::delay</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="41" column="31" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_mock_shard_executor_1adf54f3df9b2f0e2fcc86ed4610a3d587" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themisdb::analytics::MockShardExecutor::call_count</definition>
+        <argsstring></argsstring>
+        <name>call_count</name>
+        <qualifiedname>themisdb::analytics::MockShardExecutor::call_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="42" column="17" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="42" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_mock_shard_executor_1a0004bf5bbd14e066c28f5ae17663268a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">themis::analytics::OLAPResult</ref></type>
+        <definition>themis::analytics::OLAPResult themisdb::analytics::MockShardExecutor::execute</definition>
+        <argsstring>(const std::string &amp;shard_id, const themis::analytics::OLAPQuery &amp;query) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::analytics::MockShardExecutor::execute</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1aa3986a26fa7b7ad3eb9355ec44917f2a">execute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">themis::analytics::OLAPQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="44" column="35" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="44" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_mock_shard_executor_1ab381f8f865338b390630a725b27bdd9e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::MockShardExecutor::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themisdb::analytics::MockShardExecutor::isHealthy</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1aa0c09cb8b04ecc18c5320ecdddab547b">isHealthy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="66" column="10" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="66" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_mock_shard_executor_1ae0ceb3104d1be52ccec4542eb7c7b06a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::MockShardExecutor::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themisdb::analytics::MockShardExecutor::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="70" column="10" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="70" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themisdb::analytics::MockShardExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_mock_shard_executor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::ShardQueryExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_shard_query_executor"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::analytics::MockShardExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_mock_shard_executor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::ShardQueryExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_shard_query_executor"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="31" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="31" bodyend="75"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_mock_shard_executor_1adf54f3df9b2f0e2fcc86ed4610a3d587" prot="public" virt="non-virtual"><scope>themisdb::analytics::MockShardExecutor</scope><name>call_count</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_mock_shard_executor_1ae39ddd0c7059f61b15340abea08acca0" prot="public" virt="non-virtual"><scope>themisdb::analytics::MockShardExecutor</scope><name>delay</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_mock_shard_executor_1a0004bf5bbd14e066c28f5ae17663268a" prot="public" virt="virtual"><scope>themisdb::analytics::MockShardExecutor</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_mock_shard_executor_1ab381f8f865338b390630a725b27bdd9e" prot="public" virt="virtual"><scope>themisdb::analytics::MockShardExecutor</scope><name>isHealthy</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_mock_shard_executor_1ade3f7397ce251d4f06f1e9cd3bc4fc95" prot="public" virt="non-virtual"><scope>themisdb::analytics::MockShardExecutor</scope><name>Mode</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_mock_shard_executor_1ab4982a893a78406a7507111e15694aca" prot="public" virt="non-virtual"><scope>themisdb::analytics::MockShardExecutor</scope><name>mode</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_mock_shard_executor_1ae0ceb3104d1be52ccec4542eb7c7b06a" prot="public" virt="non-virtual"><scope>themisdb::analytics::MockShardExecutor</scope><name>reset</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1abaecd42838910a0fcc4d50d31eeb075e" prot="public" virt="virtual"><scope>themisdb::analytics::MockShardExecutor</scope><name>~ShardQueryExecutor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

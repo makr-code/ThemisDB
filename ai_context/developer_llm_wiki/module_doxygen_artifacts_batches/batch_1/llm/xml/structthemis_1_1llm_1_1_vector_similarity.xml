@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vector_similarity" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::VectorSimilarity</compoundname>
+    <includes refid="multi__model__training__data_8h" local="no">multi_model_training_data.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vector_similarity_1a7ccafa11791782c68515ee270c85f125" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::VectorSimilarity::similar_documents</definition>
+        <argsstring></argsstring>
+        <name>similar_documents</name>
+        <qualifiedname>themis::llm::VectorSimilarity::similar_documents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="55" column="17" bodyfile="include/llm/multi_model_training_data.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vector_similarity_1ac1b92250635d7aa04cf1ad29dc2dc6be" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::VectorSimilarity::similarity_scores</definition>
+        <argsstring></argsstring>
+        <name>similarity_scores</name>
+        <qualifiedname>themis::llm::VectorSimilarity::similarity_scores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="56" column="17" bodyfile="include/llm/multi_model_training_data.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vector_similarity_1ae2fdd3142986220fef0a580cd853a377" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::VectorSimilarity::document_texts</definition>
+        <argsstring></argsstring>
+        <name>document_texts</name>
+        <qualifiedname>themis::llm::VectorSimilarity::document_texts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="57" column="17" bodyfile="include/llm/multi_model_training_data.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_vector_similarity_1a376a72de8f87a92aafce04e6668738b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VectorSimilarity::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::llm::VectorSimilarity::toString</qualifiedname>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="63" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_vector_similarity_1ab370c9444849c02a2bcfb620d14c5319" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::VectorSimilarity::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::VectorSimilarity::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="68" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_model_training_data.h" line="54" column="1" bodyfile="include/llm/multi_model_training_data.h" bodystart="54" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vector_similarity_1ae2fdd3142986220fef0a580cd853a377" prot="public" virt="non-virtual"><scope>themis::llm::VectorSimilarity</scope><name>document_texts</name></member>
+      <member refid="structthemis_1_1llm_1_1_vector_similarity_1a7ccafa11791782c68515ee270c85f125" prot="public" virt="non-virtual"><scope>themis::llm::VectorSimilarity</scope><name>similar_documents</name></member>
+      <member refid="structthemis_1_1llm_1_1_vector_similarity_1ac1b92250635d7aa04cf1ad29dc2dc6be" prot="public" virt="non-virtual"><scope>themis::llm::VectorSimilarity</scope><name>similarity_scores</name></member>
+      <member refid="structthemis_1_1llm_1_1_vector_similarity_1ab370c9444849c02a2bcfb620d14c5319" prot="public" virt="non-virtual"><scope>themis::llm::VectorSimilarity</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_vector_similarity_1a376a72de8f87a92aafce04e6668738b8" prot="public" virt="non-virtual"><scope>themis::llm::VectorSimilarity</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::AdapterCapabilityAnnouncement</compoundname>
+    <includes refid="adapter__capability__announcement_8h" local="no">adapter_capability_announcement.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6bd6d6bb22ee0ce627f64420a82d37f4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::AdapterCapabilityAnnouncement::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::distributed_knowledge::AdapterCapabilityAnnouncement::shard_id</qualifiedname>
+        <briefdescription>
+<para>Broadcasting shard identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="71" column="17" bodyfile="include/distributed_knowledge/adapter_capability_announcement.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6c25bdb56734126291a426d6c79f5edd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::AdapterCapabilityAnnouncement::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::distributed_knowledge::AdapterCapabilityAnnouncement::adapter_id</qualifiedname>
+        <briefdescription>
+<para>Adapter identifier in AdapterRegistry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="72" column="17" bodyfile="include/distributed_knowledge/adapter_capability_announcement.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a79c0b79ed1cf3f20460f028ed2fdb27f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::AdapterCapabilityAnnouncement::adapter_version</definition>
+        <argsstring></argsstring>
+        <name>adapter_version</name>
+        <qualifiedname>themis::distributed_knowledge::AdapterCapabilityAnnouncement::adapter_version</qualifiedname>
+        <briefdescription>
+<para>Semantic version, e.g. &quot;v1.3.0&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="73" column="17" bodyfile="include/distributed_knowledge/adapter_capability_announcement.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1ae260919905477f2a13b53c36cb83ca71" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057" kindref="member">AdapterDomainType</ref></type>
+        <definition>AdapterDomainType themis::distributed_knowledge::AdapterCapabilityAnnouncement::domain_type</definition>
+        <argsstring></argsstring>
+        <name>domain_type</name>
+        <qualifiedname>themis::distributed_knowledge::AdapterCapabilityAnnouncement::domain_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__knowledge_1a5570bfce4206912a23d4fde2c14c0057ab61773b9b3968a9988d765d728985862" kindref="member">AdapterDomainType::GENERAL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="76" column="23" bodyfile="include/distributed_knowledge/adapter_capability_announcement.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1ad4b4aa85af0b4edfbcd094f69da2cac0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::AdapterCapabilityAnnouncement::custom_domain_label</definition>
+        <argsstring></argsstring>
+        <name>custom_domain_label</name>
+        <qualifiedname>themis::distributed_knowledge::AdapterCapabilityAnnouncement::custom_domain_label</qualifiedname>
+        <briefdescription>
+<para>Only used when domain_type == CUSTOM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="77" column="17" bodyfile="include/distributed_knowledge/adapter_capability_announcement.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a68cc2ed9e756dfddfef70dc307c07e49" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::AdapterCapabilityAnnouncement::performance_delta_p99_ms</definition>
+        <argsstring></argsstring>
+        <name>performance_delta_p99_ms</name>
+        <qualifiedname>themis::distributed_knowledge::AdapterCapabilityAnnouncement::performance_delta_p99_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>p99 latency delta vs. base (negative = faster) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="80" column="12" bodyfile="include/distributed_knowledge/adapter_capability_announcement.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a1a1c4b653f96ae7f3850db0e21b47bec" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::AdapterCapabilityAnnouncement::accuracy_delta</definition>
+        <argsstring></argsstring>
+        <name>accuracy_delta</name>
+        <qualifiedname>themis::distributed_knowledge::AdapterCapabilityAnnouncement::accuracy_delta</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Accuracy delta vs. base model [−1, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="81" column="12" bodyfile="include/distributed_knowledge/adapter_capability_announcement.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a973b3ac1841761a604de50c005a732b4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::AdapterCapabilityAnnouncement::training_samples</definition>
+        <argsstring></argsstring>
+        <name>training_samples</name>
+        <qualifiedname>themis::distributed_knowledge::AdapterCapabilityAnnouncement::training_samples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of samples used in last training round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="82" column="12" bodyfile="include/distributed_knowledge/adapter_capability_announcement.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1abc7f155e70e522fa0dc02a13e17a1cb5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_knowledge::AdapterCapabilityAnnouncement::federation_round</definition>
+        <argsstring></argsstring>
+        <name>federation_round</name>
+        <qualifiedname>themis::distributed_knowledge::AdapterCapabilityAnnouncement::federation_round</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Last federated round this adapter participated in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="85" column="17" bodyfile="include/distributed_knowledge/adapter_capability_announcement.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a76a185bf77dc2df000611ac9692bc40c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::AdapterCapabilityAnnouncement::last_global_delta_version</definition>
+        <argsstring></argsstring>
+        <name>last_global_delta_version</name>
+        <qualifiedname>themis::distributed_knowledge::AdapterCapabilityAnnouncement::last_global_delta_version</qualifiedname>
+        <briefdescription>
+<para>Version of last applied global gradient delta. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="86" column="17" bodyfile="include/distributed_knowledge/adapter_capability_announcement.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1aedee3ecaf27b6cd9b46f1f65c5bedbe0" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::distributed_knowledge::AdapterCapabilityAnnouncement::announced_at</definition>
+        <argsstring></argsstring>
+        <name>announced_at</name>
+        <qualifiedname>themis::distributed_knowledge::AdapterCapabilityAnnouncement::announced_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="89" column="43" bodyfile="include/distributed_knowledge/adapter_capability_announcement.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a4af7b5defc5215b0b72c2e6800a0bd6a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::AdapterCapabilityAnnouncement::is_withdrawal</definition>
+        <argsstring></argsstring>
+        <name>is_withdrawal</name>
+        <qualifiedname>themis::distributed_knowledge::AdapterCapabilityAnnouncement::is_withdrawal</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="91" column="10" bodyfile="include/distributed_knowledge/adapter_capability_announcement.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1adf42c54bfbdd479f5933947f3465d4e1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::distributed_knowledge::AdapterCapabilityAnnouncement::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::distributed_knowledge::AdapterCapabilityAnnouncement::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="95" column="21" bodyfile="include/distributed_knowledge/adapter_capability_announcement.h" bodystart="95" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a30552b1e588bd10c70a643a9553c3097" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref></type>
+        <definition>static AdapterCapabilityAnnouncement themis::distributed_knowledge::AdapterCapabilityAnnouncement::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::distributed_knowledge::AdapterCapabilityAnnouncement::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="115" column="43" bodyfile="include/distributed_knowledge/adapter_capability_announcement.h" bodystart="115" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_knowledge/adapter_capability_announcement.h" line="69" column="1" bodyfile="include/distributed_knowledge/adapter_capability_announcement.h" bodystart="69" bodyend="149"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a1a1c4b653f96ae7f3850db0e21b47bec" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::AdapterCapabilityAnnouncement</scope><name>accuracy_delta</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6c25bdb56734126291a426d6c79f5edd" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::AdapterCapabilityAnnouncement</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a79c0b79ed1cf3f20460f028ed2fdb27f" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::AdapterCapabilityAnnouncement</scope><name>adapter_version</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1aedee3ecaf27b6cd9b46f1f65c5bedbe0" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::AdapterCapabilityAnnouncement</scope><name>announced_at</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1ad4b4aa85af0b4edfbcd094f69da2cac0" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::AdapterCapabilityAnnouncement</scope><name>custom_domain_label</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1ae260919905477f2a13b53c36cb83ca71" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::AdapterCapabilityAnnouncement</scope><name>domain_type</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1abc7f155e70e522fa0dc02a13e17a1cb5" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::AdapterCapabilityAnnouncement</scope><name>federation_round</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a30552b1e588bd10c70a643a9553c3097" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::AdapterCapabilityAnnouncement</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a4af7b5defc5215b0b72c2e6800a0bd6a" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::AdapterCapabilityAnnouncement</scope><name>is_withdrawal</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a76a185bf77dc2df000611ac9692bc40c" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::AdapterCapabilityAnnouncement</scope><name>last_global_delta_version</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a68cc2ed9e756dfddfef70dc307c07e49" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::AdapterCapabilityAnnouncement</scope><name>performance_delta_p99_ms</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a6bd6d6bb22ee0ce627f64420a82d37f4" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::AdapterCapabilityAnnouncement</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1adf42c54bfbdd479f5933947f3465d4e1" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::AdapterCapabilityAnnouncement</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement_1a973b3ac1841761a604de50c005a732b4" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::AdapterCapabilityAnnouncement</scope><name>training_samples</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

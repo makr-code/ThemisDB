@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub2_p_c_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>Stub2PCCoordinator</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_stub2_p_c_coordinator_1aad9bbeaa7e3002dd1ef4960d22d6a2d3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Vote</name>
+        <qualifiedname>Stub2PCCoordinator::Vote</qualifiedname>
+        <enumvalue id="class_stub2_p_c_coordinator_1aad9bbeaa7e3002dd1ef4960d22d6a2d3a1d0ba376e273b9d622641124d8c59264" prot="public">
+          <name>COMMIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_stub2_p_c_coordinator_1aad9bbeaa7e3002dd1ef4960d22d6a2d3a8d12a2ca7e5a64036d7251a3eda51a38" prot="public">
+          <name>ABORT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="86" column="5" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="86" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub2_p_c_coordinator_1ac5d790683bef9a627e98f6b14f13ebae" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; Stub2PCCoordinator::prepared_</definition>
+        <argsstring></argsstring>
+        <name>prepared_</name>
+        <qualifiedname>Stub2PCCoordinator::prepared_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="105" column="17" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub2_p_c_coordinator_1aa1f8aff5dce7e78ae2a09c0c97d14371" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; Stub2PCCoordinator::committed_</definition>
+        <argsstring></argsstring>
+        <name>committed_</name>
+        <qualifiedname>Stub2PCCoordinator::committed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="106" column="17" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="106" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub2_p_c_coordinator_1ab3f7112d605b1e44b3d08acf2e168ef6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_stub2_p_c_coordinator_1aad9bbeaa7e3002dd1ef4960d22d6a2d3" kindref="member">Vote</ref></type>
+        <definition>Vote Stub2PCCoordinator::prepare</definition>
+        <argsstring>(uint64_t tx_id, uint64_t key)</argsstring>
+        <name>prepare</name>
+        <qualifiedname>Stub2PCCoordinator::prepare</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>tx_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="88" column="10" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="88" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub2_p_c_coordinator_1a01c885f11c42fe2b6b6d908364b8cedd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Stub2PCCoordinator::do_commit</definition>
+        <argsstring>(uint64_t tx_id)</argsstring>
+        <name>do_commit</name>
+        <qualifiedname>Stub2PCCoordinator::do_commit</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>tx_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="95" column="10" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="95" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub2_p_c_coordinator_1a85d6e29360206e4c2d7fb342e922c96a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t Stub2PCCoordinator::prepared</definition>
+        <argsstring>() const</argsstring>
+        <name>prepared</name>
+        <qualifiedname>Stub2PCCoordinator::prepared</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="101" column="14" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub2_p_c_coordinator_1a1947938fe58cf1de3945b9433c82cb11" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t Stub2PCCoordinator::committed</definition>
+        <argsstring>() const</argsstring>
+        <name>committed</name>
+        <qualifiedname>Stub2PCCoordinator::committed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="102" column="14" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="102" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/transaction/test_transaction_highcardinality_stress.cpp" line="84" column="1" bodyfile="tests/transaction/test_transaction_highcardinality_stress.cpp" bodystart="84" bodyend="107"/>
+    <listofallmembers>
+      <member refid="class_stub2_p_c_coordinator_1a1947938fe58cf1de3945b9433c82cb11" prot="public" virt="non-virtual"><scope>Stub2PCCoordinator</scope><name>committed</name></member>
+      <member refid="class_stub2_p_c_coordinator_1aa1f8aff5dce7e78ae2a09c0c97d14371" prot="private" virt="non-virtual"><scope>Stub2PCCoordinator</scope><name>committed_</name></member>
+      <member refid="class_stub2_p_c_coordinator_1a01c885f11c42fe2b6b6d908364b8cedd" prot="public" virt="non-virtual"><scope>Stub2PCCoordinator</scope><name>do_commit</name></member>
+      <member refid="class_stub2_p_c_coordinator_1ab3f7112d605b1e44b3d08acf2e168ef6" prot="public" virt="non-virtual"><scope>Stub2PCCoordinator</scope><name>prepare</name></member>
+      <member refid="class_stub2_p_c_coordinator_1a85d6e29360206e4c2d7fb342e922c96a" prot="public" virt="non-virtual"><scope>Stub2PCCoordinator</scope><name>prepared</name></member>
+      <member refid="class_stub2_p_c_coordinator_1ac5d790683bef9a627e98f6b14f13ebae" prot="private" virt="non-virtual"><scope>Stub2PCCoordinator</scope><name>prepared_</name></member>
+      <member refid="class_stub2_p_c_coordinator_1aad9bbeaa7e3002dd1ef4960d22d6a2d3" prot="public" virt="non-virtual"><scope>Stub2PCCoordinator</scope><name>Vote</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

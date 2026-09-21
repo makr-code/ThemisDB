@@ -1,0 +1,430 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::MultiGPUMemoryCoordinator</compoundname>
+    <includes refid="multi__gpu__memory__coordinator_8h" local="no">multi_gpu_memory_coordinator.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device" prot="public">themis::llm::MultiGPUMemoryCoordinator::GPUDevice</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan" prot="public">themis::llm::MultiGPUMemoryCoordinator::DistributionPlan</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_impl" prot="public">themis::llm::MultiGPUMemoryCoordinator::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DistributionStrategy</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::DistributionStrategy</qualifiedname>
+        <enumvalue id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3a0e7b54c17b418ada25475008f96b2e06" prot="public">
+          <name>TENSOR_PARALLEL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3a49a19cd8a53df75f69a336aeb24f08de" prot="public">
+          <name>PIPELINE_PARALLEL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3a3bf07fe8ac3883060b1558113ba248d4" prot="public">
+          <name>HYBRID</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3a37d2a3465f7cbf4ab60f4e79944d0638" prot="public">
+          <name>DATA_PARALLEL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="25" column="5" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="25" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a8391a6cc26ba9324c58452c57f2e2f10" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::MultiGPUMemoryCoordinator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="112" column="21" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a97c881382f381f83f9a54ab8a461e8f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MultiGPUMemoryCoordinator::MultiGPUMemoryCoordinator</definition>
+        <argsstring>()</argsstring>
+        <name>MultiGPUMemoryCoordinator</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::MultiGPUMemoryCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="64" column="5" bodyfile="src/llm/multi_gpu_memory_coordinator.cpp" bodystart="37" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a0a95d10dd038a443940299d2cd9da2bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MultiGPUMemoryCoordinator::~MultiGPUMemoryCoordinator</definition>
+        <argsstring>()</argsstring>
+        <name>~MultiGPUMemoryCoordinator</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::~MultiGPUMemoryCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="65" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a2f3439ba9fa22948d72ae071f1de6710" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiGPUMemoryCoordinator::initialize</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;gpu_ids)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::initialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>gpu_ids</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), clear(), cudaGetDeviceCount(), cudaGetErrorString(), spdlog::info(), spdlog::warn(), cudaSetDevice(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="67" column="11" bodyfile="src/llm/multi_gpu_memory_coordinator.cpp" bodystart="48" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a315e619acd7e9a60c23e83a242fd368b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan" kindref="compound">DistributionPlan</ref></type>
+        <definition>MultiGPUMemoryCoordinator::DistributionPlan themis::llm::MultiGPUMemoryCoordinator::distributeModelWeights</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;gpu_ids, size_t model_size_bytes)</argsstring>
+        <name>distributeModelWeights</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::distributeModelWeights</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>gpu_ids</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>model_size_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="69" column="23" bodyfile="src/llm/multi_gpu_memory_coordinator.cpp" bodystart="204" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a8a4d6cda12f5b1a21d7fe2ef8ce6dc72" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan" kindref="compound">DistributionPlan</ref></type>
+        <definition>MultiGPUMemoryCoordinator::DistributionPlan themis::llm::MultiGPUMemoryCoordinator::distributeLayers</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;gpu_ids, size_t num_layers, size_t layer_size_bytes)</argsstring>
+        <name>distributeLayers</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::distributeLayers</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>gpu_ids</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_layers</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>layer_size_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="74" column="23" bodyfile="src/llm/multi_gpu_memory_coordinator.cpp" bodystart="235" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1ad38e4cc46f77580dadc41b7554d0e628" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_distribution_plan" kindref="compound">DistributionPlan</ref></type>
+        <definition>MultiGPUMemoryCoordinator::DistributionPlan themis::llm::MultiGPUMemoryCoordinator::balanceInferenceLoad</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;gpu_ids, size_t total_batch_size)</argsstring>
+        <name>balanceInferenceLoad</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::balanceInferenceLoad</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>gpu_ids</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total_batch_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="80" column="23" bodyfile="src/llm/multi_gpu_memory_coordinator.cpp" bodystart="276" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a5e21d3103b4bc02fb79106f682f0827d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiGPUMemoryCoordinator::enableP2P</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;gpu_ids)</argsstring>
+        <name>enableP2P</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::enableP2P</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>gpu_ids</declname>
+        </param>
+        <briefdescription>
+<para>Enable P2 P. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), spdlog::warn(), spdlog::info(), cudaDeviceCanAccessPeer(), cudaSetDevice(), cudaGetErrorString(), cudaDeviceEnablePeerAccess(), defined(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="85" column="11" bodyfile="src/llm/multi_gpu_memory_coordinator.cpp" bodystart="330" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a3ec64441bbf1881bc4fa457c81ad257c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device" kindref="compound">GPUDevice</ref></type>
+        <definition>MultiGPUMemoryCoordinator::GPUDevice themis::llm::MultiGPUMemoryCoordinator::getGPUInfo</definition>
+        <argsstring>(int device_id) const</argsstring>
+        <name>getGPUInfo</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::getGPUInfo</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="87" column="16" bodyfile="src/llm/multi_gpu_memory_coordinator.cpp" bodystart="492" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1ae44c57927978e1c0d2b8f5a27a3d725a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device" kindref="compound">GPUDevice</ref> &gt;</type>
+        <definition>std::vector&lt; MultiGPUMemoryCoordinator::GPUDevice &gt; themis::llm::MultiGPUMemoryCoordinator::getAllGPUs</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllGPUs</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::getAllGPUs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="89" column="18" bodyfile="src/llm/multi_gpu_memory_coordinator.cpp" bodystart="507" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a16701125c38f79173ff2f037ad90d1f7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::MultiGPUMemoryCoordinator::getLeastLoadedGPU</definition>
+        <argsstring>() const</argsstring>
+        <name>getLeastLoadedGPU</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::getLeastLoadedGPU</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="91" column="10" bodyfile="src/llm/multi_gpu_memory_coordinator.cpp" bodystart="511" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aeb867af1c03679db911a9e133a575f11" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiGPUMemoryCoordinator::canAccessPeer</definition>
+        <argsstring>(int src_gpu, int dst_gpu) const</argsstring>
+        <name>canAccessPeer</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::canAccessPeer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>src_gpu</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>dst_gpu</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="93" column="11" bodyfile="src/llm/multi_gpu_memory_coordinator.cpp" bodystart="529" bodyend="558"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1accb1224a6a28eaa4180df15a2cb2d90f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiGPUMemoryCoordinator::transferP2P</definition>
+        <argsstring>(int src_gpu, int dst_gpu, const void *src_ptr, void *dst_ptr, size_t bytes)</argsstring>
+        <name>transferP2P</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::transferP2P</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>src_gpu</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>dst_gpu</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>src_ptr</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>dst_ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Transfer P2 P. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">src_gpu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dst_gpu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">src_ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dst_ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::warn(), cudaMemcpyPeer(), spdlog::error(), cudaGetErrorString(), spdlog::debug(), defined(), hipMemcpyPeer(), hipGetErrorString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="95" column="11" bodyfile="src/llm/multi_gpu_memory_coordinator.cpp" bodystart="570" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a3c057b9c69051b696e8e8eff8249a95e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::MultiGPUMemoryCoordinator::synchronizeAll</definition>
+        <argsstring>()</argsstring>
+        <name>synchronizeAll</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::synchronizeAll</qualifiedname>
+        <briefdescription>
+<para>Synchronize All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: cudaSetDevice(), spdlog::warn(), cudaGetErrorString(), cudaDeviceSynchronize(), defined(), hipSetDevice(), hipGetErrorString(), hipDeviceSynchronize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="106" column="10" bodyfile="src/llm/multi_gpu_memory_coordinator.cpp" bodystart="620" bodyend="659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1af2431be8ef3c330cc64a276b1cc0fa7c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; int, bool &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; int, bool &gt; &gt; themis::llm::MultiGPUMemoryCoordinator::getHealthStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthStatus</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::getHealthStatus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_gpu_memory_coordinator.h" line="108" column="18" bodyfile="src/llm/multi_gpu_memory_coordinator.cpp" bodystart="662" bodyend="668"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_gpu_memory_coordinator.h" line="23" column="1" bodyfile="include/llm/multi_gpu_memory_coordinator.h" bodystart="23" bodyend="113"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1ad38e4cc46f77580dadc41b7554d0e628" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator</scope><name>balanceInferenceLoad</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aeb867af1c03679db911a9e133a575f11" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator</scope><name>canAccessPeer</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a8a4d6cda12f5b1a21d7fe2ef8ce6dc72" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator</scope><name>distributeLayers</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a315e619acd7e9a60c23e83a242fd368b" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator</scope><name>distributeModelWeights</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1aa45924fd6d6f0e371078401d62996fd3" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator</scope><name>DistributionStrategy</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a5e21d3103b4bc02fb79106f682f0827d" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator</scope><name>enableP2P</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1ae44c57927978e1c0d2b8f5a27a3d725a" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator</scope><name>getAllGPUs</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a3ec64441bbf1881bc4fa457c81ad257c" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator</scope><name>getGPUInfo</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1af2431be8ef3c330cc64a276b1cc0fa7c" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a16701125c38f79173ff2f037ad90d1f7" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator</scope><name>getLeastLoadedGPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a8391a6cc26ba9324c58452c57f2e2f10" prot="private" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a2f3439ba9fa22948d72ae071f1de6710" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a97c881382f381f83f9a54ab8a461e8f1" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator</scope><name>MultiGPUMemoryCoordinator</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a3c057b9c69051b696e8e8eff8249a95e" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator</scope><name>synchronizeAll</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1accb1224a6a28eaa4180df15a2cb2d90f" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator</scope><name>transferP2P</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1a0a95d10dd038a443940299d2cd9da2bf" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator</scope><name>~MultiGPUMemoryCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

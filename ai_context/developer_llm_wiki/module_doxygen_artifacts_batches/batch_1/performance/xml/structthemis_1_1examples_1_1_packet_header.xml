@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1examples_1_1_packet_header" kind="struct" language="C++" prot="public">
+    <compoundname>themis::examples::PacketHeader</compoundname>
+    <includes refid="alignment__examples_8h" local="no">alignment_examples.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_packet_header_1a9a7ee1a5ba7debb1cd80f78e74a5a5f7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::examples::PacketHeader::magic</definition>
+        <argsstring></argsstring>
+        <name>magic</name>
+        <qualifiedname>themis::examples::PacketHeader::magic</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="173" column="14" bodyfile="include/performance/alignment_examples.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_packet_header_1ae86a55f02521b184cfd22bf67a33ac9d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::examples::PacketHeader::length</definition>
+        <argsstring></argsstring>
+        <name>length</name>
+        <qualifiedname>themis::examples::PacketHeader::length</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="174" column="14" bodyfile="include/performance/alignment_examples.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_packet_header_1a45e13e5bcf7709710fdf20618ca68d40" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::examples::PacketHeader::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::examples::PacketHeader::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="175" column="14" bodyfile="include/performance/alignment_examples.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Parse network packet header safely. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Network packets often arrive with arbitrary alignment. Direct pointer casting can cause SIGBUS on ARM.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw packet buffer (potentially unaligned) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Safely parsed header </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/performance/alignment_examples.h" line="172" column="1" bodyfile="include/performance/alignment_examples.h" bodystart="172" bodyend="176"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1examples_1_1_packet_header_1ae86a55f02521b184cfd22bf67a33ac9d" prot="public" virt="non-virtual"><scope>themis::examples::PacketHeader</scope><name>length</name></member>
+      <member refid="structthemis_1_1examples_1_1_packet_header_1a9a7ee1a5ba7debb1cd80f78e74a5a5f7" prot="public" virt="non-virtual"><scope>themis::examples::PacketHeader</scope><name>magic</name></member>
+      <member refid="structthemis_1_1examples_1_1_packet_header_1a45e13e5bcf7709710fdf20618ca68d40" prot="public" virt="non-virtual"><scope>themis::examples::PacketHeader</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

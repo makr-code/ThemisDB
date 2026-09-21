@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_prompt_injection_detector_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::PromptInjectionDetector::Config</compoundname>
+    <includes refid="lora__security__validator_8h" local="no">lora_security_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prompt_injection_detector_1_1_config_1a15977321b318109a974122bf301df1da" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::PromptInjectionDetector::Config::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::Config::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="233" column="14" bodyfile="include/llm/lora_security_validator.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prompt_injection_detector_1_1_config_1a01f5a5158d457cacc76300dc6a29e6d3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::PromptInjectionDetector::Config::risk_threshold</definition>
+        <argsstring></argsstring>
+        <name>risk_threshold</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::Config::risk_threshold</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="234" column="15" bodyfile="include/llm/lora_security_validator.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prompt_injection_detector_1_1_config_1abae9c9d4e226dd0bfb661af6313fe0b7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::PromptInjectionDetector::Config::block_high_risk</definition>
+        <argsstring></argsstring>
+        <name>block_high_risk</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::Config::block_high_risk</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="235" column="14" bodyfile="include/llm/lora_security_validator.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_prompt_injection_detector_1_1_config_1a71919f6cc454f4552d31b100deaa07f4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::PromptInjectionDetector::Config::log_detections</definition>
+        <argsstring></argsstring>
+        <name>log_detections</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::Config::log_detections</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="236" column="14" bodyfile="include/llm/lora_security_validator.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_security_validator.h" line="232" column="5" bodyfile="include/llm/lora_security_validator.h" bodystart="232" bodyend="237"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_prompt_injection_detector_1_1_config_1abae9c9d4e226dd0bfb661af6313fe0b7" prot="public" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector::Config</scope><name>block_high_risk</name></member>
+      <member refid="structthemis_1_1llm_1_1_prompt_injection_detector_1_1_config_1a15977321b318109a974122bf301df1da" prot="public" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector::Config</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_prompt_injection_detector_1_1_config_1a71919f6cc454f4552d31b100deaa07f4" prot="public" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector::Config</scope><name>log_detections</name></member>
+      <member refid="structthemis_1_1llm_1_1_prompt_injection_detector_1_1_config_1a01f5a5158d457cacc76300dc6a29e6d3" prot="public" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector::Config</scope><name>risk_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

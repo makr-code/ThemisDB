@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_l_f_u_eviction_strategy_1_1_frequency_data" kind="struct" language="C++" prot="private">
+    <compoundname>themis::core::concerns::LFUEvictionStrategy::FrequencyData</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_l_f_u_eviction_strategy_1_1_frequency_data_1a7de589307c0cb72f7c932e62e232e0ab" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::LFUEvictionStrategy::FrequencyData::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::core::concerns::LFUEvictionStrategy::FrequencyData::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="150" column="18" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_l_f_u_eviction_strategy_1_1_frequency_data_1a4ce84792014d24fa8d3b0e20dce46fed" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::LFUEvictionStrategy::FrequencyData::last_access_ms</definition>
+        <argsstring></argsstring>
+        <name>last_access_ms</name>
+        <qualifiedname>themis::core::concerns::LFUEvictionStrategy::FrequencyData::last_access_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/eviction_strategies.h" line="151" column="18" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/eviction_strategies.h" line="149" column="5" bodyfile="include/core/concerns/eviction_strategies.h" bodystart="149" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_l_f_u_eviction_strategy_1_1_frequency_data_1a7de589307c0cb72f7c932e62e232e0ab" prot="public" virt="non-virtual"><scope>themis::core::concerns::LFUEvictionStrategy::FrequencyData</scope><name>count</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_l_f_u_eviction_strategy_1_1_frequency_data_1a4ce84792014d24fa8d3b0e20dce46fed" prot="public" virt="non-virtual"><scope>themis::core::concerns::LFUEvictionStrategy::FrequencyData</scope><name>last_access_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

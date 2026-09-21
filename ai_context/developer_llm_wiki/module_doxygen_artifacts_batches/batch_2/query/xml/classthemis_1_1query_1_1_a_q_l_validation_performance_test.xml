@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_a_q_l_validation_performance_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::AQLValidationPerformanceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_a_q_l_validation_performance_test_1a3406681a95b57d26a0100c7ac0c27987" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_a_q_l_parser_service" kindref="compound">AQLParserService</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AQLParserService&gt; themis::query::AQLValidationPerformanceTest::parser_</definition>
+        <argsstring></argsstring>
+        <name>parser_</name>
+        <qualifiedname>themis::query::AQLValidationPerformanceTest::parser_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_validation_performance.cpp" line="30" column="21" bodyfile="tests/query/test_aql_validation_performance.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_a_q_l_validation_performance_test_1a73e9be231871584ee6ff38e47a58a54b" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::AQLValidationPerformanceTest::simple_query_</definition>
+        <argsstring></argsstring>
+        <name>simple_query_</name>
+        <qualifiedname>themis::query::AQLValidationPerformanceTest::simple_query_</qualifiedname>
+        <initializer>= &quot;FOR u IN users RETURN u&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_validation_performance.cpp" line="33" column="17" bodyfile="tests/query/test_aql_validation_performance.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_a_q_l_validation_performance_test_1afe7bc928d533a5d180038d39379e6d51" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::AQLValidationPerformanceTest::medium_query_</definition>
+        <argsstring></argsstring>
+        <name>medium_query_</name>
+        <qualifiedname>themis::query::AQLValidationPerformanceTest::medium_query_</qualifiedname>
+        <initializer>                              = R&quot;(
+FOR u IN users
+  FILTER u.age &gt; 18
+  SORT u.created DESC
+  RETURN {
+    id: u._key,
+    name: u.name,
+    email: u.email,
+    age: u.age
+  }
+)&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_validation_performance.cpp" line="34" column="17" bodyfile="tests/query/test_aql_validation_performance.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_a_q_l_validation_performance_test_1a0ce89a986e4f7dff026ec63976cc1de7" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::AQLValidationPerformanceTest::complex_query_</definition>
+        <argsstring></argsstring>
+        <name>complex_query_</name>
+        <qualifiedname>themis::query::AQLValidationPerformanceTest::complex_query_</qualifiedname>
+        <initializer>                               = R&quot;(
+FOR u IN users
+  FILTER u.age &gt; 18 &amp;&amp; u.status == &apos;active&apos;
+  LET orders = (FOR o IN orders FILTER o.user_id == u._key RETURN o)
+  LET total_spent = SUM(orders[*].amount)
+  COLLECT category = u.category
+    INTO group = {
+      user: u.name,
+      order_count: LENGTH(orders),
+      total_spent: total_spent
+    }
+  SORT category ASC
+  LIMIT 100
+  RETURN {
+    category: category,
+    users: group
+  }
+)&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_validation_performance.cpp" line="45" column="17" bodyfile="tests/query/test_aql_validation_performance.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_validation_performance_test_1a6f862ed5af699a74f3b1d270759ff4e9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::AQLValidationPerformanceTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::query::AQLValidationPerformanceTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_validation_performance.cpp" line="64" column="10" bodyfile="tests/query/test_aql_validation_performance.cpp" bodystart="64" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixture for performance testing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::AQLValidationPerformanceTest</label>
+        <link refid="classthemis_1_1query_1_1_a_q_l_validation_performance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::AQLValidationPerformanceTest</label>
+        <link refid="classthemis_1_1query_1_1_a_q_l_validation_performance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_aql_validation_performance.cpp" line="28" column="1" bodyfile="tests/query/test_aql_validation_performance.cpp" bodystart="28" bodyend="71"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_a_q_l_validation_performance_test_1a0ce89a986e4f7dff026ec63976cc1de7" prot="protected" virt="non-virtual"><scope>themis::query::AQLValidationPerformanceTest</scope><name>complex_query_</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_validation_performance_test_1afe7bc928d533a5d180038d39379e6d51" prot="protected" virt="non-virtual"><scope>themis::query::AQLValidationPerformanceTest</scope><name>medium_query_</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_validation_performance_test_1a3406681a95b57d26a0100c7ac0c27987" prot="protected" virt="non-virtual"><scope>themis::query::AQLValidationPerformanceTest</scope><name>parser_</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_validation_performance_test_1a6f862ed5af699a74f3b1d270759ff4e9" prot="protected" virt="non-virtual"><scope>themis::query::AQLValidationPerformanceTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_validation_performance_test_1a73e9be231871584ee6ff38e47a58a54b" prot="protected" virt="non-virtual"><scope>themis::query::AQLValidationPerformanceTest</scope><name>simple_query_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

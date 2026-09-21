@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_s_q_l_unary_op_expr" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SQLUnaryOpExpr</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_s_q_l_expr" prot="public" virt="non-virtual">themis::query::SQLExpr</basecompoundref>
+    <includes refid="sql__parser_8h" local="no">sql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1a3d131712cd5baa005105f2175fbbd966" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SQLUnaryOpExpr::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::query::SQLUnaryOpExpr::op</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="97" column="17" bodyfile="include/query/sql_parser.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1a2a397034ddb53c094399a378cf459f6a" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_s_q_l_expr" kindref="compound">SQLExpr</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SQLExpr&gt; themis::query::SQLUnaryOpExpr::operand</definition>
+        <argsstring></argsstring>
+        <name>operand</name>
+        <qualifiedname>themis::query::SQLUnaryOpExpr::operand</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="98" column="21" bodyfile="include/query/sql_parser.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1ab9f9c3262abd2a495a97bfd489e6fc22" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::SQLUnaryOpExpr::SQLUnaryOpExpr</definition>
+        <argsstring>(std::string o, std::shared_ptr&lt; SQLExpr &gt; e)</argsstring>
+        <name>SQLUnaryOpExpr</name>
+        <qualifiedname>themis::query::SQLUnaryOpExpr::SQLUnaryOpExpr</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>o</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_s_q_l_expr" kindref="compound">SQLExpr</ref> &gt;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="99" column="5" bodyfile="include/query/sql_parser.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1ac5c917d563ac3290a30f90f170bb09b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86" kindref="member">SQLExprType</ref></type>
+        <definition>SQLExprType themis::query::SQLUnaryOpExpr::type</definition>
+        <argsstring>() const override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::SQLUnaryOpExpr::type</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_s_q_l_expr_1a2fe6810ef4d8a8219f266ce073e16fc6">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="100" column="17" bodyfile="include/query/sql_parser.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1aec25f0c578e28165df9e18a4026f4eb5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::SQLUnaryOpExpr::toAQL</definition>
+        <argsstring>(const std::string &amp;var) const override</argsstring>
+        <name>toAQL</name>
+        <qualifiedname>themis::query::SQLUnaryOpExpr::toAQL</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_s_q_l_expr_1af20858045228af595128fb418c6584cb">toAQL</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>var</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="101" column="17" bodyfile="src/query/sql_parser.cpp" bodystart="107" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::SQLExpr</label>
+        <link refid="structthemis_1_1query_1_1_s_q_l_expr"/>
+      </node>
+      <node id="1">
+        <label>themis::query::SQLUnaryOpExpr</label>
+        <link refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::SQLExpr</label>
+        <link refid="structthemis_1_1query_1_1_s_q_l_expr"/>
+      </node>
+      <node id="1">
+        <label>themis::query::SQLUnaryOpExpr</label>
+        <link refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/sql_parser.h" line="96" column="1" bodyfile="include/query/sql_parser.h" bodystart="96" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1a3d131712cd5baa005105f2175fbbd966" prot="public" virt="non-virtual"><scope>themis::query::SQLUnaryOpExpr</scope><name>op</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1a2a397034ddb53c094399a378cf459f6a" prot="public" virt="non-virtual"><scope>themis::query::SQLUnaryOpExpr</scope><name>operand</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1ab9f9c3262abd2a495a97bfd489e6fc22" prot="public" virt="non-virtual"><scope>themis::query::SQLUnaryOpExpr</scope><name>SQLUnaryOpExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1aec25f0c578e28165df9e18a4026f4eb5" prot="public" virt="virtual"><scope>themis::query::SQLUnaryOpExpr</scope><name>toAQL</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_unary_op_expr_1ac5c917d563ac3290a30f90f170bb09b5" prot="public" virt="virtual"><scope>themis::query::SQLUnaryOpExpr</scope><name>type</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_expr_1a92962f465a26cee5a1a0884ffb0f3a3f" prot="public" virt="virtual"><scope>themis::query::SQLUnaryOpExpr</scope><name>~SQLExpr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

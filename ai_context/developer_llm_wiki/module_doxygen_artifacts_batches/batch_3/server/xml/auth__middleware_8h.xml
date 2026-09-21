@@ -1,0 +1,973 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="auth__middleware_8h" kind="file" language="C++">
+    <compoundname>auth_middleware.h</compoundname>
+    <includes local="yes">auth/mtls_authenticator.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="bench__auth__token__validation_8cpp" local="yes">benchmarks/server/bench_auth_token_validation.cpp</includedby>
+    <includedby refid="admin__api__handler_8h" local="yes">include/server/admin_api_handler.h</includedby>
+    <includedby refid="ai__plugin__api__handler_8h" local="yes">include/server/ai_plugin_api_handler.h</includedby>
+    <includedby refid="api__gateway_8h" local="yes">include/server/api_gateway.h</includedby>
+    <includedby refid="bpmn__api__handler_8h" local="yes">include/server/bpmn_api_handler.h</includedby>
+    <includedby refid="cache__admin__api__handler_8h" local="yes">include/server/cache_admin_api_handler.h</includedby>
+    <includedby refid="cache__api__handler_8h" local="yes">include/server/cache_api_handler.h</includedby>
+    <includedby refid="changefeed__api__handler_8h" local="yes">include/server/changefeed_api_handler.h</includedby>
+    <includedby refid="compliance__reporting__api__handler_8h" local="yes">include/server/compliance_reporting_api_handler.h</includedby>
+    <includedby refid="content__api__handler_8h" local="yes">include/server/content_api_handler.h</includedby>
+    <includedby refid="encrypted__storage__api__handler_8h" local="yes">include/server/encrypted_storage_api_handler.h</includedby>
+    <includedby refid="entity__api__handler_8h" local="yes">include/server/entity_api_handler.h</includedby>
+    <includedby refid="ethics__api__handler_8h" local="yes">include/server/ethics_api_handler.h</includedby>
+    <includedby refid="geo__topology__api__handler_8h" local="yes">include/server/geo_topology_api_handler.h</includedby>
+    <includedby refid="graph__api__handler_8h" local="yes">include/server/graph_api_handler.h</includedby>
+    <includedby refid="http__server_8h" local="yes">include/server/http_server.h</includedby>
+    <includedby refid="index__api__handler_8h" local="yes">include/server/index_api_handler.h</includedby>
+    <includedby refid="policy__api__handler_8h" local="yes">include/server/policy_api_handler.h</includedby>
+    <includedby refid="policy__manager__api__handler_8h" local="yes">include/server/policy_manager_api_handler.h</includedby>
+    <includedby refid="policy__template__api__handler_8h" local="yes">include/server/policy_template_api_handler.h</includedby>
+    <includedby refid="policy__validation__api__handler_8h" local="yes">include/server/policy_validation_api_handler.h</includedby>
+    <includedby refid="policy__versioning__api__handler_8h" local="yes">include/server/policy_versioning_api_handler.h</includedby>
+    <includedby refid="prompt__api__handler_8h" local="yes">include/server/prompt_api_handler.h</includedby>
+    <includedby refid="prompt__engineering__api__handler_8h" local="yes">include/server/prompt_engineering_api_handler.h</includedby>
+    <includedby refid="query__api__handler_8h" local="yes">include/server/query_api_handler.h</includedby>
+    <includedby refid="replication__topology__api__handler_8h" local="yes">include/server/replication_topology_api_handler.h</includedby>
+    <includedby refid="review__scheduling__api__handler_8h" local="yes">include/server/review_scheduling_api_handler.h</includedby>
+    <includedby refid="rope__api__handler_8h" local="yes">include/server/rope_api_handler.h</includedby>
+    <includedby refid="scraper__plugin__api__handler_8h" local="yes">include/server/scraper_plugin_api_handler.h</includedby>
+    <includedby refid="session__api__handler_8h" local="yes">include/server/session_api_handler.h</includedby>
+    <includedby refid="shard__repair__api__handler_8h" local="yes">include/server/shard_repair_api_handler.h</includedby>
+    <includedby refid="spatial__api__handler_8h" local="yes">include/server/spatial_api_handler.h</includedby>
+    <includedby refid="timeseries__api__handler_8h" local="yes">include/server/timeseries_api_handler.h</includedby>
+    <includedby refid="transaction__api__handler_8h" local="yes">include/server/transaction_api_handler.h</includedby>
+    <includedby refid="vector__api__handler_8h" local="yes">include/server/vector_api_handler.h</includedby>
+    <includedby refid="voice__api__handler_8h" local="yes">include/server/voice_api_handler.h</includedby>
+    <includedby refid="admin__api__handler_8cpp" local="yes">src/server/admin_api_handler.cpp</includedby>
+    <includedby refid="ai__plugin__api__handler_8cpp" local="yes">src/server/ai_plugin_api_handler.cpp</includedby>
+    <includedby refid="api__key__mgmt__handler_8cpp" local="yes">src/server/api_key_mgmt_handler.cpp</includedby>
+    <includedby refid="async__job__api__handler_8cpp" local="yes">src/server/async_job_api_handler.cpp</includedby>
+    <includedby refid="auth__middleware_8cpp" local="yes">src/server/auth_middleware.cpp</includedby>
+    <includedby refid="bpmn__api__handler_8cpp" local="yes">src/server/bpmn_api_handler.cpp</includedby>
+    <includedby refid="cache__api__handler_8cpp" local="yes">src/server/cache_api_handler.cpp</includedby>
+    <includedby refid="changefeed__api__handler_8cpp" local="yes">src/server/changefeed_api_handler.cpp</includedby>
+    <includedby refid="content__api__handler_8cpp" local="yes">src/server/content_api_handler.cpp</includedby>
+    <includedby refid="encrypted__storage__api__handler_8cpp" local="yes">src/server/encrypted_storage_api_handler.cpp</includedby>
+    <includedby refid="entity__api__handler_8cpp" local="yes">src/server/entity_api_handler.cpp</includedby>
+    <includedby refid="ethics__api__handler_8cpp" local="yes">src/server/ethics_api_handler.cpp</includedby>
+    <includedby refid="graph__api__handler_8cpp" local="yes">src/server/graph_api_handler.cpp</includedby>
+    <includedby refid="http__server_8cpp" local="yes">src/server/http_server.cpp</includedby>
+    <includedby refid="index__api__handler_8cpp" local="yes">src/server/index_api_handler.cpp</includedby>
+    <includedby refid="lora__api__handler_8cpp" local="yes">src/server/lora_api_handler.cpp</includedby>
+    <includedby refid="monitoring__api__handler_8cpp" local="yes">src/server/monitoring_api_handler.cpp</includedby>
+    <includedby refid="policy__api__handler_8cpp" local="yes">src/server/policy_api_handler.cpp</includedby>
+    <includedby refid="policy__manager__api__handler_8cpp" local="yes">src/server/policy_manager_api_handler.cpp</includedby>
+    <includedby refid="prompt__api__handler_8cpp" local="yes">src/server/prompt_api_handler.cpp</includedby>
+    <includedby refid="prompt__engineering__api__handler_8cpp" local="yes">src/server/prompt_engineering_api_handler.cpp</includedby>
+    <includedby refid="query__api__handler_8cpp" local="yes">src/server/query_api_handler.cpp</includedby>
+    <includedby refid="rope__api__handler_8cpp" local="yes">src/server/rope_api_handler.cpp</includedby>
+    <includedby refid="rpc__service__impl_8cpp" local="yes">src/server/rpc/rpc_service_impl.cpp</includedby>
+    <includedby refid="scraper__plugin__api__handler_8cpp" local="yes">src/server/scraper_plugin_api_handler.cpp</includedby>
+    <includedby refid="spatial__api__handler_8cpp" local="yes">src/server/spatial_api_handler.cpp</includedby>
+    <includedby refid="timeseries__api__handler_8cpp" local="yes">src/server/timeseries_api_handler.cpp</includedby>
+    <includedby refid="transaction__api__handler_8cpp" local="yes">src/server/transaction_api_handler.cpp</includedby>
+    <includedby refid="vector__api__handler_8cpp" local="yes">src/server/vector_api_handler.cpp</includedby>
+    <includedby refid="voice__api__handler_8cpp" local="yes">src/server/voice_api_handler.cpp</includedby>
+    <includedby refid="wal__api__handler_8cpp" local="yes">src/server/wal_api_handler.cpp</includedby>
+    <includedby refid="test__api__gateway_8cpp" local="yes">tests/server/test_api_gateway.cpp</includedby>
+    <includedby refid="test__server__integration__complete_8cpp" local="yes">tests/server/test_server_integration_complete.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/auth_middleware.h</label>
+        <link refid="auth__middleware_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>auth/mtls_authenticator.h</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>unordered_set</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="5">
+        <label>benchmarks/server/bench_api_endpoints.cpp</label>
+        <link refid="bench__api__endpoints_8cpp"/>
+      </node>
+      <node id="2">
+        <label>benchmarks/server/bench_auth_token_validation.cpp</label>
+        <link refid="bench__auth__token__validation_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/server/admin_api_handler.h</label>
+        <link refid="admin__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/server/ai_plugin_api_handler.h</label>
+        <link refid="ai__plugin__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/server/api_gateway.h</label>
+        <link refid="api__gateway_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/server/auth_middleware.h</label>
+        <link refid="auth__middleware_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="84" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/server/bpmn_api_handler.h</label>
+        <link refid="bpmn__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/server/cache_admin_api_handler.h</label>
+        <link refid="cache__admin__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>include/server/cache_api_handler.h</label>
+        <link refid="cache__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>include/server/changefeed_api_handler.h</label>
+        <link refid="changefeed__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/server/compliance_reporting_api_handler.h</label>
+        <link refid="compliance__reporting__api__handler_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/server/content_api_handler.h</label>
+        <link refid="content__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/server/distributed_gateway.h</label>
+        <link refid="distributed__gateway_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/server/encrypted_storage_api_handler.h</label>
+        <link refid="encrypted__storage__api__handler_8h"/>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/server/entity_api_handler.h</label>
+        <link refid="entity__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>include/server/ethics_api_handler.h</label>
+        <link refid="ethics__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>include/server/geo_topology_api_handler.h</label>
+        <link refid="geo__topology__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>include/server/graph_api_handler.h</label>
+        <link refid="graph__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/server/http_server.h</label>
+        <link refid="http__server_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>include/server/index_api_handler.h</label>
+        <link refid="index__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>include/server/policy_api_handler.h</label>
+        <link refid="policy__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>include/server/policy_manager_api_handler.h</label>
+        <link refid="policy__manager__api__handler_8h"/>
+        <childnode refid="44" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>include/server/policy_template_api_handler.h</label>
+        <link refid="policy__template__api__handler_8h"/>
+        <childnode refid="46" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>include/server/policy_validation_api_handler.h</label>
+        <link refid="policy__validation__api__handler_8h"/>
+        <childnode refid="48" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>include/server/policy_versioning_api_handler.h</label>
+        <link refid="policy__versioning__api__handler_8h"/>
+        <childnode refid="50" relation="include">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>include/server/prompt_api_handler.h</label>
+        <link refid="prompt__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>include/server/prompt_engineering_api_handler.h</label>
+        <link refid="prompt__engineering__api__handler_8h"/>
+        <childnode refid="54" relation="include">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>include/server/query_api_handler.h</label>
+        <link refid="query__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+      </node>
+      <node id="57">
+        <label>include/server/replication_topology_api_handler.h</label>
+        <link refid="replication__topology__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="59">
+        <label>include/server/review_scheduling_api_handler.h</label>
+        <link refid="review__scheduling__api__handler_8h"/>
+        <childnode refid="60" relation="include">
+        </childnode>
+      </node>
+      <node id="61">
+        <label>include/server/rope_api_handler.h</label>
+        <link refid="rope__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="63">
+        <label>include/server/scraper_plugin_api_handler.h</label>
+        <link refid="scraper__plugin__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+      </node>
+      <node id="65">
+        <label>include/server/session_api_handler.h</label>
+        <link refid="session__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+      </node>
+      <node id="67">
+        <label>include/server/shard_repair_api_handler.h</label>
+        <link refid="shard__repair__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+      </node>
+      <node id="69">
+        <label>include/server/spatial_api_handler.h</label>
+        <link refid="spatial__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+      </node>
+      <node id="71">
+        <label>include/server/timeseries_api_handler.h</label>
+        <link refid="timeseries__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+      </node>
+      <node id="73">
+        <label>include/server/transaction_api_handler.h</label>
+        <link refid="transaction__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+      </node>
+      <node id="75">
+        <label>include/server/vector_api_handler.h</label>
+        <link refid="vector__api__handler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+      </node>
+      <node id="77">
+        <label>include/server/voice_api_handler.h</label>
+        <link refid="voice__api__handler_8h"/>
+        <childnode refid="78" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>src/server/admin_api_handler.cpp</label>
+        <link refid="admin__api__handler_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/server/ai_plugin_api_handler.cpp</label>
+        <link refid="ai__plugin__api__handler_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/server/api_gateway.cpp</label>
+        <link refid="api__gateway_8cpp"/>
+      </node>
+      <node id="79">
+        <label>src/server/api_key_mgmt_handler.cpp</label>
+        <link refid="api__key__mgmt__handler_8cpp"/>
+      </node>
+      <node id="80">
+        <label>src/server/async_job_api_handler.cpp</label>
+        <link refid="async__job__api__handler_8cpp"/>
+      </node>
+      <node id="81">
+        <label>src/server/auth_middleware.cpp</label>
+        <link refid="auth__middleware_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/server/bpmn_api_handler.cpp</label>
+        <link refid="bpmn__api__handler_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/server/cache_admin_api_handler.cpp</label>
+        <link refid="cache__admin__api__handler_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/server/cache_api_handler.cpp</label>
+        <link refid="cache__api__handler_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/server/changefeed_api_handler.cpp</label>
+        <link refid="changefeed__api__handler_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/server/compliance_reporting_api_handler.cpp</label>
+        <link refid="compliance__reporting__api__handler_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/server/content_api_handler.cpp</label>
+        <link refid="content__api__handler_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/server/distributed_gateway.cpp</label>
+        <link refid="distributed__gateway_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/server/encrypted_storage_api_handler.cpp</label>
+        <link refid="encrypted__storage__api__handler_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/server/entity_api_handler.cpp</label>
+        <link refid="entity__api__handler_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/server/ethics_api_handler.cpp</label>
+        <link refid="ethics__api__handler_8cpp"/>
+      </node>
+      <node id="36">
+        <label>src/server/geo_topology_api_handler.cpp</label>
+        <link refid="geo__topology__api__handler_8cpp"/>
+      </node>
+      <node id="38">
+        <label>src/server/graph_api_handler.cpp</label>
+        <link refid="graph__api__handler_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/server/http_server.cpp</label>
+        <link refid="http__server_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/server/index_api_handler.cpp</label>
+        <link refid="index__api__handler_8cpp"/>
+      </node>
+      <node id="82">
+        <label>src/server/lora_api_handler.cpp</label>
+        <link refid="lora__api__handler_8cpp"/>
+      </node>
+      <node id="83">
+        <label>src/server/monitoring_api_handler.cpp</label>
+        <link refid="monitoring__api__handler_8cpp"/>
+      </node>
+      <node id="42">
+        <label>src/server/policy_api_handler.cpp</label>
+        <link refid="policy__api__handler_8cpp"/>
+      </node>
+      <node id="44">
+        <label>src/server/policy_manager_api_handler.cpp</label>
+        <link refid="policy__manager__api__handler_8cpp"/>
+      </node>
+      <node id="46">
+        <label>src/server/policy_template_api_handler.cpp</label>
+        <link refid="policy__template__api__handler_8cpp"/>
+      </node>
+      <node id="48">
+        <label>src/server/policy_validation_api_handler.cpp</label>
+        <link refid="policy__validation__api__handler_8cpp"/>
+      </node>
+      <node id="50">
+        <label>src/server/policy_versioning_api_handler.cpp</label>
+        <link refid="policy__versioning__api__handler_8cpp"/>
+      </node>
+      <node id="52">
+        <label>src/server/prompt_api_handler.cpp</label>
+        <link refid="prompt__api__handler_8cpp"/>
+      </node>
+      <node id="54">
+        <label>src/server/prompt_engineering_api_handler.cpp</label>
+        <link refid="prompt__engineering__api__handler_8cpp"/>
+      </node>
+      <node id="56">
+        <label>src/server/query_api_handler.cpp</label>
+        <link refid="query__api__handler_8cpp"/>
+      </node>
+      <node id="58">
+        <label>src/server/replication_topology_api_handler.cpp</label>
+        <link refid="replication__topology__api__handler_8cpp"/>
+      </node>
+      <node id="60">
+        <label>src/server/review_scheduling_api_handler.cpp</label>
+        <link refid="review__scheduling__api__handler_8cpp"/>
+      </node>
+      <node id="62">
+        <label>src/server/rope_api_handler.cpp</label>
+        <link refid="rope__api__handler_8cpp"/>
+      </node>
+      <node id="84">
+        <label>src/server/rpc/rpc_service_impl.cpp</label>
+        <link refid="rpc__service__impl_8cpp"/>
+      </node>
+      <node id="64">
+        <label>src/server/scraper_plugin_api_handler.cpp</label>
+        <link refid="scraper__plugin__api__handler_8cpp"/>
+      </node>
+      <node id="66">
+        <label>src/server/session_api_handler.cpp</label>
+        <link refid="session__api__handler_8cpp"/>
+      </node>
+      <node id="68">
+        <label>src/server/shard_repair_api_handler.cpp</label>
+        <link refid="shard__repair__api__handler_8cpp"/>
+      </node>
+      <node id="70">
+        <label>src/server/spatial_api_handler.cpp</label>
+        <link refid="spatial__api__handler_8cpp"/>
+      </node>
+      <node id="72">
+        <label>src/server/timeseries_api_handler.cpp</label>
+        <link refid="timeseries__api__handler_8cpp"/>
+      </node>
+      <node id="74">
+        <label>src/server/transaction_api_handler.cpp</label>
+        <link refid="transaction__api__handler_8cpp"/>
+      </node>
+      <node id="76">
+        <label>src/server/vector_api_handler.cpp</label>
+        <link refid="vector__api__handler_8cpp"/>
+      </node>
+      <node id="78">
+        <label>src/server/voice_api_handler.cpp</label>
+        <link refid="voice__api__handler_8cpp"/>
+      </node>
+      <node id="85">
+        <label>src/server/wal_api_handler.cpp</label>
+        <link refid="wal__api__handler_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/server/test_api_gateway.cpp</label>
+        <link refid="test__api__gateway_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/server/test_api_integration.cpp</label>
+        <link refid="test__api__integration_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/server/test_server_integration_complete.cpp</label>
+        <link refid="test__server__integration__complete_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_auth_middleware" prot="public">themis::AuthMiddleware</innerclass>
+    <innerclass refid="structthemis_1_1_auth_middleware_1_1_auth_context" prot="public">themis::AuthMiddleware::AuthContext</innerclass>
+    <innerclass refid="structthemis_1_1_auth_middleware_1_1_auth_result" prot="public">themis::AuthMiddleware::AuthResult</innerclass>
+    <innerclass refid="structthemis_1_1_auth_middleware_1_1_token_config" prot="public">themis::AuthMiddleware::TokenConfig</innerclass>
+    <innerclass refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config" prot="public">themis::AuthMiddleware::JWTConfig</innerclass>
+    <innerclass refid="structthemis_1_1_auth_middleware_1_1_api_key_config" prot="public">themis::AuthMiddleware::ApiKeyConfig</innerclass>
+    <innerclass refid="structthemis_1_1_auth_middleware_1_1_metrics" prot="public">themis::AuthMiddleware::Metrics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/mtls_authenticator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1auth" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">JWTValidator;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">GSSAPIAuthenticator;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">KerberosConfig;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ApiKeyAuthenticator;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ApiKeyCredential;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1security" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">security</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">USBAdminAuthenticator;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1_auth_middleware" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_auth_middleware_1a9886a8997c7a8d6807aa8955af53b3fb" kindref="member">AuthMiddleware</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1_auth_middleware_1_1_auth_context" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_auth_middleware_1_1_auth_context" kindref="compound">AuthContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1_auth_middleware_1_1_auth_context_1a847452874405ad396eb598ee8f372b19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_auth_context_1a847452874405ad396eb598ee8f372b19" kindref="member">user_id</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1_auth_middleware_1_1_auth_context_1aec4e2db0d0d7b1c6dc2926fde7786d69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_auth_context_1aec4e2db0d0d7b1c6dc2926fde7786d69" kindref="member">tenant_id</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Tenant<sp/>from<sp/>JWT<sp/>or<sp/>token<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1_auth_middleware_1_1_auth_context_1a3566a067f05c43dd51a73e4adc699404" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_auth_context_1a3566a067f05c43dd51a73e4adc699404" kindref="member">groups</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1_auth_middleware_1_1_auth_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result" kindref="compound">AuthResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1_auth_middleware_1_1_auth_result_1aac18dc3446662bf933ea5d6779bae878" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result_1aac18dc3446662bf933ea5d6779bae878" kindref="member">authorized</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1_auth_middleware_1_1_auth_result_1aa091e7ccb36f909434521a8caada8cfb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result_1aa091e7ccb36f909434521a8caada8cfb" kindref="member">user_id</ref>;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1_auth_middleware_1_1_auth_result_1a7896e5c18d025724b451eda77488e543" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result_1a7896e5c18d025724b451eda77488e543" kindref="member">tenant_id</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Tenant<sp/>from<sp/>JWT<sp/>claim<sp/>or<sp/>token<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1_auth_middleware_1_1_auth_result_1a70b11f746a8f54b29aaee5b1144bbe02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result_1a70b11f746a8f54b29aaee5b1144bbe02" kindref="member">groups</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>JWT<sp/>groups<sp/>claim<sp/>for<sp/>encryption<sp/>contexts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1_auth_middleware_1_1_auth_result_1a934e887a9f155e02f3550db1b8cd7f38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result_1a934e887a9f155e02f3550db1b8cd7f38" kindref="member">reason</ref>;<sp/></highlight><highlight class="comment">//<sp/>for<sp/>audit<sp/>logs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1_auth_middleware_1_1_auth_result_1a7eeb25d435ec55c38f28b1759da8aec0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result" kindref="compound">AuthResult</ref><sp/><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result_1a7eeb25d435ec55c38f28b1759da8aec0" kindref="member">OK</ref>(std::string_view<sp/>uid,<sp/>std::string_view<sp/>tid<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>std::vector&lt;std::string&gt;<sp/>grps<sp/>=<sp/>{})<sp/>{<sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>std::string(uid),<sp/>std::string(tid),<sp/>std::move(grps),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">};<sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1_auth_middleware_1_1_auth_result_1a00f386dfe36c2fbbd1577f9f5b67b54e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result" kindref="compound">AuthResult</ref><sp/><ref refid="structthemis_1_1_auth_middleware_1_1_auth_result_1a00f386dfe36c2fbbd1577f9f5b67b54e" kindref="member">Denied</ref>(std::string<sp/>msg)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>{},<sp/>std::move(msg)};<sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1_auth_middleware_1_1_token_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_auth_middleware_1_1_token_config" kindref="compound">TokenConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1_auth_middleware_1_1_token_config_1ae3d3be8a7fd48c7911e2c8cb6e8ee9c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_token_config_1ae3d3be8a7fd48c7911e2c8cb6e8ee9c6" kindref="member">token</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1_auth_middleware_1_1_token_config_1a6b0b0c9cd5462021396a15e04c195b15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_token_config_1a6b0b0c9cd5462021396a15e04c195b15" kindref="member">user_id</ref>;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1_auth_middleware_1_1_token_config_1a64f38d2f833122b30cd0fbd184b2d1a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_token_config_1a64f38d2f833122b30cd0fbd184b2d1a9" kindref="member">tenant_id</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Optional:<sp/>if<sp/>not<sp/>set,<sp/>extracted<sp/>from<sp/>request<sp/>headers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1_auth_middleware_1_1_token_config_1a86f2f580b0c0c4d5b834c47a46108823" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_token_config_1a86f2f580b0c0c4d5b834c47a46108823" kindref="member">scopes</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config" kindref="compound">JWTConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1a80173e41d8e908b202cbf10c79f38c26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1a80173e41d8e908b202cbf10c79f38c26" kindref="member">jwks_url</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>URL<sp/>to<sp/>fetch<sp/>JWKS<sp/>(JSON<sp/>Web<sp/>Key<sp/>Set)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1acb3de4ea9218e6dec4a1a94f67635f97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1acb3de4ea9218e6dec4a1a94f67635f97" kindref="member">expected_issuer</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>&quot;iss&quot;<sp/>claim</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1a9f74ee440d639310b9a02e599e733a99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1a9f74ee440d639310b9a02e599e733a99" kindref="member">expected_audience</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>&quot;aud&quot;<sp/>claim</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1a20821f0c038b35ba2673c4bd8faa4f51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1a20821f0c038b35ba2673c4bd8faa4f51" kindref="member">jwks_cache_ttl</ref>{3600};<sp/></highlight><highlight class="comment">//<sp/>Default<sp/>1<sp/>hour</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1a12a74321257ecc33e1809148686b7abc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1a12a74321257ecc33e1809148686b7abc" kindref="member">clock_skew</ref>{60};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>60<sp/>seconds<sp/>tolerance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1ac6d7e24df9b1fb796c68835decdc6b18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1ac6d7e24df9b1fb796c68835decdc6b18" kindref="member">require_issuer_validation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Require<sp/>expected_issuer<sp/>to<sp/>be<sp/>configured</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1aa3c536505b93d9607eee02ccbc224154" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1aa3c536505b93d9607eee02ccbc224154" kindref="member">require_audience_validation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Require<sp/>expected_audience<sp/>to<sp/>be<sp/>configured</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mapping<sp/>of<sp/>JWT<sp/>claims<sp/>to<sp/>scopes<sp/>and<sp/>tenant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1a0f21dfd79dd03f974b794cf3c9993760" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1a0f21dfd79dd03f974b794cf3c9993760" kindref="member">scope_claim</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;roles&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Which<sp/>JWT<sp/>claim<sp/>contains<sp/>scopes<sp/>(e.g.,<sp/>&quot;roles&quot;,<sp/>&quot;groups&quot;,<sp/>&quot;scopes&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1ae96068ee3db9fbc5fe05b0258cdb1903" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config_1ae96068ee3db9fbc5fe05b0258cdb1903" kindref="member">tenant_claim</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tenant_id&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Which<sp/>JWT<sp/>claim<sp/>contains<sp/>tenant<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1_auth_middleware_1_1_api_key_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_auth_middleware_1_1_api_key_config" kindref="compound">ApiKeyConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1_auth_middleware_1_1_api_key_config_1ab71e3b8db8194546fd1ba8037732ab7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_auth_middleware_1_1_api_key_config_1ab71e3b8db8194546fd1ba8037732ab7d" kindref="member">check_expiry</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1_auth_middleware_1_1_api_key_config_1a3822c6de8cd744a2dd679ea8ec465c2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_auth_middleware_1_1_api_key_config_1a3822c6de8cd744a2dd679ea8ec465c2e" kindref="member">max_key_id_length</ref>{128};<sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1_auth_middleware_1_1_api_key_config_1a89cfd6891b1dbd361126779d1c0a9036" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_auth_middleware_1_1_api_key_config_1a89cfd6891b1dbd361126779d1c0a9036" kindref="member">max_secret_length</ref>{512};<sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1_auth_middleware_1_1_api_key_config_1a73bee61db3951276855382d983b8ca93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_auth_middleware_1_1_api_key_config" kindref="compound">ApiKeyConfig</ref><sp/><ref refid="structthemis_1_1_auth_middleware_1_1_api_key_config_1a73bee61db3951276855382d983b8ca93" kindref="member">defaults</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1_auth_middleware_1a9886a8997c7a8d6807aa8955af53b3fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_auth_middleware_1a9886a8997c7a8d6807aa8955af53b3fb" kindref="member">AuthMiddleware</ref>();</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1_auth_middleware_1a673ad9998fea92b00f9d53b415ff5f65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_auth_middleware_1a673ad9998fea92b00f9d53b415ff5f65" kindref="member">~AuthMiddleware</ref>();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_auth_middleware_1a79ab42e109efe6fd36513880d8540731" kindref="member">enableJWT</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_auth_middleware_1_1_j_w_t_config" kindref="compound">JWTConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_auth_middleware_1a75e239067f0ef86376c044c629e2c1c7" kindref="member">enableKerberos</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>auth::KerberosConfig&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_auth_middleware_1a4357d412dc72c70a852eb940b71671d6" kindref="member">enableMTLS</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>auth::MTLSAuthenticator::Config&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_auth_middleware_1afc69400be49a81299c031e38fd4a5590" kindref="member">enableApiKeyAuth</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_auth_middleware_1_1_api_key_config" kindref="compound">ApiKeyConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_api_key_config_1a73bee61db3951276855382d983b8ca93" kindref="member">ApiKeyConfig::defaults</ref>());</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_auth_middleware_1ae5011bc58fd276cff6dc5323c2c73e71" kindref="member">addApiKeyCredential</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>auth::ApiKeyCredential&amp;<sp/>credential);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_auth_middleware_1a542bd70f3239e49f7c45868b29f7ccad" kindref="member">removeApiKeyCredential</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_auth_middleware_1af9e28f6ae2cec0ea52c0a1d1bc86eb7c" kindref="member">enableUSBAdminAuth</ref>(</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mount_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/mnt/themis-admin&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>protected_scopes<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_auth_middleware_1a410256e893bc314cbc72d22aa7f0bb27" kindref="member">addToken</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TokenConfig&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_auth_middleware_1a5ed9cca4918914634553e6f41194bff4" kindref="member">removeToken</ref>(std::string_view<sp/>token);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_auth_middleware_1aaf4db8841487f3ac5d12e758fae3f6b4" kindref="member">clearTokens</ref>();</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_auth_middleware_1a9661dfaf388aa4242629d407cc3593b7" kindref="member">setRoleScopeMapping</ref>(</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;<sp/>mapping);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthResult<sp/><ref refid="classthemis_1_1_auth_middleware_1a060a78f46c2dee4ba8b32a37fac7563e" kindref="member">authorize</ref>(std::string_view<sp/>token,<sp/>std::string_view<sp/>required_scope)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthResult<sp/><ref refid="classthemis_1_1_auth_middleware_1af6b5d0cffba677c8dbed6ff3fbdddd19" kindref="member">validateToken</ref>(std::string_view<sp/>token)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;AuthContext&gt;<sp/><ref refid="classthemis_1_1_auth_middleware_1ad2bfe7054aabd5df319b97d0aef55bc5" kindref="member">extractContext</ref>(std::string_view<sp/>token)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1_auth_middleware_1afd9141c415789d07acb119a78724d28b" kindref="member">extractBearerToken</ref>(std::string_view<sp/>auth_header);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1_auth_middleware_1_1_metrics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_auth_middleware_1_1_metrics" kindref="compound">Metrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="187" refid="structthemis_1_1_auth_middleware_1_1_metrics_1afbdee7f47b120a806f75733506580212" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_metrics_1afbdee7f47b120a806f75733506580212" kindref="member">authz_success_total</ref>{0};</highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1_auth_middleware_1_1_metrics_1aafc2005189cdec38b0aa3568f316ed93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_metrics_1aafc2005189cdec38b0aa3568f316ed93" kindref="member">authz_denied_total</ref>{0};</highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1_auth_middleware_1_1_metrics_1aa0d24bf5bb15e35cf8804259e1dc9ff4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_metrics_1aa0d24bf5bb15e35cf8804259e1dc9ff4" kindref="member">authz_invalid_token_total</ref>{0};</highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1_auth_middleware_1_1_metrics_1a79314b575b8b3141935e84fbaeb2c029" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_metrics_1a79314b575b8b3141935e84fbaeb2c029" kindref="member">jwt_validation_success_total</ref>{0};</highlight></codeline>
+<codeline lineno="191" refid="structthemis_1_1_auth_middleware_1_1_metrics_1aeeae319d47521abde973ba43247eb8d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_auth_middleware_1_1_metrics_1aeeae319d47521abde973ba43247eb8d3" kindref="member">jwt_validation_failed_total</ref>{0};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1_auth_middleware_1a191b0156ce6e0c7c84fb4764bf375092" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_auth_middleware_1_1_metrics" kindref="compound">Metrics</ref>&amp;<sp/><ref refid="classthemis_1_1_auth_middleware_1a191b0156ce6e0c7c84fb4764bf375092" kindref="member">getMetrics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metrics_;<sp/>}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_auth_middleware_1a508401677862ba765b440dc8c627d737" kindref="member">isEnabled</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_auth_middleware_1a1e6e6c3c2c32637b778c6a259abd4b70" kindref="member">isUSBAdminReady</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_auth_middleware_1ab67a3f33707b19f8f249c2563420dbc3" kindref="member">setJWKSForTesting</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>jwks);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>TokenConfig&gt;<sp/>tokens_;<sp/></highlight><highlight class="comment">//<sp/>token<sp/>-&gt;<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>Metrics<sp/>metrics_;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>JWT<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;auth::JWTValidator&gt;<sp/>jwt_validator_;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTConfig<sp/>jwt_config_;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>jwt_enabled_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Kerberos/GSSAPI<sp/>authentication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;auth::GSSAPIAuthenticator&gt;<sp/>kerberos_auth_;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>kerberos_enabled_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mTLS<sp/>certificate<sp/>authentication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;auth::MTLSAuthenticator&gt;<sp/>mtls_auth_;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>mtls_enabled_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>USB<sp/>Admin<sp/>Authentication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;security::USBAdminAuthenticator&gt;<sp/>usb_admin_auth_;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>usb_admin_enabled_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>usb_protected_scopes_;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>API<sp/>key<sp/>authentication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;auth::ApiKeyAuthenticator&gt;<sp/>api_key_auth_;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>api_key_enabled_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Role-to-scope<sp/>mapping:<sp/>role<sp/>name<sp/>→<sp/>list<sp/>of<sp/>scopes<sp/>that<sp/>role<sp/>grants.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Used<sp/>as<sp/>fallback<sp/>in<sp/>JWT<sp/>and<sp/>Kerberos<sp/>authorization<sp/>when<sp/>direct<sp/>scope</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>claims<sp/>don&apos;t<sp/>contain<sp/>the<sp/>required_scope.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;<sp/>role_scope_map_;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>role_scope_map_loaded_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>true<sp/>once<sp/>a<sp/>load<sp/>attempt<sp/>has<sp/>been<sp/>made</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isAdminScope(std::string_view<sp/>scope)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>roleGrantsScope(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>roles,</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>required_scope)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthResult<sp/>authorizeViaJWT(std::string_view<sp/>token,<sp/>std::string_view<sp/>required_scope)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthResult<sp/>authorizeViaKerberos(std::string_view<sp/>token,<sp/>std::string_view<sp/>required_scope)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthResult<sp/>authorizeViaMTLS(std::string_view<sp/>cert_pem,<sp/>std::string_view<sp/>required_scope)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthResult<sp/>authorizeViaApiKey(std::string_view<sp/>combined_token,<sp/>std::string_view<sp/>required_scope)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>loadRoleScopeMapping();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/auth_middleware.h"/>
+  </compounddef>
+</doxygen>

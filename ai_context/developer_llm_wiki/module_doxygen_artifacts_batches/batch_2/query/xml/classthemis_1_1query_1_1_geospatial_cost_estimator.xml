@@ -1,0 +1,733 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_geospatial_cost_estimator" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::GeospatialCostEstimator</compoundname>
+    <includes refid="geospatial__cost__model_8h" local="no">geospatial_cost_model.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate" prot="public">themis::query::GeospatialCostEstimator::CostEstimate</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_cost_estimator_1a718e66f632442efe44ffe4e335a8d321" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate" kindref="compound">CostEstimate</ref></type>
+        <definition>GeospatialCostEstimator::CostEstimate themis::query::GeospatialCostEstimator::estimateDistanceCost</definition>
+        <argsstring>(size_t totalRows, double distanceMeters, bool hasRtreeIndex=false, const SpatialHistogram *histogram=nullptr)</argsstring>
+        <name>estimateDistanceCost</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::estimateDistanceCost</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>totalRows</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>distanceMeters</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>hasRtreeIndex</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref> *</type>
+          <declname>histogram</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Estimate Distance Cost. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">totalRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">distanceMeters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hasRtreeIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">histogram</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: estimateDistanceSelectivity(), rtreeTraversalCost(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="84" column="25" bodyfile="src/query/geospatial_cost_model.cpp" bodystart="107" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_cost_estimator_1ae9fa6d3a10cbc4a155177b0a75854aef" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate" kindref="compound">CostEstimate</ref></type>
+        <definition>GeospatialCostEstimator::CostEstimate themis::query::GeospatialCostEstimator::estimateContainsCost</definition>
+        <argsstring>(size_t totalRows, size_t polygonComplexity, bool hasRtreeIndex=false, const SpatialHistogram *histogram=nullptr)</argsstring>
+        <name>estimateContainsCost</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::estimateContainsCost</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>totalRows</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>polygonComplexity</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>hasRtreeIndex</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref> *</type>
+          <declname>histogram</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Estimate Contains Cost. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">totalRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">polygonComplexity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hasRtreeIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">histogram</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: estimateContainsSelectivity(), geometryCheckCost(), rtreeTraversalCost(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="90" column="25" bodyfile="src/query/geospatial_cost_model.cpp" bodystart="146" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_cost_estimator_1acdf514cca78963c0ed4eb1586df6c345" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate" kindref="compound">CostEstimate</ref></type>
+        <definition>GeospatialCostEstimator::CostEstimate themis::query::GeospatialCostEstimator::estimateIntersectsCost</definition>
+        <argsstring>(size_t totalRows, size_t queryGeometryComplexity, bool hasRtreeIndex=false, const SpatialHistogram *histogram=nullptr)</argsstring>
+        <name>estimateIntersectsCost</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::estimateIntersectsCost</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>totalRows</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>queryGeometryComplexity</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>hasRtreeIndex</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref> *</type>
+          <declname>histogram</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Estimate Intersects Cost. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">totalRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">queryGeometryComplexity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hasRtreeIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">histogram</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: estimateIntersectsSelectivity(), geometryCheckCost(), rtreeTraversalCost(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="96" column="25" bodyfile="src/query/geospatial_cost_model.cpp" bodystart="187" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_cost_estimator_1a08dd3c1d026a58da088e2f1db2633978" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::GeospatialCostEstimator::estimateSpatialSelectivity</definition>
+        <argsstring>(const std::string &amp;predicateType, double searchRadius, size_t geometryComplexity, const SpatialHistogram *histogram=nullptr)</argsstring>
+        <name>estimateSpatialSelectivity</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::estimateSpatialSelectivity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicateType</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>searchRadius</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>geometryComplexity</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref> *</type>
+          <declname>histogram</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Estimate Spatial Selectivity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">searchRadius</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">geometryComplexity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">histogram</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: estimateDistanceSelectivity(), estimateContainsSelectivity(), estimateIntersectsSelectivity(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="102" column="19" bodyfile="src/query/geospatial_cost_model.cpp" bodystart="228" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_cost_estimator_1a9c5dbfeea73a9e96a01c490e09f618fe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref></type>
+        <definition>SpatialHistogram themis::query::GeospatialCostEstimator::buildSpatialHistogram</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; double, double &gt; &gt; &amp;dataPoints, size_t gridDimension=10)</argsstring>
+        <name>buildSpatialHistogram</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::buildSpatialHistogram</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; double, double &gt; &gt; &amp;</type>
+          <declname>dataPoints</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>gridDimension</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="108" column="29" bodyfile="src/query/geospatial_cost_model.cpp" bodystart="246" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_cost_estimator_1aeaab80f7383b91f5993282e9bf1ae4e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::GeospatialCostEstimator::recordActualCost</definition>
+        <argsstring>(const CostEstimate &amp;estimated, size_t actualRows, double actualCostUs, const std::string &amp;predicateType)</argsstring>
+        <name>recordActualCost</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::recordActualCost</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_geospatial_cost_estimator_1_1_cost_estimate" kindref="compound">CostEstimate</ref> &amp;</type>
+          <declname>estimated</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>actualRows</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>actualCostUs</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicateType</declname>
+        </param>
+        <briefdescription>
+<para>Record Actual Cost. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actualRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actualCostUs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actualRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actualCostUs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getError(), THEMIS_WARN(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="119" column="17" bodyfile="src/query/geospatial_cost_model.cpp" bodystart="318" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_cost_estimator_1a31c40a589939397f7f0660ca8dd4481d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_estimate_validation" kindref="compound">EstimateValidation</ref> &amp;</type>
+        <definition>const EstimateValidation &amp; themis::query::GeospatialCostEstimator::getMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getMetrics without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="129" column="37" bodyfile="src/query/geospatial_cost_model.cpp" bodystart="347" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_cost_estimator_1a3644e5703bf329d76f5e38cc1e87d9b6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::GeospatialCostEstimator::clearMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>clearMetrics</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::clearMetrics</qualifiedname>
+        <briefdescription>
+<para>Clear Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="134" column="17" bodyfile="src/query/geospatial_cost_model.cpp" bodystart="355" bodyend="357"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_cost_estimator_1ab2d1fa04dd7ec8445b48764812a70486" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::GeospatialCostEstimator::estimateDistanceSelectivity</definition>
+        <argsstring>(double distanceMeters, const SpatialHistogram *histogram)</argsstring>
+        <name>estimateDistanceSelectivity</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::estimateDistanceSelectivity</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>distanceMeters</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref> *</type>
+          <declname>histogram</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Distance Selectivity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">distanceMeters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">histogram</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">distanceMeters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">histogram</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::clamp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="143" column="19" bodyfile="src/query/geospatial_cost_model.cpp" bodystart="367" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_cost_estimator_1ae338b59ea8917d8c9de6d17d8eef325d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::GeospatialCostEstimator::estimateContainsSelectivity</definition>
+        <argsstring>(size_t polygonComplexity, const SpatialHistogram *histogram)</argsstring>
+        <name>estimateContainsSelectivity</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::estimateContainsSelectivity</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>polygonComplexity</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref> *</type>
+          <declname>histogram</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Contains Selectivity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">polygonComplexity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">histogram</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">polygonComplexity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">histogram</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::log(), std::max(), std::clamp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="153" column="19" bodyfile="src/query/geospatial_cost_model.cpp" bodystart="411" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_cost_estimator_1a2f0adfa8bd2265c04cf313348ae549c2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::GeospatialCostEstimator::estimateIntersectsSelectivity</definition>
+        <argsstring>(size_t queryGeometryComplexity, const SpatialHistogram *histogram)</argsstring>
+        <name>estimateIntersectsSelectivity</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::estimateIntersectsSelectivity</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>queryGeometryComplexity</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref> *</type>
+          <declname>histogram</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Intersects Selectivity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queryGeometryComplexity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">histogram</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queryGeometryComplexity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">histogram</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::log(), std::max(), std::clamp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="163" column="19" bodyfile="src/query/geospatial_cost_model.cpp" bodystart="436" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_cost_estimator_1a732d1e9f900094bd405147a841146fc3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::GeospatialCostEstimator::rtreeTraversalCost</definition>
+        <argsstring>(size_t totalRows)</argsstring>
+        <name>rtreeTraversalCost</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::rtreeTraversalCost</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>totalRows</declname>
+        </param>
+        <briefdescription>
+<para>Rtree Traversal Cost. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">totalRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">totalRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::log2(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="172" column="19" bodyfile="src/query/geospatial_cost_model.cpp" bodystart="458" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_cost_estimator_1af539a863fbebc5bbe7f0b7b3f68586a2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::GeospatialCostEstimator::geometryCheckCost</definition>
+        <argsstring>(size_t complexity)</argsstring>
+        <name>geometryCheckCost</name>
+        <qualifiedname>themis::query::GeospatialCostEstimator::geometryCheckCost</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>complexity</declname>
+        </param>
+        <briefdescription>
+<para>Geometry Check Cost. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">complexity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">complexity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements geometryCheckCost without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="179" column="19" bodyfile="src/query/geospatial_cost_model.cpp" bodystart="475" bodyend="481"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/geospatial_cost_model.h" line="74" column="1" bodyfile="include/query/geospatial_cost_model.h" bodystart="74" bodyend="180"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a9c5dbfeea73a9e96a01c490e09f618fe" prot="public" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator</scope><name>buildSpatialHistogram</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a3644e5703bf329d76f5e38cc1e87d9b6" prot="public" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator</scope><name>clearMetrics</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1ae9fa6d3a10cbc4a155177b0a75854aef" prot="public" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator</scope><name>estimateContainsCost</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1ae338b59ea8917d8c9de6d17d8eef325d" prot="private" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator</scope><name>estimateContainsSelectivity</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a718e66f632442efe44ffe4e335a8d321" prot="public" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator</scope><name>estimateDistanceCost</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1ab2d1fa04dd7ec8445b48764812a70486" prot="private" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator</scope><name>estimateDistanceSelectivity</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1acdf514cca78963c0ed4eb1586df6c345" prot="public" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator</scope><name>estimateIntersectsCost</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a2f0adfa8bd2265c04cf313348ae549c2" prot="private" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator</scope><name>estimateIntersectsSelectivity</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a08dd3c1d026a58da088e2f1db2633978" prot="public" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator</scope><name>estimateSpatialSelectivity</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1af539a863fbebc5bbe7f0b7b3f68586a2" prot="private" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator</scope><name>geometryCheckCost</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a31c40a589939397f7f0660ca8dd4481d" prot="public" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1aeaab80f7383b91f5993282e9bf1ae4e9" prot="public" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator</scope><name>recordActualCost</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_cost_estimator_1a732d1e9f900094bd405147a841146fc3" prot="private" virt="non-virtual"><scope>themis::query::GeospatialCostEstimator</scope><name>rtreeTraversalCost</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

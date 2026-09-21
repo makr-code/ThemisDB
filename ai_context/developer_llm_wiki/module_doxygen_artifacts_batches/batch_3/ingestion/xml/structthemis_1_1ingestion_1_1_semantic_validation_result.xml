@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_semantic_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::SemanticValidationResult</compoundname>
+    <includes refid="semantic__validator_8h" local="no">semantic_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_semantic_validation_result_1ae26a9e59d138a7bc0c1b73a18d86e29f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::SemanticValidationResult::is_valid</definition>
+        <argsstring></argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::ingestion::SemanticValidationResult::is_valid</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>false when a required gate fails </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="114" column="10" bodyfile="include/ingestion/semantic_validator.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_semantic_validation_result_1a657d68a1e3fb5f0202fc3897017b54cc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::SemanticValidationResult::semantic_score</definition>
+        <argsstring></argsstring>
+        <name>semantic_score</name>
+        <qualifiedname>themis::ingestion::SemanticValidationResult::semantic_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Overall quality score in [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="115" column="12" bodyfile="include/ingestion/semantic_validator.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_semantic_validation_result_1a7c6bd06a427f21bf55251f36e6bd75eb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::SemanticValidationResult::inconsistencies</definition>
+        <argsstring></argsstring>
+        <name>inconsistencies</name>
+        <qualifiedname>themis::ingestion::SemanticValidationResult::inconsistencies</qualifiedname>
+        <briefdescription>
+<para>Detected logical inconsistencies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="116" column="19" bodyfile="include/ingestion/semantic_validator.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_semantic_validation_result_1aeb0ae5d4d17b123f39f392ec02cbc902" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::SemanticValidationResult::suggestions</definition>
+        <argsstring></argsstring>
+        <name>suggestions</name>
+        <qualifiedname>themis::ingestion::SemanticValidationResult::suggestions</qualifiedname>
+        <briefdescription>
+<para>Improvement suggestions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="117" column="19" bodyfile="include/ingestion/semantic_validator.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_semantic_validation_result_1ac63f462f013ad72e512a044d4c3e3c28" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::SemanticValidationResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::ingestion::SemanticValidationResult::warnings</qualifiedname>
+        <briefdescription>
+<para>Non-blocking issues. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="118" column="19" bodyfile="include/ingestion/semantic_validator.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_semantic_validation_result_1aff4dd7f6a3b27d99cbd0ef60fa351854" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_quality_gate_result" kindref="compound">QualityGateResult</ref> &gt;</type>
+        <definition>std::vector&lt;QualityGateResult&gt; themis::ingestion::SemanticValidationResult::gate_results</definition>
+        <argsstring></argsstring>
+        <name>gate_results</name>
+        <qualifiedname>themis::ingestion::SemanticValidationResult::gate_results</qualifiedname>
+        <briefdescription>
+<para>Per-gate pass/fail details. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="119" column="17" bodyfile="include/ingestion/semantic_validator.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_semantic_validation_result_1a116476fff893ef98b9383616f4800345" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::SemanticValidationResult::SemanticValidationResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>SemanticValidationResult</name>
+        <qualifiedname>themis::ingestion::SemanticValidationResult::SemanticValidationResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="121" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_semantic_validation_result_1ad7e597a9c4ba4db0c1fab1f64310b24a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_quality_gate_result" kindref="compound">QualityGateResult</ref> &gt;</type>
+        <definition>std::vector&lt; QualityGateResult &gt; themis::ingestion::SemanticValidationResult::failedGates</definition>
+        <argsstring>() const</argsstring>
+        <name>failedGates</name>
+        <qualifiedname>themis::ingestion::SemanticValidationResult::failedGates</qualifiedname>
+        <briefdescription>
+<para>Return only the gates that failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="124" column="17" bodyfile="include/ingestion/semantic_validator.h" bodystart="124" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_semantic_validation_result_1a3c89c18e2b23da3de458176ee69d1be0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_quality_gate_result" kindref="compound">QualityGateResult</ref> &gt;</type>
+        <definition>std::vector&lt; QualityGateResult &gt; themis::ingestion::SemanticValidationResult::passedGates</definition>
+        <argsstring>() const</argsstring>
+        <name>passedGates</name>
+        <qualifiedname>themis::ingestion::SemanticValidationResult::passedGates</qualifiedname>
+        <briefdescription>
+<para>Return only the gates that passed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="136" column="17" bodyfile="include/ingestion/semantic_validator.h" bodystart="136" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Semantic validation result for a single document or provision. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Produced by <computeroutput><ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1a29291ecb798469d80e6cc62984060faf" kindref="member">SemanticValidator::validate()</ref></computeroutput>. Contains the overall validity flag, a list of inconsistencies detected, a semantic score in [0, 1], actionable suggestions, and per-gate results. </para>
+    </detaileddescription>
+    <location file="include/ingestion/semantic_validator.h" line="113" column="1" bodyfile="include/ingestion/semantic_validator.h" bodystart="113" bodyend="146"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1ad7e597a9c4ba4db0c1fab1f64310b24a" prot="public" virt="non-virtual"><scope>themis::ingestion::SemanticValidationResult</scope><name>failedGates</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1aff4dd7f6a3b27d99cbd0ef60fa351854" prot="public" virt="non-virtual"><scope>themis::ingestion::SemanticValidationResult</scope><name>gate_results</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1a7c6bd06a427f21bf55251f36e6bd75eb" prot="public" virt="non-virtual"><scope>themis::ingestion::SemanticValidationResult</scope><name>inconsistencies</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1ae26a9e59d138a7bc0c1b73a18d86e29f" prot="public" virt="non-virtual"><scope>themis::ingestion::SemanticValidationResult</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1a3c89c18e2b23da3de458176ee69d1be0" prot="public" virt="non-virtual"><scope>themis::ingestion::SemanticValidationResult</scope><name>passedGates</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1a657d68a1e3fb5f0202fc3897017b54cc" prot="public" virt="non-virtual"><scope>themis::ingestion::SemanticValidationResult</scope><name>semantic_score</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1a116476fff893ef98b9383616f4800345" prot="public" virt="non-virtual"><scope>themis::ingestion::SemanticValidationResult</scope><name>SemanticValidationResult</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1aeb0ae5d4d17b123f39f392ec02cbc902" prot="public" virt="non-virtual"><scope>themis::ingestion::SemanticValidationResult</scope><name>suggestions</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1ac63f462f013ad72e512a044d4c3e3c28" prot="public" virt="non-virtual"><scope>themis::ingestion::SemanticValidationResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

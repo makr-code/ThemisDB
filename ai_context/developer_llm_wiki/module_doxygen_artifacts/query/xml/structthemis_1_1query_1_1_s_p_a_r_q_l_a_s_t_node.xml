@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_s_p_a_r_q_l_a_s_t_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SPARQLASTNode</compoundname>
+    <includes refid="sparql__parser_8h" local="no">sparql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_a_s_t_node_1a6eb9dda8eef928fc75224788bdfc020a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement" kindref="compound">SPARQLSelectStatement</ref></type>
+        <definition>SPARQLSelectStatement themis::query::SPARQLASTNode::select</definition>
+        <argsstring></argsstring>
+        <name>select</name>
+        <qualifiedname>themis::query::SPARQLASTNode::select</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="139" column="27" bodyfile="include/query/sparql_parser.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::query::SPARQLASTNode</label>
+        <link refid="structthemis_1_1query_1_1_s_p_a_r_q_l_a_s_t_node"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>select</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::SPARQLSelectStatement</label>
+        <link refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/sparql_parser.h" line="138" column="1" bodyfile="include/query/sparql_parser.h" bodystart="138" bodyend="140"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_a_s_t_node_1a6eb9dda8eef928fc75224788bdfc020a" prot="public" virt="non-virtual"><scope>themis::query::SPARQLASTNode</scope><name>select</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

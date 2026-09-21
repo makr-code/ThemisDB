@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_delivery_tracker_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::DeliveryTrackerConfig</compoundname>
+    <includes refid="delivery__tracker_8h" local="no">delivery_tracker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_delivery_tracker_config_1a050723a6303507826a8b8c39ba989976" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cdc::DeliveryTrackerConfig::ack_timeout</definition>
+        <argsstring></argsstring>
+        <name>ack_timeout</name>
+        <qualifiedname>themis::cdc::DeliveryTrackerConfig::ack_timeout</qualifiedname>
+        <initializer>{30000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="53" column="31" bodyfile="include/cdc/delivery_tracker.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_delivery_tracker_config_1a9cfc4df5ee06f553f4c947d9637af611" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cdc::DeliveryTrackerConfig::recheck_interval</definition>
+        <argsstring></argsstring>
+        <name>recheck_interval</name>
+        <qualifiedname>themis::cdc::DeliveryTrackerConfig::recheck_interval</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="55" column="31" bodyfile="include/cdc/delivery_tracker.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_delivery_tracker_config_1ad6b8e360498367400e1fabc3794eb933" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cdc::DeliveryTrackerConfig::max_redelivery_attempts</definition>
+        <argsstring></argsstring>
+        <name>max_redelivery_attempts</name>
+        <qualifiedname>themis::cdc::DeliveryTrackerConfig::max_redelivery_attempts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="57" column="14" bodyfile="include/cdc/delivery_tracker.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_delivery_tracker_config_1a4103595c8b4c6bcefaacf8ca845d42c6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::DeliveryTrackerConfig::max_pending_per_consumer</definition>
+        <argsstring></argsstring>
+        <name>max_pending_per_consumer</name>
+        <qualifiedname>themis::cdc::DeliveryTrackerConfig::max_pending_per_consumer</qualifiedname>
+        <initializer>{10000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="59" column="12" bodyfile="include/cdc/delivery_tracker.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/delivery_tracker.h" line="52" column="1" bodyfile="include/cdc/delivery_tracker.h" bodystart="52" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_delivery_tracker_config_1a050723a6303507826a8b8c39ba989976" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTrackerConfig</scope><name>ack_timeout</name></member>
+      <member refid="structthemis_1_1cdc_1_1_delivery_tracker_config_1a4103595c8b4c6bcefaacf8ca845d42c6" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTrackerConfig</scope><name>max_pending_per_consumer</name></member>
+      <member refid="structthemis_1_1cdc_1_1_delivery_tracker_config_1ad6b8e360498367400e1fabc3794eb933" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTrackerConfig</scope><name>max_redelivery_attempts</name></member>
+      <member refid="structthemis_1_1cdc_1_1_delivery_tracker_config_1a9cfc4df5ee06f553f4c947d9637af611" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTrackerConfig</scope><name>recheck_interval</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

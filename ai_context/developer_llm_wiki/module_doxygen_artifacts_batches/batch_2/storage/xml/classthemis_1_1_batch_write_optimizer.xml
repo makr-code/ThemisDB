@@ -1,0 +1,393 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_batch_write_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::BatchWriteOptimizer</compoundname>
+    <includes refid="batch__write__optimizer_8h" local="no">batch_write_optimizer.h</includes>
+    <innerclass refid="structthemis_1_1_batch_write_optimizer_1_1_config" prot="public">themis::BatchWriteOptimizer::Config</innerclass>
+    <innerclass refid="structthemis_1_1_batch_write_optimizer_1_1_stats" prot="public">themis::BatchWriteOptimizer::Stats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_batch_write_optimizer_1a71120b02fc35d86b111847f9ccf719ce" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DurabilityMode</name>
+        <qualifiedname>themis::BatchWriteOptimizer::DurabilityMode</qualifiedname>
+        <enumvalue id="classthemis_1_1_batch_write_optimizer_1a71120b02fc35d86b111847f9ccf719cead8e87c0927539672f54462c837be0b7f" prot="public">
+          <name>Sync</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Fully synchronous: fsync every batch<itemizedlist>
+<listitem><para>Slowest but safest</para>
+</listitem><listitem><para>Use for critical transactions </para>
+</listitem></itemizedlist>
+</para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_batch_write_optimizer_1a71120b02fc35d86b111847f9ccf719cea24aa4117da86c41684ad25742832dfa6" prot="public">
+          <name>Async</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Asynchronous WAL: OS buffers fsync<itemizedlist>
+<listitem><para>2-5x faster than sync</para>
+</listitem><listitem><para>Recommended for production </para>
+</listitem></itemizedlist>
+</para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_batch_write_optimizer_1a71120b02fc35d86b111847f9ccf719ceae4246767f134af73780a229d9e364a0b" prot="public">
+          <name>NoSync</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>No WAL syncing: Maximum speed<itemizedlist>
+<listitem><para>10-50x faster than sync</para>
+</listitem><listitem><para>DANGEROUS: Data loss on crash</para>
+</listitem><listitem><para>Use ONLY for benchmarks/testing </para>
+</listitem></itemizedlist>
+</para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Write durability levels. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/batch_write_optimizer.h" line="48" column="5" bodyfile="include/storage/batch_write_optimizer.h" bodystart="48" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_batch_write_optimizer_1a39c3f24f04ff9b293258a7e15f5a7a24" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_batch_write_optimizer_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::BatchWriteOptimizer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::BatchWriteOptimizer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/batch_write_optimizer.h" line="131" column="12" bodyfile="include/storage/batch_write_optimizer.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_batch_write_optimizer_1ad31cac72d700272b113ddc8bbbfe9333" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::BatchWriteOptimizer::total_batches_</definition>
+        <argsstring></argsstring>
+        <name>total_batches_</name>
+        <qualifiedname>themis::BatchWriteOptimizer::total_batches_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/batch_write_optimizer.h" line="134" column="25" bodyfile="include/storage/batch_write_optimizer.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_batch_write_optimizer_1ad097efbb527a287ed5e61f3e2bf31755" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::BatchWriteOptimizer::total_items_</definition>
+        <argsstring></argsstring>
+        <name>total_items_</name>
+        <qualifiedname>themis::BatchWriteOptimizer::total_items_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/batch_write_optimizer.h" line="135" column="25" bodyfile="include/storage/batch_write_optimizer.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_batch_write_optimizer_1abe6bde7cdc597700034ddb07fbc05122" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; double &gt;</type>
+        <definition>std::atomic&lt;double&gt; themis::BatchWriteOptimizer::total_latency_ms_</definition>
+        <argsstring></argsstring>
+        <name>total_latency_ms_</name>
+        <qualifiedname>themis::BatchWriteOptimizer::total_latency_ms_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/batch_write_optimizer.h" line="136" column="25" bodyfile="include/storage/batch_write_optimizer.h" bodystart="136" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_batch_write_optimizer_1a2eeada7181bc70d3c3b6624f10aa8181" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::BatchWriteOptimizer::BatchWriteOptimizer</definition>
+        <argsstring>()</argsstring>
+        <name>BatchWriteOptimizer</name>
+        <qualifiedname>themis::BatchWriteOptimizer::BatchWriteOptimizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/batch_write_optimizer.h" line="74" column="5" bodyfile="src/storage/batch_write_optimizer.cpp" bodystart="17" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_batch_write_optimizer_1ac04fc5cb206304736bcdc6335a6fd77e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::BatchWriteOptimizer::BatchWriteOptimizer</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>BatchWriteOptimizer</name>
+        <qualifiedname>themis::BatchWriteOptimizer::BatchWriteOptimizer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_batch_write_optimizer_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct an optimizer with an explicit configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Durability and WAL policy to apply to generated write options. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/batch_write_optimizer.h" line="81" column="14" bodyfile="src/storage/batch_write_optimizer.cpp" bodystart="23" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_batch_write_optimizer_1a8ba2b3d257c60e81e97527ca0a552770" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::BatchWriteOptimizer::~BatchWriteOptimizer</definition>
+        <argsstring>()</argsstring>
+        <name>~BatchWriteOptimizer</name>
+        <qualifiedname>themis::BatchWriteOptimizer::~BatchWriteOptimizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/batch_write_optimizer.h" line="82" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_batch_write_optimizer_1aefa79714a4f0a9b4929fa36f6231a48c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structrocksdb_1_1_write_options" kindref="compound">rocksdb::WriteOptions</ref></type>
+        <definition>rocksdb::WriteOptions themis::BatchWriteOptimizer::getOptimizedWriteOptions</definition>
+        <argsstring>() const</argsstring>
+        <name>getOptimizedWriteOptions</name>
+        <qualifiedname>themis::BatchWriteOptimizer::getOptimizedWriteOptions</qualifiedname>
+        <briefdescription>
+<para>Get optimized WriteOptions for batch operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Configured WriteOptions optimized for batching </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/batch_write_optimizer.h" line="89" column="27" bodyfile="src/storage/batch_write_optimizer.cpp" bodystart="37" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_batch_write_optimizer_1afca1cd1ed4316b1091f56c1b194cbe89" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_batch_write_optimizer_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>BatchWriteOptimizer::Stats themis::BatchWriteOptimizer::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::BatchWriteOptimizer::getStats</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of optimizer statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/batch_write_optimizer.h" line="106" column="11" bodyfile="src/storage/batch_write_optimizer.cpp" bodystart="77" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_batch_write_optimizer_1ac50d7048be4abaa7c2e60c39f3c273a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BatchWriteOptimizer::recordBatchWrite</definition>
+        <argsstring>(size_t items, double latency_ms)</argsstring>
+        <name>recordBatchWrite</name>
+        <qualifiedname>themis::BatchWriteOptimizer::recordBatchWrite</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>items</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record batch write for statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Batch Write.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">items</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">items</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), load(), compare_exchange_weak(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/batch_write_optimizer.h" line="113" column="10" bodyfile="src/storage/batch_write_optimizer.cpp" bodystart="105" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_batch_write_optimizer_1a4e26aca9f57390b62e748f0c6f5ce6a6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_batch_write_optimizer_1_1_config" kindref="compound">Config</ref></type>
+        <definition>BatchWriteOptimizer::Config themis::BatchWriteOptimizer::recommendedConfigForUseCase</definition>
+        <argsstring>(const std::string &amp;use_case)</argsstring>
+        <name>recommendedConfigForUseCase</name>
+        <qualifiedname>themis::BatchWriteOptimizer::recommendedConfigForUseCase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>use_case</declname>
+        </param>
+        <briefdescription>
+<para>Create recommended configuration for use case. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Recommended <ref refid="structthemis_1_1_batch_write_optimizer_1_1_config" kindref="compound">Config</ref> For Use Case.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>use_case</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable workload label such as bulk-load or transactional-write. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Configuration tuned for the requested workload.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">use_case</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements recommendedConfigForUseCase without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/batch_write_optimizer.h" line="122" column="19" bodyfile="src/storage/batch_write_optimizer.cpp" bodystart="122" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_batch_write_optimizer_1ae5d5663fe59665fa8ac20ebcf493e1c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BatchWriteOptimizer::validateConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>validateConfig</name>
+        <qualifiedname>themis::BatchWriteOptimizer::validateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_batch_write_optimizer_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Validate configuration and warn about dangerous settings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate <ref refid="structthemis_1_1_batch_write_optimizer_1_1_config" kindref="compound">Config</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/batch_write_optimizer.h" line="128" column="17" bodyfile="src/storage/batch_write_optimizer.cpp" bodystart="156" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Batch Write Optimizer for maximizing write throughput. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides optimized WriteOptions configurations for different batch scenarios:<itemizedlist>
+<listitem><para>High-throughput bulk inserts (disable WAL syncing)</para>
+</listitem><listitem><para>Balanced mode (async WAL)</para>
+</listitem><listitem><para>Safe mode (sync every batch)</para>
+</listitem></itemizedlist>
+</para>
+<para>Performance Impact:<itemizedlist>
+<listitem><para>Async mode: 2-5x faster than sync</para>
+</listitem><listitem><para>No-sync mode: 10-50x faster (benchmark only!)</para>
+</listitem></itemizedlist>
+</para>
+<para>Sources:<itemizedlist>
+<listitem><para>PERFORMANCE_TIPS.md: Batch Operations section</para>
+</listitem><listitem><para>benchmarks/BATCH_INSERT_PERFORMANCE_RESULTS.md</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safety: Thread-safe: Multiple threads can use the same instance </para>
+    </detaileddescription>
+    <location file="include/storage/batch_write_optimizer.h" line="43" column="1" bodyfile="include/storage/batch_write_optimizer.h" bodystart="43" bodyend="137"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_batch_write_optimizer_1a2eeada7181bc70d3c3b6624f10aa8181" prot="public" virt="non-virtual"><scope>themis::BatchWriteOptimizer</scope><name>BatchWriteOptimizer</name></member>
+      <member refid="classthemis_1_1_batch_write_optimizer_1ac04fc5cb206304736bcdc6335a6fd77e" prot="public" virt="non-virtual"><scope>themis::BatchWriteOptimizer</scope><name>BatchWriteOptimizer</name></member>
+      <member refid="classthemis_1_1_batch_write_optimizer_1a39c3f24f04ff9b293258a7e15f5a7a24" prot="private" virt="non-virtual"><scope>themis::BatchWriteOptimizer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_batch_write_optimizer_1a71120b02fc35d86b111847f9ccf719ce" prot="public" virt="non-virtual"><scope>themis::BatchWriteOptimizer</scope><name>DurabilityMode</name></member>
+      <member refid="classthemis_1_1_batch_write_optimizer_1aefa79714a4f0a9b4929fa36f6231a48c" prot="public" virt="non-virtual"><scope>themis::BatchWriteOptimizer</scope><name>getOptimizedWriteOptions</name></member>
+      <member refid="classthemis_1_1_batch_write_optimizer_1afca1cd1ed4316b1091f56c1b194cbe89" prot="public" virt="non-virtual"><scope>themis::BatchWriteOptimizer</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_batch_write_optimizer_1a4e26aca9f57390b62e748f0c6f5ce6a6" prot="public" virt="non-virtual"><scope>themis::BatchWriteOptimizer</scope><name>recommendedConfigForUseCase</name></member>
+      <member refid="classthemis_1_1_batch_write_optimizer_1ac50d7048be4abaa7c2e60c39f3c273a4" prot="public" virt="non-virtual"><scope>themis::BatchWriteOptimizer</scope><name>recordBatchWrite</name></member>
+      <member refid="classthemis_1_1_batch_write_optimizer_1ad31cac72d700272b113ddc8bbbfe9333" prot="private" virt="non-virtual"><scope>themis::BatchWriteOptimizer</scope><name>total_batches_</name></member>
+      <member refid="classthemis_1_1_batch_write_optimizer_1ad097efbb527a287ed5e61f3e2bf31755" prot="private" virt="non-virtual"><scope>themis::BatchWriteOptimizer</scope><name>total_items_</name></member>
+      <member refid="classthemis_1_1_batch_write_optimizer_1abe6bde7cdc597700034ddb07fbc05122" prot="private" virt="non-virtual"><scope>themis::BatchWriteOptimizer</scope><name>total_latency_ms_</name></member>
+      <member refid="classthemis_1_1_batch_write_optimizer_1ae5d5663fe59665fa8ac20ebcf493e1c5" prot="public" virt="non-virtual"><scope>themis::BatchWriteOptimizer</scope><name>validateConfig</name></member>
+      <member refid="classthemis_1_1_batch_write_optimizer_1a8ba2b3d257c60e81e97527ca0a552770" prot="public" virt="non-virtual"><scope>themis::BatchWriteOptimizer</scope><name>~BatchWriteOptimizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

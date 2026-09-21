@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1modules_1_1_base_error_taxonomy" kind="namespace" language="C++">
+    <compoundname>themis::modules::BaseErrorTaxonomy</compoundname>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___l_o_a_d_e_r___p_a_t_h___n_o_t___f_o_u_n_d" prot="public">themis::modules::BaseErrorTaxonomy::BASE_LOADER_PATH_NOT_FOUND</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___l_o_a_d_e_r___s_i_g_n_a_t_u_r_e___r_e_j_e_c_t_e_d" prot="public">themis::modules::BaseErrorTaxonomy::BASE_LOADER_SIGNATURE_REJECTED</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___l_o_a_d_e_r___a_b_i___m_i_s_m_a_t_c_h" prot="public">themis::modules::BaseErrorTaxonomy::BASE_LOADER_ABI_MISMATCH</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___l_o_a_d_e_r___l_o_a_d___f_a_i_l_e_d" prot="public">themis::modules::BaseErrorTaxonomy::BASE_LOADER_LOAD_FAILED</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___l_o_a_d_e_r___i_n_i_t___f_a_i_l_e_d" prot="public">themis::modules::BaseErrorTaxonomy::BASE_LOADER_INIT_FAILED</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___l_o_a_d_e_r___h_e_a_l_t_h___c_h_e_c_k___f_a_i_l_e_d" prot="public">themis::modules::BaseErrorTaxonomy::BASE_LOADER_HEALTH_CHECK_FAILED</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___s_a_n_d_b_o_x___l_a_u_n_c_h___f_a_i_l_e_d" prot="public">themis::modules::BaseErrorTaxonomy::BASE_SANDBOX_LAUNCH_FAILED</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___s_a_n_d_b_o_x___r_e_s_o_u_r_c_e___l_i_m_i_t" prot="public">themis::modules::BaseErrorTaxonomy::BASE_SANDBOX_RESOURCE_LIMIT</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___s_a_n_d_b_o_x___t_i_m_e_o_u_t" prot="public">themis::modules::BaseErrorTaxonomy::BASE_SANDBOX_TIMEOUT</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___s_a_n_d_b_o_x___d_e_g_r_a_d_e_d" prot="public">themis::modules::BaseErrorTaxonomy::BASE_SANDBOX_DEGRADED</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___s_a_n_d_b_o_x___i_n_a_c_t_i_v_e___s_t_a_t_s" prot="public">themis::modules::BaseErrorTaxonomy::BASE_SANDBOX_INACTIVE_STATS</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___n_o___b_a_c_k_u_p" prot="public">themis::modules::BaseErrorTaxonomy::BASE_RELOAD_NO_BACKUP</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___r_o_l_l_b_a_c_k___f_a_i_l_e_d" prot="public">themis::modules::BaseErrorTaxonomy::BASE_RELOAD_ROLLBACK_FAILED</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___c_a_n_d_i_d_a_t_e___l_o_a_d___f_a_i_l_e_d" prot="public">themis::modules::BaseErrorTaxonomy::BASE_RELOAD_CANDIDATE_LOAD_FAILED</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___s_t_a_t_e___r_e_s_t_o_r_e___f_a_i_l_e_d" prot="public">themis::modules::BaseErrorTaxonomy::BASE_RELOAD_STATE_RESTORE_FAILED</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___n_o_t___r_e_g_i_s_t_e_r_e_d" prot="public">themis::modules::BaseErrorTaxonomy::BASE_RELOAD_NOT_REGISTERED</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___d_e_p_e_n_d_e_n_c_y___c_o_n_f_l_i_c_t" prot="public">themis::modules::BaseErrorTaxonomy::BASE_DEPENDENCY_CONFLICT</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___d_e_p_e_n_d_e_n_c_y___c_y_c_l_e" prot="public">themis::modules::BaseErrorTaxonomy::BASE_DEPENDENCY_CYCLE</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___d_e_p_e_n_d_e_n_c_y___m_i_s_s_i_n_g___r_e_q_u_i_r_e_d" prot="public">themis::modules::BaseErrorTaxonomy::BASE_DEPENDENCY_MISSING_REQUIRED</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___d_e_p_e_n_d_e_n_c_y___v_e_r_s_i_o_n___r_a_n_g_e___m_i_s_m_a_t_c_h" prot="public">themis::modules::BaseErrorTaxonomy::BASE_DEPENDENCY_VERSION_RANGE_MISMATCH</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_g_i_s_t_r_y___n_e_t_w_o_r_k___e_r_r_o_r" prot="public">themis::modules::BaseErrorTaxonomy::BASE_REGISTRY_NETWORK_ERROR</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_g_i_s_t_r_y___a_u_t_h___f_a_i_l_u_r_e" prot="public">themis::modules::BaseErrorTaxonomy::BASE_REGISTRY_AUTH_FAILURE</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_g_i_s_t_r_y___c_h_e_c_k_s_u_m___m_i_s_m_a_t_c_h" prot="public">themis::modules::BaseErrorTaxonomy::BASE_REGISTRY_CHECKSUM_MISMATCH</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_g_i_s_t_r_y___d_o_w_n_l_o_a_d___f_a_i_l_e_d" prot="public">themis::modules::BaseErrorTaxonomy::BASE_REGISTRY_DOWNLOAD_FAILED</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1modules_1_1_base_error_taxonomy_1a7943c1d4d57291485305fd376517b2d2" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::modules::BaseErrorTaxonomy::resolveDescription</definition>
+        <argsstring>(int error_code) noexcept</argsstring>
+        <name>resolveDescription</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::resolveDescription</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+<para>Resolve a numeric error code to its taxonomy description at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks every known code in the taxonomy and returns its description string. Returns <computeroutput>&quot;unknown error code&quot;</computeroutput> for values outside all known ranges.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Integer error code (e.g. <computeroutput><ref refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___l_o_a_d_e_r___a_b_i___m_i_s_m_a_t_c_h_1a97c4d82bf2cb00b790e745fa7ca0fa60" kindref="member">BASE_LOADER_ABI_MISMATCH::code</ref></computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Human-readable description string view or <computeroutput>&quot;unknown error code&quot;</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="860" column="25" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="860" bodyend="893"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1_1_base_error_taxonomy_1a896472767b2c19a7378e18236ffad990" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::modules::BaseErrorTaxonomy::resolveRemediationHint</definition>
+        <argsstring>(int error_code) noexcept</argsstring>
+        <name>resolveRemediationHint</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::resolveRemediationHint</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+<para>Resolve a numeric error code to its operator remediation hint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a short, actionable string for each known taxonomy code. Returns <computeroutput>&quot;no remediation hint available&quot;</computeroutput> for unknown codes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Integer error code (e.g. <computeroutput><ref refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___l_o_a_d_e_r___a_b_i___m_i_s_m_a_t_c_h_1a97c4d82bf2cb00b790e745fa7ca0fa60" kindref="member">BASE_LOADER_ABI_MISMATCH::code</ref></computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Actionable hint string view. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="904" column="25" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="904" bodyend="937"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1modules_1_1_base_error_taxonomy_1a355d9756d6bfbf7a389839781a63800e" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::BaseErrorTaxonomy::isKnownCode</definition>
+        <argsstring>(int error_code) noexcept</argsstring>
+        <name>isKnownCode</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::isKnownCode</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+<para>Return true when <computeroutput>code</computeroutput> falls within any known taxonomy range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Integer error code to test. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="943" column="23" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="943" bodyend="949"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Standardized error codes and diagnostic builders for the base module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each inner struct contains:<itemizedlist>
+<listitem><para><computeroutput>code</computeroutput> — <computeroutput>constexpr</computeroutput> int unique error code.</para>
+</listitem><listitem><para><computeroutput>description()</computeroutput> — <computeroutput>static</computeroutput> std::string_view one-line description.</para>
+</listitem><listitem><para><computeroutput>remediationHint()</computeroutput> — <computeroutput>static</computeroutput> std::string_view actionable operator hint.</para>
+</listitem><listitem><para><computeroutput>format(...)</computeroutput> — <computeroutput>static</computeroutput> std::string diagnostic with context args. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/themis/base/base_error_taxonomy.h" line="56" column="1"/>
+  </compounddef>
+</doxygen>

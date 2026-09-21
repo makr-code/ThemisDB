@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_aql_fulltext_or_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpAqlFulltextOrTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_aql_fulltext_or_test_1a288a4cd8c55799719e33d94cbf184727" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; HttpAqlFulltextOrTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpAqlFulltextOrTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_or.cpp" line="116" column="21" bodyfile="tests/network/test_http_aql_fulltext_or.cpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_fulltext_or_test_1a7b31b4e9f30baa390f5a7a662fe55869" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; HttpAqlFulltextOrTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpAqlFulltextOrTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_or.cpp" line="117" column="21" bodyfile="tests/network/test_http_aql_fulltext_or.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_fulltext_or_test_1a1f38ff7fa3e3ab68865c0dde21c86d9e" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; HttpAqlFulltextOrTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpAqlFulltextOrTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_or.cpp" line="118" column="21" bodyfile="tests/network/test_http_aql_fulltext_or.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_fulltext_or_test_1a997cf9fe83cf45444f724255221e3813" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; HttpAqlFulltextOrTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpAqlFulltextOrTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_or.cpp" line="119" column="21" bodyfile="tests/network/test_http_aql_fulltext_or.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_fulltext_or_test_1af5e0409a2406bedafe2fbcb127a0570c" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; HttpAqlFulltextOrTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpAqlFulltextOrTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_or.cpp" line="120" column="21" bodyfile="tests/network/test_http_aql_fulltext_or.cpp" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_fulltext_or_test_1a728423225bbbdf3bd836a88303ddbae2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; HttpAqlFulltextOrTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpAqlFulltextOrTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_or.cpp" line="121" column="21" bodyfile="tests/network/test_http_aql_fulltext_or.cpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_fulltext_or_test_1a01c9fc7d21072f419ae3f25a4b4e0d3d" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path HttpAqlFulltextOrTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>HttpAqlFulltextOrTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_or.cpp" line="122" column="27" bodyfile="tests/network/test_http_aql_fulltext_or.cpp" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_fulltext_or_test_1adcc2baa9121227012ba07bd071305fcd" prot="protected" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t HttpAqlFulltextOrTest::port_</definition>
+        <argsstring></argsstring>
+        <name>port_</name>
+        <qualifiedname>HttpAqlFulltextOrTest::port_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_or.cpp" line="123" column="14" bodyfile="tests/network/test_http_aql_fulltext_or.cpp" bodystart="123" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_aql_fulltext_or_test_1a45b285c9f8ea23a05e4bda110089b1fa" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAqlFulltextOrTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpAqlFulltextOrTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_or.cpp" line="23" column="10" bodyfile="tests/network/test_http_aql_fulltext_or.cpp" bodystart="23" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_fulltext_or_test_1abfa60011d23aedf0483ae48be8776203" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAqlFulltextOrTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpAqlFulltextOrTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_or.cpp" line="66" column="10" bodyfile="tests/network/test_http_aql_fulltext_or.cpp" bodystart="66" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_fulltext_or_test_1a4c00bca72537ff301ee9ac60df1b8524" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>json HttpAqlFulltextOrTest::executeAQL</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>executeAQL</name>
+        <qualifiedname>HttpAqlFulltextOrTest::executeAQL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_fulltext_or.cpp" line="78" column="10" bodyfile="tests/network/test_http_aql_fulltext_or.cpp" bodystart="78" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpAqlFulltextOrTest</label>
+        <link refid="class_http_aql_fulltext_or_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpAqlFulltextOrTest</label>
+        <link refid="class_http_aql_fulltext_or_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_aql_fulltext_or.cpp" line="21" column="1" bodyfile="tests/network/test_http_aql_fulltext_or.cpp" bodystart="21" bodyend="124"/>
+    <listofallmembers>
+      <member refid="class_http_aql_fulltext_or_test_1a01c9fc7d21072f419ae3f25a4b4e0d3d" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextOrTest</scope><name>db_path_</name></member>
+      <member refid="class_http_aql_fulltext_or_test_1a4c00bca72537ff301ee9ac60df1b8524" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextOrTest</scope><name>executeAQL</name></member>
+      <member refid="class_http_aql_fulltext_or_test_1a1f38ff7fa3e3ab68865c0dde21c86d9e" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextOrTest</scope><name>graph_index_</name></member>
+      <member refid="class_http_aql_fulltext_or_test_1adcc2baa9121227012ba07bd071305fcd" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextOrTest</scope><name>port_</name></member>
+      <member refid="class_http_aql_fulltext_or_test_1a7b31b4e9f30baa390f5a7a662fe55869" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextOrTest</scope><name>secondary_index_</name></member>
+      <member refid="class_http_aql_fulltext_or_test_1a728423225bbbdf3bd836a88303ddbae2" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextOrTest</scope><name>server_</name></member>
+      <member refid="class_http_aql_fulltext_or_test_1a45b285c9f8ea23a05e4bda110089b1fa" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextOrTest</scope><name>SetUp</name></member>
+      <member refid="class_http_aql_fulltext_or_test_1a288a4cd8c55799719e33d94cbf184727" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextOrTest</scope><name>storage_</name></member>
+      <member refid="class_http_aql_fulltext_or_test_1abfa60011d23aedf0483ae48be8776203" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextOrTest</scope><name>TearDown</name></member>
+      <member refid="class_http_aql_fulltext_or_test_1af5e0409a2406bedafe2fbcb127a0570c" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextOrTest</scope><name>tx_manager_</name></member>
+      <member refid="class_http_aql_fulltext_or_test_1a997cf9fe83cf45444f724255221e3813" prot="protected" virt="non-virtual"><scope>HttpAqlFulltextOrTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

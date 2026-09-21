@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_migration_change_preview" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::MigrationChangePreview</compoundname>
+    <includes refid="in__place__schema__migrator_8h" local="no">in_place_schema_migrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_migration_change_preview_1affe8f0c185c036c30427b5d3df7fd64a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::MigrationChangePreview::is_valid</definition>
+        <argsstring></argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::updates::MigrationChangePreview::is_valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if apply() would succeed in strict mode </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="53" column="10" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_migration_change_preview_1a6d15364ecc9878ad150ac3ff48c71ad1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::MigrationChangePreview::is_additive</definition>
+        <argsstring></argsstring>
+        <name>is_additive</name>
+        <qualifiedname>themis::updates::MigrationChangePreview::is_additive</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if only new columns are introduced </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="54" column="10" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_migration_change_preview_1a187ee49d1e77c7d27aedbd84ba56cc44" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::MigrationChangePreview::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::updates::MigrationChangePreview::error_message</qualifiedname>
+        <briefdescription>
+<para>Non-empty when is_valid == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="55" column="17" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_migration_change_preview_1aaf27f2096d602a479a9866c9ca42432e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; SchemaManager::PropertyInfo &gt;</type>
+        <definition>std::vector&lt;SchemaManager::PropertyInfo&gt; themis::updates::MigrationChangePreview::added_columns</definition>
+        <argsstring></argsstring>
+        <name>added_columns</name>
+        <qualifiedname>themis::updates::MigrationChangePreview::added_columns</qualifiedname>
+        <briefdescription>
+<para>Columns present in to_schema but absent from from_schema. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="58" column="17" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_migration_change_preview_1a2baaba255b9b869a3edec78cf1acd712" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; SchemaManager::PropertyInfo &gt;</type>
+        <definition>std::vector&lt;SchemaManager::PropertyInfo&gt; themis::updates::MigrationChangePreview::removed_columns</definition>
+        <argsstring></argsstring>
+        <name>removed_columns</name>
+        <qualifiedname>themis::updates::MigrationChangePreview::removed_columns</qualifiedname>
+        <briefdescription>
+<para>Columns present in from_schema but absent from to_schema. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="61" column="17" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_migration_change_preview_1aed69f9326c6afd7855073cdf2107765c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_column_modification" kindref="compound">ColumnModification</ref> &gt;</type>
+        <definition>std::vector&lt;ColumnModification&gt; themis::updates::MigrationChangePreview::modified_columns</definition>
+        <argsstring></argsstring>
+        <name>modified_columns</name>
+        <qualifiedname>themis::updates::MigrationChangePreview::modified_columns</qualifiedname>
+        <briefdescription>
+<para>Columns present in both schemas whose type or nullability changed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="64" column="17" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_migration_change_preview_1a6d2e663d754e5072ca93f91d52f3df7a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::updates::MigrationChangePreview::changeCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>changeCount</name>
+        <qualifiedname>themis::updates::MigrationChangePreview::changeCount</qualifiedname>
+        <briefdescription>
+<para>Total number of schema changes (added + removed + modified). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="67" column="17" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="67" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Dry-run result: detailed preview of what a migration would change. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Returned by <ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a7c965553b29b8a9052c2f0fdb3f8d733" kindref="member">InPlaceSchemaMigrator::preview()</ref>. No schema or version state is modified when computing this result. </para>
+    </detaileddescription>
+    <location file="include/updates/in_place_schema_migrator.h" line="52" column="1" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="52" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_migration_change_preview_1aaf27f2096d602a479a9866c9ca42432e" prot="public" virt="non-virtual"><scope>themis::updates::MigrationChangePreview</scope><name>added_columns</name></member>
+      <member refid="structthemis_1_1updates_1_1_migration_change_preview_1a6d2e663d754e5072ca93f91d52f3df7a" prot="public" virt="non-virtual"><scope>themis::updates::MigrationChangePreview</scope><name>changeCount</name></member>
+      <member refid="structthemis_1_1updates_1_1_migration_change_preview_1a187ee49d1e77c7d27aedbd84ba56cc44" prot="public" virt="non-virtual"><scope>themis::updates::MigrationChangePreview</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1updates_1_1_migration_change_preview_1a6d15364ecc9878ad150ac3ff48c71ad1" prot="public" virt="non-virtual"><scope>themis::updates::MigrationChangePreview</scope><name>is_additive</name></member>
+      <member refid="structthemis_1_1updates_1_1_migration_change_preview_1affe8f0c185c036c30427b5d3df7fd64a" prot="public" virt="non-virtual"><scope>themis::updates::MigrationChangePreview</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1updates_1_1_migration_change_preview_1aed69f9326c6afd7855073cdf2107765c" prot="public" virt="non-virtual"><scope>themis::updates::MigrationChangePreview</scope><name>modified_columns</name></member>
+      <member refid="structthemis_1_1updates_1_1_migration_change_preview_1a2baaba255b9b869a3edec78cf1acd712" prot="public" virt="non-virtual"><scope>themis::updates::MigrationChangePreview</scope><name>removed_columns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::test::LineageBackpressureTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test_1ad67228d2f5dc3803bccadad933975a22" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_data_lineage_tracker" kindref="compound">DataLineageTracker</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;DataLineageTracker&gt; themis::governance::test::LineageBackpressureTest::tracker_</definition>
+        <argsstring></argsstring>
+        <name>tracker_</name>
+        <qualifiedname>themis::governance::test::LineageBackpressureTest::tracker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="58" column="21" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test_1a61aecdac8b07ba5fcd72662d42ca559e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::test::LineageBackpressureTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::governance::test::LineageBackpressureTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="48" column="10" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="48" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test_1ae7520d600aa598617dee1c5553c3ffe6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::test::LineageBackpressureTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::governance::test::LineageBackpressureTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="54" column="10" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="54" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test_1a97ed52faaca204ce5e72d0e8b37ae32f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_lineage_event" kindref="compound">LineageEvent</ref></type>
+        <definition>LineageEvent themis::governance::test::LineageBackpressureTest::createTestEvent</definition>
+        <argsstring>(const std::string &amp;dataset_id, const std::string &amp;event_id=&quot;&quot;, int64_t timestamp_ms=0)</argsstring>
+        <name>createTestEvent</name>
+        <qualifiedname>themis::governance::test::LineageBackpressureTest::createTestEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dataset_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="61" column="18" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="61" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::governance::test::LineageBackpressureTest</label>
+        <link refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::governance::test::LineageBackpressureTest</label>
+        <link refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" line="46" column="1" bodyfile="tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp" bodystart="46" bodyend="73"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test_1a97ed52faaca204ce5e72d0e8b37ae32f" prot="protected" virt="non-virtual"><scope>themis::governance::test::LineageBackpressureTest</scope><name>createTestEvent</name></member>
+      <member refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test_1a61aecdac8b07ba5fcd72662d42ca559e" prot="protected" virt="non-virtual"><scope>themis::governance::test::LineageBackpressureTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test_1ae7520d600aa598617dee1c5553c3ffe6" prot="protected" virt="non-virtual"><scope>themis::governance::test::LineageBackpressureTest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1governance_1_1test_1_1_lineage_backpressure_test_1ad67228d2f5dc3803bccadad933975a22" prot="protected" virt="non-virtual"><scope>themis::governance::test::LineageBackpressureTest</scope><name>tracker_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

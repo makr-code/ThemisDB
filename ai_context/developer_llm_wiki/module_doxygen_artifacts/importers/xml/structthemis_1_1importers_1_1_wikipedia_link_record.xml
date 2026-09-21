@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_wikipedia_link_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaLinkRecord</compoundname>
+    <includes refid="wikipedia__types_8hpp" local="no">wikipedia_types.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_link_record_1a99816b7b8b98974c1c3adcbe5cc53bc9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::WikipediaLinkRecord::from_page_id</definition>
+        <argsstring></argsstring>
+        <name>from_page_id</name>
+        <qualifiedname>themis::importers::WikipediaLinkRecord::from_page_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="111" column="14" bodyfile="include/importers/wikipedia_types.hpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_link_record_1a09d021a18fbcee3b7d28f938c76f770a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaLinkRecord::target_title</definition>
+        <argsstring></argsstring>
+        <name>target_title</name>
+        <qualifiedname>themis::importers::WikipediaLinkRecord::target_title</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="112" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_link_record_1ac42737304e28e0346317d1f674e917fb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::WikipediaLinkRecord::target_page_id</definition>
+        <argsstring></argsstring>
+        <name>target_page_id</name>
+        <qualifiedname>themis::importers::WikipediaLinkRecord::target_page_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="113" column="14" bodyfile="include/importers/wikipedia_types.hpp" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_link_record_1a43b7b3d5b835f6560334708d7f77ea58" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaLinkRecord::link_type</definition>
+        <argsstring></argsstring>
+        <name>link_type</name>
+        <qualifiedname>themis::importers::WikipediaLinkRecord::link_type</qualifiedname>
+        <initializer>= &quot;LINKS_TO&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="114" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_wikipedia_link_record_1a85c1aaab0b4cfc62153290633d6b4e26" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::WikipediaLinkRecord::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::WikipediaLinkRecord::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="116" column="11" bodyfile="include/importers/wikipedia_types.hpp" bodystart="116" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical outgoing page-link row. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/wikipedia_types.hpp" line="110" column="1" bodyfile="include/importers/wikipedia_types.hpp" bodystart="110" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_link_record_1a99816b7b8b98974c1c3adcbe5cc53bc9" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaLinkRecord</scope><name>from_page_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_link_record_1a43b7b3d5b835f6560334708d7f77ea58" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaLinkRecord</scope><name>link_type</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_link_record_1ac42737304e28e0346317d1f674e917fb" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaLinkRecord</scope><name>target_page_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_link_record_1a09d021a18fbcee3b7d28f938c76f770a" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaLinkRecord</scope><name>target_title</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_link_record_1a85c1aaab0b4cfc62153290633d6b4e26" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaLinkRecord</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

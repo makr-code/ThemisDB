@@ -1,0 +1,416 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_module_hash_verifier" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::ModuleHashVerifier</compoundname>
+    <includes refid="module__hash__verifier_8h" local="no">module_hash_verifier.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_hash_verifier_1a20f13e10b4616cf8c5e4eaf3d03769b0" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::modules::ModuleHashVerifier::manifest_</definition>
+        <argsstring></argsstring>
+        <name>manifest_</name>
+        <qualifiedname>themis::modules::ModuleHashVerifier::manifest_</qualifiedname>
+        <briefdescription>
+<para>module-name → expected SHA-256 (hex, lowercase) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/module_hash_verifier.h" line="152" column="14" bodyfile="include/themis/module_hash_verifier.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_hash_verifier_1a1ca9ec8f74618f0497db8628c862b884" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleHashVerifier::computeSHA256</definition>
+        <argsstring>(const std::string &amp;filePath)</argsstring>
+        <name>computeSHA256</name>
+        <qualifiedname>themis::modules::ModuleHashVerifier::computeSHA256</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filePath</declname>
+        </param>
+        <briefdescription>
+<para>Compute the SHA-256 hash of any file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute SHA256.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute path to the file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Lowercase hex-encoded 64-character SHA-256 digest, or an empty string on I/O or OpenSSL error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: file(), spdlog::warn(), EVP_MD_CTX_new(), spdlog::error(), EVP_DigestInit_ex(), EVP_sha256(), EVP_MD_CTX_free(), read(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/module_hash_verifier.h" line="71" column="24" bodyfile="src/themis/module_hash_verifier.cpp" bodystart="42" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_hash_verifier_1a29235697438aff088b9d4780b73efa9a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleHashVerifier::verifyHash</definition>
+        <argsstring>(const std::string &amp;modulePath, const std::string &amp;expectedHash)</argsstring>
+        <name>verifyHash</name>
+        <qualifiedname>themis::modules::ModuleHashVerifier::verifyHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modulePath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expectedHash</declname>
+        </param>
+        <briefdescription>
+<para>Verify a module file against a known-good hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Hash.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute path to the module file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>expectedHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lowercase hex-encoded expected SHA-256 digest. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the computed hash matches <computeroutput>expectedHash</computeroutput> exactly.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expectedHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1modules_1_1_module_hash_verifier_1a1ca9ec8f74618f0497db8628c862b884" kindref="member">computeSHA256()</ref>, empty(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/module_hash_verifier.h" line="80" column="17" bodyfile="src/themis/module_hash_verifier.cpp" bodystart="95" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_hash_verifier_1aa2297ec23d56f6e725c47f041a87f8d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleHashVerifier::loadManifest</definition>
+        <argsstring>(const std::string &amp;manifestPath)</argsstring>
+        <name>loadManifest</name>
+        <qualifiedname>themis::modules::ModuleHashVerifier::loadManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>manifestPath</declname>
+        </param>
+        <briefdescription>
+<para>Load (or replace) the in-memory hash manifest from a JSON file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Manifest.</para>
+<para>The file must contain a JSON object whose keys are module names and whose values are hex-encoded SHA-256 hash strings.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manifestPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the JSON manifest file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false on I/O or parse error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifestPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), spdlog::error(), is_object(), clear(), items(), is_string(), spdlog::warn(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/module_hash_verifier.h" line="94" column="10" bodyfile="src/themis/module_hash_verifier.cpp" bodystart="121" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_hash_verifier_1ab5d17a80cba541d00ac33ed36b3879f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleHashVerifier::saveManifest</definition>
+        <argsstring>(const std::string &amp;outputPath) const</argsstring>
+        <name>saveManifest</name>
+        <qualifiedname>themis::modules::ModuleHashVerifier::saveManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>outputPath</declname>
+        </param>
+        <briefdescription>
+<para>Save the current in-memory manifest to a JSON file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>outputPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination file (created or overwritten). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false on I/O error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">outputPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/module_hash_verifier.h" line="102" column="10" bodyfile="src/themis/module_hash_verifier.cpp" bodystart="164" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_hash_verifier_1a726050629f08ea447270d7403b4beb32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleHashVerifier::addExpectedHash</definition>
+        <argsstring>(const std::string &amp;moduleName, const std::string &amp;expectedHash)</argsstring>
+        <name>addExpectedHash</name>
+        <qualifiedname>themis::modules::ModuleHashVerifier::addExpectedHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>moduleName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expectedHash</declname>
+        </param>
+        <briefdescription>
+<para>Add or update an expected hash in the in-memory manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Expected Hash.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical module name (e.g., &quot;themis_storage&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>expectedHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lowercase hex-encoded SHA-256 hash.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expectedHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/module_hash_verifier.h" line="110" column="10" bodyfile="src/themis/module_hash_verifier.cpp" bodystart="202" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_hash_verifier_1a3c2e656d55517bb5dbc439ac6707a741" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_module_hash_verification_result" kindref="compound">ModuleHashVerificationResult</ref></type>
+        <definition>ModuleHashVerificationResult themis::modules::ModuleHashVerifier::verifyModule</definition>
+        <argsstring>(const std::string &amp;moduleName, const std::string &amp;modulePath) const</argsstring>
+        <name>verifyModule</name>
+        <qualifiedname>themis::modules::ModuleHashVerifier::verifyModule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>moduleName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modulePath</declname>
+        </param>
+        <briefdescription>
+<para>Verify a module file against the entry in the loaded manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fails with an error message if <computeroutput>moduleName</computeroutput> is absent from the manifest or if the hash cannot be computed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Module name (key in the manifest). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute path to the module file to check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result with success flag, hashes, and any error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/module_hash_verifier.h" line="123" column="34" bodyfile="src/themis/module_hash_verifier.cpp" bodystart="210" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_hash_verifier_1a0b6c6ddb3ddf14cf4ff792918dc7d619" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::modules::ModuleHashVerifier::getExpectedHash</definition>
+        <argsstring>(const std::string &amp;moduleName) const</argsstring>
+        <name>getExpectedHash</name>
+        <qualifiedname>themis::modules::ModuleHashVerifier::getExpectedHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>moduleName</declname>
+        </param>
+        <briefdescription>
+<para>Look up the expected hash for <computeroutput>moduleName</computeroutput> in the manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does NOT open any file; queries only the in-memory manifest loaded via <ref refid="classthemis_1_1modules_1_1_module_hash_verifier_1aa2297ec23d56f6e725c47f041a87f8d7" kindref="member">loadManifest()</ref> or populated via <ref refid="classthemis_1_1modules_1_1_module_hash_verifier_1a726050629f08ea447270d7403b4beb32" kindref="member">addExpectedHash()</ref>. Intended for use by callers (e.g. <ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref>) that have already computed the file hash and want to avoid hashing the file a second time.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Module name (key in the manifest). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The expected hex-encoded SHA-256 string, or an empty optional if <computeroutput>moduleName</computeroutput> is not in the manifest. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/module_hash_verifier.h" line="138" column="19" bodyfile="src/themis/module_hash_verifier.cpp" bodystart="254" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_hash_verifier_1a48d6ca791cc834c5c7a4063410b6a950" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::modules::ModuleHashVerifier::manifestSize</definition>
+        <argsstring>() const</argsstring>
+        <name>manifestSize</name>
+        <qualifiedname>themis::modules::ModuleHashVerifier::manifestSize</qualifiedname>
+        <briefdescription>
+<para>Number of entries currently in the in-memory manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/module_hash_verifier.h" line="143" column="12" bodyfile="src/themis/module_hash_verifier.cpp" bodystart="250" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_hash_verifier_1a4d4fe61af91521979a7cf5f77dd7b6b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleHashVerifier::clearManifest</definition>
+        <argsstring>()</argsstring>
+        <name>clearManifest</name>
+        <qualifiedname>themis::modules::ModuleHashVerifier::clearManifest</qualifiedname>
+        <briefdescription>
+<para>Remove all entries from the in-memory manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Manifest.</para>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/module_hash_verifier.h" line="148" column="10" bodyfile="src/themis/module_hash_verifier.cpp" bodystart="267" bodyend="269"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Standalone SHA-256 integrity verifier for ThemisDB modules. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Two usage patterns are supported:</para>
+<para><orderedlist>
+<listitem><para><bold>Ad-hoc</bold> – call the static helpers to hash or compare a single file without constructing an instance.</para>
+</listitem><listitem><para><bold>Manifest-driven</bold> – load a JSON manifest that maps module names to their expected SHA-256 hashes and verify each module against it. The manifest format is a flat JSON object: <programlisting><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;themis_storage&quot;</highlight><highlight class="normal">:<sp/><sp/></highlight><highlight class="stringliteral">&quot;e3b0c44298fc1c149…&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;themis_query&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;a87ff679a2f3e71d9…&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+</listitem></orderedlist>
+</para>
+<para>Thread-safety: the static helpers are thread-safe. The manifest methods are NOT thread-safe; callers must synchronise external access if needed. </para>
+    </detaileddescription>
+    <location file="include/themis/module_hash_verifier.h" line="60" column="1" bodyfile="include/themis/module_hash_verifier.h" bodystart="60" bodyend="153"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_module_hash_verifier_1a726050629f08ea447270d7403b4beb32" prot="public" virt="non-virtual"><scope>themis::modules::ModuleHashVerifier</scope><name>addExpectedHash</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_hash_verifier_1a4d4fe61af91521979a7cf5f77dd7b6b6" prot="public" virt="non-virtual"><scope>themis::modules::ModuleHashVerifier</scope><name>clearManifest</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_hash_verifier_1a1ca9ec8f74618f0497db8628c862b884" prot="public" virt="non-virtual"><scope>themis::modules::ModuleHashVerifier</scope><name>computeSHA256</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_hash_verifier_1a0b6c6ddb3ddf14cf4ff792918dc7d619" prot="public" virt="non-virtual"><scope>themis::modules::ModuleHashVerifier</scope><name>getExpectedHash</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_hash_verifier_1aa2297ec23d56f6e725c47f041a87f8d7" prot="public" virt="non-virtual"><scope>themis::modules::ModuleHashVerifier</scope><name>loadManifest</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_hash_verifier_1a20f13e10b4616cf8c5e4eaf3d03769b0" prot="private" virt="non-virtual"><scope>themis::modules::ModuleHashVerifier</scope><name>manifest_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_hash_verifier_1a48d6ca791cc834c5c7a4063410b6a950" prot="public" virt="non-virtual"><scope>themis::modules::ModuleHashVerifier</scope><name>manifestSize</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_hash_verifier_1ab5d17a80cba541d00ac33ed36b3879f3" prot="public" virt="non-virtual"><scope>themis::modules::ModuleHashVerifier</scope><name>saveManifest</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_hash_verifier_1a29235697438aff088b9d4780b73efa9a" prot="public" virt="non-virtual"><scope>themis::modules::ModuleHashVerifier</scope><name>verifyHash</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_hash_verifier_1a3c2e656d55517bb5dbc439ac6707a741" prot="public" virt="non-virtual"><scope>themis::modules::ModuleHashVerifier</scope><name>verifyModule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

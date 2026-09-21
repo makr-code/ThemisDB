@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_b919d449df95dbe7854299847587d1c3" kind="dir">
+    <compoundname>src/geo</compoundname>
+    <innerfile refid="boost__cpu__exact__backend_8cpp">boost_cpu_exact_backend.cpp</innerfile>
+    <innerfile refid="cpu__backend_8cpp">cpu_backend.cpp</innerfile>
+    <innerfile refid="device__detector_8cpp">device_detector.cpp</innerfile>
+    <innerfile refid="geo__backend__dispatch_8cpp">geo_backend_dispatch.cpp</innerfile>
+    <innerfile refid="geo__clustering_8cpp">geo_clustering.cpp</innerfile>
+    <innerfile refid="geo__edge__case__handler_8cpp">geo_edge_case_handler.cpp</innerfile>
+    <innerfile refid="geo__faiss__knn_8cpp">geo_faiss_knn.cpp</innerfile>
+    <innerfile refid="geo__json__geometry_8cpp">geo_json_geometry.cpp</innerfile>
+    <innerfile refid="geo__operator__diagnostics_8cpp">geo_operator_diagnostics.cpp</innerfile>
+    <innerfile refid="geo__phase2__phase3__integration_8cpp">geo_phase2_phase3_integration.cpp</innerfile>
+    <innerfile refid="geo__policy_8cpp">geo_policy.cpp</innerfile>
+    <innerfile refid="geo__rtree_8cpp">geo_rtree.cpp</innerfile>
+    <innerfile refid="gpu__backend__hip_8cpp">gpu_backend_hip.cpp</innerfile>
+    <innerfile refid="gpu__backend__production_8cpp">gpu_backend_production.cpp</innerfile>
+    <innerfile refid="gpu__backend__stub_8cpp">gpu_backend_stub.cpp</innerfile>
+    <innerfile refid="gpu__kernel__dispatcher__cpu_8cpp">gpu_kernel_dispatcher_cpu.cpp</innerfile>
+    <innerfile refid="phase2__phase3__hardening_8cpp">phase2_phase3_hardening.cpp</innerfile>
+    <innerfile refid="raster_8cpp">raster.cpp</innerfile>
+    <innerfile refid="raster__query__interface_8cpp">raster_query_interface.cpp</innerfile>
+    <innerfile refid="rtree__cursor_8cpp">rtree_cursor.cpp</innerfile>
+    <innerfile refid="spatial__join_8cpp">spatial_join.cpp</innerfile>
+    <innerfile refid="spatial__join__filter_8cpp">spatial_join_filter.cpp</innerfile>
+    <innerfile refid="temporal__spatial__query_8cpp">temporal_spatial_query.cpp</innerfile>
+    <innerfile refid="temporal__spatial__query__builder_8cpp">temporal_spatial_query_builder.cpp</innerfile>
+    <innerfile refid="tile__server_8cpp">tile_server.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/geo/"/>
+  </compounddef>
+</doxygen>

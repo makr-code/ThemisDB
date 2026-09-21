@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_spelling_correction" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SpellingCorrection</compoundname>
+    <includes refid="query__expander_8h" local="no">query_expander.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_spelling_correction_1afe2a0e6563e730a69f9396f08df60b44" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SpellingCorrection::suggestion</definition>
+        <argsstring></argsstring>
+        <name>suggestion</name>
+        <qualifiedname>themis::SpellingCorrection::suggestion</qualifiedname>
+        <briefdescription>
+<para>Corrected word or query string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="26" column="17" bodyfile="include/search/query_expander.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_spelling_correction_1a957458354ecc7d604500c2d0c546c78b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::SpellingCorrection::edit_distance</definition>
+        <argsstring></argsstring>
+        <name>edit_distance</name>
+        <qualifiedname>themis::SpellingCorrection::edit_distance</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Levenshtein distance from input (lower is better). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="27" column="9" bodyfile="include/search/query_expander.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_spelling_correction_1ac350b7d0f24299734e5e70980da12d0e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SpellingCorrection::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::SpellingCorrection::confidence</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Normalized confidence score in [0,1] (higher is better). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="28" column="12" bodyfile="include/search/query_expander.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single ranked spelling correction candidate. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/query_expander.h" line="25" column="1" bodyfile="include/search/query_expander.h" bodystart="25" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_spelling_correction_1ac350b7d0f24299734e5e70980da12d0e" prot="public" virt="non-virtual"><scope>themis::SpellingCorrection</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1_spelling_correction_1a957458354ecc7d604500c2d0c546c78b" prot="public" virt="non-virtual"><scope>themis::SpellingCorrection</scope><name>edit_distance</name></member>
+      <member refid="structthemis_1_1_spelling_correction_1afe2a0e6563e730a69f9396f08df60b44" prot="public" virt="non-virtual"><scope>themis::SpellingCorrection</scope><name>suggestion</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

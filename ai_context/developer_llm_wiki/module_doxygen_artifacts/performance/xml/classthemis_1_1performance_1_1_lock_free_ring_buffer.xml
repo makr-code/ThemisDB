@@ -1,0 +1,292 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_lock_free_ring_buffer" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::LockFreeRingBuffer</compoundname>
+    <includes refid="lockfree__metrics__buffer_8h" local="no">lockfree_metrics_buffer.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+      <param>
+        <type>size_t</type>
+        <declname>Capacity</declname>
+        <defname>Capacity</defname>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_lock_free_ring_buffer_1aa41da7f782478c5649d53cd81174d969" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::performance::LockFreeRingBuffer&lt; T, Capacity &gt;::write_index_</definition>
+        <argsstring></argsstring>
+        <name>write_index_</name>
+        <qualifiedname>themis::performance::LockFreeRingBuffer::write_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="149" column="25" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a59e318a2a15be101281055afb7357f7f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::performance::LockFreeRingBuffer&lt; T, Capacity &gt;::read_index_</definition>
+        <argsstring></argsstring>
+        <name>read_index_</name>
+        <qualifiedname>themis::performance::LockFreeRingBuffer::read_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="150" column="25" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a5991595de185e76901c97d5688ac59d4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::LockFreeRingBuffer&lt; T, Capacity &gt;::dropped_count_</definition>
+        <argsstring></argsstring>
+        <name>dropped_count_</name>
+        <qualifiedname>themis::performance::LockFreeRingBuffer::dropped_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="151" column="25" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a8eb420c8122267c52f6850fa228118d3" prot="private" static="no" mutable="no">
+        <type>std::array&lt; T, Capacity &gt;</type>
+        <definition>std::array&lt;T, Capacity&gt; themis::performance::LockFreeRingBuffer&lt; T, Capacity &gt;::buffer_</definition>
+        <argsstring></argsstring>
+        <name>buffer_</name>
+        <qualifiedname>themis::performance::LockFreeRingBuffer::buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="152" column="24" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a3584be1a91367ea5098d524193962528" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::LockFreeRingBuffer&lt; T, Capacity &gt;::LockFreeRingBuffer</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>LockFreeRingBuffer</name>
+        <qualifiedname>themis::performance::LockFreeRingBuffer::LockFreeRingBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="42" column="5" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="42" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a9fe0cfe5619b853dcc861772f4618550" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::LockFreeRingBuffer&lt; T, Capacity &gt;::tryPush</definition>
+        <argsstring>(const T &amp;item) noexcept</argsstring>
+        <name>tryPush</name>
+        <qualifiedname>themis::performance::LockFreeRingBuffer::tryPush</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Try to push element (non-blocking). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Element to push </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if pushed, false if buffer full </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="50" column="10" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="50" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_ring_buffer_1aadff85cad49d7494ef5942800f85844e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::LockFreeRingBuffer&lt; T, Capacity &gt;::tryPush</definition>
+        <argsstring>(T &amp;&amp;item) noexcept</argsstring>
+        <name>tryPush</name>
+        <qualifiedname>themis::performance::LockFreeRingBuffer::tryPush</qualifiedname>
+        <param>
+          <type>T &amp;&amp;</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Try to push element (move semantics). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Element to push </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if pushed, false if buffer full </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="73" column="10" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="73" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a57701de5e41c44f27b161c77e0485867" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::LockFreeRingBuffer&lt; T, Capacity &gt;::tryPop</definition>
+        <argsstring>(T &amp;item) noexcept</argsstring>
+        <name>tryPop</name>
+        <qualifiedname>themis::performance::LockFreeRingBuffer::tryPop</qualifiedname>
+        <param>
+          <type>T &amp;</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Try to pop element (non-blocking). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output parameter for popped element </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if popped, false if buffer empty </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="96" column="10" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="96" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a1735f7836549397f7437d175dd7be086" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::LockFreeRingBuffer&lt; T, Capacity &gt;::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::performance::LockFreeRingBuffer::empty</qualifiedname>
+        <briefdescription>
+<para>Check if buffer is empty. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if empty </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="117" column="10" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="117" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a49661422409c69cb412e51d5828334bf" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::LockFreeRingBuffer&lt; T, Capacity &gt;::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::performance::LockFreeRingBuffer::size</qualifiedname>
+        <briefdescription>
+<para>Get approximate buffer size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of elements in buffer (approximate) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="126" column="12" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="126" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_ring_buffer_1acb2e5dfa63f6a46067ecc12e0685415a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::LockFreeRingBuffer&lt; T, Capacity &gt;::dropped_count</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>dropped_count</name>
+        <qualifiedname>themis::performance::LockFreeRingBuffer::dropped_count</qualifiedname>
+        <briefdescription>
+<para>Get number of dropped items due to buffer overflow. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Dropped count </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="136" column="14" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="136" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_ring_buffer_1aad42fca3f54f098d7fff9f1a4f5a66d7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::LockFreeRingBuffer&lt; T, Capacity &gt;::reset_dropped_count</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset_dropped_count</name>
+        <qualifiedname>themis::performance::LockFreeRingBuffer::reset_dropped_count</qualifiedname>
+        <briefdescription>
+<para>Reset dropped count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="143" column="10" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="143" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lock-free SPSC (Single Producer Single Consumer) ring buffer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe for one writer and one reader. Uses atomic operations for synchronization without mutexes.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Element type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer capacity (must be power of 2) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/performance/lockfree_metrics_buffer.h" line="38" column="1" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="38" bodyend="153"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a8eb420c8122267c52f6850fa228118d3" prot="private" virt="non-virtual"><scope>themis::performance::LockFreeRingBuffer</scope><name>buffer_</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1acb2e5dfa63f6a46067ecc12e0685415a" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeRingBuffer</scope><name>dropped_count</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a5991595de185e76901c97d5688ac59d4" prot="private" virt="non-virtual"><scope>themis::performance::LockFreeRingBuffer</scope><name>dropped_count_</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a1735f7836549397f7437d175dd7be086" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeRingBuffer</scope><name>empty</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a3584be1a91367ea5098d524193962528" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeRingBuffer</scope><name>LockFreeRingBuffer</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a59e318a2a15be101281055afb7357f7f" prot="private" virt="non-virtual"><scope>themis::performance::LockFreeRingBuffer</scope><name>read_index_</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1aad42fca3f54f098d7fff9f1a4f5a66d7" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeRingBuffer</scope><name>reset_dropped_count</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a49661422409c69cb412e51d5828334bf" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeRingBuffer</scope><name>size</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a57701de5e41c44f27b161c77e0485867" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeRingBuffer</scope><name>tryPop</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a9fe0cfe5619b853dcc861772f4618550" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeRingBuffer</scope><name>tryPush</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1aadff85cad49d7494ef5942800f85844e" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeRingBuffer</scope><name>tryPush</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1aa41da7f782478c5649d53cd81174d969" prot="private" virt="non-virtual"><scope>themis::performance::LockFreeRingBuffer</scope><name>write_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

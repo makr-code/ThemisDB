@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::CacheStats</compoundname>
+    <includes refid="cache__interfaces_8h" local="no">cache_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_stats_1a9372a212a2cb8b5ffb9fda73e854e355" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheStats::hit_count</definition>
+        <argsstring></argsstring>
+        <name>hit_count</name>
+        <qualifiedname>themis::cache::CacheStats::hit_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total cache hits across all tiers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="76" column="14" bodyfile="include/cache/cache_interfaces.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_stats_1a4293fc7c6a2634c1e7cce77c1a3d0e4f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheStats::miss_count</definition>
+        <argsstring></argsstring>
+        <name>miss_count</name>
+        <qualifiedname>themis::cache::CacheStats::miss_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total cache misses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="77" column="14" bodyfile="include/cache/cache_interfaces.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_stats_1ab0d9a3b9898f3424f4577350c2876ade" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheStats::eviction_count</definition>
+        <argsstring></argsstring>
+        <name>eviction_count</name>
+        <qualifiedname>themis::cache::CacheStats::eviction_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total entries evicted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="78" column="14" bodyfile="include/cache/cache_interfaces.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_stats_1ab7f1206ea23a7e904437969b748c0d42" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::CacheStats::current_size</definition>
+        <argsstring></argsstring>
+        <name>current_size</name>
+        <qualifiedname>themis::cache::CacheStats::current_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of entries currently held. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="79" column="14" bodyfile="include/cache/cache_interfaces.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_stats_1a12e28521d28c6ac61c9e2f2fc5f7ae44" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::CacheStats::capacity</definition>
+        <argsstring></argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::cache::CacheStats::capacity</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Maximum number of entries (0 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="80" column="14" bodyfile="include/cache/cache_interfaces.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_interfaces.h" line="75" column="1" bodyfile="include/cache/cache_interfaces.h" bodystart="75" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_cache_stats_1a12e28521d28c6ac61c9e2f2fc5f7ae44" prot="public" virt="non-virtual"><scope>themis::cache::CacheStats</scope><name>capacity</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_stats_1ab7f1206ea23a7e904437969b748c0d42" prot="public" virt="non-virtual"><scope>themis::cache::CacheStats</scope><name>current_size</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_stats_1ab0d9a3b9898f3424f4577350c2876ade" prot="public" virt="non-virtual"><scope>themis::cache::CacheStats</scope><name>eviction_count</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_stats_1a9372a212a2cb8b5ffb9fda73e854e355" prot="public" virt="non-virtual"><scope>themis::cache::CacheStats</scope><name>hit_count</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_stats_1a4293fc7c6a2634c1e7cce77c1a3d0e4f" prot="public" virt="non-virtual"><scope>themis::cache::CacheStats</scope><name>miss_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

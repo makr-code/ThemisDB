@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_wire_retry_test" kind="class" language="C++" prot="public">
+    <compoundname>WireRetryTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_wire_retry_test_1a8958361a76713bbad44e2949cb3a7adc" prot="protected" static="no" mutable="no">
+        <type><ref refid="struct_retry_config" kindref="compound">RetryConfig</ref></type>
+        <definition>RetryConfig WireRetryTest::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>WireRetryTest::cfg_</qualifiedname>
+        <initializer>= defaultRetryConfig()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="439" column="17" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="439" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>WireRetryTest</label>
+        <link refid="class_wire_retry_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>RetryConfig</label>
+        <link refid="struct_retry_config"/>
+      </node>
+      <node id="1">
+        <label>WireRetryTest</label>
+        <link refid="class_wire_retry_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/server/test_server_phase5_hardening.cpp" line="437" column="1" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="437" bodyend="440"/>
+    <listofallmembers>
+      <member refid="class_wire_retry_test_1a8958361a76713bbad44e2949cb3a7adc" prot="protected" virt="non-virtual"><scope>WireRetryTest</scope><name>cfg_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

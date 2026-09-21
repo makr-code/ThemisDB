@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_spatial_query_policy_validation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::SpatialQueryPolicyValidation</compoundname>
+    <includes refid="geo__policy_8h" local="no">geo_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_spatial_query_policy_validation_1a8ae790f7fa19f20d7e1283af7edf7cb1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::geo::SpatialQueryPolicyValidation::violations</definition>
+        <argsstring></argsstring>
+        <name>violations</name>
+        <qualifiedname>themis::geo::SpatialQueryPolicyValidation::violations</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of each validation violation (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_policy.h" line="121" column="17" bodyfile="include/geo/geo_policy.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_spatial_query_policy_validation_1aaef8a1c6ab3dc9d9a0a5a5541f47cc39" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::SpatialQueryPolicyValidation::ok</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::geo::SpatialQueryPolicyValidation::ok</qualifiedname>
+        <briefdescription>
+<para>True when no violations were found. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_policy.h" line="118" column="11" bodyfile="include/geo/geo_policy.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Validation result for a <computeroutput><ref refid="structthemis_1_1geo_1_1_spatial_query_policy" kindref="compound">SpatialQueryPolicy</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput><ref refid="structthemis_1_1geo_1_1_spatial_query_policy_validation_1aaef8a1c6ab3dc9d9a0a5a5541f47cc39" kindref="member">ok()</ref></computeroutput> returns true when the policy passes all range checks. Individual violations are described in <computeroutput><ref refid="structthemis_1_1geo_1_1_spatial_query_policy_validation_1a8ae790f7fa19f20d7e1283af7edf7cb1" kindref="member">violations</ref></computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/geo/geo_policy.h" line="116" column="1" bodyfile="include/geo/geo_policy.h" bodystart="116" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_spatial_query_policy_validation_1aaef8a1c6ab3dc9d9a0a5a5541f47cc39" prot="public" virt="non-virtual"><scope>themis::geo::SpatialQueryPolicyValidation</scope><name>ok</name></member>
+      <member refid="structthemis_1_1geo_1_1_spatial_query_policy_validation_1a8ae790f7fa19f20d7e1283af7edf7cb1" prot="public" virt="non-virtual"><scope>themis::geo::SpatialQueryPolicyValidation</scope><name>violations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

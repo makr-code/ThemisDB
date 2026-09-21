@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::core::concerns::AdapterMetadata</compoundname>
+    <includes refid="adapter__metadata_8h" local="no">adapter_metadata.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1a3032b94bcc75388c16754b27ac59bcee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::AdapterMetadata::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::core::concerns::AdapterMetadata::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_metadata.h" line="30" column="18" bodyfile="include/core/concerns/adapter_metadata.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1aba1e1b0560f539d2381555203fec8cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::core::concerns::AdapterMetadata::apiVersion</definition>
+        <argsstring></argsstring>
+        <name>apiVersion</name>
+        <qualifiedname>themis::core::concerns::AdapterMetadata::apiVersion</qualifiedname>
+        <initializer>= kCurrentApiVersion</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_metadata.h" line="32" column="18" bodyfile="include/core/concerns/adapter_metadata.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1ac8475a42e8a3e41debb30483d4c85365" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::AdapterMetadata::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::core::concerns::AdapterMetadata::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_metadata.h" line="34" column="18" bodyfile="include/core/concerns/adapter_metadata.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/adapter_metadata.h" line="29" column="1" bodyfile="include/core/concerns/adapter_metadata.h" bodystart="29" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1aba1e1b0560f539d2381555203fec8cae" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterMetadata</scope><name>apiVersion</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1ac8475a42e8a3e41debb30483d4c85365" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterMetadata</scope><name>description</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1a3032b94bcc75388c16754b27ac59bcee" prot="public" virt="non-virtual"><scope>themis::core::concerns::AdapterMetadata</scope><name>id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,297 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="data__lineage_8h" kind="file" language="C++">
+    <compoundname>data_lineage.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="model__governance_8h" local="yes">include/governance/model_governance.h</includedby>
+    <includedby refid="data__lineage_8cpp" local="yes">src/governance/data_lineage.cpp</includedby>
+    <includedby refid="test__governance__phase2c__lineage__backpressure__focused_8cpp" local="yes">tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/governance/data_lineage.h</label>
+        <link refid="data__lineage_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/governance/data_lineage.h</label>
+        <link refid="data__lineage_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/governance/model_governance.h</label>
+        <link refid="model__governance_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/governance/data_lineage.cpp</label>
+        <link refid="data__lineage_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/governance/model_governance.cpp</label>
+        <link refid="model__governance_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/governance/policy_engine.cpp</label>
+        <link refid="policy__engine_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/governance/test_governance_phase2c_lineage_backpressure_focused.cpp</label>
+        <link refid="test__governance__phase2c__lineage__backpressure__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1governance_1_1_lineage_event" prot="public">themis::governance::LineageEvent</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_lineage_record" prot="public">themis::governance::LineageRecord</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_lineage_record_result" prot="public">themis::governance::LineageRecordResult</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_lineage_statistics" prot="public">themis::governance::LineageStatistics</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_data_lineage_tracker" prot="public">themis::governance::DataLineageTracker</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance">themis::governance</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AuditLogger;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1governance" kindref="compound">governance</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3" kindref="member">LineageEventType</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3ab943eabf1abeb8d7c6b3787604d74242" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3ab943eabf1abeb8d7c6b3787604d74242" kindref="member">INGESTION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3a7c9cb569785ae44f42a6a7cae0ba1082" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3a7c9cb569785ae44f42a6a7cae0ba1082" kindref="member">ENRICHMENT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3a0a5d774452fc707b70a657fec29b2bc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3a0a5d774452fc707b70a657fec29b2bc4" kindref="member">ANONYMIZATION</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3ac4bd4daef9a9217247c24768d88c40e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3ac4bd4daef9a9217247c24768d88c40e6" kindref="member">TRANSFORMATION</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3a5662080872eece1e1ceeec5750198283" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3a5662080872eece1e1ceeec5750198283" kindref="member">QUERY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3a0ceefc7f4aa071a30dd85c5b5bd14852" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3a0ceefc7f4aa071a30dd85c5b5bd14852" kindref="member">EXPORT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3ae570769137fbed1ec0cf402f5eb66607" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3ae570769137fbed1ec0cf402f5eb66607" kindref="member">DELETION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3a9ff4d115ff35d05909a2109c0d45397d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3a9ff4d115ff35d05909a2109c0d45397d" kindref="member">MODEL_TRAINING</ref><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1governance_1aeb0b63b9a5e3a40fddfb3fabd5538903" kindref="member">lineageEventTypeToString</ref>(<ref refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3" kindref="member">LineageEventType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1governance_1_1_lineage_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_lineage_event" kindref="compound">LineageEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1governance_1_1_lineage_event_1a4f9b57d4c2226bc8ad68a970c7eef3f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_lineage_event_1a4f9b57d4c2226bc8ad68a970c7eef3f3" kindref="member">event_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1governance_1_1_lineage_event_1a1fc59b8d43496116c41a8c0231d650fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_lineage_event_1a1fc59b8d43496116c41a8c0231d650fe" kindref="member">dataset_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1governance_1_1_lineage_event_1aca0e0a3a0918380e5a57d85b92276801" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3" kindref="member">LineageEventType</ref><sp/><ref refid="structthemis_1_1governance_1_1_lineage_event_1aca0e0a3a0918380e5a57d85b92276801" kindref="member">event_type</ref>{<ref refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3ab943eabf1abeb8d7c6b3787604d74242" kindref="member">LineageEventType::INGESTION</ref>};<sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1governance_1_1_lineage_event_1a048127a6b2ec96e0b0dbcc047f97a834" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_lineage_event_1a048127a6b2ec96e0b0dbcc047f97a834" kindref="member">timestamp_ms</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1governance_1_1_lineage_event_1ab5b9d93390e46045f2bb411e1a33fbd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_lineage_event_1ab5b9d93390e46045f2bb411e1a33fbd0" kindref="member">performed_by</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1governance_1_1_lineage_event_1a1708b1b11eec2d4bb43d237a621c92e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_lineage_event_1a1708b1b11eec2d4bb43d237a621c92e7" kindref="member">operation</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1governance_1_1_lineage_event_1a41a3280fd11243ebc6155e07e4386018" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_lineage_event_1a41a3280fd11243ebc6155e07e4386018" kindref="member">input_schema</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1governance_1_1_lineage_event_1a034bb42f0345b24a12c4b5e85232358b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_lineage_event_1a034bb42f0345b24a12c4b5e85232358b" kindref="member">output_schema</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1governance_1_1_lineage_event_1a8efe698b46adfb9f4579f005cc9acf64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_lineage_event_1a8efe698b46adfb9f4579f005cc9acf64" kindref="member">parent_event_id</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1governance_1_1_lineage_event_1aa025b1d42763be8d00db4c9216cef2b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_lineage_event_1aa025b1d42763be8d00db4c9216cef2b7" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_lineage_event_1ace6b3383fafb6bae18bb3a82525dd02e" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1governance_1_1_lineage_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_lineage_record" kindref="compound">LineageRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1governance_1_1_lineage_record_1a4a1ce1c35cfa25f36412a7f0413d2a9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_lineage_record_1a4a1ce1c35cfa25f36412a7f0413d2a9d" kindref="member">dataset_id</ref>;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1governance_1_1_lineage_record_1af9394483f5c7a32da3d51b4c4e17ff54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LineageEvent&gt;<sp/><ref refid="structthemis_1_1governance_1_1_lineage_record_1af9394483f5c7a32da3d51b4c4e17ff54" kindref="member">events</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_lineage_record_1a8739d202eea389a508e18028228f7331" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Phase<sp/>2C:<sp/>Lineage<sp/>Backpressure<sp/>(Circuit<sp/>Breaker<sp/>&amp;<sp/>Size<sp/>Limits)<sp/>──────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670" kindref="member">CircuitBreakerState</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670a110ccf2f5d2ff4eda1fd1a494293467d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CLOSED</ref><sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670aa38bd5138bf35514df41a1795ebbf5c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670aa38bd5138bf35514df41a1795ebbf5c3" kindref="member">OPEN</ref><sp/>=<sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670a5c1c0fca237f238d3c656d55a4db3ca4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670a5c1c0fca237f238d3c656d55a4db3ca4" kindref="member">HALF_OPEN</ref><sp/>=<sp/>2,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffb" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffb" kindref="member">LineageError</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="90" refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba8c632159fa131f09d04f94e3cbcd8782" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1af5c05979b5b67acf7185fa4e312a03f6a8c632159fa131f09d04f94e3cbcd8782" kindref="member">kSuccess</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7360,<sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba5ea16ddb75c2f0138001ef86d7b04972" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba5ea16ddb75c2f0138001ef86d7b04972" kindref="member">kAuditLoggerFailure</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>7361,<sp/><sp/></highlight></codeline>
+<codeline lineno="92" refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba0cfa7689d0b92c20d0f67b1909141b33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba0cfa7689d0b92c20d0f67b1909141b33" kindref="member">kSizeLimitExceeded</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7362,<sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba7c3d0f91cf7bcf4ee998851e63769161" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba7c3d0f91cf7bcf4ee998851e63769161" kindref="member">kMemoryPressure</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7363,<sp/><sp/></highlight></codeline>
+<codeline lineno="94" refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba7c11c158c7146c2b00419ea216c840cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba7c11c158c7146c2b00419ea216c840cd" kindref="member">kCircuitBreakerOpen</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>7364,<sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba2340391451c7e420fd22d42f2feb9e53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba2340391451c7e420fd22d42f2feb9e53" kindref="member">kEventSequenceViolation</ref><sp/>=<sp/>7365,<sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1governance_1_1_lineage_record_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_lineage_record_result" kindref="compound">LineageRecordResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1governance_1_1_lineage_record_result_1ac06af941c0dc64b8902fd45450837468" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffb" kindref="member">LineageError</ref><sp/><ref refid="structthemis_1_1governance_1_1_lineage_record_result_1ac06af941c0dc64b8902fd45450837468" kindref="member">error</ref><sp/>=<sp/><ref refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba8c632159fa131f09d04f94e3cbcd8782" kindref="member">LineageError::kSuccess</ref>;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1governance_1_1_lineage_record_result_1ab1d8fb6c8d259261235466051b4c9070" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_lineage_record_result_1ab1d8fb6c8d259261235466051b4c9070" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1governance_1_1_lineage_record_result_1a1405931b61d2b8963afce006c0692677" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/><ref refid="structthemis_1_1governance_1_1_lineage_record_result_1a1405931b61d2b8963afce006c0692677" kindref="member">event_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1governance_1_1_lineage_record_result_1a44c8b363a6c02d9ce409005a36a556d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_lineage_record_result_1a44c8b363a6c02d9ce409005a36a556d2" kindref="member">generated_at_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1governance_1_1_lineage_record_result_1ad9f112ba4ae6e266aa30ca31e64dae78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_lineage_record_result_1ad9f112ba4ae6e266aa30ca31e64dae78" kindref="member">isSuccess</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_lineage_record_result_1ac06af941c0dc64b8902fd45450837468" kindref="member">error</ref><sp/>==<sp/><ref refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba8c632159fa131f09d04f94e3cbcd8782" kindref="member">LineageError::kSuccess</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_lineage_record_result_1a79dd129661ab0d1afc0e7d2330b6a325" kindref="member">getErrorName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1governance_1_1_lineage_statistics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_lineage_statistics" kindref="compound">LineageStatistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1governance_1_1_lineage_statistics_1a9dc030f971bea0b25394956584b4df76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_lineage_statistics_1a9dc030f971bea0b25394956584b4df76" kindref="member">total_events</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1governance_1_1_lineage_statistics_1ada4bde8d5e5b4314234de73d04ce31c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_lineage_statistics_1ada4bde8d5e5b4314234de73d04ce31c5" kindref="member">total_datasets</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1governance_1_1_lineage_statistics_1a57d2da901e0dd9741fa724f695de5a1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670" kindref="member">CircuitBreakerState</ref><sp/><ref refid="structthemis_1_1governance_1_1_lineage_statistics_1a57d2da901e0dd9741fa724f695de5a1d" kindref="member">circuit_breaker_state</ref><sp/>=<sp/><ref refid="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitBreakerState::CLOSED</ref>;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1governance_1_1_lineage_statistics_1ab5a1fd30b7daa92f3408ebaf438769d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/><ref refid="structthemis_1_1governance_1_1_lineage_statistics_1ab5a1fd30b7daa92f3408ebaf438769d6" kindref="member">last_error_code</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1governance_1_1_lineage_statistics_1a8930bf6a7818c8ee47f873c694576d7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_lineage_statistics_1a8930bf6a7818c8ee47f873c694576d7b" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1governance_1_1_data_lineage_tracker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1af87e32d77611ac919efc40358076d141" kindref="member">DataLineageTracker</ref><sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1governance_1_1_data_lineage_tracker_1af87e32d77611ac919efc40358076d141" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1af87e32d77611ac919efc40358076d141" kindref="member">DataLineageTracker</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1a1c89010044607a11f0384e9f07ad71c5" kindref="member">setAuditLogger</ref>(std::shared_ptr&lt;themis::utils::AuditLogger&gt;<sp/>logger);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_lineage_record_result" kindref="compound">LineageRecordResult</ref><sp/><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1a15a457804cf68058e60e07c59547bf43" kindref="member">recordEvent</ref>(<ref refid="structthemis_1_1governance_1_1_lineage_event" kindref="compound">LineageEvent</ref><sp/>event);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_lineage_record" kindref="compound">LineageRecord</ref><sp/><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1a94757214d444226a572869e3a1357ea7" kindref="member">getLineage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dataset_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LineageEvent&gt;<sp/><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1a04d937f99b4b237b91159a4cd7b2e36a" kindref="member">getUpstreamLineage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>event_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LineageEvent&gt;<sp/><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1a67d34f9cb124255d7e6b63ccf6865460" kindref="member">getDownstreamLineage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>event_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1a736cc6ddb3336e31dc25c75f62784585" kindref="member">exportLineageAsJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dataset_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1a08f7a057212748d5aa66f3ae59946180" kindref="member">totalEventCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="classthemis_1_1governance_1_1_data_lineage_tracker_1a2982d2bd4bc3fb5de2b5b5cc2fa282b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1a2982d2bd4bc3fb5de2b5b5cc2fa282b2" kindref="member">setMaxEventsPerDataset</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit)<sp/>{<sp/>max_events_per_dataset_<sp/>=<sp/>limit;<sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="classthemis_1_1governance_1_1_data_lineage_tracker_1ad84e478628e4efa847811a66c6f66c88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1ad84e478628e4efa847811a66c6f66c88" kindref="member">setMaxTotalEvents</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit)<sp/>{<sp/>max_total_events_<sp/>=<sp/>limit;<sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="classthemis_1_1governance_1_1_data_lineage_tracker_1abb499056129041b0061d281b4ceceaa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1abb499056129041b0061d281b4ceceaa3" kindref="member">setCircuitBreakerThreshold</ref>(int32_t<sp/>failures)<sp/>{<sp/>cb_failure_threshold_<sp/>=<sp/>failures;<sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="classthemis_1_1governance_1_1_data_lineage_tracker_1ac25d5591e5fc26fa76576c625c091dc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1ac25d5591e5fc26fa76576c625c091dc0" kindref="member">setCircuitBreakerRecoveryWindowMs</ref>(int64_t<sp/>ms)<sp/>{<sp/>cb_recovery_window_ms_<sp/>=<sp/>ms;<sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670" kindref="member">CircuitBreakerState</ref><sp/><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1a58a2cc12c7f15b39af6834c8e912f4c9" kindref="member">getCircuitBreakerState</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_lineage_statistics" kindref="compound">LineageStatistics</ref><sp/><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1a800af967292db710507ff01392a1ec48" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_lineage_record_result" kindref="compound">LineageRecordResult</ref><sp/><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1ac1ba220e08ed61ad782f43a38ad167b2" kindref="member">pruneOldEvents</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dataset_id,<sp/>int32_t<sp/>keep_count);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1a95ddf34f49cb7b8cbe68e5caffacac7e" kindref="member">recordAuditSuccess</ref>();</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_data_lineage_tracker_1a3768dcc53f86af6f9dfbb03fc34b0af5" kindref="member">recordAuditFailure</ref>();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;LineageEvent&gt;&gt;<sp/>lineage_store_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>LineageEvent&gt;<sp/>event_index_;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::utils::AuditLogger&gt;<sp/>audit_logger_;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>next_event_seq_{1};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>assignEventId();</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Phase<sp/>2C:<sp/>Circuit<sp/>Breaker<sp/>State<sp/>──────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670" kindref="member">CircuitBreakerState</ref><sp/>circuit_breaker_state_<sp/>=<sp/><ref refid="namespacethemis_1_1governance_1a157b33165249d34cb8771ced41da1670a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitBreakerState::CLOSED</ref>;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int32_t&gt;<sp/>consecutive_failures_{0};</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/>cb_failure_threshold_<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>cb_recovery_window_ms_<sp/>=<sp/>30000;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>last_open_time_ms_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>cb_mutex_;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Size<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_events_per_dataset_<sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_total_events_<sp/>=<sp/>1000000;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int32_t&gt;<sp/>last_error_code_{</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba8c632159fa131f09d04f94e3cbcd8782" kindref="member">LineageError::kSuccess</ref>)};</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Phase<sp/>2C:<sp/>Helper<sp/>Methods<sp/>──────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>LineageRecordResult<sp/>checkAndEnforceSizeLimits(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dataset_id<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateCircuitBreakerState();</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>governance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/governance/data_lineage.h"/>
+  </compounddef>
+</doxygen>

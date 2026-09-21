@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_dispatch_performance_test" kind="class" language="C++" prot="public">
+    <compoundname>DispatchPerformanceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_dispatch_performance_test_1aadb44fec473fe3cbddb768aa45ae67ce" prot="protected" static="no" mutable="no">
+        <type>PerfCounter</type>
+        <definition>PerfCounter DispatchPerformanceTest::counter</definition>
+        <argsstring></argsstring>
+        <name>counter</name>
+        <qualifiedname>DispatchPerformanceTest::counter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="103" column="17" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_dispatch_performance_test_1a324f85dd95dd407a56a0a8d94b9f149b" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double DispatchPerformanceTest::ACC1_BASELINE_US</definition>
+        <argsstring></argsstring>
+        <name>ACC1_BASELINE_US</name>
+        <qualifiedname>DispatchPerformanceTest::ACC1_BASELINE_US</qualifiedname>
+        <initializer>= 5.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="106" column="29" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dispatch_performance_test_1a8b44f475c267856d9fec6c1a8687e768" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double DispatchPerformanceTest::ACC1_P99_THRESHOLD_US</definition>
+        <argsstring></argsstring>
+        <name>ACC1_P99_THRESHOLD_US</name>
+        <qualifiedname>DispatchPerformanceTest::ACC1_P99_THRESHOLD_US</qualifiedname>
+        <initializer>= <ref refid="class_dispatch_performance_test_1a324f85dd95dd407a56a0a8d94b9f149b" kindref="member">ACC1_BASELINE_US</ref> * 1.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="107" column="29" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dispatch_performance_test_1a9fa2dee6a7901c71da64774ea6663ea9" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double DispatchPerformanceTest::ACC2_BASELINE_US</definition>
+        <argsstring></argsstring>
+        <name>ACC2_BASELINE_US</name>
+        <qualifiedname>DispatchPerformanceTest::ACC2_BASELINE_US</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="108" column="29" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dispatch_performance_test_1a497e5c50a05d074f4584cb3290bedc2d" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double DispatchPerformanceTest::ACC2_P99_THRESHOLD_US</definition>
+        <argsstring></argsstring>
+        <name>ACC2_P99_THRESHOLD_US</name>
+        <qualifiedname>DispatchPerformanceTest::ACC2_P99_THRESHOLD_US</qualifiedname>
+        <initializer>= 15.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="109" column="29" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_dispatch_performance_test_1a3147cb064ab5bd62275dd37b97148616" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DispatchPerformanceTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DispatchPerformanceTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="111" column="10" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="111" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DispatchPerformanceTest</label>
+        <link refid="class_dispatch_performance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DispatchPerformanceTest</label>
+        <link refid="class_dispatch_performance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>counter</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>anonymous:counter</label>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="101" column="1" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="101" bodyend="114"/>
+    <listofallmembers>
+      <member refid="class_dispatch_performance_test_1a324f85dd95dd407a56a0a8d94b9f149b" prot="protected" virt="non-virtual"><scope>DispatchPerformanceTest</scope><name>ACC1_BASELINE_US</name></member>
+      <member refid="class_dispatch_performance_test_1a8b44f475c267856d9fec6c1a8687e768" prot="protected" virt="non-virtual"><scope>DispatchPerformanceTest</scope><name>ACC1_P99_THRESHOLD_US</name></member>
+      <member refid="class_dispatch_performance_test_1a9fa2dee6a7901c71da64774ea6663ea9" prot="protected" virt="non-virtual"><scope>DispatchPerformanceTest</scope><name>ACC2_BASELINE_US</name></member>
+      <member refid="class_dispatch_performance_test_1a497e5c50a05d074f4584cb3290bedc2d" prot="protected" virt="non-virtual"><scope>DispatchPerformanceTest</scope><name>ACC2_P99_THRESHOLD_US</name></member>
+      <member refid="class_dispatch_performance_test_1aadb44fec473fe3cbddb768aa45ae67ce" prot="protected" virt="non-virtual"><scope>DispatchPerformanceTest</scope><name>counter</name></member>
+      <member refid="class_dispatch_performance_test_1a3147cb064ab5bd62275dd37b97148616" prot="protected" virt="non-virtual"><scope>DispatchPerformanceTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

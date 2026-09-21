@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_3d7f6ae10a41e5a35797c47c81fce09d" kind="dir">
+    <compoundname>include/storage/examples</compoundname>
+    <innerfile refid="schema__layout__advisor__example_8cpp">schema_layout_advisor_example.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/examples/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innerclass refid="structthemis_1_1_user" prot="public">themis::User</innerclass>
+    <innerclass refid="structthemis_1_1_customer" prot="public">themis::Customer</innerclass>
+    <innerclass refid="structthemis_1_1_secure_document" prot="public">themis::SecureDocument</innerclass>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1document">themis::document</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB — XDOMEA Document Management Connector</para>
+<para>Connector for the XDOMEA standard (XML Datenaustausch in der öffentlichen Verwaltung) — the authoritative German federal specification for electronic document management (DMS/VBS) and records management (RM) between public authorities, published by the KoSIT (Koordinierungsstelle für IT-Standards).</para>
+<para>Supported XDOMEA versions: 2.1 — BSI / KoSIT, 2011–2018 (legacy, still in widespread use) 3.0 — KoSIT, 2020+ (current)</para>
+<para>Object types (Objekttypen): Schriftgut (records), Akten (dossiers / folders), Vorgänge (processes), Dokumente (documents), Dateien (electronic files), Benutzer (users).</para>
+<para>Message types (Nachrichtentypen) supported: 0201 — Anbietung (offer for archival) 0202 — Bewertung (appraisal / retention decision) 0203 — Aussonderung (disposal / transfer to archive) 0401 — Abgabe an Archiv (transfer to federal archive) 0501 — Anforderung (retrieval request) 0601 — Erfassung (ingestion / registration)</para>
+<para>Implementations shipped in this header-only file:<itemizedlist>
+<listitem><para>XDOMEAVersion — version identifier</para>
+</listitem><listitem><para>XDOMEAObjectType — XDOMEA object classification</para>
+</listitem><listitem><para>XDOMEARetentionCategory — retention / archival classification</para>
+</listitem><listitem><para>XDOMEADocument — in-memory XDOMEA document record</para>
+</listitem><listitem><para>XDOMEAImportResult — result of an import operation</para>
+</listitem><listitem><para>XDOMEAExportResult — result of an export operation</para>
+</listitem><listitem><para>IXDOMEAConnector — abstract connector interface</para>
+</listitem><listitem><para>InMemoryXDOMEAConnector — thread-safe in-memory implementation</para>
+</listitem></itemizedlist>
+</para>
+<para>Standards references:<itemizedlist>
+<listitem><para>XDOMEA 3.0.0 — KoSIT, <ulink url="https://www.xdomea.de">https://www.xdomea.de</ulink></para>
+</listitem><listitem><para>XDOMEA 2.1.0 — BSI / KoSIT, 2018</para>
+</listitem><listitem><para>DOMEA®-Konzept 2.0 — Bundesministerium des Innern, 2012</para>
+</listitem><listitem><para>BSI TR-03138 — RESISCAN — Ersetzendes Scannen</para>
+</listitem><listitem><para>ISO 15489-1:2016 — Information and documentation – Records management</para>
+</listitem><listitem><para>DIN 31644:2012-04 — Langzeitarchivierung digitaler Dokumente</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2026 ThemisDB Contributors SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <location file="include/document/document_diagnostics.h" line="51" column="1"/>
+  </compounddef>
+</doxygen>

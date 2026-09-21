@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d146035336117132030214254271003345042005144105133" kind="namespace" language="C++">
+    <compoundname>@146035336117132030214254271003345042005144105133</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_ldap_authenticator.cpp" line="17" column="1"/>
+  </compounddef>
+</doxygen>

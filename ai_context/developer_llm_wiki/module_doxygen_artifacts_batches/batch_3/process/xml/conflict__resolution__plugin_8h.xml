@@ -1,0 +1,325 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="conflict__resolution__plugin_8h" kind="file" language="C++">
+    <compoundname>conflict_resolution_plugin.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/conflict_resolution_plugin.h</label>
+        <link refid="conflict__resolution__plugin_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1process_1_1_model_version" prot="public">themis::process::ModelVersion</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_conflict_context" prot="public">themis::process::ConflictContext</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_conflict_resolution_result" prot="public">themis::process::ConflictResolutionResult</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_l_w_w_resolution_strategy" prot="public">themis::process::LWWResolutionStrategy</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_three_way_merge_strategy" prot="public">themis::process::ThreeWayMergeStrategy</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin" prot="public">themis::process::IConflictResolutionPlugin</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_conflict_resolution_registry" prot="public">themis::process::ConflictResolutionRegistry</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_conflict_resolution_config" prot="public">themis::process::ConflictResolutionConfig</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Plugin API for custom process model conflict resolution strategies. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>2.1.0-beta</para>
+</simplesect>
+</para>
+<sect1 id="process__stress__scenarios_8h_1purpose">
+<title>Purpose</title><para>Provides extensible conflict resolution beyond Last-Write-Wins (LWW). Applications can register custom callbacks to resolve concurrent model imports, link collisions, and versioning conflicts with deterministic fallback to frozen LWW tiebreaker.</para>
+</sect1>
+<sect1 id="model__history__contract_8h_1architecture">
+<title>Architecture</title><para>Conflict resolution operates at federation sync boundary:<orderedlist>
+<listitem><para><bold>Conflict Detection:</bold> Version vector mismatch or concurrent write to same model</para>
+</listitem><listitem><para><bold>Plugin Invocation:</bold> Application callback invoked with (local, remote, context)</para>
+</listitem><listitem><para><bold>Resolution Strategy:</bold> Callback returns LocalWins, RemoteWins, Merged, or Unresolved</para>
+</listitem><listitem><para><bold>Fallback:</bold> If callback unavailable or returns Unresolved, use deterministic LWW</para>
+</listitem></orderedlist>
+</para>
+</sect1>
+<sect1 id="conflict__resolution__plugin_8h_1conflict_types">
+<title>Conflict Types</title><para><table rows="5" cols="4"><row>
+<entry thead="yes"><para>Type  </para>
+</entry><entry thead="yes"><para>Trigger  </para>
+</entry><entry thead="yes"><para>Context  </para>
+</entry><entry thead="yes"><para>Example  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>IMPORT_COLLISION  </para>
+</entry><entry thead="no"><para>Same model ID imported on different shards  </para>
+</entry><entry thead="no"><para>Model versions, timestamps  </para>
+</entry><entry thead="no"><para>Import BPMN v1 on Shard1, same BPMN v2 on Shard2  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>LINKING_COLLISION  </para>
+</entry><entry thead="no"><para>Link created to same target from different sources  </para>
+</entry><entry thead="no"><para>Link instances, timestamps  </para>
+</entry><entry thead="no"><para>Link document on Shard1, same document on Shard2  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>CONCURRENT_MODIFICATION  </para>
+</entry><entry thead="no"><para>Model modified concurrently on multiple shards  </para>
+</entry><entry thead="no"><para>Version clocks, payloads  </para>
+</entry><entry thead="no"><para>Shard1 updates model at v100, Shard2 updates at v100  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>VERSION_DIVERGENCE  </para>
+</entry><entry thead="no"><para>Replicas have different model states for same ID  </para>
+</entry><entry thead="no"><para>Version vectors, snapshots  </para>
+</entry><entry thead="no"><para>Shard1 has model v5, Shard2 has model v4 (replication lag)  </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="conflict__resolution__plugin_8h_1plugin_lifecycle">
+<title>Plugin Lifecycle</title><para><bold>Registration (Load-time):</bold><itemizedlist>
+<listitem><para>Plugin implementation must inherit from <computeroutput>IConflictResolutionPlugin</computeroutput></para>
+</listitem><listitem><para>Register via <computeroutput>ConflictResolutionRegistry::registerPlugin(name, factory)</computeroutput></para>
+</listitem><listitem><para>Factory creates instance per operation; must be thread-safe</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Invocation (Conflict-time):</bold><itemizedlist>
+<listitem><para>Process module detects conflict; looks up plugin in registry</para>
+</listitem><listitem><para>Plugin callback invoked with (local_version, remote_version, conflict_context)</para>
+</listitem><listitem><para>Callback has &lt; 10 ms budget; timeout → Unresolved → LWW fallback</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Unregistration (Shutdown):</bold><itemizedlist>
+<listitem><para>Application unregisters plugin via <computeroutput>ConflictResolutionRegistry::unregisterPlugin(name)</computeroutput></para>
+</listitem><listitem><para>In-flight operations complete with fallback; no new invocations of unregistered plugin</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="conflict__resolution__plugin_8h_1deterministic_fallback">
+<title>Deterministic Fallback (LWW Tiebreaker)</title><para>When plugin unavailable or returns Unresolved:<itemizedlist>
+<listitem><para>Apply Last-Write-Wins with <bold>shard_id → version_clock</bold> tiebreaker</para>
+</listitem><listitem><para>Order: version_clock (descending) → shard_id (lexicographic ascending)</para>
+</listitem><listitem><para><bold>Guarantee:</bold> Identical input always produces identical outcome (deterministic)</para>
+</listitem></itemizedlist>
+</para>
+<para>Example: <programlisting><codeline><highlight class="normal">Local:<sp/><sp/>model_id=</highlight><highlight class="stringliteral">&quot;proc1&quot;</highlight><highlight class="normal">,<sp/>term=5,<sp/>shard_id=</highlight><highlight class="stringliteral">&quot;shard-a&quot;</highlight><highlight class="normal">,<sp/>timestamp=1000</highlight></codeline>
+<codeline><highlight class="normal">Remote:<sp/>model_id=</highlight><highlight class="stringliteral">&quot;proc1&quot;</highlight><highlight class="normal">,<sp/>term=5,<sp/>shard_id=</highlight><highlight class="stringliteral">&quot;shard-b&quot;</highlight><highlight class="normal">,<sp/>timestamp=1000</highlight></codeline>
+<codeline><highlight class="normal">Tiebreaker:<sp/>term<sp/>equal,<sp/>timestamp<sp/>equal<sp/>→<sp/>shard_id(</highlight><highlight class="stringliteral">&quot;shard-a&quot;</highlight><highlight class="normal"><sp/>&lt;<sp/></highlight><highlight class="stringliteral">&quot;shard-b&quot;</highlight><highlight class="normal">)<sp/>→<sp/>Local<sp/>wins</highlight></codeline>
+<codeline><highlight class="normal">Outcome:<sp/>deterministic<sp/>(same<sp/>input<sp/>always<sp/>produces<sp/>same<sp/>result)</highlight></codeline>
+</programlisting></para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">themis::process</ref><sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Conflict<sp/>Types<sp/>and<sp/>Resolution<sp/>Strategies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ff" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ff" kindref="member">ConflictType</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="122" refid="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ffa077ad316e916b81bda3de11e749ca21b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ffa077ad316e916b81bda3de11e749ca21b" kindref="member">IMPORT_COLLISION</ref><sp/>=<sp/>6200,</highlight></codeline>
+<codeline lineno="124" refid="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ffa1f3f1ef8c4cd9ab749dd93b23740edd8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ffa1f3f1ef8c4cd9ab749dd93b23740edd8" kindref="member">LINKING_COLLISION</ref><sp/>=<sp/>6201,</highlight></codeline>
+<codeline lineno="126" refid="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ffa454998446963cf54d88bf67914c089c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ffa454998446963cf54d88bf67914c089c9" kindref="member">CONCURRENT_MODIFICATION</ref><sp/>=<sp/>6202,</highlight></codeline>
+<codeline lineno="128" refid="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ffac6ff07ce59eb49f40e8b510587052c48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ffac6ff07ce59eb49f40e8b510587052c48" kindref="member">VERSION_DIVERGENCE</ref><sp/>=<sp/>6203,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22" kindref="member">ConflictResolutionStrategy</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="136" refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22ad9b768e81daf4b313c713a6e459a56dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22ad9b768e81daf4b313c713a6e459a56dd" kindref="member">LOCAL_WINS</ref><sp/>=<sp/>6210,</highlight></codeline>
+<codeline lineno="138" refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22ac7cd87884a7a9eee79127c500b2d8b87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22ac7cd87884a7a9eee79127c500b2d8b87" kindref="member">REMOTE_WINS</ref><sp/>=<sp/>6211,</highlight></codeline>
+<codeline lineno="140" refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22aa760dc5664932cf921b2940e502318e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22aa760dc5664932cf921b2940e502318e9" kindref="member">MERGED</ref><sp/>=<sp/>6212,</highlight></codeline>
+<codeline lineno="142" refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22a1bc1135786a78aab2926ed56e5f5801c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22a1bc1135786a78aab2926ed56e5f5801c" kindref="member">UNRESOLVED</ref><sp/>=<sp/>6213,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1process_1_1_model_version" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref><sp/>{</highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1process_1_1_model_version_1a60eabeb5df268a9366134d98de995403" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_model_version_1a60eabeb5df268a9366134d98de995403" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1process_1_1_model_version_1abe531e798a6fe04f76b9927e97c9a92a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_model_version_1abe531e798a6fe04f76b9927e97c9a92a" kindref="member">version</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1process_1_1_model_version_1a74559930671200512fc9a129d1bc8e36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_model_version_1a74559930671200512fc9a129d1bc8e36" kindref="member">term</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1process_1_1_model_version_1a571866f7d812e7bfcce4e92f96372df4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_model_version_1a571866f7d812e7bfcce4e92f96372df4" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1process_1_1_model_version_1a4b53b0e2d67e5257139c4e8e5aea6ed6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_model_version_1a4b53b0e2d67e5257139c4e8e5aea6ed6" kindref="member">timestamp_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1process_1_1_model_version_1a8912e7bb2bed8e51ad65ebe2a96c35eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_model_version_1a8912e7bb2bed8e51ad65ebe2a96c35eb" kindref="member">model_content</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1process_1_1_model_version_1ac31a39622a27b1e10949f835240cf4b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_model_version_1ac31a39622a27b1e10949f835240cf4b9" kindref="member">content_hash</ref>;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1process_1_1_model_version_1a50ee32ec410370850f9a4f4ed8ebfde6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_model_version_1a50ee32ec410370850f9a4f4ed8ebfde6" kindref="member">conflict_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="structthemis_1_1process_1_1_conflict_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_conflict_context" kindref="compound">ConflictContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1process_1_1_conflict_context_1aa4cbca4b7db9fbbcc3a172bcd4cafa66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ff" kindref="member">ConflictType</ref><sp/><ref refid="structthemis_1_1process_1_1_conflict_context_1aa4cbca4b7db9fbbcc3a172bcd4cafa66" kindref="member">conflict_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ffa454998446963cf54d88bf67914c089c9" kindref="member">ConflictType::CONCURRENT_MODIFICATION</ref>;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1process_1_1_conflict_context_1ae4fb02fae5aadbe6c76e5b3666e79325" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_context_1ae4fb02fae5aadbe6c76e5b3666e79325" kindref="member">principal_id</ref>;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1process_1_1_conflict_context_1a1e12b9ab04e04eac015293f6bc9b613f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_context_1a1e12b9ab04e04eac015293f6bc9b613f" kindref="member">local_shard_id</ref>;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1process_1_1_conflict_context_1a6fff0a2e3f53c34206edda98ced74338" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_context_1a6fff0a2e3f53c34206edda98ced74338" kindref="member">remote_shard_id</ref>;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1process_1_1_conflict_context_1a22ec0edeced3484cc2f50c4ac6736a31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_conflict_context_1a22ec0edeced3484cc2f50c4ac6736a31" kindref="member">detection_timestamp_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1process_1_1_conflict_context_1a2f7bce4fcd39a8f32e2d5d800d3bc68c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ModelVersion&gt;<sp/><ref refid="structthemis_1_1process_1_1_conflict_context_1a2f7bce4fcd39a8f32e2d5d800d3bc68c" kindref="member">base_version</ref>;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1process_1_1_conflict_context_1afc422f171703800f9bb4e8fdc4e8a86f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_context_1afc422f171703800f9bb4e8fdc4e8a86f" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204" refid="structthemis_1_1process_1_1_conflict_context_1a583af25a4a7226deca5bfed822a1eb8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_context_1a583af25a4a7226deca5bfed822a1eb8c" kindref="member">audit_log_snippet</ref>;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="structthemis_1_1process_1_1_conflict_resolution_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_conflict_resolution_result" kindref="compound">ConflictResolutionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1process_1_1_conflict_resolution_result_1ac32dd54609eb7b8c06ded0be0a7d19fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22" kindref="member">ConflictResolutionStrategy</ref><sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_result_1ac32dd54609eb7b8c06ded0be0a7d19fd" kindref="member">strategy</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22a1bc1135786a78aab2926ed56e5f5801c" kindref="member">ConflictResolutionStrategy::UNRESOLVED</ref>;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="structthemis_1_1process_1_1_conflict_resolution_result_1aa1b520f7fdecef0039f6b68dbf964b6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ModelVersion&gt;<sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_result_1aa1b520f7fdecef0039f6b68dbf964b6c" kindref="member">merged_model</ref>;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="structthemis_1_1process_1_1_conflict_resolution_result_1a491cccd263300fe3d430254ff17c284e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_result_1a491cccd263300fe3d430254ff17c284e" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="structthemis_1_1process_1_1_conflict_resolution_result_1ac449c3a9723fed8179bc44a937e13756" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_result_1ac449c3a9723fed8179bc44a937e13756" kindref="member">merge_metadata</ref>;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="structthemis_1_1process_1_1_conflict_resolution_result_1ac733369f534696de169dc473b13314ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_result_1ac733369f534696de169dc473b13314ba" kindref="member">resolution_duration_us</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229" refid="structthemis_1_1process_1_1_conflict_resolution_result_1afc76c3d6fadc068caec67807c5903389" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_result_1afc76c3d6fadc068caec67807c5903389" kindref="member">is_deterministic</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="structthemis_1_1process_1_1_l_w_w_resolution_strategy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_l_w_w_resolution_strategy" kindref="compound">LWWResolutionStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="245" refid="structthemis_1_1process_1_1_l_w_w_resolution_strategy_1a94ad5085deeff844658ccfc4e3fa9e6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_result" kindref="compound">ConflictResolutionResult</ref><sp/><ref refid="structthemis_1_1process_1_1_l_w_w_resolution_strategy_1a94ad5085deeff844658ccfc4e3fa9e6c" kindref="member">resolve</ref>(</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref>&amp;<sp/>local,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref>&amp;<sp/>remote</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257" refid="structthemis_1_1process_1_1_three_way_merge_strategy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_three_way_merge_strategy" kindref="compound">ThreeWayMergeStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="265" refid="structthemis_1_1process_1_1_three_way_merge_strategy_1a6fd5e9fd7196fe7b4a5b8afbc0934131" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_result" kindref="compound">ConflictResolutionResult</ref><sp/><ref refid="structthemis_1_1process_1_1_three_way_merge_strategy_1a6fd5e9fd7196fe7b4a5b8afbc0934131" kindref="member">resolve</ref>(</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref>&amp;<sp/>local,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref>&amp;<sp/>remote,</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref>&amp;<sp/>base</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Plugin<sp/>Interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281" refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin" kindref="compound">IConflictResolutionPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="283" refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin_1abc8d9d5330e0fd16b620f4f39d6770b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin_1abc8d9d5330e0fd16b620f4f39d6770b0" kindref="member">~IConflictResolutionPlugin</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296" refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin_1a860109025bab4492290b3bff279495d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_result" kindref="compound">ConflictResolutionResult</ref><sp/><ref refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin_1a860109025bab4492290b3bff279495d2" kindref="member">resolve</ref>(</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref>&amp;<sp/>local,</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref>&amp;<sp/>remote,</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_conflict_context" kindref="compound">ConflictContext</ref>&amp;<sp/>ctx</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306" refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin_1a9a5353e2f8ee81940677029581772462" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin_1a9a5353e2f8ee81940677029581772462" kindref="member">name</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316" refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin_1a05ef0962dc1e2a875e0cdda52e3f533c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin_1a05ef0962dc1e2a875e0cdda52e3f533c" kindref="member">validateMerge</ref>(const<sp/><ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref>&amp;<sp/>merged)<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Default:<sp/>assume<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="319"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Plugin<sp/>Registry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330" refid="namespacethemis_1_1process_1a782d71c7360830f287a01bcc07b7d698" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process_1a782d71c7360830f287a01bcc07b7d698" kindref="member">ConflictResolutionPluginFactory</ref><sp/>=<sp/>std::function&lt;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;IConflictResolutionPlugin&gt;()</highlight></codeline>
+<codeline lineno="332"><highlight class="normal">&gt;;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340" refid="classthemis_1_1process_1_1_conflict_resolution_registry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ConflictResolutionRegistry<sp/>{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="346" refid="classthemis_1_1process_1_1_conflict_resolution_registry_1a761429bf82bc67e10203a07ee2b0055e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>ConflictResolutionRegistry&amp;<sp/><ref refid="classthemis_1_1process_1_1_conflict_resolution_registry_1a761429bf82bc67e10203a07ee2b0055e" kindref="member">instance</ref>();</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355" refid="classthemis_1_1process_1_1_conflict_resolution_registry_1a6d7fb67e3ca4fc671dba929e922c7c5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_conflict_resolution_registry_1a6d7fb67e3ca4fc671dba929e922c7c5f" kindref="member">registerPlugin</ref>(</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a782d71c7360830f287a01bcc07b7d698" kindref="member">ConflictResolutionPluginFactory</ref><sp/>factory</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368" refid="classthemis_1_1process_1_1_conflict_resolution_registry_1ad9429fce9e06908c71848c7710dd4687" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_conflict_resolution_registry_1ad9429fce9e06908c71848c7710dd4687" kindref="member">unregisterPlugin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376" refid="classthemis_1_1process_1_1_conflict_resolution_registry_1ad3b27e1b359e7633e135b5a808729eb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;IConflictResolutionPlugin&gt;<sp/><ref refid="classthemis_1_1process_1_1_conflict_resolution_registry_1ad3b27e1b359e7633e135b5a808729eb1" kindref="member">getPlugin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384" refid="classthemis_1_1process_1_1_conflict_resolution_registry_1a50eecfc15435243f3b0c2b411d46a72d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_conflict_resolution_registry_1a50eecfc15435243f3b0c2b411d46a72d" kindref="member">hasPlugin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391" refid="classthemis_1_1process_1_1_conflict_resolution_registry_1afe07d4ad31d93a7fdc710cfa62591638" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1process_1_1_conflict_resolution_registry_1afe07d4ad31d93a7fdc710cfa62591638" kindref="member">listPlugins</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>ConflictResolutionRegistry()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>~ConflictResolutionRegistry()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ConflictResolutionPluginFactory&gt;<sp/>plugins_;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Conflict<sp/>Resolution<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="408" refid="structthemis_1_1process_1_1_conflict_resolution_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_conflict_resolution_config" kindref="compound">ConflictResolutionConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="410" refid="structthemis_1_1process_1_1_conflict_resolution_config_1adad836a2232ca8a1e73dfafb062e5a6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_config_1adad836a2232ca8a1e73dfafb062e5a6f" kindref="member">plugin_name</ref>;</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="413" refid="structthemis_1_1process_1_1_conflict_resolution_config_1ae7789be45e1410f78019c92ca9e2e13b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_config_1ae7789be45e1410f78019c92ca9e2e13b" kindref="member">callback_timeout_ms</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight></codeline>
+<codeline lineno="416" refid="structthemis_1_1process_1_1_conflict_resolution_config_1aa8975c153cd2651e6999117d320c52fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_config_1aa8975c153cd2651e6999117d320c52fc" kindref="member">timeout_strategy</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lww_fallback&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight></codeline>
+<codeline lineno="419" refid="structthemis_1_1process_1_1_conflict_resolution_config_1a351aed9477186a90409dfdb463c1615d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_config_1a351aed9477186a90409dfdb463c1615d" kindref="member">audit_all_conflicts</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422" refid="structthemis_1_1process_1_1_conflict_resolution_config_1a82d996f05511a01c073d97257e8b1c28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_config_1a82d996f05511a01c073d97257e8b1c28" kindref="member">audit_buffer_size</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"></highlight></codeline>
+<codeline lineno="425" refid="structthemis_1_1process_1_1_conflict_resolution_config_1abf8142fd4d367e838948449eade76145" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_config_1abf8142fd4d367e838948449eade76145" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="426"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::process</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/conflict_resolution_plugin.h"/>
+  </compounddef>
+</doxygen>

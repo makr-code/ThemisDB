@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_migration_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::MigrationResult</compoundname>
+    <includes refid="aql__migration__assistant_8h" local="no">aql_migration_assistant.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_migration_result_1a2c585be42c96ed2b32c9a4ba87617420" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::MigrationResult::migrated_query</definition>
+        <argsstring></argsstring>
+        <name>migrated_query</name>
+        <qualifiedname>themis::aql::MigrationResult::migrated_query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_migration_assistant.h" line="33" column="17" bodyfile="include/aql/aql_migration_assistant.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_migration_result_1a45dba3669e673625c23dff6c70b21506" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::MigrationResult::is_fully_automatable</definition>
+        <argsstring></argsstring>
+        <name>is_fully_automatable</name>
+        <qualifiedname>themis::aql::MigrationResult::is_fully_automatable</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_migration_assistant.h" line="35" column="10" bodyfile="include/aql/aql_migration_assistant.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_migration_result_1a2fb47482da3e68ff9b1f61ce6c9d2524" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_migration_issue" kindref="compound">MigrationIssue</ref> &gt;</type>
+        <definition>std::vector&lt;MigrationIssue&gt; themis::aql::MigrationResult::issues</definition>
+        <argsstring></argsstring>
+        <name>issues</name>
+        <qualifiedname>themis::aql::MigrationResult::issues</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_migration_assistant.h" line="37" column="17" bodyfile="include/aql/aql_migration_assistant.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_migration_result_1ad1383242fe01aaae4cc2ae1a50b12519" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::MigrationResult::summary</definition>
+        <argsstring>() const</argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::aql::MigrationResult::summary</qualifiedname>
+        <briefdescription>
+<para>Summary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_migration_assistant.h" line="43" column="17" bodyfile="src/aql/aql_migration_assistant.cpp" bodystart="25" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_migration_assistant.h" line="32" column="1" bodyfile="include/aql/aql_migration_assistant.h" bodystart="32" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_migration_result_1a45dba3669e673625c23dff6c70b21506" prot="public" virt="non-virtual"><scope>themis::aql::MigrationResult</scope><name>is_fully_automatable</name></member>
+      <member refid="structthemis_1_1aql_1_1_migration_result_1a2fb47482da3e68ff9b1f61ce6c9d2524" prot="public" virt="non-virtual"><scope>themis::aql::MigrationResult</scope><name>issues</name></member>
+      <member refid="structthemis_1_1aql_1_1_migration_result_1a2c585be42c96ed2b32c9a4ba87617420" prot="public" virt="non-virtual"><scope>themis::aql::MigrationResult</scope><name>migrated_query</name></member>
+      <member refid="structthemis_1_1aql_1_1_migration_result_1ad1383242fe01aaae4cc2ae1a50b12519" prot="public" virt="non-virtual"><scope>themis::aql::MigrationResult</scope><name>summary</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

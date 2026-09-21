@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_quantization_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::QuantizationStats</compoundname>
+    <includes refid="quantized__backend_8h" local="no">quantized_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_quantization_stats_1a3042bfc8523eb9a0c203f6637cf55c76" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::acceleration::QuantizationStats::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::acceleration::QuantizationStats::compression_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Compressed size / original size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="52" column="12" bodyfile="include/acceleration/quantized_backend.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_quantization_stats_1a618217b41d7f16214f6d82a449e71a48" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::acceleration::QuantizationStats::peak_snr_db</definition>
+        <argsstring></argsstring>
+        <name>peak_snr_db</name>
+        <qualifiedname>themis::acceleration::QuantizationStats::peak_snr_db</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Peak signal-to-noise ratio in dB. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="53" column="12" bodyfile="include/acceleration/quantized_backend.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_quantization_stats_1a7c806e33f3b52e89d4f36a1b5fab7286" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::QuantizationStats::calibration_samples</definition>
+        <argsstring></argsstring>
+        <name>calibration_samples</name>
+        <qualifiedname>themis::acceleration::QuantizationStats::calibration_samples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of representative samples used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="54" column="12" bodyfile="include/acceleration/quantized_backend.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_quantization_stats_1a69bcc44ce5b98b07a09c11648a0f446a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::acceleration::QuantizationStats::quantization_error_l2</definition>
+        <argsstring></argsstring>
+        <name>quantization_error_l2</name>
+        <qualifiedname>themis::acceleration::QuantizationStats::quantization_error_l2</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>L2 norm of (dequantised - original). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/quantized_backend.h" line="55" column="12" bodyfile="include/acceleration/quantized_backend.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics produced by a calibration pass. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/quantized_backend.h" line="51" column="1" bodyfile="include/acceleration/quantized_backend.h" bodystart="51" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_quantization_stats_1a7c806e33f3b52e89d4f36a1b5fab7286" prot="public" virt="non-virtual"><scope>themis::acceleration::QuantizationStats</scope><name>calibration_samples</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_quantization_stats_1a3042bfc8523eb9a0c203f6637cf55c76" prot="public" virt="non-virtual"><scope>themis::acceleration::QuantizationStats</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_quantization_stats_1a618217b41d7f16214f6d82a449e71a48" prot="public" virt="non-virtual"><scope>themis::acceleration::QuantizationStats</scope><name>peak_snr_db</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_quantization_stats_1a69bcc44ce5b98b07a09c11648a0f446a" prot="public" virt="non-virtual"><scope>themis::acceleration::QuantizationStats</scope><name>quantization_error_l2</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

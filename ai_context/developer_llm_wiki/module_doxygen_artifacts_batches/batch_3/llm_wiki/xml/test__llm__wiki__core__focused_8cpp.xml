@@ -1,0 +1,336 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__wiki__core__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_wiki_core_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="workspace__state__manager_8h" local="yes">llm_wiki/workspace_state_manager.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>llm_wiki/workspace_state_manager.h</label>
+        <link refid="workspace__state__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm_wiki/test_llm_wiki_core_focused.cpp</label>
+        <link refid="test__llm__wiki__core__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_llm_wiki_core_test" prot="public">LlmWikiCoreTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__wiki__core__focused_8cpp_1a9f8a49654564c04bb17067decc666c3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LlmWikiCoreTest, WS1_Load_NoFile_ReturnsFileNotFound)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_llm_wiki_core_test" kindref="compound">LlmWikiCoreTest</ref></type>
+        </param>
+        <param>
+          <type>WS1_Load_NoFile_ReturnsFileNotFound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_core_focused.cpp" line="37" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_core_focused.cpp" bodystart="37" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__core__focused_8cpp_1afbf63ce155338ae2e74bc1561b9a6503" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LlmWikiCoreTest, WS2_Save_CreatesStateFile)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_llm_wiki_core_test" kindref="compound">LlmWikiCoreTest</ref></type>
+        </param>
+        <param>
+          <type>WS2_Save_CreatesStateFile</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_core_focused.cpp" line="46" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_core_focused.cpp" bodystart="46" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__core__focused_8cpp_1a8dff04826f07c5604949cd21c52fe40a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LlmWikiCoreTest, WS3_SaveThenLoad_Roundtrip_PreservesWorkspaceRoot)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_llm_wiki_core_test" kindref="compound">LlmWikiCoreTest</ref></type>
+        </param>
+        <param>
+          <type>WS3_SaveThenLoad_Roundtrip_PreservesWorkspaceRoot</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_core_focused.cpp" line="59" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_core_focused.cpp" bodystart="59" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__core__focused_8cpp_1a48b82ef07f44b37979bd0fe277f35dc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LlmWikiCoreTest, WS4_SaveThenLoad_Roundtrip_PreservesLinks)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_llm_wiki_core_test" kindref="compound">LlmWikiCoreTest</ref></type>
+        </param>
+        <param>
+          <type>WS4_SaveThenLoad_Roundtrip_PreservesLinks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_core_focused.cpp" line="74" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_core_focused.cpp" bodystart="74" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__core__focused_8cpp_1a5d205046001f46ad6ac6441516cab89c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LlmWikiCoreTest, WS5_SaveThenLoad_Roundtrip_PreservesTasks)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_llm_wiki_core_test" kindref="compound">LlmWikiCoreTest</ref></type>
+        </param>
+        <param>
+          <type>WS5_SaveThenLoad_Roundtrip_PreservesTasks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_core_focused.cpp" line="91" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_core_focused.cpp" bodystart="91" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__core__focused_8cpp_1aca42486e6d8ca321561db93c34b4ed03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LlmWikiCoreTest, WS6_MultipleSaves_AllSucceed)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_llm_wiki_core_test" kindref="compound">LlmWikiCoreTest</ref></type>
+        </param>
+        <param>
+          <type>WS6_MultipleSaves_AllSucceed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_core_focused.cpp" line="107" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_core_focused.cpp" bodystart="107" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__core__focused_8cpp_1a254a0b8d4835af966c4cbe8d7b5eb104" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LlmWikiCoreTest, WS7_MultipleSaves_LoadReturnsLatest)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_llm_wiki_core_test" kindref="compound">LlmWikiCoreTest</ref></type>
+        </param>
+        <param>
+          <type>WS7_MultipleSaves_LoadReturnsLatest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_core_focused.cpp" line="118" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_core_focused.cpp" bodystart="118" bodyend="130"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Group WS — <ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager" kindref="compound">WorkspaceStateManager</ref> core tests (save / load / round-trip). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses a temporary directory for all I/O so tests are hermetic. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="workspace__state__manager_8h" kindref="compound">llm_wiki/workspace_state_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm__wiki" kindref="compound">themis::llm_wiki</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>fixture<sp/>───────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="class_llm_wiki_core_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_llm_wiki_core_test" kindref="compound">LlmWikiCoreTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_llm_wiki_core_test_1af1fa17f1800909110bc01a57c8efcab2" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_llm_wiki_core_test_1a4929aa3d365b46ed9550d63bf3ccd66c" kindref="member">tmp_dir_</ref><sp/>=<sp/>fs::temp_directory_path()<sp/>/<sp/>(</highlight><highlight class="stringliteral">&quot;test_llm_wiki_core_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now().time_since_epoch().count()));</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(<ref refid="class_llm_wiki_core_test_1a4929aa3d365b46ed9550d63bf3ccd66c" kindref="member">tmp_dir_</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;wiki&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_llm_wiki_core_test_1ad93ffdc3fc9aecb3f9b8019d52f28f9a" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::error_code<sp/>ec<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_llm_wiki_core_test_1a4929aa3d365b46ed9550d63bf3ccd66c" kindref="member">tmp_dir_</ref>,<sp/>ec);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="class_llm_wiki_core_test_1a4929aa3d365b46ed9550d63bf3ccd66c" kindref="member">tmp_dir_</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>WS<sp/>—<sp/>Workspace<sp/>State<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WS1:<sp/>Load<sp/>on<sp/>a<sp/>non-existent<sp/>state<sp/>file<sp/>returns<sp/>FileNotFound</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="test__llm__wiki__core__focused_8cpp_1a9f8a49654564c04bb17067decc666c3b" kindref="member">TEST_F</ref>(<ref refid="class_llm_wiki_core_test" kindref="compound">LlmWikiCoreTest</ref>,<sp/>WS1_Load_NoFile_ReturnsFileNotFound)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager" kindref="compound">WorkspaceStateManager</ref><sp/>mgr(tmp_dir_);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>state;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>mgr.load(state);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(status.ok());</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(status.code,<sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca2767828026039e8ba7b38973cbb701f2" kindref="member">WorkspaceStatus::Code::FileNotFound</ref>);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WS2:<sp/>Save<sp/>populates<sp/>the<sp/>state<sp/>file<sp/>on<sp/>disk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__llm__wiki__core__focused_8cpp_1a9f8a49654564c04bb17067decc666c3b" kindref="member">TEST_F</ref>(<ref refid="class_llm_wiki_core_test" kindref="compound">LlmWikiCoreTest</ref>,<sp/>WS2_Save_CreatesStateFile)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager" kindref="compound">WorkspaceStateManager</ref><sp/>mgr(tmp_dir_);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>state;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>state.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a92960e04c01012464e6b1d4e9a490111" kindref="member">workspace_root</ref><sp/>=<sp/>tmp_dir_.string();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>state.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a2e94c12ccc87c2feaac5f787dd615223" kindref="member">version</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>mgr.save(state);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(status.ok())<sp/>&lt;&lt;<sp/>status.message;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fs::exists(tmp_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;wiki&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;state.json&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WS3:<sp/>Save<sp/>then<sp/>load<sp/>roundtrip<sp/>preserves<sp/>workspace_root</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__llm__wiki__core__focused_8cpp_1a9f8a49654564c04bb17067decc666c3b" kindref="member">TEST_F</ref>(<ref refid="class_llm_wiki_core_test" kindref="compound">LlmWikiCoreTest</ref>,<sp/>WS3_SaveThenLoad_Roundtrip_PreservesWorkspaceRoot)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager" kindref="compound">WorkspaceStateManager</ref><sp/>mgr(tmp_dir_);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>saved;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>saved.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a92960e04c01012464e6b1d4e9a490111" kindref="member">workspace_root</ref><sp/>=<sp/>tmp_dir_.string();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>saved.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a2e94c12ccc87c2feaac5f787dd615223" kindref="member">version</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.save(saved).ok());</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>loaded;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>mgr.load(loaded);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(status.ok())<sp/>&lt;&lt;<sp/>status.message;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a92960e04c01012464e6b1d4e9a490111" kindref="member">workspace_root</ref>,<sp/>saved.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a92960e04c01012464e6b1d4e9a490111" kindref="member">workspace_root</ref>);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WS4:<sp/>Save<sp/>then<sp/>load<sp/>preserves<sp/>the<sp/>links<sp/>map</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="test__llm__wiki__core__focused_8cpp_1a9f8a49654564c04bb17067decc666c3b" kindref="member">TEST_F</ref>(<ref refid="class_llm_wiki_core_test" kindref="compound">LlmWikiCoreTest</ref>,<sp/>WS4_SaveThenLoad_Roundtrip_PreservesLinks)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager" kindref="compound">WorkspaceStateManager</ref><sp/>mgr(tmp_dir_);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>saved;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>saved.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a92960e04c01012464e6b1d4e9a490111" kindref="member">workspace_root</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>tmp_dir_.string();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>saved.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a571cbf76a1f7743061b8e3c640616d4f" kindref="member">links</ref>[</highlight><highlight class="stringliteral">&quot;pageA&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;pageB&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;pageC&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>saved.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a571cbf76a1f7743061b8e3c640616d4f" kindref="member">links</ref>[</highlight><highlight class="stringliteral">&quot;pageB&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;pageA&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.save(saved).ok());</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>loaded;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.load(loaded).ok());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(loaded.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a571cbf76a1f7743061b8e3c640616d4f" kindref="member">links</ref>.count(</highlight><highlight class="stringliteral">&quot;pageA&quot;</highlight><highlight class="normal">),<sp/>1u);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a571cbf76a1f7743061b8e3c640616d4f" kindref="member">links</ref>.at(</highlight><highlight class="stringliteral">&quot;pageA&quot;</highlight><highlight class="normal">).size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WS5:<sp/>Save<sp/>then<sp/>load<sp/>preserves<sp/>tasks<sp/>map</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__llm__wiki__core__focused_8cpp_1a9f8a49654564c04bb17067decc666c3b" kindref="member">TEST_F</ref>(<ref refid="class_llm_wiki_core_test" kindref="compound">LlmWikiCoreTest</ref>,<sp/>WS5_SaveThenLoad_Roundtrip_PreservesTasks)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager" kindref="compound">WorkspaceStateManager</ref><sp/>mgr(tmp_dir_);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>saved;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>saved.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a92960e04c01012464e6b1d4e9a490111" kindref="member">workspace_root</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>tmp_dir_.string();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>saved.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1af9a730a36c3c58fa2e81723527e22ca3" kindref="member">tasks</ref>[</highlight><highlight class="stringliteral">&quot;task-1&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;pending&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;owner&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;agent&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.save(saved).ok());</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>loaded;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.load(loaded).ok());</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(loaded.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1af9a730a36c3c58fa2e81723527e22ca3" kindref="member">tasks</ref>.count(</highlight><highlight class="stringliteral">&quot;task-1&quot;</highlight><highlight class="normal">),<sp/>1u);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1af9a730a36c3c58fa2e81723527e22ca3" kindref="member">tasks</ref>.at(</highlight><highlight class="stringliteral">&quot;task-1&quot;</highlight><highlight class="normal">).at(</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;pending&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WS6:<sp/>Multiple<sp/>consecutive<sp/>saves<sp/>all<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__llm__wiki__core__focused_8cpp_1a9f8a49654564c04bb17067decc666c3b" kindref="member">TEST_F</ref>(<ref refid="class_llm_wiki_core_test" kindref="compound">LlmWikiCoreTest</ref>,<sp/>WS6_MultipleSaves_AllSucceed)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager" kindref="compound">WorkspaceStateManager</ref><sp/>mgr(tmp_dir_);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>state;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a92960e04c01012464e6b1d4e9a490111" kindref="member">workspace_root</ref><sp/>=<sp/>tmp_dir_.string();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a2e94c12ccc87c2feaac5f787dd615223" kindref="member">version</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.save(state).ok())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>on<sp/>iteration<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WS7:<sp/>After<sp/>multiple<sp/>saves,<sp/>load<sp/>returns<sp/>the<sp/>most<sp/>recent<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="test__llm__wiki__core__focused_8cpp_1a9f8a49654564c04bb17067decc666c3b" kindref="member">TEST_F</ref>(<ref refid="class_llm_wiki_core_test" kindref="compound">LlmWikiCoreTest</ref>,<sp/>WS7_MultipleSaves_LoadReturnsLatest)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager" kindref="compound">WorkspaceStateManager</ref><sp/>mgr(tmp_dir_);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>state;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a92960e04c01012464e6b1d4e9a490111" kindref="member">workspace_root</ref><sp/>=<sp/>tmp_dir_.string();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a2e94c12ccc87c2feaac5f787dd615223" kindref="member">version</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.save(state).ok());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref><sp/>loaded;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.load(loaded).ok());</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.<ref refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a2e94c12ccc87c2feaac5f787dd615223" kindref="member">version</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm_wiki/test_llm_wiki_core_focused.cpp"/>
+  </compounddef>
+</doxygen>

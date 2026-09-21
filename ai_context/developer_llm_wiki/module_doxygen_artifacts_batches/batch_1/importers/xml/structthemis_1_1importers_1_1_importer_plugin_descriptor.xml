@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_importer_plugin_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::ImporterPluginDescriptor</compoundname>
+    <includes refid="importer__plugin__api_8h" local="no">importer_plugin_api.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_importer_plugin_descriptor_1a40ea539283a91f4249dc961060349769" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImporterPluginDescriptor::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::importers::ImporterPluginDescriptor::name</qualifiedname>
+        <briefdescription>
+<para>Plugin identifier (matches getName()). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="90" column="17" bodyfile="include/importers/importer_plugin_api.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_importer_plugin_descriptor_1a630501599412cc758114738ec9230746" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImporterPluginDescriptor::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::importers::ImporterPluginDescriptor::version</qualifiedname>
+        <briefdescription>
+<para>Semantic version string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="91" column="17" bodyfile="include/importers/importer_plugin_api.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_importer_plugin_descriptor_1ae72ea20f5834103a6e5c219a13931b07" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::ImporterPluginDescriptor::supported_types</definition>
+        <argsstring></argsstring>
+        <name>supported_types</name>
+        <qualifiedname>themis::importers::ImporterPluginDescriptor::supported_types</qualifiedname>
+        <briefdescription>
+<para>Source-type tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="92" column="17" bodyfile="include/importers/importer_plugin_api.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_importer_plugin_descriptor_1a0e98705eb9dcb6228847d79fbaec35f0" prot="public" static="no" mutable="no">
+        <type>plugins::PluginCapabilities</type>
+        <definition>plugins::PluginCapabilities themis::importers::ImporterPluginDescriptor::capabilities</definition>
+        <argsstring></argsstring>
+        <name>capabilities</name>
+        <qualifiedname>themis::importers::ImporterPluginDescriptor::capabilities</qualifiedname>
+        <briefdescription>
+<para>Advertised capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="93" column="33" bodyfile="include/importers/importer_plugin_api.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/importer_plugin_api.h" line="89" column="1" bodyfile="include/importers/importer_plugin_api.h" bodystart="89" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_importer_plugin_descriptor_1a0e98705eb9dcb6228847d79fbaec35f0" prot="public" virt="non-virtual"><scope>themis::importers::ImporterPluginDescriptor</scope><name>capabilities</name></member>
+      <member refid="structthemis_1_1importers_1_1_importer_plugin_descriptor_1a40ea539283a91f4249dc961060349769" prot="public" virt="non-virtual"><scope>themis::importers::ImporterPluginDescriptor</scope><name>name</name></member>
+      <member refid="structthemis_1_1importers_1_1_importer_plugin_descriptor_1ae72ea20f5834103a6e5c219a13931b07" prot="public" virt="non-virtual"><scope>themis::importers::ImporterPluginDescriptor</scope><name>supported_types</name></member>
+      <member refid="structthemis_1_1importers_1_1_importer_plugin_descriptor_1a630501599412cc758114738ec9230746" prot="public" virt="non-virtual"><scope>themis::importers::ImporterPluginDescriptor</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

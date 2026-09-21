@@ -1,0 +1,320 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="aggregate__scheduler_8h" kind="file" language="C++">
+    <compoundname>aggregate_scheduler.h</compoundname>
+    <includes refid="continuous__agg_8h" local="yes">timeseries/continuous_agg.h</includes>
+    <includes refid="timeseries__metrics_8h" local="yes">timeseries/timeseries_metrics.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">condition_variable</includes>
+    <includedby refid="aggregate__scheduler_8cpp" local="yes">src/timeseries/aggregate_scheduler.cpp</includedby>
+    <includedby refid="aggregate__scheduler__helper_8cpp" local="yes">src/timeseries/aggregate_scheduler_helper.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/timeseries/aggregate_scheduler.h</label>
+        <link refid="aggregate__scheduler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>timeseries/continuous_agg.h</label>
+        <link refid="continuous__agg_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>timeseries/timeseries_metrics.h</label>
+        <link refid="timeseries__metrics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>timeseries/tsstore.h</label>
+        <link refid="tsstore_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="21">
+        <label>condition_variable</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="9">
+        <label>limits</label>
+      </node>
+      <node id="19">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="16">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>span</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="20">
+        <label>thread</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="17">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/timeseries/aggregate_scheduler.h</label>
+        <link refid="aggregate__scheduler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/timeseries/aggregate_scheduler.cpp</label>
+        <link refid="aggregate__scheduler_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/timeseries/aggregate_scheduler_helper.cpp</label>
+        <link refid="aggregate__scheduler__helper_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_aggregate_scheduler" prot="public">themis::AggregateScheduler</innerclass>
+    <innerclass refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate" prot="public">themis::AggregateScheduler::ScheduledAggregate</innerclass>
+    <innerclass refid="structthemis_1_1_aggregate_scheduler_1_1_config" prot="public">themis::AggregateScheduler::Config</innerclass>
+    <innerclass refid="structthemis_1_1_aggregate_scheduler_1_1_stats" prot="public">themis::AggregateScheduler::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="continuous__agg_8h" kindref="compound">timeseries/continuous_agg.h</ref>&quot;</highlight><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>AggConfig,<sp/>ContinuousAggWatermarkStore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="timeseries__metrics_8h" kindref="compound">timeseries/timeseries_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_continuous_aggregate_manager" kindref="compound">ContinuousAggregateManager</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1_aggregate_scheduler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_aggregate_scheduler_1af27fefe0d2ce87c0a68283f0e62eeb4b" kindref="member">AggregateScheduler</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate" kindref="compound">ScheduledAggregate</ref><sp/>{</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1a188b526d8c6c41c57445df4f20a8a938" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1a188b526d8c6c41c57445df4f20a8a938" kindref="member">id</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>identifier<sp/>for<sp/>this<sp/>aggregate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1a00378b6b63b805386fec93aa0f6f879b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_agg_config" kindref="compound">AggConfig</ref><sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1a00378b6b63b805386fec93aa0f6f879b" kindref="member">config</ref>;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1a1edcbf05359f30bd1f73e047d5f3f5a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1a1edcbf05359f30bd1f73e047d5f3f5a5" kindref="member">refresh_interval</ref>{std::chrono::minutes(5)};</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1a7a53d81ad9d21730194cd83a0726114f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1a7a53d81ad9d21730194cd83a0726114f" kindref="member">last_refresh_ms</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Timestamp<sp/>of<sp/>last<sp/>refresh</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1a28a0fc8fbb2e2274e7711cc68fb17415" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1a28a0fc8fbb2e2274e7711cc68fb17415" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Incremental<sp/>refresh:<sp/>when<sp/>true,<sp/>refreshAggregate()<sp/>uses<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>watermark-based<sp/>scan<sp/>path<sp/>via<sp/>ContinuousAggregateManager::refreshIncremental().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1a538c1d8d1850ece83ce2385c773aabca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1a538c1d8d1850ece83ce2385c773aabca" kindref="member">use_incremental_refresh</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1adf5683a7f916a180a0afacee2602e5e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1adf5683a7f916a180a0afacee2602e5e6" kindref="member">total_refreshes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1ac451f8e0c8289ac8d5ef3aed71cd326a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1ac451f8e0c8289ac8d5ef3aed71cd326a" kindref="member">failed_refreshes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1aed2c467c46bb4a07cf8be791f039738b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate_1aed2c467c46bb4a07cf8be791f039738b" kindref="member">avg_refresh_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1_aggregate_scheduler_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_aggregate_scheduler_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1_aggregate_scheduler_1_1_config_1aff51b8fb451241642eb1665a0f9ed07c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_config_1aff51b8fb451241642eb1665a0f9ed07c" kindref="member">max_parallel_refreshes</ref><sp/>=<sp/>4;<sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>concurrent<sp/>refresh<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1_aggregate_scheduler_1_1_config_1a64e9ebd609fc9e3c9176fa5cf00f5df9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_config_1a64e9ebd609fc9e3c9176fa5cf00f5df9" kindref="member">check_interval</ref>{std::chrono::seconds(30)};<sp/><sp/></highlight><highlight class="comment">//<sp/>Scheduler<sp/>loop<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1_aggregate_scheduler_1_1_config_1a6eadf6d2fb7375eb98a456cdaa59f676" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_config_1a6eadf6d2fb7375eb98a456cdaa59f676" kindref="member">catch_up_missed_windows</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Refresh<sp/>missed<sp/>windows<sp/>on<sp/>startup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1_aggregate_scheduler_1_1_config_1a5dac64c5a07d38246bfbc01080f802d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_config_1a5dac64c5a07d38246bfbc01080f802d6" kindref="member">max_catch_up_windows</ref><sp/>=<sp/>100;<sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>windows<sp/>to<sp/>catch<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_aggregate_scheduler_1af27fefe0d2ce87c0a68283f0e62eeb4b" kindref="member">AggregateScheduler</ref>(<ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref>*<sp/>store);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_aggregate_scheduler_1af27fefe0d2ce87c0a68283f0e62eeb4b" kindref="member">AggregateScheduler</ref>(<ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref>*<sp/>store,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_aggregate_scheduler_1a8d9b8c435c2507e567ace06eaab1f797" kindref="member">~AggregateScheduler</ref>();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_aggregate_scheduler_1acb52bcc3161ceb9ef7e788112c55ce9c" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_aggregate_scheduler_1a16e5993bb44a1ccc04f119a20407cdef" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1_aggregate_scheduler_1a2841ca915dea5a190d862dab590ef0e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_aggregate_scheduler_1a2841ca915dea5a190d862dab590ef0e4" kindref="member">isRunning</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>running_.load();<sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Aggregate<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_aggregate_scheduler_1a07e92ee857be5c5dfb3c9971d2b67aa2" kindref="member">registerAggregate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ScheduledAggregate&amp;<sp/>agg);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1_aggregate_scheduler_1a07e92ee857be5c5dfb3c9971d2b67aa2" kindref="member">registerAggregate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_agg_config" kindref="compound">AggConfig</ref>&amp;<sp/>config,<sp/>std::chrono::milliseconds<sp/>refresh_interval<sp/>=<sp/>std::chrono::minutes(5));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_aggregate_scheduler_1a50b9a5906e46461dfb16dc44308625fa" kindref="member">unregisterAggregate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_aggregate_scheduler_1ab36aa7d87c1760e54bb8463ce921a93e" kindref="member">enableAggregate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_aggregate_scheduler_1abca43fe23f934fa2dee88e3e3eb3c109" kindref="member">disableAggregate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_aggregate_scheduler_1a0b73dbdc235121175e93f53aa12ad683" kindref="member">refreshNow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>Force<sp/>refresh<sp/>immediately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_aggregate_scheduler_1ae8b49e35f24de91bd12d7394ecbeec32" kindref="member">refreshAll</ref>();<sp/><sp/></highlight><highlight class="comment">//<sp/>Force<sp/>refresh<sp/>all<sp/>aggregates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1_aggregate_scheduler_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_aggregate_scheduler_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1afc2b79ca71ab351efda0b0ab56fa2a54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1afc2b79ca71ab351efda0b0ab56fa2a54" kindref="member">registered_aggregates</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1a927c660240a0320330750fc0ce387831" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1a927c660240a0320330750fc0ce387831" kindref="member">active_aggregates</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1a1e063c0756c03c82635a88942feba152" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1a1e063c0756c03c82635a88942feba152" kindref="member">total_refreshes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1a2075523e17ac61bc66a725aeaa3935b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1a2075523e17ac61bc66a725aeaa3935b7" kindref="member">failed_refreshes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1a602e490cae9bd136d13d49b6ae6ec4d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1a602e490cae9bd136d13d49b6ae6ec4d8" kindref="member">last_run</ref>;</highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1a7e6b04cadf5bcb89f18402ea5917efd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_stats_1a7e6b04cadf5bcb89f18402ea5917efd0" kindref="member">next_run</ref>;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1_aggregate_scheduler_1a88dd463e80cefa3218759390f9c14564" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ScheduledAggregate&gt;<sp/><ref refid="classthemis_1_1_aggregate_scheduler_1ab84a21ef93d052833ece7a75f66c7ddf" kindref="member">listAggregates</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_aggregate_scheduler_1aa3c1384fe0abb65b93090117a7b8ddff" kindref="member">setMetrics</ref>(std::shared_ptr&lt;TimeSeriesMetrics&gt;<sp/>metrics);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_aggregate_scheduler_1add53646d894c229eea6110b4ace5f1ad" kindref="member">backfill_range</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>agg_id,<sp/>int64_t<sp/>start_ms,<sp/>int64_t<sp/>end_ms);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref>*<sp/>store_;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ContinuousAggregateManager&gt;<sp/>agg_manager_;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ContinuousAggWatermarkStore&gt;<sp/>wm_store_;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TimeSeriesMetrics&gt;<sp/>metrics_;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Threading</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>scheduler_thread_;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>cv_;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Aggregates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ScheduledAggregate&gt;<sp/>aggregates_;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_refreshes_{0};</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>failed_refreshes_{0};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>last_run_;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>schedulerLoop();</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>refreshAggregate(<ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate" kindref="compound">ScheduledAggregate</ref>&amp;<sp/>agg);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>needsRefresh(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate" kindref="compound">ScheduledAggregate</ref>&amp;<sp/>agg,<sp/>int64_t<sp/>current_time_ms)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>catchUpMissedWindows(<ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate" kindref="compound">ScheduledAggregate</ref>&amp;<sp/>agg,<sp/>int64_t<sp/>current_time_ms);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>getCurrentTimeMs()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateAggregateId(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AggConfig&amp;<sp/>config)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/timeseries/aggregate_scheduler.h"/>
+  </compounddef>
+</doxygen>

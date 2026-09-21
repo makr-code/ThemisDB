@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_updates_config_1_1_canary_config_1_1_stage" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::UpdatesConfig::CanaryConfig::Stage</compoundname>
+    <includes refid="updates__config_8h" local="no">updates_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_canary_config_1_1_stage_1a1a02cb33994354dd7ac843083f74f479" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::updates::UpdatesConfig::CanaryConfig::Stage::percentage</definition>
+        <argsstring></argsstring>
+        <name>percentage</name>
+        <qualifiedname>themis::updates::UpdatesConfig::CanaryConfig::Stage::percentage</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="97" column="20" bodyfile="include/updates/updates_config.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_canary_config_1_1_stage_1a9b6313471bd8569a2c52988fa051b047" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::updates::UpdatesConfig::CanaryConfig::Stage::observation_seconds</definition>
+        <argsstring></argsstring>
+        <name>observation_seconds</name>
+        <qualifiedname>themis::updates::UpdatesConfig::CanaryConfig::Stage::observation_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="98" column="17" bodyfile="include/updates/updates_config.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/updates_config.h" line="96" column="9" bodyfile="include/updates/updates_config.h" bodystart="96" bodyend="99"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_canary_config_1_1_stage_1a9b6313471bd8569a2c52988fa051b047" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::CanaryConfig::Stage</scope><name>observation_seconds</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_canary_config_1_1_stage_1a1a02cb33994354dd7ac843083f74f479" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::CanaryConfig::Stage</scope><name>percentage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

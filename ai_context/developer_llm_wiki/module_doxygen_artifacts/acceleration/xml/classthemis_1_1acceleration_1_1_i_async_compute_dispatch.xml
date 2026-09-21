@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_i_async_compute_dispatch" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::acceleration::IAsyncComputeDispatch</compoundname>
+    <includes refid="compute__backend_8h" local="no">compute_backend.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_async_compute_dispatch_1a508a5442ae4843ccb4cf19cd4ba3ec75" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::acceleration::IAsyncComputeDispatch::~IAsyncComputeDispatch</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAsyncComputeDispatch</name>
+        <qualifiedname>themis::acceleration::IAsyncComputeDispatch::~IAsyncComputeDispatch</qualifiedname>
+        <briefdescription>
+<para>IAsync Compute Dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="1095" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_async_compute_dispatch_1a2034b18b941cac58009bf5cc1383eb22" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_compute_future" kindref="compound">ComputeFuture</ref>&lt; <ref refid="structthemis_1_1acceleration_1_1_similarity_kernel_result" kindref="compound">SimilarityKernelResult</ref> &gt;</type>
+        <definition>virtual ComputeFuture&lt; SimilarityKernelResult &gt; themis::acceleration::IAsyncComputeDispatch::submit</definition>
+        <argsstring>(const KernelDescriptor &amp;descriptor, CancellationToken token={})=0</argsstring>
+        <name>submit</name>
+        <qualifiedname>themis::acceleration::IAsyncComputeDispatch::submit</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_kernel_descriptor" kindref="compound">KernelDescriptor</ref> &amp;</type>
+          <declname>descriptor</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_cancellation_token" kindref="compound">CancellationToken</ref></type>
+          <declname>token</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="1098" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_backend.h" line="1089" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="1089" bodyend="1100"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_i_async_compute_dispatch_1a2034b18b941cac58009bf5cc1383eb22" prot="public" virt="pure-virtual"><scope>themis::acceleration::IAsyncComputeDispatch</scope><name>submit</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_async_compute_dispatch_1a508a5442ae4843ccb4cf19cd4ba3ec75" prot="public" virt="virtual"><scope>themis::acceleration::IAsyncComputeDispatch</scope><name>~IAsyncComputeDispatch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

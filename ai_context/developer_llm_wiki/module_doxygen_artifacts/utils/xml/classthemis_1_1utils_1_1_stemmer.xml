@@ -1,0 +1,388 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_stemmer" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::Stemmer</compoundname>
+    <includes refid="stemmer_8h" local="no">stemmer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1utils_1_1_stemmer_1a9fadfdb2a5f32e399c588c32afc08e98" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Language</name>
+        <qualifiedname>themis::utils::Stemmer::Language</qualifiedname>
+        <enumvalue id="classthemis_1_1utils_1_1_stemmer_1a9fadfdb2a5f32e399c588c32afc08e98aaa85f1840e282d8a8304dbc2c0d7c9b2" prot="public">
+          <name>EN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_stemmer_1a9fadfdb2a5f32e399c588c32afc08e98a3a52f3c22ed6fcde5bf696a6c02c9e73" prot="public">
+          <name>DE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_stemmer_1a9fadfdb2a5f32e399c588c32afc08e98ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/stemmer.h" line="34" column="5" bodyfile="include/utils/stemmer.h" bodystart="34" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_stemmer_1acbc7464bb1b1d3dbf2d831fd0501e9db" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::Stemmer::stem</definition>
+        <argsstring>(std::string_view token, Language lang)</argsstring>
+        <name>stem</name>
+        <qualifiedname>themis::utils::Stemmer::stem</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_stemmer_1a9fadfdb2a5f32e399c588c32afc08e98" kindref="member">Language</ref></type>
+          <declname>lang</declname>
+        </param>
+        <briefdescription>
+<para>Stem a single token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stem.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input token (should be lowercase) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lang</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1utils_1_1_stemmer_1a9fadfdb2a5f32e399c588c32afc08e98" kindref="member">Language</ref> for stemming rules </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Stemmed token</para>
+</simplesect>
+Example: stem(&quot;running&quot;, <ref refid="classthemis_1_1utils_1_1_stemmer_1a9fadfdb2a5f32e399c588c32afc08e98aaa85f1840e282d8a8304dbc2c0d7c9b2" kindref="member">Language::EN</ref>) -&gt; &quot;run&quot; stem(&quot;laufen&quot;, <ref refid="classthemis_1_1utils_1_1_stemmer_1a9fadfdb2a5f32e399c588c32afc08e98a3a52f3c22ed6fcde5bf696a6c02c9e73" kindref="member">Language::DE</ref>) -&gt; &quot;lauf&quot;</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lang</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::string(), word(), std::transform(), begin(), end(), std::tolower(), length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/stemmer.h" line="51" column="24" bodyfile="src/utils/stemmer.cpp" bodystart="26" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_stemmer_1a43df1bde747a16312bc04761359e0d65" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_stemmer_1a9fadfdb2a5f32e399c588c32afc08e98" kindref="member">Language</ref></type>
+        <definition>Stemmer::Language themis::utils::Stemmer::parseLanguage</definition>
+        <argsstring>(std::string_view langCode)</argsstring>
+        <name>parseLanguage</name>
+        <qualifiedname>themis::utils::Stemmer::parseLanguage</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>langCode</declname>
+        </param>
+        <briefdescription>
+<para>Parse language code string to enum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse <ref refid="classthemis_1_1utils_1_1_stemmer_1a9fadfdb2a5f32e399c588c32afc08e98" kindref="member">Language</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>langCode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>&quot;en&quot;, &quot;de&quot;, or &quot;none&quot; </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1utils_1_1_stemmer_1a9fadfdb2a5f32e399c588c32afc08e98" kindref="member">Language</ref> enum</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">langCode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements parseLanguage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/stemmer.h" line="59" column="21" bodyfile="src/utils/stemmer.cpp" bodystart="58" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_stemmer_1a597f21cf96dbfc9496d8f44ad6550169" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::Stemmer::languageToString</definition>
+        <argsstring>(Language lang)</argsstring>
+        <name>languageToString</name>
+        <qualifiedname>themis::utils::Stemmer::languageToString</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_stemmer_1a9fadfdb2a5f32e399c588c32afc08e98" kindref="member">Language</ref></type>
+          <declname>lang</declname>
+        </param>
+        <briefdescription>
+<para>Convert language enum to string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="classthemis_1_1utils_1_1_stemmer_1a9fadfdb2a5f32e399c588c32afc08e98" kindref="member">Language</ref> To String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lang</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements languageToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/stemmer.h" line="64" column="24" bodyfile="src/utils/stemmer.cpp" bodystart="77" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_stemmer_1ac11ea5a0742bdaa4b5c1f2f2e5eeb813" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::Stemmer::stemEnglish</definition>
+        <argsstring>(std::string word)</argsstring>
+        <name>stemEnglish</name>
+        <qualifiedname>themis::utils::Stemmer::stemEnglish</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>word</declname>
+        </param>
+        <briefdescription>
+<para>Stem English. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">word</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: length(), ends_with(), substr(), hasVowel(), endsWithDoubleConsonant(), replaceEnding(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/stemmer.h" line="68" column="24" bodyfile="src/utils/stemmer.cpp" bodystart="92" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_stemmer_1a250309ec20a1a125d371d7d4ae895de5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::Stemmer::endsWithDoubleConsonant</definition>
+        <argsstring>(const std::string &amp;word)</argsstring>
+        <name>endsWithDoubleConsonant</name>
+        <qualifiedname>themis::utils::Stemmer::endsWithDoubleConsonant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>word</declname>
+        </param>
+        <briefdescription>
+<para>Ends With Double Consonant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">word</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/stemmer.h" line="69" column="17" bodyfile="src/utils/stemmer.cpp" bodystart="208" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_stemmer_1a84c49635b23fc3b317a887699d2e50cd" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::Stemmer::hasVowel</definition>
+        <argsstring>(const std::string &amp;word)</argsstring>
+        <name>hasVowel</name>
+        <qualifiedname>themis::utils::Stemmer::hasVowel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>word</declname>
+        </param>
+        <briefdescription>
+<para>Has Vowel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">word</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements hasVowel without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/stemmer.h" line="70" column="17" bodyfile="src/utils/stemmer.cpp" bodystart="224" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_stemmer_1a81eae0560b0e48dbe2d49553329b600e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::Stemmer::replaceEnding</definition>
+        <argsstring>(std::string word, std::string_view from, std::string_view to)</argsstring>
+        <name>replaceEnding</name>
+        <qualifiedname>themis::utils::Stemmer::replaceEnding</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>word</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Replace Ending. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">word</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: length(), ends_with(), substr(), hasVowel(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/stemmer.h" line="71" column="24" bodyfile="src/utils/stemmer.cpp" bodystart="241" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_stemmer_1ab6003a727d00147f582ede8b78e1580a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::Stemmer::stemGerman</definition>
+        <argsstring>(std::string word)</argsstring>
+        <name>stemGerman</name>
+        <qualifiedname>themis::utils::Stemmer::stemGerman</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>word</declname>
+        </param>
+        <briefdescription>
+<para>Stem German. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">word</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: length(), ends_with(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/stemmer.h" line="74" column="24" bodyfile="src/utils/stemmer.cpp" bodystart="163" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal Stemming Implementation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Supports English (Porter <ref refid="classthemis_1_1utils_1_1_stemmer" kindref="compound">Stemmer</ref> subset) and German (basic suffix removal)</para>
+<para>Based on:<itemizedlist>
+<listitem><para>Porter <ref refid="classthemis_1_1utils_1_1_stemmer" kindref="compound">Stemmer</ref> Algorithm (1980): <ulink url="https://tartarus.org/martin/PorterStemmer/">https://tartarus.org/martin/PorterStemmer/</ulink></para>
+</listitem><listitem><para>German Stemming: Snowball German <ref refid="classthemis_1_1utils_1_1_stemmer" kindref="compound">Stemmer</ref> (simplified)</para>
+</listitem></itemizedlist>
+</para>
+<para>This is a minimal implementation for v1. For production use, consider integrating full Snowball library: <ulink url="https://snowballstem.org/">https://snowballstem.org/</ulink> </para>
+    </detaileddescription>
+    <location file="include/utils/stemmer.h" line="32" column="1" bodyfile="include/utils/stemmer.h" bodystart="32" bodyend="75"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_stemmer_1a250309ec20a1a125d371d7d4ae895de5" prot="private" virt="non-virtual"><scope>themis::utils::Stemmer</scope><name>endsWithDoubleConsonant</name></member>
+      <member refid="classthemis_1_1utils_1_1_stemmer_1a84c49635b23fc3b317a887699d2e50cd" prot="private" virt="non-virtual"><scope>themis::utils::Stemmer</scope><name>hasVowel</name></member>
+      <member refid="classthemis_1_1utils_1_1_stemmer_1a9fadfdb2a5f32e399c588c32afc08e98" prot="public" virt="non-virtual"><scope>themis::utils::Stemmer</scope><name>Language</name></member>
+      <member refid="classthemis_1_1utils_1_1_stemmer_1a597f21cf96dbfc9496d8f44ad6550169" prot="public" virt="non-virtual"><scope>themis::utils::Stemmer</scope><name>languageToString</name></member>
+      <member refid="classthemis_1_1utils_1_1_stemmer_1a43df1bde747a16312bc04761359e0d65" prot="public" virt="non-virtual"><scope>themis::utils::Stemmer</scope><name>parseLanguage</name></member>
+      <member refid="classthemis_1_1utils_1_1_stemmer_1a81eae0560b0e48dbe2d49553329b600e" prot="private" virt="non-virtual"><scope>themis::utils::Stemmer</scope><name>replaceEnding</name></member>
+      <member refid="classthemis_1_1utils_1_1_stemmer_1acbc7464bb1b1d3dbf2d831fd0501e9db" prot="public" virt="non-virtual"><scope>themis::utils::Stemmer</scope><name>stem</name></member>
+      <member refid="classthemis_1_1utils_1_1_stemmer_1ac11ea5a0742bdaa4b5c1f2f2e5eeb813" prot="private" virt="non-virtual"><scope>themis::utils::Stemmer</scope><name>stemEnglish</name></member>
+      <member refid="classthemis_1_1utils_1_1_stemmer_1ab6003a727d00147f582ede8b78e1580a" prot="private" virt="non-virtual"><scope>themis::utils::Stemmer</scope><name>stemGerman</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

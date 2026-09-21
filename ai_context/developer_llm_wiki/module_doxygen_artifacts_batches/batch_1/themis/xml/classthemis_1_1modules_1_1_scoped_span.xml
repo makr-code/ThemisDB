@@ -1,0 +1,260 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_scoped_span" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::ScopedSpan</compoundname>
+    <includes refid="trace__context_8h" local="no">trace_context.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_scoped_span_1acce1c105fa7e0c0ffbcd357dd320d86c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_trace_context" kindref="compound">TraceContext</ref></type>
+        <definition>TraceContext themis::modules::ScopedSpan::ctx_</definition>
+        <argsstring></argsstring>
+        <name>ctx_</name>
+        <qualifiedname>themis::modules::ScopedSpan::ctx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="238" column="19" bodyfile="include/themis/base/trace_context.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_scoped_span_1a0e767603338b3579635df4059d262c7e" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1modules_1aeaed24bd4fe681b9068c80da5239c1f3" kindref="member">SpanEmitter</ref> &amp;</type>
+        <definition>SpanEmitter&amp; themis::modules::ScopedSpan::emitter_</definition>
+        <argsstring></argsstring>
+        <name>emitter_</name>
+        <qualifiedname>themis::modules::ScopedSpan::emitter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="239" column="18" bodyfile="include/themis/base/trace_context.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_scoped_span_1a041e4b52428b9dc7e89820c66f0e9403" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::modules::ScopedSpan::error_code_</definition>
+        <argsstring></argsstring>
+        <name>error_code_</name>
+        <qualifiedname>themis::modules::ScopedSpan::error_code_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="240" column="19" bodyfile="include/themis/base/trace_context.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_scoped_span_1af35f47ece1ad8a9bf35d97d42c4f2f58" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ScopedSpan::error_detail_</definition>
+        <argsstring></argsstring>
+        <name>error_detail_</name>
+        <qualifiedname>themis::modules::ScopedSpan::error_detail_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="241" column="19" bodyfile="include/themis/base/trace_context.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_scoped_span_1aa86229632eab4feca538a147ee7ba5c6" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::ScopedSpan::ScopedSpan</definition>
+        <argsstring>(const TraceContext &amp;ctx, SpanEmitter &amp;emitter)</argsstring>
+        <name>ScopedSpan</name>
+        <qualifiedname>themis::modules::ScopedSpan::ScopedSpan</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_trace_context" kindref="compound">TraceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1modules_1aeaed24bd4fe681b9068c80da5239c1f3" kindref="member">SpanEmitter</ref> &amp;</type>
+          <declname>emitter</declname>
+        </param>
+        <briefdescription>
+<para>Construct and emit a span-start event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Trace context for this span. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>emitter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Emitter to receive span events (must outlive <ref refid="classthemis_1_1modules_1_1_scoped_span" kindref="compound">ScopedSpan</ref>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="204" column="14" bodyfile="include/themis/base/trace_context.h" bodystart="204" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_scoped_span_1aec633d0af1886cccb1e57f4fbed40816" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::ScopedSpan::~ScopedSpan</definition>
+        <argsstring>()</argsstring>
+        <name>~ScopedSpan</name>
+        <qualifiedname>themis::modules::ScopedSpan::~ScopedSpan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="213" column="5" bodyfile="include/themis/base/trace_context.h" bodystart="213" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_scoped_span_1ab91f50d74c16966be3ff7472a5a09d1a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ScopedSpan::setError</definition>
+        <argsstring>(int code, std::string detail) noexcept</argsstring>
+        <name>setError</name>
+        <qualifiedname>themis::modules::ScopedSpan::setError</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+<para>Mark this span as having ended with an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base module taxonomy error code. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable detail string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="226" column="10" bodyfile="include/themis/base/trace_context.h" bodystart="226" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_scoped_span_1a7d3c12ea0cb5019417ef48bcad8cece5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::ScopedSpan::ScopedSpan</definition>
+        <argsstring>(const ScopedSpan &amp;)=delete</argsstring>
+        <name>ScopedSpan</name>
+        <qualifiedname>themis::modules::ScopedSpan::ScopedSpan</qualifiedname>
+        <param>
+          <type>const ScopedSpan &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="232" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_scoped_span_1aaacf0450e2ae27137ed3e24bd956919c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1modules_1_1_scoped_span_1aa86229632eab4feca538a147ee7ba5c6" kindref="member">ScopedSpan</ref> &amp;</type>
+        <definition>ScopedSpan &amp; themis::modules::ScopedSpan::operator=</definition>
+        <argsstring>(const ScopedSpan &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::modules::ScopedSpan::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1modules_1_1_scoped_span_1aa86229632eab4feca538a147ee7ba5c6" kindref="member">ScopedSpan</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="233" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_scoped_span_1a9934506031b047b14fc0799e53e8a148" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::ScopedSpan::ScopedSpan</definition>
+        <argsstring>(ScopedSpan &amp;&amp;)=delete</argsstring>
+        <name>ScopedSpan</name>
+        <qualifiedname>themis::modules::ScopedSpan::ScopedSpan</qualifiedname>
+        <param>
+          <type>ScopedSpan &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="234" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_scoped_span_1ab984b339d114f3f00c7e9d411fe0ad5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1modules_1_1_scoped_span_1aa86229632eab4feca538a147ee7ba5c6" kindref="member">ScopedSpan</ref> &amp;</type>
+        <definition>ScopedSpan &amp; themis::modules::ScopedSpan::operator=</definition>
+        <argsstring>(ScopedSpan &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::modules::ScopedSpan::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_scoped_span_1aa86229632eab4feca538a147ee7ba5c6" kindref="member">ScopedSpan</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="235" column="16"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII helper that records span start on construction and span end on destruction. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><programlisting><codeline><highlight class="normal">TraceContext<sp/>ctx<sp/>=<sp/><ref refid="structthemis_1_1modules_1_1_trace_context_1ac231782052d1c7d5cdca7db9323bbba8" kindref="member">TraceContext::generate</ref>(</highlight><highlight class="stringliteral">&quot;module_loader.loadModule&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1modules_1_1_scoped_span_1aa86229632eab4feca538a147ee7ba5c6" kindref="member">ScopedSpan</ref><sp/>span(ctx,<sp/>emitter);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>do<sp/>work<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>an<sp/>error<sp/>occurred,<sp/>mark<sp/>it<sp/>before<sp/>destruction:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">span.setError(BASE_LOADER_INIT_FAILED::code,<sp/></highlight><highlight class="stringliteral">&quot;init<sp/>returned<sp/>-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>destructor<sp/>emits<sp/>span-end<sp/>with<sp/>the<sp/>error<sp/>detail</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para><ref refid="classthemis_1_1modules_1_1_scoped_span" kindref="compound">ScopedSpan</ref> is non-copyable, non-movable. It must not outlive the <computeroutput><ref refid="namespacethemis_1_1modules_1aeaed24bd4fe681b9068c80da5239c1f3" kindref="member">SpanEmitter</ref></computeroutput> reference it holds. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/themis/base/trace_context.h" line="197" column="1" bodyfile="include/themis/base/trace_context.h" bodystart="197" bodyend="242"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_scoped_span_1acce1c105fa7e0c0ffbcd357dd320d86c" prot="private" virt="non-virtual"><scope>themis::modules::ScopedSpan</scope><name>ctx_</name></member>
+      <member refid="classthemis_1_1modules_1_1_scoped_span_1a0e767603338b3579635df4059d262c7e" prot="private" virt="non-virtual"><scope>themis::modules::ScopedSpan</scope><name>emitter_</name></member>
+      <member refid="classthemis_1_1modules_1_1_scoped_span_1a041e4b52428b9dc7e89820c66f0e9403" prot="private" virt="non-virtual"><scope>themis::modules::ScopedSpan</scope><name>error_code_</name></member>
+      <member refid="classthemis_1_1modules_1_1_scoped_span_1af35f47ece1ad8a9bf35d97d42c4f2f58" prot="private" virt="non-virtual"><scope>themis::modules::ScopedSpan</scope><name>error_detail_</name></member>
+      <member refid="classthemis_1_1modules_1_1_scoped_span_1aaacf0450e2ae27137ed3e24bd956919c" prot="public" virt="non-virtual"><scope>themis::modules::ScopedSpan</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1modules_1_1_scoped_span_1ab984b339d114f3f00c7e9d411fe0ad5c" prot="public" virt="non-virtual"><scope>themis::modules::ScopedSpan</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1modules_1_1_scoped_span_1aa86229632eab4feca538a147ee7ba5c6" prot="public" virt="non-virtual"><scope>themis::modules::ScopedSpan</scope><name>ScopedSpan</name></member>
+      <member refid="classthemis_1_1modules_1_1_scoped_span_1a7d3c12ea0cb5019417ef48bcad8cece5" prot="public" virt="non-virtual"><scope>themis::modules::ScopedSpan</scope><name>ScopedSpan</name></member>
+      <member refid="classthemis_1_1modules_1_1_scoped_span_1a9934506031b047b14fc0799e53e8a148" prot="public" virt="non-virtual"><scope>themis::modules::ScopedSpan</scope><name>ScopedSpan</name></member>
+      <member refid="classthemis_1_1modules_1_1_scoped_span_1ab91f50d74c16966be3ff7472a5a09d1a" prot="public" virt="non-virtual"><scope>themis::modules::ScopedSpan</scope><name>setError</name></member>
+      <member refid="classthemis_1_1modules_1_1_scoped_span_1aec633d0af1886cccb1e57f4fbed40816" prot="public" virt="non-virtual"><scope>themis::modules::ScopedSpan</scope><name>~ScopedSpan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

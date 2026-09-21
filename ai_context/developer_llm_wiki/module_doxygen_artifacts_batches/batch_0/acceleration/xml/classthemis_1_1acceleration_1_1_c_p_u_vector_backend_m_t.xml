@@ -1,0 +1,416 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::CPUVectorBackendMT</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend" prot="public" virt="non-virtual">themis::acceleration::CPUVectorBackend</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1adcea900f462ccf4ca7068897fd2d3529" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::CPUVectorBackendMT::numThreads_</definition>
+        <argsstring></argsstring>
+        <name>numThreads_</name>
+        <qualifiedname>themis::acceleration::CPUVectorBackendMT::numThreads_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/cpu_backend_mt.cpp" line="55" column="9" bodyfile="src/acceleration/cpu_backend_mt.cpp" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1a79386fa0f6d713475eed52c98e853fe1" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::CPUVectorBackendMT::enableSIMD_</definition>
+        <argsstring></argsstring>
+        <name>enableSIMD_</name>
+        <qualifiedname>themis::acceleration::CPUVectorBackendMT::enableSIMD_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/cpu_backend_mt.cpp" line="56" column="10" bodyfile="src/acceleration/cpu_backend_mt.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1ab26962cab5d7e23fc8bd6d630dccd4f2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::CPUVectorBackendMT::CPUVectorBackendMT</definition>
+        <argsstring>()</argsstring>
+        <name>CPUVectorBackendMT</name>
+        <qualifiedname>themis::acceleration::CPUVectorBackendMT::CPUVectorBackendMT</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/cpu_backend_mt.cpp" line="59" column="5" bodyfile="src/acceleration/cpu_backend_mt.cpp" bodystart="59" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1a9010e6d335d71cfd097a6fbf0d354afb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::CPUVectorBackendMT::setThreadCount</definition>
+        <argsstring>(int threads)</argsstring>
+        <name>setThreadCount</name>
+        <qualifiedname>themis::acceleration::CPUVectorBackendMT::setThreadCount</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>threads</declname>
+        </param>
+        <briefdescription>
+<para>Set Thread Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">threads</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: omp_set_num_threads(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/cpu_backend_mt.cpp" line="87" column="10" bodyfile="src/acceleration/cpu_backend_mt.cpp" bodystart="87" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1a53b3ee783e3db7b12da1bbf23fca3b53" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::CPUVectorBackendMT::enableSIMD</definition>
+        <argsstring>(bool enable)</argsstring>
+        <name>enableSIMD</name>
+        <qualifiedname>themis::acceleration::CPUVectorBackendMT::enableSIMD</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+<para>Enable SIMD. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements enableSIMD without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/cpu_backend_mt.cpp" line="99" column="10" bodyfile="src/acceleration/cpu_backend_mt.cpp" bodystart="99" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1aa7812913b852822f690d564a237b602e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::acceleration::CPUVectorBackendMT::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::CPUVectorBackendMT::name</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1ae75660b0e189166644b06e762a538975">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/cpu_backend_mt.cpp" line="103" column="16" bodyfile="src/acceleration/cpu_backend_mt.cpp" bodystart="103" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1a9f2533894556a6abedaf92a5d92fc3f0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::acceleration::CPUVectorBackendMT::computeL2Distance</definition>
+        <argsstring>(const float *a, const float *b, size_t dim) const</argsstring>
+        <name>computeL2Distance</name>
+        <qualifiedname>themis::acceleration::CPUVectorBackendMT::computeL2Distance</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/cpu_backend_mt.cpp" line="112" column="11" bodyfile="src/acceleration/cpu_backend_mt.cpp" bodystart="112" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1a4c6e7bcbdaaac4dc349a8b6ce8dbf31e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::acceleration::CPUVectorBackendMT::computeCosineDistance</definition>
+        <argsstring>(const float *a, const float *b, size_t dim) const</argsstring>
+        <name>computeCosineDistance</name>
+        <qualifiedname>themis::acceleration::CPUVectorBackendMT::computeCosineDistance</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/cpu_backend_mt.cpp" line="124" column="11" bodyfile="src/acceleration/cpu_backend_mt.cpp" bodystart="124" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1ac6e42bd1303e19addbb92d0c7ddb3e8b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::acceleration::CPUVectorBackendMT::computeDistances</definition>
+        <argsstring>(const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, bool useL2) override</argsstring>
+        <name>computeDistances</name>
+        <qualifiedname>themis::acceleration::CPUVectorBackendMT::computeDistances</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a9981223bdf0ac441ba48a45790c720be">computeDistances</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numQueries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVectors</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useL2</declname>
+        </param>
+        <briefdescription>
+<para>Compute Distances. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numQueries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numVectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">useL2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>, <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, std::move(), <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1ad78b4c1259840f054837f5a47f4c1e81" kindref="member">BatchValidator::validateVectorBatch()</ref>, <ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1aa7812913b852822f690d564a237b602e" kindref="member">name()</ref>, distances(), <ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1a9f2533894556a6abedaf92a5d92fc3f0" kindref="member">computeL2Distance()</ref>, <ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1a4c6e7bcbdaaac4dc349a8b6ce8dbf31e" kindref="member">computeCosineDistance()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Distances. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">numVectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/acceleration/cpu_backend_mt.cpp" line="132" column="17" bodyfile="src/acceleration/cpu_backend_mt.cpp" bodystart="132" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1aefeadcba2bfb1bb60e44efca13c01a17" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt; themis::acceleration::CPUVectorBackendMT::batchKnnSearch</definition>
+        <argsstring>(const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, size_t k, bool useL2) override</argsstring>
+        <name>batchKnnSearch</name>
+        <qualifiedname>themis::acceleration::CPUVectorBackendMT::batchKnnSearch</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1afb9c49f399ded59e8ba4c8814051291d">batchKnnSearch</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numQueries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useL2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/cpu_backend_mt.cpp" line="178" column="17" bodyfile="src/acceleration/cpu_backend_mt.cpp" bodystart="178" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::acceleration::CPUVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::CPUVectorBackendMT</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::acceleration::CPUVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::CPUVectorBackendMT</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="4">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="5" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/acceleration/cpu_backend_mt.cpp" line="53" column="1" bodyfile="src/acceleration/cpu_backend_mt.cpp" bodystart="53" bodyend="221"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1aefeadcba2bfb1bb60e44efca13c01a17" prot="public" virt="virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>batchKnnSearch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a2143e8e963e3190e8bc602b329abeb82" prot="public" virt="virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>batchKnnSearchSafe</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1a4c6e7bcbdaaac4dc349a8b6ce8dbf31e" prot="public" virt="non-virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>computeCosineDistance</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1ac6e42bd1303e19addbb92d0c7ddb3e8b" prot="public" virt="virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>computeDistances</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1a9f2533894556a6abedaf92a5d92fc3f0" prot="public" virt="non-virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>computeL2Distance</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a8bb7578eed668eefa223c7221e9a38ae" prot="public" virt="non-virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>CPUVectorBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1ab26962cab5d7e23fc8bd6d630dccd4f2" prot="public" virt="non-virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>CPUVectorBackendMT</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1a53b3ee783e3db7b12da1bbf23fca3b53" prot="public" virt="non-virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>enableSIMD</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1a79386fa0f6d713475eed52c98e853fe1" prot="private" virt="non-virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>enableSIMD_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a11d738ca2327528ee7da00441b9a0f9d" prot="public" virt="virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" virt="virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1ac44da42c0d24c3916756548a4dfe00ee" prot="public" virt="virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a0fd3b8ecf4b5f00884ea28a0d8370fc1" prot="public" virt="virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1aa7812913b852822f690d564a237b602e" prot="public" virt="virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1adcea900f462ccf4ca7068897fd2d3529" prot="private" virt="non-virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>numThreads_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a54bbf2bcb67980d8121c24fd2fe02ce1" prot="public" virt="virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>populateANNDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1a9010e6d335d71cfd097a6fbf0d354afb" prot="public" virt="non-virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>setThreadCount</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a6bd5654464a8cd1b50ae1a5e5de7b48a" prot="public" virt="virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a8ec29925fceba3dd63b05cba75c4d0fb" prot="public" virt="virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a598988335f047f038ddf8978c0dd16f9" prot="public" virt="non-virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>~CPUVectorBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>~IComputeBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a80795a79f28f4f5dab65de8acd2af35f" prot="public" virt="virtual"><scope>themis::acceleration::CPUVectorBackendMT</scope><name>~IVectorBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::AuditBatchWriter::Config</compoundname>
+    <includes refid="audit__batch__writer_8h" local="no">audit_batch_writer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a861baf0cd339187f5ea54bfc018a35dc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::governance::AuditBatchWriter::Config::buffer_size</definition>
+        <argsstring></argsstring>
+        <name>buffer_size</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::Config::buffer_size</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="97" column="16" bodyfile="include/governance/audit_batch_writer.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a6395e7122b945a5a74f9f03c55dba103" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::governance::AuditBatchWriter::Config::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::Config::batch_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="98" column="16" bodyfile="include/governance/audit_batch_writer.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a507101890c77cde468ac0decff5d0ae2" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::AuditBatchWriter::Config::flush_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>flush_interval_ms</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::Config::flush_interval_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="99" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1adee686a23b9df82af1afa665a78c245e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::AuditBatchWriter::Config::enable_checkpoints</definition>
+        <argsstring></argsstring>
+        <name>enable_checkpoints</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::Config::enable_checkpoints</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="102" column="14" bodyfile="include/governance/audit_batch_writer.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a81ffc04a7a85864ba991315a4235b1fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::AuditBatchWriter::Config::checkpoint_dir</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_dir</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::Config::checkpoint_dir</qualifiedname>
+        <initializer>= &quot;./audit_checkpoints&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="103" column="21" bodyfile="include/governance/audit_batch_writer.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a3fc381be91dcb61a0d2a6c38cec189f2" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::AuditBatchWriter::Config::checkpoint_retention_ms</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_retention_ms</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::Config::checkpoint_retention_ms</qualifiedname>
+        <initializer>= 86400000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="104" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1aa3b86f2f34e6c254bcafb6400a74a819" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::AuditBatchWriter::Config::enable_metrics</definition>
+        <argsstring></argsstring>
+        <name>enable_metrics</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::Config::enable_metrics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="107" column="14" bodyfile="include/governance/audit_batch_writer.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a2060b9e835afe7e289b798623f65611e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::AuditBatchWriter::Config::metrics_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>metrics_interval_ms</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::Config::metrics_interval_ms</qualifiedname>
+        <initializer>= 60000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="108" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a1036c54785a8ee4443b9065920be811f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::AuditBatchWriter::Config::enable_backpressure</definition>
+        <argsstring></argsstring>
+        <name>enable_backpressure</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::Config::enable_backpressure</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="111" column="14" bodyfile="include/governance/audit_batch_writer.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1ab46dfeb8dc62cf53d63bac440a15c364" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::AuditBatchWriter::Config::backpressure_wait_ms</definition>
+        <argsstring></argsstring>
+        <name>backpressure_wait_ms</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::Config::backpressure_wait_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="112" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/audit_batch_writer.h" line="95" column="5" bodyfile="include/governance/audit_batch_writer.h" bodystart="95" bodyend="113"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1ab46dfeb8dc62cf53d63bac440a15c364" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::Config</scope><name>backpressure_wait_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a6395e7122b945a5a74f9f03c55dba103" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::Config</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a861baf0cd339187f5ea54bfc018a35dc" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::Config</scope><name>buffer_size</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a81ffc04a7a85864ba991315a4235b1fc" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::Config</scope><name>checkpoint_dir</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a3fc381be91dcb61a0d2a6c38cec189f2" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::Config</scope><name>checkpoint_retention_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a1036c54785a8ee4443b9065920be811f" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::Config</scope><name>enable_backpressure</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1adee686a23b9df82af1afa665a78c245e" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::Config</scope><name>enable_checkpoints</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1aa3b86f2f34e6c254bcafb6400a74a819" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::Config</scope><name>enable_metrics</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a507101890c77cde468ac0decff5d0ae2" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::Config</scope><name>flush_interval_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a2060b9e835afe7e289b798623f65611e" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::Config</scope><name>metrics_interval_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

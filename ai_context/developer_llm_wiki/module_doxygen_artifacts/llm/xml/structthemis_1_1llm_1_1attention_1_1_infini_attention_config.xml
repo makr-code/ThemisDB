@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1attention_1_1_infini_attention_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::attention::InfiniAttentionConfig</compoundname>
+    <includes refid="infini__attention__cuda_8h" local="no">infini_attention_cuda.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_infini_attention_config_1a6875e54f0de9b109fb319696ca5ab698" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::attention::InfiniAttentionConfig::memory_dim</definition>
+        <argsstring></argsstring>
+        <name>memory_dim</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionConfig::memory_dim</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="39" column="12" bodyfile="include/llm/attention/cuda/infini_attention_cuda.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_infini_attention_config_1adde640de3e5492012faca43c9dd0b285" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::attention::InfiniAttentionConfig::update_rate</definition>
+        <argsstring></argsstring>
+        <name>update_rate</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionConfig::update_rate</qualifiedname>
+        <initializer>= 0.1f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="41" column="11" bodyfile="include/llm/attention/cuda/infini_attention_cuda.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_infini_attention_config_1ac481bc6a872c7ba7c411b9c948f081d1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::InfiniAttentionConfig::use_low_rank</definition>
+        <argsstring></argsstring>
+        <name>use_low_rank</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionConfig::use_low_rank</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="43" column="10" bodyfile="include/llm/attention/cuda/infini_attention_cuda.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_infini_attention_config_1a4f230006d14a25fcb2c5c969d8be3401" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::attention::InfiniAttentionConfig::low_rank_dim</definition>
+        <argsstring></argsstring>
+        <name>low_rank_dim</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionConfig::low_rank_dim</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="45" column="12" bodyfile="include/llm/attention/cuda/infini_attention_cuda.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_infini_attention_config_1a40b50da6616cd4a7fc6b0aeee590e8e2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::attention::InfiniAttentionConfig::head_dim</definition>
+        <argsstring></argsstring>
+        <name>head_dim</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionConfig::head_dim</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="47" column="12" bodyfile="include/llm/attention/cuda/infini_attention_cuda.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_infini_attention_config_1a9a2de5daeb53168d1b2405dce1ac0b13" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::attention::InfiniAttentionConfig::num_heads</definition>
+        <argsstring></argsstring>
+        <name>num_heads</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionConfig::num_heads</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="49" column="12" bodyfile="include/llm/attention/cuda/infini_attention_cuda.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_infini_attention_config_1ab549ac09d1d8ac8efbc2ad2b7307edd4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::attention::InfiniAttentionConfig::cuda_sm</definition>
+        <argsstring></argsstring>
+        <name>cuda_sm</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionConfig::cuda_sm</qualifiedname>
+        <initializer>= 90</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="51" column="9" bodyfile="include/llm/attention/cuda/infini_attention_cuda.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_infini_attention_config_1afb3636737d11f32a97fda41510956028" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::InfiniAttentionConfig::enable_fusion</definition>
+        <argsstring></argsstring>
+        <name>enable_fusion</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionConfig::enable_fusion</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="53" column="10" bodyfile="include/llm/attention/cuda/infini_attention_cuda.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="38" column="1" bodyfile="include/llm/attention/cuda/infini_attention_cuda.h" bodystart="38" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_config_1ab549ac09d1d8ac8efbc2ad2b7307edd4" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionConfig</scope><name>cuda_sm</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_config_1afb3636737d11f32a97fda41510956028" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionConfig</scope><name>enable_fusion</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_config_1a40b50da6616cd4a7fc6b0aeee590e8e2" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionConfig</scope><name>head_dim</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_config_1a4f230006d14a25fcb2c5c969d8be3401" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionConfig</scope><name>low_rank_dim</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_config_1a6875e54f0de9b109fb319696ca5ab698" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionConfig</scope><name>memory_dim</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_config_1a9a2de5daeb53168d1b2405dce1ac0b13" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionConfig</scope><name>num_heads</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_config_1adde640de3e5492012faca43c9dd0b285" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionConfig</scope><name>update_rate</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_config_1ac481bc6a872c7ba7c411b9c948f081d1" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionConfig</scope><name>use_low_rank</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

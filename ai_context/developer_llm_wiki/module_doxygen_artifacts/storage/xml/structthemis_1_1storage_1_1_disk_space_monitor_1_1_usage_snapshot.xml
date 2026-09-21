@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_usage_snapshot" kind="struct" language="C++" prot="private">
+    <compoundname>themis::storage::DiskSpaceMonitor::UsageSnapshot</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_usage_snapshot_1a41bf878af2e92f6e068f6534fb79f0c4" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::storage::DiskSpaceMonitor::UsageSnapshot::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::UsageSnapshot::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="233" column="47" bodyfile="include/storage/disk_space_monitor.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_disk_space_monitor_1_1_usage_snapshot_1a97de318d93e8687eb6df71e1580e58ab" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DiskSpaceMonitor::UsageSnapshot::used_bytes</definition>
+        <argsstring></argsstring>
+        <name>used_bytes</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::UsageSnapshot::used_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="234" column="16" bodyfile="include/storage/disk_space_monitor.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/disk_space_monitor.h" line="232" column="5" bodyfile="include/storage/disk_space_monitor.h" bodystart="232" bodyend="235"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_usage_snapshot_1a41bf878af2e92f6e068f6534fb79f0c4" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::UsageSnapshot</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_usage_snapshot_1a97de318d93e8687eb6df71e1580e58ab" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor::UsageSnapshot</scope><name>used_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::multi_hop::MultiHopResult</compoundname>
+    <includes refid="multi__hop__reasoner_8h" local="no">multi_hop_reasoner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1a38e0cb777d9914b25ab34fb6d0c21d25" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::multi_hop::MultiHopResult::final_answer</definition>
+        <argsstring></argsstring>
+        <name>final_answer</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopResult::final_answer</qualifiedname>
+        <briefdescription>
+<para>Final composed answer. Empty when all hops failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="145" column="17" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1a69561cb9662bb4d163142d79236d2bf2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record" kindref="compound">HopRecord</ref> &gt;</type>
+        <definition>std::vector&lt;HopRecord&gt; themis::rag::multi_hop::MultiHopResult::hop_records</definition>
+        <argsstring></argsstring>
+        <name>hop_records</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopResult::hop_records</qualifiedname>
+        <briefdescription>
+<para>Ordered record of every hop that was executed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="148" column="17" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1a43711ec655a519fefe7cf00e7a5a69ff" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;judge::RetrievedDocument&gt; themis::rag::multi_hop::MultiHopResult::all_documents</definition>
+        <argsstring></argsstring>
+        <name>all_documents</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopResult::all_documents</qualifiedname>
+        <briefdescription>
+<para>Union of all documents retrieved across all hops. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="151" column="17" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1a2c7e9c2a145251b5d1fcbe1c670c5582" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::multi_hop::MultiHopResult::hops_executed</definition>
+        <argsstring></argsstring>
+        <name>hops_executed</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopResult::hops_executed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of hops actually executed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="154" column="12" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1ac96e9e482a9067964579d9445a12e409" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::multi_hop::MultiHopResult::early_stopped</definition>
+        <argsstring></argsstring>
+        <name>early_stopped</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopResult::early_stopped</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when early stopping triggered (quality satisfied). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="157" column="10" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1ab587fdcce3314656ca6066133539a671" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::multi_hop::MultiHopResult::hit_hop_limit</definition>
+        <argsstring></argsstring>
+        <name>hit_hop_limit</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopResult::hit_hop_limit</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when the hop limit was reached before the question was answered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="160" column="10" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1adb0bc03673cd6415c5056ec245857ab4" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::multi_hop::MultiHopResult::total_elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>total_elapsed_ms</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopResult::total_elapsed_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total wall-clock time across all hops. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="163" column="31" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result returned by <ref refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1ab89d72f3ea61eb7851136e3fa3888998" kindref="member">MultiHopReasoner::reason()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/multi_hop_reasoner.h" line="143" column="1" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="143" bodyend="164"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1a43711ec655a519fefe7cf00e7a5a69ff" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopResult</scope><name>all_documents</name></member>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1ac96e9e482a9067964579d9445a12e409" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopResult</scope><name>early_stopped</name></member>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1a38e0cb777d9914b25ab34fb6d0c21d25" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopResult</scope><name>final_answer</name></member>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1ab587fdcce3314656ca6066133539a671" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopResult</scope><name>hit_hop_limit</name></member>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1a69561cb9662bb4d163142d79236d2bf2" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopResult</scope><name>hop_records</name></member>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1a2c7e9c2a145251b5d1fcbe1c670c5582" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopResult</scope><name>hops_executed</name></member>
+      <member refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1adb0bc03673cd6415c5056ec245857ab4" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopResult</scope><name>total_elapsed_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

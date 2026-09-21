@@ -1,0 +1,594 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1scraper_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::scraper::test</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1scraper_1_1test_1a7bfbfb5a45202e7a0241d9d81065bd0b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::test::kSeed</definition>
+        <argsstring></argsstring>
+        <name>kSeed</name>
+        <qualifiedname>themis::scraper::test::kSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_contract_hardening_focused.cpp" line="29" column="27" bodyfile="tests/scraper/test_scraper_contract_hardening_focused.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperBurstHardening, SCR17_MaxTokensConsumable)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperBurstHardening</type>
+        </param>
+        <param>
+          <type>SCR17_MaxTokensConsumable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_burst_hardening_focused.cpp" line="25" column="1" bodyfile="tests/scraper/test_scraper_burst_hardening_focused.cpp" bodystart="25" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a7d49caaba8b5c8207c84fc278f263e20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperBurstHardening, SCR18_ExhaustionReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperBurstHardening</type>
+        </param>
+        <param>
+          <type>SCR18_ExhaustionReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_burst_hardening_focused.cpp" line="38" column="1" bodyfile="tests/scraper/test_scraper_burst_hardening_focused.cpp" bodystart="38" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a8788205e1412ce21e5eadd9be6bbb92a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperBurstHardening, SCR19_UtilizationAfterTwoAcquires)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperBurstHardening</type>
+        </param>
+        <param>
+          <type>SCR19_UtilizationAfterTwoAcquires</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_burst_hardening_focused.cpp" line="53" column="1" bodyfile="tests/scraper/test_scraper_burst_hardening_focused.cpp" bodystart="53" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1aa4b09061790a3b8b73cc29df7bbbb218" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperBurstHardening, SCR20_DepletionAndReset)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperBurstHardening</type>
+        </param>
+        <param>
+          <type>SCR20_DepletionAndReset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_burst_hardening_focused.cpp" line="69" column="1" bodyfile="tests/scraper/test_scraper_burst_hardening_focused.cpp" bodystart="69" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1ad8f9ca3f1220f540b0560425a4e3bfa1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperContractHardening, SCR01_ErrorCodeUniqueness)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperContractHardening</type>
+        </param>
+        <param>
+          <type>SCR01_ErrorCodeUniqueness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_contract_hardening_focused.cpp" line="35" column="1" bodyfile="tests/scraper/test_scraper_contract_hardening_focused.cpp" bodystart="35" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a381ec65bd7fffac2770cf76c451a4155" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperContractHardening, SCR02_ErrorCodeRange)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperContractHardening</type>
+        </param>
+        <param>
+          <type>SCR02_ErrorCodeRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_contract_hardening_focused.cpp" line="59" column="1" bodyfile="tests/scraper/test_scraper_contract_hardening_focused.cpp" bodystart="59" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1af3b70035540e231b90c3ed6c571cdb0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperContractHardening, SCR03_SwitchDispatch)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperContractHardening</type>
+        </param>
+        <param>
+          <type>SCR03_SwitchDispatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_contract_hardening_focused.cpp" line="80" column="1" bodyfile="tests/scraper/test_scraper_contract_hardening_focused.cpp" bodystart="80" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a88faad5e70ab9926047871403c340850" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperContractHardening, SCR04_ScrapeRequestDefaults)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperContractHardening</type>
+        </param>
+        <param>
+          <type>SCR04_ScrapeRequestDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_contract_hardening_focused.cpp" line="106" column="1" bodyfile="tests/scraper/test_scraper_contract_hardening_focused.cpp" bodystart="106" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a8891b3dcd11ca2d72deb8a9be95c9164" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperContractHardening, SCR05_ScrapeResultDefaults)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperContractHardening</type>
+        </param>
+        <param>
+          <type>SCR05_ScrapeResultDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_contract_hardening_focused.cpp" line="118" column="1" bodyfile="tests/scraper/test_scraper_contract_hardening_focused.cpp" bodystart="118" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a9d612f32b6331529ca8cbe4b597d4d15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperContractHardening, SCR06_ScrapeRequestCopy)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperContractHardening</type>
+        </param>
+        <param>
+          <type>SCR06_ScrapeRequestCopy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_contract_hardening_focused.cpp" line="131" column="1" bodyfile="tests/scraper/test_scraper_contract_hardening_focused.cpp" bodystart="131" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a709ca332e9419830e8daf0975c9e3456" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperContractHardening, SCR07_ScrapeResultMove)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperContractHardening</type>
+        </param>
+        <param>
+          <type>SCR07_ScrapeResultMove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_contract_hardening_focused.cpp" line="147" column="1" bodyfile="tests/scraper/test_scraper_contract_hardening_focused.cpp" bodystart="147" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a04c7b64f27147335808eac557e93e7d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperContractHardening, SCR08_FailClosedPredicate)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperContractHardening</type>
+        </param>
+        <param>
+          <type>SCR08_FailClosedPredicate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_contract_hardening_focused.cpp" line="163" column="1" bodyfile="tests/scraper/test_scraper_contract_hardening_focused.cpp" bodystart="163" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a0e25ae97a729663a417b12a9f6fc9ea4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperPhase23Hardening, SCR09_FaultClassMapping)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperPhase23Hardening</type>
+        </param>
+        <param>
+          <type>SCR09_FaultClassMapping</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp" line="42" column="1" bodyfile="tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp" bodystart="42" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a8e55ea7c64273e3658ad07ff002aeb03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperPhase23Hardening, SCR10_DefaultSeverityMapping)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperPhase23Hardening</type>
+        </param>
+        <param>
+          <type>SCR10_DefaultSeverityMapping</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp" line="67" column="1" bodyfile="tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp" bodystart="67" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a6ce0c7317600d9a83acdcf86bf36bbe5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperPhase23Hardening, SCR11_MakeDiagnosticEventFields)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperPhase23Hardening</type>
+        </param>
+        <param>
+          <type>SCR11_MakeDiagnosticEventFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp" line="97" column="1" bodyfile="tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp" bodystart="97" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a6780f7854049aa76c72ac02f5d764868" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperPhase23Hardening, SCR12_ListeningSinkRecordsAndBroadcasts)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperPhase23Hardening</type>
+        </param>
+        <param>
+          <type>SCR12_ListeningSinkRecordsAndBroadcasts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp" line="117" column="1" bodyfile="tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp" bodystart="117" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a768ad7f37b80725cb25cfb33d0c30564" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperPhase23Hardening, SCR13_ListeningSinkConcurrentEmit)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperPhase23Hardening</type>
+        </param>
+        <param>
+          <type>SCR13_ListeningSinkConcurrentEmit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp" line="144" column="1" bodyfile="tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp" bodystart="144" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a6f94e1ee44ca71d7a90c328a8d675b8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperPhase23Hardening, SCR14_NullSinkAbsorbs)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperPhase23Hardening</type>
+        </param>
+        <param>
+          <type>SCR14_NullSinkAbsorbs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp" line="171" column="1" bodyfile="tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp" bodystart="171" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1ad018561b1f076a3fe04ff33a6b037092" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperPhase23Hardening, SCR15_MultipleListenersBroadcast)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperPhase23Hardening</type>
+        </param>
+        <param>
+          <type>SCR15_MultipleListenersBroadcast</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp" line="194" column="1" bodyfile="tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp" bodystart="194" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1aa86633f6e9b34ca070b1a41820d39a04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperPhase23Hardening, SCR16_EventTimestampInitialised)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperPhase23Hardening</type>
+        </param>
+        <param>
+          <type>SCR16_EventTimestampInitialised</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp" line="226" column="1" bodyfile="tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp" bodystart="226" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a5ae95c7aed2256f0a1ddb4593a305021" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperRenderPagination, SCR21_JsRenderTimeoutDetection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperRenderPagination</type>
+        </param>
+        <param>
+          <type>SCR21_JsRenderTimeoutDetection</type>
+        </param>
+        <briefdescription>
+<para>A result whose elapsed time exceeds the budget AND whose error string contains &quot;timeout&quot; must produce kRenderTimeout with html cleared. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_render_pagination_focused.cpp" line="34" column="1" bodyfile="tests/scraper/test_scraper_render_pagination_focused.cpp" bodystart="34" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a68afddfe82c8847f0f0e14d996a698f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperRenderPagination, SCR22_JsRenderNonTimeoutFailure)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperRenderPagination</type>
+        </param>
+        <param>
+          <type>SCR22_JsRenderNonTimeoutFailure</type>
+        </param>
+        <briefdescription>
+<para>A failed render that is not a timeout (elapsed well below budget, no &quot;timeout&quot; keyword in error) must map to kFetchFailed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_render_pagination_focused.cpp" line="59" column="1" bodyfile="tests/scraper/test_scraper_render_pagination_focused.cpp" bodystart="59" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a1a5c843b849834bb195ceead62c12f01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperRenderPagination, SCR23_PaginationLimitBoundary)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperRenderPagination</type>
+        </param>
+        <param>
+          <type>SCR23_PaginationLimitBoundary</type>
+        </param>
+        <briefdescription>
+<para>isPaginationLimitReached must return true when current_page equals max_depth (inclusive), and false strictly below. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_render_pagination_focused.cpp" line="84" column="1" bodyfile="tests/scraper/test_scraper_render_pagination_focused.cpp" bodystart="84" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a309130dc4657e64a0383f8e0465c1c82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperRenderPagination, SCR24_SuccessfulRenderPassThrough)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type>ScraperRenderPagination</type>
+        </param>
+        <param>
+          <type>SCR24_SuccessfulRenderPassThrough</type>
+        </param>
+        <briefdescription>
+<para>A successful render result must be returned with kSuccess, no timeout flag, and the original html content intact. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_render_pagination_focused.cpp" line="106" column="1" bodyfile="tests/scraper/test_scraper_render_pagination_focused.cpp" bodystart="106" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a059afced022a7d8465fbc1f4fd37fce6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperRunSummary, SCR25_EmptySessionIsUnhealthy)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1scraper_1_1_scraper_run_summary" kindref="compound">ScraperRunSummary</ref></type>
+        </param>
+        <param>
+          <type>SCR25_EmptySessionIsUnhealthy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_run_summary_focused.cpp" line="33" column="1" bodyfile="tests/scraper/test_scraper_run_summary_focused.cpp" bodystart="33" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1adb66abaafaf0104f517f1114582b01fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperRunSummary, SCR26_CounterAccuracyMixedEvents)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1scraper_1_1_scraper_run_summary" kindref="compound">ScraperRunSummary</ref></type>
+        </param>
+        <param>
+          <type>SCR26_CounterAccuracyMixedEvents</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_run_summary_focused.cpp" line="44" column="1" bodyfile="tests/scraper/test_scraper_run_summary_focused.cpp" bodystart="44" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a24ffdffac2f360d21ccd60934252efd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperRunSummary, SCR27_ToLogLineNonEmptyContainsSucceeded)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1scraper_1_1_scraper_run_summary" kindref="compound">ScraperRunSummary</ref></type>
+        </param>
+        <param>
+          <type>SCR27_ToLogLineNonEmptyContainsSucceeded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_run_summary_focused.cpp" line="88" column="1" bodyfile="tests/scraper/test_scraper_run_summary_focused.cpp" bodystart="88" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scraper_1_1test_1a25d2e94fd948dd53987b4263462618d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::test::TEST</definition>
+        <argsstring>(ScraperRunSummary, SCR28_IsHealthyLogic)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::scraper::test::TEST</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1scraper_1_1_scraper_run_summary" kindref="compound">ScraperRunSummary</ref></type>
+        </param>
+        <param>
+          <type>SCR28_IsHealthyLogic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_run_summary_focused.cpp" line="112" column="1" bodyfile="tests/scraper/test_scraper_run_summary_focused.cpp" bodystart="112" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/scraper/test_scraper_burst_hardening_focused.cpp" line="19" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,304 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="adaptive__index_8h" kind="file" language="C++">
+    <compoundname>adaptive_index.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includedby refid="adaptive__index_8cpp" local="yes">src/index/adaptive_index.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/index/adaptive_index.h</label>
+        <link refid="adaptive__index_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>shared_mutex</label>
+      </node>
+      <node id="11">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_set</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/index/adaptive_index.h</label>
+        <link refid="adaptive__index_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/index/adaptive_index.cpp</label>
+        <link refid="adaptive__index_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_query_pattern_tracker" prot="public">themis::QueryPatternTracker</innerclass>
+    <innerclass refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern" prot="public">themis::QueryPatternTracker::QueryPattern</innerclass>
+    <innerclass refid="classthemis_1_1_selectivity_analyzer" prot="public">themis::SelectivityAnalyzer</innerclass>
+    <innerclass refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" prot="public">themis::SelectivityAnalyzer::SelectivityStats</innerclass>
+    <innerclass refid="classthemis_1_1_index_suggestion_engine" prot="public">themis::IndexSuggestionEngine</innerclass>
+    <innerclass refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion" prot="public">themis::IndexSuggestionEngine::IndexSuggestion</innerclass>
+    <innerclass refid="classthemis_1_1_adaptive_index_manager" prot="public">themis::AdaptiveIndexManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1_query_pattern_tracker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_query_pattern_tracker_1ab379653a7e5b72ce6e199d4720ba3f0c" kindref="member">QueryPatternTracker</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern" kindref="compound">QueryPattern</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a24978e6599b285bf7108bc791db41e92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a24978e6599b285bf7108bc791db41e92" kindref="member">collection</ref>;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a64c0d73c4c3dec9e788acb6d92511071" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a64c0d73c4c3dec9e788acb6d92511071" kindref="member">field</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1ae7da25e1244e03c2fb5afde8bf81e9b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1ae7da25e1244e03c2fb5afde8bf81e9b1" kindref="member">operation</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;eq&quot;,<sp/>&quot;range&quot;,<sp/>&quot;in&quot;,<sp/>&quot;join&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a054eb631e03db9b07717267afaa7a4d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a054eb631e03db9b07717267afaa7a4d2" kindref="member">count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a7f50b24b81ae7baa11773dc7d0777afb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a7f50b24b81ae7baa11773dc7d0777afb" kindref="member">total_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a1297e1eaae1de8fd2f672b5c3f66ffc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a1297e1eaae1de8fd2f672b5c3f66ffc1" kindref="member">last_seen_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2:<sp/>Cache-aware<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a02fa6379e503ddec927fc151751dcc62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a02fa6379e503ddec927fc151751dcc62" kindref="member">cache_misses</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>L3<sp/>cache<sp/>misses<sp/>for<sp/>this<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1ac2f1c9ba9fa1b6b1f7bdc552940039f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1ac2f1c9ba9fa1b6b1f7bdc552940039f0" kindref="member">cache_hits</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>L3<sp/>cache<sp/>hits<sp/>for<sp/>this<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a325937bec098b967a87a3249fd10fca9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1a325937bec098b967a87a3249fd10fca9" kindref="member">avg_cache_miss_penalty_ms</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Average<sp/>penalty<sp/>from<sp/>cache<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1aaf6625f6edd54b35d29c3c4ae37fd6ce" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern" kindref="compound">QueryPattern</ref><sp/><ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern_1aa3dcdf14a4c6ddbd8165f270dbe988fa" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1_query_pattern_tracker_1ab379653a7e5b72ce6e199d4720ba3f0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_query_pattern_tracker_1ab379653a7e5b72ce6e199d4720ba3f0c" kindref="member">QueryPatternTracker</ref>();</highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1_query_pattern_tracker_1a1c7bed63bb76b1e4ef206e5a1fee1f18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_query_pattern_tracker_1a1c7bed63bb76b1e4ef206e5a1fee1f18" kindref="member">~QueryPatternTracker</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_query_pattern_tracker_1af1a431efcaa183e099538b11bbda50e3" kindref="member">recordPattern</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>execution_time_ms,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cache_miss<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cache_miss_penalty_ms<sp/>=<sp/>0.0);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QueryPattern&gt;<sp/><ref refid="classthemis_1_1_query_pattern_tracker_1a9298acbf07b618ce5acd92474e06a973" kindref="member">getPatterns</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QueryPattern&gt;<sp/><ref refid="classthemis_1_1_query_pattern_tracker_1a5a07dcf97e4b3a95774667e393af0c5d" kindref="member">getTopPatterns</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>10)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_query_pattern_tracker_1a9ef80ed8d2aac4ea5361345401f41bc1" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_query_pattern_tracker_1a1bf3147daa0c6339e67c29d178363a58" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key:<sp/>&quot;collection:field:operation&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>QueryPattern&gt;<sp/>patterns_;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>makeKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>getCurrentTimeMs()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1_selectivity_analyzer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_selectivity_analyzer_1a9c7006d38a49a18d8bfd6f31b1b8911e" kindref="member">SelectivityAnalyzer</ref><sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" kindref="compound">SelectivityStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a304755dd7c7be97907b21fef4f0ec3f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a304755dd7c7be97907b21fef4f0ec3f5" kindref="member">collection</ref>;</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a658a2b32b98a3e2ac5a6f5d32af01cb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a658a2b32b98a3e2ac5a6f5d32af01cb3" kindref="member">field</ref>;</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1ad97cf86921c607156ac6ebece07611b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1ad97cf86921c607156ac6ebece07611b7" kindref="member">total_documents</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a95aa5352c3404559d7ad3f14bfd6622a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a95aa5352c3404559d7ad3f14bfd6622a" kindref="member">unique_values</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1ae4005390d2b6d95f8ca2b59bcf7ad538" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1ae4005390d2b6d95f8ca2b59bcf7ad538" kindref="member">null_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a301fdc44f49d5ecc6c46c22a067a131f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a301fdc44f49d5ecc6c46c22a067a131f" kindref="member">selectivity</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>unique_values<sp/>/<sp/>total_documents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a70224f81840aa08b089d0ee09c7b5fe8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a70224f81840aa08b089d0ee09c7b5fe8" kindref="member">distribution</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;uniform&quot;,<sp/>&quot;skewed&quot;,<sp/>&quot;sparse&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2:<sp/>Cache-aware<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a4853557cd3c8fe6d16a24ae64480e91a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a4853557cd3c8fe6d16a24ae64480e91a" kindref="member">estimated_l3_cache_fit_ratio</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>%<sp/>of<sp/>index<sp/>that<sp/>fits<sp/>in<sp/>L3<sp/>(20MB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1aeceeffea0d5b5a05af7a30b0593c89d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1aeceeffea0d5b5a05af7a30b0593c89d4" kindref="member">estimated_cache_miss_rate</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Estimated<sp/>cache<sp/>miss<sp/>rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1ab794a28762c4ebe0de46b6647b84b3ad" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" kindref="compound">SelectivityStats</ref><sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats_1a00420e189c03233a644cfa4b880298af" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_selectivity_analyzer_1a9c7006d38a49a18d8bfd6f31b1b8911e" kindref="member">SelectivityAnalyzer</ref>(rocksdb::TransactionDB*<sp/>db);</highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1_selectivity_analyzer_1afafd9db471de09c7d45c617169cbd2d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_selectivity_analyzer_1afafd9db471de09c7d45c617169cbd2d4" kindref="member">~SelectivityAnalyzer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" kindref="compound">SelectivityStats</ref><sp/><ref refid="classthemis_1_1_selectivity_analyzer_1a79f41a8307ea539ea7de337f72995625" kindref="member">analyze</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>sample_size<sp/>=<sp/>1000);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_selectivity_analyzer_1a4a1fb4cb00383bb0dedbb8442b242380" kindref="member">calculateIndexBenefit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" kindref="compound">SelectivityStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" kindref="compound">SelectivityStats</ref><sp/><ref refid="classthemis_1_1_selectivity_analyzer_1a0909ffc3e7a67f4ebc9e835a74dfc0c5" kindref="member">analyzeCacheAware</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" kindref="compound">SelectivityStats</ref>&amp;<sp/>stats,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>l3_cache_size_mb<sp/>=<sp/>20)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>rocksdb::TransactionDB*<sp/>db_;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>determineDistribution(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>int&gt;&amp;<sp/>value_counts,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>total)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="classthemis_1_1_index_suggestion_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_index_suggestion_engine_1a43a102eb8889c4dd7a1fc44b24dc54af" kindref="member">IndexSuggestionEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion" kindref="compound">IndexSuggestion</ref><sp/>{</highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1acd3738b85fa874a62640c29f373cf848" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1acd3738b85fa874a62640c29f373cf848" kindref="member">collection</ref>;</highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1a8c6c77354cabf7e3f61d9d1ab4a230af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1a8c6c77354cabf7e3f61d9d1ab4a230af" kindref="member">field</ref>;</highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1a86af6356e708dc50607a2e29d820cbc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1a86af6356e708dc50607a2e29d820cbc9" kindref="member">index_type</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;range&quot;,<sp/>&quot;hash&quot;,<sp/>&quot;composite&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1ac7773482ec9f99e7bb36aee2ffdec115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1ac7773482ec9f99e7bb36aee2ffdec115" kindref="member">score</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0.0<sp/>-<sp/>1.0<sp/>(higher<sp/>=<sp/>more<sp/>beneficial)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1abd606767d37482ac7e081efc3ff6c0de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1abd606767d37482ac7e081efc3ff6c0de" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1a729e879a252df2d4b95eeb9b2a063765" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1a729e879a252df2d4b95eeb9b2a063765" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Estimated<sp/>impact</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1a6ec2f7023ce7391b5b5a01eff325127e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1a6ec2f7023ce7391b5b5a01eff325127e" kindref="member">queries_affected</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1ada32f1a7ab2eb46c35b50e7679e46363" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1ada32f1a7ab2eb46c35b50e7679e46363" kindref="member">estimated_speedup_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1ab6eca2633b41ce7b21da993a7fa709be" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion" kindref="compound">IndexSuggestion</ref><sp/><ref refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1afa0d8b89898d35487421d623a30ba130" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_index_suggestion_engine_1a43a102eb8889c4dd7a1fc44b24dc54af" kindref="member">IndexSuggestionEngine</ref>(<ref refid="classthemis_1_1_query_pattern_tracker" kindref="compound">QueryPatternTracker</ref>*<sp/>tracker,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_selectivity_analyzer" kindref="compound">SelectivityAnalyzer</ref>*<sp/>analyzer);</highlight></codeline>
+<codeline lineno="199" refid="classthemis_1_1_index_suggestion_engine_1a31fa333c672bf528eb10a43bee5ac5e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_index_suggestion_engine_1a31fa333c672bf528eb10a43bee5ac5e1" kindref="member">~IndexSuggestionEngine</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;IndexSuggestion&gt;<sp/><ref refid="classthemis_1_1_index_suggestion_engine_1a884dd026cd5376388239a9fc685d9348" kindref="member">generateSuggestions</ref>(</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>min_score<sp/>=<sp/>0.5,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>10);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;IndexSuggestion&gt;<sp/><ref refid="classthemis_1_1_index_suggestion_engine_1a581e891f16e5e91adb0f28b6da69c360" kindref="member">generateCacheAwareIndexes</ref>(</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>target_cache_hit_rate<sp/>=<sp/>0.70f,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>min_score<sp/>=<sp/>0.5,</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>10);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_index_suggestion_engine_1afbf1e1c12f990ae20cc3d3bf084fb329" kindref="member">indexExists</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_index_suggestion_engine_1a7f8dfcb53824c042b47f8757f5572b61" kindref="member">registerIndex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_index_suggestion_engine_1a32f9af9fcb38ef69f9d39c15bc9d0880" kindref="member">unregisterIndex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_query_pattern_tracker" kindref="compound">QueryPatternTracker</ref>*<sp/>tracker_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_selectivity_analyzer" kindref="compound">SelectivityAnalyzer</ref>*<sp/>analyzer_;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>analyzerMutex_;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In-memory<sp/>registry<sp/>of<sp/>indexes<sp/>that<sp/>already<sp/>exist.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>format:<sp/>&quot;&lt;collection&gt;:&lt;field&gt;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>existingIndexesMutex_;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>existingIndexes_;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>calculateScore(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern" kindref="compound">QueryPatternTracker::QueryPattern</ref>&amp;<sp/>pattern,</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" kindref="compound">SelectivityAnalyzer::SelectivityStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>recommendIndexType(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern" kindref="compound">QueryPatternTracker::QueryPattern</ref>&amp;<sp/>pattern,</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" kindref="compound">SelectivityAnalyzer::SelectivityStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateReason(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_query_pattern_tracker_1_1_query_pattern" kindref="compound">QueryPatternTracker::QueryPattern</ref>&amp;<sp/>pattern,</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" kindref="compound">SelectivityAnalyzer::SelectivityStats</ref>&amp;<sp/>stats,</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_type)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275" refid="classthemis_1_1_adaptive_index_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_adaptive_index_manager_1afb756a0eb741a23f9dabdfc881a99207" kindref="member">AdaptiveIndexManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_adaptive_index_manager_1afb756a0eb741a23f9dabdfc881a99207" kindref="member">AdaptiveIndexManager</ref>(rocksdb::TransactionDB*<sp/>db);</highlight></codeline>
+<codeline lineno="283" refid="classthemis_1_1_adaptive_index_manager_1aced82bcb1f0ba0b175b3d480beb11176" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_adaptive_index_manager_1aced82bcb1f0ba0b175b3d480beb11176" kindref="member">~AdaptiveIndexManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Component<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291" refid="classthemis_1_1_adaptive_index_manager_1a2d7165291f4054bbdd06770f8ebdae31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_query_pattern_tracker" kindref="compound">QueryPatternTracker</ref>*<sp/><ref refid="classthemis_1_1_adaptive_index_manager_1a2d7165291f4054bbdd06770f8ebdae31" kindref="member">getPatternTracker</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;tracker_;<sp/>}</highlight></codeline>
+<codeline lineno="297" refid="classthemis_1_1_adaptive_index_manager_1ae9dc83f22997d632ecb1eba96ba64041" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_selectivity_analyzer" kindref="compound">SelectivityAnalyzer</ref>*<sp/><ref refid="classthemis_1_1_adaptive_index_manager_1ae9dc83f22997d632ecb1eba96ba64041" kindref="member">getSelectivityAnalyzer</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;analyzer_;<sp/>}</highlight></codeline>
+<codeline lineno="303" refid="classthemis_1_1_adaptive_index_manager_1a114a0f4f164db860f63ea81ff5fb8918" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_index_suggestion_engine" kindref="compound">IndexSuggestionEngine</ref>*<sp/><ref refid="classthemis_1_1_adaptive_index_manager_1a114a0f4f164db860f63ea81ff5fb8918" kindref="member">getSuggestionEngine</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;engine_;<sp/>}</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;IndexSuggestionEngine::IndexSuggestion&gt;<sp/><ref refid="classthemis_1_1_adaptive_index_manager_1af32de282741282054d0fe976d87c5c85" kindref="member">getSuggestions</ref>(</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>min_score<sp/>=<sp/>0.5,</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>10);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QueryPatternTracker::QueryPattern&gt;<sp/><ref refid="classthemis_1_1_adaptive_index_manager_1a96efe104e3be57075df9037280f95b12" kindref="member">getPatterns</ref>(</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>rocksdb::TransactionDB*<sp/>db_;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_query_pattern_tracker" kindref="compound">QueryPatternTracker</ref><sp/>tracker_;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_selectivity_analyzer" kindref="compound">SelectivityAnalyzer</ref><sp/>analyzer_;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_index_suggestion_engine" kindref="compound">IndexSuggestionEngine</ref><sp/>engine_;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/index/adaptive_index.h"/>
+  </compounddef>
+</doxygen>

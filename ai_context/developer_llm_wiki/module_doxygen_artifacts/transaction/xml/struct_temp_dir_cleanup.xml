@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_temp_dir_cleanup" kind="struct" language="C++" prot="public">
+    <compoundname>TempDirCleanup</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_temp_dir_cleanup_1a955eee9b22ecc2bb892ccc68bdcc8508" prot="public" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path TempDirCleanup::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>TempDirCleanup::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_cross_coordinator_wal_recovery.cpp" line="46" column="27" bodyfile="tests/transaction/test_cross_coordinator_wal_recovery.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_temp_dir_cleanup_1a74236fa221d66b0771070e327dd4baef" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>TempDirCleanup::~TempDirCleanup</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~TempDirCleanup</name>
+        <qualifiedname>TempDirCleanup::~TempDirCleanup</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_cross_coordinator_wal_recovery.cpp" line="48" column="5" bodyfile="tests/transaction/test_cross_coordinator_wal_recovery.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/transaction/test_cross_coordinator_wal_recovery.cpp" line="45" column="1" bodyfile="tests/transaction/test_cross_coordinator_wal_recovery.cpp" bodystart="45" bodyend="52"/>
+    <listofallmembers>
+      <member refid="struct_temp_dir_cleanup_1a955eee9b22ecc2bb892ccc68bdcc8508" prot="public" virt="non-virtual"><scope>TempDirCleanup</scope><name>path</name></member>
+      <member refid="struct_temp_dir_cleanup_1a74236fa221d66b0771070e327dd4baef" prot="public" virt="non-virtual"><scope>TempDirCleanup</scope><name>~TempDirCleanup</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

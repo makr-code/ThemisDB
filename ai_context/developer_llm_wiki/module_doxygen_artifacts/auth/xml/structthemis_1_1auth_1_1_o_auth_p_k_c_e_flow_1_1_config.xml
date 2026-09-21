@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::OAuthPKCEFlow::Config</compoundname>
+    <includes refid="oauth__pkce__flow_8h" local="no">oauth_pkce_flow.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config_1a2294010b83f5019d5786670c1c87aa62" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthPKCEFlow::Config::authorization_endpoint</definition>
+        <argsstring></argsstring>
+        <name>authorization_endpoint</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::Config::authorization_endpoint</qualifiedname>
+        <briefdescription>
+<para>Authorization endpoint URL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="43" column="21" bodyfile="include/auth/oauth_pkce_flow.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config_1ab234cffccd76221c0de731f08d1ff13e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthPKCEFlow::Config::token_endpoint</definition>
+        <argsstring></argsstring>
+        <name>token_endpoint</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::Config::token_endpoint</qualifiedname>
+        <briefdescription>
+<para>Token endpoint URL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="44" column="21" bodyfile="include/auth/oauth_pkce_flow.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config_1a28feff97dafa2dc62c0571bf848a6002" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthPKCEFlow::Config::client_id</definition>
+        <argsstring></argsstring>
+        <name>client_id</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::Config::client_id</qualifiedname>
+        <briefdescription>
+<para>Registered public client ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="45" column="21" bodyfile="include/auth/oauth_pkce_flow.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config_1a5e6aaee8c58d4cda6484dc9a6b4b3598" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthPKCEFlow::Config::redirect_uri</definition>
+        <argsstring></argsstring>
+        <name>redirect_uri</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::Config::redirect_uri</qualifiedname>
+        <briefdescription>
+<para>Registered redirect URI. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="46" column="21" bodyfile="include/auth/oauth_pkce_flow.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config_1a305cf161dbe94c8ec3b8038ad3391118" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::OAuthPKCEFlow::Config::scopes</definition>
+        <argsstring></argsstring>
+        <name>scopes</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::Config::scopes</qualifiedname>
+        <briefdescription>
+<para>Requested scopes (e.g., {&quot;openid&quot;,&quot;email&quot;}). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="47" column="21" bodyfile="include/auth/oauth_pkce_flow.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config_1aba2dcc58c887bf6cd3e239c610ab5566" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthPKCEFlow::Config::jwks_url</definition>
+        <argsstring></argsstring>
+        <name>jwks_url</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::Config::jwks_url</qualifiedname>
+        <briefdescription>
+<para>JWKS URL for id_token validation (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="48" column="21" bodyfile="include/auth/oauth_pkce_flow.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config_1abb4977da002432447e9640e43062bf53" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::OAuthPKCEFlow::Config::http_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>http_timeout_seconds</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::Config::http_timeout_seconds</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+<para>HTTP request timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="49" column="13" bodyfile="include/auth/oauth_pkce_flow.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/oauth_pkce_flow.h" line="42" column="5" bodyfile="include/auth/oauth_pkce_flow.h" bodystart="42" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config_1a2294010b83f5019d5786670c1c87aa62" prot="public" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow::Config</scope><name>authorization_endpoint</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config_1a28feff97dafa2dc62c0571bf848a6002" prot="public" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow::Config</scope><name>client_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config_1abb4977da002432447e9640e43062bf53" prot="public" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow::Config</scope><name>http_timeout_seconds</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config_1aba2dcc58c887bf6cd3e239c610ab5566" prot="public" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow::Config</scope><name>jwks_url</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config_1a5e6aaee8c58d4cda6484dc9a6b4b3598" prot="public" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow::Config</scope><name>redirect_uri</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config_1a305cf161dbe94c8ec3b8038ad3391118" prot="public" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow::Config</scope><name>scopes</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config_1ab234cffccd76221c0de731f08d1ff13e" prot="public" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow::Config</scope><name>token_endpoint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

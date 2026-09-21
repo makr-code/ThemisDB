@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1svr" kind="namespace" language="C++">
+    <compoundname>themis::bench::svr</compoundname>
+    <innerclass refid="classthemis_1_1bench_1_1svr_1_1_stub_route_registry" prot="public">themis::bench::svr::StubRouteRegistry</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1svr_1_1_stub_jwt_validator" prot="public">themis::bench::svr::StubJwtValidator</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1svr_1_1_stub_atomic_rate_limiter" prot="public">themis::bench::svr::StubAtomicRateLimiter</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1svr_1_1_stub_retry_budget" prot="public">themis::bench::svr::StubRetryBudget</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1svr_1ae353065dfc4487ee6eac5c2b2672dded" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::svr::kSvrCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kSvrCanonicalSeed</name>
+        <qualifiedname>themis::bench::svr::kSvrCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all SVR benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="93" column="27" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1svr_1a07dfb585cf6232c95493fd6142b4e2b9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::svr::kSvrWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kSvrWarmupIterations</name>
+        <qualifiedname>themis::bench::svr::kSvrWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Warmup iterations before measurement window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="96" column="22" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1svr_1ad61f9ce98518b8e48f7e0ed66cc7cad0" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::svr::kSvrRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kSvrRepetitions</name>
+        <qualifiedname>themis::bench::svr::kSvrRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Repetitions per benchmark for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="99" column="22" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1svr_1a31f644685f990c39f4722d156235f19a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::svr::kShutdownSyntheticConnections</definition>
+        <argsstring></argsstring>
+        <name>kShutdownSyntheticConnections</name>
+        <qualifiedname>themis::bench::svr::kShutdownSyntheticConnections</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Number of synthetic in-flight requests for SVR-06. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="102" column="22" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1svr_1a2d2eba2096ec02d33e6b724f77748aa9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::svr::drainConnections</definition>
+        <argsstring>(int count)</argsstring>
+        <name>drainConnections</name>
+        <qualifiedname>themis::bench::svr::drainConnections</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Stub graceful shutdown drain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="162" column="13" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="162" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1svr_1a5069058b8adbda240ce05782e44eeddd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::svr::BM_SVR01_HttpRequestDispatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SVR01_HttpRequestDispatch</name>
+        <qualifiedname>themis::bench::svr::BM_SVR01_HttpRequestDispatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SVR-01: HTTP route lookup + empty handler dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the overhead of the route matching and handler dispatch pipeline with no handler body execution. GATE-SVR-01: p99 ≤ 500 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="189" column="13" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="189" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1svr_1aceb29ddac1b0e9deb7dff2f410cc543f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::svr::Repetitions</definition>
+        <argsstring>(kSvrRepetitions) -&gt; ReportAggregatesOnly(true) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::svr::Repetitions</qualifiedname>
+        <param>
+          <type>kSvrRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="204" column="5" declfile="benchmarks/server/bench_server_hotpaths.cpp" declline="204" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1svr_1a34684cca173a651b72b084cad5588d8e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::svr::BM_SVR02_AuthMiddlewareJwtValidate</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SVR02_AuthMiddlewareJwtValidate</name>
+        <qualifiedname>themis::bench::svr::BM_SVR02_AuthMiddlewareJwtValidate</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SVR-02: JWT structural validation overhead (no crypto/JWKS). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-SVR-02: p99 ≤ 2 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="217" column="13" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="217" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1svr_1a3831eec79de89ece3d89824ec44974f2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::svr::BM_SVR03_RateLimitCheckHotPath</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SVR03_RateLimitCheckHotPath</name>
+        <qualifiedname>themis::bench::svr::BM_SVR03_RateLimitCheckHotPath</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SVR-03: In-memory per-client rate-limit check (atomic counter). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-SVR-03: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="242" column="13" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="242" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1svr_1a056eff9b8b96ff5cea7d22805149e3e7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::svr::BM_SVR04_WebSocketFrameDispatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SVR04_WebSocketFrameDispatch</name>
+        <qualifiedname>themis::bench::svr::BM_SVR04_WebSocketFrameDispatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SVR-04: WebSocket frame envelope parse + dispatch overhead. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates the cost of unpacking a minimal WebSocket frame header and routing to a handler slot. GATE-SVR-04: p99 ≤ 200 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="267" column="13" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="267" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1svr_1add6ada81f40fc33a2fefb866adfb7034" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::svr::BM_SVR05_GrpcUnaryDispatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SVR05_GrpcUnaryDispatch</name>
+        <qualifiedname>themis::bench::svr::BM_SVR05_GrpcUnaryDispatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SVR-05: gRPC unary metadata decode + handler dispatch overhead. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates the hot path cost of decoding gRPC metadata and routing to the handler. GATE-SVR-05: p99 ≤ 1 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="298" column="13" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="298" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1svr_1a5e3ebb0a29cceca504ab651c07b60259" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::svr::BM_SVR06_GracefulShutdownDrain</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SVR06_GracefulShutdownDrain</name>
+        <qualifiedname>themis::bench::svr::BM_SVR06_GracefulShutdownDrain</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SVR-06: Graceful shutdown drain for kShutdownSyntheticConnections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the wall-clock cost of draining synthetic in-flight requests. Uses UseRealTime() to include scheduling overhead. GATE-SVR-06: p99 ≤ 5 s. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="332" column="13" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="332" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1svr_1ae854c2143dce71151507a5ed18e7a111" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::svr::Arg</definition>
+        <argsstring>(kShutdownSyntheticConnections) -&gt; UseRealTime() -&gt;Repetitions(kSvrRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Arg</name>
+        <qualifiedname>themis::bench::svr::Arg</qualifiedname>
+        <param>
+          <type>kShutdownSyntheticConnections</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="339" column="5" declfile="benchmarks/server/bench_server_hotpaths.cpp" declline="339" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1svr_1a4c720a8466e16395b7ed3619c7a07e89" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::svr::BM_SVR07_RetryBudgetCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SVR07_RetryBudgetCheck</name>
+        <qualifiedname>themis::bench::svr::BM_SVR07_RetryBudgetCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SVR-07: Synchronous retry budget check (no backoff sleep). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-SVR-07: p99 ≤ 50 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="353" column="13" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="353" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1svr_1a1d52861880614c7b0ef2d2004b9206ce" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::svr::BM_SVR08_RouteRegistrationLookup</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SVR08_RouteRegistrationLookup</name>
+        <qualifiedname>themis::bench::svr::BM_SVR08_RouteRegistrationLookup</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SVR-08: Static route registry lookup by path (hash-map lookup). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses a warm registry with 1 024 routes to represent a large production deployment. GATE-SVR-08: p99 ≤ 10 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="380" column="13" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="380" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1svr_1a29e0a24ba372be2490bdaff064ab341c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::svr::Arg</definition>
+        <argsstring>(1024) -&gt; Repetitions(kSvrRepetitions) -&gt;ReportAggregatesOnly(true) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Arg</name>
+        <qualifiedname>themis::bench::svr::Arg</qualifiedname>
+        <param>
+          <type>1024</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="394" column="5" declfile="benchmarks/server/bench_server_hotpaths.cpp" declline="394" declcolumn="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/server/bench_server_hotpaths.cpp" line="86" column="1"/>
+  </compounddef>
+</doxygen>

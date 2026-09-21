@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::UpdatesConfig::HotReloadConfig</compoundname>
+    <includes refid="updates__config_8h" local="no">updates_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1a7807e9b76d928e6df81b297937c9b47a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::UpdatesConfig::HotReloadConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::updates::UpdatesConfig::HotReloadConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="59" column="14" bodyfile="include/updates/updates_config.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1ad64121cce8543cb0e4037d9b4f8b927e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdatesConfig::HotReloadConfig::download_directory</definition>
+        <argsstring></argsstring>
+        <name>download_directory</name>
+        <qualifiedname>themis::updates::UpdatesConfig::HotReloadConfig::download_directory</qualifiedname>
+        <initializer>= &quot;/tmp/themis_updates&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="60" column="21" bodyfile="include/updates/updates_config.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1aff542d4dfbea1c8145a4f3bbc100319d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdatesConfig::HotReloadConfig::backup_directory</definition>
+        <argsstring></argsstring>
+        <name>backup_directory</name>
+        <qualifiedname>themis::updates::UpdatesConfig::HotReloadConfig::backup_directory</qualifiedname>
+        <initializer>= &quot;/var/lib/themisdb/rollback&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="61" column="21" bodyfile="include/updates/updates_config.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1a98cf38019d83721e9403d85797471af3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdatesConfig::HotReloadConfig::install_directory</definition>
+        <argsstring></argsstring>
+        <name>install_directory</name>
+        <qualifiedname>themis::updates::UpdatesConfig::HotReloadConfig::install_directory</qualifiedname>
+        <initializer>= &quot;.&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="62" column="21" bodyfile="include/updates/updates_config.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1ae9ebe8917657e12738b2c5341b2b39de" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::UpdatesConfig::HotReloadConfig::verify_signatures</definition>
+        <argsstring></argsstring>
+        <name>verify_signatures</name>
+        <qualifiedname>themis::updates::UpdatesConfig::HotReloadConfig::verify_signatures</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="63" column="14" bodyfile="include/updates/updates_config.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1a0a8eb0a305c4b92352d02edcdaf283f1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::UpdatesConfig::HotReloadConfig::create_backup</definition>
+        <argsstring></argsstring>
+        <name>create_backup</name>
+        <qualifiedname>themis::updates::UpdatesConfig::HotReloadConfig::create_backup</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="64" column="14" bodyfile="include/updates/updates_config.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1a1929add7fb794702b16d71815b744bb6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::updates::UpdatesConfig::HotReloadConfig::keep_rollback_points</definition>
+        <argsstring></argsstring>
+        <name>keep_rollback_points</name>
+        <qualifiedname>themis::updates::UpdatesConfig::HotReloadConfig::keep_rollback_points</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="65" column="13" bodyfile="include/updates/updates_config.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1abf6c0f391ce7953c528ac0b06815e139" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::updates::UpdatesConfig::HotReloadConfig::download_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>download_timeout_seconds</name>
+        <qualifiedname>themis::updates::UpdatesConfig::HotReloadConfig::download_timeout_seconds</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="68" column="13" bodyfile="include/updates/updates_config.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1a4db31030d2217972ad0f747a12c890ff" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::updates::UpdatesConfig::HotReloadConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::updates::UpdatesConfig::HotReloadConfig::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="69" column="13" bodyfile="include/updates/updates_config.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1a95ac1fb12aeb610e35bcab64933c5042" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::updates::UpdatesConfig::HotReloadConfig::retry_delay_seconds</definition>
+        <argsstring></argsstring>
+        <name>retry_delay_seconds</name>
+        <qualifiedname>themis::updates::UpdatesConfig::HotReloadConfig::retry_delay_seconds</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="70" column="13" bodyfile="include/updates/updates_config.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/updates_config.h" line="58" column="5" bodyfile="include/updates/updates_config.h" bodystart="58" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1aff542d4dfbea1c8145a4f3bbc100319d" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::HotReloadConfig</scope><name>backup_directory</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1a0a8eb0a305c4b92352d02edcdaf283f1" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::HotReloadConfig</scope><name>create_backup</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1ad64121cce8543cb0e4037d9b4f8b927e" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::HotReloadConfig</scope><name>download_directory</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1abf6c0f391ce7953c528ac0b06815e139" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::HotReloadConfig</scope><name>download_timeout_seconds</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1a7807e9b76d928e6df81b297937c9b47a" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::HotReloadConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1a98cf38019d83721e9403d85797471af3" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::HotReloadConfig</scope><name>install_directory</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1a1929add7fb794702b16d71815b744bb6" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::HotReloadConfig</scope><name>keep_rollback_points</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1a4db31030d2217972ad0f747a12c890ff" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::HotReloadConfig</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1a95ac1fb12aeb610e35bcab64933c5042" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::HotReloadConfig</scope><name>retry_delay_seconds</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_hot_reload_config_1ae9ebe8917657e12738b2c5341b2b39de" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::HotReloadConfig</scope><name>verify_signatures</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

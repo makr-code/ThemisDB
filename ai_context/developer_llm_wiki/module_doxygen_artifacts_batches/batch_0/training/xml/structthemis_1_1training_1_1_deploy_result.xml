@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_deploy_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::DeployResult</compoundname>
+    <includes refid="adapter__serving_8h" local="no">adapter_serving.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_deploy_result_1a9a1bf54e3ab1ecb3865cebe2ee2e8c6d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::DeployResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::training::DeployResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the operation succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adapter_serving.h" line="78" column="17" bodyfile="include/training/adapter_serving.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_deploy_result_1a599c257b145f2de9a98e78493d356546" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::DeployResult::active_version</definition>
+        <argsstring></argsstring>
+        <name>active_version</name>
+        <qualifiedname>themis::training::DeployResult::active_version</qualifiedname>
+        <briefdescription>
+<para>Version that now receives traffic. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adapter_serving.h" line="79" column="17" bodyfile="include/training/adapter_serving.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_deploy_result_1acb9d90400e22a1bbd8df09f3e7eef57c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::DeployResult::split_applied</definition>
+        <argsstring></argsstring>
+        <name>split_applied</name>
+        <qualifiedname>themis::training::DeployResult::split_applied</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Traffic fraction routed to active_version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adapter_serving.h" line="80" column="17" bodyfile="include/training/adapter_serving.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_deploy_result_1a4157d0679a3082deb69a626db766ece2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::DeployResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::training::DeployResult::error</qualifiedname>
+        <briefdescription>
+<para>Non-empty on failure (&quot;version_not_found&quot;, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adapter_serving.h" line="81" column="17" bodyfile="include/training/adapter_serving.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_deploy_result_1ae666bc49f2c1affd2b9e035e0da5f646" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::DeployResult::DeployResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>DeployResult</name>
+        <qualifiedname>themis::training::DeployResult::DeployResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adapter_serving.h" line="83" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_deploy_result_1a73dee5d23b48fd9fe75ac351b19bf08e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_deploy_result_1ae666bc49f2c1affd2b9e035e0da5f646" kindref="member">DeployResult</ref></type>
+        <definition>static DeployResult themis::training::DeployResult::ok</definition>
+        <argsstring>(const std::string &amp;version, float split)</argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::training::DeployResult::ok</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>split</declname>
+        </param>
+        <briefdescription>
+<para>Convenience: create a successful result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adapter_serving.h" line="86" column="25" bodyfile="include/training/adapter_serving.h" bodystart="86" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1training_1_1_deploy_result_1a8533a1bd50c9f5fa65a4b4e3e75fb55f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_deploy_result_1ae666bc49f2c1affd2b9e035e0da5f646" kindref="member">DeployResult</ref></type>
+        <definition>static DeployResult themis::training::DeployResult::fail</definition>
+        <argsstring>(const std::string &amp;reason)</argsstring>
+        <name>fail</name>
+        <qualifiedname>themis::training::DeployResult::fail</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Convenience: create a failed result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adapter_serving.h" line="95" column="25" bodyfile="include/training/adapter_serving.h" bodystart="95" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a deployVersion() or rollbackVersion() operation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Returned by <ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1ad6de083827f0b8073d56302ab7b16888" kindref="member">IncrementalLoRATrainer::deployVersionEx()</ref> and <ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a557ac1186702a6cbe27eaed8ac037483" kindref="member">IncrementalLoRATrainer::rollbackVersionEx()</ref>. </para>
+    </detaileddescription>
+    <location file="include/training/adapter_serving.h" line="77" column="1" bodyfile="include/training/adapter_serving.h" bodystart="77" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_deploy_result_1a599c257b145f2de9a98e78493d356546" prot="public" virt="non-virtual"><scope>themis::training::DeployResult</scope><name>active_version</name></member>
+      <member refid="structthemis_1_1training_1_1_deploy_result_1ae666bc49f2c1affd2b9e035e0da5f646" prot="public" virt="non-virtual"><scope>themis::training::DeployResult</scope><name>DeployResult</name></member>
+      <member refid="structthemis_1_1training_1_1_deploy_result_1a4157d0679a3082deb69a626db766ece2" prot="public" virt="non-virtual"><scope>themis::training::DeployResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1training_1_1_deploy_result_1a8533a1bd50c9f5fa65a4b4e3e75fb55f" prot="public" virt="non-virtual"><scope>themis::training::DeployResult</scope><name>fail</name></member>
+      <member refid="structthemis_1_1training_1_1_deploy_result_1a73dee5d23b48fd9fe75ac351b19bf08e" prot="public" virt="non-virtual"><scope>themis::training::DeployResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1training_1_1_deploy_result_1acb9d90400e22a1bbd8df09f3e7eef57c" prot="public" virt="non-virtual"><scope>themis::training::DeployResult</scope><name>split_applied</name></member>
+      <member refid="structthemis_1_1training_1_1_deploy_result_1a9a1bf54e3ab1ecb3865cebe2ee2e8c6d" prot="public" virt="non-virtual"><scope>themis::training::DeployResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_optimizer_cost_model_1_1_sort_cost" kind="struct" language="C++" prot="public">
+    <compoundname>themis::OptimizerCostModel::SortCost</compoundname>
+    <includes refid="optimizer__cost__model_8h" local="no">optimizer_cost_model.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1ad7687ba9118b94068c6a891121585117" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::SortCost::cpuCost</definition>
+        <argsstring></argsstring>
+        <name>cpuCost</name>
+        <qualifiedname>themis::OptimizerCostModel::SortCost::cpuCost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="188" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1ae9675e7c952f94082e4cc0b23199bb4c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::SortCost::ioCost</definition>
+        <argsstring></argsstring>
+        <name>ioCost</name>
+        <qualifiedname>themis::OptimizerCostModel::SortCost::ioCost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="189" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1a8779b56d66ed37d0e8fd33839f3a1308" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::SortCost::memoryCost</definition>
+        <argsstring></argsstring>
+        <name>memoryCost</name>
+        <qualifiedname>themis::OptimizerCostModel::SortCost::memoryCost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="190" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1aad400acd15be51f18d885a39c4606962" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::SortCost::totalCost</definition>
+        <argsstring></argsstring>
+        <name>totalCost</name>
+        <qualifiedname>themis::OptimizerCostModel::SortCost::totalCost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="191" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1aa8592a6c5cec5a8f6f1921e528720342" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::SortCost::rowCount</definition>
+        <argsstring></argsstring>
+        <name>rowCount</name>
+        <qualifiedname>themis::OptimizerCostModel::SortCost::rowCount</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="192" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1a6c20f9d2d694bdd23ea8d1e1a94dc7e8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::OptimizerCostModel::SortCost::isExternalSort</definition>
+        <argsstring></argsstring>
+        <name>isExternalSort</name>
+        <qualifiedname>themis::OptimizerCostModel::SortCost::isExternalSort</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="193" column="14" bodyfile="include/query/optimizer_cost_model.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/optimizer_cost_model.h" line="187" column="5" bodyfile="include/query/optimizer_cost_model.h" bodystart="187" bodyend="194"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1ad7687ba9118b94068c6a891121585117" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::SortCost</scope><name>cpuCost</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1ae9675e7c952f94082e4cc0b23199bb4c" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::SortCost</scope><name>ioCost</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1a6c20f9d2d694bdd23ea8d1e1a94dc7e8" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::SortCost</scope><name>isExternalSort</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1a8779b56d66ed37d0e8fd33839f3a1308" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::SortCost</scope><name>memoryCost</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1aa8592a6c5cec5a8f6f1921e528720342" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::SortCost</scope><name>rowCount</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1aad400acd15be51f18d885a39c4606962" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::SortCost</scope><name>totalCost</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

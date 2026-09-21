@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_logical_change" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::LogicalChange</compoundname>
+    <includes refid="logical__replication_8h" local="no">logical_replication.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>Type</name>
+        <qualifiedname>themisdb::replication::LogicalChange::Type</qualifiedname>
+        <enumvalue id="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548a61ee777e7f71dc466c3b2c685d8d313b" prot="public">
+          <name>INSERT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548a15a8022d0ed9cd9c2a2e756822703eb4" prot="public">
+          <name>UPDATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548a32f68a60cef40faedbc6af20298c1a1e" prot="public">
+          <name>DELETE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548a0a83d15fde12983f199bdeb76667660f" prot="public">
+          <name>TRUNCATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548a35b615a70e0c452f5ba9a94ec544e72b" prot="public">
+          <name>DDL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548a46b8744c6bc840d2cb241fa165f3e204" prot="public">
+          <name>SNAPSHOT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="41" column="5" bodyfile="include/replication/logical_replication.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_change_1a2fb6151376f974320743a4674e88bb93" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548" kindref="member">Type</ref></type>
+        <definition>Type themisdb::replication::LogicalChange::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::replication::LogicalChange::type</qualifiedname>
+        <initializer>= <ref refid="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">Type::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="44" column="10" bodyfile="include/replication/logical_replication.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_change_1ae4e1dfff53e7493484818c9ed444419d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LogicalChange::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themisdb::replication::LogicalChange::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="45" column="17" bodyfile="include/replication/logical_replication.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_change_1afa4b2d031f5a2ad6317a58aba38f650e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LogicalChange::schema_version</definition>
+        <argsstring></argsstring>
+        <name>schema_version</name>
+        <qualifiedname>themisdb::replication::LogicalChange::schema_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="46" column="17" bodyfile="include/replication/logical_replication.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_change_1aec5bf0aedeadfaa963fde59a42fadadf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LogicalChange::source_version</definition>
+        <argsstring></argsstring>
+        <name>source_version</name>
+        <qualifiedname>themisdb::replication::LogicalChange::source_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="47" column="17" bodyfile="include/replication/logical_replication.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_change_1adb90639aa4e3726e0c6f742027d7821a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LogicalChange::target_version</definition>
+        <argsstring></argsstring>
+        <name>target_version</name>
+        <qualifiedname>themisdb::replication::LogicalChange::target_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="48" column="17" bodyfile="include/replication/logical_replication.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_change_1a8e6028f430609b2ba30f796bae979f48" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::replication::LogicalChange::old_data</definition>
+        <argsstring></argsstring>
+        <name>old_data</name>
+        <qualifiedname>themisdb::replication::LogicalChange::old_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="49" column="20" bodyfile="include/replication/logical_replication.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_change_1a23ed0722ff932764a51cc32da70d43da" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::replication::LogicalChange::new_data</definition>
+        <argsstring></argsstring>
+        <name>new_data</name>
+        <qualifiedname>themisdb::replication::LogicalChange::new_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="50" column="20" bodyfile="include/replication/logical_replication.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_change_1adeee2c9429e6ebedb27bf7b60b60b765" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LogicalChange::ddl_statement</definition>
+        <argsstring></argsstring>
+        <name>ddl_statement</name>
+        <qualifiedname>themisdb::replication::LogicalChange::ddl_statement</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="51" column="17" bodyfile="include/replication/logical_replication.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_change_1adebe0ccab2f28ddbc4c2440d9fd3511d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::LogicalChange::lsn</definition>
+        <argsstring></argsstring>
+        <name>lsn</name>
+        <qualifiedname>themisdb::replication::LogicalChange::lsn</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="52" column="14" bodyfile="include/replication/logical_replication.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_change_1a5abe3c6abf3f1299b94656ded89d61e1" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::replication::LogicalChange::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themisdb::replication::LogicalChange::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="53" column="43" bodyfile="include/replication/logical_replication.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="structthemisdb_1_1replication_1_1_logical_change" kindref="compound">LogicalChange</ref></para>
+<para>Represents a schema-aware logical replication event. Used by <ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager" kindref="compound">LogicalReplicationManager</ref> to expose filtered, transformed changes to downstream subscribers. </para>
+    </detaileddescription>
+    <location file="include/replication/logical_replication.h" line="40" column="1" bodyfile="include/replication/logical_replication.h" bodystart="40" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_logical_change_1ae4e1dfff53e7493484818c9ed444419d" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalChange</scope><name>collection</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_change_1adeee2c9429e6ebedb27bf7b60b60b765" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalChange</scope><name>ddl_statement</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_change_1adebe0ccab2f28ddbc4c2440d9fd3511d" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalChange</scope><name>lsn</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_change_1a23ed0722ff932764a51cc32da70d43da" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalChange</scope><name>new_data</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_change_1a8e6028f430609b2ba30f796bae979f48" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalChange</scope><name>old_data</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_change_1afa4b2d031f5a2ad6317a58aba38f650e" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalChange</scope><name>schema_version</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_change_1aec5bf0aedeadfaa963fde59a42fadadf" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalChange</scope><name>source_version</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_change_1adb90639aa4e3726e0c6f742027d7821a" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalChange</scope><name>target_version</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_change_1a5abe3c6abf3f1299b94656ded89d61e1" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalChange</scope><name>timestamp</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalChange</scope><name>Type</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_change_1a2fb6151376f974320743a4674e88bb93" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalChange</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

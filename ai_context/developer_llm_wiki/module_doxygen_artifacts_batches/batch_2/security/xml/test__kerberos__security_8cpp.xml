@@ -1,0 +1,1176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__kerberos__security_8cpp" kind="file" language="C++">
+    <compoundname>test_kerberos_security.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">auth/kerberos_security.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_kerberos_security.cpp</label>
+        <link refid="test__kerberos__security_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>auth/kerberos_security.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, DefaultConfiguration)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>DefaultConfiguration</type>
+        </param>
+        <briefdescription>
+<para>Test default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="9" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="9" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a9aea5779b3f96dba438382942bd119b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, WithChannelBindings)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>WithChannelBindings</type>
+        </param>
+        <briefdescription>
+<para>Test with channel bindings configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="23" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="23" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a3e46f94324f2ab80ec4999e35f04a5de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, StrictValidation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>StrictValidation</type>
+        </param>
+        <briefdescription>
+<para>Test strict validation configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="37" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="37" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a85d9171c431a33d9e7f75bcf6cbf208f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, ForService)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>ForService</type>
+        </param>
+        <briefdescription>
+<para>Test for service configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="51" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="51" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a2d511c489396fc3dc7708b75569a95a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, Initialization)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>Initialization</type>
+        </param>
+        <briefdescription>
+<para>Test validator initialization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="63" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="63" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a9f266b03b7e0334010b251954234eae8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, ChannelBindingTypes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>ChannelBindingTypes</type>
+        </param>
+        <briefdescription>
+<para>Test channel binding type enumeration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="72" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="72" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a57b25bb3a38d999830da00162d2f5634" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, ASN1ValidationEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>ASN1ValidationEmpty</type>
+        </param>
+        <briefdescription>
+<para>Test ASN.1 validation with empty data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="91" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="91" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a8af88ea79646f16170f3eae4887fb229" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, ASN1ValidationSimpleSequence)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>ASN1ValidationSimpleSequence</type>
+        </param>
+        <briefdescription>
+<para>Test ASN.1 validation with simple valid sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="104" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="104" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a00c6acd93e72786d9687dc8260972745" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, ASN1DepthLimit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>ASN1DepthLimit</type>
+        </param>
+        <briefdescription>
+<para>Test ASN.1 validation with depth limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="121" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="121" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1ad86ef9e0377381e22f8f197637cf6c69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, ASN1LengthLimit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>ASN1LengthLimit</type>
+        </param>
+        <briefdescription>
+<para>Test ASN.1 validation with length limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="144" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="144" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a168462960259c7287a6e0ad6ef4fce01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, ClockSkewConfiguration)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>ClockSkewConfiguration</type>
+        </param>
+        <briefdescription>
+<para>Test clock skew configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="163" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="163" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a6f074274c298e2a175c374deaded3b2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, SecurityFlags)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>SecurityFlags</type>
+        </param>
+        <briefdescription>
+<para>Test security flags configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="176" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="176" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1abcd2f307c6eaab30232b07395b281e73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, ExtractServicePrincipal)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>ExtractServicePrincipal</type>
+        </param>
+        <briefdescription>
+<para>Test service principal extraction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="192" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="192" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a7035d61768ddb9936226c73a4fef997b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, GetTokenInfo)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>GetTokenInfo</type>
+        </param>
+        <briefdescription>
+<para>Test token info extraction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="209" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="209" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a9776c4bff499def31dc010ca796edce2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChannelBindingGeneratorTest, TLSCertificate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChannelBindingGeneratorTest</type>
+        </param>
+        <param>
+          <type>TLSCertificate</type>
+        </param>
+        <briefdescription>
+<para>Test channel binding generator - TLS certificate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="226" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="226" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1ae011219c443177c0b053b4ea9507f360" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChannelBindingGeneratorTest, TLSFinished)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChannelBindingGeneratorTest</type>
+        </param>
+        <param>
+          <type>TLSFinished</type>
+        </param>
+        <briefdescription>
+<para>Test channel binding generator - TLS finished. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="238" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="238" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a10d20f50bd62dafd53fd897fb70d270f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChannelBindingGeneratorTest, TLSExporter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChannelBindingGeneratorTest</type>
+        </param>
+        <param>
+          <type>TLSExporter</type>
+        </param>
+        <briefdescription>
+<para>Test channel binding generator - TLS exporter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="249" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="249" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a50281ac427b7cd851c7db9ffd5a0b25e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChannelBindingGeneratorTest, FormatChannelBinding)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChannelBindingGeneratorTest</type>
+        </param>
+        <param>
+          <type>FormatChannelBinding</type>
+        </param>
+        <briefdescription>
+<para>Test channel binding formatting. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="260" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="260" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a57fae99cb9158820e40ce3387ca9f35c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChannelBindingGeneratorTest, EmptyChannelBinding)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChannelBindingGeneratorTest</type>
+        </param>
+        <param>
+          <type>EmptyChannelBinding</type>
+        </param>
+        <briefdescription>
+<para>Test empty channel binding formatting. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="280" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="280" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1ac4e696b82d0bcf955251c4a0837f1303" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, ConfigAccessor)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>ConfigAccessor</type>
+        </param>
+        <briefdescription>
+<para>Test config accessor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="292" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="292" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1af0db4bb750ecd7eb33bfa8b48fd9058d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, ASN1InvalidTag)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>ASN1InvalidTag</type>
+        </param>
+        <briefdescription>
+<para>Test ASN.1 validation with invalid tag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="305" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="305" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a932cdac2906ebc04c6c1ce77a0482275" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, ChannelBindingConfiguration)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>ChannelBindingConfiguration</type>
+        </param>
+        <briefdescription>
+<para>Test multiple channel binding types in same config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="320" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="320" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a9d2b379625e102d07e31b765eb26fe0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, RejectExpiredTickets)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>RejectExpiredTickets</type>
+        </param>
+        <briefdescription>
+<para>Test reject expired tickets configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="337" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="337" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1aace5c2cbbb51011f39a19d1af9b8409e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, TokenSizeVariations)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>TokenSizeVariations</type>
+        </param>
+        <briefdescription>
+<para>Test validation with different token sizes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="350" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="350" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a21db09076b18fab8b67de122ed2006c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, ExtractServicePrincipalFromRealToken)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>ExtractServicePrincipalFromRealToken</type>
+        </param>
+        <briefdescription>
+<para>Test extractServicePrincipal with a real KRB5 AP-REQ token. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="511" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="511" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1aa7f7de70841f42741ea30b5be5d0991a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, ExtractServicePrincipalFallbackOnBadToken)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>ExtractServicePrincipalFallbackOnBadToken</type>
+        </param>
+        <briefdescription>
+<para>Test extractServicePrincipal falls back for non-KRB5 tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="525" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="525" bodyend="533"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a0afec4ff52090969008e55d65da78f33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, GetTokenInfoFromRealToken)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>GetTokenInfoFromRealToken</type>
+        </param>
+        <briefdescription>
+<para>Test getTokenInfo extracts realm and sname from real KRB5 token. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="538" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="538" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1ae9e6fa8ee87d4eadb82234f321b8ff42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, GetTokenInfoMutualAuthFlag)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>GetTokenInfoMutualAuthFlag</type>
+        </param>
+        <briefdescription>
+<para>Test getTokenInfo has_mutual_auth reflects AP-REQ ap-options. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="557" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="557" bodyend="573"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1adfeafead8a47c45b41f3c6d17d70b83f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, VerifyChannelBindingFailClosedForBadToken)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>VerifyChannelBindingFailClosedForBadToken</type>
+        </param>
+        <briefdescription>
+<para>Test verifyChannelBinding fails for non-KRB5 tokens (fail-closed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="578" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="578" bodyend="588"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1a3e015e81fb9462ae20f750b332685380" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, VerifyChannelBindingAcceptsValidKrb5)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>VerifyChannelBindingAcceptsValidKrb5</type>
+        </param>
+        <briefdescription>
+<para>Test verifyChannelBinding accepts valid KRB5 token structurally. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="593" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="593" bodyend="603"/>
+      </memberdef>
+      <memberdef kind="function" id="test__kerberos__security_8cpp_1ac6e33263d4cb2f33c9a73e0d4bc474a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KerberosSecurityValidatorTest, VerifyChannelBindingEmptyAlwaysPasses)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KerberosSecurityValidatorTest</type>
+        </param>
+        <param>
+          <type>VerifyChannelBindingEmptyAlwaysPasses</type>
+        </param>
+        <briefdescription>
+<para>Test verifyChannelBinding passes when binding is empty (no binding requested). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kerberos_security.cpp" line="608" column="1" bodyfile="tests/security/test_kerberos_security.cpp" bodystart="608" bodyend="616"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/kerberos_security.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>DefaultConfiguration)<sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator::Config<sp/>config;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(config.enable_channel_bindings);</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.strict_asn1_validation);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.verify_service_target);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.validate_token_structure);</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.max_token_depth,<sp/>10);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.max_sequence_length,<sp/>10000);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>WithChannelBindings)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>KerberosSecurityValidator::withChannelBindings(</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>KerberosSecurityValidator::ChannelBindingType::TLS_SERVER_ENDPOINT</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.enable_channel_bindings);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.binding_type,<sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>KerberosSecurityValidator::ChannelBindingType::TLS_SERVER_ENDPOINT);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.strict_asn1_validation);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>StrictValidation)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>KerberosSecurityValidator::strictValidation();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.enable_channel_bindings);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.strict_asn1_validation);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.verify_service_target);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.require_mutual_auth);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.require_integrity);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.reject_expired_tickets);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>ForService)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>service_principal<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HTTP/server.example.com@REALM.COM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>KerberosSecurityValidator::forService(service_principal);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.verify_service_target);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.expected_service_principal,<sp/>service_principal);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.strict_asn1_validation);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>Initialization)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>KerberosSecurityValidator::strictValidation();</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(KerberosSecurityValidator<sp/>validator(config));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>ChannelBindingTypes)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator::Config<sp/>config;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>config.binding_type<sp/>=<sp/>KerberosSecurityValidator::ChannelBindingType::NONE;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.binding_type,<sp/>KerberosSecurityValidator::ChannelBindingType::NONE);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>config.binding_type<sp/>=<sp/>KerberosSecurityValidator::ChannelBindingType::TLS_UNIQUE;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.binding_type,<sp/>KerberosSecurityValidator::ChannelBindingType::TLS_UNIQUE);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>config.binding_type<sp/>=<sp/>KerberosSecurityValidator::ChannelBindingType::TLS_SERVER_ENDPOINT;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.binding_type,<sp/>KerberosSecurityValidator::ChannelBindingType::TLS_SERVER_ENDPOINT);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>config.binding_type<sp/>=<sp/>KerberosSecurityValidator::ChannelBindingType::TLS_EXPORTER;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.binding_type,<sp/>KerberosSecurityValidator::ChannelBindingType::TLS_EXPORTER);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>ASN1ValidationEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>KerberosSecurityValidator::strictValidation();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>empty_data;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>data<sp/>should<sp/>be<sp/>considered<sp/>invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validator.validateASN1Structure(empty_data));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>ASN1ValidationSimpleSequence)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>KerberosSecurityValidator::strictValidation();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simple<sp/>ASN.1<sp/>SEQUENCE<sp/>with<sp/>one<sp/>INTEGER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>valid_sequence<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x30,<sp/>0x03,<sp/><sp/></highlight><highlight class="comment">//<sp/>SEQUENCE,<sp/>length<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x02,<sp/>0x01,<sp/><sp/></highlight><highlight class="comment">//<sp/>INTEGER,<sp/>length<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x05<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>value<sp/>5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(validator.validateASN1Structure(valid_sequence));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>ASN1DepthLimit)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator::Config<sp/>config;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>config.strict_asn1_validation<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>config.max_token_depth<sp/>=<sp/>2;<sp/><sp/></highlight><highlight class="comment">//<sp/>Very<sp/>shallow<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deeply<sp/>nested<sp/>structure<sp/>(3<sp/>levels)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>deep_sequence<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x30,<sp/>0x08,<sp/><sp/></highlight><highlight class="comment">//<sp/>SEQUENCE<sp/>level<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x30,<sp/>0x06,<sp/><sp/></highlight><highlight class="comment">//<sp/>SEQUENCE<sp/>level<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x30,<sp/>0x04,<sp/><sp/></highlight><highlight class="comment">//<sp/>SEQUENCE<sp/>level<sp/>3<sp/>(exceeds<sp/>limit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x02,<sp/>0x02,<sp/><sp/></highlight><highlight class="comment">//<sp/>INTEGER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00,<sp/>0x01<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>fail<sp/>due<sp/>to<sp/>depth<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validator.validateASN1Structure(deep_sequence));</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>ASN1LengthLimit)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator::Config<sp/>config;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>config.strict_asn1_validation<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>config.max_sequence_length<sp/>=<sp/>100;<sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>sequence<sp/>claiming<sp/>to<sp/>be<sp/>longer<sp/>than<sp/>allowed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>long_sequence<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x30,<sp/>0x81,<sp/>0xFF<sp/><sp/></highlight><highlight class="comment">//<sp/>SEQUENCE,<sp/>long<sp/>form<sp/>length<sp/>=<sp/>255<sp/>(exceeds<sp/>limit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>fail<sp/>due<sp/>to<sp/>length<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validator.validateASN1Structure(long_sequence));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>ClockSkewConfiguration)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator::Config<sp/>config;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>config.max_clock_skew_seconds<sp/>=<sp/>60;<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>minute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.max_clock_skew_seconds,<sp/>60);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>config.max_clock_skew_seconds<sp/>=<sp/>600;<sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>minutes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.max_clock_skew_seconds,<sp/>600);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>SecurityFlags)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator::Config<sp/>config;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>config.require_mutual_auth<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.require_mutual_auth);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>config.require_integrity<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.require_integrity);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>config.require_confidentiality<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.require_confidentiality);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>ExtractServicePrincipal)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>expected_principal<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HTTP/server.example.com@REALM.COM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>KerberosSecurityValidator::forService(expected_principal);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>dummy<sp/>token<sp/>(in<sp/>real<sp/>scenario,<sp/>would<sp/>be<sp/>valid<sp/>GSSAPI<sp/>token)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>token_data(100,<sp/>0);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>extracted<sp/>=<sp/>validator.extractServicePrincipal(token_data);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>this<sp/>simplified<sp/>implementation,<sp/>returns<sp/>expected<sp/>principal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(extracted,<sp/>expected_principal);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>GetTokenInfo)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>KerberosSecurityValidator::strictValidation();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>config.expected_service_principal<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HTTP/server@REALM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>token_data(100,<sp/>0);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>info<sp/>=<sp/>validator.getTokenInfo(token_data);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(info.service_principal.empty());</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(info.client_principal.empty());</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(info.end_time,<sp/>0);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(ChannelBindingGeneratorTest,<sp/>TLSCertificate)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>cert_data(256,<sp/>0xAB);<sp/><sp/></highlight><highlight class="comment">//<sp/>Dummy<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>binding<sp/>=<sp/>ChannelBindingGenerator::generateFromTLSCertificate(cert_data);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(binding.empty());</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(binding.size(),<sp/>32);<sp/><sp/></highlight><highlight class="comment">//<sp/>SHA256<sp/>hash<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(ChannelBindingGeneratorTest,<sp/>TLSFinished)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>finished_message<sp/>=<sp/>{0x01,<sp/>0x02,<sp/>0x03,<sp/>0x04};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>binding<sp/>=<sp/>ChannelBindingGenerator::generateFromTLSFinished(finished_message);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(binding,<sp/>finished_message);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(ChannelBindingGeneratorTest,<sp/>TLSExporter)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>exporter_value<sp/>=<sp/>{0x0A,<sp/>0x0B,<sp/>0x0C};</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>binding<sp/>=<sp/>ChannelBindingGenerator::generateFromTLSExporter(exporter_value);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(binding,<sp/>exporter_value);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(ChannelBindingGeneratorTest,<sp/>FormatChannelBinding)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>init_addr<sp/>=<sp/>{192,<sp/>168,<sp/>1,<sp/>1};</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>acc_addr<sp/>=<sp/>{192,<sp/>168,<sp/>1,<sp/>2};</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>app_data<sp/>=<sp/>{0x01,<sp/>0x02,<sp/>0x03};</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>formatted<sp/>=<sp/>ChannelBindingGenerator::formatChannelBinding(</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>init_addr,<sp/>acc_addr,<sp/>app_data</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(formatted.empty());</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Format<sp/>includes:<sp/>4<sp/>bytes<sp/>(init<sp/>type)<sp/>+<sp/>4<sp/>bytes<sp/>(init<sp/>len)<sp/>+<sp/>init_addr<sp/>+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>4<sp/>bytes<sp/>(acc<sp/>type)<sp/>+<sp/>4<sp/>bytes<sp/>(acc<sp/>len)<sp/>+<sp/>acc_addr<sp/>+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>4<sp/>bytes<sp/>(app<sp/>len)<sp/>+<sp/>app_data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>expected_size<sp/>=<sp/>4<sp/>+<sp/>4<sp/>+<sp/>init_addr.size()<sp/>+<sp/>4<sp/>+<sp/>4<sp/>+<sp/>acc_addr.size()<sp/>+<sp/>4<sp/>+<sp/>app_data.size();</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(formatted.size(),<sp/>expected_size);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(ChannelBindingGeneratorTest,<sp/>EmptyChannelBinding)<sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>empty;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>formatted<sp/>=<sp/>ChannelBindingGenerator::formatChannelBinding(empty,<sp/>empty,<sp/>empty);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>still<sp/>have<sp/>header<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(formatted.empty());</highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>ConfigAccessor)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>KerberosSecurityValidator::strictValidation();</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>retrieved_config<sp/>=<sp/>validator.getConfig();</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved_config.enable_channel_bindings,<sp/>config.enable_channel_bindings);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved_config.strict_asn1_validation,<sp/>config.strict_asn1_validation);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>ASN1InvalidTag)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>KerberosSecurityValidator::strictValidation();</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>ASN.1:<sp/>length<sp/>extends<sp/>beyond<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>invalid_data<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x30,<sp/>0xFF<sp/><sp/></highlight><highlight class="comment">//<sp/>SEQUENCE<sp/>claiming<sp/>length<sp/>255,<sp/>but<sp/>data<sp/>is<sp/>too<sp/>short</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validator.validateASN1Structure(invalid_data));</highlight></codeline>
+<codeline lineno="315"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>ChannelBindingConfiguration)<sp/>{</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config_tls_unique<sp/>=<sp/>KerberosSecurityValidator::withChannelBindings(</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>KerberosSecurityValidator::ChannelBindingType::TLS_UNIQUE</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config_tls_unique.binding_type,<sp/></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>KerberosSecurityValidator::ChannelBindingType::TLS_UNIQUE);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config_tls_endpoint<sp/>=<sp/>KerberosSecurityValidator::withChannelBindings(</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>KerberosSecurityValidator::ChannelBindingType::TLS_SERVER_ENDPOINT</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config_tls_endpoint.binding_type,<sp/></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>KerberosSecurityValidator::ChannelBindingType::TLS_SERVER_ENDPOINT);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>RejectExpiredTickets)<sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator::Config<sp/>config;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>config.reject_expired_tickets<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.reject_expired_tickets);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>config.reject_expired_tickets<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(config.reject_expired_tickets);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>TokenSizeVariations)<sp/>{</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>KerberosSecurityValidator::strictValidation();</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>config.verify_service_target<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Skip<sp/>for<sp/>this<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>small_token<sp/>=<sp/>{0x30,<sp/>0x02,<sp/>0x02,<sp/>0x00};</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(validator.validateASN1Structure(small_token));</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Medium<sp/>token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>medium_token(100);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>medium_token[0]<sp/>=<sp/>0x30;<sp/><sp/></highlight><highlight class="comment">//<sp/>SEQUENCE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>medium_token[1]<sp/>=<sp/>0x60;<sp/><sp/></highlight><highlight class="comment">//<sp/>length<sp/>96</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(validator.validateASN1Structure(medium_token));</highlight></codeline>
+<codeline lineno="365"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>for<sp/>GSSAPI/KRB5<sp/>DER<sp/>parsing<sp/>(stubs<sp/>#139,<sp/>#156,<sp/>#191)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>minimal<sp/>but<sp/>structurally<sp/>valid<sp/>GSSAPI<sp/>KRB5<sp/>AP-REQ<sp/>token.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ticket<sp/>sname<sp/>=<sp/>&quot;HTTP/testhost&quot;<sp/>@<sp/>realm<sp/>&quot;TEST.REALM&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>resulting<sp/>token<sp/>is<sp/>cleartext-only<sp/>(no<sp/>real<sp/>encryption)<sp/>and<sp/>is<sp/>just</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight><highlight class="comment">//<sp/>large<sp/>enough<sp/>for<sp/>the<sp/>parser<sp/>helpers<sp/>to<sp/>traverse.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>buildMinimalKrb5ApReqToken(</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>service_name,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.<sp/>&quot;HTTP&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>host_name,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.<sp/>&quot;testhost&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>realm,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.<sp/>&quot;TEST.REALM&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>mutual_required<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="382"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>lambdas<sp/>to<sp/>DER-encode<sp/>length<sp/>and<sp/>build<sp/>TLVs.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>encLen<sp/>=<sp/>[](</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n,<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>out)<sp/>{</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(n<sp/>&lt;<sp/>128)<sp/>{</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.push_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n));</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(n<sp/>&lt;<sp/>256)<sp/>{</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.push_back(0x81);</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.push_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n));</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.push_back(0x82);</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.push_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n<sp/>&gt;&gt;<sp/>8));</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.push_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n));</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tlv<sp/>=<sp/>[&amp;encLen](uint8_t<sp/>tag,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>val)<sp/>{</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>r;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.push_back(tag);</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>encLen(val.size(),<sp/>r);</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.insert(r.end(),<sp/>val.begin(),<sp/>val.end());</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>wrap<sp/>=<sp/>[&amp;tlv](uint8_t<sp/>tag,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>inner)<sp/>{</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tlv(tag,<sp/>inner);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>str2gs<sp/>=<sp/>[&amp;tlv](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s)<sp/>{</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>sv(s.begin(),<sp/>s.end());</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tlv(0x1B,<sp/>sv);<sp/></highlight><highlight class="comment">//<sp/>GeneralString</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>intTlv<sp/>=<sp/>[&amp;tlv](uint32_t<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>iv;</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iv.push_back(0x02);<sp/></highlight><highlight class="comment">//<sp/>INTEGER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iv.push_back(0x01);</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iv.push_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(v));</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iv;</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PrincipalName:<sp/>SEQUENCE<sp/>{<sp/>[0]<sp/>name-type=1,<sp/>[1]<sp/>SEQUENCE<sp/>OF<sp/>{svc,<sp/>host}<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>nameType<sp/>=<sp/>wrap(0xA0,<sp/>intTlv(1));<sp/><sp/></highlight><highlight class="comment">//<sp/>NT-SRV-HST</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>nameStrings<sp/>=<sp/>[&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>combined;</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s1<sp/>=<sp/>str2gs(service_name);</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s2<sp/>=<sp/>str2gs(host_name);</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>combined.insert(combined.end(),<sp/>s1.begin(),<sp/>s1.end());</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>combined.insert(combined.end(),<sp/>s2.begin(),<sp/>s2.end());</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>outer;</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outer.push_back(0x30);<sp/></highlight><highlight class="comment">//<sp/>SEQUENCE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>encLen(combined.size(),<sp/>outer);</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outer.insert(outer.end(),<sp/>combined.begin(),<sp/>combined.end());</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>outer;</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/>}();</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>nameStringWrapped<sp/>=<sp/>wrap(0xA1,<sp/>nameStrings);</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>pnSeqContent;</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/>pnSeqContent.insert(pnSeqContent.end(),<sp/>nameType.begin(),<sp/>nameType.end());</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/>pnSeqContent.insert(pnSeqContent.end(),<sp/>nameStringWrapped.begin(),<sp/>nameStringWrapped.end());</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pnSeq<sp/>=<sp/>tlv(0x30,<sp/>pnSeqContent);<sp/><sp/></highlight><highlight class="comment">//<sp/>PrincipalName<sp/>SEQUENCE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snameWrapped<sp/>=<sp/>wrap(0xA2,<sp/>pnSeq);<sp/></highlight><highlight class="comment">//<sp/>[2]<sp/>sname</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Realm<sp/>[1]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>realmWrapped<sp/>=<sp/>wrap(0xA1,<sp/>str2gs(realm));</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>tkt-vno<sp/>[0]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tktVno<sp/>=<sp/>wrap(0xA0,<sp/>intTlv(5));</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>enc-part<sp/>[3]<sp/>—<sp/>dummy<sp/>minimal<sp/>EncryptedData</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>encPartSeq<sp/>=<sp/>{0x30,<sp/>0x05,<sp/>0xA0,<sp/>0x03,<sp/>0x02,<sp/>0x01,<sp/>0x11};</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>encPartWrapped<sp/>=<sp/>wrap(0xA3,<sp/>encPartSeq);</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Assemble<sp/>Ticket<sp/>SEQUENCE<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>ticketSeqContent;</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>ticketSeqContent.insert(ticketSeqContent.end(),<sp/>tktVno.begin(),<sp/>tktVno.end());</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/>ticketSeqContent.insert(ticketSeqContent.end(),<sp/>realmWrapped.begin(),<sp/>realmWrapped.end());</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/>ticketSeqContent.insert(ticketSeqContent.end(),<sp/>snameWrapped.begin(),<sp/>snameWrapped.end());</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/>ticketSeqContent.insert(ticketSeqContent.end(),<sp/>encPartWrapped.begin(),<sp/>encPartWrapped.end());</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ticketSeq<sp/>=<sp/>tlv(0x30,<sp/>ticketSeqContent);<sp/></highlight><highlight class="comment">//<sp/>SEQUENCE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ticketApp<sp/>=<sp/>wrap(0x61,<sp/>ticketSeq);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>[APPLICATION<sp/>1]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AP-REQ<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pvno<sp/><sp/><sp/><sp/>=<sp/>wrap(0xA0,<sp/>intTlv(5));<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>[0]<sp/>pvno=5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>msgType<sp/>=<sp/>wrap(0xA1,<sp/>intTlv(14));<sp/><sp/></highlight><highlight class="comment">//<sp/>[1]<sp/>msg-type=14</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ap-options<sp/>[2]<sp/>BIT<sp/>STRING<sp/>—<sp/>5<sp/>bytes:<sp/>0x03<sp/>0x05<sp/>0x00<sp/>&lt;4<sp/>flag<sp/>bytes&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>opts<sp/>=<sp/>mutual_required<sp/>?<sp/>0x20000000u<sp/>:<sp/>0u;</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>bsContent<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x03,<sp/>0x05,<sp/>0x00,</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(opts<sp/>&gt;&gt;<sp/>24),</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(opts<sp/>&gt;&gt;<sp/>16),</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(opts<sp/>&gt;&gt;<sp/><sp/>8),</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(opts)</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>apOptions<sp/>=<sp/>wrap(0xA2,<sp/>bsContent);</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"></highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ticket<sp/>[3]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ticketWrapped<sp/>=<sp/>wrap(0xA3,<sp/>ticketApp);</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"></highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>authenticator<sp/>[4]<sp/>—<sp/>dummy<sp/>minimal<sp/>EncryptedData</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>authSeq<sp/>=<sp/>{0x30,<sp/>0x05,<sp/>0xA0,<sp/>0x03,<sp/>0x02,<sp/>0x01,<sp/>0x12};</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>authWrapped<sp/>=<sp/>wrap(0xA4,<sp/>authSeq);</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AP-REQ<sp/>SEQUENCE<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>apReqSeqContent;</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/>apReqSeqContent.insert(apReqSeqContent.end(),<sp/>pvno.begin(),<sp/>pvno.end());</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/>apReqSeqContent.insert(apReqSeqContent.end(),<sp/>msgType.begin(),<sp/>msgType.end());</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/>apReqSeqContent.insert(apReqSeqContent.end(),<sp/>apOptions.begin(),<sp/>apOptions.end());</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/>apReqSeqContent.insert(apReqSeqContent.end(),<sp/>ticketWrapped.begin(),<sp/>ticketWrapped.end());</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/>apReqSeqContent.insert(apReqSeqContent.end(),<sp/>authWrapped.begin(),<sp/>authWrapped.end());</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>apReqSeq<sp/>=<sp/>tlv(0x30,<sp/>apReqSeqContent);</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>apReqApp<sp/>=<sp/>wrap(0x6E,<sp/>apReqSeq);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>[APPLICATION<sp/>14]<sp/>AP-REQ</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="489"><highlight class="normal"></highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GSSAPI<sp/>outer<sp/>wrapper:<sp/>[APPLICATION<sp/>0]<sp/>CONSTRUCTED<sp/>=<sp/>0x60</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>KRB5<sp/>OID<sp/>+<sp/>2-byte<sp/>token<sp/>ID<sp/>(0x01<sp/>0x00)<sp/>+<sp/>AP-REQ</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>gssInner<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x06,<sp/>0x09,<sp/><sp/></highlight><highlight class="comment">//<sp/>OID<sp/>tag<sp/>+<sp/>length=9</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x2A,<sp/>0x86,<sp/>0x48,<sp/>0x86,<sp/>0xF7,<sp/>0x12,<sp/>0x01,<sp/>0x02,<sp/>0x02,<sp/></highlight><highlight class="comment">//<sp/>KRB5<sp/>OID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x01,<sp/>0x00<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AP-REQ<sp/>token<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/>gssInner.insert(gssInner.end(),<sp/>apReqApp.begin(),<sp/>apReqApp.end());</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"></highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>token;</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/>token.push_back(0x60);<sp/></highlight><highlight class="comment">//<sp/>APPLICATION<sp/>0<sp/>CONSTRUCTED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/>encLen(gssInner.size(),<sp/>token);</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/>token.insert(token.end(),<sp/>gssInner.begin(),<sp/>gssInner.end());</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>token;</highlight></codeline>
+<codeline lineno="504"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"></highlight></codeline>
+<codeline lineno="506"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>test<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="507"><highlight class="normal"></highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>ExtractServicePrincipalFromRealToken)<sp/>{</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>KerberosSecurityValidator::forService(</highlight><highlight class="stringliteral">&quot;HTTP/realhost@TEST.REALM&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="513"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"></highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>buildMinimalKrb5ApReqToken(</highlight><highlight class="stringliteral">&quot;HTTP&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;realhost&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;TEST.REALM&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>principal<sp/>=<sp/>validator.extractServicePrincipal(token);</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"></highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parser<sp/>should<sp/>find<sp/>&quot;HTTP/realhost@TEST.REALM&quot;<sp/>from<sp/>the<sp/>ticket<sp/>sname</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="519"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(principal,<sp/></highlight><highlight class="stringliteral">&quot;HTTP/realhost@TEST.REALM&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="520"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"></highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>ExtractServicePrincipalFallbackOnBadToken)<sp/>{</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>expected<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HTTP/server.example.com@REALM.COM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>KerberosSecurityValidator::forService(expected);</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"></highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dummy<sp/>token<sp/>(not<sp/>a<sp/>GSSAPI/KRB5<sp/>structure)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>bad_token(100,<sp/>0);</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(validator.extractServicePrincipal(bad_token),<sp/>expected);</highlight></codeline>
+<codeline lineno="533"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"></highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>GetTokenInfoFromRealToken)<sp/>{</highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator::Config<sp/>config;</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/>config.verify_service_target<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/>config.validate_token_structure<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/>config.reject_expired_tickets<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="543"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="544"><highlight class="normal"></highlight></codeline>
+<codeline lineno="545"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>buildMinimalKrb5ApReqToken(</highlight><highlight class="stringliteral">&quot;HTTP&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;myhost&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MY.REALM&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="546"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>info<sp/><sp/>=<sp/>validator.getTokenInfo(token);</highlight></codeline>
+<codeline lineno="547"><highlight class="normal"></highlight></codeline>
+<codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info.service_principal,<sp/></highlight><highlight class="stringliteral">&quot;HTTP/myhost@MY.REALM&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info.realm,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;MY.REALM&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(info.client_principal.empty());</highlight></codeline>
+<codeline lineno="551"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(info.end_time,<sp/>0);</highlight></codeline>
+<codeline lineno="552"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"></highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>GetTokenInfoMutualAuthFlag)<sp/>{</highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator::Config<sp/>config;</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/>config.verify_service_target<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/>config.validate_token_structure<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/>config.reject_expired_tickets<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="562"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="563"><highlight class="normal"></highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Token<sp/>without<sp/>mutual-required<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="565"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token_no_mutual<sp/>=<sp/>buildMinimalKrb5ApReqToken(</highlight><highlight class="stringliteral">&quot;SVC&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;host&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;REALM&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>info_no<sp/>=<sp/>validator.getTokenInfo(token_no_mutual);</highlight></codeline>
+<codeline lineno="567"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(info_no.has_mutual_auth);</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"></highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Token<sp/>with<sp/>mutual-required<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token_mutual<sp/>=<sp/>buildMinimalKrb5ApReqToken(</highlight><highlight class="stringliteral">&quot;SVC&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;host&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;REALM&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="571"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>info_yes<sp/>=<sp/>validator.getTokenInfo(token_mutual);</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(info_yes.has_mutual_auth);</highlight></codeline>
+<codeline lineno="573"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="574"><highlight class="normal"></highlight></codeline>
+<codeline lineno="578"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>VerifyChannelBindingFailClosedForBadToken)<sp/>{</highlight></codeline>
+<codeline lineno="579"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>KerberosSecurityValidator::withChannelBindings(</highlight></codeline>
+<codeline lineno="580"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>KerberosSecurityValidator::ChannelBindingType::TLS_SERVER_ENDPOINT);</highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="582"><highlight class="normal"></highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>garbage_token(50,<sp/>0xAB);</highlight></codeline>
+<codeline lineno="584"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>binding(32,<sp/>0x01);</highlight></codeline>
+<codeline lineno="585"><highlight class="normal"></highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>reject<sp/>non-KRB5<sp/>token<sp/>fail-closed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="587"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validator.verifyChannelBinding(garbage_token,<sp/>binding));</highlight></codeline>
+<codeline lineno="588"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="589"><highlight class="normal"></highlight></codeline>
+<codeline lineno="593"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>VerifyChannelBindingAcceptsValidKrb5)<sp/>{</highlight></codeline>
+<codeline lineno="594"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>KerberosSecurityValidator::withChannelBindings(</highlight></codeline>
+<codeline lineno="595"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>KerberosSecurityValidator::ChannelBindingType::TLS_SERVER_ENDPOINT);</highlight></codeline>
+<codeline lineno="596"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="597"><highlight class="normal"></highlight></codeline>
+<codeline lineno="598"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>buildMinimalKrb5ApReqToken(</highlight><highlight class="stringliteral">&quot;HTTP&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;server&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;REALM.COM&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="599"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>binding(32,<sp/>0x42);</highlight></codeline>
+<codeline lineno="600"><highlight class="normal"></highlight></codeline>
+<codeline lineno="601"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Structural<sp/>check<sp/>passes<sp/>for<sp/>a<sp/>valid<sp/>KRB5<sp/>AP-REQ</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="602"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(validator.verifyChannelBinding(token,<sp/>binding));</highlight></codeline>
+<codeline lineno="603"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="604"><highlight class="normal"></highlight></codeline>
+<codeline lineno="608"><highlight class="normal"><ref refid="test__kerberos__security_8cpp_1a9ebadf571d0f6fac1821fab4f10cf8a5" kindref="member">TEST</ref>(KerberosSecurityValidatorTest,<sp/>VerifyChannelBindingEmptyAlwaysPasses)<sp/>{</highlight></codeline>
+<codeline lineno="609"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>KerberosSecurityValidator::strictValidation();</highlight></codeline>
+<codeline lineno="610"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosSecurityValidator<sp/>validator(config);</highlight></codeline>
+<codeline lineno="611"><highlight class="normal"></highlight></codeline>
+<codeline lineno="612"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>garbage_token(50,<sp/>0);</highlight></codeline>
+<codeline lineno="613"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>empty_binding;</highlight></codeline>
+<codeline lineno="614"><highlight class="normal"></highlight></codeline>
+<codeline lineno="615"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(validator.verifyChannelBinding(garbage_token,<sp/>empty_binding));</highlight></codeline>
+<codeline lineno="616"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_kerberos_security.cpp"/>
+  </compounddef>
+</doxygen>

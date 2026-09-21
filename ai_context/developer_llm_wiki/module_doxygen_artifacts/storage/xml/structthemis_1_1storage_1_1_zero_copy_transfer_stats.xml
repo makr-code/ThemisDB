@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_zero_copy_transfer_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::ZeroCopyTransferStats</compoundname>
+    <includes refid="zero__copy__blob__transfer_8h" local="no">zero_copy_blob_transfer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_zero_copy_transfer_stats_1a99d6be16d15953e075bbe212f057518f" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::ZeroCopyTransferStats::bytes_transferred</definition>
+        <argsstring></argsstring>
+        <name>bytes_transferred</name>
+        <qualifiedname>themis::storage::ZeroCopyTransferStats::bytes_transferred</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="135" column="13" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_zero_copy_transfer_stats_1a96c8aadb0279cfc8b02b9615484da2d3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::ZeroCopyTransferStats::used_sendfile</definition>
+        <argsstring></argsstring>
+        <name>used_sendfile</name>
+        <qualifiedname>themis::storage::ZeroCopyTransferStats::used_sendfile</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="136" column="13" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_zero_copy_transfer_stats_1a29382af6f20623da6766b69115f10f33" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::ZeroCopyTransferStats::used_mmap</definition>
+        <argsstring></argsstring>
+        <name>used_mmap</name>
+        <qualifiedname>themis::storage::ZeroCopyTransferStats::used_mmap</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="137" column="13" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_zero_copy_transfer_stats_1ad0680bbc02b722cce52441fe0b319057" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::ZeroCopyTransferStats::used_s3_multipart</definition>
+        <argsstring></argsstring>
+        <name>used_s3_multipart</name>
+        <qualifiedname>themis::storage::ZeroCopyTransferStats::used_s3_multipart</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="138" column="13" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_zero_copy_transfer_stats_1a5b6a03af3e7c7ef2e8995a5dbc4f8b12" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::ZeroCopyTransferStats::duration_us</definition>
+        <argsstring></argsstring>
+        <name>duration_us</name>
+        <qualifiedname>themis::storage::ZeroCopyTransferStats::duration_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="139" column="13" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_zero_copy_transfer_stats_1a1dd46610d8c13aae20f78142f5cb7a0c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::storage::ZeroCopyTransferStats::s3_parts_uploaded</definition>
+        <argsstring></argsstring>
+        <name>s3_parts_uploaded</name>
+        <qualifiedname>themis::storage::ZeroCopyTransferStats::s3_parts_uploaded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="140" column="13" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics collected during a zero-copy transfer operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/zero_copy_blob_transfer.h" line="134" column="1" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="134" bodyend="141"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_zero_copy_transfer_stats_1a99d6be16d15953e075bbe212f057518f" prot="public" virt="non-virtual"><scope>themis::storage::ZeroCopyTransferStats</scope><name>bytes_transferred</name></member>
+      <member refid="structthemis_1_1storage_1_1_zero_copy_transfer_stats_1a5b6a03af3e7c7ef2e8995a5dbc4f8b12" prot="public" virt="non-virtual"><scope>themis::storage::ZeroCopyTransferStats</scope><name>duration_us</name></member>
+      <member refid="structthemis_1_1storage_1_1_zero_copy_transfer_stats_1a1dd46610d8c13aae20f78142f5cb7a0c" prot="public" virt="non-virtual"><scope>themis::storage::ZeroCopyTransferStats</scope><name>s3_parts_uploaded</name></member>
+      <member refid="structthemis_1_1storage_1_1_zero_copy_transfer_stats_1a29382af6f20623da6766b69115f10f33" prot="public" virt="non-virtual"><scope>themis::storage::ZeroCopyTransferStats</scope><name>used_mmap</name></member>
+      <member refid="structthemis_1_1storage_1_1_zero_copy_transfer_stats_1ad0680bbc02b722cce52441fe0b319057" prot="public" virt="non-virtual"><scope>themis::storage::ZeroCopyTransferStats</scope><name>used_s3_multipart</name></member>
+      <member refid="structthemis_1_1storage_1_1_zero_copy_transfer_stats_1a96c8aadb0279cfc8b02b9615484da2d3" prot="public" virt="non-virtual"><scope>themis::storage::ZeroCopyTransferStats</scope><name>used_sendfile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

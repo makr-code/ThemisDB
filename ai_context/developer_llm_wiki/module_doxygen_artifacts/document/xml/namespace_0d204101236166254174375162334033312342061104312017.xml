@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d204101236166254174375162334033312342061104312017" kind="namespace" language="C++">
+    <compoundname>@204101236166254174375162334033312342061104312017</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="114" column="1"/>
+  </compounddef>
+</doxygen>

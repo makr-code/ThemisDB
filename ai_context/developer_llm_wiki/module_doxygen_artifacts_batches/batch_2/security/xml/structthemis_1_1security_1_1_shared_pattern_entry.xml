@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_shared_pattern_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::SharedPatternEntry</compoundname>
+    <includes refid="prompt__injection__pattern__registry_8h" local="no">prompt_injection_pattern_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_shared_pattern_entry_1a176f791927e36f4393193cc06a1450db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::SharedPatternEntry::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::security::SharedPatternEntry::label</qualifiedname>
+        <briefdescription>
+<para>Short tag identifying the attack category (e.g. &quot;instruction_override&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="35" column="17" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_shared_pattern_entry_1a1aea363631aeee32bb36e193cdebab2e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::SharedPatternEntry::pattern_str</definition>
+        <argsstring></argsstring>
+        <name>pattern_str</name>
+        <qualifiedname>themis::security::SharedPatternEntry::pattern_str</qualifiedname>
+        <briefdescription>
+<para>Raw ECMAScript regex string (case-insensitive flag applied by each detector). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="37" column="17" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_shared_pattern_entry_1a1cbe37bd85612c8c132b93e52d6be2a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::SharedPatternEntry::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::security::SharedPatternEntry::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description used in log messages / findings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="39" column="17" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_shared_pattern_entry_1a3d781ddc166dd0c0cd9b6f01477a58d8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1a6365b69786e5f97cc85ac4d4a1aed2b8" kindref="member">SharedPatternSeverity</ref></type>
+        <definition>SharedPatternSeverity themis::security::SharedPatternEntry::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::security::SharedPatternEntry::severity</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1security_1a6365b69786e5f97cc85ac4d4a1aed2b8ab89de3b4b81c4facfac906edf29aec8c" kindref="member">SharedPatternSeverity::HIGH</ref></initializer>
+        <briefdescription>
+<para>Severity hint; detectors may override for domain-specific reasons. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="41" column="27" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/prompt_injection_pattern_registry.h" line="33" column="1" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="33" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_shared_pattern_entry_1a1cbe37bd85612c8c132b93e52d6be2a6" prot="public" virt="non-virtual"><scope>themis::security::SharedPatternEntry</scope><name>description</name></member>
+      <member refid="structthemis_1_1security_1_1_shared_pattern_entry_1a176f791927e36f4393193cc06a1450db" prot="public" virt="non-virtual"><scope>themis::security::SharedPatternEntry</scope><name>label</name></member>
+      <member refid="structthemis_1_1security_1_1_shared_pattern_entry_1a1aea363631aeee32bb36e193cdebab2e" prot="public" virt="non-virtual"><scope>themis::security::SharedPatternEntry</scope><name>pattern_str</name></member>
+      <member refid="structthemis_1_1security_1_1_shared_pattern_entry_1a3d781ddc166dd0c0cd9b6f01477a58d8" prot="public" virt="non-virtual"><scope>themis::security::SharedPatternEntry</scope><name>severity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

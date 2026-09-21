@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_routing_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::RoutingResult</compoundname>
+    <includes refid="model__router_8h" local="no">model_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_result_1acd4b27705f4dd3cc3837698cd9f270d1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RoutingResult::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::RoutingResult::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="49" column="17" bodyfile="include/llm/model_router.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_result_1aeb052d6861f90a4520a2a7aeb64850ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RoutingResult::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::llm::RoutingResult::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="50" column="17" bodyfile="include/llm/model_router.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_result_1adf56fa7fbe6d01c020ad67b07e682973" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::RoutingResult::matched</definition>
+        <argsstring></argsstring>
+        <name>matched</name>
+        <qualifiedname>themis::llm::RoutingResult::matched</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="51" column="10" bodyfile="include/llm/model_router.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_router.h" line="48" column="1" bodyfile="include/llm/model_router.h" bodystart="48" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_routing_result_1adf56fa7fbe6d01c020ad67b07e682973" prot="public" virt="non-virtual"><scope>themis::llm::RoutingResult</scope><name>matched</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_result_1acd4b27705f4dd3cc3837698cd9f270d1" prot="public" virt="non-virtual"><scope>themis::llm::RoutingResult</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_result_1aeb052d6861f90a4520a2a7aeb64850ad" prot="public" virt="non-virtual"><scope>themis::llm::RoutingResult</scope><name>rule_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

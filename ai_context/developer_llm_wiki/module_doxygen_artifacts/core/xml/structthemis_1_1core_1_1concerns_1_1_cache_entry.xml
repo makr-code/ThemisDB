@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_cache_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::core::concerns::CacheEntry</compoundname>
+    <includes refid="i__cache_8h" local="no">i_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_cache_entry_1a188cab93e5158f444b57c715bd5c687d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::CacheEntry::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themis::core::concerns::CacheEntry::payload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_cache.h" line="29" column="17" bodyfile="include/core/concerns/i_cache.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_cache_entry_1ac2fd97298a63a707b369ccf4d48a8217" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::CacheEntry::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::core::concerns::CacheEntry::version</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_cache.h" line="30" column="14" bodyfile="include/core/concerns/i_cache.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_cache_entry_1aee6dedd5ffc9c8e32b513127bc7ba3be" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::CacheEntry::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::core::concerns::CacheEntry::timestamp_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_cache.h" line="31" column="14" bodyfile="include/core/concerns/i_cache.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_cache_entry_1ab7ac537c7924028b28c3b478f69a538f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::CacheEntry::CacheEntry</definition>
+        <argsstring>()=default</argsstring>
+        <name>CacheEntry</name>
+        <qualifiedname>themis::core::concerns::CacheEntry::CacheEntry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_cache.h" line="33" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_cache_entry_1a54a45321ed4178bebd4c879e239b13dc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::CacheEntry::CacheEntry</definition>
+        <argsstring>(std::string data, uint64_t ver=0, uint64_t ts=0)</argsstring>
+        <name>CacheEntry</name>
+        <qualifiedname>themis::core::concerns::CacheEntry::CacheEntry</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>ver</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>ts</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_cache.h" line="34" column="5" bodyfile="include/core/concerns/i_cache.h" bodystart="34" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/i_cache.h" line="28" column="1" bodyfile="include/core/concerns/i_cache.h" bodystart="28" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1ab7ac537c7924028b28c3b478f69a538f" prot="public" virt="non-virtual"><scope>themis::core::concerns::CacheEntry</scope><name>CacheEntry</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1a54a45321ed4178bebd4c879e239b13dc" prot="public" virt="non-virtual"><scope>themis::core::concerns::CacheEntry</scope><name>CacheEntry</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1a188cab93e5158f444b57c715bd5c687d" prot="public" virt="non-virtual"><scope>themis::core::concerns::CacheEntry</scope><name>payload</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1aee6dedd5ffc9c8e32b513127bc7ba3be" prot="public" virt="non-virtual"><scope>themis::core::concerns::CacheEntry</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_cache_entry_1ac2fd97298a63a707b369ccf4d48a8217" prot="public" virt="non-virtual"><scope>themis::core::concerns::CacheEntry</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,41 @@
+Microsoft (R) COFF/PE Dumper Version 14.44.35228.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file .\build-msvc-windows-debug-gpu-verify\bin\themis_storage.dll
+
+File Type: DLL
+
+  Image has the following dependencies:
+
+    themis_base.dll
+    simdjson.dll
+    faiss.dll
+    lz4.dll
+    snappy.dll
+    spdlogd.dll
+    fmtd.dll
+    yaml-cppd.dll
+    libcrypto-3-x64.dll
+    ADVAPI32.dll
+    z.dll
+    libcurl-d.dll
+    SHLWAPI.dll
+    RPCRT4.dll
+    KERNEL32.dll
+    MSVCP140D.dll
+    VCRUNTIME140D.dll
+    VCRUNTIME140_1D.dll
+    ucrtbased.dll
+
+  Summary
+
+        1000 .00cfg
+       A8000 .data
+        C000 .idata
+      222000 .pdata
+     190D000 .rdata
+       4B000 .reloc
+        1000 .rsrc
+     1BD7000 .text
+        1000 .tls

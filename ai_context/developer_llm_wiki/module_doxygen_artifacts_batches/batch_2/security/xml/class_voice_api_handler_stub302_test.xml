@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_voice_api_handler_stub302_test" kind="class" language="C++" prot="public">
+    <compoundname>VoiceApiHandlerStub302Test</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_voice_api_handler_stub302_test_1a84d6ffa7fc1a93e9b20804ebae6a555f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; themis::voice::VoiceAssistant &gt;</type>
+        <definition>std::shared_ptr&lt; themis::voice::VoiceAssistant &gt; VoiceApiHandlerStub302Test::createVoiceAssistant</definition>
+        <argsstring>()</argsstring>
+        <name>createVoiceAssistant</name>
+        <qualifiedname>VoiceApiHandlerStub302Test::createVoiceAssistant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_stub_279_302_remediation.cpp" line="312" column="21" bodyfile="tests/security/test_stub_279_302_remediation.cpp" bodystart="312" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="class_voice_api_handler_stub302_test_1ade02042c0b44d68dbcf1033514d01ff2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; themis::AuthMiddleware &gt;</type>
+        <definition>std::shared_ptr&lt; themis::AuthMiddleware &gt; VoiceApiHandlerStub302Test::createAuthWithStaticToken</definition>
+        <argsstring>(const std::string &amp;token_value)</argsstring>
+        <name>createAuthWithStaticToken</name>
+        <qualifiedname>VoiceApiHandlerStub302Test::createAuthWithStaticToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token_value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_stub_279_302_remediation.cpp" line="316" column="21" bodyfile="tests/security/test_stub_279_302_remediation.cpp" bodystart="316" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="class_voice_api_handler_stub302_test_1a114c871349c518b23e470d5c604ce1ba" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::request&lt; http::string_body &gt;</type>
+        <definition>http::request&lt; http::string_body &gt; VoiceApiHandlerStub302Test::makeRequestWithAuth</definition>
+        <argsstring>(const std::string &amp;bearer_token)</argsstring>
+        <name>makeRequestWithAuth</name>
+        <qualifiedname>VoiceApiHandlerStub302Test::makeRequestWithAuth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bearer_token</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_stub_279_302_remediation.cpp" line="327" column="19" bodyfile="tests/security/test_stub_279_302_remediation.cpp" bodystart="327" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="class_voice_api_handler_stub302_test_1a57f59f17bf82dabe223d97cfd8756dec" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::request&lt; http::string_body &gt;</type>
+        <definition>http::request&lt; http::string_body &gt; VoiceApiHandlerStub302Test::makeRequestWithoutAuth</definition>
+        <argsstring>()</argsstring>
+        <name>makeRequestWithoutAuth</name>
+        <qualifiedname>VoiceApiHandlerStub302Test::makeRequestWithoutAuth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_stub_279_302_remediation.cpp" line="334" column="19" bodyfile="tests/security/test_stub_279_302_remediation.cpp" bodystart="334" bodyend="338"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>VoiceApiHandlerStub302Test</label>
+        <link refid="class_voice_api_handler_stub302_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>VoiceApiHandlerStub302Test</label>
+        <link refid="class_voice_api_handler_stub302_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_stub_279_302_remediation.cpp" line="310" column="1" bodyfile="tests/security/test_stub_279_302_remediation.cpp" bodystart="310" bodyend="339"/>
+    <listofallmembers>
+      <member refid="class_voice_api_handler_stub302_test_1ade02042c0b44d68dbcf1033514d01ff2" prot="protected" virt="non-virtual"><scope>VoiceApiHandlerStub302Test</scope><name>createAuthWithStaticToken</name></member>
+      <member refid="class_voice_api_handler_stub302_test_1a84d6ffa7fc1a93e9b20804ebae6a555f" prot="protected" virt="non-virtual"><scope>VoiceApiHandlerStub302Test</scope><name>createVoiceAssistant</name></member>
+      <member refid="class_voice_api_handler_stub302_test_1a114c871349c518b23e470d5c604ce1ba" prot="protected" virt="non-virtual"><scope>VoiceApiHandlerStub302Test</scope><name>makeRequestWithAuth</name></member>
+      <member refid="class_voice_api_handler_stub302_test_1a57f59f17bf82dabe223d97cfd8756dec" prot="protected" virt="non-virtual"><scope>VoiceApiHandlerStub302Test</scope><name>makeRequestWithoutAuth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

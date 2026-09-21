@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_serverless_function" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::ServerlessFunction</compoundname>
+    <includes refid="serverless__function__api__handler_8h" local="no">serverless_function_api_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_serverless_function_1ad0636a44e6f3b0f54de96a63ef5c41c7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ServerlessFunction::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::server::ServerlessFunction::id</qualifiedname>
+        <briefdescription>
+<para>Unique function ID (UUID-like). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="31" column="17" bodyfile="include/server/serverless_function_api_handler.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_serverless_function_1af6ca89fb070f492e7d18a52b948ea7cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ServerlessFunction::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::server::ServerlessFunction::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="32" column="17" bodyfile="include/server/serverless_function_api_handler.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_serverless_function_1aed8cdf1728dd890e7051dd642f27ed65" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ServerlessFunction::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::server::ServerlessFunction::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Owning tenant (empty = global). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="33" column="17" bodyfile="include/server/serverless_function_api_handler.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_serverless_function_1ae8faccee612f462bdb9c6e267a5f70a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ServerlessFunction::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::server::ServerlessFunction::description</qualifiedname>
+        <briefdescription>
+<para>Optional description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="34" column="17" bodyfile="include/server/serverless_function_api_handler.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_serverless_function_1a6b413dc5bd90aaf275fd863a1c7e041d" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::ServerlessFunction::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::server::ServerlessFunction::code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="35" column="20" bodyfile="include/server/serverless_function_api_handler.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_serverless_function_1aad3f93eccecc3fb85ef253af42325bbc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::ServerlessFunction::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::server::ServerlessFunction::timeout_ms</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>Max execution time in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="36" column="14" bodyfile="include/server/serverless_function_api_handler.h" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_serverless_function_1a9e35dba4cbc81b79c3927efdab415172" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::ServerlessFunction::memory_limit_kb</definition>
+        <argsstring></argsstring>
+        <name>memory_limit_kb</name>
+        <qualifiedname>themis::server::ServerlessFunction::memory_limit_kb</qualifiedname>
+        <initializer>{4096}</initializer>
+        <briefdescription>
+<para>Soft memory guard (tracked allocations). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="37" column="14" bodyfile="include/server/serverless_function_api_handler.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_serverless_function_1a71e7598a8194a39dd61b9e807c147df2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::ServerlessFunction::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::server::ServerlessFunction::version</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+<para>Monotonically increasing version counter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="38" column="14" bodyfile="include/server/serverless_function_api_handler.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_serverless_function_1abf972c1f0889a287ba5321aa9f8186be" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ServerlessFunction::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::server::ServerlessFunction::created_at</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 creation timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="39" column="17" bodyfile="include/server/serverless_function_api_handler.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_serverless_function_1ab5bb02e2368faee4007b92ab4577466a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ServerlessFunction::updated_at</definition>
+        <argsstring></argsstring>
+        <name>updated_at</name>
+        <qualifiedname>themis::server::ServerlessFunction::updated_at</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 last-update timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="40" column="17" bodyfile="include/server/serverless_function_api_handler.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_serverless_function_1af8ccf3ff75df60c78ba3df631fd9c959" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::ServerlessFunction::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::server::ServerlessFunction::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/serverless_function_api_handler.h" line="46" column="20" bodyfile="src/server/serverless_function_api_handler.cpp" bodystart="54" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/serverless_function_api_handler.h" line="30" column="1" bodyfile="include/server/serverless_function_api_handler.h" bodystart="30" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_serverless_function_1a6b413dc5bd90aaf275fd863a1c7e041d" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunction</scope><name>code</name></member>
+      <member refid="structthemis_1_1server_1_1_serverless_function_1abf972c1f0889a287ba5321aa9f8186be" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunction</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1server_1_1_serverless_function_1ae8faccee612f462bdb9c6e267a5f70a6" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunction</scope><name>description</name></member>
+      <member refid="structthemis_1_1server_1_1_serverless_function_1ad0636a44e6f3b0f54de96a63ef5c41c7" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunction</scope><name>id</name></member>
+      <member refid="structthemis_1_1server_1_1_serverless_function_1a9e35dba4cbc81b79c3927efdab415172" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunction</scope><name>memory_limit_kb</name></member>
+      <member refid="structthemis_1_1server_1_1_serverless_function_1af6ca89fb070f492e7d18a52b948ea7cb" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunction</scope><name>name</name></member>
+      <member refid="structthemis_1_1server_1_1_serverless_function_1aed8cdf1728dd890e7051dd642f27ed65" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunction</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1server_1_1_serverless_function_1aad3f93eccecc3fb85ef253af42325bbc" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunction</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_serverless_function_1af8ccf3ff75df60c78ba3df631fd9c959" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunction</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1server_1_1_serverless_function_1ab5bb02e2368faee4007b92ab4577466a" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunction</scope><name>updated_at</name></member>
+      <member refid="structthemis_1_1server_1_1_serverless_function_1a71e7598a8194a39dd61b9e807c147df2" prot="public" virt="non-virtual"><scope>themis::server::ServerlessFunction</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

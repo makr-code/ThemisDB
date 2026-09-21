@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_i_device_capability_query" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::acceleration::IDeviceCapabilityQuery</compoundname>
+    <includes refid="compute__backend_8h" local="no">compute_backend.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_device_capability_query_1a21b451c7e444c1d8d447e8bf872c13fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::acceleration::IDeviceCapabilityQuery::~IDeviceCapabilityQuery</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IDeviceCapabilityQuery</name>
+        <qualifiedname>themis::acceleration::IDeviceCapabilityQuery::~IDeviceCapabilityQuery</qualifiedname>
+        <briefdescription>
+<para>IDevice Capability Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="1040" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_device_capability_query_1ab65de851294ecccaf56c5fd03dee45ae" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76dde" kindref="member">DeviceCapabilityFlags</ref></type>
+        <definition>virtual DeviceCapabilityFlags themis::acceleration::IDeviceCapabilityQuery::queryCapabilities</definition>
+        <argsstring>(int device_index) const noexcept=0</argsstring>
+        <name>queryCapabilities</name>
+        <qualifiedname>themis::acceleration::IDeviceCapabilityQuery::queryCapabilities</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="1042" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_device_capability_query_1af1867e4540b2ffddf625ab536406ee5f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1acceleration_1aae02c26a4a1774b5ea7a185a08c76dde" kindref="member">DeviceCapabilityFlags</ref> &gt;</type>
+        <definition>virtual std::vector&lt; DeviceCapabilityFlags &gt; themis::acceleration::IDeviceCapabilityQuery::queryAll</definition>
+        <argsstring>() const =0</argsstring>
+        <name>queryAll</name>
+        <qualifiedname>themis::acceleration::IDeviceCapabilityQuery::queryAll</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="1044" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_backend.h" line="1034" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="1034" bodyend="1045"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_i_device_capability_query_1af1867e4540b2ffddf625ab536406ee5f" prot="public" virt="pure-virtual"><scope>themis::acceleration::IDeviceCapabilityQuery</scope><name>queryAll</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_device_capability_query_1ab65de851294ecccaf56c5fd03dee45ae" prot="public" virt="pure-virtual"><scope>themis::acceleration::IDeviceCapabilityQuery</scope><name>queryCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_device_capability_query_1a21b451c7e444c1d8d447e8bf872c13fb" prot="public" virt="virtual"><scope>themis::acceleration::IDeviceCapabilityQuery</scope><name>~IDeviceCapabilityQuery</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

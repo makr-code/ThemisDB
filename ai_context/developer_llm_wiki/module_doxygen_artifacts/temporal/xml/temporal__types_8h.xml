@@ -1,0 +1,479 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="temporal__types_8h" kind="file" language="C++">
+    <compoundname>temporal_types.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">limits</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__interval__tree__erase_8cpp" local="yes">benchmarks/temporal/bench_interval_tree_erase.cpp</includedby>
+    <includedby refid="bench__temporal__queries_8cpp" local="yes">benchmarks/temporal/bench_temporal_queries.cpp</includedby>
+    <includedby refid="bi__temporal_8h" local="yes">include/temporal/bi_temporal.h</includedby>
+    <includedby refid="bitemporal__join_8h" local="yes">include/temporal/bitemporal_join.h</includedby>
+    <includedby refid="interval__tree__index_8h" local="yes">include/temporal/interval_tree_index.h</includedby>
+    <includedby refid="retention__manager_8h" local="yes">include/temporal/retention_manager.h</includedby>
+    <includedby refid="snapshot__manager_8h" local="yes">include/temporal/snapshot_manager.h</includedby>
+    <includedby refid="system__versioned__table_8h" local="yes">include/temporal/system_versioned_table.h</includedby>
+    <includedby refid="temporal__aggregator_8h" local="yes">include/temporal/temporal_aggregator.h</includedby>
+    <includedby refid="temporal__cdc_8h" local="yes">include/temporal/temporal_cdc.h</includedby>
+    <includedby refid="temporal__cold__store_8h" local="yes">include/temporal/temporal_cold_store.h</includedby>
+    <includedby refid="temporal__compressor_8h" local="yes">include/temporal/temporal_compressor.h</includedby>
+    <includedby refid="temporal__index_8h" local="yes">include/temporal/temporal_index.h</includedby>
+    <includedby refid="temporal__migrator_8h" local="yes">include/temporal/temporal_migrator.h</includedby>
+    <includedby refid="temporal__query__engine_8h" local="yes">include/temporal/temporal_query_engine.h</includedby>
+    <includedby refid="temporal__tier__manager_8h" local="yes">include/temporal/temporal_tier_manager.h</includedby>
+    <includedby refid="test__temporal__migrator_8cpp" local="yes">tests/temporal/test_temporal_migrator.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/temporal/temporal_types.h</label>
+        <link refid="temporal__types_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>limits</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/temporal/bench_interval_tree_erase.cpp</label>
+        <link refid="bench__interval__tree__erase_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/temporal/bench_temporal_queries.cpp</label>
+        <link refid="bench__temporal__queries_8cpp"/>
+      </node>
+      <node id="4">
+        <label>include/temporal/bi_temporal.h</label>
+        <link refid="bi__temporal_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/temporal/bitemporal_join.h</label>
+        <link refid="bitemporal__join_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/temporal/interval_tree_index.h</label>
+        <link refid="interval__tree__index_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/temporal/retention_manager.h</label>
+        <link refid="retention__manager_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/temporal/snapshot_manager.h</label>
+        <link refid="snapshot__manager_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/temporal/system_versioned_table.h</label>
+        <link refid="system__versioned__table_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>include/temporal/temporal_aggregator.h</label>
+        <link refid="temporal__aggregator_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>include/temporal/temporal_cdc.h</label>
+        <link refid="temporal__cdc_8h"/>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>include/temporal/temporal_cold_store.h</label>
+        <link refid="temporal__cold__store_8h"/>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>include/temporal/temporal_compressor.h</label>
+        <link refid="temporal__compressor_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>include/temporal/temporal_index.h</label>
+        <link refid="temporal__index_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/temporal/temporal_migrator.h</label>
+        <link refid="temporal__migrator_8h"/>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/temporal/temporal_query_engine.h</label>
+        <link refid="temporal__query__engine_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>include/temporal/temporal_tier_manager.h</label>
+        <link refid="temporal__tier__manager_8h"/>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/temporal/temporal_types.h</label>
+        <link refid="temporal__types_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>src/temporal/bi_temporal.cpp</label>
+        <link refid="bi__temporal_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/temporal/bitemporal_join.cpp</label>
+        <link refid="bitemporal__join_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/temporal/interval_tree_index.cpp</label>
+        <link refid="interval__tree__index_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/temporal/retention_manager.cpp</label>
+        <link refid="retention__manager_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/temporal/snapshot_manager.cpp</label>
+        <link refid="snapshot__manager_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/temporal/system_versioned_table.cpp</label>
+        <link refid="system__versioned__table_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/temporal/temporal_aggregator.cpp</label>
+        <link refid="temporal__aggregator_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/temporal/temporal_cdc.cpp</label>
+        <link refid="temporal__cdc_8cpp"/>
+      </node>
+      <node id="41">
+        <label>src/temporal/temporal_cold_store.cpp</label>
+        <link refid="temporal__cold__store_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/temporal/temporal_compressor.cpp</label>
+        <link refid="temporal__compressor_8cpp"/>
+      </node>
+      <node id="44">
+        <label>src/temporal/temporal_index.cpp</label>
+        <link refid="temporal__index_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/temporal/temporal_migrator.cpp</label>
+        <link refid="temporal__migrator_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/temporal/temporal_query_engine.cpp</label>
+        <link refid="temporal__query__engine_8cpp"/>
+      </node>
+      <node id="39">
+        <label>src/temporal/temporal_tier_manager.cpp</label>
+        <link refid="temporal__tier__manager_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/temporal/test_bi_temporal.cpp</label>
+        <link refid="test__bi__temporal_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/temporal/test_interval_tree_index.cpp</label>
+        <link refid="test__interval__tree__index_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/temporal/test_retention_manager.cpp</label>
+        <link refid="test__retention__manager_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/temporal/test_snapshot_manager.cpp</label>
+        <link refid="test__snapshot__manager_8cpp"/>
+      </node>
+      <node id="33">
+        <label>tests/temporal/test_system_versioned_table.cpp</label>
+        <link refid="test__system__versioned__table_8cpp"/>
+      </node>
+      <node id="25">
+        <label>tests/temporal/test_temporal_aggregator.cpp</label>
+        <link refid="test__temporal__aggregator_8cpp"/>
+      </node>
+      <node id="36">
+        <label>tests/temporal/test_temporal_cdc.cpp</label>
+        <link refid="test__temporal__cdc_8cpp"/>
+      </node>
+      <node id="42">
+        <label>tests/temporal/test_temporal_cold_store.cpp</label>
+        <link refid="test__temporal__cold__store_8cpp"/>
+      </node>
+      <node id="28">
+        <label>tests/temporal/test_temporal_compressor.cpp</label>
+        <link refid="test__temporal__compressor_8cpp"/>
+      </node>
+      <node id="45">
+        <label>tests/temporal/test_temporal_index.cpp</label>
+        <link refid="test__temporal__index_8cpp"/>
+      </node>
+      <node id="31">
+        <label>tests/temporal/test_temporal_migrator.cpp</label>
+        <link refid="test__temporal__migrator_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/temporal/test_temporal_query_engine.cpp</label>
+        <link refid="test__temporal__query__engine_8cpp"/>
+      </node>
+      <node id="40">
+        <label>tests/temporal/test_temporal_tier_manager.cpp</label>
+        <link refid="test__temporal__tier__manager_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/temporal/test_temporal_v18_v19.cpp</label>
+        <link refid="test__temporal__v18__v19_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_time_range" prot="public">themisdb::temporal::TimeRange</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_versioned_document" prot="public">themisdb::temporal::VersionedDocument</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1temporal">themisdb::temporal</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;limits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal" kindref="compound">temporal</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/>=<sp/>int64_t;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/>kMaxTimestamp<sp/>=<sp/>std::numeric_limits&lt;int64_t&gt;::max();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/>kMinTimestamp<sp/>=<sp/>-std::numeric_limits&lt;int64_t&gt;::max();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now().time_since_epoch())</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.count();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemisdb_1_1temporal_1_1_time_range" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemisdb_1_1temporal_1_1_time_range_1a6c5b8c4ed4f2c7c790a1dd5986a0dff9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a6c5b8c4ed4f2c7c790a1dd5986a0dff9" kindref="member">start</ref>{kMinTimestamp};</highlight></codeline>
+<codeline lineno="55" refid="structthemisdb_1_1temporal_1_1_time_range_1a42425fe303009b5d55112e79b937883c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a42425fe303009b5d55112e79b937883c" kindref="member">end</ref>{kMaxTimestamp};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemisdb_1_1temporal_1_1_time_range_1a0f0d913cb724c0ca0554a9305e3b88dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a0f0d913cb724c0ca0554a9305e3b88dc" kindref="member">contains</ref>(<ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/>t)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>t<sp/>&gt;=<sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a6c5b8c4ed4f2c7c790a1dd5986a0dff9" kindref="member">start</ref><sp/>&amp;&amp;<sp/>t<sp/>&lt;<sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a42425fe303009b5d55112e79b937883c" kindref="member">end</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemisdb_1_1temporal_1_1_time_range_1a5596da02482e7f79886cd03d721a3ff8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a5596da02482e7f79886cd03d721a3ff8" kindref="member">overlaps</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a6c5b8c4ed4f2c7c790a1dd5986a0dff9" kindref="member">start</ref><sp/>&lt;<sp/>other.end<sp/>&amp;&amp;<sp/>other.start<sp/>&lt;<sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a42425fe303009b5d55112e79b937883c" kindref="member">end</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemisdb_1_1temporal_1_1_time_range_1a9c5f08b33097826c6ec847372eeb3729" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a9c5f08b33097826c6ec847372eeb3729" kindref="member">precedes</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a42425fe303009b5d55112e79b937883c" kindref="member">end</ref><sp/>&lt;=<sp/>other.start;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemisdb_1_1temporal_1_1_time_range_1a1a44048823ccdbad15321f987c13ad54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a1a44048823ccdbad15321f987c13ad54" kindref="member">succeeds</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a6c5b8c4ed4f2c7c790a1dd5986a0dff9" kindref="member">start</ref><sp/>&gt;=<sp/>other.end;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemisdb_1_1temporal_1_1_time_range_1a9764d55b39bc459e5f8cf520ad24f23f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a9764d55b39bc459e5f8cf520ad24f23f" kindref="member">meets</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a42425fe303009b5d55112e79b937883c" kindref="member">end</ref><sp/>==<sp/>other.start;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemisdb_1_1temporal_1_1_time_range_1a9632a7035585c11459e01057651e765a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a9632a7035585c11459e01057651e765a" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a6c5b8c4ed4f2c7c790a1dd5986a0dff9" kindref="member">start</ref><sp/>==<sp/>other.start<sp/>&amp;&amp;<sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a42425fe303009b5d55112e79b937883c" kindref="member">end</ref><sp/>==<sp/>other.end;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemisdb_1_1temporal_1_1_time_range_1a8699b1b3f1016314ced1d422c0df9c4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a8699b1b3f1016314ced1d422c0df9c4b" kindref="member">operator!=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!(*</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>==<sp/>other);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemisdb_1_1temporal_1_1_time_range_1a130713c653c14ae1e094b883b34fc688" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a130713c653c14ae1e094b883b34fc688" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{{</highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a6c5b8c4ed4f2c7c790a1dd5986a0dff9" kindref="member">start</ref>},<sp/>{</highlight><highlight class="stringliteral">&quot;end&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1a42425fe303009b5d55112e79b937883c" kindref="member">end</ref>}};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemisdb_1_1temporal_1_1_time_range_1aabf8f19671492f9af9f91fa61fa8f152" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range_1aabf8f19671492f9af9f91fa61fa8f152" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{j.at(</highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">).get&lt;<ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref>&gt;(),<sp/>j.at(</highlight><highlight class="stringliteral">&quot;end&quot;</highlight><highlight class="normal">).get&lt;<ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref>&gt;()};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemisdb_1_1temporal_1_1_versioned_document" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="structthemisdb_1_1temporal_1_1_versioned_document_1a9f648e85fa51de74b77ea5b35f82a61e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1a9f648e85fa51de74b77ea5b35f82a61e" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="104" refid="structthemisdb_1_1temporal_1_1_versioned_document_1a948c330e41450fe200cf1a22855d05e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1a948c330e41450fe200cf1a22855d05e7" kindref="member">data</ref>;</highlight></codeline>
+<codeline lineno="105" refid="structthemisdb_1_1temporal_1_1_versioned_document_1a87fae863c444243377d548f9e0e325d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1a87fae863c444243377d548f9e0e325d6" kindref="member">sys_time</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106" refid="structthemisdb_1_1temporal_1_1_versioned_document_1a5a80174583222f22ce6472d259b7ee96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1a5a80174583222f22ce6472d259b7ee96" kindref="member">valid_time</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107" refid="structthemisdb_1_1temporal_1_1_versioned_document_1adcf8f8c6b8b22489437d6c878aa70d9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1adcf8f8c6b8b22489437d6c878aa70d9c" kindref="member">modified_by</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemisdb_1_1temporal_1_1_versioned_document_1a6d325f3059c60fb16b3131a5349f5217" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1a6d325f3059c60fb16b3131a5349f5217" kindref="member">isCurrent</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1a87fae863c444243377d548f9e0e325d6" kindref="member">sys_time</ref>.end<sp/>==<sp/>kMaxTimestamp;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemisdb_1_1temporal_1_1_versioned_document_1a814ed28e038cb864b93e04081fc248c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1a814ed28e038cb864b93e04081fc248c9" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1a9f648e85fa51de74b77ea5b35f82a61e" kindref="member">key</ref>},</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1a948c330e41450fe200cf1a22855d05e7" kindref="member">data</ref>},</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;sys_time&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1a87fae863c444243377d548f9e0e325d6" kindref="member">sys_time</ref>.toJson()},</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;valid_time&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1a5a80174583222f22ce6472d259b7ee96" kindref="member">valid_time</ref>.toJson()},</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;modified_by&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1adcf8f8c6b8b22489437d6c878aa70d9c" kindref="member">modified_by</ref>}};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>temporal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/temporal/temporal_types.h"/>
+  </compounddef>
+</doxygen>

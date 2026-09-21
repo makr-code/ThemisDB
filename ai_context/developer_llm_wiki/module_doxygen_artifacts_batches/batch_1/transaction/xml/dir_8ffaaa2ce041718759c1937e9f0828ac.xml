@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8ffaaa2ce041718759c1937e9f0828ac" kind="dir">
+    <compoundname>tests/transaction</compoundname>
+    <innerfile refid="connection__leak__tests_8cpp">connection_leak_tests.cpp</innerfile>
+    <innerfile refid="test__adaptive__deadlock__prevention_8cpp">test_adaptive_deadlock_prevention.cpp</innerfile>
+    <innerfile refid="test__coordinator__crash__recovery_8cpp">test_coordinator_crash_recovery.cpp</innerfile>
+    <innerfile refid="test__cross__coordinator__wal__recovery_8cpp">test_cross_coordinator_wal_recovery.cpp</innerfile>
+    <innerfile refid="test__grpc__rpc__adapter_8cpp">test_grpc_rpc_adapter.cpp</innerfile>
+    <innerfile refid="test__itransaction__coordinator_8cpp">test_itransaction_coordinator.cpp</innerfile>
+    <innerfile refid="test__saga__orchestration__hardening_8cpp">test_saga_orchestration_hardening.cpp</innerfile>
+    <innerfile refid="test__transaction__auditor_8cpp">test_transaction_auditor.cpp</innerfile>
+    <innerfile refid="test__transaction__batcher_8cpp">test_transaction_batcher.cpp</innerfile>
+    <innerfile refid="test__transaction__bulk_8cpp">test_transaction_bulk.cpp</innerfile>
+    <innerfile refid="test__transaction__chaos_8cpp">test_transaction_chaos.cpp</innerfile>
+    <innerfile refid="test__transaction__distributed__2pc_8cpp">test_transaction_distributed_2pc.cpp</innerfile>
+    <innerfile refid="test__transaction__distributed__phase2_8cpp">test_transaction_distributed_phase2.cpp</innerfile>
+    <innerfile refid="test__transaction__error__path__determinism__phase1_8cpp">test_transaction_error_path_determinism_phase1.cpp</innerfile>
+    <innerfile refid="test__transaction__fault__injection__phase3_8cpp">test_transaction_fault_injection_phase3.cpp</innerfile>
+    <innerfile refid="test__transaction__highcardinality__stress_8cpp">test_transaction_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__transaction__isolation_8cpp">test_transaction_isolation.cpp</innerfile>
+    <innerfile refid="test__transaction__isolation__contention__phase1_8cpp">test_transaction_isolation_contention_phase1.cpp</innerfile>
+    <innerfile refid="test__transaction__isolation__levels_8cpp">test_transaction_isolation_levels.cpp</innerfile>
+    <innerfile refid="test__transaction__lifecycle__phase1_8cpp">test_transaction_lifecycle_phase1.cpp</innerfile>
+    <innerfile refid="test__transaction__manager_8cpp">test_transaction_manager.cpp</innerfile>
+    <innerfile refid="test__transaction__manager__comprehensive_8cpp">test_transaction_manager_comprehensive.cpp</innerfile>
+    <innerfile refid="test__transaction__occ_8cpp">test_transaction_occ.cpp</innerfile>
+    <innerfile refid="test__transaction__retry_8cpp">test_transaction_retry.cpp</innerfile>
+    <innerfile refid="test__transaction__saga__compensation__phase2_8cpp">test_transaction_saga_compensation_phase2.cpp</innerfile>
+    <innerfile refid="test__transaction__semantic__advisor_8cpp">test_transaction_semantic_advisor.cpp</innerfile>
+    <innerfile refid="test__transaction__semantic__advisor__llm__focused_8cpp">test_transaction_semantic_advisor_llm_focused.cpp</innerfile>
+    <innerfile refid="test__transaction__ssi_8cpp">test_transaction_ssi.cpp</innerfile>
+    <innerfile refid="test__transaction__stress_8cpp">test_transaction_stress.cpp</innerfile>
+    <innerfile refid="test__transaction__timeout_8cpp">test_transaction_timeout.cpp</innerfile>
+    <innerfile refid="test__transaction__timeout__determinism_8cpp">test_transaction_timeout_determinism.cpp</innerfile>
+    <innerfile refid="test__transaction__wave__a__closure_8cpp">test_transaction_wave_a_closure.cpp</innerfile>
+    <innerfile refid="test__wave4c__t1t4__hardening_8cpp">test_wave4c_t1t4_hardening.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/transaction/"/>
+  </compounddef>
+</doxygen>

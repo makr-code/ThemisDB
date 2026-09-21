@@ -1,0 +1,692 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__gpu__phase__c__gates_8cpp" kind="file" language="C++">
+    <compoundname>bench_gpu_phase_c_gates.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">iostream</includes>
+    <includes local="yes">themis/gpu/gpu_error.h</includes>
+    <includes local="yes">themis/gpu/gpu_memory.h</includes>
+    <includes local="yes">themis/gpu/gpu_timeout.h</includes>
+    <includes local="yes">themis/gpu/gpu_checked_ops.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/gpu/bench_gpu_phase_c_gates.cpp</label>
+        <link refid="bench__gpu__phase__c__gates_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>iostream</label>
+      </node>
+      <node id="11">
+        <label>themis/gpu/gpu_checked_ops.h</label>
+      </node>
+      <node id="8">
+        <label>themis/gpu/gpu_error.h</label>
+      </node>
+      <node id="9">
+        <label>themis/gpu/gpu_memory.h</label>
+      </node>
+      <node id="10">
+        <label>themis/gpu/gpu_timeout.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_g_p_u_phase_c_benchmark" prot="public">GPUPhaseCBenchmark</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__gpu__phase__c__gates_8cpp_1a23f0cdb1e345ffd6a95f149b83a9a923" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(GPUPhaseCBenchmark, bench_query_accel_baseline)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref></type>
+        </param>
+        <param>
+          <type>bench_query_accel_baseline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" line="72" column="1" bodyfile="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" bodystart="72" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__gpu__phase__c__gates_8cpp_1a56331be360af3897ff6fba2844ffc8e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Range</definition>
+        <argsstring>(100, 100 &apos;000) -&gt; Unit(benchmark::kMillisecond) -&gt;Iterations(100)</argsstring>
+        <name>Range</name>
+        <param>
+          <type>100</type>
+        </param>
+        <param>
+          <type>100 &apos;</type>
+          <declname>000</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" line="95" column="5" declfile="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" declline="95" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__gpu__phase__c__gates_8cpp_1a781831ccaa815169e20db67a0eb90a5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(GPUPhaseCBenchmark, bench_query_accel_with_error_recovery)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref></type>
+        </param>
+        <param>
+          <type>bench_query_accel_with_error_recovery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" line="103" column="1" bodyfile="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" bodystart="103" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__gpu__phase__c__gates_8cpp_1a09b8cccbb27dae2ffded983785ed81d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(GPUPhaseCBenchmark, bench_memory_alloc_baseline)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref></type>
+        </param>
+        <param>
+          <type>bench_memory_alloc_baseline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" line="137" column="1" bodyfile="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" bodystart="137" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__gpu__phase__c__gates_8cpp_1a3a9b44a8d51096fcc4ac86bd36dd756e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(1024) -&gt; Arg(10 *1024) -&gt;Unit(benchmark::kMillisecond) -&gt;Iterations(50)</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>1024</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" line="164" column="5" declfile="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" declline="164" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__gpu__phase__c__gates_8cpp_1ae1275e06909cb555c7a612f1bfec889c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(GPUPhaseCBenchmark, bench_timeout_guard_overhead)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref></type>
+        </param>
+        <param>
+          <type>bench_timeout_guard_overhead</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" line="173" column="1" bodyfile="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" bodystart="173" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__gpu__phase__c__gates_8cpp_1a7e8b12838ebd3159439f4d0e02edf4d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Range</definition>
+        <argsstring>(1 &apos;000, 100 &apos;000) -&gt; Unit(benchmark::kMillisecond) -&gt;Iterations(100)</argsstring>
+        <name>Range</name>
+        <param>
+          <type>1 &apos;</type>
+          <declname>000</declname>
+        </param>
+        <param>
+          <type>100 &apos;</type>
+          <declname>000</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" line="200" column="5" declfile="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" declline="200" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__gpu__phase__c__gates_8cpp_1a59038569ee32347fa58d663ea149ca6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(GPUPhaseCBenchmark, bench_memory_manager_exception_safety)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref></type>
+        </param>
+        <param>
+          <type>bench_memory_manager_exception_safety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" line="208" column="1" bodyfile="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" bodystart="208" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__gpu__phase__c__gates_8cpp_1a6311b3eb055f633f159ceeebdeed17f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(100) -&gt; Arg(1000) -&gt;Unit(benchmark::kMillisecond) -&gt;Iterations(50)</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>100</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" line="241" column="5" declfile="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" declline="241" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__gpu__phase__c__gates_8cpp_1ab38ebd2b6ef893b04681387d955e4583" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(GPUPhaseCBenchmark, bench_error_handler_lookup)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref></type>
+        </param>
+        <param>
+          <type>bench_error_handler_lookup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" line="250" column="1" bodyfile="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" bodystart="250" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__gpu__phase__c__gates_8cpp_1a5b28ad71c8e1eb06267fa31f2e6102ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Unit</definition>
+        <argsstring>(benchmark::kMicrosecond) -&gt; Iterations(10000)</argsstring>
+        <name>Unit</name>
+        <param>
+          <type>benchmark::kMicrosecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" line="275" column="5" declfile="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" declline="275" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__gpu__phase__c__gates_8cpp_1a3bfca4f22b12b95d0e26f39193ecfafa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(GPUPhaseCBenchmark, bench_error_recording_concurrent)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref></type>
+        </param>
+        <param>
+          <type>bench_error_recording_concurrent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" line="282" column="1" bodyfile="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" bodystart="282" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__gpu__phase__c__gates_8cpp_1a0c792482ac90ee1133bdf07e799d7444" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ThreadRange</definition>
+        <argsstring>(1, 4) -&gt; Unit(benchmark::kMicrosecond) -&gt;Iterations(10000)</argsstring>
+        <name>ThreadRange</name>
+        <param>
+          <type>1</type>
+        </param>
+        <param>
+          <type>4</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" line="297" column="5" declfile="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" declline="297" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__gpu__phase__c__gates_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int main</definition>
+        <argsstring>(int argc, char **argv)</argsstring>
+        <name>main</name>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>argv</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Performance Expectation:</para>
+<para>Baseline Performance (GPU path disabled, CPU only):<itemizedlist>
+<listitem><para>Query sum (100k elements): ~1ms</para>
+</listitem><listitem><para>Allocation (1KB): ~0.1μs</para>
+</listitem><listitem><para>Error handler lookup: ~10ns</para>
+</listitem></itemizedlist>
+</para>
+<para>Phase C Overhead Analysis:<itemizedlist>
+<listitem><para>CHECKED_CUDA macro: &lt;1% on success path</para>
+</listitem><listitem><para>KernelSLAGuard: &lt;2% (guard creation + timeout check)</para>
+</listitem><listitem><para>RAII cleanup (unique_gpu_ptr): ~1-2% (destructor cost)</para>
+</listitem><listitem><para>Error recording: ~5-10μs per occurrence (thread-safe)</para>
+</listitem></itemizedlist>
+</para>
+<para>Acceptance Criteria:<itemizedlist>
+<listitem><para>All benchmarks within ±5% baseline</para>
+</listitem><listitem><para>No regressions from Phase 1-4</para>
+</listitem><listitem><para>KernelSLAGuard overhead acceptable for safety gain</para>
+</listitem></itemizedlist>
+</para>
+<para>Expected Results:<itemizedlist>
+<listitem><para>query_accel_baseline: ~1000 iterations/sec (baseline)</para>
+</listitem><listitem><para>query_accel_with_error_recovery: ~950-1050 iterations/sec (+/-5%)</para>
+</listitem><listitem><para>memory_alloc_baseline: ~200k allocs/sec (baseline)</para>
+</listitem><listitem><para>timeout_guard_overhead: ~1000 iterations/sec (+/-5%)</para>
+</listitem></itemizedlist>
+</para>
+<para>Regression Analysis: If any benchmark exceeds ±5% baseline, document:<orderedlist>
+<listitem><para>Which benchmark regressed</para>
+</listitem><listitem><para>Magnitude of regression</para>
+</listitem><listitem><para>Root cause analysis</para>
+</listitem><listitem><para>Mitigation strategy </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" line="339" column="5" bodyfile="benchmarks/gpu/bench_gpu_phase_c_gates.cpp" bodystart="339" bodyend="346"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Benchmark verification for GPU Block 3 Phase C gates. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Verifies performance within ±5% baseline:<itemizedlist>
+<listitem><para>bench_query_accel_baseline: GPU path without errors</para>
+</listitem><listitem><para>bench_query_accel_with_error_recovery: GPU path with simulated error</para>
+</listitem><listitem><para>bench_memory_alloc_baseline: allocation without failures</para>
+</listitem><listitem><para>bench_timeout_guard_overhead: KernelSLAGuard timing overhead</para>
+</listitem></itemizedlist>
+</para>
+<para>Acceptance: All within ±5% of baseline (or provide regression analysis) Minimum 4 benchmark cases required for Phase C.</para>
+<para><simplesect kind="author"><para>ThemisDB GPU Team </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-18 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/gpu_error.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/gpu_memory.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/gpu_timeout.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/gpu_checked_ops.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark<sp/>Fixtures<sp/>&amp;<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="class_g_p_u_phase_c_benchmark" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;GPUErrorHandler&gt;<sp/><ref refid="class_g_p_u_phase_c_benchmark_1aedae215838e38a5a1464798aa8c7c227" kindref="member">handler</ref><sp/>=<sp/>GPUErrorHandler::Create();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>CPU-only<sp/>SUM<sp/>operation<sp/>(simulating<sp/>CPU<sp/>fallback<sp/>path)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="class_g_p_u_phase_c_benchmark_1a448aef5238c5d9ec6acaf67c54ef412b" kindref="member">cpu_sum</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>val<sp/>:<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>result<sp/>+=<sp/>val;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>CPU-only<sp/>SORT<sp/>operation<sp/>(simulating<sp/>fallback)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_g_p_u_phase_c_benchmark_1a812f86ff3fb52586a733dc9585275192" kindref="member">cpu_sort</ref>(std::vector&lt;float&gt;&amp;<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(data.begin(),<sp/>data.end());</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>allocation<sp/>with<sp/>CHECKED_CUDA<sp/>simulation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_g_p_u_phase_c_benchmark_1ae7090779d62667a9698bbafaa187f278" kindref="member">allocate_gpu_memory</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>non-GPU<sp/>environment,<sp/>simulate<sp/>allocation<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">[bytes];</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">[]<sp/>ptr;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_g_p_u_phase_c_benchmark_1aeb46a54cd13e11dd982d7ebb0f39307c" kindref="member">SetUp</ref>(const<sp/>::benchmark::State&amp;<sp/>state)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="class_g_p_u_phase_c_benchmark_1aedae215838e38a5a1464798aa8c7c227" kindref="member">handler</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>state.SkipWithError(</highlight><highlight class="stringliteral">&quot;GPUErrorHandler::Create()<sp/>returned<sp/>nullptr&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark<sp/>1:<sp/>Query<sp/>Accelerator<sp/>Baseline<sp/>(No<sp/>Errors)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="bench__gpu__phase__c__gates_8cpp_1a23f0cdb1e345ffd6a95f149b83a9a923" kindref="member">BENCHMARK_F</ref>(<ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref>,<sp/>bench_query_accel_baseline)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup:<sp/>Create<sp/>test<sp/>data<sp/>matching<sp/>realistic<sp/>query<sp/>workload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>data_size<sp/>=<sp/>state.range(0);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/>std::vector&lt;float&gt;<sp/>data(data_size);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>data<sp/>with<sp/>realistic<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>data_size;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>data[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>%<sp/>100)<sp/>/<sp/>10.0f;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>CPU<sp/>fallback<sp/>path<sp/>(representing<sp/>GPU-equivalent<sp/>workload)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>cpu_sum(data);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>data_size);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;query_accel_baseline&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Register<sp/>baseline<sp/>benchmark<sp/>with<sp/>various<sp/>data<sp/>sizes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref>,<sp/>bench_query_accel_baseline)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Range(100,<sp/>100&apos;000)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>100<sp/>to<sp/>100k<sp/>elements</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(100);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark<sp/>2:<sp/>Query<sp/>Accelerator<sp/>with<sp/>Error<sp/>Recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="bench__gpu__phase__c__gates_8cpp_1a23f0cdb1e345ffd6a95f149b83a9a923" kindref="member">BENCHMARK_F</ref>(<ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref>,<sp/>bench_query_accel_with_error_recovery)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>data_size<sp/>=<sp/>state.range(0);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/>std::vector&lt;float&gt;<sp/>data(data_size);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>data_size;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>data[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>%<sp/>100)<sp/>/<sp/>10.0f;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>Simulate<sp/>GPU<sp/>attempt<sp/>→<sp/>error<sp/>→<sp/>CPU<sp/>fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>GPU<sp/>error<sp/>occurrence<sp/>(very<sp/>cheap<sp/>operation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>error_info<sp/>=<sp/>handler-&gt;recordErrorOccurrence(</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kMemoryCommunication,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;simulated<sp/>H2D<sp/>error&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Apply<sp/>recovery:<sp/>CPU<sp/>fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>cpu_sum(data);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>data_size);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;query_accel_with_error_recovery&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref>,<sp/>bench_query_accel_with_error_recovery)</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Range(100,<sp/>100&apos;000)</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(100);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark<sp/>3:<sp/>Memory<sp/>Allocation<sp/>Baseline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="bench__gpu__phase__c__gates_8cpp_1a23f0cdb1e345ffd6a95f149b83a9a923" kindref="member">BENCHMARK_F</ref>(<ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref>,<sp/>bench_memory_alloc_baseline)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>alloc_size<sp/>=<sp/>state.range(0);<sp/><sp/></highlight><highlight class="comment">//<sp/>Size<sp/>of<sp/>each<sp/>allocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>alloc_count<sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>allocations<sp/>per<sp/>iteration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>Allocation<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;void*&gt;<sp/>ptrs;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>multiple<sp/>allocations<sp/>(typical<sp/>workload)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>alloc_count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">[alloc_size];</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>ptrs.push_back(ptr);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>deallocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr<sp/>:<sp/>ptrs)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">[]<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ptr);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ptrs);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>alloc_count);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;memory_alloc_baseline&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref>,<sp/>bench_memory_alloc_baseline)</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(1024)<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1KB<sp/>allocations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(10<sp/>*<sp/>1024)<sp/></highlight><highlight class="comment">//<sp/>10KB<sp/>allocations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(50);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark<sp/>4:<sp/>Timeout<sp/>Guard<sp/>Overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="bench__gpu__phase__c__gates_8cpp_1a23f0cdb1e345ffd6a95f149b83a9a923" kindref="member">BENCHMARK_F</ref>(<ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref>,<sp/>bench_timeout_guard_overhead)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>data_size<sp/>=<sp/>state.range(0);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/>std::vector&lt;float&gt;<sp/>data(data_size);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>data_size;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>data[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>%<sp/>100)<sp/>/<sp/>10.0f;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>Overhead<sp/>of<sp/>KernelSLAGuard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>SLA<sp/>guard<sp/>for<sp/>this<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>KernelSLAGuard<sp/>sla_guard(5s);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Do<sp/>work<sp/>(CPU<sp/>fallback<sp/>computation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>cpu_sum(data);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>timeout<sp/>(zero<sp/>cost<sp/>if<sp/>no<sp/>timeout)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>timed_out<sp/>=<sp/>sla_guard.checkTimeoutDeadline();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(timed_out);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>data_size);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;timeout_guard_overhead&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref>,<sp/>bench_timeout_guard_overhead)</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Range(1&apos;000,<sp/>100&apos;000)</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(100);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark<sp/>5:<sp/>Memory<sp/>Manager<sp/>with<sp/>Exception<sp/>Safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="bench__gpu__phase__c__gates_8cpp_1a23f0cdb1e345ffd6a95f149b83a9a923" kindref="member">BENCHMARK_F</ref>(<ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref>,<sp/>bench_memory_manager_exception_safety)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>alloc_count<sp/>=<sp/>state.range(0);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>Allocation<sp/>with<sp/>exception<sp/>safety<sp/>(RAII<sp/>cost)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;void*&gt;<sp/>ptrs;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>RAII<sp/>allocations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>alloc_count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">[1024];</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ptrs.push_back(ptr);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>exception<sp/>(triggers<sp/>cleanup)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(alloc_count<sp/>&gt;<sp/>500)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;simulated<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Manual<sp/>cleanup<sp/>if<sp/>no<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr<sp/>:<sp/>ptrs)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">[]<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ptr);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exception<sp/>caught;<sp/>cleanup<sp/>happens<sp/>here<sp/>in<sp/>RAII<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>alloc_count);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;memory_manager_exception_safety&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref>,<sp/>bench_memory_manager_exception_safety)</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(100)</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(1000)</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(50);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark<sp/>6:<sp/>Error<sp/>Handler<sp/>Lookup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="bench__gpu__phase__c__gates_8cpp_1a23f0cdb1e345ffd6a95f149b83a9a923" kindref="member">BENCHMARK_F</ref>(<ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref>,<sp/>bench_error_handler_lookup)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;GPUErrorClass&gt;<sp/>error_classes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kQuotaExceeded,</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kKernelTimeout,</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kBackendUnavailable,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kMemoryCommunication,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kNumerical,</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kUnsupportedOperation,</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>Error<sp/>classification<sp/>and<sp/>policy<sp/>lookup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>error_class<sp/>:<sp/>error_classes)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>class_name<sp/>=<sp/>handler-&gt;errorClassName(error_class);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>policy<sp/>=<sp/>handler-&gt;defaultPolicy(error_class);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(class_name);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(policy);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>error_classes.size());</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;error_handler_lookup&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref>,<sp/>bench_error_handler_lookup)</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(10000);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark<sp/>7:<sp/>Concurrent<sp/>Error<sp/>Recording</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="bench__gpu__phase__c__gates_8cpp_1a23f0cdb1e345ffd6a95f149b83a9a923" kindref="member">BENCHMARK_F</ref>(<ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref>,<sp/>bench_error_recording_concurrent)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>Thread-safe<sp/>error<sp/>recording</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>error_info<sp/>=<sp/>handler-&gt;recordErrorOccurrence(</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kKernelTimeout,</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;benchmark<sp/>concurrent<sp/>recording&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(error_info);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;error_recording_concurrent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_g_p_u_phase_c_benchmark" kindref="compound">GPUPhaseCBenchmark</ref>,<sp/>bench_error_recording_concurrent)</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ThreadRange(1,<sp/>4)<sp/><sp/></highlight><highlight class="comment">//<sp/>Single-threaded<sp/>and<sp/>multi-threaded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(10000);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark<sp/>Analysis<sp/>&amp;<sp/>Reporting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Main<sp/>function<sp/>(required<sp/>for<sp/>benchmark<sp/>runner)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="bench__gpu__phase__c__gates_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627" kindref="member">main</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>argv)<sp/>{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/>::benchmark::Initialize(&amp;argc,<sp/>argv);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(::benchmark::ReportUnrecognizedArguments(argc,<sp/>argv))<sp/>{</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/>::benchmark::RunSpecifiedBenchmarks();</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/gpu/bench_gpu_phase_c_gates.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1_1cem" kind="namespace" language="C++">
+    <compoundname>themisdb::graph::test::phase3::cem</compoundname>
+    <innerclass refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_cache_entry" prot="public">themisdb::graph::test::phase3::cem::CacheEntry</innerclass>
+    <innerclass refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_multi_tier_cache" prot="public">themisdb::graph::test::phase3::cem::MultiTierCache</innerclass>
+    <innerclass refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_multi_tier_fixture" prot="public">themisdb::graph::test::phase3::cem::MultiTierFixture</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1a5371ce2969d244346edd3fe394bd52c2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CacheTier</name>
+        <qualifiedname>themisdb::graph::test::phase3::cem::CacheTier</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1a5371ce2969d244346edd3fe394bd52c2ac429fde8b1b986d42f84ba63dbfef6ac" prot="public">
+          <name>HOT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1a5371ce2969d244346edd3fe394bd52c2a11523c55fca0d056eda7dbbe810490ca" prot="public">
+          <name>WARM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1a5371ce2969d244346edd3fe394bd52c2a3f7ff4daa99912d1b0c8c64340edb9fb" prot="public">
+          <name>COLD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="616" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="616" bodyend="616"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="614" column="1"/>
+  </compounddef>
+</doxygen>

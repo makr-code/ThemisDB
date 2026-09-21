@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::vector::MultiVectorSearch::SearchResult</compoundname>
+    <includes refid="multi__vector__search_8h" local="no">multi_vector_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1adb58e5ac362a15495e5408931a6784fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::vector::MultiVectorSearch::SearchResult::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::vector::MultiVectorSearch::SearchResult::id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_vector_search.h" line="100" column="21" bodyfile="include/index/multi_vector_search.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1a277bd73ae3c089d55fb9103dfa7ec403" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::vector::MultiVectorSearch::SearchResult::fused_score</definition>
+        <argsstring></argsstring>
+        <name>fused_score</name>
+        <qualifiedname>themis::vector::MultiVectorSearch::SearchResult::fused_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_vector_search.h" line="101" column="15" bodyfile="include/index/multi_vector_search.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1abe1df67e2c737d983ab62261f14b3263" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::vector::MultiVectorSearch::SearchResult::individual_scores</definition>
+        <argsstring></argsstring>
+        <name>individual_scores</name>
+        <qualifiedname>themis::vector::MultiVectorSearch::SearchResult::individual_scores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_vector_search.h" line="102" column="21" bodyfile="include/index/multi_vector_search.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1a768d641720e333ddbe2374ca1a3edabe" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::vector::MultiVectorSearch::SearchResult::individual_ranks</definition>
+        <argsstring></argsstring>
+        <name>individual_ranks</name>
+        <qualifiedname>themis::vector::MultiVectorSearch::SearchResult::individual_ranks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_vector_search.h" line="103" column="21" bodyfile="include/index/multi_vector_search.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1a85b6bcae4c546243a63cb3bed48c03d8" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, float &gt;</type>
+        <definition>std::unordered_map&lt;std::string, float&gt; themis::vector::MultiVectorSearch::SearchResult::field_scores</definition>
+        <argsstring></argsstring>
+        <name>field_scores</name>
+        <qualifiedname>themis::vector::MultiVectorSearch::SearchResult::field_scores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_vector_search.h" line="104" column="28" bodyfile="include/index/multi_vector_search.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Single result from multi-vector search. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/multi_vector_search.h" line="99" column="5" bodyfile="include/index/multi_vector_search.h" bodystart="99" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1a85b6bcae4c546243a63cb3bed48c03d8" prot="public" virt="non-virtual"><scope>themis::vector::MultiVectorSearch::SearchResult</scope><name>field_scores</name></member>
+      <member refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1a277bd73ae3c089d55fb9103dfa7ec403" prot="public" virt="non-virtual"><scope>themis::vector::MultiVectorSearch::SearchResult</scope><name>fused_score</name></member>
+      <member refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1adb58e5ac362a15495e5408931a6784fc" prot="public" virt="non-virtual"><scope>themis::vector::MultiVectorSearch::SearchResult</scope><name>id</name></member>
+      <member refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1a768d641720e333ddbe2374ca1a3edabe" prot="public" virt="non-virtual"><scope>themis::vector::MultiVectorSearch::SearchResult</scope><name>individual_ranks</name></member>
+      <member refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_search_result_1abe1df67e2c737d983ab62261f14b3263" prot="public" virt="non-virtual"><scope>themis::vector::MultiVectorSearch::SearchResult</scope><name>individual_scores</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

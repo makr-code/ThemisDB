@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1process_1_1_crash_fault_tolerance_gates" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::process::CrashFaultToleranceGates</compoundname>
+    <includes refid="process__federation__contract_8h" local="no">process_federation_contract.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_crash_fault_tolerance_gates_1a817e2fe1ec079ccf4ffbe1958b7f3df5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themisdb::process::CrashFaultToleranceGates::kMinNodeCount</definition>
+        <argsstring></argsstring>
+        <name>kMinNodeCount</name>
+        <qualifiedname>themisdb::process::CrashFaultToleranceGates::kMinNodeCount</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Minimum for consensus. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="191" column="34" bodyfile="include/process/process_federation_contract.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_crash_fault_tolerance_gates_1a4d12a25005544d45e8028457b9e28256" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themisdb::process::CrashFaultToleranceGates::kRecommendedNodeCount</definition>
+        <argsstring></argsstring>
+        <name>kRecommendedNodeCount</name>
+        <qualifiedname>themisdb::process::CrashFaultToleranceGates::kRecommendedNodeCount</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Recommended for single-DC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="192" column="34" bodyfile="include/process/process_federation_contract.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_crash_fault_tolerance_gates_1ab63ac4d9a66e3fc74f5ce817ac580c5b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float themisdb::process::CrashFaultToleranceGates::kFaultToleranceRatio</definition>
+        <argsstring></argsstring>
+        <name>kFaultToleranceRatio</name>
+        <qualifiedname>themisdb::process::CrashFaultToleranceGates::kFaultToleranceRatio</qualifiedname>
+        <initializer>= 1.0f / 2.0f</initializer>
+        <briefdescription>
+<para>F &lt; N/2. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="193" column="26" bodyfile="include/process/process_federation_contract.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Crash fault tolerance constraints for quorum systems. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>For N total nodes, maximum tolerable crash faults: F &lt; N/2<itemizedlist>
+<listitem><para>3 nodes: tolerate 1 crash fault</para>
+</listitem><listitem><para>5 nodes: tolerate 2 crash faults</para>
+</listitem><listitem><para>7 nodes: tolerate 3 crash faults </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_federation_contract.h" line="190" column="1" bodyfile="include/process/process_federation_contract.h" bodystart="190" bodyend="194"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1process_1_1_crash_fault_tolerance_gates_1ab63ac4d9a66e3fc74f5ce817ac580c5b" prot="public" virt="non-virtual"><scope>themisdb::process::CrashFaultToleranceGates</scope><name>kFaultToleranceRatio</name></member>
+      <member refid="structthemisdb_1_1process_1_1_crash_fault_tolerance_gates_1a817e2fe1ec079ccf4ffbe1958b7f3df5" prot="public" virt="non-virtual"><scope>themisdb::process::CrashFaultToleranceGates</scope><name>kMinNodeCount</name></member>
+      <member refid="structthemisdb_1_1process_1_1_crash_fault_tolerance_gates_1a4d12a25005544d45e8028457b9e28256" prot="public" virt="non-virtual"><scope>themisdb::process::CrashFaultToleranceGates</scope><name>kRecommendedNodeCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::CapabilityMatcher::QueryContext</compoundname>
+    <includes refid="capability__matcher_8h" local="no">capability_matcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context_1afa5117553ddf522e308374cb1cd3b7c2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CapabilityMatcher::QueryContext::query_text</definition>
+        <argsstring></argsstring>
+        <name>query_text</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::QueryContext::query_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="76" column="21" bodyfile="include/sharding/capability_matcher.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context_1ade5ec7ea69d544b75af4157a3d257661" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::CapabilityMatcher::QueryContext::keywords</definition>
+        <argsstring></argsstring>
+        <name>keywords</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::QueryContext::keywords</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="77" column="21" bodyfile="include/sharding/capability_matcher.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context_1a1b05964ba089301fb15d08f75952eb72" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::sharding::CapabilityMatcher::QueryContext::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::QueryContext::embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="78" column="21" bodyfile="include/sharding/capability_matcher.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context_1aa2a73fd0ee420346e25eb8443b3f5abf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::CapabilityMatcher::QueryContext::domains</definition>
+        <argsstring></argsstring>
+        <name>domains</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::QueryContext::domains</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="79" column="21" bodyfile="include/sharding/capability_matcher.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context_1ad8519feea0d2e96e38f2e520aa6c075b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::CapabilityMatcher::QueryContext::organizations</definition>
+        <argsstring></argsstring>
+        <name>organizations</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::QueryContext::organizations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="80" column="21" bodyfile="include/sharding/capability_matcher.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context_1a602192024fd93b7127859cec2893f4a4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::CapabilityMatcher::QueryContext::regions</definition>
+        <argsstring></argsstring>
+        <name>regions</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::QueryContext::regions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="81" column="21" bodyfile="include/sharding/capability_matcher.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context_1ab6358e64369f9fecacfd4955404136f4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::CapabilityMatcher::QueryContext::data_types</definition>
+        <argsstring></argsstring>
+        <name>data_types</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::QueryContext::data_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="82" column="21" bodyfile="include/sharding/capability_matcher.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Query context for matching </para>
+    </detaileddescription>
+    <location file="include/sharding/capability_matcher.h" line="75" column="5" bodyfile="include/sharding/capability_matcher.h" bodystart="75" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context_1ab6358e64369f9fecacfd4955404136f4" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::QueryContext</scope><name>data_types</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context_1aa2a73fd0ee420346e25eb8443b3f5abf" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::QueryContext</scope><name>domains</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context_1a1b05964ba089301fb15d08f75952eb72" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::QueryContext</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context_1ade5ec7ea69d544b75af4157a3d257661" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::QueryContext</scope><name>keywords</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context_1ad8519feea0d2e96e38f2e520aa6c075b" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::QueryContext</scope><name>organizations</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context_1afa5117553ddf522e308374cb1cd3b7c2" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::QueryContext</scope><name>query_text</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context_1a602192024fd93b7127859cec2893f4a4" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::QueryContext</scope><name>regions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

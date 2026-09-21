@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_graph_watermarking_test" kind="class" language="C++" prot="public">
+    <compoundname>GraphWatermarkingTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_graph_watermarking_test_1a190653f175fd493d56bd0e6c75d02e59" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_watermark" kindref="compound">GraphWatermark</ref></type>
+        <definition>GraphWatermark GraphWatermarkingTest::embedder_</definition>
+        <argsstring></argsstring>
+        <name>embedder_</name>
+        <qualifiedname>GraphWatermarkingTest::embedder_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_watermarking.cpp" line="24" column="20" bodyfile="tests/graph/test_graph_watermarking.cpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_watermarking_test_1a73e68f1ad596658ebf8f88e0063aee47" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_fingerprint_detector" kindref="compound">GraphFingerprintDetector</ref></type>
+        <definition>GraphFingerprintDetector GraphWatermarkingTest::detector_</definition>
+        <argsstring></argsstring>
+        <name>detector_</name>
+        <qualifiedname>GraphWatermarkingTest::detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_watermarking.cpp" line="25" column="30" bodyfile="tests/graph/test_graph_watermarking.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_graph_watermarking_test_1a5fa1fdae57e290f61102da9ba139b31a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphWatermarkingTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GraphWatermarkingTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_watermarking.cpp" line="27" column="10" bodyfile="tests/graph/test_graph_watermarking.cpp" bodystart="27" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_graph_watermarking_test_1a390703b3a7f2ef95755cc6b207563843" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_snapshot" kindref="compound">GraphSnapshot</ref></type>
+        <definition>static GraphSnapshot GraphWatermarkingTest::buildGraph</definition>
+        <argsstring>(int n, const std::string &amp;prefix=&quot;node&quot;)</argsstring>
+        <name>buildGraph</name>
+        <qualifiedname>GraphWatermarkingTest::buildGraph</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+          <defval>&quot;node&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Build a small graph with n nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_watermarking.cpp" line="32" column="26" bodyfile="tests/graph/test_graph_watermarking.cpp" bodystart="32" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GraphWatermarkingTest</label>
+        <link refid="class_graph_watermarking_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GraphWatermarkingTest</label>
+        <link refid="class_graph_watermarking_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>embedder_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>detector_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::graph::GraphFingerprintDetector</label>
+        <link refid="classthemis_1_1graph_1_1_graph_fingerprint_detector"/>
+      </node>
+      <node id="3">
+        <label>themis::graph::GraphWatermark</label>
+        <link refid="classthemis_1_1graph_1_1_graph_watermark"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_graph_watermarking.cpp" line="22" column="1" bodyfile="tests/graph/test_graph_watermarking.cpp" bodystart="22" bodyend="42"/>
+    <listofallmembers>
+      <member refid="class_graph_watermarking_test_1a390703b3a7f2ef95755cc6b207563843" prot="protected" virt="non-virtual"><scope>GraphWatermarkingTest</scope><name>buildGraph</name></member>
+      <member refid="class_graph_watermarking_test_1a73e68f1ad596658ebf8f88e0063aee47" prot="protected" virt="non-virtual"><scope>GraphWatermarkingTest</scope><name>detector_</name></member>
+      <member refid="class_graph_watermarking_test_1a190653f175fd493d56bd0e6c75d02e59" prot="protected" virt="non-virtual"><scope>GraphWatermarkingTest</scope><name>embedder_</name></member>
+      <member refid="class_graph_watermarking_test_1a5fa1fdae57e290f61102da9ba139b31a" prot="protected" virt="non-virtual"><scope>GraphWatermarkingTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

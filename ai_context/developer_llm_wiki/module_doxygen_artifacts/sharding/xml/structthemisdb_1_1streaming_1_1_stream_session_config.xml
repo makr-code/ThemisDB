@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1streaming_1_1_stream_session_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::streaming::StreamSessionConfig</compoundname>
+    <includes refid="stream__protocol_8h" local="no">stream_protocol.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_config_1ae084b7d20a6c37697827a1a9162bf2f9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::streaming::StreamSessionConfig::local_endpoint</definition>
+        <argsstring></argsstring>
+        <name>local_endpoint</name>
+        <qualifiedname>themisdb::streaming::StreamSessionConfig::local_endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="146" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_config_1af7e3c38e22018bf36f2d07ce92871d0f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::streaming::StreamSessionConfig::remote_endpoint</definition>
+        <argsstring></argsstring>
+        <name>remote_endpoint</name>
+        <qualifiedname>themisdb::streaming::StreamSessionConfig::remote_endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="147" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_config_1ad21ed52fb4bf20a30e9b7691ff808b13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::streaming::StreamSessionConfig::local_shard_id</definition>
+        <argsstring></argsstring>
+        <name>local_shard_id</name>
+        <qualifiedname>themisdb::streaming::StreamSessionConfig::local_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="148" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_config_1a633267bfb112ca88e2726729bb93dbf6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::streaming::StreamSessionConfig::remote_shard_id</definition>
+        <argsstring></argsstring>
+        <name>remote_shard_id</name>
+        <qualifiedname>themisdb::streaming::StreamSessionConfig::remote_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="149" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_config_1ac25df227dafc6e68502a22f9e75b0d31" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1streaming_1a2aff88aef0a4a923dcdf9b16e7b91abe" kindref="member">StreamDirection</ref></type>
+        <definition>StreamDirection themisdb::streaming::StreamSessionConfig::direction</definition>
+        <argsstring></argsstring>
+        <name>direction</name>
+        <qualifiedname>themisdb::streaming::StreamSessionConfig::direction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="150" column="21" bodyfile="include/sharding/stream_protocol.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_config_1a31ea80a09f63e37ee4323f5b0c216488" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamSessionConfig::chunk_size</definition>
+        <argsstring></argsstring>
+        <name>chunk_size</name>
+        <qualifiedname>themisdb::streaming::StreamSessionConfig::chunk_size</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1streaming_1a36cbe60c0ab22a304c8c50fa359836b2" kindref="member">DEFAULT_CHUNK_SIZE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="153" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_config_1a799cb5fcc28eda5994af07830f9a95aa" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamSessionConfig::window_size</definition>
+        <argsstring></argsstring>
+        <name>window_size</name>
+        <qualifiedname>themisdb::streaming::StreamSessionConfig::window_size</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1streaming_1a68237529c43ce7ce3fbfea0ce27fc7e2" kindref="member">DEFAULT_WINDOW_SIZE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="154" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_config_1a22c3c1dd661923f28b9ea07f51716218" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamSessionConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themisdb::streaming::StreamSessionConfig::timeout_ms</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1streaming_1a7986fd4169e145609fade6581d2b4206" kindref="member">DEFAULT_TIMEOUT_MS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="155" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_config_1aa2e7784591c050f7d056021599b23317" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1streaming_1a072111760fa646882dda384546a08b38" kindref="member">CompressionAlgorithm</ref></type>
+        <definition>CompressionAlgorithm themisdb::streaming::StreamSessionConfig::compression</definition>
+        <argsstring></argsstring>
+        <name>compression</name>
+        <qualifiedname>themisdb::streaming::StreamSessionConfig::compression</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1streaming_1a072111760fa646882dda384546a08b38aca0c64c0de8f56bc573828ea6d764594" kindref="member">CompressionAlgorithm::LZ4</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="158" column="26" bodyfile="include/sharding/stream_protocol.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_config_1ad897b888cf5f9bde2b56b9a9bfb1d0f7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::streaming::StreamSessionConfig::compression_level</definition>
+        <argsstring></argsstring>
+        <name>compression_level</name>
+        <qualifiedname>themisdb::streaming::StreamSessionConfig::compression_level</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="159" column="9" bodyfile="include/sharding/stream_protocol.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_config_1a7328a607095f32b84ddfa6aec8cff046" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::streaming::StreamSessionConfig::cert_path</definition>
+        <argsstring></argsstring>
+        <name>cert_path</name>
+        <qualifiedname>themisdb::streaming::StreamSessionConfig::cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="162" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_config_1a52fcc5c26c346a8857dc1f9906bc1116" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::streaming::StreamSessionConfig::key_path</definition>
+        <argsstring></argsstring>
+        <name>key_path</name>
+        <qualifiedname>themisdb::streaming::StreamSessionConfig::key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="163" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_config_1afad5d55e390801d4feb50a44f575747c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::streaming::StreamSessionConfig::ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>ca_cert_path</name>
+        <qualifiedname>themisdb::streaming::StreamSessionConfig::ca_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="164" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_config_1a4b4b117e84c1c81a5e2047b55ac8d857" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::streaming::StreamSessionConfig::require_mtls</definition>
+        <argsstring></argsstring>
+        <name>require_mtls</name>
+        <qualifiedname>themisdb::streaming::StreamSessionConfig::require_mtls</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="165" column="10" bodyfile="include/sharding/stream_protocol.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_session_config_1a3891d638ec1703577aadbc98b5866a78" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1streaming_1_1_stream_throttle_config" kindref="compound">StreamThrottleConfig</ref></type>
+        <definition>StreamThrottleConfig themisdb::streaming::StreamSessionConfig::throttle</definition>
+        <argsstring></argsstring>
+        <name>throttle</name>
+        <qualifiedname>themisdb::streaming::StreamSessionConfig::throttle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="168" column="26" bodyfile="include/sharding/stream_protocol.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Stream session configuration </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::streaming::StreamSessionConfig</label>
+        <link refid="structthemisdb_1_1streaming_1_1_stream_session_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>throttle</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::streaming::StreamThrottleConfig</label>
+        <link refid="structthemisdb_1_1streaming_1_1_stream_throttle_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/stream_protocol.h" line="145" column="1" bodyfile="include/sharding/stream_protocol.h" bodystart="145" bodyend="169"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_config_1afad5d55e390801d4feb50a44f575747c" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionConfig</scope><name>ca_cert_path</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_config_1a7328a607095f32b84ddfa6aec8cff046" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionConfig</scope><name>cert_path</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_config_1a31ea80a09f63e37ee4323f5b0c216488" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionConfig</scope><name>chunk_size</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_config_1aa2e7784591c050f7d056021599b23317" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionConfig</scope><name>compression</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_config_1ad897b888cf5f9bde2b56b9a9bfb1d0f7" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionConfig</scope><name>compression_level</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_config_1ac25df227dafc6e68502a22f9e75b0d31" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionConfig</scope><name>direction</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_config_1a52fcc5c26c346a8857dc1f9906bc1116" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionConfig</scope><name>key_path</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_config_1ae084b7d20a6c37697827a1a9162bf2f9" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionConfig</scope><name>local_endpoint</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_config_1ad21ed52fb4bf20a30e9b7691ff808b13" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionConfig</scope><name>local_shard_id</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_config_1af7e3c38e22018bf36f2d07ce92871d0f" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionConfig</scope><name>remote_endpoint</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_config_1a633267bfb112ca88e2726729bb93dbf6" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionConfig</scope><name>remote_shard_id</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_config_1a4b4b117e84c1c81a5e2047b55ac8d857" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionConfig</scope><name>require_mtls</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_config_1a3891d638ec1703577aadbc98b5866a78" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionConfig</scope><name>throttle</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_config_1a22c3c1dd661923f28b9ea07f51716218" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionConfig</scope><name>timeout_ms</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_session_config_1a799cb5fcc28eda5994af07830f9a95aa" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSessionConfig</scope><name>window_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

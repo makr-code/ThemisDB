@@ -261,6 +261,13 @@ public:
             metadata.vocabulary_size = static_cast<int>(entity.getFieldAsInt("vocabulary_size").value_or(32000));
             metadata.num_layers = static_cast<int>(entity.getFieldAsInt("num_layers").value_or(32));
             metadata.hidden_size = static_cast<int>(entity.getFieldAsInt("hidden_size").value_or(4096));
+
+            // Corrupted blobs can parse into an empty field map after fail-fast
+            // protection in BaseEntity. Treat missing identity fields as invalid.
+            if (metadata.model_id.empty() || metadata.model_id != model_id) {
+                spdlog::warn("Model {} metadata invalid or corrupted (missing/mismatched model_id)", model_id);
+                return std::nullopt;
+            }
             
             // Parse JSON fields
             if (entity.hasField("capabilities")) {

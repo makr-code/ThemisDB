@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_graph" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::CrossSchoolTensionGraph</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_graph_1addc3cee2ecd1de022be93afaf3c401c8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::CrossSchoolTensionGraph::schools</definition>
+        <argsstring></argsstring>
+        <name>schools</name>
+        <qualifiedname>themis::plugins::ethics::CrossSchoolTensionGraph::schools</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="523" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="523" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_graph_1ae3ea6d59a782f1b982be78a216ce0b63" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_edge" kindref="compound">CrossSchoolTensionEdge</ref> &gt;</type>
+        <definition>std::vector&lt;CrossSchoolTensionEdge&gt; themis::plugins::ethics::CrossSchoolTensionGraph::edges</definition>
+        <argsstring></argsstring>
+        <name>edges</name>
+        <qualifiedname>themis::plugins::ethics::CrossSchoolTensionGraph::edges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="524" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="524" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_graph_1af94c2425489b96899a4b47cf1b9f683a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::CrossSchoolTensionGraph::tensionBetween</definition>
+        <argsstring>(const std::string &amp;a, const std::string &amp;b) const noexcept</argsstring>
+        <name>tensionBetween</name>
+        <qualifiedname>themis::plugins::ethics::CrossSchoolTensionGraph::tensionBetween</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="526" column="13" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="526" bodyend="534"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="522" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="522" bodyend="535"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_graph_1ae3ea6d59a782f1b982be78a216ce0b63" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CrossSchoolTensionGraph</scope><name>edges</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_graph_1addc3cee2ecd1de022be93afaf3c401c8" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CrossSchoolTensionGraph</scope><name>schools</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_graph_1af94c2425489b96899a4b47cf1b9f683a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CrossSchoolTensionGraph</scope><name>tensionBetween</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

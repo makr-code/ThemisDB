@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_serialization" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::Serialization</compoundname>
+    <includes refid="serialization_8h" local="no">serialization.h</includes>
+    <innerclass refid="classthemis_1_1utils_1_1_serialization_1_1_encoder" prot="public">themis::utils::Serialization::Encoder</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_serialization_1_1_decoder" prot="public">themis::utils::Serialization::Decoder</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>TypeTag</name>
+        <qualifiedname>themis::utils::Serialization::TypeTag</qualifiedname>
+        <enumvalue id="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3aa9f0aff2067f91437e50e4872b229e6a" prot="public">
+          <name>NULL_VALUE</name>
+          <initializer>= 0x00</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a0736890de6c4467d299bcbb71e0d023e" prot="public">
+          <name>BOOL_FALSE</name>
+          <initializer>= 0x01</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a4c32ae3d339004a1ea9affc221ef0cce" prot="public">
+          <name>BOOL_TRUE</name>
+          <initializer>= 0x02</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a6495adba09844fac8eeb0aba86e6f1bf" prot="public">
+          <name>INT32</name>
+          <initializer>= 0x10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a4e866b275c85fbb439f6484251cfb31c" prot="public">
+          <name>INT64</name>
+          <initializer>= 0x11</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a17266551181f69a1b4a3ad5c9e270afc" prot="public">
+          <name>UINT32</name>
+          <initializer>= 0x12</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a6de7acf711860176ba606e9aa2b85d5f" prot="public">
+          <name>UINT64</name>
+          <initializer>= 0x13</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3ae738c26bf4ce1037fa81b039a915cbf6" prot="public">
+          <name>FLOAT</name>
+          <initializer>= 0x20</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3afd3e4ece78a7d422280d5ed379482229" prot="public">
+          <name>DOUBLE</name>
+          <initializer>= 0x21</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a63b588d5559f64f89a416e656880b949" prot="public">
+          <name>STRING</name>
+          <initializer>= 0x30</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a98ad0e8750ae10ad556ed7a62affb452" prot="public">
+          <name>BINARY</name>
+          <initializer>= 0x40</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3acb4fb1757fb37c43cded35d3eb857c43" prot="public">
+          <name>ARRAY</name>
+          <initializer>= 0x50</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a8eee8e217391199668cbac89472ace53" prot="public">
+          <name>OBJECT</name>
+          <initializer>= 0x60</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3a38bbbd837be5914a8667d76948e1537b" prot="public">
+          <name>VECTOR_FLOAT</name>
+          <initializer>= 0x70</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Type tags for serialized values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="57" column="5" bodyfile="include/utils/serialization.h" bodystart="57" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_serialization_1a135ce9f9169206fba7bd97f7e4581bec" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::Serialization::MAX_NESTING_DEPTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_NESTING_DEPTH</name>
+        <qualifiedname>themis::utils::Serialization::MAX_NESTING_DEPTH</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="51" column="29" bodyfile="include/utils/serialization.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_serialization_1a4ab1ef2e5ba8702f89e2271fdf2ba8a2" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::Serialization::MAX_STRING_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_STRING_SIZE</name>
+        <qualifiedname>themis::utils::Serialization::MAX_STRING_SIZE</qualifiedname>
+        <initializer>= 256 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="52" column="29" bodyfile="include/utils/serialization.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_serialization_1aa2e67d6bcfe8d75eceebdc47d39c5568" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::Serialization::MAX_BINARY_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_BINARY_SIZE</name>
+        <qualifiedname>themis::utils::Serialization::MAX_BINARY_SIZE</qualifiedname>
+        <initializer>= 512 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="53" column="29" bodyfile="include/utils/serialization.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_serialization_1a12af1e0c60644fe61f1f084db0d5bac7" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::Serialization::MAX_ARRAY_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_ARRAY_SIZE</name>
+        <qualifiedname>themis::utils::Serialization::MAX_ARRAY_SIZE</qualifiedname>
+        <initializer>= 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="54" column="29" bodyfile="include/utils/serialization.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1utils_1_1_serialization" kindref="compound">Serialization</ref> utilities for Base Entity blobs</para>
+<para>Uses a compact binary format similar to VelocyPack or MessagePack</para>
+<para>Sources:<itemizedlist>
+<listitem><para>Inspired by: VelocyPack (ArangoDB) Repository: <ulink url="https://github.com/arangodb/velocypack">https://github.com/arangodb/velocypack</ulink> License: Apache 2.0</para>
+</listitem><listitem><para>Inspired by: MessagePack Website: <ulink url="https://msgpack.org/">https://msgpack.org/</ulink> License: Apache 2.0</para>
+</listitem><listitem><para>ThemisDB Implementation: Custom binary format optimized for:<itemizedlist>
+<listitem><para>Compact representation</para>
+</listitem><listitem><para>Fast encoding/decoding</para>
+</listitem><listitem><para>Native float vector support for embeddings</para>
+</listitem><listitem><para>Zero-copy operations where possible</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Resource Limits (Phase 2.4c Hardening):</bold><itemizedlist>
+<listitem><para>Maximum nesting depth: 32 levels (configurable, prevents stack overflow on crafted input)</para>
+</listitem><listitem><para>Schema validation: Type tags are validated during deserialization; mismatches cause errors</para>
+</listitem><listitem><para>Bounds checking: String/binary sizes are validated before reading from buffer</para>
+</listitem><listitem><para>Overflow protection: Integer overflow in size calculations is detected</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="note"><para><bold>Degradation Contract:</bold> On deserialization failure (schema mismatch, nesting too deep, bounds violation), an error is returned; no silent fallback or data corruption. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/utils/serialization.h" line="48" column="1" bodyfile="include/utils/serialization.h" bodystart="48" bodyend="254"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_serialization_1a12af1e0c60644fe61f1f084db0d5bac7" prot="public" virt="non-virtual"><scope>themis::utils::Serialization</scope><name>MAX_ARRAY_SIZE</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1aa2e67d6bcfe8d75eceebdc47d39c5568" prot="public" virt="non-virtual"><scope>themis::utils::Serialization</scope><name>MAX_BINARY_SIZE</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1a135ce9f9169206fba7bd97f7e4581bec" prot="public" virt="non-virtual"><scope>themis::utils::Serialization</scope><name>MAX_NESTING_DEPTH</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1a4ab1ef2e5ba8702f89e2271fdf2ba8a2" prot="public" virt="non-virtual"><scope>themis::utils::Serialization</scope><name>MAX_STRING_SIZE</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3" prot="public" virt="non-virtual"><scope>themis::utils::Serialization</scope><name>TypeTag</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

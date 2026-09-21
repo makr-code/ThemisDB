@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUMetrics::KernelRecord</compoundname>
+    <includes refid="metrics_8h" local="no">metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1ae5e665a7810e423aba1c901747d61dca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUMetrics::KernelRecord::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::gpu::GPUMetrics::KernelRecord::name</qualifiedname>
+        <briefdescription>
+<para>Kernel function name (demangled). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="63" column="21" bodyfile="include/themis/gpu/metrics.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1a2cff8f9fed7076b610d58d759f31fe55" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::gpu::GPUMetrics::KernelRecord::duration_ns</definition>
+        <argsstring></argsstring>
+        <name>duration_ns</name>
+        <qualifiedname>themis::gpu::GPUMetrics::KernelRecord::duration_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Elapsed GPU time in nanoseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="64" column="21" bodyfile="include/themis/gpu/metrics.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1a86f4c0ee3d81fb3d35f7905735e69d1d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::GPUMetrics::KernelRecord::device_id</definition>
+        <argsstring></argsstring>
+        <name>device_id</name>
+        <qualifiedname>themis::gpu::GPUMetrics::KernelRecord::device_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CUDA device ordinal. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="65" column="21" bodyfile="include/themis/gpu/metrics.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1a918e12d3c72073678ae3f55bf682837c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::GPUMetrics::KernelRecord::grid_x</definition>
+        <argsstring></argsstring>
+        <name>grid_x</name>
+        <qualifiedname>themis::gpu::GPUMetrics::KernelRecord::grid_x</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Grid dimension X. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="66" column="21" bodyfile="include/themis/gpu/metrics.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1a56048f64d3a27ff6e3ab73f2c88f4ea5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::GPUMetrics::KernelRecord::grid_y</definition>
+        <argsstring></argsstring>
+        <name>grid_y</name>
+        <qualifiedname>themis::gpu::GPUMetrics::KernelRecord::grid_y</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Grid dimension Y. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="67" column="21" bodyfile="include/themis/gpu/metrics.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1adb1e002d5f4023a4ec61b02d8ee94bfe" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::GPUMetrics::KernelRecord::grid_z</definition>
+        <argsstring></argsstring>
+        <name>grid_z</name>
+        <qualifiedname>themis::gpu::GPUMetrics::KernelRecord::grid_z</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Grid dimension Z. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="68" column="21" bodyfile="include/themis/gpu/metrics.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1abbeb96126e87c60de82e0a3a2dfb190b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::GPUMetrics::KernelRecord::block_x</definition>
+        <argsstring></argsstring>
+        <name>block_x</name>
+        <qualifiedname>themis::gpu::GPUMetrics::KernelRecord::block_x</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Block dimension X. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="69" column="21" bodyfile="include/themis/gpu/metrics.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1a5892c66f648f67254d89e519bbb29f06" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::GPUMetrics::KernelRecord::block_y</definition>
+        <argsstring></argsstring>
+        <name>block_y</name>
+        <qualifiedname>themis::gpu::GPUMetrics::KernelRecord::block_y</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Block dimension Y. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="70" column="21" bodyfile="include/themis/gpu/metrics.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1a831e470b3445233e59437d0cac3f4f74" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::GPUMetrics::KernelRecord::block_z</definition>
+        <argsstring></argsstring>
+        <name>block_z</name>
+        <qualifiedname>themis::gpu::GPUMetrics::KernelRecord::block_z</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Block dimension Z. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="71" column="21" bodyfile="include/themis/gpu/metrics.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Record of a single GPU kernel invocation for Nsight-compatible export. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Compatible with the CUDA Nsight Compute JSON schema: <ulink url="https://docs.nvidia.com/nsight-compute/2024.1/">https://docs.nvidia.com/nsight-compute/2024.1/</ulink> </para>
+    </detaileddescription>
+    <location file="include/themis/gpu/metrics.h" line="62" column="5" bodyfile="include/themis/gpu/metrics.h" bodystart="62" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1abbeb96126e87c60de82e0a3a2dfb190b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics::KernelRecord</scope><name>block_x</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1a5892c66f648f67254d89e519bbb29f06" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics::KernelRecord</scope><name>block_y</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1a831e470b3445233e59437d0cac3f4f74" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics::KernelRecord</scope><name>block_z</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1a86f4c0ee3d81fb3d35f7905735e69d1d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics::KernelRecord</scope><name>device_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1a2cff8f9fed7076b610d58d759f31fe55" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics::KernelRecord</scope><name>duration_ns</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1a918e12d3c72073678ae3f55bf682837c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics::KernelRecord</scope><name>grid_x</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1a56048f64d3a27ff6e3ab73f2c88f4ea5" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics::KernelRecord</scope><name>grid_y</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1adb1e002d5f4023a4ec61b02d8ee94bfe" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics::KernelRecord</scope><name>grid_z</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record_1ae5e665a7810e423aba1c901747d61dca" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics::KernelRecord</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

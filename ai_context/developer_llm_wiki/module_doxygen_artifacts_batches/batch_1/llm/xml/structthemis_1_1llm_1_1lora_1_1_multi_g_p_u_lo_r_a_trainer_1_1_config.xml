@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::MultiGPULoRATrainer::Config</compoundname>
+    <includes refid="multi__gpu__trainer_8h" local="no">multi_gpu_trainer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1a48d86bfa192d776925e21d8c7e37303a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::MultiGPULoRATrainer::Config::learning_rate</definition>
+        <argsstring></argsstring>
+        <name>learning_rate</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRATrainer::Config::learning_rate</qualifiedname>
+        <initializer>= 0.001f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_trainer.h" line="27" column="15" bodyfile="include/llm/lora_framework/multi_gpu_trainer.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1a93a421196ff2199cd664c4408a5fa961" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::MultiGPULoRATrainer::Config::gradient_accumulation_steps</definition>
+        <argsstring></argsstring>
+        <name>gradient_accumulation_steps</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRATrainer::Config::gradient_accumulation_steps</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_trainer.h" line="28" column="13" bodyfile="include/llm/lora_framework/multi_gpu_trainer.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1af18c461b7094db4ffa8e99e35462576b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::MultiGPULoRATrainer::Config::sync_every_step</definition>
+        <argsstring></argsstring>
+        <name>sync_every_step</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRATrainer::Config::sync_every_step</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_trainer.h" line="29" column="14" bodyfile="include/llm/lora_framework/multi_gpu_trainer.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1af742d77cf798476921e46845433577b3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::MultiGPULoRATrainer::Config::checkpoint_every_n_steps</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_every_n_steps</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRATrainer::Config::checkpoint_every_n_steps</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_trainer.h" line="30" column="13" bodyfile="include/llm/lora_framework/multi_gpu_trainer.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1af1d083d31f2169b61eca87cc0177a596" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::MultiGPULoRATrainer::Config::checkpoint_dir</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_dir</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRATrainer::Config::checkpoint_dir</qualifiedname>
+        <initializer>= &quot;./checkpoints&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_trainer.h" line="31" column="21" bodyfile="include/llm/lora_framework/multi_gpu_trainer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1a9516f0471233046331b6eca4869c5c6e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::MultiGPULoRATrainer::Config::enable_profiling</definition>
+        <argsstring></argsstring>
+        <name>enable_profiling</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRATrainer::Config::enable_profiling</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_trainer.h" line="32" column="14" bodyfile="include/llm/lora_framework/multi_gpu_trainer.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/multi_gpu_trainer.h" line="26" column="5" bodyfile="include/llm/lora_framework/multi_gpu_trainer.h" bodystart="26" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1af1d083d31f2169b61eca87cc0177a596" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRATrainer::Config</scope><name>checkpoint_dir</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1af742d77cf798476921e46845433577b3" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRATrainer::Config</scope><name>checkpoint_every_n_steps</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1a9516f0471233046331b6eca4869c5c6e" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRATrainer::Config</scope><name>enable_profiling</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1a93a421196ff2199cd664c4408a5fa961" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRATrainer::Config</scope><name>gradient_accumulation_steps</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1a48d86bfa192d776925e21d8c7e37303a" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRATrainer::Config</scope><name>learning_rate</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1af18c461b7094db4ffa8e99e35462576b" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRATrainer::Config</scope><name>sync_every_step</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

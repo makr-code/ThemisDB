@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::CheckpointStats</compoundname>
+    <includes refid="gradient__checkpointing_8h" local="no">gradient_checkpointing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a7d8b357935b30b16ceb75296f185bed9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::CheckpointStats::memory_saved_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_saved_bytes</name>
+        <qualifiedname>themis::llm::lora::CheckpointStats::memory_saved_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="54" column="12" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a2f91851133daef3a33760e2c896be118" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::CheckpointStats::recomputation_time_ms</definition>
+        <argsstring></argsstring>
+        <name>recomputation_time_ms</name>
+        <qualifiedname>themis::llm::lora::CheckpointStats::recomputation_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="55" column="12" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a8b63ac4a8b410c1b31fd2b91acf884a4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::CheckpointStats::memory_reduction_pct</definition>
+        <argsstring></argsstring>
+        <name>memory_reduction_pct</name>
+        <qualifiedname>themis::llm::lora::CheckpointStats::memory_reduction_pct</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="56" column="11" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a3ae3cdb84081136ceedf0667116f75ff" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::CheckpointStats::num_checkpoints</definition>
+        <argsstring></argsstring>
+        <name>num_checkpoints</name>
+        <qualifiedname>themis::llm::lora::CheckpointStats::num_checkpoints</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="57" column="12" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a0de3f63cc9228e453426330ae64a9258" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::CheckpointStats::total_layers</definition>
+        <argsstring></argsstring>
+        <name>total_layers</name>
+        <qualifiedname>themis::llm::lora::CheckpointStats::total_layers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="58" column="12" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1ad1785e4ae14f765f873c75b888fef331" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::CheckpointStats::compute_overhead_pct</definition>
+        <argsstring></argsstring>
+        <name>compute_overhead_pct</name>
+        <qualifiedname>themis::llm::lora::CheckpointStats::compute_overhead_pct</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_checkpointing.h" line="59" column="11" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gradient_checkpointing.h" line="53" column="1" bodyfile="include/llm/lora_framework/gradient_checkpointing.h" bodystart="53" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1ad1785e4ae14f765f873c75b888fef331" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointStats</scope><name>compute_overhead_pct</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a8b63ac4a8b410c1b31fd2b91acf884a4" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointStats</scope><name>memory_reduction_pct</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a7d8b357935b30b16ceb75296f185bed9" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointStats</scope><name>memory_saved_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a3ae3cdb84081136ceedf0667116f75ff" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointStats</scope><name>num_checkpoints</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a2f91851133daef3a33760e2c896be118" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointStats</scope><name>recomputation_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a0de3f63cc9228e453426330ae64a9258" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointStats</scope><name>total_layers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,849 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::VRAMAllocator</compoundname>
+    <includes refid="vram__allocator_8h" local="no">vram_allocator.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1_1_stats" prot="public">themis::llm::lora::VRAMAllocator::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a77b3db4c4ad320bff489c8ae2fd72d4a" prot="private" static="no" mutable="no">
+        <type>acceleration::BackendType</type>
+        <definition>acceleration::BackendType themis::llm::lora::VRAMAllocator::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="102" column="31" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1ac5b61a150d9e33095b23d1cddb54eb5b" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::VRAMAllocator::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="103" column="10" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a0e81eb0696f16468824c9c0336af703a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_block" kindref="compound">VRAMBlock</ref> &gt;</type>
+        <definition>std::vector&lt;VRAMBlock&gt; themis::llm::lora::VRAMAllocator::memory_pool_</definition>
+        <argsstring></argsstring>
+        <name>memory_pool_</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::memory_pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="106" column="17" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1ade5af84e14832378951b29caa27766a0" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::VRAMAllocator::pool_size_bytes_</definition>
+        <argsstring></argsstring>
+        <name>pool_size_bytes_</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::pool_size_bytes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="107" column="12" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a89b4d44f4d0a99d44a9c752093336d4c" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::VRAMAllocator::allocated_bytes_</definition>
+        <argsstring></argsstring>
+        <name>allocated_bytes_</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::allocated_bytes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="108" column="12" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a35cf4a9bab4db8c42e5790aeb432531c" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::VRAMAllocator::peak_usage_bytes_</definition>
+        <argsstring></argsstring>
+        <name>peak_usage_bytes_</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::peak_usage_bytes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="109" column="12" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1ae601ab86b39fd9b5808baf71cc470cbe" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::lora::VRAMAllocator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="112" column="24" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1add229d3cc3183931b28550106d275e6d" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::lora::VRAMAllocator::backend_context_</definition>
+        <argsstring></argsstring>
+        <name>backend_context_</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::backend_context_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="115" column="10" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a904dd8c28628cb27f2d6a51fce5e1d02" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::VRAMAllocator::VRAMAllocator</definition>
+        <argsstring>(acceleration::BackendType backend, size_t pool_size_bytes=0)</argsstring>
+        <name>VRAMAllocator</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::VRAMAllocator</qualifiedname>
+        <param>
+          <type>acceleration::BackendType</type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>pool_size_bytes</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="39" column="14" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="367" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a5a25a2b3f834fe02f13d557f1128e283" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::VRAMAllocator::~VRAMAllocator</definition>
+        <argsstring>()</argsstring>
+        <name>~VRAMAllocator</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::~VRAMAllocator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="42" column="5" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="405" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a82140eea2e085bd162761d43ac6fdb0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::VRAMAllocator::VRAMAllocator</definition>
+        <argsstring>(const VRAMAllocator &amp;)=delete</argsstring>
+        <name>VRAMAllocator</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::VRAMAllocator</qualifiedname>
+        <param>
+          <type>const VRAMAllocator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="45" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a13ab092efed7cf066f53873548686c7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a904dd8c28628cb27f2d6a51fce5e1d02" kindref="member">VRAMAllocator</ref> &amp;</type>
+        <definition>VRAMAllocator &amp; themis::llm::lora::VRAMAllocator::operator=</definition>
+        <argsstring>(const VRAMAllocator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a904dd8c28628cb27f2d6a51fce5e1d02" kindref="member">VRAMAllocator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="46" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a77a40a1033891452d0f7c3c17facfefc" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::VRAMAllocator::VRAMAllocator</definition>
+        <argsstring>(VRAMAllocator &amp;&amp;) noexcept</argsstring>
+        <name>VRAMAllocator</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::VRAMAllocator</qualifiedname>
+        <param>
+          <type>VRAMAllocator &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="47" column="5" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="410" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a510b59d7488086868ea8d744c0c833ab" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a904dd8c28628cb27f2d6a51fce5e1d02" kindref="member">VRAMAllocator</ref> &amp;</type>
+        <definition>VRAMAllocator &amp; themis::llm::lora::VRAMAllocator::operator=</definition>
+        <argsstring>(VRAMAllocator &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a904dd8c28628cb27f2d6a51fce5e1d02" kindref="member">VRAMAllocator</ref> &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="48" column="19" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="425" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a9edc2c250ce832a7adbf216fe815c1db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::llm::lora::VRAMAllocator::allocate</definition>
+        <argsstring>(size_t size_bytes, size_t alignment=256)</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::allocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>alignment</declname>
+          <defval>256</defval>
+        </param>
+        <briefdescription>
+<para>Allocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: spdlog::error(), is_gpu_backend(), themis::gpu::GPUMemoryManager::GetInstance(), isGPUEnabled(), TryAllocateGPU(), lock(), align_up(), find_free_block(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="50" column="10" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="577" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a8202059103074be87bc38d248ae8a0ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::VRAMAllocator::deallocate</definition>
+        <argsstring>(void *ptr)</argsstring>
+        <name>deallocate</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::deallocate</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Deallocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), is_gpu_backend(), themis::gpu::GPUMemoryManager::GetInstance(), isGPUEnabled(), DeallocateGPU(), size(), coalesce_free_blocks(), deallocate_to_backend(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="56" column="10" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="644" bodyend="679"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a5cc6b185c781695d5873cb4d30ea75bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::VRAMAllocator::upload</definition>
+        <argsstring>(void *dst, const void *src, size_t size_bytes)</argsstring>
+        <name>upload</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::upload</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>dst</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Upload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">dst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">dst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: cudaMemcpy(), hipMemcpy(), std::memcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="65" column="10" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="689" bodyend="734"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a327974b9509740b8c1da8fcb5e8e8d77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::VRAMAllocator::download</definition>
+        <argsstring>(void *dst, const void *src, size_t size_bytes)</argsstring>
+        <name>download</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::download</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>dst</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Download. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">dst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">dst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: cudaMemcpy(), hipMemcpy(), std::memcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="74" column="10" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="744" bodyend="787"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1ad529315407bc7fa876af63a39e1b7fb8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>VRAMAllocator::Stats themis::llm::lora::VRAMAllocator::get_stats</definition>
+        <argsstring>() const</argsstring>
+        <name>get_stats</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::get_stats</qualifiedname>
+        <briefdescription>
+<para>Get stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="90" column="11" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="789" bodyend="822"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a5ceba350233a787689a0d002c0f6339e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::VRAMAllocator::is_available</definition>
+        <argsstring>() const</argsstring>
+        <name>is_available</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::is_available</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="92" column="10" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a816149260743c4a4dca695e2461c6eb3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>acceleration::BackendType</type>
+        <definition>acceleration::BackendType themis::llm::lora::VRAMAllocator::backend_type</definition>
+        <argsstring>() const</argsstring>
+        <name>backend_type</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::backend_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="94" column="31" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1ad67e1c3ccfc6f4792f6d20285baa8262" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::VRAMAllocator::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), release_backend_ptr_(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="99" column="10" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="828" bodyend="841"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1aecf6787c7e896e459e5d8d0be497e7f8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::VRAMAllocator::initialize_backend</definition>
+        <argsstring>()</argsstring>
+        <name>initialize_backend</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::initialize_backend</qualifiedname>
+        <briefdescription>
+<para>Initialize backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: cudaGetDeviceCount(), spdlog::error(), cudaGetErrorString(), cudaSetDevice(), cudaMemGetInfo(), hipGetDeviceCount(), hipGetErrorString(), hipSetDevice(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="122" column="10" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="451" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a86a8e7f8c107263a1becd3f2f2cd31ae" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::VRAMAllocator::shutdown_backend</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown_backend</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::shutdown_backend</qualifiedname>
+        <briefdescription>
+<para>Shutdown backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: vk_shutdown(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="126" column="10" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="559" bodyend="568"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a12fd600c6b7f8dc0f39706efd69c0739" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::llm::lora::VRAMAllocator::allocate_from_backend</definition>
+        <argsstring>(size_t size_bytes, size_t alignment)</argsstring>
+        <name>allocate_from_backend</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::allocate_from_backend</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>alignment</declname>
+        </param>
+        <briefdescription>
+<para>Allocate from backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: cudaMalloc(), spdlog::error(), cudaGetErrorString(), hipMalloc(), hipGetErrorString(), vk_alloc(), spdlog::warn(), _aligned_malloc(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="133" column="10" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="850" bodyend="927"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a6af72afedc57369333891c71a8edc9e4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::VRAMAllocator::deallocate_to_backend</definition>
+        <argsstring>(void *ptr)</argsstring>
+        <name>deallocate_to_backend</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::deallocate_to_backend</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Deallocate to backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), release_backend_ptr_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="138" column="10" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="1008" bodyend="1029"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a5ac76d33f9b748e8d1d5fe3d035ceac2" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::VRAMAllocator::release_backend_ptr_</definition>
+        <argsstring>(void *ptr, size_t block_size) noexcept</argsstring>
+        <name>release_backend_ptr_</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::release_backend_ptr_</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>block_size</declname>
+        </param>
+        <briefdescription>
+<para>Perform the actual backend deallocation WITHOUT holding mutex_. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">block_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept.</para>
+</simplesect>
+Callers must supply the known block size (for secure clearing). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="146" column="10" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="929" bodyend="1001"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a8c3bef1b21a58ec07606c180c79404ba" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_block" kindref="compound">VRAMBlock</ref> *</type>
+        <definition>VRAMBlock * themis::llm::lora::VRAMAllocator::find_free_block</definition>
+        <argsstring>(size_t size_bytes, size_t alignment)</argsstring>
+        <name>find_free_block</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::find_free_block</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>alignment</declname>
+        </param>
+        <briefdescription>
+<para>Find free block. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements find_free_block without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="153" column="15" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="1038" bodyend="1052"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a05d16d886c78432552445c0c1fc34331" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::VRAMAllocator::coalesce_free_blocks</definition>
+        <argsstring>()</argsstring>
+        <name>coalesce_free_blocks</name>
+        <qualifiedname>themis::llm::lora::VRAMAllocator::coalesce_free_blocks</qualifiedname>
+        <briefdescription>
+<para>Coalesce free blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: begin(), end(), deallocate_to_backend(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="157" column="10" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="1058" bodyend="1069"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/vram_allocator.h" line="37" column="1" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="37" bodyend="158"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a9edc2c250ce832a7adbf216fe815c1db" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a12fd600c6b7f8dc0f39706efd69c0739" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>allocate_from_backend</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a89b4d44f4d0a99d44a9c752093336d4c" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>allocated_bytes_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a77b3db4c4ad320bff489c8ae2fd72d4a" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1add229d3cc3183931b28550106d275e6d" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>backend_context_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a816149260743c4a4dca695e2461c6eb3" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>backend_type</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a05d16d886c78432552445c0c1fc34331" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>coalesce_free_blocks</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a8202059103074be87bc38d248ae8a0ab" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>deallocate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a6af72afedc57369333891c71a8edc9e4" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>deallocate_to_backend</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a327974b9509740b8c1da8fcb5e8e8d77" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>download</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a8c3bef1b21a58ec07606c180c79404ba" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>find_free_block</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1ad529315407bc7fa876af63a39e1b7fb8" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>get_stats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1aecf6787c7e896e459e5d8d0be497e7f8" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>initialize_backend</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1ac5b61a150d9e33095b23d1cddb54eb5b" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a5ceba350233a787689a0d002c0f6339e" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>is_available</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a0e81eb0696f16468824c9c0336af703a" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>memory_pool_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1ae601ab86b39fd9b5808baf71cc470cbe" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a13ab092efed7cf066f53873548686c7c" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a510b59d7488086868ea8d744c0c833ab" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a35cf4a9bab4db8c42e5790aeb432531c" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>peak_usage_bytes_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1ade5af84e14832378951b29caa27766a0" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>pool_size_bytes_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a5ac76d33f9b748e8d1d5fe3d035ceac2" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>release_backend_ptr_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1ad67e1c3ccfc6f4792f6d20285baa8262" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>reset</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a86a8e7f8c107263a1becd3f2f2cd31ae" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>shutdown_backend</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a5cc6b185c781695d5873cb4d30ea75bc" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>upload</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a904dd8c28628cb27f2d6a51fce5e1d02" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>VRAMAllocator</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a82140eea2e085bd162761d43ac6fdb0f" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>VRAMAllocator</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a77a40a1033891452d0f7c3c17facfefc" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>VRAMAllocator</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1a5a25a2b3f834fe02f13d557f1128e283" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMAllocator</scope><name>~VRAMAllocator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

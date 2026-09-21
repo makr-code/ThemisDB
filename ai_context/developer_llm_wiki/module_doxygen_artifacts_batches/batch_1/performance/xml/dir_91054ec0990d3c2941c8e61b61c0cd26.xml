@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_91054ec0990d3c2941c8e61b61c0cd26" kind="dir">
+    <compoundname>tests/performance</compoundname>
+    <innerdir refid="dir_4d4b2f698c27b05ba557af29c5caff42">tests/performance/phase3</innerdir>
+    <innerdir refid="dir_51700d6e075e448f7467ad20a96cff45">tests/performance/phase4</innerdir>
+    <innerfile refid="test__cicada_8cpp">test_cicada.cpp</innerfile>
+    <innerfile refid="test__cycle__metrics_8cpp">test_cycle_metrics.cpp</innerfile>
+    <innerfile refid="test__numa__topology_8cpp">test_numa_topology.cpp</innerfile>
+    <innerfile refid="test__performance__allocator_8cpp">test_performance_allocator.cpp</innerfile>
+    <innerfile refid="test__performance__contract__hardening__focused_8cpp">test_performance_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__performance__cycle__metrics_8cpp">test_performance_cycle_metrics.cpp</innerfile>
+    <innerfile refid="test__performance__feature__flags_8cpp">test_performance_feature_flags.cpp</innerfile>
+    <innerfile refid="test__performance__hardware__accelerator_8cpp">test_performance_hardware_accelerator.cpp</innerfile>
+    <innerfile refid="test__rabitq__product__quantizer_8cpp">test_rabitq_product_quantizer.cpp</innerfile>
+    <innerfile refid="test__rag__ttft__benchmark_8cpp">test_rag_ttft_benchmark.cpp</innerfile>
+    <innerfile refid="test__splinterdb__thread__safety__focused_8cpp">test_splinterdb_thread_safety_focused.cpp</innerfile>
+    <innerfile refid="test__wire__perf__benchmark_8cpp">test_wire_perf_benchmark.cpp</innerfile>
+    <innerfile refid="test__workload__predictor_8cpp">test_workload_predictor.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/performance/"/>
+  </compounddef>
+</doxygen>

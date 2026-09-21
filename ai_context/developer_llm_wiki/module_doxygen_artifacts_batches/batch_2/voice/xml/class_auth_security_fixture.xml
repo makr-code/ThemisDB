@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_auth_security_fixture" kind="class" language="C++" prot="public">
+    <compoundname>AuthSecurityFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_auth_security_fixture_1a078b1770a5910b17ad1609089b994e1e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_mock_auth_backend" kindref="compound">MockAuthBackend</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MockAuthBackend&gt; AuthSecurityFixture::auth_backend_</definition>
+        <argsstring></argsstring>
+        <name>auth_backend_</name>
+        <qualifiedname>AuthSecurityFixture::auth_backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_auth_security_focused.cpp" line="82" column="21" bodyfile="tests/voice/test_voice_auth_security_focused.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_auth_security_fixture_1acdbe25bce5262d54e3301e6daae588bc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AuthSecurityFixture::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AuthSecurityFixture::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_auth_security_focused.cpp" line="84" column="10" bodyfile="tests/voice/test_voice_auth_security_focused.cpp" bodystart="84" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="class_auth_security_fixture_1a1a7eebb110eae6f23146bd60a2c78bbc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AuthSecurityFixture::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AuthSecurityFixture::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_auth_security_focused.cpp" line="88" column="10" bodyfile="tests/voice/test_voice_auth_security_focused.cpp" bodystart="88" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AuthSecurityFixture</label>
+        <link refid="class_auth_security_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AuthSecurityFixture</label>
+        <link refid="class_auth_security_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/voice/test_voice_auth_security_focused.cpp" line="80" column="1" bodyfile="tests/voice/test_voice_auth_security_focused.cpp" bodystart="80" bodyend="91"/>
+    <listofallmembers>
+      <member refid="class_auth_security_fixture_1a078b1770a5910b17ad1609089b994e1e" prot="protected" virt="non-virtual"><scope>AuthSecurityFixture</scope><name>auth_backend_</name></member>
+      <member refid="class_auth_security_fixture_1acdbe25bce5262d54e3301e6daae588bc" prot="protected" virt="non-virtual"><scope>AuthSecurityFixture</scope><name>SetUp</name></member>
+      <member refid="class_auth_security_fixture_1a1a7eebb110eae6f23146bd60a2c78bbc" prot="protected" virt="non-virtual"><scope>AuthSecurityFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

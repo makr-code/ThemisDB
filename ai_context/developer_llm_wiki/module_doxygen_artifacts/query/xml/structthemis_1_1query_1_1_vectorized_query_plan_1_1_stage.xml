@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::VectorizedQueryPlan::Stage</compoundname>
+    <includes refid="vectorized__execution_8h" local="no">vectorized_execution.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1a48c596d302ecaa99c807deecee126782" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1a7f20ad31129da18f45798990ab494f3d" kindref="member">StageType</ref></type>
+        <definition>StageType themis::query::VectorizedQueryPlan::Stage::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::Stage::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="200" column="22" bodyfile="include/query/vectorized_execution.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1a255f2b566badfefb2777ac115e26dd2b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_filter_stage" kindref="compound">FilterStage</ref></type>
+        <definition>FilterStage themis::query::VectorizedQueryPlan::Stage::filter</definition>
+        <argsstring></argsstring>
+        <name>filter</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::Stage::filter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="201" column="22" bodyfile="include/query/vectorized_execution.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1ad5cdb5440d90c583b90925fa5b43f6e8" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_project_stage" kindref="compound">ProjectStage</ref></type>
+        <definition>ProjectStage themis::query::VectorizedQueryPlan::Stage::project</definition>
+        <argsstring></argsstring>
+        <name>project</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::Stage::project</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="202" column="22" bodyfile="include/query/vectorized_execution.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1a1797011ddba812381a3763a06d927602" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_agg_stage" kindref="compound">AggStage</ref></type>
+        <definition>AggStage themis::query::VectorizedQueryPlan::Stage::aggregate</definition>
+        <argsstring></argsstring>
+        <name>aggregate</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::Stage::aggregate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="203" column="22" bodyfile="include/query/vectorized_execution.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1a941e55425c65a09213a59822646a5745" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_sort_stage" kindref="compound">SortStage</ref></type>
+        <definition>SortStage themis::query::VectorizedQueryPlan::Stage::sort</definition>
+        <argsstring></argsstring>
+        <name>sort</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::Stage::sort</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="204" column="22" bodyfile="include/query/vectorized_execution.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::query::VectorizedQueryPlan::AggStage</label>
+        <link refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_agg_stage"/>
+      </node>
+      <node id="2">
+        <label>themis::query::VectorizedQueryPlan::FilterStage</label>
+        <link refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_filter_stage"/>
+      </node>
+      <node id="3">
+        <label>themis::query::VectorizedQueryPlan::ProjectStage</label>
+        <link refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_project_stage"/>
+      </node>
+      <node id="5">
+        <label>themis::query::VectorizedQueryPlan::SortStage</label>
+        <link refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_sort_stage"/>
+      </node>
+      <node id="1">
+        <label>themis::query::VectorizedQueryPlan::Stage</label>
+        <link refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>filter</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>project</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>aggregate</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>sort</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/vectorized_execution.h" line="199" column="5" bodyfile="include/query/vectorized_execution.h" bodystart="199" bodyend="205"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1a1797011ddba812381a3763a06d927602" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan::Stage</scope><name>aggregate</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1a255f2b566badfefb2777ac115e26dd2b" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan::Stage</scope><name>filter</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1ad5cdb5440d90c583b90925fa5b43f6e8" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan::Stage</scope><name>project</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1a941e55425c65a09213a59822646a5745" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan::Stage</scope><name>sort</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_stage_1a48c596d302ecaa99c807deecee126782" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan::Stage</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

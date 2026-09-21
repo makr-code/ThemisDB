@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1resource" kind="namespace" language="C++">
+    <compoundname>themis::resource</compoundname>
+    <innerclass refid="classthemis_1_1resource_1_1_adaptive_connection_pool" prot="public">themis::resource::AdaptiveConnectionPool</innerclass>
+    <innerclass refid="classthemis_1_1resource_1_1_buffer_handle" prot="public">themis::resource::BufferHandle</innerclass>
+    <innerclass refid="classthemis_1_1resource_1_1_buffer_pool" prot="public">themis::resource::BufferPool</innerclass>
+    <innerclass refid="classthemis_1_1resource_1_1_resource_pool_manager" prot="public">themis::resource::ResourcePoolManager</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73" prot="public" static="no" strong="yes">
+        <type>std::size_t</type>
+        <name>SlabClass</name>
+        <qualifiedname>themis::resource::SlabClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73a6a0a16ffe39b4bf6f4ec19a24e911005" prot="public">
+          <name>B128</name>
+          <initializer>=   128</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73a769a30dfd2685aec41a88de616034d6d" prot="public">
+          <name>B256</name>
+          <initializer>=   256</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73a340cc5a15bd1d1b2812abd1ef095759e" prot="public">
+          <name>B512</name>
+          <initializer>=   512</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73a2790b86da27e701033b28bce76bc9268" prot="public">
+          <name>KB1</name>
+          <initializer>=  1024</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73a286baea58683b4d864901a5937e881a0" prot="public">
+          <name>KB2</name>
+          <initializer>=  2048</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1resource_1a8ec1993687ef09f0e84ef7613cd44b73aed2f9a0f3018b6b27b6309ffbc7c35c7" prot="public">
+          <name>KB4</name>
+          <initializer>=  4096</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="37" column="1" bodyfile="include/base/buffer_pool.h" bodystart="37" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/base/buffer_pool.h" line="35" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="api__gateway__hook_8h" kind="file" language="C++">
+    <compoundname>api_gateway_hook.h</compoundname>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/api/api_gateway_hook.h</label>
+        <link refid="api__gateway__hook_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>map</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1api_1_1_gateway_hook_context" prot="public">themis::api::GatewayHookContext</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_gateway_hook_result" prot="public">themis::api::GatewayHookResult</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook" prot="public">themis::api::IAPIGatewayHook</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_i_gateway_hook_registry" prot="public">themis::api::IGatewayHookRegistry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1api">themis::api</innernamespace>
+    <briefdescription>
+<para>API gateway lifecycle hook interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides callback interfaces for initialization, request routing, error handling, and shutdown events in the API gateway. Enables extensibility without modifying core gateway code.</para>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1api" kindref="compound">api</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GatewayHookPhase<sp/>—<sp/>execution<sp/>phase<sp/>of<sp/>the<sp/>hook<sp/>in<sp/>the<sp/>request<sp/>pipeline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87a" kindref="member">GatewayHookPhase</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aac051d6347bb8c9a858ff7b2463fd9698" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aac051d6347bb8c9a858ff7b2463fd9698" kindref="member">PRE_AUTH</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aa6481afd9ed5b00854e6e543dffc18323" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aa6481afd9ed5b00854e6e543dffc18323" kindref="member">POST_AUTH</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aaa510f5e56aa043a0c2d08a480c8696a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aaa510f5e56aa043a0c2d08a480c8696a2" kindref="member">PRE_HANDLER</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aaec8e96fd5da2a38a1f698f64deb24c5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aaec8e96fd5da2a38a1f698f64deb24c5f" kindref="member">POST_HANDLER</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aa2fff466d401e302c7dfff289fc66ee39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87aa2fff466d401e302c7dfff289fc66ee39" kindref="member">ON_ERROR</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GatewayHookContext<sp/>—<sp/>mutable<sp/>per-request<sp/>context<sp/>passed<sp/>through<sp/>hook<sp/>chain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1api_1_1_gateway_hook_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1api_1_1_gateway_hook_context" kindref="compound">GatewayHookContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1api_1_1_gateway_hook_context_1a577505f900a61434bad5efcabdf3ebdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_gateway_hook_context_1a577505f900a61434bad5efcabdf3ebdd" kindref="member">request_id</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1api_1_1_gateway_hook_context_1a8ecb573c30f5268297b99ff139c5120c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_gateway_hook_context_1a8ecb573c30f5268297b99ff139c5120c" kindref="member">method</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1api_1_1_gateway_hook_context_1a871cd0008872b351af372b26ec9a6040" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_gateway_hook_context_1a871cd0008872b351af372b26ec9a6040" kindref="member">path</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1api_1_1_gateway_hook_context_1a97da6282bbf7074e170f4f5d5f008e13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1api_1_1_gateway_hook_context_1a97da6282bbf7074e170f4f5d5f008e13" kindref="member">headers</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1api_1_1_gateway_hook_context_1a74c918b51127c4f74142740d78dfde97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_gateway_hook_context_1a74c918b51127c4f74142740d78dfde97" kindref="member">body</ref>;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1api_1_1_gateway_hook_context_1abe5a90ffb023a9028355abb6ee46e741" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_gateway_hook_context_1abe5a90ffb023a9028355abb6ee46e741" kindref="member">client_ip</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1api_1_1_gateway_hook_context_1ad10e080f250fb5852efca42b2e5ae156" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1api_1_1_gateway_hook_context_1ad10e080f250fb5852efca42b2e5ae156" kindref="member">metadata</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GatewayHookResult<sp/>—<sp/>decision<sp/>returned<sp/>by<sp/>a<sp/>single<sp/>hook<sp/>invocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1api_1_1_gateway_hook_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1api_1_1_gateway_hook_result" kindref="compound">GatewayHookResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1api_1_1_gateway_hook_result_1a89021f1159abc97a1b91118ab73d26ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_gateway_hook_result_1a89021f1159abc97a1b91118ab73d26ed" kindref="member">proceed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1api_1_1_gateway_hook_result_1a7a5aca3e7b7d13ce7caefd66c1b3ff7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1api_1_1_gateway_hook_result_1a7a5aca3e7b7d13ce7caefd66c1b3ff7c" kindref="member">override_status_code</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1api_1_1_gateway_hook_result_1a7bd0e8c811c9460291198aa147f2e624" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_gateway_hook_result_1a7bd0e8c811c9460291198aa147f2e624" kindref="member">override_body</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1api_1_1_gateway_hook_result_1a4a0131a30f23761dce27d630b071700c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1api_1_1_gateway_hook_result_1a4a0131a30f23761dce27d630b071700c" kindref="member">add_headers</ref>;<sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IAPIGatewayHook<sp/>—<sp/>single<sp/>plugin<sp/>hook</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook" kindref="compound">IAPIGatewayHook</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1abb0393a2b37b3d5457113c509b03b877" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1abb0393a2b37b3d5457113c509b03b877" kindref="member">~IAPIGatewayHook</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard,<sp/>deprecated(</highlight><highlight class="stringliteral">&quot;No<sp/>external<sp/>callers;<sp/>CANDIDATE_FOR_REMOVAL<sp/>–<sp/>tracked<sp/>in<sp/>src/ROADMAP.md&quot;</highlight><highlight class="normal">)]]</highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1ac659e6c9bea0755449be4f28c42c87a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1ac659e6c9bea0755449be4f28c42c87a9" kindref="member">hookId</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a06d7d125ae57110725a6f7ae072d0605" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87a" kindref="member">GatewayHookPhase</ref><sp/><ref refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a06d7d125ae57110725a6f7ae072d0605" kindref="member">phase</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a381da03ba3449ca4c86361e6124101c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a381da03ba3449ca4c86361e6124101c0" kindref="member">priority</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>100;<sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a5b08fab9d896181615b6a9ba830a624f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_gateway_hook_result" kindref="compound">GatewayHookResult</ref><sp/><ref refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a5b08fab9d896181615b6a9ba830a624f" kindref="member">execute</ref>(<ref refid="structthemis_1_1api_1_1_gateway_hook_context" kindref="compound">GatewayHookContext</ref>&amp;<sp/>ctx)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a5f5ee2fd00a1c6ab771fbf97f4cb8d5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a5f5ee2fd00a1c6ab771fbf97f4cb8d5d" kindref="member">isEnabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IGatewayHookRegistry<sp/>—<sp/>registry<sp/>for<sp/>IAPIGatewayHook<sp/>instances</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1api_1_1_i_gateway_hook_registry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1api_1_1_i_gateway_hook_registry" kindref="compound">IGatewayHookRegistry</ref><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1api_1_1_i_gateway_hook_registry_1aa68cef425f0547f023399b12fdd201ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_gateway_hook_registry_1aa68cef425f0547f023399b12fdd201ec" kindref="member">~IGatewayHookRegistry</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard,<sp/>deprecated(</highlight><highlight class="stringliteral">&quot;No<sp/>external<sp/>callers;<sp/>CANDIDATE_FOR_REMOVAL<sp/>–<sp/>tracked<sp/>in<sp/>src/ROADMAP.md&quot;</highlight><highlight class="normal">)]]</highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1api_1_1_i_gateway_hook_registry_1a6214af65a4d945183e295e93ad8b3c5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_gateway_hook_registry_1a6214af65a4d945183e295e93ad8b3c5a" kindref="member">registerHook</ref>(std::shared_ptr&lt;IAPIGatewayHook&gt;<sp/>hook)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard,<sp/>deprecated(</highlight><highlight class="stringliteral">&quot;No<sp/>external<sp/>callers;<sp/>CANDIDATE_FOR_REMOVAL<sp/>–<sp/>tracked<sp/>in<sp/>src/ROADMAP.md&quot;</highlight><highlight class="normal">)]]</highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1api_1_1_i_gateway_hook_registry_1ae1de807e422d499b55c8d76f600c4b60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_gateway_hook_registry_1ae1de807e422d499b55c8d76f600c4b60" kindref="member">unregisterHook</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>hook_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard,<sp/>deprecated(</highlight><highlight class="stringliteral">&quot;No<sp/>external<sp/>callers;<sp/>CANDIDATE_FOR_REMOVAL<sp/>–<sp/>tracked<sp/>in<sp/>src/ROADMAP.md&quot;</highlight><highlight class="normal">)]]</highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1api_1_1_i_gateway_hook_registry_1a0399da098b4ba43f7ed1f8b266bf3700" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;std::shared_ptr&lt;IAPIGatewayHook&gt;&gt;<sp/><ref refid="classthemis_1_1api_1_1_i_gateway_hook_registry_1a0399da098b4ba43f7ed1f8b266bf3700" kindref="member">getHooks</ref>(</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87a" kindref="member">GatewayHookPhase</ref><sp/>phase</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>api</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/api/api_gateway_hook.h"/>
+  </compounddef>
+</doxygen>

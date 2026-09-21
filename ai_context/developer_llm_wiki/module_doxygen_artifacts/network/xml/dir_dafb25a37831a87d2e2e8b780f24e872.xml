@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_dafb25a37831a87d2e2e8b780f24e872" kind="dir">
+    <compoundname>include/network</compoundname>
+    <innerfile refid="adaptive__circuit__breaker_8h">adaptive_circuit_breaker.h</innerfile>
+    <innerfile refid="adaptive__io__scaler_8h">adaptive_io_scaler.h</innerfile>
+    <innerfile refid="bbr__congestion__control_8h">bbr_congestion_control.h</innerfile>
+    <innerfile refid="connection__compression_8h">connection_compression.h</innerfile>
+    <innerfile refid="envoy__xds_8h">envoy_xds.h</innerfile>
+    <innerfile refid="geo__topology__router_8h">geo_topology_router.h</innerfile>
+    <innerfile refid="grpc__transport_8h">grpc_transport.h</innerfile>
+    <innerfile refid="io__uring__batcher_8h">io_uring_batcher.h</innerfile>
+    <innerfile refid="kernel__bypass_8h">kernel_bypass.h</innerfile>
+    <innerfile refid="multipath__tcp_8h">multipath_tcp.h</innerfile>
+    <innerfile refid="network__api__contract_8h">network_api_contract.h</innerfile>
+    <innerfile refid="network__audit__log_8h">network_audit_log.h</innerfile>
+    <innerfile refid="network__observability_8h">network_observability.h</innerfile>
+    <innerfile refid="qos__manager_8h">qos_manager.h</innerfile>
+    <innerfile refid="quic__server_8h">quic_server.h</innerfile>
+    <innerfile refid="quic__transport_8h">quic_transport.h</innerfile>
+    <innerfile refid="raft__load__balancer_8h">raft_load_balancer.h</innerfile>
+    <innerfile refid="service__mesh_8h">service_mesh.h</innerfile>
+    <innerfile refid="socket__timeout__manager_8h">socket_timeout_manager.h</innerfile>
+    <innerfile refid="udp__fast__path_8h">udp_fast_path.h</innerfile>
+    <innerfile refid="udp__server_8h">udp_server.h</innerfile>
+    <innerfile refid="wire__bootstrap__validation_8h">wire_bootstrap_validation.h</innerfile>
+    <innerfile refid="wire__protocol_8h">wire_protocol.h</innerfile>
+    <innerfile refid="wire__protocol__batch_8h">wire_protocol_batch.h</innerfile>
+    <innerfile refid="wire__protocol__connection__pool_8h">wire_protocol_connection_pool.h</innerfile>
+    <innerfile refid="wire__protocol__helpers_8h">wire_protocol_helpers.h</innerfile>
+    <innerfile refid="wire__protocol__performance_8h">wire_protocol_performance.h</innerfile>
+    <innerfile refid="wire__protocol__server_8h">wire_protocol_server.h</innerfile>
+    <innerfile refid="wire__protocol__websocket_8h">wire_protocol_websocket.h</innerfile>
+    <innerfile refid="wire__protocol__zero__copy_8h">wire_protocol_zero_copy.h</innerfile>
+    <innerfile refid="wire__retry__policy_8h">wire_retry_policy.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/"/>
+  </compounddef>
+</doxygen>

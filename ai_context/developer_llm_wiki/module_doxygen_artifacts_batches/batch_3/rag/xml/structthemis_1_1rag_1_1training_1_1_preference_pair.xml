@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1training_1_1_preference_pair" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::training::PreferencePair</compoundname>
+    <includes refid="rlaif__trainer_8h" local="no">rlaif_trainer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_preference_pair_1a02a7d5679e7be7a3343f4750b546eadb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::training::PreferencePair::prompt</definition>
+        <argsstring></argsstring>
+        <name>prompt</name>
+        <qualifiedname>themis::rag::training::PreferencePair::prompt</qualifiedname>
+        <briefdescription>
+<para>The original user query / input. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="69" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_preference_pair_1a54daeb66f89b4ea94e3076e0e82449ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::training::PreferencePair::chosen</definition>
+        <argsstring></argsstring>
+        <name>chosen</name>
+        <qualifiedname>themis::rag::training::PreferencePair::chosen</qualifiedname>
+        <briefdescription>
+<para>The preferred (better) response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="70" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_preference_pair_1ad046d2498df394b638d7440c3375f6b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::training::PreferencePair::rejected</definition>
+        <argsstring></argsstring>
+        <name>rejected</name>
+        <qualifiedname>themis::rag::training::PreferencePair::rejected</qualifiedname>
+        <briefdescription>
+<para>The dispreferred (worse) response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="71" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_preference_pair_1ae12c53ddd4638a75d1b4b380bbe0c701" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::training::PreferencePair::preference_score</definition>
+        <argsstring></argsstring>
+        <name>preference_score</name>
+        <qualifiedname>themis::rag::training::PreferencePair::preference_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>AI judge confidence ∈ [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="72" column="12" bodyfile="include/rag/rlaif_trainer.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_preference_pair_1a98aa3895845a74800868588abd6d6f28" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::training::PreferencePair::judge_rationale</definition>
+        <argsstring></argsstring>
+        <name>judge_rationale</name>
+        <qualifiedname>themis::rag::training::PreferencePair::judge_rationale</qualifiedname>
+        <briefdescription>
+<para>Optional rationale from the judge. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="73" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_preference_pair_1ac239b9a12446c55bd21ef481d471a1e0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::training::PreferencePair::applied_principles</definition>
+        <argsstring></argsstring>
+        <name>applied_principles</name>
+        <qualifiedname>themis::rag::training::PreferencePair::applied_principles</qualifiedname>
+        <briefdescription>
+<para>Principles used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="74" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_preference_pair_1abdf18f2cbf5fef8de26517f5a66c2a65" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::rag::training::PreferencePair::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::rag::training::PreferencePair::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="75" column="43" bodyfile="include/rag/rlaif_trainer.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A (prompt, chosen, rejected) preference pair for reward-model training. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Compatible with standard DPO / preference-optimisation data formats. </para>
+    </detaileddescription>
+    <location file="include/rag/rlaif_trainer.h" line="68" column="1" bodyfile="include/rag/rlaif_trainer.h" bodystart="68" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1training_1_1_preference_pair_1ac239b9a12446c55bd21ef481d471a1e0" prot="public" virt="non-virtual"><scope>themis::rag::training::PreferencePair</scope><name>applied_principles</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_preference_pair_1a54daeb66f89b4ea94e3076e0e82449ad" prot="public" virt="non-virtual"><scope>themis::rag::training::PreferencePair</scope><name>chosen</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_preference_pair_1abdf18f2cbf5fef8de26517f5a66c2a65" prot="public" virt="non-virtual"><scope>themis::rag::training::PreferencePair</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_preference_pair_1a98aa3895845a74800868588abd6d6f28" prot="public" virt="non-virtual"><scope>themis::rag::training::PreferencePair</scope><name>judge_rationale</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_preference_pair_1ae12c53ddd4638a75d1b4b380bbe0c701" prot="public" virt="non-virtual"><scope>themis::rag::training::PreferencePair</scope><name>preference_score</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_preference_pair_1a02a7d5679e7be7a3343f4750b546eadb" prot="public" virt="non-virtual"><scope>themis::rag::training::PreferencePair</scope><name>prompt</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_preference_pair_1ad046d2498df394b638d7440c3375f6b9" prot="public" virt="non-virtual"><scope>themis::rag::training::PreferencePair</scope><name>rejected</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

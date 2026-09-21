@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_output_encoder" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::OutputEncoder</compoundname>
+    <includes refid="output__encoding_8h" local="no">output_encoding.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_output_encoder_1a51e979cb418e0286a2a013e3188cde79" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::security::OutputEncoder::encodeHTML</definition>
+        <argsstring>(std::string_view input)</argsstring>
+        <name>encodeHTML</name>
+        <qualifiedname>themis::security::OutputEncoder::encodeHTML</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Encode string for safe HTML output. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Escapes HTML special characters: &amp; &lt; &gt; " &apos; /</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw string that may contain HTML </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>HTML-safe encoded string</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="38" column="24" bodyfile="include/security/output_encoding.h" bodystart="38" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_output_encoder_1a84b6ab9b37bd76daeb07a4c6d0227b81" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::security::OutputEncoder::encodeJavaScript</definition>
+        <argsstring>(std::string_view input)</argsstring>
+        <name>encodeJavaScript</name>
+        <qualifiedname>themis::security::OutputEncoder::encodeJavaScript</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Encode string for safe JavaScript string literal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Escapes characters that could break out of a JS string.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JavaScript-safe encoded string</para>
+</simplesect>
+Calls: reserve(), size(), snprintf(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="66" column="24" bodyfile="include/security/output_encoding.h" bodystart="66" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_output_encoder_1ab9339d86073f1e181e3f42ce0dcbb267" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::security::OutputEncoder::encodeURL</definition>
+        <argsstring>(std::string_view input)</argsstring>
+        <name>encodeURL</name>
+        <qualifiedname>themis::security::OutputEncoder::encodeURL</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Encode string for safe URL query parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Percent-encodes special characters.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>URL-encoded string</para>
+</simplesect>
+Calls: reserve(), size(), isAlphaNumeric(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="107" column="24" bodyfile="include/security/output_encoding.h" bodystart="107" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_output_encoder_1a80f35735aa034b31e619251a5978a2da" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::security::OutputEncoder::encodeJSON</definition>
+        <argsstring>(std::string_view input)</argsstring>
+        <name>encodeJSON</name>
+        <qualifiedname>themis::security::OutputEncoder::encodeJSON</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Encode string for safe JSON output. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Escapes JSON special characters and control characters.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON-safe encoded string</para>
+</simplesect>
+Calls: reserve(), size(), snprintf(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="135" column="24" bodyfile="include/security/output_encoding.h" bodystart="135" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_output_encoder_1a9139f208550a7af4cbf2431081956d08" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::security::OutputEncoder::sanitizeAttribute</definition>
+        <argsstring>(std::string_view input)</argsstring>
+        <name>sanitizeAttribute</name>
+        <qualifiedname>themis::security::OutputEncoder::sanitizeAttribute</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize string for safe attribute value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Removes or escapes characters dangerous in HTML attributes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Sanitized string safe for HTML attributes</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="173" column="24" bodyfile="include/security/output_encoding.h" bodystart="173" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_output_encoder_1aa4d341754c5f92eae853fc7912b5d3ef" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::security::OutputEncoder::isAlphaNumeric</definition>
+        <argsstring>(unsigned char c)</argsstring>
+        <name>isAlphaNumeric</name>
+        <qualifiedname>themis::security::OutputEncoder::isAlphaNumeric</qualifiedname>
+        <param>
+          <type>unsigned char</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Is Alpha Numeric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success.</para>
+</simplesect>
+Implements isAlphaNumeric without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="195" column="17" bodyfile="include/security/output_encoding.h" bodystart="195" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Security utilities for output encoding and XSS prevention. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides functions to safely encode user-generated content for various contexts (HTML, JavaScript, URL, etc.) </para>
+    </detaileddescription>
+    <location file="include/security/output_encoding.h" line="27" column="1" bodyfile="include/security/output_encoding.h" bodystart="27" bodyend="200"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_output_encoder_1a51e979cb418e0286a2a013e3188cde79" prot="public" virt="non-virtual"><scope>themis::security::OutputEncoder</scope><name>encodeHTML</name></member>
+      <member refid="classthemis_1_1security_1_1_output_encoder_1a84b6ab9b37bd76daeb07a4c6d0227b81" prot="public" virt="non-virtual"><scope>themis::security::OutputEncoder</scope><name>encodeJavaScript</name></member>
+      <member refid="classthemis_1_1security_1_1_output_encoder_1a80f35735aa034b31e619251a5978a2da" prot="public" virt="non-virtual"><scope>themis::security::OutputEncoder</scope><name>encodeJSON</name></member>
+      <member refid="classthemis_1_1security_1_1_output_encoder_1ab9339d86073f1e181e3f42ce0dcbb267" prot="public" virt="non-virtual"><scope>themis::security::OutputEncoder</scope><name>encodeURL</name></member>
+      <member refid="classthemis_1_1security_1_1_output_encoder_1aa4d341754c5f92eae853fc7912b5d3ef" prot="private" virt="non-virtual"><scope>themis::security::OutputEncoder</scope><name>isAlphaNumeric</name></member>
+      <member refid="classthemis_1_1security_1_1_output_encoder_1a9139f208550a7af4cbf2431081956d08" prot="public" virt="non-virtual"><scope>themis::security::OutputEncoder</scope><name>sanitizeAttribute</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

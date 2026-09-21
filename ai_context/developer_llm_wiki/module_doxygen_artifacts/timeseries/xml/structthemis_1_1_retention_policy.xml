@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_retention_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::RetentionPolicy</compoundname>
+    <includes refid="retention_8h" local="no">retention.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_retention_policy_1a931e146a1d48f9232ac40352237e08b5" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::chrono::seconds &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::chrono::seconds&gt; themis::RetentionPolicy::per_metric</definition>
+        <argsstring></argsstring>
+        <name>per_metric</name>
+        <qualifiedname>themis::RetentionPolicy::per_metric</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="33" column="24" bodyfile="include/timeseries/retention.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/retention.h" line="31" column="1" bodyfile="include/timeseries/retention.h" bodystart="31" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_retention_policy_1a931e146a1d48f9232ac40352237e08b5" prot="public" virt="non-virtual"><scope>themis::RetentionPolicy</scope><name>per_metric</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_l_r_u_cache_1_1_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::LRUCache::Entry</compoundname>
+    <includes refid="lru__cache_8h" local="no">lru_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_l_r_u_cache_1_1_entry_1aa400c1fa9669895ee8a8bedeefd68aec" prot="public" static="no" mutable="no">
+        <type>Key</type>
+        <definition>Key themis::cache::LRUCache&lt; Key, Value &gt;::Entry::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::cache::LRUCache::Entry::key</qualifiedname>
+        <briefdescription>
+<para>Cache key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="33" column="13" bodyfile="include/cache/lru_cache.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_l_r_u_cache_1_1_entry_1a0d80a57c5d5563bfb72f56aa0798d3e5" prot="public" static="no" mutable="no">
+        <type>Value</type>
+        <definition>Value themis::cache::LRUCache&lt; Key, Value &gt;::Entry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::cache::LRUCache::Entry::value</qualifiedname>
+        <briefdescription>
+<para>Cached value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="34" column="15" bodyfile="include/cache/lru_cache.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_l_r_u_cache_1_1_entry_1a4219093783cdd1bb252620b8be71d822" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::LRUCache&lt; Key, Value &gt;::Entry::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::cache::LRUCache::Entry::access_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of accesses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="35" column="18" bodyfile="include/cache/lru_cache.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_l_r_u_cache_1_1_entry_1a6c6ced339ccdf709653f55bd1a308912" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cache::LRUCache&lt; Key, Value &gt;::Entry::timestamp_us</definition>
+        <argsstring></argsstring>
+        <name>timestamp_us</name>
+        <qualifiedname>themis::cache::LRUCache::Entry::timestamp_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Last access time in microseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="36" column="17" bodyfile="include/cache/lru_cache.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/lru_cache.h" line="32" column="5" bodyfile="include/cache/lru_cache.h" bodystart="32" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_l_r_u_cache_1_1_entry_1a4219093783cdd1bb252620b8be71d822" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache::Entry</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1cache_1_1_l_r_u_cache_1_1_entry_1aa400c1fa9669895ee8a8bedeefd68aec" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache::Entry</scope><name>key</name></member>
+      <member refid="structthemis_1_1cache_1_1_l_r_u_cache_1_1_entry_1a6c6ced339ccdf709653f55bd1a308912" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache::Entry</scope><name>timestamp_us</name></member>
+      <member refid="structthemis_1_1cache_1_1_l_r_u_cache_1_1_entry_1a0d80a57c5d5563bfb72f56aa0798d3e5" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache::Entry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

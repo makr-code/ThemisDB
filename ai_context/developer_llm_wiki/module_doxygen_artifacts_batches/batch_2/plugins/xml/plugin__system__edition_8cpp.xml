@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="plugin__system__edition_8cpp" kind="file" language="C++">
+    <compoundname>plugin_system_edition.cpp</compoundname>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>DEPRECATED<sp/>-<sp/>Merged<sp/>into<sp/>plugin_manager.cpp<sp/>/<sp/>plugin_manager.h</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>==============================================================</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>The<sp/>edition/license<sp/>gating<sp/>and<sp/>utility<sp/>functions<sp/>previously<sp/>defined<sp/>here</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>have<sp/>been<sp/>consolidated<sp/>into<sp/>PluginManager:</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/><sp/><sp/>PluginManager::isEditionSupported()<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>--<sp/>compile-time<sp/>edition<sp/>gate</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*<sp/><sp/><sp/>PluginManager::isLicensed()<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>--<sp/>runtime<sp/>license<sp/>gate</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>*<sp/><sp/><sp/>PluginManager::communityUnavailableMessage()<sp/><sp/>--<sp/>user-facing<sp/>error<sp/>text</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/>*<sp/><sp/><sp/>PluginManager::marketplaceInfo()<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>--<sp/>marketplace<sp/>availability</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/>*<sp/><sp/><sp/>PluginManager::installationInstructions()<sp/><sp/><sp/><sp/><sp/>--<sp/>install<sp/>guide</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/>*<sp/>The<sp/>edition<sp/>gate<sp/>is<sp/>now<sp/>automatically<sp/>applied<sp/>inside<sp/>loadPlugin().</highlight></codeline>
+<codeline lineno="25"><highlight class="comment"><sp/>*<sp/>This<sp/>file<sp/>is<sp/>intentionally<sp/>excluded<sp/>from<sp/>cmake/CMakeLists.txt.</highlight></codeline>
+<codeline lineno="26"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/plugins/plugin_system_edition.cpp"/>
+  </compounddef>
+</doxygen>

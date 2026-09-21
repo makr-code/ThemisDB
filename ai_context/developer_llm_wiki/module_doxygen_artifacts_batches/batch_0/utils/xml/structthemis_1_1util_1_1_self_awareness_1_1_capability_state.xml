@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1util_1_1_self_awareness_1_1_capability_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::util::SelfAwareness::CapabilityState</compoundname>
+    <includes refid="self__awareness_8h" local="no">self_awareness.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a094f6077f347255bd6c52756bc9b2ee3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::util::SelfAwareness::CapabilityState::total_shards</definition>
+        <argsstring></argsstring>
+        <name>total_shards</name>
+        <qualifiedname>themis::util::SelfAwareness::CapabilityState::total_shards</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="79" column="18" bodyfile="include/utils/self_awareness.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a37a03394a261be9af518957ee6a9838a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::util::SelfAwareness::CapabilityState::active_shards</definition>
+        <argsstring></argsstring>
+        <name>active_shards</name>
+        <qualifiedname>themis::util::SelfAwareness::CapabilityState::active_shards</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="80" column="18" bodyfile="include/utils/self_awareness.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1af676db3b6f393c2ce1025c6d8d8ab1d7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::util::SelfAwareness::CapabilityState::inactive_shards</definition>
+        <argsstring></argsstring>
+        <name>inactive_shards</name>
+        <qualifiedname>themis::util::SelfAwareness::CapabilityState::inactive_shards</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="81" column="18" bodyfile="include/utils/self_awareness.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a355d06e5b86845f60893974117c88695" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::util::SelfAwareness::CapabilityState::shard_ids</definition>
+        <argsstring></argsstring>
+        <name>shard_ids</name>
+        <qualifiedname>themis::util::SelfAwareness::CapabilityState::shard_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="82" column="21" bodyfile="include/utils/self_awareness.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a9749f5e879e5284bfbd5e50f0c72fae5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::util::SelfAwareness::CapabilityState::total_capabilities_configured</definition>
+        <argsstring></argsstring>
+        <name>total_capabilities_configured</name>
+        <qualifiedname>themis::util::SelfAwareness::CapabilityState::total_capabilities_configured</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="85" column="18" bodyfile="include/utils/self_awareness.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a15762b67630276f496d72c93d93543f5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::util::SelfAwareness::CapabilityState::auto_generated_capabilities</definition>
+        <argsstring></argsstring>
+        <name>auto_generated_capabilities</name>
+        <qualifiedname>themis::util::SelfAwareness::CapabilityState::auto_generated_capabilities</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="86" column="18" bodyfile="include/utils/self_awareness.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1aa8bb38658f13acd7203f746f33939efe" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::util::SelfAwareness::CapabilityState::manually_configured_capabilities</definition>
+        <argsstring></argsstring>
+        <name>manually_configured_capabilities</name>
+        <qualifiedname>themis::util::SelfAwareness::CapabilityState::manually_configured_capabilities</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="87" column="18" bodyfile="include/utils/self_awareness.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a8e492a1f61c1186edaa05f2160bf1233" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::SelfAwareness::CapabilityState::total_documents</definition>
+        <argsstring></argsstring>
+        <name>total_documents</name>
+        <qualifiedname>themis::util::SelfAwareness::CapabilityState::total_documents</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="90" column="18" bodyfile="include/utils/self_awareness.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1ae46365f52c21532dd8c0fd2bc7f266c1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::SelfAwareness::CapabilityState::total_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_size_bytes</name>
+        <qualifiedname>themis::util::SelfAwareness::CapabilityState::total_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="91" column="18" bodyfile="include/utils/self_awareness.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1aa6c8cfdde57e0bd8a6d72a4d185e6785" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::util::SelfAwareness::CapabilityState::total_unique_keywords</definition>
+        <argsstring></argsstring>
+        <name>total_unique_keywords</name>
+        <qualifiedname>themis::util::SelfAwareness::CapabilityState::total_unique_keywords</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="94" column="18" bodyfile="include/utils/self_awareness.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a472aa1427adfa8f01f3241313441c7ad" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::util::SelfAwareness::CapabilityState::total_unique_domains</definition>
+        <argsstring></argsstring>
+        <name>total_unique_domains</name>
+        <qualifiedname>themis::util::SelfAwareness::CapabilityState::total_unique_domains</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="95" column="18" bodyfile="include/utils/self_awareness.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a8f3a9f1c4dbb17fdd8c7d7af788c5106" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::util::SelfAwareness::CapabilityState::total_unique_organizations</definition>
+        <argsstring></argsstring>
+        <name>total_unique_organizations</name>
+        <qualifiedname>themis::util::SelfAwareness::CapabilityState::total_unique_organizations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="96" column="18" bodyfile="include/utils/self_awareness.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a5b51a47e29997a0d22e53959b45f72b7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::util::SelfAwareness::CapabilityState::total_unique_regions</definition>
+        <argsstring></argsstring>
+        <name>total_unique_regions</name>
+        <qualifiedname>themis::util::SelfAwareness::CapabilityState::total_unique_regions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="97" column="18" bodyfile="include/utils/self_awareness.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Capability state - what ThemisDB knows about itself </para>
+    </detaileddescription>
+    <location file="include/utils/self_awareness.h" line="77" column="5" bodyfile="include/utils/self_awareness.h" bodystart="77" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a37a03394a261be9af518957ee6a9838a" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::CapabilityState</scope><name>active_shards</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a15762b67630276f496d72c93d93543f5" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::CapabilityState</scope><name>auto_generated_capabilities</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1af676db3b6f393c2ce1025c6d8d8ab1d7" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::CapabilityState</scope><name>inactive_shards</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1aa8bb38658f13acd7203f746f33939efe" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::CapabilityState</scope><name>manually_configured_capabilities</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a355d06e5b86845f60893974117c88695" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::CapabilityState</scope><name>shard_ids</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a9749f5e879e5284bfbd5e50f0c72fae5" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::CapabilityState</scope><name>total_capabilities_configured</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a8e492a1f61c1186edaa05f2160bf1233" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::CapabilityState</scope><name>total_documents</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a094f6077f347255bd6c52756bc9b2ee3" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::CapabilityState</scope><name>total_shards</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1ae46365f52c21532dd8c0fd2bc7f266c1" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::CapabilityState</scope><name>total_size_bytes</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a472aa1427adfa8f01f3241313441c7ad" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::CapabilityState</scope><name>total_unique_domains</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1aa6c8cfdde57e0bd8a6d72a4d185e6785" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::CapabilityState</scope><name>total_unique_keywords</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a8f3a9f1c4dbb17fdd8c7d7af788c5106" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::CapabilityState</scope><name>total_unique_organizations</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_capability_state_1a5b51a47e29997a0d22e53959b45f72b7" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::CapabilityState</scope><name>total_unique_regions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

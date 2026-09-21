@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1_1_open_g_l_graph_backend_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::OpenGLGraphBackend::OpenGLGraphBackendImpl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1_1_open_g_l_graph_backend_impl_1a2fac0b9755e2670b0ee8674ebc4d39ac" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::OpenGLGraphBackend::OpenGLGraphBackendImpl::gpuAvailable_</definition>
+        <argsstring></argsstring>
+        <name>gpuAvailable_</name>
+        <qualifiedname>themis::acceleration::OpenGLGraphBackend::OpenGLGraphBackendImpl::gpuAvailable_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/graphics_backends.cpp" line="3678" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="3678" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1_1_open_g_l_graph_backend_impl_1a3dc6aeb45dbc0603840c8037ed1a1243" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::OpenGLGraphBackend::OpenGLGraphBackendImpl::cleanup</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup</name>
+        <qualifiedname>themis::acceleration::OpenGLGraphBackend::OpenGLGraphBackendImpl::cleanup</qualifiedname>
+        <briefdescription>
+<para>Cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements cleanup without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/graphics_backends.cpp" line="3683" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="3683" bodyend="3683"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/acceleration/graphics_backends.cpp" line="3223" column="1" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="3223" bodyend="3685"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1_1_open_g_l_graph_backend_impl_1a3dc6aeb45dbc0603840c8037ed1a1243" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLGraphBackend::OpenGLGraphBackendImpl</scope><name>cleanup</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1_1_open_g_l_graph_backend_impl_1a2fac0b9755e2670b0ee8674ebc4d39ac" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLGraphBackend::OpenGLGraphBackendImpl</scope><name>gpuAvailable_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

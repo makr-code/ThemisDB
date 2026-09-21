@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1_1_retrieval_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::aql_helpers::MockFewShotLibrary::RetrievalResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1_1_retrieval_result_1a399542f5d5d1732e51d32318bf61f9a9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; themis::bench::aql_helpers::MockFewShotLibrary::RetrievalResult::indices</definition>
+        <argsstring></argsstring>
+        <name>indices</name>
+        <qualifiedname>themis::bench::aql_helpers::MockFewShotLibrary::RetrievalResult::indices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="104" column="21" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1_1_retrieval_result_1ad9d118cb43337f3f725bc3152607e1d1" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::bench::aql_helpers::MockFewShotLibrary::RetrievalResult::top_score</definition>
+        <argsstring></argsstring>
+        <name>top_score</name>
+        <qualifiedname>themis::bench::aql_helpers::MockFewShotLibrary::RetrievalResult::top_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="105" column="15" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="103" column="5" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="103" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1_1_retrieval_result_1a399542f5d5d1732e51d32318bf61f9a9" prot="public" virt="non-virtual"><scope>themis::bench::aql_helpers::MockFewShotLibrary::RetrievalResult</scope><name>indices</name></member>
+      <member refid="structthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1_1_retrieval_result_1ad9d118cb43337f3f725bc3152607e1d1" prot="public" virt="non-virtual"><scope>themis::bench::aql_helpers::MockFewShotLibrary::RetrievalResult</scope><name>top_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,366 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_replication_topology_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::ReplicationTopologyApiHandler</compoundname>
+    <includes refid="replication__topology__api__handler_8h" local="no">replication_topology_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_replication_topology_api_handler_1a28c2d37436b552afa2de6f23fc16ab81" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::ReplicationCoordinator &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::ReplicationCoordinator&gt; themis::server::ReplicationTopologyApiHandler::coordinator_</definition>
+        <argsstring></argsstring>
+        <name>coordinator_</name>
+        <qualifiedname>themis::server::ReplicationTopologyApiHandler::coordinator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/replication_topology_api_handler.h" line="63" column="21" bodyfile="include/server/replication_topology_api_handler.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_replication_topology_api_handler_1ac69c3636a6a64b12ffc507137f5d3df2" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::WALManager &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::WALManager&gt; themis::server::ReplicationTopologyApiHandler::wal_manager_</definition>
+        <argsstring></argsstring>
+        <name>wal_manager_</name>
+        <qualifiedname>themis::server::ReplicationTopologyApiHandler::wal_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/replication_topology_api_handler.h" line="64" column="33" bodyfile="include/server/replication_topology_api_handler.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_replication_topology_api_handler_1aa0d1131c4cd394b2bd14d91d36cf58e3" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ReplicationTopologyApiHandler::primary_id_</definition>
+        <argsstring></argsstring>
+        <name>primary_id_</name>
+        <qualifiedname>themis::server::ReplicationTopologyApiHandler::primary_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/replication_topology_api_handler.h" line="65" column="55" bodyfile="include/server/replication_topology_api_handler.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_replication_topology_api_handler_1a82e14bcc30cc445a998aa1f2d84124a3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AuthMiddleware&gt; themis::server::ReplicationTopologyApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::ReplicationTopologyApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/replication_topology_api_handler.h" line="66" column="39" bodyfile="include/server/replication_topology_api_handler.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_replication_topology_api_handler_1a90a8749594e425b5d42d40f99a36f65b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ReplicationTopologyApiHandler::ReplicationTopologyApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; sharding::ReplicationCoordinator &gt; coordinator, std::shared_ptr&lt; sharding::WALManager &gt; wal_manager, std::string primary_id, std::shared_ptr&lt; AuthMiddleware &gt; auth)</argsstring>
+        <name>ReplicationTopologyApiHandler</name>
+        <qualifiedname>themis::server::ReplicationTopologyApiHandler::ReplicationTopologyApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ReplicationCoordinator &gt;</type>
+          <declname>coordinator</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::WALManager &gt;</type>
+          <declname>wal_manager</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>primary_id</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/replication_topology_api_handler.h" line="31" column="5" bodyfile="src/server/replication_topology_api_handler.cpp" bodystart="90" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_replication_topology_api_handler_1ab6fa6da7ceaeb5398826a5c4b5a5182e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ReplicationTopologyApiHandler::handleTopologyGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleTopologyGet</name>
+        <qualifiedname>themis::server::ReplicationTopologyApiHandler::handleTopologyGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Topology Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── GET /api/v1/replication/topology ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/replication_topology_api_handler.h" line="43" column="20" bodyfile="src/server/replication_topology_api_handler.cpp" bodystart="108" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_replication_topology_api_handler_1a36b484ea2a15f02f74786714dfc2f378" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ReplicationTopologyApiHandler::handleHealthGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleHealthGet</name>
+        <qualifiedname>themis::server::ReplicationTopologyApiHandler::handleHealthGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Health Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/replication_topology_api_handler.h" line="51" column="20" bodyfile="src/server/replication_topology_api_handler.cpp" bodystart="190" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_replication_topology_api_handler_1ab958779bfcc87f1b0a7a25d20ebd525f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ReplicationTopologyApiHandler::handleUiGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleUiGet</name>
+        <qualifiedname>themis::server::ReplicationTopologyApiHandler::handleUiGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Ui Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/replication_topology_api_handler.h" line="59" column="20" bodyfile="src/server/replication_topology_api_handler.cpp" bodystart="248" bodyend="266"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_replication_topology_api_handler_1a767b0640e2a52c96e8f56e590ab43bd1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ReplicationTopologyApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::ReplicationTopologyApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/replication_topology_api_handler.h" line="75" column="20" bodyfile="src/server/replication_topology_api_handler.cpp" bodystart="268" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_replication_topology_api_handler_1a0d13c24f0f73aa06dc048a2836c16f4d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ReplicationTopologyApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const std::string &amp;content_type, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::ReplicationTopologyApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_type</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/replication_topology_api_handler.h" line="88" column="20" bodyfile="src/server/replication_topology_api_handler.cpp" bodystart="280" bodyend="293"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_replication_topology_api_handler_1ae120ef15c3f33bdf140f5eb5446c4461" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::ReplicationTopologyApiHandler::buildUiHtml</definition>
+        <argsstring>(const std::string &amp;api_base)</argsstring>
+        <name>buildUiHtml</name>
+        <qualifiedname>themis::server::ReplicationTopologyApiHandler::buildUiHtml</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>api_base</declname>
+        </param>
+        <briefdescription>
+<para>Build Ui Html. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">api_base</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/replication_topology_api_handler.h" line="99" column="24" bodyfile="src/server/replication_topology_api_handler.cpp" bodystart="300" bodyend="331"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/replication_topology_api_handler.h" line="29" column="1" bodyfile="include/server/replication_topology_api_handler.h" bodystart="29" bodyend="100"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_replication_topology_api_handler_1a82e14bcc30cc445a998aa1f2d84124a3" prot="private" virt="non-virtual"><scope>themis::server::ReplicationTopologyApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_replication_topology_api_handler_1ae120ef15c3f33bdf140f5eb5446c4461" prot="private" virt="non-virtual"><scope>themis::server::ReplicationTopologyApiHandler</scope><name>buildUiHtml</name></member>
+      <member refid="classthemis_1_1server_1_1_replication_topology_api_handler_1a28c2d37436b552afa2de6f23fc16ab81" prot="private" virt="non-virtual"><scope>themis::server::ReplicationTopologyApiHandler</scope><name>coordinator_</name></member>
+      <member refid="classthemis_1_1server_1_1_replication_topology_api_handler_1a36b484ea2a15f02f74786714dfc2f378" prot="public" virt="non-virtual"><scope>themis::server::ReplicationTopologyApiHandler</scope><name>handleHealthGet</name></member>
+      <member refid="classthemis_1_1server_1_1_replication_topology_api_handler_1ab6fa6da7ceaeb5398826a5c4b5a5182e" prot="public" virt="non-virtual"><scope>themis::server::ReplicationTopologyApiHandler</scope><name>handleTopologyGet</name></member>
+      <member refid="classthemis_1_1server_1_1_replication_topology_api_handler_1ab958779bfcc87f1b0a7a25d20ebd525f" prot="public" virt="non-virtual"><scope>themis::server::ReplicationTopologyApiHandler</scope><name>handleUiGet</name></member>
+      <member refid="classthemis_1_1server_1_1_replication_topology_api_handler_1a767b0640e2a52c96e8f56e590ab43bd1" prot="private" virt="non-virtual"><scope>themis::server::ReplicationTopologyApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_replication_topology_api_handler_1a0d13c24f0f73aa06dc048a2836c16f4d" prot="private" virt="non-virtual"><scope>themis::server::ReplicationTopologyApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_replication_topology_api_handler_1aa0d1131c4cd394b2bd14d91d36cf58e3" prot="private" virt="non-virtual"><scope>themis::server::ReplicationTopologyApiHandler</scope><name>primary_id_</name></member>
+      <member refid="classthemis_1_1server_1_1_replication_topology_api_handler_1a90a8749594e425b5d42d40f99a36f65b" prot="public" virt="non-virtual"><scope>themis::server::ReplicationTopologyApiHandler</scope><name>ReplicationTopologyApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_replication_topology_api_handler_1ac69c3636a6a64b12ffc507137f5d3df2" prot="private" virt="non-virtual"><scope>themis::server::ReplicationTopologyApiHandler</scope><name>wal_manager_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

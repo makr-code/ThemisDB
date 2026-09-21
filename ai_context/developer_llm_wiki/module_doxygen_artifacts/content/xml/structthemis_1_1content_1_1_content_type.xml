@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_content_type" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ContentType</compoundname>
+    <includes refid="content__type_8h" local="no">content_type.h</includes>
+    <innerclass refid="structthemis_1_1content_1_1_content_type_1_1_features" prot="public">themis::content::ContentType::Features</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_type_1ae18d2d3e78edc0d366db09e231df930a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentType::mime_type</definition>
+        <argsstring></argsstring>
+        <name>mime_type</name>
+        <qualifiedname>themis::content::ContentType::mime_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="40" column="17" bodyfile="include/content/content_type.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_type_1a2fc801ba8a7841438c084812915b4a1c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref></type>
+        <definition>ContentCategory themis::content::ContentType::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::content::ContentType::category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="41" column="21" bodyfile="include/content/content_type.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_type_1abbc0f930ab79f004cc8e9b65041456dd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::ContentType::extensions</definition>
+        <argsstring></argsstring>
+        <name>extensions</name>
+        <qualifiedname>themis::content::ContentType::extensions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="42" column="17" bodyfile="include/content/content_type.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_type_1ac31bb7afe11a22a701919c3cb2011b3e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentType::supports_text_extraction</definition>
+        <argsstring></argsstring>
+        <name>supports_text_extraction</name>
+        <qualifiedname>themis::content::ContentType::supports_text_extraction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="43" column="10" bodyfile="include/content/content_type.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_type_1a40c51560d3351270bed6624609efa42d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentType::supports_embedding</definition>
+        <argsstring></argsstring>
+        <name>supports_embedding</name>
+        <qualifiedname>themis::content::ContentType::supports_embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="44" column="10" bodyfile="include/content/content_type.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_type_1aac8b17562b969174b84cec1915f81e6a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentType::supports_chunking</definition>
+        <argsstring></argsstring>
+        <name>supports_chunking</name>
+        <qualifiedname>themis::content::ContentType::supports_chunking</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="45" column="10" bodyfile="include/content/content_type.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_type_1a82b0b0518c85f42c85d98a194371c3d4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentType::supports_metadata_extraction</definition>
+        <argsstring></argsstring>
+        <name>supports_metadata_extraction</name>
+        <qualifiedname>themis::content::ContentType::supports_metadata_extraction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="46" column="10" bodyfile="include/content/content_type.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_type_1ac97221155cf6acede25a68aa7256c0bb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentType::binary_storage_required</definition>
+        <argsstring></argsstring>
+        <name>binary_storage_required</name>
+        <qualifiedname>themis::content::ContentType::binary_storage_required</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="47" column="10" bodyfile="include/content/content_type.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_type_1aa48894439cc730a27eeb97bece7acdb4" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1content_1_1_content_type_1_1_features" kindref="compound">themis::content::ContentType::Features</ref></type>
+        <definition>struct themis::content::ContentType::Features themis::content::ContentType::features</definition>
+        <argsstring></argsstring>
+        <name>features</name>
+        <qualifiedname>themis::content::ContentType::features</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="56" column="14"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_type_1a18217ab8955966fe5b6f4e052da319f6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ContentType::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::content::ContentType::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="62" column="10" bodyfile="src/content/content_type.cpp" bodystart="22" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_type_1a935028f0b59e381e73c712bea6311a3e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref></type>
+        <definition>ContentType themis::content::ContentType::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::content::ContentType::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_number_integer(), is_string(), std::transform(), begin(), end(), std::toupper(), parseCategory(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="68" column="24" bodyfile="src/content/content_type.cpp" bodystart="46" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::ContentCategory</label>
+        <link refid="structthemis_1_1content_1_1_content_category"/>
+      </node>
+      <node id="1">
+        <label>themis::content::ContentType</label>
+        <link refid="structthemis_1_1content_1_1_content_type"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>category</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>features</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::content::ContentType::Features</label>
+        <link refid="structthemis_1_1content_1_1_content_type_1_1_features"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/content_type.h" line="39" column="1" bodyfile="include/content/content_type.h" bodystart="39" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_content_type_1ac97221155cf6acede25a68aa7256c0bb" prot="public" virt="non-virtual"><scope>themis::content::ContentType</scope><name>binary_storage_required</name></member>
+      <member refid="structthemis_1_1content_1_1_content_type_1a2fc801ba8a7841438c084812915b4a1c" prot="public" virt="non-virtual"><scope>themis::content::ContentType</scope><name>category</name></member>
+      <member refid="structthemis_1_1content_1_1_content_type_1abbc0f930ab79f004cc8e9b65041456dd" prot="public" virt="non-virtual"><scope>themis::content::ContentType</scope><name>extensions</name></member>
+      <member refid="structthemis_1_1content_1_1_content_type_1aa48894439cc730a27eeb97bece7acdb4" prot="public" virt="non-virtual"><scope>themis::content::ContentType</scope><name>features</name></member>
+      <member refid="structthemis_1_1content_1_1_content_type_1a935028f0b59e381e73c712bea6311a3e" prot="public" virt="non-virtual"><scope>themis::content::ContentType</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1content_1_1_content_type_1ae18d2d3e78edc0d366db09e231df930a" prot="public" virt="non-virtual"><scope>themis::content::ContentType</scope><name>mime_type</name></member>
+      <member refid="structthemis_1_1content_1_1_content_type_1aac8b17562b969174b84cec1915f81e6a" prot="public" virt="non-virtual"><scope>themis::content::ContentType</scope><name>supports_chunking</name></member>
+      <member refid="structthemis_1_1content_1_1_content_type_1a40c51560d3351270bed6624609efa42d" prot="public" virt="non-virtual"><scope>themis::content::ContentType</scope><name>supports_embedding</name></member>
+      <member refid="structthemis_1_1content_1_1_content_type_1a82b0b0518c85f42c85d98a194371c3d4" prot="public" virt="non-virtual"><scope>themis::content::ContentType</scope><name>supports_metadata_extraction</name></member>
+      <member refid="structthemis_1_1content_1_1_content_type_1ac31bb7afe11a22a701919c3cb2011b3e" prot="public" virt="non-virtual"><scope>themis::content::ContentType</scope><name>supports_text_extraction</name></member>
+      <member refid="structthemis_1_1content_1_1_content_type_1a18217ab8955966fe5b6f4e052da319f6" prot="public" virt="non-virtual"><scope>themis::content::ContentType</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

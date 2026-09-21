@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1aql" kind="namespace" language="C++">
+    <compoundname>themis::aql</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1aql_1a701b383d50901a49df4da3d0e9199c13" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>CollectionMetadata</type>
+        <definition>CollectionMetadata themis::aql::fromTableSchema</definition>
+        <argsstring>(const SchemaManager::TableSchema &amp;ts)</argsstring>
+        <name>fromTableSchema</name>
+        <qualifiedname>themis::aql::fromTableSchema</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> &amp;</type>
+          <declname>ts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Convert a live <computeroutput><ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref></computeroutput> to a lightweight <computeroutput>CollectionMetadata</computeroutput> snapshot.</para>
+<para>This helper is the bridge between the metadata module (which owns live schema data) and the aql module (which consumes a portable snapshot for query generation and validation).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source table schema from <ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref>. An empty properties list is valid and results in a CollectionMetadata with no fields. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>CollectionMetadata populated with name, type, estimated_count, and one <computeroutput>CollectionFieldInfo</computeroutput> per property in <computeroutput>ts</computeroutput>.</para>
+</simplesect>
+Usage example: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref><sp/>schema_mgr(db,<sp/>idx_mgr);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tables<sp/>=<sp/>schema_mgr.getAllTables();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::vector&lt;aql::CollectionMetadata&gt;<sp/>meta;</highlight></codeline>
+<codeline><highlight class="normal">meta.reserve(tables.size());</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>tables)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>meta.push_back(<ref refid="namespacethemis_1_1aql_1a701b383d50901a49df4da3d0e9199c13" kindref="member">aql::fromTableSchema</ref>(t));</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">builder.setSchema(meta);</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/aql_schema_bridge.h" line="47" column="27" bodyfile="include/metadata/aql_schema_bridge.h" bodystart="47" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/aql_schema_bridge.h" line="21" column="1"/>
+  </compounddef>
+</doxygen>

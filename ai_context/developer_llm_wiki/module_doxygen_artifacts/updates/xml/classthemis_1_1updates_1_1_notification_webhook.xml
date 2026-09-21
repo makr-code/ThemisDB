@@ -1,0 +1,559 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_notification_webhook" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::NotificationWebhook</compoundname>
+    <includes refid="notification__webhook_8h" local="no">notification_webhook.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1updates_1_1_notification_webhook_1a61003e2109e79e9eafc6bf01f927e12d" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;url, const std::string &amp;body)&gt;</type>
+        <definition>using themis::updates::NotificationWebhook::HttpSendFunc = 
+std::function&lt;bool(const std::string&amp; url,
+                   const std::string&amp; body)&gt;</definition>
+        <argsstring></argsstring>
+        <name>HttpSendFunc</name>
+        <qualifiedname>themis::updates::NotificationWebhook::HttpSendFunc</qualifiedname>
+        <briefdescription>
+<para>Signature for the injected HTTP POST sender. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination URL. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON body (UTF-8). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on HTTP 2xx; <computeroutput>false</computeroutput> on any error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="138" column="5" bodyfile="include/updates/notification_webhook.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_notification_webhook_1a900a15bb729031a9ede2983a36f4d121" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1updates_1_1_slack_config" kindref="compound">SlackConfig</ref></type>
+        <definition>SlackConfig themis::updates::NotificationWebhook::slack_cfg_</definition>
+        <argsstring></argsstring>
+        <name>slack_cfg_</name>
+        <qualifiedname>themis::updates::NotificationWebhook::slack_cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="222" column="22" bodyfile="include/updates/notification_webhook.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_notification_webhook_1adea20ca939831818f96eae8d3e1e1980" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1updates_1_1_pager_duty_config" kindref="compound">PagerDutyConfig</ref></type>
+        <definition>PagerDutyConfig themis::updates::NotificationWebhook::pagerduty_cfg_</definition>
+        <argsstring></argsstring>
+        <name>pagerduty_cfg_</name>
+        <qualifiedname>themis::updates::NotificationWebhook::pagerduty_cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="223" column="22" bodyfile="include/updates/notification_webhook.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_notification_webhook_1ae533b559f25fbca0ad744a569e896627" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::NotificationWebhook::slack_enabled_</definition>
+        <argsstring></argsstring>
+        <name>slack_enabled_</name>
+        <qualifiedname>themis::updates::NotificationWebhook::slack_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="224" column="22" bodyfile="include/updates/notification_webhook.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_notification_webhook_1a1c0b54f1aa42db1302fed95fd4b7e387" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::NotificationWebhook::pagerduty_enabled_</definition>
+        <argsstring></argsstring>
+        <name>pagerduty_enabled_</name>
+        <qualifiedname>themis::updates::NotificationWebhook::pagerduty_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="225" column="22" bodyfile="include/updates/notification_webhook.h" bodystart="225" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_notification_webhook_1aa9ce4970c1f5f28a051287cf9eeaa9a4" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_notification_webhook_1a61003e2109e79e9eafc6bf01f927e12d" kindref="member">HttpSendFunc</ref></type>
+        <definition>HttpSendFunc themis::updates::NotificationWebhook::http_sender_</definition>
+        <argsstring></argsstring>
+        <name>http_sender_</name>
+        <qualifiedname>themis::updates::NotificationWebhook::http_sender_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="226" column="22" bodyfile="include/updates/notification_webhook.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_notification_webhook_1a197df9ccebbba21f1a8a902a2bb7a279" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::NotificationWebhook::NotificationWebhook</definition>
+        <argsstring>()</argsstring>
+        <name>NotificationWebhook</name>
+        <qualifiedname>themis::updates::NotificationWebhook::NotificationWebhook</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="142" column="5" bodyfile="src/updates/notification_webhook.cpp" bodystart="118" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_notification_webhook_1a5515627d4d21b062a4cb3c939463a6c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::NotificationWebhook::~NotificationWebhook</definition>
+        <argsstring>()=default</argsstring>
+        <name>~NotificationWebhook</name>
+        <qualifiedname>themis::updates::NotificationWebhook::~NotificationWebhook</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="143" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_notification_webhook_1a97051ce160c9d79c0d74943e80f0eb21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::NotificationWebhook::NotificationWebhook</definition>
+        <argsstring>(const NotificationWebhook &amp;)=delete</argsstring>
+        <name>NotificationWebhook</name>
+        <qualifiedname>themis::updates::NotificationWebhook::NotificationWebhook</qualifiedname>
+        <param>
+          <type>const NotificationWebhook &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="146" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_notification_webhook_1a15d0d6b1316e1d3ee140cbcc1bb9b67b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_notification_webhook_1a197df9ccebbba21f1a8a902a2bb7a279" kindref="member">NotificationWebhook</ref> &amp;</type>
+        <definition>NotificationWebhook &amp; themis::updates::NotificationWebhook::operator=</definition>
+        <argsstring>(const NotificationWebhook &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::NotificationWebhook::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_notification_webhook_1a197df9ccebbba21f1a8a902a2bb7a279" kindref="member">NotificationWebhook</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="147" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_notification_webhook_1a1747b5ad387fe830c796979834cf7c8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::NotificationWebhook::setSlackConfig</definition>
+        <argsstring>(const SlackConfig &amp;cfg)</argsstring>
+        <name>setSlackConfig</name>
+        <qualifiedname>themis::updates::NotificationWebhook::setSlackConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_slack_config" kindref="compound">SlackConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Enable and configure the Slack notification channel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Slack Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Slack webhook configuration. The webhook_url must be non-empty for the channel to be activated.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="157" column="10" bodyfile="src/updates/notification_webhook.cpp" bodystart="130" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_notification_webhook_1a2ee7dda6873946a4dd0fb59257bfd917" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::NotificationWebhook::setPagerDutyConfig</definition>
+        <argsstring>(const PagerDutyConfig &amp;cfg)</argsstring>
+        <name>setPagerDutyConfig</name>
+        <qualifiedname>themis::updates::NotificationWebhook::setPagerDutyConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_pager_duty_config" kindref="compound">PagerDutyConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Enable and configure the PagerDuty notification channel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Pager Duty Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PagerDuty configuration. The routing_key must be non-empty for the channel to be activated.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="165" column="10" bodyfile="src/updates/notification_webhook.cpp" bodystart="146" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_notification_webhook_1a99ae2dbfd8972c9fb6969eb38a01cf3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::NotificationWebhook::setHttpSender</definition>
+        <argsstring>(HttpSendFunc fn)</argsstring>
+        <name>setHttpSender</name>
+        <qualifiedname>themis::updates::NotificationWebhook::setHttpSender</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_notification_webhook_1a61003e2109e79e9eafc6bf01f927e12d" kindref="member">HttpSendFunc</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Override the HTTP POST sender (primarily for unit tests). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Http Sender.</para>
+<para>When not set the default implementation uses libcurl (when THEMIS_ENABLE_CURL is defined) or logs a warning and returns <computeroutput>false</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="174" column="10" bodyfile="src/updates/notification_webhook.cpp" bodystart="163" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_notification_webhook_1a72991f03153a2b1215017ade7f50a6dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::NotificationWebhook::notify</definition>
+        <argsstring>(const UpdateEventPayload &amp;payload)</argsstring>
+        <name>notify</name>
+        <qualifiedname>themis::updates::NotificationWebhook::notify</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_update_event_payload" kindref="compound">UpdateEventPayload</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Send notifications for <computeroutput>payload</computeroutput> to all configured channels. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Individual channel failures are logged but do not throw.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event payload. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> if every configured channel accepted the notification; <computeroutput>false</computeroutput> if any channel failed or no channel is configured. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="187" column="10" bodyfile="src/updates/notification_webhook.cpp" bodystart="175" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_notification_webhook_1a7a205d23fceeb95a698c869bdcecb3fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::NotificationWebhook::buildSlackPayload</definition>
+        <argsstring>(const UpdateEventPayload &amp;payload) const</argsstring>
+        <name>buildSlackPayload</name>
+        <qualifiedname>themis::updates::NotificationWebhook::buildSlackPayload</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_update_event_payload" kindref="compound">UpdateEventPayload</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Build the JSON body for a Slack Incoming Webhook message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="194" column="17" bodyfile="src/updates/notification_webhook.cpp" bodystart="199" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_notification_webhook_1af64dcc6eb86afcd79d4b91470fb3356b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::NotificationWebhook::buildPagerDutyPayload</definition>
+        <argsstring>(const UpdateEventPayload &amp;payload) const</argsstring>
+        <name>buildPagerDutyPayload</name>
+        <qualifiedname>themis::updates::NotificationWebhook::buildPagerDutyPayload</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_update_event_payload" kindref="compound">UpdateEventPayload</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Build the JSON body for a PagerDuty Events API v2 request. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="199" column="17" bodyfile="src/updates/notification_webhook.cpp" bodystart="276" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_notification_webhook_1accc6fbd359e9031a22f66f6fe67bd3d0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::NotificationWebhook::sendSlack</definition>
+        <argsstring>(const UpdateEventPayload &amp;payload)</argsstring>
+        <name>sendSlack</name>
+        <qualifiedname>themis::updates::NotificationWebhook::sendSlack</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_update_event_payload" kindref="compound">UpdateEventPayload</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="203" column="10" bodyfile="src/updates/notification_webhook.cpp" bodystart="259" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_notification_webhook_1a7e5a914459dc919b6e0bcf59936f7f0d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::NotificationWebhook::sendPagerDuty</definition>
+        <argsstring>(const UpdateEventPayload &amp;payload)</argsstring>
+        <name>sendPagerDuty</name>
+        <qualifiedname>themis::updates::NotificationWebhook::sendPagerDuty</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_update_event_payload" kindref="compound">UpdateEventPayload</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="204" column="10" bodyfile="src/updates/notification_webhook.cpp" bodystart="321" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_notification_webhook_1a4a688d709aac4b73c2b8fb26c8b4ae58" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::NotificationWebhook::eventLabel</definition>
+        <argsstring>(UpdateEvent event) const</argsstring>
+        <name>eventLabel</name>
+        <qualifiedname>themis::updates::NotificationWebhook::eventLabel</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a1c20f6c63fdcff1f1f6ccbccbaaa6eb5" kindref="member">UpdateEvent</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Human-readable label for an event (e.g. &quot;Update Successful&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="207" column="17" bodyfile="src/updates/notification_webhook.cpp" bodystart="338" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_notification_webhook_1a02c2f36c3b02733fb48e05eb88ead7ae" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::NotificationWebhook::slackColor</definition>
+        <argsstring>(UpdateEvent event) const</argsstring>
+        <name>slackColor</name>
+        <qualifiedname>themis::updates::NotificationWebhook::slackColor</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a1c20f6c63fdcff1f1f6ccbccbaaa6eb5" kindref="member">UpdateEvent</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Slack attachment colour string: &quot;good&quot;, &quot;warning&quot;, or &quot;danger&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="210" column="17" bodyfile="src/updates/notification_webhook.cpp" bodystart="349" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_notification_webhook_1a9f1c3165c061171a6f9b51d08b47bc87" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::NotificationWebhook::pagerDutyAction</definition>
+        <argsstring>(UpdateEvent event) const</argsstring>
+        <name>pagerDutyAction</name>
+        <qualifiedname>themis::updates::NotificationWebhook::pagerDutyAction</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a1c20f6c63fdcff1f1f6ccbccbaaa6eb5" kindref="member">UpdateEvent</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>PagerDuty event_action: &quot;trigger&quot; or &quot;resolve&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="213" column="17" bodyfile="src/updates/notification_webhook.cpp" bodystart="360" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_notification_webhook_1a0098d959f97363ee373fda279299dc76" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::NotificationWebhook::pagerDutySeverity</definition>
+        <argsstring>(UpdateEvent event) const</argsstring>
+        <name>pagerDutySeverity</name>
+        <qualifiedname>themis::updates::NotificationWebhook::pagerDutySeverity</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a1c20f6c63fdcff1f1f6ccbccbaaa6eb5" kindref="member">UpdateEvent</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>PagerDuty severity: &quot;critical&quot;, &quot;error&quot;, &quot;warning&quot;, or &quot;info&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="216" column="17" bodyfile="src/updates/notification_webhook.cpp" bodystart="371" bodyend="380"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_notification_webhook_1aba3b6fbf0c04a1dd86690046c277c23c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::NotificationWebhook::toISO8601</definition>
+        <argsstring>(std::chrono::system_clock::time_point tp)</argsstring>
+        <name>toISO8601</name>
+        <qualifiedname>themis::updates::NotificationWebhook::toISO8601</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>tp</declname>
+        </param>
+        <briefdescription>
+<para>ISO-8601 timestamp string from a time_point. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="219" column="24" bodyfile="src/updates/notification_webhook.cpp" bodystart="387" bodyend="394"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Dispatches structured update-lifecycle notifications to Slack and/or PagerDuty. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>HTTP transport is injectable via <ref refid="classthemis_1_1updates_1_1_notification_webhook_1a99ae2dbfd8972c9fb6969eb38a01cf3b" kindref="member">setHttpSender()</ref> so unit tests can run without network access or mocking libcurl. When no sender is registered the class falls back to libcurl when THEMIS_ENABLE_CURL is defined, and returns <computeroutput>false</computeroutput> otherwise.</para>
+<para>Usage example: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_notification_webhook_1a197df9ccebbba21f1a8a902a2bb7a279" kindref="member">NotificationWebhook</ref><sp/>webhook;</highlight></codeline>
+<codeline><highlight class="normal">webhook.setSlackConfig({</highlight><highlight class="stringliteral">&quot;https://hooks.slack.com/services/…&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal">webhook.setPagerDutyConfig({</highlight><highlight class="stringliteral">&quot;abc123routingkey&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">UpdateEventPayload<sp/>payload;</highlight></codeline>
+<codeline><highlight class="normal">payload.event<sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1updates_1a1c20f6c63fdcff1f1f6ccbccbaaa6eb5ad1d848f37bfa84efc9a007258eecc6ae" kindref="member">UpdateEvent::UPDATE_SUCCESS</ref>;</highlight></codeline>
+<codeline><highlight class="normal">payload.version<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.6.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">webhook.notify(payload);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/updates/notification_webhook.h" line="129" column="1" bodyfile="include/updates/notification_webhook.h" bodystart="129" bodyend="227"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1af64dcc6eb86afcd79d4b91470fb3356b" prot="public" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>buildPagerDutyPayload</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1a7a205d23fceeb95a698c869bdcecb3fa" prot="public" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>buildSlackPayload</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1a4a688d709aac4b73c2b8fb26c8b4ae58" prot="private" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>eventLabel</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1aa9ce4970c1f5f28a051287cf9eeaa9a4" prot="private" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>http_sender_</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1a61003e2109e79e9eafc6bf01f927e12d" prot="public" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>HttpSendFunc</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1a197df9ccebbba21f1a8a902a2bb7a279" prot="public" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>NotificationWebhook</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1a97051ce160c9d79c0d74943e80f0eb21" prot="public" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>NotificationWebhook</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1a72991f03153a2b1215017ade7f50a6dd" prot="public" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>notify</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1a15d0d6b1316e1d3ee140cbcc1bb9b67b" prot="public" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1adea20ca939831818f96eae8d3e1e1980" prot="private" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>pagerduty_cfg_</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1a1c0b54f1aa42db1302fed95fd4b7e387" prot="private" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>pagerduty_enabled_</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1a9f1c3165c061171a6f9b51d08b47bc87" prot="private" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>pagerDutyAction</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1a0098d959f97363ee373fda279299dc76" prot="private" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>pagerDutySeverity</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1a7e5a914459dc919b6e0bcf59936f7f0d" prot="private" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>sendPagerDuty</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1accc6fbd359e9031a22f66f6fe67bd3d0" prot="private" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>sendSlack</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1a99ae2dbfd8972c9fb6969eb38a01cf3b" prot="public" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>setHttpSender</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1a2ee7dda6873946a4dd0fb59257bfd917" prot="public" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>setPagerDutyConfig</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1a1747b5ad387fe830c796979834cf7c8e" prot="public" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>setSlackConfig</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1a900a15bb729031a9ede2983a36f4d121" prot="private" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>slack_cfg_</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1ae533b559f25fbca0ad744a569e896627" prot="private" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>slack_enabled_</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1a02c2f36c3b02733fb48e05eb88ead7ae" prot="private" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>slackColor</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1aba3b6fbf0c04a1dd86690046c277c23c" prot="private" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>toISO8601</name></member>
+      <member refid="classthemis_1_1updates_1_1_notification_webhook_1a5515627d4d21b062a4cb3c939463a6c5" prot="public" virt="non-virtual"><scope>themis::updates::NotificationWebhook</scope><name>~NotificationWebhook</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

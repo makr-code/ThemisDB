@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_stub_inference_engine_1_1_result" kind="struct" language="C++" prot="public">
+    <compoundname>StubInferenceEngine::Result</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_stub_inference_engine_1_1_result_1a82f9582eb7224685c713874de0797577" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1d" kindref="member">LlmErrorCode</ref></type>
+        <definition>LlmErrorCode StubInferenceEngine::Result::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>StubInferenceEngine::Result::code</qualifiedname>
+        <initializer>{LlmErrorCode::OK}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_api_contract_hardening_focused.cpp" line="65" column="22" bodyfile="tests/llm/test_llm_api_contract_hardening_focused.cpp" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stub_inference_engine_1_1_result_1acecfce90b087f780e378686de400310e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StubInferenceEngine::Result::output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <qualifiedname>StubInferenceEngine::Result::output</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_api_contract_hardening_focused.cpp" line="66" column="21" bodyfile="tests/llm/test_llm_api_contract_hardening_focused.cpp" bodystart="66" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_api_contract_hardening_focused.cpp" line="64" column="5" bodyfile="tests/llm/test_llm_api_contract_hardening_focused.cpp" bodystart="64" bodyend="67"/>
+    <listofallmembers>
+      <member refid="struct_stub_inference_engine_1_1_result_1a82f9582eb7224685c713874de0797577" prot="public" virt="non-virtual"><scope>StubInferenceEngine::Result</scope><name>code</name></member>
+      <member refid="struct_stub_inference_engine_1_1_result_1acecfce90b087f780e378686de400310e" prot="public" virt="non-virtual"><scope>StubInferenceEngine::Result</scope><name>output</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

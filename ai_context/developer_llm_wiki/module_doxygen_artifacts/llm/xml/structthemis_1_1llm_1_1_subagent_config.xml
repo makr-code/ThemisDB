@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_subagent_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SubagentConfig</compoundname>
+    <includes refid="subagent__config_8h" local="no">subagent_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_config_1a407094e762e6c3f3ea976103c29e9276" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentConfig::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::llm::SubagentConfig::id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="122" column="17" bodyfile="include/llm/subagent_config.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_config_1ac04964fff6df18d800e16bbda645299e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentConfig::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::SubagentConfig::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="124" column="17" bodyfile="include/llm/subagent_config.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_config_1a1f3583557a07c1b85c4bc621b78ce14a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentConfig::lora_adapter_id</definition>
+        <argsstring></argsstring>
+        <name>lora_adapter_id</name>
+        <qualifiedname>themis::llm::SubagentConfig::lora_adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="126" column="17" bodyfile="include/llm/subagent_config.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_config_1a3017376d10b303d50b1cb171d13ca22a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentConfig::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::llm::SubagentConfig::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="128" column="17" bodyfile="include/llm/subagent_config.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_config_1a169bb6832d7f8f542c43a3de0413ac67" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a11c329c706ce3f2abf36eca458626907" kindref="member">SubagentIsolationLevel</ref></type>
+        <definition>SubagentIsolationLevel themis::llm::SubagentConfig::isolation_level</definition>
+        <argsstring></argsstring>
+        <name>isolation_level</name>
+        <qualifiedname>themis::llm::SubagentConfig::isolation_level</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1a11c329c706ce3f2abf36eca458626907a4c50b1af679a751969aaad2881a34bef" kindref="member">SubagentIsolationLevel::STRICT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="130" column="28" bodyfile="include/llm/subagent_config.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_config_1a89a54fc034aafad06e209e0e17bb9625" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_subagent_budget_config" kindref="compound">SubagentBudgetConfig</ref></type>
+        <definition>SubagentBudgetConfig themis::llm::SubagentConfig::budget</definition>
+        <argsstring></argsstring>
+        <name>budget</name>
+        <qualifiedname>themis::llm::SubagentConfig::budget</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="132" column="26" bodyfile="include/llm/subagent_config.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_config_1ad3decec0fdc1abc963f8aeb39167acf4" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_subagent_policy_config" kindref="compound">SubagentPolicyConfig</ref></type>
+        <definition>SubagentPolicyConfig themis::llm::SubagentConfig::policy</definition>
+        <argsstring></argsstring>
+        <name>policy</name>
+        <qualifiedname>themis::llm::SubagentConfig::policy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="134" column="26" bodyfile="include/llm/subagent_config.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_config_1ae2e7a1293ec06b8bcc8d2a3c5806a794" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_subagent_g_p_u_config" kindref="compound">SubagentGPUConfig</ref></type>
+        <definition>SubagentGPUConfig themis::llm::SubagentConfig::gpu</definition>
+        <argsstring></argsstring>
+        <name>gpu</name>
+        <qualifiedname>themis::llm::SubagentConfig::gpu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="136" column="23" bodyfile="include/llm/subagent_config.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_config_1aa983cc530fba6be8a89e8043b5cb3c46" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_subagent_quantization_config" kindref="compound">SubagentQuantizationConfig</ref></type>
+        <definition>SubagentQuantizationConfig themis::llm::SubagentConfig::quantization</definition>
+        <argsstring></argsstring>
+        <name>quantization</name>
+        <qualifiedname>themis::llm::SubagentConfig::quantization</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="137" column="32" bodyfile="include/llm/subagent_config.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_config_1a090a3e2526c1ba59a6d52329cd2c772b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SubagentConfig::enable_audit_logging</definition>
+        <argsstring></argsstring>
+        <name>enable_audit_logging</name>
+        <qualifiedname>themis::llm::SubagentConfig::enable_audit_logging</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="139" column="10" bodyfile="include/llm/subagent_config.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_config_1a126124ff77ab96213cc24271936cff93" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SubagentConfig::enable_metrics</definition>
+        <argsstring></argsstring>
+        <name>enable_metrics</name>
+        <qualifiedname>themis::llm::SubagentConfig::enable_metrics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="140" column="10" bodyfile="include/llm/subagent_config.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_config_1aebe93650a5f7f46eb68a3b8887e4f7cb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SubagentConfig::enable_tracing</definition>
+        <argsstring></argsstring>
+        <name>enable_tracing</name>
+        <qualifiedname>themis::llm::SubagentConfig::enable_tracing</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="141" column="10" bodyfile="include/llm/subagent_config.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_config_1a336193009c6cb195cb186bffeeacfa58" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentConfig::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::llm::SubagentConfig::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="143" column="17" bodyfile="include/llm/subagent_config.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_config_1a78bfd833b465015c30322d06ae6ef49b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::SubagentConfig::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>themis::llm::SubagentConfig::tags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="145" column="17" bodyfile="include/llm/subagent_config.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::SubagentBudgetConfig</label>
+        <link refid="structthemis_1_1llm_1_1_subagent_budget_config"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::SubagentConfig</label>
+        <link refid="structthemis_1_1llm_1_1_subagent_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>budget</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>policy</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>gpu</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>quantization</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::llm::SubagentGPUConfig</label>
+        <link refid="structthemis_1_1llm_1_1_subagent_g_p_u_config"/>
+      </node>
+      <node id="3">
+        <label>themis::llm::SubagentPolicyConfig</label>
+        <link refid="structthemis_1_1llm_1_1_subagent_policy_config"/>
+      </node>
+      <node id="5">
+        <label>themis::llm::SubagentQuantizationConfig</label>
+        <link refid="structthemis_1_1llm_1_1_subagent_quantization_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/subagent_config.h" line="121" column="1" bodyfile="include/llm/subagent_config.h" bodystart="121" bodyend="146"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_subagent_config_1a89a54fc034aafad06e209e0e17bb9625" prot="public" virt="non-virtual"><scope>themis::llm::SubagentConfig</scope><name>budget</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_config_1a3017376d10b303d50b1cb171d13ca22a" prot="public" virt="non-virtual"><scope>themis::llm::SubagentConfig</scope><name>description</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_config_1a090a3e2526c1ba59a6d52329cd2c772b" prot="public" virt="non-virtual"><scope>themis::llm::SubagentConfig</scope><name>enable_audit_logging</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_config_1a126124ff77ab96213cc24271936cff93" prot="public" virt="non-virtual"><scope>themis::llm::SubagentConfig</scope><name>enable_metrics</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_config_1aebe93650a5f7f46eb68a3b8887e4f7cb" prot="public" virt="non-virtual"><scope>themis::llm::SubagentConfig</scope><name>enable_tracing</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_config_1ae2e7a1293ec06b8bcc8d2a3c5806a794" prot="public" virt="non-virtual"><scope>themis::llm::SubagentConfig</scope><name>gpu</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_config_1a407094e762e6c3f3ea976103c29e9276" prot="public" virt="non-virtual"><scope>themis::llm::SubagentConfig</scope><name>id</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_config_1a169bb6832d7f8f542c43a3de0413ac67" prot="public" virt="non-virtual"><scope>themis::llm::SubagentConfig</scope><name>isolation_level</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_config_1a1f3583557a07c1b85c4bc621b78ce14a" prot="public" virt="non-virtual"><scope>themis::llm::SubagentConfig</scope><name>lora_adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_config_1ac04964fff6df18d800e16bbda645299e" prot="public" virt="non-virtual"><scope>themis::llm::SubagentConfig</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_config_1ad3decec0fdc1abc963f8aeb39167acf4" prot="public" virt="non-virtual"><scope>themis::llm::SubagentConfig</scope><name>policy</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_config_1aa983cc530fba6be8a89e8043b5cb3c46" prot="public" virt="non-virtual"><scope>themis::llm::SubagentConfig</scope><name>quantization</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_config_1a78bfd833b465015c30322d06ae6ef49b" prot="public" virt="non-virtual"><scope>themis::llm::SubagentConfig</scope><name>tags</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_config_1a336193009c6cb195cb186bffeeacfa58" prot="public" virt="non-virtual"><scope>themis::llm::SubagentConfig</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

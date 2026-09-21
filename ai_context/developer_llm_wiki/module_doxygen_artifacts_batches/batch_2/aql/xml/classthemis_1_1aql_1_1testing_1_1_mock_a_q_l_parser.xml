@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1testing_1_1_mock_a_q_l_parser" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::testing::MockAQLParser</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_a_q_l_parser_1a9201f24c5a2c882d2c2e8ecf9040ba1e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::pair&lt; bool, std::string &gt;</type>
+        <definition>static std::pair&lt; bool, std::string &gt; themis::aql::testing::MockAQLParser::parseMalformedAQL</definition>
+        <argsstring>(const std::string &amp;aql)</argsstring>
+        <name>parseMalformedAQL</name>
+        <qualifiedname>themis::aql::testing::MockAQLParser::parseMalformedAQL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+<para>Simulate successful parse. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_validation_error_handling.cpp" line="39" column="22" bodyfile="tests/aql/test_aql_validation_error_handling.cpp" bodystart="39" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_a_q_l_parser_1aad8b2680a39fde40e3f3648a7d0d56a1" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::aql::testing::MockAQLParser::hasInjectionPattern</definition>
+        <argsstring>(const std::string &amp;aql)</argsstring>
+        <name>hasInjectionPattern</name>
+        <qualifiedname>themis::aql::testing::MockAQLParser::hasInjectionPattern</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+<para>Detect injection patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_validation_error_handling.cpp" line="47" column="17" bodyfile="tests/aql/test_aql_validation_error_handling.cpp" bodystart="47" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_a_q_l_parser_1a229508198f3d1b0e1d11143ee83a2f08" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::pair&lt; bool, std::string &gt;</type>
+        <definition>static std::pair&lt; bool, std::string &gt; themis::aql::testing::MockAQLParser::validateSchema</definition>
+        <argsstring>(const std::string &amp;aql, const std::vector&lt; CollectionMetadata &gt; &amp;schema)</argsstring>
+        <name>validateSchema</name>
+        <qualifiedname>themis::aql::testing::MockAQLParser::validateSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1aql_1_1_collection_metadata" kindref="compound">CollectionMetadata</ref> &gt; &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Check if query references valid schema. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_validation_error_handling.cpp" line="62" column="22" bodyfile="tests/aql/test_aql_validation_error_handling.cpp" bodystart="62" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock AQL parser for testing error scenarios. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_validation_error_handling.cpp" line="36" column="1" bodyfile="tests/aql/test_aql_validation_error_handling.cpp" bodystart="36" bodyend="86"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_a_q_l_parser_1aad8b2680a39fde40e3f3648a7d0d56a1" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockAQLParser</scope><name>hasInjectionPattern</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_a_q_l_parser_1a9201f24c5a2c882d2c2e8ecf9040ba1e" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockAQLParser</scope><name>parseMalformedAQL</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_a_q_l_parser_1a229508198f3d1b0e1d11143ee83a2f08" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockAQLParser</scope><name>validateSchema</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

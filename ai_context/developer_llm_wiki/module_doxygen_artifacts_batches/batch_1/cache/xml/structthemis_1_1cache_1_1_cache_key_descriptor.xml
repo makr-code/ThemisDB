@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_cache_key_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::CacheKeyDescriptor</compoundname>
+    <includes refid="cache__eviction__policy_8h" local="no">cache_eviction_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_key_descriptor_1a61c76e0bf398424c8ff98dbde540df0d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheKeyDescriptor::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::cache::CacheKeyDescriptor::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="51" column="17" bodyfile="include/cache/cache_eviction_policy.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_key_descriptor_1a86de2827919532b8c697d41f4e8d2f81" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::CacheKeyDescriptor::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::cache::CacheKeyDescriptor::access_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="52" column="12" bodyfile="include/cache/cache_eviction_policy.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_key_descriptor_1a018bcdfde88fa7d32db49a130a925c22" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cache::CacheKeyDescriptor::last_access_ns</definition>
+        <argsstring></argsstring>
+        <name>last_access_ns</name>
+        <qualifiedname>themis::cache::CacheKeyDescriptor::last_access_ns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="53" column="13" bodyfile="include/cache/cache_eviction_policy.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_key_descriptor_1a6a6d90e12d002df39bc89b828c4a17e6" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cache::CacheKeyDescriptor::creation_time_ns</definition>
+        <argsstring></argsstring>
+        <name>creation_time_ns</name>
+        <qualifiedname>themis::cache::CacheKeyDescriptor::creation_time_ns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="54" column="13" bodyfile="include/cache/cache_eviction_policy.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_eviction_policy.h" line="50" column="1" bodyfile="include/cache/cache_eviction_policy.h" bodystart="50" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_cache_key_descriptor_1a86de2827919532b8c697d41f4e8d2f81" prot="public" virt="non-virtual"><scope>themis::cache::CacheKeyDescriptor</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_key_descriptor_1a6a6d90e12d002df39bc89b828c4a17e6" prot="public" virt="non-virtual"><scope>themis::cache::CacheKeyDescriptor</scope><name>creation_time_ns</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_key_descriptor_1a61c76e0bf398424c8ff98dbde540df0d" prot="public" virt="non-virtual"><scope>themis::cache::CacheKeyDescriptor</scope><name>key</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_key_descriptor_1a018bcdfde88fa7d32db49a130a925c22" prot="public" virt="non-virtual"><scope>themis::cache::CacheKeyDescriptor</scope><name>last_access_ns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

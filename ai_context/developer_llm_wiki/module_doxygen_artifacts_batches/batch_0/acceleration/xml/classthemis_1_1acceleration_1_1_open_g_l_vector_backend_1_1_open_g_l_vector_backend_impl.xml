@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1a91b87ed1222e9e965bd61abe846cb9b4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::gpuAvailable_</definition>
+        <argsstring></argsstring>
+        <name>gpuAvailable_</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::gpuAvailable_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/graphics_backends.cpp" line="2761" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="2761" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1a081428a62d30d4b884c2b7f77dc1dc71" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::cpuFallback_</definition>
+        <argsstring></argsstring>
+        <name>cpuFallback_</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::cpuFallback_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/graphics_backends.cpp" line="2762" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="2762" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1a4dda0e6cf75dbf6cc2eddb07608d3e1a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::rendererName_</definition>
+        <argsstring></argsstring>
+        <name>rendererName_</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::rendererName_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/graphics_backends.cpp" line="2763" column="17" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="2763" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1a56f841a7c75894176b3bed85b951158b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::vendorName_</definition>
+        <argsstring></argsstring>
+        <name>vendorName_</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::vendorName_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/graphics_backends.cpp" line="2764" column="17" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="2764" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1a5178c0d956034bf704d98162edfa2273" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::glMajor_</definition>
+        <argsstring></argsstring>
+        <name>glMajor_</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::glMajor_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/graphics_backends.cpp" line="2765" column="9" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="2765" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1aea781fab2e1438c4663f464f80c8aa08" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::glMinor_</definition>
+        <argsstring></argsstring>
+        <name>glMinor_</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::glMinor_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/graphics_backends.cpp" line="2766" column="9" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="2766" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1a6d266ea258ae574bbbabcc7a6c04fc3a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::cleanup</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::cleanup</qualifiedname>
+        <briefdescription>
+<para>Cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements cleanup without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/graphics_backends.cpp" line="2771" column="10" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="2771" bodyend="2771"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1ad75895aada9719837764c14c52209f32" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::cpuL2</definition>
+        <argsstring>(const float *, size_t, size_t, const float *, size_t)</argsstring>
+        <name>cpuL2</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::cpuL2</qualifiedname>
+        <param>
+          <type>const float *</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <param>
+          <type>const float *</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <briefdescription>
+<para>Cpu L2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements cpuL2 without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/graphics_backends.cpp" line="2783" column="24" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="2783" bodyend="2784"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1a314b0c207d7186144334dcc86ca56b1e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::cpuCosine</definition>
+        <argsstring>(const float *, size_t, size_t, const float *, size_t)</argsstring>
+        <name>cpuCosine</name>
+        <qualifiedname>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl::cpuCosine</qualifiedname>
+        <param>
+          <type>const float *</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <param>
+          <type>const float *</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <briefdescription>
+<para>Cpu Cosine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements cpuCosine without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/graphics_backends.cpp" line="2795" column="24" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="2795" bodyend="2796"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/acceleration/graphics_backends.cpp" line="2266" column="1" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="2266" bodyend="2798"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1a6d266ea258ae574bbbabcc7a6c04fc3a" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl</scope><name>cleanup</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1a314b0c207d7186144334dcc86ca56b1e" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl</scope><name>cpuCosine</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1a081428a62d30d4b884c2b7f77dc1dc71" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl</scope><name>cpuFallback_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1ad75895aada9719837764c14c52209f32" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl</scope><name>cpuL2</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1a5178c0d956034bf704d98162edfa2273" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl</scope><name>glMajor_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1aea781fab2e1438c4663f464f80c8aa08" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl</scope><name>glMinor_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1a91b87ed1222e9e965bd61abe846cb9b4" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl</scope><name>gpuAvailable_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1a4dda0e6cf75dbf6cc2eddb07608d3e1a" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl</scope><name>rendererName_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1_1_open_g_l_vector_backend_impl_1a56f841a7c75894176b3bed85b951158b" prot="public" virt="non-virtual"><scope>themis::acceleration::OpenGLVectorBackend::OpenGLVectorBackendImpl</scope><name>vendorName_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

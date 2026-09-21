@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_self_r_a_g_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::SelfRAGResult</compoundname>
+    <includes refid="self__rag_8h" local="no">self_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_r_a_g_result_1a615946df3e621b827852b95463952ac4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::SelfRAGResult::retrieval_triggered</definition>
+        <argsstring></argsstring>
+        <name>retrieval_triggered</name>
+        <qualifiedname>themis::rag::SelfRAGResult::retrieval_triggered</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="69" column="38" bodyfile="include/rag/self_rag.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_r_a_g_result_1ad5c910800970c1de75bbc8e29174fb1d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_rated_document" kindref="compound">RatedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;RatedDocument&gt; themis::rag::SelfRAGResult::relevant_docs</definition>
+        <argsstring></argsstring>
+        <name>relevant_docs</name>
+        <qualifiedname>themis::rag::SelfRAGResult::relevant_docs</qualifiedname>
+        <briefdescription>
+<para>Passages graded [Relevant]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="70" column="23" bodyfile="include/rag/self_rag.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_r_a_g_result_1a34aabe1bcba53e773ebbb810451e725b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_rated_document" kindref="compound">RatedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;RatedDocument&gt; themis::rag::SelfRAGResult::partial_docs</definition>
+        <argsstring></argsstring>
+        <name>partial_docs</name>
+        <qualifiedname>themis::rag::SelfRAGResult::partial_docs</qualifiedname>
+        <briefdescription>
+<para>Passages graded [Partial]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="71" column="23" bodyfile="include/rag/self_rag.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_r_a_g_result_1aa7a907e891c8d17ed3df47e38ffad305" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_refinement_round_stats" kindref="compound">RefinementRoundStats</ref> &gt;</type>
+        <definition>std::vector&lt;RefinementRoundStats&gt; themis::rag::SelfRAGResult::round_stats</definition>
+        <argsstring></argsstring>
+        <name>round_stats</name>
+        <qualifiedname>themis::rag::SelfRAGResult::round_stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="72" column="17" bodyfile="include/rag/self_rag.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_r_a_g_result_1a2e67b4ff3828429a29e9c29e10ad43e8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::SelfRAGResult::total_rounds_used</definition>
+        <argsstring></argsstring>
+        <name>total_rounds_used</name>
+        <qualifiedname>themis::rag::SelfRAGResult::total_rounds_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="73" column="38" bodyfile="include/rag/self_rag.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Overall result of a Self-RAG refinement pass. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/self_rag.h" line="68" column="1" bodyfile="include/rag/self_rag.h" bodystart="68" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_self_r_a_g_result_1a34aabe1bcba53e773ebbb810451e725b" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGResult</scope><name>partial_docs</name></member>
+      <member refid="structthemis_1_1rag_1_1_self_r_a_g_result_1ad5c910800970c1de75bbc8e29174fb1d" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGResult</scope><name>relevant_docs</name></member>
+      <member refid="structthemis_1_1rag_1_1_self_r_a_g_result_1a615946df3e621b827852b95463952ac4" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGResult</scope><name>retrieval_triggered</name></member>
+      <member refid="structthemis_1_1rag_1_1_self_r_a_g_result_1aa7a907e891c8d17ed3df47e38ffad305" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGResult</scope><name>round_stats</name></member>
+      <member refid="structthemis_1_1rag_1_1_self_r_a_g_result_1a2e67b4ff3828429a29e9c29e10ad43e8" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGResult</scope><name>total_rounds_used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

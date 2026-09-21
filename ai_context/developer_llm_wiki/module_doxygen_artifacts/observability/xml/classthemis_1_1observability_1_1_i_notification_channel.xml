@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_i_notification_channel" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::observability::INotificationChannel</compoundname>
+    <derivedcompoundref refid="classthemis_1_1observability_1_1_log_notification_channel" prot="public" virt="non-virtual">themis::observability::LogNotificationChannel</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1observability_1_1_slack_notification_channel" prot="public" virt="non-virtual">themis::observability::SlackNotificationChannel</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1observability_1_1_webhook_notification_channel" prot="public" virt="non-virtual">themis::observability::WebhookNotificationChannel</derivedcompoundref>
+    <includes refid="alerting__engine_8h" local="no">alerting_engine.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_notification_channel_1a17d4e3d8de4f15d4c63cf25475dfc314" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::observability::INotificationChannel::~INotificationChannel</definition>
+        <argsstring>()=default</argsstring>
+        <name>~INotificationChannel</name>
+        <qualifiedname>themis::observability::INotificationChannel::~INotificationChannel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="39" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_notification_channel_1a534c61b7a5fe13cf542afc79ed8397e4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::observability::INotificationChannel::channelType</definition>
+        <argsstring>() const =0</argsstring>
+        <name>channelType</name>
+        <qualifiedname>themis::observability::INotificationChannel::channelType</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_log_notification_channel_1a654a9477b4ba565330982f39af8e8a66">channelType</reimplementedby>
+        <reimplementedby refid="classthemis_1_1observability_1_1_slack_notification_channel_1a28c128b026dc4389e5f4d6d877827430">channelType</reimplementedby>
+        <reimplementedby refid="classthemis_1_1observability_1_1_webhook_notification_channel_1a3abcde30c81376ddbb74775600686806">channelType</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return a human-readable type identifier (e.g., &quot;log&quot;, &quot;webhook&quot;, &quot;slack&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="44" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_notification_channel_1aa78536f6012509d0d58600d2d9d37fdf" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::observability::INotificationChannel::send</definition>
+        <argsstring>(const Alert &amp;alert)=0</argsstring>
+        <name>send</name>
+        <qualifiedname>themis::observability::INotificationChannel::send</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_log_notification_channel_1a0eb5f0ad06bc63d66243a31c98832b38">send</reimplementedby>
+        <reimplementedby refid="classthemis_1_1observability_1_1_slack_notification_channel_1ae938fa42c04a88c80acc780dafda8e4b">send</reimplementedby>
+        <reimplementedby refid="classthemis_1_1observability_1_1_webhook_notification_channel_1a3d8a713a2979611235a7f48b1ca1d25f">send</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref> &amp;</type>
+          <declname>alert</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Send a notification for the given alert.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The alert being fired (status == FIRING) or resolved (status == RESOLVED). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; on success, or an Error describing the failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="53" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Abstract interface for notification channel backends.</para>
+<para>Implementations send alert payloads to external systems (Slack, Teams, PagerDuty, generic webhooks, local log, etc.). Each channel is invoked synchronously inside <ref refid="classthemis_1_1observability_1_1_alerting_engine_1a387dd600c91452db51df42a2e4803e09" kindref="member">AlertingEngine::sendAlert()</ref>; expensive channels should perform their own async dispatch internally. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::observability::INotificationChannel</label>
+        <link refid="classthemis_1_1observability_1_1_i_notification_channel"/>
+      </node>
+      <node id="2">
+        <label>themis::observability::LogNotificationChannel</label>
+        <link refid="classthemis_1_1observability_1_1_log_notification_channel"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::observability::SlackNotificationChannel</label>
+        <link refid="classthemis_1_1observability_1_1_slack_notification_channel"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::observability::WebhookNotificationChannel</label>
+        <link refid="classthemis_1_1observability_1_1_webhook_notification_channel"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/observability/alerting_engine.h" line="37" column="1" bodyfile="include/observability/alerting_engine.h" bodystart="37" bodyend="54"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_i_notification_channel_1a534c61b7a5fe13cf542afc79ed8397e4" prot="public" virt="pure-virtual"><scope>themis::observability::INotificationChannel</scope><name>channelType</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_notification_channel_1aa78536f6012509d0d58600d2d9d37fdf" prot="public" virt="pure-virtual"><scope>themis::observability::INotificationChannel</scope><name>send</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_notification_channel_1a17d4e3d8de4f15d4c63cf25475dfc314" prot="public" virt="virtual"><scope>themis::observability::INotificationChannel</scope><name>~INotificationChannel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

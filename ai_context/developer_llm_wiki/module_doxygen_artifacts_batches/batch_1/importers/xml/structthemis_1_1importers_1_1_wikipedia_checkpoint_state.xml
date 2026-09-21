@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_wikipedia_checkpoint_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaCheckpointState</compoundname>
+    <includes refid="wikipedia__checkpoint_8hpp" local="no">wikipedia_checkpoint.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1affcdb5c53b5296d775a6a392217a3cc5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaCheckpointState::source_path</definition>
+        <argsstring></argsstring>
+        <name>source_path</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointState::source_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="13" column="17" bodyfile="include/importers/wikipedia_checkpoint.hpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1aaa9937e3a7e3c74380cfb10fd1f77c6b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaCheckpointState::source_id</definition>
+        <argsstring></argsstring>
+        <name>source_id</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointState::source_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="14" column="17" bodyfile="include/importers/wikipedia_checkpoint.hpp" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a5e0703d8df5bf9a821cc586b1ea094d5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::WikipediaCheckpointState::processed_pages</definition>
+        <argsstring></argsstring>
+        <name>processed_pages</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointState::processed_pages</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="15" column="12" bodyfile="include/importers/wikipedia_checkpoint.hpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a0cf3bbbe53bb4ab30c66f56632ca47d0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::WikipediaCheckpointState::processed_revisions</definition>
+        <argsstring></argsstring>
+        <name>processed_revisions</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointState::processed_revisions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="16" column="12" bodyfile="include/importers/wikipedia_checkpoint.hpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1afaf89e876da20c0ea885f369b3f03b0d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::WikipediaCheckpointState::last_page_id</definition>
+        <argsstring></argsstring>
+        <name>last_page_id</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointState::last_page_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="17" column="14" bodyfile="include/importers/wikipedia_checkpoint.hpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a21e4dff22870696e3a325b9ff0c567d0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaCheckpointState::last_page_title</definition>
+        <argsstring></argsstring>
+        <name>last_page_title</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointState::last_page_title</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="18" column="17" bodyfile="include/importers/wikipedia_checkpoint.hpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1afa42ab6b687c9019d7cb599ee814dc24" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::WikipediaCheckpointState::imported_pages</definition>
+        <argsstring></argsstring>
+        <name>imported_pages</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointState::imported_pages</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="19" column="12" bodyfile="include/importers/wikipedia_checkpoint.hpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a1034790667f511528279fbd1d4ee282b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::WikipediaCheckpointState::failed_pages</definition>
+        <argsstring></argsstring>
+        <name>failed_pages</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointState::failed_pages</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="20" column="12" bodyfile="include/importers/wikipedia_checkpoint.hpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a691642766f62e5842c08879cb9b1ad55" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaCheckpointState::updated_at</definition>
+        <argsstring></argsstring>
+        <name>updated_at</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointState::updated_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="21" column="17" bodyfile="include/importers/wikipedia_checkpoint.hpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a8911f0728bd4f18b6bba201563049bf8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::WikipediaCheckpointState::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointState::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="23" column="11" bodyfile="include/importers/wikipedia_checkpoint.hpp" bodystart="23" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a6f95081a169720efe52a6d4ce5a8025f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state" kindref="compound">WikipediaCheckpointState</ref></type>
+        <definition>static WikipediaCheckpointState themis::importers::WikipediaCheckpointState::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::importers::WikipediaCheckpointState::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_checkpoint.hpp" line="43" column="37" bodyfile="include/importers/wikipedia_checkpoint.hpp" bodystart="43" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/wikipedia_checkpoint.hpp" line="12" column="1" bodyfile="include/importers/wikipedia_checkpoint.hpp" bodystart="12" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a1034790667f511528279fbd1d4ee282b" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointState</scope><name>failed_pages</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a6f95081a169720efe52a6d4ce5a8025f" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointState</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1afa42ab6b687c9019d7cb599ee814dc24" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointState</scope><name>imported_pages</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1afaf89e876da20c0ea885f369b3f03b0d" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointState</scope><name>last_page_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a21e4dff22870696e3a325b9ff0c567d0" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointState</scope><name>last_page_title</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a5e0703d8df5bf9a821cc586b1ea094d5" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointState</scope><name>processed_pages</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a0cf3bbbe53bb4ab30c66f56632ca47d0" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointState</scope><name>processed_revisions</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1aaa9937e3a7e3c74380cfb10fd1f77c6b" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointState</scope><name>source_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1affcdb5c53b5296d775a6a392217a3cc5" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointState</scope><name>source_path</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a8911f0728bd4f18b6bba201563049bf8" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointState</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state_1a691642766f62e5842c08879cb9b1ad55" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaCheckpointState</scope><name>updated_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

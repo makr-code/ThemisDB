@@ -1,0 +1,339 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_parallel_replication_worker" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::ParallelReplicationWorker</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_parallel_config" prot="public">themisdb::replication::ParallelReplicationWorker::ParallelConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_stats" prot="public">themisdb::replication::ParallelReplicationWorker::Stats</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_work_item" prot="private">themisdb::replication::ParallelReplicationWorker::WorkItem</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1aacf2f5ecf4092f0336f0f3777033d7e6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_parallel_config" kindref="compound">ParallelConfig</ref></type>
+        <definition>ParallelConfig themisdb::replication::ParallelReplicationWorker::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1109" column="20" bodyfile="include/replication/replication_manager.h" bodystart="1109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a4f2edaf6c5720dec0fd6f8ba2fc9ea29" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; std::atomic&lt; bool &gt; &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;std::atomic&lt;bool&gt; &gt; &gt; themisdb::replication::ParallelReplicationWorker::last_done_per_doc_</definition>
+        <argsstring></argsstring>
+        <name>last_done_per_doc_</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::last_done_per_doc_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1113" column="14" bodyfile="include/replication/replication_manager.h" bodystart="1113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1ae5c56ae6db513b8ba4089fb17b2d8bc0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::ParallelReplicationWorker::dep_mutex_</definition>
+        <argsstring></argsstring>
+        <name>dep_mutex_</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::dep_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1114" column="24" bodyfile="include/replication/replication_manager.h" bodystart="1114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a3810230736104243d8186cb3874a081c" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; WorkItem &gt;</type>
+        <definition>std::queue&lt;WorkItem&gt; themisdb::replication::ParallelReplicationWorker::work_queue_</definition>
+        <argsstring></argsstring>
+        <name>work_queue_</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::work_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1124" column="16" bodyfile="include/replication/replication_manager.h" bodystart="1124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a0916144cea251f8aaa493384a2f45056" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::ParallelReplicationWorker::queue_mutex_</definition>
+        <argsstring></argsstring>
+        <name>queue_mutex_</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::queue_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1125" column="24" bodyfile="include/replication/replication_manager.h" bodystart="1125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1adef600a866739edc9dd7beb06ba6df2d" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::replication::ParallelReplicationWorker::queue_cv_</definition>
+        <argsstring></argsstring>
+        <name>queue_cv_</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::queue_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1126" column="29" bodyfile="include/replication/replication_manager.h" bodystart="1126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a1b48124507c5a7dd8542d891b15c0169" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::thread &gt;</type>
+        <definition>std::vector&lt;std::thread&gt; themisdb::replication::ParallelReplicationWorker::workers_</definition>
+        <argsstring></argsstring>
+        <name>workers_</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::workers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1129" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1ac037fc6ae0886eb31e68a76468aa9da5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::replication::ParallelReplicationWorker::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1130" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1130" bodyend="1130"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a7a1d69b554be5f33063ca42ee844850f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ParallelReplicationWorker::in_flight_count_</definition>
+        <argsstring></argsstring>
+        <name>in_flight_count_</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::in_flight_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1133" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1133" bodyend="1133"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1af23cb2b7e53ac6289f1c407bd86fca5b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ParallelReplicationWorker::stats_entries_applied_</definition>
+        <argsstring></argsstring>
+        <name>stats_entries_applied_</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::stats_entries_applied_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1136" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1136" bodyend="1136"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a4ab39e728a9fbe8e47a49b3862a75a50" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ParallelReplicationWorker::stats_deps_detected_</definition>
+        <argsstring></argsstring>
+        <name>stats_deps_detected_</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::stats_deps_detected_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1137" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1137" bodyend="1137"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1ae217589e9154429e4f88840cd662af3b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ParallelReplicationWorker::stats_batches_</definition>
+        <argsstring></argsstring>
+        <name>stats_batches_</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::stats_batches_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1138" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1138" bodyend="1138"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a474c9b7fae63a4ba3307074dd5d51e8f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ParallelReplicationWorker::stats_total_latency_us_</definition>
+        <argsstring></argsstring>
+        <name>stats_total_latency_us_</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::stats_total_latency_us_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1139" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1139" bodyend="1139"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1adb5d8813c565e566d2f1b9a22f4db8b2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ParallelReplicationWorker::ParallelReplicationWorker</definition>
+        <argsstring>(const ParallelConfig &amp;config)</argsstring>
+        <name>ParallelReplicationWorker</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::ParallelReplicationWorker</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_parallel_config" kindref="compound">ParallelConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1097" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="4874" bodyend="4883"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1aca7d1e93f6c103fe2c5e4dea830a0367" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ParallelReplicationWorker::~ParallelReplicationWorker</definition>
+        <argsstring>()</argsstring>
+        <name>~ParallelReplicationWorker</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::~ParallelReplicationWorker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1098" column="5" bodyfile="src/replication/replication_manager.cpp" bodystart="4885" bodyend="4891"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a44b1fa0d955baedcab7ade73b57f4a5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ParallelReplicationWorker::submit</definition>
+        <argsstring>(const WALEntry &amp;entry)</argsstring>
+        <name>submit</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::submit</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Submit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::steady_clock::now(), dep_lock(), find(), end(), push_back(), fetch_add(), q_lock(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1101" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="4898" bodyend="4933"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1aa0da3ccaceab869ac661c8f1e37a7ad3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ParallelReplicationWorker::sync</definition>
+        <argsstring>()</argsstring>
+        <name>sync</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::sync</qualifiedname>
+        <briefdescription>
+<para>Sync. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), empty(), load(), std::this_thread::sleep_for(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1104" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="4939" bodyend="4950"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1ae9c579c6e6f3155920189601bbc762ee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>ParallelReplicationWorker::Stats themisdb::replication::ParallelReplicationWorker::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1106" column="11" bodyfile="src/replication/replication_manager.cpp" bodystart="4952" bodyend="4966"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a88352eaba48934abba21ac4de419ddc5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ParallelReplicationWorker::workerLoop</definition>
+        <argsstring>()</argsstring>
+        <name>workerLoop</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::workerLoop</qualifiedname>
+        <briefdescription>
+<para>Worker Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), lock(), wait_for(), std::chrono::milliseconds(), empty(), push_back(), std::move(), front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1141" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="4972" bodyend="5036"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_parallel_replication_worker" kindref="compound">ParallelReplicationWorker</ref></para>
+<para>Applies WAL entries on a follower using multiple worker threads while maintaining causal ordering via a dependency graph keyed on document_id. Independent writes (different document_ids) execute concurrently; writes to the same document are serialized. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1077" column="1" bodyfile="include/replication/replication_manager.h" bodystart="1077" bodyend="1142"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1aacf2f5ecf4092f0336f0f3777033d7e6" prot="private" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1ae5c56ae6db513b8ba4089fb17b2d8bc0" prot="private" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>dep_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1ae9c579c6e6f3155920189601bbc762ee" prot="public" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a7a1d69b554be5f33063ca42ee844850f" prot="private" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>in_flight_count_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a4f2edaf6c5720dec0fd6f8ba2fc9ea29" prot="private" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>last_done_per_doc_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1adb5d8813c565e566d2f1b9a22f4db8b2" prot="public" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>ParallelReplicationWorker</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1adef600a866739edc9dd7beb06ba6df2d" prot="private" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>queue_cv_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a0916144cea251f8aaa493384a2f45056" prot="private" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>queue_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1ac037fc6ae0886eb31e68a76468aa9da5" prot="private" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1ae217589e9154429e4f88840cd662af3b" prot="private" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>stats_batches_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a4ab39e728a9fbe8e47a49b3862a75a50" prot="private" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>stats_deps_detected_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1af23cb2b7e53ac6289f1c407bd86fca5b" prot="private" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>stats_entries_applied_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a474c9b7fae63a4ba3307074dd5d51e8f" prot="private" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>stats_total_latency_us_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a44b1fa0d955baedcab7ade73b57f4a5c" prot="public" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>submit</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1aa0da3ccaceab869ac661c8f1e37a7ad3" prot="public" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>sync</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a3810230736104243d8186cb3874a081c" prot="private" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>work_queue_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a88352eaba48934abba21ac4de419ddc5" prot="private" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>workerLoop</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1a1b48124507c5a7dd8542d891b15c0169" prot="private" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>workers_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_parallel_replication_worker_1aca7d1e93f6c103fe2c5e4dea830a0367" prot="public" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker</scope><name>~ParallelReplicationWorker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

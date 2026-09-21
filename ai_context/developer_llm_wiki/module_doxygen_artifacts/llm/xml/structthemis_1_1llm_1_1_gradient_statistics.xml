@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_gradient_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::GradientStatistics</compoundname>
+    <includes refid="byzantine__detector_8h" local="no">byzantine_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_gradient_statistics_1a1ddcb176f6c5c1905b730da57001883d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::GradientStatistics::gradient_norms</definition>
+        <argsstring></argsstring>
+        <name>gradient_norms</name>
+        <qualifiedname>themis::llm::GradientStatistics::gradient_norms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="51" column="17" bodyfile="include/llm/byzantine_detector.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_gradient_statistics_1a2ac2cd7b651a9dad412bdebf500816cd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::GradientStatistics::gradient_means</definition>
+        <argsstring></argsstring>
+        <name>gradient_means</name>
+        <qualifiedname>themis::llm::GradientStatistics::gradient_means</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="52" column="17" bodyfile="include/llm/byzantine_detector.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_gradient_statistics_1a82721e896f0db6f4a7545c99b3c2ef92" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::GradientStatistics::gradient_variances</definition>
+        <argsstring></argsstring>
+        <name>gradient_variances</name>
+        <qualifiedname>themis::llm::GradientStatistics::gradient_variances</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="53" column="17" bodyfile="include/llm/byzantine_detector.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_gradient_statistics_1a4314f92b9a7459b8c3331c6e45aba0f7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::GradientStatistics::global_median_norm</definition>
+        <argsstring></argsstring>
+        <name>global_median_norm</name>
+        <qualifiedname>themis::llm::GradientStatistics::global_median_norm</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="54" column="11" bodyfile="include/llm/byzantine_detector.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_gradient_statistics_1a9d58448e5e3823f9def139be10cf84a2" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::GradientStatistics::global_mad</definition>
+        <argsstring></argsstring>
+        <name>global_mad</name>
+        <qualifiedname>themis::llm::GradientStatistics::global_mad</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="55" column="11" bodyfile="include/llm/byzantine_detector.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_gradient_statistics_1ad7b71963e85e96bd4a557b8c065f79f9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::GradientStatistics::shard_ids</definition>
+        <argsstring></argsstring>
+        <name>shard_ids</name>
+        <qualifiedname>themis::llm::GradientStatistics::shard_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="58" column="17" bodyfile="include/llm/byzantine_detector.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_gradient_statistics_1abdc04b9ca51f4bbc342764d5ab7af366" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::llm::GradientStatistics::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::GradientStatistics::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="64" column="20" bodyfile="src/llm/byzantine_detector.cpp" bodystart="31" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_gradient_statistics_1ab8030ab45d674254392eda1b8dd71d41" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_gradient_statistics" kindref="compound">GradientStatistics</ref></type>
+        <definition>GradientStatistics themis::llm::GradientStatistics::fromJSON</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::GradientStatistics::fromJSON</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="70" column="31" bodyfile="src/llm/byzantine_detector.cpp" bodystart="48" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/byzantine_detector.h" line="50" column="1" bodyfile="include/llm/byzantine_detector.h" bodystart="50" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_gradient_statistics_1ab8030ab45d674254392eda1b8dd71d41" prot="public" virt="non-virtual"><scope>themis::llm::GradientStatistics</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_statistics_1a9d58448e5e3823f9def139be10cf84a2" prot="public" virt="non-virtual"><scope>themis::llm::GradientStatistics</scope><name>global_mad</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_statistics_1a4314f92b9a7459b8c3331c6e45aba0f7" prot="public" virt="non-virtual"><scope>themis::llm::GradientStatistics</scope><name>global_median_norm</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_statistics_1a2ac2cd7b651a9dad412bdebf500816cd" prot="public" virt="non-virtual"><scope>themis::llm::GradientStatistics</scope><name>gradient_means</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_statistics_1a1ddcb176f6c5c1905b730da57001883d" prot="public" virt="non-virtual"><scope>themis::llm::GradientStatistics</scope><name>gradient_norms</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_statistics_1a82721e896f0db6f4a7545c99b3c2ef92" prot="public" virt="non-virtual"><scope>themis::llm::GradientStatistics</scope><name>gradient_variances</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_statistics_1ad7b71963e85e96bd4a557b8c065f79f9" prot="public" virt="non-virtual"><scope>themis::llm::GradientStatistics</scope><name>shard_ids</name></member>
+      <member refid="structthemis_1_1llm_1_1_gradient_statistics_1abdc04b9ca51f4bbc342764d5ab7af366" prot="public" virt="non-virtual"><scope>themis::llm::GradientStatistics</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

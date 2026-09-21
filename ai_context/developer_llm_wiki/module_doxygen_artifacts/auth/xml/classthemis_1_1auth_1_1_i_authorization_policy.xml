@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_i_authorization_policy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::auth::IAuthorizationPolicy</compoundname>
+    <includes refid="authorization__policy_8h" local="no">authorization_policy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_authorization_policy_1a3e7c1c171680fc4b379305bf5c93b073" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::auth::IAuthorizationPolicy::~IAuthorizationPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAuthorizationPolicy</name>
+        <qualifiedname>themis::auth::IAuthorizationPolicy::~IAuthorizationPolicy</qualifiedname>
+        <briefdescription>
+<para>IAuthorization Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="89" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_authorization_policy_1ad247b279085ff3e6e367f6ef61993482" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_policy_evaluation_result" kindref="compound">PolicyEvaluationResult</ref></type>
+        <definition>virtual PolicyEvaluationResult themis::auth::IAuthorizationPolicy::evaluate</definition>
+        <argsstring>(const SubjectAttributes &amp;subject, const ResourceAttributes &amp;resource, const std::string &amp;action, const EnvironmentAttributes &amp;environment={}) const =0</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::auth::IAuthorizationPolicy::evaluate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_subject_attributes" kindref="compound">SubjectAttributes</ref> &amp;</type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_resource_attributes" kindref="compound">ResourceAttributes</ref> &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_environment_attributes" kindref="compound">EnvironmentAttributes</ref> &amp;</type>
+          <declname>environment</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="91" column="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_authorization_policy_1a5ea59d3938c0f6f3c4daec66adac8956" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::auth::IAuthorizationPolicy::policyId</definition>
+        <argsstring>() const =0</argsstring>
+        <name>policyId</name>
+        <qualifiedname>themis::auth::IAuthorizationPolicy::policyId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="98" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_authorization_policy_1a53f260d0c4a62e3633f77c823b82925a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::auth::IAuthorizationPolicy::policyVersion</definition>
+        <argsstring>() const =0</argsstring>
+        <name>policyVersion</name>
+        <qualifiedname>themis::auth::IAuthorizationPolicy::policyVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="100" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_authorization_policy_1a97cc59eca56fa783de0f5bf7c7e15744" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::auth::IAuthorizationPolicy::reload</definition>
+        <argsstring>()=0</argsstring>
+        <name>reload</name>
+        <qualifiedname>themis::auth::IAuthorizationPolicy::reload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="102" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/authorization_policy.h" line="83" column="1" bodyfile="include/auth/authorization_policy.h" bodystart="83" bodyend="103"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_i_authorization_policy_1ad247b279085ff3e6e367f6ef61993482" prot="public" virt="pure-virtual"><scope>themis::auth::IAuthorizationPolicy</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_authorization_policy_1a5ea59d3938c0f6f3c4daec66adac8956" prot="public" virt="pure-virtual"><scope>themis::auth::IAuthorizationPolicy</scope><name>policyId</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_authorization_policy_1a53f260d0c4a62e3633f77c823b82925a" prot="public" virt="pure-virtual"><scope>themis::auth::IAuthorizationPolicy</scope><name>policyVersion</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_authorization_policy_1a97cc59eca56fa783de0f5bf7c7e15744" prot="public" virt="pure-virtual"><scope>themis::auth::IAuthorizationPolicy</scope><name>reload</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_authorization_policy_1a3e7c1c171680fc4b379305bf5c93b073" prot="public" virt="virtual"><scope>themis::auth::IAuthorizationPolicy</scope><name>~IAuthorizationPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

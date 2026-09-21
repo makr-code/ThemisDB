@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_0647cbc008b208f993ebd13e644fa92c" kind="dir">
+    <compoundname>tests/scraper</compoundname>
+    <innerfile refid="test__scraper__burst__hardening__focused_8cpp">test_scraper_burst_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__scraper__contract__hardening__focused_8cpp">test_scraper_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__scraper__highcardinality__stress_8cpp">test_scraper_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__scraper__phase2__phase3__hardening__focused_8cpp">test_scraper_phase2_phase3_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__scraper__plugin_8cpp">test_scraper_plugin.cpp</innerfile>
+    <innerfile refid="test__scraper__render__pagination__focused_8cpp">test_scraper_render_pagination_focused.cpp</innerfile>
+    <innerfile refid="test__scraper__run__summary__focused_8cpp">test_scraper_run_summary_focused.cpp</innerfile>
+    <innerfile refid="test__scraper__v12__features__focused_8cpp">test_scraper_v12_features_focused.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/scraper/"/>
+  </compounddef>
+</doxygen>

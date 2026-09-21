@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_trust_path_diagnostics_test" kind="class" language="C++" prot="public">
+    <compoundname>TrustPathDiagnosticsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_trust_path_diagnostics_test_1aea988dd859098bf0bb86a12f98645c38" prot="protected" static="no" mutable="no">
+        <type>SecurityAuditLog</type>
+        <definition>SecurityAuditLog TrustPathDiagnosticsTest::audit_log</definition>
+        <argsstring></argsstring>
+        <name>audit_log</name>
+        <qualifiedname>TrustPathDiagnosticsTest::audit_log</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" line="313" column="22" bodyfile="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" bodystart="313" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_trust_path_diagnostics_test_1ac5cab122b13f9c6b9a925c7cc1ab74ba" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TrustPathDiagnosticsTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TrustPathDiagnosticsTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" line="315" column="10" bodyfile="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" bodystart="315" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trust_path_diagnostics_test_1acca2db3be23c5a2c9a2b792dc95bef5f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TrustPathDiagnosticsTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TrustPathDiagnosticsTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" line="319" column="10" bodyfile="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" bodystart="319" bodyend="321"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TrustPathDiagnosticsTest</label>
+        <link refid="class_trust_path_diagnostics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TrustPathDiagnosticsTest</label>
+        <link refid="class_trust_path_diagnostics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>audit_log</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>anonymous:audit_log</label>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" line="311" column="1" bodyfile="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" bodystart="311" bodyend="322"/>
+    <listofallmembers>
+      <member refid="class_trust_path_diagnostics_test_1aea988dd859098bf0bb86a12f98645c38" prot="protected" virt="non-virtual"><scope>TrustPathDiagnosticsTest</scope><name>audit_log</name></member>
+      <member refid="class_trust_path_diagnostics_test_1ac5cab122b13f9c6b9a925c7cc1ab74ba" prot="protected" virt="non-virtual"><scope>TrustPathDiagnosticsTest</scope><name>SetUp</name></member>
+      <member refid="class_trust_path_diagnostics_test_1acca2db3be23c5a2c9a2b792dc95bef5f" prot="protected" virt="non-virtual"><scope>TrustPathDiagnosticsTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

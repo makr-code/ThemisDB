@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_audit_retention_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::AuditRetentionPolicy</compoundname>
+    <includes refid="model__history__contract_8h" local="no">model_history_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_retention_policy_1aa6b26ef6c36b0b402be5d1206508ffe4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::AuditRetentionPolicy::retention_days</definition>
+        <argsstring></argsstring>
+        <name>retention_days</name>
+        <qualifiedname>themis::process::AuditRetentionPolicy::retention_days</qualifiedname>
+        <initializer>= 90</initializer>
+        <briefdescription>
+<para>Time-based retention: keep records from last N days (0 = no limit). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="442" column="14" bodyfile="include/process/model_history_contract.h" bodystart="442" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_retention_policy_1a3cf16fb1be9976c730e6f339f7641e1e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::AuditRetentionPolicy::operations_per_model</definition>
+        <argsstring></argsstring>
+        <name>operations_per_model</name>
+        <qualifiedname>themis::process::AuditRetentionPolicy::operations_per_model</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Operation-based retention: keep last M operations per model (0 = no limit). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="445" column="14" bodyfile="include/process/model_history_contract.h" bodystart="445" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_retention_policy_1a6ab920a392e98ba6211f12a2113aa9a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::AuditRetentionPolicy::archive_endpoint</definition>
+        <argsstring></argsstring>
+        <name>archive_endpoint</name>
+        <qualifiedname>themis::process::AuditRetentionPolicy::archive_endpoint</qualifiedname>
+        <briefdescription>
+<para>Archival target: external service for old records (e.g., SIEM, S3). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="448" column="17" bodyfile="include/process/model_history_contract.h" bodystart="448" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_retention_policy_1a833ef9b3b32495272d2ef7aec9fb8405" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::AuditRetentionPolicy::archive_with_compression</definition>
+        <argsstring></argsstring>
+        <name>archive_with_compression</name>
+        <qualifiedname>themis::process::AuditRetentionPolicy::archive_with_compression</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>true to compress records before archival </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="451" column="10" bodyfile="include/process/model_history_contract.h" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_retention_policy_1ac2433c13dcbe4d0e4ed312b3c82f5c76" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::AuditRetentionPolicy::min_legal_hold_days</definition>
+        <argsstring></argsstring>
+        <name>min_legal_hold_days</name>
+        <qualifiedname>themis::process::AuditRetentionPolicy::min_legal_hold_days</qualifiedname>
+        <initializer>= 7</initializer>
+        <briefdescription>
+<para>Minimum compliance hold period (days); records subject to hold cannot be deleted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="454" column="14" bodyfile="include/process/model_history_contract.h" bodystart="454" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_retention_policy_1a4359f752d0621d0088d912bbc00c70f0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::AuditRetentionPolicy::soft_delete_grace_period_days</definition>
+        <argsstring></argsstring>
+        <name>soft_delete_grace_period_days</name>
+        <qualifiedname>themis::process::AuditRetentionPolicy::soft_delete_grace_period_days</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+<para>Grace period before actual deletion (days); soft-delete → hard-delete. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="457" column="14" bodyfile="include/process/model_history_contract.h" bodystart="457" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Retention policy for audit trail records. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Governs how long records are kept before archival/deletion. </para>
+    </detaileddescription>
+    <location file="include/process/model_history_contract.h" line="440" column="1" bodyfile="include/process/model_history_contract.h" bodystart="440" bodyend="458"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_audit_retention_policy_1a6ab920a392e98ba6211f12a2113aa9a7" prot="public" virt="non-virtual"><scope>themis::process::AuditRetentionPolicy</scope><name>archive_endpoint</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_retention_policy_1a833ef9b3b32495272d2ef7aec9fb8405" prot="public" virt="non-virtual"><scope>themis::process::AuditRetentionPolicy</scope><name>archive_with_compression</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_retention_policy_1ac2433c13dcbe4d0e4ed312b3c82f5c76" prot="public" virt="non-virtual"><scope>themis::process::AuditRetentionPolicy</scope><name>min_legal_hold_days</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_retention_policy_1a3cf16fb1be9976c730e6f339f7641e1e" prot="public" virt="non-virtual"><scope>themis::process::AuditRetentionPolicy</scope><name>operations_per_model</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_retention_policy_1aa6b26ef6c36b0b402be5d1206508ffe4" prot="public" virt="non-virtual"><scope>themis::process::AuditRetentionPolicy</scope><name>retention_days</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_retention_policy_1a4359f752d0621d0088d912bbc00c70f0" prot="public" virt="non-virtual"><scope>themis::process::AuditRetentionPolicy</scope><name>soft_delete_grace_period_days</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

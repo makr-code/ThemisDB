@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::HnswTTBridge::HnswLayer</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1a2f4e492f14b28bf59ad3a9219327e018" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; int64_t, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::unordered_map&lt;int64_t, std::vector&lt;float&gt; &gt; themis::tensor::HnswTTBridge::HnswLayer::sketches</definition>
+        <argsstring></argsstring>
+        <name>sketches</name>
+        <qualifiedname>themis::tensor::HnswTTBridge::HnswLayer::sketches</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/hnsw_tt_bridge.cpp" line="51" column="24" bodyfile="src/tensor/hnsw_tt_bridge.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1a63980bd2912d2507203f1295f4adfbfb" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::HnswTTBridge::HnswLayer::HnswLayer</definition>
+        <argsstring>(size_t M=16, size_t ef_construction=200)</argsstring>
+        <name>HnswLayer</name>
+        <qualifiedname>themis::tensor::HnswTTBridge::HnswLayer::HnswLayer</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>M</declname>
+          <defval>16</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>ef_construction</declname>
+          <defval>200</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/hnsw_tt_bridge.cpp" line="92" column="14" bodyfile="src/tensor/hnsw_tt_bridge.cpp" bodystart="92" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1adbf0ab133475b747267e91f1f69e9863" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::HnswTTBridge::HnswLayer::~HnswLayer</definition>
+        <argsstring>()</argsstring>
+        <name>~HnswLayer</name>
+        <qualifiedname>themis::tensor::HnswTTBridge::HnswLayer::~HnswLayer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/hnsw_tt_bridge.cpp" line="103" column="5" bodyfile="src/tensor/hnsw_tt_bridge.cpp" bodystart="103" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1ab21267450535f0ff59a5415af0951a5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::HnswTTBridge::HnswLayer::HnswLayer</definition>
+        <argsstring>(const HnswLayer &amp;)=delete</argsstring>
+        <name>HnswLayer</name>
+        <qualifiedname>themis::tensor::HnswTTBridge::HnswLayer::HnswLayer</qualifiedname>
+        <param>
+          <type>const HnswLayer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/hnsw_tt_bridge.cpp" line="110" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1a6ba5700f1ef2c8ee6e0e762161188855" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1a63980bd2912d2507203f1295f4adfbfb" kindref="member">HnswLayer</ref> &amp;</type>
+        <definition>HnswLayer &amp; themis::tensor::HnswTTBridge::HnswLayer::operator=</definition>
+        <argsstring>(const HnswLayer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::tensor::HnswTTBridge::HnswLayer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1a63980bd2912d2507203f1295f4adfbfb" kindref="member">HnswLayer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/hnsw_tt_bridge.cpp" line="111" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1ac47665a6d3ede3b35eca9c4848ec1748" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::HnswTTBridge::HnswLayer::insert</definition>
+        <argsstring>(int64_t id, std::vector&lt; float &gt; sketch)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::tensor::HnswTTBridge::HnswLayer::insert</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt;</type>
+          <declname>sketch</declname>
+        </param>
+        <briefdescription>
+<para>Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sketch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), ensureInit(), <ref refid="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1aeb40c960a78f77088cc05d7d58c99fa0" kindref="member">size()</ref>, resizeIndex(), addPoint(), data(), emplace(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/hnsw_tt_bridge.cpp" line="123" column="10" bodyfile="src/tensor/hnsw_tt_bridge.cpp" bodystart="123" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1a5ae3d6c6899987090a1abc3de14a0253" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::HnswTTBridge::HnswLayer::remove</definition>
+        <argsstring>(int64_t id)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::tensor::HnswTTBridge::HnswLayer::remove</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), markDelete(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/hnsw_tt_bridge.cpp" line="152" column="10" bodyfile="src/tensor/hnsw_tt_bridge.cpp" bodystart="152" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1a18eb644a44daafce3ab09ae99d69cd5c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt; int64_t &gt; themis::tensor::HnswTTBridge::HnswLayer::search</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query, size_t ef) const</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::tensor::HnswTTBridge::HnswLayer::search</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>ef</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/hnsw_tt_bridge.cpp" line="176" column="17" bodyfile="src/tensor/hnsw_tt_bridge.cpp" bodystart="176" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1aeb40c960a78f77088cc05d7d58c99fa0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::tensor::HnswTTBridge::HnswLayer::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::tensor::HnswTTBridge::HnswLayer::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tensor/hnsw_tt_bridge.cpp" line="223" column="12" bodyfile="src/tensor/hnsw_tt_bridge.cpp" bodystart="223" bodyend="230"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/tensor/hnsw_tt_bridge.cpp" line="46" column="1" bodyfile="src/tensor/hnsw_tt_bridge.cpp" bodystart="46" bodyend="231"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1a63980bd2912d2507203f1295f4adfbfb" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTBridge::HnswLayer</scope><name>HnswLayer</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1ab21267450535f0ff59a5415af0951a5b" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTBridge::HnswLayer</scope><name>HnswLayer</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1ac47665a6d3ede3b35eca9c4848ec1748" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTBridge::HnswLayer</scope><name>insert</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1a6ba5700f1ef2c8ee6e0e762161188855" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTBridge::HnswLayer</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1a5ae3d6c6899987090a1abc3de14a0253" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTBridge::HnswLayer</scope><name>remove</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1a18eb644a44daafce3ab09ae99d69cd5c" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTBridge::HnswLayer</scope><name>search</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1aeb40c960a78f77088cc05d7d58c99fa0" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTBridge::HnswLayer</scope><name>size</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1a2f4e492f14b28bf59ad3a9219327e018" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTBridge::HnswLayer</scope><name>sketches</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_bridge_1_1_hnsw_layer_1adbf0ab133475b747267e91f1f69e9863" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTBridge::HnswLayer</scope><name>~HnswLayer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

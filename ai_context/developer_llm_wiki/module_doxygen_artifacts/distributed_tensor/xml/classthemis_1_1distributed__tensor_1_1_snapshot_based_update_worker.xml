@@ -1,0 +1,1853 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::SnapshotBasedUpdateWorker</compoundname>
+    <includes refid="snapshot__update__worker_8h" local="no">snapshot_update_worker.h</includes>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats" prot="public">themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats</innerclass>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a76a3e133c3adfc5c0fd69bd57a236b8b" prot="protected" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dc" kindref="member">UpdateWorkerState</ref></type>
+        <definition>UpdateWorkerState themis::distributed_tensor::SnapshotBasedUpdateWorker::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::state_</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dcaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">UpdateWorkerState::IDLE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="340" column="21" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1af100e72d5f34ec5c582b4651d4016138" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::distributed_tensor::SnapshotBasedUpdateWorker::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="341" column="9" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a750c95e875b046c1972766f50849c561" prot="protected" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::SnapshotBasedUpdateWorker::patch_threshold_pct_</definition>
+        <argsstring></argsstring>
+        <name>patch_threshold_pct_</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::patch_threshold_pct_</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="342" column="10" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a2c7258de04daecf3bc4e1bc5c7e7c413" prot="protected" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::SnapshotBasedUpdateWorker::refit_threshold_pct_</definition>
+        <argsstring></argsstring>
+        <name>refit_threshold_pct_</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::refit_threshold_pct_</qualifiedname>
+        <initializer>= 50.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="343" column="10" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1ab08c2655ef58c66482c76ceda1ee5bcf" prot="protected" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::SnapshotBasedUpdateWorker::residual_max_increase_allowed_</definition>
+        <argsstring></argsstring>
+        <name>residual_max_increase_allowed_</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::residual_max_increase_allowed_</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="344" column="10" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a539a5245328c8b3ab31556f1af681c97" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::SnapshotBasedUpdateWorker::checkpoint_path_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_path_</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::checkpoint_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="345" column="15" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1aa1121b83a8ffa2645cf98a31ea3a5f23" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint" kindref="compound">CrashRecoveryCheckpoint</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CrashRecoveryCheckpoint&gt; themis::distributed_tensor::SnapshotBasedUpdateWorker::checkpoint_manager_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_manager_</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::checkpoint_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="346" column="19" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a2613aaa661738e0bd102343cd2056537" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager" kindref="compound">DistributedLockManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;DistributedLockManager&gt; themis::distributed_tensor::SnapshotBasedUpdateWorker::lock_manager_</definition>
+        <argsstring></argsstring>
+        <name>lock_manager_</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::lock_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="347" column="19" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a87b76ee3faad5d3181436f3bd3f6c43d" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector" kindref="compound">StaleArtifactDetector</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;StaleArtifactDetector&gt; themis::distributed_tensor::SnapshotBasedUpdateWorker::stale_detector_</definition>
+        <argsstring></argsstring>
+        <name>stale_detector_</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::stale_detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="348" column="19" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a5411e4c089bfcb74f4f96d7320a8c418" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler" kindref="compound">ErrorRecoveryHandler</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ErrorRecoveryHandler&gt; themis::distributed_tensor::SnapshotBasedUpdateWorker::error_handler_</definition>
+        <argsstring></argsstring>
+        <name>error_handler_</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::error_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="349" column="19" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a33d5b1ddf2fdb2af4940daac52ca1108" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_manifest_store" kindref="compound">ManifestStore</ref> *</type>
+        <definition>ManifestStore* themis::distributed_tensor::SnapshotBasedUpdateWorker::manifest_store_</definition>
+        <argsstring></argsstring>
+        <name>manifest_store_</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::manifest_store_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="350" column="17" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1af227e101c58bae997218962e1819d08b" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::SnapshotBasedUpdateWorker::worker_id_</definition>
+        <argsstring></argsstring>
+        <name>worker_id_</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::worker_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="351" column="15" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a325172667a4eaa4bec191b95dd90bf1c" prot="public" static="no" const="no" explicit="yes" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::SnapshotBasedUpdateWorker::SnapshotBasedUpdateWorker</definition>
+        <argsstring>(ManifestStore *manifest_store=nullptr) noexcept</argsstring>
+        <name>SnapshotBasedUpdateWorker</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::SnapshotBasedUpdateWorker</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_manifest_store" kindref="compound">ManifestStore</ref> *</type>
+          <declname>manifest_store</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="117" column="12" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="143" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a1126a8ca5365ff8e7076530e0c5475c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::distributed_tensor::SnapshotBasedUpdateWorker::~SnapshotBasedUpdateWorker</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SnapshotBasedUpdateWorker</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::~SnapshotBasedUpdateWorker</qualifiedname>
+        <briefdescription>
+<para>Snapshot Based Update Worker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="123" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a95b34066b1d85137d9e2549e6fb9c763" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::SnapshotBasedUpdateWorker::SnapshotBasedUpdateWorker</definition>
+        <argsstring>(const SnapshotBasedUpdateWorker &amp;)=delete</argsstring>
+        <name>SnapshotBasedUpdateWorker</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::SnapshotBasedUpdateWorker</qualifiedname>
+        <param>
+          <type>const SnapshotBasedUpdateWorker &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="126" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a28072c0e3512318d1b3faea709ec89e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a325172667a4eaa4bec191b95dd90bf1c" kindref="member">SnapshotBasedUpdateWorker</ref> &amp;</type>
+        <definition>SnapshotBasedUpdateWorker &amp; themis::distributed_tensor::SnapshotBasedUpdateWorker::operator=</definition>
+        <argsstring>(const SnapshotBasedUpdateWorker &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a325172667a4eaa4bec191b95dd90bf1c" kindref="member">SnapshotBasedUpdateWorker</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="127" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a71cee06a3f3cf0c2ab800017728334db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::SnapshotBasedUpdateWorker::SnapshotBasedUpdateWorker</definition>
+        <argsstring>(SnapshotBasedUpdateWorker &amp;&amp;)=delete</argsstring>
+        <name>SnapshotBasedUpdateWorker</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::SnapshotBasedUpdateWorker</qualifiedname>
+        <param>
+          <type>SnapshotBasedUpdateWorker &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="128" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a6abca494b791964922855359a05439a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a325172667a4eaa4bec191b95dd90bf1c" kindref="member">SnapshotBasedUpdateWorker</ref> &amp;</type>
+        <definition>SnapshotBasedUpdateWorker &amp; themis::distributed_tensor::SnapshotBasedUpdateWorker::operator=</definition>
+        <argsstring>(SnapshotBasedUpdateWorker &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a325172667a4eaa4bec191b95dd90bf1c" kindref="member">SnapshotBasedUpdateWorker</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="129" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a551207471cec519cbd5c887bc9ffd76d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::SnapshotBasedUpdateWorker::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements start without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="135" column="16" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="156" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a0806e565050ba7027499043ecdbdb430" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770" kindref="member">UpdateDecision</ref></type>
+        <definition>UpdateDecision themis::distributed_tensor::SnapshotBasedUpdateWorker::processTask</definition>
+        <argsstring>(const UpdateTask &amp;task, UpdateMetrics &amp;metrics)</argsstring>
+        <name>processTask</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::processTask</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_update_task" kindref="compound">UpdateTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1distributed__tensor_1_1_update_metrics" kindref="compound">UpdateMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Process Task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a67ba4d372bf035f12ed8c4c038c883ca" kindref="member">recoverFromCheckpoint()</ref>, spdlog::info(), <ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a9fb19a2c58b9bf41e90d0efc708e6fab" kindref="member">acquireUpdateLock()</ref>, <ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a52a67bc8d1ab5e3393bacb0b9dafd75f" kindref="member">saveCheckpoint()</ref>, <ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a5e3956aae8fc4b3ca5388c5a52915bca" kindref="member">releaseUpdateLock()</ref>, std::chrono::high_resolution_clock::now(), <ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a275ff26796d15fb057cdec3bf3b14ff6" kindref="member">decideUpdateStrategy()</ref>, count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="143" column="26" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="172" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a9a6d2af8aff7fda7348e4425c10b85dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770" kindref="member">UpdateDecision</ref></type>
+        <definition>UpdateDecision themis::distributed_tensor::SnapshotBasedUpdateWorker::processDeltaWindow</definition>
+        <argsstring>(const std::string &amp;artifact_id, const DeltaWindow &amp;delta_window, const ArtifactManifest &amp;current_manifest, uint64_t artifact_size_bytes)</argsstring>
+        <name>processDeltaWindow</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::processDeltaWindow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref> &amp;</type>
+          <declname>delta_window</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>current_manifest</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>artifact_size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Process Delta Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a0806e565050ba7027499043ecdbdb430" kindref="member">processTask()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="153" column="26" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="322" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a275ff26796d15fb057cdec3bf3b14ff6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770" kindref="member">UpdateDecision</ref></type>
+        <definition>UpdateDecision themis::distributed_tensor::SnapshotBasedUpdateWorker::decideUpdateStrategy</definition>
+        <argsstring>(const DeltaWindow &amp;delta_window, uint64_t artifact_size_bytes, double current_residual)</argsstring>
+        <name>decideUpdateStrategy</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::decideUpdateStrategy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref> &amp;</type>
+          <declname>delta_window</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>artifact_size_bytes</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>current_residual</declname>
+        </param>
+        <briefdescription>
+<para>Decide Update Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_residual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_residual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isValid(), empty(), detectInstability(), countDeletes(), countShardChanges(), estimateChangeFraction(), isValidForPatching(), <ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a00c84f5a229342336bffabaa2e76d211" kindref="member">estimateResultingResidual()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="165" column="26" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="344" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a1dd3427e4d83a4662d8e82d820daac64" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::SnapshotBasedUpdateWorker::executePatch</definition>
+        <argsstring>(const std::string &amp;artifact_id, const DeltaWindow &amp;delta_window, ArtifactManifest &amp;current_manifest)</argsstring>
+        <name>executePatch</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::executePatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref> &amp;</type>
+          <declname>delta_window</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>current_manifest</declname>
+        </param>
+        <briefdescription>
+<para>Execute Patch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">current_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">current_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), countDeletes(), countShardChanges(), isValidForPatching(), size(), validate(), markPublished(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="176" column="16" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="398" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1aabce1b9cedf10be872df04b47cf5b468" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::SnapshotBasedUpdateWorker::executePartialRefit</definition>
+        <argsstring>(const std::string &amp;artifact_id, const DeltaWindow &amp;delta_window, ArtifactManifest &amp;current_manifest)</argsstring>
+        <name>executePartialRefit</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::executePartialRefit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref> &amp;</type>
+          <declname>delta_window</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>current_manifest</declname>
+        </param>
+        <briefdescription>
+<para>Execute Partial Refit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">current_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">current_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1ac0d4b85a307da34adc5a0d88740f95dd" kindref="member">wouldBreachRankCap()</ref>, analyzeRankCapBreach(), validate(), analyzePartialRefitFailure(), estimateChangeFraction(), std::min(), countUpdates(), countInserts(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="187" column="16" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="453" bodyend="514"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a3d3a3733b54ccf52757985630b3b69d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::SnapshotBasedUpdateWorker::executeRebuild</definition>
+        <argsstring>(const std::string &amp;artifact_id, const DeltaWindow &amp;delta_window, ArtifactManifest &amp;current_manifest)</argsstring>
+        <name>executeRebuild</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::executeRebuild</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref> &amp;</type>
+          <declname>delta_window</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>current_manifest</declname>
+        </param>
+        <briefdescription>
+<para>Execute Rebuild. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">current_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">current_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), validate(), analyzePartialRefitFailure(), markPublished(), getCurrentTimeSec(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="198" column="16" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="524" bodyend="557"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1ad4927ba16fab9250f5ab2f22c1d1c614" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::SnapshotBasedUpdateWorker::publishManifest</definition>
+        <argsstring>(const std::string &amp;artifact_id, const ArtifactManifest &amp;new_manifest, uint64_t old_version, const std::string &amp;reason)</argsstring>
+        <name>publishManifest</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::publishManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>new_manifest</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>old_version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Publish Manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: validate(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="210" column="16" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="568" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1ada448da74cf52379e2c3526765144ccc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::SnapshotBasedUpdateWorker::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements shutdown without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="219" column="16" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="588" bodyend="592"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a8490b806e463318508aa48b66111947a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dc" kindref="member">UpdateWorkerState</ref></type>
+        <definition>UpdateWorkerState themis::distributed_tensor::SnapshotBasedUpdateWorker::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::getState</qualifiedname>
+        <briefdescription>
+<para>Get State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="225" column="21" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="594" bodyend="594"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a258f986b29ebaa7ad2477aa76acb219e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>SnapshotBasedUpdateWorker::Stats themis::distributed_tensor::SnapshotBasedUpdateWorker::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="242" column="17" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="596" bodyend="596"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1aa96ab4000ab4c0598ef799f14f59123d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::SnapshotBasedUpdateWorker::setDecisionThresholds</definition>
+        <argsstring>(double patch_threshold_pct, double refit_threshold_pct, double residual_max_increase_allowed)</argsstring>
+        <name>setDecisionThresholds</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::setDecisionThresholds</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>patch_threshold_pct</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>refit_threshold_pct</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>residual_max_increase_allowed</declname>
+        </param>
+        <briefdescription>
+<para>Set Decision Thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">patch_threshold_pct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">refit_threshold_pct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">residual_max_increase_allowed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">patch_threshold_pct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">refit_threshold_pct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">residual_max_increase_allowed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setDecisionThresholds without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="250" column="8" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="605" bodyend="611"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a96b2cc7dd0d988ceb8d3af0fbc6828e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::SnapshotBasedUpdateWorker::setCheckpointPath</definition>
+        <argsstring>(const std::string &amp;checkpoint_path)</argsstring>
+        <name>setCheckpointPath</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::setCheckpointPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_path</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref> Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the checkpoint.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the checkpoint.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setCheckpointPath without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="258" column="8" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="618" bodyend="621"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a7776efaa06a3546cad2da084fc3aac3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::SnapshotBasedUpdateWorker::setLockManager</definition>
+        <argsstring>(std::shared_ptr&lt; DistributedLockManager &gt; lock_manager)</argsstring>
+        <name>setLockManager</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::setLockManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager" kindref="compound">DistributedLockManager</ref> &gt;</type>
+          <declname>lock_manager</declname>
+        </param>
+        <briefdescription>
+<para>Set Lock Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lock_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lock_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setLockManager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="264" column="8" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="628" bodyend="630"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a4f88685b42c11f443a7ab193b26fc534" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::SnapshotBasedUpdateWorker::setStaleArtifactDetector</definition>
+        <argsstring>(std::shared_ptr&lt; StaleArtifactDetector &gt; detector)</argsstring>
+        <name>setStaleArtifactDetector</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::setStaleArtifactDetector</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector" kindref="compound">StaleArtifactDetector</ref> &gt;</type>
+          <declname>detector</declname>
+        </param>
+        <briefdescription>
+<para>Set Stale Artifact Detector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">detector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setStaleArtifactDetector without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="270" column="8" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="637" bodyend="639"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a9e510f83bbfa7b2a14304c8aed2df88f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::SnapshotBasedUpdateWorker::setErrorRecoveryHandler</definition>
+        <argsstring>(std::shared_ptr&lt; ErrorRecoveryHandler &gt; handler)</argsstring>
+        <name>setErrorRecoveryHandler</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::setErrorRecoveryHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler" kindref="compound">ErrorRecoveryHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Set Error Recovery Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setErrorRecoveryHandler without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="276" column="8" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="646" bodyend="648"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a3331ae7fc1a4367a2c9e7c2731d48341" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::SnapshotBasedUpdateWorker::setManifestStore</definition>
+        <argsstring>(ManifestStore *manifest_store) noexcept</argsstring>
+        <name>setManifestStore</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::setManifestStore</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_manifest_store" kindref="compound">ManifestStore</ref> *</type>
+          <declname>manifest_store</declname>
+        </param>
+        <briefdescription>
+<para>Set Manifest Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">manifest_store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="283" column="8" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="650" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a67ba4d372bf035f12ed8c4c038c883ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &gt;</type>
+        <definition>std::optional&lt; ArtifactManifest &gt; themis::distributed_tensor::SnapshotBasedUpdateWorker::recoverFromCheckpoint</definition>
+        <argsstring>(const std::string &amp;artifact_id)</argsstring>
+        <name>recoverFromCheckpoint</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::recoverFromCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Recover From <ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), spdlog::warn(), deleteCheckpoint(), empty(), size(), validate(), isValid(), getCurrentTimeSec(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="290" column="25" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="660" bodyend="850"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a52a67bc8d1ab5e3393bacb0b9dafd75f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::SnapshotBasedUpdateWorker::saveCheckpoint</definition>
+        <argsstring>(const std::string &amp;artifact_id, const UpdateTask &amp;task)</argsstring>
+        <name>saveCheckpoint</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::saveCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_update_task" kindref="compound">UpdateTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Save <ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), save(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="298" column="16" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="859" bodyend="882"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a9fb19a2c58b9bf41e90d0efc708e6fab" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::SnapshotBasedUpdateWorker::acquireUpdateLock</definition>
+        <argsstring>(const std::string &amp;artifact_id, const std::string &amp;lock_reason=&quot;&quot;, int64_t ttl_seconds=3600)</argsstring>
+        <name>acquireUpdateLock</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::acquireUpdateLock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lock_reason</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>ttl_seconds</declname>
+          <defval>3600</defval>
+        </param>
+        <briefdescription>
+<para>Acquire Update Lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lock_reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), std::to_string(), acquireLock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="300" column="16" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="892" bodyend="906"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a5e3956aae8fc4b3ca5388c5a52915bca" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::SnapshotBasedUpdateWorker::releaseUpdateLock</definition>
+        <argsstring>(const std::string &amp;artifact_id)</argsstring>
+        <name>releaseUpdateLock</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::releaseUpdateLock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Release Update Lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), releaseLock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="309" column="16" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="914" bodyend="921"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a378500d93761b270969d2de1f16d9b8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::SnapshotBasedUpdateWorker::renewUpdateLock</definition>
+        <argsstring>(const std::string &amp;artifact_id, int64_t ttl_seconds=3600)</argsstring>
+        <name>renewUpdateLock</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::renewUpdateLock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>ttl_seconds</declname>
+          <defval>3600</defval>
+        </param>
+        <briefdescription>
+<para>Renew Update Lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), renewLock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="311" column="16" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="930" bodyend="937"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a3a374f618ad9e990542fc823c772aa5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics" kindref="compound">StaleArtifactMetrics</ref></type>
+        <definition>StaleArtifactMetrics themis::distributed_tensor::SnapshotBasedUpdateWorker::detectStaleness</definition>
+        <argsstring>(const std::string &amp;artifact_id, const ArtifactManifest &amp;current_manifest, uint64_t current_source_seq)</argsstring>
+        <name>detectStaleness</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::detectStaleness</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>current_manifest</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>current_source_seq</declname>
+        </param>
+        <briefdescription>
+<para>Detect Staleness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_source_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_source_seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: analyzeArtifactStaleness(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="320" column="32" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="947" bodyend="965"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a3643bbb4e084283d0f09dfe95e488c65" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::SnapshotBasedUpdateWorker::isValidForPatchingPublic</definition>
+        <argsstring>(const DeltaWindow &amp;delta_window, int64_t max_age_ms=3600000) const</argsstring>
+        <name>isValidForPatchingPublic</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::isValidForPatchingPublic</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref> &amp;</type>
+          <declname>delta_window</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>max_age_ms</declname>
+          <defval>3600000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="324" column="16" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="968" bodyend="971"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a063a073492194f27937c2ff5a4b22d10" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::SnapshotBasedUpdateWorker::detectInstabilityPublic</definition>
+        <argsstring>(const DeltaWindow &amp;delta_window, double current_residual) const</argsstring>
+        <name>detectInstabilityPublic</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::detectInstabilityPublic</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref> &amp;</type>
+          <declname>delta_window</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>current_residual</declname>
+        </param>
+        <briefdescription>
+<para>Detect Instability Public. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_residual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="333" column="16" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="974" bodyend="977"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1ab5b7598a740a66d7e24ffe21cc518e8d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::SnapshotBasedUpdateWorker::isDeltaLogOverflowingPublic</definition>
+        <argsstring>(size_t current_entries, uint32_t max_entries=100000) const</argsstring>
+        <name>isDeltaLogOverflowingPublic</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::isDeltaLogOverflowingPublic</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>current_entries</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_entries</declname>
+          <defval>100000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="336" column="16" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="980" bodyend="983"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1ac0d4b85a307da34adc5a0d88740f95dd" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::SnapshotBasedUpdateWorker::wouldBreachRankCap</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest, const DeltaWindow &amp;delta_window)</argsstring>
+        <name>wouldBreachRankCap</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::wouldBreachRankCap</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref> &amp;</type>
+          <declname>delta_window</declname>
+        </param>
+        <briefdescription>
+<para>Would Breach Rank Cap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: countUpdates(), countInserts(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="359" column="8" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="992" bodyend="1002"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a00c84f5a229342336bffabaa2e76d211" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::SnapshotBasedUpdateWorker::estimateResultingResidual</definition>
+        <argsstring>(const DeltaWindow &amp;delta_window, double current_residual, UpdateDecision decision)</argsstring>
+        <name>estimateResultingResidual</name>
+        <qualifiedname>themis::distributed_tensor::SnapshotBasedUpdateWorker::estimateResultingResidual</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref> &amp;</type>
+          <declname>delta_window</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>current_residual</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770" kindref="member">UpdateDecision</ref></type>
+          <declname>decision</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Resulting Residual. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_residual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_residual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: estimateChangeFraction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="368" column="10" bodyfile="src/distributed_tensor/src/snapshot_update_worker.cc" bodystart="1012" bodyend="1031"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::distributed_tensor::ManifestStore</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_manifest_store"/>
+      </node>
+      <node id="1">
+        <label>themis::distributed_tensor::SnapshotBasedUpdateWorker</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>stats_</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>manifest_store_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats</label>
+        <link refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="115" column="1" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="115" bodyend="371"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a9fb19a2c58b9bf41e90d0efc708e6fab" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>acquireUpdateLock</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1aa1121b83a8ffa2645cf98a31ea3a5f23" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>checkpoint_manager_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a539a5245328c8b3ab31556f1af681c97" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>checkpoint_path_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a275ff26796d15fb057cdec3bf3b14ff6" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>decideUpdateStrategy</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a063a073492194f27937c2ff5a4b22d10" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>detectInstabilityPublic</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a3a374f618ad9e990542fc823c772aa5e" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>detectStaleness</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a5411e4c089bfcb74f4f96d7320a8c418" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>error_handler_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a00c84f5a229342336bffabaa2e76d211" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>estimateResultingResidual</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1aabce1b9cedf10be872df04b47cf5b468" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>executePartialRefit</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a1dd3427e4d83a4662d8e82d820daac64" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>executePatch</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a3d3a3733b54ccf52757985630b3b69d3" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>executeRebuild</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a8490b806e463318508aa48b66111947a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>getState</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a258f986b29ebaa7ad2477aa76acb219e" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1ab5b7598a740a66d7e24ffe21cc518e8d" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>isDeltaLogOverflowingPublic</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a3643bbb4e084283d0f09dfe95e488c65" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>isValidForPatchingPublic</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a2613aaa661738e0bd102343cd2056537" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>lock_manager_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a33d5b1ddf2fdb2af4940daac52ca1108" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>manifest_store_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a28072c0e3512318d1b3faea709ec89e8" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a6abca494b791964922855359a05439a1" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a750c95e875b046c1972766f50849c561" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>patch_threshold_pct_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a9a6d2af8aff7fda7348e4425c10b85dc" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>processDeltaWindow</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a0806e565050ba7027499043ecdbdb430" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>processTask</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1ad4927ba16fab9250f5ab2f22c1d1c614" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>publishManifest</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a67ba4d372bf035f12ed8c4c038c883ca" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>recoverFromCheckpoint</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a2c7258de04daecf3bc4e1bc5c7e7c413" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>refit_threshold_pct_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a5e3956aae8fc4b3ca5388c5a52915bca" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>releaseUpdateLock</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a378500d93761b270969d2de1f16d9b8a" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>renewUpdateLock</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1ab08c2655ef58c66482c76ceda1ee5bcf" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>residual_max_increase_allowed_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a52a67bc8d1ab5e3393bacb0b9dafd75f" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>saveCheckpoint</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a96b2cc7dd0d988ceb8d3af0fbc6828e3" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>setCheckpointPath</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1aa96ab4000ab4c0598ef799f14f59123d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>setDecisionThresholds</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a9e510f83bbfa7b2a14304c8aed2df88f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>setErrorRecoveryHandler</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a7776efaa06a3546cad2da084fc3aac3c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>setLockManager</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a3331ae7fc1a4367a2c9e7c2731d48341" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>setManifestStore</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a4f88685b42c11f443a7ab193b26fc534" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>setStaleArtifactDetector</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1ada448da74cf52379e2c3526765144ccc" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a325172667a4eaa4bec191b95dd90bf1c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>SnapshotBasedUpdateWorker</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a95b34066b1d85137d9e2549e6fb9c763" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>SnapshotBasedUpdateWorker</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a71cee06a3f3cf0c2ab800017728334db" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>SnapshotBasedUpdateWorker</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a87b76ee3faad5d3181436f3bd3f6c43d" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>stale_detector_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a551207471cec519cbd5c887bc9ffd76d" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>start</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a76a3e133c3adfc5c0fd69bd57a236b8b" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>state_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1af100e72d5f34ec5c582b4651d4016138" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1af227e101c58bae997218962e1819d08b" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>worker_id_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1ac0d4b85a307da34adc5a0d88740f95dd" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>wouldBreachRankCap</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a1126a8ca5365ff8e7076530e0c5475c7" prot="public" virt="virtual"><scope>themis::distributed_tensor::SnapshotBasedUpdateWorker</scope><name>~SnapshotBasedUpdateWorker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

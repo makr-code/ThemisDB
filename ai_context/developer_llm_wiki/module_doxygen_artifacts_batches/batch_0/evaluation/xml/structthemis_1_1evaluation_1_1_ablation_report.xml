@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_ablation_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::AblationReport</compoundname>
+    <includes refid="ablation__framework_8h" local="no">ablation_framework.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_report_1aad660f0a64f68f1b26a91ae16293a090" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_ablation_result" kindref="compound">AblationResult</ref> &gt;</type>
+        <definition>std::vector&lt;AblationResult&gt; themis::evaluation::AblationReport::results</definition>
+        <argsstring></argsstring>
+        <name>results</name>
+        <qualifiedname>themis::evaluation::AblationReport::results</qualifiedname>
+        <briefdescription>
+<para>One entry per registered experiment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="154" column="17" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1evaluation_1_1_ablation_report_1a21425b39c452ac7f8682e88cfd7a9555" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::AblationReport::bestByRecall</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>bestByRecall</name>
+        <qualifiedname>themis::evaluation::AblationReport::bestByRecall</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="156" column="18" bodyfile="src/evaluation/src/ablation_framework.cc" bodystart="78" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1evaluation_1_1_ablation_report_1a35f62266f14a6edd689a4a3d821caa06" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::AblationReport::bestByNdcg</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>bestByNdcg</name>
+        <qualifiedname>themis::evaluation::AblationReport::bestByNdcg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="158" column="18" bodyfile="src/evaluation/src/ablation_framework.cc" bodystart="84" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1evaluation_1_1_ablation_report_1ad90606229856378201d2c326bd096161" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::AblationReport::bestByFallbackEfficiency</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>bestByFallbackEfficiency</name>
+        <qualifiedname>themis::evaluation::AblationReport::bestByFallbackEfficiency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="160" column="18" bodyfile="src/evaluation/src/ablation_framework.cc" bodystart="90" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1evaluation_1_1_ablation_report_1a80c19cb49e0ab54aba9da6711ac7aed0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt; double &gt; themis::evaluation::AblationReport::recallGain</definition>
+        <argsstring>(std::string_view a, std::string_view b) const noexcept</argsstring>
+        <name>recallGain</name>
+        <qualifiedname>themis::evaluation::AblationReport::recallGain</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="162" column="20" bodyfile="src/evaluation/src/ablation_framework.cc" bodystart="101" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1evaluation_1_1_ablation_report_1a36b476c88328cc1844d2f513e99324b7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt; double &gt; themis::evaluation::AblationReport::ndcgGain</definition>
+        <argsstring>(std::string_view a, std::string_view b) const noexcept</argsstring>
+        <name>ndcgGain</name>
+        <qualifiedname>themis::evaluation::AblationReport::ndcgGain</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="165" column="20" bodyfile="src/evaluation/src/ablation_framework.cc" bodystart="112" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/ablation_framework.h" line="153" column="1" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="153" bodyend="167"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_report_1ad90606229856378201d2c326bd096161" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationReport</scope><name>bestByFallbackEfficiency</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_report_1a35f62266f14a6edd689a4a3d821caa06" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationReport</scope><name>bestByNdcg</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_report_1a21425b39c452ac7f8682e88cfd7a9555" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationReport</scope><name>bestByRecall</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_report_1a36b476c88328cc1844d2f513e99324b7" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationReport</scope><name>ndcgGain</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_report_1a80c19cb49e0ab54aba9da6711ac7aed0" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationReport</scope><name>recallGain</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_report_1aad660f0a64f68f1b26a91ae16293a090" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationReport</scope><name>results</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

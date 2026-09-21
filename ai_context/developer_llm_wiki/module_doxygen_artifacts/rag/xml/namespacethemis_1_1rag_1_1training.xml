@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag_1_1training" kind="namespace" language="C++">
+    <compoundname>themis::rag::training</compoundname>
+    <innerclass refid="structthemis_1_1rag_1_1training_1_1_a_i_principle" prot="public">themis::rag::training::AIPrinciple</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1training_1_1_preference_pair" prot="public">themis::rag::training::PreferencePair</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1training_1_1_constitutional_critique" prot="public">themis::rag::training::ConstitutionalCritique</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1training_1_1_constitutional_revision" prot="public">themis::rag::training::ConstitutionalRevision</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step" prot="public">themis::rag::training::RLAIFTrainingStep</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats" prot="public">themis::rag::training::RLAIFTrainerStats</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1training_1_1_i_a_i_judge" prot="public">themis::rag::training::IAIJudge</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1training_1_1_heuristic_a_i_judge" prot="public">themis::rag::training::HeuristicAIJudge</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config" prot="public">themis::rag::training::RLAIFConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer" prot="public">themis::rag::training::RLAIFTrainer</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_factory" prot="public">themis::rag::training::RLAIFTrainerFactory</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1training_1a16b1894b95b42e0f2283ac43cbb8f12c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConstitutionalStrategy</name>
+        <qualifiedname>themis::rag::training::ConstitutionalStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1training_1a16b1894b95b42e0f2283ac43cbb8f12ca521f2b53ef0b6d35bfb374207f935c13" prot="public">
+          <name>HARMLESSNESS</name>
+          <briefdescription>
+<para>Detect and revise harmful content. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1training_1a16b1894b95b42e0f2283ac43cbb8f12caabd1ac1194336417d6be8c34888bdd13" prot="public">
+          <name>HELPFULNESS</name>
+          <briefdescription>
+<para>Revise to maximise helpfulness. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1training_1a16b1894b95b42e0f2283ac43cbb8f12ca14d1d8e398ff38c30a02fb273dbf29f1" prot="public">
+          <name>HONESTY</name>
+          <briefdescription>
+<para>Detect hedging / uncertainty; revise to be accurate. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1training_1a16b1894b95b42e0f2283ac43cbb8f12cacadd571e8b66adf6d9251c13ef22a709" prot="public">
+          <name>FAIRNESS</name>
+          <briefdescription>
+<para>Detect discriminatory language; revise to be neutral. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1training_1a16b1894b95b42e0f2283ac43cbb8f12ca448285d39c3f159c017938c7c367d0d2" prot="public">
+          <name>COMBINED</name>
+          <briefdescription>
+<para>Apply all principles in sequence. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Constitutional critique strategy applied during a training step. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="31" column="1" bodyfile="include/rag/rlaif_trainer.h" bodystart="31" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1training_1ad7392f662471bff5f7d35b33c4811a7a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RevisionOutcome</name>
+        <qualifiedname>themis::rag::training::RevisionOutcome</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1training_1ad7392f662471bff5f7d35b33c4811a7aaa806f1d2c42338ef5fa6497b66153e79" prot="public">
+          <name>ACCEPTED</name>
+          <briefdescription>
+<para>Revised response is better than the draft. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1training_1ad7392f662471bff5f7d35b33c4811a7aa9cc8ad3d99798c6726d4af0bd14e49d2" prot="public">
+          <name>REJECTED</name>
+          <briefdescription>
+<para>Revision did not improve quality; draft retained. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1training_1ad7392f662471bff5f7d35b33c4811a7aa46335765005ff44b1fe1e38e5d2ddfcc" prot="public">
+          <name>UNCHANGED</name>
+          <briefdescription>
+<para>No revision was needed (draft already passes). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Outcome of a single constitutional critique-revision cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="42" column="1" bodyfile="include/rag/rlaif_trainer.h" bodystart="42" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rlaif_trainer.h" line="22" column="1"/>
+  </compounddef>
+</doxygen>

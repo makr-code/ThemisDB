@@ -1,0 +1,836 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::NUMAMemoryManager</compoundname>
+    <includes refid="numa__memory__manager_8h" local="no">numa_memory_manager.h</includes>
+    <innerclass refid="structthemis_1_1performance_1_1_n_u_m_a_memory_manager_1_1_alloc_entry" prot="private">themis::performance::NUMAMemoryManager::AllocEntry</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_n_u_m_a_memory_manager_1_1_bucket" prot="private">themis::performance::NUMAMemoryManager::Bucket</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a0fc226c6e4bfb11566de337fa2468d9e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1performance_1_1_n_u_m_a_topology_info" kindref="compound">NUMATopologyInfo</ref></type>
+        <definition>NUMATopologyInfo themis::performance::NUMAMemoryManager::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="195" column="22" bodyfile="include/performance/numa_memory_manager.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a63db13b756d1172b021f5de257b4d5c6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::NUMAMemoryManager::stat_local_</definition>
+        <argsstring></argsstring>
+        <name>stat_local_</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::stat_local_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="200" column="17" bodyfile="include/performance/numa_memory_manager.h" bodystart="200" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a88185b0f867cc529df49e5a2d066d00e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::NUMAMemoryManager::stat_remote_</definition>
+        <argsstring></argsstring>
+        <name>stat_remote_</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::stat_remote_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="201" column="17" bodyfile="include/performance/numa_memory_manager.h" bodystart="201" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a69cfb8620e247179e51b9a4e425482a1" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::NUMAMemoryManager::num_nodes_</definition>
+        <argsstring></argsstring>
+        <name>num_nodes_</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::num_nodes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="204" column="39" bodyfile="include/performance/numa_memory_manager.h" bodystart="204" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1aafda0cfc11cae9e73ada9f1f3b3c56b5" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; std::atomic&lt; int64_t &gt;[]&gt;</type>
+        <definition>std::unique_ptr&lt;std::atomic&lt;int64_t&gt;[]&gt; themis::performance::NUMAMemoryManager::per_node_bytes_</definition>
+        <argsstring></argsstring>
+        <name>per_node_bytes_</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::per_node_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="205" column="21" bodyfile="include/performance/numa_memory_manager.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a56df2c0978a49a025e1cdd6fa1ebd7eb" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::performance::NUMAMemoryManager::alloc_mutex_</definition>
+        <argsstring></argsstring>
+        <name>alloc_mutex_</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::alloc_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="209" column="24" bodyfile="include/performance/numa_memory_manager.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a3df8f3cce681d48bcf19f9ae34d23156" prot="private" static="no" mutable="no">
+        <type>Bucket</type>
+        <definition>Bucket themis::performance::NUMAMemoryManager::buckets_[kBuckets]</definition>
+        <argsstring>[kBuckets]</argsstring>
+        <name>buckets_</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::buckets_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="218" column="12" bodyfile="include/performance/numa_memory_manager.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a5a8c9a408576df841eb654cab583744f" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::NUMAMemoryManager::kBuckets</definition>
+        <argsstring></argsstring>
+        <name>kBuckets</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::kBuckets</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="213" column="29" bodyfile="include/performance/numa_memory_manager.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1ac31f2720de8e554957427ebf7747cf0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::NUMAMemoryManager::NUMAMemoryManager</definition>
+        <argsstring>()</argsstring>
+        <name>NUMAMemoryManager</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::NUMAMemoryManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="97" column="5" bodyfile="src/performance/numa_memory_manager.cpp" bodystart="86" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1ad7fa96bd6f2efcee26e8ca5af258319e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::NUMAMemoryManager::~NUMAMemoryManager</definition>
+        <argsstring>()</argsstring>
+        <name>~NUMAMemoryManager</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::~NUMAMemoryManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="98" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1afb9df6b027603a98a903c40b793edb1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::NUMAMemoryManager::NUMAMemoryManager</definition>
+        <argsstring>(const NUMAMemoryManager &amp;)=delete</argsstring>
+        <name>NUMAMemoryManager</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::NUMAMemoryManager</qualifiedname>
+        <param>
+          <type>const NUMAMemoryManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="100" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1aa0bedcb98da91bc465409960f95e66a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1ac31f2720de8e554957427ebf7747cf0f" kindref="member">NUMAMemoryManager</ref> &amp;</type>
+        <definition>NUMAMemoryManager &amp; themis::performance::NUMAMemoryManager::operator=</definition>
+        <argsstring>(const NUMAMemoryManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1ac31f2720de8e554957427ebf7747cf0f" kindref="member">NUMAMemoryManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="101" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1ad695db714cceb5c694b6af73464835f0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::NUMAMemoryManager::NUMAMemoryManager</definition>
+        <argsstring>(NUMAMemoryManager &amp;&amp;) noexcept=delete</argsstring>
+        <name>NUMAMemoryManager</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::NUMAMemoryManager</qualifiedname>
+        <param>
+          <type>NUMAMemoryManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="102" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a2edfcaf6e54f369d63b5dc38cb1e3faa" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1ac31f2720de8e554957427ebf7747cf0f" kindref="member">NUMAMemoryManager</ref> &amp;</type>
+        <definition>NUMAMemoryManager &amp; themis::performance::NUMAMemoryManager::operator=</definition>
+        <argsstring>(NUMAMemoryManager &amp;&amp;) noexcept=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1ac31f2720de8e554957427ebf7747cf0f" kindref="member">NUMAMemoryManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="103" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a4f28b73c9436452c1a43280e71206138" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::performance::NUMAMemoryManager::allocate_on_node</definition>
+        <argsstring>(size_t size, int node)</argsstring>
+        <name>allocate_on_node</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::allocate_on_node</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Allocate size bytes on the specified NUMA node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Allocate on node.</para>
+<para>When node is negative, behaves identically to <ref refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a736ebf124b74731b026fd9475e9af5c9" kindref="member">allocate_local()</ref>. Falls back to malloc on systems without NUMA support.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to allocate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Preferred NUMA node, or a negative value for local placement. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to allocated memory; throws std::bad_alloc on exhaustion.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: resolve_node(), do_allocate(), update_alloc_stats(), track_alloc(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="119" column="10" bodyfile="src/performance/numa_memory_manager.cpp" bodystart="194" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a736ebf124b74731b026fd9475e9af5c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::performance::NUMAMemoryManager::allocate_local</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>allocate_local</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::allocate_local</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Allocate size bytes on the calling thread&apos;s local NUMA node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Allocate local.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to allocate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to allocated memory; throws std::bad_alloc on exhaustion.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a4f28b73c9436452c1a43280e71206138" kindref="member">allocate_on_node()</ref>, <ref refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a4a5092a275d65915540ac0c5c289684a" kindref="member">get_current_node()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="126" column="10" bodyfile="src/performance/numa_memory_manager.cpp" bodystart="208" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a89fc44a87b4e4a194e827dc18884891b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::performance::NUMAMemoryManager::allocate</definition>
+        <argsstring>(size_t size, const AllocationHint &amp;hint={})</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::allocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1_allocation_hint" kindref="compound">AllocationHint</ref> &amp;</type>
+          <declname>hint</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Allocate memory with an explicit <ref refid="structthemis_1_1performance_1_1_allocation_hint" kindref="compound">AllocationHint</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Allocate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to allocate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Placement and migration preferences for the allocation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to allocated memory; throws std::bad_alloc on exhaustion.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: resolve_node(), do_allocate(), update_alloc_stats(), track_alloc(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="134" column="10" bodyfile="src/performance/numa_memory_manager.cpp" bodystart="219" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1aa0bcdb340682be939c2831f7291d7d3b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::NUMAMemoryManager::deallocate</definition>
+        <argsstring>(void *ptr, size_t size=0) noexcept</argsstring>
+        <name>deallocate</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::deallocate</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Free a pointer previously returned by this manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>size is used to update per-node accounting; passing 0 is safe. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="141" column="10" bodyfile="src/performance/numa_memory_manager.cpp" bodystart="227" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a8b1ef1e0d00def6fadce0578610f93d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::NUMAMemoryManager::migrate_to_node</definition>
+        <argsstring>(void *ptr, size_t size, int target_node)</argsstring>
+        <name>migrate_to_node</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::migrate_to_node</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>target_node</declname>
+        </param>
+        <briefdescription>
+<para>Advisory: migrate an allocation to a different NUMA node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Migrate to node.</para>
+<para>On Linux with libnuma available this issues mbind(MPOL_BIND) to rebind the pages to target_node. On other platforms it is a no-op. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Allocation previously returned by this manager. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of the allocation in bytes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>NUMA node to bind the allocation to.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: untrack_alloc(), load(), compare_exchange_weak(), resolve_node(), track_alloc(), update_alloc_stats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="156" column="10" bodyfile="src/performance/numa_memory_manager.cpp" bodystart="262" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a4a5092a275d65915540ac0c5c289684a" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::performance::NUMAMemoryManager::get_current_node</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get_current_node</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::get_current_node</qualifiedname>
+        <briefdescription>
+<para>Return the NUMA node the calling thread currently runs on. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns 0 when NUMA topology is unavailable. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="167" column="9" bodyfile="src/performance/numa_memory_manager.cpp" bodystart="289" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a6454607a9c89a15241ee28d5d7591922" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_n_u_m_a_topology_info" kindref="compound">NUMATopologyInfo</ref></type>
+        <definition>NUMATopologyInfo themis::performance::NUMAMemoryManager::get_topology</definition>
+        <argsstring>() const</argsstring>
+        <name>get_topology</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::get_topology</qualifiedname>
+        <briefdescription>
+<para>Return the detected system NUMA topology. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="172" column="22" bodyfile="src/performance/numa_memory_manager.cpp" bodystart="304" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a904f1fb978c97a0637eb37357b85cd0b" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::NUMAMemoryManager::is_numa_available</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_numa_available</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::is_numa_available</qualifiedname>
+        <briefdescription>
+<para>Return true when more than one NUMA node is available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="177" column="10" bodyfile="src/performance/numa_memory_manager.cpp" bodystart="308" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1abac6141e99db41dc636a2496f8ec63bc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_n_u_m_a_stats" kindref="compound">NUMAStats</ref></type>
+        <definition>NUMAStats themis::performance::NUMAMemoryManager::get_stats</definition>
+        <argsstring>() const</argsstring>
+        <name>get_stats</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::get_stats</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of current allocation statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="184" column="15" bodyfile="src/performance/numa_memory_manager.cpp" bodystart="312" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a488706bf3988f3947730b6503204974a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::NUMAMemoryManager::reset_stats</definition>
+        <argsstring>()</argsstring>
+        <name>reset_stats</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::reset_stats</qualifiedname>
+        <briefdescription>
+<para>Reset all statistics counters to zero. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset stats.</para>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="187" column="10" bodyfile="src/performance/numa_memory_manager.cpp" bodystart="333" bodyend="338"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a23fe59f623255858106fcf35658f7309" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::performance::NUMAMemoryManager::do_allocate</definition>
+        <argsstring>(size_t size, int node, bool use_huge_pages)</argsstring>
+        <name>do_allocate</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::do_allocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_huge_pages</declname>
+        </param>
+        <briefdescription>
+<para>Do allocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::bad_alloc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: posix_memalign(), std::malloc(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="191" column="10" bodyfile="src/performance/numa_memory_manager.cpp" bodystart="116" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a13b60be5057dac94dcd3dac4d36e0576" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::NUMAMemoryManager::update_alloc_stats</definition>
+        <argsstring>(int node, size_t size)</argsstring>
+        <name>update_alloc_stats</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::update_alloc_stats</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Update alloc stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a4a5092a275d65915540ac0c5c289684a" kindref="member">get_current_node()</ref>, fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="192" column="11" bodyfile="src/performance/numa_memory_manager.cpp" bodystart="143" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1af3aec991655b8b175cbc33037e0fb863" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::performance::NUMAMemoryManager::resolve_node</definition>
+        <argsstring>(int hint_node) const noexcept</argsstring>
+        <name>resolve_node</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::resolve_node</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>hint_node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="193" column="11" bodyfile="src/performance/numa_memory_manager.cpp" bodystart="101" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1aa422ef08e3aa7e849d08235e0ca7a168" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::NUMAMemoryManager::track_alloc</definition>
+        <argsstring>(void *ptr, int node, size_t size)</argsstring>
+        <name>track_alloc</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::track_alloc</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Track alloc. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="221" column="12" bodyfile="src/performance/numa_memory_manager.cpp" bodystart="163" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1aba720573d489ce539fd033b3d486d6ba" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::NUMAMemoryManager::untrack_alloc</definition>
+        <argsstring>(void *ptr, int *out_node, size_t *out_size) noexcept</argsstring>
+        <name>untrack_alloc</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::untrack_alloc</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>out_node</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>out_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="222" column="12" bodyfile="src/performance/numa_memory_manager.cpp" bodystart="169" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>NUMA-aware memory allocator (v1.9.0, Issue #228). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Optimises memory allocation and data placement for NUMA architectures by:<itemizedlist>
+<listitem><para>Detecting the system NUMA topology on construction.</para>
+</listitem><listitem><para>Allocating memory on the calling thread&apos;s local node when possible.</para>
+</listitem><listitem><para>Supporting explicit node placement for performance-critical structures.</para>
+</listitem><listitem><para>Providing a migration helper to move allocations to a preferred node.</para>
+</listitem><listitem><para>Falling back transparently to standard malloc/free when NUMA primitives are unavailable (containers, non-Linux).</para>
+</listitem></itemizedlist>
+</para>
+<para>Research basis: &quot;NUMA-aware Memory Management&quot; (ASPLOS&apos;15).</para>
+<para>Performance targets:<itemizedlist>
+<listitem><para>Local access ratio &gt; 90 %</para>
+</listitem><listitem><para>Remote access penalty: -60 % vs unoptimised allocation</para>
+</listitem><listitem><para>Throughput: +30-80 % on NUMA systems vs single-node allocation</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread safety: all public methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/performance/numa_memory_manager.h" line="91" column="1" bodyfile="include/performance/numa_memory_manager.h" bodystart="91" bodyend="223"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a56df2c0978a49a025e1cdd6fa1ebd7eb" prot="private" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>alloc_mutex_</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a89fc44a87b4e4a194e827dc18884891b" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a736ebf124b74731b026fd9475e9af5c9" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>allocate_local</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a4f28b73c9436452c1a43280e71206138" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>allocate_on_node</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a3df8f3cce681d48bcf19f9ae34d23156" prot="private" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>buckets_</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1aa0bcdb340682be939c2831f7291d7d3b" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>deallocate</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a23fe59f623255858106fcf35658f7309" prot="private" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>do_allocate</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a4a5092a275d65915540ac0c5c289684a" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>get_current_node</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1abac6141e99db41dc636a2496f8ec63bc" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>get_stats</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a6454607a9c89a15241ee28d5d7591922" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>get_topology</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a904f1fb978c97a0637eb37357b85cd0b" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>is_numa_available</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a5a8c9a408576df841eb654cab583744f" prot="private" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>kBuckets</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a8b1ef1e0d00def6fadce0578610f93d2" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>migrate_to_node</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a69cfb8620e247179e51b9a4e425482a1" prot="private" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>num_nodes_</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1ac31f2720de8e554957427ebf7747cf0f" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>NUMAMemoryManager</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1afb9df6b027603a98a903c40b793edb1b" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>NUMAMemoryManager</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1ad695db714cceb5c694b6af73464835f0" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>NUMAMemoryManager</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1aa0bedcb98da91bc465409960f95e66a8" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a2edfcaf6e54f369d63b5dc38cb1e3faa" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1aafda0cfc11cae9e73ada9f1f3b3c56b5" prot="private" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>per_node_bytes_</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a488706bf3988f3947730b6503204974a" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>reset_stats</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1af3aec991655b8b175cbc33037e0fb863" prot="private" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>resolve_node</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a63db13b756d1172b021f5de257b4d5c6" prot="private" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>stat_local_</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a88185b0f867cc529df49e5a2d066d00e" prot="private" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>stat_remote_</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a0fc226c6e4bfb11566de337fa2468d9e" prot="private" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>topology_</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1aa422ef08e3aa7e849d08235e0ca7a168" prot="private" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>track_alloc</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1aba720573d489ce539fd033b3d486d6ba" prot="private" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>untrack_alloc</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1a13b60be5057dac94dcd3dac4d36e0576" prot="private" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>update_alloc_stats</name></member>
+      <member refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager_1ad7fa96bd6f2efcee26e8ca5af258319e" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager</scope><name>~NUMAMemoryManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

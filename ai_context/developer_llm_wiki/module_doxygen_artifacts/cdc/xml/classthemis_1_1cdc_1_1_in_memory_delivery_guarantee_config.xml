@@ -1,0 +1,393 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::InMemoryDeliveryGuaranteeConfig</compoundname>
+    <basecompoundref refid="classthemis_1_1cdc_1_1_i_delivery_guarantee_config" prot="public" virt="non-virtual">themis::cdc::IDeliveryGuaranteeConfig</basecompoundref>
+    <includes refid="idelivery__guarantee__config_8h" local="no">idelivery_guarantee_config.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a0156510fa5143f77fcf514b3e907f600" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::cdc::InMemoryDeliveryGuaranteeConfig::kDefaultAckTimeout</definition>
+        <argsstring></argsstring>
+        <name>kDefaultAckTimeout</name>
+        <qualifiedname>themis::cdc::InMemoryDeliveryGuaranteeConfig::kDefaultAckTimeout</qualifiedname>
+        <initializer>= std::chrono::seconds(30)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="129" column="27" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a228f52cdd542f5343655f5580d9e08d7" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::cdc::InMemoryDeliveryGuaranteeConfig::kDefaultDedupWindow</definition>
+        <argsstring></argsstring>
+        <name>kDefaultDedupWindow</name>
+        <qualifiedname>themis::cdc::InMemoryDeliveryGuaranteeConfig::kDefaultDedupWindow</qualifiedname>
+        <initializer>= std::chrono::minutes(5)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="130" column="27" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1ad88e55ba22676f1bbe9a21d63260a263" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cdc::InMemoryDeliveryGuaranteeConfig::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::cdc::InMemoryDeliveryGuaranteeConfig::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="201" column="31" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a06b279a231c17c31f14fd3dbbe301ed0" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620" kindref="member">DeliveryMode</ref></type>
+        <definition>DeliveryMode themis::cdc::InMemoryDeliveryGuaranteeConfig::mode_</definition>
+        <argsstring></argsstring>
+        <name>mode_</name>
+        <qualifiedname>themis::cdc::InMemoryDeliveryGuaranteeConfig::mode_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="202" column="31" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1aaf7b7c32d2b3b6b54ee5144c352385c9" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cdc::InMemoryDeliveryGuaranteeConfig::ack_timeout_</definition>
+        <argsstring></argsstring>
+        <name>ack_timeout_</name>
+        <qualifiedname>themis::cdc::InMemoryDeliveryGuaranteeConfig::ack_timeout_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="203" column="31" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a64858d22289e10e3ef8e39724eddfe61" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cdc::InMemoryDeliveryGuaranteeConfig::dedup_window_</definition>
+        <argsstring></argsstring>
+        <name>dedup_window_</name>
+        <qualifiedname>themis::cdc::InMemoryDeliveryGuaranteeConfig::dedup_window_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="204" column="31" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a5393fc3f59009403e83a7107fdd252c4" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::InMemoryDeliveryGuaranteeConfig::InMemoryDeliveryGuaranteeConfig</definition>
+        <argsstring>(DeliveryMode mode=DeliveryMode::AtLeastOnce, std::chrono::milliseconds ack_to=kDefaultAckTimeout, std::chrono::milliseconds dedup_w=kDefaultDedupWindow)</argsstring>
+        <name>InMemoryDeliveryGuaranteeConfig</name>
+        <qualifiedname>themis::cdc::InMemoryDeliveryGuaranteeConfig::InMemoryDeliveryGuaranteeConfig</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620" kindref="member">DeliveryMode</ref></type>
+          <declname>mode</declname>
+          <defval><ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620af6d671c71857fbf356655879cd21f5ea" kindref="member">DeliveryMode::AtLeastOnce</ref></defval>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>ack_to</declname>
+          <defval><ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a0156510fa5143f77fcf514b3e907f600" kindref="member">kDefaultAckTimeout</ref></defval>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>dedup_w</declname>
+          <defval><ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a228f52cdd542f5343655f5580d9e08d7" kindref="member">kDefaultDedupWindow</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="132" column="14" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="132" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a7a04b29c77e33709e69abfd75ceb2e5e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cdc::InMemoryDeliveryGuaranteeConfig::setMode</definition>
+        <argsstring>(DeliveryMode mode) override</argsstring>
+        <name>setMode</name>
+        <qualifiedname>themis::cdc::InMemoryDeliveryGuaranteeConfig::setMode</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_delivery_guarantee_config_1a7516b4cfe54969ee3589009ebfbab1e1">setMode</reimplements>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620" kindref="member">DeliveryMode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Set Mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="140" column="10" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="140" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1ac6fb8e325b53c95d97aae4d2df228abf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620" kindref="member">DeliveryMode</ref></type>
+        <definition>DeliveryMode themis::cdc::InMemoryDeliveryGuaranteeConfig::mode</definition>
+        <argsstring>() const override</argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::cdc::InMemoryDeliveryGuaranteeConfig::mode</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_delivery_guarantee_config_1a19bb83cb7794588b59bfdc975a80fd67">mode</reimplements>
+        <briefdescription>
+<para>Mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="150" column="18" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="150" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a90aed76116b8ae0e6047a665099b1d0d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cdc::InMemoryDeliveryGuaranteeConfig::setAckTimeout</definition>
+        <argsstring>(std::chrono::milliseconds timeout) override</argsstring>
+        <name>setAckTimeout</name>
+        <qualifiedname>themis::cdc::InMemoryDeliveryGuaranteeConfig::setAckTimeout</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_delivery_guarantee_config_1afcf6dbd1123267c2a3e0cbd4b477da91">setAckTimeout</reimplements>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>Set Ack Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="160" column="10" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="160" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a58e8633c0e18208d5508a5b4ea80d109" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cdc::InMemoryDeliveryGuaranteeConfig::ackTimeout</definition>
+        <argsstring>() const override</argsstring>
+        <name>ackTimeout</name>
+        <qualifiedname>themis::cdc::InMemoryDeliveryGuaranteeConfig::ackTimeout</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_delivery_guarantee_config_1a4583ba8a62218263fc9b1b70c4bd6286">ackTimeout</reimplements>
+        <briefdescription>
+<para>Ack Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="170" column="31" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="170" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1afe94df17a7c905a704629895b81e72c0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cdc::InMemoryDeliveryGuaranteeConfig::setDeduplicationWindow</definition>
+        <argsstring>(std::chrono::milliseconds window) override</argsstring>
+        <name>setDeduplicationWindow</name>
+        <qualifiedname>themis::cdc::InMemoryDeliveryGuaranteeConfig::setDeduplicationWindow</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_delivery_guarantee_config_1a39aa193f59f76315ba9f77a92b654b53">setDeduplicationWindow</reimplements>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>window</declname>
+        </param>
+        <briefdescription>
+<para>Set Deduplication Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="180" column="10" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="180" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a3bbfd6c32c6aa8eb1b85cdf56d22f29f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cdc::InMemoryDeliveryGuaranteeConfig::deduplicationWindow</definition>
+        <argsstring>() const override</argsstring>
+        <name>deduplicationWindow</name>
+        <qualifiedname>themis::cdc::InMemoryDeliveryGuaranteeConfig::deduplicationWindow</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_delivery_guarantee_config_1aa7122fa6fab3c74e29fe8d9090c41578">deduplicationWindow</reimplements>
+        <briefdescription>
+<para>Deduplication Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="190" column="31" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="190" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::cdc::IDeliveryGuaranteeConfig</label>
+        <link refid="classthemis_1_1cdc_1_1_i_delivery_guarantee_config"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::InMemoryDeliveryGuaranteeConfig</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::cdc::IDeliveryGuaranteeConfig</label>
+        <link refid="classthemis_1_1cdc_1_1_i_delivery_guarantee_config"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::InMemoryDeliveryGuaranteeConfig</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/idelivery_guarantee_config.h" line="127" column="1" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="127" bodyend="205"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1aaf7b7c32d2b3b6b54ee5144c352385c9" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryDeliveryGuaranteeConfig</scope><name>ack_timeout_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a58e8633c0e18208d5508a5b4ea80d109" prot="public" virt="virtual"><scope>themis::cdc::InMemoryDeliveryGuaranteeConfig</scope><name>ackTimeout</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a64858d22289e10e3ef8e39724eddfe61" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryDeliveryGuaranteeConfig</scope><name>dedup_window_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a3bbfd6c32c6aa8eb1b85cdf56d22f29f" prot="public" virt="virtual"><scope>themis::cdc::InMemoryDeliveryGuaranteeConfig</scope><name>deduplicationWindow</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a5393fc3f59009403e83a7107fdd252c4" prot="public" virt="non-virtual"><scope>themis::cdc::InMemoryDeliveryGuaranteeConfig</scope><name>InMemoryDeliveryGuaranteeConfig</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a0156510fa5143f77fcf514b3e907f600" prot="public" virt="non-virtual"><scope>themis::cdc::InMemoryDeliveryGuaranteeConfig</scope><name>kDefaultAckTimeout</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a228f52cdd542f5343655f5580d9e08d7" prot="public" virt="non-virtual"><scope>themis::cdc::InMemoryDeliveryGuaranteeConfig</scope><name>kDefaultDedupWindow</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1ac6fb8e325b53c95d97aae4d2df228abf" prot="public" virt="virtual"><scope>themis::cdc::InMemoryDeliveryGuaranteeConfig</scope><name>mode</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a06b279a231c17c31f14fd3dbbe301ed0" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryDeliveryGuaranteeConfig</scope><name>mode_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1ad88e55ba22676f1bbe9a21d63260a263" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryDeliveryGuaranteeConfig</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a90aed76116b8ae0e6047a665099b1d0d" prot="public" virt="virtual"><scope>themis::cdc::InMemoryDeliveryGuaranteeConfig</scope><name>setAckTimeout</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1afe94df17a7c905a704629895b81e72c0" prot="public" virt="virtual"><scope>themis::cdc::InMemoryDeliveryGuaranteeConfig</scope><name>setDeduplicationWindow</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a7a04b29c77e33709e69abfd75ceb2e5e" prot="public" virt="virtual"><scope>themis::cdc::InMemoryDeliveryGuaranteeConfig</scope><name>setMode</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_delivery_guarantee_config_1aedee5b5a510e598871186f584ede565e" prot="public" virt="virtual"><scope>themis::cdc::InMemoryDeliveryGuaranteeConfig</scope><name>~IDeliveryGuaranteeConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

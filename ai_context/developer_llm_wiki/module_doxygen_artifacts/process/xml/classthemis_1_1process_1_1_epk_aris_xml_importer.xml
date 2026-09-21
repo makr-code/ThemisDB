@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_epk_aris_xml_importer" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::EpkArisXmlImporter</compoundname>
+    <includes refid="epk__aris__xml__importer_8h" local="no">epk_aris_xml_importer.h</includes>
+    <innerclass refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result" prot="public">themis::process::EpkArisXmlImporter::ImportResult</innerclass>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_epk_aris_xml_importer_1addedea8fe1135cfbd4cc3eecb4884551" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::process::EpkArisXmlImporter::kMaxAmlBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxAmlBytes</name>
+        <qualifiedname>themis::process::EpkArisXmlImporter::kMaxAmlBytes</qualifiedname>
+        <initializer>= 10u * 1024u * 1024u</initializer>
+        <briefdescription>
+<para>Maximum AML document size accepted (10 MiB security guard). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/epk_aris_xml_importer.h" line="148" column="29" bodyfile="include/process/epk_aris_xml_importer.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epk_aris_xml_importer_1a690fdf09f3ced0388f07bf2588514acf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result" kindref="compound">ImportResult</ref></type>
+        <definition>EpkArisXmlImporter::ImportResult themis::process::EpkArisXmlImporter::importAml</definition>
+        <argsstring>(std::string_view aml_xml)</argsstring>
+        <name>importAml</name>
+        <qualifiedname>themis::process::EpkArisXmlImporter::importAml</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>aml_xml</declname>
+        </param>
+        <briefdescription>
+<para>Import the first EPK model found in an AML XML document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Scans <computeroutput>&lt;Group&gt;</computeroutput> hierarchy depth-first for the first <computeroutput>&lt;Model&gt;</computeroutput> whose <computeroutput>Model.Type</computeroutput> attribute equals &quot;EPK&quot; (case-insensitive).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aml_xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full AML XML string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result" kindref="compound">ImportResult</ref>. <computeroutput>ok</computeroutput> is true on success; <computeroutput>message</computeroutput> contains an error description on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/epk_aris_xml_importer.h" line="116" column="25" bodyfile="src/process/epk_aris_xml_importer.cpp" bodystart="636" bodyend="671"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epk_aris_xml_importer_1a43461adeab9d41a01ae43f3833b03b57" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result" kindref="compound">ImportResult</ref> &gt;</type>
+        <definition>std::vector&lt; EpkArisXmlImporter::ImportResult &gt; themis::process::EpkArisXmlImporter::importAllAml</definition>
+        <argsstring>(std::string_view aml_xml)</argsstring>
+        <name>importAllAml</name>
+        <qualifiedname>themis::process::EpkArisXmlImporter::importAllAml</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>aml_xml</declname>
+        </param>
+        <briefdescription>
+<para>Import all EPK models from an AML document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each entry in the returned vector corresponds to one <computeroutput>&lt;Model&gt;</computeroutput> of type EPK in the AML file.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aml_xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full AML XML string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of <ref refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result" kindref="compound">ImportResult</ref> (one per EPK model). Empty on parse error or when no EPK model is present. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/epk_aris_xml_importer.h" line="128" column="24" bodyfile="src/process/epk_aris_xml_importer.cpp" bodystart="674" bodyend="696"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epk_aris_xml_importer_1ab0c4be34ffacf56af87eeabf8a81cb72" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>EPKNodeType</type>
+        <definition>EPKNodeType themis::process::EpkArisXmlImporter::typeNumToEpkNodeType</definition>
+        <argsstring>(int type_num)</argsstring>
+        <name>typeNumToEpkNodeType</name>
+        <qualifiedname>themis::process::EpkArisXmlImporter::typeNumToEpkNodeType</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>type_num</declname>
+        </param>
+        <briefdescription>
+<para>Map an ARIS TypeNum to the corresponding EPKNodeType. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Type Num To Epk Node Type.</para>
+<para>Returns EPKNodeType::FUNCTION for any unrecognised TypeNum.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type_num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements typeNumToEpkNodeType without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/epk_aris_xml_importer.h" line="139" column="24" bodyfile="src/process/epk_aris_xml_importer.cpp" bodystart="599" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epk_aris_xml_importer_1a99fcd1fbc42f3a9987a23af7fa74f7de" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::EpkArisXmlImporter::typeNumToLabel</definition>
+        <argsstring>(int type_num)</argsstring>
+        <name>typeNumToLabel</name>
+        <qualifiedname>themis::process::EpkArisXmlImporter::typeNumToLabel</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>type_num</declname>
+        </param>
+        <briefdescription>
+<para>Return a human-readable German label for an ARIS TypeNum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Type Num To Label.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type_num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements typeNumToLabel without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/epk_aris_xml_importer.h" line="144" column="29" bodyfile="src/process/epk_aris_xml_importer.cpp" bodystart="620" bodyend="633"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Imports EPK process models from ARIS Markup Language (AML) XML. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Handles the <computeroutput>&lt;AML&gt;</computeroutput> / <computeroutput>&lt;Group&gt;</computeroutput> / <computeroutput>&lt;Model&gt;</computeroutput> hierarchy produced by ARIS Designer 9.x and 10.x export. Uses the same hand-written, regex-free XML tokenizer strategy as <computeroutput><ref refid="classthemis_1_1process_1_1_bpmn_serializer" kindref="compound">BpmnSerializer</ref></computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/process/epk_aris_xml_importer.h" line="87" column="1" bodyfile="include/process/epk_aris_xml_importer.h" bodystart="87" bodyend="149"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a43461adeab9d41a01ae43f3833b03b57" prot="public" virt="non-virtual"><scope>themis::process::EpkArisXmlImporter</scope><name>importAllAml</name></member>
+      <member refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a690fdf09f3ced0388f07bf2588514acf" prot="public" virt="non-virtual"><scope>themis::process::EpkArisXmlImporter</scope><name>importAml</name></member>
+      <member refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1addedea8fe1135cfbd4cc3eecb4884551" prot="private" virt="non-virtual"><scope>themis::process::EpkArisXmlImporter</scope><name>kMaxAmlBytes</name></member>
+      <member refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1ab0c4be34ffacf56af87eeabf8a81cb72" prot="public" virt="non-virtual"><scope>themis::process::EpkArisXmlImporter</scope><name>typeNumToEpkNodeType</name></member>
+      <member refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a99fcd1fbc42f3a9987a23af7fa74f7de" prot="public" virt="non-virtual"><scope>themis::process::EpkArisXmlImporter</scope><name>typeNumToLabel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

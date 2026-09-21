@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_composite_detector_1_1_detector_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::tensor::CompositeDetector::DetectorEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_composite_detector_1_1_detector_entry_1af114da3dc867c0ba12af46dcc0cbd568" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_i_redundancy_detector" kindref="compound">IRedundancyDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;IRedundancyDetector&gt; themis::tensor::CompositeDetector::DetectorEntry::detector</definition>
+        <argsstring></argsstring>
+        <name>detector</name>
+        <qualifiedname>themis::tensor::CompositeDetector::DetectorEntry::detector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="273" column="25" bodyfile="include/tensor/tensor_redundancy_detection.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_composite_detector_1_1_detector_entry_1ad7a8ffc3cf208a8cd554cff597a8e3c8" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::CompositeDetector::DetectorEntry::weight</definition>
+        <argsstring></argsstring>
+        <name>weight</name>
+        <qualifiedname>themis::tensor::CompositeDetector::DetectorEntry::weight</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="274" column="15" bodyfile="include/tensor/tensor_redundancy_detection.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_redundancy_detection.h" line="272" column="5" bodyfile="include/tensor/tensor_redundancy_detection.h" bodystart="272" bodyend="275"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_composite_detector_1_1_detector_entry_1af114da3dc867c0ba12af46dcc0cbd568" prot="public" virt="non-virtual"><scope>themis::tensor::CompositeDetector::DetectorEntry</scope><name>detector</name></member>
+      <member refid="structthemis_1_1tensor_1_1_composite_detector_1_1_detector_entry_1ad7a8ffc3cf208a8cd554cff597a8e3c8" prot="public" virt="non-virtual"><scope>themis::tensor::CompositeDetector::DetectorEntry</scope><name>weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

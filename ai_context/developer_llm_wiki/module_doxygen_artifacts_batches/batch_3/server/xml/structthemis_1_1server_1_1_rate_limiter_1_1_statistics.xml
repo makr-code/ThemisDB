@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_rate_limiter_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::RateLimiter::Statistics</compoundname>
+    <includes refid="rate__limiter_8h" local="no">rate_limiter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiter_1_1_statistics_1a35d851d92d8aecc19c6db58210195737" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::RateLimiter::Statistics::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::server::RateLimiter::Statistics::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="164" column="16" bodyfile="include/server/rate_limiter.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiter_1_1_statistics_1a237730c14d5a07bed6f072b273835a8f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::RateLimiter::Statistics::allowed_requests</definition>
+        <argsstring></argsstring>
+        <name>allowed_requests</name>
+        <qualifiedname>themis::server::RateLimiter::Statistics::allowed_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="165" column="16" bodyfile="include/server/rate_limiter.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiter_1_1_statistics_1a341d4189dca032965d360ae236e67176" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::RateLimiter::Statistics::rejected_requests</definition>
+        <argsstring></argsstring>
+        <name>rejected_requests</name>
+        <qualifiedname>themis::server::RateLimiter::Statistics::rejected_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="166" column="16" bodyfile="include/server/rate_limiter.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiter_1_1_statistics_1a77f8d8b15084bed6a8ed1de7c8ae30fc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::RateLimiter::Statistics::active_ip_buckets</definition>
+        <argsstring></argsstring>
+        <name>active_ip_buckets</name>
+        <qualifiedname>themis::server::RateLimiter::Statistics::active_ip_buckets</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="167" column="16" bodyfile="include/server/rate_limiter.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiter_1_1_statistics_1a68719d845568589bd14ca9618579084c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::RateLimiter::Statistics::active_user_buckets</definition>
+        <argsstring></argsstring>
+        <name>active_user_buckets</name>
+        <qualifiedname>themis::server::RateLimiter::Statistics::active_user_buckets</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="168" column="16" bodyfile="include/server/rate_limiter.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiter_1_1_statistics_1a606774789a46b05f455369c0c3bb0cc1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::RateLimiter::Statistics::adaptive_throttle_penalties</definition>
+        <argsstring></argsstring>
+        <name>adaptive_throttle_penalties</name>
+        <qualifiedname>themis::server::RateLimiter::Statistics::adaptive_throttle_penalties</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>IPs currently penalised. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="169" column="16" bodyfile="include/server/rate_limiter.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rate_limiter.h" line="163" column="5" bodyfile="include/server/rate_limiter.h" bodystart="163" bodyend="170"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_rate_limiter_1_1_statistics_1a77f8d8b15084bed6a8ed1de7c8ae30fc" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter::Statistics</scope><name>active_ip_buckets</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiter_1_1_statistics_1a68719d845568589bd14ca9618579084c" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter::Statistics</scope><name>active_user_buckets</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiter_1_1_statistics_1a606774789a46b05f455369c0c3bb0cc1" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter::Statistics</scope><name>adaptive_throttle_penalties</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiter_1_1_statistics_1a237730c14d5a07bed6f072b273835a8f" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter::Statistics</scope><name>allowed_requests</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiter_1_1_statistics_1a341d4189dca032965d360ae236e67176" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter::Statistics</scope><name>rejected_requests</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiter_1_1_statistics_1a35d851d92d8aecc19c6db58210195737" prot="public" virt="non-virtual"><scope>themis::server::RateLimiter::Statistics</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

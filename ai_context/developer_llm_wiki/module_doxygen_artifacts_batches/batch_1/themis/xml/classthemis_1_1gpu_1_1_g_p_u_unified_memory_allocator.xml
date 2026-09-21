@@ -1,0 +1,603 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUUnifiedMemoryAllocator</compoundname>
+    <includes refid="unified__memory_8h" local="no">unified_memory.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record" prot="public">themis::gpu::GPUUnifiedMemoryAllocator::AllocationRecord</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats" prot="public">themis::gpu::GPUUnifiedMemoryAllocator::Stats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MemAdvice</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::MemAdvice</qualifiedname>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86ea9665e3a41960cfb896d76b9867b19dda" prot="public">
+          <name>SET_PREFERRED_LOCATION</name>
+          <briefdescription>
+<para>Pages should reside in device memory to minimise migration traffic. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86ea967ca8c5925153d3b706bae9e6fd347e" prot="public">
+          <name>SET_ACCESSED_BY</name>
+          <briefdescription>
+<para>The specified processor will access this memory region frequently. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86eabf08b9a088350db918688c6aba3515bc" prot="public">
+          <name>SET_READ_MOSTLY</name>
+          <briefdescription>
+<para>Most accesses will be reads; device may cache read-only copies. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86eae1f2fb5832296d5fe9776b4f4dd12b01" prot="public">
+          <name>UNSET_PREFERRED_LOCATION</name>
+          <briefdescription>
+<para>Undo a previous SET_PREFERRED_LOCATION hint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86eae458c262f6a87ab3e71cc02e504d012c" prot="public">
+          <name>UNSET_ACCESSED_BY</name>
+          <briefdescription>
+<para>Undo a previous SET_ACCESSED_BY hint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86ea367c2d07b0da7a986730df99f50591b4" prot="public">
+          <name>UNSET_READ_MOSTLY</name>
+          <briefdescription>
+<para>Undo a previous SET_READ_MOSTLY hint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="65" column="5" bodyfile="include/themis/gpu/unified_memory.h" bodystart="65" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a63ef14d0cc73961fe938e42486222cb2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPUUnifiedMemoryAllocator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="230" column="24" bodyfile="include/themis/gpu/unified_memory.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1afe113d4f8b6eae49d3bc418e18ac7e50" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record" kindref="compound">AllocationRecord</ref> &gt;</type>
+        <definition>std::vector&lt;AllocationRecord&gt; themis::gpu::GPUUnifiedMemoryAllocator::active_</definition>
+        <argsstring></argsstring>
+        <name>active_</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::active_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="232" column="38" bodyfile="include/themis/gpu/unified_memory.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a29ed362d40edf9d786f2316a0d72f160" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint64_t&gt; themis::gpu::GPUUnifiedMemoryAllocator::tenant_bytes_</definition>
+        <argsstring></argsstring>
+        <name>tenant_bytes_</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::tenant_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="233" column="33" bodyfile="include/themis/gpu/unified_memory.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1aa7eb0a3e749305a79f03765d4c8de91c" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUUnifiedMemoryAllocator::total_allocations_</definition>
+        <argsstring></argsstring>
+        <name>total_allocations_</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::total_allocations_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="235" column="14" bodyfile="include/themis/gpu/unified_memory.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a35d0f3244aa3f1e813999befc10fdbc3" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUUnifiedMemoryAllocator::total_frees_</definition>
+        <argsstring></argsstring>
+        <name>total_frees_</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::total_frees_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="236" column="14" bodyfile="include/themis/gpu/unified_memory.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a59dc571d29d83926f23f35f941cad2de" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUUnifiedMemoryAllocator::allocated_bytes_</definition>
+        <argsstring></argsstring>
+        <name>allocated_bytes_</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::allocated_bytes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="237" column="14" bodyfile="include/themis/gpu/unified_memory.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1ad6693c8c70d693ee31e953a965061bdb" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUUnifiedMemoryAllocator::peak_bytes_</definition>
+        <argsstring></argsstring>
+        <name>peak_bytes_</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::peak_bytes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="238" column="14" bodyfile="include/themis/gpu/unified_memory.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a0d063e31198f928e2968e5e517cb3aa5" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUUnifiedMemoryAllocator::prefetch_calls_</definition>
+        <argsstring></argsstring>
+        <name>prefetch_calls_</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::prefetch_calls_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="239" column="14" bodyfile="include/themis/gpu/unified_memory.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1add227799a256de515de2fdf44f8011aa" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUUnifiedMemoryAllocator::advise_calls_</definition>
+        <argsstring></argsstring>
+        <name>advise_calls_</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::advise_calls_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="240" column="14" bodyfile="include/themis/gpu/unified_memory.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a064a6cbe3339b8ffc9474a7950d5b1ed" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a50f818cb6a73c2a064ba24a05cb7a644" kindref="member">GPUUnifiedMemoryAllocator</ref> &amp;</type>
+        <definition>static GPUUnifiedMemoryAllocator &amp; themis::gpu::GPUUnifiedMemoryAllocator::GetInstance</definition>
+        <argsstring>()</argsstring>
+        <name>GetInstance</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::GetInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="106" column="38" bodyfile="include/themis/gpu/unified_memory.h" bodystart="106" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a77fa6cc897932bfa31629d8d3480d9d7" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::gpu::GPUUnifiedMemoryAllocator::isSupported</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>isSupported</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::isSupported</qualifiedname>
+        <briefdescription>
+<para>Returns true when the runtime supports hardware unified memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On CUDA builds: queries <computeroutput>cudaDeviceProp::unifiedAddressing</computeroutput> for device 0. On HIP builds: queries <computeroutput>hipDeviceProp_t::unifiedAddressing</computeroutput> for device 0. CPU-only builds: always returns false.</para>
+<para>The result is cached after the first call. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="141" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a50f818cb6a73c2a064ba24a05cb7a644" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUUnifiedMemoryAllocator::GPUUnifiedMemoryAllocator</definition>
+        <argsstring>()=default</argsstring>
+        <name>GPUUnifiedMemoryAllocator</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::GPUUnifiedMemoryAllocator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="111" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1af82572cc53843369be0d869709749300" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUUnifiedMemoryAllocator::~GPUUnifiedMemoryAllocator</definition>
+        <argsstring>()</argsstring>
+        <name>~GPUUnifiedMemoryAllocator</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::~GPUUnifiedMemoryAllocator</qualifiedname>
+        <briefdescription>
+<para>Destructor — frees any allocations that were not explicitly freed by the caller. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>For the singleton instance this runs at process exit. On CUDA/HIP builds the runtime is typically still active at that point, but callers that construct local instances must ensure the runtime is still active when the destructor runs (or call <ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1aa69ebfa744cea4957585be251e4ab461" kindref="member">reset()</ref> explicitly before destruction). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="122" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a39d3cbfa82adae87d642ddac868f3f40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUUnifiedMemoryAllocator::GPUUnifiedMemoryAllocator</definition>
+        <argsstring>(const GPUUnifiedMemoryAllocator &amp;)=delete</argsstring>
+        <name>GPUUnifiedMemoryAllocator</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::GPUUnifiedMemoryAllocator</qualifiedname>
+        <param>
+          <type>const GPUUnifiedMemoryAllocator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="125" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a4c9bb11735dfd5e5d1f11ac0f2a098d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a50f818cb6a73c2a064ba24a05cb7a644" kindref="member">GPUUnifiedMemoryAllocator</ref> &amp;</type>
+        <definition>GPUUnifiedMemoryAllocator &amp; themis::gpu::GPUUnifiedMemoryAllocator::operator=</definition>
+        <argsstring>(const GPUUnifiedMemoryAllocator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a50f818cb6a73c2a064ba24a05cb7a644" kindref="member">GPUUnifiedMemoryAllocator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="126" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a00e8dfa607f7c8ca7b7e6f0bbcb346b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::gpu::GPUUnifiedMemoryAllocator::allocate</definition>
+        <argsstring>(size_t bytes, const std::string &amp;tag=&quot;unknown&quot;, const std::string &amp;tenant_id=&quot;&quot;)</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::allocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+          <defval>&quot;unknown&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Allocate <computeroutput>bytes</computeroutput> of unified (CPU+GPU shared) memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses <computeroutput>cudaMallocManaged</computeroutput> when CUDA is available, <computeroutput>hipMallocManaged</computeroutput> when HIP is available, and <computeroutput>malloc</computeroutput> otherwise.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to allocate. Must be &gt; 0. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable owner label for diagnostics. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional tenant identifier for per-tenant tracking. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the allocated region, or nullptr on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="158" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1af618c466d7b4fa30416347723c39210e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUUnifiedMemoryAllocator::free</definition>
+        <argsstring>(void *ptr)</argsstring>
+        <name>free</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::free</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Free memory previously returned by <ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a00e8dfa607f7c8ca7b7e6f0bbcb346b1" kindref="member">allocate()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses <computeroutput>cudaFree</computeroutput> / <computeroutput>hipFree</computeroutput> when unified memory is hardware-backed, <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1af618c466d7b4fa30416347723c39210e" kindref="member">free()</ref></computeroutput> on the CPU fallback path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer returned by <ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a00e8dfa607f7c8ca7b7e6f0bbcb346b1" kindref="member">allocate()</ref>; passing nullptr is a no-op. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the pointer was found in the live-allocation table and successfully freed, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="172" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1ad57798c05e84b1489238e2c2ebc2c403" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUUnifiedMemoryAllocator::prefetch</definition>
+        <argsstring>(const void *ptr, size_t bytes, int device_id=0)</argsstring>
+        <name>prefetch</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::prefetch</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>device_id</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Prefetch <computeroutput>bytes</computeroutput> starting at <computeroutput>ptr</computeroutput> to <computeroutput>device_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On CUDA: calls <computeroutput>cudaMemPrefetchAsync(ptr, bytes, device_id, nullptr)</computeroutput>. On HIP: calls <computeroutput>hipMemPrefetchAsync(ptr, bytes, device_id, nullptr)</computeroutput>. CPU fallback: no-op, returns true.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target device ordinal; pass -1 / cudaCpuDeviceId to migrate pages back to CPU. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success (or when unified memory is not hardware-backed). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="189" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a895a23fe306b1fcc1711e1ea0d6962ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUUnifiedMemoryAllocator::advise</definition>
+        <argsstring>(const void *ptr, size_t bytes, MemAdvice advice, int device_id=0)</argsstring>
+        <name>advise</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::advise</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86e" kindref="member">MemAdvice</ref></type>
+          <declname>advice</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>device_id</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Set a memory-access hint for the range [ptr, ptr+bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On CUDA: calls <computeroutput>cudaMemAdvise</computeroutput>. On HIP: calls <computeroutput>hipMemAdvise</computeroutput>. CPU fallback: no-op, returns true.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The device (or -1 for CPU) the hint applies to. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success (or when unified memory is not hardware-backed). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="201" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1af79874054aee7853d039fe1467bd5a91" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::gpu::GPUUnifiedMemoryAllocator::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::getStats</qualifiedname>
+        <briefdescription>
+<para>Return a copy of the aggregate statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="209" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a1fa07c39910cc559b3858f1c860e9e0c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record" kindref="compound">AllocationRecord</ref> &gt;</type>
+        <definition>std::vector&lt; AllocationRecord &gt; themis::gpu::GPUUnifiedMemoryAllocator::getActiveAllocations</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveAllocations</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::getActiveAllocations</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of all currently live allocations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="212" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1ad1fbddf51d3235962b0b401f95942614" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUUnifiedMemoryAllocator::getTenantBytes</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getTenantBytes</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::getTenantBytes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the total bytes currently live for <computeroutput>tenant_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns 0 if the tenant has no live allocations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="219" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1aa69ebfa744cea4957585be251e4ab461" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUUnifiedMemoryAllocator::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all internal state (free all tracked allocations). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Intended for unit tests; in production code call <ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1af618c466d7b4fa30416347723c39210e" kindref="member">free()</ref> on each individual pointer instead. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="227" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unified memory allocator — CPU+GPU shared address space. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Allocates memory that is accessible from both the CPU and all configured CUDA or HIP devices using a single pointer. On hardware that supports unified addressing the CUDA/HIP runtime transparently migrates pages between CPU DRAM and GPU VRAM as the data is accessed; on CPU-only builds the allocator falls back to ordinary heap (<computeroutput>malloc</computeroutput>/<computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1af618c466d7b4fa30416347723c39210e" kindref="member">free</ref></computeroutput>) so that the same call sites compile and run without modification.</para>
+<para>CUDA path (THEMIS_ENABLE_CUDA):<itemizedlist>
+<listitem><para><computeroutput>cudaMallocManaged(…, cudaMemAttachGlobal)</computeroutput></para>
+</listitem><listitem><para><computeroutput>cudaMemPrefetchAsync</computeroutput> for page migration hints</para>
+</listitem><listitem><para><computeroutput>cudaMemAdvise</computeroutput> for access-pattern hints (preferred location, accessed-by, read-mostly)</para>
+</listitem><listitem><para><computeroutput>cudaFree</computeroutput> for deallocation</para>
+</listitem></itemizedlist>
+</para>
+<para>HIP path (THEMIS_ENABLE_HIP, without CUDA):<itemizedlist>
+<listitem><para><computeroutput>hipMallocManaged(…, hipMemAttachGlobal)</computeroutput></para>
+</listitem><listitem><para><computeroutput>hipMemPrefetchAsync</computeroutput></para>
+</listitem><listitem><para><computeroutput>hipMemAdvise</computeroutput></para>
+</listitem><listitem><para><computeroutput>hipFree</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+<para>CPU fallback (neither CUDA nor HIP):<itemizedlist>
+<listitem><para><computeroutput>malloc</computeroutput> / <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1af618c466d7b4fa30416347723c39210e" kindref="member">free</ref></computeroutput></para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1ad57798c05e84b1489238e2c2ebc2c403" kindref="member">prefetch()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a895a23fe306b1fcc1711e1ea0d6962ef" kindref="member">advise()</ref></computeroutput> are no-ops that return <computeroutput>true</computeroutput></para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a77fa6cc897932bfa31629d8d3480d9d7" kindref="member">isSupported()</ref></computeroutput> returns <computeroutput>false</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1autotoc_md52_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1autotoc_md52">
+<title>Tenant isolation</title><para>Each allocation is tagged with an optional tenant identifier. The allocator tracks per-tenant byte usage so that callers can enforce quotas before allocating.</para>
+<para>Thread safety: all public methods are protected by an internal mutex. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/gpu/unified_memory.h" line="60" column="1" bodyfile="include/themis/gpu/unified_memory.h" bodystart="60" bodyend="241"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1afe113d4f8b6eae49d3bc418e18ac7e50" prot="private" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>active_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a895a23fe306b1fcc1711e1ea0d6962ef" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>advise</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1add227799a256de515de2fdf44f8011aa" prot="private" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>advise_calls_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a00e8dfa607f7c8ca7b7e6f0bbcb346b1" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a59dc571d29d83926f23f35f941cad2de" prot="private" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>allocated_bytes_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1af618c466d7b4fa30416347723c39210e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>free</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a1fa07c39910cc559b3858f1c860e9e0c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>getActiveAllocations</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a064a6cbe3339b8ffc9474a7950d5b1ed" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>GetInstance</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1af79874054aee7853d039fe1467bd5a91" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1ad1fbddf51d3235962b0b401f95942614" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>getTenantBytes</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a50f818cb6a73c2a064ba24a05cb7a644" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>GPUUnifiedMemoryAllocator</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a39d3cbfa82adae87d642ddac868f3f40" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>GPUUnifiedMemoryAllocator</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a77fa6cc897932bfa31629d8d3480d9d7" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>isSupported</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a303f9d050436fc01682224241e2ab86e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>MemAdvice</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a63ef14d0cc73961fe938e42486222cb2" prot="private" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a4c9bb11735dfd5e5d1f11ac0f2a098d7" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1ad6693c8c70d693ee31e953a965061bdb" prot="private" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>peak_bytes_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1ad57798c05e84b1489238e2c2ebc2c403" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>prefetch</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a0d063e31198f928e2968e5e517cb3aa5" prot="private" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>prefetch_calls_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1aa69ebfa744cea4957585be251e4ab461" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>reset</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a29ed362d40edf9d786f2316a0d72f160" prot="private" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>tenant_bytes_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1aa7eb0a3e749305a79f03765d4c8de91c" prot="private" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>total_allocations_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a35d0f3244aa3f1e813999befc10fdbc3" prot="private" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>total_frees_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1af82572cc53843369be0d869709749300" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator</scope><name>~GPUUnifiedMemoryAllocator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

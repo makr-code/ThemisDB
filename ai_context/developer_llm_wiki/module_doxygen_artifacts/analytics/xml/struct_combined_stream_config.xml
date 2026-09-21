@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_combined_stream_config" kind="struct" language="C++" prot="public">
+    <compoundname>CombinedStreamConfig</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_combined_stream_config_1a3a5f6a009acf0eb826e81e3e1dba0700" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy" kindref="compound">BoundedExecutionPolicy</ref></type>
+        <definition>BoundedExecutionPolicy CombinedStreamConfig::policy</definition>
+        <argsstring></argsstring>
+        <name>policy</name>
+        <qualifiedname>CombinedStreamConfig::policy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_optional_fallback_focused.cpp" line="118" column="28" bodyfile="tests/analytics/test_analytics_optional_fallback_focused.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_combined_stream_config_1a012b9368787a0e06237aef2560f5dc57" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref></type>
+        <definition>StreamingRuntimeLimits CombinedStreamConfig::limits</definition>
+        <argsstring></argsstring>
+        <name>limits</name>
+        <qualifiedname>CombinedStreamConfig::limits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_optional_fallback_focused.cpp" line="119" column="28" bodyfile="tests/analytics/test_analytics_optional_fallback_focused.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simple config aggregate combining both policy types. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>CombinedStreamConfig</label>
+        <link refid="struct_combined_stream_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>policy</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>limits</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::analytics::BoundedExecutionPolicy</label>
+        <link refid="structthemis_1_1analytics_1_1_bounded_execution_policy"/>
+      </node>
+      <node id="3">
+        <label>themis::analytics::StreamingRuntimeLimits</label>
+        <link refid="structthemis_1_1analytics_1_1_streaming_runtime_limits"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_analytics_optional_fallback_focused.cpp" line="117" column="1" bodyfile="tests/analytics/test_analytics_optional_fallback_focused.cpp" bodystart="117" bodyend="120"/>
+    <listofallmembers>
+      <member refid="struct_combined_stream_config_1a012b9368787a0e06237aef2560f5dc57" prot="public" virt="non-virtual"><scope>CombinedStreamConfig</scope><name>limits</name></member>
+      <member refid="struct_combined_stream_config_1a3a5f6a009acf0eb826e81e3e1dba0700" prot="public" virt="non-virtual"><scope>CombinedStreamConfig</scope><name>policy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

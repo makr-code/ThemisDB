@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1toolbox_1_1_default_language_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::toolbox::DefaultLanguageDetector</compoundname>
+    <basecompoundref refid="classthemis_1_1toolbox_1_1_i_language_detector" prot="public" virt="non-virtual">themis::toolbox::ILanguageDetector</basecompoundref>
+    <includes refid="language__detector_8h" local="no">language_detector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1toolbox_1_1_default_language_detector_1a5651746b45a29dca1060c13ad5b4aae1" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::toolbox::DefaultLanguageDetector::min_ratio_</definition>
+        <argsstring></argsstring>
+        <name>min_ratio_</name>
+        <qualifiedname>themis::toolbox::DefaultLanguageDetector::min_ratio_</qualifiedname>
+        <briefdescription>
+<para>Minimum stopword-match ratio to assert a language. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/language_detector.h" line="101" column="12" bodyfile="include/toolbox/language_detector.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_default_language_detector_1afbff2861f702a7ce10669fce066fd5e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::DefaultLanguageDetector::DefaultLanguageDetector</definition>
+        <argsstring>()</argsstring>
+        <name>DefaultLanguageDetector</name>
+        <qualifiedname>themis::toolbox::DefaultLanguageDetector::DefaultLanguageDetector</qualifiedname>
+        <briefdescription>
+<para>Construct with default confidence threshold (0.05 = 5 % of words must be stopwords). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/language_detector.h" line="82" column="5" bodyfile="src/toolbox/language_detector.cpp" bodystart="50" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_default_language_detector_1a35e50e6fefc65268eee626d578e3160e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::DefaultLanguageDetector::DefaultLanguageDetector</definition>
+        <argsstring>(double min_ratio)</argsstring>
+        <name>DefaultLanguageDetector</name>
+        <qualifiedname>themis::toolbox::DefaultLanguageDetector::DefaultLanguageDetector</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>min_ratio</declname>
+        </param>
+        <briefdescription>
+<para>Construct with a custom confidence threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>min_ratio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum ratio of stopword matches to total word count required to assert a language. Range [0.0, 1.0]. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/language_detector.h" line="90" column="14" bodyfile="src/toolbox/language_detector.cpp" bodystart="54" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_default_language_detector_1ae1c816ec97c1d2e68bf904511d4c5d99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::DefaultLanguageDetector::~DefaultLanguageDetector</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~DefaultLanguageDetector</name>
+        <qualifiedname>themis::toolbox::DefaultLanguageDetector::~DefaultLanguageDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/language_detector.h" line="92" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_default_language_detector_1aad840243011ecf1e17f893bde0653e78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::DefaultLanguageDetector::DefaultLanguageDetector</definition>
+        <argsstring>(const DefaultLanguageDetector &amp;)=default</argsstring>
+        <name>DefaultLanguageDetector</name>
+        <qualifiedname>themis::toolbox::DefaultLanguageDetector::DefaultLanguageDetector</qualifiedname>
+        <param>
+          <type>const DefaultLanguageDetector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/language_detector.h" line="94" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_default_language_detector_1ad8d2d8856b9d09c7d00658591e4f3ac0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_default_language_detector_1afbff2861f702a7ce10669fce066fd5e7" kindref="member">DefaultLanguageDetector</ref> &amp;</type>
+        <definition>DefaultLanguageDetector &amp; themis::toolbox::DefaultLanguageDetector::operator=</definition>
+        <argsstring>(const DefaultLanguageDetector &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::toolbox::DefaultLanguageDetector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1toolbox_1_1_default_language_detector_1afbff2861f702a7ce10669fce066fd5e7" kindref="member">DefaultLanguageDetector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/language_detector.h" line="95" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_default_language_detector_1aaf55e8cd38f38dc5196013f453fb7b39" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::toolbox::DefaultLanguageDetector::detect</definition>
+        <argsstring>(std::string_view text) const override</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::toolbox::DefaultLanguageDetector::detect</qualifiedname>
+        <reimplements refid="classthemis_1_1toolbox_1_1_i_language_detector_1acabdb5937c57d014ceb6dcea62122246">detect</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detect the primary language of <computeroutput>text</computeroutput>.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text sample. For reliable results, supply at least 100 characters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>ISO 639-1 language code (e.g. &quot;en&quot;, &quot;de&quot;) or &quot;und&quot; when the language cannot be determined.    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/language_detector.h" line="98" column="17" bodyfile="src/toolbox/language_detector.cpp" bodystart="58" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Heuristic language detector based on stopword frequency analysis. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tokenises <computeroutput>text</computeroutput> into lower-cased whitespace-separated words and counts how many belong to the stopword sets for each candidate language (currently English and German). The language with the highest match ratio above a configurable confidence threshold wins.</para>
+<para>Supported languages and their ISO 639-1 codes:<itemizedlist>
+<listitem><para><computeroutput>"en"</computeroutput> — English (uses <computeroutput>utils::Stopwords::defaults("en")</computeroutput>)</para>
+</listitem><listitem><para><computeroutput>"de"</computeroutput> — German (uses <computeroutput>utils::Stopwords::defaults("de")</computeroutput>)</para>
+</listitem></itemizedlist>
+</para>
+<para>For text that matches neither set above the threshold, the result is <computeroutput>"und"</computeroutput> (undetermined).</para>
+<para><heading level="3">Accuracy expectations</heading>
+</para>
+<para><table rows="5" cols="2"><row>
+<entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para>Expected result  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>≥ 10 English stopwords in a 100-word sample  </para>
+</entry><entry thead="no"><para><computeroutput>"en"</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>≥ 10 German stopwords in a 100-word sample  </para>
+</entry><entry thead="no"><para><computeroutput>"de"</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Very short input (&lt; 3 words)  </para>
+</entry><entry thead="no"><para><computeroutput>"und"</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Mixed language / technical text  </para>
+</entry><entry thead="no"><para><computeroutput>"und"</computeroutput> or best match  </para>
+</entry></row>
+</table>
+</para>
+<para><heading level="3">Performance</heading>
+</para>
+<para>&lt; 1 ms for a 10 000-character text on a modern CPU.</para>
+<para>Thread-safety: all methods are stateless; an instance may be shared. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::toolbox::DefaultLanguageDetector</label>
+        <link refid="classthemis_1_1toolbox_1_1_default_language_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::toolbox::ILanguageDetector</label>
+        <link refid="classthemis_1_1toolbox_1_1_i_language_detector"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::toolbox::DefaultLanguageDetector</label>
+        <link refid="classthemis_1_1toolbox_1_1_default_language_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::toolbox::ILanguageDetector</label>
+        <link refid="classthemis_1_1toolbox_1_1_i_language_detector"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/toolbox/language_detector.h" line="76" column="1" bodyfile="include/toolbox/language_detector.h" bodystart="76" bodyend="102"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1toolbox_1_1_default_language_detector_1afbff2861f702a7ce10669fce066fd5e7" prot="public" virt="non-virtual"><scope>themis::toolbox::DefaultLanguageDetector</scope><name>DefaultLanguageDetector</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_default_language_detector_1a35e50e6fefc65268eee626d578e3160e" prot="public" virt="non-virtual"><scope>themis::toolbox::DefaultLanguageDetector</scope><name>DefaultLanguageDetector</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_default_language_detector_1aad840243011ecf1e17f893bde0653e78" prot="public" virt="non-virtual"><scope>themis::toolbox::DefaultLanguageDetector</scope><name>DefaultLanguageDetector</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_default_language_detector_1aaf55e8cd38f38dc5196013f453fb7b39" prot="public" virt="virtual"><scope>themis::toolbox::DefaultLanguageDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_default_language_detector_1a5651746b45a29dca1060c13ad5b4aae1" prot="private" virt="non-virtual"><scope>themis::toolbox::DefaultLanguageDetector</scope><name>min_ratio_</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_default_language_detector_1ad8d2d8856b9d09c7d00658591e4f3ac0" prot="public" virt="non-virtual"><scope>themis::toolbox::DefaultLanguageDetector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_default_language_detector_1ae1c816ec97c1d2e68bf904511d4c5d99" prot="public" virt="non-virtual"><scope>themis::toolbox::DefaultLanguageDetector</scope><name>~DefaultLanguageDetector</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_i_language_detector_1aad6eb87a5311cb285cf73d0c9ce7c554" prot="public" virt="virtual"><scope>themis::toolbox::DefaultLanguageDetector</scope><name>~ILanguageDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

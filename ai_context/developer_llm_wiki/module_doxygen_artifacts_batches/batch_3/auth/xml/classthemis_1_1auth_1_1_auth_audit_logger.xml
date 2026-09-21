@@ -1,0 +1,2049 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_auth_audit_logger" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::AuthAuditLogger</compoundname>
+    <includes refid="auth__audit__logger_8h" local="no">auth_audit_logger.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_audit_logger_1a5e44b40ff5b185a7837731c0aec34203" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::auth::AuthAuditLogger::logger_</definition>
+        <argsstring></argsstring>
+        <name>logger_</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logger_</qualifiedname>
+        <briefdescription>
+<para>Non-owning; may be nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="332" column="24" bodyfile="include/auth/auth_audit_logger.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a1e1aa98774c4db43481ad25d0f6eba23" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::AuthAuditLogger::AuthAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger=nullptr)</argsstring>
+        <name>AuthAuditLogger</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::AuthAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="34" column="14" bodyfile="include/auth/auth_audit_logger.h" bodystart="34" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a6dfae9c253d815365625ca6ce673ce8e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::setLogger</definition>
+        <argsstring>(utils::AuditLogger *logger)</argsstring>
+        <name>setLogger</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::setLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="42" column="10" bodyfile="include/auth/auth_audit_logger.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a6766b2b8e2314d08dd74ec02565a4a42" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::AuthAuditLogger::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::isEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="44" column="10" bodyfile="include/auth/auth_audit_logger.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a415349a3795599f21ec044262bc17a6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::emitWithDecisionClass</definition>
+        <argsstring>(utils::SecurityEventType type, const std::string &amp;user_id, const std::string &amp;resource, DecisionClass dc, const nlohmann::json &amp;details={})</argsstring>
+        <name>emitWithDecisionClass</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::emitWithDecisionClass</qualifiedname>
+        <param>
+          <type>utils::SecurityEventType</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1a14afa7a8c924ab7f41b667413b1c117b" kindref="member">DecisionClass</ref></type>
+          <declname>dc</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>details</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Emit With Decision Class. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: logSecurityEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="50" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="45" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1af0eeffc7ffe20bc89a69bdb09b44d43b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logJWTSuccess</definition>
+        <argsstring>(const std::string &amp;sub, const std::string &amp;jti, const std::string &amp;issuer, const std::string &amp;kid)</argsstring>
+        <name>logJWTSuccess</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logJWTSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sub</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>jti</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>issuer</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kid</declname>
+        </param>
+        <briefdescription>
+<para>Log JWTSuccess. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sub</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">jti</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">issuer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sub</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">jti</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">issuer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="67" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="81" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1acdc3f1118542f083ffbd7672731bab25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logJWTFailure</definition>
+        <argsstring>(const std::string &amp;reason, const std::string &amp;kid=&quot;&quot;)</argsstring>
+        <name>logJWTFailure</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logJWTFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kid</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Log JWTFailure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="72" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="96" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1acb9c75901d5a7ae1cb8b5dc1f324d95a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logTokenRevoked</definition>
+        <argsstring>(const std::string &amp;jti, const std::string &amp;sub)</argsstring>
+        <name>logTokenRevoked</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logTokenRevoked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>jti</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sub</declname>
+        </param>
+        <briefdescription>
+<para>Log Token Revoked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jti</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sub</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">jti</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sub</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="80" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="111" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1ae4bc40b7511c9dd5a55bfb154062e67e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logKerberosSuccess</definition>
+        <argsstring>(const std::string &amp;principal)</argsstring>
+        <name>logKerberosSuccess</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logKerberosSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+        </param>
+        <briefdescription>
+<para>Log Kerberos Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="91" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="126" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a468c33191a9ba11b805198810ce44eb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logKerberosFailure</definition>
+        <argsstring>(const std::string &amp;reason)</argsstring>
+        <name>logKerberosFailure</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logKerberosFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log Kerberos Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="97" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="135" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a615ed4d0e41e48bca75089214806912b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logTOTPSuccess</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>logTOTPSuccess</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logTOTPSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Log TOTPSuccess. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="107" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="150" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1ab13e63b6ef015bdd1e2d3dfa947dca2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logTOTPFailure</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>logTOTPFailure</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logTOTPFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Log TOTPFailure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="113" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="159" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1ace9b0da0d87b032e2cab575d1b5ff92b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logTOTPDrift</definition>
+        <argsstring>(const std::string &amp;user_id, int step_offset, std::chrono::system_clock::time_point timestamp)</argsstring>
+        <name>logTOTPDrift</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logTOTPDrift</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>step_offset</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>timestamp</declname>
+        </param>
+        <briefdescription>
+<para>Log TOTPDrift. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: time_since_epoch(), count(), emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="121" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="170" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a192cf7334d78506fd44f02a89febd8bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logRecoveryCodeUsed</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>logRecoveryCodeUsed</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logRecoveryCodeUsed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Log Recovery Code Used. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="129" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="183" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a6a342cc527b4551d895c4bd9389f8f90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logMFAEnrolled</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>logMFAEnrolled</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logMFAEnrolled</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Log MFAEnrolled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="135" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="192" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1ae061ef08888f23302700893a653b0099" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logApiKeySuccess</definition>
+        <argsstring>(const std::string &amp;key_id, const std::string &amp;principal)</argsstring>
+        <name>logApiKeySuccess</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logApiKeySuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+        </param>
+        <briefdescription>
+<para>Log Api Key Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="146" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="206" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1ac11224e74a32d13d305b8a38a2c2582f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logApiKeyFailure</definition>
+        <argsstring>(const std::string &amp;key_id, const std::string &amp;reason)</argsstring>
+        <name>logApiKeyFailure</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logApiKeyFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log Api Key Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="154" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="218" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a31968054d8168a69e450a19584156885" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logOAuthDeviceGranted</definition>
+        <argsstring>(const std::string &amp;client_id, const std::string &amp;sub)</argsstring>
+        <name>logOAuthDeviceGranted</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logOAuthDeviceGranted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sub</declname>
+        </param>
+        <briefdescription>
+<para>Log OAuth Device Granted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">client_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the client. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sub</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">client_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the client. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sub</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="166" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="235" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1ae0947d5025123423f553436679033abb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logOAuthDeviceDenied</definition>
+        <argsstring>(const std::string &amp;client_id, const std::string &amp;reason)</argsstring>
+        <name>logOAuthDeviceDenied</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logOAuthDeviceDenied</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log OAuth Device Denied. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">client_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the client. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">client_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the client. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="174" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="247" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a79006e97e0fc895e2bf573ac97f81069" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logSAMLSuccess</definition>
+        <argsstring>(const std::string &amp;subject, const std::string &amp;issuer)</argsstring>
+        <name>logSAMLSuccess</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logSAMLSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>issuer</declname>
+        </param>
+        <briefdescription>
+<para>Log SAMLSuccess. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">issuer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">subject</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">issuer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="182" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="260" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1ae5be301825e2a6ae5434fea96862d21b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logSAMLFailure</definition>
+        <argsstring>(const std::string &amp;reason)</argsstring>
+        <name>logSAMLFailure</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logSAMLFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log SAMLFailure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="189" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="271" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a2b2d3526a2dc3d2c2837cb53627f3f44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logPasskeySuccess</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;credential_id)</argsstring>
+        <name>logPasskeySuccess</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logPasskeySuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>credential_id</declname>
+        </param>
+        <briefdescription>
+<para>Log Passkey Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">credential_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the credential.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">credential_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the credential.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="200" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="287" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a28ede85ed2503033920b11e8aef37f68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logPasskeyFailure</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;reason)</argsstring>
+        <name>logPasskeyFailure</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logPasskeyFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log Passkey Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="207" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="299" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a00c44150b3b25c33f2ca41a2eb8e8289" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logPasskeyRegistered</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;credential_id, const std::string &amp;rp_id)</argsstring>
+        <name>logPasskeyRegistered</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logPasskeyRegistered</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>credential_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rp_id</declname>
+        </param>
+        <briefdescription>
+<para>Log Passkey Registered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">credential_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the credential. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rp_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rp.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">credential_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the credential. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rp_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rp.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="215" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="312" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1abf4c50f06e35b09098cec70ee7a41dcb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logMTLSSuccess</definition>
+        <argsstring>(const std::string &amp;principal, const std::string &amp;serial)</argsstring>
+        <name>logMTLSSuccess</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logMTLSSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>serial</declname>
+        </param>
+        <briefdescription>
+<para>Log MTLSSuccess. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">serial</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">serial</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="228" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="331" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a496636a17e6d5ee842ba78f665ba3c45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logMTLSFailure</definition>
+        <argsstring>(const std::string &amp;reason)</argsstring>
+        <name>logMTLSFailure</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logMTLSFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log MTLSFailure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="234" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="342" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a37dbd2ef80e9bf54309df8e038feb657" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logRoleChange</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;old_role, const std::string &amp;new_role)</argsstring>
+        <name>logRoleChange</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logRoleChange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>old_role</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_role</declname>
+        </param>
+        <briefdescription>
+<para>Log Role Change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="246" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="359" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a676ae3693a60588dbf755215bbb9430f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logPermissionChange</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;permission, bool granted)</argsstring>
+        <name>logPermissionChange</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logPermissionChange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>permission</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>granted</declname>
+        </param>
+        <briefdescription>
+<para>Log Permission Change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">permission</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">granted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">permission</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">granted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="256" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="375" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1af31744542e3552d1e7943f4b21227fd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logLDAPSuccess</definition>
+        <argsstring>(const std::string &amp;username, const std::string &amp;dn)</argsstring>
+        <name>logLDAPSuccess</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logLDAPSuccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>username</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dn</declname>
+        </param>
+        <briefdescription>
+<para>Log LDAPSuccess. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="269" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="394" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a7b3cbebacfc093f3c9664a76ec93a685" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logLDAPFailure</definition>
+        <argsstring>(const std::string &amp;username, const std::string &amp;reason)</argsstring>
+        <name>logLDAPFailure</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logLDAPFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>username</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log LDAPFailure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="277" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="406" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a922da8ce975548a0092c80bc58f70789" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logZeroTrustAllowed</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;resource, double trust_score, const std::string &amp;request_id=&quot;&quot;)</argsstring>
+        <name>logZeroTrustAllowed</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logZeroTrustAllowed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>trust_score</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> Zero-trust continuous verification events ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">trust_score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="284" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="421" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1adbfe1b81289debbbce6d6c25632590f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logZeroTrustDenied</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;resource, const std::string &amp;reason, const std::string &amp;request_id=&quot;&quot;)</argsstring>
+        <name>logZeroTrustDenied</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logZeroTrustDenied</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Log Zero Trust Denied. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="289" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="439" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a00365f107565802f6d7aaa5a142c4afd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logZeroTrustReEvaluationFailed</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;session_id, const std::string &amp;reason)</argsstring>
+        <name>logZeroTrustReEvaluationFailed</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logZeroTrustReEvaluationFailed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log Zero Trust Re Evaluation Failed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="300" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="456" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a2a7f17615bcd3e30273921bfea2484d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logBruteForceDetected</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;ip, size_t failed_attempts)</argsstring>
+        <name>logBruteForceDetected</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logBruteForceDetected</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>failed_attempts</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> Anomaly detection events (brute-force, credential stuffing) --------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> Anomaly detection events (brute-force, credential stuffing) ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_attempts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_attempts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="311" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="472" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1a5a63a15f09b1a9daa6840cbad15e61c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logCredentialStuffingSuspected</definition>
+        <argsstring>(const std::string &amp;ip, size_t distinct_users)</argsstring>
+        <name>logCredentialStuffingSuspected</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logCredentialStuffingSuspected</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>distinct_users</declname>
+        </param>
+        <briefdescription>
+<para>Log Credential Stuffing Suspected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">distinct_users</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">distinct_users</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="320" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="485" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1ad6ea671dfdb8533843c6f3f5e9ec2b53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::logAccountLockoutTriggered</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;ip)</argsstring>
+        <name>logAccountLockoutTriggered</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::logAccountLockoutTriggered</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <briefdescription>
+<para>Log Account Lockout Triggered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="328" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="498" bodyend="502"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_audit_logger_1ab7c82997ecb14cf7736e045900d87a0c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthAuditLogger::emit</definition>
+        <argsstring>(utils::SecurityEventType type, const std::string &amp;user_id, const std::string &amp;resource, const nlohmann::json &amp;details={})</argsstring>
+        <name>emit</name>
+        <qualifiedname>themis::auth::AuthAuditLogger::emit</qualifiedname>
+        <param>
+          <type>utils::SecurityEventType</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>details</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Emit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: logSecurityEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="334" column="10" bodyfile="src/auth/auth_audit_logger.cpp" bodystart="29" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_audit_logger.h" line="32" column="1" bodyfile="include/auth/auth_audit_logger.h" bodystart="32" bodyend="338"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a1e1aa98774c4db43481ad25d0f6eba23" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>AuthAuditLogger</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1ab7c82997ecb14cf7736e045900d87a0c" prot="private" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>emit</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a415349a3795599f21ec044262bc17a6a" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>emitWithDecisionClass</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a6766b2b8e2314d08dd74ec02565a4a42" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1ad6ea671dfdb8533843c6f3f5e9ec2b53" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logAccountLockoutTriggered</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1ac11224e74a32d13d305b8a38a2c2582f" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logApiKeyFailure</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1ae061ef08888f23302700893a653b0099" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logApiKeySuccess</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a2a7f17615bcd3e30273921bfea2484d4" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logBruteForceDetected</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a5a63a15f09b1a9daa6840cbad15e61c1" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logCredentialStuffingSuspected</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a5e44b40ff5b185a7837731c0aec34203" prot="private" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logger_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1acdc3f1118542f083ffbd7672731bab25" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logJWTFailure</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1af0eeffc7ffe20bc89a69bdb09b44d43b" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logJWTSuccess</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a468c33191a9ba11b805198810ce44eb5" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logKerberosFailure</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1ae4bc40b7511c9dd5a55bfb154062e67e" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logKerberosSuccess</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a7b3cbebacfc093f3c9664a76ec93a685" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logLDAPFailure</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1af31744542e3552d1e7943f4b21227fd2" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logLDAPSuccess</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a6a342cc527b4551d895c4bd9389f8f90" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logMFAEnrolled</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a496636a17e6d5ee842ba78f665ba3c45" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logMTLSFailure</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1abf4c50f06e35b09098cec70ee7a41dcb" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logMTLSSuccess</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1ae0947d5025123423f553436679033abb" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logOAuthDeviceDenied</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a31968054d8168a69e450a19584156885" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logOAuthDeviceGranted</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a28ede85ed2503033920b11e8aef37f68" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logPasskeyFailure</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a00c44150b3b25c33f2ca41a2eb8e8289" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logPasskeyRegistered</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a2b2d3526a2dc3d2c2837cb53627f3f44" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logPasskeySuccess</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a676ae3693a60588dbf755215bbb9430f" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logPermissionChange</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a192cf7334d78506fd44f02a89febd8bf" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logRecoveryCodeUsed</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a37dbd2ef80e9bf54309df8e038feb657" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logRoleChange</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1ae5be301825e2a6ae5434fea96862d21b" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logSAMLFailure</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a79006e97e0fc895e2bf573ac97f81069" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logSAMLSuccess</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1acb9c75901d5a7ae1cb8b5dc1f324d95a" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logTokenRevoked</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1ace9b0da0d87b032e2cab575d1b5ff92b" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logTOTPDrift</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1ab13e63b6ef015bdd1e2d3dfa947dca2b" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logTOTPFailure</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a615ed4d0e41e48bca75089214806912b" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logTOTPSuccess</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a922da8ce975548a0092c80bc58f70789" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logZeroTrustAllowed</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1adbfe1b81289debbbce6d6c25632590f3" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logZeroTrustDenied</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a00365f107565802f6d7aaa5a142c4afd" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>logZeroTrustReEvaluationFailed</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_audit_logger_1a6dfae9c253d815365625ca6ce673ce8e" prot="public" virt="non-virtual"><scope>themis::auth::AuthAuditLogger</scope><name>setLogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

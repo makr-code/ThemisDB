@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8d329857ec3294b606776e0912809e13" kind="dir">
+    <compoundname>benchmarks/exporters</compoundname>
+    <innerfile refid="bench__csv__export_8cpp">bench_csv_export.cpp</innerfile>
+    <innerfile refid="bench__exporters_8cpp">bench_exporters.cpp</innerfile>
+    <innerfile refid="bench__exporters__dedicated__gates_8cpp">bench_exporters_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__exporters__release__gates_8cpp">bench_exporters_release_gates.cpp</innerfile>
+    <innerfile refid="bench__parquet__export_8cpp">bench_parquet_export.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/exporters/"/>
+  </compounddef>
+</doxygen>

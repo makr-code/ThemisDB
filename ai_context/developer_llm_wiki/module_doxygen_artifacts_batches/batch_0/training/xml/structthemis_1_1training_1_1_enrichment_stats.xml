@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_enrichment_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::EnrichmentStats</compoundname>
+    <includes refid="knowledge__graph__enricher_8h" local="no">knowledge_graph_enricher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_stats_1a419898495db549555c288ccc803ca51c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentStats::samples_processed</definition>
+        <argsstring></argsstring>
+        <name>samples_processed</name>
+        <qualifiedname>themis::training::EnrichmentStats::samples_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="47" column="12" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_stats_1a26711a1c172884811dc9327ba5421077" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentStats::samples_enriched</definition>
+        <argsstring></argsstring>
+        <name>samples_enriched</name>
+        <qualifiedname>themis::training::EnrichmentStats::samples_enriched</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="48" column="12" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_stats_1ac6d75ab80826647dc632044a59424f7b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentStats::graph_queries_executed</definition>
+        <argsstring></argsstring>
+        <name>graph_queries_executed</name>
+        <qualifiedname>themis::training::EnrichmentStats::graph_queries_executed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="49" column="12" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_stats_1aae4787311ca590dcee03d425d8b15c7f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentStats::context_items_added</definition>
+        <argsstring></argsstring>
+        <name>context_items_added</name>
+        <qualifiedname>themis::training::EnrichmentStats::context_items_added</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="50" column="12" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_stats_1aa558f817b64ccf626bf7d75bf0571bdf" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::EnrichmentStats::elapsed_seconds</definition>
+        <argsstring></argsstring>
+        <name>elapsed_seconds</name>
+        <qualifiedname>themis::training::EnrichmentStats::elapsed_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="51" column="12" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_enrichment_stats_1a3e5667900e36d68c45ef06e7a9bce8d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::EnrichmentStats::EnrichmentStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>EnrichmentStats</name>
+        <qualifiedname>themis::training::EnrichmentStats::EnrichmentStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="53" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Enrichment statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/knowledge_graph_enricher.h" line="46" column="1" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="46" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_enrichment_stats_1aae4787311ca590dcee03d425d8b15c7f" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentStats</scope><name>context_items_added</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_stats_1aa558f817b64ccf626bf7d75bf0571bdf" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentStats</scope><name>elapsed_seconds</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_stats_1a3e5667900e36d68c45ef06e7a9bce8d2" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentStats</scope><name>EnrichmentStats</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_stats_1ac6d75ab80826647dc632044a59424f7b" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentStats</scope><name>graph_queries_executed</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_stats_1a26711a1c172884811dc9327ba5421077" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentStats</scope><name>samples_enriched</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_stats_1a419898495db549555c288ccc803ca51c" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentStats</scope><name>samples_processed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

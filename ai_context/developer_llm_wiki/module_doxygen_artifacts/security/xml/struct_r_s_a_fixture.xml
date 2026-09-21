@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_r_s_a_fixture" kind="struct" language="C++" prot="public">
+    <compoundname>RSAFixture</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_r_s_a_fixture_1a4f0db903230c926e94257bccca581929" prot="public" static="no" mutable="no">
+        <type>RSA *</type>
+        <definition>RSA * RSAFixture::rsa</definition>
+        <argsstring></argsstring>
+        <name>rsa</name>
+        <qualifiedname>RSAFixture::rsa</qualifiedname>
+        <initializer>=nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="29" column="9" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_r_s_a_fixture_1a47aaf4e883fca405998a79423738b99b" prot="public" static="no" mutable="no">
+        <type>EVP_PKEY *</type>
+        <definition>EVP_PKEY* RSAFixture::pkey</definition>
+        <argsstring></argsstring>
+        <name>pkey</name>
+        <qualifiedname>RSAFixture::pkey</qualifiedname>
+        <initializer>=nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="29" column="22" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_r_s_a_fixture_1a17205ef9e6bc9330430824f3754ba290" prot="public" static="no" mutable="no">
+        <type>BIGNUM *</type>
+        <definition>BIGNUM * RSAFixture::bn</definition>
+        <argsstring></argsstring>
+        <name>bn</name>
+        <qualifiedname>RSAFixture::bn</qualifiedname>
+        <initializer>=nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="29" column="34" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_r_s_a_fixture_1af5d7fd6ce56c5b642896951f62babf1c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>RSAFixture::RSAFixture</definition>
+        <argsstring>()</argsstring>
+        <name>RSAFixture</name>
+        <qualifiedname>RSAFixture::RSAFixture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="30" column="5" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="30" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_r_s_a_fixture_1a181adf1baf47534e3cd7260a32e90e92" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>RSAFixture::~RSAFixture</definition>
+        <argsstring>()</argsstring>
+        <name>~RSAFixture</name>
+        <qualifiedname>RSAFixture::~RSAFixture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="44" column="5" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_r_s_a_fixture_1af5d7fd6ce56c5b642896951f62babf1c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>RSAFixture::RSAFixture</definition>
+        <argsstring>()</argsstring>
+        <name>RSAFixture</name>
+        <qualifiedname>RSAFixture::RSAFixture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_rotation_unit.cpp" line="26" column="5" bodyfile="tests/security/test_jwt_rotation_unit.cpp" bodystart="26" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_r_s_a_fixture_1a181adf1baf47534e3cd7260a32e90e92" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>RSAFixture::~RSAFixture</definition>
+        <argsstring>()</argsstring>
+        <name>~RSAFixture</name>
+        <qualifiedname>RSAFixture::~RSAFixture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_rotation_unit.cpp" line="40" column="5" bodyfile="tests/security/test_jwt_rotation_unit.cpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_r_s_a_fixture_1af5d7fd6ce56c5b642896951f62babf1c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>RSAFixture::RSAFixture</definition>
+        <argsstring>()</argsstring>
+        <name>RSAFixture</name>
+        <qualifiedname>RSAFixture::RSAFixture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_validation_hardening.cpp" line="55" column="5" bodyfile="tests/security/test_jwt_validation_hardening.cpp" bodystart="55" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_r_s_a_fixture_1a181adf1baf47534e3cd7260a32e90e92" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>RSAFixture::~RSAFixture</definition>
+        <argsstring>()</argsstring>
+        <name>~RSAFixture</name>
+        <qualifiedname>RSAFixture::~RSAFixture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_validation_hardening.cpp" line="79" column="5" bodyfile="tests/security/test_jwt_validation_hardening.cpp" bodystart="79" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_r_s_a_fixture_1af5d7fd6ce56c5b642896951f62babf1c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>RSAFixture::RSAFixture</definition>
+        <argsstring>()</argsstring>
+        <name>RSAFixture</name>
+        <qualifiedname>RSAFixture::RSAFixture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_validator.cpp" line="31" column="5" bodyfile="tests/security/test_jwt_validator.cpp" bodystart="31" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_r_s_a_fixture_1a181adf1baf47534e3cd7260a32e90e92" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>RSAFixture::~RSAFixture</definition>
+        <argsstring>()</argsstring>
+        <name>~RSAFixture</name>
+        <qualifiedname>RSAFixture::~RSAFixture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_validator.cpp" line="54" column="5" bodyfile="tests/security/test_jwt_validator.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_r_s_a_fixture_1af5d7fd6ce56c5b642896951f62babf1c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>RSAFixture::RSAFixture</definition>
+        <argsstring>()</argsstring>
+        <name>RSAFixture</name>
+        <qualifiedname>RSAFixture::RSAFixture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oidc_provider.cpp" line="62" column="5" bodyfile="tests/security/test_oidc_provider.cpp" bodystart="62" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_r_s_a_fixture_1a181adf1baf47534e3cd7260a32e90e92" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>RSAFixture::~RSAFixture</definition>
+        <argsstring>()</argsstring>
+        <name>~RSAFixture</name>
+        <qualifiedname>RSAFixture::~RSAFixture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oidc_provider.cpp" line="82" column="5" bodyfile="tests/security/test_oidc_provider.cpp" bodystart="82" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_jwt_integration.cpp" line="28" column="1" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="28" bodyend="45"/>
+    <listofallmembers>
+      <member refid="struct_r_s_a_fixture_1a17205ef9e6bc9330430824f3754ba290" prot="public" virt="non-virtual"><scope>RSAFixture</scope><name>bn</name></member>
+      <member refid="struct_r_s_a_fixture_1a47aaf4e883fca405998a79423738b99b" prot="public" virt="non-virtual"><scope>RSAFixture</scope><name>pkey</name></member>
+      <member refid="struct_r_s_a_fixture_1a4f0db903230c926e94257bccca581929" prot="public" virt="non-virtual"><scope>RSAFixture</scope><name>rsa</name></member>
+      <member refid="struct_r_s_a_fixture_1af5d7fd6ce56c5b642896951f62babf1c" prot="public" virt="non-virtual"><scope>RSAFixture</scope><name>RSAFixture</name></member>
+      <member refid="struct_r_s_a_fixture_1af5d7fd6ce56c5b642896951f62babf1c" prot="public" virt="non-virtual"><scope>RSAFixture</scope><name>RSAFixture</name></member>
+      <member refid="struct_r_s_a_fixture_1af5d7fd6ce56c5b642896951f62babf1c" prot="public" virt="non-virtual"><scope>RSAFixture</scope><name>RSAFixture</name></member>
+      <member refid="struct_r_s_a_fixture_1af5d7fd6ce56c5b642896951f62babf1c" prot="public" virt="non-virtual"><scope>RSAFixture</scope><name>RSAFixture</name></member>
+      <member refid="struct_r_s_a_fixture_1af5d7fd6ce56c5b642896951f62babf1c" prot="public" virt="non-virtual"><scope>RSAFixture</scope><name>RSAFixture</name></member>
+      <member refid="struct_r_s_a_fixture_1a181adf1baf47534e3cd7260a32e90e92" prot="public" virt="non-virtual"><scope>RSAFixture</scope><name>~RSAFixture</name></member>
+      <member refid="struct_r_s_a_fixture_1a181adf1baf47534e3cd7260a32e90e92" prot="public" virt="non-virtual"><scope>RSAFixture</scope><name>~RSAFixture</name></member>
+      <member refid="struct_r_s_a_fixture_1a181adf1baf47534e3cd7260a32e90e92" prot="public" virt="non-virtual"><scope>RSAFixture</scope><name>~RSAFixture</name></member>
+      <member refid="struct_r_s_a_fixture_1a181adf1baf47534e3cd7260a32e90e92" prot="public" virt="non-virtual"><scope>RSAFixture</scope><name>~RSAFixture</name></member>
+      <member refid="struct_r_s_a_fixture_1a181adf1baf47534e3cd7260a32e90e92" prot="public" virt="non-virtual"><scope>RSAFixture</scope><name>~RSAFixture</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

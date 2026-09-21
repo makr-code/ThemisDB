@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_vcc_vpb_importer_resource_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::VccVpbImporterResourceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_vcc_vpb_importer_resource_test_1abe854db8a1cac80c39595cac1229665a" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1process_1_1_vcc_vpb_importer" kindref="compound">VccVpbImporter</ref></type>
+        <definition>VccVpbImporter themis::process::VccVpbImporterResourceTest::importer</definition>
+        <argsstring></argsstring>
+        <name>importer</name>
+        <qualifiedname>themis::process::VccVpbImporterResourceTest::importer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_critical_batch1_fixes.cpp" line="208" column="20" bodyfile="tests/process/test_critical_batch1_fixes.cpp" bodystart="208" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::process::VccVpbImporterResourceTest</label>
+        <link refid="classthemis_1_1process_1_1_vcc_vpb_importer_resource_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::process::VccVpbImporter</label>
+        <link refid="classthemis_1_1process_1_1_vcc_vpb_importer"/>
+      </node>
+      <node id="1">
+        <label>themis::process::VccVpbImporterResourceTest</label>
+        <link refid="classthemis_1_1process_1_1_vcc_vpb_importer_resource_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>importer</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_critical_batch1_fixes.cpp" line="206" column="1" bodyfile="tests/process/test_critical_batch1_fixes.cpp" bodystart="206" bodyend="209"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_vcc_vpb_importer_resource_test_1abe854db8a1cac80c39595cac1229665a" prot="protected" virt="non-virtual"><scope>themis::process::VccVpbImporterResourceTest</scope><name>importer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

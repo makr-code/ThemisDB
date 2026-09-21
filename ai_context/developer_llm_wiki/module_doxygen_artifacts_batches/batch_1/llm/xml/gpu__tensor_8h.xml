@@ -1,0 +1,545 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gpu__tensor_8h" kind="file" language="C++">
+    <compoundname>gpu_tensor.h</compoundname>
+    <includes refid="gpu__memory_8h" local="yes">llm/lora_framework/gpu_memory.h</includes>
+    <includes refid="vram__allocator_8h" local="yes">llm/lora_framework/vram_allocator.h</includes>
+    <includes refid="tensor__dtype_8h" local="yes">llm/lora_framework/tensor_dtype.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includedby refid="custom__allreduce_8h" local="yes">include/llm/lora_framework/custom_allreduce.h</includedby>
+    <includedby refid="distributed__dataloader_8h" local="yes">include/llm/lora_framework/distributed_dataloader.h</includedby>
+    <includedby refid="flash__lora_8h" local="yes">include/llm/lora_framework/flash_lora.h</includedby>
+    <includedby refid="gpu__data__loader_8h" local="yes">include/llm/lora_framework/gpu_data_loader.h</includedby>
+    <includedby refid="gpu__embedding__layer_8h" local="yes">include/llm/lora_framework/gpu_embedding_layer.h</includedby>
+    <includedby refid="gpu__lora__layers_8h" local="yes">include/llm/lora_framework/gpu_lora_layers.h</includedby>
+    <includedby refid="gpu__utilization__monitor_8h" local="yes">include/llm/lora_framework/gpu_utilization_monitor.h</includedby>
+    <includedby refid="gradient__checkpointing_8h" local="yes">include/llm/lora_framework/gradient_checkpointing.h</includedby>
+    <includedby refid="nccl__backend_8h" local="yes">include/llm/lora_framework/nccl_backend.h</includedby>
+    <includedby refid="rccl__backend_8h" local="yes">include/llm/lora_framework/rccl_backend.h</includedby>
+    <includedby refid="sequence__packer_8h" local="yes">include/llm/lora_framework/sequence_packer.h</includedby>
+    <includedby refid="gpu__tensor_8cpp" local="yes">src/llm/lora_framework/gpu_tensor.cpp</includedby>
+    <includedby refid="test__gpu__tensor__dtype__cast__bridge_8cpp" local="yes">tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp</includedby>
+    <includedby refid="test__gpu__tensor__legacy__bridge_8cpp" local="yes">tests/llm/test_gpu_tensor_legacy_bridge.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>llm/lora_framework/gpu_memory.h</label>
+        <link refid="gpu__memory_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/gpu_tensor.h</label>
+        <link refid="gpu__tensor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>llm/lora_framework/tensor_dtype.h</label>
+        <link refid="tensor__dtype_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/lora_framework/vram_allocator.h</label>
+        <link refid="vram__allocator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>acceleration/compute_backend.h</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="12">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>cstring</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/llm/lora_framework/custom_allreduce.h</label>
+        <link refid="custom__allreduce_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/llm/lora_framework/distributed_dataloader.h</label>
+        <link refid="distributed__dataloader_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/llm/lora_framework/flash_lora.h</label>
+        <link refid="flash__lora_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/llm/lora_framework/gpu_data_loader.h</label>
+        <link refid="gpu__data__loader_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/llm/lora_framework/gpu_embedding_layer.h</label>
+        <link refid="gpu__embedding__layer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/llm/lora_framework/gpu_lora_layers.h</label>
+        <link refid="gpu__lora__layers_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/gpu_tensor.h</label>
+        <link refid="gpu__tensor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/llm/lora_framework/gpu_training_loop.h</label>
+        <link refid="gpu__training__loop_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/llm/lora_framework/gpu_utilization_monitor.h</label>
+        <link refid="gpu__utilization__monitor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/llm/lora_framework/gradient_checkpointing.h</label>
+        <link refid="gradient__checkpointing_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/llm/lora_framework/multi_gpu_lora_layer.h</label>
+        <link refid="multi__gpu__lora__layer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/llm/lora_framework/multi_gpu_trainer.h</label>
+        <link refid="multi__gpu__trainer_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>include/llm/lora_framework/nccl_backend.h</label>
+        <link refid="nccl__backend_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>include/llm/lora_framework/rccl_backend.h</label>
+        <link refid="rccl__backend_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>include/llm/lora_framework/sequence_packer.h</label>
+        <link refid="sequence__packer_8h"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>src/llm/lora_framework/custom_allreduce.cpp</label>
+        <link refid="custom__allreduce_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/llm/lora_framework/distributed_dataloader.cpp</label>
+        <link refid="distributed__dataloader_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/llm/lora_framework/flash_lora.cpp</label>
+        <link refid="flash__lora_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/llm/lora_framework/gpu_data_loader.cpp</label>
+        <link refid="gpu__data__loader_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/llm/lora_framework/gpu_embedding_layer.cpp</label>
+        <link refid="gpu__embedding__layer_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/llm/lora_framework/gpu_lora_layers.cpp</label>
+        <link refid="gpu__lora__layers_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/llm/lora_framework/gpu_tensor.cpp</label>
+        <link refid="gpu__tensor_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/llm/lora_framework/gpu_training_loop.cpp</label>
+        <link refid="gpu__training__loop_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/llm/lora_framework/gpu_utilization_monitor.cpp</label>
+        <link refid="gpu__utilization__monitor_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/llm/lora_framework/gradient_checkpointing.cpp</label>
+        <link refid="gradient__checkpointing_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/llm/lora_framework/multi_gpu_lora_layer.cpp</label>
+        <link refid="multi__gpu__lora__layer_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/llm/lora_framework/multi_gpu_trainer.cpp</label>
+        <link refid="multi__gpu__trainer_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/llm/lora_framework/nccl_backend.cpp</label>
+        <link refid="nccl__backend_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/llm/lora_framework/rccl_backend.cpp</label>
+        <link refid="rccl__backend_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/llm/lora_framework/sequence_packer.cpp</label>
+        <link refid="sequence__packer_8cpp"/>
+      </node>
+      <node id="31">
+        <label>tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp</label>
+        <link refid="test__gpu__tensor__dtype__cast__bridge_8cpp"/>
+      </node>
+      <node id="32">
+        <label>tests/llm/test_gpu_tensor_legacy_bridge.cpp</label>
+        <link refid="test__gpu__tensor__legacy__bridge_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" prot="public">themis::llm::lora::GPUTensor</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils">themis::llm::lora::gpu_tensor_utils</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__memory_8h" kindref="compound">llm/lora_framework/gpu_memory.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="vram__allocator_8h" kindref="compound">llm/lora_framework/vram_allocator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__dtype_8h" kindref="compound">llm/lora_framework/tensor_dtype.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;size_t&gt;&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a88f84a84e8bd7a352aa7eadcd10006fd" kindref="member">shape</ref>,<sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ac46f8a11acc7fec4dc2f0b06605cf18a" kindref="member">device</ref><sp/>=<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>(),</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a48e734fae73f9bbd862a344be6fb74d6" kindref="member">dtype</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref>);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;size_t&gt;&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a88f84a84e8bd7a352aa7eadcd10006fd" kindref="member">shape</ref>,<sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>value,<sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ac46f8a11acc7fec4dc2f0b06605cf18a" kindref="member">device</ref><sp/>=<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>(),</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a48e734fae73f9bbd862a344be6fb74d6" kindref="member">dtype</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref>);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a11b607de2437ff3c9d1d443e0ab68de6" kindref="member">~GPUTensor</ref>();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy,<sp/>enable<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a0a6638e6026303a46c860d1e51015eff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a0a6638e6026303a46c860d1e51015eff" kindref="member">GPUTensor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ad2ae1c3cb346015a8ae17789100bb599" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ad2ae1c3cb346015a8ae17789100bb599" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref>(<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ad2ae1c3cb346015a8ae17789100bb599" kindref="member">operator=</ref>(<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Device<sp/>Management<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ac46f8a11acc7fec4dc2f0b06605cf18a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ac46f8a11acc7fec4dc2f0b06605cf18a" kindref="member">device</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>device_;<sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a71ce02522162f75818cac2f58bd4f913" kindref="member">to</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>&amp;<sp/>target_device)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a6f0bfc03d75cb127a06a9506a989995c" kindref="member">to_inplace</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>&amp;<sp/>target_device);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1afdaa8464cb1b162b65039aa2d3c2d232" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1afdaa8464cb1b162b65039aa2d3c2d232" kindref="member">is_cpu</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>device_.type<sp/>==<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13a2b55387dd066c5bac646ac61543d152d" kindref="member">DeviceType::CPU</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1abd308affcf4f7297bde0a7df014a213d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1abd308affcf4f7297bde0a7df014a213d" kindref="member">is_gpu</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1afdaa8464cb1b162b65039aa2d3c2d232" kindref="member">is_cpu</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a48e734fae73f9bbd862a344be6fb74d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a48e734fae73f9bbd862a344be6fb74d6" kindref="member">dtype</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dtype_;<sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a293b1f3edfdbaf2b4d0333fd087e0831" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a293b1f3edfdbaf2b4d0333fd087e0831" kindref="member">is_mixed_precision</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a4e92b5af1620a0492b58e3b100fb642c" kindref="member">themis::llm::lora::is_mixed_precision</ref>(dtype_);<sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Shape<sp/>and<sp/>Data<sp/>Access<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a88f84a84e8bd7a352aa7eadcd10006fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;size_t&gt;&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a88f84a84e8bd7a352aa7eadcd10006fd" kindref="member">shape</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>shape_;<sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a3fa10ce741745cf19b8797d5964b1f6c" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a29259662e0b8eafb1250116786f1299d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a29259662e0b8eafb1250116786f1299d" kindref="member">ndim</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>shape_.size();<sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1aefd364bb9f7779deb31bb6ae2ca5315c" kindref="member">cpu_data</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a3798abdb129ca79550c5110faefe5931" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a3798abdb129ca79550c5110faefe5931" kindref="member">gpu_ptr</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>gpu_data_;<sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a50ef9f1be15a69f0c189e33c67934053" kindref="member">upload</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a50ef9f1be15a69f0c189e33c67934053" kindref="member">upload</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a7210f119d66fc96ee9cb400f960f5f5d" kindref="member">download</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a7210f119d66fc96ee9cb400f960f5f5d" kindref="member">download</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Operations<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a52ae1af9893d8c5fd2843bb1be012376" kindref="member">operator+</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a20adf27148dfa9a75d76fdeed9410429" kindref="member">operator-</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1adc68d7b797ecd883fd6527cffd1d8a6b" kindref="member">operator*</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>scalar)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1adad1f3f24c79e7313625b160447ddd63" kindref="member">mul</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a05a8605f0f0a4911a2dfbadfb51442a0" kindref="member">matmul</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ae10871234ebfcb9e629bd992fa73ae45" kindref="member">transpose</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a21fe20880ab902c3da753d5c80525dcd" kindref="member">fill</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a81c5daf01fd19c7cbe856eb51858280f" kindref="member">zero</ref>();</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ac9747c19c5503e37460219565851280c" kindref="member">clone</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a34fab84ee8ec7b00e35412d66532e6c9" kindref="member">to_fp32</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a91732c5622f58d8a30a81a4bd9f59609" kindref="member">to_fp16</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1aab020ed86e09de688dbe8b8a0af35e11" kindref="member">to_bf16</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a59f0f37260c3fe9c5c0efd74c428f8a2" kindref="member">to_dtype</ref>(<ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref><sp/>target_dtype)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Gradient<sp/>Support<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a770493dc20102892b91f4fa74295334f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GPUTensor&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a770493dc20102892b91f4fa74295334f" kindref="member">grad</ref>;</highlight></codeline>
+<codeline lineno="191" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ae588c08ac0273e7c9573a537ba87b239" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ae588c08ac0273e7c9573a537ba87b239" kindref="member">requires_grad</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a80ee99fc3459cf28b5833901f18b2813" kindref="member">zero_grad</ref>();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ab158b74b0a753f98d14b8a2fdfe402aa" kindref="member">ensure_grad</ref>();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1ad6cf5cc890c4dc150bc121c03fb2e33d" kindref="member">multiply_inplace</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>scalar);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1aeddb0fae66b2942fa67a57863fb15d55" kindref="member">has_inf_or_nan</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>dtype-cast<sp/>callback<sp/>bridges<sp/>(STUB<sp/>#2/#3)<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>injection<sp/>of<sp/>a<sp/>real<sp/>GPU<sp/>dtype-cast<sp/>kernel<sp/>for<sp/>CUDA<sp/>(STUB<sp/>#2)<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HIP/ROCm<sp/>(STUB<sp/>#3)<sp/>builds,<sp/>replacing<sp/>the<sp/>default<sp/>CPU<sp/>round-trip<sp/>fallback.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>function<sp/>receives<sp/>the<sp/>current<sp/>element<sp/>data<sp/>as<sp/>fp32,<sp/>the<sp/>source<sp/>DType,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>the<sp/>target<sp/>DType;<sp/>it<sp/>returns<sp/>the<sp/>converted<sp/>element<sp/>data<sp/>as<sp/>fp32.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Passing<sp/>nullptr<sp/>reverts<sp/>to<sp/>the<sp/>CPU<sp/>round-trip<sp/>fallback<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a216575ffed6aae3105639de19e6c2a40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a216575ffed6aae3105639de19e6c2a40" kindref="member">DtypeCastFn</ref><sp/>=<sp/>std::function&lt;std::vector&lt;float&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref>,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref>)&gt;;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a863e90d5bf621247e98eaf0444985286" kindref="member">setCudaDtypeCastFn</ref>(<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a216575ffed6aae3105639de19e6c2a40" kindref="member">DtypeCastFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a5f3874d423194fcfb53288463831d1b3" kindref="member">setHipDtypeCastFn</ref>(<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a216575ffed6aae3105639de19e6c2a40" kindref="member">DtypeCastFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/>shape_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref><sp/>device_;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref><sp/>dtype_<sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref>;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CPU<sp/>data<sp/>(only<sp/>used<sp/>if<sp/>device<sp/>is<sp/>CPU)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>cpu_data_;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>data<sp/>(only<sp/>used<sp/>if<sp/>device<sp/>is<sp/>GPU)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>gpu_data_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref>*<sp/>allocator_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager" kindref="compound">GPUMemoryManager</ref>&amp;<sp/>get_memory_manager();</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backend<sp/>operation<sp/>dispatchers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref><sp/>dispatch_add(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref><sp/>dispatch_sub(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref><sp/>dispatch_mul_scalar(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>scalar)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref><sp/>dispatch_mul_elementwise(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref><sp/>dispatch_matmul(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a46d7bcac04e5a9c390dfbc138270ed81" kindref="member">GPUTensor</ref><sp/>dispatch_transpose()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>allocate_gpu_memory();</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>free_gpu_memory();</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==========<sp/>Utility<sp/>Functions<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302" refid="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils" kindref="compound">gpu_tensor_utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1a383a4de1a808b99c85e36cc224e977e0" kindref="member">randn</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;size_t&gt;&amp;<sp/>shape,<sp/></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>mean<sp/>=<sp/>0.0f,<sp/></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>std<sp/>=<sp/>1.0f,</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>&amp;<sp/>device<sp/>=<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>(),</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref><sp/>dtype<sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref>);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1aa62e1bd0226dbd88a3096563a13632c0" kindref="member">xavier_uniform</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;size_t&gt;&amp;<sp/>shape,</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>&amp;<sp/>device<sp/>=<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>(),</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref><sp/>dtype<sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref>);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1a38e99b167719e730d74e59b167c96c3e" kindref="member">kaiming_uniform</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;size_t&gt;&amp;<sp/>shape,</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>0.0f,</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>&amp;<sp/>device<sp/>=<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>(),</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref><sp/>dtype<sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref>);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1a09e0e355f50eeffb9393e81f88556a86" kindref="member">zeros</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;size_t&gt;&amp;<sp/>shape,</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>&amp;<sp/>device<sp/>=<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>(),</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref><sp/>dtype<sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref>);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1aeccbb28059abfa8eb35c9b0b7ff17e2d" kindref="member">ones</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;size_t&gt;&amp;<sp/>shape,</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>&amp;<sp/>device<sp/>=<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>(),</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref><sp/>dtype<sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref>);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1a4d0de48856c0003e231cb2be1a0f323e" kindref="member">from_legacy_tensor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>tensor,</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>&amp;<sp/>device<sp/>=<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>(),</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref><sp/>dtype<sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref>);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1ab8fc34008e69afa7728bb3e1bddd82ca" kindref="member">to_legacy_tensor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>&amp;<sp/>gpu_tensor);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/gpu_tensor.h"/>
+  </compounddef>
+</doxygen>

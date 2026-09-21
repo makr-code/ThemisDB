@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_ingestion_lineage_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::IngestionLineageStore</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1aaf75c47bf42b1c9e6fed2e2da3aa1dc2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::ingestion::IngestionLineageStore::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::ingestion::IngestionLineageStore::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="654" column="24" bodyfile="include/ingestion/ingestion_manager.h" bodystart="654" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1a6a082286a429ac5bdf62dfac9d47d14f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_ingestion_lineage_record" kindref="compound">IngestionLineageRecord</ref> &gt;</type>
+        <definition>std::vector&lt;IngestionLineageRecord&gt; themis::ingestion::IngestionLineageStore::records_</definition>
+        <argsstring></argsstring>
+        <name>records_</name>
+        <qualifiedname>themis::ingestion::IngestionLineageStore::records_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="655" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="655" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1a19d024ee6df27e0ab002d5f4887303b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IngestionLineageStore::IngestionLineageStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>IngestionLineageStore</name>
+        <qualifiedname>themis::ingestion::IngestionLineageStore::IngestionLineageStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="601" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1a940bdc64ab2aa6284c0e5ce404f1db25" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::IngestionLineageStore::record</definition>
+        <argsstring>(IngestionLineageRecord r)</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::ingestion::IngestionLineageStore::record</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_lineage_record" kindref="compound">IngestionLineageRecord</ref></type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+<para>Append a lineage record (thread-safe). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="604" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="604" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1aa7011a090794ce3045ede988d01c977f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_ingestion_lineage_record" kindref="compound">IngestionLineageRecord</ref> &gt;</type>
+        <definition>std::vector&lt; IngestionLineageRecord &gt; themis::ingestion::IngestionLineageStore::getBySource</definition>
+        <argsstring>(const std::string &amp;source_id) const</argsstring>
+        <name>getBySource</name>
+        <qualifiedname>themis::ingestion::IngestionLineageStore::getBySource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <briefdescription>
+<para>Return all records whose <computeroutput>source_id</computeroutput> matches (thread-safe). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="610" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="610" bodyend="620"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1a322a6245c33b27efcd9bac44ab55094d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_ingestion_lineage_record" kindref="compound">IngestionLineageRecord</ref> &gt;</type>
+        <definition>std::vector&lt; IngestionLineageRecord &gt; themis::ingestion::IngestionLineageStore::getByCorrelationId</definition>
+        <argsstring>(const std::string &amp;run_id) const</argsstring>
+        <name>getByCorrelationId</name>
+        <qualifiedname>themis::ingestion::IngestionLineageStore::getByCorrelationId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>run_id</declname>
+        </param>
+        <briefdescription>
+<para>Return all records whose <computeroutput>run_correlation_id</computeroutput> matches (thread-safe). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="623" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="623" bodyend="633"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1a8b18eafc2463fb362cf387992eb54410" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_ingestion_lineage_record" kindref="compound">IngestionLineageRecord</ref> &gt;</type>
+        <definition>std::vector&lt; IngestionLineageRecord &gt; themis::ingestion::IngestionLineageStore::getAll</definition>
+        <argsstring>() const</argsstring>
+        <name>getAll</name>
+        <qualifiedname>themis::ingestion::IngestionLineageStore::getAll</qualifiedname>
+        <briefdescription>
+<para>Return a copy of all stored records (thread-safe). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="636" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="636" bodyend="639"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1a2f9b2b72c2c785831238a3e2ca482ae3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::IngestionLineageStore::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::ingestion::IngestionLineageStore::clear</qualifiedname>
+        <briefdescription>
+<para>Remove all records (thread-safe). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="642" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="642" bodyend="645"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1a2776c2f08c40fd02832428fcc3129a45" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionLineageStore::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::ingestion::IngestionLineageStore::size</qualifiedname>
+        <briefdescription>
+<para>Number of records currently stored (thread-safe). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="648" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="648" bodyend="651"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe in-memory store for ingestion lineage records. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Holds <computeroutput><ref refid="structthemis_1_1ingestion_1_1_ingestion_lineage_record" kindref="compound">IngestionLineageRecord</ref></computeroutput> objects produced during ingestion runs. The store is owned by the <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref></computeroutput> and populated automatically when lineage tracking is enabled via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager_1aa70a819baa8f93bb3400b20cf284c8c1" kindref="member">IngestionManager::enableLineageTracking()</ref></computeroutput>.</para>
+<para>Querying is always available even if tracking is disabled; in that case the store simply remains empty. </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="599" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="599" bodyend="656"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1a2f9b2b72c2c785831238a3e2ca482ae3" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionLineageStore</scope><name>clear</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1a8b18eafc2463fb362cf387992eb54410" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionLineageStore</scope><name>getAll</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1a322a6245c33b27efcd9bac44ab55094d" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionLineageStore</scope><name>getByCorrelationId</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1aa7011a090794ce3045ede988d01c977f" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionLineageStore</scope><name>getBySource</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1a19d024ee6df27e0ab002d5f4887303b7" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionLineageStore</scope><name>IngestionLineageStore</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1aaf75c47bf42b1c9e6fed2e2da3aa1dc2" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionLineageStore</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1a940bdc64ab2aa6284c0e5ce404f1db25" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionLineageStore</scope><name>record</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1a6a082286a429ac5bdf62dfac9d47d14f" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionLineageStore</scope><name>records_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_lineage_store_1a2776c2f08c40fd02832428fcc3129a45" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionLineageStore</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

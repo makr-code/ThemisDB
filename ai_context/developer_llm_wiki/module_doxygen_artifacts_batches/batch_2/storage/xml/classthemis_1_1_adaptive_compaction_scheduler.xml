@@ -1,0 +1,856 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_adaptive_compaction_scheduler" kind="class" language="C++" prot="public">
+    <compoundname>themis::AdaptiveCompactionScheduler</compoundname>
+    <includes refid="adaptive__compaction_8h" local="no">adaptive_compaction.h</includes>
+    <innerclass refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_config" prot="public">themis::AdaptiveCompactionScheduler::Config</innerclass>
+    <innerclass refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_i_o_sample" prot="public">themis::AdaptiveCompactionScheduler::IOSample</innerclass>
+    <innerclass refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_compaction_impact_prediction" prot="public">themis::AdaptiveCompactionScheduler::CompactionImpactPrediction</innerclass>
+    <innerclass refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_adapted_config" prot="public">themis::AdaptiveCompactionScheduler::AdaptedConfig</innerclass>
+    <innerclass refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_stats" prot="public">themis::AdaptiveCompactionScheduler::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_compaction_scheduler_1a2d876ec573d42a8d2775e3d8296fd5a0" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::AdaptiveCompactionScheduler::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="319" column="12" bodyfile="include/storage/adaptive_compaction.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_compaction_scheduler_1a5578ea7d48c357c500eee9294bcad649" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::AdaptiveCompactionScheduler::window_reads_</definition>
+        <argsstring></argsstring>
+        <name>window_reads_</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::window_reads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="322" column="17" bodyfile="include/storage/adaptive_compaction.h" bodystart="322" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_compaction_scheduler_1a1cc10d519f89bb252be4626a8838aa73" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::AdaptiveCompactionScheduler::window_writes_</definition>
+        <argsstring></argsstring>
+        <name>window_writes_</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::window_writes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="323" column="17" bodyfile="include/storage/adaptive_compaction.h" bodystart="323" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_compaction_scheduler_1a384089436a5fb977e49317171215ff8b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::AdaptiveCompactionScheduler::total_reads_</definition>
+        <argsstring></argsstring>
+        <name>total_reads_</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::total_reads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="326" column="17" bodyfile="include/storage/adaptive_compaction.h" bodystart="326" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_compaction_scheduler_1a9f732118282298dfd189752edb5539d1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::AdaptiveCompactionScheduler::total_writes_</definition>
+        <argsstring></argsstring>
+        <name>total_writes_</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::total_writes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="327" column="17" bodyfile="include/storage/adaptive_compaction.h" bodystart="327" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_compaction_scheduler_1aa082adb37e7b5ab1af5efd3d9f603b07" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::AdaptiveCompactionScheduler::rates_mutex_</definition>
+        <argsstring></argsstring>
+        <name>rates_mutex_</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::rates_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="330" column="24" bodyfile="include/storage/adaptive_compaction.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_compaction_scheduler_1a749f48e9abc1df52286262bdaecd6797" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdaptiveCompactionScheduler::ema_read_rate_</definition>
+        <argsstring></argsstring>
+        <name>ema_read_rate_</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::ema_read_rate_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="331" column="12" bodyfile="include/storage/adaptive_compaction.h" bodystart="331" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_compaction_scheduler_1a27f0bbca927b81a59e7d6f5c9a0f7bed" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdaptiveCompactionScheduler::ema_write_rate_</definition>
+        <argsstring></argsstring>
+        <name>ema_write_rate_</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::ema_write_rate_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="332" column="12" bodyfile="include/storage/adaptive_compaction.h" bodystart="332" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_compaction_scheduler_1a6e51e76ad4b711801f1ecbf5831335c1" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::AdaptiveCompactionScheduler::last_sample_time_</definition>
+        <argsstring></argsstring>
+        <name>last_sample_time_</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::last_sample_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="333" column="43" bodyfile="include/storage/adaptive_compaction.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_compaction_scheduler_1ac234f67b0e4cd06c15a08074a993b9b5" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::AdaptiveCompactionScheduler::samples_mutex_</definition>
+        <argsstring></argsstring>
+        <name>samples_mutex_</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::samples_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="336" column="24" bodyfile="include/storage/adaptive_compaction.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_compaction_scheduler_1aacee87bb2842500cbc74d2eb12dd77c1" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_i_o_sample" kindref="compound">IOSample</ref> &gt;</type>
+        <definition>std::deque&lt;IOSample&gt; themis::AdaptiveCompactionScheduler::samples_</definition>
+        <argsstring></argsstring>
+        <name>samples_</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::samples_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="337" column="16" bodyfile="include/storage/adaptive_compaction.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_compaction_scheduler_1a1752cdd1065144dcac68582b5f5bacf9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::AdaptiveCompactionScheduler::compaction_schedules_</definition>
+        <argsstring></argsstring>
+        <name>compaction_schedules_</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::compaction_schedules_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="340" column="17" bodyfile="include/storage/adaptive_compaction.h" bodystart="340" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_compaction_scheduler_1a5841707f0dca5e412dcbd8b7a535fe1c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::AdaptiveCompactionScheduler::trigger_adjustments_</definition>
+        <argsstring></argsstring>
+        <name>trigger_adjustments_</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::trigger_adjustments_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="341" column="17" bodyfile="include/storage/adaptive_compaction.h" bodystart="341" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_compaction_scheduler_1ab9a32d045d651504c630288335d89dad" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::AdaptiveCompactionScheduler::sample_thread_</definition>
+        <argsstring></argsstring>
+        <name>sample_thread_</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::sample_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="344" column="17" bodyfile="include/storage/adaptive_compaction.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_compaction_scheduler_1afa5dc8d147ffefb764edaae97544ada3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::AdaptiveCompactionScheduler::sample_stop_</definition>
+        <argsstring></argsstring>
+        <name>sample_stop_</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::sample_stop_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="345" column="17" bodyfile="include/storage/adaptive_compaction.h" bodystart="345" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_compaction_scheduler_1a60d94fac64be3167475f1cf63c0bad86" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::AdaptiveCompactionScheduler::sample_mutex_</definition>
+        <argsstring></argsstring>
+        <name>sample_mutex_</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::sample_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="346" column="24" bodyfile="include/storage/adaptive_compaction.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_compaction_scheduler_1a3c66b808bc1f7d1ef01ff8dc1afc92c1" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::AdaptiveCompactionScheduler::sample_cv_</definition>
+        <argsstring></argsstring>
+        <name>sample_cv_</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::sample_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="347" column="29" bodyfile="include/storage/adaptive_compaction.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1ad9ff063e3d0b49acd9c5b420dfe62808" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdaptiveCompactionScheduler::AdaptiveCompactionScheduler</definition>
+        <argsstring>()</argsstring>
+        <name>AdaptiveCompactionScheduler</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::AdaptiveCompactionScheduler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct with default configuration. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="204" column="5" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="28" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1a3c15c0f522cce822b16604b2f558f214" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdaptiveCompactionScheduler::AdaptiveCompactionScheduler</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>AdaptiveCompactionScheduler</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::AdaptiveCompactionScheduler</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct with custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scheduler tuning parameters used to derive compaction thresholds and sampling cadence. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="212" column="14" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1aefe19c95390a95e221bd91f78af413bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdaptiveCompactionScheduler::~AdaptiveCompactionScheduler</definition>
+        <argsstring>()</argsstring>
+        <name>~AdaptiveCompactionScheduler</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::~AdaptiveCompactionScheduler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="214" column="5" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="35" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1a7e9bc0f22df794bf74329737ef8c0cb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdaptiveCompactionScheduler::AdaptiveCompactionScheduler</definition>
+        <argsstring>(const AdaptiveCompactionScheduler &amp;)=delete</argsstring>
+        <name>AdaptiveCompactionScheduler</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::AdaptiveCompactionScheduler</qualifiedname>
+        <param>
+          <type>const AdaptiveCompactionScheduler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="217" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1a463eb6e1d591f9e4c3a83b7385d70c78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_adaptive_compaction_scheduler_1ad9ff063e3d0b49acd9c5b420dfe62808" kindref="member">AdaptiveCompactionScheduler</ref> &amp;</type>
+        <definition>AdaptiveCompactionScheduler &amp; themis::AdaptiveCompactionScheduler::operator=</definition>
+        <argsstring>(const AdaptiveCompactionScheduler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_adaptive_compaction_scheduler_1ad9ff063e3d0b49acd9c5b420dfe62808" kindref="member">AdaptiveCompactionScheduler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="218" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1afe0dc7495034ef7e5fd5d1acb9b4a9a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveCompactionScheduler::recordRead</definition>
+        <argsstring>(uint64_t count=1)</argsstring>
+        <name>recordRead</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::recordRead</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>count</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Record Read. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record <computeroutput>count</computeroutput> read operations.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="223" column="10" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1a745c766dc99aa6e9e0168edaf8e994cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveCompactionScheduler::recordWrite</definition>
+        <argsstring>(uint64_t count=1)</argsstring>
+        <name>recordWrite</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::recordWrite</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>count</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Record Write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record <computeroutput>count</computeroutput> write operations.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="226" column="10" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="58" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1adcb12fde56203b4caa0b49d7adbe535d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_compaction_impact_prediction" kindref="compound">CompactionImpactPrediction</ref></type>
+        <definition>AdaptiveCompactionScheduler::CompactionImpactPrediction themis::AdaptiveCompactionScheduler::predictCompactionImpact</definition>
+        <argsstring>(double current_write_amp=0.0) const</argsstring>
+        <name>predictCompactionImpact</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::predictCompactionImpact</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>current_write_amp</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+<para>Predict the impact of running a compaction pass now. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_write_amp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current write-amplification factor; pass 0.0 if unknown (the prediction is still useful but less precise). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rates_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="237" column="32" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="180" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1a68f681b50b52ee796ea4bba3b7ad4c8e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AdaptiveCompactionScheduler::isLowLoadPeriod</definition>
+        <argsstring>() const</argsstring>
+        <name>isLowLoadPeriod</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::isLowLoadPeriod</qualifiedname>
+        <briefdescription>
+<para>Return true when the current EMA I/O rates are below the configured low-load thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rates_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="247" column="10" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="229" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1a365ff6af9824bba4a8ed7f66a7406739" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AdaptiveCompactionScheduler::shouldTriggerCompaction</definition>
+        <argsstring>(double current_write_amp=0.0)</argsstring>
+        <name>shouldTriggerCompaction</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::shouldTriggerCompaction</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>current_write_amp</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+<para>Return true when a compaction should be triggered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Should Trigger Compaction.</para>
+<para>Returns true if:<itemizedlist>
+<listitem><para>write amplification is above the urgent threshold, OR</para>
+</listitem><listitem><para>write amplification is above the desired threshold AND the system is in a low-load period.</para>
+</listitem></itemizedlist>
+</para>
+<para>A &quot;yes&quot; increments the internal compaction_schedules counter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_write_amp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Write-amplification factor from <ref refid="structthemis_1_1_compaction_manager_1_1_stats" kindref="compound">CompactionManager::Stats</ref>.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_write_amp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_adaptive_compaction_scheduler_1adcb12fde56203b4caa0b49d7adbe535d" kindref="member">predictCompactionImpact()</ref>, fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="261" column="10" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="246" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1a1aab6e741a37d3f2aa6704505917aaa0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_adapted_config" kindref="compound">AdaptedConfig</ref></type>
+        <definition>AdaptiveCompactionScheduler::AdaptedConfig themis::AdaptiveCompactionScheduler::getAdaptedConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getAdaptedConfig</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::getAdaptedConfig</qualifiedname>
+        <briefdescription>
+<para>Compute a <ref refid="structthemis_1_1_compaction_manager_1_1_config" kindref="compound">CompactionManager::Config</ref> adjusted for the current workload without applying it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The adapted configuration that would be applied for the current workload state. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="271" column="19" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="314" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1a86657fc0b14de508f1c97bb53d2ae55b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveCompactionScheduler::applyAdaptedConfig</definition>
+        <argsstring>(CompactionManager &amp;mgr)</argsstring>
+        <name>applyAdaptedConfig</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::applyAdaptedConfig</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_compaction_manager" kindref="compound">CompactionManager</ref> &amp;</type>
+          <declname>mgr</declname>
+        </param>
+        <briefdescription>
+<para>Apply the dynamically computed configuration to <computeroutput>mgr</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply Adapted <ref refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_config" kindref="compound">Config</ref>.</para>
+<para>This adjusts the tombstone GC threshold and background GC interval of the live <ref refid="classthemis_1_1_compaction_manager" kindref="compound">CompactionManager</ref> based on the current workload.</para>
+<para><simplesect kind="note"><para>This restarts the background GC thread inside mgr if it was already running, so the new interval takes effect immediately. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: computeAdaptedConfig(), getConfig(), setConfig(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="283" column="10" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="323" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1ac0c3c11d28f4a2efe6196d6230553e4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveCompactionScheduler::startSampling</definition>
+        <argsstring>()</argsstring>
+        <name>startSampling</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::startSampling</qualifiedname>
+        <briefdescription>
+<para>Start the background sampling thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Sampling.</para>
+<para>The thread wakes every config.sample_interval, converts the accumulated read/write counts into per-second rates, updates the EMA, and appends an <ref refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_i_o_sample" kindref="compound">IOSample</ref> to the sliding window.</para>
+<para>Does nothing if the thread is already running.</para>
+<para>Calls: lock(), joinable(), store(), std::thread(), samplingLoop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="296" column="10" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="79" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1a232b4358c2d9a54a19feb9269508b2c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveCompactionScheduler::stopSampling</definition>
+        <argsstring>()</argsstring>
+        <name>stopSampling</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::stopSampling</qualifiedname>
+        <briefdescription>
+<para>Stop Sampling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop and join the background sampling thread.</para>
+<para>Calls: lock(), store(), notify_all(), joinable(), utils::joinThreadWithin(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="299" column="10" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="90" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1a080113f31da63e5d278ef7b85f73ab48" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AdaptiveCompactionScheduler::isSamplingRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isSamplingRunning</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::isSamplingRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return true if the background sampling thread is running. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sample_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="302" column="10" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="102" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1a499c7ba9d9524b9402bd8d2ce33d6fc9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>AdaptiveCompactionScheduler::Stats themis::AdaptiveCompactionScheduler::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return a snapshot of current scheduler statistics. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rates_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">samples_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="307" column="11" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="339" bodyend="365"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1a375cf7880ffd41087eb8ab63ed29dc75" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveCompactionScheduler::samplingLoop</definition>
+        <argsstring>()</argsstring>
+        <name>samplingLoop</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::samplingLoop</qualifiedname>
+        <briefdescription>
+<para>Sampling Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Background sampling loop that updates the EMA and sliding window.</para>
+<para>Calls: load(), lock(), wait_for(), unlock(), collectSample(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="311" column="10" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="117" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1aff9b5b51764f2cdb22339aa29d1823cd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveCompactionScheduler::collectSample</definition>
+        <argsstring>()</argsstring>
+        <name>collectSample</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::collectSample</qualifiedname>
+        <briefdescription>
+<para>Collect Sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Capture one sampling interval and update the rolling counters.</para>
+<para>Calls: std::chrono::steady_clock::now(), exchange(), lock(), count(), updateEMA(), push_back(), size(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="313" column="10" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="140" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1ae9b150b84da0b3732aad074474652087" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveCompactionScheduler::updateEMA</definition>
+        <argsstring>(double new_value, double &amp;ema) noexcept</argsstring>
+        <name>updateEMA</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::updateEMA</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>new_value</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>ema</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Update an exponential moving average in place. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="315" column="10" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="67" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_compaction_scheduler_1a65ce296359244d788d3968c4bc42fa79" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_adapted_config" kindref="compound">AdaptedConfig</ref></type>
+        <definition>AdaptiveCompactionScheduler::AdaptedConfig themis::AdaptiveCompactionScheduler::computeAdaptedConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>computeAdaptedConfig</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::computeAdaptedConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute the configuration implied by the current workload state. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rates_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="317" column="19" bodyfile="src/storage/adaptive_compaction.cpp" bodystart="263" bodyend="311"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Adaptive compaction scheduler for the storage engine (v1.7.0). </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_adaptive_compaction_scheduler" kindref="compound">AdaptiveCompactionScheduler</ref> monitors read/write I/O patterns, predicts the CPU impact of running a compaction pass, identifies low-load time windows suitable for scheduling, and dynamically adjusts the trigger thresholds passed to the underlying <ref refid="classthemis_1_1_compaction_manager" kindref="compound">CompactionManager</ref> — delivering the 20-30 % compaction CPU overhead reduction targeted by roadmap item 209.</para>
+<sect1 id="classthemis_1_1_adaptive_compaction_scheduler_1autotoc_md0_1s1"><sect2 id="classthemis_1_1_adaptive_compaction_scheduler_1autotoc_md0">
+<title>Key capabilities</title><para>• <bold>Pattern monitoring</bold> – <ref refid="classthemis_1_1_adaptive_compaction_scheduler_1afe0dc7495034ef7e5fd5d1acb9b4a9a5" kindref="member">recordRead()</ref> / <ref refid="classthemis_1_1_adaptive_compaction_scheduler_1a745c766dc99aa6e9e0168edaf8e994cc" kindref="member">recordWrite()</ref> accumulate I/O counts. A background sampling thread converts them into per-sample read/write rates and maintains an Exponential Moving Average (EMA) of each rate to dampen transient spikes.</para>
+<para>• <bold>Impact prediction</bold> – <ref refid="classthemis_1_1_adaptive_compaction_scheduler_1adcb12fde56203b4caa0b49d7adbe535d" kindref="member">predictCompactionImpact()</ref> uses the current EMA write rate and the caller-supplied write-amplification factor to estimate compaction CPU overhead and duration without running an actual compaction.</para>
+<para>• <bold>Low-load scheduling</bold> – <ref refid="classthemis_1_1_adaptive_compaction_scheduler_1a68f681b50b52ee796ea4bba3b7ad4c8e" kindref="member">isLowLoadPeriod()</ref> returns true when both the EMA write rate and the EMA read rate are below their configured thresholds. <ref refid="classthemis_1_1_adaptive_compaction_scheduler_1a365ff6af9824bba4a8ed7f66a7406739" kindref="member">shouldTriggerCompaction()</ref> combines the low-load signal with the urgency derived from write amplification to give a single scheduling decision.</para>
+<para>• <bold>Dynamic trigger adjustment</bold> – <ref refid="classthemis_1_1_adaptive_compaction_scheduler_1a1aab6e741a37d3f2aa6704505917aaa0" kindref="member">getAdaptedConfig()</ref> computes a <ref refid="structthemis_1_1_compaction_manager_1_1_config" kindref="compound">CompactionManager::Config</ref> whose tombstone threshold and GC interval are derived from the current workload: aggressive during quiet periods, conservative during peaks. <ref refid="classthemis_1_1_adaptive_compaction_scheduler_1a86657fc0b14de508f1c97bb53d2ae55b" kindref="member">applyAdaptedConfig()</ref> pushes the result straight into a live <ref refid="classthemis_1_1_compaction_manager" kindref="compound">CompactionManager</ref>.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1_adaptive_compaction_scheduler_1autotoc_md1_1s1"><sect2 id="classthemis_1_1_adaptive_compaction_scheduler_1autotoc_md1">
+<title>Thread safety</title><para>All public methods are thread-safe. The background sampling thread is started with <ref refid="classthemis_1_1_adaptive_compaction_scheduler_1ac0c3c11d28f4a2efe6196d6230553e4e" kindref="member">startSampling()</ref> and stopped (with a join) by <ref refid="classthemis_1_1_adaptive_compaction_scheduler_1a232b4358c2d9a54a19feb9269508b2c9" kindref="member">stopSampling()</ref> or the destructor.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1_adaptive_compaction_scheduler_1autotoc_md2_1s1"><sect2 id="classthemis_1_1_adaptive_compaction_scheduler_1autotoc_md2">
+<title>Usage example</title><para><programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cm<sp/><sp/>=<sp/>std::make_shared&lt;CompactionManager&gt;(db);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_adaptive_compaction_scheduler_1ad9ff063e3d0b49acd9c5b420dfe62808" kindref="member">AdaptiveCompactionScheduler</ref><sp/>sched;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">sched.startSampling();</highlight></codeline>
+<codeline><highlight class="normal">cm-&gt;startBackgroundGC();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>In<sp/>your<sp/>read<sp/>/<sp/>write<sp/>paths:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">sched.recordWrite(batch_size);</highlight></codeline>
+<codeline><highlight class="normal">sched.recordRead();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Periodically<sp/>in<sp/>a<sp/>maintenance<sp/>loop:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_adaptive_compaction_scheduler_1a499c7ba9d9524b9402bd8d2ce33d6fc9" kindref="member">stats</ref><sp/>=<sp/>cm-&gt;stats();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sched.shouldTriggerCompaction(<ref refid="classthemis_1_1_adaptive_compaction_scheduler_1a499c7ba9d9524b9402bd8d2ce33d6fc9" kindref="member">stats</ref>.writeAmplification()))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>cm-&gt;compactAll();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">sched.applyAdaptedConfig(*cm);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>keep<sp/>thresholds<sp/>in<sp/>sync</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/storage/adaptive_compaction.h" line="88" column="1" bodyfile="include/storage/adaptive_compaction.h" bodystart="88" bodyend="348"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1ad9ff063e3d0b49acd9c5b420dfe62808" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>AdaptiveCompactionScheduler</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a3c15c0f522cce822b16604b2f558f214" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>AdaptiveCompactionScheduler</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a7e9bc0f22df794bf74329737ef8c0cb8" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>AdaptiveCompactionScheduler</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a86657fc0b14de508f1c97bb53d2ae55b" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>applyAdaptedConfig</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1aff9b5b51764f2cdb22339aa29d1823cd" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>collectSample</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a1752cdd1065144dcac68582b5f5bacf9" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>compaction_schedules_</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a65ce296359244d788d3968c4bc42fa79" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>computeAdaptedConfig</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a2d876ec573d42a8d2775e3d8296fd5a0" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a749f48e9abc1df52286262bdaecd6797" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>ema_read_rate_</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a27f0bbca927b81a59e7d6f5c9a0f7bed" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>ema_write_rate_</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a1aab6e741a37d3f2aa6704505917aaa0" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>getAdaptedConfig</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a68f681b50b52ee796ea4bba3b7ad4c8e" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>isLowLoadPeriod</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a080113f31da63e5d278ef7b85f73ab48" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>isSamplingRunning</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a6e51e76ad4b711801f1ecbf5831335c1" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>last_sample_time_</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a463eb6e1d591f9e4c3a83b7385d70c78" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1adcb12fde56203b4caa0b49d7adbe535d" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>predictCompactionImpact</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1aa082adb37e7b5ab1af5efd3d9f603b07" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>rates_mutex_</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1afe0dc7495034ef7e5fd5d1acb9b4a9a5" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>recordRead</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a745c766dc99aa6e9e0168edaf8e994cc" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>recordWrite</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a3c66b808bc1f7d1ef01ff8dc1afc92c1" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>sample_cv_</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a60d94fac64be3167475f1cf63c0bad86" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>sample_mutex_</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1afa5dc8d147ffefb764edaae97544ada3" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>sample_stop_</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1ab9a32d045d651504c630288335d89dad" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>sample_thread_</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1aacee87bb2842500cbc74d2eb12dd77c1" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>samples_</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1ac234f67b0e4cd06c15a08074a993b9b5" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>samples_mutex_</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a375cf7880ffd41087eb8ab63ed29dc75" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>samplingLoop</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a365ff6af9824bba4a8ed7f66a7406739" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>shouldTriggerCompaction</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1ac0c3c11d28f4a2efe6196d6230553e4e" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>startSampling</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a499c7ba9d9524b9402bd8d2ce33d6fc9" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>stats</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a232b4358c2d9a54a19feb9269508b2c9" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>stopSampling</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a384089436a5fb977e49317171215ff8b" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>total_reads_</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a9f732118282298dfd189752edb5539d1" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>total_writes_</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a5841707f0dca5e412dcbd8b7a535fe1c" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>trigger_adjustments_</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1ae9b150b84da0b3732aad074474652087" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>updateEMA</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a5578ea7d48c357c500eee9294bcad649" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>window_reads_</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1a1cc10d519f89bb252be4626a8838aa73" prot="private" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>window_writes_</name></member>
+      <member refid="classthemis_1_1_adaptive_compaction_scheduler_1aefe19c95390a95e221bd91f78af413bb" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler</scope><name>~AdaptiveCompactionScheduler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

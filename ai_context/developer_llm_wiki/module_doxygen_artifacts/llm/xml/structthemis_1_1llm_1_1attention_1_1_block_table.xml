@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1attention_1_1_block_table" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::attention::BlockTable</compoundname>
+    <includes refid="kv__cache__manager_8h" local="no">kv_cache_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_block_table_1a529e990896b877865c89041e6b3fbee6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::attention::BlockTable::block_ids</definition>
+        <argsstring></argsstring>
+        <name>block_ids</name>
+        <qualifiedname>themis::llm::attention::BlockTable::block_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="44" column="17" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_block_table_1a73e6ef93a08cdbf510855c686aa1db7d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::attention::BlockTable::num_tokens</definition>
+        <argsstring></argsstring>
+        <name>num_tokens</name>
+        <qualifiedname>themis::llm::attention::BlockTable::num_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="45" column="9" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_block_table_1ae0c042161b939404deee5422535aa75a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::attention::BlockTable::sequence_id</definition>
+        <argsstring></argsstring>
+        <name>sequence_id</name>
+        <qualifiedname>themis::llm::attention::BlockTable::sequence_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="46" column="14" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_block_table_1a7745da1dce9262cb680b38dd6e925a60" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::BlockTable::has_shared_prefix</definition>
+        <argsstring></argsstring>
+        <name>has_shared_prefix</name>
+        <qualifiedname>themis::llm::attention::BlockTable::has_shared_prefix</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="49" column="10" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_block_table_1a25faf5716318e705213413ac8f678398" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::attention::BlockTable::parent_sequence_id</definition>
+        <argsstring></argsstring>
+        <name>parent_sequence_id</name>
+        <qualifiedname>themis::llm::attention::BlockTable::parent_sequence_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="50" column="14" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_block_table_1a161b87aac3439b09ca83d96f3c3ec546" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::attention::BlockTable::shared_prefix_length</definition>
+        <argsstring></argsstring>
+        <name>shared_prefix_length</name>
+        <qualifiedname>themis::llm::attention::BlockTable::shared_prefix_length</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="51" column="9" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1attention_1_1_block_table_1a068ad91fe17b8e9c2c97fd3f5e8d4c79" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::attention::BlockTable::~BlockTable</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BlockTable</name>
+        <qualifiedname>themis::llm::attention::BlockTable::~BlockTable</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1llm_1_1attention_1_1_block" kindref="compound">Block</ref> Table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/kv_cache_manager.h" line="43" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/attention/kv_cache_manager.h" line="38" column="1" bodyfile="include/llm/attention/kv_cache_manager.h" bodystart="38" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_block_table_1a529e990896b877865c89041e6b3fbee6" prot="public" virt="non-virtual"><scope>themis::llm::attention::BlockTable</scope><name>block_ids</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_block_table_1a7745da1dce9262cb680b38dd6e925a60" prot="public" virt="non-virtual"><scope>themis::llm::attention::BlockTable</scope><name>has_shared_prefix</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_block_table_1a73e6ef93a08cdbf510855c686aa1db7d" prot="public" virt="non-virtual"><scope>themis::llm::attention::BlockTable</scope><name>num_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_block_table_1a25faf5716318e705213413ac8f678398" prot="public" virt="non-virtual"><scope>themis::llm::attention::BlockTable</scope><name>parent_sequence_id</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_block_table_1ae0c042161b939404deee5422535aa75a" prot="public" virt="non-virtual"><scope>themis::llm::attention::BlockTable</scope><name>sequence_id</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_block_table_1a161b87aac3439b09ca83d96f3c3ec546" prot="public" virt="non-virtual"><scope>themis::llm::attention::BlockTable</scope><name>shared_prefix_length</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_block_table_1a068ad91fe17b8e9c2c97fd3f5e8d4c79" prot="public" virt="virtual"><scope>themis::llm::attention::BlockTable</scope><name>~BlockTable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_operator_remediation_engine_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::OperatorRemediationEngineTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_operator_remediation_engine_test_1a1ba3fd37bd1d666b5c6d452c70f772fe" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1observability_1_1_operator_remediation_engine" kindref="compound">OperatorRemediationEngine</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;OperatorRemediationEngine&gt; themis::observability::OperatorRemediationEngineTest::engine</definition>
+        <argsstring></argsstring>
+        <name>engine</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineTest::engine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_operator_remediation_engine.cpp" line="36" column="21" bodyfile="tests/observability/test_operator_remediation_engine.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_test_1ab5a0c9959536a820a451b2fcae05e42b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::OperatorRemediationEngineTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_operator_remediation_engine.cpp" line="32" column="10" bodyfile="tests/observability/test_operator_remediation_engine.cpp" bodystart="32" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::observability::OperatorRemediationEngineTest</label>
+        <link refid="classthemis_1_1observability_1_1_operator_remediation_engine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::observability::OperatorRemediationEngineTest</label>
+        <link refid="classthemis_1_1observability_1_1_operator_remediation_engine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/observability/test_operator_remediation_engine.cpp" line="30" column="1" bodyfile="tests/observability/test_operator_remediation_engine.cpp" bodystart="30" bodyend="37"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_test_1a1ba3fd37bd1d666b5c6d452c70f772fe" prot="protected" virt="non-virtual"><scope>themis::observability::OperatorRemediationEngineTest</scope><name>engine</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_test_1ab5a0c9959536a820a451b2fcae05e42b" prot="protected" virt="non-virtual"><scope>themis::observability::OperatorRemediationEngineTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

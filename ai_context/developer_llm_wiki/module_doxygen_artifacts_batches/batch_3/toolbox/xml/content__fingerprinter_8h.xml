@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="content__fingerprinter_8h" kind="file" language="C++">
+    <compoundname>content_fingerprinter.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includedby refid="bench__toolbox__native__workloads_8cpp" local="yes">benchmarks/toolbox/bench_toolbox_native_workloads.cpp</includedby>
+    <includedby refid="content__fingerprinter_8cpp" local="yes">src/toolbox/content_fingerprinter.cpp</includedby>
+    <includedby refid="test__toolbox__primitives_8cpp" local="yes">tests/toolbox/test_toolbox_primitives.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/toolbox/content_fingerprinter.h</label>
+        <link refid="content__fingerprinter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/toolbox/bench_toolbox_native_workloads.cpp</label>
+        <link refid="bench__toolbox__native__workloads_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/toolbox/content_fingerprinter.h</label>
+        <link refid="content__fingerprinter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/toolbox/content_fingerprinter.cpp</label>
+        <link refid="content__fingerprinter_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/toolbox/test_toolbox_primitives.cpp</label>
+        <link refid="test__toolbox__primitives_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1toolbox_1_1_content_fingerprint" prot="public">themis::toolbox::ContentFingerprint</innerclass>
+    <innerclass refid="classthemis_1_1toolbox_1_1_content_fingerprinter" prot="public">themis::toolbox::ContentFingerprinter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1toolbox">themis::toolbox</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="17" refid="namespacethemis_1_1toolbox" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ContentFingerprint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1toolbox_1_1_content_fingerprint" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint" kindref="compound">ContentFingerprint</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1toolbox_1_1_content_fingerprint_1afe807d63d650116c10addc0dd80235d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint_1afe807d63d650116c10addc0dd80235d1" kindref="member">sha256_hex</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1toolbox_1_1_content_fingerprint_1ab0aa5db46fc483f1f693a25d51a8de2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint_1ab0aa5db46fc483f1f693a25d51a8de2f" kindref="member">byte_len</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1toolbox_1_1_content_fingerprint_1ab6b22f4fbfb7a824b58c4047111523bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint_1ab6b22f4fbfb7a824b58c4047111523bf" kindref="member">token_estimate</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1toolbox_1_1_content_fingerprint_1aa9d739d3f3cce7be9a8450653dbb6081" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint_1aa9d739d3f3cce7be9a8450653dbb6081" kindref="member">latency_us</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1toolbox_1_1_content_fingerprint_1a846e60aad8e8b3b0a11bae2a4bc342d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint_1a846e60aad8e8b3b0a11bae2a4bc342d7" kindref="member">valid</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!<ref refid="structthemis_1_1toolbox_1_1_content_fingerprint_1afe807d63d650116c10addc0dd80235d1" kindref="member">sha256_hex</ref>.empty();<sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1toolbox_1_1_content_fingerprint_1adc2cbc7a0eadef916bde374160950a8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint_1adc2cbc7a0eadef916bde374160950a8e" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint" kindref="compound">ContentFingerprint</ref>&amp;<sp/>o)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint_1afe807d63d650116c10addc0dd80235d1" kindref="member">sha256_hex</ref><sp/>==<sp/>o.sha256_hex;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1toolbox_1_1_content_fingerprint_1abaebb4b26d8f46055918e147a245a5b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint_1abaebb4b26d8f46055918e147a245a5b7" kindref="member">operator!=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint" kindref="compound">ContentFingerprint</ref>&amp;<sp/>o)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!(*</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>==<sp/>o);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ContentFingerprinter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1toolbox_1_1_content_fingerprinter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a029c612de899928a5d52ca989ff84e66" kindref="member">ContentFingerprinter</ref><sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a029c612de899928a5d52ca989ff84e66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a029c612de899928a5d52ca989ff84e66" kindref="member">ContentFingerprinter</ref>()<sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a7f7b6ca2f4fe72b18c70907e55ec1c51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a7f7b6ca2f4fe72b18c70907e55ec1c51" kindref="member">~ContentFingerprinter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a5a50d676c20fcdc6e476dc20b92c6c83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a5a50d676c20fcdc6e476dc20b92c6c83" kindref="member">ContentFingerprinter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a029c612de899928a5d52ca989ff84e66" kindref="member">ContentFingerprinter</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1ad890b062dfddd350ae495e66c17da809" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a029c612de899928a5d52ca989ff84e66" kindref="member">ContentFingerprinter</ref>&amp;<sp/><ref refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1ad890b062dfddd350ae495e66c17da809" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a029c612de899928a5d52ca989ff84e66" kindref="member">ContentFingerprinter</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint" kindref="compound">ContentFingerprint</ref><sp/><ref refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1af9f44ff174554cf6d6fa4d9137acdc41" kindref="member">compute</ref>(std::string_view<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint" kindref="compound">ContentFingerprint</ref><sp/><ref refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1af9f44ff174554cf6d6fa4d9137acdc41" kindref="member">compute</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>data,<sp/>std::size_t<sp/>len)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Free<sp/>function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint" kindref="compound">ContentFingerprint</ref><sp/><ref refid="namespacethemis_1_1toolbox_1a5aeb09f46cf41b7b6b90efd8ad1ca106" kindref="member">fingerprint</ref>(std::string_view<sp/>text);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>toolbox</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/toolbox/content_fingerprinter.h"/>
+  </compounddef>
+</doxygen>

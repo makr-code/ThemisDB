@@ -1,0 +1,782 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_federation_replica_manager_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::FederationReplicaManagerImpl</compoundname>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1aa955592ad444406ff006fc57d8731333" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::FederationReplicaManagerImpl::kSnapshotIntervalEntries</definition>
+        <argsstring></argsstring>
+        <name>kSnapshotIntervalEntries</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::kSnapshotIntervalEntries</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="132" column="29" bodyfile="src/process/federation_replica_manager.cpp" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1ae5d4871ff4479f2103e431c49d8422ce" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::FederationReplicaManagerImpl::kStateHashSize</definition>
+        <argsstring></argsstring>
+        <name>kStateHashSize</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::kStateHashSize</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="133" column="29" bodyfile="src/process/federation_replica_manager.cpp" bodystart="133" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a2ff79e8b3f8a042e9ad89b5facf4be50" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1process_1_1_federation_replica_config" kindref="compound">FederationReplicaConfig</ref></type>
+        <definition>FederationReplicaConfig themis::process::FederationReplicaManagerImpl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="168" column="27" bodyfile="src/process/federation_replica_manager.cpp" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a73071604ad8652a7b9a5b25a5a20e06f" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::FederationReplicaManagerImpl::node_id_</definition>
+        <argsstring></argsstring>
+        <name>node_id_</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::node_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="169" column="15" bodyfile="src/process/federation_replica_manager.cpp" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a00808f830e841acf38bab3e3d1b69fe1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::process::FederationReplicaManagerImpl::replica_mutex_</definition>
+        <argsstring></argsstring>
+        <name>replica_mutex_</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::replica_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="172" column="22" bodyfile="src/process/federation_replica_manager.cpp" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a5a9107e0c4c0c13ad67a758fff8a53f6" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::FederationReplicaManagerImpl::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="173" column="15" bodyfile="src/process/federation_replica_manager.cpp" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a2e2849d115b781324984e8797a26a51c" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::FederationReplicaManagerImpl::last_applied_</definition>
+        <argsstring></argsstring>
+        <name>last_applied_</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::last_applied_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="174" column="12" bodyfile="src/process/federation_replica_manager.cpp" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a4e545e31543b5a2e581ff593065664e9" prot="private" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, std::string &gt;</type>
+        <definition>std::map&lt;uint64_t, std::string&gt; themis::process::FederationReplicaManagerImpl::applied_checksums_</definition>
+        <argsstring></argsstring>
+        <name>applied_checksums_</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::applied_checksums_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="175" column="12" bodyfile="src/process/federation_replica_manager.cpp" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a62041cb08957a1b9540dd34f58ff1df1" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1process_1_1_snapshot" kindref="compound">Snapshot</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Snapshot&gt; themis::process::FederationReplicaManagerImpl::current_snapshot_</definition>
+        <argsstring></argsstring>
+        <name>current_snapshot_</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::current_snapshot_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="178" column="19" bodyfile="src/process/federation_replica_manager.cpp" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1ace3c7fb867700942d8e225c4beec7572" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::FederationReplicaManagerImpl::snapshot_index_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_index_</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::snapshot_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="179" column="12" bodyfile="src/process/federation_replica_manager.cpp" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a08eb5813dea94850c52dcd90c6cb08b6" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::FederationReplicaManagerImpl::snapshot_term_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_term_</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::snapshot_term_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="180" column="12" bodyfile="src/process/federation_replica_manager.cpp" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a38a1bdbbb000a49a373509cf9e9acdfb" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::process::FederationReplicaManagerImpl::metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>metrics_mutex_</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="183" column="22" bodyfile="src/process/federation_replica_manager.cpp" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1adcbe36fac782880b754c4bfdd7904fdf" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::FederationReplicaManagerImpl::entries_applied_</definition>
+        <argsstring></argsstring>
+        <name>entries_applied_</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::entries_applied_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="184" column="12" bodyfile="src/process/federation_replica_manager.cpp" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1aace5e09f3496e3a2e8a615fa322a64a7" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::FederationReplicaManagerImpl::snapshots_taken_</definition>
+        <argsstring></argsstring>
+        <name>snapshots_taken_</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::snapshots_taken_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="185" column="12" bodyfile="src/process/federation_replica_manager.cpp" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a66f4a94ca4665d9f01118913dade4e43" prot="private" static="no" mutable="yes">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::FederationReplicaManagerImpl::divergences_detected_</definition>
+        <argsstring></argsstring>
+        <name>divergences_detected_</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::divergences_detected_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="186" column="20" bodyfile="src/process/federation_replica_manager.cpp" bodystart="186" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a1532a4c32ae7113ade47db0d37bac5b4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::FederationReplicaManagerImpl::FederationReplicaManagerImpl</definition>
+        <argsstring>(const FederationReplicaConfig &amp;config, const std::string &amp;node_id)</argsstring>
+        <name>FederationReplicaManagerImpl</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::FederationReplicaManagerImpl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_federation_replica_config" kindref="compound">FederationReplicaConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="61" column="3" bodyfile="src/process/federation_replica_manager.cpp" bodystart="61" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a55c5683cc5d5d0fcd88ef6e5c134dce2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::FederationReplicaManagerImpl::~FederationReplicaManagerImpl</definition>
+        <argsstring>()=default</argsstring>
+        <name>~FederationReplicaManagerImpl</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::~FederationReplicaManagerImpl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="72" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a3df0043d8b6cf802961dc3e0baca6a53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::FederationReplicaManagerImpl::ApplyEntry</definition>
+        <argsstring>(uint64_t log_index, uint64_t log_term, const std::string &amp;data)</argsstring>
+        <name>ApplyEntry</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::ApplyEntry</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>log_index</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>log_term</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>======================================================================== PUBLIC API - STATE MACHINE EXECUTION ======================================================================== </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply Entry.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">log_term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">log_term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), utils::Logger::Warn(), c_str(), ApplyEntryLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="82" column="15" bodyfile="src/process/federation_replica_manager.cpp" bodystart="201" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a7173e487bfc383a1239b5dfd670e59e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::FederationReplicaManagerImpl::VerifyConsistency</definition>
+        <argsstring>(const std::string &amp;expected_state_hash, uint64_t at_log_index) const</argsstring>
+        <name>VerifyConsistency</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::VerifyConsistency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_state_hash</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>at_log_index</declname>
+        </param>
+        <briefdescription>
+<para>Verify Consistency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_state_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">at_log_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="91" column="8" bodyfile="src/process/federation_replica_manager.cpp" bodystart="252" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a5a145559d7f0c80475087524a24ac013" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1process_1_1_snapshot" kindref="compound">Snapshot</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Snapshot &gt; themis::process::FederationReplicaManagerImpl::TakeSnapshot</definition>
+        <argsstring>()</argsstring>
+        <name>TakeSnapshot</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::TakeSnapshot</qualifiedname>
+        <briefdescription>
+<para>Take <ref refid="structthemis_1_1process_1_1_snapshot" kindref="compound">Snapshot</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::high_resolution_clock::now(), size(), std::chrono::system_clock::now(), time_since_epoch(), count(), utils::Logger::Info(), c_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="98" column="19" bodyfile="src/process/federation_replica_manager.cpp" bodystart="279" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1afadf3919527c0d9873efacf4222a9715" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::FederationReplicaManagerImpl::RestoreFromSnapshot</definition>
+        <argsstring>(const Snapshot *snapshot, const std::vector&lt; std::string &gt; &amp;tail_entries)</argsstring>
+        <name>RestoreFromSnapshot</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::RestoreFromSnapshot</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_snapshot" kindref="compound">Snapshot</ref> *</type>
+          <declname>snapshot</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>tail_entries</declname>
+        </param>
+        <briefdescription>
+<para>Restore From <ref refid="structthemis_1_1process_1_1_snapshot" kindref="compound">Snapshot</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tail_entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tail_entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), clear(), ReplayEntries(), utils::Logger::Error(), c_str(), ValidateState(), utils::Logger::Info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="106" column="8" bodyfile="src/process/federation_replica_manager.cpp" bodystart="319" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1ae8d6456519f26c149513e2d3ab13be06" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::FederationReplicaManagerImpl::GetStateHash</definition>
+        <argsstring>() const</argsstring>
+        <name>GetStateHash</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::GetStateHash</qualifiedname>
+        <briefdescription>
+<para>Get State Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="113" column="15" bodyfile="src/process/federation_replica_manager.cpp" bodystart="355" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a6fc3c5438309b1a45ef23cd54bc88158" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::FederationReplicaManagerImpl::GetLastApplied</definition>
+        <argsstring>() const</argsstring>
+        <name>GetLastApplied</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::GetLastApplied</qualifiedname>
+        <briefdescription>
+<para>Get Last Applied. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="119" column="12" bodyfile="src/process/federation_replica_manager.cpp" bodystart="365" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a8fedddc0ab6bf11c79546d9920f63324" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_replica_stats" kindref="compound">ReplicaStats</ref></type>
+        <definition>ReplicaStats themis::process::FederationReplicaManagerImpl::GetStats</definition>
+        <argsstring>() const</argsstring>
+        <name>GetStats</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::GetStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Metrics lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="125" column="16" bodyfile="src/process/federation_replica_manager.cpp" bodystart="375" bodyend="397"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a1a4eb7c8746c9115a6ddeaf0cda19f0b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::FederationReplicaManagerImpl::ApplyEntryLocked</definition>
+        <argsstring>(uint64_t log_index, uint64_t log_term, const std::string &amp;data)</argsstring>
+        <name>ApplyEntryLocked</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::ApplyEntryLocked</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>log_index</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>log_term</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Apply Entry Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">log_term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">log_term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(), utils::Logger::Debug(), c_str(), size(), ComputeStateHash(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="142" column="15" bodyfile="src/process/federation_replica_manager.cpp" bodystart="224" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a4f65a3c2206cd8301bce121d42314d6e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::FederationReplicaManagerImpl::ComputeStateHash</definition>
+        <argsstring>() const</argsstring>
+        <name>ComputeStateHash</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::ComputeStateHash</qualifiedname>
+        <briefdescription>
+<para>Compute State Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="149" column="15" bodyfile="src/process/federation_replica_manager.cpp" bodystart="399" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1acecdb422985385ed5106ac5121aa5f90" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::FederationReplicaManagerImpl::ReplayEntries</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;entries)</argsstring>
+        <name>ReplayEntries</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::ReplayEntries</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+<para>Replay Entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), ApplyEntryLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="156" column="8" bodyfile="src/process/federation_replica_manager.cpp" bodystart="413" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_replica_manager_impl_1a2cd77fa35432b1334a77c5ed656d81e6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::FederationReplicaManagerImpl::ValidateState</definition>
+        <argsstring>() const</argsstring>
+        <name>ValidateState</name>
+        <qualifiedname>themis::process::FederationReplicaManagerImpl::ValidateState</qualifiedname>
+        <briefdescription>
+<para>Validate State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_replica_manager.cpp" line="162" column="8" bodyfile="src/process/federation_replica_manager.cpp" bodystart="422" bodyend="425"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/process/federation_replica_manager.cpp" line="59" column="1" bodyfile="src/process/federation_replica_manager.cpp" bodystart="59" bodyend="187"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a4e545e31543b5a2e581ff593065664e9" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>applied_checksums_</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a3df0043d8b6cf802961dc3e0baca6a53" prot="public" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>ApplyEntry</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a1a4eb7c8746c9115a6ddeaf0cda19f0b" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>ApplyEntryLocked</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a4f65a3c2206cd8301bce121d42314d6e" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>ComputeStateHash</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a2ff79e8b3f8a042e9ad89b5facf4be50" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a62041cb08957a1b9540dd34f58ff1df1" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>current_snapshot_</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a66f4a94ca4665d9f01118913dade4e43" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>divergences_detected_</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1adcbe36fac782880b754c4bfdd7904fdf" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>entries_applied_</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a1532a4c32ae7113ade47db0d37bac5b4" prot="public" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>FederationReplicaManagerImpl</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a6fc3c5438309b1a45ef23cd54bc88158" prot="public" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>GetLastApplied</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1ae8d6456519f26c149513e2d3ab13be06" prot="public" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>GetStateHash</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a8fedddc0ab6bf11c79546d9920f63324" prot="public" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>GetStats</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1aa955592ad444406ff006fc57d8731333" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>kSnapshotIntervalEntries</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1ae5d4871ff4479f2103e431c49d8422ce" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>kStateHashSize</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a2e2849d115b781324984e8797a26a51c" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>last_applied_</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a38a1bdbbb000a49a373509cf9e9acdfb" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>metrics_mutex_</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a73071604ad8652a7b9a5b25a5a20e06f" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>node_id_</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1acecdb422985385ed5106ac5121aa5f90" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>ReplayEntries</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a00808f830e841acf38bab3e3d1b69fe1" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>replica_mutex_</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1afadf3919527c0d9873efacf4222a9715" prot="public" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>RestoreFromSnapshot</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1ace3c7fb867700942d8e225c4beec7572" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>snapshot_index_</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a08eb5813dea94850c52dcd90c6cb08b6" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>snapshot_term_</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1aace5e09f3496e3a2e8a615fa322a64a7" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>snapshots_taken_</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a5a9107e0c4c0c13ad67a758fff8a53f6" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>state_</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a5a145559d7f0c80475087524a24ac013" prot="public" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>TakeSnapshot</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a2cd77fa35432b1334a77c5ed656d81e6" prot="private" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>ValidateState</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a7173e487bfc383a1239b5dfd670e59e5" prot="public" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>VerifyConsistency</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_replica_manager_impl_1a55c5683cc5d5d0fcd88ef6e5c134dce2" prot="public" virt="non-virtual"><scope>themis::process::FederationReplicaManagerImpl</scope><name>~FederationReplicaManagerImpl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

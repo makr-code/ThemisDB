@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gpu__timeout_8h" kind="file" language="C++">
+    <compoundname>gpu_timeout.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/gpu/gpu_timeout.h</label>
+        <link refid="gpu__timeout_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard" prot="public">themis::gpu::KernelSLAGuard</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>THEMIS_GPU_TIMEOUT_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_GPU_TIMEOUT_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>gpu_timeout.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASCII-sanitized<sp/>Kernel<sp/>SLA<sp/>enforcement<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Restored<sp/>minimal<sp/>documentation<sp/>and<sp/>the<sp/>KernelSLAGuard<sp/>API.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Enforces<sp/>a<sp/>maximum<sp/>kernel<sp/>execution<sp/>time<sp/>and<sp/>provides<sp/>diagnostic<sp/>helpers.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Default<sp/>SLA:<sp/>5<sp/>seconds.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a3d0d3539af506a711b24e157d987ac09" kindref="member">KernelSLAGuard</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="19" refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a91551dd568c2bb8e503d31c321e9bc78" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a91551dd568c2bb8e503d31c321e9bc78" kindref="member">DEFAULT_SLA_DURATION</ref>{5};</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a3d0d3539af506a711b24e157d987ac09" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a3d0d3539af506a711b24e157d987ac09" kindref="member">KernelSLAGuard</ref>(</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::duration<sp/>timeout_duration<sp/>=<sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a91551dd568c2bb8e503d31c321e9bc78" kindref="member">DEFAULT_SLA_DURATION</ref>)<sp/>noexcept</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>start_time_(std::chrono::steady_clock::now()),</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>deadline_(start_time_<sp/>+<sp/>timeout_duration),</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timeout_duration_(timeout_duration)<sp/>{}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a5748225e5f8d756e393e6292277b64fd" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a5748225e5f8d756e393e6292277b64fd" kindref="member">KernelSLAGuard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a3d0d3539af506a711b24e157d987ac09" kindref="member">KernelSLAGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1afee9ab5f3100e2a10f37bbaf7b24dd43" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a3d0d3539af506a711b24e157d987ac09" kindref="member">KernelSLAGuard</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1afee9ab5f3100e2a10f37bbaf7b24dd43" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a3d0d3539af506a711b24e157d987ac09" kindref="member">KernelSLAGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a9edee3f6654001f23d807c32f26b2c2e" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a9edee3f6654001f23d807c32f26b2c2e" kindref="member">KernelSLAGuard</ref>(<ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a3d0d3539af506a711b24e157d987ac09" kindref="member">KernelSLAGuard</ref>&amp;&amp;<sp/>other)<sp/>noexcept</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>start_time_(other.start_time_),</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>deadline_(other.deadline_),</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timeout_duration_(other.timeout_duration_)<sp/>{}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a6a5296fa1cb7ffc6411ff4f34b893a9d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a3d0d3539af506a711b24e157d987ac09" kindref="member">KernelSLAGuard</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a6a5296fa1cb7ffc6411ff4f34b893a9d" kindref="member">operator=</ref>(<ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a3d0d3539af506a711b24e157d987ac09" kindref="member">KernelSLAGuard</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>!=<sp/>&amp;other)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>start_time_<sp/>=<sp/>other.start_time_;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>deadline_<sp/>=<sp/>other.deadline_;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>timeout_duration_<sp/>=<sp/>other.timeout_duration_;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a55d2986fd81379cfec4303ea31f52051" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a55d2986fd81379cfec4303ea31f52051" kindref="member">~KernelSLAGuard</ref>()<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1aa416c82d1376c4200262a32eff167eb4" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1aa416c82d1376c4200262a32eff167eb4" kindref="member">checkTimeoutDeadline</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>now<sp/>&gt;=<sp/>deadline_;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a92c5bb358f9baa21052617f9eacf210f" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::steady_clock::duration<sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a92c5bb358f9baa21052617f9eacf210f" kindref="member">getElapsedTime</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::steady_clock::now()<sp/>-<sp/>start_time_;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a44a4c668555f0785a0593b9a7d9de14b" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::steady_clock::duration<sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a44a4c668555f0785a0593b9a7d9de14b" kindref="member">getRemainingTime</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>deadline_<sp/>-<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1aad62e63c32f80ebe36cd553f9081b75a" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::steady_clock::duration<sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1aad62e63c32f80ebe36cd553f9081b75a" kindref="member">getSLADuration</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>timeout_duration_;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1ad20ba621dafaae02dcb485a805e6868f" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1ad20ba621dafaae02dcb485a805e6868f" kindref="member">getDeadline</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>deadline_;<sp/>}</highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a95053fef2dea905422319c028a41cb2f" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="classthemis_1_1gpu_1_1_kernel_s_l_a_guard_1a95053fef2dea905422319c028a41cb2f" kindref="member">getStartTime</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>start_time_;<sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/>std::chrono::steady_clock::time_point<sp/>start_time_;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/>std::chrono::steady_clock::time_point<sp/>deadline_;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/>std::chrono::steady_clock::duration<sp/>timeout_duration_;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>THEMIS_GPU_TIMEOUT_H_</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/gpu/gpu_timeout.h"/>
+  </compounddef>
+</doxygen>

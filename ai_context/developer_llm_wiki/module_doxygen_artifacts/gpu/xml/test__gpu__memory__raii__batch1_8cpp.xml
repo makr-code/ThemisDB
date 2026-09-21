@@ -1,0 +1,634 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__memory__raii__batch1_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_memory_raii_batch1.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">themis/gpu/gpu_memory.h</includes>
+    <includes local="no">themis/gpu/gpu_error.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_memory_raii_batch1.cpp</label>
+        <link refid="test__gpu__memory__raii__batch1_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>themis/gpu/gpu_error.h</label>
+      </node>
+      <node id="3">
+        <label>themis/gpu/gpu_memory.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" prot="public">themis::gpu::test::GPUMemoryRAIITest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu_1_1test">themis::gpu::test</innernamespace>
+    <briefdescription>
+<para>Comprehensive tests for GPU memory RAII patterns and lifecycle management. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates acceptance criteria for <ref refid="test__gpu__training__loop_8cpp_1af47983e44c7b4c07e44229aedf03c895" kindref="member">Batch</ref> 1 critical GPU memory fixes:<itemizedlist>
+<listitem><para>All use-after-free findings resolved with proper lifetime management</para>
+</listitem><listitem><para>All GPU memory allocations protected by RAII wrappers</para>
+</listitem><listitem><para>Zero uninitialized access patterns with test coverage &gt; 90%</para>
+</listitem><listitem><para>All changes follow ThemisDB C++ best practices (modern C++17, smart pointers, RAII)</para>
+</listitem></itemizedlist>
+</para>
+<para>Test Categories:<orderedlist>
+<listitem><para>Memory Lifecycle (allocation/deallocation)</para>
+</listitem><listitem><para>RAII Wrapper Semantics (move, copy, scope exit)</para>
+</listitem><listitem><para>Exception Safety (cleanup on throw)</para>
+</listitem><listitem><para>Error Handling (checked CUDA calls)</para>
+</listitem><listitem><para>No Use-After-Free (moved-from detection)</para>
+</listitem><listitem><para>Integration Tests (real GPU operations if available)</para>
+</listitem></orderedlist>
+</para>
+<para>Target Coverage: &gt;90% for GPU memory code paths </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;themis/gpu/gpu_memory.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;themis/gpu/gpu_error.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test_1a3d3903ae4a9df35ac196f04a80029f80" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>GPU<sp/>memory<sp/>is<sp/>available<sp/>in<sp/>this<sp/>build</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test_1ad9800eb07b541867ebb16f85532445c2" kindref="member">gpu_available_</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(THEMIS_ENABLE_CUDA)<sp/>||<sp/>defined(THEMIS_ENABLE_HIP)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test_1ad9800eb07b541867ebb16f85532445c2" kindref="member">gpu_available_</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test_1aab4cb8d3a0d4b0fe69c05f6cdd46c785" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>no<sp/>dangling<sp/>pointers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test_1aa42c11a637f460209a055976c7b7d4d7" kindref="member">allocations_cleared_</ref>)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>did<sp/>not<sp/>properly<sp/>clean<sp/>up<sp/>allocations&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test_1ad9800eb07b541867ebb16f85532445c2" kindref="member">gpu_available_</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test_1aa42c11a637f460209a055976c7b7d4d7" kindref="member">allocations_cleared_</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>unique_gpu_ptr<sp/>Default<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>UniquePtrDefaultConstructor)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange<sp/>&amp;<sp/>Act</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/>unique_gpu_ptr&lt;float&gt;<sp/>ptr;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(ptr);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr.size(),<sp/>0);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>unique_gpu_ptr<sp/>From<sp/>Raw<sp/>Pointer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(GPUMemoryRAIITest,<sp/>UniquePtrRawPointer)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>raw_ptr<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Simulated<sp/>GPU<sp/>pointer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/>unique_gpu_ptr&lt;float&gt;<sp/>ptr(raw_ptr);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr.get(),<sp/>raw_ptr);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>make_unique_gpu<sp/>Factory<sp/>(CPU<sp/>Fallback)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(GPUMemoryRAIITest,<sp/>MakeUniqueCPUFallback)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act<sp/>&amp;<sp/>Assert:<sp/>should<sp/>not<sp/>throw<sp/>even<sp/>without<sp/>GPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr<sp/>=<sp/>make_unique_gpu&lt;float&gt;(count);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>valid<sp/>allocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(ptr.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/>});</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>make_unique_gpu<sp/>Zero<sp/>Count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>MakeUniqueZeroCount)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange<sp/>&amp;<sp/>Act</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr<sp/>=<sp/>make_unique_gpu&lt;float&gt;(0);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert:<sp/>should<sp/>return<sp/>nullptr<sp/>for<sp/>zero<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(ptr);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>unique_gpu_ptr<sp/>Move<sp/>Constructor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>UniquePtrMoveConstructor)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr1<sp/>=<sp/>make_unique_gpu&lt;float&gt;(50);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>original<sp/>=<sp/>ptr1.get();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act:<sp/>move<sp/>ownership</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/>unique_gpu_ptr&lt;float&gt;<sp/>ptr2(std::move(ptr1));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr2.get(),<sp/>original);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/>EXPECT_NE(ptr2.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr1.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>Source<sp/>is<sp/>now<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>unique_gpu_ptr<sp/>Move<sp/>Assignment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>UniquePtrMoveAssignment)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr1<sp/>=<sp/>make_unique_gpu&lt;float&gt;(30);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr2<sp/>=<sp/>make_unique_gpu&lt;float&gt;(40);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>ptr1_original<sp/>=<sp/>ptr1.get();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>ptr2_original<sp/>=<sp/>ptr2.get();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act:<sp/>move<sp/>assignment<sp/>transfers<sp/>ownership</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/>ptr2<sp/>=<sp/>std::move(ptr1);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr2.get(),<sp/>ptr1_original);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr1.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>Source<sp/>is<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>unique_gpu_ptr<sp/>Copy<sp/>is<sp/>Deleted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>UniquePtrNoCopy)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr1<sp/>=<sp/>make_unique_gpu&lt;float&gt;(50);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert:<sp/>copy<sp/>constructor<sp/>should<sp/>not<sp/>compile</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>a<sp/>compile-time<sp/>check;<sp/>runtime<sp/>we<sp/>just<sp/>verify<sp/>it<sp/>exists</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(!std::is_copy_constructible_v&lt;unique_gpu_ptr&lt;float&gt;&gt;,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;unique_gpu_ptr<sp/>should<sp/>be<sp/>move-only&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>unique_gpu_ptr<sp/>Release</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>UniquePtrRelease)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr<sp/>=<sp/>make_unique_gpu&lt;float&gt;(50);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>original<sp/>=<sp/>ptr.get();</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act:<sp/>release<sp/>ownership<sp/>(caller<sp/>is<sp/>responsible<sp/>for<sp/>cleanup)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>released<sp/>=<sp/>ptr.release();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/>EXPECT_EQ(released,<sp/>original);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/>EXPECT_NE(original,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>caller<sp/>must<sp/>manually<sp/>free<sp/>if<sp/>this<sp/>was<sp/>a<sp/>real<sp/>GPU<sp/>allocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>unique_gpu_ptr<sp/>Reset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>UniquePtrReset)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr<sp/>=<sp/>make_unique_gpu&lt;float&gt;(50);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act:<sp/>reset<sp/>to<sp/>nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/>ptr.reset();</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(ptr);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>unique_gpu_ptr<sp/>Reset<sp/>With<sp/>New<sp/>Pointer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>UniquePtrResetWithNew)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr1<sp/>=<sp/>make_unique_gpu&lt;float&gt;(50);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr2<sp/>=<sp/>make_unique_gpu&lt;float&gt;(60);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>ptr2_raw<sp/>=<sp/>ptr2.release();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act:<sp/>reset<sp/>ptr1<sp/>to<sp/>ptr2&apos;s<sp/>allocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/>ptr1.reset(ptr2_raw);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr1.get(),<sp/>ptr2_raw);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>unique_gpu_ptr<sp/>Boolean<sp/>Conversion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>UniquePtrBooleanConversion)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/>unique_gpu_ptr&lt;float&gt;<sp/>null_ptr;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>valid_ptr<sp/>=<sp/>make_unique_gpu&lt;float&gt;(50);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act<sp/>&amp;<sp/>Assert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(null_ptr));</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(valid_ptr));</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Exception<sp/>Safety<sp/>-<sp/>Destructor<sp/>on<sp/>Scope<sp/>Exit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>ExceptionSafetyDestructorOnScopeExit)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange<sp/>&amp;<sp/>Act</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>leaked_ptr<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr<sp/>=<sp/>make_unique_gpu&lt;float&gt;(100);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>leaked_ptr<sp/>=<sp/>ptr.get();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On<sp/>scope<sp/>exit,<sp/>destructor<sp/>automatically<sp/>frees</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>scope:<sp/>memory<sp/>should<sp/>be<sp/>cleaned<sp/>up<sp/>by<sp/>destructor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>(In<sp/>CPU<sp/>fallback,<sp/>this<sp/>is<sp/>a<sp/>real<sp/>malloc;<sp/>in<sp/>CUDA,<sp/>it&apos;s<sp/>device<sp/>memory)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert:<sp/>we<sp/>can<sp/>verify<sp/>by<sp/>creating<sp/>new<sp/>allocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>memory<sp/>wasn&apos;t<sp/>freed,<sp/>allocation<sp/>might<sp/>fail<sp/>or<sp/>show<sp/>fragmentation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>new_ptr<sp/>=<sp/>make_unique_gpu&lt;float&gt;(50);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/>EXPECT_NE(new_ptr.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Exception<sp/>Safety<sp/>-<sp/>Cleanup<sp/>on<sp/>Exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>ExceptionSafetyCleanupOnException)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>alloc_ptr<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act<sp/>&amp;<sp/>Assert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr<sp/>=<sp/>make_unique_gpu&lt;float&gt;(100);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>alloc_ptr<sp/>=<sp/>ptr.get();</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Simulated<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ptr<sp/>destructor<sp/>runs<sp/>here<sp/>automatically</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>std::runtime_error</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/>);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>should<sp/>be<sp/>cleaned<sp/>up<sp/>by<sp/>destructor<sp/>even<sp/>after<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Swap<sp/>Semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>SwapSemantics)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr1<sp/>=<sp/>make_unique_gpu&lt;float&gt;(50);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr2<sp/>=<sp/>make_unique_gpu&lt;float&gt;(60);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>ptr1_original<sp/>=<sp/>ptr1.get();</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>ptr2_original<sp/>=<sp/>ptr2.get();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act:<sp/>swap<sp/>ownership</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/>ptr1.swap(ptr2);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr1.get(),<sp/>ptr2_original);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr2.get(),<sp/>ptr1_original);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Comparison<sp/>Operators</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>ComparisonOperators)<sp/>{</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr1<sp/>=<sp/>make_unique_gpu&lt;float&gt;(50);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr2<sp/>=<sp/>make_unique_gpu&lt;float&gt;(50);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/>unique_gpu_ptr&lt;float&gt;<sp/>null_ptr;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act<sp/>&amp;<sp/>Assert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr1,<sp/>ptr1);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/>EXPECT_NE(ptr1,<sp/>ptr2);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/>EXPECT_NE(ptr1,<sp/>null_ptr);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/>EXPECT_EQ(null_ptr,<sp/>null_ptr);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>shared_gpu_ptr<sp/>Reference<sp/>Counting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>SharedPtrReferenceCounting)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr<sp/>=<sp/>make_shared_gpu&lt;float&gt;(100);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>initial_count<sp/>=<sp/>ptr.use_count();</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>copy<sp/>=<sp/>ptr;<sp/><sp/></highlight><highlight class="comment">//<sp/>Increment<sp/>refcount</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ptr.use_count(),<sp/>initial_count<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/>}<sp/><sp/></highlight><highlight class="comment">//<sp/>copy<sp/>destroyed,<sp/>refcount<sp/>decremented</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr.use_count(),<sp/>initial_count);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>shared_gpu_ptr<sp/>Copy<sp/>Constructor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>SharedPtrCopyConstructor)<sp/>{</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr1<sp/>=<sp/>make_shared_gpu&lt;float&gt;(50);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>original<sp/>=<sp/>ptr1.get();</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr2<sp/>=<sp/>ptr1;<sp/><sp/></highlight><highlight class="comment">//<sp/>Copy<sp/>constructor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr2.get(),<sp/>original);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr1.use_count(),<sp/>2);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>shared_gpu_ptr<sp/>Move<sp/>Constructor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>SharedPtrMoveConstructor)<sp/>{</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr1<sp/>=<sp/>make_shared_gpu&lt;float&gt;(50);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>original<sp/>=<sp/>ptr1.get();</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>ptr1.use_count();</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr2<sp/>=<sp/>std::move(ptr1);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert:<sp/>refcount<sp/>doesn&apos;t<sp/>change<sp/>on<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr2.get(),<sp/>original);</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="381"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Vector<sp/>of<sp/>unique_gpu_ptr<sp/>(Move<sp/>Semantics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>VectorOfUniquePtrMove)<sp/>{</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/>std::vector&lt;unique_gpu_ptr&lt;float&gt;&gt;<sp/>buffers;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act:<sp/>create<sp/>and<sp/>move<sp/>into<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/>buffers.push_back(make_unique_gpu&lt;float&gt;(50));</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/>buffers.push_back(make_unique_gpu&lt;float&gt;(60));</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/>buffers.push_back(make_unique_gpu&lt;float&gt;(70));</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/>EXPECT_EQ(buffers.size(),<sp/>3);</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>buf<sp/>:<sp/>buffers)<sp/>{</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(buf.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="403"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Return<sp/>unique_gpu_ptr<sp/>From<sp/>Function<sp/>(Move<sp/>Semantics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal">unique_gpu_ptr&lt;float&gt;<sp/><ref refid="namespacethemis_1_1gpu_1_1test_1af7920a19e3f76bbca18644710a82ec2a" kindref="member">AllocateGPUBuffer</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count)<sp/>{</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>make_unique_gpu&lt;float&gt;(count);</highlight></codeline>
+<codeline lineno="411"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>ReturnUniquePtrFromFunction)<sp/>{</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange<sp/>&amp;<sp/>Act</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buffer<sp/>=<sp/><ref refid="namespacethemis_1_1gpu_1_1test_1af7920a19e3f76bbca18644710a82ec2a" kindref="member">AllocateGPUBuffer</ref>(100);</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/>EXPECT_NE(buffer.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="420"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Const<sp/>Correctness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="425"><highlight class="normal"></highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>ConstCorrectness)<sp/>{</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr<sp/>=<sp/>make_unique_gpu&lt;float&gt;(50);</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>const_raw<sp/>=<sp/>ptr.get();</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act<sp/>&amp;<sp/>Assert:<sp/>const<sp/>ptr<sp/>should<sp/>allow<sp/>get()<sp/>but<sp/>not<sp/>modification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/>EXPECT_NE(const_raw,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr.get(),<sp/>const_raw);</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="436"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Multiple<sp/>Allocations<sp/>Don&apos;t<sp/>Interfere</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>MultipleAllocationsIndependent)<sp/>{</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>sizes[]<sp/>=<sp/>{50,<sp/>100,<sp/>200,<sp/>300,<sp/>500};</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/>std::vector&lt;unique_gpu_ptr&lt;float&gt;&gt;<sp/>ptrs;</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act:<sp/>create<sp/>multiple<sp/>allocations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>s<sp/>:<sp/>sizes)<sp/>{</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/>ptrs.push_back(make_unique_gpu&lt;float&gt;(s));</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert:<sp/>all<sp/>are<sp/>valid<sp/>and<sp/>independent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>ptrs.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(ptrs[i].get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Allocation<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>is<sp/>null&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>i<sp/>+<sp/>1;<sp/>j<sp/>&lt;<sp/>ptrs.size();<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(ptrs[i].get(),<sp/>ptrs[j].get())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Allocations<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>and<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>j<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>overlap&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="461"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="464"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Large<sp/>Allocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="465"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"></highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>LargeAllocation)<sp/>{</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>large_count<sp/>=<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>1M<sp/>floats<sp/>=<sp/>4MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Act</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr<sp/>=<sp/>make_unique_gpu&lt;float&gt;(large_count);</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert:<sp/>allocation<sp/>succeeds<sp/>(with<sp/>CPU<sp/>fallback<sp/>even<sp/>if<sp/>no<sp/>GPU)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/>EXPECT_NE(ptr.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="477"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"></highlight></codeline>
+<codeline lineno="479"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Zero-Length<sp/>Allocation<sp/>Doesn&apos;t<sp/>Leak</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="481"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="482"><highlight class="normal"></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>ZeroLengthAllocationNoLeak)<sp/>{</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrange<sp/>&amp;<sp/>Act</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr<sp/>=<sp/>make_unique_gpu&lt;float&gt;(0);</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ptr.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/>}<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>crash<sp/>or<sp/>leak</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assert:<sp/>next<sp/>allocation<sp/>should<sp/>work<sp/>fine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr2<sp/>=<sp/>make_unique_gpu&lt;float&gt;(50);</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/>EXPECT_NE(ptr2.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/>allocations_cleared_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="494"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"></highlight></codeline>
+<codeline lineno="496"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="497"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Acceptance<sp/>Criteria<sp/>Verification<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="498"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="499"><highlight class="normal"></highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>AcceptanceCriterion1_NoUseAfterFree)<sp/>{</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>RAII<sp/>pattern<sp/>prevents<sp/>use-after-free<sp/>via:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Move-only<sp/>semantics<sp/>(copy<sp/>deleted)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Automatic<sp/>cleanup<sp/>on<sp/>scope<sp/>exit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>moved-from<sp/>state<sp/>(ptr_<sp/>==<sp/>nullptr)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><sp/><sp/>unique_gpu_ptr&lt;float&gt;<sp/>ptr1<sp/>=<sp/>make_unique_gpu&lt;float&gt;(100);</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>original<sp/>=<sp/>ptr1.get();</highlight></codeline>
+<codeline lineno="513"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Move<sp/>to<sp/>ptr2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/>unique_gpu_ptr&lt;float&gt;<sp/>ptr2(std::move(ptr1));</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>ptr1<sp/>is<sp/>now<sp/>in<sp/>moved-from<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr1.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="519"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr2.get(),<sp/>original);</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Accessing<sp/>moved-from<sp/>ptr<sp/>is<sp/>safe<sp/>(no-op<sp/>on<sp/>nullptr)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/>ptr1.reset();<sp/><sp/></highlight><highlight class="comment">//<sp/>Safe</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>ptr2<sp/>will<sp/>clean<sp/>up<sp/>original<sp/>on<sp/>destruction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="525"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"></highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>AcceptanceCriterion2_AllAllocationsRAII)<sp/>{</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Factory<sp/>function:<sp/>make_unique_gpu&lt;T&gt;()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Handles<sp/>CUDA<sp/>path<sp/>(cudaMalloc)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Handles<sp/>HIP<sp/>path<sp/>(hipMalloc)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Falls<sp/>back<sp/>to<sp/>malloc<sp/>when<sp/>no<sp/>GPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Returns<sp/>unique_gpu_ptr<sp/>(RAII<sp/>wrapper)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Throws<sp/>on<sp/>allocation<sp/>failure<sp/>(exception-safe)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr<sp/>=<sp/>make_unique_gpu&lt;double&gt;(1000);</highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/>EXPECT_NE(ptr.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="543"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>GPU<sp/>memory<sp/>is<sp/>now<sp/>protected<sp/>by<sp/>RAII</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>manual<sp/>cudaFree()<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="545"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="546"><highlight class="normal"></highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>AcceptanceCriterion3_NoUninitializedAccess)<sp/>{</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Allocations<sp/>via<sp/>make_unique_gpu:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Return<sp/>valid<sp/>pointer<sp/>(or<sp/>nullptr<sp/>on<sp/>failure)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Allocation<sp/>checked<sp/>in<sp/>caller<sp/>via<sp/>explicit<sp/>checks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="556"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>No<sp/>assumption<sp/>of<sp/>initialization<sp/>(caller<sp/>responsible)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr<sp/>=<sp/>make_unique_gpu&lt;float&gt;(100);</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verified<sp/>safe<sp/>access<sp/>patterns:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>if<sp/>(ptr)<sp/>{<sp/>/*<sp/>use<sp/>ptr.get()<sp/>*/<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="562"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>try<sp/>{<sp/>auto<sp/>ptr<sp/>=<sp/>make_unique_gpu&lt;T&gt;(n);<sp/>}<sp/>catch<sp/>{<sp/>/*<sp/>handle<sp/>failure<sp/>*/<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ptr)<sp/>{</highlight></codeline>
+<codeline lineno="565"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(ptr.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="567"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"></highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1_1test_1aadba2c9e411221925c0eab767a0b0bf8" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_memory_r_a_i_i_test" kindref="compound">GPUMemoryRAIITest</ref>,<sp/>AcceptanceCriterion4_ModernCPPIdioms)<sp/>{</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>C++17<sp/>features<sp/>used:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>std::unique_ptr-like<sp/>move-only<sp/>wrapper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>std::atomic<sp/>for<sp/>refcounting<sp/>(shared_gpu_ptr)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="578"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>std::exchange<sp/>for<sp/>move<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="579"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Lambda-based<sp/>factory<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="580"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>5.<sp/>noexcept<sp/>specifications</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>6.<sp/>std::memory_order<sp/>for<sp/>lock-free<sp/>atomics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="582"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>move<sp/>semantics<sp/>work</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="584"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr1<sp/>=<sp/>make_unique_gpu&lt;float&gt;(100);</highlight></codeline>
+<codeline lineno="585"><highlight class="normal"><sp/><sp/>unique_gpu_ptr&lt;float&gt;<sp/>ptr2<sp/>=<sp/>std::move(ptr1);</highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="587"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>lambda<sp/>factory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="588"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[allocated]<sp/>=<sp/>[](</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n)<sp/>{</highlight></codeline>
+<codeline lineno="589"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>make_unique_gpu&lt;float&gt;(n);</highlight></codeline>
+<codeline lineno="590"><highlight class="normal"><sp/><sp/>}(100);</highlight></codeline>
+<codeline lineno="591"><highlight class="normal"><sp/><sp/>EXPECT_NE(allocated.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="592"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="593"><highlight class="normal"></highlight></codeline>
+<codeline lineno="594"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="595"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="596"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_memory_raii_batch1.cpp"/>
+  </compounddef>
+</doxygen>

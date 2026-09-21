@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_entity_api_handler_1_1_auth_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::EntityApiHandler::AuthContext</compoundname>
+    <includes refid="entity__api__handler_8h" local="no">entity_api_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_entity_api_handler_1_1_auth_context_1a11bd1f700da122860fe4faca6ede9dcb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::EntityApiHandler::AuthContext::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::server::EntityApiHandler::AuthContext::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="67" column="21" bodyfile="include/server/entity_api_handler.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_entity_api_handler_1_1_auth_context_1a387c2e64e69e0db23f9e63bc6c26796f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::server::EntityApiHandler::AuthContext::groups</definition>
+        <argsstring></argsstring>
+        <name>groups</name>
+        <qualifiedname>themis::server::EntityApiHandler::AuthContext::groups</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="68" column="21" bodyfile="include/server/entity_api_handler.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/entity_api_handler.h" line="66" column="5" bodyfile="include/server/entity_api_handler.h" bodystart="66" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_entity_api_handler_1_1_auth_context_1a387c2e64e69e0db23f9e63bc6c26796f" prot="public" virt="non-virtual"><scope>themis::server::EntityApiHandler::AuthContext</scope><name>groups</name></member>
+      <member refid="structthemis_1_1server_1_1_entity_api_handler_1_1_auth_context_1a11bd1f700da122860fe4faca6ede9dcb" prot="public" virt="non-virtual"><scope>themis::server::EntityApiHandler::AuthContext</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

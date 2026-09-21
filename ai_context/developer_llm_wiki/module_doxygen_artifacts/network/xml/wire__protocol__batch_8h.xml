@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="wire__protocol__batch_8h" kind="file" language="C++">
+    <compoundname>wire_protocol_batch.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">netinet/in.h</includes>
+    <includes local="no">netinet/tcp.h</includes>
+    <includes local="no">sys/socket.h</includes>
+    <includes local="no">sys/uio.h</includes>
+    <includes local="no">unistd.h</includes>
+    <includedby refid="io__uring__batcher_8h" local="yes">include/network/io_uring_batcher.h</includedby>
+    <includedby refid="wire__protocol__batch_8cpp" local="yes">src/network/wire_protocol_batch.cpp</includedby>
+    <includedby refid="test__wire__protocol__optimizations_8cpp" local="yes">tests/network/test_wire_protocol_optimizations.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/network/wire_protocol_batch.h</label>
+        <link refid="wire__protocol__batch_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>netinet/in.h</label>
+      </node>
+      <node id="9">
+        <label>netinet/tcp.h</label>
+      </node>
+      <node id="10">
+        <label>sys/socket.h</label>
+      </node>
+      <node id="11">
+        <label>sys/uio.h</label>
+      </node>
+      <node id="12">
+        <label>unistd.h</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/network/io_uring_batcher.h</label>
+        <link refid="io__uring__batcher_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/network/wire_protocol_batch.h</label>
+        <link refid="wire__protocol__batch_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/network/io_uring_batcher.cpp</label>
+        <link refid="io__uring__batcher_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/network/wire_protocol_batch.cpp</label>
+        <link refid="wire__protocol__batch_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/network/test_wire_protocol_optimizations.cpp</label>
+        <link refid="test__wire__protocol__optimizations_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1network_1_1_nagle_controller" prot="public">themis::network::NagleController</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_batch_stats" prot="public">themis::network::BatchStats</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_wire_protocol_batcher" prot="public">themis::network::WireProtocolBatcher</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config" prot="public">themis::network::WireProtocolBatcher::Config</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_batch_i_o_vec" prot="private">themis::network::WireProtocolBatcher::BatchIOVec</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1network">themis::network</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>Wire<sp/>Protocol<sp/>–<sp/>Batch<sp/>Write<sp/>Processing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>module<sp/>implements<sp/>three<sp/>complementary<sp/>strategies<sp/>to<sp/>maximise<sp/>TCP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>throughput<sp/>and<sp/>reduce<sp/>per-message<sp/>overhead:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>WireProtocolBatcher<sp/>–<sp/>accumulate<sp/>small<sp/>outbound<sp/>frames<sp/>in<sp/>an<sp/>iovec</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>list<sp/>and<sp/>flush<sp/>them<sp/>with<sp/>a<sp/>single<sp/>writev(2)<sp/>call.<sp/><sp/>Coalescing<sp/>writes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>amortises<sp/>syscall<sp/>overhead<sp/>and<sp/>lets<sp/>the<sp/>kernel<sp/>pack<sp/>more<sp/>data<sp/>into</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>each<sp/>TCP<sp/>segment.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>NagleController<sp/>–<sp/>per-socket<sp/>helper<sp/>that<sp/>applies<sp/>TCP_CORK<sp/>(Linux)<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>TCP_NOPUSH<sp/>(BSD/macOS)<sp/>to<sp/>hold<sp/>segments<sp/>until<sp/>the<sp/>MTU<sp/>is<sp/>filled,<sp/>then</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>releases<sp/>immediately<sp/>when<sp/>flushing.<sp/><sp/>Also<sp/>exposes<sp/>TCP_NODELAY<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>ultra-low-latency<sp/>modes<sp/>where<sp/>latency<sp/>beats<sp/>throughput.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>3.<sp/>BatchStats<sp/>–<sp/>lightweight<sp/>statistics<sp/>for<sp/>observability.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Performance<sp/>targets<sp/>(v1.7.0):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Coalesced<sp/>batches<sp/>reduce<sp/>syscall<sp/>count<sp/>by<sp/>~10×<sp/>for<sp/>small-message<sp/>workloads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Nagle<sp/>tuning<sp/>achieves<sp/>&lt;<sp/>1<sp/>ms<sp/>(p99)<sp/>round-trip<sp/>at<sp/>100<sp/>K<sp/>ops/sec</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;winsock2.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;ws2tcpip.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;BaseTsd.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">ssize_t<sp/>=<sp/>SSIZE_T;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_IOVEC_DEFINED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_IOVEC_DEFINED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">iovec<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>iov_base;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>iov_len;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;netinet/in.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;netinet/tcp.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/socket.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/uio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unistd.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">network</ref><sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NagleController<sp/>–<sp/>TCP_NODELAY<sp/>/<sp/>TCP_CORK<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1network_1_1_nagle_controller" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_nagle_controller_1a9380216703dce854f70d940442a79d1f" kindref="member">NagleController</ref><sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082" kindref="member">Mode</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082a5b39c8b553c821e7cddc6da64b5bd2ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082a5b39c8b553c821e7cddc6da64b5bd2ee" kindref="member">DEFAULT</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082a848e59d362e59bdfe813135806b216c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082a848e59d362e59bdfe813135806b216c9" kindref="member">NODELAY</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082ab730dab701f2d5cf386202cd57384eec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082ab730dab701f2d5cf386202cd57384eec" kindref="member">CORK</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_nagle_controller_1a9380216703dce854f70d940442a79d1f" kindref="member">NagleController</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_nagle_controller_1a7f9d19868c7ab47af6b22a47a92b6544" kindref="member">fd</ref>)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_nagle_controller_1a25831d287c512bdb8037c20ff166a495" kindref="member">setMode</ref>(<ref refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082" kindref="member">Mode</ref><sp/>mode)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1network_1_1_nagle_controller_1a3c08e7f4d8e901b29553c150e5b10480" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_nagle_controller_1a3c08e7f4d8e901b29553c150e5b10480" kindref="member">setNodelay</ref>()<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_nagle_controller_1a25831d287c512bdb8037c20ff166a495" kindref="member">setMode</ref>(<ref refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082a848e59d362e59bdfe813135806b216c9" kindref="member">Mode::NODELAY</ref>);<sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1network_1_1_nagle_controller_1abb8bf8defacfd96d8231d3c1866cc254" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_nagle_controller_1abb8bf8defacfd96d8231d3c1866cc254" kindref="member">cork</ref>()<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_nagle_controller_1a25831d287c512bdb8037c20ff166a495" kindref="member">setMode</ref>(<ref refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082ab730dab701f2d5cf386202cd57384eec" kindref="member">Mode::CORK</ref>);<sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_nagle_controller_1a0f24ee342d42cded32e616aeaa9501d9" kindref="member">uncork</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1network_1_1_nagle_controller_1ad2eb1fb48c3b8296e13e74a3c2682e8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082" kindref="member">Mode</ref><sp/><ref refid="classthemis_1_1network_1_1_nagle_controller_1ad2eb1fb48c3b8296e13e74a3c2682e8f" kindref="member">currentMode</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>mode_;<sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1network_1_1_nagle_controller_1a7f9d19868c7ab47af6b22a47a92b6544" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_nagle_controller_1a7f9d19868c7ab47af6b22a47a92b6544" kindref="member">fd</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fd_;<sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/>fd_;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082" kindref="member">Mode</ref><sp/>mode_<sp/>=<sp/><ref refid="classthemis_1_1network_1_1_nagle_controller_1a48ffde23a1a2870fe8f40d84f0d09082a5b39c8b553c821e7cddc6da64b5bd2ee" kindref="member">Mode::DEFAULT</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BatchStats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1network_1_1_batch_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_batch_stats" kindref="compound">BatchStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1network_1_1_batch_stats_1adec2be0db9dedb4408ce23984284bec9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_batch_stats_1adec2be0db9dedb4408ce23984284bec9" kindref="member">messages_queued</ref><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1network_1_1_batch_stats_1a5b9236af756663826d454f0f3178768e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_batch_stats_1a5b9236af756663826d454f0f3178768e" kindref="member">batches_flushed</ref><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1network_1_1_batch_stats_1a5fa701523464babcbcd16b8b03924af9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_batch_stats_1a5fa701523464babcbcd16b8b03924af9" kindref="member">bytes_flushed</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1network_1_1_batch_stats_1a4a34c2ec1d2762cbb19bda098adbd17c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_batch_stats_1a4a34c2ec1d2762cbb19bda098adbd17c" kindref="member">flush_errors</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1network_1_1_batch_stats_1a4173d80992b9ce35ee6e2b0469915279" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_batch_stats_1a4173d80992b9ce35ee6e2b0469915279" kindref="member">forced_flushes</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1network_1_1_batch_stats_1a251960476bad472fbb82ec9260c0ac2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_batch_stats_1a251960476bad472fbb82ec9260c0ac2f" kindref="member">avgBatchSize</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_batch_stats_1a5b9236af756663826d454f0f3178768e" kindref="member">batches_flushed</ref><sp/>&gt;<sp/>0</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1network_1_1_batch_stats_1adec2be0db9dedb4408ce23984284bec9" kindref="member">messages_queued</ref>)<sp/>/<sp/><ref refid="structthemis_1_1network_1_1_batch_stats_1a5b9236af756663826d454f0f3178768e" kindref="member">batches_flushed</ref></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WireProtocolBatcher</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="classthemis_1_1network_1_1_wire_protocol_batcher" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_wire_protocol_batcher_1a90d9ab2a608da46ffc0940ced69e83c7" kindref="member">WireProtocolBatcher</ref><sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1network_1_1_wire_protocol_batcher_1af22f02c8e7f16ca8dc4181b17f1a43dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_batcher_1af22f02c8e7f16ca8dc4181b17f1a43dc" kindref="member">MAX_IOV</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config_1ace9b9bd8d025f7d07af4556c4707964c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config_1ace9b9bd8d025f7d07af4556c4707964c" kindref="member">max_messages_per_batch</ref><sp/>=<sp/>64;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config_1a44f0f7ea6470c9c554b4a04b2156d9bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config_1a44f0f7ea6470c9c554b4a04b2156d9bc" kindref="member">max_bytes_per_batch</ref><sp/><sp/><sp/><sp/>=<sp/>64<sp/>*<sp/>1024;<sp/><sp/></highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config_1a233b9173b201eda615ec6ebbcd9c71cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config_1a233b9173b201eda615ec6ebbcd9c71cf" kindref="member">auto_flush_on_limit</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config_1a2754370e33e839e243a30705211e913a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config" kindref="compound">Config</ref><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_config_1a2754370e33e839e243a30705211e913a" kindref="member">defaults</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_batcher_1a90d9ab2a608da46ffc0940ced69e83c7" kindref="member">WireProtocolBatcher</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_batcher_1ad261087aec762464c2dd84b87b19e438" kindref="member">fd</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_config" kindref="compound">Config</ref>&amp;<sp/>cfg<sp/>=<sp/>Config::defaults());</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_batcher_1a8a1243b08d0421d11126a1639959d993" kindref="member">add</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>ssize_t<sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_batcher_1a31f5e18021f06b3c100c57156add0259" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="classthemis_1_1network_1_1_wire_protocol_batcher_1a7b62cb62c4cdbbad99826387d777ebd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_batcher_1a7b62cb62c4cdbbad99826387d777ebd3" kindref="member">pending</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iov_count_<sp/>&gt;<sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="classthemis_1_1network_1_1_wire_protocol_batcher_1a7da051fd4f193dd7c23c81f12693d4a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_batcher_1a7da051fd4f193dd7c23c81f12693d4a2" kindref="member">pendingCount</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iov_count_;<sp/>}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246" refid="classthemis_1_1network_1_1_wire_protocol_batcher_1a8407564592bb0e689229f4dba6e0e61c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_batcher_1a8407564592bb0e689229f4dba6e0e61c" kindref="member">pendingBytes</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pending_bytes_;<sp/>}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="classthemis_1_1network_1_1_wire_protocol_batcher_1a119915084d4ecec9b4d54a91e7628f96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_batch_stats" kindref="compound">BatchStats</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_batcher_1a119915084d4ecec9b4d54a91e7628f96" kindref="member">stats</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252" refid="classthemis_1_1network_1_1_wire_protocol_batcher_1ad261087aec762464c2dd84b87b19e438" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_wire_protocol_batcher_1ad261087aec762464c2dd84b87b19e438" kindref="member">fd</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fd_;<sp/>}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">BatchIOVec<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/>iov_base;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>iov_len;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>fd_;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg_;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>BatchIOVec<sp/>iov_[<ref refid="classthemis_1_1network_1_1_wire_protocol_batcher_1af22f02c8e7f16ca8dc4181b17f1a43dc" kindref="member">MAX_IOV</ref>];</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>iov_count_<sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pending_bytes_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>BatchStats<sp/>stats_;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>network</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/network/wire_protocol_batch.h"/>
+  </compounddef>
+</doxygen>

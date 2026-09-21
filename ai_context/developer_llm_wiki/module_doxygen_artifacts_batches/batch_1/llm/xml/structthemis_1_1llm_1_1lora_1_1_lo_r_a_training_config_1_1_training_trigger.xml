@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRATrainingConfig::TrainingTrigger</compoundname>
+    <includes refid="lora__training__config_8h" local="no">lora_training_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1ade577db68232414bab556b111a60b170" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRATrainingConfig::TrainingTrigger::automatic_enabled</definition>
+        <argsstring></argsstring>
+        <name>automatic_enabled</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::TrainingTrigger::automatic_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="52" column="14" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1a9c07c18622d00c67de84f7272a86834a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::LoRATrainingConfig::TrainingTrigger::min_batch_size</definition>
+        <argsstring></argsstring>
+        <name>min_batch_size</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::TrainingTrigger::min_batch_size</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="53" column="16" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1a6f68fc442b059f9e5bc461351c190a51" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::LoRATrainingConfig::TrainingTrigger::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::TrainingTrigger::max_batch_size</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="54" column="16" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1a2f7ecbc8338fe58cc2d261832b054d6f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRATrainingConfig::TrainingTrigger::use_effective_size</definition>
+        <argsstring></argsstring>
+        <name>use_effective_size</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::TrainingTrigger::use_effective_size</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="55" column="14" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1ae9de819aec7d0815a6975d2306067a09" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::LoRATrainingConfig::TrainingTrigger::max_wait_hours</definition>
+        <argsstring></argsstring>
+        <name>max_wait_hours</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::TrainingTrigger::max_wait_hours</qualifiedname>
+        <initializer>= 24</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="56" column="13" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1a955455a07af882f6ef472722ba3e31a4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRATrainingConfig::TrainingTrigger::cron_schedule</definition>
+        <argsstring></argsstring>
+        <name>cron_schedule</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::TrainingTrigger::cron_schedule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="57" column="21" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1afdb161008921d962cd7c750d824f55f1" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::LoRATrainingConfig::TrainingTrigger::min_avg_rating</definition>
+        <argsstring></argsstring>
+        <name>min_avg_rating</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::TrainingTrigger::min_avg_rating</qualifiedname>
+        <initializer>= 3.5f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="58" column="15" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1afe5d9189c334344cd00483d9e6bce222" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::LoRATrainingConfig::TrainingTrigger::min_positive_ratio</definition>
+        <argsstring></argsstring>
+        <name>min_positive_ratio</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::TrainingTrigger::min_positive_ratio</qualifiedname>
+        <initializer>= 0.6f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="59" column="15" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_training_config.h" line="51" column="5" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="51" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1ade577db68232414bab556b111a60b170" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::TrainingTrigger</scope><name>automatic_enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1a955455a07af882f6ef472722ba3e31a4" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::TrainingTrigger</scope><name>cron_schedule</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1a6f68fc442b059f9e5bc461351c190a51" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::TrainingTrigger</scope><name>max_batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1ae9de819aec7d0815a6975d2306067a09" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::TrainingTrigger</scope><name>max_wait_hours</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1afdb161008921d962cd7c750d824f55f1" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::TrainingTrigger</scope><name>min_avg_rating</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1a9c07c18622d00c67de84f7272a86834a" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::TrainingTrigger</scope><name>min_batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1afe5d9189c334344cd00483d9e6bce222" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::TrainingTrigger</scope><name>min_positive_ratio</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1a2f7ecbc8338fe58cc2d261832b054d6f" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::TrainingTrigger</scope><name>use_effective_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

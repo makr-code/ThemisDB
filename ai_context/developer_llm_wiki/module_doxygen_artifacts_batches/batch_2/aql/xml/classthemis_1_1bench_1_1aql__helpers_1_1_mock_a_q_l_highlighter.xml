@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1aql__helpers_1_1_mock_a_q_l_highlighter" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::aql_helpers::MockAQLHighlighter</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1aql__helpers_1_1_mock_a_q_l_highlighter_1_1_annotation" prot="public">themis::bench::aql_helpers::MockAQLHighlighter::Annotation</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1aql__helpers_1_1_mock_a_q_l_highlighter_1a1a80c216d026899293cc0f819fee873c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1bench_1_1aql__helpers_1_1_mock_a_q_l_highlighter_1_1_annotation" kindref="compound">Annotation</ref> &gt;</type>
+        <definition>static std::vector&lt; Annotation &gt; themis::bench::aql_helpers::MockAQLHighlighter::annotate</definition>
+        <argsstring>(const std::string &amp;aql)</argsstring>
+        <name>annotate</name>
+        <qualifiedname>themis::bench::aql_helpers::MockAQLHighlighter::annotate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+<para>Annotate a simple AQL string — returns warnings for suspicious patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="203" column="24" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="203" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="194" column="1" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="194" bodyend="218"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1aql__helpers_1_1_mock_a_q_l_highlighter_1a1a80c216d026899293cc0f819fee873c" prot="public" virt="non-virtual"><scope>themis::bench::aql_helpers::MockAQLHighlighter</scope><name>annotate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

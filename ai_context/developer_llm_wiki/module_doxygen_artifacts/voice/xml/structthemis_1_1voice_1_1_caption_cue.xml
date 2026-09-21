@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_caption_cue" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::CaptionCue</compoundname>
+    <includes refid="voice__accessibility_8h" local="no">voice_accessibility.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_caption_cue_1a8a6cf025a322390175885c1fe6dc6a57" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::CaptionCue::start_ms</definition>
+        <argsstring></argsstring>
+        <name>start_ms</name>
+        <qualifiedname>themis::voice::CaptionCue::start_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_accessibility.h" line="34" column="13" bodyfile="include/voice/voice_accessibility.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_caption_cue_1aa53b2ba5c4255feb3ec455cca7f4c0f3" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::CaptionCue::end_ms</definition>
+        <argsstring></argsstring>
+        <name>end_ms</name>
+        <qualifiedname>themis::voice::CaptionCue::end_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_accessibility.h" line="35" column="13" bodyfile="include/voice/voice_accessibility.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_caption_cue_1a49dcd3bf1cb8f7905c495ccb427f8d24" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::CaptionCue::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::voice::CaptionCue::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_accessibility.h" line="36" column="17" bodyfile="include/voice/voice_accessibility.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_caption_cue_1a4ae91e222e46b486d9b7aa6e8ca67536" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::CaptionCue::speaker</definition>
+        <argsstring></argsstring>
+        <name>speaker</name>
+        <qualifiedname>themis::voice::CaptionCue::speaker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_accessibility.h" line="37" column="17" bodyfile="include/voice/voice_accessibility.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_caption_cue_1adae865f08380a5271707a3b9da841e87" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::CaptionCue::sequence</definition>
+        <argsstring></argsstring>
+        <name>sequence</name>
+        <qualifiedname>themis::voice::CaptionCue::sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_accessibility.h" line="38" column="9" bodyfile="include/voice/voice_accessibility.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_caption_cue_1adb7dc74ceaba11be3f83d985d1330a30" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::CaptionCue::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::voice::CaptionCue::confidence</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_accessibility.h" line="39" column="11" bodyfile="include/voice/voice_accessibility.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_caption_cue_1a07bdaa77c6bf78ff29262dbc858e5ce1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::CaptionCue::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::voice::CaptionCue::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_accessibility.h" line="40" column="10" bodyfile="include/voice/voice_accessibility.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_accessibility.h" line="33" column="1" bodyfile="include/voice/voice_accessibility.h" bodystart="33" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_caption_cue_1adb7dc74ceaba11be3f83d985d1330a30" prot="public" virt="non-virtual"><scope>themis::voice::CaptionCue</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_caption_cue_1aa53b2ba5c4255feb3ec455cca7f4c0f3" prot="public" virt="non-virtual"><scope>themis::voice::CaptionCue</scope><name>end_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_caption_cue_1a07bdaa77c6bf78ff29262dbc858e5ce1" prot="public" virt="non-virtual"><scope>themis::voice::CaptionCue</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1voice_1_1_caption_cue_1adae865f08380a5271707a3b9da841e87" prot="public" virt="non-virtual"><scope>themis::voice::CaptionCue</scope><name>sequence</name></member>
+      <member refid="structthemis_1_1voice_1_1_caption_cue_1a4ae91e222e46b486d9b7aa6e8ca67536" prot="public" virt="non-virtual"><scope>themis::voice::CaptionCue</scope><name>speaker</name></member>
+      <member refid="structthemis_1_1voice_1_1_caption_cue_1a8a6cf025a322390175885c1fe6dc6a57" prot="public" virt="non-virtual"><scope>themis::voice::CaptionCue</scope><name>start_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_caption_cue_1a49dcd3bf1cb8f7905c495ccb427f8d24" prot="public" virt="non-virtual"><scope>themis::voice::CaptionCue</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

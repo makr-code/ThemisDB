@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_vectorized_query_plan_1_1_project_stage" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::VectorizedQueryPlan::ProjectStage</compoundname>
+    <includes refid="vectorized__execution_8h" local="no">vectorized_execution.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_query_plan_1_1_project_stage_1adfbc237777810cd9239727f38e19cb41" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::VectorizedQueryPlan::ProjectStage::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::ProjectStage::fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="193" column="46" bodyfile="include/query/vectorized_execution.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/vectorized_execution.h" line="193" column="5" bodyfile="include/query/vectorized_execution.h" bodystart="193" bodyend="193"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_project_stage_1adfbc237777810cd9239727f38e19cb41" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan::ProjectStage</scope><name>fields</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="event__stream_8h" kind="file" language="C++">
+    <compoundname>event_stream.h</compoundname>
+    <includes refid="replication__manager_8h" local="yes">replication/replication_manager.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="event__stream_8cpp" local="yes">src/replication/event_stream.cpp</includedby>
+    <includedby refid="test__replication__new__features_8cpp" local="yes">tests/replication/test_replication_new_features.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/replication/event_stream.h</label>
+        <link refid="event__stream_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>replication/geo_placement.h</label>
+        <link refid="geo__placement_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>replication/replication_manager.h</label>
+        <link refid="replication__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>condition_variable</label>
+      </node>
+      <node id="15">
+        <label>deque</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="16">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>queue</label>
+      </node>
+      <node id="17">
+        <label>set</label>
+      </node>
+      <node id="10">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>thread</label>
+      </node>
+      <node id="19">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/replication/event_stream.h</label>
+        <link refid="event__stream_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/replication/event_stream.cpp</label>
+        <link refid="event__stream_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/replication/test_replication_new_features.cpp</label>
+        <link refid="test__replication__new__features_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_event_stream_config" prot="public">themisdb::replication::ReplicationEventStreamConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_replication_event_stream" prot="public">themisdb::replication::ReplicationEventStream</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_event" prot="public">themisdb::replication::ReplicationEventStream::Event</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription" prot="public">themisdb::replication::ReplicationEventStream::Subscription</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_record" prot="private">themisdb::replication::ReplicationEventStream::SubscriptionRecord</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1replication">themisdb::replication</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="replication__manager_8h" kindref="compound">replication/replication_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1replication" kindref="compound">replication</ref><sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EventStream<sp/>configuration<sp/>(at<sp/>namespace<sp/>scope<sp/>to<sp/>avoid<sp/>GCC<sp/>nested-struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>default-argument<sp/>issues)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemisdb_1_1replication_1_1_replication_event_stream_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_replication_event_stream_config" kindref="compound">ReplicationEventStreamConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="structthemisdb_1_1replication_1_1_replication_event_stream_config_1a7c8f4a6ffaf0728a834f2365a734e14c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_replication_event_stream_config_1a7c8f4a6ffaf0728a834f2365a734e14c" kindref="member">max_history_events</ref><sp/><sp/>=<sp/>10000;<sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemisdb_1_1replication_1_1_replication_event_stream_config_1a98756177b78206b3b2e7c0c48e5394b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replication_event_stream_config_1a98756177b78206b3b2e7c0c48e5394b9" kindref="member">drop_oldest_on_full</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemisdb_1_1replication_1_1_replication_event_stream" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ac12caf1b7671ca685da1c8039108d86a" kindref="member">ReplicationEventStream</ref></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>,<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::enable_shared_from_this&lt;ReplicationEventStream&gt;<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Event<sp/>type<sp/>enumeration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65" kindref="member">EventType</ref><sp/>{</highlight></codeline>
+<codeline lineno="95" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a2b15f86d8f5d15618a1e3410c27457b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a2b15f86d8f5d15618a1e3410c27457b2" kindref="member">WRITE_REPLICATED</ref>,</highlight></codeline>
+<codeline lineno="96" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65ab25a05ea6bb4eecb8d92eb0db9d625c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65ab25a05ea6bb4eecb8d92eb0db9d625c7" kindref="member">ROLE_CHANGED</ref>,</highlight></codeline>
+<codeline lineno="97" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a3154460e008063d518b5e659504c58e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a3154460e008063d518b5e659504c58e8" kindref="member">LEADER_ELECTED</ref>,</highlight></codeline>
+<codeline lineno="98" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a6a22cd8aa5f1a1a511e07ab391597f3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a6a22cd8aa5f1a1a511e07ab391597f3a" kindref="member">REPLICA_ADDED</ref>,</highlight></codeline>
+<codeline lineno="99" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a85366fccc0357736a9de9ab82ca5d5c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a85366fccc0357736a9de9ab82ca5d5c8" kindref="member">REPLICA_REMOVED</ref>,</highlight></codeline>
+<codeline lineno="100" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a23d9a86a1aea3325993ee71844b849af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a23d9a86a1aea3325993ee71844b849af" kindref="member">FAILOVER_STARTED</ref>,</highlight></codeline>
+<codeline lineno="101" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a3986ad9bab09619982e5b4fe230e93c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a3986ad9bab09619982e5b4fe230e93c0" kindref="member">FAILOVER_COMPLETED</ref>,</highlight></codeline>
+<codeline lineno="102" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a6fbe56857871933947ed0c5ff31d13bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65a6fbe56857871933947ed0c5ff31d13bc" kindref="member">CONFLICT_DETECTED</ref>,</highlight></codeline>
+<codeline lineno="103" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65adc896ba9da604ccc07379a1a300eca73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65adc896ba9da604ccc07379a1a300eca73" kindref="member">CONFLICT_RESOLVED</ref>,</highlight></codeline>
+<codeline lineno="104" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65af10aec69f6495edbfc84e95833a95eee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65af10aec69f6495edbfc84e95833a95eee" kindref="member">LAG_WARNING</ref>,</highlight></codeline>
+<codeline lineno="105" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65af0fc848d79f32c305a5d9c0155192ba3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65af0fc848d79f32c305a5d9c0155192ba3" kindref="member">NETWORK_PARTITION</ref></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Event<sp/>record</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_event" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_event" kindref="compound">Event</ref><sp/>{</highlight></codeline>
+<codeline lineno="112" refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_event_1ae2cb6bbadc686e7c8c13d64b88aa0169" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65" kindref="member">EventType</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_event_1ae2cb6bbadc686e7c8c13d64b88aa0169" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="113" refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_event_1a0f5a8581052a2fa5857a97e66d5de77e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_event_1a0f5a8581052a2fa5857a97e66d5de77e" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="114" refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_event_1a5d51474a2ddc96bf89b12d3aad43126a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_event_1a5d51474a2ddc96bf89b12d3aad43126a" kindref="member">node_id</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_event_1a9bea4c6748a2cf16378595c53748220a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_event_1a9bea4c6748a2cf16378595c53748220a" kindref="member">data</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1afa7187d901d4137abcee19da201610a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1afa7187d901d4137abcee19da201610a4" kindref="member">EventCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_replication_event_stream_1_1_event" kindref="compound">Event</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAII<sp/>subscription<sp/>handle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a93edbb45c841dfb25df42299ada3b6da" kindref="member">Subscription</ref><sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="132" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a93edbb45c841dfb25df42299ada3b6da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a93edbb45c841dfb25df42299ada3b6da" kindref="member">Subscription</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1afb07a51dff1c05f354eeb6da73bd0c13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1afb07a51dff1c05f354eeb6da73bd0c13" kindref="member">Subscription</ref>(std::shared_ptr&lt;ReplicationEventStream&gt;<sp/>stream,<sp/>uint64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>stream_(std::move(stream)),<sp/>id_(<ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1abac3e925960669b517fdff34fe787b0b" kindref="member">id</ref>)<sp/>{}</highlight></codeline>
+<codeline lineno="135" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1aa1e1505c3c57e4a5c35fa17b2e05ddd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1aa1e1505c3c57e4a5c35fa17b2e05ddd1" kindref="member">~Subscription</ref>()<sp/>{<sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1ad02f09ec64f4fefbc2f9a5f387fa60ec" kindref="member">cancel</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Move-only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a9920ce6e82269ac2b4b2e23e06a64fcf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a9920ce6e82269ac2b4b2e23e06a64fcf" kindref="member">Subscription</ref>(<ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a93edbb45c841dfb25df42299ada3b6da" kindref="member">Subscription</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="139" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1ae4af7de6160a297fc16b4806f0d4fb15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a93edbb45c841dfb25df42299ada3b6da" kindref="member">Subscription</ref>&amp;<sp/>operator=(<ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a93edbb45c841dfb25df42299ada3b6da" kindref="member">Subscription</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="140" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1ac8ac8b54bdf006c347668e2ee330ce95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a93edbb45c841dfb25df42299ada3b6da" kindref="member">Subscription</ref>(const<sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a93edbb45c841dfb25df42299ada3b6da" kindref="member">Subscription</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="141" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a459b574f1d0ce57750a99b79c348605d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a93edbb45c841dfb25df42299ada3b6da" kindref="member">Subscription</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1a93edbb45c841dfb25df42299ada3b6da" kindref="member">Subscription</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1ad02f09ec64f4fefbc2f9a5f387fa60ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1ad02f09ec64f4fefbc2f9a5f387fa60ec" kindref="member">cancel</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>stream_.lock())<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s-&gt;unsubscribe(id_);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream_.reset();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1abac3e925960669b517fdff34fe787b0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription_1abac3e925960669b517fdff34fe787b0b" kindref="member">id</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>id_;<sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::weak_ptr&lt;ReplicationEventStream&gt;<sp/>stream_;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>id_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a115d162425b79cddda776b7725ba3393" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a115d162425b79cddda776b7725ba3393" kindref="member">StreamConfig</ref><sp/>=<sp/><ref refid="structthemisdb_1_1replication_1_1_replication_event_stream_config" kindref="compound">ReplicationEventStreamConfig</ref>;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ac12caf1b7671ca685da1c8039108d86a" kindref="member">ReplicationEventStream</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a115d162425b79cddda776b7725ba3393" kindref="member">StreamConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a115d162425b79cddda776b7725ba3393" kindref="member">StreamConfig</ref>{});</highlight></codeline>
+<codeline lineno="167" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a171815ced0b97664d4fe0e55b68c9b60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a171815ced0b97664d4fe0e55b68c9b60" kindref="member">~ReplicationEventStream</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a5090d2282eeaa086d6a6a0e96f7a419a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a5090d2282eeaa086d6a6a0e96f7a419a" kindref="member">ReplicationEventStream</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ac12caf1b7671ca685da1c8039108d86a" kindref="member">ReplicationEventStream</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170" refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a6abdf69705f02bb12d848b7bada5be92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ac12caf1b7671ca685da1c8039108d86a" kindref="member">ReplicationEventStream</ref>&amp;<sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a6abdf69705f02bb12d848b7bada5be92" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ac12caf1b7671ca685da1c8039108d86a" kindref="member">ReplicationEventStream</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Subscription<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription" kindref="compound">Subscription</ref><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a26194078a9ead834fbfea88efd2741f2" kindref="member">subscribe</ref>(<ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a06d04b434361ed2631806c92c6825a65" kindref="member">EventType</ref><sp/>type,<sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1afa7187d901d4137abcee19da201610a4" kindref="member">EventCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1_1_subscription" kindref="compound">Subscription</ref><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ae01af4219127f445aea4b75d9278790c" kindref="member">subscribeAll</ref>(<ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1afa7187d901d4137abcee19da201610a4" kindref="member">EventCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1aba1192e75f6b0e0aaec320c44f3227a1" kindref="member">unsubscribe</ref>(uint64_t<sp/>subscription_id);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Historical<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Event&gt;<sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ab317783b4a41f608775538a29a1d9f46" kindref="member">getEvents</ref>(</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>start,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>end,</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;EventType&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>filter<sp/>=<sp/>std::nullopt</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a68755d7e33c7978481d94328701aa6e0" kindref="member">bufferedEventCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IReplicationListener<sp/>overrides<sp/>—<sp/>all<sp/>translate<sp/>to<sp/>Event<sp/>records</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a3e6f7fed05ddc9b333ef13fa3b0a1992" kindref="member">onRoleChange</ref>(<ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref><sp/>from,<sp/><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref><sp/>to)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a7cdaef9eccfb1d854fab5606fe4658d2" kindref="member">onLeaderElected</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>leader_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a9f512f72ef848fa683694c62a7054d9d" kindref="member">onReplicaAdded</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref>&amp;<sp/>replica)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ab4d2cb15821589fdaa3ed1d9633561cd" kindref="member">onReplicaRemoved</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a7fc48cb30a971e75b3d4a5113e81f4e1" kindref="member">onConflictDetected</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>document_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a66208a77b2fc4c1a2385bd83e4a90603" kindref="member">onReplicationLagWarning</ref>(int64_t<sp/>lag_ms)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a760666c37c3decfae1c863421fb6ff9c" kindref="member">onReplicaHealthChanged</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref><sp/>old_status,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref><sp/>new_status)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a56377fc7bc663ec9f903ec2b15e5f493" kindref="member">onFailoverStarted</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>failed_node,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>new_leader)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ae75d93f943260295628534ce963b100c" kindref="member">onFailoverCompleted</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>new_leader,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1aa6fdd9a3b3dce8deb128281e066f723a" kindref="member">onNetworkPartitionDetected</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>affected)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a91a3cc03f3496e5c951907c145cc77e7" kindref="member">onWALEntryApplied</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref>&amp;<sp/>entry)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a115d162425b79cddda776b7725ba3393" kindref="member">StreamConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Registered<sp/>subscriptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">SubscriptionRecord<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;EventType&gt;<sp/><sp/><sp/><sp/>filter;<sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_replication_event_stream_1afa7187d901d4137abcee19da201610a4" kindref="member">EventCallback</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>callback;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>subs_mutex_;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SubscriptionRecord&gt;<sp/><sp/>subscriptions_;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>next_id_{1};</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ring<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffer_mutex_;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;Event&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffer_;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>emit(Event<sp/>ev);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>replication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/replication/event_stream.h"/>
+  </compounddef>
+</doxygen>

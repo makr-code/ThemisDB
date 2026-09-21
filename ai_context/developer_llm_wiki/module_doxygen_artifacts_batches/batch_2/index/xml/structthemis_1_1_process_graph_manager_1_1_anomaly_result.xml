@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_graph_manager_1_1_anomaly_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessGraphManager::AnomalyResult</compoundname>
+    <includes refid="process__graph_8h" local="no">process_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_anomaly_result_1a361a84cbc4bc034d02c54d465acec830" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessGraphManager::AnomalyResult::instance_id</definition>
+        <argsstring></argsstring>
+        <name>instance_id</name>
+        <qualifiedname>themis::ProcessGraphManager::AnomalyResult::instance_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="814" column="21" bodyfile="include/index/process_graph.h" bodystart="814" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_anomaly_result_1aa081894bd6a1c4fd5baae146308953e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessGraphManager::AnomalyResult::anomaly_type</definition>
+        <argsstring></argsstring>
+        <name>anomaly_type</name>
+        <qualifiedname>themis::ProcessGraphManager::AnomalyResult::anomaly_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="815" column="21" bodyfile="include/index/process_graph.h" bodystart="815" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_anomaly_result_1a44ae1efa6bdbccbdcb6f17cecf4ad55d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::ProcessGraphManager::AnomalyResult::anomaly_score</definition>
+        <argsstring></argsstring>
+        <name>anomaly_score</name>
+        <qualifiedname>themis::ProcessGraphManager::AnomalyResult::anomaly_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="816" column="15" bodyfile="include/index/process_graph.h" bodystart="816" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_anomaly_result_1a7fafb96e120b0f3eb45b0fcb18ca7e5c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessGraphManager::AnomalyResult::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::ProcessGraphManager::AnomalyResult::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="817" column="21" bodyfile="include/index/process_graph.h" bodystart="817" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Detect anomalies in process execution using embeddings. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Compare current execution pattern to historical patterns. </para>
+    </detaileddescription>
+    <location file="include/index/process_graph.h" line="813" column="5" bodyfile="include/index/process_graph.h" bodystart="813" bodyend="818"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_anomaly_result_1a44ae1efa6bdbccbdcb6f17cecf4ad55d" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::AnomalyResult</scope><name>anomaly_score</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_anomaly_result_1aa081894bd6a1c4fd5baae146308953e0" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::AnomalyResult</scope><name>anomaly_type</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_anomaly_result_1a7fafb96e120b0f3eb45b0fcb18ca7e5c" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::AnomalyResult</scope><name>description</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_anomaly_result_1a361a84cbc4bc034d02c54d465acec830" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::AnomalyResult</scope><name>instance_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_series_profile" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SeriesProfile</compoundname>
+    <includes refid="compression__selector_8h" local="no">compression_selector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_series_profile_1a5a642261e411c72fe717a59412a131ac" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SeriesProfile::sample_count</definition>
+        <argsstring></argsstring>
+        <name>sample_count</name>
+        <qualifiedname>themis::SeriesProfile::sample_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="48" column="13" bodyfile="include/timeseries/compression_selector.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_series_profile_1aaccd90b43d010c103e543221eb6a1967" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SeriesProfile::value_variance</definition>
+        <argsstring></argsstring>
+        <name>value_variance</name>
+        <qualifiedname>themis::SeriesProfile::value_variance</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Sample variance of the value sequence. High variance favours Gorilla. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="51" column="13" bodyfile="include/timeseries/compression_selector.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_series_profile_1aee2d4586927e776c3ef3697b93a2ad67" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SeriesProfile::timestamp_regularity</definition>
+        <argsstring></argsstring>
+        <name>timestamp_regularity</name>
+        <qualifiedname>themis::SeriesProfile::timestamp_regularity</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fraction of adjacent pairs where both timestamps differ by the same delta (0 = fully irregular, 1 = perfectly regular). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="55" column="13" bodyfile="include/timeseries/compression_selector.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_series_profile_1af7f2d46e118a37ad8fc8d8fd24bd6457" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SeriesProfile::run_length_ratio</definition>
+        <argsstring></argsstring>
+        <name>run_length_ratio</name>
+        <qualifiedname>themis::SeriesProfile::run_length_ratio</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fraction of adjacent value pairs that are identical (runs). Values close to 1 indicate RLE will compress well. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="59" column="13" bodyfile="include/timeseries/compression_selector.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_series_profile_1a2dc273005d418080b6531734055208f4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SeriesProfile::dod_mean_abs</definition>
+        <argsstring></argsstring>
+        <name>dod_mean_abs</name>
+        <qualifiedname>themis::SeriesProfile::dod_mean_abs</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Mean absolute delta-of-delta for timestamps (ms). Small values indicate a near-constant inter-sample interval → DeltaOfDelta wins. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="63" column="13" bodyfile="include/timeseries/compression_selector.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistical profile of a time-series sample used to drive compression strategy selection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/compression_selector.h" line="47" column="1" bodyfile="include/timeseries/compression_selector.h" bodystart="47" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_series_profile_1a2dc273005d418080b6531734055208f4" prot="public" virt="non-virtual"><scope>themis::SeriesProfile</scope><name>dod_mean_abs</name></member>
+      <member refid="structthemis_1_1_series_profile_1af7f2d46e118a37ad8fc8d8fd24bd6457" prot="public" virt="non-virtual"><scope>themis::SeriesProfile</scope><name>run_length_ratio</name></member>
+      <member refid="structthemis_1_1_series_profile_1a5a642261e411c72fe717a59412a131ac" prot="public" virt="non-virtual"><scope>themis::SeriesProfile</scope><name>sample_count</name></member>
+      <member refid="structthemis_1_1_series_profile_1aee2d4586927e776c3ef3697b93a2ad67" prot="public" virt="non-virtual"><scope>themis::SeriesProfile</scope><name>timestamp_regularity</name></member>
+      <member refid="structthemis_1_1_series_profile_1aaccd90b43d010c103e543221eb6a1967" prot="public" virt="non-virtual"><scope>themis::SeriesProfile</scope><name>value_variance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

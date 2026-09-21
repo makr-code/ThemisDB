@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_packet_parser_safe_iterator_test" kind="class" language="C++" prot="public">
+    <compoundname>PacketParserSafeIteratorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PacketParserSafeIteratorTest</label>
+        <link refid="class_packet_parser_safe_iterator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PacketParserSafeIteratorTest</label>
+        <link refid="class_packet_parser_safe_iterator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="57" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="57" bodyend="57"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

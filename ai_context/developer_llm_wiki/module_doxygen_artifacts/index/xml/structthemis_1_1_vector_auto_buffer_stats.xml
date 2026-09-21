@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_vector_auto_buffer_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::VectorAutoBufferStats</compoundname>
+    <includes refid="vector__auto__buffer_8h" local="no">vector_auto_buffer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_stats_1aa344bcfa449d0a17118cf57ba2c2cb31" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::VectorAutoBufferStats::vectors_buffered</definition>
+        <argsstring></argsstring>
+        <name>vectors_buffered</name>
+        <qualifiedname>themis::VectorAutoBufferStats::vectors_buffered</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="91" column="17" bodyfile="include/index/vector_auto_buffer.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_stats_1a6cc011048ea42b790453f5352a7acc4a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::VectorAutoBufferStats::vectors_flushed</definition>
+        <argsstring></argsstring>
+        <name>vectors_flushed</name>
+        <qualifiedname>themis::VectorAutoBufferStats::vectors_flushed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="92" column="17" bodyfile="include/index/vector_auto_buffer.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_stats_1afca9d267ec98a67c2a190abc60d9dbb4" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::VectorAutoBufferStats::flush_count</definition>
+        <argsstring></argsstring>
+        <name>flush_count</name>
+        <qualifiedname>themis::VectorAutoBufferStats::flush_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="93" column="17" bodyfile="include/index/vector_auto_buffer.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_stats_1af4b8af24472b0af0185ae4e3cde58c73" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::VectorAutoBufferStats::auto_flush_count</definition>
+        <argsstring></argsstring>
+        <name>auto_flush_count</name>
+        <qualifiedname>themis::VectorAutoBufferStats::auto_flush_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="94" column="17" bodyfile="include/index/vector_auto_buffer.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_stats_1add6c496849e34238f0008d4ec1afd9d3" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::VectorAutoBufferStats::manual_flush_count</definition>
+        <argsstring></argsstring>
+        <name>manual_flush_count</name>
+        <qualifiedname>themis::VectorAutoBufferStats::manual_flush_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="95" column="17" bodyfile="include/index/vector_auto_buffer.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_stats_1aa8e274b612e0487f84322ab097457d5c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::VectorAutoBufferStats::size_triggered_flush</definition>
+        <argsstring></argsstring>
+        <name>size_triggered_flush</name>
+        <qualifiedname>themis::VectorAutoBufferStats::size_triggered_flush</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="96" column="17" bodyfile="include/index/vector_auto_buffer.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_stats_1acaee04a4852dd435a3ceef4f24b960a7" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::VectorAutoBufferStats::time_triggered_flush</definition>
+        <argsstring></argsstring>
+        <name>time_triggered_flush</name>
+        <qualifiedname>themis::VectorAutoBufferStats::time_triggered_flush</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="97" column="17" bodyfile="include/index/vector_auto_buffer.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_stats_1ae7675c7a13c978aa3682c16cda000ada" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::VectorAutoBufferStats::buffer_overflow_count</definition>
+        <argsstring></argsstring>
+        <name>buffer_overflow_count</name>
+        <qualifiedname>themis::VectorAutoBufferStats::buffer_overflow_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="98" column="17" bodyfile="include/index/vector_auto_buffer.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_stats_1a6ff3d4acd4a9f44390c4275762c370ac" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorAutoBufferStats::current_buffer_size</definition>
+        <argsstring></argsstring>
+        <name>current_buffer_size</name>
+        <qualifiedname>themis::VectorAutoBufferStats::current_buffer_size</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="100" column="12" bodyfile="include/index/vector_auto_buffer.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_stats_1ad2f8927659dbb68f5db394ea1b567e7e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorAutoBufferStats::current_buffer_memory</definition>
+        <argsstring></argsstring>
+        <name>current_buffer_memory</name>
+        <qualifiedname>themis::VectorAutoBufferStats::current_buffer_memory</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="101" column="12" bodyfile="include/index/vector_auto_buffer.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_stats_1ace8f82dee74083e7259b3d22cb428dd5" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::VectorAutoBufferStats::last_flush_time</definition>
+        <argsstring></argsstring>
+        <name>last_flush_time</name>
+        <qualifiedname>themis::VectorAutoBufferStats::last_flush_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="103" column="43" bodyfile="include/index/vector_auto_buffer.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_vector_auto_buffer_stats_1a83aafef2348041633d9f5247c23beb8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::VectorAutoBufferStats::VectorAutoBufferStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>VectorAutoBufferStats</name>
+        <qualifiedname>themis::VectorAutoBufferStats::VectorAutoBufferStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="105" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_vector_auto_buffer_stats_1a185f4b2775c60d71d1ab1ca353fc79b3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::VectorAutoBufferStats::VectorAutoBufferStats</definition>
+        <argsstring>(const VectorAutoBufferStats &amp;other)</argsstring>
+        <name>VectorAutoBufferStats</name>
+        <qualifiedname>themis::VectorAutoBufferStats::VectorAutoBufferStats</qualifiedname>
+        <param>
+          <type>const VectorAutoBufferStats &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="107" column="5" bodyfile="include/index/vector_auto_buffer.h" bodystart="107" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_vector_auto_buffer_stats_1aa0b6e6e63da2f1364b0283ba626e58bd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_vector_auto_buffer_stats_1a83aafef2348041633d9f5247c23beb8e" kindref="member">VectorAutoBufferStats</ref> &amp;</type>
+        <definition>VectorAutoBufferStats &amp; themis::VectorAutoBufferStats::operator=</definition>
+        <argsstring>(const VectorAutoBufferStats &amp;other)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::VectorAutoBufferStats::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_vector_auto_buffer_stats_1a83aafef2348041633d9f5247c23beb8e" kindref="member">VectorAutoBufferStats</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="120" column="27" bodyfile="include/index/vector_auto_buffer.h" bodystart="120" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics for vector auto-batching buffer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/vector_auto_buffer.h" line="90" column="1" bodyfile="include/index/vector_auto_buffer.h" bodystart="90" bodyend="136"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_vector_auto_buffer_stats_1af4b8af24472b0af0185ae4e3cde58c73" prot="public" virt="non-virtual"><scope>themis::VectorAutoBufferStats</scope><name>auto_flush_count</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_stats_1ae7675c7a13c978aa3682c16cda000ada" prot="public" virt="non-virtual"><scope>themis::VectorAutoBufferStats</scope><name>buffer_overflow_count</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_stats_1ad2f8927659dbb68f5db394ea1b567e7e" prot="public" virt="non-virtual"><scope>themis::VectorAutoBufferStats</scope><name>current_buffer_memory</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_stats_1a6ff3d4acd4a9f44390c4275762c370ac" prot="public" virt="non-virtual"><scope>themis::VectorAutoBufferStats</scope><name>current_buffer_size</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_stats_1afca9d267ec98a67c2a190abc60d9dbb4" prot="public" virt="non-virtual"><scope>themis::VectorAutoBufferStats</scope><name>flush_count</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_stats_1ace8f82dee74083e7259b3d22cb428dd5" prot="public" virt="non-virtual"><scope>themis::VectorAutoBufferStats</scope><name>last_flush_time</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_stats_1add6c496849e34238f0008d4ec1afd9d3" prot="public" virt="non-virtual"><scope>themis::VectorAutoBufferStats</scope><name>manual_flush_count</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_stats_1aa0b6e6e63da2f1364b0283ba626e58bd" prot="public" virt="non-virtual"><scope>themis::VectorAutoBufferStats</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_stats_1aa8e274b612e0487f84322ab097457d5c" prot="public" virt="non-virtual"><scope>themis::VectorAutoBufferStats</scope><name>size_triggered_flush</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_stats_1acaee04a4852dd435a3ceef4f24b960a7" prot="public" virt="non-virtual"><scope>themis::VectorAutoBufferStats</scope><name>time_triggered_flush</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_stats_1a83aafef2348041633d9f5247c23beb8e" prot="public" virt="non-virtual"><scope>themis::VectorAutoBufferStats</scope><name>VectorAutoBufferStats</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_stats_1a185f4b2775c60d71d1ab1ca353fc79b3" prot="public" virt="non-virtual"><scope>themis::VectorAutoBufferStats</scope><name>VectorAutoBufferStats</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_stats_1aa344bcfa449d0a17118cf57ba2c2cb31" prot="public" virt="non-virtual"><scope>themis::VectorAutoBufferStats</scope><name>vectors_buffered</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_stats_1a6cc011048ea42b790453f5352a7acc4a" prot="public" virt="non-virtual"><scope>themis::VectorAutoBufferStats</scope><name>vectors_flushed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

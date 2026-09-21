@@ -1,0 +1,714 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__index__workload__replay_8cpp" kind="file" language="C++">
+    <compoundname>test_index_workload_replay.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes refid="workload__replay_8h" local="yes">index/workload_replay.h</includes>
+    <includes local="yes">metadata/index_recommender.h</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>index/workload_replay.h</label>
+        <link refid="workload__replay_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/index/test_index_workload_replay.cpp</label>
+        <link refid="test__index__workload__replay_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="12">
+        <label>metadata/index_recommender.h</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>string_view</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_workload_capture_test" prot="public">WorkloadCaptureTest</innerclass>
+    <innerclass refid="class_workload_replayer_test" prot="public">WorkloadReplayerTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1a370688a6d4993ab7531adf54ad7ddd24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadEventTest, FilterEventToJSON)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadEventTest</type>
+        </param>
+        <param>
+          <type>FilterEventToJSON</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="16" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="16" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1abd87c348e307be1ce2999c9ff29e0d80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadEventTest, SortEventToJSON)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadEventTest</type>
+        </param>
+        <param>
+          <type>SortEventToJSON</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="30" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="30" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1a462cae05e2b9747ed5f66d7c7bee1114" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadEventTest, RoundTripFilter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadEventTest</type>
+        </param>
+        <param>
+          <type>RoundTripFilter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="41" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="41" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1a2607e52b707cca0f3af780572ac0e401" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WorkloadEventTest, RoundTripSort)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WorkloadEventTest</type>
+        </param>
+        <param>
+          <type>RoundTripSort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="55" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="55" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1abaf2f13c7e0acd90a07f68662f9f319d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WorkloadCaptureTest, InitiallyEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_workload_capture_test" kindref="compound">WorkloadCaptureTest</ref></type>
+        </param>
+        <param>
+          <type>InitiallyEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="75" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="75" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1ab4d6ba071568b2a1e6010f3784200963" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WorkloadCaptureTest, RecordEventIncreasesCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_workload_capture_test" kindref="compound">WorkloadCaptureTest</ref></type>
+        </param>
+        <param>
+          <type>RecordEventIncreasesCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="80" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="80" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1a7dc3e95ca15368797cc6946d3ca4c2c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WorkloadCaptureTest, RecordQueryIncreasesCounter)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_workload_capture_test" kindref="compound">WorkloadCaptureTest</ref></type>
+        </param>
+        <param>
+          <type>RecordQueryIncreasesCounter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="85" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="85" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1a82112918a20f768387d2cec7a489350a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WorkloadCaptureTest, EventsSnapshotCorrect)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_workload_capture_test" kindref="compound">WorkloadCaptureTest</ref></type>
+        </param>
+        <param>
+          <type>EventsSnapshotCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="91" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="91" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1af947682899ab4fa7f4d35a725c5a4c77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WorkloadCaptureTest, ClearResetsAll)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_workload_capture_test" kindref="compound">WorkloadCaptureTest</ref></type>
+        </param>
+        <param>
+          <type>ClearResetsAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="101" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="101" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1ae011f9c0c49bbe97902f5171ce1c6ce4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WorkloadCaptureTest, ToJSONContainsQueryCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_workload_capture_test" kindref="compound">WorkloadCaptureTest</ref></type>
+        </param>
+        <param>
+          <type>ToJSONContainsQueryCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="114" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="114" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1ae1437280118cafb4a4ffaaa269695595" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WorkloadCaptureTest, JSONRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_workload_capture_test" kindref="compound">WorkloadCaptureTest</ref></type>
+        </param>
+        <param>
+          <type>JSONRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="124" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="124" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1aa3a8f43830f72f245a8e45c8771a5687" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WorkloadReplayerTest, ReplayEmptyWorkloadReturnsNoRecommendations)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_workload_replayer_test" kindref="compound">WorkloadReplayerTest</ref></type>
+        </param>
+        <param>
+          <type>ReplayEmptyWorkloadReturnsNoRecommendations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="158" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="158" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1a4fe12b245ff98daec9e95d5e1efb0599" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WorkloadReplayerTest, ReplayProducesAddRecommendation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_workload_replayer_test" kindref="compound">WorkloadReplayerTest</ref></type>
+        </param>
+        <param>
+          <type>ReplayProducesAddRecommendation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="163" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="163" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1afd2f5d13527cbafd158a6989b6666269" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WorkloadReplayerTest, ReplayRespectsExistingIndexes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_workload_replayer_test" kindref="compound">WorkloadReplayerTest</ref></type>
+        </param>
+        <param>
+          <type>ReplayRespectsExistingIndexes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="179" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="179" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1a06809344cf7ad753ab0ccf1165ee46cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WorkloadReplayerTest, ReplayDropsUnusedIndex)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_workload_replayer_test" kindref="compound">WorkloadReplayerTest</ref></type>
+        </param>
+        <param>
+          <type>ReplayDropsUnusedIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="192" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="192" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1a64eb8c7b6ec3a8926acad0069558e6a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WorkloadReplayerTest, ReplayIsolated)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_workload_replayer_test" kindref="compound">WorkloadReplayerTest</ref></type>
+        </param>
+        <param>
+          <type>ReplayIsolated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="206" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="206" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1aa292633c1cfe811e2f59b95383c38f97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WorkloadReplayerTest, ReplayAllCoversMultipleTables)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_workload_replayer_test" kindref="compound">WorkloadReplayerTest</ref></type>
+        </param>
+        <param>
+          <type>ReplayAllCoversMultipleTables</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="222" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="222" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1a5af40e330cb2c7a8d52f3d922d5dc0af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WorkloadReplayerTest, ReplayFromDeserializedCapture)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_workload_replayer_test" kindref="compound">WorkloadReplayerTest</ref></type>
+        </param>
+        <param>
+          <type>ReplayFromDeserializedCapture</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="235" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="235" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="test__index__workload__replay_8cpp_1aa847ba20ae43845aa7d778cd835412f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(WorkloadReplayerTest, SortHeavyColumnGetsRangeIndex)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_workload_replayer_test" kindref="compound">WorkloadReplayerTest</ref></type>
+        </param>
+        <param>
+          <type>SortHeavyColumnGetsRangeIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_workload_replay.cpp" line="254" column="1" bodyfile="tests/index/test_index_workload_replay.cpp" bodystart="254" bodyend="268"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="workload__replay_8h" kindref="compound">index/workload_replay.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;metadata/index_recommender.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::metadata;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WorkloadEvent<sp/>–<sp/>JSON<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1a370688a6d4993ab7531adf54ad7ddd24" kindref="member">TEST</ref>(WorkloadEventTest,<sp/>FilterEventToJSON)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_workload_event" kindref="compound">WorkloadEvent</ref><sp/>e;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1_workload_event_1ad7c0e9fcf47f3819b59d394c99c955ab" kindref="member">table_name</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1_workload_event_1a23d2a52c644d8f3bcb9140434aebc998" kindref="member">column_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1_workload_event_1a59e1dd3e4c017930bcfc72bba9f3e2bb" kindref="member">access_type</ref><sp/>=<sp/>IndexRecommender::AccessType::FILTER;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1_workload_event_1ac49666ac302da8ff304528dd1425e918" kindref="member">selectivity</ref><sp/>=<sp/>0.01;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>e.<ref refid="structthemis_1_1_workload_event_1a6cb72732cd3aaec0ef4fb5e0a465c7a4" kindref="member">toJSON</ref>();</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;table_name&quot;</highlight><highlight class="normal">],<sp/><sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;column_name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;access_type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;filter&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(j[</highlight><highlight class="stringliteral">&quot;selectivity&quot;</highlight><highlight class="normal">].get&lt;double&gt;(),<sp/>0.01,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1a370688a6d4993ab7531adf54ad7ddd24" kindref="member">TEST</ref>(WorkloadEventTest,<sp/>SortEventToJSON)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_workload_event" kindref="compound">WorkloadEvent</ref><sp/>e;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1_workload_event_1ad7c0e9fcf47f3819b59d394c99c955ab" kindref="member">table_name</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1_workload_event_1a23d2a52c644d8f3bcb9140434aebc998" kindref="member">column_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;created_at&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1_workload_event_1a59e1dd3e4c017930bcfc72bba9f3e2bb" kindref="member">access_type</ref><sp/>=<sp/>IndexRecommender::AccessType::SORT;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1_workload_event_1ac49666ac302da8ff304528dd1425e918" kindref="member">selectivity</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>e.<ref refid="structthemis_1_1_workload_event_1a6cb72732cd3aaec0ef4fb5e0a465c7a4" kindref="member">toJSON</ref>();</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;access_type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;sort&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1a370688a6d4993ab7531adf54ad7ddd24" kindref="member">TEST</ref>(WorkloadEventTest,<sp/>RoundTripFilter)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_workload_event" kindref="compound">WorkloadEvent</ref><sp/>orig;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1_workload_event_1ad7c0e9fcf47f3819b59d394c99c955ab" kindref="member">table_name</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1_workload_event_1a23d2a52c644d8f3bcb9140434aebc998" kindref="member">column_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sku&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1_workload_event_1a59e1dd3e4c017930bcfc72bba9f3e2bb" kindref="member">access_type</ref><sp/>=<sp/>IndexRecommender::AccessType::FILTER;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1_workload_event_1ac49666ac302da8ff304528dd1425e918" kindref="member">selectivity</ref><sp/>=<sp/>0.005;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>restored<sp/>=<sp/><ref refid="structthemis_1_1_workload_event_1a1b8072dbf1e54046bde54b31c5277bdc" kindref="member">WorkloadEvent::fromJSON</ref>(orig.<ref refid="structthemis_1_1_workload_event_1a6cb72732cd3aaec0ef4fb5e0a465c7a4" kindref="member">toJSON</ref>());</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.table_name,<sp/><sp/>orig.<ref refid="structthemis_1_1_workload_event_1ad7c0e9fcf47f3819b59d394c99c955ab" kindref="member">table_name</ref>);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.column_name,<sp/>orig.<ref refid="structthemis_1_1_workload_event_1a23d2a52c644d8f3bcb9140434aebc998" kindref="member">column_name</ref>);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.access_type,<sp/>orig.<ref refid="structthemis_1_1_workload_event_1a59e1dd3e4c017930bcfc72bba9f3e2bb" kindref="member">access_type</ref>);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(restored.selectivity,<sp/>orig.<ref refid="structthemis_1_1_workload_event_1ac49666ac302da8ff304528dd1425e918" kindref="member">selectivity</ref>,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1a370688a6d4993ab7531adf54ad7ddd24" kindref="member">TEST</ref>(WorkloadEventTest,<sp/>RoundTripSort)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_workload_event" kindref="compound">WorkloadEvent</ref><sp/>orig;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1_workload_event_1ad7c0e9fcf47f3819b59d394c99c955ab" kindref="member">table_name</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;logs&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1_workload_event_1a23d2a52c644d8f3bcb9140434aebc998" kindref="member">column_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;timestamp&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1_workload_event_1a59e1dd3e4c017930bcfc72bba9f3e2bb" kindref="member">access_type</ref><sp/>=<sp/>IndexRecommender::AccessType::SORT;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1_workload_event_1ac49666ac302da8ff304528dd1425e918" kindref="member">selectivity</ref><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>restored<sp/>=<sp/><ref refid="structthemis_1_1_workload_event_1a1b8072dbf1e54046bde54b31c5277bdc" kindref="member">WorkloadEvent::fromJSON</ref>(orig.<ref refid="structthemis_1_1_workload_event_1a6cb72732cd3aaec0ef4fb5e0a465c7a4" kindref="member">toJSON</ref>());</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.access_type,<sp/>IndexRecommender::AccessType::SORT);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WorkloadCapture<sp/>–<sp/>basic<sp/>recording</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="class_workload_capture_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_workload_capture_test" kindref="compound">WorkloadCaptureTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_workload_capture" kindref="compound">WorkloadCapture</ref><sp/><ref refid="class_workload_capture_test_1a08dd5fc7ceff8cfdc6af8ef973d94837" kindref="member">capture_</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1abaf2f13c7e0acd90a07f68662f9f319d" kindref="member">TEST_F</ref>(<ref refid="class_workload_capture_test" kindref="compound">WorkloadCaptureTest</ref>,<sp/>InitiallyEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(capture_.eventCount(),<sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(capture_.totalQueries(),<sp/>0u);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1abaf2f13c7e0acd90a07f68662f9f319d" kindref="member">TEST_F</ref>(<ref refid="class_workload_capture_test" kindref="compound">WorkloadCaptureTest</ref>,<sp/>RecordEventIncreasesCount)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>capture_.recordEvent(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/>IndexRecommender::AccessType::FILTER,<sp/>0.01);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(capture_.eventCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1abaf2f13c7e0acd90a07f68662f9f319d" kindref="member">TEST_F</ref>(<ref refid="class_workload_capture_test" kindref="compound">WorkloadCaptureTest</ref>,<sp/>RecordQueryIncreasesCounter)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>capture_.recordQuery();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>capture_.recordQuery();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(capture_.totalQueries(),<sp/>2u);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1abaf2f13c7e0acd90a07f68662f9f319d" kindref="member">TEST_F</ref>(<ref refid="class_workload_capture_test" kindref="compound">WorkloadCaptureTest</ref>,<sp/>EventsSnapshotCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>capture_.recordEvent(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;col_a&quot;</highlight><highlight class="normal">,<sp/>IndexRecommender::AccessType::FILTER,<sp/>0.1);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>capture_.recordEvent(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;col_b&quot;</highlight><highlight class="normal">,<sp/>IndexRecommender::AccessType::SORT,<sp/><sp/><sp/>0.5);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>evts<sp/>=<sp/>capture_.events();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(evts.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(evts[0].column_name,<sp/></highlight><highlight class="stringliteral">&quot;col_a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(evts[1].column_name,<sp/></highlight><highlight class="stringliteral">&quot;col_b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1abaf2f13c7e0acd90a07f68662f9f319d" kindref="member">TEST_F</ref>(<ref refid="class_workload_capture_test" kindref="compound">WorkloadCaptureTest</ref>,<sp/>ClearResetsAll)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>capture_.recordQuery();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>capture_.recordEvent(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/>IndexRecommender::AccessType::FILTER,<sp/>0.1);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>capture_.clear();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(capture_.eventCount(),<sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(capture_.totalQueries(),<sp/>0u);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WorkloadCapture<sp/>–<sp/>JSON<sp/>serialisation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1abaf2f13c7e0acd90a07f68662f9f319d" kindref="member">TEST_F</ref>(<ref refid="class_workload_capture_test" kindref="compound">WorkloadCaptureTest</ref>,<sp/>ToJSONContainsQueryCount)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>capture_.recordQuery();</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>capture_.recordQuery();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>capture_.recordEvent(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/>IndexRecommender::AccessType::FILTER,<sp/>0.2);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>capture_.toJSON();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;total_queries&quot;</highlight><highlight class="normal">].get&lt;uint64_t&gt;(),<sp/>2u);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;events&quot;</highlight><highlight class="normal">].size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1abaf2f13c7e0acd90a07f68662f9f319d" kindref="member">TEST_F</ref>(<ref refid="class_workload_capture_test" kindref="compound">WorkloadCaptureTest</ref>,<sp/>JSONRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capture_.recordQuery();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capture_.recordEvent(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/>IndexRecommender::AccessType::FILTER,<sp/>0.0);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>capture_.recordEvent(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">,<sp/>IndexRecommender::AccessType::SORT,<sp/>0.5);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>capture_.toJSON();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/><ref refid="classthemis_1_1_workload_capture_1a27c518f53cd01160eacede0bfaf45b8e" kindref="member">WorkloadCapture::fromJSON</ref>(j);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.totalQueries(),<sp/>capture_.totalQueries());</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.eventCount(),<sp/><sp/><sp/>capture_.eventCount());</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>orig_evts<sp/><sp/><sp/>=<sp/>capture_.events();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded_evts<sp/>=<sp/>loaded.events();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(orig_evts.size(),<sp/>loaded_evts.size());</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>orig_evts.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded_evts[i].table_name,<sp/><sp/>orig_evts[i].table_name);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded_evts[i].column_name,<sp/>orig_evts[i].column_name);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded_evts[i].access_type,<sp/>orig_evts[i].access_type);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(loaded_evts[i].selectivity,<sp/>orig_evts[i].selectivity,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WorkloadReplayer<sp/>–<sp/>replay<sp/>produces<sp/>recommendations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="class_workload_replayer_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_workload_replayer_test" kindref="compound">WorkloadReplayerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_workload_capture" kindref="compound">WorkloadCapture</ref><sp/><sp/><ref refid="class_workload_replayer_test_1a6bad9e149c35605141150b03957be079" kindref="member">capture_</ref>;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_workload_replayer" kindref="compound">WorkloadReplayer</ref><sp/><ref refid="class_workload_replayer_test_1a29a32d3356d8594d1356209dc75456fd" kindref="member">replayer_</ref>;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1abaf2f13c7e0acd90a07f68662f9f319d" kindref="member">TEST_F</ref>(<ref refid="class_workload_replayer_test" kindref="compound">WorkloadReplayerTest</ref>,<sp/>ReplayEmptyWorkloadReturnsNoRecommendations)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recs<sp/>=<sp/>replayer_.replay(capture_,<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(recs.empty());</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1abaf2f13c7e0acd90a07f68662f9f319d" kindref="member">TEST_F</ref>(<ref refid="class_workload_replayer_test" kindref="compound">WorkloadReplayerTest</ref>,<sp/>ReplayProducesAddRecommendation)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>50<sp/>queries<sp/>filtering<sp/>on<sp/>a<sp/>highly<sp/>selective<sp/>column</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capture_.recordQuery();</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capture_.recordEvent(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/>IndexRecommender::AccessType::FILTER,<sp/>0.0);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recs<sp/>=<sp/>replayer_.replay(capture_,<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(recs.empty());</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>add_count<sp/>=<sp/>std::count_if(recs.begin(),<sp/>recs.end(),</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r)<sp/>{<sp/>return<sp/>r.action<sp/>==<sp/>IndexRecommendation::Action::ADD;<sp/>});</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(add_count,<sp/>0);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(recs[0].column_name,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1abaf2f13c7e0acd90a07f68662f9f319d" kindref="member">TEST_F</ref>(<ref refid="class_workload_replayer_test" kindref="compound">WorkloadReplayerTest</ref>,<sp/>ReplayRespectsExistingIndexes)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Column<sp/>already<sp/>indexed<sp/>→<sp/>no<sp/>ADD<sp/>recommendation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capture_.recordQuery();</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capture_.recordEvent(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/>IndexRecommender::AccessType::FILTER,<sp/>0.0);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recs<sp/>=<sp/>replayer_.replay(capture_,<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>add_count<sp/>=<sp/>std::count_if(recs.begin(),<sp/>recs.end(),</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r)<sp/>{<sp/>return<sp/>r.action<sp/>==<sp/>IndexRecommendation::Action::ADD;<sp/>});</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(add_count,<sp/>0);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1abaf2f13c7e0acd90a07f68662f9f319d" kindref="member">TEST_F</ref>(<ref refid="class_workload_replayer_test" kindref="compound">WorkloadReplayerTest</ref>,<sp/>ReplayDropsUnusedIndex)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>a<sp/>single<sp/>access<sp/>then<sp/>simulate<sp/>many<sp/>queries<sp/>without<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>capture_.recordQuery();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>capture_.recordEvent(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;legacy_col&quot;</highlight><highlight class="normal">,<sp/>IndexRecommender::AccessType::FILTER,<sp/>1.0);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>500;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capture_.recordQuery();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recs<sp/>=<sp/>replayer_.replay(capture_,<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;legacy_col&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>drop_count<sp/>=<sp/>std::count_if(recs.begin(),<sp/>recs.end(),</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r)<sp/>{<sp/>return<sp/>r.action<sp/>==<sp/>IndexRecommendation::Action::DROP;<sp/>});</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(drop_count,<sp/>0);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1abaf2f13c7e0acd90a07f68662f9f319d" kindref="member">TEST_F</ref>(<ref refid="class_workload_replayer_test" kindref="compound">WorkloadReplayerTest</ref>,<sp/>ReplayIsolated)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>replay<sp/>starts<sp/>fresh<sp/>–<sp/>prior<sp/>replays<sp/>do<sp/>not<sp/>affect<sp/>subsequent<sp/>ones</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capture_.recordQuery();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capture_.recordEvent(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;col&quot;</highlight><highlight class="normal">,<sp/>IndexRecommender::AccessType::FILTER,<sp/>0.0);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recs1<sp/>=<sp/>replayer_.replay(capture_,<sp/></highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recs2<sp/>=<sp/>replayer_.replay(capture_,<sp/></highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(recs1.size(),<sp/>recs2.size());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>recs1.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(recs1[i].benefit_score,<sp/>recs2[i].benefit_score,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1abaf2f13c7e0acd90a07f68662f9f319d" kindref="member">TEST_F</ref>(<ref refid="class_workload_replayer_test" kindref="compound">WorkloadReplayerTest</ref>,<sp/>ReplayAllCoversMultipleTables)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capture_.recordQuery();</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capture_.recordEvent(</highlight><highlight class="stringliteral">&quot;t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;col&quot;</highlight><highlight class="normal">,<sp/>IndexRecommender::AccessType::FILTER,<sp/>0.0);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capture_.recordEvent(</highlight><highlight class="stringliteral">&quot;t2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;col&quot;</highlight><highlight class="normal">,<sp/>IndexRecommender::AccessType::FILTER,<sp/>0.0);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>all<sp/>=<sp/>replayer_.replayAll(capture_);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(all.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(all.count(</highlight><highlight class="stringliteral">&quot;t1&quot;</highlight><highlight class="normal">)<sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(all.count(</highlight><highlight class="stringliteral">&quot;t2&quot;</highlight><highlight class="normal">)<sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1abaf2f13c7e0acd90a07f68662f9f319d" kindref="member">TEST_F</ref>(<ref refid="class_workload_replayer_test" kindref="compound">WorkloadReplayerTest</ref>,<sp/>ReplayFromDeserializedCapture)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>replaying<sp/>a<sp/>JSON-round-tripped<sp/>capture<sp/>produces<sp/>the<sp/>same<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capture_.recordQuery();</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capture_.recordEvent(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">,<sp/>IndexRecommender::AccessType::FILTER,<sp/>0.05);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/><sp/>=<sp/><ref refid="classthemis_1_1_workload_capture_1a27c518f53cd01160eacede0bfaf45b8e" kindref="member">WorkloadCapture::fromJSON</ref>(capture_.toJSON());</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recs_orig<sp/><sp/><sp/>=<sp/>replayer_.replay(capture_,<sp/></highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recs_loaded<sp/>=<sp/>replayer_.replay(loaded,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(recs_orig.size(),<sp/>recs_loaded.size());</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>recs_orig.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(recs_loaded[i].column_name,<sp/><sp/>recs_orig[i].column_name);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(recs_loaded[i].action,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>recs_orig[i].action);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(recs_loaded[i].benefit_score,<sp/>recs_orig[i].benefit_score,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><ref refid="test__index__workload__replay_8cpp_1abaf2f13c7e0acd90a07f68662f9f319d" kindref="member">TEST_F</ref>(<ref refid="class_workload_replayer_test" kindref="compound">WorkloadReplayerTest</ref>,<sp/>SortHeavyColumnGetsRangeIndex)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capture_.recordQuery();</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capture_.recordEvent(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">,<sp/>IndexRecommender::AccessType::SORT,<sp/>0.5);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recs<sp/>=<sp/>replayer_.replay(capture_,<sp/></highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!recs.empty())<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>std::find_if(recs.begin(),<sp/>recs.end(),</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r)<sp/>{<sp/>return<sp/>r.column_name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>!=<sp/>recs.end()<sp/>&amp;&amp;<sp/>it-&gt;action<sp/>==<sp/>IndexRecommendation::Action::ADD)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(it-&gt;index_type,<sp/></highlight><highlight class="stringliteral">&quot;range&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/index/test_index_workload_replay.cpp"/>
+  </compounddef>
+</doxygen>

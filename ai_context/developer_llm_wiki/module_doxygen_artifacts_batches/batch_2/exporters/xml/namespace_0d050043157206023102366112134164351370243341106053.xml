@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d050043157206023102366112134164351370243341106053" kind="namespace" language="C++">
+    <compoundname>@050043157206023102366112134164351370243341106053</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespace_0d050043157206023102366112134164351370243341106053_1aa5312525bac402908cffc322a5d747c1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ParquetType</name>
+        <qualifiedname>@050043157206023102366112134164351370243341106053::ParquetType</qualifiedname>
+        <enumvalue id="namespace_0d050043157206023102366112134164351370243341106053_1aa5312525bac402908cffc322a5d747c1a4e866b275c85fbb439f6484251cfb31c" prot="public">
+          <name>INT64</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d050043157206023102366112134164351370243341106053_1aa5312525bac402908cffc322a5d747c1afd3e4ece78a7d422280d5ed379482229" prot="public">
+          <name>DOUBLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d050043157206023102366112134164351370243341106053_1aa5312525bac402908cffc322a5d747c1a63b588d5559f64f89a416e656880b949" prot="public">
+          <name>STRING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d050043157206023102366112134164351370243341106053_1aa5312525bac402908cffc322a5d747c1ac48d5da12d702e73d6966069f2687376" prot="public">
+          <name>BOOLEAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="107" column="1" bodyfile="tests/exporters/test_exporters_contract_hardening_focused.cpp" bodystart="107" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/exporters/test_exporters_contract_hardening_focused.cpp" line="58" column="1"/>
+  </compounddef>
+</doxygen>

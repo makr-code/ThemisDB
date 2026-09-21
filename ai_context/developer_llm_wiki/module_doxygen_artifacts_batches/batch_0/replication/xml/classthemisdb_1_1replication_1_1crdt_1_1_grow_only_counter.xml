@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::crdt::GrowOnlyCounter</compoundname>
+    <includes refid="crdt__types_8h" local="no">crdt_types.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter_1a118da865681c07561be8f9a4506a3a76" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::crdt::GrowOnlyCounter::node_id_</definition>
+        <argsstring></argsstring>
+        <name>node_id_</name>
+        <qualifiedname>themisdb::replication::crdt::GrowOnlyCounter::node_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="92" column="17" bodyfile="include/replication/crdt_types.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter_1aa72c66cab3e3813cab01733f77e2d9ee" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint64_t&gt; themisdb::replication::crdt::GrowOnlyCounter::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themisdb::replication::crdt::GrowOnlyCounter::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="93" column="24" bodyfile="include/replication/crdt_types.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter_1aeeb66fdf3fa88646b47dda98bbf7dcd5" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::crdt::GrowOnlyCounter::GrowOnlyCounter</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>GrowOnlyCounter</name>
+        <qualifiedname>themisdb::replication::crdt::GrowOnlyCounter::GrowOnlyCounter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="61" column="14" bodyfile="include/replication/crdt_types.h" bodystart="61" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter_1aa07bbffcdb0fe1bf5bca465ce3d325ca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::GrowOnlyCounter::increment</definition>
+        <argsstring>(uint64_t delta=1)</argsstring>
+        <name>increment</name>
+        <qualifiedname>themisdb::replication::crdt::GrowOnlyCounter::increment</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>delta</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Increment the local node&apos;s count by <computeroutput>delta</computeroutput> (default 1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="65" column="10" bodyfile="include/replication/crdt_types.h" bodystart="65" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter_1a495b5b43df70c06c9fefdda6679d86b9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::crdt::GrowOnlyCounter::value</definition>
+        <argsstring>() const</argsstring>
+        <name>value</name>
+        <qualifiedname>themisdb::replication::crdt::GrowOnlyCounter::value</qualifiedname>
+        <briefdescription>
+<para>Returns the total counter value across all nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="70" column="14" bodyfile="include/replication/crdt_types.h" bodystart="70" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter_1af6333002a01bd117a923798bf1b8cf04" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::GrowOnlyCounter::merge</definition>
+        <argsstring>(const GrowOnlyCounter &amp;other)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themisdb::replication::crdt::GrowOnlyCounter::merge</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter_1aeeb66fdf3fa88646b47dda98bbf7dcd5" kindref="member">GrowOnlyCounter</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Merge another G-Counter state into this one (take per-node max). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="77" column="10" bodyfile="include/replication/crdt_types.h" bodystart="77" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter_1aded696bd899ae66d75f8b638541a2fb7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, uint64_t &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, uint64_t &gt; &amp; themisdb::replication::crdt::GrowOnlyCounter::state</definition>
+        <argsstring>() const</argsstring>
+        <name>state</name>
+        <qualifiedname>themisdb::replication::crdt::GrowOnlyCounter::state</qualifiedname>
+        <briefdescription>
+<para>Raw per-node state (for serialisation / testing). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="87" column="30" bodyfile="include/replication/crdt_types.h" bodystart="87" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A Grow-Only Counter (G-Counter). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each participating node maintains its own monotonically increasing count. The total value is the sum of all per-node counts. Only the local node&apos;s count can be incremented. </para>
+    </detaileddescription>
+    <location file="include/replication/crdt_types.h" line="59" column="1" bodyfile="include/replication/crdt_types.h" bodystart="59" bodyend="94"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter_1aeeb66fdf3fa88646b47dda98bbf7dcd5" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::GrowOnlyCounter</scope><name>GrowOnlyCounter</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter_1aa07bbffcdb0fe1bf5bca465ce3d325ca" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::GrowOnlyCounter</scope><name>increment</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter_1af6333002a01bd117a923798bf1b8cf04" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::GrowOnlyCounter</scope><name>merge</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter_1a118da865681c07561be8f9a4506a3a76" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::GrowOnlyCounter</scope><name>node_id_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter_1aded696bd899ae66d75f8b638541a2fb7" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::GrowOnlyCounter</scope><name>state</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter_1aa72c66cab3e3813cab01733f77e2d9ee" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::GrowOnlyCounter</scope><name>state_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter_1a495b5b43df70c06c9fefdda6679d86b9" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::GrowOnlyCounter</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

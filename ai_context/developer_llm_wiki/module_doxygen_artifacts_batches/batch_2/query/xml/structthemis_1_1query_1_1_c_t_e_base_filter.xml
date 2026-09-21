@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_c_t_e_base_filter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CTEBaseFilter</compoundname>
+    <includes refid="materialized__cte_8h" local="no">materialized_cte.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1query_1_1_c_t_e_base_filter_1aa759bf5dce2745a99b2c73a65de944dc" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Op</name>
+        <qualifiedname>themis::query::CTEBaseFilter::Op</qualifiedname>
+        <enumvalue id="structthemis_1_1query_1_1_c_t_e_base_filter_1aa759bf5dce2745a99b2c73a65de944dca2dcbad7477fd40561e8b8198f173bd47" prot="public">
+          <name>EQ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_c_t_e_base_filter_1aa759bf5dce2745a99b2c73a65de944dcadc33066c3993e0d50896e533fd692ce0" prot="public">
+          <name>NE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_c_t_e_base_filter_1aa759bf5dce2745a99b2c73a65de944dcac562607189d77eb9dfb707464c1e7b0b" prot="public">
+          <name>LT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_c_t_e_base_filter_1aa759bf5dce2745a99b2c73a65de944dcacfe6055d2e0503be378bb63449ec7ba6" prot="public">
+          <name>LE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_c_t_e_base_filter_1aa759bf5dce2745a99b2c73a65de944dcacd6a9bd2a175104eed40f0d33a8b4020" prot="public">
+          <name>GT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_c_t_e_base_filter_1aa759bf5dce2745a99b2c73a65de944dcaf803729628adf4199f224c2a225038e9" prot="public">
+          <name>GE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_c_t_e_base_filter_1aa759bf5dce2745a99b2c73a65de944dcadbd9c38e0339e6c34bd48cafc59be388" prot="public">
+          <name>IS_NULL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_c_t_e_base_filter_1aa759bf5dce2745a99b2c73a65de944dca05dd132ba23ff57c0ca5ec4100c31fdc" prot="public">
+          <name>IS_NOT_NULL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="83" column="5" bodyfile="include/query/materialized_cte.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_base_filter_1a1a37e6170fa876a43a34be8413e9b78b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::CTEBaseFilter::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::query::CTEBaseFilter::field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="84" column="20" bodyfile="include/query/materialized_cte.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_base_filter_1a0bd01629db6fe5858176116e6c6f0d1c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_c_t_e_base_filter_1aa759bf5dce2745a99b2c73a65de944dc" kindref="member">Op</ref></type>
+        <definition>Op themis::query::CTEBaseFilter::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::query::CTEBaseFilter::op</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1query_1_1_c_t_e_base_filter_1aa759bf5dce2745a99b2c73a65de944dca2dcbad7477fd40561e8b8198f173bd47" kindref="member">Op::EQ</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="85" column="20" bodyfile="include/query/materialized_cte.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_base_filter_1ae26cdddbb6ad5881cc0e06d4614fc612" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::CTEBaseFilter::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::query::CTEBaseFilter::value</qualifiedname>
+        <briefdescription>
+<para>Reference value for comparison (unused for IS_NULL / IS_NOT_NULL). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="86" column="20" bodyfile="include/query/materialized_cte.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/materialized_cte.h" line="82" column="1" bodyfile="include/query/materialized_cte.h" bodystart="82" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_c_t_e_base_filter_1a1a37e6170fa876a43a34be8413e9b78b" prot="public" virt="non-virtual"><scope>themis::query::CTEBaseFilter</scope><name>field</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_base_filter_1aa759bf5dce2745a99b2c73a65de944dc" prot="public" virt="non-virtual"><scope>themis::query::CTEBaseFilter</scope><name>Op</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_base_filter_1a0bd01629db6fe5858176116e6c6f0d1c" prot="public" virt="non-virtual"><scope>themis::query::CTEBaseFilter</scope><name>op</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_base_filter_1ae26cdddbb6ad5881cc0e06d4614fc612" prot="public" virt="non-virtual"><scope>themis::query::CTEBaseFilter</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

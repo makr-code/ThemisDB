@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1fts_1_1_posting_list_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::fts::PostingListEntry</compoundname>
+    <includes refid="fts__index_8h" local="no">fts_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_posting_list_entry_1af4cd8f76bed939fd9f63bb208a6dd721" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::fts::PostingListEntry::doc_id</definition>
+        <argsstring></argsstring>
+        <name>doc_id</name>
+        <qualifiedname>themis::query::fts::PostingListEntry::doc_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Document identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_index.h" line="38" column="12" bodyfile="include/query/fts_index.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_posting_list_entry_1ac1a29d3cd302e75ba563502a5d96fc5c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::fts::PostingListEntry::term_freq</definition>
+        <argsstring></argsstring>
+        <name>term_freq</name>
+        <qualifiedname>themis::query::fts::PostingListEntry::term_freq</qualifiedname>
+        <briefdescription>
+<para>Raw term frequency in document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_index.h" line="39" column="12" bodyfile="include/query/fts_index.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_posting_list_entry_1ae889af4232672d1e3eee9fd0ac3a303c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>std::vector&lt;uint32_t&gt; themis::query::fts::PostingListEntry::positions</definition>
+        <argsstring></argsstring>
+        <name>positions</name>
+        <qualifiedname>themis::query::fts::PostingListEntry::positions</qualifiedname>
+        <briefdescription>
+<para>Byte offsets of term occurrences. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_index.h" line="40" column="15" bodyfile="include/query/fts_index.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/fts_index.h" line="37" column="1" bodyfile="include/query/fts_index.h" bodystart="37" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1fts_1_1_posting_list_entry_1af4cd8f76bed939fd9f63bb208a6dd721" prot="public" virt="non-virtual"><scope>themis::query::fts::PostingListEntry</scope><name>doc_id</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_posting_list_entry_1ae889af4232672d1e3eee9fd0ac3a303c" prot="public" virt="non-virtual"><scope>themis::query::fts::PostingListEntry</scope><name>positions</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_posting_list_entry_1ac1a29d3cd302e75ba563502a5d96fc5c" prot="public" virt="non-virtual"><scope>themis::query::fts::PostingListEntry</scope><name>term_freq</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

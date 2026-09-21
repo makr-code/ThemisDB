@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::CacheStats</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_cache_stats_1a7e760edababd34e45808c070e7978bb8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::CacheStats::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::training::CacheStats::hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="86" column="12" bodyfile="include/training/training_interfaces.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_cache_stats_1a3bd4baa7a88ef7f0ba4423d18e8ddf41" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::CacheStats::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::training::CacheStats::misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="87" column="12" bodyfile="include/training/training_interfaces.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_cache_stats_1ae2a8121810fd7f3c05c8da9d3e1c422c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::CacheStats::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::training::CacheStats::evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="88" column="12" bodyfile="include/training/training_interfaces.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_cache_stats_1a62cac6f4b300f8a6b43276f2ce9ae4e1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::CacheStats::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::training::CacheStats::size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current number of cached entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="89" column="12" bodyfile="include/training/training_interfaces.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_cache_stats_1a007b50eaa3f21e32bd19dd648b27ffbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::CacheStats::CacheStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>CacheStats</name>
+        <qualifiedname>themis::training::CacheStats::CacheStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="91" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cache hit/miss statistics for <ref refid="classthemis_1_1training_1_1_i_k_g_enrichment_interface" kindref="compound">IKGEnrichmentInterface</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="85" column="1" bodyfile="include/training/training_interfaces.h" bodystart="85" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_cache_stats_1a007b50eaa3f21e32bd19dd648b27ffbe" prot="public" virt="non-virtual"><scope>themis::training::CacheStats</scope><name>CacheStats</name></member>
+      <member refid="structthemis_1_1training_1_1_cache_stats_1ae2a8121810fd7f3c05c8da9d3e1c422c" prot="public" virt="non-virtual"><scope>themis::training::CacheStats</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1training_1_1_cache_stats_1a7e760edababd34e45808c070e7978bb8" prot="public" virt="non-virtual"><scope>themis::training::CacheStats</scope><name>hits</name></member>
+      <member refid="structthemis_1_1training_1_1_cache_stats_1a3bd4baa7a88ef7f0ba4423d18e8ddf41" prot="public" virt="non-virtual"><scope>themis::training::CacheStats</scope><name>misses</name></member>
+      <member refid="structthemis_1_1training_1_1_cache_stats_1a62cac6f4b300f8a6b43276f2ce9ae4e1" prot="public" virt="non-virtual"><scope>themis::training::CacheStats</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

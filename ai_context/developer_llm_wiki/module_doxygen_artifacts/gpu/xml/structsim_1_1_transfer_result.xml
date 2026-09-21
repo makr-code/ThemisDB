@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structsim_1_1_transfer_result" kind="struct" language="C++" prot="public">
+    <compoundname>sim::TransferResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsim_1_1_transfer_result_1a4fa34aea3170791fd5d4c133ca6b6fbe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sim::TransferResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>sim::TransferResult::ok</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="77" column="12" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_transfer_result_1add473de3ab3f1e8bcff1637a5433291f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t sim::TransferResult::bytes_transferred</definition>
+        <argsstring></argsstring>
+        <name>bytes_transferred</name>
+        <qualifiedname>sim::TransferResult::bytes_transferred</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="78" column="12" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_transfer_result_1a2009d3a6415f2095c48fa30a25072802" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string sim::TransferResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>sim::TransferResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="79" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="76" column="1" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="76" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structsim_1_1_transfer_result_1add473de3ab3f1e8bcff1637a5433291f" prot="public" virt="non-virtual"><scope>sim::TransferResult</scope><name>bytes_transferred</name></member>
+      <member refid="structsim_1_1_transfer_result_1a2009d3a6415f2095c48fa30a25072802" prot="public" virt="non-virtual"><scope>sim::TransferResult</scope><name>error_message</name></member>
+      <member refid="structsim_1_1_transfer_result_1a4fa34aea3170791fd5d4c133ca6b6fbe" prot="public" virt="non-virtual"><scope>sim::TransferResult</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

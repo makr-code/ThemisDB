@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_preflight_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::PreflightCheckResult</compoundname>
+    <includes refid="preflight__health__check_8h" local="no">preflight_health_check.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_preflight_check_result_1aa97dc5e2bbdfce2bf04aa04b8fd74ddc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::PreflightCheckResult::all_passed</definition>
+        <argsstring></argsstring>
+        <name>all_passed</name>
+        <qualifiedname>themis::updates::PreflightCheckResult::all_passed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true only when every individual check passed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="53" column="10" bodyfile="include/updates/preflight_health_check.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_preflight_check_result_1af9c30f4283b905936549b3a80412a60c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_health_check_result" kindref="compound">HealthCheckResult</ref> &gt;</type>
+        <definition>std::vector&lt;HealthCheckResult&gt; themis::updates::PreflightCheckResult::results</definition>
+        <argsstring></argsstring>
+        <name>results</name>
+        <qualifiedname>themis::updates::PreflightCheckResult::results</qualifiedname>
+        <briefdescription>
+<para>Per-check results in the order they were executed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="56" column="17" bodyfile="include/updates/preflight_health_check.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_preflight_check_result_1a8542516db18b34af6fc7df0940e5a515" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::PreflightCheckResult::error_summary</definition>
+        <argsstring></argsstring>
+        <name>error_summary</name>
+        <qualifiedname>themis::updates::PreflightCheckResult::error_summary</qualifiedname>
+        <briefdescription>
+<para>Non-empty when <computeroutput>all_passed</computeroutput> == false; contains the first error summary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="59" column="17" bodyfile="include/updates/preflight_health_check.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_preflight_check_result_1a032ec5c8ce9e6507b79b17bdf36812c6" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::updates::PreflightCheckResult::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <qualifiedname>themis::updates::PreflightCheckResult::duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Wall-clock time taken to execute all checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="62" column="31" bodyfile="include/updates/preflight_health_check.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregate result returned by <ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a3d54bb7df9dc0056920c8c837ebd6d7e" kindref="member">PreflightHealthChecker::runAll()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/preflight_health_check.h" line="51" column="1" bodyfile="include/updates/preflight_health_check.h" bodystart="51" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_preflight_check_result_1aa97dc5e2bbdfce2bf04aa04b8fd74ddc" prot="public" virt="non-virtual"><scope>themis::updates::PreflightCheckResult</scope><name>all_passed</name></member>
+      <member refid="structthemis_1_1updates_1_1_preflight_check_result_1a032ec5c8ce9e6507b79b17bdf36812c6" prot="public" virt="non-virtual"><scope>themis::updates::PreflightCheckResult</scope><name>duration</name></member>
+      <member refid="structthemis_1_1updates_1_1_preflight_check_result_1a8542516db18b34af6fc7df0940e5a515" prot="public" virt="non-virtual"><scope>themis::updates::PreflightCheckResult</scope><name>error_summary</name></member>
+      <member refid="structthemis_1_1updates_1_1_preflight_check_result_1af9c30f4283b905936549b3a80412a60c" prot="public" virt="non-virtual"><scope>themis::updates::PreflightCheckResult</scope><name>results</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

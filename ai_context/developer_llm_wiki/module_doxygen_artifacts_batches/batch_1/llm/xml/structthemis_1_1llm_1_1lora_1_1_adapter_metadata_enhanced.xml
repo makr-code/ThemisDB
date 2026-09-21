@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::AdapterMetadataEnhanced</compoundname>
+    <basecompoundref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" prot="public" virt="non-virtual">themis::llm::lora::AdapterMetadata</basecompoundref>
+    <includes refid="lora__graph_8h" local="no">lora_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1af2d6d9afd42c88bbcf0c1c17d1d3cff3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_edge" kindref="compound">LoRAGraphEdge</ref> &gt;</type>
+        <definition>std::vector&lt;LoRAGraphEdge&gt; themis::llm::lora::AdapterMetadataEnhanced::edges</definition>
+        <argsstring></argsstring>
+        <name>edges</name>
+        <qualifiedname>themis::llm::lora::AdapterMetadataEnhanced::edges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="196" column="17" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1aa6cdff27a2ed8aa0fe970e6bee8ded5a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_path" kindref="compound">LoRAGraphPath</ref></type>
+        <definition>LoRAGraphPath themis::llm::lora::AdapterMetadataEnhanced::lineage_path</definition>
+        <argsstring></argsstring>
+        <name>lineage_path</name>
+        <qualifiedname>themis::llm::lora::AdapterMetadataEnhanced::lineage_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="197" column="19" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1a26f3989525ccaf25908856142cb57582" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding" kindref="compound">LoRAVectorEmbedding</ref> &gt;</type>
+        <definition>std::optional&lt;LoRAVectorEmbedding&gt; themis::llm::lora::AdapterMetadataEnhanced::description_embedding</definition>
+        <argsstring></argsstring>
+        <name>description_embedding</name>
+        <qualifiedname>themis::llm::lora::AdapterMetadataEnhanced::description_embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="200" column="19" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1abfde0e0ded20ccda745f029e1a9f50ca" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding" kindref="compound">LoRAVectorEmbedding</ref> &gt;</type>
+        <definition>std::optional&lt;LoRAVectorEmbedding&gt; themis::llm::lora::AdapterMetadataEnhanced::task_embedding</definition>
+        <argsstring></argsstring>
+        <name>task_embedding</name>
+        <qualifiedname>themis::llm::lora::AdapterMetadataEnhanced::task_embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="201" column="19" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1aa95cf9f3329c828804e7369073a646d8" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding" kindref="compound">LoRAVectorEmbedding</ref> &gt;</type>
+        <definition>std::optional&lt;LoRAVectorEmbedding&gt; themis::llm::lora::AdapterMetadataEnhanced::performance_embedding</definition>
+        <argsstring></argsstring>
+        <name>performance_embedding</name>
+        <qualifiedname>themis::llm::lora::AdapterMetadataEnhanced::performance_embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="202" column="19" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1a16feada5826b612759b6307a1838e185" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::lora::AdapterMetadataEnhanced::similar_adapters</definition>
+        <argsstring></argsstring>
+        <name>similar_adapters</name>
+        <qualifiedname>themis::llm::lora::AdapterMetadataEnhanced::similar_adapters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="205" column="17" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1a54dc5563a21408c41dbba7235ea7529e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::lora::AdapterMetadataEnhanced::derived_adapters</definition>
+        <argsstring></argsstring>
+        <name>derived_adapters</name>
+        <qualifiedname>themis::llm::lora::AdapterMetadataEnhanced::derived_adapters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="206" column="17" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1a519f6b0ea78f654a87fde8476f6c1b12" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::lora::AdapterMetadataEnhanced::dependency_adapters</definition>
+        <argsstring></argsstring>
+        <name>dependency_adapters</name>
+        <qualifiedname>themis::llm::lora::AdapterMetadataEnhanced::dependency_adapters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="207" column="17" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1ab782a0fcefaf1e1d24a2b92646de948f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::AdapterMetadataEnhanced::~AdapterMetadataEnhanced</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~AdapterMetadataEnhanced</name>
+        <qualifiedname>themis::llm::lora::AdapterMetadataEnhanced::~AdapterMetadataEnhanced</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="194" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1a75d9a3d5f307c1dc55d987f69a72adcd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::AdapterMetadataEnhanced::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::AdapterMetadataEnhanced::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="209" column="10" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="209" bodyend="236"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1af3ed0a6ff5a832f8fe1319e376225b18" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced" kindref="compound">AdapterMetadataEnhanced</ref></type>
+        <definition>static AdapterMetadataEnhanced themis::llm::lora::AdapterMetadataEnhanced::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::lora::AdapterMetadataEnhanced::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), push_back(), is_object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="244" column="36" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="244" bodyend="289"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::lora::AdapterMetadata</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::AdapterMetadataEnhanced</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::lora::AdapterMetadata</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::AdapterMetadataEnhanced</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>lineage_path</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::lora::LoRAGraphPath</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_graph_path"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/lora_graph.h" line="193" column="1" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="193" bodyend="290"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1a74f0d82e540b46101b94cea2ee6c0ccb" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1a11bd12cd88e13028888725292189648b" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>base_model</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1a290069900e680d9fdb3a52d5b3dbcc42" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>checksum</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1aae16e4363ed935dc3b331045ec74c9f7" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1ae3ab2a1cd87122265775a0e7ec40c66f" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>custom_metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1a519f6b0ea78f654a87fde8476f6c1b12" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>dependency_adapters</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1a54dc5563a21408c41dbba7235ea7529e" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>derived_adapters</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1ab4117a9c00c9d09c7af64a0d184bc451" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>description</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1a26f3989525ccaf25908856142cb57582" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>description_embedding</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1af2d6d9afd42c88bbcf0c1c17d1d3cff3" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>edges</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1adc01d58e3267dc2bf22aca7ab381512c" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>encryption_key_version</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1af3ed0a6ff5a832f8fe1319e376225b18" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1aa6cdff27a2ed8aa0fe970e6bee8ded5a" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>lineage_path</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1aa95cf9f3329c828804e7369073a646d8" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>performance_embedding</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1a3310741947708e9bc11082ad470f2cc3" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>signature</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1a16feada5826b612759b6307a1838e185" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>similar_adapters</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1abfde0e0ded20ccda745f029e1a9f50ca" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>task_embedding</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1a75d9a3d5f307c1dc55d987f69a72adcd" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1a9ac45dcfb3ed1e01883f44b377054ff5" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>training_samples</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1afbf844c1882c4aa565679bae59bd1947" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>updated_at</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1a9e0fe22c658c413ce15b911456bf6998" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>validation_accuracy</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1abaf5b09bbe5f87496c5e800fd5032a06" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>version</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1a188284e81573cc575fa231495d86df58" prot="public" virt="virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>~AdapterMetadata</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_enhanced_1ab782a0fcefaf1e1d24a2b92646de948f" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterMetadataEnhanced</scope><name>~AdapterMetadataEnhanced</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

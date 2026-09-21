@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::LLMSemanticValidator::Config</compoundname>
+    <includes refid="llm__semantic__validator_8h" local="no">llm_semantic_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1a17c38f983535e3f7eee6b61d96de2c61" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::aql::LLMSemanticValidator::Config::validation_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>validation_timeout_ms</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::Config::validation_timeout_ms</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="107" column="35" bodyfile="include/aql/llm_semantic_validator.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1af19ff4ebbc202824f7611b73eab9920a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::aql::LLMSemanticValidator::Config::cardinality_warning_threshold</definition>
+        <argsstring></argsstring>
+        <name>cardinality_warning_threshold</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::Config::cardinality_warning_threshold</qualifiedname>
+        <initializer>= 1000000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="109" column="16" bodyfile="include/aql/llm_semantic_validator.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1abf81b2767688fd55042e798ee5750ed6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::LLMSemanticValidator::Config::enable_type_checking</definition>
+        <argsstring></argsstring>
+        <name>enable_type_checking</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::Config::enable_type_checking</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="111" column="14" bodyfile="include/aql/llm_semantic_validator.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1a55b271052ba289d41a7711d3897fb8d1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::LLMSemanticValidator::Config::enable_cardinality_estimation</definition>
+        <argsstring></argsstring>
+        <name>enable_cardinality_estimation</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::Config::enable_cardinality_estimation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="113" column="14" bodyfile="include/aql/llm_semantic_validator.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1a8f06abf93a0e00635bba99481ef3ebad" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::LLMSemanticValidator::Config::enable_join_validation</definition>
+        <argsstring></argsstring>
+        <name>enable_join_validation</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::Config::enable_join_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="115" column="14" bodyfile="include/aql/llm_semantic_validator.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1a1b98261850d04207a4af31250608487b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::LLMSemanticValidator::Config::enable_function_validation</definition>
+        <argsstring></argsstring>
+        <name>enable_function_validation</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::Config::enable_function_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="117" column="14" bodyfile="include/aql/llm_semantic_validator.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1af67a775313772360bd8cab6f9286a059" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::aql::LLMSemanticValidator::Config::min_confidence_score</definition>
+        <argsstring></argsstring>
+        <name>min_confidence_score</name>
+        <qualifiedname>themis::aql::LLMSemanticValidator::Config::min_confidence_score</qualifiedname>
+        <initializer>= 0.6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="119" column="16" bodyfile="include/aql/llm_semantic_validator.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_semantic_validator.h" line="106" column="5" bodyfile="include/aql/llm_semantic_validator.h" bodystart="106" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1af19ff4ebbc202824f7611b73eab9920a" prot="public" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator::Config</scope><name>cardinality_warning_threshold</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1a55b271052ba289d41a7711d3897fb8d1" prot="public" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator::Config</scope><name>enable_cardinality_estimation</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1a1b98261850d04207a4af31250608487b" prot="public" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator::Config</scope><name>enable_function_validation</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1a8f06abf93a0e00635bba99481ef3ebad" prot="public" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator::Config</scope><name>enable_join_validation</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1abf81b2767688fd55042e798ee5750ed6" prot="public" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator::Config</scope><name>enable_type_checking</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1af67a775313772360bd8cab6f9286a059" prot="public" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator::Config</scope><name>min_confidence_score</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1a17c38f983535e3f7eee6b61d96de2c61" prot="public" virt="non-virtual"><scope>themis::aql::LLMSemanticValidator::Config</scope><name>validation_timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

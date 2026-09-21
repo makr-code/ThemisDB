@@ -1,0 +1,508 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_personalized_ranker" kind="class" language="C++" prot="public">
+    <compoundname>themis::PersonalizedRanker</compoundname>
+    <includes refid="personalized__ranker_8h" local="no">personalized_ranker.h</includes>
+    <innerclass refid="structthemis_1_1_personalized_ranker_1_1_config" prot="public">themis::PersonalizedRanker::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_personalized_ranker_1a199e072877d3f78456cf598cbd05c6c5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_personalized_ranker_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::PersonalizedRanker::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::PersonalizedRanker::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="196" column="12" bodyfile="include/search/personalized_ranker.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_personalized_ranker_1a1afc088eb37f349e9d8992131698ab66" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1_user_interaction" kindref="compound">UserInteraction</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;UserInteraction&gt; &gt; themis::PersonalizedRanker::history_</definition>
+        <argsstring></argsstring>
+        <name>history_</name>
+        <qualifiedname>themis::PersonalizedRanker::history_</qualifiedname>
+        <briefdescription>
+<para>Per-user interaction lists (oldest-first ordering for eviction). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="198" column="14" bodyfile="include/search/personalized_ranker.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_personalized_ranker_1a5d35c0bbd017307f83fefe817d6832fd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::PersonalizedRanker::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::PersonalizedRanker::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="199" column="24" bodyfile="include/search/personalized_ranker.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_personalized_ranker_1aa74b45bfacd8ba4a8e61aa755b518bbc" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::PersonalizedRanker::PersonalizedRanker</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>PersonalizedRanker</name>
+        <qualifiedname>themis::PersonalizedRanker::PersonalizedRanker</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_personalized_ranker_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1_personalized_ranker_1_1_config_1a86b8742abfd8241c5e6eb88c992842c9" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ranker configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid config (decay_rate &lt; 0, max_interactions_per_user == 0, boost_weight &lt; 0). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="112" column="14" bodyfile="src/search/personalized_ranker.cpp" bodystart="24" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_personalized_ranker_1a34197985df6cd6d85407e483ec688758" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::PersonalizedRanker::recordInteraction</definition>
+        <argsstring>(const UserInteraction &amp;interaction)</argsstring>
+        <name>recordInteraction</name>
+        <qualifiedname>themis::PersonalizedRanker::recordInteraction</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_user_interaction" kindref="compound">UserInteraction</ref> &amp;</type>
+          <declname>interaction</declname>
+        </param>
+        <briefdescription>
+<para>Record a user interaction for future personalization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Interaction.</para>
+<para>If the per-user buffer is full, the oldest interaction is evicted.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>interaction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Interaction to record.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">interaction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), erase(), begin(), push_back(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="125" column="10" bodyfile="src/search/personalized_ranker.cpp" bodystart="46" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_personalized_ranker_1acf0b0aaa4827817ef09ef681cd5fa60d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::PersonalizedRanker::computeScore</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;document_id, std::chrono::system_clock::time_point now=std::chrono::system_clock::now()) const</argsstring>
+        <name>computeScore</name>
+        <qualifiedname>themis::PersonalizedRanker::computeScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>now</declname>
+          <defval>std::chrono::system_clock::now()</defval>
+        </param>
+        <briefdescription>
+<para>Compute the personalization score for a (user, document) pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a value in [-1, 1]:<itemizedlist>
+<listitem><para>Positive: the user has shown positive interest in the document.</para>
+</listitem><listitem><para>Negative: the user has shown negative interest (disliked).</para>
+</listitem><listitem><para>Zero: no recorded interaction.</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user to personalize for. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The document to score. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>now</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference time for decay calculation (defaults to system clock now). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Personalization score in [-1, 1]. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="145" column="12" bodyfile="src/search/personalized_ranker.cpp" bodystart="83" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_personalized_ranker_1aa725dde65bd54530e6e2ab34b9b9e198" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::PersonalizedRanker::applyPersonalization</definition>
+        <argsstring>(const std::string &amp;user_id, std::vector&lt; RankedResult &gt; &amp;candidates, std::chrono::system_clock::time_point now=std::chrono::system_clock::now()) const</argsstring>
+        <name>applyPersonalization</name>
+        <qualifiedname>themis::PersonalizedRanker::applyPersonalization</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1_ranked_result" kindref="compound">RankedResult</ref> &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>now</declname>
+          <defval>std::chrono::system_clock::now()</defval>
+        </param>
+        <briefdescription>
+<para>Apply personalization boosts to a list of ranked candidates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>For each candidate, <computeroutput>final_score</computeroutput> is incremented by <computeroutput><ref refid="structthemis_1_1_personalized_ranker_1_1_config_1a0a15bb5362cc93a66a0d12453137020f" kindref="member">Config::boost_weight</ref> * personalizationScore(user_id, doc_id)</computeroutput>. The list is then re-sorted by <computeroutput>final_score</computeroutput> descending.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user to personalize for. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>In-out list of ranked results; final_score is updated. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>now</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference time for decay (defaults to now()). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="162" column="10" bodyfile="src/search/personalized_ranker.cpp" bodystart="129" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_personalized_ranker_1a2e9d4d5c484fb5423b535749c6cd6d93" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_user_interaction" kindref="compound">UserInteraction</ref> &gt;</type>
+        <definition>std::vector&lt; UserInteraction &gt; themis::PersonalizedRanker::getUserInteractions</definition>
+        <argsstring>(const std::string &amp;user_id) const</argsstring>
+        <name>getUserInteractions</name>
+        <qualifiedname>themis::PersonalizedRanker::getUserInteractions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Return all recorded interactions for a user (most-recent first). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="175" column="17" bodyfile="src/search/personalized_ranker.cpp" bodystart="162" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_personalized_ranker_1ad9f54d95b840fb72706d3aafbe930991" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::PersonalizedRanker::userCount</definition>
+        <argsstring>() const</argsstring>
+        <name>userCount</name>
+        <qualifiedname>themis::PersonalizedRanker::userCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of distinct users with interaction history. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="181" column="12" bodyfile="src/search/personalized_ranker.cpp" bodystart="181" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_personalized_ranker_1a3774e4eda9c3cf69916e1ad7fbd32315" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::PersonalizedRanker::clearUser</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>clearUser</name>
+        <qualifiedname>themis::PersonalizedRanker::clearUser</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove all interaction history for a specific user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear User.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="186" column="10" bodyfile="src/search/personalized_ranker.cpp" bodystart="196" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_personalized_ranker_1a2d50a393f502eaf4bbaac49490719f21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::PersonalizedRanker::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::PersonalizedRanker::clear</qualifiedname>
+        <briefdescription>
+<para>Remove all interaction history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="191" column="10" bodyfile="src/search/personalized_ranker.cpp" bodystart="205" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_personalized_ranker_1a9c2725a2ff93fb649b958f0668311845" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_personalized_ranker_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::PersonalizedRanker::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::PersonalizedRanker::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="193" column="18" bodyfile="include/search/personalized_ranker.h" bodystart="193" bodyend="193"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_personalized_ranker_1a18610479ffb83d3266a7b09f47c46aad" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::PersonalizedRanker::typeWeight</definition>
+        <argsstring>(InteractionType type)</argsstring>
+        <name>typeWeight</name>
+        <qualifiedname>themis::PersonalizedRanker::typeWeight</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1a810d63722a91d86aeb83f5d3568ca15f" kindref="member">InteractionType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Type Weight. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements typeWeight without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="201" column="19" bodyfile="src/search/personalized_ranker.cpp" bodystart="72" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_personalized_ranker_1ad1c461d611f127c479a4eee8176fdf59" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::PersonalizedRanker::computeScoreUnlocked</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;document_id, std::chrono::system_clock::time_point now) const</argsstring>
+        <name>computeScoreUnlocked</name>
+        <qualifiedname>themis::PersonalizedRanker::computeScoreUnlocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>now</declname>
+        </param>
+        <briefdescription>
+<para>Compute personalization score without locking (caller must hold mu_). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="203" column="12" bodyfile="src/search/personalized_ranker.cpp" bodystart="97" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Personalized re-ranker that boosts or suppresses results based on per-user interaction history. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_personalized_ranker" kindref="compound">PersonalizedRanker</ref> records user interactions (views, clicks, bookmarks, likes, and dislikes) and uses them to compute a personalization score for each (user, document) pair. The score can then be blended into the <computeroutput><ref refid="structthemis_1_1_ranking_features_1a2d23df90a64518800e0722b80e32600f" kindref="member">RankingFeatures::click_count</ref></computeroutput> or <computeroutput>popularity</computeroutput> of LTR candidates, or used via <computeroutput><ref refid="classthemis_1_1_personalized_ranker_1aa725dde65bd54530e6e2ab34b9b9e198" kindref="member">applyPersonalization()</ref></computeroutput> to directly adjust <computeroutput>final_score</computeroutput>.</para>
+<para><heading level="3">Score model</heading>
+</para>
+<para>Each interaction contributes a weighted, time-decayed signal: <programlisting><codeline><highlight class="normal">personalization_score<sp/>+=<sp/>type_weight<sp/>*<sp/>exp(-decay_rate<sp/>*<sp/>age_days)</highlight></codeline>
+</programlisting> where <computeroutput>age_days</computeroutput> is the age of the interaction in days and <computeroutput>type_weight</computeroutput> is one of:<itemizedlist>
+<listitem><para>VIEW → 0.2</para>
+</listitem><listitem><para>CLICK → 0.5</para>
+</listitem><listitem><para>BOOKMARK → 1.0</para>
+</listitem><listitem><para>LIKE → 1.0</para>
+</listitem><listitem><para>DISLIKE → -0.5</para>
+</listitem></itemizedlist>
+</para>
+<para>The final score is clamped to [-1, 1].</para>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">PersonalizedRanker::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.decay_rate<sp/>=<sp/>0.1;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>fast<sp/>decay:<sp/>interactions<sp/>lose<sp/>half<sp/>weight<sp/>~7<sp/>days</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_personalized_ranker_1aa74b45bfacd8ba4a8e61aa755b518bbc" kindref="member">PersonalizedRanker</ref><sp/>pr(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Record<sp/>interactions<sp/>as<sp/>users<sp/>browse</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">pr.recordInteraction({</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc_42&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a810d63722a91d86aeb83f5d3568ca15fa40600390b96d1c218ae0d475f977e25b" kindref="member">InteractionType::CLICK</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now()});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Apply<sp/>personalization<sp/>to<sp/>LTR<sp/>candidates<sp/>before<sp/>or<sp/>after<sp/>re-ranking</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ranked<sp/>=<sp/>ltr.rerank(candidates);</highlight></codeline>
+<codeline><highlight class="normal">pr.applyPersonalization(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>ranked);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>Thread Safety: All public methods are thread-safe via a shared mutex.</para>
+</simplesect>
+<simplesect kind="note"><para>Memory: The interaction log per user is bounded by <computeroutput><ref refid="structthemis_1_1_personalized_ranker_1_1_config_1acded9b0cd93660a6d3312343b74c5d93" kindref="member">Config::max_interactions_per_user</ref></computeroutput>. When the limit is reached the oldest interactions are evicted (circular buffer semantics). </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/search/personalized_ranker.h" line="90" column="1" bodyfile="include/search/personalized_ranker.h" bodystart="90" bodyend="207"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_personalized_ranker_1aa725dde65bd54530e6e2ab34b9b9e198" prot="public" virt="non-virtual"><scope>themis::PersonalizedRanker</scope><name>applyPersonalization</name></member>
+      <member refid="classthemis_1_1_personalized_ranker_1a2d50a393f502eaf4bbaac49490719f21" prot="public" virt="non-virtual"><scope>themis::PersonalizedRanker</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_personalized_ranker_1a3774e4eda9c3cf69916e1ad7fbd32315" prot="public" virt="non-virtual"><scope>themis::PersonalizedRanker</scope><name>clearUser</name></member>
+      <member refid="classthemis_1_1_personalized_ranker_1acf0b0aaa4827817ef09ef681cd5fa60d" prot="public" virt="non-virtual"><scope>themis::PersonalizedRanker</scope><name>computeScore</name></member>
+      <member refid="classthemis_1_1_personalized_ranker_1ad1c461d611f127c479a4eee8176fdf59" prot="private" virt="non-virtual"><scope>themis::PersonalizedRanker</scope><name>computeScoreUnlocked</name></member>
+      <member refid="classthemis_1_1_personalized_ranker_1a199e072877d3f78456cf598cbd05c6c5" prot="private" virt="non-virtual"><scope>themis::PersonalizedRanker</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_personalized_ranker_1a9c2725a2ff93fb649b958f0668311845" prot="public" virt="non-virtual"><scope>themis::PersonalizedRanker</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_personalized_ranker_1a2e9d4d5c484fb5423b535749c6cd6d93" prot="public" virt="non-virtual"><scope>themis::PersonalizedRanker</scope><name>getUserInteractions</name></member>
+      <member refid="classthemis_1_1_personalized_ranker_1a1afc088eb37f349e9d8992131698ab66" prot="private" virt="non-virtual"><scope>themis::PersonalizedRanker</scope><name>history_</name></member>
+      <member refid="classthemis_1_1_personalized_ranker_1a5d35c0bbd017307f83fefe817d6832fd" prot="private" virt="non-virtual"><scope>themis::PersonalizedRanker</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1_personalized_ranker_1aa74b45bfacd8ba4a8e61aa755b518bbc" prot="public" virt="non-virtual"><scope>themis::PersonalizedRanker</scope><name>PersonalizedRanker</name></member>
+      <member refid="classthemis_1_1_personalized_ranker_1a34197985df6cd6d85407e483ec688758" prot="public" virt="non-virtual"><scope>themis::PersonalizedRanker</scope><name>recordInteraction</name></member>
+      <member refid="classthemis_1_1_personalized_ranker_1a18610479ffb83d3266a7b09f47c46aad" prot="private" virt="non-virtual"><scope>themis::PersonalizedRanker</scope><name>typeWeight</name></member>
+      <member refid="classthemis_1_1_personalized_ranker_1ad9f54d95b840fb72706d3aafbe930991" prot="public" virt="non-virtual"><scope>themis::PersonalizedRanker</scope><name>userCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

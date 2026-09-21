@@ -1,0 +1,1829 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_tenant_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::TenantManager</compoundname>
+    <includes refid="tenant__manager_8h" local="no">tenant_manager.h</includes>
+    <innerclass refid="structthemis_1_1_tenant_manager_1_1_config" prot="public">themis::TenantManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1_tenant_manager_1_1_path_rewrite_result" prot="public">themis::TenantManager::PathRewriteResult</innerclass>
+    <innerclass refid="structthemis_1_1_tenant_manager_1_1_quota_check_result" prot="public">themis::TenantManager::QuotaCheckResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_tenant_manager_1a271822134d39428a45e5f6dd35e1d18a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CreateResult</name>
+        <qualifiedname>themis::TenantManager::CreateResult</qualifiedname>
+        <enumvalue id="classthemis_1_1_tenant_manager_1a271822134d39428a45e5f6dd35e1d18aa505a83f220c02df2f85c3810cd9ceb38" prot="public">
+          <name>Success</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_tenant_manager_1a271822134d39428a45e5f6dd35e1d18aa89b69484680b18e9179e826c6e023805" prot="public">
+          <name>AlreadyExists</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_tenant_manager_1a271822134d39428a45e5f6dd35e1d18aa636bc5ca1e0ceb3e4c67067618d7ae09" prot="public">
+          <name>InvalidConfig</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_tenant_manager_1a271822134d39428a45e5f6dd35e1d18aabab718430d4b68d21036fb9f29a16fb7" prot="public">
+          <name>QuotaExceeded</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_tenant_manager_1a271822134d39428a45e5f6dd35e1d18aa8462b58246e70e5c83e5b939a9332cb5" prot="public">
+          <name>InternalError</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="162" column="5" bodyfile="include/server/tenant_manager.h" bodystart="162" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_tenant_manager_1ae0a2aad00babd29ab9b96dbd21b23f39" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TenantManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::TenantManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="418" column="24" bodyfile="include/server/tenant_manager.h" bodystart="418" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_tenant_manager_1a825673b99a90d594d335b9ae84e02bd1" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_tenant_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::TenantManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::TenantManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="419" column="12" bodyfile="include/server/tenant_manager.h" bodystart="419" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_tenant_manager_1a69e7151f7b4b01d988e058530ff528e3" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1_tenant_config" kindref="compound">TenantConfig</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TenantConfig&gt; themis::TenantManager::tenants_</definition>
+        <argsstring></argsstring>
+        <name>tenants_</name>
+        <qualifiedname>themis::TenantManager::tenants_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="420" column="24" bodyfile="include/server/tenant_manager.h" bodystart="420" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_tenant_manager_1a4646a57889f1d1fb086a5ae6300992a6" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; <ref refid="structthemis_1_1_tenant_usage" kindref="compound">TenantUsage</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;TenantUsage&gt; &gt; themis::TenantManager::usage_</definition>
+        <argsstring></argsstring>
+        <name>usage_</name>
+        <qualifiedname>themis::TenantManager::usage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="421" column="24" bodyfile="include/server/tenant_manager.h" bodystart="421" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_tenant_manager_1aed6ad3d5536980e01f4f00c22ad165fb" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::TenantManager::domain_to_tenant_</definition>
+        <argsstring></argsstring>
+        <name>domain_to_tenant_</name>
+        <qualifiedname>themis::TenantManager::domain_to_tenant_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="424" column="24" bodyfile="include/server/tenant_manager.h" bodystart="424" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1ac43d79a0b37fcacde45f5212a93509bf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TenantManager &amp;</type>
+        <definition>TenantManager &amp; themis::TenantManager::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::TenantManager::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="130" column="26" bodyfile="src/server/tenant_manager.cpp" bodystart="26" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1accc8a25f24db15099644ca3a1a46ecb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TenantManager::configure</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>configure</name>
+        <qualifiedname>themis::TenantManager::configure</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_tenant_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), ensureDefaultTenant(), rebuildDomainIndex(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="157" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="50" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1ade7a011a31fc4e4e0517da8305a6806e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_tenant_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::TenantManager::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::TenantManager::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="159" column="18" bodyfile="include/server/tenant_manager.h" bodystart="159" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a4d8a54f262beb7eee4c3142eb97c22ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_tenant_manager_1a271822134d39428a45e5f6dd35e1d18a" kindref="member">CreateResult</ref></type>
+        <definition>TenantManager::CreateResult themis::TenantManager::createTenant</definition>
+        <argsstring>(const TenantConfig &amp;config)</argsstring>
+        <name>createTenant</name>
+        <qualifiedname>themis::TenantManager::createTenant</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_tenant_config" kindref="compound">TenantConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), empty(), THEMIS_WARN(), find(), end(), size(), count(), at(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="175" column="18" bodyfile="src/server/tenant_manager.cpp" bodystart="128" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a5bc07c1da2d010eac2b97358033f6108" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TenantManager::updateTenant</definition>
+        <argsstring>(const TenantConfig &amp;config)</argsstring>
+        <name>updateTenant</name>
+        <qualifiedname>themis::TenantManager::updateTenant</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_tenant_config" kindref="compound">TenantConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_WARN(), empty(), erase(), THEMIS_INFO(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="182" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="187" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a49461f4b543937cc6b7cebd9250209f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TenantManager::deleteTenant</definition>
+        <argsstring>(std::string_view tenant_id)</argsstring>
+        <name>deleteTenant</name>
+        <qualifiedname>themis::TenantManager::deleteTenant</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), tid(), THEMIS_WARN(), find(), end(), erase(), normaliseDomain(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="189" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="240" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1ab21674873334a4ae5b948b17c866aa9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TenantManager::setTenantEnabled</definition>
+        <argsstring>(std::string_view tenant_id, bool enabled)</argsstring>
+        <name>setTenantEnabled</name>
+        <qualifiedname>themis::TenantManager::setTenantEnabled</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Set Tenant Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), std::string(), end(), std::chrono::system_clock::now(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="197" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="282" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1ad698e662b020ffcd72e6d845e9abea85" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_tenant_config" kindref="compound">TenantConfig</ref> &gt;</type>
+        <definition>std::optional&lt; TenantConfig &gt; themis::TenantManager::getTenant</definition>
+        <argsstring>(std::string_view tenant_id) const</argsstring>
+        <name>getTenant</name>
+        <qualifiedname>themis::TenantManager::getTenant</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="205" column="19" bodyfile="src/server/tenant_manager.cpp" bodystart="297" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a114767d50e378b7cf3b2421e86a37cc2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_tenant_config" kindref="compound">TenantConfig</ref> &gt;</type>
+        <definition>std::vector&lt; TenantConfig &gt; themis::TenantManager::listTenants</definition>
+        <argsstring>() const</argsstring>
+        <name>listTenants</name>
+        <qualifiedname>themis::TenantManager::listTenants</qualifiedname>
+        <briefdescription>
+<para>List Tenants. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="211" column="17" bodyfile="src/server/tenant_manager.cpp" bodystart="312" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a7511153882e92f049be31e0f3a7e844c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TenantManager::tenantExists</definition>
+        <argsstring>(std::string_view tenant_id) const</argsstring>
+        <name>tenantExists</name>
+        <qualifiedname>themis::TenantManager::tenantExists</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Tenant Exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="218" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="329" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1ae4025166609735ebce900ef3a2743e8c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TenantManager::getTenantCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getTenantCount</name>
+        <qualifiedname>themis::TenantManager::getTenantCount</qualifiedname>
+        <briefdescription>
+<para>Get Tenant Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="224" column="12" bodyfile="src/server/tenant_manager.cpp" bodystart="339" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a9467fc6d72da7efa6ad21485b28211b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_tenant_context" kindref="compound">TenantContext</ref> &gt;</type>
+        <definition>std::optional&lt; TenantContext &gt; themis::TenantManager::resolveContext</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;headers, std::string_view path, std::string_view user_id=&quot;&quot;, const std::vector&lt; std::string &gt; &amp;roles={}) const</argsstring>
+        <name>resolveContext</name>
+        <qualifiedname>themis::TenantManager::resolveContext</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>user_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>roles</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="227" column="19" bodyfile="src/server/tenant_manager.cpp" bodystart="472" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a3bc49a0cfb0068a389c5f350d0b0dfed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::TenantManager::extractTenantId</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;headers, std::string_view path) const</argsstring>
+        <name>extractTenantId</name>
+        <qualifiedname>themis::TenantManager::extractTenantId</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>3. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Path-based tenant routing</para>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="235" column="19" bodyfile="src/server/tenant_manager.cpp" bodystart="349" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1ab1563f15373eb6a348494505b2272589" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TenantManager::registerCustomDomain</definition>
+        <argsstring>(std::string_view tenant_id, std::string_view domain)</argsstring>
+        <name>registerCustomDomain</name>
+        <qualifiedname>themis::TenantManager::registerCustomDomain</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+<para>Register Custom Domain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), tid(), find(), end(), THEMIS_WARN(), normaliseDomain(), empty(), rawDomain(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="246" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="764" bodyend="800"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a35fdc60d6523b24650e7fbd391ba9ca6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TenantManager::unregisterCustomDomain</definition>
+        <argsstring>(std::string_view domain)</argsstring>
+        <name>unregisterCustomDomain</name>
+        <qualifiedname>themis::TenantManager::unregisterCustomDomain</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Custom Domain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), normaliseDomain(), find(), end(), erase(), rawDomain(), std::remove(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="253" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="808" bodyend="831"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1abd823c2863bb758adb4fe539ffdd06d2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::TenantManager::lookupTenantByDomain</definition>
+        <argsstring>(std::string_view host) const</argsstring>
+        <name>lookupTenantByDomain</name>
+        <qualifiedname>themis::TenantManager::lookupTenantByDomain</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>host</declname>
+        </param>
+        <briefdescription>
+<para>Lookup Tenant By Domain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">host</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="260" column="19" bodyfile="src/server/tenant_manager.cpp" bodystart="833" bodyend="847"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1ada0ecbed2dbea721d6f528758add4e2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TenantManager::stripTenantPath</definition>
+        <argsstring>(std::string_view path) const</argsstring>
+        <name>stripTenantPath</name>
+        <qualifiedname>themis::TenantManager::stripTenantPath</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Strip Tenant Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Path Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="267" column="17" bodyfile="src/server/tenant_manager.cpp" bodystart="404" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a360fe6412f2fcb19a26c14de5f6aff00" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_tenant_manager_1_1_path_rewrite_result" kindref="compound">PathRewriteResult</ref></type>
+        <definition>TenantManager::PathRewriteResult themis::TenantManager::rewriteTenantPath</definition>
+        <argsstring>(std::string_view path) const</argsstring>
+        <name>rewriteTenantPath</name>
+        <qualifiedname>themis::TenantManager::rewriteTenantPath</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Rewrite Tenant Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Path Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="283" column="23" bodyfile="src/server/tenant_manager.cpp" bodystart="423" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a5319100f9ed94d0137e9f4d815bd41d6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::TenantManager::resolveTenantByDomain</definition>
+        <argsstring>(std::string_view host) const</argsstring>
+        <name>resolveTenantByDomain</name>
+        <qualifiedname>themis::TenantManager::resolveTenantByDomain</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>host</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Tenant By Domain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">host</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Strip port suffix if present <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">host</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="290" column="19" bodyfile="src/server/tenant_manager.cpp" bodystart="447" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1ab3e61050cba659d106c5ae60b9803522" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_tenant_manager_1_1_quota_check_result" kindref="compound">QuotaCheckResult</ref></type>
+        <definition>TenantManager::QuotaCheckResult themis::TenantManager::checkQuota</definition>
+        <argsstring>(std::string_view tenant_id, std::string_view resource_type, uint64_t requested_amount=1) const</argsstring>
+        <name>checkQuota</name>
+        <qualifiedname>themis::TenantManager::checkQuota</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>resource_type</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>requested_amount</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="298" column="22" bodyfile="src/server/tenant_manager.cpp" bodystart="491" bodyend="554"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a1aac3bcfdf59b403cfc066aab56272dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_tenant_usage" kindref="compound">TenantUsage</ref> *</type>
+        <definition>TenantUsage * themis::TenantManager::getUsage</definition>
+        <argsstring>(std::string_view tenant_id)</argsstring>
+        <name>getUsage</name>
+        <qualifiedname>themis::TenantManager::getUsage</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: lock(), find(), std::string(), end(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="308" column="17" bodyfile="src/server/tenant_manager.cpp" bodystart="562" bodyend="566"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1adaff644ffeb79cc2dc9f4b2159053dc7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_tenant_usage" kindref="compound">TenantUsage</ref> *</type>
+        <definition>const TenantUsage * themis::TenantManager::getUsage</definition>
+        <argsstring>(std::string_view tenant_id) const</argsstring>
+        <name>getUsage</name>
+        <qualifiedname>themis::TenantManager::getUsage</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="315" column="23" bodyfile="src/server/tenant_manager.cpp" bodystart="568" bodyend="577"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a42b665cb10d9d2c2104dcdcd9e4c224f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TenantManager::incrementStorage</definition>
+        <argsstring>(std::string_view tenant_id, int64_t bytes)</argsstring>
+        <name>incrementStorage</name>
+        <qualifiedname>themis::TenantManager::incrementStorage</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Increment Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_tenant_manager_1a1aac3bcfdf59b403cfc066aab56272dd" kindref="member">getUsage()</ref>, fetch_add(), fetch_sub(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="322" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="585" bodyend="593"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1add6ca74d152e9127046937b4293678ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TenantManager::incrementDocuments</definition>
+        <argsstring>(std::string_view tenant_id, int64_t count)</argsstring>
+        <name>incrementDocuments</name>
+        <qualifiedname>themis::TenantManager::incrementDocuments</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Increment Documents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_tenant_manager_1a1aac3bcfdf59b403cfc066aab56272dd" kindref="member">getUsage()</ref>, fetch_add(), fetch_sub(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="329" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="601" bodyend="609"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1ad7e81d99862b6dce76bf60c17616e609" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TenantManager::incrementCollections</definition>
+        <argsstring>(std::string_view tenant_id, int64_t count)</argsstring>
+        <name>incrementCollections</name>
+        <qualifiedname>themis::TenantManager::incrementCollections</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Increment Collections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_tenant_manager_1a1aac3bcfdf59b403cfc066aab56272dd" kindref="member">getUsage()</ref>, fetch_add(), fetch_sub(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="336" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="617" bodyend="625"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1aa427a4ff10e1f16a0bff0b0a84fd201f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TenantManager::recordRequest</definition>
+        <argsstring>(std::string_view tenant_id)</argsstring>
+        <name>recordRequest</name>
+        <qualifiedname>themis::TenantManager::recordRequest</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Record Request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_tenant_manager_1a1aac3bcfdf59b403cfc066aab56272dd" kindref="member">getUsage()</ref>, fetch_add(), store(), std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="342" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="632" bodyend="641"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a375fd63b914de8cddfc6c78e6dbc7609" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TenantManager::recordQuery</definition>
+        <argsstring>(std::string_view tenant_id)</argsstring>
+        <name>recordQuery</name>
+        <qualifiedname>themis::TenantManager::recordQuery</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Record Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_tenant_manager_1a1aac3bcfdf59b403cfc066aab56272dd" kindref="member">getUsage()</ref>, fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="348" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="648" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1ad3cc4be9203a65f9307c6c70437149c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TenantManager::recordBytesRead</definition>
+        <argsstring>(std::string_view tenant_id, uint64_t bytes)</argsstring>
+        <name>recordBytesRead</name>
+        <qualifiedname>themis::TenantManager::recordBytesRead</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record Bytes Read. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_tenant_manager_1a1aac3bcfdf59b403cfc066aab56272dd" kindref="member">getUsage()</ref>, fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="355" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="660" bodyend="664"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a884891e2a5be6c70f5a56f6464197439" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TenantManager::recordBytesWritten</definition>
+        <argsstring>(std::string_view tenant_id, uint64_t bytes)</argsstring>
+        <name>recordBytesWritten</name>
+        <qualifiedname>themis::TenantManager::recordBytesWritten</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record Bytes Written. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_tenant_manager_1a1aac3bcfdf59b403cfc066aab56272dd" kindref="member">getUsage()</ref>, fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="362" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="672" bodyend="676"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1abc8f553c9964f76182c35ff67588f7e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TenantManager::recordRateLimited</definition>
+        <argsstring>(std::string_view tenant_id)</argsstring>
+        <name>recordRateLimited</name>
+        <qualifiedname>themis::TenantManager::recordRateLimited</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Record Rate Limited. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_tenant_manager_1a1aac3bcfdf59b403cfc066aab56272dd" kindref="member">getUsage()</ref>, fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="368" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="683" bodyend="687"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1ad58a4df83c9ed65e1ec12f252fd4c36e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TenantManager::acquireConnection</definition>
+        <argsstring>(std::string_view tenant_id)</argsstring>
+        <name>acquireConnection</name>
+        <qualifiedname>themis::TenantManager::acquireConnection</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Acquire Connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_tenant_manager_1ab3e61050cba659d106c5ae60b9803522" kindref="member">checkQuota()</ref>, <ref refid="classthemis_1_1_tenant_manager_1a1aac3bcfdf59b403cfc066aab56272dd" kindref="member">getUsage()</ref>, fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="376" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="695" bodyend="706"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1ab8c113d3c71c0c2a19ed18f9e06803d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TenantManager::releaseConnection</definition>
+        <argsstring>(std::string_view tenant_id)</argsstring>
+        <name>releaseConnection</name>
+        <qualifiedname>themis::TenantManager::releaseConnection</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Release Connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_tenant_manager_1a1aac3bcfdf59b403cfc066aab56272dd" kindref="member">getUsage()</ref>, fetch_sub(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="382" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="713" bodyend="717"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1ae20315c237ec945f682b9c7a1c81bd19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TenantManager::acquireQuerySlot</definition>
+        <argsstring>(std::string_view tenant_id)</argsstring>
+        <name>acquireQuerySlot</name>
+        <qualifiedname>themis::TenantManager::acquireQuerySlot</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Acquire Query Slot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_tenant_manager_1ab3e61050cba659d106c5ae60b9803522" kindref="member">checkQuota()</ref>, <ref refid="classthemis_1_1_tenant_manager_1a1aac3bcfdf59b403cfc066aab56272dd" kindref="member">getUsage()</ref>, fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="390" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="725" bodyend="736"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a813fc04258145d7fab1206301b2c6209" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TenantManager::releaseQuerySlot</definition>
+        <argsstring>(std::string_view tenant_id)</argsstring>
+        <name>releaseQuerySlot</name>
+        <qualifiedname>themis::TenantManager::releaseQuerySlot</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Release Query Slot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_tenant_manager_1a1aac3bcfdf59b403cfc066aab56272dd" kindref="member">getUsage()</ref>, fetch_sub(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="396" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="743" bodyend="747"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a47d7789ae4f4fc44aa587d90ceb5dc32" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TenantManager::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::TenantManager::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="403" column="17" bodyfile="src/server/tenant_manager.cpp" bodystart="849" bodyend="905"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1acf1908579cc0686bc8299b0e35d83abb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TenantManager::getTenantKeyId</definition>
+        <argsstring>(std::string_view tenant_id) const</argsstring>
+        <name>getTenantKeyId</name>
+        <qualifiedname>themis::TenantManager::getTenantKeyId</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Tenant Key Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="410" column="17" bodyfile="src/server/tenant_manager.cpp" bodystart="749" bodyend="755"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1adca24dc6c5b167ffd12cc070112ddb5c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TenantManager::TenantManager</definition>
+        <argsstring>()</argsstring>
+        <name>TenantManager</name>
+        <qualifiedname>themis::TenantManager::TenantManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="413" column="5" bodyfile="src/server/tenant_manager.cpp" bodystart="31" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a2afb2e8f769103af9862f344dae5e3ea" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TenantManager::~TenantManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TenantManager</name>
+        <qualifiedname>themis::TenantManager::~TenantManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="414" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a554b56120c299e53984f55b8408a23a1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TenantManager::TenantManager</definition>
+        <argsstring>(const TenantManager &amp;)=delete</argsstring>
+        <name>TenantManager</name>
+        <qualifiedname>themis::TenantManager::TenantManager</qualifiedname>
+        <param>
+          <type>const TenantManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="415" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a3d96255252371c2e0630081a61b1312a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TenantManager &amp;</type>
+        <definition>TenantManager &amp; themis::TenantManager::operator=</definition>
+        <argsstring>(const TenantManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::TenantManager::operator=</qualifiedname>
+        <param>
+          <type>const TenantManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="416" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a3034557f5ae613b7f5a5ab7ac5d00b3e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TenantManager::ensureDefaultTenant</definition>
+        <argsstring>()</argsstring>
+        <name>ensureDefaultTenant</name>
+        <qualifiedname>themis::TenantManager::ensureDefaultTenant</qualifiedname>
+        <briefdescription>
+<para>Ensure Default Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: find(), end(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="429" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="63" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1ad1c6259bb4399e7687fc2843f14b57cb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TenantManager::rebuildDomainIndex</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildDomainIndex</name>
+        <qualifiedname>themis::TenantManager::rebuildDomainIndex</qualifiedname>
+        <briefdescription>
+<para>Rebuild Domain Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(), normaliseDomain(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="434" column="10" bodyfile="src/server/tenant_manager.cpp" bodystart="110" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_tenant_manager_1a4d685ae0c9c75fe0eeeaebe7d71d2611" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TenantManager::normaliseDomain</definition>
+        <argsstring>(std::string_view host)</argsstring>
+        <name>normaliseDomain</name>
+        <qualifiedname>themis::TenantManager::normaliseDomain</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>host</declname>
+        </param>
+        <briefdescription>
+<para>Normalise Domain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">host</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">host</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: result(), rfind(), size(), std::all_of(), begin(), end(), std::isdigit(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="441" column="24" bodyfile="src/server/tenant_manager.cpp" bodystart="83" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/tenant_manager.h" line="124" column="1" bodyfile="include/server/tenant_manager.h" bodystart="124" bodyend="442"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_tenant_manager_1ad58a4df83c9ed65e1ec12f252fd4c36e" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>acquireConnection</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1ae20315c237ec945f682b9c7a1c81bd19" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>acquireQuerySlot</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1ab3e61050cba659d106c5ae60b9803522" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>checkQuota</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a825673b99a90d594d335b9ae84e02bd1" prot="private" virt="non-virtual"><scope>themis::TenantManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1accc8a25f24db15099644ca3a1a46ecb4" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>configure</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a271822134d39428a45e5f6dd35e1d18a" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>CreateResult</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a4d8a54f262beb7eee4c3142eb97c22ab" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>createTenant</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a49461f4b543937cc6b7cebd9250209f5" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>deleteTenant</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1aed6ad3d5536980e01f4f00c22ad165fb" prot="private" virt="non-virtual"><scope>themis::TenantManager</scope><name>domain_to_tenant_</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a3034557f5ae613b7f5a5ab7ac5d00b3e" prot="private" virt="non-virtual"><scope>themis::TenantManager</scope><name>ensureDefaultTenant</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a3bc49a0cfb0068a389c5f350d0b0dfed" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>extractTenantId</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1ade7a011a31fc4e4e0517da8305a6806e" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a47d7789ae4f4fc44aa587d90ceb5dc32" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1ad698e662b020ffcd72e6d845e9abea85" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>getTenant</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1ae4025166609735ebce900ef3a2743e8c" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>getTenantCount</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1acf1908579cc0686bc8299b0e35d83abb" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>getTenantKeyId</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a1aac3bcfdf59b403cfc066aab56272dd" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>getUsage</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1adaff644ffeb79cc2dc9f4b2159053dc7" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>getUsage</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1ad7e81d99862b6dce76bf60c17616e609" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>incrementCollections</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1add6ca74d152e9127046937b4293678ab" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>incrementDocuments</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a42b665cb10d9d2c2104dcdcd9e4c224f" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>incrementStorage</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1ac43d79a0b37fcacde45f5212a93509bf" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>instance</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a114767d50e378b7cf3b2421e86a37cc2" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>listTenants</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1abd823c2863bb758adb4fe539ffdd06d2" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>lookupTenantByDomain</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1ae0a2aad00babd29ab9b96dbd21b23f39" prot="private" virt="non-virtual"><scope>themis::TenantManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a4d685ae0c9c75fe0eeeaebe7d71d2611" prot="private" virt="non-virtual"><scope>themis::TenantManager</scope><name>normaliseDomain</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a3d96255252371c2e0630081a61b1312a" prot="private" virt="non-virtual"><scope>themis::TenantManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1ad1c6259bb4399e7687fc2843f14b57cb" prot="private" virt="non-virtual"><scope>themis::TenantManager</scope><name>rebuildDomainIndex</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1ad3cc4be9203a65f9307c6c70437149c8" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>recordBytesRead</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a884891e2a5be6c70f5a56f6464197439" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>recordBytesWritten</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a375fd63b914de8cddfc6c78e6dbc7609" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>recordQuery</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1abc8f553c9964f76182c35ff67588f7e2" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>recordRateLimited</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1aa427a4ff10e1f16a0bff0b0a84fd201f" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>recordRequest</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1ab1563f15373eb6a348494505b2272589" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>registerCustomDomain</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1ab8c113d3c71c0c2a19ed18f9e06803d9" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>releaseConnection</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a813fc04258145d7fab1206301b2c6209" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>releaseQuerySlot</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a9467fc6d72da7efa6ad21485b28211b8" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>resolveContext</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a5319100f9ed94d0137e9f4d815bd41d6" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>resolveTenantByDomain</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a360fe6412f2fcb19a26c14de5f6aff00" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>rewriteTenantPath</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1ab21674873334a4ae5b948b17c866aa9d" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>setTenantEnabled</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1ada0ecbed2dbea721d6f528758add4e2b" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>stripTenantPath</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a7511153882e92f049be31e0f3a7e844c" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>tenantExists</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1adca24dc6c5b167ffd12cc070112ddb5c" prot="private" virt="non-virtual"><scope>themis::TenantManager</scope><name>TenantManager</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a554b56120c299e53984f55b8408a23a1" prot="private" virt="non-virtual"><scope>themis::TenantManager</scope><name>TenantManager</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a69e7151f7b4b01d988e058530ff528e3" prot="private" virt="non-virtual"><scope>themis::TenantManager</scope><name>tenants_</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a35fdc60d6523b24650e7fbd391ba9ca6" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>unregisterCustomDomain</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a5bc07c1da2d010eac2b97358033f6108" prot="public" virt="non-virtual"><scope>themis::TenantManager</scope><name>updateTenant</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a4646a57889f1d1fb086a5ae6300992a6" prot="private" virt="non-virtual"><scope>themis::TenantManager</scope><name>usage_</name></member>
+      <member refid="classthemis_1_1_tenant_manager_1a2afb2e8f769103af9862f344dae5e3ea" prot="private" virt="non-virtual"><scope>themis::TenantManager</scope><name>~TenantManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

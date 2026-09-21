@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_batch_i_o_vec" kind="struct" language="C++" prot="private">
+    <compoundname>themis::network::WireProtocolBatcher::BatchIOVec</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_batch_i_o_vec_1a7ef155450a62d93f4be504b84b170e4b" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::network::WireProtocolBatcher::BatchIOVec::iov_base</definition>
+        <argsstring></argsstring>
+        <name>iov_base</name>
+        <qualifiedname>themis::network::WireProtocolBatcher::BatchIOVec::iov_base</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_batch.h" line="256" column="15" bodyfile="include/network/wire_protocol_batch.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_batch_i_o_vec_1ac5474a998fc32c0b58e7e3fd3aa2847f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolBatcher::BatchIOVec::iov_len</definition>
+        <argsstring></argsstring>
+        <name>iov_len</name>
+        <qualifiedname>themis::network::WireProtocolBatcher::BatchIOVec::iov_len</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_batch.h" line="257" column="16" bodyfile="include/network/wire_protocol_batch.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_batch.h" line="255" column="5" bodyfile="include/network/wire_protocol_batch.h" bodystart="255" bodyend="258"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_batch_i_o_vec_1a7ef155450a62d93f4be504b84b170e4b" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolBatcher::BatchIOVec</scope><name>iov_base</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_batcher_1_1_batch_i_o_vec_1ac5474a998fc32c0b58e7e3fd3aa2847f" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolBatcher::BatchIOVec</scope><name>iov_len</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

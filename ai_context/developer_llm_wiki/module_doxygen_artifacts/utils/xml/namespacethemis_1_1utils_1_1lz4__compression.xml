@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1utils_1_1lz4__compression" kind="namespace" language="C++">
+    <compoundname>themis::utils::lz4_compression</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1utils_1_1lz4__compression_1a5cece3f222849a95ed8a30b534cab5b7" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::lz4_compression::MAX_INPUT_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_INPUT_SIZE</name>
+        <qualifiedname>themis::utils::lz4_compression::MAX_INPUT_SIZE</qualifiedname>
+        <initializer>= 512ULL * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Maximum input size accepted by lz4_compress_safe (prevents DoS). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lz4_codec.h" line="29" column="22" bodyfile="include/utils/lz4_codec.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1utils_1_1lz4__compression_1adeb098c2369aa90e4207b6242813bfd4" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::lz4_compression::MAX_DECOMPRESSED_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_DECOMPRESSED_SIZE</name>
+        <qualifiedname>themis::utils::lz4_compression::MAX_DECOMPRESSED_SIZE</qualifiedname>
+        <initializer>= 2ULL * 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Maximum decompressed size accepted by lz4_decompress_safe. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lz4_codec.h" line="31" column="22" bodyfile="include/utils/lz4_codec.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1utils_1_1lz4__compression_1aae6246516bf35b878fec55a602fbd842" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::lz4_compression::MAX_COMPRESSION_RATIO</definition>
+        <argsstring></argsstring>
+        <name>MAX_COMPRESSION_RATIO</name>
+        <qualifiedname>themis::utils::lz4_compression::MAX_COMPRESSION_RATIO</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Maximum compression ratio allowed to detect decompression bombs (Phase 2.4b). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lz4_codec.h" line="33" column="22" bodyfile="include/utils/lz4_codec.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1utils_1_1lz4__compression_1a79f4a3570dbe2545b4eea97797b213d0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::utils::lz4_compression::DEFAULT_ACCELERATION</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_ACCELERATION</name>
+        <qualifiedname>themis::utils::lz4_compression::DEFAULT_ACCELERATION</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Default LZ4 acceleration factor (1 = balanced; higher = faster + lower ratio). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lz4_codec.h" line="35" column="22" bodyfile="include/utils/lz4_codec.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/lz4_codec.h" line="27" column="1"/>
+  </compounddef>
+</doxygen>

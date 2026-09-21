@@ -1,0 +1,424 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a4fc91e8bb43caecfb86191fcd3f956b2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config" kindref="compound">KnowledgeGapConfig</ref></type>
+        <definition>KnowledgeGapConfig themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_gap_detector.cpp" line="30" column="24" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a047eb9f61520f9847077dd74f9e510fb" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" kindref="compound">DetectionResult</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const DetectionResult&amp;)&gt; themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::gap_callback</definition>
+        <argsstring></argsstring>
+        <name>gap_callback</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::gap_callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_gap_detector.cpp" line="31" column="19" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a3934c8d6a9f9d6896c2c92faa940f945" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1a249859ab352351e013351e4f395f3ea8" kindref="member">RetrievalCallback</ref></type>
+        <definition>RetrievalCallback themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::retrieval_fn</definition>
+        <argsstring></argsstring>
+        <name>retrieval_fn</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::retrieval_fn</qualifiedname>
+        <briefdescription>
+<para>FLARE dynamic-retrieval callback (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_gap_detector.cpp" line="32" column="23" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a24a94dda569b6332b62133ef79913680" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1ad6aad72fb6fd4554e85a84020a3f3b64" kindref="member">LlmSampleFn</ref></type>
+        <definition>LlmSampleFn themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::llm_sample_fn</definition>
+        <argsstring></argsstring>
+        <name>llm_sample_fn</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::llm_sample_fn</qualifiedname>
+        <briefdescription>
+<para>LLM-based self-consistency sample generator (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_gap_detector.cpp" line="33" column="23" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a69f9122fe11402a4d00f2abcd0972200" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1a8ca6fe1c2f8d069929a0ebb2d7be8378" kindref="member">ClaimVerificationFn</ref></type>
+        <definition>ClaimVerificationFn themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::claim_verification_fn</definition>
+        <argsstring></argsstring>
+        <name>claim_verification_fn</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::claim_verification_fn</qualifiedname>
+        <briefdescription>
+<para>Runtime claim verifier for C1 checks (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_gap_detector.cpp" line="34" column="25" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1af0512b73d766e30cd2f10a0cc93e2733" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" kindref="compound">DetectionResult</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, DetectionResult&gt; themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::cache</definition>
+        <argsstring></argsstring>
+        <name>cache</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_gap_detector.cpp" line="37" column="24" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a39e54fc992e4989c18085f1484ff3f23" prot="public" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_gap_detector.cpp" line="38" column="31" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1affaea6d222f9d16397c3f31c54e12187" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config" kindref="compound">KnowledgeGapConfig</ref></type>
+        <definition>KnowledgeGapConfig themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::snapshotConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshotConfig</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::snapshotConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rag/knowledge_gap_detector.cpp" line="40" column="24" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="40" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a6dec74742bcf2e58c8ccd7ea2caba2d7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" kindref="compound">DetectionResult</ref> &amp;)&gt;</type>
+        <definition>std::function&lt; void(const DetectionResult &amp;)&gt; themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::snapshotGapCallback</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshotGapCallback</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::snapshotGapCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rag/knowledge_gap_detector.cpp" line="50" column="19" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="50" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1ae7a8421722ad62e0352b4082b122af45" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1a249859ab352351e013351e4f395f3ea8" kindref="member">RetrievalCallback</ref></type>
+        <definition>RetrievalCallback themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::snapshotRetrievalCallback</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshotRetrievalCallback</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::snapshotRetrievalCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rag/knowledge_gap_detector.cpp" line="60" column="23" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="60" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1ac5cfc052a27f1b5a19f6aedc66f42915" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1ad6aad72fb6fd4554e85a84020a3f3b64" kindref="member">LlmSampleFn</ref></type>
+        <definition>LlmSampleFn themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::snapshotLlmSampleFn</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshotLlmSampleFn</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::snapshotLlmSampleFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rag/knowledge_gap_detector.cpp" line="70" column="17" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="70" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1ad24ab48c3d0ccce39b44a0a864e50a15" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1a8ca6fe1c2f8d069929a0ebb2d7be8378" kindref="member">ClaimVerificationFn</ref></type>
+        <definition>ClaimVerificationFn themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::snapshotClaimVerificationFn</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshotClaimVerificationFn</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::snapshotClaimVerificationFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rag/knowledge_gap_detector.cpp" line="80" column="25" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="80" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a9b0adc6bbf1ed8e7910fe9691b20811e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::setConfig</definition>
+        <argsstring>(const KnowledgeGapConfig &amp;new_config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config" kindref="compound">KnowledgeGapConfig</ref> &amp;</type>
+          <declname>new_config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_gap_detector.cpp" line="95" column="10" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a89abbc6afae98ccc3f719e01c9eb9876" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::setGapCallback</definition>
+        <argsstring>(std::function&lt; void(const DetectionResult &amp;)&gt; cb)</argsstring>
+        <name>setGapCallback</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::setGapCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" kindref="compound">DetectionResult</ref> &amp;)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rag/knowledge_gap_detector.cpp" line="100" column="10" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="100" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1ade1641a3b72d083d37100fa1d4f582b5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::setRetrievalCallback</definition>
+        <argsstring>(RetrievalCallback fn)</argsstring>
+        <name>setRetrievalCallback</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::setRetrievalCallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1a249859ab352351e013351e4f395f3ea8" kindref="member">RetrievalCallback</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Retrieval Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_gap_detector.cpp" line="115" column="10" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="115" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1abfd0ba1e64979c2e75404c993154ce49" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::setLlmSampleFn</definition>
+        <argsstring>(LlmSampleFn fn)</argsstring>
+        <name>setLlmSampleFn</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::setLlmSampleFn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1ad6aad72fb6fd4554e85a84020a3f3b64" kindref="member">LlmSampleFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Llm Sample Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_gap_detector.cpp" line="125" column="10" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="125" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a772a8149a72501129b090b33cc86fc2d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::setClaimVerificationFn</definition>
+        <argsstring>(ClaimVerificationFn fn)</argsstring>
+        <name>setClaimVerificationFn</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl::setClaimVerificationFn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1a8ca6fe1c2f8d069929a0ebb2d7be8378" kindref="member">ClaimVerificationFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="structthemis_1_1rag_1_1_claim" kindref="compound">Claim</ref> Verification Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/knowledge_gap_detector.cpp" line="135" column="10" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="135" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::knowledge_gap::KnowledgeGapConfig</label>
+        <link refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</label>
+        <link refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/knowledge_gap_detector.cpp" line="29" column="1" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="29" bodyend="139"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1af0512b73d766e30cd2f10a0cc93e2733" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</scope><name>cache</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a69f9122fe11402a4d00f2abcd0972200" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</scope><name>claim_verification_fn</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a4fc91e8bb43caecfb86191fcd3f956b2" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a047eb9f61520f9847077dd74f9e510fb" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</scope><name>gap_callback</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a24a94dda569b6332b62133ef79913680" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</scope><name>llm_sample_fn</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a39e54fc992e4989c18085f1484ff3f23" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</scope><name>mu</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a3934c8d6a9f9d6896c2c92faa940f945" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</scope><name>retrieval_fn</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a772a8149a72501129b090b33cc86fc2d" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</scope><name>setClaimVerificationFn</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a9b0adc6bbf1ed8e7910fe9691b20811e" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</scope><name>setConfig</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a89abbc6afae98ccc3f719e01c9eb9876" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</scope><name>setGapCallback</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1abfd0ba1e64979c2e75404c993154ce49" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</scope><name>setLlmSampleFn</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1ade1641a3b72d083d37100fa1d4f582b5" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</scope><name>setRetrievalCallback</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1ad24ab48c3d0ccce39b44a0a864e50a15" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</scope><name>snapshotClaimVerificationFn</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1affaea6d222f9d16397c3f31c54e12187" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</scope><name>snapshotConfig</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1a6dec74742bcf2e58c8ccd7ea2caba2d7" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</scope><name>snapshotGapCallback</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1ac5cfc052a27f1b5a19f6aedc66f42915" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</scope><name>snapshotLlmSampleFn</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_1_1_impl_1ae7a8421722ad62e0352b4082b122af45" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetector::Impl</scope><name>snapshotRetrievalCallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

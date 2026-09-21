@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_correlation_group" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::CorrelationGroup</compoundname>
+    <includes refid="operational__audit_8h" local="no">operational_audit.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_correlation_group_1a009528d6b12f9bbcdf3cea1c4d7196f9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::CorrelationGroup::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::governance::CorrelationGroup::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="361" column="17" bodyfile="include/governance/operational_audit.h" bodystart="361" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_correlation_group_1a9a472dbd598abab66e2830f2de8680ee" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::CorrelationGroup::created_at_ms</definition>
+        <argsstring></argsstring>
+        <name>created_at_ms</name>
+        <qualifiedname>themis::governance::CorrelationGroup::created_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="362" column="13" bodyfile="include/governance/operational_audit.h" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_correlation_group_1a747fb96e6841b237e98d5f5e84f4af06" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::CorrelationGroup::last_updated_ms</definition>
+        <argsstring></argsstring>
+        <name>last_updated_ms</name>
+        <qualifiedname>themis::governance::CorrelationGroup::last_updated_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="363" column="13" bodyfile="include/governance/operational_audit.h" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_correlation_group_1a75a71dd8ea8d547eb2e33001e6f2fda3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::CorrelationGroup::event_ids</definition>
+        <argsstring></argsstring>
+        <name>event_ids</name>
+        <qualifiedname>themis::governance::CorrelationGroup::event_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="364" column="17" bodyfile="include/governance/operational_audit.h" bodystart="364" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_correlation_group_1a5bf80e206d23549ba224a4a988372d63" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::CorrelationGroup::causality_chain</definition>
+        <argsstring></argsstring>
+        <name>causality_chain</name>
+        <qualifiedname>themis::governance::CorrelationGroup::causality_chain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="365" column="17" bodyfile="include/governance/operational_audit.h" bodystart="365" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_correlation_group_1af62ddf32a7d03ef2745756379262453d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::CorrelationGroup::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::CorrelationGroup::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="371" column="20" bodyfile="src/governance/operational_audit.cpp" bodystart="309" bodyend="317"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/operational_audit.h" line="360" column="1" bodyfile="include/governance/operational_audit.h" bodystart="360" bodyend="372"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_correlation_group_1a5bf80e206d23549ba224a4a988372d63" prot="public" virt="non-virtual"><scope>themis::governance::CorrelationGroup</scope><name>causality_chain</name></member>
+      <member refid="structthemis_1_1governance_1_1_correlation_group_1a009528d6b12f9bbcdf3cea1c4d7196f9" prot="public" virt="non-virtual"><scope>themis::governance::CorrelationGroup</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_correlation_group_1a9a472dbd598abab66e2830f2de8680ee" prot="public" virt="non-virtual"><scope>themis::governance::CorrelationGroup</scope><name>created_at_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_correlation_group_1a75a71dd8ea8d547eb2e33001e6f2fda3" prot="public" virt="non-virtual"><scope>themis::governance::CorrelationGroup</scope><name>event_ids</name></member>
+      <member refid="structthemis_1_1governance_1_1_correlation_group_1a747fb96e6841b237e98d5f5e84f4af06" prot="public" virt="non-virtual"><scope>themis::governance::CorrelationGroup</scope><name>last_updated_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_correlation_group_1af62ddf32a7d03ef2745756379262453d" prot="public" virt="non-virtual"><scope>themis::governance::CorrelationGroup</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

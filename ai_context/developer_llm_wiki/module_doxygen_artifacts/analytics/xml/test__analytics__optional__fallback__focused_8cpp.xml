@@ -1,0 +1,420 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__analytics__optional__fallback__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_analytics_optional_fallback_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="analytics__api__contract_8h" local="yes">analytics/analytics_api_contract.h</includes>
+    <includes refid="ml__serving_8h" local="yes">analytics/ml_serving.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>analytics/analytics_api_contract.h</label>
+        <link refid="analytics__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>analytics/anomaly_detection.h</label>
+        <link refid="anomaly__detection_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>analytics/ml_serving.h</label>
+        <link refid="ml__serving_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/analytics/test_analytics_optional_fallback_focused.cpp</label>
+        <link refid="test__analytics__optional__fallback__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>algorithm</label>
+      </node>
+      <node id="15">
+        <label>atomic</label>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="17">
+        <label>deque</label>
+      </node>
+      <node id="18">
+        <label>functional</label>
+      </node>
+      <node id="19">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="20">
+        <label>shared_mutex</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="21">
+        <label>variant</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_combined_stream_config" prot="public">CombinedStreamConfig</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__analytics__optional__fallback__focused_8cpp_1ad9aaf9d1b0c76852f2c567cf43f8b167" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OptionalFallback, MLServingUnavailableIsDistinctFromOk)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OptionalFallback</type>
+        </param>
+        <param>
+          <type>MLServingUnavailableIsDistinctFromOk</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para>OPF-01: MLServingStatus::UNAVAILABLE is defined and distinct from OK. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_optional_fallback_focused.cpp" line="53" column="1" bodyfile="tests/analytics/test_analytics_optional_fallback_focused.cpp" bodystart="53" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__optional__fallback__focused_8cpp_1ae7361040053079fb8ecfb7b74a12ee79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OptionalFallback, MLServingPolicyRejectedIsDistinct)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OptionalFallback</type>
+        </param>
+        <param>
+          <type>MLServingPolicyRejectedIsDistinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000002"><xreftitle>Test</xreftitle><xrefdescription><para>OPF-02: MLServingStatus::POLICY_REJECTED is defined and distinct. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_optional_fallback_focused.cpp" line="60" column="1" bodyfile="tests/analytics/test_analytics_optional_fallback_focused.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__optional__fallback__focused_8cpp_1a8a535120972f5367b8e82f8df0f5f40d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OptionalFallback, MLServingStatusValuesComparable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OptionalFallback</type>
+        </param>
+        <param>
+          <type>MLServingStatusValuesComparable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000003"><xreftitle>Test</xreftitle><xrefdescription><para>OPF-03: <ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886a" kindref="member">MLServingStatus</ref> values can be compared. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_optional_fallback_focused.cpp" line="68" column="1" bodyfile="tests/analytics/test_analytics_optional_fallback_focused.cpp" bodystart="68" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__optional__fallback__focused_8cpp_1aed5ed22e77a4d89cc50e970c6b113b2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OptionalFallback, StreamBackpressureErrorCodeDefined)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OptionalFallback</type>
+        </param>
+        <param>
+          <type>StreamBackpressureErrorCodeDefined</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para>OPF-04: AnalyticsErrorCode::STREAM_BACKPRESSURE is defined. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_optional_fallback_focused.cpp" line="81" column="1" bodyfile="tests/analytics/test_analytics_optional_fallback_focused.cpp" bodystart="81" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__optional__fallback__focused_8cpp_1a0a81a78f71a71759b1a70a792353b650" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OptionalFallback, AggregationOverflowErrorCodeDefined)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OptionalFallback</type>
+        </param>
+        <param>
+          <type>AggregationOverflowErrorCodeDefined</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000005"><xreftitle>Test</xreftitle><xrefdescription><para>OPF-05: AnalyticsErrorCode::AGGREGATION_OVERFLOW is defined and distinct. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_optional_fallback_focused.cpp" line="89" column="1" bodyfile="tests/analytics/test_analytics_optional_fallback_focused.cpp" bodystart="89" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__optional__fallback__focused_8cpp_1aec849e4fcfdc86788acab62de1ef8b04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OptionalFallback, ErrorCodesUsableInSwitch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OptionalFallback</type>
+        </param>
+        <param>
+          <type>ErrorCodesUsableInSwitch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000006"><xreftitle>Test</xreftitle><xrefdescription><para>OPF-06: Key error codes are usable in a switch statement. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_optional_fallback_focused.cpp" line="97" column="1" bodyfile="tests/analytics/test_analytics_optional_fallback_focused.cpp" bodystart="97" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__optional__fallback__focused_8cpp_1ac2a46084ef4e6f044078f482e0e1ad51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OptionalFallback, CombinedConfigCompiles)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OptionalFallback</type>
+        </param>
+        <param>
+          <type>CombinedConfigCompiles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000007"><xreftitle>Test</xreftitle><xrefdescription><para>OPF-07: <ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy" kindref="compound">BoundedExecutionPolicy</ref> and <ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref> can be combined. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_optional_fallback_focused.cpp" line="125" column="1" bodyfile="tests/analytics/test_analytics_optional_fallback_focused.cpp" bodystart="125" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__optional__fallback__focused_8cpp_1ae9ef1145fe342e1d8bfc73a90481e8f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OptionalFallback, DefaultCombinedConfigBothUnconstrained)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OptionalFallback</type>
+        </param>
+        <param>
+          <type>DefaultCombinedConfigBothUnconstrained</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000008"><xreftitle>Test</xreftitle><xrefdescription><para>OPF-08: isConstrained() queries are independent on a default-constructed combined config. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_optional_fallback_focused.cpp" line="139" column="1" bodyfile="tests/analytics/test_analytics_optional_fallback_focused.cpp" bodystart="139" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Optional-dependency / fallback consistency tests — Wave B gap closure. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Verifies that optional-backend absence is handled deterministically by the analytics contract types (no undefined behaviour, no silent failure).</para>
+<para>These tests exercise the contract-level guarantees; they do not require any optional dependency (ONNX, TF Serving, Arrow) to be installed.</para>
+<sect1 id="test__analytics__optional__fallback__focused_8cpp_1autotoc_md9_1s1"><sect2 id="test__analytics__optional__fallback__focused_8cpp_1autotoc_md9">
+<title>Test families (OPF-01..OPF-08)</title><para><heading level="3">OPF-01..03 — MLServingStatus::UNAVAILABLE path</heading>
+</para>
+<para>OPF-01 MLServingStatus::UNAVAILABLE is defined and distinct from OK OPF-02 MLServingStatus::POLICY_REJECTED is defined and distinct from UNAVAILABLE OPF-03 <ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886a" kindref="member">MLServingStatus</ref> enum values compile and can be compared</para>
+<para><heading level="3">OPF-04..06 — <ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfc" kindref="member">AnalyticsErrorCode</ref> fallback codes</heading>
+</para>
+<para>OPF-04 AnalyticsErrorCode::STREAM_BACKPRESSURE is defined OPF-05 AnalyticsErrorCode::AGGREGATION_OVERFLOW is defined and distinct OPF-06 Error codes usable in switch statements without default</para>
+<para><heading level="3">OPF-07..08 — <ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy" kindref="compound">BoundedExecutionPolicy</ref> + <ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref> compile together</heading>
+</para>
+<para>OPF-07 <ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy" kindref="compound">BoundedExecutionPolicy</ref> and <ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref> can be combined in one struct OPF-08 Both structs&apos; isConstrained() are independently queryable</para>
+<para><simplesect kind="see"><para><ref refid="analytics__api__contract_8h" kindref="compound">include/analytics/analytics_api_contract.h</ref> — <ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfc" kindref="member">AnalyticsErrorCode</ref>, <ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="ml__serving_8h" kindref="compound">include/analytics/ml_serving.h</ref> — <ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886a" kindref="member">MLServingStatus</ref> </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="analytics__api__contract_8h" kindref="compound">analytics/analytics_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ml__serving_8h" kindref="compound">analytics/ml_serving.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics" kindref="compound">themis::analytics</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics" kindref="compound">themisdb::analytics</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886a" kindref="member">MLServingStatus</ref><sp/>kMlServingOk<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886a" kindref="member">MLServingStatus</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OPF-01..03<sp/>—<sp/>MLServingStatus<sp/>fallback<sp/>codes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__analytics__optional__fallback__focused_8cpp_1ad9aaf9d1b0c76852f2c567cf43f8b167" kindref="member">TEST</ref>(OptionalFallback,<sp/>MLServingUnavailableIsDistinctFromOk)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aa084f4ca2c0fe703e46514a144b4d6ead" kindref="member">MLServingStatus::UNAVAILABLE</ref>,<sp/>kMlServingOk);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__analytics__optional__fallback__focused_8cpp_1ad9aaf9d1b0c76852f2c567cf43f8b167" kindref="member">TEST</ref>(OptionalFallback,<sp/>MLServingPolicyRejectedIsDistinct)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aa877d772cba43dce7b509c2f4ab139d73" kindref="member">MLServingStatus::POLICY_REJECTED</ref>,<sp/>kMlServingOk);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aa877d772cba43dce7b509c2f4ab139d73" kindref="member">MLServingStatus::POLICY_REJECTED</ref>,<sp/><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aa084f4ca2c0fe703e46514a144b4d6ead" kindref="member">MLServingStatus::UNAVAILABLE</ref>);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__analytics__optional__fallback__focused_8cpp_1ad9aaf9d1b0c76852f2c567cf43f8b167" kindref="member">TEST</ref>(OptionalFallback,<sp/>MLServingStatusValuesComparable)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886a" kindref="member">MLServingStatus</ref><sp/>s<sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aa084f4ca2c0fe703e46514a144b4d6ead" kindref="member">MLServingStatus::UNAVAILABLE</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s,<sp/><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aa084f4ca2c0fe703e46514a144b4d6ead" kindref="member">MLServingStatus::UNAVAILABLE</ref>);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(s,<sp/>kMlServingOk);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OPF-04..06<sp/>—<sp/>AnalyticsErrorCode<sp/>fallback<sp/>codes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__analytics__optional__fallback__focused_8cpp_1ad9aaf9d1b0c76852f2c567cf43f8b167" kindref="member">TEST</ref>(OptionalFallback,<sp/>StreamBackpressureErrorCodeDefined)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfc" kindref="member">AnalyticsErrorCode</ref><sp/>code<sp/>=<sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca1c26b81ba92ea70f693a4356fd035c94" kindref="member">AnalyticsErrorCode::STREAM_BACKPRESSURE</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(code,<sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcae8c0c70879b5895c615677261d64a1ee" kindref="member">AnalyticsErrorCode::INTERNAL_ERROR</ref>);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__analytics__optional__fallback__focused_8cpp_1ad9aaf9d1b0c76852f2c567cf43f8b167" kindref="member">TEST</ref>(OptionalFallback,<sp/>AggregationOverflowErrorCodeDefined)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>,<sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcae8c0c70879b5895c615677261d64a1ee" kindref="member">AnalyticsErrorCode::INTERNAL_ERROR</ref>);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>,<sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca1c26b81ba92ea70f693a4356fd035c94" kindref="member">AnalyticsErrorCode::STREAM_BACKPRESSURE</ref>);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="test__analytics__optional__fallback__focused_8cpp_1ad9aaf9d1b0c76852f2c567cf43f8b167" kindref="member">TEST</ref>(OptionalFallback,<sp/>ErrorCodesUsableInSwitch)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>label<sp/>=<sp/>[](<ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfc" kindref="member">AnalyticsErrorCode</ref><sp/>c)<sp/>-&gt;<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(c)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca1c26b81ba92ea70f693a4356fd035c94" kindref="member">AnalyticsErrorCode::STREAM_BACKPRESSURE</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;BACKPRESSURE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;OVERFLOW&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca2dc516053b5943bb7bd68253dca9887a" kindref="member">AnalyticsErrorCode::WINDOW_EXPIRED</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;WINDOW_EXPIRED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;OTHER&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(label(<ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcae8c0c70879b5895c615677261d64a1ee" kindref="member">AnalyticsErrorCode::INTERNAL_ERROR</ref>),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;OTHER&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(label(<ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca1c26b81ba92ea70f693a4356fd035c94" kindref="member">AnalyticsErrorCode::STREAM_BACKPRESSURE</ref>),<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;BACKPRESSURE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(label(<ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>),<sp/><sp/></highlight><highlight class="stringliteral">&quot;OVERFLOW&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(label(<ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca2dc516053b5943bb7bd68253dca9887a" kindref="member">AnalyticsErrorCode::WINDOW_EXPIRED</ref>),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;WINDOW_EXPIRED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OPF-07..08<sp/>—<sp/>Composition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="struct_combined_stream_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_combined_stream_config" kindref="compound">CombinedStreamConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy" kindref="compound">BoundedExecutionPolicy</ref><sp/><ref refid="struct_combined_stream_config_1a3a5f6a009acf0eb826e81e3e1dba0700" kindref="member">policy</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" kindref="compound">StreamingRuntimeLimits</ref><sp/><ref refid="struct_combined_stream_config_1a012b9368787a0e06237aef2560f5dc57" kindref="member">limits</ref>;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__analytics__optional__fallback__focused_8cpp_1ad9aaf9d1b0c76852f2c567cf43f8b167" kindref="member">TEST</ref>(OptionalFallback,<sp/>CombinedConfigCompiles)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_combined_stream_config" kindref="compound">CombinedStreamConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_combined_stream_config_1a3a5f6a009acf0eb826e81e3e1dba0700" kindref="member">policy</ref>.<ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1a73087ab1ab825a5f387038f7ccec68c6" kindref="member">max_latency_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>200u;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_combined_stream_config_1a3a5f6a009acf0eb826e81e3e1dba0700" kindref="member">policy</ref>.<ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1a15e6bca190e1d4c636a372a35265d1d0" kindref="member">max_concurrent_requests</ref><sp/>=<sp/>8u;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_combined_stream_config_1a012b9368787a0e06237aef2560f5dc57" kindref="member">limits</ref>.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1ad5f0948f264ffdf025f935f25d51a7aa" kindref="member">max_events_per_window</ref><sp/><sp/><sp/>=<sp/>5&apos;000u;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_combined_stream_config_1a012b9368787a0e06237aef2560f5dc57" kindref="member">limits</ref>.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1af4c5f17b1f6f05e3f2b91e5a30576bc7" kindref="member">back_pressure_mode</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1afb12a2e8635fdd07c25989eeffa8fb42" kindref="member">BackPressureMode::SHED</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="struct_combined_stream_config_1a3a5f6a009acf0eb826e81e3e1dba0700" kindref="member">policy</ref>.<ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1aef276700dac4052924524e4fd7dc7c6f" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="struct_combined_stream_config_1a012b9368787a0e06237aef2560f5dc57" kindref="member">limits</ref>.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a6e60a0e78119068059040e119f0cfb90" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__analytics__optional__fallback__focused_8cpp_1ad9aaf9d1b0c76852f2c567cf43f8b167" kindref="member">TEST</ref>(OptionalFallback,<sp/>DefaultCombinedConfigBothUnconstrained)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_combined_stream_config" kindref="compound">CombinedStreamConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.<ref refid="struct_combined_stream_config_1a3a5f6a009acf0eb826e81e3e1dba0700" kindref="member">policy</ref>.<ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy_1aef276700dac4052924524e4fd7dc7c6f" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.<ref refid="struct_combined_stream_config_1a012b9368787a0e06237aef2560f5dc57" kindref="member">limits</ref>.<ref refid="structthemis_1_1analytics_1_1_streaming_runtime_limits_1a6e60a0e78119068059040e119f0cfb90" kindref="member">isConstrained</ref>());</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/analytics/test_analytics_optional_fallback_focused.cpp"/>
+  </compounddef>
+</doxygen>

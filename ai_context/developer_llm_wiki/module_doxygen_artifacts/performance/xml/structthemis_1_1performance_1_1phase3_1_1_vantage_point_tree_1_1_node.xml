@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_vantage_point_tree_1_1_node" kind="struct" language="C++" prot="private">
+    <compoundname>themis::performance::phase3::VantagePointTree::Node</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_vantage_point_tree_1_1_node_1a1daa47f3df82204107edee104cf491ff" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1performance_1_1phase3_1ac2d555c6153e6ef21ef9c1bd089f2877" kindref="member">VectorID</ref></type>
+        <definition>VectorID themis::performance::phase3::VantagePointTree::Node::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::performance::phase3::VantagePointTree::Node::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/diskann.h" line="181" column="18" bodyfile="include/performance/phase3/diskann.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_vantage_point_tree_1_1_node_1a78f2b43ff0a11878d97542c62f32aacc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::performance::phase3::VantagePointTree::Node::vector</definition>
+        <argsstring></argsstring>
+        <name>vector</name>
+        <qualifiedname>themis::performance::phase3::VantagePointTree::Node::vector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/diskann.h" line="182" column="21" bodyfile="include/performance/phase3/diskann.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_vantage_point_tree_1_1_node_1a4d978a0af859a3ecc1e4c84e11b9850b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::performance::phase3::VantagePointTree::Node::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themis::performance::phase3::VantagePointTree::Node::threshold</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/diskann.h" line="183" column="15" bodyfile="include/performance/phase3/diskann.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_vantage_point_tree_1_1_node_1ab58488618376fdfc71c3d7977f89ea6d" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Node &gt;</type>
+        <definition>std::unique_ptr&lt;Node&gt; themis::performance::phase3::VantagePointTree::Node::left</definition>
+        <argsstring></argsstring>
+        <name>left</name>
+        <qualifiedname>themis::performance::phase3::VantagePointTree::Node::left</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/diskann.h" line="184" column="25" bodyfile="include/performance/phase3/diskann.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_vantage_point_tree_1_1_node_1abb193516e869f9c59d0abc89d644f9e9" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Node &gt;</type>
+        <definition>std::unique_ptr&lt;Node&gt; themis::performance::phase3::VantagePointTree::Node::right</definition>
+        <argsstring></argsstring>
+        <name>right</name>
+        <qualifiedname>themis::performance::phase3::VantagePointTree::Node::right</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/diskann.h" line="185" column="25" bodyfile="include/performance/phase3/diskann.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase3/diskann.h" line="180" column="5" bodyfile="include/performance/phase3/diskann.h" bodystart="180" bodyend="186"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_vantage_point_tree_1_1_node_1a1daa47f3df82204107edee104cf491ff" prot="public" virt="non-virtual"><scope>themis::performance::phase3::VantagePointTree::Node</scope><name>id</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_vantage_point_tree_1_1_node_1ab58488618376fdfc71c3d7977f89ea6d" prot="public" virt="non-virtual"><scope>themis::performance::phase3::VantagePointTree::Node</scope><name>left</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_vantage_point_tree_1_1_node_1abb193516e869f9c59d0abc89d644f9e9" prot="public" virt="non-virtual"><scope>themis::performance::phase3::VantagePointTree::Node</scope><name>right</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_vantage_point_tree_1_1_node_1a4d978a0af859a3ecc1e4c84e11b9850b" prot="public" virt="non-virtual"><scope>themis::performance::phase3::VantagePointTree::Node</scope><name>threshold</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_vantage_point_tree_1_1_node_1a78f2b43ff0a11878d97542c62f32aacc" prot="public" virt="non-virtual"><scope>themis::performance::phase3::VantagePointTree::Node</scope><name>vector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

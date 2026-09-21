@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_opa_adapter_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::OpaAdapter::Config</compoundname>
+    <includes refid="opa__adapter_8h" local="no">opa_adapter.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1governance_1_1_opa_adapter_1_1_config_1af7b87f4edaa1fe1deee54d18b925beca" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EvalMode</name>
+        <qualifiedname>themis::governance::OpaAdapter::Config::EvalMode</qualifiedname>
+        <enumvalue id="structthemis_1_1governance_1_1_opa_adapter_1_1_config_1af7b87f4edaa1fe1deee54d18b925becaa50780f47f6839d47d60bc4555ee00c3f" prot="public">
+          <name>REST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1governance_1_1_opa_adapter_1_1_config_1af7b87f4edaa1fe1deee54d18b925becaac7dbeb10b3299406a04231654cf6defd" prot="public">
+          <name>WASM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="45" column="9" bodyfile="include/governance/opa_adapter.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_opa_adapter_1_1_config_1aec6fb53ecf3f7801eed8327f2b5fb9d4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::OpaAdapter::Config::endpoint_url</definition>
+        <argsstring></argsstring>
+        <name>endpoint_url</name>
+        <qualifiedname>themis::governance::OpaAdapter::Config::endpoint_url</qualifiedname>
+        <initializer>= &quot;http://localhost:8181&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="41" column="21" bodyfile="include/governance/opa_adapter.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_opa_adapter_1_1_config_1a6e810cf4f50915d55d4907ef001bca6e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::OpaAdapter::Config::policy_path</definition>
+        <argsstring></argsstring>
+        <name>policy_path</name>
+        <qualifiedname>themis::governance::OpaAdapter::Config::policy_path</qualifiedname>
+        <initializer>= &quot;themis/<ref refid="namespacethemis_1_1governance" kindref="compound">governance</ref>/allow&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="42" column="21" bodyfile="include/governance/opa_adapter.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_opa_adapter_1_1_config_1a23a1d01a1ea5c098fd9436da2f8e9a86" prot="public" static="no" mutable="no">
+        <type>long</type>
+        <definition>long themis::governance::OpaAdapter::Config::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::governance::OpaAdapter::Config::timeout_ms</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="43" column="14" bodyfile="include/governance/opa_adapter.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_opa_adapter_1_1_config_1a1bfb2b76b703f479d5140142353dfc2a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1governance_1_1_opa_adapter_1_1_config_1af7b87f4edaa1fe1deee54d18b925beca" kindref="member">EvalMode</ref></type>
+        <definition>EvalMode themis::governance::OpaAdapter::Config::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::governance::OpaAdapter::Config::mode</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1governance_1_1_opa_adapter_1_1_config_1af7b87f4edaa1fe1deee54d18b925becaa50780f47f6839d47d60bc4555ee00c3f" kindref="member">EvalMode::REST</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="46" column="18" bodyfile="include/governance/opa_adapter.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_opa_adapter_1_1_config_1ab33c6ec0fed172827e1d32f09cafd53d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::OpaAdapter::Config::wasm_bundle_path</definition>
+        <argsstring></argsstring>
+        <name>wasm_bundle_path</name>
+        <qualifiedname>themis::governance::OpaAdapter::Config::wasm_bundle_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="48" column="21" bodyfile="include/governance/opa_adapter.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/opa_adapter.h" line="40" column="5" bodyfile="include/governance/opa_adapter.h" bodystart="40" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_opa_adapter_1_1_config_1aec6fb53ecf3f7801eed8327f2b5fb9d4" prot="public" virt="non-virtual"><scope>themis::governance::OpaAdapter::Config</scope><name>endpoint_url</name></member>
+      <member refid="structthemis_1_1governance_1_1_opa_adapter_1_1_config_1af7b87f4edaa1fe1deee54d18b925beca" prot="public" virt="non-virtual"><scope>themis::governance::OpaAdapter::Config</scope><name>EvalMode</name></member>
+      <member refid="structthemis_1_1governance_1_1_opa_adapter_1_1_config_1a1bfb2b76b703f479d5140142353dfc2a" prot="public" virt="non-virtual"><scope>themis::governance::OpaAdapter::Config</scope><name>mode</name></member>
+      <member refid="structthemis_1_1governance_1_1_opa_adapter_1_1_config_1a6e810cf4f50915d55d4907ef001bca6e" prot="public" virt="non-virtual"><scope>themis::governance::OpaAdapter::Config</scope><name>policy_path</name></member>
+      <member refid="structthemis_1_1governance_1_1_opa_adapter_1_1_config_1a23a1d01a1ea5c098fd9436da2f8e9a86" prot="public" virt="non-virtual"><scope>themis::governance::OpaAdapter::Config</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_opa_adapter_1_1_config_1ab33c6ec0fed172827e1d32f09cafd53d" prot="public" virt="non-virtual"><scope>themis::governance::OpaAdapter::Config</scope><name>wasm_bundle_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

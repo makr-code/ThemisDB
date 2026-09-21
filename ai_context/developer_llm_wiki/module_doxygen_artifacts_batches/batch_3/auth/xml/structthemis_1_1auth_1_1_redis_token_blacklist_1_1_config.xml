@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_redis_token_blacklist_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::RedisTokenBlacklist::Config</compoundname>
+    <includes refid="redis__token__blacklist_8h" local="no">redis_token_blacklist.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_redis_token_blacklist_1_1_config_1a47da9e39a4a68bc5bad319378b461a97" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::RedisTokenBlacklist::Config::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::auth::RedisTokenBlacklist::Config::host</qualifiedname>
+        <initializer>= &quot;127.0.0.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/redis_token_blacklist.h" line="32" column="21" bodyfile="include/auth/redis_token_blacklist.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_redis_token_blacklist_1_1_config_1ac1be4ab2acb73ead704322f56a3df210" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::RedisTokenBlacklist::Config::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::auth::RedisTokenBlacklist::Config::port</qualifiedname>
+        <initializer>= 6379</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/redis_token_blacklist.h" line="33" column="13" bodyfile="include/auth/redis_token_blacklist.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_redis_token_blacklist_1_1_config_1a5b014038929d9e9566d5dfb6e594df50" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::RedisTokenBlacklist::Config::auth</definition>
+        <argsstring></argsstring>
+        <name>auth</name>
+        <qualifiedname>themis::auth::RedisTokenBlacklist::Config::auth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/redis_token_blacklist.h" line="34" column="21" bodyfile="include/auth/redis_token_blacklist.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_redis_token_blacklist_1_1_config_1ab3e4ba3d99244241bf8839ca2f1b2e41" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::RedisTokenBlacklist::Config::key_prefix</definition>
+        <argsstring></argsstring>
+        <name>key_prefix</name>
+        <qualifiedname>themis::auth::RedisTokenBlacklist::Config::key_prefix</qualifiedname>
+        <initializer>= &quot;themis:jbl:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/redis_token_blacklist.h" line="35" column="21" bodyfile="include/auth/redis_token_blacklist.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_redis_token_blacklist_1_1_config_1a6cd9bbd1bcc2e3f3166ea1a3bd286737" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::RedisTokenBlacklist::Config::connect_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>connect_timeout_ms</name>
+        <qualifiedname>themis::auth::RedisTokenBlacklist::Config::connect_timeout_ms</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/redis_token_blacklist.h" line="36" column="13" bodyfile="include/auth/redis_token_blacklist.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/redis_token_blacklist.h" line="31" column="5" bodyfile="include/auth/redis_token_blacklist.h" bodystart="31" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_redis_token_blacklist_1_1_config_1a5b014038929d9e9566d5dfb6e594df50" prot="public" virt="non-virtual"><scope>themis::auth::RedisTokenBlacklist::Config</scope><name>auth</name></member>
+      <member refid="structthemis_1_1auth_1_1_redis_token_blacklist_1_1_config_1a6cd9bbd1bcc2e3f3166ea1a3bd286737" prot="public" virt="non-virtual"><scope>themis::auth::RedisTokenBlacklist::Config</scope><name>connect_timeout_ms</name></member>
+      <member refid="structthemis_1_1auth_1_1_redis_token_blacklist_1_1_config_1a47da9e39a4a68bc5bad319378b461a97" prot="public" virt="non-virtual"><scope>themis::auth::RedisTokenBlacklist::Config</scope><name>host</name></member>
+      <member refid="structthemis_1_1auth_1_1_redis_token_blacklist_1_1_config_1ab3e4ba3d99244241bf8839ca2f1b2e41" prot="public" virt="non-virtual"><scope>themis::auth::RedisTokenBlacklist::Config</scope><name>key_prefix</name></member>
+      <member refid="structthemis_1_1auth_1_1_redis_token_blacklist_1_1_config_1ac1be4ab2acb73ead704322f56a3df210" prot="public" virt="non-virtual"><scope>themis::auth::RedisTokenBlacklist::Config</scope><name>port</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

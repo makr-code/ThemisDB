@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_conversion_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::ConversionException</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="type__conversion_8h" local="no">type_conversion.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_conversion_exception_1a111a2393ed2570c46f8c53a76267bb33" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ConversionException::ConversionException</definition>
+        <argsstring>(const std::string &amp;message)</argsstring>
+        <name>ConversionException</name>
+        <qualifiedname>themis::utils::ConversionException::ConversionException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/type_conversion.h" line="28" column="14" bodyfile="include/utils/type_conversion.h" bodystart="28" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Type conversion exception with detailed error information. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::utils::ConversionException</label>
+        <link refid="classthemis_1_1utils_1_1_conversion_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::utils::ConversionException</label>
+        <link refid="classthemis_1_1utils_1_1_conversion_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/type_conversion.h" line="26" column="1" bodyfile="include/utils/type_conversion.h" bodystart="26" bodyend="30"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_conversion_exception_1a111a2393ed2570c46f8c53a76267bb33" prot="public" virt="non-virtual"><scope>themis::utils::ConversionException</scope><name>ConversionException</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

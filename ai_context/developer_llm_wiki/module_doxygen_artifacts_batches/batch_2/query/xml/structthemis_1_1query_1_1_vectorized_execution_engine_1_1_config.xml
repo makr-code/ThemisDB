@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::VectorizedExecutionEngine::Config</compoundname>
+    <includes refid="vectorized__execution_8h" local="no">vectorized_execution.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config_1a6af0a81c67c3233c08dc5e01be8db8fa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::VectorizedExecutionEngine::Config::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::Config::batch_size</qualifiedname>
+        <initializer>= themisdb::analytics::ColumnBatch::kDefaultBatchSize</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="221" column="16" bodyfile="include/query/vectorized_execution.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config_1a15fc6dc8000b0f8a9726b859f6d6b9ef" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::VectorizedExecutionEngine::Config::enable_simd</definition>
+        <argsstring></argsstring>
+        <name>enable_simd</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::Config::enable_simd</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="222" column="16" bodyfile="include/query/vectorized_execution.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config_1a20babbf39ef1cfceed09a7e20ec8bc6f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::VectorizedExecutionEngine::Config::max_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_memory_bytes</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::Config::max_memory_bytes</qualifiedname>
+        <initializer>= 512ULL * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="223" column="16" bodyfile="include/query/vectorized_execution.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/vectorized_execution.h" line="220" column="5" bodyfile="include/query/vectorized_execution.h" bodystart="220" bodyend="224"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config_1a6af0a81c67c3233c08dc5e01be8db8fa" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine::Config</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config_1a15fc6dc8000b0f8a9726b859f6d6b9ef" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine::Config</scope><name>enable_simd</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_config_1a20babbf39ef1cfceed09a7e20ec8bc6f" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine::Config</scope><name>max_memory_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

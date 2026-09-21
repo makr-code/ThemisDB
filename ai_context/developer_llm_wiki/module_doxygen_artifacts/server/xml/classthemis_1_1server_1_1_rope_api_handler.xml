@@ -1,0 +1,887 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_rope_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::RopeApiHandler</compoundname>
+    <includes refid="rope__api__handler_8h" local="no">rope_api_handler.h</includes>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1_rope_api_handler_1afa519da7dc1670125a41774176e556b9" prot="private" static="no">
+        <type>std::function&lt; bool(const std::string &amp;token, const std::string &amp;action)&gt;</type>
+        <definition>using themis::server::RopeApiHandler::AuthorizeFn = std::function&lt;bool(const std::string&amp; token,
+                                          const std::string&amp; action)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AuthorizeFn</name>
+        <qualifiedname>themis::server::RopeApiHandler::AuthorizeFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="103" column="5" bodyfile="include/server/rope_api_handler.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1_rope_api_handler_1a7c115c0be55dad978359b9294d614102" prot="private" static="no">
+        <type>std::function&lt; nlohmann::json()&gt;</type>
+        <definition>using themis::server::RopeApiHandler::StatsQueryFn = std::function&lt;nlohmann::json()&gt;</definition>
+        <argsstring></argsstring>
+        <name>StatsQueryFn</name>
+        <qualifiedname>themis::server::RopeApiHandler::StatsQueryFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="117" column="5" bodyfile="include/server/rope_api_handler.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rope_api_handler_1ad0f5ad6156452cbba2fd1f2abbe2b74c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::RopeApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::RopeApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="97" column="21" bodyfile="include/server/rope_api_handler.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rope_api_handler_1a964c802fa8ec42daa881de86d955b043" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;VectorIndexManager&gt; themis::server::RopeApiHandler::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>themis::server::RopeApiHandler::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="98" column="21" bodyfile="include/server/rope_api_handler.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rope_api_handler_1abb049eb2f98127708a86685178ba96ec" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt;<ref refid="classthemis_1_1_auth_middleware" kindref="compound">::themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;::themis::AuthMiddleware&gt; themis::server::RopeApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::RopeApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="99" column="21" bodyfile="include/server/rope_api_handler.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rope_api_handler_1ae1be2c5929ed45fe3c9f2e45adf00d1b" prot="private" static="no" mutable="no">
+        <type>AuthorizeFn</type>
+        <definition>AuthorizeFn themis::server::RopeApiHandler::authorizeFn_</definition>
+        <argsstring></argsstring>
+        <name>authorizeFn_</name>
+        <qualifiedname>themis::server::RopeApiHandler::authorizeFn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="130" column="17" bodyfile="include/server/rope_api_handler.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_rope_api_handler_1a81678ed8f50c283a3a4d4237371acf6c" prot="private" static="no" mutable="no">
+        <type>StatsQueryFn</type>
+        <definition>StatsQueryFn themis::server::RopeApiHandler::statsQueryFn_</definition>
+        <argsstring></argsstring>
+        <name>statsQueryFn_</name>
+        <qualifiedname>themis::server::RopeApiHandler::statsQueryFn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="131" column="18" bodyfile="include/server/rope_api_handler.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rope_api_handler_1ac08de3c2224cd4a027189fd6c2509e8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::RopeApiHandler::RopeApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; VectorIndexManager &gt; vector_index, std::shared_ptr&lt;::themis::AuthMiddleware &gt; auth)</argsstring>
+        <name>RopeApiHandler</name>
+        <qualifiedname>themis::server::RopeApiHandler::RopeApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+          <declname>vector_index</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt;<ref refid="classthemis_1_1_auth_middleware" kindref="compound">::themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="34" column="5" bodyfile="src/server/rope_api_handler.cpp" bodystart="63" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rope_api_handler_1a53aec896e400eb268bc1eec8e378f925" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::RopeApiHandler::handleConfigPost</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleConfigPost</name>
+        <qualifiedname>themis::server::RopeApiHandler::handleConfigPost</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle <ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref> Post. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), extractIndexName(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="45" column="20" bodyfile="src/server/rope_api_handler.cpp" bodystart="80" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rope_api_handler_1af6356158bf9c05bf10adbe798fac0803" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::RopeApiHandler::handleConfigGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleConfigGet</name>
+        <qualifiedname>themis::server::RopeApiHandler::handleConfigGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle <ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref> Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), extractIndexName(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="52" column="20" bodyfile="src/server/rope_api_handler.cpp" bodystart="193" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rope_api_handler_1aa65101a6c10b726a3936dd7fbd2ffa7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::RopeApiHandler::handleConfigDelete</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleConfigDelete</name>
+        <qualifiedname>themis::server::RopeApiHandler::handleConfigDelete</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle <ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref> Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), extractIndexName(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="59" column="20" bodyfile="src/server/rope_api_handler.cpp" bodystart="267" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rope_api_handler_1a6718e0a29a78b44780bd870bcbc95dbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::RopeApiHandler::handleAddPost</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleAddPost</name>
+        <qualifiedname>themis::server::RopeApiHandler::handleAddPost</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Add Post. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), extractIndexName(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="66" column="20" bodyfile="src/server/rope_api_handler.cpp" bodystart="332" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rope_api_handler_1ace19f51b291c9be3154392057f9f8080" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::RopeApiHandler::handleAddRelationalPost</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleAddRelationalPost</name>
+        <qualifiedname>themis::server::RopeApiHandler::handleAddRelationalPost</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Add Relational Post. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), extractIndexName(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="73" column="20" bodyfile="src/server/rope_api_handler.cpp" bodystart="468" bodyend="595"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rope_api_handler_1af9b1a43242ecc2598c0fe4da7c1a2c95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::RopeApiHandler::handleSearchPost</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleSearchPost</name>
+        <qualifiedname>themis::server::RopeApiHandler::handleSearchPost</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Search Post. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), extractIndexName(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="80" column="20" bodyfile="src/server/rope_api_handler.cpp" bodystart="603" bodyend="720"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rope_api_handler_1a51be5acedda7d59d0cdbbd5873a56ced" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::RopeApiHandler::handleBatchAddPost</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleBatchAddPost</name>
+        <qualifiedname>themis::server::RopeApiHandler::handleBatchAddPost</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Batch Add Post. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), extractIndexName(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="87" column="20" bodyfile="src/server/rope_api_handler.cpp" bodystart="728" bodyend="872"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rope_api_handler_1ad99a0eda420b42c0eb819ca63d0b2ac0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::RopeApiHandler::handleStatsGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleStatsGet</name>
+        <qualifiedname>themis::server::RopeApiHandler::handleStatsGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Stats Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), extractIndexName(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="94" column="20" bodyfile="src/server/rope_api_handler.cpp" bodystart="880" bodyend="978"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rope_api_handler_1a0f45985d81faaf7b7b3efac213f4a7a5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RopeApiHandler::setAuthorizeFn</definition>
+        <argsstring>(AuthorizeFn fn)</argsstring>
+        <name>setAuthorizeFn</name>
+        <qualifiedname>themis::server::RopeApiHandler::setAuthorizeFn</qualifiedname>
+        <param>
+          <type>AuthorizeFn</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Authorize Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ AuthorizeFn + StatsQueryFn bridges (stubs #280, #307) ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="110" column="10" bodyfile="src/server/rope_api_handler.cpp" bodystart="34" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rope_api_handler_1a9ce9662ed3445dca06308c32b833ec26" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RopeApiHandler::clearAuthorizeFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearAuthorizeFn</name>
+        <qualifiedname>themis::server::RopeApiHandler::clearAuthorizeFn</qualifiedname>
+        <briefdescription>
+<para>Clear Authorize Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clearAuthorizeFn without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="115" column="10" bodyfile="src/server/rope_api_handler.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rope_api_handler_1a0c34b787d23a04c8bc4072bd646b9865" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RopeApiHandler::setStatsQueryFn</definition>
+        <argsstring>(StatsQueryFn fn)</argsstring>
+        <name>setStatsQueryFn</name>
+        <qualifiedname>themis::server::RopeApiHandler::setStatsQueryFn</qualifiedname>
+        <param>
+          <type>StatsQueryFn</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Stats Query Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="123" column="10" bodyfile="src/server/rope_api_handler.cpp" bodystart="51" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rope_api_handler_1a6d7faa3ce6a8daeb38f1a19f16905097" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::RopeApiHandler::clearStatsQueryFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearStatsQueryFn</name>
+        <qualifiedname>themis::server::RopeApiHandler::clearStatsQueryFn</qualifiedname>
+        <briefdescription>
+<para>Clear Stats Query Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clearStatsQueryFn without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="128" column="10" bodyfile="src/server/rope_api_handler.cpp" bodystart="59" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rope_api_handler_1a944dbf89767d8a6903f4b3cfdbffe559" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::RopeApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::RopeApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="141" column="20" bodyfile="src/server/rope_api_handler.cpp" bodystart="990" bodyend="999"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rope_api_handler_1ae364c82e155a527d8adb6777a46c7dad" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::RopeApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::RopeApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="150" column="20" bodyfile="src/server/rope_api_handler.cpp" bodystart="1009" bodyend="1019"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rope_api_handler_1a7111fe0fe848f7ae2a4401d22e7eb42c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; http::response&lt; http::string_body &gt; &gt;</type>
+        <definition>std::optional&lt; http::response&lt; http::string_body &gt; &gt; themis::server::RopeApiHandler::requireAccess</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;permission, const std::string &amp;resource, const std::string &amp;path)</argsstring>
+        <name>requireAccess</name>
+        <qualifiedname>themis::server::RopeApiHandler::requireAccess</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>permission</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Require Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">permission</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="161" column="19" bodyfile="src/server/rope_api_handler.cpp" bodystart="1029" bodyend="1084"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_rope_api_handler_1a20ef6648efc85efb4e2f62efda7f7672" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::server::RopeApiHandler::extractIndexName</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>extractIndexName</name>
+        <qualifiedname>themis::server::RopeApiHandler::extractIndexName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Extract Index Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), length(), substr(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rope_api_handler.h" line="172" column="19" bodyfile="src/server/rope_api_handler.cpp" bodystart="1092" bodyend="1114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rope_api_handler.h" line="32" column="1" bodyfile="include/server/rope_api_handler.h" bodystart="32" bodyend="173"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1abb049eb2f98127708a86685178ba96ec" prot="private" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1afa519da7dc1670125a41774176e556b9" prot="private" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>AuthorizeFn</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1ae1be2c5929ed45fe3c9f2e45adf00d1b" prot="private" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>authorizeFn_</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1a9ce9662ed3445dca06308c32b833ec26" prot="private" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>clearAuthorizeFn</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1a6d7faa3ce6a8daeb38f1a19f16905097" prot="private" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>clearStatsQueryFn</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1a20ef6648efc85efb4e2f62efda7f7672" prot="private" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>extractIndexName</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1a6718e0a29a78b44780bd870bcbc95dbb" prot="public" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>handleAddPost</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1ace19f51b291c9be3154392057f9f8080" prot="public" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>handleAddRelationalPost</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1a51be5acedda7d59d0cdbbd5873a56ced" prot="public" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>handleBatchAddPost</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1aa65101a6c10b726a3936dd7fbd2ffa7c" prot="public" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>handleConfigDelete</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1af6356158bf9c05bf10adbe798fac0803" prot="public" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>handleConfigGet</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1a53aec896e400eb268bc1eec8e378f925" prot="public" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>handleConfigPost</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1af9b1a43242ecc2598c0fe4da7c1a2c95" prot="public" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>handleSearchPost</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1ad99a0eda420b42c0eb819ca63d0b2ac0" prot="public" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>handleStatsGet</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1a944dbf89767d8a6903f4b3cfdbffe559" prot="private" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1ae364c82e155a527d8adb6777a46c7dad" prot="private" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1a7111fe0fe848f7ae2a4401d22e7eb42c" prot="private" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>requireAccess</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1ac08de3c2224cd4a027189fd6c2509e8f" prot="public" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>RopeApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1a0f45985d81faaf7b7b3efac213f4a7a5" prot="private" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>setAuthorizeFn</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1a0c34b787d23a04c8bc4072bd646b9865" prot="private" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>setStatsQueryFn</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1a7c115c0be55dad978359b9294d614102" prot="private" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>StatsQueryFn</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1a81678ed8f50c283a3a4d4237371acf6c" prot="private" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>statsQueryFn_</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1ad0f5ad6156452cbba2fd1f2abbe2b74c" prot="private" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1server_1_1_rope_api_handler_1a964c802fa8ec42daa881de86d955b043" prot="private" virt="non-virtual"><scope>themis::server::RopeApiHandler</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

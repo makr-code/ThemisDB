@@ -1,0 +1,277 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ContinuousBatchScheduler::ScheduledRequest</compoundname>
+    <includes refid="continuous__batch__scheduler_8h" local="no">continuous_batch_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a0ee5ac999f2fe457494a4e89d47cbf62" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ContinuousBatchScheduler::ScheduledRequest::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ScheduledRequest::request_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="80" column="21" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a7cdcb2edfcc45677d1da0ab266395354" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref></type>
+        <definition>InferenceRequest themis::llm::ContinuousBatchScheduler::ScheduledRequest::inference_request</definition>
+        <argsstring></argsstring>
+        <name>inference_request</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ScheduledRequest::inference_request</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="81" column="26" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1abc47d04bf16fabdc7aac3b29a0a31dcd" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18" kindref="member">RequestPriority</ref></type>
+        <definition>RequestPriority themis::llm::ContinuousBatchScheduler::ScheduledRequest::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ScheduledRequest::priority</qualifiedname>
+        <initializer>= RequestPriority::NORMAL</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="83" column="25" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a445d719b9a2ef9fb862771deb733594e" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062" kindref="member">RequestState</ref></type>
+        <definition>RequestState themis::llm::ContinuousBatchScheduler::ScheduledRequest::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ScheduledRequest::state</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062a1869d56535e8b1449a6da54ff5e11f50" kindref="member">RequestState::WAITING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="84" column="22" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a528b45f02d4b48c37ba1928117792cf9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::ScheduledRequest::tokens_processed</definition>
+        <argsstring></argsstring>
+        <name>tokens_processed</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ScheduledRequest::tokens_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="87" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a98629e4009c88fadeec81e1004755c7c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::ScheduledRequest::tokens_generated</definition>
+        <argsstring></argsstring>
+        <name>tokens_generated</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ScheduledRequest::tokens_generated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="88" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1ad2d2e4be127e8234b5db4605eb4d0e3c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::ScheduledRequest::total_prompt_tokens</definition>
+        <argsstring></argsstring>
+        <name>total_prompt_tokens</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ScheduledRequest::total_prompt_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="89" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a45d0776cc3dc88f688ed1dd5ea64e4f2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::ContinuousBatchScheduler::ScheduledRequest::allocated_blocks</definition>
+        <argsstring></argsstring>
+        <name>allocated_blocks</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ScheduledRequest::allocated_blocks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="92" column="21" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a68fce4fb5c71c945a1cf85e1f3e3567f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ContinuousBatchScheduler::ScheduledRequest::sequence_id</definition>
+        <argsstring></argsstring>
+        <name>sequence_id</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ScheduledRequest::sequence_id</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="93" column="13" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a0085c59a9e7fe9dfca3d3efaac06eae3" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::ContinuousBatchScheduler::ScheduledRequest::submitted_at</definition>
+        <argsstring></argsstring>
+        <name>submitted_at</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ScheduledRequest::submitted_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="96" column="47" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1abf5ba4a89a85c7871ab3b673a342f776" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::ContinuousBatchScheduler::ScheduledRequest::started_at</definition>
+        <argsstring></argsstring>
+        <name>started_at</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ScheduledRequest::started_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="97" column="47" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a67cbac9b77d519120d8013afcc73e413" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::ContinuousBatchScheduler::ScheduledRequest::first_token_at</definition>
+        <argsstring></argsstring>
+        <name>first_token_at</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ScheduledRequest::first_token_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="98" column="47" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a243a41cdfa5447c6945561cfaa3b9790" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::ContinuousBatchScheduler::ScheduledRequest::last_token_at</definition>
+        <argsstring></argsstring>
+        <name>last_token_at</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ScheduledRequest::last_token_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="99" column="47" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a5d8b3dc602e39921e1a94d6092b4b8f5" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const InferenceResponse&amp;)&gt; themis::llm::ContinuousBatchScheduler::ScheduledRequest::callback</definition>
+        <argsstring></argsstring>
+        <name>callback</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ScheduledRequest::callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="102" column="23" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1ac36cbcdcaf5260ecc7e9b0299f913732" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ContinuousBatchScheduler::ScheduledRequest::can_be_preempted</definition>
+        <argsstring></argsstring>
+        <name>can_be_preempted</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ScheduledRequest::can_be_preempted</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="105" column="14" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a532293ed67a8beb4c0e31fcc9674d4a7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::ScheduledRequest::preemption_count</definition>
+        <argsstring></argsstring>
+        <name>preemption_count</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ScheduledRequest::preemption_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="106" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::ContinuousBatchScheduler::ScheduledRequest</label>
+        <link refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>inference_request</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::InferenceRequest</label>
+        <link refid="structthemis_1_1llm_1_1_inference_request"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/continuous_batch_scheduler.h" line="79" column="5" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="79" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a45d0776cc3dc88f688ed1dd5ea64e4f2" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::ScheduledRequest</scope><name>allocated_blocks</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a5d8b3dc602e39921e1a94d6092b4b8f5" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::ScheduledRequest</scope><name>callback</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1ac36cbcdcaf5260ecc7e9b0299f913732" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::ScheduledRequest</scope><name>can_be_preempted</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a67cbac9b77d519120d8013afcc73e413" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::ScheduledRequest</scope><name>first_token_at</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a7cdcb2edfcc45677d1da0ab266395354" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::ScheduledRequest</scope><name>inference_request</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a243a41cdfa5447c6945561cfaa3b9790" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::ScheduledRequest</scope><name>last_token_at</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a532293ed67a8beb4c0e31fcc9674d4a7" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::ScheduledRequest</scope><name>preemption_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1abc47d04bf16fabdc7aac3b29a0a31dcd" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::ScheduledRequest</scope><name>priority</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a0ee5ac999f2fe457494a4e89d47cbf62" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::ScheduledRequest</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a68fce4fb5c71c945a1cf85e1f3e3567f" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::ScheduledRequest</scope><name>sequence_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1abf5ba4a89a85c7871ab3b673a342f776" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::ScheduledRequest</scope><name>started_at</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a445d719b9a2ef9fb862771deb733594e" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::ScheduledRequest</scope><name>state</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a0085c59a9e7fe9dfca3d3efaac06eae3" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::ScheduledRequest</scope><name>submitted_at</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a98629e4009c88fadeec81e1004755c7c" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::ScheduledRequest</scope><name>tokens_generated</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1a528b45f02d4b48c37ba1928117792cf9" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::ScheduledRequest</scope><name>tokens_processed</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request_1ad2d2e4be127e8234b5db4605eb4d0e3c" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::ScheduledRequest</scope><name>total_prompt_tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

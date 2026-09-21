@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1safety_1_1_guard_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::safety::GuardDecision</compoundname>
+    <includes refid="guardian_8h" local="no">guardian.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1safety_1_1_guard_decision_1af87c19f725fff887d23b4b52b3c7022d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::safety::GuardDecision::allowed</definition>
+        <argsstring></argsstring>
+        <name>allowed</name>
+        <qualifiedname>themis::llm::safety::GuardDecision::allowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/guardian.h" line="20" column="10" bodyfile="include/llm/safety/guardian.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1safety_1_1_guard_decision_1acced668a5454ba7fe7e64567dba2565d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::safety::GuardDecision::sanitized_prompt</definition>
+        <argsstring></argsstring>
+        <name>sanitized_prompt</name>
+        <qualifiedname>themis::llm::safety::GuardDecision::sanitized_prompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/guardian.h" line="21" column="17" bodyfile="include/llm/safety/guardian.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1safety_1_1_guard_decision_1a29291e50296270d0c8170d497e5fdff3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::safety::GuardDecision::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::llm::safety::GuardDecision::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/guardian.h" line="22" column="17" bodyfile="include/llm/safety/guardian.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1safety_1_1_guard_decision_1a3284d9b34c27888c79fa700cf1ad791b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::safety::GuardDecision::matched_topics</definition>
+        <argsstring></argsstring>
+        <name>matched_topics</name>
+        <qualifiedname>themis::llm::safety::GuardDecision::matched_topics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/guardian.h" line="23" column="17" bodyfile="include/llm/safety/guardian.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/safety/guardian.h" line="19" column="1" bodyfile="include/llm/safety/guardian.h" bodystart="19" bodyend="24"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1safety_1_1_guard_decision_1af87c19f725fff887d23b4b52b3c7022d" prot="public" virt="non-virtual"><scope>themis::llm::safety::GuardDecision</scope><name>allowed</name></member>
+      <member refid="structthemis_1_1llm_1_1safety_1_1_guard_decision_1a3284d9b34c27888c79fa700cf1ad791b" prot="public" virt="non-virtual"><scope>themis::llm::safety::GuardDecision</scope><name>matched_topics</name></member>
+      <member refid="structthemis_1_1llm_1_1safety_1_1_guard_decision_1a29291e50296270d0c8170d497e5fdff3" prot="public" virt="non-virtual"><scope>themis::llm::safety::GuardDecision</scope><name>reason</name></member>
+      <member refid="structthemis_1_1llm_1_1safety_1_1_guard_decision_1acced668a5454ba7fe7e64567dba2565d" prot="public" virt="non-virtual"><scope>themis::llm::safety::GuardDecision</scope><name>sanitized_prompt</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

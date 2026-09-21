@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_text_extractor" kind="class" language="C++" prot="public">
+    <compoundname>TextExtractor</compoundname>
+    <innerclass refid="struct_text_extractor_1_1_extraction_result" prot="public">TextExtractor::ExtractionResult</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_text_extractor_1a68fd6be824b4436c7d10e5056c1e0f69" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_text_extractor_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult TextExtractor::extract_from_pdf</definition>
+        <argsstring>(const std::string &amp;pdf_data)</argsstring>
+        <name>extract_from_pdf</name>
+        <qualifiedname>TextExtractor::extract_from_pdf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pdf_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="19" column="22" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="19" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_text_extractor_1a6d3da03bce85ccd0e3c364c5c4c4e51a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_text_extractor_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult TextExtractor::extract_from_docx</definition>
+        <argsstring>(const std::string &amp;docx_data)</argsstring>
+        <name>extract_from_docx</name>
+        <qualifiedname>TextExtractor::extract_from_docx</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>docx_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="28" column="22" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="28" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_text_extractor_1a67f77a4efce75fe6be16e4fcd172e35b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_text_extractor_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult TextExtractor::extract_from_html</definition>
+        <argsstring>(const std::string &amp;html_data)</argsstring>
+        <name>extract_from_html</name>
+        <qualifiedname>TextExtractor::extract_from_html</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>html_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="37" column="22" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="37" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_text_extractor_1a3d3ce859c294b4955dd135bea74e4e12" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_text_extractor_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult TextExtractor::extract_from_plaintext</definition>
+        <argsstring>(const std::string &amp;text_data)</argsstring>
+        <name>extract_from_plaintext</name>
+        <qualifiedname>TextExtractor::extract_from_plaintext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="46" column="22" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="46" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_text_extractor_1aa8db7eeddf2eac1225bd3117ec3b1ceb" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string TextExtractor::simulate_pdf_parsing</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>simulate_pdf_parsing</name>
+        <qualifiedname>TextExtractor::simulate_pdf_parsing</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="55" column="17" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="55" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_text_extractor_1ab570c90b58024dbf97ff24bcdc6fbe69" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string TextExtractor::simulate_docx_parsing</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>simulate_docx_parsing</name>
+        <qualifiedname>TextExtractor::simulate_docx_parsing</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="67" column="17" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="67" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_text_extractor_1aeba4b8fb041ae1501bde20771a9fefab" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string TextExtractor::strip_html_tags</definition>
+        <argsstring>(const std::string &amp;html)</argsstring>
+        <name>strip_html_tags</name>
+        <qualifiedname>TextExtractor::strip_html_tags</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>html</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="84" column="17" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="84" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/content/bench_text_extraction.cpp" line="11" column="1" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="11" bodyend="88"/>
+    <listofallmembers>
+      <member refid="class_text_extractor_1a6d3da03bce85ccd0e3c364c5c4c4e51a" prot="public" virt="non-virtual"><scope>TextExtractor</scope><name>extract_from_docx</name></member>
+      <member refid="class_text_extractor_1a67f77a4efce75fe6be16e4fcd172e35b" prot="public" virt="non-virtual"><scope>TextExtractor</scope><name>extract_from_html</name></member>
+      <member refid="class_text_extractor_1a68fd6be824b4436c7d10e5056c1e0f69" prot="public" virt="non-virtual"><scope>TextExtractor</scope><name>extract_from_pdf</name></member>
+      <member refid="class_text_extractor_1a3d3ce859c294b4955dd135bea74e4e12" prot="public" virt="non-virtual"><scope>TextExtractor</scope><name>extract_from_plaintext</name></member>
+      <member refid="class_text_extractor_1ab570c90b58024dbf97ff24bcdc6fbe69" prot="private" virt="non-virtual"><scope>TextExtractor</scope><name>simulate_docx_parsing</name></member>
+      <member refid="class_text_extractor_1aa8db7eeddf2eac1225bd3117ec3b1ceb" prot="private" virt="non-virtual"><scope>TextExtractor</scope><name>simulate_pdf_parsing</name></member>
+      <member refid="class_text_extractor_1aeba4b8fb041ae1501bde20771a9fefab" prot="private" virt="non-virtual"><scope>TextExtractor</scope><name>strip_html_tags</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

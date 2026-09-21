@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_schema_inference_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::SchemaInferenceConfig</compoundname>
+    <includes refid="schema__inference_8h" local="no">schema_inference.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_inference_config_1a00c47f7fe986cebcde1a30e2d5285a81" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::SchemaInferenceConfig::relationship_confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>relationship_confidence_threshold</name>
+        <qualifiedname>themis::importers::SchemaInferenceConfig::relationship_confidence_threshold</qualifiedname>
+        <initializer>{0.75}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="52" column="12" bodyfile="include/importers/schema_inference.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_inference_config_1a86ee2334247ffdf81b7116d9cf95eda6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::SchemaInferenceConfig::semantic_type_confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>semantic_type_confidence_threshold</name>
+        <qualifiedname>themis::importers::SchemaInferenceConfig::semantic_type_confidence_threshold</qualifiedname>
+        <initializer>{0.70}</initializer>
+        <briefdescription>
+<para>Min agreement % for semantic type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="53" column="12" bodyfile="include/importers/schema_inference.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_inference_config_1accfdf66fadba38c2928957af57274d2d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::SchemaInferenceConfig::max_sample_values</definition>
+        <argsstring></argsstring>
+        <name>max_sample_values</name>
+        <qualifiedname>themis::importers::SchemaInferenceConfig::max_sample_values</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="54" column="12" bodyfile="include/importers/schema_inference.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_inference_config_1a81747bcc359e7137dd3efac1bd664cd6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::SchemaInferenceConfig::enable_semantic_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_semantic_detection</name>
+        <qualifiedname>themis::importers::SchemaInferenceConfig::enable_semantic_detection</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="55" column="10" bodyfile="include/importers/schema_inference.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_inference_config_1a8e9e558cff515cbaa206bad92bbff4e1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::SchemaInferenceConfig::enable_cycle_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_cycle_detection</name>
+        <qualifiedname>themis::importers::SchemaInferenceConfig::enable_cycle_detection</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Detect circular FK references. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="56" column="10" bodyfile="include/importers/schema_inference.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/schema_inference.h" line="51" column="1" bodyfile="include/importers/schema_inference.h" bodystart="51" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_schema_inference_config_1a8e9e558cff515cbaa206bad92bbff4e1" prot="public" virt="non-virtual"><scope>themis::importers::SchemaInferenceConfig</scope><name>enable_cycle_detection</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_inference_config_1a81747bcc359e7137dd3efac1bd664cd6" prot="public" virt="non-virtual"><scope>themis::importers::SchemaInferenceConfig</scope><name>enable_semantic_detection</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_inference_config_1accfdf66fadba38c2928957af57274d2d" prot="public" virt="non-virtual"><scope>themis::importers::SchemaInferenceConfig</scope><name>max_sample_values</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_inference_config_1a00c47f7fe986cebcde1a30e2d5285a81" prot="public" virt="non-virtual"><scope>themis::importers::SchemaInferenceConfig</scope><name>relationship_confidence_threshold</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_inference_config_1a86ee2334247ffdf81b7116d9cf95eda6" prot="public" virt="non-virtual"><scope>themis::importers::SchemaInferenceConfig</scope><name>semantic_type_confidence_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

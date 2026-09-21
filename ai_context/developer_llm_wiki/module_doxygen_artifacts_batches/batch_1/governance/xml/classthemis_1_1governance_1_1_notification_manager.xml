@@ -1,0 +1,717 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_notification_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::NotificationManager</compoundname>
+    <includes refid="policy__review_8h" local="no">policy_review.h</includes>
+    <innerclass refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification" prot="public">themis::governance::NotificationManager::Notification</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config" prot="public">themis::governance::NotificationManager::NotificationConfig</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_notification_manager_1ad95decff2ef480667ebe4077629904ec" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::NotificationManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::governance::NotificationManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="428" column="24" bodyfile="include/governance/policy_review.h" bodystart="428" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_notification_manager_1aebd86c5d56b4600edec61cc6bc003a0b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config" kindref="compound">NotificationConfig</ref></type>
+        <definition>NotificationConfig themis::governance::NotificationManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::governance::NotificationManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="429" column="24" bodyfile="include/governance/policy_review.h" bodystart="429" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_notification_manager_1a4275b885147f087cde5bba931ac7b935" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification" kindref="compound">Notification</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Notification&gt; themis::governance::NotificationManager::notifications_</definition>
+        <argsstring></argsstring>
+        <name>notifications_</name>
+        <qualifiedname>themis::governance::NotificationManager::notifications_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="430" column="24" bodyfile="include/governance/policy_review.h" bodystart="430" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_notification_manager_1aed060937a0d75bb311c7e54442df16fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::NotificationManager::configure</definition>
+        <argsstring>(const NotificationConfig &amp;config)</argsstring>
+        <name>configure</name>
+        <qualifiedname>themis::governance::NotificationManager::configure</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config" kindref="compound">NotificationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="357" column="10" bodyfile="src/governance/policy_review.cpp" bodystart="1039" bodyend="1045"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_notification_manager_1a0cc2c63257985286e2072c55acd39026" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification_config" kindref="compound">NotificationConfig</ref></type>
+        <definition>NotificationManager::NotificationConfig themis::governance::NotificationManager::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::governance::NotificationManager::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="363" column="24" bodyfile="src/governance/policy_review.cpp" bodystart="1047" bodyend="1055"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_notification_manager_1aa88307f0d055b6f3d70452a36ba66be8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::NotificationManager::notifyReviewDue</definition>
+        <argsstring>(const std::string &amp;recipient, const PolicyReview &amp;review)</argsstring>
+        <name>notifyReviewDue</name>
+        <qualifiedname>themis::governance::NotificationManager::notifyReviewDue</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>recipient</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_review" kindref="compound">PolicyReview</ref> &amp;</type>
+          <declname>review</declname>
+        </param>
+        <briefdescription>
+<para>Notify Review Due. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">recipient</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">review</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">recipient</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">review</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1governance_1_1_notification_manager_1a7b576a93dd693f5a427905b7e34abcb6" kindref="member">createNotification()</ref>, str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="371" column="10" bodyfile="src/governance/policy_review.cpp" bodystart="1064" bodyend="1077"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_notification_manager_1a910957df84c352802b1f5a84ee12f67b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::NotificationManager::notifyReviewOverdue</definition>
+        <argsstring>(const std::string &amp;recipient, const PolicyReview &amp;review, int days_overdue)</argsstring>
+        <name>notifyReviewOverdue</name>
+        <qualifiedname>themis::governance::NotificationManager::notifyReviewOverdue</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>recipient</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_review" kindref="compound">PolicyReview</ref> &amp;</type>
+          <declname>review</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>days_overdue</declname>
+        </param>
+        <briefdescription>
+<para>Notify Review Overdue. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">recipient</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">review</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">days_overdue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">recipient</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">review</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">days_overdue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1governance_1_1_notification_manager_1a7b576a93dd693f5a427905b7e34abcb6" kindref="member">createNotification()</ref>, str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="380" column="10" bodyfile="src/governance/policy_review.cpp" bodystart="1087" bodyend="1102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_notification_manager_1ae76667b031f5503dd4933e92d6ac2c65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::NotificationManager::notifyExpirationWarning</definition>
+        <argsstring>(const std::string &amp;recipient, const PolicyExpiration::ExpirationWarning &amp;warning)</argsstring>
+        <name>notifyExpirationWarning</name>
+        <qualifiedname>themis::governance::NotificationManager::notifyExpirationWarning</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>recipient</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_expiration_1_1_expiration_warning" kindref="compound">PolicyExpiration::ExpirationWarning</ref> &amp;</type>
+          <declname>warning</declname>
+        </param>
+        <briefdescription>
+<para>Notify Expiration Warning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">recipient</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">warning</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">recipient</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">warning</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1governance_1_1_notification_manager_1a7b576a93dd693f5a427905b7e34abcb6" kindref="member">createNotification()</ref>, str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="388" column="10" bodyfile="src/governance/policy_review.cpp" bodystart="1111" bodyend="1125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_notification_manager_1a625be7dfe38a8d7803e772000faa7fd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::NotificationManager::notifyRuleExpired</definition>
+        <argsstring>(const std::string &amp;recipient, const std::string &amp;rule_id)</argsstring>
+        <name>notifyRuleExpired</name>
+        <qualifiedname>themis::governance::NotificationManager::notifyRuleExpired</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>recipient</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Notify Rule Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">recipient</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">recipient</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1governance_1_1_notification_manager_1a7b576a93dd693f5a427905b7e34abcb6" kindref="member">createNotification()</ref>, str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="396" column="10" bodyfile="src/governance/policy_review.cpp" bodystart="1134" bodyend="1144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_notification_manager_1a7b576a93dd693f5a427905b7e34abcb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::NotificationManager::createNotification</definition>
+        <argsstring>(const std::string &amp;type, const std::string &amp;recipient, const std::string &amp;subject, const std::string &amp;message)</argsstring>
+        <name>createNotification</name>
+        <qualifiedname>themis::governance::NotificationManager::createNotification</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>recipient</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Create <ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification" kindref="compound">Notification</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">recipient</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">subject</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">recipient</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">subject</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), generateNotificationId(), getCurrentTimeMs(), THEMIS_DEBUG(), sendEmail(), sendWebhook(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="406" column="17" bodyfile="src/governance/policy_review.cpp" bodystart="1155" bodyend="1180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_notification_manager_1a940a26979ff3b9242f114afe81e3f1b7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification" kindref="compound">Notification</ref> &gt;</type>
+        <definition>std::vector&lt; NotificationManager::Notification &gt; themis::governance::NotificationManager::getPendingNotifications</definition>
+        <argsstring>() const</argsstring>
+        <name>getPendingNotifications</name>
+        <qualifiedname>themis::governance::NotificationManager::getPendingNotifications</qualifiedname>
+        <briefdescription>
+<para>Get Pending Notifications. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="417" column="17" bodyfile="src/governance/policy_review.cpp" bodystart="1182" bodyend="1199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_notification_manager_1a12a592be879271876d049053c78eaafa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::NotificationManager::markAsSent</definition>
+        <argsstring>(const std::string &amp;notification_id)</argsstring>
+        <name>markAsSent</name>
+        <qualifiedname>themis::governance::NotificationManager::markAsSent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>notification_id</declname>
+        </param>
+        <briefdescription>
+<para>Mark As Sent. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">notification_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the notification.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">notification_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the notification.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), getCurrentTimeMs(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="423" column="10" bodyfile="src/governance/policy_review.cpp" bodystart="1206" bodyend="1216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_notification_manager_1aa1e72be5b9c4df6a31afc33eaf2791ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification" kindref="compound">Notification</ref> &gt;</type>
+        <definition>std::vector&lt; NotificationManager::Notification &gt; themis::governance::NotificationManager::getNotificationHistory</definition>
+        <argsstring>(int64_t since=0) const</argsstring>
+        <name>getNotificationHistory</name>
+        <qualifiedname>themis::governance::NotificationManager::getNotificationHistory</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>since</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="425" column="17" bodyfile="src/governance/policy_review.cpp" bodystart="1218" bodyend="1239"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_notification_manager_1aed96e2f3e764045e31882fe83d6eff46" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::NotificationManager::generateNotificationId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateNotificationId</name>
+        <qualifiedname>themis::governance::NotificationManager::generateNotificationId</qualifiedname>
+        <briefdescription>
+<para>Generate <ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification" kindref="compound">Notification</ref> Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="436" column="17" bodyfile="src/governance/policy_review.cpp" bodystart="1024" bodyend="1032"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_notification_manager_1a1c860e5a5489935cd0308e5ec04a902f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::NotificationManager::sendEmail</definition>
+        <argsstring>(const Notification &amp;notification)</argsstring>
+        <name>sendEmail</name>
+        <qualifiedname>themis::governance::NotificationManager::sendEmail</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification" kindref="compound">Notification</ref> &amp;</type>
+          <declname>notification</declname>
+        </param>
+        <briefdescription>
+<para>Send Email. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">notification</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">notification</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: themis::security::PIIRedactionPolicy::get(), redactForLog(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="442" column="10" bodyfile="src/governance/policy_review.cpp" bodystart="1247" bodyend="1258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_notification_manager_1ab4a3a8b40dfb9ac17ff9fc74360ccdfb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::NotificationManager::sendWebhook</definition>
+        <argsstring>(const Notification &amp;notification)</argsstring>
+        <name>sendWebhook</name>
+        <qualifiedname>themis::governance::NotificationManager::sendWebhook</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_notification_manager_1_1_notification" kindref="compound">Notification</ref> &amp;</type>
+          <declname>notification</declname>
+        </param>
+        <briefdescription>
+<para>Send Webhook. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">notification</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">notification</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_INFO(), toJson(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="448" column="10" bodyfile="src/governance/policy_review.cpp" bodystart="1266" bodyend="1275"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_review.h" line="309" column="1" bodyfile="include/governance/policy_review.h" bodystart="309" bodyend="449"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_notification_manager_1aebd86c5d56b4600edec61cc6bc003a0b" prot="private" virt="non-virtual"><scope>themis::governance::NotificationManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1governance_1_1_notification_manager_1aed060937a0d75bb311c7e54442df16fe" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager</scope><name>configure</name></member>
+      <member refid="classthemis_1_1governance_1_1_notification_manager_1a7b576a93dd693f5a427905b7e34abcb6" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager</scope><name>createNotification</name></member>
+      <member refid="classthemis_1_1governance_1_1_notification_manager_1aed96e2f3e764045e31882fe83d6eff46" prot="private" virt="non-virtual"><scope>themis::governance::NotificationManager</scope><name>generateNotificationId</name></member>
+      <member refid="classthemis_1_1governance_1_1_notification_manager_1a0cc2c63257985286e2072c55acd39026" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1governance_1_1_notification_manager_1aa1e72be5b9c4df6a31afc33eaf2791ed" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager</scope><name>getNotificationHistory</name></member>
+      <member refid="classthemis_1_1governance_1_1_notification_manager_1a940a26979ff3b9242f114afe81e3f1b7" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager</scope><name>getPendingNotifications</name></member>
+      <member refid="classthemis_1_1governance_1_1_notification_manager_1a12a592be879271876d049053c78eaafa" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager</scope><name>markAsSent</name></member>
+      <member refid="classthemis_1_1governance_1_1_notification_manager_1ad95decff2ef480667ebe4077629904ec" prot="private" virt="non-virtual"><scope>themis::governance::NotificationManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_notification_manager_1a4275b885147f087cde5bba931ac7b935" prot="private" virt="non-virtual"><scope>themis::governance::NotificationManager</scope><name>notifications_</name></member>
+      <member refid="classthemis_1_1governance_1_1_notification_manager_1ae76667b031f5503dd4933e92d6ac2c65" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager</scope><name>notifyExpirationWarning</name></member>
+      <member refid="classthemis_1_1governance_1_1_notification_manager_1aa88307f0d055b6f3d70452a36ba66be8" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager</scope><name>notifyReviewDue</name></member>
+      <member refid="classthemis_1_1governance_1_1_notification_manager_1a910957df84c352802b1f5a84ee12f67b" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager</scope><name>notifyReviewOverdue</name></member>
+      <member refid="classthemis_1_1governance_1_1_notification_manager_1a625be7dfe38a8d7803e772000faa7fd3" prot="public" virt="non-virtual"><scope>themis::governance::NotificationManager</scope><name>notifyRuleExpired</name></member>
+      <member refid="classthemis_1_1governance_1_1_notification_manager_1a1c860e5a5489935cd0308e5ec04a902f" prot="private" virt="non-virtual"><scope>themis::governance::NotificationManager</scope><name>sendEmail</name></member>
+      <member refid="classthemis_1_1governance_1_1_notification_manager_1ab4a3a8b40dfb9ac17ff9fc74360ccdfb" prot="private" virt="non-virtual"><scope>themis::governance::NotificationManager</scope><name>sendWebhook</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

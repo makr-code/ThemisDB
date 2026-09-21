@@ -1,0 +1,630 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_workload_cache_strategy" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::WorkloadCacheStrategy</compoundname>
+    <includes refid="workload__cache__strategy_8h" local="no">workload_cache_strategy.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config" prot="public">themis::query::WorkloadCacheStrategy::Config</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats" prot="public">themis::query::WorkloadCacheStrategy::WorkloadStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_workload_cache_strategy_1adc0c630840ae84917546706560117252" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::query::WorkloadCacheStrategy::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="221" column="12" bodyfile="include/query/workload_cache_strategy.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_workload_cache_strategy_1af13d528a163b4d20dd6a5ce53e159270" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::query::WorkloadCacheStrategy::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="222" column="24" bodyfile="include/query/workload_cache_strategy.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_workload_cache_strategy_1ad36e323adb53a2860080d817d6d4f94d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416" kindref="member">WorkloadType</ref> &gt;</type>
+        <definition>std::atomic&lt;WorkloadType&gt; themis::query::WorkloadCacheStrategy::current_workload_</definition>
+        <argsstring></argsstring>
+        <name>current_workload_</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::current_workload_</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">WorkloadType::UNKNOWN</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="225" column="17" bodyfile="include/query/workload_cache_strategy.h" bodystart="225" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_workload_cache_strategy_1a5c609f4ffbbc2a3ddbb12e0bc42d1e06" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1query_1_1_query_characteristics" kindref="compound">QueryCharacteristics</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, QueryCharacteristics&gt; themis::query::WorkloadCacheStrategy::query_patterns_</definition>
+        <argsstring></argsstring>
+        <name>query_patterns_</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::query_patterns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="228" column="24" bodyfile="include/query/workload_cache_strategy.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_workload_cache_strategy_1a340cc73aea5d793a21ef07f195aae7c5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats" kindref="compound">WorkloadStats</ref></type>
+        <definition>WorkloadStats themis::query::WorkloadCacheStrategy::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="231" column="19" bodyfile="include/query/workload_cache_strategy.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_workload_cache_strategy_1acf152610536f69e97cb73ee2fe309fd1" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::query::WorkloadCacheStrategy::last_detection_</definition>
+        <argsstring></argsstring>
+        <name>last_detection_</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::last_detection_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="234" column="43" bodyfile="include/query/workload_cache_strategy.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1aed0a088f3be672baa91b094604c869bd" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::WorkloadCacheStrategy::WorkloadCacheStrategy</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>WorkloadCacheStrategy</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::WorkloadCacheStrategy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Workload Cache Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="139" column="14" bodyfile="src/query/workload_cache_strategy.cpp" bodystart="149" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1a1e516bd11d2d3df1dba5624e29b91eee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::WorkloadCacheStrategy::~WorkloadCacheStrategy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~WorkloadCacheStrategy</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::~WorkloadCacheStrategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="140" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1a3d9bfce63cdbc35c150a51273d6f3caa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::WorkloadCacheStrategy::WorkloadCacheStrategy</definition>
+        <argsstring>(const WorkloadCacheStrategy &amp;)=delete</argsstring>
+        <name>WorkloadCacheStrategy</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::WorkloadCacheStrategy</qualifiedname>
+        <param>
+          <type>const WorkloadCacheStrategy &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="143" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1abd1d8349969b8d870cb4994f8519d03b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1aed0a088f3be672baa91b094604c869bd" kindref="member">WorkloadCacheStrategy</ref> &amp;</type>
+        <definition>WorkloadCacheStrategy &amp; themis::query::WorkloadCacheStrategy::operator=</definition>
+        <argsstring>(const WorkloadCacheStrategy &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1aed0a088f3be672baa91b094604c869bd" kindref="member">WorkloadCacheStrategy</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="144" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1a73671318e9b5a9b65633a55c54116c88" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::WorkloadCacheStrategy::WorkloadCacheStrategy</definition>
+        <argsstring>(WorkloadCacheStrategy &amp;&amp;) noexcept=default</argsstring>
+        <name>WorkloadCacheStrategy</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::WorkloadCacheStrategy</qualifiedname>
+        <param>
+          <type>WorkloadCacheStrategy &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="145" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1a216d32f09bd18d708bca12c2293ec8f8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1aed0a088f3be672baa91b094604c869bd" kindref="member">WorkloadCacheStrategy</ref> &amp;</type>
+        <definition>WorkloadCacheStrategy &amp; themis::query::WorkloadCacheStrategy::operator=</definition>
+        <argsstring>(WorkloadCacheStrategy &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1aed0a088f3be672baa91b094604c869bd" kindref="member">WorkloadCacheStrategy</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="146" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1a27b0df34c320872ad5430deb62600b0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::WorkloadCacheStrategy::recordQuery</definition>
+        <argsstring>(const std::string &amp;query_fingerprint, const QueryCharacteristics &amp;characteristics)</argsstring>
+        <name>recordQuery</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::recordQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_fingerprint</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_characteristics" kindref="compound">QueryCharacteristics</ref> &amp;</type>
+          <declname>characteristics</declname>
+        </param>
+        <briefdescription>
+<para>Record <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">characteristics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">characteristics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: rng(), dist(), lock(), find(), end(), std::chrono::system_clock::now(), shouldRunDetection(), <ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1a51789910945bb1aeb176fc005b8c7564" kindref="member">detectWorkload()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="153" column="10" bodyfile="src/query/workload_cache_strategy.cpp" bodystart="163" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1a51789910945bb1aeb176fc005b8c7564" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416" kindref="member">WorkloadType</ref></type>
+        <definition>WorkloadType themis::query::WorkloadCacheStrategy::detectWorkload</definition>
+        <argsstring>()</argsstring>
+        <name>detectWorkload</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::detectWorkload</qualifiedname>
+        <briefdescription>
+<para>Detect Workload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), size(), THEMIS_DEBUG(), classifyWorkload(), load(), THEMIS_INFO(), store(), updateStats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="162" column="18" bodyfile="src/query/workload_cache_strategy.cpp" bodystart="226" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1a05bd84d19b970557ebd0b4c74b8a672d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_workload_cache_config" kindref="compound">WorkloadCacheConfig</ref></type>
+        <definition>WorkloadCacheConfig themis::query::WorkloadCacheStrategy::getCacheConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getCacheConfig</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::getCacheConfig</qualifiedname>
+        <briefdescription>
+<para>Get Cache <ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="168" column="25" bodyfile="src/query/workload_cache_strategy.cpp" bodystart="322" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1a26f07dbafaa78d1a6d5e336c8d565ca2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_workload_cache_config" kindref="compound">WorkloadCacheConfig</ref></type>
+        <definition>WorkloadCacheConfig themis::query::WorkloadCacheStrategy::getCacheConfigForQuery</definition>
+        <argsstring>(const QueryCharacteristics &amp;characteristics) const</argsstring>
+        <name>getCacheConfigForQuery</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::getCacheConfigForQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_characteristics" kindref="compound">QueryCharacteristics</ref> &amp;</type>
+          <declname>characteristics</declname>
+        </param>
+        <briefdescription>
+<para>Get Cache <ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config" kindref="compound">Config</ref> For <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">characteristics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="175" column="25" bodyfile="src/query/workload_cache_strategy.cpp" bodystart="327" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1a1536890aa4495c89fe3f025bda010bb8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::WorkloadCacheStrategy::shouldCache</definition>
+        <argsstring>(const QueryCharacteristics &amp;characteristics) const</argsstring>
+        <name>shouldCache</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::shouldCache</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_characteristics" kindref="compound">QueryCharacteristics</ref> &amp;</type>
+          <declname>characteristics</declname>
+        </param>
+        <briefdescription>
+<para>Should Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">characteristics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="184" column="10" bodyfile="src/query/workload_cache_strategy.cpp" bodystart="354" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1ad328a1e38f8ca3a195c69bfc84b5e086" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::query::WorkloadCacheStrategy::calculateTTL</definition>
+        <argsstring>(const QueryCharacteristics &amp;characteristics) const</argsstring>
+        <name>calculateTTL</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::calculateTTL</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_characteristics" kindref="compound">QueryCharacteristics</ref> &amp;</type>
+          <declname>characteristics</declname>
+        </param>
+        <briefdescription>
+<para>Calculate TTL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">characteristics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="191" column="26" bodyfile="src/query/workload_cache_strategy.cpp" bodystart="381" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1a895c6f7028b37c6b05d101778f5520a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::query::WorkloadCacheStrategy::getHotQueries</definition>
+        <argsstring>(size_t limit=100) const</argsstring>
+        <name>getHotQueries</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::getHotQueries</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="195" column="17" bodyfile="src/query/workload_cache_strategy.cpp" bodystart="437" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1a72ba7cd07f483fcce05d5f5b46c4e534" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats" kindref="compound">WorkloadStats</ref></type>
+        <definition>WorkloadCacheStrategy::WorkloadStats themis::query::WorkloadCacheStrategy::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="201" column="19" bodyfile="src/query/workload_cache_strategy.cpp" bodystart="476" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1a17fe0112768cd30fb6da4cc38b9329f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::WorkloadCacheStrategy::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(), WorkloadStats(), store(), std::chrono::system_clock::now(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="206" column="10" bodyfile="src/query/workload_cache_strategy.cpp" bodystart="490" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1a9843d21101f19f586a778deba23f03e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::WorkloadCacheStrategy::setConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="212" column="10" bodyfile="src/query/workload_cache_strategy.cpp" bodystart="506" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1abf9bacc037b7dd9b14f78611fdc95d38" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config" kindref="compound">Config</ref></type>
+        <definition>WorkloadCacheStrategy::Config themis::query::WorkloadCacheStrategy::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="218" column="12" bodyfile="src/query/workload_cache_strategy.cpp" bodystart="512" bodyend="520"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1a6c5d304bbdfdb5b589c2ba64f41d9675" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416" kindref="member">WorkloadType</ref></type>
+        <definition>WorkloadType themis::query::WorkloadCacheStrategy::classifyWorkload</definition>
+        <argsstring>() const</argsstring>
+        <name>classifyWorkload</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::classifyWorkload</qualifiedname>
+        <briefdescription>
+<para>Classify Workload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="241" column="18" bodyfile="src/query/workload_cache_strategy.cpp" bodystart="251" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1a43e01ad2a609d00336eee53384b14e08" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::WorkloadCacheStrategy::updateStats</definition>
+        <argsstring>()</argsstring>
+        <name>updateStats</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::updateStats</qualifiedname>
+        <briefdescription>
+<para>Update Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: empty(), frequency_per_minute(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="245" column="10" bodyfile="src/query/workload_cache_strategy.cpp" bodystart="526" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_workload_cache_strategy_1add868895544c5886c51cc6d0ef7dccf5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::WorkloadCacheStrategy::shouldRunDetection</definition>
+        <argsstring>() const</argsstring>
+        <name>shouldRunDetection</name>
+        <qualifiedname>themis::query::WorkloadCacheStrategy::shouldRunDetection</qualifiedname>
+        <briefdescription>
+<para>Should Run Detection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="250" column="10" bodyfile="src/query/workload_cache_strategy.cpp" bodystart="547" bodyend="551"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/workload_cache_strategy.h" line="96" column="1" bodyfile="include/query/workload_cache_strategy.h" bodystart="96" bodyend="251"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1ad328a1e38f8ca3a195c69bfc84b5e086" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>calculateTTL</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1a6c5d304bbdfdb5b589c2ba64f41d9675" prot="private" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>classifyWorkload</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1adc0c630840ae84917546706560117252" prot="private" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>config_</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1ad36e323adb53a2860080d817d6d4f94d" prot="private" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>current_workload_</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1a51789910945bb1aeb176fc005b8c7564" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>detectWorkload</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1a05bd84d19b970557ebd0b4c74b8a672d" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>getCacheConfig</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1a26f07dbafaa78d1a6d5e336c8d565ca2" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>getCacheConfigForQuery</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1abf9bacc037b7dd9b14f78611fdc95d38" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1a895c6f7028b37c6b05d101778f5520a9" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>getHotQueries</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1a72ba7cd07f483fcce05d5f5b46c4e534" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1acf152610536f69e97cb73ee2fe309fd1" prot="private" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>last_detection_</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1af13d528a163b4d20dd6a5ce53e159270" prot="private" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1abd1d8349969b8d870cb4994f8519d03b" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1a216d32f09bd18d708bca12c2293ec8f8" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1a5c609f4ffbbc2a3ddbb12e0bc42d1e06" prot="private" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>query_patterns_</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1a27b0df34c320872ad5430deb62600b0a" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>recordQuery</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1a17fe0112768cd30fb6da4cc38b9329f5" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>reset</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1a9843d21101f19f586a778deba23f03e8" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1a1536890aa4495c89fe3f025bda010bb8" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>shouldCache</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1add868895544c5886c51cc6d0ef7dccf5" prot="private" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>shouldRunDetection</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1a340cc73aea5d793a21ef07f195aae7c5" prot="private" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1a43e01ad2a609d00336eee53384b14e08" prot="private" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>updateStats</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1aed0a088f3be672baa91b094604c869bd" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>WorkloadCacheStrategy</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1a3d9bfce63cdbc35c150a51273d6f3caa" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>WorkloadCacheStrategy</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1a73671318e9b5a9b65633a55c54116c88" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>WorkloadCacheStrategy</name></member>
+      <member refid="classthemis_1_1query_1_1_workload_cache_strategy_1a1e516bd11d2d3df1dba5624e29b91eee" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheStrategy</scope><name>~WorkloadCacheStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_shard_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::ShardDescriptor</compoundname>
+    <includes refid="multi__gpu__backend_8h" local="no">multi_gpu_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_shard_descriptor_1a6579ffc01b21a5d2e64c8fd31980331a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::ShardDescriptor::deviceId</definition>
+        <argsstring></argsstring>
+        <name>deviceId</name>
+        <qualifiedname>themis::acceleration::ShardDescriptor::deviceId</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>GPU device ID for this shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="24" column="12" bodyfile="include/acceleration/multi_gpu_backend.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_shard_descriptor_1aab19028fe017ac3d9c7468f73e8f1830" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::ShardDescriptor::startIdx</definition>
+        <argsstring></argsstring>
+        <name>startIdx</name>
+        <qualifiedname>themis::acceleration::ShardDescriptor::startIdx</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Inclusive start in the flat vector array. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="25" column="12" bodyfile="include/acceleration/multi_gpu_backend.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_shard_descriptor_1a656713bf23c7c53f0e147a7f5f0a3185" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::ShardDescriptor::endIdx</definition>
+        <argsstring></argsstring>
+        <name>endIdx</name>
+        <qualifiedname>themis::acceleration::ShardDescriptor::endIdx</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Exclusive end in the flat vector array. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="26" column="12" bodyfile="include/acceleration/multi_gpu_backend.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_shard_descriptor_1a07d3f8cb5785b311aeb1cb1375d11b10" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::ShardDescriptor::numVectors</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>numVectors</name>
+        <qualifiedname>themis::acceleration::ShardDescriptor::numVectors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/multi_gpu_backend.h" line="28" column="12" bodyfile="include/acceleration/multi_gpu_backend.h" bodystart="28" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/multi_gpu_backend.h" line="23" column="1" bodyfile="include/acceleration/multi_gpu_backend.h" bodystart="23" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_shard_descriptor_1a6579ffc01b21a5d2e64c8fd31980331a" prot="public" virt="non-virtual"><scope>themis::acceleration::ShardDescriptor</scope><name>deviceId</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_shard_descriptor_1a656713bf23c7c53f0e147a7f5f0a3185" prot="public" virt="non-virtual"><scope>themis::acceleration::ShardDescriptor</scope><name>endIdx</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_shard_descriptor_1a07d3f8cb5785b311aeb1cb1375d11b10" prot="public" virt="non-virtual"><scope>themis::acceleration::ShardDescriptor</scope><name>numVectors</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_shard_descriptor_1aab19028fe017ac3d9c7468f73e8f1830" prot="public" virt="non-virtual"><scope>themis::acceleration::ShardDescriptor</scope><name>startIdx</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

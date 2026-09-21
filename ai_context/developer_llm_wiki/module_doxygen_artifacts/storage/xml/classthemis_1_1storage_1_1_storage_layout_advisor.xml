@@ -1,0 +1,517 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_storage_layout_advisor" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::StorageLayoutAdvisor</compoundname>
+    <includes refid="storage__layout__advisor_8h" local="no">storage_layout_advisor.h</includes>
+    <innerclass refid="structthemis_1_1storage_1_1_storage_layout_advisor_1_1_layout_recommendation" prot="public">themis::storage::StorageLayoutAdvisor::LayoutRecommendation</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1storage_1_1_storage_layout_advisor_1ab1ecc0614170bc7a3410684b72231c84" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LayoutType</name>
+        <qualifiedname>themis::storage::StorageLayoutAdvisor::LayoutType</qualifiedname>
+        <enumvalue id="classthemis_1_1storage_1_1_storage_layout_advisor_1ab1ecc0614170bc7a3410684b72231c84aa285acf7ceefb53b5014105ab435c923" prot="public">
+          <name>ROW_ORIENTED</name>
+          <briefdescription>
+<para>Standard row store — good for point lookups. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1storage_1_1_storage_layout_advisor_1ab1ecc0614170bc7a3410684b72231c84a991dfb116186cabe302ab89063e1a158" prot="public">
+          <name>COLUMNAR_COMPRESSED</name>
+          <briefdescription>
+<para>Columnar store — good for aggregations / time-series. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1storage_1_1_storage_layout_advisor_1ab1ecc0614170bc7a3410684b72231c84a3bf07fe8ac3883060b1558113ba248d4" prot="public">
+          <name>HYBRID</name>
+          <briefdescription>
+<para>Metadata columnar, large payload row. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1storage_1_1_storage_layout_advisor_1ab1ecc0614170bc7a3410684b72231c84ad9d0f5153fd960ffe508ca22eebddcee" prot="public">
+          <name>TIERED</name>
+          <briefdescription>
+<para>Hot / warm / cold tiering recommendation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Recommended physical storage layout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="137" column="5" bodyfile="include/storage/storage_layout_advisor.h" bodystart="137" bodyend="142"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_storage_layout_advisor_1ad52bc2c4c801d906455d2361cf41510d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::llm::DecisionRecordYamlProcessor &gt;</type>
+        <definition>std::shared_ptr&lt;themis::llm::DecisionRecordYamlProcessor&gt; themis::storage::StorageLayoutAdvisor::dr_processor_</definition>
+        <argsstring></argsstring>
+        <name>dr_processor_</name>
+        <qualifiedname>themis::storage::StorageLayoutAdvisor::dr_processor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="225" column="21" bodyfile="include/storage/storage_layout_advisor.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_layout_advisor_1af4b78ec70f70d8b58169d25a1e3ad2f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::StorageLayoutAdvisor::StorageLayoutAdvisor</definition>
+        <argsstring>()=default</argsstring>
+        <name>StorageLayoutAdvisor</name>
+        <qualifiedname>themis::storage::StorageLayoutAdvisor::StorageLayoutAdvisor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="174" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_layout_advisor_1a08722a3ed030adb6fcc44cf5aaf3845a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::StorageLayoutAdvisor::~StorageLayoutAdvisor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~StorageLayoutAdvisor</name>
+        <qualifiedname>themis::storage::StorageLayoutAdvisor::~StorageLayoutAdvisor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="175" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_layout_advisor_1a687bd6d140fd240a25ae038691aef403" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::StorageLayoutAdvisor::StorageLayoutAdvisor</definition>
+        <argsstring>(const StorageLayoutAdvisor &amp;)=default</argsstring>
+        <name>StorageLayoutAdvisor</name>
+        <qualifiedname>themis::storage::StorageLayoutAdvisor::StorageLayoutAdvisor</qualifiedname>
+        <param>
+          <type>const StorageLayoutAdvisor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="177" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_layout_advisor_1a3594c44f270f2a567d718b31209cb594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1af4b78ec70f70d8b58169d25a1e3ad2f5" kindref="member">StorageLayoutAdvisor</ref> &amp;</type>
+        <definition>StorageLayoutAdvisor &amp; themis::storage::StorageLayoutAdvisor::operator=</definition>
+        <argsstring>(const StorageLayoutAdvisor &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::StorageLayoutAdvisor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1af4b78ec70f70d8b58169d25a1e3ad2f5" kindref="member">StorageLayoutAdvisor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="178" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_layout_advisor_1a31e163b680ed2f563bba592b4e9d5788" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::StorageLayoutAdvisor::setDecisionRecordProcessor</definition>
+        <argsstring>(std::shared_ptr&lt; themis::llm::DecisionRecordYamlProcessor &gt; processor)</argsstring>
+        <name>setDecisionRecordProcessor</name>
+        <qualifiedname>themis::storage::StorageLayoutAdvisor::setDecisionRecordProcessor</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::llm::DecisionRecordYamlProcessor &gt;</type>
+          <declname>processor</declname>
+        </param>
+        <briefdescription>
+<para>Set Decision Record Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">processor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="182" column="10" bodyfile="src/storage/storage_layout_advisor.cpp" bodystart="33" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_layout_advisor_1a66d95c71f5459d005e573de599298713" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_storage_layout_advisor_1_1_layout_recommendation" kindref="compound">LayoutRecommendation</ref></type>
+        <definition>StorageLayoutAdvisor::LayoutRecommendation themis::storage::StorageLayoutAdvisor::analyze</definition>
+        <argsstring>(const std::string &amp;collection_name, const CollectionAccessStats &amp;stats, const SchemaInfo &amp;schema, const GdprFieldRegistry &amp;gdpr_fields) const</argsstring>
+        <name>analyze</name>
+        <qualifiedname>themis::storage::StorageLayoutAdvisor::analyze</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_collection_access_stats" kindref="compound">CollectionAccessStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_schema_info" kindref="compound">SchemaInfo</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_gdpr_field_registry" kindref="compound">GdprFieldRegistry</ref> &amp;</type>
+          <declname>gdpr_fields</declname>
+        </param>
+        <briefdescription>
+<para>Analyse a collection and produce a layout recommendation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Algorithm:<orderedlist>
+<listitem><para>Determine whether the collection is time-series via <computeroutput><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1ae7dc70ca8a5cc3c226a1a5435aca2985" kindref="member">isTimeSeries()</ref></computeroutput>.</para>
+</listitem><listitem><para>Apply the decision logic described in the class docstring.</para>
+</listitem><listitem><para>Compute compression and speedup estimates.</para>
+</listitem><listitem><para>Check whether any schema field is GDPR-protected.</para>
+</listitem><listitem><para>Emit a LAYOUT_RECOMMENDATION decision record.</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collection_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable name of the collection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Access pattern statistics. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Field metadata. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gdpr_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Registry of GDPR-protected field paths. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Layout recommendation with rationale. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="203" column="26" bodyfile="src/storage/storage_layout_advisor.cpp" bodystart="238" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_layout_advisor_1ae7dc70ca8a5cc3c226a1a5435aca2985" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::StorageLayoutAdvisor::isTimeSeries</definition>
+        <argsstring>(const CollectionAccessStats &amp;stats) const</argsstring>
+        <name>isTimeSeries</name>
+        <qualifiedname>themis::storage::StorageLayoutAdvisor::isTimeSeries</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_collection_access_stats" kindref="compound">CollectionAccessStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Detect whether a collection exhibits time-series access patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true when the stats indicate a monotonic timestamp AND the Fourier-coefficient analysis of <computeroutput>stats.timestamp_series</computeroutput> shows periodic / sequential structure (variance explained &gt; 0.3).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection access statistics. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when time-series pattern is detected. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="219" column="10" bodyfile="src/storage/storage_layout_advisor.cpp" bodystart="43" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_layout_advisor_1a773613a3692f6b077e578d1e88a4757a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::StorageLayoutAdvisor::layoutName</definition>
+        <argsstring>(LayoutType t)</argsstring>
+        <name>layoutName</name>
+        <qualifiedname>themis::storage::StorageLayoutAdvisor::layoutName</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1ab1ecc0614170bc7a3410684b72231c84" kindref="member">LayoutType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Human-readable name for a <ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1ab1ecc0614170bc7a3410684b72231c84" kindref="member">LayoutType</ref> value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Layout Name.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="222" column="24" bodyfile="src/storage/storage_layout_advisor.cpp" bodystart="307" bodyend="316"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_layout_advisor_1a79c9021228578329587e4124124d59d7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::storage::StorageLayoutAdvisor::estimateCompressionRatio</definition>
+        <argsstring>(LayoutType layout, const SchemaInfo &amp;schema)</argsstring>
+        <name>estimateCompressionRatio</name>
+        <qualifiedname>themis::storage::StorageLayoutAdvisor::estimateCompressionRatio</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1ab1ecc0614170bc7a3410684b72231c84" kindref="member">LayoutType</ref></type>
+          <declname>layout</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_schema_info" kindref="compound">SchemaInfo</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Estimate compression ratio for the given layout and schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Estimate Compression Ratio.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="228" column="19" bodyfile="src/storage/storage_layout_advisor.cpp" bodystart="90" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_layout_advisor_1afd0ccabb8d8f4c8db5ad0d62a5762248" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::storage::StorageLayoutAdvisor::estimateQuerySpeedup</definition>
+        <argsstring>(LayoutType layout, const CollectionAccessStats &amp;stats)</argsstring>
+        <name>estimateQuerySpeedup</name>
+        <qualifiedname>themis::storage::StorageLayoutAdvisor::estimateQuerySpeedup</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1ab1ecc0614170bc7a3410684b72231c84" kindref="member">LayoutType</ref></type>
+          <declname>layout</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_collection_access_stats" kindref="compound">CollectionAccessStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Estimate query speedup for the given layout and access pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Estimate Query Speedup.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="232" column="19" bodyfile="src/storage/storage_layout_advisor.cpp" bodystart="138" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_layout_advisor_1a8da3e335eeb0978e8d85efd46ae2c98b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::StorageLayoutAdvisor::buildRationale</definition>
+        <argsstring>(LayoutType layout, const CollectionAccessStats &amp;stats, bool gdpr_affected)</argsstring>
+        <name>buildRationale</name>
+        <qualifiedname>themis::storage::StorageLayoutAdvisor::buildRationale</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1ab1ecc0614170bc7a3410684b72231c84" kindref="member">LayoutType</ref></type>
+          <declname>layout</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_collection_access_stats" kindref="compound">CollectionAccessStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>gdpr_affected</declname>
+        </param>
+        <briefdescription>
+<para>Build a one-sentence rationale for the recommendation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Rationale.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gdpr_affected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="236" column="24" bodyfile="src/storage/storage_layout_advisor.cpp" bodystart="167" bodyend="202"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_storage_layout_advisor_1a8d002d2882f24447a4f02bc31f25dba4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::StorageLayoutAdvisor::emitDecisionRecord</definition>
+        <argsstring>(const LayoutRecommendation &amp;rec) const</argsstring>
+        <name>emitDecisionRecord</name>
+        <qualifiedname>themis::storage::StorageLayoutAdvisor::emitDecisionRecord</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_storage_layout_advisor_1_1_layout_recommendation" kindref="compound">LayoutRecommendation</ref> &amp;</type>
+          <declname>rec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="240" column="10" bodyfile="src/storage/storage_layout_advisor.cpp" bodystart="208" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Layer-10 LLM Optimization: storage layout recommendation engine. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Analyses a collection&apos;s schema and access pattern to recommend the optimal physical storage layout (Row vs. Columnar vs. Hybrid vs. Tiered). The advisor is <bold>advisory-only</bold> — it never executes DDL.</para>
+<para><heading level="3">Decision logic</heading>
+</para>
+<para><programlisting><codeline><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1ae7dc70ca8a5cc3c226a1a5435aca2985" kindref="member">isTimeSeries</ref>(stats)<sp/>AND<sp/>aggregation_ratio<sp/>&gt;<sp/>0.7:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>→<sp/><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1ab1ecc0614170bc7a3410684b72231c84a991dfb116186cabe302ab89063e1a158" kindref="member">COLUMNAR_COMPRESSED</ref><sp/><sp/>(≥<sp/>5×<sp/>compression<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>columns)</highlight></codeline>
+<codeline><highlight class="normal">elif<sp/>point_lookup_ratio<sp/>&gt;<sp/>0.8:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>→<sp/><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1ab1ecc0614170bc7a3410684b72231c84aa285acf7ceefb53b5014105ab435c923" kindref="member">ROW_ORIENTED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(UUID/PK<sp/>lookups<sp/>need<sp/>full<sp/>row)</highlight></codeline>
+<codeline><highlight class="normal">elif<sp/>has_blob_field<sp/>AND<sp/>metadata_only_access_ratio<sp/>&gt;<sp/>0.5:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>→<sp/><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1ab1ecc0614170bc7a3410684b72231c84a3bf07fe8ac3883060b1558113ba248d4" kindref="member">HYBRID</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(metadata<sp/>columnar,<sp/>BLOB<sp/>row)</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>→<sp/><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1ab1ecc0614170bc7a3410684b72231c84aa285acf7ceefb53b5014105ab435c923" kindref="member">ROW_ORIENTED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(safe<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">)</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Performance target (Paper §Layer-10)</heading>
+</para>
+<para><computeroutput>estimated_compression_ratio &gt;= 5.0</computeroutput> for float-heavy time-series collections.</para>
+<para><heading level="3">GDPR protection</heading>
+</para>
+<para>When a layout change would affect a GDPR-protected field the recommendation sets <computeroutput>gdpr_approval_required = true</computeroutput>. ThemisDB never applies such a recommendation automatically.</para>
+<para><heading level="3">Decision records</heading>
+</para>
+<para>When a <computeroutput>DecisionRecordYamlProcessor</computeroutput> is injected the advisor emits one <computeroutput>DecisionRecord{decision_type="LAYOUT_RECOMMENDATION"}</computeroutput> per <computeroutput><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a66d95c71f5459d005e573de599298713" kindref="member">analyze()</ref></computeroutput> call.</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para><computeroutput><ref refid="classthemis_1_1storage_1_1_storage_layout_advisor" kindref="compound">StorageLayoutAdvisor</ref></computeroutput> is stateless after construction and safe for concurrent use. </para>
+    </detaileddescription>
+    <location file="include/storage/storage_layout_advisor.h" line="132" column="1" bodyfile="include/storage/storage_layout_advisor.h" bodystart="132" bodyend="241"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a66d95c71f5459d005e573de599298713" prot="public" virt="non-virtual"><scope>themis::storage::StorageLayoutAdvisor</scope><name>analyze</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a8da3e335eeb0978e8d85efd46ae2c98b" prot="private" virt="non-virtual"><scope>themis::storage::StorageLayoutAdvisor</scope><name>buildRationale</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_layout_advisor_1ad52bc2c4c801d906455d2361cf41510d" prot="private" virt="non-virtual"><scope>themis::storage::StorageLayoutAdvisor</scope><name>dr_processor_</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a8d002d2882f24447a4f02bc31f25dba4" prot="private" virt="non-virtual"><scope>themis::storage::StorageLayoutAdvisor</scope><name>emitDecisionRecord</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a79c9021228578329587e4124124d59d7" prot="private" virt="non-virtual"><scope>themis::storage::StorageLayoutAdvisor</scope><name>estimateCompressionRatio</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_layout_advisor_1afd0ccabb8d8f4c8db5ad0d62a5762248" prot="private" virt="non-virtual"><scope>themis::storage::StorageLayoutAdvisor</scope><name>estimateQuerySpeedup</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_layout_advisor_1ae7dc70ca8a5cc3c226a1a5435aca2985" prot="public" virt="non-virtual"><scope>themis::storage::StorageLayoutAdvisor</scope><name>isTimeSeries</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a773613a3692f6b077e578d1e88a4757a" prot="public" virt="non-virtual"><scope>themis::storage::StorageLayoutAdvisor</scope><name>layoutName</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_layout_advisor_1ab1ecc0614170bc7a3410684b72231c84" prot="public" virt="non-virtual"><scope>themis::storage::StorageLayoutAdvisor</scope><name>LayoutType</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a3594c44f270f2a567d718b31209cb594" prot="public" virt="non-virtual"><scope>themis::storage::StorageLayoutAdvisor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a31e163b680ed2f563bba592b4e9d5788" prot="public" virt="non-virtual"><scope>themis::storage::StorageLayoutAdvisor</scope><name>setDecisionRecordProcessor</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_layout_advisor_1af4b78ec70f70d8b58169d25a1e3ad2f5" prot="public" virt="non-virtual"><scope>themis::storage::StorageLayoutAdvisor</scope><name>StorageLayoutAdvisor</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a687bd6d140fd240a25ae038691aef403" prot="public" virt="non-virtual"><scope>themis::storage::StorageLayoutAdvisor</scope><name>StorageLayoutAdvisor</name></member>
+      <member refid="classthemis_1_1storage_1_1_storage_layout_advisor_1a08722a3ed030adb6fcc44cf5aaf3845a" prot="public" virt="non-virtual"><scope>themis::storage::StorageLayoutAdvisor</scope><name>~StorageLayoutAdvisor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

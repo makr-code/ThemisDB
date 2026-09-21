@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_i_async_l_l_m_backend" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::aql::IAsyncLLMBackend</compoundname>
+    <derivedcompoundref refid="class_minimal_async_backend" prot="public" virt="non-virtual">MinimalAsyncBackend</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1aql_1_1_thread_pool_async_l_l_m_backend" prot="public" virt="non-virtual">themis::aql::ThreadPoolAsyncLLMBackend</derivedcompoundref>
+    <includes refid="iasync__llm__backend_8h" local="no">iasync_llm_backend.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_i_async_l_l_m_backend_1a5897fcb2687ee036a64a8dee69c39358" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::aql::IAsyncLLMBackend::~IAsyncLLMBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAsyncLLMBackend</name>
+        <qualifiedname>themis::aql::IAsyncLLMBackend::~IAsyncLLMBackend</qualifiedname>
+        <briefdescription>
+<para>IAsync LLMBackend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/iasync_llm_backend.h" line="35" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_i_async_l_l_m_backend_1ad51812a78d5073e55489f2f352917c85" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::future&lt; Result&lt; std::string &gt; &gt;</type>
+        <definition>virtual std::future&lt; Result&lt; std::string &gt; &gt; themis::aql::IAsyncLLMBackend::inferAsync</definition>
+        <argsstring>(const llm::InferenceRequest &amp;req)=0</argsstring>
+        <name>inferAsync</name>
+        <qualifiedname>themis::aql::IAsyncLLMBackend::inferAsync</qualifiedname>
+        <reimplementedby refid="classthemis_1_1aql_1_1_thread_pool_async_l_l_m_backend_1a8a9e6696d827b8318fc4a0487ef8964b">inferAsync</reimplementedby>
+        <param>
+          <type>const llm::InferenceRequest &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/iasync_llm_backend.h" line="42" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_i_async_l_l_m_backend_1ab98e384f3c23cccaef8dc97eecd97ee5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::future&lt; Result&lt; std::vector&lt; float &gt; &gt; &gt;</type>
+        <definition>virtual std::future&lt; Result&lt; std::vector&lt; float &gt; &gt; &gt; themis::aql::IAsyncLLMBackend::embedAsync</definition>
+        <argsstring>(const std::string &amp;text)=0</argsstring>
+        <name>embedAsync</name>
+        <qualifiedname>themis::aql::IAsyncLLMBackend::embedAsync</qualifiedname>
+        <reimplementedby refid="class_minimal_async_backend_1aa251bbe757c3e2080d9e558653a7598a">embedAsync</reimplementedby>
+        <reimplementedby refid="classthemis_1_1aql_1_1_thread_pool_async_l_l_m_backend_1abce80aaa9973007b9331c95d12abc52d">embedAsync</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/iasync_llm_backend.h" line="45" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_i_async_l_l_m_backend_1a60e13f74ccf4d42bd07c128ec76e6c25" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::aql::IAsyncLLMBackend::supportsMultiModal</definition>
+        <argsstring>() const</argsstring>
+        <name>supportsMultiModal</name>
+        <qualifiedname>themis::aql::IAsyncLLMBackend::supportsMultiModal</qualifiedname>
+        <reimplementedby refid="classthemis_1_1aql_1_1_thread_pool_async_l_l_m_backend_1a56939de46376b92b66b1b29dfae4dc14">supportsMultiModal</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/iasync_llm_backend.h" line="51" column="18" bodyfile="include/aql/iasync_llm_backend.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>MinimalAsyncBackend</label>
+        <link refid="class_minimal_async_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::aql::IAsyncLLMBackend</label>
+        <link refid="classthemis_1_1aql_1_1_i_async_l_l_m_backend"/>
+      </node>
+      <node id="3">
+        <label>themis::aql::ThreadPoolAsyncLLMBackend</label>
+        <link refid="classthemis_1_1aql_1_1_thread_pool_async_l_l_m_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/aql/iasync_llm_backend.h" line="29" column="1" bodyfile="include/aql/iasync_llm_backend.h" bodystart="29" bodyend="52"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_i_async_l_l_m_backend_1ab98e384f3c23cccaef8dc97eecd97ee5" prot="public" virt="pure-virtual"><scope>themis::aql::IAsyncLLMBackend</scope><name>embedAsync</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_async_l_l_m_backend_1ad51812a78d5073e55489f2f352917c85" prot="public" virt="pure-virtual"><scope>themis::aql::IAsyncLLMBackend</scope><name>inferAsync</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_async_l_l_m_backend_1a60e13f74ccf4d42bd07c128ec76e6c25" prot="public" virt="virtual"><scope>themis::aql::IAsyncLLMBackend</scope><name>supportsMultiModal</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_async_l_l_m_backend_1a5897fcb2687ee036a64a8dee69c39358" prot="public" virt="virtual"><scope>themis::aql::IAsyncLLMBackend</scope><name>~IAsyncLLMBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_w_a_l_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::WALManager</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_w_a_l_manager_1a172feecc6fea594f6d5ed15a3c30eada" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_config" kindref="compound">ReplicationConfig</ref></type>
+        <definition>ReplicationConfig themisdb::replication::WALManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::replication::WALManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="440" column="23" bodyfile="include/replication/replication_manager.h" bodystart="440" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_w_a_l_manager_1aaa86b7ddd53e9283dba25998a72d4e2f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::WALManager::current_sequence_</definition>
+        <argsstring></argsstring>
+        <name>current_sequence_</name>
+        <qualifiedname>themisdb::replication::WALManager::current_sequence_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="441" column="17" bodyfile="include/replication/replication_manager.h" bodystart="441" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_w_a_l_manager_1a5f7f24916170a32caccb12fc26204ef2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::WALManager::current_term_</definition>
+        <argsstring></argsstring>
+        <name>current_term_</name>
+        <qualifiedname>themisdb::replication::WALManager::current_term_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="442" column="17" bodyfile="include/replication/replication_manager.h" bodystart="442" bodyend="442"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_w_a_l_manager_1a7467ec1819590644c5638ec281b29b6e" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::WALManager::wal_mutex_</definition>
+        <argsstring></argsstring>
+        <name>wal_mutex_</name>
+        <qualifiedname>themisdb::replication::WALManager::wal_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="443" column="16" bodyfile="include/replication/replication_manager.h" bodystart="443" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_manager_1a9c8ce8b7bd0fd5e05c0ba5aef29fb42e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::WALManager::WALManager</definition>
+        <argsstring>(const ReplicationConfig &amp;config)</argsstring>
+        <name>WALManager</name>
+        <qualifiedname>themisdb::replication::WALManager::WALManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replication_config" kindref="compound">ReplicationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="408" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="452" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_manager_1a68e8d2bca0bd430d2e162bb59cc7c5fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::WALManager::~WALManager</definition>
+        <argsstring>()</argsstring>
+        <name>~WALManager</name>
+        <qualifiedname>themisdb::replication::WALManager::~WALManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="409" column="5" bodyfile="src/replication/replication_manager.cpp" bodystart="459" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_manager_1aebd376a4c9287e2c5c2672b91c28d1ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::WALManager::append</definition>
+        <argsstring>(const WALEntry &amp;entry)</argsstring>
+        <name>append</name>
+        <qualifiedname>themisdb::replication::WALManager::append</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Append. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), load(), empty(), SHA256(), c_str(), size(), std::setw(), std::setfill(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="412" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="469" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_manager_1a429ed938d3e26381350f06f25ed6b22e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &gt;</type>
+        <definition>std::vector&lt; WALEntry &gt; themisdb::replication::WALManager::readFrom</definition>
+        <argsstring>(uint64_t start_sequence, uint32_t limit=1000)</argsstring>
+        <name>readFrom</name>
+        <qualifiedname>themisdb::replication::WALManager::readFrom</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>start_sequence</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>limit</declname>
+          <defval>1000</defval>
+        </param>
+        <briefdescription>
+<para>Read From. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), reserve(), size(), std::to_string(), std::filesystem::exists(), ifs(), THEMIS_ERROR(), read(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="415" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="524" bodyend="645"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_manager_1a3586f0d7f0e2f474188d1e735fcda07a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::WALManager::getCurrentSequence</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentSequence</name>
+        <qualifiedname>themisdb::replication::WALManager::getCurrentSequence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="418" column="14" bodyfile="include/replication/replication_manager.h" bodystart="418" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_manager_1a959894d1cb57731fb019763d0aac19f6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::WALManager::getCurrentTerm</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTerm</name>
+        <qualifiedname>themisdb::replication::WALManager::getCurrentTerm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="421" column="14" bodyfile="include/replication/replication_manager.h" bodystart="421" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_manager_1ac6f8e53ce7156ad729fbb5a0128b5928" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::WALManager::incrementTerm</definition>
+        <argsstring>()</argsstring>
+        <name>incrementTerm</name>
+        <qualifiedname>themisdb::replication::WALManager::incrementTerm</qualifiedname>
+        <briefdescription>
+<para>Increment Term. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements incrementTerm without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="424" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="652" bodyend="654"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_manager_1ac77abb4a3d809393c626174f16094915" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::WALManager::truncateBefore</definition>
+        <argsstring>(uint64_t sequence)</argsstring>
+        <name>truncateBefore</name>
+        <qualifiedname>themisdb::replication::WALManager::truncateBefore</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence</declname>
+        </param>
+        <briefdescription>
+<para>Truncate Before. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::to_string(), std::filesystem::remove(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="427" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="661" bodyend="672"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_manager_1a67d06b2bb62101ae95cd9ecde81775cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::WALManager::sync</definition>
+        <argsstring>()</argsstring>
+        <name>sync</name>
+        <qualifiedname>themisdb::replication::WALManager::sync</qualifiedname>
+        <briefdescription>
+<para>Sync. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: dir(), empty(), fs::exists(), THEMIS_WARN(), message(), fs::directory_iterator(), path(), extension(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="430" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="678" bodyend="747"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_manager_1a4fa366056e7028ed590d9f2b968f02fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::WALManager::getSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getSize</name>
+        <qualifiedname>themisdb::replication::WALManager::getSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="433" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="749" bodyend="757"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_manager_1ab0de40a6827ac16bf69a4db1f0c36245" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>std::mutex &amp; themisdb::replication::WALManager::getMutex</definition>
+        <argsstring>()</argsstring>
+        <name>getMutex</name>
+        <qualifiedname>themisdb::replication::WALManager::getMutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="437" column="16" bodyfile="include/replication/replication_manager.h" bodystart="437" bodyend="437"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_manager_1adf138eede5b71d0a9d38f8e690bc1f3d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::WALManager::rotateSegment</definition>
+        <argsstring>()</argsstring>
+        <name>rotateSegment</name>
+        <qualifiedname>themisdb::replication::WALManager::rotateSegment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="446" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_manager_1a04fbf94023cebb64fc7d67eae3611e3d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::WALManager::loadFromDisk</definition>
+        <argsstring>()</argsstring>
+        <name>loadFromDisk</name>
+        <qualifiedname>themisdb::replication::WALManager::loadFromDisk</qualifiedname>
+        <briefdescription>
+<para>Load From Disk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::filesystem::directory_iterator(), path(), extension(), ifs(), read(), eof(), data(), <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1aa800e3b3c4182375cd6106f268973724" kindref="member">WALEntry::deserialize()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="447" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="763" bodyend="796"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Write-Ahead Log Manager </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="406" column="1" bodyfile="include/replication/replication_manager.h" bodystart="406" bodyend="448"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1aebd376a4c9287e2c5c2672b91c28d1ab" prot="public" virt="non-virtual"><scope>themisdb::replication::WALManager</scope><name>append</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1a172feecc6fea594f6d5ed15a3c30eada" prot="private" virt="non-virtual"><scope>themisdb::replication::WALManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1aaa86b7ddd53e9283dba25998a72d4e2f" prot="private" virt="non-virtual"><scope>themisdb::replication::WALManager</scope><name>current_sequence_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1a5f7f24916170a32caccb12fc26204ef2" prot="private" virt="non-virtual"><scope>themisdb::replication::WALManager</scope><name>current_term_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1a3586f0d7f0e2f474188d1e735fcda07a" prot="public" virt="non-virtual"><scope>themisdb::replication::WALManager</scope><name>getCurrentSequence</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1a959894d1cb57731fb019763d0aac19f6" prot="public" virt="non-virtual"><scope>themisdb::replication::WALManager</scope><name>getCurrentTerm</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1ab0de40a6827ac16bf69a4db1f0c36245" prot="public" virt="non-virtual"><scope>themisdb::replication::WALManager</scope><name>getMutex</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1a4fa366056e7028ed590d9f2b968f02fa" prot="public" virt="non-virtual"><scope>themisdb::replication::WALManager</scope><name>getSize</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1ac6f8e53ce7156ad729fbb5a0128b5928" prot="public" virt="non-virtual"><scope>themisdb::replication::WALManager</scope><name>incrementTerm</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1a04fbf94023cebb64fc7d67eae3611e3d" prot="private" virt="non-virtual"><scope>themisdb::replication::WALManager</scope><name>loadFromDisk</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1a429ed938d3e26381350f06f25ed6b22e" prot="public" virt="non-virtual"><scope>themisdb::replication::WALManager</scope><name>readFrom</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1adf138eede5b71d0a9d38f8e690bc1f3d" prot="private" virt="non-virtual"><scope>themisdb::replication::WALManager</scope><name>rotateSegment</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1a67d06b2bb62101ae95cd9ecde81775cd" prot="public" virt="non-virtual"><scope>themisdb::replication::WALManager</scope><name>sync</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1ac77abb4a3d809393c626174f16094915" prot="public" virt="non-virtual"><scope>themisdb::replication::WALManager</scope><name>truncateBefore</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1a7467ec1819590644c5638ec281b29b6e" prot="private" virt="non-virtual"><scope>themisdb::replication::WALManager</scope><name>wal_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1a9c8ce8b7bd0fd5e05c0ba5aef29fb42e" prot="public" virt="non-virtual"><scope>themisdb::replication::WALManager</scope><name>WALManager</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_manager_1a68e8d2bca0bd430d2e162bb59cc7c5fa" prot="public" virt="non-virtual"><scope>themisdb::replication::WALManager</scope><name>~WALManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,495 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__cicada_8cpp" kind="file" language="C++">
+    <compoundname>test_cicada.cpp</compoundname>
+    <includes refid="cicada_8h" local="yes">performance/cicada.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>performance/cicada.h</label>
+        <link refid="cicada_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/performance/test_cicada.cpp</label>
+        <link refid="test__cicada_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="9">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__cicada_8cpp_1afd14a9f1b6e69d2046fdec10d1d95329" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CicadaRecordTest, DefaultDataIsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CicadaRecordTest</type>
+        </param>
+        <param>
+          <type>DefaultDataIsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cicada.cpp" line="15" column="1" bodyfile="tests/performance/test_cicada.cpp" bodystart="15" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cicada_8cpp_1ab70079369e23cdeaad2d3a0dae449cbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CicadaRecordTest, InitialDataConstructor)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CicadaRecordTest</type>
+        </param>
+        <param>
+          <type>InitialDataConstructor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cicada.cpp" line="20" column="1" bodyfile="tests/performance/test_cicada.cpp" bodystart="20" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cicada_8cpp_1ad5517e2675d6cba9e3fc9aba7cdbe628" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CicadaRecordTest, SetDataStoresValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CicadaRecordTest</type>
+        </param>
+        <param>
+          <type>SetDataStoresValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cicada.cpp" line="25" column="1" bodyfile="tests/performance/test_cicada.cpp" bodystart="25" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cicada_8cpp_1adc4a27485a4478f68736dd533277d1b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CicadaRecordTest, SetDataOverwritesPreviousValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CicadaRecordTest</type>
+        </param>
+        <param>
+          <type>SetDataOverwritesPreviousValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cicada.cpp" line="31" column="1" bodyfile="tests/performance/test_cicada.cpp" bodystart="31" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cicada_8cpp_1aad4c0a889e15808c2df7d1e436ece274" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CicadaRecordTest, InitialVersionIsZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CicadaRecordTest</type>
+        </param>
+        <param>
+          <type>InitialVersionIsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cicada.cpp" line="41" column="1" bodyfile="tests/performance/test_cicada.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cicada_8cpp_1a4aa50780fec34eaec6b7794f96cb956a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CicadaRecordTest, LockUnlockIncrementsVersion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CicadaRecordTest</type>
+        </param>
+        <param>
+          <type>LockUnlockIncrementsVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cicada.cpp" line="46" column="1" bodyfile="tests/performance/test_cicada.cpp" bodystart="46" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cicada_8cpp_1a5eb619253f18337913acdddb5dc51a87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CicadaRecordTest, DoubleLocksAreRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CicadaRecordTest</type>
+        </param>
+        <param>
+          <type>DoubleLocksAreRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cicada.cpp" line="55" column="1" bodyfile="tests/performance/test_cicada.cpp" bodystart="55" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cicada_8cpp_1a8db8b78176df47697749e893d0e1c601" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CicadaTransactionTest, CommitWritesDataToRecord)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CicadaTransactionTest</type>
+        </param>
+        <param>
+          <type>CommitWritesDataToRecord</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cicada.cpp" line="66" column="1" bodyfile="tests/performance/test_cicada.cpp" bodystart="66" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cicada_8cpp_1a5b8b69e7f2a5125ac4db0f8ae8db1f30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CicadaTransactionTest, CommitIncrementsVersion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CicadaTransactionTest</type>
+        </param>
+        <param>
+          <type>CommitIncrementsVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cicada.cpp" line="79" column="1" bodyfile="tests/performance/test_cicada.cpp" bodystart="79" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cicada_8cpp_1a1db817c907ccd27d7e5c8314cf667ee0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CicadaTransactionTest, AbortDoesNotWriteData)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CicadaTransactionTest</type>
+        </param>
+        <param>
+          <type>AbortDoesNotWriteData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cicada.cpp" line="91" column="1" bodyfile="tests/performance/test_cicada.cpp" bodystart="91" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cicada_8cpp_1abd6afa15281aad506425636dbb575f6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CicadaTransactionTest, CommitFailsAfterVersionChange)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CicadaTransactionTest</type>
+        </param>
+        <param>
+          <type>CommitFailsAfterVersionChange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cicada.cpp" line="105" column="1" bodyfile="tests/performance/test_cicada.cpp" bodystart="105" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cicada_8cpp_1a03ccd95fa08c299f8ea9d861765ffa1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentionManagerTest, InitialAbortRateIsZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentionManagerTest</type>
+        </param>
+        <param>
+          <type>InitialAbortRateIsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cicada.cpp" line="130" column="1" bodyfile="tests/performance/test_cicada.cpp" bodystart="130" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cicada_8cpp_1af51c7d0b78d09ecb7e5fb10ba23dbcbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentionManagerTest, HighAbortRateTriggersBackoff)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentionManagerTest</type>
+        </param>
+        <param>
+          <type>HighAbortRateTriggersBackoff</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cicada.cpp" line="136" column="1" bodyfile="tests/performance/test_cicada.cpp" bodystart="136" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cicada_8cpp_1a2bb89921b35d0760f8fec2e9c8cebf3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentionManagerTest, ResetClearsStats)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentionManagerTest</type>
+        </param>
+        <param>
+          <type>ResetClearsStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cicada.cpp" line="148" column="1" bodyfile="tests/performance/test_cicada.cpp" bodystart="148" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Unit<sp/>tests<sp/>for<sp/>Cicada<sp/>OCC<sp/>—<sp/>data<sp/>install_writes()<sp/>and<sp/>transaction<sp/>protocol</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cicada_8h" kindref="compound">performance/cicada.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">themis::performance</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CicadaRecord<sp/>—<sp/>data<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><ref refid="test__cicada_8cpp_1afd14a9f1b6e69d2046fdec10d1d95329" kindref="member">TEST</ref>(CicadaRecordTest,<sp/>DefaultDataIsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_cicada_record" kindref="compound">CicadaRecord</ref><sp/>rec;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1ada7579233185da68dd340ce8a38a469d" kindref="member">get_data</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><ref refid="test__cicada_8cpp_1afd14a9f1b6e69d2046fdec10d1d95329" kindref="member">TEST</ref>(CicadaRecordTest,<sp/>InitialDataConstructor)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_cicada_record" kindref="compound">CicadaRecord</ref><sp/>rec(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.get_data(),<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="test__cicada_8cpp_1afd14a9f1b6e69d2046fdec10d1d95329" kindref="member">TEST</ref>(CicadaRecordTest,<sp/>SetDataStoresValue)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_cicada_record" kindref="compound">CicadaRecord</ref><sp/>rec;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1ab02f3dfb2f523d5b36c742df17bf2249" kindref="member">set_data</ref>(</highlight><highlight class="stringliteral">&quot;world&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1ada7579233185da68dd340ce8a38a469d" kindref="member">get_data</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;world&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><ref refid="test__cicada_8cpp_1afd14a9f1b6e69d2046fdec10d1d95329" kindref="member">TEST</ref>(CicadaRecordTest,<sp/>SetDataOverwritesPreviousValue)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_cicada_record" kindref="compound">CicadaRecord</ref><sp/>rec(</highlight><highlight class="stringliteral">&quot;initial&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1ab02f3dfb2f523d5b36c742df17bf2249" kindref="member">set_data</ref>(</highlight><highlight class="stringliteral">&quot;updated&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1ada7579233185da68dd340ce8a38a469d" kindref="member">get_data</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;updated&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CicadaRecord<sp/>—<sp/>version<sp/>/<sp/>lock</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__cicada_8cpp_1afd14a9f1b6e69d2046fdec10d1d95329" kindref="member">TEST</ref>(CicadaRecordTest,<sp/>InitialVersionIsZero)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_cicada_record" kindref="compound">CicadaRecord</ref><sp/>rec;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1ad7a14fcccac412c79855566765089f7a" kindref="member">get_version</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__cicada_8cpp_1afd14a9f1b6e69d2046fdec10d1d95329" kindref="member">TEST</ref>(CicadaRecordTest,<sp/>LockUnlockIncrementsVersion)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_cicada_record" kindref="compound">CicadaRecord</ref><sp/>rec;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1a00fa6a946a3afafee9cd7d484d4b35af" kindref="member">try_lock</ref>());</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1a634465e3d9ca7d549a149a747e440fec" kindref="member">is_locked</ref>());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1ab35f1052cec397e3c5a71a7b5f3bc2fd" kindref="member">unlock_and_increment_version</ref>();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1a634465e3d9ca7d549a149a747e440fec" kindref="member">is_locked</ref>());</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1ad7a14fcccac412c79855566765089f7a" kindref="member">get_version</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__cicada_8cpp_1afd14a9f1b6e69d2046fdec10d1d95329" kindref="member">TEST</ref>(CicadaRecordTest,<sp/>DoubleLocksAreRejected)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_cicada_record" kindref="compound">CicadaRecord</ref><sp/>rec;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1a00fa6a946a3afafee9cd7d484d4b35af" kindref="member">try_lock</ref>());</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1a00fa6a946a3afafee9cd7d484d4b35af" kindref="member">try_lock</ref>());<sp/></highlight><highlight class="comment">//<sp/>already<sp/>locked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1ab35f1052cec397e3c5a71a7b5f3bc2fd" kindref="member">unlock_and_increment_version</ref>();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CicadaTransaction<sp/>—<sp/>record_write<sp/>now<sp/>accepts<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="test__cicada_8cpp_1afd14a9f1b6e69d2046fdec10d1d95329" kindref="member">TEST</ref>(CicadaTransactionTest,<sp/>CommitWritesDataToRecord)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_cicada_record" kindref="compound">CicadaRecord</ref><sp/>rec(</highlight><highlight class="stringliteral">&quot;before&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_cicada_transaction" kindref="compound">CicadaTransaction</ref><sp/>tx;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>a<sp/>write<sp/>with<sp/>new<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>v0<sp/>=<sp/>rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1ad7a14fcccac412c79855566765089f7a" kindref="member">get_version</ref>();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="classthemis_1_1performance_1_1_cicada_transaction_1ad53fa7f1026e1fa9b8b26c5729b2c7a9" kindref="member">record_read</ref>(&amp;rec,<sp/>v0);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="classthemis_1_1performance_1_1_cicada_transaction_1ad98885e821a13545622bcd16e3cb5904" kindref="member">record_write</ref>(&amp;rec,<sp/></highlight><highlight class="stringliteral">&quot;after&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tx.<ref refid="classthemis_1_1performance_1_1_cicada_transaction_1a7f8904a7e091ba70bcf04c32da870503" kindref="member">commit</ref>());</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1ada7579233185da68dd340ce8a38a469d" kindref="member">get_data</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;after&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__cicada_8cpp_1afd14a9f1b6e69d2046fdec10d1d95329" kindref="member">TEST</ref>(CicadaTransactionTest,<sp/>CommitIncrementsVersion)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_cicada_record" kindref="compound">CicadaRecord</ref><sp/>rec(</highlight><highlight class="stringliteral">&quot;v0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_cicada_transaction" kindref="compound">CicadaTransaction</ref><sp/>tx;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>v0<sp/>=<sp/>rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1ad7a14fcccac412c79855566765089f7a" kindref="member">get_version</ref>();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="classthemis_1_1performance_1_1_cicada_transaction_1ad53fa7f1026e1fa9b8b26c5729b2c7a9" kindref="member">record_read</ref>(&amp;rec,<sp/>v0);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="classthemis_1_1performance_1_1_cicada_transaction_1ad98885e821a13545622bcd16e3cb5904" kindref="member">record_write</ref>(&amp;rec,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tx.<ref refid="classthemis_1_1performance_1_1_cicada_transaction_1a7f8904a7e091ba70bcf04c32da870503" kindref="member">commit</ref>());</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1ad7a14fcccac412c79855566765089f7a" kindref="member">get_version</ref>(),<sp/>v0);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__cicada_8cpp_1afd14a9f1b6e69d2046fdec10d1d95329" kindref="member">TEST</ref>(CicadaTransactionTest,<sp/>AbortDoesNotWriteData)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_cicada_record" kindref="compound">CicadaRecord</ref><sp/>rec(</highlight><highlight class="stringliteral">&quot;original&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_cicada_transaction" kindref="compound">CicadaTransaction</ref><sp/>tx;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>v0<sp/>=<sp/>rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1ad7a14fcccac412c79855566765089f7a" kindref="member">get_version</ref>();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="classthemis_1_1performance_1_1_cicada_transaction_1ad53fa7f1026e1fa9b8b26c5729b2c7a9" kindref="member">record_read</ref>(&amp;rec,<sp/>v0);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="classthemis_1_1performance_1_1_cicada_transaction_1ad98885e821a13545622bcd16e3cb5904" kindref="member">record_write</ref>(&amp;rec,<sp/></highlight><highlight class="stringliteral">&quot;new_value&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="classthemis_1_1performance_1_1_cicada_transaction_1a73609ee0fe42d4c7e67389ea279f88fd" kindref="member">abort</ref>();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tx.<ref refid="classthemis_1_1performance_1_1_cicada_transaction_1a69fcd4a3cb23067e121dd57f1d697fb9" kindref="member">is_aborted</ref>());</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>must<sp/>NOT<sp/>have<sp/>changed<sp/>after<sp/>an<sp/>abort</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1ada7579233185da68dd340ce8a38a469d" kindref="member">get_data</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;original&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__cicada_8cpp_1afd14a9f1b6e69d2046fdec10d1d95329" kindref="member">TEST</ref>(CicadaTransactionTest,<sp/>CommitFailsAfterVersionChange)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_cicada_record" kindref="compound">CicadaRecord</ref><sp/>rec(</highlight><highlight class="stringliteral">&quot;initial&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_cicada_transaction" kindref="compound">CicadaTransaction</ref><sp/>tx;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>version<sp/>before<sp/>another<sp/>writer<sp/>modifies<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>stale_version<sp/>=<sp/>rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1ad7a14fcccac412c79855566765089f7a" kindref="member">get_version</ref>();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="classthemis_1_1performance_1_1_cicada_transaction_1ad53fa7f1026e1fa9b8b26c5729b2c7a9" kindref="member">record_read</ref>(&amp;rec,<sp/>stale_version);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>tx.<ref refid="classthemis_1_1performance_1_1_cicada_transaction_1ad98885e821a13545622bcd16e3cb5904" kindref="member">record_write</ref>(&amp;rec,<sp/></highlight><highlight class="stringliteral">&quot;from_tx&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>a<sp/>concurrent<sp/>writer<sp/>bumping<sp/>the<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_cicada_transaction" kindref="compound">CicadaTransaction</ref><sp/>concurrent_tx;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>concurrent_tx.<ref refid="classthemis_1_1performance_1_1_cicada_transaction_1ad98885e821a13545622bcd16e3cb5904" kindref="member">record_write</ref>(&amp;rec,<sp/></highlight><highlight class="stringliteral">&quot;from_concurrent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>concurrent_tx.<ref refid="classthemis_1_1performance_1_1_cicada_transaction_1a7f8904a7e091ba70bcf04c32da870503" kindref="member">commit</ref>();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>our<sp/>transaction&apos;s<sp/>read<sp/>validation<sp/>should<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(tx.<ref refid="classthemis_1_1performance_1_1_cicada_transaction_1a7f8904a7e091ba70bcf04c32da870503" kindref="member">commit</ref>());</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tx.<ref refid="classthemis_1_1performance_1_1_cicada_transaction_1a69fcd4a3cb23067e121dd57f1d697fb9" kindref="member">is_aborted</ref>());</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>should<sp/>reflect<sp/>the<sp/>committed<sp/>concurrent<sp/>write,<sp/>not<sp/>our<sp/>aborted<sp/>one</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.<ref refid="classthemis_1_1performance_1_1_cicada_record_1ada7579233185da68dd340ce8a38a469d" kindref="member">get_data</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;from_concurrent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ContentionManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__cicada_8cpp_1afd14a9f1b6e69d2046fdec10d1d95329" kindref="member">TEST</ref>(ContentionManagerTest,<sp/>InitialAbortRateIsZero)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_contention_manager" kindref="compound">ContentionManager</ref><sp/>cm;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cm.<ref refid="classthemis_1_1performance_1_1_contention_manager_1ae9b87c1e058b6e548931ebc0eac0a4ba" kindref="member">get_abort_rate</ref>(),<sp/>0.0);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cm.<ref refid="classthemis_1_1performance_1_1_contention_manager_1ad974d1a255b97f7160b8f9a4bae19d60" kindref="member">should_backoff</ref>());</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="test__cicada_8cpp_1afd14a9f1b6e69d2046fdec10d1d95329" kindref="member">TEST</ref>(ContentionManagerTest,<sp/>HighAbortRateTriggersBackoff)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_contention_manager" kindref="compound">ContentionManager</ref><sp/>cm;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>cm.<ref refid="classthemis_1_1performance_1_1_contention_manager_1aa198f1f660d061f47c6edcb3bc1996f2" kindref="member">record_abort</ref>();</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>2;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>cm.<ref refid="classthemis_1_1performance_1_1_contention_manager_1a46ad25c9d529b80511e43231b131876a" kindref="member">record_commit</ref>();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cm.<ref refid="classthemis_1_1performance_1_1_contention_manager_1ae9b87c1e058b6e548931ebc0eac0a4ba" kindref="member">get_abort_rate</ref>(),<sp/>0.5);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cm.<ref refid="classthemis_1_1performance_1_1_contention_manager_1ad974d1a255b97f7160b8f9a4bae19d60" kindref="member">should_backoff</ref>());</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="test__cicada_8cpp_1afd14a9f1b6e69d2046fdec10d1d95329" kindref="member">TEST</ref>(ContentionManagerTest,<sp/>ResetClearsStats)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_contention_manager" kindref="compound">ContentionManager</ref><sp/>cm;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>cm.<ref refid="classthemis_1_1performance_1_1_contention_manager_1aa198f1f660d061f47c6edcb3bc1996f2" kindref="member">record_abort</ref>();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>cm.<ref refid="classthemis_1_1performance_1_1_contention_manager_1a118e9a61b0df0d88573d28b782e863b2" kindref="member">reset_stats</ref>();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cm.<ref refid="classthemis_1_1performance_1_1_contention_manager_1ae9b87c1e058b6e548931ebc0eac0a4ba" kindref="member">get_abort_rate</ref>(),<sp/>0.0);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/performance/test_cicada.cpp"/>
+  </compounddef>
+</doxygen>

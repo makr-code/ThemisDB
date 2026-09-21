@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_66be374d6a77bfe49dcfa7e20ae52111" kind="dir">
+    <compoundname>src/sharding</compoundname>
+    <innerfile refid="adaptive__shard__router_8cpp">adaptive_shard_router.cpp</innerfile>
+    <innerfile refid="admin__api_8cpp">admin_api.cpp</innerfile>
+    <innerfile refid="admin__operations_8cpp">admin_operations.cpp</innerfile>
+    <innerfile refid="auto__rebalancer_8cpp">auto_rebalancer.cpp</innerfile>
+    <innerfile refid="capability__matcher_8cpp">capability_matcher.cpp</innerfile>
+    <innerfile refid="circuit__breaker_8cpp">circuit_breaker.cpp</innerfile>
+    <innerfile refid="cloud__agent_8cpp">cloud_agent.cpp</innerfile>
+    <innerfile refid="cloud__backup_8cpp">cloud_backup.cpp</innerfile>
+    <innerfile refid="cloud__sdk__integration_8cpp">cloud_sdk_integration.cpp</innerfile>
+    <innerfile refid="cloud__sdk__integration__stubs_8cpp">cloud_sdk_integration_stubs.cpp</innerfile>
+    <innerfile refid="consensus__factory_8cpp">consensus_factory.cpp</innerfile>
+    <innerfile refid="consistent__hash_8cpp">consistent_hash.cpp</innerfile>
+    <innerfile refid="continuous__batch__scheduler_8cpp">continuous_batch_scheduler.cpp</innerfile>
+    <innerfile refid="converged__slo__metrics_8cpp">converged_slo_metrics.cpp</innerfile>
+    <innerfile refid="cross__shard__fk__validator_8cpp">cross_shard_fk_validator.cpp</innerfile>
+    <innerfile refid="cross__shard__speculative__decoder_8cpp">cross_shard_speculative_decoder.cpp</innerfile>
+    <innerfile refid="cross__shard__ssi__manager_8cpp">cross_shard_ssi_manager.cpp</innerfile>
+    <innerfile refid="cross__shard__transaction_8cpp">cross_shard_transaction.cpp</innerfile>
+    <innerfile refid="data__migrator_8cpp">data_migrator.cpp</innerfile>
+    <innerfile refid="distributed__coordinator_8cpp">distributed_coordinator.cpp</innerfile>
+    <innerfile refid="distributed__time__coordinator_8cpp">distributed_time_coordinator.cpp</innerfile>
+    <innerfile refid="distributed__transaction_8cpp">distributed_transaction.cpp</innerfile>
+    <innerfile refid="dual__consensus__orchestrator_8cpp">dual_consensus_orchestrator.cpp</innerfile>
+    <innerfile refid="epoch__fencing_8cpp">epoch_fencing.cpp</innerfile>
+    <innerfile refid="global__secondary__index_8cpp">global_secondary_index.cpp</innerfile>
+    <innerfile refid="gossip__config__manager_8cpp">gossip_config_manager.cpp</innerfile>
+    <innerfile refid="gossip__consensus__adapter_8cpp">gossip_consensus_adapter.cpp</innerfile>
+    <innerfile refid="gossip__protocol_8cpp">gossip_protocol.cpp</innerfile>
+    <innerfile refid="gpu__erasure__coder_8cpp">gpu_erasure_coder.cpp</innerfile>
+    <innerfile refid="gpu__erasure__coder__opencl_8cpp">gpu_erasure_coder_opencl.cpp</innerfile>
+    <innerfile refid="hardware__migration__manager_8cpp">hardware_migration_manager.cpp</innerfile>
+    <innerfile refid="health__check_8cpp">health_check.cpp</innerfile>
+    <innerfile refid="health__monitor_8cpp">health_monitor.cpp</innerfile>
+    <innerfile refid="hot__spare__manager_8cpp">hot_spare_manager.cpp</innerfile>
+    <innerfile refid="inference__engine__enhanced_8cpp">inference_engine_enhanced.cpp</innerfile>
+    <innerfile refid="locality__aware__router_8cpp">locality_aware_router.cpp</innerfile>
+    <innerfile refid="lora__artifact__distribution_8cpp">lora_artifact_distribution.cpp</innerfile>
+    <innerfile refid="metadata__shard_8cpp">metadata_shard.cpp</innerfile>
+    <innerfile refid="metadata__snapshot_8cpp">metadata_snapshot.cpp</innerfile>
+    <innerfile refid="metadata__wal_8cpp">metadata_wal.cpp</innerfile>
+    <innerfile refid="metrics__registry_8cpp">metrics_registry.cpp</innerfile>
+    <innerfile refid="mtls__client_8cpp">mtls_client.cpp</innerfile>
+    <innerfile refid="mtls__connection__factory_8cpp">mtls_connection_factory.cpp</innerfile>
+    <innerfile refid="mtls__connection__pool_8cpp">mtls_connection_pool.cpp</innerfile>
+    <innerfile refid="multi__primary__coordinator_8cpp">multi_primary_coordinator.cpp</innerfile>
+    <innerfile refid="operational__metrics_8cpp">operational_metrics.cpp</innerfile>
+    <innerfile refid="orphan__detector_8cpp">orphan_detector.cpp</innerfile>
+    <innerfile refid="paged__kv__cache_8cpp">paged_kv_cache.cpp</innerfile>
+    <innerfile refid="partition__detector_8cpp">partition_detector.cpp</innerfile>
+    <innerfile refid="paxos__consensus_8cpp">paxos_consensus.cpp</innerfile>
+    <innerfile refid="paxos__snapshot_8cpp">paxos_snapshot.cpp</innerfile>
+    <innerfile refid="paxos__state__persistence_8cpp">paxos_state_persistence.cpp</innerfile>
+    <innerfile refid="paxos__wal_8cpp">paxos_wal.cpp</innerfile>
+    <innerfile refid="pki__shard__certificate_8cpp">pki_shard_certificate.cpp</innerfile>
+    <innerfile refid="predictive__detector_8cpp">predictive_detector.cpp</innerfile>
+    <innerfile refid="prometheus__metrics_8cpp">prometheus_metrics.cpp</innerfile>
+    <innerfile refid="quorum__manager_8cpp">quorum_manager.cpp</innerfile>
+    <innerfile refid="raft__configuration_8cpp">raft_configuration.cpp</innerfile>
+    <innerfile refid="raft__consensus_8cpp">raft_consensus.cpp</innerfile>
+    <innerfile refid="raft__consensus__adapter_8cpp">raft_consensus_adapter.cpp</innerfile>
+    <innerfile refid="raft__log_8cpp">raft_log.cpp</innerfile>
+    <innerfile refid="raft__shard__manager_8cpp">raft_shard_manager.cpp</innerfile>
+    <innerfile refid="raft__state_8cpp">raft_state.cpp</innerfile>
+    <innerfile refid="raft__wal__integration_8cpp">raft_wal_integration.cpp</innerfile>
+    <innerfile refid="raid__paxos__consensus_8cpp">raid_paxos_consensus.cpp</innerfile>
+    <innerfile refid="rebalance__operation_8cpp">rebalance_operation.cpp</innerfile>
+    <innerfile refid="redundancy__strategy_8cpp">redundancy_strategy.cpp</innerfile>
+    <innerfile refid="remote__executor_8cpp">remote_executor.cpp</innerfile>
+    <innerfile refid="replica__consistency_8cpp">replica_consistency.cpp</innerfile>
+    <innerfile refid="replica__topology_8cpp">replica_topology.cpp</innerfile>
+    <innerfile refid="replication__coordinator_8cpp">replication_coordinator.cpp</innerfile>
+    <innerfile refid="secure__transport__client_8cpp">secure_transport_client.cpp</innerfile>
+    <innerfile refid="shard__durability_8cpp">shard_durability.cpp</innerfile>
+    <innerfile refid="shard__load__balancer_8cpp">shard_load_balancer.cpp</innerfile>
+    <innerfile refid="shard__load__detector_8cpp">shard_load_detector.cpp</innerfile>
+    <innerfile refid="shard__repair__engine_8cpp">shard_repair_engine.cpp</innerfile>
+    <innerfile refid="shard__resource__manager_8cpp">shard_resource_manager.cpp</innerfile>
+    <innerfile refid="shard__router_8cpp">shard_router.cpp</innerfile>
+    <innerfile refid="shard__rpc__client_8cpp">shard_rpc_client.cpp</innerfile>
+    <innerfile refid="shard__rpc__server_8cpp">shard_rpc_server.cpp</innerfile>
+    <innerfile refid="shard__topology_8cpp">shard_topology.cpp</innerfile>
+    <innerfile refid="sharding__manager__edition_8cpp">sharding_manager_edition.cpp</innerfile>
+    <innerfile refid="signed__request_8cpp">signed_request.cpp</innerfile>
+    <innerfile refid="slo__monitor_8cpp">slo_monitor.cpp</innerfile>
+    <innerfile refid="stream__protocol_8cpp">stream_protocol.cpp</innerfile>
+    <innerfile refid="transaction__snapshot_8cpp">transaction_snapshot.cpp</innerfile>
+    <innerfile refid="transaction__wal_8cpp">transaction_wal.cpp</innerfile>
+    <innerfile refid="truetime_8cpp">truetime.cpp</innerfile>
+    <innerfile refid="two__phase__commit__coordinator_8cpp">two_phase_commit_coordinator.cpp</innerfile>
+    <innerfile refid="two__phase__commit__participant_8cpp">two_phase_commit_participant.cpp</innerfile>
+    <innerfile refid="urn_8cpp">urn.cpp</innerfile>
+    <innerfile refid="urn__resolver_8cpp">urn_resolver.cpp</innerfile>
+    <innerfile refid="wal__applier_8cpp">wal_applier.cpp</innerfile>
+    <innerfile refid="wal__manager_8cpp">wal_manager.cpp</innerfile>
+    <innerfile refid="wal__shipper_8cpp">wal_shipper.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/sharding/"/>
+  </compounddef>
+</doxygen>

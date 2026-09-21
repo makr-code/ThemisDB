@@ -1,0 +1,955 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_office_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::OfficeProcessor</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_content_processor" prot="public" virt="non-virtual">themis::content::IContentProcessor</basecompoundref>
+    <includes refid="office__processor_8h" local="no">office_processor.h</includes>
+    <innerclass refid="structthemis_1_1content_1_1_office_processor_1_1_config" prot="public">themis::content::OfficeProcessor::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_office_processor_1a75cb3f0e478f50e572ddcae4f5c3143b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1content_1_1_office_processor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::content::OfficeProcessor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::content::OfficeProcessor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="151" column="12" bodyfile="include/content/office_processor.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a7993524e171eeb42e303f1dde135e6c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::OfficeProcessor::OfficeProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>OfficeProcessor</name>
+        <qualifiedname>themis::content::OfficeProcessor::OfficeProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="109" column="5" bodyfile="src/content/office_processor.cpp" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a165c75a97f72df5c60a49653eaed9f46" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::OfficeProcessor::OfficeProcessor</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>OfficeProcessor</name>
+        <qualifiedname>themis::content::OfficeProcessor::OfficeProcessor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_office_processor_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Office Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="115" column="14" bodyfile="src/content/office_processor.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a79e70b59becdab24b2b57794ac1ddc47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::OfficeProcessor::~OfficeProcessor</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~OfficeProcessor</name>
+        <qualifiedname>themis::content::OfficeProcessor::~OfficeProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="116" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a855b391bdd81d643e26088c17ffa4ab1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult themis::content::OfficeProcessor::extract</definition>
+        <argsstring>(const std::string &amp;blob, const ContentType &amp;content_type) override</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::OfficeProcessor::extract</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a638d82433a5fd1e4cc50bba304ffcd32">extract</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref> &amp;</type>
+          <declname>content_type</declname>
+        </param>
+        <briefdescription>
+<para>Extract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::object(), empty(), recordExtractError(), size(), <ref refid="classthemis_1_1content_1_1_office_processor_1a32801b39e5b455ff9c47f98ba51cbd98" kindref="member">detectDocumentType()</ref>, extractDOCX(), extractXLSX(), extractPPTX(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="118" column="22" bodyfile="src/content/office_processor.cpp" bodystart="161" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a07ad189328cb393fa145f3ef6e626809" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt; json &gt; themis::content::OfficeProcessor::chunk</definition>
+        <argsstring>(const ExtractionResult &amp;extraction_result, int chunk_size, int overlap) override</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::OfficeProcessor::chunk</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ad7a72eb8186023fc9ee450906d9fb632">chunk</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref> &amp;</type>
+          <declname>extraction_result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>chunk_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+<para>Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">extraction_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), stream(), std::getline(), push_back(), countTokens(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="123" column="17" bodyfile="src/content/office_processor.cpp" bodystart="1157" bodyend="1210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1acdbffe4b2480f4defc4cc501c6309700" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::content::OfficeProcessor::generateEmbedding</definition>
+        <argsstring>(const std::string &amp;chunk_data) override</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::content::OfficeProcessor::generateEmbedding</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a84aba018f92d394ed51094bba497de8c">generateEmbedding</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_data</declname>
+        </param>
+        <briefdescription>
+<para>Generate Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: embedding(), empty(), iss(), push_back(), size(), hasher(), std::sin(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="129" column="17" bodyfile="src/content/office_processor.cpp" bodystart="1218" bodyend="1269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a697cd9cf1654319f11ae657077b2f5d9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::OfficeProcessor::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::content::OfficeProcessor::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a893353e264c76ec1bcc9b4f4a375f37a">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="131" column="17" bodyfile="include/content/office_processor.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a6da377fb95f269ea0b2b32c75c65f766" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref> &gt;</type>
+        <definition>std::vector&lt; ContentCategory &gt; themis::content::OfficeProcessor::getSupportedCategories</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedCategories</name>
+        <qualifiedname>themis::content::OfficeProcessor::getSupportedCategories</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ab2b446811cbac33cecb30d3fa55680f0">getSupportedCategories</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="133" column="17" bodyfile="include/content/office_processor.h" bodystart="133" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a372041eabfddb293f52bcd522a108dfb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::OfficeProcessor::isAvailable</definition>
+        <argsstring>()</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::content::OfficeProcessor::isAvailable</qualifiedname>
+        <briefdescription>
+<para>Is Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isAvailable without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="141" column="17" bodyfile="src/content/office_processor.cpp" bodystart="74" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a32801b39e5b455ff9c47f98ba51cbd98" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276" kindref="member">OfficeDocumentType</ref></type>
+        <definition>OfficeDocumentType themis::content::OfficeProcessor::detectDocumentType</definition>
+        <argsstring>(const std::string &amp;blob)</argsstring>
+        <name>detectDocumentType</name>
+        <qualifiedname>themis::content::OfficeProcessor::detectDocumentType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Detect Document Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::memcpy(), data(), find(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="148" column="31" bodyfile="src/content/office_processor.cpp" bodystart="88" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a5e5b0a7972fa31e17f6ef2762a5fdbbb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult themis::content::OfficeProcessor::extractDOCX</definition>
+        <argsstring>(const std::string &amp;blob)</argsstring>
+        <name>extractDOCX</name>
+        <qualifiedname>themis::content::OfficeProcessor::extractDOCX</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Extract DOCX. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::object(), readZipEntry(), empty(), extractOOXMLMetadata(), themis::security::parseXmlSafe(), select_nodes(), node(), child_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="159" column="22" bodyfile="src/content/office_processor.cpp" bodystart="271" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1af47fc41029247cc8e9cb7dda755843f5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult themis::content::OfficeProcessor::extractXLSX</definition>
+        <argsstring>(const std::string &amp;blob)</argsstring>
+        <name>extractXLSX</name>
+        <qualifiedname>themis::content::OfficeProcessor::extractXLSX</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Extract XLSX. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::object(), readZipEntry(), empty(), themis::security::parseXmlSafe(), select_nodes(), node(), child_value(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="165" column="22" bodyfile="src/content/office_processor.cpp" bodystart="361" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1aac9555215ef05d0752a60faf526e05ac" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult themis::content::OfficeProcessor::extractPPTX</definition>
+        <argsstring>(const std::string &amp;blob)</argsstring>
+        <name>extractPPTX</name>
+        <qualifiedname>themis::content::OfficeProcessor::extractPPTX</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Extract PPTX. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::object(), extractOOXMLMetadata(), listZipEntries(), find(), push_back(), std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="171" column="22" bodyfile="src/content/office_processor.cpp" bodystart="497" bodyend="596"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a53e0c9bc4e4135088cba5e4a6aa42728" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult themis::content::OfficeProcessor::extractODF</definition>
+        <argsstring>(const std::string &amp;blob, OfficeDocumentType type)</argsstring>
+        <name>extractODF</name>
+        <qualifiedname>themis::content::OfficeProcessor::extractODF</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276" kindref="member">OfficeDocumentType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Extract ODF. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::object(), readZipEntry(), empty(), themis::security::parseXmlSafe(), select_nodes(), node(), children(), type(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="178" column="22" bodyfile="src/content/office_processor.cpp" bodystart="605" bodyend="677"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a5a8aa250d94c0384abea814bb09a5a2d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult themis::content::OfficeProcessor::extractLegacyViaLibreOffice</definition>
+        <argsstring>(const std::string &amp;blob, OfficeDocumentType doc_type)</argsstring>
+        <name>extractLegacyViaLibreOffice</name>
+        <qualifiedname>themis::content::OfficeProcessor::extractLegacyViaLibreOffice</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276" kindref="member">OfficeDocumentType</ref></type>
+          <declname>doc_type</declname>
+        </param>
+        <briefdescription>
+<para>Extract Legacy Via Libre Office. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ LibreOffice headless fallback for legacy OLE formats (DOC/XLS/PPT) ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::object(), size(), data(), std::string(), tmpdir_buf(), begin(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="186" column="22" bodyfile="src/content/office_processor.cpp" bodystart="862" bodyend="1147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1aea54641491b20696007ffced82298961" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::OfficeProcessor::readZipEntry</definition>
+        <argsstring>(const std::string &amp;zip_blob, const std::string &amp;entry_path)</argsstring>
+        <name>readZipEntry</name>
+        <qualifiedname>themis::content::OfficeProcessor::readZipEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>zip_blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entry_path</declname>
+        </param>
+        <briefdescription>
+<para>Read Zip Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">zip_blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the entry. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements readZipEntry without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="195" column="17" bodyfile="src/content/office_processor.cpp" bodystart="829" bodyend="831"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a560e86970f932ce48945862d9c117e1a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_office_metadata" kindref="compound">OfficeMetadata</ref></type>
+        <definition>OfficeMetadata themis::content::OfficeProcessor::extractOOXMLMetadata</definition>
+        <argsstring>(const std::string &amp;zip_blob)</argsstring>
+        <name>extractOOXMLMetadata</name>
+        <qualifiedname>themis::content::OfficeProcessor::extractOOXMLMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>zip_blob</declname>
+        </param>
+        <briefdescription>
+<para>Extract OOXMLMetadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">zip_blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements extractOOXMLMetadata without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="201" column="20" bodyfile="src/content/office_processor.cpp" bodystart="839" bodyend="841"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1ad7de5f512b57d937090d360cca1e3cf5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::content::OfficeProcessor::listZipEntries</definition>
+        <argsstring>(const std::string &amp;zip_blob)</argsstring>
+        <name>listZipEntries</name>
+        <qualifiedname>themis::content::OfficeProcessor::listZipEntries</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>zip_blob</declname>
+        </param>
+        <briefdescription>
+<para>List Zip Entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">zip_blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements listZipEntries without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="207" column="17" bodyfile="src/content/office_processor.cpp" bodystart="849" bodyend="851"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a3a543a8942a02be6646eb670341c9024" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::OfficeProcessor::extractTextFromXML</definition>
+        <argsstring>(const std::string &amp;xml_content)</argsstring>
+        <name>extractTextFromXML</name>
+        <qualifiedname>themis::content::OfficeProcessor::extractTextFromXML</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>xml_content</declname>
+        </param>
+        <briefdescription>
+<para>Extract Text From XML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">xml_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="215" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a95f89f914e65db57486f2d7cee9e3b40" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::content::OfficeProcessor::extractParagraphsFromXML</definition>
+        <argsstring>(const std::string &amp;xml_content)</argsstring>
+        <name>extractParagraphsFromXML</name>
+        <qualifiedname>themis::content::OfficeProcessor::extractParagraphsFromXML</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>xml_content</declname>
+        </param>
+        <briefdescription>
+<para>Extract Paragraphs From XML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">xml_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="221" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a4953bfafaca4fea5ad82e315a3058f41" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::content::OfficeProcessor::countTokens</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>countTokens</name>
+        <qualifiedname>themis::content::OfficeProcessor::countTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Count Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::isspace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="229" column="9" bodyfile="src/content/office_processor.cpp" bodystart="1277" bodyend="1295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a323bcc7a9afb46dc2f017b0dfe134b98" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::OfficeProcessor::isValidOOXML</definition>
+        <argsstring>(const std::string &amp;blob)</argsstring>
+        <name>isValidOOXML</name>
+        <qualifiedname>themis::content::OfficeProcessor::isValidOOXML</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Is Valid OOXML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="236" column="10" bodyfile="src/content/office_processor.cpp" bodystart="1303" bodyend="1305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_office_processor_1a2dd82bfd9e3dab940285d6260c438aa5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::OfficeProcessor::isValidODF</definition>
+        <argsstring>(const std::string &amp;blob)</argsstring>
+        <name>isValidODF</name>
+        <qualifiedname>themis::content::OfficeProcessor::isValidODF</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Is Valid ODF. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="242" column="10" bodyfile="src/content/office_processor.cpp" bodystart="1313" bodyend="1316"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+      <node id="1">
+        <label>themis::content::OfficeProcessor</label>
+        <link refid="classthemis_1_1content_1_1_office_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+      <node id="1">
+        <label>themis::content::OfficeProcessor</label>
+        <link refid="classthemis_1_1content_1_1_office_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/office_processor.h" line="87" column="1" bodyfile="include/content/office_processor.h" bodystart="87" bodyend="243"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a07ad189328cb393fa145f3ef6e626809" prot="public" virt="virtual"><scope>themis::content::OfficeProcessor</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a75cb3f0e478f50e572ddcae4f5c3143b" prot="private" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a4953bfafaca4fea5ad82e315a3058f41" prot="private" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>countTokens</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a32801b39e5b455ff9c47f98ba51cbd98" prot="public" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>detectDocumentType</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a855b391bdd81d643e26088c17ffa4ab1" prot="public" virt="virtual"><scope>themis::content::OfficeProcessor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a5e5b0a7972fa31e17f6ef2762a5fdbbb" prot="private" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>extractDOCX</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a5a8aa250d94c0384abea814bb09a5a2d" prot="private" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>extractLegacyViaLibreOffice</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a53e0c9bc4e4135088cba5e4a6aa42728" prot="private" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>extractODF</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a560e86970f932ce48945862d9c117e1a" prot="private" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>extractOOXMLMetadata</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a95f89f914e65db57486f2d7cee9e3b40" prot="private" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>extractParagraphsFromXML</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1aac9555215ef05d0752a60faf526e05ac" prot="private" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>extractPPTX</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a3a543a8942a02be6646eb670341c9024" prot="private" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>extractTextFromXML</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1af47fc41029247cc8e9cb7dda755843f5" prot="private" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>extractXLSX</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1acdbffe4b2480f4defc4cc501c6309700" prot="public" virt="virtual"><scope>themis::content::OfficeProcessor</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a697cd9cf1654319f11ae657077b2f5d9" prot="public" virt="virtual"><scope>themis::content::OfficeProcessor</scope><name>getName</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a6da377fb95f269ea0b2b32c75c65f766" prot="public" virt="virtual"><scope>themis::content::OfficeProcessor</scope><name>getSupportedCategories</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a372041eabfddb293f52bcd522a108dfb" prot="public" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a2dd82bfd9e3dab940285d6260c438aa5" prot="private" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>isValidODF</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a323bcc7a9afb46dc2f017b0dfe134b98" prot="private" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>isValidOOXML</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1ad7de5f512b57d937090d360cca1e3cf5" prot="private" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>listZipEntries</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a7993524e171eeb42e303f1dde135e6c3" prot="public" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>OfficeProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a165c75a97f72df5c60a49653eaed9f46" prot="public" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>OfficeProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1aea54641491b20696007ffced82298961" prot="private" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>readZipEntry</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_1a134e78148633727400cd4d1a1466eedc" prot="public" virt="virtual"><scope>themis::content::OfficeProcessor</scope><name>~IContentProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_office_processor_1a79e70b59becdab24b2b57794ac1ddc47" prot="public" virt="non-virtual"><scope>themis::content::OfficeProcessor</scope><name>~OfficeProcessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

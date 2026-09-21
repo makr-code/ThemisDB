@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="group__security__safe__move" kind="group">
+    <compoundname>security_safe_move</compoundname>
+    <title>SafeMove Security Utilities</title>
+    <innerclass refid="classthemis_1_1security_1_1_move_validator_3_01std_1_1vector_3_01_t_01_4_01_4" prot="public">themis::security::MoveValidator&lt; std::vector&lt; T &gt; &gt;</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_move_validator_3_01std_1_1unique__ptr_3_01_t_01_4_01_4" prot="public">themis::security::MoveValidator&lt; std::unique_ptr&lt; T &gt; &gt;</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_move_validator_3_01std_1_1shared__ptr_3_01_t_01_4_01_4" prot="public">themis::security::MoveValidator&lt; std::shared_ptr&lt; T &gt; &gt;</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_move_validator" prot="public">themis::security::MoveValidator</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_move_guard" prot="public">themis::security::MoveGuard</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_safe_move" prot="public">themis::security::SafeMove</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_move_chain_tracker" prot="public">themis::security::MoveChainTracker</innerclass>
+    <innergroup refid="group__safe__move__exceptions">SafeMove Exceptions</innergroup>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

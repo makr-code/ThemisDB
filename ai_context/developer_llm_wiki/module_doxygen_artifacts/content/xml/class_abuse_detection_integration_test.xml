@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_abuse_detection_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>AbuseDetectionIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_abuse_detection_integration_test_1ae11c2eafdc2cb64dc44b0aec87c8ec31" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_security_config" kindref="compound">ContentSecurityConfig</ref></type>
+        <definition>ContentSecurityConfig AbuseDetectionIntegrationTest::makeConfig</definition>
+        <argsstring>(bool block_on_abuse)</argsstring>
+        <name>makeConfig</name>
+        <qualifiedname>AbuseDetectionIntegrationTest::makeConfig</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>block_on_abuse</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_security.cpp" line="915" column="27" bodyfile="tests/content/test_content_security.cpp" bodystart="915" bodyend="922"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_abuse_detection_integration_test_1a986f2abfb8e791733e8c66870b43ad93" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1content_1_1_i_abuse_detector" kindref="compound">IAbuseDetector</ref> &gt;</type>
+        <definition>static std::shared_ptr&lt; IAbuseDetector &gt; AbuseDetectionIntegrationTest::makeTextDetector</definition>
+        <argsstring>(const std::string &amp;pattern_name, const std::string &amp;regex_str, AbuseAction action)</argsstring>
+        <name>makeTextDetector</name>
+        <qualifiedname>AbuseDetectionIntegrationTest::makeTextDetector</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>regex_str</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806c" kindref="member">AbuseAction</ref></type>
+          <declname>action</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_security.cpp" line="925" column="28" bodyfile="tests/content/test_content_security.cpp" bodystart="925" bodyend="937"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AbuseDetectionIntegrationTest</label>
+        <link refid="class_abuse_detection_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AbuseDetectionIntegrationTest</label>
+        <link refid="class_abuse_detection_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_content_security.cpp" line="912" column="1" bodyfile="tests/content/test_content_security.cpp" bodystart="912" bodyend="938"/>
+    <listofallmembers>
+      <member refid="class_abuse_detection_integration_test_1ae11c2eafdc2cb64dc44b0aec87c8ec31" prot="protected" virt="non-virtual"><scope>AbuseDetectionIntegrationTest</scope><name>makeConfig</name></member>
+      <member refid="class_abuse_detection_integration_test_1a986f2abfb8e791733e8c66870b43ad93" prot="protected" virt="non-virtual"><scope>AbuseDetectionIntegrationTest</scope><name>makeTextDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

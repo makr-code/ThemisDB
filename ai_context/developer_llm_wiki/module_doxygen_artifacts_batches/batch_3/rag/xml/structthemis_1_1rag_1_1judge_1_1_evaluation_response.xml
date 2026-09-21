@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_evaluation_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::EvaluationResponse</compoundname>
+    <includes refid="llm__judge__client_8h" local="no">llm_judge_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_evaluation_response_1aaabfccfadb9fd9037e8537ee9f57626e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::EvaluationResponse::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::rag::judge::EvaluationResponse::score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Evaluation score (0-1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_client.h" line="30" column="12" bodyfile="include/rag/llm_judge_client.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_evaluation_response_1aae303ec38ae74518e43d253fb7d1543d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::EvaluationResponse::reasoning</definition>
+        <argsstring></argsstring>
+        <name>reasoning</name>
+        <qualifiedname>themis::rag::judge::EvaluationResponse::reasoning</qualifiedname>
+        <briefdescription>
+<para>Explanation for the score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_client.h" line="31" column="17" bodyfile="include/rag/llm_judge_client.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_evaluation_response_1a351972ed423fbf7a26dae775e75e12d8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::EvaluationResponse::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::judge::EvaluationResponse::confidence</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Confidence in the evaluation (0-1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_client.h" line="32" column="12" bodyfile="include/rag/llm_judge_client.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_evaluation_response_1a216ae9987dec2c306681140f17dcfd30" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::EvaluationResponse::raw_response</definition>
+        <argsstring></argsstring>
+        <name>raw_response</name>
+        <qualifiedname>themis::rag::judge::EvaluationResponse::raw_response</qualifiedname>
+        <briefdescription>
+<para>Raw LLM response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_client.h" line="33" column="17" bodyfile="include/rag/llm_judge_client.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_evaluation_response_1a6573c55f3061ec70c9cf14cc557608e6" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::judge::EvaluationResponse::evaluation_time</definition>
+        <argsstring></argsstring>
+        <name>evaluation_time</name>
+        <qualifiedname>themis::rag::judge::EvaluationResponse::evaluation_time</qualifiedname>
+        <briefdescription>
+<para>Time taken for evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_client.h" line="34" column="31" bodyfile="include/rag/llm_judge_client.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Response from an LLM evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/llm_judge_client.h" line="29" column="1" bodyfile="include/rag/llm_judge_client.h" bodystart="29" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_evaluation_response_1a351972ed423fbf7a26dae775e75e12d8" prot="public" virt="non-virtual"><scope>themis::rag::judge::EvaluationResponse</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_evaluation_response_1a6573c55f3061ec70c9cf14cc557608e6" prot="public" virt="non-virtual"><scope>themis::rag::judge::EvaluationResponse</scope><name>evaluation_time</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_evaluation_response_1a216ae9987dec2c306681140f17dcfd30" prot="public" virt="non-virtual"><scope>themis::rag::judge::EvaluationResponse</scope><name>raw_response</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_evaluation_response_1aae303ec38ae74518e43d253fb7d1543d" prot="public" virt="non-virtual"><scope>themis::rag::judge::EvaluationResponse</scope><name>reasoning</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_evaluation_response_1aaabfccfadb9fd9037e8537ee9f57626e" prot="public" virt="non-virtual"><scope>themis::rag::judge::EvaluationResponse</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

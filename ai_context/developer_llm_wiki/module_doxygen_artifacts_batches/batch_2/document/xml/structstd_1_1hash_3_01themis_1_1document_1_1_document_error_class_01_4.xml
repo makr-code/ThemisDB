@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstd_1_1hash_3_01themis_1_1document_1_1_document_error_class_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>std::hash&lt; themis::document::DocumentErrorClass &gt;</compoundname>
+    <includes refid="document__diagnostics_8h" local="no">document_diagnostics.h</includes>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstd_1_1hash_3_01themis_1_1document_1_1_document_error_class_01_4_1a60348ebe98d06342b8607c0f024be409" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t std::hash&lt; themis::document::DocumentErrorClass &gt;::operator()</definition>
+        <argsstring>(themis::document::DocumentErrorClass cls) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>std::hash&lt; themis::document::DocumentErrorClass &gt;::operator()</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7" kindref="member">themis::document::DocumentErrorClass</ref></type>
+          <declname>cls</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="77" column="18" bodyfile="include/document/document_diagnostics.h" bodystart="77" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/document_diagnostics.h" line="76" column="1" bodyfile="include/document/document_diagnostics.h" bodystart="76" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structstd_1_1hash_3_01themis_1_1document_1_1_document_error_class_01_4_1a60348ebe98d06342b8607c0f024be409" prot="public" virt="non-virtual"><scope>std::hash&lt; themis::document::DocumentErrorClass &gt;</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

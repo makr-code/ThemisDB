@@ -1,0 +1,804 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__tensor_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_tensor.cpp</compoundname>
+    <includes local="yes">themis/gpu/tensor_buffer.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">cstring</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_tensor.cpp</label>
+        <link refid="test__gpu__tensor_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstring</label>
+      </node>
+      <node id="3">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="2">
+        <label>themis/gpu/tensor_buffer.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_g_p_u_tensor_buffer_test" prot="public">GPUTensorBufferTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1ad9e3e5b554d935083425e93853237069" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, ShapeNumElements)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>ShapeNumElements</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="23" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="23" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1ab78df1f58e68c939ac97e69fad46d648" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, ShapeNumElementsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>ShapeNumElementsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="28" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="28" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1a3f21c96ef2d721389cf565e1b1a8bd39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, ShapeElementBytes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>ShapeElementBytes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="33" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="33" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1a2790920a034f47a3e5cffe085af2406d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, ShapeTotalBytes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>ShapeTotalBytes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="42" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="42" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1ae762572fd66e48d078b29e674cfdc9db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, ShapeEquality)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>ShapeEquality</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="48" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="48" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1a30fd441a592b6670b158160828e814a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, ConstructFloat32)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>ConstructFloat32</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="61" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="61" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1a1a4dfe600d7a34ebf38fa7efd9bc906c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, ConstructUpdatesGlobalStats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>ConstructUpdatesGlobalStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="71" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="71" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1aee822896b3af04bb5d69ba2dc7f69035" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, DestructorUpdatesStats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>DestructorUpdatesStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="81" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="81" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1a4180d0e0ce4308409576f8c13ac764bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, FillFloat32)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>FillFloat32</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="96" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="96" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1a1430ea0baf12180414c72f75d19df001" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, FillInt8)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>FillInt8</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="106" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="106" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1abe9940291251aa20893824f2a5f14d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, FillUint8)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>FillUint8</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="116" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="116" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1ad35f0b167126c25262ebec8222b62a5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, FillZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>FillZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="126" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="126" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1ad7a7e20cc1fa52e924b1102cebbc71ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, FillFloat16_ProperIEEE754Encoding)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>FillFloat16_ProperIEEE754Encoding</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="137" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="137" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1ab3c9ffe3c3face8ebaea8216d77e24ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, FillBFloat16_ProperEncoding)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>FillBFloat16_ProperEncoding</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="148" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="148" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1a9d3097c1be2c63d1b2d5a9b2dc968a53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, CopyRoundtrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>CopyRoundtrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="162" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="162" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1a41fd5825c6875ad10f40a3c9ea025f86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, CopyFromHostOverflowThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>CopyFromHostOverflowThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="173" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="173" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1a9f435c6c0445fac6a306ab4a27653b6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, CopyToHostOverflowThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>CopyToHostOverflowThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="179" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="179" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1a9d670a18e82d764ffdd11641d0c5b7a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, CreateView)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>CreateView</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="189" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="189" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1ad0f5023727fc118e3c2f80580eccd084" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, CreateViewWithOffset)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>CreateViewWithOffset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="198" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="198" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1abdacdd55fb1e44c65f66258117be28b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, CreateViewUpdatesStats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>CreateViewUpdatesStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="204" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="204" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1a90b3fa9bcc7e65ba4d11587f33c52597" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, MoveConstructor)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>MoveConstructor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="216" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="216" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1aa95d0ac7074ae67f2c270aa0066bbfd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, SerialiseRoundtrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>SerialiseRoundtrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="232" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="232" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1aee43f9d6134ba80677834c4f811d97fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, DeserialiseCorruptMagicThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>DeserialiseCorruptMagicThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="253" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="253" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1a53648da8355c6dbd99066971d91c464d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, DeserialiseTruncatedThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>DeserialiseTruncatedThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="258" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="258" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor_8cpp_1ac2da61c78d5ce788b6671e35c1ff30a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorBufferTest, PeakBytesTracked)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref></type>
+        </param>
+        <param>
+          <type>PeakBytesTracked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_tensor.cpp" line="269" column="1" bodyfile="tests/gpu/test_gpu_tensor.cpp" bodystart="269" bodyend="283"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/tensor_buffer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12" refid="class_g_p_u_tensor_buffer_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_g_p_u_tensor_buffer_test_1ae3d513720beb993cfae021cac8e51566" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPUTensorBuffer::resetGlobalStats();</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shape<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>ShapeNumElements)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer::Shape<sp/>s{{2,<sp/>3,<sp/>4}};</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.numElements(),<sp/>24u);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>ShapeNumElementsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer::Shape<sp/>s{{}};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.numElements(),<sp/>0u);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>ShapeElementBytes)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(GPUTensorBuffer::Shape::elementBytes(DType::FLOAT32),<sp/><sp/>4u);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(GPUTensorBuffer::Shape::elementBytes(DType::FLOAT16),<sp/><sp/>2u);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(GPUTensorBuffer::Shape::elementBytes(DType::BFLOAT16),<sp/>2u);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(GPUTensorBuffer::Shape::elementBytes(DType::INT32),<sp/><sp/><sp/><sp/>4u);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(GPUTensorBuffer::Shape::elementBytes(DType::INT8),<sp/><sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(GPUTensorBuffer::Shape::elementBytes(DType::UINT8),<sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>ShapeTotalBytes)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer::Shape<sp/>s{{4,<sp/>4}};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.totalBytes(DType::FLOAT32),<sp/>64u);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.totalBytes(DType::INT8),<sp/><sp/><sp/><sp/>16u);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>ShapeEquality)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer::Shape<sp/>a{{2,<sp/>3}};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer::Shape<sp/>b{{2,<sp/>3}};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer::Shape<sp/>c{{3,<sp/>2}};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(a<sp/>==<sp/>b);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(a<sp/>==<sp/>c);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(a<sp/>!=<sp/>c);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>ConstructFloat32)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer::Shape<sp/>s{{2,<sp/>4}};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>buf(</highlight><highlight class="stringliteral">&quot;weights&quot;</highlight><highlight class="normal">,<sp/>s,<sp/>DType::FLOAT32);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(buf.name(),<sp/></highlight><highlight class="stringliteral">&quot;weights&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(buf.shape(),<sp/>s);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(buf.dtype(),<sp/>DType::FLOAT32);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(buf.totalBytes(),<sp/>32u);<sp/><sp/></highlight><highlight class="comment">//<sp/>8<sp/>elements<sp/>×<sp/>4<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(buf.isValid());</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>ConstructUpdatesGlobalStats)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer::resetGlobalStats();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer::Shape<sp/>s{{10}};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>buf(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/>s,<sp/>DType::INT8);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>GPUTensorBuffer::getGlobalStats();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_buffers_created,<sp/>1u);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.current_bytes,<sp/>10u);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.peak_bytes,<sp/>10u);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>DestructorUpdatesStats)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer::resetGlobalStats();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>buf(</highlight><highlight class="stringliteral">&quot;tmp&quot;</highlight><highlight class="normal">,<sp/>GPUTensorBuffer::Shape{{8}},<sp/>DType::UINT8);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(GPUTensorBuffer::getGlobalStats().current_bytes,<sp/>8u);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>GPUTensorBuffer::getGlobalStats();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.current_bytes,<sp/>0u);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_buffers_freed,<sp/>1u);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>fill</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>FillFloat32)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>buf(</highlight><highlight class="stringliteral">&quot;f&quot;</highlight><highlight class="normal">,<sp/>GPUTensorBuffer::Shape{{4}},<sp/>DType::FLOAT32);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.fill(3.14);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>out(4);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.copyToHost(out.data(),<sp/>4<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>v<sp/>:<sp/>out)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(v,<sp/>3.14f,<sp/>1e-5f);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>FillInt8)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>buf(</highlight><highlight class="stringliteral">&quot;i&quot;</highlight><highlight class="normal">,<sp/>GPUTensorBuffer::Shape{{6}},<sp/>DType::INT8);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.fill(7.0);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int8_t&gt;<sp/>out(6);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.copyToHost(out.data(),<sp/>6);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(int8_t<sp/>v<sp/>:<sp/>out)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(v,<sp/>7);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>FillUint8)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>buf(</highlight><highlight class="stringliteral">&quot;u&quot;</highlight><highlight class="normal">,<sp/>GPUTensorBuffer::Shape{{3}},<sp/>DType::UINT8);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.fill(255.0);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>out(3);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.copyToHost(out.data(),<sp/>3);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint8_t<sp/>v<sp/>:<sp/>out)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(v,<sp/>255u);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>FillZero)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>buf(</highlight><highlight class="stringliteral">&quot;z&quot;</highlight><highlight class="normal">,<sp/>GPUTensorBuffer::Shape{{8}},<sp/>DType::FLOAT32);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.fill(1.0);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.fill(0.0);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>out(8);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.copyToHost(out.data(),<sp/>8<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>v<sp/>:<sp/>out)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(v,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>FillFloat16_ProperIEEE754Encoding)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>FLOAT16<sp/>fill<sp/>stores<sp/>proper<sp/>IEEE<sp/>754<sp/>half-precision<sp/>bits.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.0f<sp/>in<sp/>FP16<sp/>=<sp/>0x3C00;<sp/>2.0f<sp/>in<sp/>FP16<sp/>=<sp/>0x4000.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>buf16(</highlight><highlight class="stringliteral">&quot;h16&quot;</highlight><highlight class="normal">,<sp/>GPUTensorBuffer::Shape{{2}},<sp/>DType::FLOAT16);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>buf16.fill(1.0);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint16_t&gt;<sp/>raw(2);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>buf16.copyToHost(raw.data(),<sp/>2<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(uint16_t));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(raw[0],<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0x3C00u));<sp/><sp/></highlight><highlight class="comment">//<sp/>1.0<sp/>in<sp/>FP16</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(raw[1],<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0x3C00u));</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>FillBFloat16_ProperEncoding)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.0f<sp/>in<sp/>BF16<sp/>=<sp/>upper<sp/>16<sp/>bits<sp/>of<sp/>float32<sp/>0x3F800000<sp/>=<sp/>0x3F80.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>buf_bf16(</highlight><highlight class="stringliteral">&quot;bf16&quot;</highlight><highlight class="normal">,<sp/>GPUTensorBuffer::Shape{{2}},<sp/>DType::BFLOAT16);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>buf_bf16.fill(1.0);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint16_t&gt;<sp/>raw(2);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>buf_bf16.copyToHost(raw.data(),<sp/>2<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(uint16_t));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(raw[0],<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0x3F80u));<sp/><sp/></highlight><highlight class="comment">//<sp/>1.0<sp/>in<sp/>BF16</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(raw[1],<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0x3F80u));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>copyFromHost<sp/>/<sp/>copyToHost</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>CopyRoundtrip)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>buf(</highlight><highlight class="stringliteral">&quot;rt&quot;</highlight><highlight class="normal">,<sp/>GPUTensorBuffer::Shape{{4}},<sp/>DType::FLOAT32);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>src[4]<sp/>=<sp/>{1.0f,<sp/>2.0f,<sp/>3.0f,<sp/>4.0f};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.copyFromHost(src,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(src));</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>dst[4]<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.copyToHost(dst,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(dst));</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(dst[i],<sp/>src[i]);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>CopyFromHostOverflowThrows)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>buf(</highlight><highlight class="stringliteral">&quot;ov&quot;</highlight><highlight class="normal">,<sp/>GPUTensorBuffer::Shape{{2}},<sp/>DType::INT8);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>big[100]<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(buf.copyFromHost(big,<sp/>100),<sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>CopyToHostOverflowThrows)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>buf(</highlight><highlight class="stringliteral">&quot;ov&quot;</highlight><highlight class="normal">,<sp/>GPUTensorBuffer::Shape{{2}},<sp/>DType::INT8);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>big[100]<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(buf.copyToHost(big,<sp/>100),<sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>createView</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>CreateView)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>buf(</highlight><highlight class="stringliteral">&quot;parent&quot;</highlight><highlight class="normal">,<sp/>GPUTensorBuffer::Shape{{8,<sp/>4}},<sp/>DType::FLOAT32);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>view<sp/>=<sp/>buf.createView(</highlight><highlight class="stringliteral">&quot;head_0&quot;</highlight><highlight class="normal">,<sp/>0,<sp/>GPUTensorBuffer::Shape{{4}});</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(view.name,<sp/></highlight><highlight class="stringliteral">&quot;head_0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(view.offset_bytes,<sp/>0u);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(view.dtype,<sp/>DType::FLOAT32);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(view.shape,<sp/>(GPUTensorBuffer::Shape{{4}}));</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>CreateViewWithOffset)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>buf(</highlight><highlight class="stringliteral">&quot;p&quot;</highlight><highlight class="normal">,<sp/>GPUTensorBuffer::Shape{{16}},<sp/>DType::FLOAT32);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>view<sp/>=<sp/>buf.createView(</highlight><highlight class="stringliteral">&quot;slice&quot;</highlight><highlight class="normal">,<sp/>4,<sp/>GPUTensorBuffer::Shape{{4}});</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(view.offset_bytes,<sp/>4<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>CreateViewUpdatesStats)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer::resetGlobalStats();</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>buf(</highlight><highlight class="stringliteral">&quot;p&quot;</highlight><highlight class="normal">,<sp/>GPUTensorBuffer::Shape{{8}},<sp/>DType::FLOAT32);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.createView(</highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/>0,<sp/>GPUTensorBuffer::Shape{{4}});</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.createView(</highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">,<sp/>4,<sp/>GPUTensorBuffer::Shape{{4}});</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(GPUTensorBuffer::getGlobalStats().total_views_created,<sp/>2u);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Move<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>MoveConstructor)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>src(</highlight><highlight class="stringliteral">&quot;m&quot;</highlight><highlight class="normal">,<sp/>GPUTensorBuffer::Shape{{4}},<sp/>DType::INT32);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>src.fill(42.0);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>dst(std::move(src));</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dst.name(),<sp/></highlight><highlight class="stringliteral">&quot;m&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/>out[4]<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>dst.copyToHost(out,<sp/>4<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(int32_t));</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(int32_t<sp/>v<sp/>:<sp/>out)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(v,<sp/>42);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Serialisation<sp/>/<sp/>deserialisation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>SerialiseRoundtrip)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer::Shape<sp/>s{{2,<sp/>3}};</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>orig(</highlight><highlight class="stringliteral">&quot;layer_0&quot;</highlight><highlight class="normal">,<sp/>s,<sp/>DType::FLOAT32);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>src[6]<sp/>=<sp/>{0.1f,<sp/>0.2f,<sp/>0.3f,<sp/>0.4f,<sp/>0.5f,<sp/>0.6f};</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.copyFromHost(src,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(src));</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bytes<sp/>=<sp/>orig.serialize();</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(bytes.empty());</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>restored<sp/>=<sp/>GPUTensorBuffer::deserialize(bytes);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.name(),<sp/></highlight><highlight class="stringliteral">&quot;layer_0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.shape(),<sp/>s);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.dtype(),<sp/>DType::FLOAT32);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>dst[6]<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>restored.copyToHost(dst,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(dst));</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>6;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(dst[i],<sp/>src[i]);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>DeserialiseCorruptMagicThrows)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>bad<sp/>=<sp/>{0xDE,<sp/>0xAD,<sp/>0xBE,<sp/>0xEF};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(GPUTensorBuffer::deserialize(bad),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>DeserialiseTruncatedThrows)<sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>buf(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/>GPUTensorBuffer::Shape{{4}},<sp/>DType::INT8);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bytes<sp/>=<sp/>buf.serialize();</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>bytes.resize(bytes.size()<sp/>/<sp/>2);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(GPUTensorBuffer::deserialize(bytes),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Global<sp/>stats<sp/>–<sp/>peak<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_buffer_test" kindref="compound">GPUTensorBufferTest</ref>,<sp/>PeakBytesTracked)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensorBuffer::resetGlobalStats();</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>a(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>GPUTensorBuffer::Shape{{100}},<sp/>DType::UINT8);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(GPUTensorBuffer::getGlobalStats().peak_bytes,<sp/>100u);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPUTensorBuffer<sp/>b(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>GPUTensorBuffer::Shape{{50}},<sp/>DType::UINT8);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(GPUTensorBuffer::getGlobalStats().peak_bytes,<sp/>150u);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>b<sp/>destroyed,<sp/>current<sp/>drops<sp/>but<sp/>peak<sp/>stays</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(GPUTensorBuffer::getGlobalStats().peak_bytes,<sp/>150u);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(GPUTensorBuffer::getGlobalStats().current_bytes,<sp/>100u);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(GPUTensorBuffer::getGlobalStats().current_bytes,<sp/>0u);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_tensor.cpp"/>
+  </compounddef>
+</doxygen>

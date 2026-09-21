@@ -1,0 +1,316 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_c_k___t_o_k_e_n___i_n_f_o" kind="struct" language="C++" prot="public">
+    <compoundname>CK_TOKEN_INFO</compoundname>
+    <includes refid="pkcs11__minimal_8h" local="no">pkcs11_minimal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1a46dcc6bdad448170e34345f7a6a927dd" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t CK_TOKEN_INFO::label[32]</definition>
+        <argsstring>[32]</argsstring>
+        <name>label</name>
+        <qualifiedname>CK_TOKEN_INFO::label</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="173" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1a0b2f9a86b8e44ed760b2a98c9f76b098" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t CK_TOKEN_INFO::manufacturerID[32]</definition>
+        <argsstring>[32]</argsstring>
+        <name>manufacturerID</name>
+        <qualifiedname>CK_TOKEN_INFO::manufacturerID</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="174" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1af48529f34014bee8a6d6b1c61019b034" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t CK_TOKEN_INFO::model[16]</definition>
+        <argsstring>[16]</argsstring>
+        <name>model</name>
+        <qualifiedname>CK_TOKEN_INFO::model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="175" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1acb8e47e46fb7fe44715c094b8c8203ef" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t CK_TOKEN_INFO::serialNumber[16]</definition>
+        <argsstring>[16]</argsstring>
+        <name>serialNumber</name>
+        <qualifiedname>CK_TOKEN_INFO::serialNumber</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="176" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1a3c17a7780bc85c5ff279d8f5f3c6ea93" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t CK_TOKEN_INFO::flags</definition>
+        <argsstring></argsstring>
+        <name>flags</name>
+        <qualifiedname>CK_TOKEN_INFO::flags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="177" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1ad7a6ec88e7857ec6eeb0d0cebb3e05d4" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref></type>
+        <definition>CK_ULONG CK_TOKEN_INFO::ulMaxSessionCount</definition>
+        <argsstring></argsstring>
+        <name>ulMaxSessionCount</name>
+        <qualifiedname>CK_TOKEN_INFO::ulMaxSessionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="178" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1a3f40583f6aa0e3aba1ac591b34b6fafd" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref></type>
+        <definition>CK_ULONG CK_TOKEN_INFO::ulSessionCount</definition>
+        <argsstring></argsstring>
+        <name>ulSessionCount</name>
+        <qualifiedname>CK_TOKEN_INFO::ulSessionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="179" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1a3cc3adab228a5db230028a37a77d2db2" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref></type>
+        <definition>CK_ULONG CK_TOKEN_INFO::ulMaxRwSessionCount</definition>
+        <argsstring></argsstring>
+        <name>ulMaxRwSessionCount</name>
+        <qualifiedname>CK_TOKEN_INFO::ulMaxRwSessionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="180" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1a752bc366b6d7bf2b56b1e4bd22d4b647" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref></type>
+        <definition>CK_ULONG CK_TOKEN_INFO::ulRwSessionCount</definition>
+        <argsstring></argsstring>
+        <name>ulRwSessionCount</name>
+        <qualifiedname>CK_TOKEN_INFO::ulRwSessionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="181" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1a1f29203a601da021aec840cf41f6e88f" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref></type>
+        <definition>CK_ULONG CK_TOKEN_INFO::ulMaxPinLen</definition>
+        <argsstring></argsstring>
+        <name>ulMaxPinLen</name>
+        <qualifiedname>CK_TOKEN_INFO::ulMaxPinLen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="182" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1a257a8ad60444cccd096244845bf5cd5c" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref></type>
+        <definition>CK_ULONG CK_TOKEN_INFO::ulMinPinLen</definition>
+        <argsstring></argsstring>
+        <name>ulMinPinLen</name>
+        <qualifiedname>CK_TOKEN_INFO::ulMinPinLen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="183" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1a0aa3a573f644deb017cf90248815d9a1" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref></type>
+        <definition>CK_ULONG CK_TOKEN_INFO::ulTotalPublicMemory</definition>
+        <argsstring></argsstring>
+        <name>ulTotalPublicMemory</name>
+        <qualifiedname>CK_TOKEN_INFO::ulTotalPublicMemory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="184" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1afa0e875af02a7e9402ac3d78d517a7f5" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref></type>
+        <definition>CK_ULONG CK_TOKEN_INFO::ulFreePublicMemory</definition>
+        <argsstring></argsstring>
+        <name>ulFreePublicMemory</name>
+        <qualifiedname>CK_TOKEN_INFO::ulFreePublicMemory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="185" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1a042bdb8180b0229b4b93a0198c96da6e" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref></type>
+        <definition>CK_ULONG CK_TOKEN_INFO::ulTotalPrivateMemory</definition>
+        <argsstring></argsstring>
+        <name>ulTotalPrivateMemory</name>
+        <qualifiedname>CK_TOKEN_INFO::ulTotalPrivateMemory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="186" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1adad9cc7cf84f4499afbf4c9ca2782753" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref></type>
+        <definition>CK_ULONG CK_TOKEN_INFO::ulFreePrivateMemory</definition>
+        <argsstring></argsstring>
+        <name>ulFreePrivateMemory</name>
+        <qualifiedname>CK_TOKEN_INFO::ulFreePrivateMemory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="187" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1aabeb51c30197d2f14f186463700c84ce" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t CK_TOKEN_INFO::major</definition>
+        <argsstring></argsstring>
+        <name>major</name>
+        <qualifiedname>CK_TOKEN_INFO::major</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="188" column="19" bodyfile="include/security/pkcs11_minimal.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1a63173c338fafafe1f909cb688f94dca1" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t CK_TOKEN_INFO::minor</definition>
+        <argsstring></argsstring>
+        <name>minor</name>
+        <qualifiedname>CK_TOKEN_INFO::minor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="188" column="33" bodyfile="include/security/pkcs11_minimal.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1abc6db5dbf80fa8f73f1c05fc09c9331e" prot="public" static="no" mutable="no">
+        <type>struct CK_TOKEN_INFO::@302277016214127300000331162325174142046170207040</type>
+        <definition>struct CK_TOKEN_INFO::@302277016214127300000331162325174142046170207040 CK_TOKEN_INFO::hardwareVersion</definition>
+        <argsstring></argsstring>
+        <name>hardwareVersion</name>
+        <qualifiedname>CK_TOKEN_INFO::hardwareVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="188" column="27"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1a254515b26dbe2896f35166ae3be92f70" prot="public" static="no" mutable="no">
+        <type>struct CK_TOKEN_INFO::@127012336226001151344127155104225153116064111330</type>
+        <definition>struct CK_TOKEN_INFO::@127012336226001151344127155104225153116064111330 CK_TOKEN_INFO::firmwareVersion</definition>
+        <argsstring></argsstring>
+        <name>firmwareVersion</name>
+        <qualifiedname>CK_TOKEN_INFO::firmwareVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="189" column="27"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___t_o_k_e_n___i_n_f_o_1aad4ab8e2d88138334396dd7c355cf027" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t CK_TOKEN_INFO::utcTime[16]</definition>
+        <argsstring>[16]</argsstring>
+        <name>utcTime</name>
+        <qualifiedname>CK_TOKEN_INFO::utcTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="190" column="14" bodyfile="include/security/pkcs11_minimal.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/pkcs11_minimal.h" line="172" column="1" bodyfile="include/security/pkcs11_minimal.h" bodystart="172" bodyend="191"/>
+    <listofallmembers>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a254515b26dbe2896f35166ae3be92f70" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>firmwareVersion</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a3c17a7780bc85c5ff279d8f5f3c6ea93" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>flags</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1abc6db5dbf80fa8f73f1c05fc09c9331e" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>hardwareVersion</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a46dcc6bdad448170e34345f7a6a927dd" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>label</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1aabeb51c30197d2f14f186463700c84ce" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>major</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a0b2f9a86b8e44ed760b2a98c9f76b098" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>manufacturerID</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a63173c338fafafe1f909cb688f94dca1" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>minor</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1af48529f34014bee8a6d6b1c61019b034" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>model</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1acb8e47e46fb7fe44715c094b8c8203ef" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>serialNumber</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1adad9cc7cf84f4499afbf4c9ca2782753" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>ulFreePrivateMemory</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1afa0e875af02a7e9402ac3d78d517a7f5" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>ulFreePublicMemory</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a1f29203a601da021aec840cf41f6e88f" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>ulMaxPinLen</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a3cc3adab228a5db230028a37a77d2db2" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>ulMaxRwSessionCount</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1ad7a6ec88e7857ec6eeb0d0cebb3e05d4" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>ulMaxSessionCount</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a257a8ad60444cccd096244845bf5cd5c" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>ulMinPinLen</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a752bc366b6d7bf2b56b1e4bd22d4b647" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>ulRwSessionCount</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a3f40583f6aa0e3aba1ac591b34b6fafd" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>ulSessionCount</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a042bdb8180b0229b4b93a0198c96da6e" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>ulTotalPrivateMemory</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a0aa3a573f644deb017cf90248815d9a1" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>ulTotalPublicMemory</name></member>
+      <member refid="struct_c_k___t_o_k_e_n___i_n_f_o_1aad4ab8e2d88138334396dd7c355cf027" prot="public" virt="non-virtual"><scope>CK_TOKEN_INFO</scope><name>utcTime</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

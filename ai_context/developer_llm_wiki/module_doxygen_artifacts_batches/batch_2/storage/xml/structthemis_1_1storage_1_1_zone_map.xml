@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_zone_map" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::ZoneMap</compoundname>
+    <includes refid="columnar__format_8h" local="no">columnar_format.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_zone_map_1ab54d2bd9f54e20ef2f554f1dc56685c9" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::ZoneMap::min_int</definition>
+        <argsstring></argsstring>
+        <name>min_int</name>
+        <qualifiedname>themis::storage::ZoneMap::min_int</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="61" column="13" bodyfile="include/storage/columnar_format.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_zone_map_1a7a020deefee89b7d0d032c19429f5d91" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::ZoneMap::max_int</definition>
+        <argsstring></argsstring>
+        <name>max_int</name>
+        <qualifiedname>themis::storage::ZoneMap::max_int</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="62" column="13" bodyfile="include/storage/columnar_format.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_zone_map_1ae031498a91fc27d16a80dc26fedd4851" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::ZoneMap::min_float</definition>
+        <argsstring></argsstring>
+        <name>min_float</name>
+        <qualifiedname>themis::storage::ZoneMap::min_float</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="63" column="12" bodyfile="include/storage/columnar_format.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_zone_map_1a1da940fde45cfca469849b340f83388c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::ZoneMap::max_float</definition>
+        <argsstring></argsstring>
+        <name>max_float</name>
+        <qualifiedname>themis::storage::ZoneMap::max_float</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="64" column="12" bodyfile="include/storage/columnar_format.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_zone_map_1a2c22d71e26878df77542f5b1ada2fba9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::ZoneMap::min_str</definition>
+        <argsstring></argsstring>
+        <name>min_str</name>
+        <qualifiedname>themis::storage::ZoneMap::min_str</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="65" column="17" bodyfile="include/storage/columnar_format.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_zone_map_1a79739e3580508fb81824a5fd0e0c42e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::ZoneMap::max_str</definition>
+        <argsstring></argsstring>
+        <name>max_str</name>
+        <qualifiedname>themis::storage::ZoneMap::max_str</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="66" column="17" bodyfile="include/storage/columnar_format.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_zone_map_1ab0b27124aca8fcd71193e965c0252fcf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ZoneMap::null_count</definition>
+        <argsstring></argsstring>
+        <name>null_count</name>
+        <qualifiedname>themis::storage::ZoneMap::null_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="67" column="12" bodyfile="include/storage/columnar_format.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_zone_map_1a8a8a8e3882bbf987763a132d31808394" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ZoneMap::row_count</definition>
+        <argsstring></argsstring>
+        <name>row_count</name>
+        <qualifiedname>themis::storage::ZoneMap::row_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="68" column="12" bodyfile="include/storage/columnar_format.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_zone_map_1a80112c61613a8d7d2f5df1e8492e5f85" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::ZoneMap::canSkipForInt</definition>
+        <argsstring>(int64_t value) const</argsstring>
+        <name>canSkipForInt</name>
+        <qualifiedname>themis::storage::ZoneMap::canSkipForInt</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="71" column="10" bodyfile="src/storage/columnar_format.cpp" bodystart="55" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_zone_map_1a1064cfc2fb339ad0ebe22918798b7c53" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::ZoneMap::canSkipForFloat</definition>
+        <argsstring>(double value) const</argsstring>
+        <name>canSkipForFloat</name>
+        <qualifiedname>themis::storage::ZoneMap::canSkipForFloat</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="72" column="10" bodyfile="src/storage/columnar_format.cpp" bodystart="59" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_zone_map_1a1ac2b71c25f27bc4b1dd88ae2143f7c6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::ZoneMap::canSkipForString</definition>
+        <argsstring>(const std::string &amp;value) const</argsstring>
+        <name>canSkipForString</name>
+        <qualifiedname>themis::storage::ZoneMap::canSkipForString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="73" column="10" bodyfile="src/storage/columnar_format.cpp" bodystart="63" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/columnar_format.h" line="60" column="1" bodyfile="include/storage/columnar_format.h" bodystart="60" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_zone_map_1a1064cfc2fb339ad0ebe22918798b7c53" prot="public" virt="non-virtual"><scope>themis::storage::ZoneMap</scope><name>canSkipForFloat</name></member>
+      <member refid="structthemis_1_1storage_1_1_zone_map_1a80112c61613a8d7d2f5df1e8492e5f85" prot="public" virt="non-virtual"><scope>themis::storage::ZoneMap</scope><name>canSkipForInt</name></member>
+      <member refid="structthemis_1_1storage_1_1_zone_map_1a1ac2b71c25f27bc4b1dd88ae2143f7c6" prot="public" virt="non-virtual"><scope>themis::storage::ZoneMap</scope><name>canSkipForString</name></member>
+      <member refid="structthemis_1_1storage_1_1_zone_map_1a1da940fde45cfca469849b340f83388c" prot="public" virt="non-virtual"><scope>themis::storage::ZoneMap</scope><name>max_float</name></member>
+      <member refid="structthemis_1_1storage_1_1_zone_map_1a7a020deefee89b7d0d032c19429f5d91" prot="public" virt="non-virtual"><scope>themis::storage::ZoneMap</scope><name>max_int</name></member>
+      <member refid="structthemis_1_1storage_1_1_zone_map_1a79739e3580508fb81824a5fd0e0c42e8" prot="public" virt="non-virtual"><scope>themis::storage::ZoneMap</scope><name>max_str</name></member>
+      <member refid="structthemis_1_1storage_1_1_zone_map_1ae031498a91fc27d16a80dc26fedd4851" prot="public" virt="non-virtual"><scope>themis::storage::ZoneMap</scope><name>min_float</name></member>
+      <member refid="structthemis_1_1storage_1_1_zone_map_1ab54d2bd9f54e20ef2f554f1dc56685c9" prot="public" virt="non-virtual"><scope>themis::storage::ZoneMap</scope><name>min_int</name></member>
+      <member refid="structthemis_1_1storage_1_1_zone_map_1a2c22d71e26878df77542f5b1ada2fba9" prot="public" virt="non-virtual"><scope>themis::storage::ZoneMap</scope><name>min_str</name></member>
+      <member refid="structthemis_1_1storage_1_1_zone_map_1ab0b27124aca8fcd71193e965c0252fcf" prot="public" virt="non-virtual"><scope>themis::storage::ZoneMap</scope><name>null_count</name></member>
+      <member refid="structthemis_1_1storage_1_1_zone_map_1a8a8a8e3882bbf987763a132d31808394" prot="public" virt="non-virtual"><scope>themis::storage::ZoneMap</scope><name>row_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

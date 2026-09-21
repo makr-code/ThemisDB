@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_concurrency_churn_test" kind="class" language="C++" prot="public">
+    <compoundname>ConcurrencyChurnTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_concurrency_churn_test_1ac45d3adb99dca8b4c0af4cdd624c7f43" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t ConcurrencyChurnTest::kNumThreads</definition>
+        <argsstring></argsstring>
+        <name>kNumThreads</name>
+        <qualifiedname>ConcurrencyChurnTest::kNumThreads</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_concurrency_churn_focused.cpp" line="27" column="30" bodyfile="tests/process/test_process_concurrency_churn_focused.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_concurrency_churn_test_1ab0e39788084c7f2853b5564485be51bf" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t ConcurrencyChurnTest::kIterationsPerThread</definition>
+        <argsstring></argsstring>
+        <name>kIterationsPerThread</name>
+        <qualifiedname>ConcurrencyChurnTest::kIterationsPerThread</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_concurrency_churn_focused.cpp" line="28" column="30" bodyfile="tests/process/test_process_concurrency_churn_focused.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ConcurrencyChurnTest</label>
+        <link refid="class_concurrency_churn_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ConcurrencyChurnTest</label>
+        <link refid="class_concurrency_churn_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_concurrency_churn_focused.cpp" line="25" column="1" bodyfile="tests/process/test_process_concurrency_churn_focused.cpp" bodystart="25" bodyend="29"/>
+    <listofallmembers>
+      <member refid="class_concurrency_churn_test_1ab0e39788084c7f2853b5564485be51bf" prot="protected" virt="non-virtual"><scope>ConcurrencyChurnTest</scope><name>kIterationsPerThread</name></member>
+      <member refid="class_concurrency_churn_test_1ac45d3adb99dca8b4c0af4cdd624c7f43" prot="protected" virt="non-virtual"><scope>ConcurrencyChurnTest</scope><name>kNumThreads</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

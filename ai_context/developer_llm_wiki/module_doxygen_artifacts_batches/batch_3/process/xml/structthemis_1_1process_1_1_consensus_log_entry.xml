@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_consensus_log_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ConsensusLogEntry</compoundname>
+    <includes refid="federated__consensus__contract_8h" local="no">federated_consensus_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_log_entry_1ad9e81ca363d1a6c874f266cadfcd31b8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ConsensusLogEntry::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themis::process::ConsensusLogEntry::term</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Logical clock term/epoch (monotonically increasing across leader elections). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="173" column="14" bodyfile="include/process/federated_consensus_contract.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_log_entry_1abb545dd12f886d7d59a8672daa6526f3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ConsensusLogEntry::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <qualifiedname>themis::process::ConsensusLogEntry::index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Index in the replication log (1-based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="176" column="14" bodyfile="include/process/federated_consensus_contract.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_log_entry_1ad10963fd5fdb1a6f0b08b6b431dad616" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::ConsensusLogEntry::timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ns</name>
+        <qualifiedname>themis::process::ConsensusLogEntry::timestamp_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Timestamp of entry creation (UTC, nanoseconds since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="179" column="13" bodyfile="include/process/federated_consensus_contract.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_log_entry_1a89c83043927698f7c4fac0d76b92c781" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConsensusLogEntry::operation_type</definition>
+        <argsstring></argsstring>
+        <name>operation_type</name>
+        <qualifiedname>themis::process::ConsensusLogEntry::operation_type</qualifiedname>
+        <briefdescription>
+<para>Operation type: &quot;import&quot;, &quot;link&quot;, &quot;delete&quot;, &quot;config_change&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="182" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_log_entry_1ac1af56dbbea435c44ffd799516b71d00" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConsensusLogEntry::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::process::ConsensusLogEntry::model_id</qualifiedname>
+        <briefdescription>
+<para>Model ID affected by this operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="185" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_log_entry_1a1132f93ae9710d7e31d0ed2cde73d689" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConsensusLogEntry::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::process::ConsensusLogEntry::shard_id</qualifiedname>
+        <briefdescription>
+<para>Shard ID where operation originated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="188" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_log_entry_1a94d61aee7572de2b8f7be3f3ea93eb90" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConsensusLogEntry::payload_hash</definition>
+        <argsstring></argsstring>
+        <name>payload_hash</name>
+        <qualifiedname>themis::process::ConsensusLogEntry::payload_hash</qualifiedname>
+        <briefdescription>
+<para>Cryptographic hash of the operation payload (for integrity verification). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="191" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_log_entry_1acee87807fe883aa76b0ae6f4ae548b9d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConsensusLogEntry::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themis::process::ConsensusLogEntry::payload</qualifiedname>
+        <briefdescription>
+<para>Serialized operation payload (BPMN/CMMN content or link descriptor). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="194" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_log_entry_1aba69cbae6f51132a3a7671725a705293" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; uint64_t &gt;</type>
+        <definition>std::optional&lt;uint64_t&gt; themis::process::ConsensusLogEntry::commit_term</definition>
+        <argsstring></argsstring>
+        <name>commit_term</name>
+        <qualifiedname>themis::process::ConsensusLogEntry::commit_term</qualifiedname>
+        <briefdescription>
+<para>Optional: commit term if entry has been committed (leader only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="197" column="19" bodyfile="include/process/federated_consensus_contract.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_log_entry_1ade19e6bcff325fd8243f194edbffe386" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConsensusLogEntry::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::process::ConsensusLogEntry::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_consensus_manager.cpp" line="65" column="15" bodyfile="src/process/federation_consensus_manager.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_log_entry_1ae40dea7e63dbfe62676e19c2ac6f36e0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::ConsensusLogEntry::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themis::process::ConsensusLogEntry::checksum</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_consensus_manager.cpp" line="67" column="12" bodyfile="src/process/federation_consensus_manager.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_log_entry_1aaeac8339faea7b50851c8f995fe3099b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::ConsensusLogEntry::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::process::ConsensusLogEntry::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_consensus_manager.cpp" line="69" column="12" bodyfile="src/process/federation_consensus_manager.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_consensus_log_entry_1a10c959d447e2c8a1d57199f7fe08c86f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ConsensusLogEntry::is_committed</definition>
+        <argsstring></argsstring>
+        <name>is_committed</name>
+        <qualifiedname>themis::process::ConsensusLogEntry::is_committed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/federation_consensus_manager.cpp" line="71" column="8" bodyfile="src/process/federation_consensus_manager.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_consensus_log_entry_1ab26c498c194477a9c493ae10ac6882fe" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::process::ConsensusLogEntry::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::process::ConsensusLogEntry::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialize to JSON for RPC transmission. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON representation of this log entry. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="203" column="20" bodyfile="include/process/federated_consensus_contract.h" bodystart="203" bodyend="218"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Entry in the consensus replication log. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Represents a single process model change (import, link, delete) replicated across the cluster. </para>
+    </detaileddescription>
+    <location file="include/process/federated_consensus_contract.h" line="171" column="1" bodyfile="include/process/federated_consensus_contract.h" bodystart="171" bodyend="219"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_consensus_log_entry_1ae40dea7e63dbfe62676e19c2ac6f36e0" prot="public" virt="non-virtual"><scope>themis::process::ConsensusLogEntry</scope><name>checksum</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_log_entry_1aba69cbae6f51132a3a7671725a705293" prot="public" virt="non-virtual"><scope>themis::process::ConsensusLogEntry</scope><name>commit_term</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_log_entry_1ade19e6bcff325fd8243f194edbffe386" prot="public" virt="non-virtual"><scope>themis::process::ConsensusLogEntry</scope><name>data</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_log_entry_1abb545dd12f886d7d59a8672daa6526f3" prot="public" virt="non-virtual"><scope>themis::process::ConsensusLogEntry</scope><name>index</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_log_entry_1a10c959d447e2c8a1d57199f7fe08c86f" prot="public" virt="non-virtual"><scope>themis::process::ConsensusLogEntry</scope><name>is_committed</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_log_entry_1ac1af56dbbea435c44ffd799516b71d00" prot="public" virt="non-virtual"><scope>themis::process::ConsensusLogEntry</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_log_entry_1a89c83043927698f7c4fac0d76b92c781" prot="public" virt="non-virtual"><scope>themis::process::ConsensusLogEntry</scope><name>operation_type</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_log_entry_1acee87807fe883aa76b0ae6f4ae548b9d" prot="public" virt="non-virtual"><scope>themis::process::ConsensusLogEntry</scope><name>payload</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_log_entry_1a94d61aee7572de2b8f7be3f3ea93eb90" prot="public" virt="non-virtual"><scope>themis::process::ConsensusLogEntry</scope><name>payload_hash</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_log_entry_1a1132f93ae9710d7e31d0ed2cde73d689" prot="public" virt="non-virtual"><scope>themis::process::ConsensusLogEntry</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_log_entry_1ad9e81ca363d1a6c874f266cadfcd31b8" prot="public" virt="non-virtual"><scope>themis::process::ConsensusLogEntry</scope><name>term</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_log_entry_1aaeac8339faea7b50851c8f995fe3099b" prot="public" virt="non-virtual"><scope>themis::process::ConsensusLogEntry</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_log_entry_1ad10963fd5fdb1a6f0b08b6b431dad616" prot="public" virt="non-virtual"><scope>themis::process::ConsensusLogEntry</scope><name>timestamp_ns</name></member>
+      <member refid="structthemis_1_1process_1_1_consensus_log_entry_1ab26c498c194477a9c493ae10ac6882fe" prot="public" virt="non-virtual"><scope>themis::process::ConsensusLogEntry</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_executor_1_1_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::Executor::Result</compoundname>
+    <includes refid="graphql_8h" local="no">graphql.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_executor_1_1_result_1a1b65593812220c3951ead006ff543b5a" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Value&gt; themis::graphql::Executor::Result::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::graphql::Executor::Result::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="556" column="25" bodyfile="include/api/graphql.h" bodystart="556" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_executor_1_1_result_1ae6b7ac548493020ae99bf85e25142bbc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graphql_1_1_masked_error" kindref="compound">MaskedError</ref> &gt;</type>
+        <definition>std::vector&lt;MaskedError&gt; themis::graphql::Executor::Result::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::graphql::Executor::Result::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="557" column="21" bodyfile="include/api/graphql.h" bodystart="557" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_executor_1_1_result_1af213503a435a61ef6fd35a0b4fbb4ec6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Executor::Result::hasErrors</definition>
+        <argsstring>() const</argsstring>
+        <name>hasErrors</name>
+        <qualifiedname>themis::graphql::Executor::Result::hasErrors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="559" column="14" bodyfile="include/api/graphql.h" bodystart="559" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_executor_1_1_result_1aa0e6c102b9fd427f3ad0b8259529ff46" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::Executor::Result::addError</definition>
+        <argsstring>(const std::string &amp;message, const std::string &amp;code=&quot;INTERNAL_ERROR&quot;, bool mask=true)</argsstring>
+        <name>addError</name>
+        <qualifiedname>themis::graphql::Executor::Result::addError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>code</declname>
+          <defval>&quot;INTERNAL_ERROR&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>mask</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="562" column="14" bodyfile="include/api/graphql.h" bodystart="562" bodyend="566"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql.h" line="555" column="5" bodyfile="include/api/graphql.h" bodystart="555" bodyend="567"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_executor_1_1_result_1aa0e6c102b9fd427f3ad0b8259529ff46" prot="public" virt="non-virtual"><scope>themis::graphql::Executor::Result</scope><name>addError</name></member>
+      <member refid="structthemis_1_1graphql_1_1_executor_1_1_result_1a1b65593812220c3951ead006ff543b5a" prot="public" virt="non-virtual"><scope>themis::graphql::Executor::Result</scope><name>data</name></member>
+      <member refid="structthemis_1_1graphql_1_1_executor_1_1_result_1ae6b7ac548493020ae99bf85e25142bbc" prot="public" virt="non-virtual"><scope>themis::graphql::Executor::Result</scope><name>errors</name></member>
+      <member refid="structthemis_1_1graphql_1_1_executor_1_1_result_1af213503a435a61ef6fd35a0b4fbb4ec6" prot="public" virt="non-virtual"><scope>themis::graphql::Executor::Result</scope><name>hasErrors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_tensor_artifact_freshness" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::TensorArtifactFreshness</compoundname>
+    <includes refid="query__planner_8h" local="no">query_planner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a3d79b593b5a761dc7ddf03e21a149d90" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::evaluation::TensorArtifactFreshness::artifact_age_ms</definition>
+        <argsstring></argsstring>
+        <name>artifact_age_ms</name>
+        <qualifiedname>themis::evaluation::TensorArtifactFreshness::artifact_age_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="116" column="14" bodyfile="src/evaluation/include/query_planner.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a1bb48db818af98cff52a62a0d74b41cb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::evaluation::TensorArtifactFreshness::delta_lag</definition>
+        <argsstring></argsstring>
+        <name>delta_lag</name>
+        <qualifiedname>themis::evaluation::TensorArtifactFreshness::delta_lag</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="118" column="14" bodyfile="src/evaluation/include/query_planner.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1ae6e925d42d9d19bd1d2cb40275c69352" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::evaluation::TensorArtifactFreshness::source_seq_start</definition>
+        <argsstring></argsstring>
+        <name>source_seq_start</name>
+        <qualifiedname>themis::evaluation::TensorArtifactFreshness::source_seq_start</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="120" column="14" bodyfile="src/evaluation/include/query_planner.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a885300ace6cbdc790d0eb0262d7dede3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::evaluation::TensorArtifactFreshness::source_seq_end</definition>
+        <argsstring></argsstring>
+        <name>source_seq_end</name>
+        <qualifiedname>themis::evaluation::TensorArtifactFreshness::source_seq_end</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="122" column="14" bodyfile="src/evaluation/include/query_planner.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a46b000940e2a4f8b38d5a64d6bdee494" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::TensorArtifactFreshness::residual_threshold</definition>
+        <argsstring></argsstring>
+        <name>residual_threshold</name>
+        <qualifiedname>themis::evaluation::TensorArtifactFreshness::residual_threshold</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="124" column="12" bodyfile="src/evaluation/include/query_planner.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a2c705e5e0c7cae6978cacf8eff6db7e5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::evaluation::TensorArtifactFreshness::rank_cap</definition>
+        <argsstring></argsstring>
+        <name>rank_cap</name>
+        <qualifiedname>themis::evaluation::TensorArtifactFreshness::rank_cap</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="126" column="9" bodyfile="src/evaluation/include/query_planner.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1ab9cffcfea57ac40fa30f9ccc57c0af63" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::TensorArtifactFreshness::rebuild_in_progress</definition>
+        <argsstring></argsstring>
+        <name>rebuild_in_progress</name>
+        <qualifiedname>themis::evaluation::TensorArtifactFreshness::rebuild_in_progress</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="128" column="10" bodyfile="src/evaluation/include/query_planner.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a80e5d68cccf9b5500801ef45d8de8853" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::evaluation::TensorArtifactFreshness::isFresh</definition>
+        <argsstring>(uint64_t max_age_ms, double min_residual=0.95) const noexcept</argsstring>
+        <name>isFresh</name>
+        <qualifiedname>themis::evaluation::TensorArtifactFreshness::isFresh</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>max_age_ms</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_residual</declname>
+          <defval>0.95</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="130" column="11" bodyfile="src/evaluation/include/query_planner.h" bodystart="130" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1ac0576d77f24b7b44685801b0d372bc4d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008" kindref="member">FallbackReason</ref></type>
+        <definition>FallbackReason themis::evaluation::TensorArtifactFreshness::staleness_reason</definition>
+        <argsstring>(uint64_t max_age_ms, double min_residual=0.95) const noexcept</argsstring>
+        <name>staleness_reason</name>
+        <qualifiedname>themis::evaluation::TensorArtifactFreshness::staleness_reason</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>max_age_ms</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_residual</declname>
+          <defval>0.95</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="146" column="21" bodyfile="src/evaluation/include/query_planner.h" bodystart="146" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/query_planner.h" line="115" column="1" bodyfile="src/evaluation/include/query_planner.h" bodystart="115" bodyend="161"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a3d79b593b5a761dc7ddf03e21a149d90" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorArtifactFreshness</scope><name>artifact_age_ms</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a1bb48db818af98cff52a62a0d74b41cb" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorArtifactFreshness</scope><name>delta_lag</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a80e5d68cccf9b5500801ef45d8de8853" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorArtifactFreshness</scope><name>isFresh</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a2c705e5e0c7cae6978cacf8eff6db7e5" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorArtifactFreshness</scope><name>rank_cap</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1ab9cffcfea57ac40fa30f9ccc57c0af63" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorArtifactFreshness</scope><name>rebuild_in_progress</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a46b000940e2a4f8b38d5a64d6bdee494" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorArtifactFreshness</scope><name>residual_threshold</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1a885300ace6cbdc790d0eb0262d7dede3" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorArtifactFreshness</scope><name>source_seq_end</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1ae6e925d42d9d19bd1d2cb40275c69352" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorArtifactFreshness</scope><name>source_seq_start</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness_1ac0576d77f24b7b44685801b0d372bc4d" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorArtifactFreshness</scope><name>staleness_reason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

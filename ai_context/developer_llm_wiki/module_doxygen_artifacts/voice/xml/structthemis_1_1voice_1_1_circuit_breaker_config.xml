@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_circuit_breaker_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::CircuitBreakerConfig</compoundname>
+    <includes refid="voice__error__handler_8h" local="no">voice_error_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_circuit_breaker_config_1a5402a51f16298776dc070d5a7473380e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::CircuitBreakerConfig::failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold</name>
+        <qualifiedname>themis::voice::CircuitBreakerConfig::failure_threshold</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="70" column="12" bodyfile="include/voice/voice_error_handler.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_circuit_breaker_config_1a5cf2ca844a9e32c64a95d16fcf4259a3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::CircuitBreakerConfig::success_threshold</definition>
+        <argsstring></argsstring>
+        <name>success_threshold</name>
+        <qualifiedname>themis::voice::CircuitBreakerConfig::success_threshold</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="71" column="12" bodyfile="include/voice/voice_error_handler.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_circuit_breaker_config_1a613e1058bc925a41576dc20580c1fa4c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::CircuitBreakerConfig::open_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>open_duration_ms</name>
+        <qualifiedname>themis::voice::CircuitBreakerConfig::open_duration_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="72" column="13" bodyfile="include/voice/voice_error_handler.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_circuit_breaker_config_1a9ce1b3f5f57e9b0aa87128225bc6d2e4" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::CircuitBreakerConfig::half_open_probe_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>half_open_probe_interval_ms</name>
+        <qualifiedname>themis::voice::CircuitBreakerConfig::half_open_probe_interval_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="73" column="13" bodyfile="include/voice/voice_error_handler.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_error_handler.h" line="69" column="1" bodyfile="include/voice/voice_error_handler.h" bodystart="69" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_circuit_breaker_config_1a5402a51f16298776dc070d5a7473380e" prot="public" virt="non-virtual"><scope>themis::voice::CircuitBreakerConfig</scope><name>failure_threshold</name></member>
+      <member refid="structthemis_1_1voice_1_1_circuit_breaker_config_1a9ce1b3f5f57e9b0aa87128225bc6d2e4" prot="public" virt="non-virtual"><scope>themis::voice::CircuitBreakerConfig</scope><name>half_open_probe_interval_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_circuit_breaker_config_1a613e1058bc925a41576dc20580c1fa4c" prot="public" virt="non-virtual"><scope>themis::voice::CircuitBreakerConfig</scope><name>open_duration_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_circuit_breaker_config_1a5cf2ca844a9e32c64a95d16fcf4259a3" prot="public" virt="non-virtual"><scope>themis::voice::CircuitBreakerConfig</scope><name>success_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

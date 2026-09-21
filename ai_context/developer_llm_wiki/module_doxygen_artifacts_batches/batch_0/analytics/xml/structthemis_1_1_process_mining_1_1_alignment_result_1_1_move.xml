@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessMining::AlignmentResult::Move</compoundname>
+    <includes refid="process__mining_8h" local="no">process_mining.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move_1aa7813c2a176472d227dd737870a8e9b4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessMining::AlignmentResult::Move::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::ProcessMining::AlignmentResult::Move::type</qualifiedname>
+        <briefdescription>
+<para>&quot;sync&quot;, &quot;model&quot;, &quot;log&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="299" column="25" bodyfile="include/analytics/process_mining.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move_1a68b13702931deedce34b54aee1d0eca2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessMining::AlignmentResult::Move::activity</definition>
+        <argsstring></argsstring>
+        <name>activity</name>
+        <qualifiedname>themis::ProcessMining::AlignmentResult::Move::activity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="300" column="25" bodyfile="include/analytics/process_mining.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move_1ae38caae4134b9a082e903944ff12fc53" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessMining::AlignmentResult::Move::cost</definition>
+        <argsstring></argsstring>
+        <name>cost</name>
+        <qualifiedname>themis::ProcessMining::AlignmentResult::Move::cost</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="301" column="20" bodyfile="include/analytics/process_mining.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_mining.h" line="298" column="9" bodyfile="include/analytics/process_mining.h" bodystart="298" bodyend="302"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move_1a68b13702931deedce34b54aee1d0eca2" prot="public" virt="non-virtual"><scope>themis::ProcessMining::AlignmentResult::Move</scope><name>activity</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move_1ae38caae4134b9a082e903944ff12fc53" prot="public" virt="non-virtual"><scope>themis::ProcessMining::AlignmentResult::Move</scope><name>cost</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move_1aa7813c2a176472d227dd737870a8e9b4" prot="public" virt="non-virtual"><scope>themis::ProcessMining::AlignmentResult::Move</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

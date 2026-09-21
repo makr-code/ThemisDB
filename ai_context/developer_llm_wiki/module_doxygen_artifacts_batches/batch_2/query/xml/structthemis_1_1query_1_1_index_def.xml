@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_index_def" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::IndexDef</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_index_def_1a951f202562337a55924bfc275cc5c0e1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::IndexDef::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::IndexDef::name</qualifiedname>
+        <briefdescription>
+<para>Index name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="950" column="28" bodyfile="include/query/aql_parser.h" bodystart="950" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_index_def_1aae6e20b86933cbbc5347d8f39d1ab9cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::IndexDef::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::query::IndexDef::collection</qualifiedname>
+        <briefdescription>
+<para>Target collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="951" column="28" bodyfile="include/query/aql_parser.h" bodystart="951" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_index_def_1a88bfd5e051ae905ff3af98780c16d8b2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_field_def" kindref="compound">FieldDef</ref> &gt;</type>
+        <definition>std::vector&lt;FieldDef&gt; themis::query::IndexDef::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>themis::query::IndexDef::fields</qualifiedname>
+        <briefdescription>
+<para>Indexed fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="952" column="18" bodyfile="include/query/aql_parser.h" bodystart="952" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_index_def_1a6b1766caf23097dc0da0b836d30fbc57" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::IndexDef::unique</definition>
+        <argsstring></argsstring>
+        <name>unique</name>
+        <qualifiedname>themis::query::IndexDef::unique</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Unique constraint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="953" column="28" bodyfile="include/query/aql_parser.h" bodystart="953" bodyend="953"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_index_def_1a9e3e7ec499257bd77700e0f46af8afd1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::IndexDef::sparse</definition>
+        <argsstring></argsstring>
+        <name>sparse</name>
+        <qualifiedname>themis::query::IndexDef::sparse</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Sparse (skip null values). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="954" column="28" bodyfile="include/query/aql_parser.h" bodystart="954" bodyend="954"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_index_def_1a5624dc20ece5317470c7b8ba3a17fd27" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::IndexDef::index_type</definition>
+        <argsstring></argsstring>
+        <name>index_type</name>
+        <qualifiedname>themis::query::IndexDef::index_type</qualifiedname>
+        <briefdescription>
+<para>&quot;hash&quot;, &quot;skiplist&quot;, &quot;geo&quot;, &quot;fulltext&quot;, &quot;vector&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="955" column="28" bodyfile="include/query/aql_parser.h" bodystart="955" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_parser.h" line="949" column="1" bodyfile="include/query/aql_parser.h" bodystart="949" bodyend="956"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_index_def_1aae6e20b86933cbbc5347d8f39d1ab9cb" prot="public" virt="non-virtual"><scope>themis::query::IndexDef</scope><name>collection</name></member>
+      <member refid="structthemis_1_1query_1_1_index_def_1a88bfd5e051ae905ff3af98780c16d8b2" prot="public" virt="non-virtual"><scope>themis::query::IndexDef</scope><name>fields</name></member>
+      <member refid="structthemis_1_1query_1_1_index_def_1a5624dc20ece5317470c7b8ba3a17fd27" prot="public" virt="non-virtual"><scope>themis::query::IndexDef</scope><name>index_type</name></member>
+      <member refid="structthemis_1_1query_1_1_index_def_1a951f202562337a55924bfc275cc5c0e1" prot="public" virt="non-virtual"><scope>themis::query::IndexDef</scope><name>name</name></member>
+      <member refid="structthemis_1_1query_1_1_index_def_1a9e3e7ec499257bd77700e0f46af8afd1" prot="public" virt="non-virtual"><scope>themis::query::IndexDef</scope><name>sparse</name></member>
+      <member refid="structthemis_1_1query_1_1_index_def_1a6b1766caf23097dc0da0b836d30fbc57" prot="public" virt="non-virtual"><scope>themis::query::IndexDef</scope><name>unique</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

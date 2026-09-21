@@ -1,0 +1,437 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__jwt__integration_8cpp" kind="file" language="C++">
+    <compoundname>test_jwt_integration.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">openssl/rsa.h</includes>
+    <includes local="no">openssl/pem.h</includes>
+    <includes local="no">openssl/bn.h</includes>
+    <includes local="no">openssl/evp.h</includes>
+    <includes local="no">boost/asio.hpp</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <includes local="yes">auth/jwt_validator.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_jwt_integration.cpp</label>
+        <link refid="test__jwt__integration_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>auth/jwt_validator.h</label>
+      </node>
+      <node id="8">
+        <label>boost/asio.hpp</label>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>openssl/bn.h</label>
+      </node>
+      <node id="7">
+        <label>openssl/evp.h</label>
+      </node>
+      <node id="5">
+        <label>openssl/pem.h</label>
+      </node>
+      <node id="4">
+        <label>openssl/rsa.h</label>
+      </node>
+      <node id="9">
+        <label>thread</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_r_s_a_fixture" prot="public">RSAFixture</innerclass>
+    <innerclass refid="class_one_shot_http_server" prot="public">OneShotHttpServer</innerclass>
+    <innerclass refid="class_multi_response_http_server" prot="public">MultiResponseHttpServer</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__jwt__integration_8cpp_1afac2993bc5313e3c22b09b5ac0515c54" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string b64url</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;in)</argsstring>
+        <name>b64url</name>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="15" column="20" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="15" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__integration_8cpp_1af368dee30228a50ab941c1204bfd19fc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string sign_RS256</definition>
+        <argsstring>(EVP_PKEY *pkey, const std::string &amp;header_payload)</argsstring>
+        <name>sign_RS256</name>
+        <param>
+          <type>EVP_PKEY *</type>
+          <declname>pkey</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>header_payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="47" column="20" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="47" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__integration_8cpp_1a62d599c3b2bf11d0f55f70b3acc2734f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>static nlohmann::json make_jwks</definition>
+        <argsstring>(RSA *rsa, const std::string &amp;kid=&quot;test-int-1&quot;)</argsstring>
+        <name>make_jwks</name>
+        <param>
+          <type>RSA *</type>
+          <declname>rsa</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kid</declname>
+          <defval>&quot;test-int-1&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="60" column="23" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="60" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__integration_8cpp_1a892846b8ca4935c8aa324cba175de758" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTIntegration, JWKSFetchAndValidate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTIntegration</type>
+        </param>
+        <param>
+          <type>JWKSFetchAndValidate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="156" column="1" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="156" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__integration_8cpp_1a7c3bd1c88c7025f0eb428004c84231e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JWTIntegration, JWKSRotation_RefetchOnMissingKid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JWTIntegration</type>
+        </param>
+        <param>
+          <type>JWKSRotation_RefetchOnMissingKid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="198" column="1" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="198" bodyend="255"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/rsa.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/pem.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/bn.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/evp.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/asio.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/jwt_validator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">boost::asio::ip::tcp;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>b64url(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>in)<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>tbl<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>b64;<sp/>b64.reserve(((in.size()+2)/3)*4);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i=0;<sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(i+3&lt;=in.size())<sp/>{<sp/>uint32_t<sp/>n=(in[i]&lt;&lt;16)|(in[i+1]&lt;&lt;8)|in[i+2];<sp/>b64.push_back(tbl[(n&gt;&gt;18)&amp;63]);<sp/>b64.push_back(tbl[(n&gt;&gt;12)&amp;63]);<sp/>b64.push_back(tbl[(n&gt;&gt;6)&amp;63]);<sp/>b64.push_back(tbl[n&amp;63]);<sp/>i+=3;<sp/>}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(i+1==in.size()){<sp/>uint32_t<sp/>n=(in[i]&lt;&lt;16);<sp/>b64.push_back(tbl[(n&gt;&gt;18)&amp;63]);<sp/>b64.push_back(tbl[(n&gt;&gt;12)&amp;63]);<sp/>b64.push_back(</highlight><highlight class="charliteral">&apos;=&apos;</highlight><highlight class="normal">);<sp/>b64.push_back(</highlight><highlight class="charliteral">&apos;=&apos;</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(i+2==in.size()){<sp/>uint32_t<sp/>n=(in[i]&lt;&lt;16)|(in[i+1]&lt;&lt;8);<sp/>b64.push_back(tbl[(n&gt;&gt;18)&amp;63]);<sp/>b64.push_back(tbl[(n&gt;&gt;12)&amp;63]);<sp/>b64.push_back(tbl[(n&gt;&gt;6)&amp;63]);<sp/>b64.push_back(</highlight><highlight class="charliteral">&apos;=&apos;</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">&amp;<sp/>c:<sp/>b64){<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(c==</highlight><highlight class="charliteral">&apos;+&apos;</highlight><highlight class="normal">)<sp/>c=</highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(c==</highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal">)<sp/>c=</highlight><highlight class="charliteral">&apos;_&apos;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(!b64.empty()<sp/>&amp;&amp;<sp/>b64.back()==</highlight><highlight class="charliteral">&apos;=&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>b64.pop_back();</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>b64;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="struct_r_s_a_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_r_s_a_fixture_1af5d7fd6ce56c5b642896951f62babf1c" kindref="member">RSAFixture</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>RSA*<sp/><ref refid="struct_r_s_a_fixture_1a4f0db903230c926e94257bccca581929" kindref="member">rsa</ref>=</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>EVP_PKEY*<sp/><ref refid="struct_r_s_a_fixture_1a47aaf4e883fca405998a79423738b99b" kindref="member">pkey</ref>=</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>BIGNUM*<sp/><ref refid="struct_r_s_a_fixture_1a17205ef9e6bc9330430824f3754ba290" kindref="member">bn</ref>=</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_r_s_a_fixture_1af5d7fd6ce56c5b642896951f62babf1c" kindref="member">RSAFixture</ref>(){</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_r_s_a_fixture_1a17205ef9e6bc9330430824f3754ba290" kindref="member">bn</ref>=BN_new();<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!<ref refid="struct_r_s_a_fixture_1a17205ef9e6bc9330430824f3754ba290" kindref="member">bn</ref>)<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;BN_new<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(BN_set_word(<ref refid="struct_r_s_a_fixture_1a17205ef9e6bc9330430824f3754ba290" kindref="member">bn</ref>,<sp/>RSA_F4)<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;BN_set_word<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_r_s_a_fixture_1a4f0db903230c926e94257bccca581929" kindref="member">rsa</ref><sp/>=<sp/>RSA_new();<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!<ref refid="struct_r_s_a_fixture_1a4f0db903230c926e94257bccca581929" kindref="member">rsa</ref>)<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;RSA_new<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(RSA_generate_key_ex(<ref refid="struct_r_s_a_fixture_1a4f0db903230c926e94257bccca581929" kindref="member">rsa</ref>,<sp/>2048,<sp/><ref refid="struct_r_s_a_fixture_1a17205ef9e6bc9330430824f3754ba290" kindref="member">bn</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;RSA_generate_key_ex<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_r_s_a_fixture_1a47aaf4e883fca405998a79423738b99b" kindref="member">pkey</ref><sp/>=<sp/>EVP_PKEY_new();<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!<ref refid="struct_r_s_a_fixture_1a47aaf4e883fca405998a79423738b99b" kindref="member">pkey</ref>)<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;EVP_PKEY_new<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(EVP_PKEY_assign_RSA(<ref refid="struct_r_s_a_fixture_1a47aaf4e883fca405998a79423738b99b" kindref="member">pkey</ref>,<sp/><ref refid="struct_r_s_a_fixture_1a4f0db903230c926e94257bccca581929" kindref="member">rsa</ref>)<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;EVP_PKEY_assign_RSA<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_r_s_a_fixture_1af5d7fd6ce56c5b642896951f62babf1c" kindref="member">~RSAFixture</ref>(){<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="struct_r_s_a_fixture_1a47aaf4e883fca405998a79423738b99b" kindref="member">pkey</ref>)<sp/>EVP_PKEY_free(<ref refid="struct_r_s_a_fixture_1a47aaf4e883fca405998a79423738b99b" kindref="member">pkey</ref>);<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="struct_r_s_a_fixture_1a17205ef9e6bc9330430824f3754ba290" kindref="member">bn</ref>)<sp/>BN_free(<ref refid="struct_r_s_a_fixture_1a17205ef9e6bc9330430824f3754ba290" kindref="member">bn</ref>);<sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>sign_RS256(EVP_PKEY*<sp/>pkey,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>header_payload){</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EVP_MD_CTX*<sp/>mctx<sp/>=<sp/>EVP_MD_CTX_new();<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!mctx)<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;EVP_MD_CTX_new<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(EVP_DigestSignInit(mctx,</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,EVP_sha256(),</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,pkey)&lt;=0)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;DigestSignInit<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(EVP_DigestSignUpdate(mctx,<sp/>header_payload.data(),<sp/>header_payload.size())&lt;=0)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;DigestSignUpdate<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>siglen=0;<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(EVP_DigestSignFinal(mctx,</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,&amp;siglen)&lt;=0)<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;DigestSignFinal<sp/>query<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>sig(siglen);<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>siglen2=siglen;<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(EVP_DigestSignFinal(mctx,sig.data(),&amp;siglen2)&lt;=0)<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;DigestSignFinal<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>sig.resize(siglen2);<sp/>EVP_MD_CTX_free(mctx);<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>b64url(sig);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>make_jwks(RSA*<sp/>rsa,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>kid=</highlight><highlight class="stringliteral">&quot;test-int-1&quot;</highlight><highlight class="normal">){</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BIGNUM*<sp/>n;<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BIGNUM*<sp/>e;<sp/>RSA_get0_key(rsa,&amp;n,&amp;e,</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>n_bytes(BN_num_bytes(n));<sp/>BN_bn2bin(n,n_bytes.data());</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>e_bytes(BN_num_bytes(e));<sp/>BN_bn2bin(e,e_bytes.data());</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>jwk<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,kid},{</highlight><highlight class="stringliteral">&quot;alg&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;RS256&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;use&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;sig&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">,<sp/>b64url(n_bytes)},{</highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/>b64url(e_bytes)}};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::array({jwk})}};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Simple<sp/>one-shot<sp/>HTTP<sp/>server<sp/>(Boost.Asio)<sp/>that<sp/>serves<sp/>given<sp/>body<sp/>for<sp/>any<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="class_one_shot_http_server" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_one_shot_http_server_1ab4e9e4f0b9ae7aff0c5977b96639c1d5" kindref="member">OneShotHttpServer</ref><sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_one_shot_http_server_1ab4e9e4f0b9ae7aff0c5977b96639c1d5" kindref="member">OneShotHttpServer</ref>(std::string<sp/>body,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">short</highlight><highlight class="normal"><sp/><ref refid="class_one_shot_http_server_1a65de053bf5fe4384e2984b57d87dd790" kindref="member">port</ref>=0)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>body_(std::move(body)),<sp/>ios_(),<sp/>acceptor_(ios_)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tcp::endpoint<sp/>ep(tcp::v4(),<sp/><ref refid="class_one_shot_http_server_1a65de053bf5fe4384e2984b57d87dd790" kindref="member">port</ref>);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acceptor_.open(ep.protocol());</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acceptor_.set_option(boost::asio::socket_base::reuse_address(</highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acceptor_.bind(ep);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acceptor_.listen(1);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>port_<sp/>=<sp/>acceptor_.local_endpoint().port();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thr_<sp/>=<sp/>std::thread([</highlight><highlight class="keyword">this</highlight><highlight class="normal">]{<sp/>this-&gt;run();<sp/>});</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_one_shot_http_server_1aa96c37f3696e4d90354f76dca94c7f66" kindref="member">~OneShotHttpServer</ref>(){</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{<sp/>acceptor_.close();<sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(...){}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(thr_.joinable())<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thr_.join();</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">short</highlight><highlight class="normal"><sp/><ref refid="class_one_shot_http_server_1a65de053bf5fe4384e2984b57d87dd790" kindref="member">port</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>port_;<sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>run(){</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tcp::socket<sp/>sock(ios_);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acceptor_.accept(sock);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>read<sp/>request<sp/>(up<sp/>to<sp/>header<sp/>end)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>boost::asio::streambuf<sp/>req;<sp/>boost::asio::read_until(sock,<sp/>req,<sp/></highlight><highlight class="stringliteral">&quot;\r\n\r\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ostringstream<sp/>resp<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resp<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;HTTP/1.1<sp/>200<sp/>OK\r\nContent-Type:<sp/>application/json\r\nContent-Length:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>body_.size()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\r\nConnection:<sp/>close\r\n\r\n&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>body_;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OneShotHttpServer:<sp/>serving<sp/>body<sp/>(len=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>body_.size()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;):<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(body_.size()<sp/>&gt;<sp/>200<sp/>?<sp/>body_.substr(0,200)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal"><sp/>:<sp/>body_)<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>boost::asio::write(sock,<sp/>boost::asio::buffer(resp.str()));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>boost::system::error_code<sp/>ec;<sp/>sock.shutdown(tcp::socket::shutdown_both,<sp/>ec);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(...)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ignore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>body_;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>boost::asio::io_context<sp/>ios_;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>tcp::acceptor<sp/>acceptor_;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>thr_;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">short</highlight><highlight class="normal"><sp/>port_{};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Multi-response<sp/>server:<sp/>serves<sp/>responses<sp/>sequentially<sp/>for<sp/>multiple<sp/>connections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="class_multi_response_http_server" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_multi_response_http_server_1a61e3d2f4ef71bd984b6406bb914b0871" kindref="member">MultiResponseHttpServer</ref><sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_multi_response_http_server_1a61e3d2f4ef71bd984b6406bb914b0871" kindref="member">MultiResponseHttpServer</ref>(std::vector&lt;std::string&gt;<sp/>bodies,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">short</highlight><highlight class="normal"><sp/><ref refid="class_multi_response_http_server_1a127270d461eef828edb31872cc0dc9a6" kindref="member">port</ref>=0)</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>bodies_(std::move(bodies)),<sp/>ios_(),<sp/>acceptor_(ios_),<sp/>idx_(0)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tcp::endpoint<sp/>ep(tcp::v4(),<sp/><ref refid="class_multi_response_http_server_1a127270d461eef828edb31872cc0dc9a6" kindref="member">port</ref>);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acceptor_.open(ep.protocol());</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acceptor_.set_option(boost::asio::socket_base::reuse_address(</highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acceptor_.bind(ep);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acceptor_.listen(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(bodies_.size()));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>port_<sp/>=<sp/>acceptor_.local_endpoint().port();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thr_<sp/>=<sp/>std::thread([</highlight><highlight class="keyword">this</highlight><highlight class="normal">]{<sp/>this-&gt;run();<sp/>});</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_multi_response_http_server_1a920e0da63f3a4c6c52b0e4f8205036e8" kindref="member">~MultiResponseHttpServer</ref>(){</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{<sp/>acceptor_.close();<sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(...){}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(thr_.joinable())<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thr_.join();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">short</highlight><highlight class="normal"><sp/><ref refid="class_multi_response_http_server_1a127270d461eef828edb31872cc0dc9a6" kindref="member">port</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>port_;<sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>run(){</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(idx_<sp/>&lt;<sp/>bodies_.size()){</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tcp::socket<sp/>sock(ios_);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acceptor_.accept(sock);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>read<sp/>request<sp/>headers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>boost::asio::streambuf<sp/>req;<sp/>boost::asio::read_until(sock,<sp/>req,<sp/></highlight><highlight class="stringliteral">&quot;\r\n\r\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>body<sp/>=<sp/>bodies_[idx_++];</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ostringstream<sp/>resp<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resp<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;HTTP/1.1<sp/>200<sp/>OK\r\nContent-Type:<sp/>application/json\r\nContent-Length:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>body.size()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\r\nConnection:<sp/>close\r\n\r\n&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>body;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;MultiResponseHttpServer:<sp/>serving<sp/>index=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(idx_-1)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>len=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>body.size()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>body:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(body.size()<sp/>&gt;<sp/>200<sp/>?<sp/>body.substr(0,200)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;...&quot;</highlight><highlight class="normal"><sp/>:<sp/>body)<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>boost::asio::write(sock,<sp/>boost::asio::buffer(resp.str()));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>boost::system::error_code<sp/>ec;<sp/>sock.shutdown(tcp::socket::shutdown_both,<sp/>ec);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(...)<sp/>{<sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>bodies_;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>boost::asio::io_context<sp/>ios_;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>tcp::acceptor<sp/>acceptor_;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>thr_;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">short</highlight><highlight class="normal"><sp/>port_{};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>idx_;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__jwt__integration_8cpp_1a892846b8ca4935c8aa324cba175de758" kindref="member">TEST</ref>(JWTIntegration,<sp/>JWKSFetchAndValidate)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RSAFixture<sp/>fix;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>jwks<sp/>=<sp/>make_jwks(fix.rsa,<sp/></highlight><highlight class="stringliteral">&quot;int-kid-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>jwks_body<sp/>=<sp/>jwks.dump();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_one_shot_http_server" kindref="compound">OneShotHttpServer</ref><sp/>server(jwks_body,<sp/>0);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">short</highlight><highlight class="normal"><sp/>port<sp/>=<sp/>server.port();</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_GT(port,<sp/>0);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>header<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;alg&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;RS256&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;int-kid-1&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::seconds&gt;(std::chrono::system_clock::now().time_since_epoch()).count();</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>payload<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;sub&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;integration-user&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;iss&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;int-issuer&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;aud&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;int-aud&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;exp&quot;</highlight><highlight class="normal">,<sp/>now<sp/>+<sp/>300}};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>header_s<sp/>=<sp/>header.dump();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>payload_s<sp/>=<sp/>payload.dump();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>header_b64<sp/>=<sp/>b64url(std::vector&lt;uint8_t&gt;(header_s.begin(),<sp/>header_s.end()));</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>payload_b64<sp/>=<sp/>b64url(std::vector&lt;uint8_t&gt;(payload_s.begin(),<sp/>payload_s.end()));</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>unsigned_token<sp/>=<sp/>header_b64<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>payload_b64;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>sig<sp/>=<sp/>sign_RS256(fix.pkey,<sp/>unsigned_token);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>token<sp/>=<sp/>unsigned_token<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>sig;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.jwks_url<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://127.0.0.1:&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(port)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/jwks.json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.expected_issuer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;int-issuer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.expected_audience<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;int-aud&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(cfg);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Give<sp/>server<sp/>a<sp/>moment<sp/>to<sp/>be<sp/>ready</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(50));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>claims<sp/>=<sp/>validator.parseAndValidate(token);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.sub,<sp/></highlight><highlight class="stringliteral">&quot;integration-user&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.issuer,<sp/></highlight><highlight class="stringliteral">&quot;int-issuer&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>ex)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;JWTIntegration<sp/>test<sp/>exception:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>ex.what()<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Exception:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>ex.what();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;JWTIntegration<sp/>test<sp/>unknown<sp/>exception&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unknown<sp/>exception&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><ref refid="test__jwt__integration_8cpp_1a892846b8ca4935c8aa324cba175de758" kindref="member">TEST</ref>(JWTIntegration,<sp/>JWKSRotation_RefetchOnMissingKid)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RSAFixture<sp/>fix;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>JWKS<sp/>does<sp/>NOT<sp/>include<sp/>the<sp/>needed<sp/>kid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>jwk1<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;other&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;alg&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;RS256&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;use&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;sig&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;AAA&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;AQAB&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>jwks1<sp/>=<sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::array({jwk1})}};</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>JWKS<sp/>contains<sp/>the<sp/>correct<sp/>kid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>jwks2<sp/>=<sp/>make_jwks(fix.rsa,<sp/></highlight><highlight class="stringliteral">&quot;rot-kid-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>server<sp/>that<sp/>will<sp/>serve<sp/>jwks1<sp/>then<sp/>jwks2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>bodies<sp/>=<sp/>{<sp/>jwks1.dump(),<sp/>jwks2.dump()<sp/>};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;JWKSRotation:<sp/>jwks1<sp/>size=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>bodies[0].size()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>jwks2<sp/>size=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>bodies[1].size()<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_multi_response_http_server" kindref="compound">MultiResponseHttpServer</ref><sp/>server(bodies,<sp/>0);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">short</highlight><highlight class="normal"><sp/>port<sp/>=<sp/>server.port();<sp/>ASSERT_GT(port,<sp/>0);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;JWKSRotation:<sp/>server<sp/>started<sp/>on<sp/>port<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>port<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>token<sp/>signed<sp/>with<sp/>rot-kid-1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>header<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;alg&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;RS256&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;rot-kid-1&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::seconds&gt;(std::chrono::system_clock::now().time_since_epoch()).count();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>payload<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;sub&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;rot-user&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;iss&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;rot-issuer&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;aud&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;rot-aud&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;exp&quot;</highlight><highlight class="normal">,<sp/>now<sp/>+<sp/>300}};</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>header_s<sp/>=<sp/>header.dump();</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>payload_s<sp/>=<sp/>payload.dump();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>header_b64<sp/>=<sp/>b64url(std::vector&lt;uint8_t&gt;(header_s.begin(),<sp/>header_s.end()));</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;JWKSRotation:<sp/>header_b64<sp/>len=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>header_b64.size()<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>payload_b64<sp/>=<sp/>b64url(std::vector&lt;uint8_t&gt;(payload_s.begin(),<sp/>payload_s.end()));</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;JWKSRotation:<sp/>payload_b64<sp/>len=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>payload_b64.size()<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>unsigned_token<sp/>=<sp/>header_b64<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>payload_b64;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>sig<sp/>=<sp/>sign_RS256(fix.pkey,<sp/>unsigned_token);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;JWKSRotation:<sp/>signature<sp/>len=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>sig.size()<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>token<sp/>=<sp/>unsigned_token<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>sig;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>cfg;<sp/>cfg.jwks_url<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://127.0.0.1:&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(port)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/jwks.json&quot;</highlight><highlight class="normal">;<sp/>cfg.expected_issuer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rot-issuer&quot;</highlight><highlight class="normal">;<sp/>cfg.expected_audience<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rot-aud&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(cfg);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Give<sp/>server<sp/>a<sp/>moment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(50));</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>attempt:<sp/>validator<sp/>will<sp/>fetch<sp/>first<sp/>JWKS<sp/>(missing<sp/>kid)<sp/>and<sp/>should<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;JWKSRotation:<sp/>first<sp/>parseAndValidate<sp/>(expect<sp/>fail)&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>first_failed<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validator.parseAndValidate(token);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>ex)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;JWKSRotation:<sp/>first<sp/>parseAndValidate<sp/>threw:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>ex.what()<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>first_failed<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(first_failed);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>attempt:<sp/>create<sp/>a<sp/>fresh<sp/>validator<sp/>(cleared<sp/>cache)<sp/>which<sp/>will<sp/>fetch<sp/>the<sp/>second<sp/>JWKS<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator2(cfg);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;JWKSRotation:<sp/>second<sp/>parseAndValidate<sp/>(expect<sp/>success)&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>claims2<sp/>=<sp/>validator2.parseAndValidate(token);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(claims2.sub,<sp/></highlight><highlight class="stringliteral">&quot;rot-user&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>ex)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;JWKSRotation<sp/>test<sp/>exception:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>ex.what()<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Exception:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>ex.what();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_jwt_integration.cpp"/>
+  </compounddef>
+</doxygen>

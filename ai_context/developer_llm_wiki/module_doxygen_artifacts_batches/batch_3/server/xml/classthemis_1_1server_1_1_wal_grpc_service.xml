@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_wal_grpc_service" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::WalGrpcService</compoundname>
+    <includes refid="wal__grpc__service_8h" local="no">wal_grpc_service.h</includes>
+    <innerclass refid="classthemis_1_1server_1_1_wal_grpc_service_1_1_impl" prot="public">themis::server::WalGrpcService::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1_wal_grpc_service_1a1cb0255efd8b47c60238e3eb6999da10" prot="public" static="no">
+        <type>std::function&lt; void *()&gt;</type>
+        <definition>using themis::server::WalGrpcService::ServiceFn = std::function&lt;void*()&gt;</definition>
+        <argsstring></argsstring>
+        <name>ServiceFn</name>
+        <qualifiedname>themis::server::WalGrpcService::ServiceFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_grpc_service.h" line="27" column="5" bodyfile="include/server/wal_grpc_service.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_wal_grpc_service_1af1217d32d68ce998bb999ae1e268289a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::WALApplier &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::WALApplier&gt; themis::server::WalGrpcService::wal_applier_</definition>
+        <argsstring></argsstring>
+        <name>wal_applier_</name>
+        <qualifiedname>themis::server::WalGrpcService::wal_applier_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_grpc_service.h" line="50" column="21" bodyfile="include/server/wal_grpc_service.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_wal_grpc_service_1a7424bb06f7a5f8b78d40387d00a78cb7" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::server::WalGrpcService::service_ptr_</definition>
+        <argsstring></argsstring>
+        <name>service_ptr_</name>
+        <qualifiedname>themis::server::WalGrpcService::service_ptr_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_grpc_service.h" line="52" column="10" bodyfile="include/server/wal_grpc_service.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_wal_grpc_service_1abd3960865560a8a7eb38be75951913de" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1server_1_1_wal_grpc_service_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::server::WalGrpcService::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::server::WalGrpcService::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_grpc_service.h" line="56" column="21" bodyfile="include/server/wal_grpc_service.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wal_grpc_service_1aa09b4c8da728da41f89ff80d48fd0c19" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::WalGrpcService::WalGrpcService</definition>
+        <argsstring>(std::shared_ptr&lt; sharding::WALApplier &gt; wal_applier)</argsstring>
+        <name>WalGrpcService</name>
+        <qualifiedname>themis::server::WalGrpcService::WalGrpcService</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; sharding::WALApplier &gt;</type>
+          <declname>wal_applier</declname>
+        </param>
+        <briefdescription>
+<para>Wal Grpc Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wal_applier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">g_wal_grpc_service_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Runtime error. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/wal_grpc_service.h" line="34" column="14" bodyfile="src/server/wal_grpc_service.cpp" bodystart="206" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wal_grpc_service_1a9fd8ce482a8790b07e2e10596f56b7e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::WalGrpcService::~WalGrpcService</definition>
+        <argsstring>()</argsstring>
+        <name>~WalGrpcService</name>
+        <qualifiedname>themis::server::WalGrpcService::~WalGrpcService</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_grpc_service.h" line="35" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wal_grpc_service_1ab4c928991ee60070ac6eb62a5d844667" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::server::WalGrpcService::service</definition>
+        <argsstring>()</argsstring>
+        <name>service</name>
+        <qualifiedname>themis::server::WalGrpcService::service</qualifiedname>
+        <briefdescription>
+<para>Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_grpc_service.h" line="41" column="10" bodyfile="src/server/wal_grpc_service.cpp" bodystart="269" bodyend="275"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_wal_grpc_service_1a5c5c21d7bc081b2b6ff172fadb258383" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::WalGrpcService::setServiceFn</definition>
+        <argsstring>(ServiceFn fn)</argsstring>
+        <name>setServiceFn</name>
+        <qualifiedname>themis::server::WalGrpcService::setServiceFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_wal_grpc_service_1a1cb0255efd8b47c60238e3eb6999da10" kindref="member">ServiceFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Service Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wal_grpc_service.h" line="47" column="17" bodyfile="src/server/wal_grpc_service.cpp" bodystart="259" bodyend="262"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/wal_grpc_service.h" line="25" column="1" bodyfile="include/server/wal_grpc_service.h" bodystart="25" bodyend="57"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_wal_grpc_service_1abd3960865560a8a7eb38be75951913de" prot="private" virt="non-virtual"><scope>themis::server::WalGrpcService</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1server_1_1_wal_grpc_service_1ab4c928991ee60070ac6eb62a5d844667" prot="public" virt="non-virtual"><scope>themis::server::WalGrpcService</scope><name>service</name></member>
+      <member refid="classthemis_1_1server_1_1_wal_grpc_service_1a7424bb06f7a5f8b78d40387d00a78cb7" prot="private" virt="non-virtual"><scope>themis::server::WalGrpcService</scope><name>service_ptr_</name></member>
+      <member refid="classthemis_1_1server_1_1_wal_grpc_service_1a1cb0255efd8b47c60238e3eb6999da10" prot="public" virt="non-virtual"><scope>themis::server::WalGrpcService</scope><name>ServiceFn</name></member>
+      <member refid="classthemis_1_1server_1_1_wal_grpc_service_1a5c5c21d7bc081b2b6ff172fadb258383" prot="public" virt="non-virtual"><scope>themis::server::WalGrpcService</scope><name>setServiceFn</name></member>
+      <member refid="classthemis_1_1server_1_1_wal_grpc_service_1af1217d32d68ce998bb999ae1e268289a" prot="private" virt="non-virtual"><scope>themis::server::WalGrpcService</scope><name>wal_applier_</name></member>
+      <member refid="classthemis_1_1server_1_1_wal_grpc_service_1aa09b4c8da728da41f89ff80d48fd0c19" prot="public" virt="non-virtual"><scope>themis::server::WalGrpcService</scope><name>WalGrpcService</name></member>
+      <member refid="classthemis_1_1server_1_1_wal_grpc_service_1a9fd8ce482a8790b07e2e10596f56b7e8" prot="public" virt="non-virtual"><scope>themis::server::WalGrpcService</scope><name>~WalGrpcService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

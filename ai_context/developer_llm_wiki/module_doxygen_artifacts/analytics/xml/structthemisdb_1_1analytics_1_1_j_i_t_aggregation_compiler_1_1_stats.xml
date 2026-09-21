@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::JITAggregationCompiler::Stats</compoundname>
+    <includes refid="jit__aggregation_8h" local="no">jit_aggregation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_stats_1a551467e4dc5bb7c9499e9b03e7d6dbf1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::JITAggregationCompiler::Stats::total_calls</definition>
+        <argsstring></argsstring>
+        <name>total_calls</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Stats::total_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/jit_aggregation.h" line="155" column="16" bodyfile="include/analytics/jit_aggregation.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_stats_1a92142722fc23db90dc9bba7c0026e247" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::JITAggregationCompiler::Stats::jit_hits</definition>
+        <argsstring></argsstring>
+        <name>jit_hits</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Stats::jit_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/jit_aggregation.h" line="157" column="16" bodyfile="include/analytics/jit_aggregation.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_stats_1aa8801bf619176092072a586afea29ece" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::JITAggregationCompiler::Stats::jit_compilations</definition>
+        <argsstring></argsstring>
+        <name>jit_compilations</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Stats::jit_compilations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/jit_aggregation.h" line="159" column="16" bodyfile="include/analytics/jit_aggregation.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_stats_1afed46f9d67010f89b2361daf290f05f9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::JITAggregationCompiler::Stats::cache_size</definition>
+        <argsstring></argsstring>
+        <name>cache_size</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Stats::cache_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/jit_aggregation.h" line="161" column="16" bodyfile="include/analytics/jit_aggregation.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/jit_aggregation.h" line="154" column="5" bodyfile="include/analytics/jit_aggregation.h" bodystart="154" bodyend="162"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_stats_1afed46f9d67010f89b2361daf290f05f9" prot="public" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Stats</scope><name>cache_size</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_stats_1aa8801bf619176092072a586afea29ece" prot="public" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Stats</scope><name>jit_compilations</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_stats_1a92142722fc23db90dc9bba7c0026e247" prot="public" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Stats</scope><name>jit_hits</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_stats_1a551467e4dc5bb7c9499e9b03e7d6dbf1" prot="public" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Stats</scope><name>total_calls</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

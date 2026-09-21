@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::testing::MockLLMProvider</compoundname>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1_1_inference_result" prot="public">themis::aql::testing::MockLLMProvider::InferenceResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a433ce2258acf3ff60f05bb3e8ae9edd6" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FailureMode</name>
+        <qualifiedname>themis::aql::testing::MockLLMProvider::FailureMode</qualifiedname>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a433ce2258acf3ff60f05bb3e8ae9edd6ad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a433ce2258acf3ff60f05bb3e8ae9edd6a5c9348a4dc50551401cd98a16b5c2e38" prot="public">
+          <name>FAIL_ONCE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a433ce2258acf3ff60f05bb3e8ae9edd6a07b60ecd4b94f3bc5e279da6995b6e4b" prot="public">
+          <name>FAIL_TWICE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a433ce2258acf3ff60f05bb3e8ae9edd6a7089b82227a705086659fbb1a1ec4469" prot="public">
+          <name>ALWAYS_FAIL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a433ce2258acf3ff60f05bb3e8ae9edd6a9a48905bdb87354c80a126df99d73583" prot="public">
+          <name>TIMEOUT_ONCE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a433ce2258acf3ff60f05bb3e8ae9edd6a44cb7794c92b9335a32aa002181ec23e" prot="public">
+          <name>INVALID_RESPONSE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="32" column="5" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="32" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a661da8a62f8f79ef6ac7abb4fb1fa260" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a433ce2258acf3ff60f05bb3e8ae9edd6" kindref="member">FailureMode</ref></type>
+        <definition>FailureMode themis::aql::testing::MockLLMProvider::failure_mode_</definition>
+        <argsstring></argsstring>
+        <name>failure_mode_</name>
+        <qualifiedname>themis::aql::testing::MockLLMProvider::failure_mode_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="96" column="17" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1aa0e8d32e7885f6333df8bf8e8947e9a9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::aql::testing::MockLLMProvider::call_count_</definition>
+        <argsstring></argsstring>
+        <name>call_count_</name>
+        <qualifiedname>themis::aql::testing::MockLLMProvider::call_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="97" column="17" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a77c3f1194b0a956e65d8eac89f76512f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::MockLLMProvider::MockLLMProvider</definition>
+        <argsstring>(FailureMode mode=FailureMode::SUCCESS)</argsstring>
+        <name>MockLLMProvider</name>
+        <qualifiedname>themis::aql::testing::MockLLMProvider::MockLLMProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a433ce2258acf3ff60f05bb3e8ae9edd6" kindref="member">FailureMode</ref></type>
+          <declname>mode</declname>
+          <defval><ref refid="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a433ce2258acf3ff60f05bb3e8ae9edd6ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">FailureMode::SUCCESS</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="41" column="5" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="41" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a73f14b5de553c1bc348964345ca69235" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1_1_inference_result" kindref="compound">InferenceResult</ref></type>
+        <definition>InferenceResult themis::aql::testing::MockLLMProvider::generateAQL</definition>
+        <argsstring>(const std::string &amp;nl_query)</argsstring>
+        <name>generateAQL</name>
+        <qualifiedname>themis::aql::testing::MockLLMProvider::generateAQL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>nl_query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="50" column="21" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="50" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a49a990376398373f84bd21321dcf1f6a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::testing::MockLLMProvider::getCallCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getCallCount</name>
+        <qualifiedname>themis::aql::testing::MockLLMProvider::getCallCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="92" column="14" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1acc96f661e1bc42ace8264f13bc43c455" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::testing::MockLLMProvider::resetCallCount</definition>
+        <argsstring>()</argsstring>
+        <name>resetCallCount</name>
+        <qualifiedname>themis::aql::testing::MockLLMProvider::resetCallCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_translation_recovery.cpp" line="93" column="10" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="93" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock LLM provider for simulating translation errors. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_translation_recovery.cpp" line="30" column="1" bodyfile="tests/aql/test_aql_translation_recovery.cpp" bodystart="30" bodyend="98"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1aa0e8d32e7885f6333df8bf8e8947e9a9" prot="private" virt="non-virtual"><scope>themis::aql::testing::MockLLMProvider</scope><name>call_count_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a661da8a62f8f79ef6ac7abb4fb1fa260" prot="private" virt="non-virtual"><scope>themis::aql::testing::MockLLMProvider</scope><name>failure_mode_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a433ce2258acf3ff60f05bb3e8ae9edd6" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockLLMProvider</scope><name>FailureMode</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a73f14b5de553c1bc348964345ca69235" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockLLMProvider</scope><name>generateAQL</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a49a990376398373f84bd21321dcf1f6a" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockLLMProvider</scope><name>getCallCount</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1a77c3f1194b0a956e65d8eac89f76512f" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockLLMProvider</scope><name>MockLLMProvider</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_l_l_m_provider_1acc96f661e1bc42ace8264f13bc43c455" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockLLMProvider</scope><name>resetCallCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

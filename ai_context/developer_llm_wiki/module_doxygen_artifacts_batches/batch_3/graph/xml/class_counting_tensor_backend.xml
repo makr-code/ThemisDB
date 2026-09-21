@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_counting_tensor_backend" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>CountingTensorBackend</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">ITensorStorageBackend</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_counting_tensor_backend_1aec967867d0528f93a6f0f5eba08a3f7e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex CountingTensorBackend::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>CountingTensorBackend::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_tensor_fingerprint_graph.cpp" line="153" column="24" bodyfile="tests/graph/test_tensor_fingerprint_graph.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_counting_tensor_backend_1a85cd49d7cbf672273acfb3666a33c2f5" prot="private" static="no" mutable="no">
+        <type>InMemoryTensorBackend</type>
+        <definition>InMemoryTensorBackend CountingTensorBackend::inner_</definition>
+        <argsstring></argsstring>
+        <name>inner_</name>
+        <qualifiedname>CountingTensorBackend::inner_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_tensor_fingerprint_graph.cpp" line="156" column="27" bodyfile="tests/graph/test_tensor_fingerprint_graph.cpp" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_counting_tensor_backend_1ae95a39728007e7be3f804d77d58bc4e9" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::size_t&gt; CountingTensorBackend::put_counts_</definition>
+        <argsstring></argsstring>
+        <name>put_counts_</name>
+        <qualifiedname>CountingTensorBackend::put_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_tensor_fingerprint_graph.cpp" line="157" column="24" bodyfile="tests/graph/test_tensor_fingerprint_graph.cpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_counting_tensor_backend_1adb2798e223fa3d672528b1d5fbc28c14" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool CountingTensorBackend::put</definition>
+        <argsstring>(const std::string &amp;key, const std::vector&lt; uint8_t &gt; &amp;value) override</argsstring>
+        <name>put</name>
+        <qualifiedname>CountingTensorBackend::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_tensor_fingerprint_graph.cpp" line="123" column="10" bodyfile="tests/graph/test_tensor_fingerprint_graph.cpp" bodystart="123" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="class_counting_tensor_backend_1a66d64a757bc575df340e6b05f7e92139" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; CountingTensorBackend::get</definition>
+        <argsstring>(const std::string &amp;key) const override</argsstring>
+        <name>get</name>
+        <qualifiedname>CountingTensorBackend::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_tensor_fingerprint_graph.cpp" line="133" column="5" bodyfile="tests/graph/test_tensor_fingerprint_graph.cpp" bodystart="133" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="class_counting_tensor_backend_1a782f85d40001b4c409efd99054dda152" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool CountingTensorBackend::del</definition>
+        <argsstring>(const std::string &amp;key) override</argsstring>
+        <name>del</name>
+        <qualifiedname>CountingTensorBackend::del</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_tensor_fingerprint_graph.cpp" line="137" column="10" bodyfile="tests/graph/test_tensor_fingerprint_graph.cpp" bodystart="137" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="class_counting_tensor_backend_1aeef1fa8b9688e559c3d6de9e002a5e84" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; CountingTensorBackend::listKeys</definition>
+        <argsstring>(const std::string &amp;prefix) const override</argsstring>
+        <name>listKeys</name>
+        <qualifiedname>CountingTensorBackend::listKeys</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_tensor_fingerprint_graph.cpp" line="142" column="5" bodyfile="tests/graph/test_tensor_fingerprint_graph.cpp" bodystart="142" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="class_counting_tensor_backend_1a3c79733c3bb623d03999bf97236e3305" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t CountingTensorBackend::putCount</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>putCount</name>
+        <qualifiedname>CountingTensorBackend::putCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_tensor_fingerprint_graph.cpp" line="146" column="18" bodyfile="tests/graph/test_tensor_fingerprint_graph.cpp" bodystart="146" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CountingTensorBackend</label>
+        <link refid="class_counting_tensor_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ITensorStorageBackend</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CountingTensorBackend</label>
+        <link refid="class_counting_tensor_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ITensorStorageBackend</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_tensor_fingerprint_graph.cpp" line="121" column="1" bodyfile="tests/graph/test_tensor_fingerprint_graph.cpp" bodystart="121" bodyend="158"/>
+    <listofallmembers>
+      <member refid="class_counting_tensor_backend_1a782f85d40001b4c409efd99054dda152" prot="public" virt="non-virtual"><scope>CountingTensorBackend</scope><name>del</name></member>
+      <member refid="class_counting_tensor_backend_1a66d64a757bc575df340e6b05f7e92139" prot="public" virt="non-virtual"><scope>CountingTensorBackend</scope><name>get</name></member>
+      <member refid="class_counting_tensor_backend_1a85cd49d7cbf672273acfb3666a33c2f5" prot="private" virt="non-virtual"><scope>CountingTensorBackend</scope><name>inner_</name></member>
+      <member refid="class_counting_tensor_backend_1aeef1fa8b9688e559c3d6de9e002a5e84" prot="public" virt="non-virtual"><scope>CountingTensorBackend</scope><name>listKeys</name></member>
+      <member refid="class_counting_tensor_backend_1aec967867d0528f93a6f0f5eba08a3f7e" prot="private" virt="non-virtual"><scope>CountingTensorBackend</scope><name>mutex_</name></member>
+      <member refid="class_counting_tensor_backend_1adb2798e223fa3d672528b1d5fbc28c14" prot="public" virt="non-virtual"><scope>CountingTensorBackend</scope><name>put</name></member>
+      <member refid="class_counting_tensor_backend_1ae95a39728007e7be3f804d77d58bc4e9" prot="private" virt="non-virtual"><scope>CountingTensorBackend</scope><name>put_counts_</name></member>
+      <member refid="class_counting_tensor_backend_1a3c79733c3bb623d03999bf97236e3305" prot="public" virt="non-virtual"><scope>CountingTensorBackend</scope><name>putCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

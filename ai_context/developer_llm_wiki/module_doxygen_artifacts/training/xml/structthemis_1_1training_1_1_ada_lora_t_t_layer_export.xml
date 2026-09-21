@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_ada_lora_t_t_layer_export" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::AdaLoraTTLayerExport</compoundname>
+    <includes refid="adalora__tt__bridge_8h" local="no">adalora_tt_bridge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_layer_export_1af3a3f1a9223d00ed491902a80f4d729f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AdaLoraTTLayerExport::layer_name</definition>
+        <argsstring></argsstring>
+        <name>layer_name</name>
+        <qualifiedname>themis::training::AdaLoraTTLayerExport::layer_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="40" column="23" bodyfile="include/training/adalora_tt_bridge.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_layer_export_1a61e52b1269e0493ebfbb4ec359a71166" prot="public" static="no" mutable="no">
+        <type>storage::TTTrain</type>
+        <definition>storage::TTTrain themis::training::AdaLoraTTLayerExport::train</definition>
+        <argsstring></argsstring>
+        <name>train</name>
+        <qualifiedname>themis::training::AdaLoraTTLayerExport::train</qualifiedname>
+        <briefdescription>
+<para>TT-train: G₀ (1×d×r) and G₁ (r×k×1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="41" column="23" bodyfile="include/training/adalora_tt_bridge.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_layer_export_1a09258462a6cea752b75f776db048767c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::training::AdaLoraTTLayerExport::active_rank</definition>
+        <argsstring></argsstring>
+        <name>active_rank</name>
+        <qualifiedname>themis::training::AdaLoraTTLayerExport::active_rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Effective rank (pruned entries zeroed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="42" column="23" bodyfile="include/training/adalora_tt_bridge.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_layer_export_1a6a0c684e107ab1b7e22ea359ccf19a7f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::AdaLoraTTLayerExport::scaling</definition>
+        <argsstring></argsstring>
+        <name>scaling</name>
+        <qualifiedname>themis::training::AdaLoraTTLayerExport::scaling</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+<para>α/r scaling factor (preserved separately) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="43" column="23" bodyfile="include/training/adalora_tt_bridge.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_layer_export_1acae0a928b20aa2a7a3e0db6439e9152a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::AdaLoraTTLayerExport::orthogonal_validated</definition>
+        <argsstring></argsstring>
+        <name>orthogonal_validated</name>
+        <qualifiedname>themis::training::AdaLoraTTLayerExport::orthogonal_validated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the TT-cores passed orthogonality validation (‖G₀^T·G₀ - I‖_F &lt; ε_orth). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="46" column="23" bodyfile="include/training/adalora_tt_bridge.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One AdaLoRA adapter layer exported to TT-format. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each layer (identified by <computeroutput>layer_name</computeroutput>) contributes a rank-2 TT-train (two cores G₀ and G₁) computed from the layer&apos;s B/A weight matrices and current importance scores (singular values approximated from norms).</para>
+<para>The <computeroutput>active_rank</computeroutput> field mirrors <ref refid="structthemis_1_1training_1_1_ada_lo_r_a_layer_stats_1ab2f4cc5a77795068cb8d835f5d58bd96" kindref="member">AdaLoRALayerStats::active_rank</ref> and controls how many TT-core columns are non-zero. </para>
+    </detaileddescription>
+    <location file="include/training/adalora_tt_bridge.h" line="39" column="1" bodyfile="include/training/adalora_tt_bridge.h" bodystart="39" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_layer_export_1a09258462a6cea752b75f776db048767c" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTLayerExport</scope><name>active_rank</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_layer_export_1af3a3f1a9223d00ed491902a80f4d729f" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTLayerExport</scope><name>layer_name</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_layer_export_1acae0a928b20aa2a7a3e0db6439e9152a" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTLayerExport</scope><name>orthogonal_validated</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_layer_export_1a6a0c684e107ab1b7e22ea359ccf19a7f" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTLayerExport</scope><name>scaling</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_layer_export_1a61e52b1269e0493ebfbb4ec359a71166" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTLayerExport</scope><name>train</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

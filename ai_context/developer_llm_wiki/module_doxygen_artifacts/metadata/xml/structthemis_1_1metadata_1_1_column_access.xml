@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1metadata_1_1_column_access" kind="struct" language="C++" prot="public">
+    <compoundname>themis::metadata::ColumnAccess</compoundname>
+    <includes refid="index__recommender_8h" local="no">index_recommender.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_access_1ac71033861205de9fb74cb8307bf22163" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::ColumnAccess::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::metadata::ColumnAccess::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="44" column="17" bodyfile="include/metadata/index_recommender.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_access_1ab6f7f2d8d5fb5d0208f7195d129b0d3b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::ColumnAccess::column_name</definition>
+        <argsstring></argsstring>
+        <name>column_name</name>
+        <qualifiedname>themis::metadata::ColumnAccess::column_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="45" column="17" bodyfile="include/metadata/index_recommender.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_access_1ada9e6be77c9fe2b87862ae4afdf51b51" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::metadata::ColumnAccess::filter_count</definition>
+        <argsstring></argsstring>
+        <name>filter_count</name>
+        <qualifiedname>themis::metadata::ColumnAccess::filter_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Times used in WHERE / FILTER. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="46" column="17" bodyfile="include/metadata/index_recommender.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_access_1a8716a18636d174c7af3f8056de615d0a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::metadata::ColumnAccess::sort_count</definition>
+        <argsstring></argsstring>
+        <name>sort_count</name>
+        <qualifiedname>themis::metadata::ColumnAccess::sort_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Times used in ORDER BY / SORT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="47" column="17" bodyfile="include/metadata/index_recommender.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_access_1abf55330bc793f16a21181ff04bc8190d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::metadata::ColumnAccess::avg_selectivity</definition>
+        <argsstring></argsstring>
+        <name>avg_selectivity</name>
+        <qualifiedname>themis::metadata::ColumnAccess::avg_selectivity</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Average selectivity (0=highly selective,1=not). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="48" column="17" bodyfile="include/metadata/index_recommender.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_column_access_1a132294b9868d4324615e2000a3cbd380" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1metadata_1a8efd44656ac5d0cf26226df8e9a7fbc2" kindref="member">json</ref></type>
+        <definition>json themis::metadata::ColumnAccess::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::metadata::ColumnAccess::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="50" column="10" bodyfile="src/metadata/index_recommender.cpp" bodystart="31" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single observed query access pattern for a column. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/index_recommender.h" line="43" column="1" bodyfile="include/metadata/index_recommender.h" bodystart="43" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1metadata_1_1_column_access_1abf55330bc793f16a21181ff04bc8190d" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnAccess</scope><name>avg_selectivity</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_access_1ab6f7f2d8d5fb5d0208f7195d129b0d3b" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnAccess</scope><name>column_name</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_access_1ada9e6be77c9fe2b87862ae4afdf51b51" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnAccess</scope><name>filter_count</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_access_1a8716a18636d174c7af3f8056de615d0a" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnAccess</scope><name>sort_count</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_access_1ac71033861205de9fb74cb8307bf22163" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnAccess</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_access_1a132294b9868d4324615e2000a3cbd380" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnAccess</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

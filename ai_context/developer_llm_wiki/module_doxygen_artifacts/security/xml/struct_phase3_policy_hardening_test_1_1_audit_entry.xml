@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_phase3_policy_hardening_test_1_1_audit_entry" kind="struct" language="C++" prot="protected">
+    <compoundname>Phase3PolicyHardeningTest::AuditEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_phase3_policy_hardening_test_1_1_audit_entry_1aab8ce03bf931345678e0fe5f015d48de" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Phase3PolicyHardeningTest::AuditEntry::event_type</definition>
+        <argsstring></argsstring>
+        <name>event_type</name>
+        <qualifiedname>Phase3PolicyHardeningTest::AuditEntry::event_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase3_policy_hardening_focused.cpp" line="94" column="21" bodyfile="tests/security/test_security_phase3_policy_hardening_focused.cpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_phase3_policy_hardening_test_1_1_audit_entry_1aa7211defb43758a61fd755b9f6900852" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Phase3PolicyHardeningTest::AuditEntry::principal_id</definition>
+        <argsstring></argsstring>
+        <name>principal_id</name>
+        <qualifiedname>Phase3PolicyHardeningTest::AuditEntry::principal_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase3_policy_hardening_focused.cpp" line="95" column="21" bodyfile="tests/security/test_security_phase3_policy_hardening_focused.cpp" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_phase3_policy_hardening_test_1_1_audit_entry_1a60ce5ca66ddaf686a8c2a697520a119d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Phase3PolicyHardeningTest::AuditEntry::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>Phase3PolicyHardeningTest::AuditEntry::resource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase3_policy_hardening_focused.cpp" line="96" column="21" bodyfile="tests/security/test_security_phase3_policy_hardening_focused.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_phase3_policy_hardening_test_1_1_audit_entry_1abcdad661a30dbd1cb8289ba885bb0049" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Phase3PolicyHardeningTest::AuditEntry::allowed</definition>
+        <argsstring></argsstring>
+        <name>allowed</name>
+        <qualifiedname>Phase3PolicyHardeningTest::AuditEntry::allowed</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase3_policy_hardening_focused.cpp" line="97" column="14" bodyfile="tests/security/test_security_phase3_policy_hardening_focused.cpp" bodystart="97" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock audit event. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_security_phase3_policy_hardening_focused.cpp" line="93" column="5" bodyfile="tests/security/test_security_phase3_policy_hardening_focused.cpp" bodystart="93" bodyend="98"/>
+    <listofallmembers>
+      <member refid="struct_phase3_policy_hardening_test_1_1_audit_entry_1abcdad661a30dbd1cb8289ba885bb0049" prot="public" virt="non-virtual"><scope>Phase3PolicyHardeningTest::AuditEntry</scope><name>allowed</name></member>
+      <member refid="struct_phase3_policy_hardening_test_1_1_audit_entry_1aab8ce03bf931345678e0fe5f015d48de" prot="public" virt="non-virtual"><scope>Phase3PolicyHardeningTest::AuditEntry</scope><name>event_type</name></member>
+      <member refid="struct_phase3_policy_hardening_test_1_1_audit_entry_1aa7211defb43758a61fd755b9f6900852" prot="public" virt="non-virtual"><scope>Phase3PolicyHardeningTest::AuditEntry</scope><name>principal_id</name></member>
+      <member refid="struct_phase3_policy_hardening_test_1_1_audit_entry_1a60ce5ca66ddaf686a8c2a697520a119d" prot="public" virt="non-virtual"><scope>Phase3PolicyHardeningTest::AuditEntry</scope><name>resource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

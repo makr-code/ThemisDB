@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_link_attribute_mutation_stress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::LinkAttributeMutationStress</compoundname>
+    <includes refid="process__stress__scenarios_8h" local="no">process_stress_scenarios.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_link_attribute_mutation_stress_1adbd0e1f1e4014fab9c1cb3500a83f7d9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::LinkAttributeMutationStress::generateTestInput</definition>
+        <argsstring>() const</argsstring>
+        <name>generateTestInput</name>
+        <qualifiedname>themis::process::LinkAttributeMutationStress::generateTestInput</qualifiedname>
+        <briefdescription>
+<para>Generate a test input with concurrent mutations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="314" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_link_attribute_mutation_stress_1a4822da4837d502b9b7759fe61fa32f54" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::LinkAttributeMutationStress::isSuccess</definition>
+        <argsstring>(const StressScenarioResult &amp;result) const</argsstring>
+        <name>isSuccess</name>
+        <qualifiedname>themis::process::LinkAttributeMutationStress::isSuccess</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_stress_scenario_result" kindref="compound">StressScenarioResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Check if result is success (LWW resolution applied). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="317" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_link_attribute_mutation_stress_1aae85d0a5fe12974c75cf86ac9d9f3671" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::LinkAttributeMutationStress::describe</definition>
+        <argsstring>() const</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::LinkAttributeMutationStress::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="319" column="23" bodyfile="include/process/process_stress_scenarios.h" bodystart="319" bodyend="321"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Link attribute mutation under churn scenario for process linker. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Input:</bold> Concurrent updates to same link metadata <linebreak/>
+ <bold>Expected Behavior:</bold> Last-Write-Wins conflict resolution <linebreak/>
+ <bold>Trigger:</bold> Implicit LWW; winner determined by version clock <linebreak/>
+ <bold>Success Criteria:</bold><itemizedlist>
+<listitem><para>All updates resolve without deadlock</para>
+</listitem><listitem><para>Final state is consistent with one update (no merge)</para>
+</listitem><listitem><para>Version numbers form total order</para>
+</listitem><listitem><para>Conflict count is deterministic given same timing </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_stress_scenarios.h" line="312" column="1" bodyfile="include/process/process_stress_scenarios.h" bodystart="312" bodyend="322"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_link_attribute_mutation_stress_1aae85d0a5fe12974c75cf86ac9d9f3671" prot="public" virt="non-virtual"><scope>themis::process::LinkAttributeMutationStress</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_link_attribute_mutation_stress_1adbd0e1f1e4014fab9c1cb3500a83f7d9" prot="public" virt="non-virtual"><scope>themis::process::LinkAttributeMutationStress</scope><name>generateTestInput</name></member>
+      <member refid="structthemis_1_1process_1_1_link_attribute_mutation_stress_1a4822da4837d502b9b7759fe61fa32f54" prot="public" virt="non-virtual"><scope>themis::process::LinkAttributeMutationStress</scope><name>isSuccess</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

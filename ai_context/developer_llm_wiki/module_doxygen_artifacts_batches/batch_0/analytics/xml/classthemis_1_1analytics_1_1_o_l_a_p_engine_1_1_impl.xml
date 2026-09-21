@@ -1,0 +1,324 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::OLAPEngine::Impl</compoundname>
+    <innerclass refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1_1_collection_stats" prot="public">themis::analytics::OLAPEngine::Impl::CollectionStats</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1_1_cache_entry" prot="public">themis::analytics::OLAPEngine::Impl::CacheEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a1fd161025f67dc392f043dffa818deb5" prot="public" static="no">
+        <type>std::list&lt; std::string &gt;</type>
+        <definition>using themis::analytics::OLAPEngine::Impl::LruList = std::list&lt;std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>LruList</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::LruList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="233" column="5" bodyfile="src/analytics/olap.cpp" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a1b8c221f05fdd6577ebaac12043e398a" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, std::pair&lt; LruList::iterator, <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1_1_cache_entry" kindref="compound">CacheEntry</ref> &gt; &gt;</type>
+        <definition>using themis::analytics::OLAPEngine::Impl::LruMap = std::unordered_map&lt;std::string, std::pair&lt;LruList::iterator, CacheEntry&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>LruMap</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::LruMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="234" column="5" bodyfile="src/analytics/olap.cpp" bodystart="234" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a29bb18e489c4cf8830fe15541e284fd7" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::unordered_map&lt; std::string, std::variant&lt; std::nullptr_t, bool, int64_t, double, std::string &gt; &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::vector&lt;std::unordered_map&lt;std::string, std::variant&lt;std::nullptr_t, bool, int64_t, double, std::string&gt; &gt; &gt; &gt; themis::analytics::OLAPEngine::Impl::collections</definition>
+        <argsstring></argsstring>
+        <name>collections</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::collections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="201" column="9" bodyfile="src/analytics/olap.cpp" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a40995620cfa9c8cec5097f429ca391d8" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config" kindref="compound">OLAPEngine::Config</ref></type>
+        <definition>OLAPEngine::Config themis::analytics::OLAPEngine::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="204" column="24" bodyfile="src/analytics/olap.cpp" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a1eca129997c3d764de88fedabafe391a" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::gpu::GPUQueryAccelerator &gt;</type>
+        <definition>std::unique_ptr&lt;themis::gpu::GPUQueryAccelerator&gt; themis::analytics::OLAPEngine::Impl::gpu_accelerator</definition>
+        <argsstring></argsstring>
+        <name>gpu_accelerator</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::gpu_accelerator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="205" column="21" bodyfile="src/analytics/olap.cpp" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1abaea1d032fcc95757bde8225de213be6" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::analytics::OLAPEngine::Impl::config_mutex</definition>
+        <argsstring></argsstring>
+        <name>config_mutex</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::config_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="206" column="24" bodyfile="src/analytics/olap.cpp" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a7f9978b2d4646c071c1e9fb5eadd1a61" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1analytics_1_1detail_1_1_analytics_memory_pool" kindref="compound">themis::analytics::detail::AnalyticsMemoryPool</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::analytics::detail::AnalyticsMemoryPool&gt; themis::analytics::OLAPEngine::Impl::pool</definition>
+        <argsstring></argsstring>
+        <name>pool</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::pool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="212" column="21" bodyfile="src/analytics/olap.cpp" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1aa0e4fee87496761414c2d3660b63fd18" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::analytics::OLAPEngine::Impl::stats_mutex</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::stats_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="222" column="24" bodyfile="src/analytics/olap.cpp" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1ab2953d4d8524088719bd43412855ec3f" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1_1_collection_stats" kindref="compound">CollectionStats</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, CollectionStats&gt; themis::analytics::OLAPEngine::Impl::stats_cache_</definition>
+        <argsstring></argsstring>
+        <name>stats_cache_</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::stats_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="223" column="24" bodyfile="src/analytics/olap.cpp" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a09a8190e9b1d4be3340e93292d336ad8" prot="public" static="no" mutable="yes">
+        <type><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a1fd161025f67dc392f043dffa818deb5" kindref="member">LruList</ref></type>
+        <definition>LruList themis::analytics::OLAPEngine::Impl::result_lru_list</definition>
+        <argsstring></argsstring>
+        <name>result_lru_list</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::result_lru_list</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="236" column="21" bodyfile="src/analytics/olap.cpp" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1aa467a10264488da1a9e77ef000a40b27" prot="public" static="no" mutable="yes">
+        <type><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a1b8c221f05fdd6577ebaac12043e398a" kindref="member">LruMap</ref></type>
+        <definition>LruMap themis::analytics::OLAPEngine::Impl::result_lru_map</definition>
+        <argsstring></argsstring>
+        <name>result_lru_map</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::result_lru_map</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="237" column="20" bodyfile="src/analytics/olap.cpp" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1aa388010a6133341d5c4a508c2a26eaee" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::analytics::OLAPEngine::Impl::result_cache_mutex</definition>
+        <argsstring></argsstring>
+        <name>result_cache_mutex</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::result_cache_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="238" column="24" bodyfile="src/analytics/olap.cpp" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a247e077aca8d92cafadc26501c0d590d" prot="public" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::analytics::OLAPEngine::Impl::cleanup_thread</definition>
+        <argsstring></argsstring>
+        <name>cleanup_thread</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::cleanup_thread</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="241" column="17" bodyfile="src/analytics/olap.cpp" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1aa98309696a9ee66f1880373a5cf924a2" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::analytics::OLAPEngine::Impl::cleanup_stop</definition>
+        <argsstring></argsstring>
+        <name>cleanup_stop</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::cleanup_stop</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="242" column="17" bodyfile="src/analytics/olap.cpp" bodystart="242" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1abf0be471809f3ee4b0310405284f45ff" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::analytics::OLAPEngine::Impl::cleanup_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cleanup_mutex_</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::cleanup_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="243" column="16" bodyfile="src/analytics/olap.cpp" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1aee7d1621b730c6f112465e2cef06e561" prot="public" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::analytics::OLAPEngine::Impl::cleanup_cv_</definition>
+        <argsstring></argsstring>
+        <name>cleanup_cv_</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::cleanup_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="244" column="29" bodyfile="src/analytics/olap.cpp" bodystart="244" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a559b1c7ca740f32c6fd113242a4100bb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::OLAPEngine::Impl::startCleanupThread</definition>
+        <argsstring>()</argsstring>
+        <name>startCleanupThread</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::startCleanupThread</qualifiedname>
+        <briefdescription>
+<para>Start Cleanup Thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), store(), std::thread(), std::chrono::milliseconds(), std::max(), int64_t(), load(), lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="250" column="10" bodyfile="src/analytics/olap.cpp" bodystart="250" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a96af1583c8823685d2595756126a6db3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::OLAPEngine::Impl::stopCleanupThread</definition>
+        <argsstring>()</argsstring>
+        <name>stopCleanupThread</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::stopCleanupThread</qualifiedname>
+        <briefdescription>
+<para>Stop Cleanup Thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(), notify_one(), joinable(), std::chrono::high_resolution_clock::now(), count(), spdlog::warn(), std::this_thread::sleep_for(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="298" column="10" bodyfile="src/analytics/olap.cpp" bodystart="298" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1af9c123c775d89bc7d80d8e125d5b419d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::OLAPEngine::Impl::~Impl</definition>
+        <argsstring>()</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="331" column="5" bodyfile="src/analytics/olap.cpp" bodystart="331" bodyend="333"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::analytics::OLAPEngine::Config</label>
+        <link refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::analytics::OLAPEngine::Impl</label>
+        <link refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/analytics/olap.cpp" line="195" column="1" bodyfile="src/analytics/olap.cpp" bodystart="195" bodyend="334"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1aee7d1621b730c6f112465e2cef06e561" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>cleanup_cv_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1abf0be471809f3ee4b0310405284f45ff" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>cleanup_mutex_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1aa98309696a9ee66f1880373a5cf924a2" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>cleanup_stop</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a247e077aca8d92cafadc26501c0d590d" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>cleanup_thread</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a29bb18e489c4cf8830fe15541e284fd7" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>collections</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a40995620cfa9c8cec5097f429ca391d8" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>config</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1abaea1d032fcc95757bde8225de213be6" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>config_mutex</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a1eca129997c3d764de88fedabafe391a" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>gpu_accelerator</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a1fd161025f67dc392f043dffa818deb5" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>LruList</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a1b8c221f05fdd6577ebaac12043e398a" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>LruMap</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a7f9978b2d4646c071c1e9fb5eadd1a61" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>pool</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1aa388010a6133341d5c4a508c2a26eaee" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>result_cache_mutex</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a09a8190e9b1d4be3340e93292d336ad8" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>result_lru_list</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1aa467a10264488da1a9e77ef000a40b27" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>result_lru_map</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a559b1c7ca740f32c6fd113242a4100bb" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>startCleanupThread</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1ab2953d4d8524088719bd43412855ec3f" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>stats_cache_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1aa0e4fee87496761414c2d3660b63fd18" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>stats_mutex</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1a96af1583c8823685d2595756126a6db3" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>stopCleanupThread</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1af9c123c775d89bc7d80d8e125d5b419d" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

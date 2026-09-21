@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_a_n1_retry_test" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::AN1RetryTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_a_n1_retry_test_1ae58d799f0a5a3b22ce8670931c9aa268" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding" kindref="compound">DistributedAnalyticsSharding</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DistributedAnalyticsSharding&gt; themisdb::analytics::AN1RetryTest::coordinator</definition>
+        <argsstring></argsstring>
+        <name>coordinator</name>
+        <qualifiedname>themisdb::analytics::AN1RetryTest::coordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_wave_next_analytics_hardening.cpp" line="96" column="21" bodyfile="tests/analytics/test_wave_next_analytics_hardening.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_a_n1_retry_test_1ac48378259e9acb3dfff8c574004d210b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::AN1RetryTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themisdb::analytics::AN1RetryTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_wave_next_analytics_hardening.cpp" line="82" column="10" bodyfile="tests/analytics/test_wave_next_analytics_hardening.cpp" bodystart="82" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::AN1RetryTest</label>
+        <link refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::AN1RetryTest</label>
+        <link refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_wave_next_analytics_hardening.cpp" line="80" column="1" bodyfile="tests/analytics/test_wave_next_analytics_hardening.cpp" bodystart="80" bodyend="97"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test_1ae58d799f0a5a3b22ce8670931c9aa268" prot="protected" virt="non-virtual"><scope>themisdb::analytics::AN1RetryTest</scope><name>coordinator</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test_1ac48378259e9acb3dfff8c574004d210b" prot="protected" virt="non-virtual"><scope>themisdb::analytics::AN1RetryTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>themisdb::analytics::AN1RetryTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

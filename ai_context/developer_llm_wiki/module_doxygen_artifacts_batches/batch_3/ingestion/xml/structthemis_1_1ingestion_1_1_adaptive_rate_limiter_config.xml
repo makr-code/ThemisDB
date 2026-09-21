@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::AdaptiveRateLimiterConfig</compoundname>
+    <includes refid="adaptive__rate__limiter_8h" local="no">adaptive_rate_limiter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a826c3a54ae03f5f705d1c68b1e032582" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::AdaptiveRateLimiterConfig::initial_requests_per_sec</definition>
+        <argsstring></argsstring>
+        <name>initial_requests_per_sec</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiterConfig::initial_requests_per_sec</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+<para>Initial requests per second limit (before adaptive adjustment). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default: 10 requests/sec. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="84" column="12" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1ad80c5f75a1ae0084743c4d6ac0e80d09" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::AdaptiveRateLimiterConfig::min_requests_per_sec</definition>
+        <argsstring></argsstring>
+        <name>min_requests_per_sec</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiterConfig::min_requests_per_sec</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+<para>Minimum requests per second (floor for adaptive backoff). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When the rate limiter reduces throughput due to 429 responses, it will not go below this rate. Default: 0.1 requests/sec (1 req/10s). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="92" column="12" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a7defe8c6408037e7937cf442a03c9aa8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::AdaptiveRateLimiterConfig::max_requests_per_sec</definition>
+        <argsstring></argsstring>
+        <name>max_requests_per_sec</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiterConfig::max_requests_per_sec</qualifiedname>
+        <initializer>= 100.0</initializer>
+        <briefdescription>
+<para>Maximum requests per second (ceiling for adaptive speedup). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When the rate limiter detects spare capacity, it gradually increases throughput, but not beyond this rate. Default: 100 requests/sec. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="101" column="12" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a16ed02c7cb3cba585a2a986bf43e1889" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::AdaptiveRateLimiterConfig::backoff_multiplier</definition>
+        <argsstring></argsstring>
+        <name>backoff_multiplier</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiterConfig::backoff_multiplier</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>Multiplicative backoff factor when rate limit is hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When a 429 (Too Many Requests) response is received, the rate limit is multiplied by this factor (should be &lt; 1.0). Default: 0.5 (cut in half). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="110" column="12" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a907b3eb0c4b28e28239c37880cd7763b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::AdaptiveRateLimiterConfig::speedup_multiplier</definition>
+        <argsstring></argsstring>
+        <name>speedup_multiplier</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiterConfig::speedup_multiplier</qualifiedname>
+        <initializer>= 1.1</initializer>
+        <briefdescription>
+<para>Multiplicative speedup factor when capacity is available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When the API has spare capacity (indicated by high Remaining count), the rate limit is multiplied by this factor (should be &gt; 1.0). Default: 1.1 (increase by 10%). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="119" column="12" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1acd228228d0d5c9398da1593bfb5ef829" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::ingestion::AdaptiveRateLimiterConfig::measurement_window</definition>
+        <argsstring></argsstring>
+        <name>measurement_window</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiterConfig::measurement_window</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>Measurement window for evaluating capacity (in seconds). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The rate limiter tracks success/failure rates over this window to decide when to speed up or slow down. Default: 60 seconds. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="127" column="26" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a1be8520937eec7b0eabca4c60a377772" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::AdaptiveRateLimiterConfig::honor_retry_after</definition>
+        <argsstring></argsstring>
+        <name>honor_retry_after</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiterConfig::honor_retry_after</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable honor-Retry-After header from API responses. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, if an API response includes a Retry-After header, wait that long before retrying. Default: true. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="135" column="10" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1aecbbcbc95873b286ac5a1bca3ffe2cdb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::AdaptiveRateLimiterConfig::max_consecutive_throttles</definition>
+        <argsstring></argsstring>
+        <name>max_consecutive_throttles</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiterConfig::max_consecutive_throttles</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Maximum number of consecutive 429 responses before failing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If this many 429 responses occur in a row, the rate limiter gives up and returns an error instead of retrying. Default: 10. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="144" column="9" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for adaptive rate limiting behavior. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Controls how the rate limiter responds to API rate limits and throttles requests to maintain sustainable throughput. </para>
+    </detaileddescription>
+    <location file="include/ingestion/adaptive_rate_limiter.h" line="78" column="1" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="78" bodyend="145"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a16ed02c7cb3cba585a2a986bf43e1889" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiterConfig</scope><name>backoff_multiplier</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a1be8520937eec7b0eabca4c60a377772" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiterConfig</scope><name>honor_retry_after</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a826c3a54ae03f5f705d1c68b1e032582" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiterConfig</scope><name>initial_requests_per_sec</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1aecbbcbc95873b286ac5a1bca3ffe2cdb" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiterConfig</scope><name>max_consecutive_throttles</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a7defe8c6408037e7937cf442a03c9aa8" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiterConfig</scope><name>max_requests_per_sec</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1acd228228d0d5c9398da1593bfb5ef829" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiterConfig</scope><name>measurement_window</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1ad80c5f75a1ae0084743c4d6ac0e80d09" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiterConfig</scope><name>min_requests_per_sec</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a907b3eb0c4b28e28239c37880cd7763b" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiterConfig</scope><name>speedup_multiplier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

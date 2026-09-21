@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_schema_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::SchemaInfo</compoundname>
+    <includes refid="storage__layout__advisor_8h" local="no">storage_layout_advisor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_schema_info_1a38d08b9e6249e36cffa89878ca6b9fc7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::SchemaInfo::collection_name</definition>
+        <argsstring></argsstring>
+        <name>collection_name</name>
+        <qualifiedname>themis::storage::SchemaInfo::collection_name</qualifiedname>
+        <briefdescription>
+<para>Collection name (informational). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="76" column="17" bodyfile="include/storage/storage_layout_advisor.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_schema_info_1a553cf7aac3e48f56eac01ae4e169d18a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::storage::SchemaInfo::field_names</definition>
+        <argsstring></argsstring>
+        <name>field_names</name>
+        <qualifiedname>themis::storage::SchemaInfo::field_names</qualifiedname>
+        <briefdescription>
+<para>Ordered list of field names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="79" column="17" bodyfile="include/storage/storage_layout_advisor.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_schema_info_1acdad0587b689e447bc0fd717eabf782c" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::storage::SchemaInfo::field_types</definition>
+        <argsstring></argsstring>
+        <name>field_types</name>
+        <qualifiedname>themis::storage::SchemaInfo::field_types</qualifiedname>
+        <briefdescription>
+<para>Maps each field name to its canonical type token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Recognised type tokens: &quot;Float&quot;, &quot;Int&quot;, &quot;DateTime&quot;, &quot;UUID&quot;, &quot;String&quot;, &quot;BLOB&quot;, &quot;Boolean&quot;. Unknown types are treated as &quot;String&quot;. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="87" column="14" bodyfile="include/storage/storage_layout_advisor.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_schema_info_1a84e808077b94ad4c3ea93ec4d51fdc97" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::SchemaInfo::has_blob</definition>
+        <argsstring></argsstring>
+        <name>has_blob</name>
+        <qualifiedname>themis::storage::SchemaInfo::has_blob</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True when at least one field has type &quot;BLOB&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_layout_advisor.h" line="90" column="10" bodyfile="include/storage/storage_layout_advisor.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Structural metadata for a collection schema. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used by the layout advisor to identify float-heavy, UUID-keyed, or BLOB-containing collections. </para>
+    </detaileddescription>
+    <location file="include/storage/storage_layout_advisor.h" line="74" column="1" bodyfile="include/storage/storage_layout_advisor.h" bodystart="74" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_schema_info_1a38d08b9e6249e36cffa89878ca6b9fc7" prot="public" virt="non-virtual"><scope>themis::storage::SchemaInfo</scope><name>collection_name</name></member>
+      <member refid="structthemis_1_1storage_1_1_schema_info_1a553cf7aac3e48f56eac01ae4e169d18a" prot="public" virt="non-virtual"><scope>themis::storage::SchemaInfo</scope><name>field_names</name></member>
+      <member refid="structthemis_1_1storage_1_1_schema_info_1acdad0587b689e447bc0fd717eabf782c" prot="public" virt="non-virtual"><scope>themis::storage::SchemaInfo</scope><name>field_types</name></member>
+      <member refid="structthemis_1_1storage_1_1_schema_info_1a84e808077b94ad4c3ea93ec4d51fdc97" prot="public" virt="non-virtual"><scope>themis::storage::SchemaInfo</scope><name>has_blob</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

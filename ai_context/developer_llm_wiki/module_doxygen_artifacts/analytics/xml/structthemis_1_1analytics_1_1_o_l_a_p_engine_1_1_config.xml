@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::OLAPEngine::Config</compoundname>
+    <includes refid="olap_8h" local="no">olap.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1a2b23fc818642d05a6e89fc9656b4f697" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::analytics::OLAPEngine::Config::enable_gpu</definition>
+        <argsstring></argsstring>
+        <name>enable_gpu</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Config::enable_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="188" column="14" bodyfile="include/analytics/olap.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1ab895aefadf905a65c7d04403a77b0fb6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::analytics::OLAPEngine::Config::gpu_device_id</definition>
+        <argsstring></argsstring>
+        <name>gpu_device_id</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Config::gpu_device_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="189" column="13" bodyfile="include/analytics/olap.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1ab5f8a3babf7cedfe829eb508c7c4fe60" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::OLAPEngine::Config::gpu_memory_limit</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_limit</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Config::gpu_memory_limit</qualifiedname>
+        <initializer>= 4ULL * 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="190" column="16" bodyfile="include/analytics/olap.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1ae57dbcbcb2c3e97e17c93c7a78fcfbd2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::OLAPEngine::Config::gpu_threshold_rows</definition>
+        <argsstring></argsstring>
+        <name>gpu_threshold_rows</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Config::gpu_threshold_rows</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="191" column="16" bodyfile="include/analytics/olap.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1a2a66f2cc5ef0424b3eba52c871471e67" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::OLAPEngine::Config::result_cache_max_entries</definition>
+        <argsstring></argsstring>
+        <name>result_cache_max_entries</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Config::result_cache_max_entries</qualifiedname>
+        <initializer>= 1&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="192" column="16" bodyfile="include/analytics/olap.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1aa01f61455a0bdace0dae42468159dba9" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::analytics::OLAPEngine::Config::result_cache_ttl_ms</definition>
+        <argsstring></argsstring>
+        <name>result_cache_ttl_ms</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Config::result_cache_ttl_ms</qualifiedname>
+        <initializer>= 60&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="193" column="17" bodyfile="include/analytics/olap.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/olap.h" line="187" column="5" bodyfile="include/analytics/olap.h" bodystart="187" bodyend="194"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1a2b23fc818642d05a6e89fc9656b4f697" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Config</scope><name>enable_gpu</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1ab895aefadf905a65c7d04403a77b0fb6" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Config</scope><name>gpu_device_id</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1ab5f8a3babf7cedfe829eb508c7c4fe60" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Config</scope><name>gpu_memory_limit</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1ae57dbcbcb2c3e97e17c93c7a78fcfbd2" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Config</scope><name>gpu_threshold_rows</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1a2a66f2cc5ef0424b3eba52c871471e67" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Config</scope><name>result_cache_max_entries</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config_1aa01f61455a0bdace0dae42468159dba9" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Config</scope><name>result_cache_ttl_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

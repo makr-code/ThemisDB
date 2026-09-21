@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_l_m_metrics_test" kind="class" language="C++" prot="public">
+    <compoundname>LLMMetricsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_l_l_m_metrics_test_1a70947fb924c8544baf175feeaac48bf0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMMetricsTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LLMMetricsTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_metrics.cpp" line="14" column="10" bodyfile="tests/llm/test_llm_metrics.cpp" bodystart="14" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_metrics_test_1a48fd90e9c6caa9d6693427d99a72e1e7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMMetricsTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LLMMetricsTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_metrics.cpp" line="20" column="10" bodyfile="tests/llm/test_llm_metrics.cpp" bodystart="20" bodyend="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LLMMetricsTest</label>
+        <link refid="class_l_l_m_metrics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LLMMetricsTest</label>
+        <link refid="class_l_l_m_metrics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_metrics.cpp" line="12" column="1" bodyfile="tests/llm/test_llm_metrics.cpp" bodystart="12" bodyend="23"/>
+    <listofallmembers>
+      <member refid="class_l_l_m_metrics_test_1a70947fb924c8544baf175feeaac48bf0" prot="protected" virt="non-virtual"><scope>LLMMetricsTest</scope><name>SetUp</name></member>
+      <member refid="class_l_l_m_metrics_test_1a48fd90e9c6caa9d6693427d99a72e1e7" prot="protected" virt="non-virtual"><scope>LLMMetricsTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

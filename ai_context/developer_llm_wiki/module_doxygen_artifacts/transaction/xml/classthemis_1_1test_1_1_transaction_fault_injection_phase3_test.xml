@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::TransactionFaultInjectionPhase3Test</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test_1a93d5e8ce190a42abf1f64309144f987b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1test_1_1_fault_injectable_coordinator" kindref="compound">FaultInjectableCoordinator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;FaultInjectableCoordinator&gt; themis::test::TransactionFaultInjectionPhase3Test::coordinator_</definition>
+        <argsstring></argsstring>
+        <name>coordinator_</name>
+        <qualifiedname>themis::test::TransactionFaultInjectionPhase3Test::coordinator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="281" column="21" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="281" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test_1ac3dfbda975bf0c3745fe80329059a996" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::TransactionFaultInjectionPhase3Test::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::test::TransactionFaultInjectionPhase3Test::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="273" column="10" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="273" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test_1aa018594becb71bbb87e88824c58d733b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::TransactionFaultInjectionPhase3Test::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::test::TransactionFaultInjectionPhase3Test::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="277" column="10" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="277" bodyend="279"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test_1aff4a6c0cf01e486584eaea9d814ab174" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::test::TransactionFaultInjectionPhase3Test::txn</definition>
+        <argsstring>(const char *prefix, int i)</argsstring>
+        <name>txn</name>
+        <qualifiedname>themis::test::TransactionFaultInjectionPhase3Test::txn</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>prefix</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="283" column="24" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="283" bodyend="285"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::test::TransactionFaultInjectionPhase3Test</label>
+        <link refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::test::TransactionFaultInjectionPhase3Test</label>
+        <link refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="271" column="1" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="271" bodyend="286"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test_1a93d5e8ce190a42abf1f64309144f987b" prot="protected" virt="non-virtual"><scope>themis::test::TransactionFaultInjectionPhase3Test</scope><name>coordinator_</name></member>
+      <member refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test_1ac3dfbda975bf0c3745fe80329059a996" prot="protected" virt="non-virtual"><scope>themis::test::TransactionFaultInjectionPhase3Test</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test_1aa018594becb71bbb87e88824c58d733b" prot="protected" virt="non-virtual"><scope>themis::test::TransactionFaultInjectionPhase3Test</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test_1aff4a6c0cf01e486584eaea9d814ab174" prot="protected" virt="non-virtual"><scope>themis::test::TransactionFaultInjectionPhase3Test</scope><name>txn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

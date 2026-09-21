@@ -1,0 +1,370 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="data__loader_8h" kind="file" language="C++">
+    <compoundname>data_loader.h</compoundname>
+    <includes refid="lora__config_8h" local="yes">lora_config.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="gpu__data__loader_8h" local="yes">include/llm/lora_framework/gpu_data_loader.h</includedby>
+    <includedby refid="llama__tokenizer_8h" local="yes">include/llm/lora_framework/llama_tokenizer.h</includedby>
+    <includedby refid="data__loader_8cpp" local="yes">src/llm/lora_framework/data_loader.cpp</includedby>
+    <includedby refid="lora__training__service_8cpp" local="yes">src/llm/lora_framework/lora_training_service.cpp</includedby>
+    <includedby refid="test__llama__cpp__tokenizer_8cpp" local="yes">tests/llm/test_llama_cpp_tokenizer.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/data_loader.h</label>
+        <link refid="data__loader_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>lora_config.h</label>
+        <link refid="lora__config_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/data_loader.h</label>
+        <link refid="data__loader_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/lora_framework/gpu_data_loader.h</label>
+        <link refid="gpu__data__loader_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/llm/lora_framework/gpu_training_loop.h</label>
+        <link refid="gpu__training__loop_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/llm/lora_framework/llama_tokenizer.h</label>
+        <link refid="llama__tokenizer_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>src/llm/lora_framework/data_loader.cpp</label>
+        <link refid="data__loader_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/llm/lora_framework/embedding_provider.cpp</label>
+        <link refid="embedding__provider_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/llm/lora_framework/gpu_data_loader.cpp</label>
+        <link refid="gpu__data__loader_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/llm/lora_framework/gpu_training_loop.cpp</label>
+        <link refid="gpu__training__loop_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/llm/lora_framework/llama_tokenizer.cpp</label>
+        <link refid="llama__tokenizer_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/llm/lora_framework/lora_training_service.cpp</label>
+        <link refid="lora__training__service_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/llm/test_llama_cpp_tokenizer.cpp</label>
+        <link refid="test__llama__cpp__tokenizer_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/llm/test_llm_destructor_noexcept_b1.cpp</label>
+        <link refid="test__llm__destructor__noexcept__b1_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/llm/test_llm_tinyllama_inference.cpp</label>
+        <link refid="test__llm__tinyllama__inference_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" prot="public">themis::llm::lora::InstructionDataSample</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_training_batch" prot="public">themis::llm::lora::TrainingBatch</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer" prot="public">themis::llm::lora::ITokenizer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer" prot="public">themis::llm::lora::SimpleTokenizer</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config" prot="public">themis::llm::lora::DataLoaderConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_data_loader" prot="public">themis::llm::lora::DataLoader</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora_1_1data__utils">themis::llm::lora::data_utils</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__config_8h" kindref="compound">lora_config.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a3e217e237cf44145fcae44f836c5b1e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a3e217e237cf44145fcae44f836c5b1e0" kindref="member">instruction</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>instruction/prompt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a1db0b31c9364f03b86d82f711121db59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a1db0b31c9364f03b86d82f711121db59" kindref="member">input</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>additional<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1ad93b93596a1d7bfdc81443b93fea3a5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1ad93b93596a1d7bfdc81443b93fea3a5b" kindref="member">output</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tokenized<sp/>versions<sp/>(populated<sp/>by<sp/>tokenizer)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1adc814c474287ef1a59ddfebed8ed59c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1adc814c474287ef1a59ddfebed8ed59c4" kindref="member">input_ids</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a8d6a6f2ea79a156ed4113c42f932b319" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a8d6a6f2ea79a156ed4113c42f932b319" kindref="member">label_ids</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>full<sp/>prompt<sp/>(instruction<sp/>+<sp/>input<sp/>if<sp/>present)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a7af3aef261e07748dc9dc233ab9499db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a7af3aef261e07748dc9dc233ab9499db" kindref="member">getFullPrompt</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a1db0b31c9364f03b86d82f711121db59" kindref="member">input</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a3e217e237cf44145fcae44f836c5b1e0" kindref="member">instruction</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a3e217e237cf44145fcae44f836c5b1e0" kindref="member">instruction</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample_1a1db0b31c9364f03b86d82f711121db59" kindref="member">input</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1lora_1_1_training_batch" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_training_batch" kindref="compound">TrainingBatch</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1a48e58eb6f9db1946987e61ac1a970b75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1a48e58eb6f9db1946987e61ac1a970b75" kindref="member">~TrainingBatch</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1ad081af46dc0b9201eb9d6582716cda87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;int&gt;&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1ad081af46dc0b9201eb9d6582716cda87" kindref="member">input_ids</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>[batch_size,<sp/>seq_len]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1ad4894951bda80b283145c2a938194d6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;int&gt;&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1ad4894951bda80b283145c2a938194d6c" kindref="member">label_ids</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>[batch_size,<sp/>seq_len]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1a48d7555924d0ceb856a710816002a9ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1a48d7555924d0ceb856a710816002a9ad" kindref="member">sequence_lengths</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Actual<sp/>lengths<sp/>before<sp/>padding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1a09d8d6fae628275602fbfa63326bdeff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1a09d8d6fae628275602fbfa63326bdeff" kindref="member">batch_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1a47c3322ef67275b7cdefa9a499d2da6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1a47c3322ef67275b7cdefa9a499d2da6a" kindref="member">max_sequence_length</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1a83636e1d68e9366a940a1da153db2617" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1a83636e1d68e9366a940a1da153db2617" kindref="member">empty</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1ad081af46dc0b9201eb9d6582716cda87" kindref="member">input_ids</ref>.empty();<sp/>}</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1ad917579631eee398a3f17a564589fa4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1ad917579631eee398a3f17a564589fa4e" kindref="member">size</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1ad081af46dc0b9201eb9d6582716cda87" kindref="member">input_ids</ref>.size();<sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015" kindref="member">DatasetFormat</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015ad63dd5a11b7bfad43a474d4ca471dc9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015ad63dd5a11b7bfad43a474d4ca471dc9f" kindref="member">JSONL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>JSON<sp/>object<sp/>per<sp/>line</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015a7c80105b450d2a7097856f0c1a47f684" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015a7c80105b450d2a7097856f0c1a47f684" kindref="member">ALPACA</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stanford<sp/>Alpaca<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015a6bf102810c451bcbe854d58144f86c92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015a6bf102810c451bcbe854d58144f86c92" kindref="member">SHAREGPT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ShareGPT<sp/>conversation<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015aae7d3557f5e0b4e9cca075db3dfa7e9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015aae7d3557f5e0b4e9cca075db3dfa7e9d" kindref="member">PLAIN_TEXT</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Plain<sp/>text<sp/>files<sp/>(for<sp/>language<sp/>modeling)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015a72baef04098f035e8a320b03ad197818" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015a72baef04098f035e8a320b03ad197818" kindref="member">CUSTOM</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Custom<sp/>format<sp/>with<sp/>user-provided<sp/>parser</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer" kindref="compound">ITokenizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer_1a3b26d1fde2bfa9403bee130ab4789fed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer_1a3b26d1fde2bfa9403bee130ab4789fed" kindref="member">~ITokenizer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer_1a09e5eb0d64f2df6529d2f531b321502e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer_1a09e5eb0d64f2df6529d2f531b321502e" kindref="member">encode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>add_bos<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>add_eos<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer_1a7f1f675c88c460ed8383ea3dde1ddf25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer_1a7f1f675c88c460ed8383ea3dde1ddf25" kindref="member">decode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/>tokens)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer_1a5847ddf2b6eb798d8a784d38d607e9be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer_1a5847ddf2b6eb798d8a784d38d607e9be" kindref="member">vocab_size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer_1aa8a199519a7369e6a8f5be259ce938e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer_1aa8a199519a7369e6a8f5be259ce938e1" kindref="member">bos_token_id</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer_1ade61c70e30fbaff328b1d8a3412fb149" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer_1ade61c70e30fbaff328b1d8a3412fb149" kindref="member">eos_token_id</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer_1a3717fd75d751c0f7e1f42595179e5117" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer_1a3717fd75d751c0f7e1f42595179e5117" kindref="member">pad_token_id</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer_1accc489afac33fa8b1ead379296db88a8" kindref="member">SimpleTokenizer</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_tokenizer" kindref="compound">ITokenizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer_1accc489afac33fa8b1ead379296db88a8" kindref="member">SimpleTokenizer</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer_1a85ac8cdd2acf5ce8ff47a103e681141d" kindref="member">vocab_size</ref><sp/>=<sp/>32000);</highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer_1af270b0672bf99db5529ea1fd853eabac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer_1af270b0672bf99db5529ea1fd853eabac" kindref="member">~SimpleTokenizer</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer_1a917b5586f98f7591ac1b1e0c2e9f551e" kindref="member">encode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>add_bos<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>add_eos<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer_1a093bea20668572dcb8c3946fc79a8a43" kindref="member">decode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/>tokens)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer_1a85ac8cdd2acf5ce8ff47a103e681141d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer_1a85ac8cdd2acf5ce8ff47a103e681141d" kindref="member">vocab_size</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>vocab_size_;<sp/>}</highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer_1ae1ee3dc4f39b87601f8e9fe4487d9f11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer_1ae1ee3dc4f39b87601f8e9fe4487d9f11" kindref="member">bos_token_id</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;<sp/>}</highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer_1a0a03c698aacb6297322a470c7aa01757" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer_1a0a03c698aacb6297322a470c7aa01757" kindref="member">eos_token_id</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>2;<sp/>}</highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer_1a72f842e60214a6aac0e79524564db5eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_simple_tokenizer_1a72f842e60214a6aac0e79524564db5eb" kindref="member">pad_token_id</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>vocab_size_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>char_to_token(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>token_to_char(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/>tokens);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config" kindref="compound">DataLoaderConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a275898a20f88539184e0e45c1d5424ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a275898a20f88539184e0e45c1d5424ed" kindref="member">~DataLoaderConfig</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1ab367d1176b9d500f4c5624e8df7d329d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015" kindref="member">DatasetFormat</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1ab367d1176b9d500f4c5624e8df7d329d" kindref="member">format</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015ad63dd5a11b7bfad43a474d4ca471dc9f" kindref="member">DatasetFormat::JSONL</ref>;</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a18640aa1bfed1bee8f25f22d9374e2dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a18640aa1bfed1bee8f25f22d9374e2dc" kindref="member">max_sequence_length</ref><sp/>=<sp/>2048;</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a6ca0b651deb4a641a9634771f35bab4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a6ca0b651deb4a641a9634771f35bab4b" kindref="member">batch_size</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a4d8574af495c958a9dece836f8726e34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a4d8574af495c958a9dece836f8726e34" kindref="member">shuffle</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a42bababe6ee9337e559bf0cd200e2bda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a42bababe6ee9337e559bf0cd200e2bda" kindref="member">num_workers</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prompt<sp/>formatting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1ab694427dc9d852d8d9d0a7da4142c036" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1ab694427dc9d852d8d9d0a7da4142c036" kindref="member">instruction_prefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;###<sp/>Instruction:\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1aba51f8e87b3c3826d22b09ce31cfb7b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1aba51f8e87b3c3826d22b09ce31cfb7b2" kindref="member">input_prefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;\n###<sp/>Input:\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1ab19e920c5d366837f741d422c9b3cc80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1ab19e920c5d366837f741d422c9b3cc80" kindref="member">response_prefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;\n###<sp/>Response:\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Padding<sp/>and<sp/>truncation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a566f7f31bbf27215bea0fdfbaf768bef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a566f7f31bbf27215bea0fdfbaf768bef" kindref="member">pad_to_max_length</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a1fe06dc92729dad745cdb22e9cbf7e1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a1fe06dc92729dad745cdb22e9cbf7e1d" kindref="member">truncate_to_max_length</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1abd669afcc904c2420bf95f242fd23afa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1abd669afcc904c2420bf95f242fd23afa" kindref="member">pad_token_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>augmentation<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a466df8ec13162ec6e815d45c52409141" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a466df8ec13162ec6e815d45c52409141" kindref="member">enable_augmentation</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a2964e72dc75229e0c3d51db7de9b97ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config_1a2964e72dc75229e0c3d51db7de9b97ac" kindref="member">noise_probability</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1llm_1_1lora_1_1_data_loader" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a7170ea0c728b96cd0d39371b68a78194" kindref="member">DataLoader</ref><sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a7170ea0c728b96cd0d39371b68a78194" kindref="member">DataLoader</ref>(std::shared_ptr&lt;ITokenizer&gt;<sp/>tokenizer,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config" kindref="compound">DataLoaderConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config" kindref="compound">DataLoaderConfig</ref>{});</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1ae3597e9dc7bcb3813b3ea457e3bf1cb1" kindref="member">~DataLoader</ref>();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1ade57ad1fcd5bf982a6a10030933b3834" kindref="member">loadFromFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1aa61eef74b23dbb481ed9e4b3e9e5a287" kindref="member">loadFromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>json_data);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a1c1e7204e123c9e74e35f4fbb418810c" kindref="member">loadFromSamples</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;InstructionDataSample&gt;&amp;<sp/>samples);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176" refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1afbcc96d900d2012b740255851298e875" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1afbcc96d900d2012b740255851298e875" kindref="member">size</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>samples_.size();<sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a39f12c0f1d515f976a358b178c2e1865" kindref="member">num_batches</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_batch" kindref="compound">TrainingBatch</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1aa46177eaaf1d85fb9c3ee60e082126f5" kindref="member">getNextBatch</ref>();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1aa6355a7ec18e8ab8a3e0f4d40d4d2c2d" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a40c0b32185bfed621c99c6d109b56aaf" kindref="member">hasNext</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a5582c13f40154fa898e07567c9559283" kindref="member">shuffle</ref>();</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;InstructionDataSample&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a284907f6a4279d49640fd4bffa937407" kindref="member">getSample</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>idx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213" refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1ade8f2686a9964b426d0247535621135f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1ade8f2686a9964b426d0247535621135f" kindref="member">setFormatter</ref>(std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref>&amp;)&gt;<sp/>formatter)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>custom_formatter_<sp/>=<sp/>formatter;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="217" refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a9a477f976645b442da003bbc025a3a27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config" kindref="compound">DataLoaderConfig</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_data_loader_1a9a477f976645b442da003bbc025a3a27" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ITokenizer&gt;<sp/>tokenizer_;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_data_loader_config" kindref="compound">DataLoaderConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;InstructionDataSample&gt;<sp/>samples_;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/>indices_;<sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>shuffling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_index_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Custom<sp/>formatter<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref>&amp;)&gt;<sp/>custom_formatter_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>parseJSONL(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>parseAlpaca(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>parseShareGPT(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>parsePlainText(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>formatSample(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref>&amp;<sp/>sample)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>tokenizeSample(<ref refid="structthemis_1_1llm_1_1lora_1_1_instruction_data_sample" kindref="compound">InstructionDataSample</ref>&amp;<sp/>sample);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_batch" kindref="compound">TrainingBatch</ref><sp/>createBatch(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;size_t&gt;&amp;<sp/>batch_indices);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>padBatch(<ref refid="structthemis_1_1llm_1_1lora_1_1_training_batch" kindref="compound">TrainingBatch</ref>&amp;<sp/>batch);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280" refid="namespacethemis_1_1llm_1_1lora_1_1data__utils" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora_1_1data__utils" kindref="compound">data_utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;InstructionDataSample&gt;<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1_1data__utils_1a7c2be358d6a7d67decab26c76d64a4c0" kindref="member">loadAlpacaFormat</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>json_data);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;InstructionDataSample&gt;<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1_1data__utils_1a27117aba7ed5b40a229d55452e43f847" kindref="member">loadShareGPTFormat</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>json_data);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;InstructionDataSample&gt;<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1_1data__utils_1af807b0fe8fa26d14ae1deeddab196482" kindref="member">createToyDataset</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_samples);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;std::vector&lt;InstructionDataSample&gt;,<sp/>std::vector&lt;InstructionDataSample&gt;&gt;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1_1data__utils_1a4c4b87683e68b67de96280c92f442731" kindref="member">trainValSplit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;InstructionDataSample&gt;&amp;<sp/>samples,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>validation_split<sp/>=<sp/>0.1f);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>data_utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/data_loader.h"/>
+  </compounddef>
+</doxygen>

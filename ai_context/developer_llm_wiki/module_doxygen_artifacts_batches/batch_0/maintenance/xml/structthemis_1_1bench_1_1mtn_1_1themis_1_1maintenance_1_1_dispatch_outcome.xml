@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::mtn::themis::maintenance::DispatchOutcome</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1add82adbecee4a408764808e2760c7ae1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::bench::mtn::themis::maintenance::DispatchOutcome::schedule_id</definition>
+        <argsstring></argsstring>
+        <name>schedule_id</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::DispatchOutcome::schedule_id</qualifiedname>
+        <briefdescription>
+<para>Schedule identifier that triggered this dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="94" column="17" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1a090860750bd30c59d0ea5eac268ad031" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::bench::mtn::themis::maintenance::DispatchOutcome::task_type</definition>
+        <argsstring></argsstring>
+        <name>task_type</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::DispatchOutcome::task_type</qualifiedname>
+        <briefdescription>
+<para>String representation of the task type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="96" column="17" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1acb2aa207703bd76b58e493f49f5ae6e2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1af3c0e593cc95484df06b81f4fbefd31e" kindref="member">DispatchOutcomeType</ref></type>
+        <definition>DispatchOutcomeType themis::bench::mtn::themis::maintenance::DispatchOutcome::outcome</definition>
+        <argsstring></argsstring>
+        <name>outcome</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::DispatchOutcome::outcome</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1af3c0e593cc95484df06b81f4fbefd31ead0749aaba8b833466dfcbb0428e4f89c" kindref="member">DispatchOutcomeType::SUCCESS</ref></initializer>
+        <briefdescription>
+<para>Outcome classification. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="98" column="25" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1a1d82c59d4c21676ea255904c92dd290a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::bench::mtn::themis::maintenance::DispatchOutcome::latency_us</definition>
+        <argsstring></argsstring>
+        <name>latency_us</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::DispatchOutcome::latency_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock latency in microseconds (≥ 0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="100" column="13" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1adae4ef3c059f329a40333aa1334281d1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::bench::mtn::themis::maintenance::DispatchOutcome::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::DispatchOutcome::error_message</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Human-readable error or diagnostic message (may be empty on SUCCESS). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="102" column="17" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="102" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1a4ed753823ae344d08477563c32d63ac5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::bench::mtn::themis::maintenance::DispatchOutcome::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::DispatchOutcome::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="104" column="20" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="104" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight record emitted for every dispatch attempt. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stored in a ring buffer inside DatabaseMaintenanceOrchestrator and surfaced via <ref refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1ada2b3ae58f6e7c7a239db358383e19d3" kindref="member">MaintenanceHealthReport::recent_dispatch_outcomes</ref>. </para>
+    </detaileddescription>
+    <location file="include/maintenance/maintenance_health_report.h" line="92" column="1" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="92" bodyend="113"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1adae4ef3c059f329a40333aa1334281d1" prot="public" virt="non-virtual"><scope>themis::bench::mtn::themis::maintenance::DispatchOutcome</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1a1d82c59d4c21676ea255904c92dd290a" prot="public" virt="non-virtual"><scope>themis::bench::mtn::themis::maintenance::DispatchOutcome</scope><name>latency_us</name></member>
+      <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1acb2aa207703bd76b58e493f49f5ae6e2" prot="public" virt="non-virtual"><scope>themis::bench::mtn::themis::maintenance::DispatchOutcome</scope><name>outcome</name></member>
+      <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1add82adbecee4a408764808e2760c7ae1" prot="public" virt="non-virtual"><scope>themis::bench::mtn::themis::maintenance::DispatchOutcome</scope><name>schedule_id</name></member>
+      <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1a090860750bd30c59d0ea5eac268ad031" prot="public" virt="non-virtual"><scope>themis::bench::mtn::themis::maintenance::DispatchOutcome</scope><name>task_type</name></member>
+      <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome_1a4ed753823ae344d08477563c32d63ac5" prot="public" virt="non-virtual"><scope>themis::bench::mtn::themis::maintenance::DispatchOutcome</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

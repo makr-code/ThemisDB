@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_component_model_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ComponentModelConfig</compoundname>
+    <includes refid="wasm__component__model_8h" local="no">wasm_component_model.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_component_model_config_1ac7902331ee642c69552741d7f06078ce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ComponentModelConfig::component_path</definition>
+        <argsstring></argsstring>
+        <name>component_path</name>
+        <qualifiedname>themis::plugins::ComponentModelConfig::component_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/wasm_component_model.h" line="39" column="17" bodyfile="include/plugins/wasm_component_model.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_component_model_config_1ab76ef81311365af2f8e00b220a69a2c3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1_w_i_t_interface" kindref="compound">WITInterface</ref> &gt;</type>
+        <definition>std::vector&lt;WITInterface&gt; themis::plugins::ComponentModelConfig::imports</definition>
+        <argsstring></argsstring>
+        <name>imports</name>
+        <qualifiedname>themis::plugins::ComponentModelConfig::imports</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/wasm_component_model.h" line="40" column="17" bodyfile="include/plugins/wasm_component_model.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_component_model_config_1adb7fb784a3b6188d6b2bbc2e86522a43" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ComponentModelConfig::enable_wasi</definition>
+        <argsstring></argsstring>
+        <name>enable_wasi</name>
+        <qualifiedname>themis::plugins::ComponentModelConfig::enable_wasi</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/wasm_component_model.h" line="41" column="10" bodyfile="include/plugins/wasm_component_model.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_component_model_config_1a1c8a910a1294208d6255b8f3737b65c9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ComponentModelConfig::runtime_hint</definition>
+        <argsstring></argsstring>
+        <name>runtime_hint</name>
+        <qualifiedname>themis::plugins::ComponentModelConfig::runtime_hint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/wasm_component_model.h" line="42" column="17" bodyfile="include/plugins/wasm_component_model.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/wasm_component_model.h" line="38" column="1" bodyfile="include/plugins/wasm_component_model.h" bodystart="38" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_component_model_config_1ac7902331ee642c69552741d7f06078ce" prot="public" virt="non-virtual"><scope>themis::plugins::ComponentModelConfig</scope><name>component_path</name></member>
+      <member refid="structthemis_1_1plugins_1_1_component_model_config_1adb7fb784a3b6188d6b2bbc2e86522a43" prot="public" virt="non-virtual"><scope>themis::plugins::ComponentModelConfig</scope><name>enable_wasi</name></member>
+      <member refid="structthemis_1_1plugins_1_1_component_model_config_1ab76ef81311365af2f8e00b220a69a2c3" prot="public" virt="non-virtual"><scope>themis::plugins::ComponentModelConfig</scope><name>imports</name></member>
+      <member refid="structthemis_1_1plugins_1_1_component_model_config_1a1c8a910a1294208d6255b8f3737b65c9" prot="public" virt="non-virtual"><scope>themis::plugins::ComponentModelConfig</scope><name>runtime_hint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

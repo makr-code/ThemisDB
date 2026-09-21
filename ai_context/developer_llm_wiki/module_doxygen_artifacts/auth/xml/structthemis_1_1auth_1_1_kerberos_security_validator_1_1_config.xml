@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::KerberosSecurityValidator::Config</compoundname>
+    <includes refid="kerberos__security_8h" local="no">kerberos_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1afe7b9464ec46b4d61489c71c66e1c6f5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosSecurityValidator::Config::enable_channel_bindings</definition>
+        <argsstring></argsstring>
+        <name>enable_channel_bindings</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::Config::enable_channel_bindings</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="34" column="14" bodyfile="include/auth/kerberos_security.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1ae1fc22b02172d38c642bd77dbcd702e6" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219" kindref="member">ChannelBindingType</ref></type>
+        <definition>ChannelBindingType themis::auth::KerberosSecurityValidator::Config::binding_type</definition>
+        <argsstring></argsstring>
+        <name>binding_type</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::Config::binding_type</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219a3320e9d040b682fac7e57f9f889d5a26" kindref="member">ChannelBindingType::TLS_SERVER_ENDPOINT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="35" column="28" bodyfile="include/auth/kerberos_security.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a08a86590ff4be199f0d7d71e9135bdd3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosSecurityValidator::Config::strict_asn1_validation</definition>
+        <argsstring></argsstring>
+        <name>strict_asn1_validation</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::Config::strict_asn1_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="38" column="14" bodyfile="include/auth/kerberos_security.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a649cd0aec46af7cc005b8c1c5d1e4818" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::KerberosSecurityValidator::Config::max_token_depth</definition>
+        <argsstring></argsstring>
+        <name>max_token_depth</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::Config::max_token_depth</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="39" column="16" bodyfile="include/auth/kerberos_security.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a35ab8e2bf1d32087172768081ea880da" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::KerberosSecurityValidator::Config::max_sequence_length</definition>
+        <argsstring></argsstring>
+        <name>max_sequence_length</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::Config::max_sequence_length</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="40" column="16" bodyfile="include/auth/kerberos_security.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a3cad3bb18116cce81a638a29247f1971" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosSecurityValidator::Config::verify_service_target</definition>
+        <argsstring></argsstring>
+        <name>verify_service_target</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::Config::verify_service_target</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="43" column="14" bodyfile="include/auth/kerberos_security.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a1829744c18384770d14db4b78e763afe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::KerberosSecurityValidator::Config::expected_service_principal</definition>
+        <argsstring></argsstring>
+        <name>expected_service_principal</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::Config::expected_service_principal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="44" column="21" bodyfile="include/auth/kerberos_security.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a1586eefd03a818acdf52252ebfee6d71" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosSecurityValidator::Config::validate_token_structure</definition>
+        <argsstring></argsstring>
+        <name>validate_token_structure</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::Config::validate_token_structure</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="47" column="14" bodyfile="include/auth/kerberos_security.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1af43756e04ddb2108af881d5c0dfd7e1d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosSecurityValidator::Config::require_mutual_auth</definition>
+        <argsstring></argsstring>
+        <name>require_mutual_auth</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::Config::require_mutual_auth</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="48" column="14" bodyfile="include/auth/kerberos_security.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1aa3f991eab5b5f40e7c04a4bab7fb3275" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosSecurityValidator::Config::require_integrity</definition>
+        <argsstring></argsstring>
+        <name>require_integrity</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::Config::require_integrity</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="49" column="14" bodyfile="include/auth/kerberos_security.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1aa2a0424ce826ee51c7885039778ce3c5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosSecurityValidator::Config::require_confidentiality</definition>
+        <argsstring></argsstring>
+        <name>require_confidentiality</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::Config::require_confidentiality</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="50" column="14" bodyfile="include/auth/kerberos_security.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1afabf0ca498dff0206d9466a088fcd909" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::KerberosSecurityValidator::Config::max_clock_skew_seconds</definition>
+        <argsstring></argsstring>
+        <name>max_clock_skew_seconds</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::Config::max_clock_skew_seconds</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="53" column="13" bodyfile="include/auth/kerberos_security.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a0e881b0e08a7f7a20f8552b6faa05a27" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosSecurityValidator::Config::reject_expired_tickets</definition>
+        <argsstring></argsstring>
+        <name>reject_expired_tickets</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::Config::reject_expired_tickets</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="54" column="14" bodyfile="include/auth/kerberos_security.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/kerberos_security.h" line="32" column="5" bodyfile="include/auth/kerberos_security.h" bodystart="32" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1ae1fc22b02172d38c642bd77dbcd702e6" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::Config</scope><name>binding_type</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1afe7b9464ec46b4d61489c71c66e1c6f5" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::Config</scope><name>enable_channel_bindings</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a1829744c18384770d14db4b78e763afe" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::Config</scope><name>expected_service_principal</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1afabf0ca498dff0206d9466a088fcd909" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::Config</scope><name>max_clock_skew_seconds</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a35ab8e2bf1d32087172768081ea880da" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::Config</scope><name>max_sequence_length</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a649cd0aec46af7cc005b8c1c5d1e4818" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::Config</scope><name>max_token_depth</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a0e881b0e08a7f7a20f8552b6faa05a27" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::Config</scope><name>reject_expired_tickets</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1aa2a0424ce826ee51c7885039778ce3c5" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::Config</scope><name>require_confidentiality</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1aa3f991eab5b5f40e7c04a4bab7fb3275" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::Config</scope><name>require_integrity</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1af43756e04ddb2108af881d5c0dfd7e1d" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::Config</scope><name>require_mutual_auth</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a08a86590ff4be199f0d7d71e9135bdd3" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::Config</scope><name>strict_asn1_validation</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a1586eefd03a818acdf52252ebfee6d71" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::Config</scope><name>validate_token_structure</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config_1a3cad3bb18116cce81a638a29247f1971" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::Config</scope><name>verify_service_target</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

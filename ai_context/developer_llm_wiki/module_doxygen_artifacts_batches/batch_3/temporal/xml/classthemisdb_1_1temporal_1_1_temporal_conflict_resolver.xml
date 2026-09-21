@@ -1,0 +1,698 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TemporalConflictResolver</compoundname>
+    <includes refid="temporal__conflict__resolver_8h" local="no">temporal_conflict_resolver.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a71b1186cb83a70de374ae45c859a1b8b" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a4afb0bf492e23e2b9a3183d73590837a" kindref="member">ConflictPolicy</ref></type>
+        <definition>ConflictPolicy themisdb::temporal::TemporalConflictResolver::default_policy_</definition>
+        <argsstring></argsstring>
+        <name>default_policy_</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::default_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="280" column="20" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a54460235b9060b7e374c97de9d35109d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_conflict_record" kindref="compound">ConflictRecord</ref> &gt;</type>
+        <definition>std::vector&lt;ConflictRecord&gt; themisdb::temporal::TemporalConflictResolver::conflict_history_</definition>
+        <argsstring></argsstring>
+        <name>conflict_history_</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::conflict_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="281" column="17" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1abf23c5f0afde7fc0ba96dd2bed8b8d94" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemisdb_1_1temporal_1_1_conflict_record" kindref="compound">ConflictRecord</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ConflictRecord&gt; themisdb::temporal::TemporalConflictResolver::unresolved_conflicts_</definition>
+        <argsstring></argsstring>
+        <name>unresolved_conflicts_</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::unresolved_conflicts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="282" column="14" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a6e043a02dd446ef667f68781cf37d45c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1temporal_1_1_merge_resolver" kindref="compound">MergeResolver</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MergeResolver&gt; themisdb::temporal::TemporalConflictResolver::merge_resolver_</definition>
+        <argsstring></argsstring>
+        <name>merge_resolver_</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::merge_resolver_</qualifiedname>
+        <briefdescription>
+<para>null → use <ref refid="classthemisdb_1_1temporal_1_1_l_w_w_field_merge_resolver" kindref="compound">LWWFieldMergeResolver</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="283" column="21" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a7ba2c9189c729a412ea05d52322980b9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::temporal::TemporalConflictResolver::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="284" column="24" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a2098fe0a7a53706510c5da331de6c539" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::temporal::TemporalConflictResolver::total_conflicts_</definition>
+        <argsstring></argsstring>
+        <name>total_conflicts_</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::total_conflicts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="287" column="17" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="287" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a28dd2039274e76f6c44ad33ee88b2ee7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::temporal::TemporalConflictResolver::lww_resolutions_</definition>
+        <argsstring></argsstring>
+        <name>lww_resolutions_</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::lww_resolutions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="288" column="17" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="288" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a1f98aadb360b0fea1eb15d8fe91dde07" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::temporal::TemporalConflictResolver::fww_resolutions_</definition>
+        <argsstring></argsstring>
+        <name>fww_resolutions_</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::fww_resolutions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="289" column="17" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="289" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a981c153f57a2fcf54a3b840ef8cc1adf" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::temporal::TemporalConflictResolver::manual_resolutions_</definition>
+        <argsstring></argsstring>
+        <name>manual_resolutions_</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::manual_resolutions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="290" column="17" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="290" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1abb94d124be9b6b42441977e4e180ba45" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::temporal::TemporalConflictResolver::crdt_merges_</definition>
+        <argsstring></argsstring>
+        <name>crdt_merges_</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::crdt_merges_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="291" column="17" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="291" bodyend="291"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1acde1e9c88b9636e69c7aa324f71063c9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalConflictResolver::TemporalConflictResolver</definition>
+        <argsstring>(ConflictPolicy default_policy=ConflictPolicy::LAST_WRITE_WINS)</argsstring>
+        <name>TemporalConflictResolver</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::TemporalConflictResolver</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a4afb0bf492e23e2b9a3183d73590837a" kindref="member">ConflictPolicy</ref></type>
+          <declname>default_policy</declname>
+          <defval><ref refid="namespacethemisdb_1_1temporal_1a4afb0bf492e23e2b9a3183d73590837aa3247ad84b54dd5dd5cdf48354b0f4058" kindref="member">ConflictPolicy::LAST_WRITE_WINS</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="214" column="14" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="71" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a71122961fd6b891d70bef1f74dae28fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref></type>
+        <definition>TemporalSnapshot themisdb::temporal::TemporalConflictResolver::resolve</definition>
+        <argsstring>(const TemporalSnapshot &amp;local, const TemporalSnapshot &amp;remote, std::optional&lt; ConflictPolicy &gt; policy=std::nullopt)</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::resolve</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemisdb_1_1temporal_1a4afb0bf492e23e2b9a3183d73590837a" kindref="member">ConflictPolicy</ref> &gt;</type>
+          <declname>policy</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Resolve. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Resolve conflict between local and remote snapshot</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local snapshot version </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Remote snapshot version </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Override default policy (optional) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Winning snapshot (merged or selected)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fetch_add(), value_or(), generateConflictId(), std::chrono::system_clock::now(), resolveLastWriteWins(), resolveFirstWriteWins(), resolveNodePriority(), resolveCRDT(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="224" column="22" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="82" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1af67396bb37969f7f6c5e23134b494b35" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_conflict_record" kindref="compound">ConflictRecord</ref> &gt;</type>
+        <definition>std::vector&lt; ConflictRecord &gt; themisdb::temporal::TemporalConflictResolver::getUnresolvedConflicts</definition>
+        <argsstring>() const</argsstring>
+        <name>getUnresolvedConflicts</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::getUnresolvedConflicts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all unresolved conflicts (for MANUAL policy) </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="233" column="17" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="246" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1afdd5d9c88b19b7a087685df3b2fa5211" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::TemporalConflictResolver::resolveManually</definition>
+        <argsstring>(const std::string &amp;conflict_id, const std::string &amp;winner)</argsstring>
+        <name>resolveManually</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::resolveManually</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>conflict_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>winner</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Manually. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Manually resolve a conflict</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the conflict. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">winner</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), push_back(), erase(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="238" column="10" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="268" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a828367f6acb809259536069273db6d0a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_conflict_record" kindref="compound">ConflictRecord</ref> &gt;</type>
+        <definition>std::vector&lt; ConflictRecord &gt; themisdb::temporal::TemporalConflictResolver::getConflictHistory</definition>
+        <argsstring>() const</argsstring>
+        <name>getConflictHistory</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::getConflictHistory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the complete conflict history (resolved + unresolved). Useful for audit, compliance and replay. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="244" column="17" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="281" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1abb164305c734f972e81aaa32d861ca87" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::TemporalConflictResolver::exportAuditLog</definition>
+        <argsstring>() const</argsstring>
+        <name>exportAuditLog</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::exportAuditLog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Export the complete conflict history as a JSON array. Each entry contains: conflict_id, entity_id, winner, policy, resolved, detected_at_ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="251" column="20" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="296" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a0b848ff899eb3316a10e131c9388c381" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::TemporalConflictResolver::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get conflict statistics </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="256" column="20" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="340" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a88bcdc19d4eede8382d4e5b013f01755" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::TemporalConflictResolver::setMergeResolver</definition>
+        <argsstring>(std::shared_ptr&lt; MergeResolver &gt; resolver)</argsstring>
+        <name>setMergeResolver</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::setMergeResolver</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1temporal_1_1_merge_resolver" kindref="compound">MergeResolver</ref> &gt;</type>
+          <declname>resolver</declname>
+        </param>
+        <briefdescription>
+<para>Inject a custom CRDT merge strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Merge Resolver.</para>
+<para>When <computeroutput>resolver</computeroutput> is non-null it is used by <computeroutput>resolveCRDT()</computeroutput> instead of the built-in <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_l_w_w_field_merge_resolver" kindref="compound">LWWFieldMergeResolver</ref></computeroutput>. Pass <computeroutput>nullptr</computeroutput> to revert to the default LWW-per-field behaviour.</para>
+<para>The call is thread-safe; the resolver is replaced atomically under the internal mutex.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Strategy to use, or <computeroutput>nullptr</computeroutput> to reset to the default.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="270" column="10" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="821" bodyend="824"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a15aaa03e64edf2e9edc9a305b80cf617" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1temporal_1_1_merge_resolver" kindref="compound">MergeResolver</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; MergeResolver &gt; themisdb::temporal::TemporalConflictResolver::getMergeResolver</definition>
+        <argsstring>() const</argsstring>
+        <name>getMergeResolver</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::getMergeResolver</qualifiedname>
+        <briefdescription>
+<para>Return the currently active <ref refid="classthemisdb_1_1temporal_1_1_merge_resolver" kindref="compound">MergeResolver</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns <computeroutput>nullptr</computeroutput> when the built-in LWW-per-field default is active. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="277" column="21" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="826" bodyend="834"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1ab4034389c7721ff57af73e18f1b3d661" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalConflictResolver::generateConflictId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateConflictId</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::generateConflictId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="293" column="17" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="357" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a7a141bdf24f9c6db2887398111745be8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref></type>
+        <definition>TemporalSnapshot themisdb::temporal::TemporalConflictResolver::resolveLastWriteWins</definition>
+        <argsstring>(const TemporalSnapshot &amp;local, const TemporalSnapshot &amp;remote)</argsstring>
+        <name>resolveLastWriteWins</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::resolveLastWriteWins</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Last Write Wins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements resolveLastWriteWins without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="295" column="22" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="155" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a606a325eb5ba7a345691716fe0d4137e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref></type>
+        <definition>TemporalSnapshot themisdb::temporal::TemporalConflictResolver::resolveFirstWriteWins</definition>
+        <argsstring>(const TemporalSnapshot &amp;local, const TemporalSnapshot &amp;remote)</argsstring>
+        <name>resolveFirstWriteWins</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::resolveFirstWriteWins</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <briefdescription>
+<para>Resolve First Write Wins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements resolveFirstWriteWins without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="296" column="22" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="181" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a95c2abd253e8ddc116e574e1f3636721" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref></type>
+        <definition>TemporalSnapshot themisdb::temporal::TemporalConflictResolver::resolveNodePriority</definition>
+        <argsstring>(const TemporalSnapshot &amp;local, const TemporalSnapshot &amp;remote)</argsstring>
+        <name>resolveNodePriority</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::resolveNodePriority</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Node Priority. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements resolveNodePriority without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="297" column="22" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="207" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a9a22410676c2b4e9fe3f7c0e8a407d95" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref></type>
+        <definition>TemporalSnapshot themisdb::temporal::TemporalConflictResolver::resolveCRDT</definition>
+        <argsstring>(const TemporalSnapshot &amp;local, const TemporalSnapshot &amp;remote)</argsstring>
+        <name>resolveCRDT</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictResolver::resolveCRDT</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <briefdescription>
+<para>Resolve CRDT. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), merge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="298" column="22" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="227" bodyend="244"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>─── <ref refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver" kindref="compound">TemporalConflictResolver</ref> ────────────────────────────────────────────────. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/temporal/temporal_conflict_resolver.h" line="212" column="1" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="212" bodyend="299"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a54460235b9060b7e374c97de9d35109d" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>conflict_history_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1abb94d124be9b6b42441977e4e180ba45" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>crdt_merges_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a71b1186cb83a70de374ae45c859a1b8b" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>default_policy_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1abb164305c734f972e81aaa32d861ca87" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>exportAuditLog</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a1f98aadb360b0fea1eb15d8fe91dde07" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>fww_resolutions_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1ab4034389c7721ff57af73e18f1b3d661" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>generateConflictId</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a828367f6acb809259536069273db6d0a" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>getConflictHistory</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a15aaa03e64edf2e9edc9a305b80cf617" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>getMergeResolver</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a0b848ff899eb3316a10e131c9388c381" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>getStatistics</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1af67396bb37969f7f6c5e23134b494b35" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>getUnresolvedConflicts</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a28dd2039274e76f6c44ad33ee88b2ee7" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>lww_resolutions_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a981c153f57a2fcf54a3b840ef8cc1adf" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>manual_resolutions_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a6e043a02dd446ef667f68781cf37d45c" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>merge_resolver_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a7ba2c9189c729a412ea05d52322980b9" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a71122961fd6b891d70bef1f74dae28fe" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>resolve</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a9a22410676c2b4e9fe3f7c0e8a407d95" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>resolveCRDT</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a606a325eb5ba7a345691716fe0d4137e" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>resolveFirstWriteWins</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a7a141bdf24f9c6db2887398111745be8" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>resolveLastWriteWins</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1afdd5d9c88b19b7a087685df3b2fa5211" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>resolveManually</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a95c2abd253e8ddc116e574e1f3636721" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>resolveNodePriority</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a88bcdc19d4eede8382d4e5b013f01755" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>setMergeResolver</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1acde1e9c88b9636e69c7aa324f71063c9" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>TemporalConflictResolver</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1a2098fe0a7a53706510c5da331de6c539" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>total_conflicts_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1abf23c5f0afde7fc0ba96dd2bed8b8d94" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictResolver</scope><name>unresolved_conflicts_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

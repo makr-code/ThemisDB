@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag_1_1distributed" kind="namespace" language="C++">
+    <compoundname>themis::rag::distributed</compoundname>
+    <innerclass refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config" prot="public">themis::rag::distributed::JudgeWorkerConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config" prot="public">themis::rag::distributed::DistributedEvaluatorConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta" prot="public">themis::rag::distributed::DistributedEvaluationMeta</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator" prot="public">themis::rag::distributed::DistributedRAGEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_factory" prot="public">themis::rag::distributed::DistributedEvaluatorFactory</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AggregationStrategy</name>
+        <qualifiedname>themis::rag::distributed::AggregationStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915a4ea6d1161ea24d7599365f574aff6610" prot="public">
+          <name>MEAN</name>
+          <briefdescription>
+<para>Simple arithmetic mean of all dimension scores. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915ae2880ba1551b4949b27658ade2793990" prot="public">
+          <name>WEIGHTED_MEAN</name>
+          <briefdescription>
+<para>Weighted mean using per-judge confidence weights. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915ae228895a1ed873c8a427c17d4bead255" prot="public">
+          <name>MAJORITY_VOTING</name>
+          <briefdescription>
+<para>Binary pass/fail per dimension; majority wins. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915a61de06a2818a5c55f7c71c48715addd5" prot="public">
+          <name>BEST_OF_N</name>
+          <briefdescription>
+<para>Return the result with the highest overall_score. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Strategy for aggregating results from multiple judges. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="29" column="1" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="29" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/distributed_rag_evaluator.h" line="24" column="1"/>
+  </compounddef>
+</doxygen>

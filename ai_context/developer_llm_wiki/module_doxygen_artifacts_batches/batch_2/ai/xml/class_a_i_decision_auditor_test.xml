@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_i_decision_auditor_test" kind="class" language="C++" prot="public">
+    <compoundname>AIDecisionAuditorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_i_decision_auditor_test_1ae7a420839d40213c71c31de3e146eab8" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AIDecisionAuditorTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>AIDecisionAuditorTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="79" column="17" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_i_decision_auditor_test_1a6cd79a3173404c271053b9ea2ff610b8" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; rocksdb::TransactionDB &gt;</type>
+        <definition>std::unique_ptr&lt;rocksdb::TransactionDB&gt; AIDecisionAuditorTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>AIDecisionAuditorTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="80" column="21" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_i_decision_auditor_test_1a72bd7a29e1535dfd7a4754e965ae3a69" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; AIDecisionAuditor &gt;</type>
+        <definition>std::unique_ptr&lt;AIDecisionAuditor&gt; AIDecisionAuditorTest::auditor_</definition>
+        <argsstring></argsstring>
+        <name>auditor_</name>
+        <qualifiedname>AIDecisionAuditorTest::auditor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="81" column="21" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_i_decision_auditor_test_1a3b5d9adc0be161370f5573b0ff427411" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AIDecisionAuditorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AIDecisionAuditorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="24" column="10" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="24" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_i_decision_auditor_test_1af2c207e43a17a8f13aaca92b0d57a9d2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AIDecisionAuditorTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AIDecisionAuditorTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="47" column="10" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="47" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_i_decision_auditor_test_1ab70bb6fe976bec747b1ff9b795100661" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>AIDecisionAudit</type>
+        <definition>AIDecisionAudit AIDecisionAuditorTest::createTestAudit</definition>
+        <argsstring>()</argsstring>
+        <name>createTestAudit</name>
+        <qualifiedname>AIDecisionAuditorTest::createTestAudit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="53" column="21" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="53" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AIDecisionAuditorTest</label>
+        <link refid="class_a_i_decision_auditor_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AIDecisionAuditorTest</label>
+        <link refid="class_a_i_decision_auditor_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/ai/test_ai_decision_auditor.cpp" line="22" column="1" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="22" bodyend="82"/>
+    <listofallmembers>
+      <member refid="class_a_i_decision_auditor_test_1a72bd7a29e1535dfd7a4754e965ae3a69" prot="protected" virt="non-virtual"><scope>AIDecisionAuditorTest</scope><name>auditor_</name></member>
+      <member refid="class_a_i_decision_auditor_test_1ab70bb6fe976bec747b1ff9b795100661" prot="protected" virt="non-virtual"><scope>AIDecisionAuditorTest</scope><name>createTestAudit</name></member>
+      <member refid="class_a_i_decision_auditor_test_1a6cd79a3173404c271053b9ea2ff610b8" prot="protected" virt="non-virtual"><scope>AIDecisionAuditorTest</scope><name>db_</name></member>
+      <member refid="class_a_i_decision_auditor_test_1ae7a420839d40213c71c31de3e146eab8" prot="protected" virt="non-virtual"><scope>AIDecisionAuditorTest</scope><name>db_path_</name></member>
+      <member refid="class_a_i_decision_auditor_test_1a3b5d9adc0be161370f5573b0ff427411" prot="protected" virt="non-virtual"><scope>AIDecisionAuditorTest</scope><name>SetUp</name></member>
+      <member refid="class_a_i_decision_auditor_test_1af2c207e43a17a8f13aaca92b0d57a9d2" prot="protected" virt="non-virtual"><scope>AIDecisionAuditorTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

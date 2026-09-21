@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_used_code" kind="struct" language="C++" prot="private">
+    <compoundname>themis::auth::TOTPReplayCache::UsedCode</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_used_code_1aa7e647161ff7ed653ddfdffad2fa4a3e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::TOTPReplayCache::UsedCode::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::UsedCode::code</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="99" column="21" bodyfile="include/auth/totp_replay_cache.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_used_code_1ab0fe6dd6bc589a5a0ad49e4c872fa7b2" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::TOTPReplayCache::UsedCode::used_at</definition>
+        <argsstring></argsstring>
+        <name>used_at</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::UsedCode::used_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="100" column="47" bodyfile="include/auth/totp_replay_cache.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/totp_replay_cache.h" line="98" column="5" bodyfile="include/auth/totp_replay_cache.h" bodystart="98" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_used_code_1aa7e647161ff7ed653ddfdffad2fa4a3e" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache::UsedCode</scope><name>code</name></member>
+      <member refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_used_code_1ab0fe6dd6bc589a5a0ad49e4c872fa7b2" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache::UsedCode</scope><name>used_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_stress_stub_join_executor_1_1_join_result" kind="struct" language="C++" prot="public">
+    <compoundname>StressStubJoinExecutor::JoinResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_stress_stub_join_executor_1_1_join_result_1aaf4e1fd27c160946ae4083268a662524" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool StressStubJoinExecutor::JoinResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>StressStubJoinExecutor::JoinResult::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_highcardinality_stress.cpp" line="74" column="26" bodyfile="tests/query/test_query_highcardinality_stress.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stress_stub_join_executor_1_1_join_result_1ade9ed09dc1b1919f3cb799e66f647610" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t StressStubJoinExecutor::JoinResult::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>StressStubJoinExecutor::JoinResult::rows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_highcardinality_stress.cpp" line="74" column="39" bodyfile="tests/query/test_query_highcardinality_stress.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/query/test_query_highcardinality_stress.cpp" line="74" column="5" bodyfile="tests/query/test_query_highcardinality_stress.cpp" bodystart="74" bodyend="74"/>
+    <listofallmembers>
+      <member refid="struct_stress_stub_join_executor_1_1_join_result_1aaf4e1fd27c160946ae4083268a662524" prot="public" virt="non-virtual"><scope>StressStubJoinExecutor::JoinResult</scope><name>ok</name></member>
+      <member refid="struct_stress_stub_join_executor_1_1_join_result_1ade9ed09dc1b1919f3cb799e66f647610" prot="public" virt="non-virtual"><scope>StressStubJoinExecutor::JoinResult</scope><name>rows</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_migration_manager" kind="class" language="C++" prot="public">
+    <compoundname>StubMigrationManager</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_stub_migration_manager_1a849023c7c80b46bdf5f208b60aaddd09" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, bool &gt;</type>
+        <definition>std::unordered_map&lt;int, bool&gt; StubMigrationManager::active_migrations</definition>
+        <argsstring></argsstring>
+        <name>active_migrations</name>
+        <qualifiedname>StubMigrationManager::active_migrations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="229" column="24" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="229" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_migration_manager_1abd388ce73080744fae2d11211384a2e2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref></type>
+        <definition>ShardingErrorCode StubMigrationManager::startMigration</definition>
+        <argsstring>(int shard_id)</argsstring>
+        <name>startMigration</name>
+        <qualifiedname>StubMigrationManager::startMigration</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="231" column="23" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="231" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_migration_manager_1a29a595f56454e080dbc742bac97393ef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubMigrationManager::completeMigration</definition>
+        <argsstring>(int shard_id)</argsstring>
+        <name>completeMigration</name>
+        <qualifiedname>StubMigrationManager::completeMigration</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="239" column="10" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="239" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub migration manager implementing contract §4. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="227" column="1" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="227" bodyend="242"/>
+    <listofallmembers>
+      <member refid="class_stub_migration_manager_1a849023c7c80b46bdf5f208b60aaddd09" prot="public" virt="non-virtual"><scope>StubMigrationManager</scope><name>active_migrations</name></member>
+      <member refid="class_stub_migration_manager_1a29a595f56454e080dbc742bac97393ef" prot="public" virt="non-virtual"><scope>StubMigrationManager</scope><name>completeMigration</name></member>
+      <member refid="class_stub_migration_manager_1abd388ce73080744fae2d11211384a2e2" prot="public" virt="non-virtual"><scope>StubMigrationManager</scope><name>startMigration</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

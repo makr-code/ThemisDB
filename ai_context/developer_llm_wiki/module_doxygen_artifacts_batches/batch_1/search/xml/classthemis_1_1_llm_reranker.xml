@@ -1,0 +1,480 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_llm_reranker" kind="class" language="C++" prot="public">
+    <compoundname>themis::LlmReranker</compoundname>
+    <includes refid="llm__reranker_8h" local="no">llm_reranker.h</includes>
+    <innerclass refid="structthemis_1_1_llm_reranker_1_1_config" prot="public">themis::LlmReranker::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1_llm_reranker_1a1997004f4f0d774dc0c0f4902488bb29" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;prompt)&gt;</type>
+        <definition>using themis::LlmReranker::LlmBackend = std::function&lt;std::string(const std::string&amp; prompt)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LlmBackend</name>
+        <qualifiedname>themis::LlmReranker::LlmBackend</qualifiedname>
+        <briefdescription>
+<para>Callable type for the LLM backend (same as <ref refid="classthemis_1_1_llm_query_rewriter" kindref="compound">LlmQueryRewriter</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Receives a fully-formed prompt and returns the raw LLM text response. May throw; <computeroutput><ref refid="classthemis_1_1_llm_reranker_1aa3ec250cb512a1a5c51cb6b5e49e8804" kindref="member">rerank()</ref></computeroutput> catches all exceptions from it. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="96" column="5" bodyfile="include/search/llm_reranker.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_llm_reranker_1a95b88bec58d1a09848780247f69ff526" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_llm_reranker_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::LlmReranker::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::LlmReranker::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="190" column="12" bodyfile="include/search/llm_reranker.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_llm_reranker_1a1a3af754142ef9324dced02b052e8ac7" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_llm_reranker_1a1997004f4f0d774dc0c0f4902488bb29" kindref="member">LlmBackend</ref></type>
+        <definition>LlmBackend themis::LlmReranker::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::LlmReranker::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="191" column="16" bodyfile="include/search/llm_reranker.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_llm_reranker_1a21b7685f49074e5f733198db5c11f79e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::LlmReranker::LlmReranker</definition>
+        <argsstring>(const Config &amp;config=Config::defaults(), LlmBackend backend=nullptr)</argsstring>
+        <name>LlmReranker</name>
+        <qualifiedname>themis::LlmReranker::LlmReranker</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_llm_reranker_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1_llm_reranker_1_1_config_1a83db049a61e70339633b96f1faf3041f" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_llm_reranker_1a1997004f4f0d774dc0c0f4902488bb29" kindref="member">LlmBackend</ref></type>
+          <declname>backend</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reranker configuration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LLM backend callable; may be nullptr / empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid config values. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="132" column="14" bodyfile="src/search/llm_reranker.cpp" bodystart="27" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_llm_reranker_1a9243c2afd3a183dfff060c649d457b02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::LlmReranker::LlmReranker</definition>
+        <argsstring>(const LlmReranker &amp;)=delete</argsstring>
+        <name>LlmReranker</name>
+        <qualifiedname>themis::LlmReranker::LlmReranker</qualifiedname>
+        <param>
+          <type>const LlmReranker &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="135" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_llm_reranker_1a68ef7704f00d26eb218ab6f3bb79c022" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_llm_reranker_1a21b7685f49074e5f733198db5c11f79e" kindref="member">LlmReranker</ref> &amp;</type>
+        <definition>LlmReranker &amp; themis::LlmReranker::operator=</definition>
+        <argsstring>(const LlmReranker &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::LlmReranker::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_llm_reranker_1a21b7685f49074e5f733198db5c11f79e" kindref="member">LlmReranker</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="136" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_llm_reranker_1a164834ca027a24ee94071e45ba1537be" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::LlmReranker::LlmReranker</definition>
+        <argsstring>(LlmReranker &amp;&amp;) noexcept=default</argsstring>
+        <name>LlmReranker</name>
+        <qualifiedname>themis::LlmReranker::LlmReranker</qualifiedname>
+        <param>
+          <type>LlmReranker &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="137" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_llm_reranker_1a319c41119b7e7e26b084b7d6ec15cc40" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_llm_reranker_1a21b7685f49074e5f733198db5c11f79e" kindref="member">LlmReranker</ref> &amp;</type>
+        <definition>LlmReranker &amp; themis::LlmReranker::operator=</definition>
+        <argsstring>(LlmReranker &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::LlmReranker::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_llm_reranker_1a21b7685f49074e5f733198db5c11f79e" kindref="member">LlmReranker</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="138" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_llm_reranker_1a7f503c952a9d723004cf9d7ebc114eed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LlmReranker::setBackend</definition>
+        <argsstring>(LlmBackend backend)</argsstring>
+        <name>setBackend</name>
+        <qualifiedname>themis::LlmReranker::setBackend</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_llm_reranker_1a1997004f4f0d774dc0c0f4902488bb29" kindref="member">LlmBackend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Replace the LLM backend at runtime (e.g. after model load). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Backend.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New backend; pass nullptr / empty to disable LLM.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="144" column="10" bodyfile="src/search/llm_reranker.cpp" bodystart="57" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_llm_reranker_1aa3ec250cb512a1a5c51cb6b5e49e8804" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_llm_rerank_result" kindref="compound">LlmRerankResult</ref> &gt;</type>
+        <definition>std::vector&lt; LlmRerankResult &gt; themis::LlmReranker::rerank</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; LlmRerankCandidate &gt; &amp;candidates) const</argsstring>
+        <name>rerank</name>
+        <qualifiedname>themis::LlmReranker::rerank</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_llm_rerank_candidate" kindref="compound">LlmRerankCandidate</ref> &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <briefdescription>
+<para>Re-rank candidates using LLM relevance feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Splits candidates into batches of <computeroutput><ref refid="structthemis_1_1_llm_reranker_1_1_config_1abaec7937dfd9bdd24cbaf7017219869d" kindref="member">Config::batch_size</ref></computeroutput>, submits each batch to the LLM, parses per-document scores (0–10 integers), normalises to [0, 1], blends with <computeroutput>initial_score</computeroutput>, and sorts descending by <computeroutput>final_score</computeroutput>.</para>
+<para>Never throws; backend errors trigger the fallback path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original user query shown to the LLM. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Candidate results with content snippets populated. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Re-ranked candidates; may be filtered by <computeroutput>min_score_threshold</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="160" column="17" bodyfile="src/search/llm_reranker.cpp" bodystart="66" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_llm_reranker_1afc9579fb026200d2e17d16835ff7da81" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_llm_reranker_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::LlmReranker::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::LlmReranker::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="187" column="18" bodyfile="include/search/llm_reranker.h" bodystart="187" bodyend="187"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_llm_reranker_1abc29be2db89786cd5fe086b7e1444489" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_click_event" kindref="compound">ClickEvent</ref> &gt;</type>
+        <definition>std::vector&lt; ClickEvent &gt; themis::LlmReranker::toClickEvents</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; LlmRerankResult &gt; &amp;results, double relevance_threshold=0.5)</argsstring>
+        <name>toClickEvents</name>
+        <qualifiedname>themis::LlmReranker::toClickEvents</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_llm_rerank_result" kindref="compound">LlmRerankResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>relevance_threshold</declname>
+          <defval>0.5</defval>
+        </param>
+        <briefdescription>
+<para>Convert LLM re-rank results into ClickEvents for LTR training. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>To Click Events.</para>
+<para>Results whose <computeroutput>llm_score &gt;= relevance_threshold</computeroutput> are treated as relevant (&quot;clicked&quot;) at their rank position. This closes the LLM feedback loop: <programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>clicks<sp/>=<sp/><ref refid="classthemis_1_1_llm_reranker_1abc29be2db89786cd5fe086b7e1444489" kindref="member">LlmReranker::toClickEvents</ref>(query,<sp/>reranked,<sp/>0.5);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ev<sp/>:<sp/>clicks)<sp/>ltr.recordClick(ev);</highlight></codeline>
+<codeline><highlight class="normal">ltr.train();</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string associated with the events. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Re-ranked results from <computeroutput><ref refid="classthemis_1_1_llm_reranker_1aa3ec250cb512a1a5c51cb6b5e49e8804" kindref="member">rerank()</ref></computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>relevance_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum llm_score to treat as relevant [0, 1]. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>ClickEvents suitable for <computeroutput><ref refid="classthemis_1_1_learning_to_rank_1a1ea11d2372dea500b1245339d7f463fe" kindref="member">LearningToRank::recordClick()</ref></computeroutput>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">relevance_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="181" column="24" bodyfile="src/search/llm_reranker.cpp" bodystart="184" bodyend="202"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_llm_reranker_1a1e7b405e170c965250b617136e705a7e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::LlmReranker::buildPrompt</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; LlmRerankCandidate &gt; &amp;batch) const</argsstring>
+        <name>buildPrompt</name>
+        <qualifiedname>themis::LlmReranker::buildPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_llm_rerank_candidate" kindref="compound">LlmRerankCandidate</ref> &gt; &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Build a prompt that asks the LLM to rate each candidate 0–10. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="194" column="17" bodyfile="src/search/llm_reranker.cpp" bodystart="208" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_llm_reranker_1a4a5f0e29f00f08c7e4d0e2b1552e0000" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themis::LlmReranker::parseScores</definition>
+        <argsstring>(const std::string &amp;llm_output, size_t count) const</argsstring>
+        <name>parseScores</name>
+        <qualifiedname>themis::LlmReranker::parseScores</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>llm_output</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse one integer score per line from the LLM response. Returns a vector of <computeroutput>count</computeroutput> scores in [0, 1]; missing scores default to 0. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">llm_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/search/llm_reranker.h" line="201" column="17" bodyfile="src/search/llm_reranker.cpp" bodystart="237" bodyend="282"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configurable re-ranker driven by an injected LLM backend. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_llm_reranker" kindref="compound">LlmReranker</ref> implements the &quot;LLM feedback loop&quot; phase of the search pipeline:</para>
+<para><orderedlist>
+<listitem><para><bold>Prompt</bold>: batches candidate snippets with the original query into a structured prompt that instructs the LLM to rate each document 0–10.</para>
+</listitem><listitem><para><bold>Score</bold>: parses the per-document scores from the LLM response, normalises them to [0, 1], and blends them with the initial retrieval score.</para>
+</listitem><listitem><para><bold>Rerank</bold>: returns candidates sorted by the blended final_score descending.</para>
+</listitem><listitem><para><bold>Feedback loop</bold>: <computeroutput><ref refid="classthemis_1_1_llm_reranker_1abc29be2db89786cd5fe086b7e1444489" kindref="member">toClickEvents()</ref></computeroutput> converts the LLM relevance judgments into <computeroutput><ref refid="structthemis_1_1_click_event" kindref="compound">ClickEvent</ref></computeroutput> objects that can be fed directly into <computeroutput><ref refid="classthemis_1_1_learning_to_rank_1a1ea11d2372dea500b1245339d7f463fe" kindref="member">LearningToRank::recordClick()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1_learning_to_rank_1abb9c6e88b3a0597ef6ccdad26eb391a5" kindref="member">LearningToRank::train()</ref></computeroutput>, closing the feedback loop and allowing the LTR model to learn from LLM-assessed relevance without requiring real user clicks.</para>
+</listitem></orderedlist>
+</para>
+<para><heading level="3">Minimal usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemis_1_1_llm_reranker_1a1997004f4f0d774dc0c0f4902488bb29" kindref="member">LlmReranker::LlmBackend</ref><sp/>llm<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>my_model.generate(prompt);</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">LlmReranker::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.llm_weight<sp/>=<sp/>0.7;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_llm_reranker_1a21b7685f49074e5f733198db5c11f79e" kindref="member">LlmReranker</ref><sp/>reranker(cfg,<sp/>llm);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::vector&lt;LlmRerankCandidate&gt;<sp/>candidates<sp/>=<sp/>buildCandidates(hs_results);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>reranked<sp/>=<sp/>reranker.rerank(</highlight><highlight class="stringliteral">&quot;fast<sp/>db<sp/>insert&quot;</highlight><highlight class="normal">,<sp/>candidates);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Optionally<sp/>feed<sp/>back<sp/>into<sp/>LTR</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>clicks<sp/>=<sp/><ref refid="classthemis_1_1_llm_reranker_1abc29be2db89786cd5fe086b7e1444489" kindref="member">LlmReranker::toClickEvents</ref>(</highlight><highlight class="stringliteral">&quot;fast<sp/>db<sp/>insert&quot;</highlight><highlight class="normal">,<sp/>reranked);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ev<sp/>:<sp/>clicks)<sp/>ltr.recordClick(ev);</highlight></codeline>
+<codeline><highlight class="normal">ltr.train();</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Fallback behaviour</heading>
+</para>
+<para>When the backend is absent or throws, <computeroutput><ref refid="classthemis_1_1_llm_reranker_1aa3ec250cb512a1a5c51cb6b5e49e8804" kindref="member">rerank()</ref></computeroutput> either returns the original order (when <computeroutput><ref refid="structthemis_1_1_llm_reranker_1_1_config_1a83c28cfcd2ec51b36eef2ffb6d5b6e05" kindref="member">Config::fallback_to_original</ref> == true</computeroutput>) or returns an empty vector (when false). <computeroutput><ref refid="classthemis_1_1_llm_reranker_1aa3ec250cb512a1a5c51cb6b5e49e8804" kindref="member">rerank()</ref></computeroutput> never propagates exceptions.</para>
+<para><simplesect kind="note"><para>Thread Safety: Not thread-safe. Use one instance per thread or protect shared access with a mutex. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception Safety: <computeroutput><ref refid="classthemis_1_1_llm_reranker_1aa3ec250cb512a1a5c51cb6b5e49e8804" kindref="member">rerank()</ref></computeroutput> is noexcept at runtime; all backend errors are caught and logged. The constructor throws <computeroutput>std::invalid_argument</computeroutput> on invalid configuration. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/search/llm_reranker.h" line="88" column="1" bodyfile="include/search/llm_reranker.h" bodystart="88" bodyend="205"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_llm_reranker_1a1a3af754142ef9324dced02b052e8ac7" prot="private" virt="non-virtual"><scope>themis::LlmReranker</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1_llm_reranker_1a1e7b405e170c965250b617136e705a7e" prot="private" virt="non-virtual"><scope>themis::LlmReranker</scope><name>buildPrompt</name></member>
+      <member refid="classthemis_1_1_llm_reranker_1a95b88bec58d1a09848780247f69ff526" prot="private" virt="non-virtual"><scope>themis::LlmReranker</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_llm_reranker_1afc9579fb026200d2e17d16835ff7da81" prot="public" virt="non-virtual"><scope>themis::LlmReranker</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_llm_reranker_1a1997004f4f0d774dc0c0f4902488bb29" prot="public" virt="non-virtual"><scope>themis::LlmReranker</scope><name>LlmBackend</name></member>
+      <member refid="classthemis_1_1_llm_reranker_1a21b7685f49074e5f733198db5c11f79e" prot="public" virt="non-virtual"><scope>themis::LlmReranker</scope><name>LlmReranker</name></member>
+      <member refid="classthemis_1_1_llm_reranker_1a9243c2afd3a183dfff060c649d457b02" prot="public" virt="non-virtual"><scope>themis::LlmReranker</scope><name>LlmReranker</name></member>
+      <member refid="classthemis_1_1_llm_reranker_1a164834ca027a24ee94071e45ba1537be" prot="public" virt="non-virtual"><scope>themis::LlmReranker</scope><name>LlmReranker</name></member>
+      <member refid="classthemis_1_1_llm_reranker_1a68ef7704f00d26eb218ab6f3bb79c022" prot="public" virt="non-virtual"><scope>themis::LlmReranker</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_llm_reranker_1a319c41119b7e7e26b084b7d6ec15cc40" prot="public" virt="non-virtual"><scope>themis::LlmReranker</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_llm_reranker_1a4a5f0e29f00f08c7e4d0e2b1552e0000" prot="private" virt="non-virtual"><scope>themis::LlmReranker</scope><name>parseScores</name></member>
+      <member refid="classthemis_1_1_llm_reranker_1aa3ec250cb512a1a5c51cb6b5e49e8804" prot="public" virt="non-virtual"><scope>themis::LlmReranker</scope><name>rerank</name></member>
+      <member refid="classthemis_1_1_llm_reranker_1a7f503c952a9d723004cf9d7ebc114eed" prot="public" virt="non-virtual"><scope>themis::LlmReranker</scope><name>setBackend</name></member>
+      <member refid="classthemis_1_1_llm_reranker_1abc29be2db89786cd5fe086b7e1444489" prot="public" virt="non-virtual"><scope>themis::LlmReranker</scope><name>toClickEvents</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

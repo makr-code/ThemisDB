@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::AdaptiveIOScaler::Config</compoundname>
+    <includes refid="adaptive__io__scaler_8h" local="no">adaptive_io_scaler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1a507323d111219da95edad28974fd7791" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::AdaptiveIOScaler::Config::min_threads</definition>
+        <argsstring></argsstring>
+        <name>min_threads</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::Config::min_threads</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Minimum number of I/O threads (never scale below this). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="67" column="16" bodyfile="include/network/adaptive_io_scaler.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1a27cb6a68a5cdc4eea29354db64c675eb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::AdaptiveIOScaler::Config::max_threads</definition>
+        <argsstring></argsstring>
+        <name>max_threads</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::Config::max_threads</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>Maximum number of I/O threads (never scale above this). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="70" column="16" bodyfile="include/network/adaptive_io_scaler.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1abf297b052ee23a6724eb5e737524395a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::AdaptiveIOScaler::Config::scale_up_threshold</definition>
+        <argsstring></argsstring>
+        <name>scale_up_threshold</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::Config::scale_up_threshold</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+<para>Connections-per-thread ratio that triggers a scale-up. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When active_connections / current_threads &gt;= this value and current_threads &lt; max_threads the scaler recommends adding a thread. Default: 200 connections per thread. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="79" column="16" bodyfile="include/network/adaptive_io_scaler.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1ad2f8c06a5bfcd9f08221d6398c17586c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::AdaptiveIOScaler::Config::scale_down_threshold</definition>
+        <argsstring></argsstring>
+        <name>scale_down_threshold</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::Config::scale_down_threshold</qualifiedname>
+        <initializer>= 50.0</initializer>
+        <briefdescription>
+<para>Connections-per-thread ratio that triggers a scale-down. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When active_connections / current_threads &lt;= this value and current_threads &gt; min_threads the scaler recommends removing a thread. Default: 50 connections per thread. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="88" column="16" bodyfile="include/network/adaptive_io_scaler.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1ab2b4f6c1fcd4b496e4c48be964b92221" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::network::AdaptiveIOScaler::Config::check_interval</definition>
+        <argsstring></argsstring>
+        <name>check_interval</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::Config::check_interval</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>How often the background monitor evaluates the scaling rules. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="91" column="35" bodyfile="include/network/adaptive_io_scaler.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1a2b5b744870058b0e31cc162c8d0a5316" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::AdaptiveIOScaler::Config::initial_threads</definition>
+        <argsstring></argsstring>
+        <name>initial_threads</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::Config::initial_threads</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>Initial / starting number of I/O threads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="94" column="16" bodyfile="include/network/adaptive_io_scaler.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1a8512139db4f3658c62ad8024ba750b2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::AdaptiveIOScaler::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::network::AdaptiveIOScaler::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_io_scaler.h" line="96" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/adaptive_io_scaler.h" line="65" column="5" bodyfile="include/network/adaptive_io_scaler.h" bodystart="65" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1ab2b4f6c1fcd4b496e4c48be964b92221" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler::Config</scope><name>check_interval</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1a8512139db4f3658c62ad8024ba750b2e" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1a2b5b744870058b0e31cc162c8d0a5316" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler::Config</scope><name>initial_threads</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1a27cb6a68a5cdc4eea29354db64c675eb" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler::Config</scope><name>max_threads</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1a507323d111219da95edad28974fd7791" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler::Config</scope><name>min_threads</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1ad2f8c06a5bfcd9f08221d6398c17586c" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler::Config</scope><name>scale_down_threshold</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1abf297b052ee23a6724eb5e737524395a" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveIOScaler::Config</scope><name>scale_up_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

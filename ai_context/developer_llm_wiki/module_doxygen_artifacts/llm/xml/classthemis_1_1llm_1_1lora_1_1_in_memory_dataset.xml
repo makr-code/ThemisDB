@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_in_memory_dataset" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::InMemoryDataset</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_dataset" prot="public" virt="non-virtual">themis::llm::lora::DistributedDataLoader::Dataset</basecompoundref>
+    <includes refid="distributed__dataloader_8h" local="no">distributed_dataloader.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_in_memory_dataset_1ac37e911dd8927f081888debd107eeb9d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &gt;</type>
+        <definition>std::vector&lt;GPUTensor&gt; themis::llm::lora::InMemoryDataset::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themis::llm::lora::InMemoryDataset::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="127" column="17" bodyfile="include/llm/lora_framework/distributed_dataloader.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_in_memory_dataset_1a2193f9cac8dec113a23b6462d367acd6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::InMemoryDataset::InMemoryDataset</definition>
+        <argsstring>(std::vector&lt; GPUTensor &gt; data)</argsstring>
+        <name>InMemoryDataset</name>
+        <qualifiedname>themis::llm::lora::InMemoryDataset::InMemoryDataset</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &gt;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>In Memory Dataset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="120" column="14" bodyfile="src/llm/lora_framework/distributed_dataloader.cpp" bodystart="205" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_in_memory_dataset_1ad2a56d9174fbde571453e69fa4299482" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::InMemoryDataset::~InMemoryDataset</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~InMemoryDataset</name>
+        <qualifiedname>themis::llm::lora::InMemoryDataset::~InMemoryDataset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="121" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_in_memory_dataset_1aaef9aa05dc1d1a0e096b9f51fd5b46ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::InMemoryDataset::get</definition>
+        <argsstring>(size_t index) const override</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::llm::lora::InMemoryDataset::get</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_dataset_1a43226be94fc5205e95ec202cfd820123">get</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="123" column="15" bodyfile="src/llm/lora_framework/distributed_dataloader.cpp" bodystart="209" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_in_memory_dataset_1a54f1feab9165b39e2dbea5783143f6ba" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::InMemoryDataset::size</definition>
+        <argsstring>() const override</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::llm::lora::InMemoryDataset::size</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_dataset_1aa70edc098d2ccdf5669e50c5be364793">size</reimplements>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="124" column="12" bodyfile="include/llm/lora_framework/distributed_dataloader.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::lora::DistributedDataLoader::Dataset</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_dataset"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::InMemoryDataset</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_in_memory_dataset"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::lora::DistributedDataLoader::Dataset</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_dataset"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::InMemoryDataset</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_in_memory_dataset"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/distributed_dataloader.h" line="113" column="1" bodyfile="include/llm/lora_framework/distributed_dataloader.h" bodystart="113" bodyend="128"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_in_memory_dataset_1ac37e911dd8927f081888debd107eeb9d" prot="private" virt="non-virtual"><scope>themis::llm::lora::InMemoryDataset</scope><name>data_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_in_memory_dataset_1aaef9aa05dc1d1a0e096b9f51fd5b46ed" prot="public" virt="virtual"><scope>themis::llm::lora::InMemoryDataset</scope><name>get</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_in_memory_dataset_1a2193f9cac8dec113a23b6462d367acd6" prot="public" virt="non-virtual"><scope>themis::llm::lora::InMemoryDataset</scope><name>InMemoryDataset</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_in_memory_dataset_1a54f1feab9165b39e2dbea5783143f6ba" prot="public" virt="virtual"><scope>themis::llm::lora::InMemoryDataset</scope><name>size</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_dataset_1a8bf34fee8c7a99ac90e012a72e58a8af" prot="public" virt="virtual"><scope>themis::llm::lora::InMemoryDataset</scope><name>~Dataset</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_in_memory_dataset_1ad2a56d9174fbde571453e69fa4299482" prot="public" virt="non-virtual"><scope>themis::llm::lora::InMemoryDataset</scope><name>~InMemoryDataset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

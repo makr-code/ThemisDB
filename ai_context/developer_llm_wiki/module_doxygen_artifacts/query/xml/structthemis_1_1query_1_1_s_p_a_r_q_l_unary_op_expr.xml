@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SPARQLUnaryOpExpr</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr" prot="public" virt="non-virtual">themis::query::SPARQLExpr</basecompoundref>
+    <includes refid="sparql__parser_8h" local="no">sparql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr_1a9610b741de92d2be9c1403ed0e560f76" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SPARQLUnaryOpExpr::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::query::SPARQLUnaryOpExpr::op</qualifiedname>
+        <briefdescription>
+<para>&quot;!&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="93" column="34" bodyfile="include/query/sparql_parser.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr_1a6cdfbdf8c6f73b02a670000bf97c2c56" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr" kindref="compound">SPARQLExpr</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SPARQLExpr&gt; themis::query::SPARQLUnaryOpExpr::operand</definition>
+        <argsstring></argsstring>
+        <name>operand</name>
+        <qualifiedname>themis::query::SPARQLUnaryOpExpr::operand</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="94" column="22" bodyfile="include/query/sparql_parser.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr_1a152113288fb43e147358cd6557d870e1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1query_1ad93a78b25a37c79fae88423a123bc61a" kindref="member">SPARQLExprType</ref></type>
+        <definition>SPARQLExprType themis::query::SPARQLUnaryOpExpr::type</definition>
+        <argsstring>() const override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::SPARQLUnaryOpExpr::type</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr_1ac2ec5afe3f9a4745cf682c411d5a9650">type</reimplements>
+        <briefdescription>
+<para>Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="95" column="20" bodyfile="include/query/sparql_parser.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::SPARQLExpr</label>
+        <link refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr"/>
+      </node>
+      <node id="1">
+        <label>themis::query::SPARQLUnaryOpExpr</label>
+        <link refid="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::SPARQLExpr</label>
+        <link refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr"/>
+      </node>
+      <node id="1">
+        <label>themis::query::SPARQLUnaryOpExpr</label>
+        <link refid="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/sparql_parser.h" line="92" column="1" bodyfile="include/query/sparql_parser.h" bodystart="92" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr_1a9610b741de92d2be9c1403ed0e560f76" prot="public" virt="non-virtual"><scope>themis::query::SPARQLUnaryOpExpr</scope><name>op</name></member>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr_1a6cdfbdf8c6f73b02a670000bf97c2c56" prot="public" virt="non-virtual"><scope>themis::query::SPARQLUnaryOpExpr</scope><name>operand</name></member>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr_1a152113288fb43e147358cd6557d870e1" prot="public" virt="virtual"><scope>themis::query::SPARQLUnaryOpExpr</scope><name>type</name></member>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr_1a3c1258341d8f97a648e8dfa9c9ac64f8" prot="public" virt="virtual"><scope>themis::query::SPARQLUnaryOpExpr</scope><name>~SPARQLExpr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

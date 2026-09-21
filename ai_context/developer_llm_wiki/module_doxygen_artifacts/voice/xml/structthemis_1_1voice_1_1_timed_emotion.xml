@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_timed_emotion" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::TimedEmotion</compoundname>
+    <includes refid="emotion__analyzer_8h" local="no">emotion_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_timed_emotion_1afecaf78e90290d5510849c0e4c4c81fc" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::TimedEmotion::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::voice::TimedEmotion::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Start of segment (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="98" column="15" bodyfile="include/voice/emotion_analyzer.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_timed_emotion_1a3eb879fe124351b838e7cdaadbbf6210" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1" kindref="member">Emotion</ref></type>
+        <definition>Emotion themis::voice::TimedEmotion::emotion</definition>
+        <argsstring></argsstring>
+        <name>emotion</name>
+        <qualifiedname>themis::voice::TimedEmotion::emotion</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1a31ba17aa58cdb681423f07ca21a6efc7" kindref="member">Emotion::NEUTRAL</ref></initializer>
+        <briefdescription>
+<para>Detected emotion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="99" column="15" bodyfile="include/voice/emotion_analyzer.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_timed_emotion_1ac1b97bcdc988fc5dc63499d07448580f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::TimedEmotion::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::voice::TimedEmotion::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Detection confidence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="100" column="15" bodyfile="include/voice/emotion_analyzer.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_timed_emotion_1ab6e2b646a0c91d258b3ce3a3214f0c6b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a8146c992eef8787ca5152190072ba418" kindref="member">Sentiment</ref></type>
+        <definition>Sentiment themis::voice::TimedEmotion::sentiment</definition>
+        <argsstring></argsstring>
+        <name>sentiment</name>
+        <qualifiedname>themis::voice::TimedEmotion::sentiment</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1a8146c992eef8787ca5152190072ba418a31ba17aa58cdb681423f07ca21a6efc7" kindref="member">Sentiment::NEUTRAL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="101" column="15" bodyfile="include/voice/emotion_analyzer.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_timed_emotion_1a7b4cd8e14419a86f661b1f91767eb407" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::TimedEmotion::sentiment_score</definition>
+        <argsstring></argsstring>
+        <name>sentiment_score</name>
+        <qualifiedname>themis::voice::TimedEmotion::sentiment_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="102" column="15" bodyfile="include/voice/emotion_analyzer.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Single timed emotion data point within a conversation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/emotion_analyzer.h" line="97" column="1" bodyfile="include/voice/emotion_analyzer.h" bodystart="97" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_timed_emotion_1ac1b97bcdc988fc5dc63499d07448580f" prot="public" virt="non-virtual"><scope>themis::voice::TimedEmotion</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_timed_emotion_1a3eb879fe124351b838e7cdaadbbf6210" prot="public" virt="non-virtual"><scope>themis::voice::TimedEmotion</scope><name>emotion</name></member>
+      <member refid="structthemis_1_1voice_1_1_timed_emotion_1ab6e2b646a0c91d258b3ce3a3214f0c6b" prot="public" virt="non-virtual"><scope>themis::voice::TimedEmotion</scope><name>sentiment</name></member>
+      <member refid="structthemis_1_1voice_1_1_timed_emotion_1a7b4cd8e14419a86f661b1f91767eb407" prot="public" virt="non-virtual"><scope>themis::voice::TimedEmotion</scope><name>sentiment_score</name></member>
+      <member refid="structthemis_1_1voice_1_1_timed_emotion_1afecaf78e90290d5510849c0e4c4c81fc" prot="public" virt="non-virtual"><scope>themis::voice::TimedEmotion</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

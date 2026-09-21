@@ -1,0 +1,363 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1trg" kind="namespace" language="C++">
+    <compoundname>themis::bench::trg</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry" prot="public">themis::bench::trg::BiTemporalEntry</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1trg_1a80e0bb4f2ba46df11a77b843ae908d87" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::trg::kTemporalCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kTemporalCanonicalSeed</name>
+        <qualifiedname>themis::bench::trg::kTemporalCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all TRG benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="64" column="27" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1trg_1a1b0b92dae909861b7c3fbd5a7781ff2a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::trg::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::trg::kWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Warmup iterations before measurement window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="67" column="22" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1trg_1a2ff7599d68727fade894bb01adb48e31" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::trg::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::trg::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Repetitions per benchmark for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="70" column="22" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trg_1ac696b3a62193e57f0c22766353876f04" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::trg::btInsert</definition>
+        <argsstring>(std::vector&lt; BiTemporalEntry &gt; &amp;store, int id, std::int64_t vs, std::int64_t ve, std::int64_t tx)</argsstring>
+        <name>btInsert</name>
+        <qualifiedname>themis::bench::trg::btInsert</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry" kindref="compound">BiTemporalEntry</ref> &gt; &amp;</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>vs</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>ve</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>tx</declname>
+        </param>
+        <briefdescription>
+<para>Simulates an in-memory bi-temporal insert (vector push_back). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="84" column="13" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="84" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trg_1a6611fd082627878306c5add35082d001" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>static std::size_t themis::bench::trg::intervalQuery</definition>
+        <argsstring>(const std::vector&lt; BiTemporalEntry &gt; &amp;store, std::int64_t point)</argsstring>
+        <name>intervalQuery</name>
+        <qualifiedname>themis::bench::trg::intervalQuery</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry" kindref="compound">BiTemporalEntry</ref> &gt; &amp;</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>point</declname>
+        </param>
+        <briefdescription>
+<para>Simulates interval tree point query: linear scan over sorted intervals. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="90" column="20" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="90" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trg_1a69f6f4319297b5bd7fd233bbc94abbcd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>static std::size_t themis::bench::trg::snapshotRead</definition>
+        <argsstring>(const std::vector&lt; BiTemporalEntry &gt; &amp;store, std::int64_t t, std::int64_t snapshot_tx)</argsstring>
+        <name>snapshotRead</name>
+        <qualifiedname>themis::bench::trg::snapshotRead</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry" kindref="compound">BiTemporalEntry</ref> &gt; &amp;</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>snapshot_tx</declname>
+        </param>
+        <briefdescription>
+<para>Simulates snapshot read: filter by valid_time ∩ {T} and tx_time ≤ snapshot_tx. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="102" column="20" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="102" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trg_1a0a451fab1c963848299bef699a97f30c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::trg::isExpired</definition>
+        <argsstring>(std::int64_t valid_end, std::int64_t boundary)</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::bench::trg::isExpired</qualifiedname>
+        <param>
+          <type>std::int64_t</type>
+          <declname>valid_end</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>boundary</declname>
+        </param>
+        <briefdescription>
+<para>Simulates retention check for a single row. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="114" column="13" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="114" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trg_1ac45b1f6f35ca015a0f8cb498fe93ac4e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>static std::size_t themis::bench::trg::pitrRestore</definition>
+        <argsstring>(const std::vector&lt; BiTemporalEntry &gt; &amp;history, std::int64_t target_tx)</argsstring>
+        <name>pitrRestore</name>
+        <qualifiedname>themis::bench::trg::pitrRestore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry" kindref="compound">BiTemporalEntry</ref> &gt; &amp;</type>
+          <declname>history</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>target_tx</declname>
+        </param>
+        <briefdescription>
+<para>Simulates PITR restore over a small history (linear scan). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="119" column="20" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="119" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trg_1a4dd3b1a0837d2f061b8cc65a34351a02" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::int64_t</type>
+        <definition>static std::int64_t themis::bench::trg::validTimeIntersection</definition>
+        <argsstring>(std::int64_t as, std::int64_t ae, std::int64_t bs, std::int64_t be)</argsstring>
+        <name>validTimeIntersection</name>
+        <qualifiedname>themis::bench::trg::validTimeIntersection</qualifiedname>
+        <param>
+          <type>std::int64_t</type>
+          <declname>as</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>ae</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>bs</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>be</declname>
+        </param>
+        <briefdescription>
+<para>Computes a valid-time interval intersection length (ns). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="131" column="21" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="131" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trg_1ada0eb843076f7f7d775d16c748951495" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::trg::BM_TRG01_BiTemporalInsert</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TRG01_BiTemporalInsert</name>
+        <qualifiedname>themis::bench::trg::BM_TRG01_BiTemporalInsert</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TRG-01: In-memory bi-temporal insert throughput. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TRG-01: ≥ 100k inserts/s. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="147" column="13" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="147" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trg_1ab4c206f334964953c00d5f4d34117fbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::trg::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::trg::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="167" column="5" declfile="benchmarks/temporal/bench_temporal_release_gates.cpp" declline="167" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trg_1a977846e5d0504cf7dd5166d3c5222a35" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::trg::BM_TRG02_IntervalTreeQuery</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TRG02_IntervalTreeQuery</name>
+        <qualifiedname>themis::bench::trg::BM_TRG02_IntervalTreeQuery</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TRG-02: Point query over 1k pre-loaded intervals. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TRG-02: p99 ≤ 500 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="179" column="13" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="179" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trg_1a1030172dc13ed0a9468a320dc596851e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::trg::BM_TRG03_SnapshotRead</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TRG03_SnapshotRead</name>
+        <qualifiedname>themis::bench::trg::BM_TRG03_SnapshotRead</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TRG-03: Snapshot read over 100 bi-temporal rows. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TRG-03: p99 ≤ 1 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="212" column="13" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="212" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trg_1aa0f1c051f6d9b02ed2f8a2e6887ab6e1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::trg::BM_TRG04_RetentionCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TRG04_RetentionCheck</name>
+        <qualifiedname>themis::bench::trg::BM_TRG04_RetentionCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TRG-04: Retention boundary check for a single row. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TRG-04: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="242" column="13" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="242" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trg_1a0df0027dcf5ab0a487284e3ae54c034b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::trg::BM_TRG05_PitrRestore</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TRG05_PitrRestore</name>
+        <qualifiedname>themis::bench::trg::BM_TRG05_PitrRestore</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TRG-05: PITR restore scan over 10 history entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TRG-05: p99 ≤ 5 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="268" column="13" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="268" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trg_1a564253b175e16f988b8219ddf25a931a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::trg::BM_TRG06_ValidTimeRange</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TRG06_ValidTimeRange</name>
+        <qualifiedname>themis::bench::trg::BM_TRG06_ValidTimeRange</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TRG-06: Valid-time interval intersection length computation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TRG-06: p99 ≤ 50 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="299" column="13" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="299" bodyend="315"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="57" column="1"/>
+  </compounddef>
+</doxygen>

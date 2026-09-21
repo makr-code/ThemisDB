@@ -1,0 +1,517 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_prompt_injection_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::PromptInjectionDetector</compoundname>
+    <includes refid="lora__security__validator_8h" local="no">lora_security_validator.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_prompt_injection_detector_1_1_config" prot="public">themis::llm::PromptInjectionDetector::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_prompt_injection_detector_1a6031cadf3b75aa33e77584093681dd18" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_prompt_injection_detector_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::PromptInjectionDetector::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="276" column="12" bodyfile="include/llm/lora_security_validator.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_prompt_injection_detector_1af4cb03e8879818c793b452273596f168" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::regex &gt;</type>
+        <definition>std::vector&lt;std::regex&gt; themis::llm::PromptInjectionDetector::injection_patterns_</definition>
+        <argsstring></argsstring>
+        <name>injection_patterns_</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::injection_patterns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="279" column="17" bodyfile="include/llm/lora_security_validator.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_prompt_injection_detector_1a092ef4717fbc4d5c750e6ddb8906bd75" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::PromptInjectionDetector::dangerous_keywords_</definition>
+        <argsstring></argsstring>
+        <name>dangerous_keywords_</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::dangerous_keywords_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="280" column="17" bodyfile="include/llm/lora_security_validator.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_injection_detector_1ab054286f295f6b9338923dd13bd526d9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PromptInjectionDetector::PromptInjectionDetector</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>PromptInjectionDetector</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::PromptInjectionDetector</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_prompt_injection_detector_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Prompt Injection Detector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="244" column="14" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1050" bodyend="1054"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_injection_detector_1aeea861c79fd659b5c4234ede90fc27a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PromptInjectionDetector::~PromptInjectionDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PromptInjectionDetector</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::~PromptInjectionDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="245" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_injection_detector_1a569a2f78251b1a595488574d48b37661" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::PromptInjectionDetector::isSuspicious</definition>
+        <argsstring>(const std::string &amp;prompt)</argsstring>
+        <name>isSuspicious</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::isSuspicious</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Is Suspicious. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_prompt_injection_detector_1a85936ab511aa45dd11f45e37240f7e01" kindref="member">getRiskScore()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="252" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1091" bodyend="1098"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_injection_detector_1a85936ab511aa45dd11f45e37240f7e01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::PromptInjectionDetector::getRiskScore</definition>
+        <argsstring>(const std::string &amp;prompt)</argsstring>
+        <name>getRiskScore</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::getRiskScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Get Risk Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: calculatePatternScore(), calculateKeywordScore(), calculateSyntaxScore(), spdlog::warn(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="259" column="11" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1106" bodyend="1126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_injection_detector_1ae02d00cdef309b505654aef9aef83097" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::PromptInjectionDetector::analyzePrompt</definition>
+        <argsstring>(const std::string &amp;prompt)</argsstring>
+        <name>analyzePrompt</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::analyzePrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Analyze Prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_prompt_injection_detector_1a85936ab511aa45dd11f45e37240f7e01" kindref="member">getRiskScore()</ref>, <ref refid="classthemis_1_1llm_1_1_prompt_injection_detector_1a569a2f78251b1a595488574d48b37661" kindref="member">isSuspicious()</ref>, calculatePatternScore(), calculateKeywordScore(), calculateSyntaxScore(), containsSystemPromptBypass(), containsJailbreakAttempt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="266" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1134" bodyend="1146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_injection_detector_1a3fabfe5bfaafb02797ef011b33585d83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::PromptInjectionDetector::sanitizePrompt</definition>
+        <argsstring>(const std::string &amp;prompt)</argsstring>
+        <name>sanitizePrompt</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::sanitizePrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize Prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::regex_replace(), find(), replace(), length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="273" column="17" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1154" bodyend="1173"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_injection_detector_1a20a672f431e5e5c0e0ae3d41de7a4888" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PromptInjectionDetector::initializePatterns</definition>
+        <argsstring>()</argsstring>
+        <name>initializePatterns</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::initializePatterns</qualifiedname>
+        <briefdescription>
+<para>Initialize Patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::regex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="286" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1060" bodyend="1083"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_injection_detector_1ad34223d25acc1ec2b8ad8167752129b2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::PromptInjectionDetector::calculatePatternScore</definition>
+        <argsstring>(const std::string &amp;prompt)</argsstring>
+        <name>calculatePatternScore</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::calculatePatternScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Pattern Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::regex_search(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="292" column="11" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1181" bodyend="1189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_injection_detector_1a2499f45b2cd728d73f69431bd037db16" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::PromptInjectionDetector::calculateKeywordScore</definition>
+        <argsstring>(const std::string &amp;prompt)</argsstring>
+        <name>calculateKeywordScore</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::calculateKeywordScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Keyword Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="298" column="11" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1197" bodyend="1208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_injection_detector_1a16c181cc8f406f978ca4a6ce2ca0b7b8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::PromptInjectionDetector::calculateSyntaxScore</definition>
+        <argsstring>(const std::string &amp;prompt)</argsstring>
+        <name>calculateSyntaxScore</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::calculateSyntaxScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Syntax Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), length(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="304" column="11" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1216" bodyend="1237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_injection_detector_1a21d9dd79a5d032277098bfc013233d2e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::PromptInjectionDetector::containsSystemPromptBypass</definition>
+        <argsstring>(const std::string &amp;prompt)</argsstring>
+        <name>containsSystemPromptBypass</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::containsSystemPromptBypass</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Contains System Prompt Bypass. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::regex_search(), std::regex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="310" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1245" bodyend="1249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_injection_detector_1a944b2a4639c623bbd8b3743b4f88e603" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::PromptInjectionDetector::containsJailbreakAttempt</definition>
+        <argsstring>(const std::string &amp;prompt)</argsstring>
+        <name>containsJailbreakAttempt</name>
+        <qualifiedname>themis::llm::PromptInjectionDetector::containsJailbreakAttempt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Contains Jailbreak Attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::regex_search(), std::regex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="316" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1257" bodyend="1261"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_security_validator.h" line="230" column="1" bodyfile="include/llm/lora_security_validator.h" bodystart="230" bodyend="317"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_prompt_injection_detector_1ae02d00cdef309b505654aef9aef83097" prot="public" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector</scope><name>analyzePrompt</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_injection_detector_1a2499f45b2cd728d73f69431bd037db16" prot="private" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector</scope><name>calculateKeywordScore</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_injection_detector_1ad34223d25acc1ec2b8ad8167752129b2" prot="private" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector</scope><name>calculatePatternScore</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_injection_detector_1a16c181cc8f406f978ca4a6ce2ca0b7b8" prot="private" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector</scope><name>calculateSyntaxScore</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_injection_detector_1a6031cadf3b75aa33e77584093681dd18" prot="private" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_injection_detector_1a944b2a4639c623bbd8b3743b4f88e603" prot="private" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector</scope><name>containsJailbreakAttempt</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_injection_detector_1a21d9dd79a5d032277098bfc013233d2e" prot="private" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector</scope><name>containsSystemPromptBypass</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_injection_detector_1a092ef4717fbc4d5c750e6ddb8906bd75" prot="private" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector</scope><name>dangerous_keywords_</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_injection_detector_1a85936ab511aa45dd11f45e37240f7e01" prot="public" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector</scope><name>getRiskScore</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_injection_detector_1a20a672f431e5e5c0e0ae3d41de7a4888" prot="private" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector</scope><name>initializePatterns</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_injection_detector_1af4cb03e8879818c793b452273596f168" prot="private" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector</scope><name>injection_patterns_</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_injection_detector_1a569a2f78251b1a595488574d48b37661" prot="public" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector</scope><name>isSuspicious</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_injection_detector_1ab054286f295f6b9338923dd13bd526d9" prot="public" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector</scope><name>PromptInjectionDetector</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_injection_detector_1a3fabfe5bfaafb02797ef011b33585d83" prot="public" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector</scope><name>sanitizePrompt</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_injection_detector_1aeea861c79fd659b5c4234ede90fc27a0" prot="public" virt="non-virtual"><scope>themis::llm::PromptInjectionDetector</scope><name>~PromptInjectionDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_token" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessToken</compoundname>
+    <includes refid="process__graph_8h" local="no">process_graph.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1_process_token_1af215829e7939794978bb55572a409997" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>State</name>
+        <qualifiedname>themis::ProcessToken::State</qualifiedname>
+        <enumvalue id="structthemis_1_1_process_token_1af215829e7939794978bb55572a409997a1869d56535e8b1449a6da54ff5e11f50" prot="public">
+          <name>WAITING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_process_token_1af215829e7939794978bb55572a409997a2baa69eafc7204f3bd8648eba580c489" prot="public">
+          <name>READY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_process_token_1af215829e7939794978bb55572a409997a18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_process_token_1af215829e7939794978bb55572a409997a8f7afecbc8fbc4cd0f50a57d1172482e" prot="public">
+          <name>COMPLETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_process_token_1af215829e7939794978bb55572a409997ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_process_token_1af215829e7939794978bb55572a409997a9f935beb31030ad0d4d26126c0f39bf2" prot="public">
+          <name>CANCELLED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="429" column="5" bodyfile="include/index/process_graph.h" bodystart="429" bodyend="436"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_token_1a86bdf6dc516ef1e163d342a296b41f65" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessToken::token_id</definition>
+        <argsstring></argsstring>
+        <name>token_id</name>
+        <qualifiedname>themis::ProcessToken::token_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="424" column="17" bodyfile="include/index/process_graph.h" bodystart="424" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_token_1ab0dcedec752b2667f13ccd93b3003397" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessToken::process_instance_id</definition>
+        <argsstring></argsstring>
+        <name>process_instance_id</name>
+        <qualifiedname>themis::ProcessToken::process_instance_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="425" column="17" bodyfile="include/index/process_graph.h" bodystart="425" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_token_1a121dc35b38dc90e32dd1c87c9deafe93" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessToken::current_node</definition>
+        <argsstring></argsstring>
+        <name>current_node</name>
+        <qualifiedname>themis::ProcessToken::current_node</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="426" column="17" bodyfile="include/index/process_graph.h" bodystart="426" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_token_1a1e1c3c794f534b055f0404004bea7005" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_process_token_1af215829e7939794978bb55572a409997" kindref="member">State</ref></type>
+        <definition>State themis::ProcessToken::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::ProcessToken::state</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_process_token_1af215829e7939794978bb55572a409997a2baa69eafc7204f3bd8648eba580c489" kindref="member">State::READY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="437" column="11" bodyfile="include/index/process_graph.h" bodystart="437" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_token_1a4b27e7726688d7d2865beee5bbdb688b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::ProcessToken::created_at_ms</definition>
+        <argsstring></argsstring>
+        <name>created_at_ms</name>
+        <qualifiedname>themis::ProcessToken::created_at_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="440" column="13" bodyfile="include/index/process_graph.h" bodystart="440" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_token_1a6091a2dc7e452772b3a75128f2e33d0e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::ProcessToken::started_at_ms</definition>
+        <argsstring></argsstring>
+        <name>started_at_ms</name>
+        <qualifiedname>themis::ProcessToken::started_at_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="441" column="19" bodyfile="include/index/process_graph.h" bodystart="441" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_token_1abca00a4e8c6bfde22ace12e2407eb36c" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::ProcessToken::completed_at_ms</definition>
+        <argsstring></argsstring>
+        <name>completed_at_ms</name>
+        <qualifiedname>themis::ProcessToken::completed_at_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="442" column="19" bodyfile="include/index/process_graph.h" bodystart="442" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_token_1a79f68838eef95952969d351fbb5c73a3" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::ProcessToken::variables</definition>
+        <argsstring></argsstring>
+        <name>variables</name>
+        <qualifiedname>themis::ProcessToken::variables</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="445" column="20" bodyfile="include/index/process_graph.h" bodystart="445" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_token_1a2e9b98a3ca0a31874ce3347c52cf37c0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ProcessToken::visited_nodes</definition>
+        <argsstring></argsstring>
+        <name>visited_nodes</name>
+        <qualifiedname>themis::ProcessToken::visited_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="448" column="17" bodyfile="include/index/process_graph.h" bodystart="448" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_token_1aa49231727f82fbafcc8cc8c99e2e5b60" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ProcessToken::traversed_edges</definition>
+        <argsstring></argsstring>
+        <name>traversed_edges</name>
+        <qualifiedname>themis::ProcessToken::traversed_edges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="449" column="17" bodyfile="include/index/process_graph.h" bodystart="449" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_token_1a7b009e02e82cedcefbcc75ef358c2697" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a89bcb0d78739124e07ad5fbd80808d48" kindref="member">ProcessGraphVisitLog</ref></type>
+        <definition>ProcessGraphVisitLog themis::ProcessToken::visit_timestamps</definition>
+        <argsstring></argsstring>
+        <name>visit_timestamps</name>
+        <qualifiedname>themis::ProcessToken::visit_timestamps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="452" column="26" bodyfile="include/index/process_graph.h" bodystart="452" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Token: Represents execution state at a node. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Based on Petri Net semantics used in BPMN execution. </para>
+    </detaileddescription>
+    <location file="include/index/process_graph.h" line="423" column="1" bodyfile="include/index/process_graph.h" bodystart="423" bodyend="453"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_token_1abca00a4e8c6bfde22ace12e2407eb36c" prot="public" virt="non-virtual"><scope>themis::ProcessToken</scope><name>completed_at_ms</name></member>
+      <member refid="structthemis_1_1_process_token_1a4b27e7726688d7d2865beee5bbdb688b" prot="public" virt="non-virtual"><scope>themis::ProcessToken</scope><name>created_at_ms</name></member>
+      <member refid="structthemis_1_1_process_token_1a121dc35b38dc90e32dd1c87c9deafe93" prot="public" virt="non-virtual"><scope>themis::ProcessToken</scope><name>current_node</name></member>
+      <member refid="structthemis_1_1_process_token_1ab0dcedec752b2667f13ccd93b3003397" prot="public" virt="non-virtual"><scope>themis::ProcessToken</scope><name>process_instance_id</name></member>
+      <member refid="structthemis_1_1_process_token_1a6091a2dc7e452772b3a75128f2e33d0e" prot="public" virt="non-virtual"><scope>themis::ProcessToken</scope><name>started_at_ms</name></member>
+      <member refid="structthemis_1_1_process_token_1af215829e7939794978bb55572a409997" prot="public" virt="non-virtual"><scope>themis::ProcessToken</scope><name>State</name></member>
+      <member refid="structthemis_1_1_process_token_1a1e1c3c794f534b055f0404004bea7005" prot="public" virt="non-virtual"><scope>themis::ProcessToken</scope><name>state</name></member>
+      <member refid="structthemis_1_1_process_token_1a86bdf6dc516ef1e163d342a296b41f65" prot="public" virt="non-virtual"><scope>themis::ProcessToken</scope><name>token_id</name></member>
+      <member refid="structthemis_1_1_process_token_1aa49231727f82fbafcc8cc8c99e2e5b60" prot="public" virt="non-virtual"><scope>themis::ProcessToken</scope><name>traversed_edges</name></member>
+      <member refid="structthemis_1_1_process_token_1a79f68838eef95952969d351fbb5c73a3" prot="public" virt="non-virtual"><scope>themis::ProcessToken</scope><name>variables</name></member>
+      <member refid="structthemis_1_1_process_token_1a7b009e02e82cedcefbcc75ef358c2697" prot="public" virt="non-virtual"><scope>themis::ProcessToken</scope><name>visit_timestamps</name></member>
+      <member refid="structthemis_1_1_process_token_1a2e9b98a3ca0a31874ce3347c52cf37c0" prot="public" virt="non-virtual"><scope>themis::ProcessToken</scope><name>visited_nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

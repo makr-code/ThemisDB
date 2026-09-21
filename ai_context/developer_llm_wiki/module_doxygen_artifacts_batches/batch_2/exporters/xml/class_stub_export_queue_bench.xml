@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_export_queue_bench" kind="class" language="C++" prot="public">
+    <compoundname>StubExportQueueBench</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_export_queue_bench_1a009af20ccbc02c5e36529d665f74e3f4" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex StubExportQueueBench::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubExportQueueBench::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" line="72" column="16" bodyfile="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_export_queue_bench_1acaabbb51ef20c961d2c67f2347a76cd2" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; std::string &gt;</type>
+        <definition>std::deque&lt;std::string&gt; StubExportQueueBench::q_</definition>
+        <argsstring></argsstring>
+        <name>q_</name>
+        <qualifiedname>StubExportQueueBench::q_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" line="73" column="16" bodyfile="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_export_queue_bench_1a50a1b291fdb5221d908e8763d565b133" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t StubExportQueueBench::cap_</definition>
+        <argsstring></argsstring>
+        <name>cap_</name>
+        <qualifiedname>StubExportQueueBench::cap_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" line="74" column="17" bodyfile="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_export_queue_bench_1a7807cdc2d98a7c225d9fdb1f066f3d1c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubExportQueueBench::StubExportQueueBench</definition>
+        <argsstring>(std::size_t cap)</argsstring>
+        <name>StubExportQueueBench</name>
+        <qualifiedname>StubExportQueueBench::StubExportQueueBench</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>cap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" line="59" column="14" bodyfile="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_export_queue_bench_1ab4b0d1f02b3e221c520e38496a9be67c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubExportQueueBench::enqueue</definition>
+        <argsstring>(const std::string &amp;item)</argsstring>
+        <name>enqueue</name>
+        <qualifiedname>StubExportQueueBench::enqueue</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" line="60" column="10" bodyfile="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" bodystart="60" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_export_queue_bench_1a82e13222f1ae017cf30014f5e2e04ce9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubExportQueueBench::dequeue</definition>
+        <argsstring>(std::string &amp;out)</argsstring>
+        <name>dequeue</name>
+        <qualifiedname>StubExportQueueBench::dequeue</qualifiedname>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" line="66" column="10" bodyfile="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" bodystart="66" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" line="57" column="1" bodyfile="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" bodystart="57" bodyend="75"/>
+    <listofallmembers>
+      <member refid="class_stub_export_queue_bench_1a50a1b291fdb5221d908e8763d565b133" prot="private" virt="non-virtual"><scope>StubExportQueueBench</scope><name>cap_</name></member>
+      <member refid="class_stub_export_queue_bench_1a82e13222f1ae017cf30014f5e2e04ce9" prot="public" virt="non-virtual"><scope>StubExportQueueBench</scope><name>dequeue</name></member>
+      <member refid="class_stub_export_queue_bench_1ab4b0d1f02b3e221c520e38496a9be67c" prot="public" virt="non-virtual"><scope>StubExportQueueBench</scope><name>enqueue</name></member>
+      <member refid="class_stub_export_queue_bench_1a009af20ccbc02c5e36529d665f74e3f4" prot="private" virt="non-virtual"><scope>StubExportQueueBench</scope><name>mu_</name></member>
+      <member refid="class_stub_export_queue_bench_1acaabbb51ef20c961d2c67f2347a76cd2" prot="private" virt="non-virtual"><scope>StubExportQueueBench</scope><name>q_</name></member>
+      <member refid="class_stub_export_queue_bench_1a7807cdc2d98a7c225d9fdb1f066f3d1c" prot="public" virt="non-virtual"><scope>StubExportQueueBench</scope><name>StubExportQueueBench</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

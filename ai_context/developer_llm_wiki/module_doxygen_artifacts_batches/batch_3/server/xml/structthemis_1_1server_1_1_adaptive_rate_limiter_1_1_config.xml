@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::AdaptiveRateLimiter::Config</compoundname>
+    <includes refid="adaptive__rate__limiter_8h" local="no">adaptive_rate_limiter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config_1a56d2d66f34dc539c260b4628444f822f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::AdaptiveRateLimiter::Config::base_capacity</definition>
+        <argsstring></argsstring>
+        <name>base_capacity</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::Config::base_capacity</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="35" column="16" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config_1aea532cfd79b40a84abbc19b796432ffb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::AdaptiveRateLimiter::Config::high_latency_threshold_ms</definition>
+        <argsstring></argsstring>
+        <name>high_latency_threshold_ms</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::Config::high_latency_threshold_ms</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="37" column="18" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config_1a10b809c25c68801e12cd263f173e3fa5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::AdaptiveRateLimiter::Config::low_latency_threshold_ms</definition>
+        <argsstring></argsstring>
+        <name>low_latency_threshold_ms</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::Config::low_latency_threshold_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="39" column="18" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config_1a400b594813c10e4f83a09e32c77ded7f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::AdaptiveRateLimiter::Config::high_error_rate</definition>
+        <argsstring></argsstring>
+        <name>high_error_rate</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::Config::high_error_rate</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="41" column="16" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config_1ae8a28d2671831428c4a736946db637e1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::AdaptiveRateLimiter::Config::low_error_rate</definition>
+        <argsstring></argsstring>
+        <name>low_error_rate</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::Config::low_error_rate</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="43" column="16" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config_1a03445916321b8b238acb3f5a1a517853" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::AdaptiveRateLimiter::Config::recovery_step</definition>
+        <argsstring></argsstring>
+        <name>recovery_step</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::Config::recovery_step</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="45" column="16" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config_1a9529b6a6dac4ce284583a7ee5ce54716" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::AdaptiveRateLimiter::Config::window_seconds</definition>
+        <argsstring></argsstring>
+        <name>window_seconds</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::Config::window_seconds</qualifiedname>
+        <initializer>= 60</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="47" column="18" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config_1ab2bd59530599e9c9538aff0ef508da7c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::AdaptiveRateLimiter::Config::min_samples_to_adapt</definition>
+        <argsstring></argsstring>
+        <name>min_samples_to_adapt</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::Config::min_samples_to_adapt</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="49" column="16" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/adaptive_rate_limiter.h" line="34" column="5" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="34" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config_1a56d2d66f34dc539c260b4628444f822f" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter::Config</scope><name>base_capacity</name></member>
+      <member refid="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config_1a400b594813c10e4f83a09e32c77ded7f" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter::Config</scope><name>high_error_rate</name></member>
+      <member refid="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config_1aea532cfd79b40a84abbc19b796432ffb" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter::Config</scope><name>high_latency_threshold_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config_1ae8a28d2671831428c4a736946db637e1" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter::Config</scope><name>low_error_rate</name></member>
+      <member refid="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config_1a10b809c25c68801e12cd263f173e3fa5" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter::Config</scope><name>low_latency_threshold_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config_1ab2bd59530599e9c9538aff0ef508da7c" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter::Config</scope><name>min_samples_to_adapt</name></member>
+      <member refid="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config_1a03445916321b8b238acb3f5a1a517853" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter::Config</scope><name>recovery_step</name></member>
+      <member refid="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_config_1a9529b6a6dac4ce284583a7ee5ce54716" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter::Config</scope><name>window_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

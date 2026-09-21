@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_ethics_index_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::EthicsIndexQuery</compoundname>
+    <includes refid="include_2ethics__ai_2ethics__profile__registry_8h" local="no">ethics_profile_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_index_query_1a1edfa4c0f61ddd013dac2bce8744c9c1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicsIndexQuery::taxonomy_class</definition>
+        <argsstring></argsstring>
+        <name>taxonomy_class</name>
+        <qualifiedname>themis::plugins::ethics::EthicsIndexQuery::taxonomy_class</qualifiedname>
+        <briefdescription>
+<para>Filter by taxonomy class; empty = no filter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="36" column="17" bodyfile="include/ethics_ai/ethics_profile_registry.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_index_query_1adc6c92400a6e7c624c5b56593aff6b62" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::EthicsIndexQuery::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>themis::plugins::ethics::EthicsIndexQuery::tags</qualifiedname>
+        <briefdescription>
+<para>All listed tags must be present; empty = no filter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="37" column="17" bodyfile="include/ethics_ai/ethics_profile_registry.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_index_query_1a278ee81bca606ddcf7c5cc4642444d91" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::EthicsIndexQuery::domains</definition>
+        <argsstring></argsstring>
+        <name>domains</name>
+        <qualifiedname>themis::plugins::ethics::EthicsIndexQuery::domains</qualifiedname>
+        <briefdescription>
+<para>At least one domain must match; empty = no filter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="38" column="17" bodyfile="include/ethics_ai/ethics_profile_registry.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_index_query_1a4e5bb0718da7f6a18c38f8de79c89174" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::ethics::EthicsIndexQuery::max_results</definition>
+        <argsstring></argsstring>
+        <name>max_results</name>
+        <qualifiedname>themis::plugins::ethics::EthicsIndexQuery::max_results</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>0 = unlimited </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="39" column="12" bodyfile="include/ethics_ai/ethics_profile_registry.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_profile_registry.h" line="35" column="1" bodyfile="include/ethics_ai/ethics_profile_registry.h" bodystart="35" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_index_query_1a278ee81bca606ddcf7c5cc4642444d91" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsIndexQuery</scope><name>domains</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_index_query_1a4e5bb0718da7f6a18c38f8de79c89174" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsIndexQuery</scope><name>max_results</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_index_query_1adc6c92400a6e7c624c5b56593aff6b62" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsIndexQuery</scope><name>tags</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_index_query_1a1edfa4c0f61ddd013dac2bce8744c9c1" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsIndexQuery</scope><name>taxonomy_class</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_lo_r_a_quantization_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LoRAQuantizationConfig</compoundname>
+    <includes refid="multi__lora__manager_8h" local="no">multi_lora_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_quantization_config_1a800600dd546182c90a3e8d8ea28f5895" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRAQuantizationConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::LoRAQuantizationConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="74" column="10" bodyfile="include/llm/multi_lora_manager.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_quantization_config_1ac941ae8cab036596d0ad17306abe79e4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a8d79a8ce3b1a69133c35cb18ac9ecbd9" kindref="member">QuantizationMode</ref></type>
+        <definition>QuantizationMode themis::llm::LoRAQuantizationConfig::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::llm::LoRAQuantizationConfig::mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1a8d79a8ce3b1a69133c35cb18ac9ecbd9aee9d73311ff0658494edfff14c3ec1e3" kindref="member">QuantizationMode::INT8</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="75" column="22" bodyfile="include/llm/multi_lora_manager.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_quantization_config_1a40dac5b6ac2cdc518b180f21040a9a17" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LoRAQuantizationConfig::calibration_samples</definition>
+        <argsstring></argsstring>
+        <name>calibration_samples</name>
+        <qualifiedname>themis::llm::LoRAQuantizationConfig::calibration_samples</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="78" column="9" bodyfile="include/llm/multi_lora_manager.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_quantization_config_1a1996b12e1c8ccf4779b05f8431b15944" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRAQuantizationConfig::per_channel</definition>
+        <argsstring></argsstring>
+        <name>per_channel</name>
+        <qualifiedname>themis::llm::LoRAQuantizationConfig::per_channel</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="81" column="10" bodyfile="include/llm/multi_lora_manager.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_quantization_config_1a5f601947f608c7652f4ab5094ac79d9a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LoRAQuantizationConfig::group_size</definition>
+        <argsstring></argsstring>
+        <name>group_size</name>
+        <qualifiedname>themis::llm::LoRAQuantizationConfig::group_size</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="82" column="9" bodyfile="include/llm/multi_lora_manager.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_lora_manager.h" line="73" column="1" bodyfile="include/llm/multi_lora_manager.h" bodystart="73" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_quantization_config_1a40dac5b6ac2cdc518b180f21040a9a17" prot="public" virt="non-virtual"><scope>themis::llm::LoRAQuantizationConfig</scope><name>calibration_samples</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_quantization_config_1a800600dd546182c90a3e8d8ea28f5895" prot="public" virt="non-virtual"><scope>themis::llm::LoRAQuantizationConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_quantization_config_1a5f601947f608c7652f4ab5094ac79d9a" prot="public" virt="non-virtual"><scope>themis::llm::LoRAQuantizationConfig</scope><name>group_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_quantization_config_1ac941ae8cab036596d0ad17306abe79e4" prot="public" virt="non-virtual"><scope>themis::llm::LoRAQuantizationConfig</scope><name>mode</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_quantization_config_1a1996b12e1c8ccf4779b05f8431b15944" prot="public" virt="non-virtual"><scope>themis::llm::LoRAQuantizationConfig</scope><name>per_channel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

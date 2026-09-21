@@ -1,0 +1,2950 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_transaction_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::TransactionManager</compoundname>
+    <includes refid="transaction__manager_8h" local="no">transaction_manager.h</includes>
+    <innerclass refid="structthemis_1_1_transaction_manager_1_1_status" prot="public">themis::TransactionManager::Status</innerclass>
+    <innerclass refid="classthemis_1_1_transaction_manager_1_1_transaction" prot="public">themis::TransactionManager::Transaction</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_manager_1_1_tenant_transaction_stats" prot="public">themis::TransactionManager::TenantTransactionStats</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_manager_1_1_stats" prot="public">themis::TransactionManager::Stats</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_manager_1_1_deadlock_info" prot="public">themis::TransactionManager::DeadlockInfo</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_manager_1_1_deadlock_metrics" prot="public">themis::TransactionManager::DeadlockMetrics</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_manager_1_1_time_travel_record" prot="public">themis::TransactionManager::TimeTravelRecord</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_manager_1_1_s_s_i_config" prot="public">themis::TransactionManager::SSIConfig</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_manager_1_1_serialization_conflict" prot="public">themis::TransactionManager::SerializationConflict</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_manager_1_1_tenant_stats_entry" prot="private">themis::TransactionManager::TenantStatsEntry</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_manager_1_1_lock_info" prot="private">themis::TransactionManager::LockInfo</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_transaction_manager_1a8e55227f699a858382796eaf32f6c6e1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DeadlockVictimPolicy</name>
+        <qualifiedname>themis::TransactionManager::DeadlockVictimPolicy</qualifiedname>
+        <enumvalue id="classthemis_1_1_transaction_manager_1a8e55227f699a858382796eaf32f6c6e1a3ebfaf6242b8db6cc479534dac01939c" prot="public">
+          <name>YOUNGEST</name>
+          <briefdescription>
+<para>Abort the transaction with the highest (newest) ID (default). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_transaction_manager_1a8e55227f699a858382796eaf32f6c6e1affec199ac034a0999ccfcb7f0325c8a3" prot="public">
+          <name>OLDEST</name>
+          <briefdescription>
+<para>Abort the transaction with the lowest (oldest) ID. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_transaction_manager_1a8e55227f699a858382796eaf32f6c6e1aeae9c14ca1c1e218c45fc1734ee84192" prot="public">
+          <name>LEAST_EXPENSIVE</name>
+          <briefdescription>
+<para>Abort the transaction that holds the fewest locks. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="597" column="5" bodyfile="include/transaction/transaction_manager.h" bodystart="597" bodyend="601"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" prot="public" static="no">
+        <type>uint64_t</type>
+        <definition>using themis::TransactionManager::TransactionId = uint64_t</definition>
+        <argsstring></argsstring>
+        <name>TransactionId</name>
+        <qualifiedname>themis::TransactionManager::TransactionId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="47" column="5" bodyfile="include/transaction/transaction_manager.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1ababc8ab9b1586e7dda3dd17be55a9263" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::TransactionManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::TransactionManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="846" column="20" bodyfile="include/transaction/transaction_manager.h" bodystart="846" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a0a013c6faf7e2c7d395899dd9c78cf66" prot="private" static="no" mutable="no">
+        <type>SecondaryIndexManager &amp;</type>
+        <definition>SecondaryIndexManager&amp; themis::TransactionManager::secIdx_</definition>
+        <argsstring></argsstring>
+        <name>secIdx_</name>
+        <qualifiedname>themis::TransactionManager::secIdx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="847" column="27" bodyfile="include/transaction/transaction_manager.h" bodystart="847" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1ab7de1a46078dc6f0a98fd966e8d218b3" prot="private" static="no" mutable="no">
+        <type>GraphIndexManager &amp;</type>
+        <definition>GraphIndexManager&amp; themis::TransactionManager::graphIdx_</definition>
+        <argsstring></argsstring>
+        <name>graphIdx_</name>
+        <qualifiedname>themis::TransactionManager::graphIdx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="848" column="23" bodyfile="include/transaction/transaction_manager.h" bodystart="848" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a507508c1306fb87878e24e6977853d79" prot="private" static="no" mutable="no">
+        <type>VectorIndexManager &amp;</type>
+        <definition>VectorIndexManager&amp; themis::TransactionManager::vecIdx_</definition>
+        <argsstring></argsstring>
+        <name>vecIdx_</name>
+        <qualifiedname>themis::TransactionManager::vecIdx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="849" column="24" bodyfile="include/transaction/transaction_manager.h" bodystart="849" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a4a3545a57be6cd2732d19711c59bc4d0" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref></type>
+        <definition>LockManager themis::TransactionManager::lock_manager_</definition>
+        <argsstring></argsstring>
+        <name>lock_manager_</name>
+        <qualifiedname>themis::TransactionManager::lock_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="852" column="17" bodyfile="include/transaction/transaction_manager.h" bodystart="852" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a2be1f6a170d8aca65ab6030769a194c1" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1transaction_1_1_crash_recovery_manager" kindref="compound">transaction::CrashRecoveryManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;transaction::CrashRecoveryManager&gt; themis::TransactionManager::crash_recovery_mgr_</definition>
+        <argsstring></argsstring>
+        <name>crash_recovery_mgr_</name>
+        <qualifiedname>themis::TransactionManager::crash_recovery_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="855" column="21" bodyfile="include/transaction/transaction_manager.h" bodystart="855" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1ad96b38e66057478f86bab47b0082017a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TransactionManager::sessions_mutex_</definition>
+        <argsstring></argsstring>
+        <name>sessions_mutex_</name>
+        <qualifiedname>themis::TransactionManager::sessions_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="858" column="24" bodyfile="include/transaction/transaction_manager.h" bodystart="858" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a4f8be140907cd6e8d9489847b39c983e" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref>, std::shared_ptr&lt; <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;TransactionId, std::shared_ptr&lt;Transaction&gt; &gt; themis::TransactionManager::active_transactions_</definition>
+        <argsstring></argsstring>
+        <name>active_transactions_</name>
+        <qualifiedname>themis::TransactionManager::active_transactions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="859" column="24" bodyfile="include/transaction/transaction_manager.h" bodystart="859" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a8dbff7d706ab271e2767cc4f9079da33" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref>, std::shared_ptr&lt; <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;TransactionId, std::shared_ptr&lt;Transaction&gt; &gt; themis::TransactionManager::completed_transactions_</definition>
+        <argsstring></argsstring>
+        <name>completed_transactions_</name>
+        <qualifiedname>themis::TransactionManager::completed_transactions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="860" column="24" bodyfile="include/transaction/transaction_manager.h" bodystart="860" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1aec5a1c977294fb8f052c74b36532b77d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TransactionManager::next_transaction_id_</definition>
+        <argsstring></argsstring>
+        <name>next_transaction_id_</name>
+        <qualifiedname>themis::TransactionManager::next_transaction_id_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="863" column="17" bodyfile="include/transaction/transaction_manager.h" bodystart="863" bodyend="863"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a7aab6a96cdd7bd2c6ef2b2ab68ab3d05" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TransactionManager::total_begun_</definition>
+        <argsstring></argsstring>
+        <name>total_begun_</name>
+        <qualifiedname>themis::TransactionManager::total_begun_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="866" column="17" bodyfile="include/transaction/transaction_manager.h" bodystart="866" bodyend="866"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a9e286aa70ba11c8cba5b0f6e1235497c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TransactionManager::total_committed_</definition>
+        <argsstring></argsstring>
+        <name>total_committed_</name>
+        <qualifiedname>themis::TransactionManager::total_committed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="867" column="17" bodyfile="include/transaction/transaction_manager.h" bodystart="867" bodyend="867"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1aae6f353900debd86d180deab4c5f4cae" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TransactionManager::total_aborted_</definition>
+        <argsstring></argsstring>
+        <name>total_aborted_</name>
+        <qualifiedname>themis::TransactionManager::total_aborted_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="868" column="17" bodyfile="include/transaction/transaction_manager.h" bodystart="868" bodyend="868"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a93088454be652e53bf97fafe81848edf" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TransactionManager::total_timed_out_</definition>
+        <argsstring></argsstring>
+        <name>total_timed_out_</name>
+        <qualifiedname>themis::TransactionManager::total_timed_out_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Incremented by <ref refid="classthemis_1_1_transaction_manager_1a37f46dcfda2f74521ff5de50cc60fbac" kindref="member">abortTimedOutTransactions()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="869" column="17" bodyfile="include/transaction/transaction_manager.h" bodystart="869" bodyend="869"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a5ba9f67b7f2a4e456f3cf010d4873b9b" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TransactionManager::stats_sequence_</definition>
+        <argsstring></argsstring>
+        <name>stats_sequence_</name>
+        <qualifiedname>themis::TransactionManager::stats_sequence_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="872" column="25" bodyfile="include/transaction/transaction_manager.h" bodystart="872" bodyend="872"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a3814c1c46647229be73794e5949240d4" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, TenantStatsEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TenantStatsEntry&gt; themis::TransactionManager::tenant_stats_</definition>
+        <argsstring></argsstring>
+        <name>tenant_stats_</name>
+        <qualifiedname>themis::TransactionManager::tenant_stats_</qualifiedname>
+        <briefdescription>
+<para>keyed by tenant_id </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="894" column="24" bodyfile="include/transaction/transaction_manager.h" bodystart="894" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1ae85bc4e7f8e3b92def9003be858665cb" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TransactionManager::default_transaction_timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>default_transaction_timeout_ms_</name>
+        <qualifiedname>themis::TransactionManager::default_transaction_timeout_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>0 = no default timeout </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="904" column="17" bodyfile="include/transaction/transaction_manager.h" bodystart="904" bodyend="904"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a2b238e34a374a75d7de72a1fffd247ae" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::TransactionManager::deadlock_detection_enabled_</definition>
+        <argsstring></argsstring>
+        <name>deadlock_detection_enabled_</name>
+        <qualifiedname>themis::TransactionManager::deadlock_detection_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="916" column="17" bodyfile="include/transaction/transaction_manager.h" bodystart="916" bodyend="916"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a7dc80173e74e52adceac38831fb09466" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TransactionManager::deadlock_timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>deadlock_timeout_ms_</name>
+        <qualifiedname>themis::TransactionManager::deadlock_timeout_ms_</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="917" column="17" bodyfile="include/transaction/transaction_manager.h" bodystart="917" bodyend="917"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a45c78c38572dc2b797e3d1ae19368e5a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TransactionManager::transaction_timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>transaction_timeout_ms_</name>
+        <qualifiedname>themis::TransactionManager::transaction_timeout_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="920" column="17" bodyfile="include/transaction/transaction_manager.h" bodystart="920" bodyend="920"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1ab5500aaa5bae4e7a97f778cb4c402922" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TransactionManager::total_deadlocks_</definition>
+        <argsstring></argsstring>
+        <name>total_deadlocks_</name>
+        <qualifiedname>themis::TransactionManager::total_deadlocks_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="921" column="17" bodyfile="include/transaction/transaction_manager.h" bodystart="921" bodyend="921"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a0d483facbb204599abc24d6952942cea" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::TransactionManager::victim_policy_</definition>
+        <argsstring></argsstring>
+        <name>victim_policy_</name>
+        <qualifiedname>themis::TransactionManager::victim_policy_</qualifiedname>
+        <initializer>{static_cast&lt;int&gt;(<ref refid="classthemis_1_1_transaction_manager_1a8e55227f699a858382796eaf32f6c6e1a3ebfaf6242b8db6cc479534dac01939c" kindref="member">DeadlockVictimPolicy::YOUNGEST</ref>)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="924" column="17" bodyfile="include/transaction/transaction_manager.h" bodystart="924" bodyend="924"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1acc89c1b1538546d9d0fddf358aca210e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TransactionManager::deadlock_total_cycle_len_</definition>
+        <argsstring></argsstring>
+        <name>deadlock_total_cycle_len_</name>
+        <qualifiedname>themis::TransactionManager::deadlock_total_cycle_len_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="927" column="17" bodyfile="include/transaction/transaction_manager.h" bodystart="927" bodyend="927"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1abfa6049afa772679689b440e64486526" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TransactionManager::deadlock_max_cycle_len_</definition>
+        <argsstring></argsstring>
+        <name>deadlock_max_cycle_len_</name>
+        <qualifiedname>themis::TransactionManager::deadlock_max_cycle_len_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="928" column="17" bodyfile="include/transaction/transaction_manager.h" bodystart="928" bodyend="928"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a21fdbf17b2169f54336c9d45a74eaa28" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TransactionManager::lock_tracking_mutex_</definition>
+        <argsstring></argsstring>
+        <name>lock_tracking_mutex_</name>
+        <qualifiedname>themis::TransactionManager::lock_tracking_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="936" column="24" bodyfile="include/transaction/transaction_manager.h" bodystart="936" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a4c3cd615d7b52f75c9153a9a14d33de5" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, LockInfo &gt;</type>
+        <definition>std::unordered_map&lt;std::string, LockInfo&gt; themis::TransactionManager::held_locks_</definition>
+        <argsstring></argsstring>
+        <name>held_locks_</name>
+        <qualifiedname>themis::TransactionManager::held_locks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="937" column="24" bodyfile="include/transaction/transaction_manager.h" bodystart="937" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a98b3ad09f115f2f836e2fbf44c0a3f86" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref>, std::unordered_set&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;TransactionId, std::unordered_set&lt;std::string&gt; &gt; themis::TransactionManager::waiting_for_</definition>
+        <argsstring></argsstring>
+        <name>waiting_for_</name>
+        <qualifiedname>themis::TransactionManager::waiting_for_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="938" column="24" bodyfile="include/transaction/transaction_manager.h" bodystart="938" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a8f26026774a14b3e6766a7d9cc7534ea" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1_transaction_manager_1_1_deadlock_info" kindref="compound">DeadlockInfo</ref> &gt;</type>
+        <definition>std::deque&lt;DeadlockInfo&gt; themis::TransactionManager::recent_deadlocks_</definition>
+        <argsstring></argsstring>
+        <name>recent_deadlocks_</name>
+        <qualifiedname>themis::TransactionManager::recent_deadlocks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="939" column="16" bodyfile="include/transaction/transaction_manager.h" bodystart="939" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1ad7b505872b6f847e4576b69247b167cf" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; std::thread &gt;</type>
+        <definition>std::unique_ptr&lt;std::thread&gt; themis::TransactionManager::deadlock_detector_thread_</definition>
+        <argsstring></argsstring>
+        <name>deadlock_detector_thread_</name>
+        <qualifiedname>themis::TransactionManager::deadlock_detector_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="942" column="21" bodyfile="include/transaction/transaction_manager.h" bodystart="942" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a929414049cdf848f80b1a6015dce5b8c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::TransactionManager::deadlock_detector_running_</definition>
+        <argsstring></argsstring>
+        <name>deadlock_detector_running_</name>
+        <qualifiedname>themis::TransactionManager::deadlock_detector_running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="943" column="17" bodyfile="include/transaction/transaction_manager.h" bodystart="943" bodyend="943"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a0e1b2c21c19dce18af60d16a540e7be4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TransactionManager::deadlock_detector_mutex_</definition>
+        <argsstring></argsstring>
+        <name>deadlock_detector_mutex_</name>
+        <qualifiedname>themis::TransactionManager::deadlock_detector_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="944" column="24" bodyfile="include/transaction/transaction_manager.h" bodystart="944" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1acbc9e332f2c03e316a9316ce8c5b254d" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::TransactionManager::deadlock_detector_cv_</definition>
+        <argsstring></argsstring>
+        <name>deadlock_detector_cv_</name>
+        <qualifiedname>themis::TransactionManager::deadlock_detector_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="945" column="29" bodyfile="include/transaction/transaction_manager.h" bodystart="945" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1ade5157269bc9763e21f3a6b774a7eb38" prot="private" static="no" mutable="no">
+        <type>HistoryManager *</type>
+        <definition>HistoryManager* themis::TransactionManager::history_mgr_</definition>
+        <argsstring></argsstring>
+        <name>history_mgr_</name>
+        <qualifiedname>themis::TransactionManager::history_mgr_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="987" column="21" bodyfile="include/transaction/transaction_manager.h" bodystart="987" bodyend="987"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a184c120df08050116c8f41740d78a7bf" prot="private" static="no" mutable="no">
+        <type>ConflictManager *</type>
+        <definition>ConflictManager* themis::TransactionManager::conflict_mgr_</definition>
+        <argsstring></argsstring>
+        <name>conflict_mgr_</name>
+        <qualifiedname>themis::TransactionManager::conflict_mgr_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="988" column="21" bodyfile="include/transaction/transaction_manager.h" bodystart="988" bodyend="988"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1a4f42a130054a0a02f2127b6a62eee022" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1transaction_1_1_snapshot_manager" kindref="compound">transaction::SnapshotManager</ref> *</type>
+        <definition>transaction::SnapshotManager* themis::TransactionManager::snapshot_mgr_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_mgr_</name>
+        <qualifiedname>themis::TransactionManager::snapshot_mgr_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="989" column="34" bodyfile="include/transaction/transaction_manager.h" bodystart="989" bodyend="989"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1af7eefca33debaed3b459610469b87a6c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="classthemis_1_1_deadlock_predictor" kindref="compound">DeadlockPredictor</ref> * &gt;</type>
+        <definition>std::atomic&lt;DeadlockPredictor*&gt; themis::TransactionManager::deadlock_predictor_</definition>
+        <argsstring></argsstring>
+        <name>deadlock_predictor_</name>
+        <qualifiedname>themis::TransactionManager::deadlock_predictor_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="990" column="17" bodyfile="include/transaction/transaction_manager.h" bodystart="990" bodyend="990"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1af8330080a40581eeb13e7434f7cd6eab" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TransactionManager::ssi_config_mutex_</definition>
+        <argsstring></argsstring>
+        <name>ssi_config_mutex_</name>
+        <qualifiedname>themis::TransactionManager::ssi_config_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="993" column="24" bodyfile="include/transaction/transaction_manager.h" bodystart="993" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_manager_1ade0757d84719f0ea59cf85521f9efc28" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_transaction_manager_1_1_s_s_i_config" kindref="compound">SSIConfig</ref></type>
+        <definition>SSIConfig themis::TransactionManager::ssi_config_</definition>
+        <argsstring></argsstring>
+        <name>ssi_config_</name>
+        <qualifiedname>themis::TransactionManager::ssi_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="994" column="15" bodyfile="include/transaction/transaction_manager.h" bodystart="994" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a1c5e8e0c2271a6a54d7996a3c210db2f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TransactionManager::TransactionManager</definition>
+        <argsstring>(RocksDBWrapper &amp;db, SecondaryIndexManager &amp;secIdx, GraphIndexManager &amp;graphIdx, VectorIndexManager &amp;vecIdx)</argsstring>
+        <name>TransactionManager</name>
+        <qualifiedname>themis::TransactionManager::TransactionManager</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>SecondaryIndexManager &amp;</type>
+          <declname>secIdx</declname>
+        </param>
+        <param>
+          <type>GraphIndexManager &amp;</type>
+          <declname>graphIdx</declname>
+        </param>
+        <param>
+          <type>VectorIndexManager &amp;</type>
+          <declname>vecIdx</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref> Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">secIdx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">graphIdx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">vecIdx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="96" column="14" bodyfile="src/transaction/transaction_manager.cpp" bodystart="29" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1aa543746a9a4f97758d3af72a6f671e75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TransactionManager::~TransactionManager</definition>
+        <argsstring>()</argsstring>
+        <name>~TransactionManager</name>
+        <qualifiedname>themis::TransactionManager::~TransactionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">deadlock_detector_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="100" column="5" bodyfile="src/transaction/transaction_manager.cpp" bodystart="46" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a417d368c85e26dadb048d0032386f928" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref></type>
+        <definition>TransactionManager::TransactionId themis::TransactionManager::beginTransaction</definition>
+        <argsstring>(IsolationLevel isolation=IsolationLevel::ReadCommitted)</argsstring>
+        <name>beginTransaction</name>
+        <qualifiedname>themis::TransactionManager::beginTransaction</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7" kindref="member">IsolationLevel</ref></type>
+          <declname>isolation</declname>
+          <defval><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a90ed941e4502c163cb075594c5f7df1c" kindref="member">IsolationLevel::ReadCommitted</ref></defval>
+        </param>
+        <briefdescription>
+<para>Begin <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">isolation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateTransactionId(), applyDefaultTimeout(), lock(), updateStatsWithSeqLock(), fetch_add(), THEMIS_INFO(), logBegin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="449" column="19" bodyfile="src/transaction/transaction_manager.cpp" bodystart="468" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1affab3597ff28d181bfa2faa816d5a769" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref></type>
+        <definition>TransactionManager::TransactionId themis::TransactionManager::beginTransaction</definition>
+        <argsstring>(std::string_view tenant_id, IsolationLevel isolation=IsolationLevel::ReadCommitted)</argsstring>
+        <name>beginTransaction</name>
+        <qualifiedname>themis::TransactionManager::beginTransaction</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7" kindref="member">IsolationLevel</ref></type>
+          <declname>isolation</declname>
+          <defval><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a90ed941e4502c163cb075594c5f7df1c" kindref="member">IsolationLevel::ReadCommitted</ref></defval>
+        </param>
+        <briefdescription>
+<para>Begin <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">isolation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sessions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="451" column="19" bodyfile="src/transaction/transaction_manager.cpp" bodystart="508" bodyend="550"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a4cdc91f38ea1c14a5aff1a2cf478cc8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; TransactionManager::Transaction &gt; themis::TransactionManager::getTransaction</definition>
+        <argsstring>(TransactionId id)</argsstring>
+        <name>getTransaction</name>
+        <qualifiedname>themis::TransactionManager::getTransaction</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref></type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="459" column="21" bodyfile="src/transaction/transaction_manager.cpp" bodystart="558" bodyend="565"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1afbbdd49b4f9fdd331ffd0f79c5b233fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_transaction_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>TransactionManager::Status themis::TransactionManager::commitTransaction</definition>
+        <argsstring>(TransactionId id)</argsstring>
+        <name>commitTransaction</name>
+        <qualifiedname>themis::TransactionManager::commitTransaction</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref></type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Commit <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), <ref refid="structthemis_1_1_transaction_manager_1_1_status_1ae54ff239bfebebaaf3a91f1eb2747885" kindref="member">Status::Error()</ref>, commit(), updateStatsWithSeqLock(), fetch_add(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="465" column="12" bodyfile="src/transaction/transaction_manager.cpp" bodystart="573" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1af5aa433d256eb407a36484c49f4cebb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TransactionManager::rollbackTransaction</definition>
+        <argsstring>(TransactionId id)</argsstring>
+        <name>rollbackTransaction</name>
+        <qualifiedname>themis::TransactionManager::rollbackTransaction</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref></type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Rollback <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), rollback(), updateStatsWithSeqLock(), fetch_add(), empty(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="471" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="645" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1aef200242f25bed72468693b0f1e5e0c1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_result" kindref="compound">Transaction::ExplainResult</ref> &gt;</type>
+        <definition>std::optional&lt; TransactionManager::Transaction::ExplainResult &gt; themis::TransactionManager::explainTransaction</definition>
+        <argsstring>(TransactionId id) const</argsstring>
+        <name>explainTransaction</name>
+        <qualifiedname>themis::TransactionManager::explainTransaction</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref></type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Explain <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sessions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="478" column="19" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2429" bodyend="2445"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a93489b2bb1725e74bac379d3c3f91728" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_transaction_manager_1_1_tenant_transaction_stats" kindref="compound">TenantTransactionStats</ref></type>
+        <definition>TransactionManager::TenantTransactionStats themis::TransactionManager::getTenantTransactionStats</definition>
+        <argsstring>(std::string_view tenant_id) const</argsstring>
+        <name>getTenantTransactionStats</name>
+        <qualifiedname>themis::TransactionManager::getTenantTransactionStats</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Tenant <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref> <ref refid="structthemis_1_1_transaction_manager_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sessions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="495" column="28" bodyfile="src/transaction/transaction_manager.cpp" bodystart="848" bodyend="869"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a70e869014cf58efa5e86a37f7218ec5b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_transaction_manager_1_1_tenant_transaction_stats" kindref="compound">TenantTransactionStats</ref> &gt;</type>
+        <definition>std::vector&lt; TransactionManager::TenantTransactionStats &gt; themis::TransactionManager::getAllTenantTransactionStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllTenantTransactionStats</name>
+        <qualifiedname>themis::TransactionManager::getAllTenantTransactionStats</qualifiedname>
+        <briefdescription>
+<para>Get All Tenant <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref> <ref refid="structthemis_1_1_transaction_manager_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sessions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="501" column="17" bodyfile="src/transaction/transaction_manager.cpp" bodystart="872" bodyend="903"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a52fcbaeb0618c3238755f29aa60fa4fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TransactionManager::getActiveTenantTransactionCount</definition>
+        <argsstring>(std::string_view tenant_id) const</argsstring>
+        <name>getActiveTenantTransactionCount</name>
+        <qualifiedname>themis::TransactionManager::getActiveTenantTransactionCount</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Active Tenant <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref> Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sessions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="508" column="12" bodyfile="src/transaction/transaction_manager.cpp" bodystart="905" bodyend="913"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1ae5793fc4a3634b1e76cd42edf3c84f39" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref> &gt;</type>
+        <definition>std::vector&lt; TransactionManager::TransactionId &gt; themis::TransactionManager::listTenantTransactionIds</definition>
+        <argsstring>(std::string_view tenant_id) const</argsstring>
+        <name>listTenantTransactionIds</name>
+        <qualifiedname>themis::TransactionManager::listTenantTransactionIds</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>List Tenant <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref> Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sessions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="515" column="17" bodyfile="src/transaction/transaction_manager.cpp" bodystart="916" bodyend="931"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1aa25094a3f74f6b9762e34cdf489bab71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TransactionManager::abortTenantTransactions</definition>
+        <argsstring>(std::string_view tenant_id)</argsstring>
+        <name>abortTenantTransactions</name>
+        <qualifiedname>themis::TransactionManager::abortTenantTransactions</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Abort Tenant Transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), push_back(), <ref refid="classthemis_1_1_transaction_manager_1af5aa433d256eb407a36484c49f4cebb9" kindref="member">rollbackTransaction()</ref>, THEMIS_INFO(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="522" column="12" bodyfile="src/transaction/transaction_manager.cpp" bodystart="939" bodyend="957"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1af772e2f19d00a69b68e87418670f249d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref></type>
+        <definition>TransactionManager::Transaction themis::TransactionManager::begin</definition>
+        <argsstring>(IsolationLevel isolation=IsolationLevel::ReadCommitted)</argsstring>
+        <name>begin</name>
+        <qualifiedname>themis::TransactionManager::begin</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7" kindref="member">IsolationLevel</ref></type>
+          <declname>isolation</declname>
+          <defval><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a90ed941e4502c163cb075594c5f7df1c" kindref="member">IsolationLevel::ReadCommitted</ref></defval>
+        </param>
+        <briefdescription>
+<para>Direct transaction (legacy API). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">isolation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateTransactionId(), updateStatsWithSeqLock(), fetch_add(), txn(), applyDefaultTimeout(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="525" column="17" bodyfile="src/transaction/transaction_manager.cpp" bodystart="1035" bodyend="1046"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a97653c665e910242f8df24c8178b0c1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::setDefaultTransactionTimeout</definition>
+        <argsstring>(std::chrono::milliseconds timeout)</argsstring>
+        <name>setDefaultTransactionTimeout</name>
+        <qualifiedname>themis::TransactionManager::setDefaultTransactionTimeout</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>Set Default <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref> Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: count(), store(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="532" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2289" bodyend="2295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a182edb3c62bb03f54f53cd5b3a1ee152" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::TransactionManager::getDefaultTransactionTimeout</definition>
+        <argsstring>() const</argsstring>
+        <name>getDefaultTransactionTimeout</name>
+        <qualifiedname>themis::TransactionManager::getDefaultTransactionTimeout</qualifiedname>
+        <briefdescription>
+<para>Get Default <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref> Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="538" column="31" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2297" bodyend="2300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1aa45314cbf2fcc0c6003f7c22ac399ab3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::getTimeoutCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getTimeoutCount</name>
+        <qualifiedname>themis::TransactionManager::getTimeoutCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="540" column="14" bodyfile="include/transaction/transaction_manager.h" bodystart="540" bodyend="542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a731ea3f51b4882e319c5c4a5612984e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_transaction_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>TransactionManager::Stats themis::TransactionManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::TransactionManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_transaction_manager_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sessions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="559" column="11" bodyfile="src/transaction/transaction_manager.cpp" bodystart="715" bodyend="745"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a217dbd6b75b81923975a8b69b0e8a304" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_transaction_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>TransactionManager::Stats themis::TransactionManager::getStatsLockFree</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatsLockFree</name>
+        <qualifiedname>themis::TransactionManager::getStatsLockFree</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_transaction_manager_1_1_stats" kindref="compound">Stats</ref> Lock Free. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sessions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="565" column="11" bodyfile="src/transaction/transaction_manager.cpp" bodystart="748" bodyend="801"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1acc1a5dbe4be0170ca153cf0b646bfab4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::cleanupOldTransactions</definition>
+        <argsstring>(std::chrono::seconds max_age=std::chrono::hours(1))</argsstring>
+        <name>cleanupOldTransactions</name>
+        <qualifiedname>themis::TransactionManager::cleanupOldTransactions</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>max_age</declname>
+          <defval>std::chrono::hours(1)</defval>
+        </param>
+        <briefdescription>
+<para>Cleanup Old Transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_age</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::system_clock::now(), <ref refid="classthemis_1_1_transaction_manager_1af772e2f19d00a69b68e87418670f249d" kindref="member">begin()</ref>, end(), getStartTime(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="568" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="820" bodyend="833"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1ae532112be00f8f4abcab240ba3564ab4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::setTransactionTimeout</definition>
+        <argsstring>(std::chrono::milliseconds timeout_ms)</argsstring>
+        <name>setTransactionTimeout</name>
+        <qualifiedname>themis::TransactionManager::setTransactionTimeout</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref> Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref> Timeout / Auto-Rollback ──────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: exchange(), count(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="575" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="965" bodyend="979"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a44a962fbf0b2676028b75cc4073991cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::TransactionManager::getTransactionTimeout</definition>
+        <argsstring>() const</argsstring>
+        <name>getTransactionTimeout</name>
+        <qualifiedname>themis::TransactionManager::getTransactionTimeout</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref> Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="581" column="31" bodyfile="src/transaction/transaction_manager.cpp" bodystart="981" bodyend="984"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1ae9479b32b00bafc4ba649b9bc817a6fb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::getTimedOutCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getTimedOutCount</name>
+        <qualifiedname>themis::TransactionManager::getTimedOutCount</qualifiedname>
+        <briefdescription>
+<para>Get Timed Out Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="587" column="14" bodyfile="src/transaction/transaction_manager.cpp" bodystart="986" bodyend="988"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a37f46dcfda2f74521ff5de50cc60fbac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TransactionManager::abortTimedOutTransactions</definition>
+        <argsstring>()</argsstring>
+        <name>abortTimedOutTransactions</name>
+        <qualifiedname>themis::TransactionManager::abortTimedOutTransactions</qualifiedname>
+        <briefdescription>
+<para>Abort Timed Out Transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), std::chrono::system_clock::now(), std::chrono::milliseconds(), lock(), isFinished(), getStartTime(), push_back(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="593" column="12" bodyfile="src/transaction/transaction_manager.cpp" bodystart="995" bodyend="1027"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a7fc03218c3e94238097576bb92fe76db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::setDeadlockDetection</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setDeadlockDetection</name>
+        <qualifiedname>themis::TransactionManager::setDeadlockDetection</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Set Deadlock Detection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="622" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="67" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a8050aef037a6881a9241ea090d1d0812" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::setDeadlockTimeout</definition>
+        <argsstring>(std::chrono::milliseconds timeout_ms)</argsstring>
+        <name>setDeadlockTimeout</name>
+        <qualifiedname>themis::TransactionManager::setDeadlockTimeout</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+<para>Set Deadlock Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(), count(), THEMIS_INFO(), lock(), notify_one(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="628" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="81" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1ab8aa0d8b9aec4867bd93d5a12ebaf734" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::setDeadlockVictimPolicy</definition>
+        <argsstring>(DeadlockVictimPolicy policy)</argsstring>
+        <name>setDeadlockVictimPolicy</name>
+        <qualifiedname>themis::TransactionManager::setDeadlockVictimPolicy</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_transaction_manager_1a8e55227f699a858382796eaf32f6c6e1" kindref="member">DeadlockVictimPolicy</ref></type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set Deadlock Victim Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="634" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="97" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a04efe66bc5d083c41cf4d4a7e09787e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_transaction_manager_1a8e55227f699a858382796eaf32f6c6e1" kindref="member">DeadlockVictimPolicy</ref></type>
+        <definition>TransactionManager::DeadlockVictimPolicy themis::TransactionManager::getDeadlockVictimPolicy</definition>
+        <argsstring>() const</argsstring>
+        <name>getDeadlockVictimPolicy</name>
+        <qualifiedname>themis::TransactionManager::getDeadlockVictimPolicy</qualifiedname>
+        <briefdescription>
+<para>Get Deadlock Victim Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="640" column="26" bodyfile="src/transaction/transaction_manager.cpp" bodystart="106" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a57ae01d0b515984893d6174cedb1b6b5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_transaction_manager_1_1_deadlock_info" kindref="compound">DeadlockInfo</ref> &gt;</type>
+        <definition>std::vector&lt; TransactionManager::DeadlockInfo &gt; themis::TransactionManager::getDeadlocks</definition>
+        <argsstring>(std::chrono::seconds max_age=std::chrono::hours(24)) const</argsstring>
+        <name>getDeadlocks</name>
+        <qualifiedname>themis::TransactionManager::getDeadlocks</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>max_age</declname>
+          <defval>std::chrono::hours(24)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lock_tracking_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="642" column="17" bodyfile="src/transaction/transaction_manager.cpp" bodystart="124" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a6afa6a7fe49cdc59d2f8945e94f80784" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::getDeadlockCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getDeadlockCount</name>
+        <qualifiedname>themis::TransactionManager::getDeadlockCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="644" column="14" bodyfile="include/transaction/transaction_manager.h" bodystart="644" bodyend="644"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a19d26cff89d9744531976708e5dcc35f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_transaction_manager_1_1_deadlock_metrics" kindref="compound">DeadlockMetrics</ref></type>
+        <definition>TransactionManager::DeadlockMetrics themis::TransactionManager::getDeadlockMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getDeadlockMetrics</name>
+        <qualifiedname>themis::TransactionManager::getDeadlockMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Deadlock Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="650" column="21" bodyfile="src/transaction/transaction_manager.cpp" bodystart="110" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1ab4684c93cc079f350d57b6e0896bff50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::setDeadlockPredictor</definition>
+        <argsstring>(DeadlockPredictor *predictor)</argsstring>
+        <name>setDeadlockPredictor</name>
+        <qualifiedname>themis::TransactionManager::setDeadlockPredictor</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_deadlock_predictor" kindref="compound">DeadlockPredictor</ref> *</type>
+          <declname>predictor</declname>
+        </param>
+        <briefdescription>
+<para>Set Deadlock Predictor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Adaptive Deadlock Prevention (v1.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">predictor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">predictor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+9.0) ──────────────────────────────────── Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="657" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2544" bodyend="2548"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a98185e4b0fd40c87e091cfa3470b0a52" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_deadlock_predictor" kindref="compound">DeadlockPredictor</ref> *</type>
+        <definition>DeadlockPredictor * themis::TransactionManager::getDeadlockPredictor</definition>
+        <argsstring>() const</argsstring>
+        <name>getDeadlockPredictor</name>
+        <qualifiedname>themis::TransactionManager::getDeadlockPredictor</qualifiedname>
+        <briefdescription>
+<para>Get Deadlock Predictor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="663" column="23" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2550" bodyend="2552"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1aa413bb36a8b38480fa8ff439e664dea4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::TransactionManager::predictDeadlockProbability</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;proposed_locks) const</argsstring>
+        <name>predictDeadlockProbability</name>
+        <qualifiedname>themis::TransactionManager::predictDeadlockProbability</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>proposed_locks</declname>
+        </param>
+        <briefdescription>
+<para>Predict Deadlock Probability. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">proposed_locks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sessions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="670" column="12" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2554" bodyend="2576"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a4f990b2d868182162351225d8ead016e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::TransactionManager::recommendLockOrder</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;keys) const</argsstring>
+        <name>recommendLockOrder</name>
+        <qualifiedname>themis::TransactionManager::recommendLockOrder</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+<para>Recommend Lock Order. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="678" column="17" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2578" bodyend="2589"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a0a6c1326086577818ec6d5d993a238d3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::TransactionManager::recommendTimeout</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;keys) const</argsstring>
+        <name>recommendTimeout</name>
+        <qualifiedname>themis::TransactionManager::recommendTimeout</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+<para>Recommend Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="686" column="31" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2591" bodyend="2600"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a158299ecdef2c0be53880d5aba47e7bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref> &amp;</type>
+        <definition>LockManager &amp; themis::TransactionManager::getLockManager</definition>
+        <argsstring>()</argsstring>
+        <name>getLockManager</name>
+        <qualifiedname>themis::TransactionManager::getLockManager</qualifiedname>
+        <briefdescription>
+<para>Get Lock Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getLockManager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="694" column="17" bodyfile="include/transaction/transaction_manager.h" bodystart="694" bodyend="694"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a0a4e1c7a606ba903206cb9a4fa8b7dcd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref> &amp;</type>
+        <definition>const LockManager &amp; themis::TransactionManager::getLockManager</definition>
+        <argsstring>() const</argsstring>
+        <name>getLockManager</name>
+        <qualifiedname>themis::TransactionManager::getLockManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="695" column="23" bodyfile="include/transaction/transaction_manager.h" bodystart="695" bodyend="695"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a3064c1d7f5be81a0daba85f335f4ea6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::enableCrashRecovery</definition>
+        <argsstring>(const std::string &amp;wal_path, bool sync_on_write=true)</argsstring>
+        <name>enableCrashRecovery</name>
+        <qualifiedname>themis::TransactionManager::enableCrashRecovery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>wal_path</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>sync_on_write</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>── Phase 8: Durability &amp; Crash-Recovery ───────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wal_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the wal. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sync_on_write</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="699" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2337" bodyend="2344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1af677e881b6b4141654ee005b8d76eac7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TransactionManager::needsCrashRecovery</definition>
+        <argsstring>() const</argsstring>
+        <name>needsCrashRecovery</name>
+        <qualifiedname>themis::TransactionManager::needsCrashRecovery</qualifiedname>
+        <briefdescription>
+<para>Needs Crash Recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="706" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2346" bodyend="2351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a42929e5c1f681eb3d30ab64692d05ded" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result" kindref="compound">transaction::CrashRecoveryManager::RecoveryResult</ref></type>
+        <definition>transaction::CrashRecoveryManager::RecoveryResult themis::TransactionManager::crashRecover</definition>
+        <argsstring>()</argsstring>
+        <name>crashRecover</name>
+        <qualifiedname>themis::TransactionManager::crashRecover</qualifiedname>
+        <briefdescription>
+<para>Crash Recover. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="712" column="55" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2354" bodyend="2362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1ab831b0b16c973d4d1d4875d0c34a0a39" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_crash_recovery_manager" kindref="compound">transaction::CrashRecoveryManager</ref> *</type>
+        <definition>transaction::CrashRecoveryManager * themis::TransactionManager::getCrashRecoveryManager</definition>
+        <argsstring>()</argsstring>
+        <name>getCrashRecoveryManager</name>
+        <qualifiedname>themis::TransactionManager::getCrashRecoveryManager</qualifiedname>
+        <briefdescription>
+<para>Get Crash Recovery Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="719" column="39" bodyfile="include/transaction/transaction_manager.h" bodystart="719" bodyend="721"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a78b8d03c8180d908c535e59d7a7c8d2e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1transaction_1_1_crash_recovery_manager" kindref="compound">transaction::CrashRecoveryManager</ref> *</type>
+        <definition>const transaction::CrashRecoveryManager * themis::TransactionManager::getCrashRecoveryManager</definition>
+        <argsstring>() const</argsstring>
+        <name>getCrashRecoveryManager</name>
+        <qualifiedname>themis::TransactionManager::getCrashRecoveryManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="722" column="45" bodyfile="include/transaction/transaction_manager.h" bodystart="722" bodyend="724"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a7c67029d823573dff50fcbe2b9d146c2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::setHistoryManager</definition>
+        <argsstring>(HistoryManager *mgr)</argsstring>
+        <name>setHistoryManager</name>
+        <qualifiedname>themis::TransactionManager::setHistoryManager</qualifiedname>
+        <param>
+          <type>HistoryManager *</type>
+          <declname>mgr</declname>
+        </param>
+        <briefdescription>
+<para>Set History Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setHistoryManager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="732" column="10" bodyfile="include/transaction/transaction_manager.h" bodystart="732" bodyend="732"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a27f4bbbf7819aaa45138d647dc0c6dfe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::setConflictManager</definition>
+        <argsstring>(ConflictManager *mgr)</argsstring>
+        <name>setConflictManager</name>
+        <qualifiedname>themis::TransactionManager::setConflictManager</qualifiedname>
+        <param>
+          <type>ConflictManager *</type>
+          <declname>mgr</declname>
+        </param>
+        <briefdescription>
+<para>Set Conflict Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConflictManager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="739" column="10" bodyfile="include/transaction/transaction_manager.h" bodystart="739" bodyend="739"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a35295820f46642643b3c78e41f50f266" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::setSnapshotManager</definition>
+        <argsstring>(transaction::SnapshotManager *mgr)</argsstring>
+        <name>setSnapshotManager</name>
+        <qualifiedname>themis::TransactionManager::setSnapshotManager</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1transaction_1_1_snapshot_manager" kindref="compound">transaction::SnapshotManager</ref> *</type>
+          <declname>mgr</declname>
+        </param>
+        <briefdescription>
+<para>Set Snapshot Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setSnapshotManager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="756" column="10" bodyfile="include/transaction/transaction_manager.h" bodystart="756" bodyend="758"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a13f91f4197e41cd56b334cd0e22b2b0c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_transaction_manager_1_1_time_travel_record" kindref="compound">TimeTravelRecord</ref> &gt;</type>
+        <definition>std::optional&lt; TransactionManager::TimeTravelRecord &gt; themis::TransactionManager::readEntityAtTimestamp</definition>
+        <argsstring>(std::string_view table, std::string_view pk, HLCTimestamp ts) const</argsstring>
+        <name>readEntityAtTimestamp</name>
+        <qualifiedname>themis::TransactionManager::readEntityAtTimestamp</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>HLCTimestamp</type>
+          <declname>ts</declname>
+        </param>
+        <briefdescription>
+<para>Read Entity At Timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="767" column="19" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2468" bodyend="2483"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a0a30b33c5639f816b341279b49ba6c62" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_transaction_manager_1_1_time_travel_record" kindref="compound">TimeTravelRecord</ref> &gt;</type>
+        <definition>std::optional&lt; TransactionManager::TimeTravelRecord &gt; themis::TransactionManager::readEntityAtUnixMs</definition>
+        <argsstring>(std::string_view table, std::string_view pk, int64_t unix_ms) const</argsstring>
+        <name>readEntityAtUnixMs</name>
+        <qualifiedname>themis::TransactionManager::readEntityAtUnixMs</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>unix_ms</declname>
+        </param>
+        <briefdescription>
+<para>Read Entity At Unix Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">unix_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="779" column="19" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2486" bodyend="2502"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a0c3235bfa3d6c490ea676a8e44e3aa45" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_transaction_manager_1_1_time_travel_record" kindref="compound">TimeTravelRecord</ref> &gt;</type>
+        <definition>std::optional&lt; TransactionManager::TimeTravelRecord &gt; themis::TransactionManager::readEntityAtSnapshot</definition>
+        <argsstring>(std::string_view table, std::string_view pk, const std::string &amp;tag_name) const</argsstring>
+        <name>readEntityAtSnapshot</name>
+        <qualifiedname>themis::TransactionManager::readEntityAtSnapshot</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag_name</declname>
+        </param>
+        <briefdescription>
+<para>Read Entity At Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tag. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="791" column="19" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2505" bodyend="2518"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a28789a7d5b0f1aef0dc861b8cfd2dede" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_transaction_manager_1_1_time_travel_record" kindref="compound">TimeTravelRecord</ref> &gt;</type>
+        <definition>std::vector&lt; TransactionManager::TimeTravelRecord &gt; themis::TransactionManager::listEntityVersions</definition>
+        <argsstring>(std::string_view table, std::string_view pk) const</argsstring>
+        <name>listEntityVersions</name>
+        <qualifiedname>themis::TransactionManager::listEntityVersions</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>List Entity Versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="802" column="17" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2521" bodyend="2536"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a618e774553a0964ba80cc3701c8e419d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::setSSIConfig</definition>
+        <argsstring>(const SSIConfig &amp;config)</argsstring>
+        <name>setSSIConfig</name>
+        <qualifiedname>themis::TransactionManager::setSSIConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_transaction_manager_1_1_s_s_i_config" kindref="compound">SSIConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="structthemis_1_1_transaction_manager_1_1_s_s_i_config" kindref="compound">SSIConfig</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Serializable Snapshot Isolation (SSI) ─────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), setPredicateLockingEnabled(), setMaxPredicateLocks(), THEMIS_INFO(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="820" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2608" bodyend="2621"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a88e69052e916f55374ba69d18a55d64c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_transaction_manager_1_1_s_s_i_config" kindref="compound">SSIConfig</ref></type>
+        <definition>TransactionManager::SSIConfig themis::TransactionManager::getSSIConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getSSIConfig</name>
+        <qualifiedname>themis::TransactionManager::getSSIConfig</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_transaction_manager_1_1_s_s_i_config" kindref="compound">SSIConfig</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ssi_config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="826" column="15" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2623" bodyend="2631"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a5dff34cc932e6e0dd89bdbd9e893499e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_transaction_manager_1_1_serialization_conflict" kindref="compound">SerializationConflict</ref> &gt;</type>
+        <definition>std::vector&lt; TransactionManager::SerializationConflict &gt; themis::TransactionManager::detectConflicts</definition>
+        <argsstring>(TransactionId txn_id) const</argsstring>
+        <name>detectConflicts</name>
+        <qualifiedname>themis::TransactionManager::detectConflicts</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Detect Conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Cfg Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ssi_config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sessions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sessions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="843" column="17" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2634" bodyend="2731"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a5ef3c2b6b449952e7f57324df9ad7ba6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref></type>
+        <definition>TransactionManager::TransactionId themis::TransactionManager::generateTransactionId</definition>
+        <argsstring>()</argsstring>
+        <name>generateTransactionId</name>
+        <qualifiedname>themis::TransactionManager::generateTransactionId</qualifiedname>
+        <briefdescription>
+<para>Generate <ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref> Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Session-based transaction management.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="878" column="19" bodyfile="src/transaction/transaction_manager.cpp" bodystart="458" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1accb87fd2e4feeff0b20810578e89a825" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::moveToCompleted</definition>
+        <argsstring>(TransactionId id)</argsstring>
+        <name>moveToCompleted</name>
+        <qualifiedname>themis::TransactionManager::moveToCompleted</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref></type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Move To Completed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), THEMIS_WARN(), erase(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="883" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="698" bodyend="713"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1add46986dccd1f7d6acd7492e0bed30cb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::updateStatsWithSeqLock</definition>
+        <argsstring>(std::function&lt; void()&gt; update)</argsstring>
+        <name>updateStatsWithSeqLock</name>
+        <qualifiedname>themis::TransactionManager::updateStatsWithSeqLock</qualifiedname>
+        <param>
+          <type>std::function&lt; void()&gt;</type>
+          <declname>update</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="886" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="804" bodyend="813"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a0428c13c512426963d996074f0045ada" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TransactionManager::countActiveTenantTransactionsLocked</definition>
+        <argsstring>(std::string_view tenant_id) const</argsstring>
+        <name>countActiveTenantTransactionsLocked</name>
+        <qualifiedname>themis::TransactionManager::countActiveTenantTransactionsLocked</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Count Active Tenant Transactions Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="901" column="12" bodyfile="src/transaction/transaction_manager.cpp" bodystart="837" bodyend="845"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a5c35a4cf10efa7782ca920e83f2574b5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::timeoutExpiredTransactions</definition>
+        <argsstring>()</argsstring>
+        <name>timeoutExpiredTransactions</name>
+        <qualifiedname>themis::TransactionManager::timeoutExpiredTransactions</qualifiedname>
+        <briefdescription>
+<para>Timeout Expired Transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>roll back active transactions that exceeded their timeout</para>
+<para>Calls: lock(), isFinished(), isTimedOut(), push_back(), THEMIS_WARN(), <ref refid="classthemis_1_1_transaction_manager_1af5aa433d256eb407a36484c49f4cebb9" kindref="member">rollbackTransaction()</ref>, fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="908" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2306" bodyend="2328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a6e2c2e3c31eac3efbe36f7b246ef81a3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::applyDefaultTimeout</definition>
+        <argsstring>(Transaction &amp;txn) const</argsstring>
+        <name>applyDefaultTimeout</name>
+        <qualifiedname>themis::TransactionManager::applyDefaultTimeout</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_transaction_manager_1_1_transaction" kindref="compound">Transaction</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Apply Default Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. apply default timeout if configured </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="913" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="2277" bodyend="2282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a50e282a7420ab0a9ce516dd5b13907df" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::deadlockDetectorLoop</definition>
+        <argsstring>()</argsstring>
+        <name>deadlockDetectorLoop</name>
+        <qualifiedname>themis::TransactionManager::deadlockDetectorLoop</qualifiedname>
+        <briefdescription>
+<para>Deadlock Detector Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), lock(), std::chrono::milliseconds(), wait_for(), <ref refid="classthemis_1_1_transaction_manager_1a37f46dcfda2f74521ff5de50cc60fbac" kindref="member">abortTimedOutTransactions()</ref>, detectDeadlockCycle(), THEMIS_WARN(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="950" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="219" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a6aa11829c8420bf1afb9ed9c07ae9169" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TransactionManager::detectDeadlockCycle</definition>
+        <argsstring>(std::vector&lt; TransactionId &gt; &amp;cycle)</argsstring>
+        <name>detectDeadlockCycle</name>
+        <qualifiedname>themis::TransactionManager::detectDeadlockCycle</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref> &gt; &amp;</type>
+          <declname>cycle</declname>
+        </param>
+        <briefdescription>
+<para>Detect Deadlock Cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cycle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cycle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), empty(), find(), end(), insert(), bool(), push_back(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="956" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="258" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1aa1b89b7f795eed321074d49908c35737" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::resolveDeadlock</definition>
+        <argsstring>(const std::vector&lt; TransactionId &gt; &amp;cycle)</argsstring>
+        <name>resolveDeadlock</name>
+        <qualifiedname>themis::TransactionManager::resolveDeadlock</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref> &gt; &amp;</type>
+          <declname>cycle</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Deadlock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cycle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cycle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), load(), std::min_element(), <ref refid="classthemis_1_1_transaction_manager_1af772e2f19d00a69b68e87418670f249d" kindref="member">begin()</ref>, end(), THEMIS_WARN(), max(), lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="961" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="328" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1ad47f9a55a69412f731798a71f909bac9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::trackLockAcquired</definition>
+        <argsstring>(TransactionId txn_id, const std::string &amp;key)</argsstring>
+        <name>trackLockAcquired</name>
+        <qualifiedname>themis::TransactionManager::trackLockAcquired</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Track Lock Acquired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), lock(), std::chrono::system_clock::now(), find(), end(), erase(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="968" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="150" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1a185258060785d0665287c71a8361ceff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::trackLockReleased</definition>
+        <argsstring>(TransactionId txn_id, const std::string &amp;key)</argsstring>
+        <name>trackLockReleased</name>
+        <qualifiedname>themis::TransactionManager::trackLockReleased</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Track Lock Released. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), lock(), find(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="974" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="174" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1aa36f6f151af4e1e5ca9d6a2499323c92" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::trackLockWaiting</definition>
+        <argsstring>(TransactionId txn_id, const std::string &amp;key)</argsstring>
+        <name>trackLockWaiting</name>
+        <qualifiedname>themis::TransactionManager::trackLockWaiting</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Track Lock Waiting. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), lock(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="980" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="192" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_manager_1ad4b2a08c73a71a7d970bdb68efe426ba" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionManager::clearWaiting</definition>
+        <argsstring>(TransactionId txn_id)</argsstring>
+        <name>clearWaiting</name>
+        <qualifiedname>themis::TransactionManager::clearWaiting</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref></type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Clear Waiting. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="985" column="10" bodyfile="src/transaction/transaction_manager.cpp" bodystart="206" bodyend="213"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_manager.h" line="45" column="1" bodyfile="include/transaction/transaction_manager.h" bodystart="45" bodyend="995"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_transaction_manager_1aa25094a3f74f6b9762e34cdf489bab71" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>abortTenantTransactions</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a37f46dcfda2f74521ff5de50cc60fbac" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>abortTimedOutTransactions</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a4f8be140907cd6e8d9489847b39c983e" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>active_transactions_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a6e2c2e3c31eac3efbe36f7b246ef81a3" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>applyDefaultTimeout</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1af772e2f19d00a69b68e87418670f249d" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>begin</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a417d368c85e26dadb048d0032386f928" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>beginTransaction</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1affab3597ff28d181bfa2faa816d5a769" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>beginTransaction</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1acc1a5dbe4be0170ca153cf0b646bfab4" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>cleanupOldTransactions</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1ad4b2a08c73a71a7d970bdb68efe426ba" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>clearWaiting</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1afbbdd49b4f9fdd331ffd0f79c5b233fc" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>commitTransaction</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a8dbff7d706ab271e2767cc4f9079da33" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>completed_transactions_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a184c120df08050116c8f41740d78a7bf" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>conflict_mgr_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a0428c13c512426963d996074f0045ada" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>countActiveTenantTransactionsLocked</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a2be1f6a170d8aca65ab6030769a194c1" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>crash_recovery_mgr_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a42929e5c1f681eb3d30ab64692d05ded" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>crashRecover</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1ababc8ab9b1586e7dda3dd17be55a9263" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a2b238e34a374a75d7de72a1fffd247ae" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>deadlock_detection_enabled_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1acbc9e332f2c03e316a9316ce8c5b254d" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>deadlock_detector_cv_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a0e1b2c21c19dce18af60d16a540e7be4" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>deadlock_detector_mutex_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a929414049cdf848f80b1a6015dce5b8c" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>deadlock_detector_running_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1ad7b505872b6f847e4576b69247b167cf" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>deadlock_detector_thread_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1abfa6049afa772679689b440e64486526" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>deadlock_max_cycle_len_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1af7eefca33debaed3b459610469b87a6c" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>deadlock_predictor_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a7dc80173e74e52adceac38831fb09466" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>deadlock_timeout_ms_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1acc89c1b1538546d9d0fddf358aca210e" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>deadlock_total_cycle_len_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a50e282a7420ab0a9ce516dd5b13907df" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>deadlockDetectorLoop</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a8e55227f699a858382796eaf32f6c6e1" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>DeadlockVictimPolicy</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1ae85bc4e7f8e3b92def9003be858665cb" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>default_transaction_timeout_ms_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a5dff34cc932e6e0dd89bdbd9e893499e" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>detectConflicts</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a6aa11829c8420bf1afb9ed9c07ae9169" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>detectDeadlockCycle</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a3064c1d7f5be81a0daba85f335f4ea6c" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>enableCrashRecovery</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1aef200242f25bed72468693b0f1e5e0c1" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>explainTransaction</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a5ef3c2b6b449952e7f57324df9ad7ba6" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>generateTransactionId</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a52fcbaeb0618c3238755f29aa60fa4fc" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getActiveTenantTransactionCount</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a70e869014cf58efa5e86a37f7218ec5b" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getAllTenantTransactionStats</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1ab831b0b16c973d4d1d4875d0c34a0a39" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getCrashRecoveryManager</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a78b8d03c8180d908c535e59d7a7c8d2e" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getCrashRecoveryManager</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a6afa6a7fe49cdc59d2f8945e94f80784" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getDeadlockCount</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a19d26cff89d9744531976708e5dcc35f" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getDeadlockMetrics</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a98185e4b0fd40c87e091cfa3470b0a52" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getDeadlockPredictor</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a57ae01d0b515984893d6174cedb1b6b5" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getDeadlocks</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a04efe66bc5d083c41cf4d4a7e09787e9" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getDeadlockVictimPolicy</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a182edb3c62bb03f54f53cd5b3a1ee152" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getDefaultTransactionTimeout</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a158299ecdef2c0be53880d5aba47e7bf" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getLockManager</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a0a4e1c7a606ba903206cb9a4fa8b7dcd" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getLockManager</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a88e69052e916f55374ba69d18a55d64c" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getSSIConfig</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a731ea3f51b4882e319c5c4a5612984e2" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a217dbd6b75b81923975a8b69b0e8a304" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getStatsLockFree</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a93489b2bb1725e74bac379d3c3f91728" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getTenantTransactionStats</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1ae9479b32b00bafc4ba649b9bc817a6fb" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getTimedOutCount</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1aa45314cbf2fcc0c6003f7c22ac399ab3" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getTimeoutCount</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a4cdc91f38ea1c14a5aff1a2cf478cc8b" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getTransaction</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a44a962fbf0b2676028b75cc4073991cf" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>getTransactionTimeout</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1ab7de1a46078dc6f0a98fd966e8d218b3" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>graphIdx_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a4c3cd615d7b52f75c9153a9a14d33de5" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>held_locks_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1ade5157269bc9763e21f3a6b774a7eb38" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>history_mgr_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a28789a7d5b0f1aef0dc861b8cfd2dede" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>listEntityVersions</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1ae5793fc4a3634b1e76cd42edf3c84f39" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>listTenantTransactionIds</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a4a3545a57be6cd2732d19711c59bc4d0" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>lock_manager_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a21fdbf17b2169f54336c9d45a74eaa28" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>lock_tracking_mutex_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1accb87fd2e4feeff0b20810578e89a825" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>moveToCompleted</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1af677e881b6b4141654ee005b8d76eac7" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>needsCrashRecovery</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1aec5a1c977294fb8f052c74b36532b77d" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>next_transaction_id_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1aa413bb36a8b38480fa8ff439e664dea4" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>predictDeadlockProbability</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a0c3235bfa3d6c490ea676a8e44e3aa45" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>readEntityAtSnapshot</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a13f91f4197e41cd56b334cd0e22b2b0c" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>readEntityAtTimestamp</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a0a30b33c5639f816b341279b49ba6c62" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>readEntityAtUnixMs</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a8f26026774a14b3e6766a7d9cc7534ea" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>recent_deadlocks_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a4f990b2d868182162351225d8ead016e" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>recommendLockOrder</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a0a6c1326086577818ec6d5d993a238d3" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>recommendTimeout</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1aa1b89b7f795eed321074d49908c35737" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>resolveDeadlock</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1af5aa433d256eb407a36484c49f4cebb9" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>rollbackTransaction</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a0a013c6faf7e2c7d395899dd9c78cf66" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>secIdx_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1ad96b38e66057478f86bab47b0082017a" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>sessions_mutex_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a27f4bbbf7819aaa45138d647dc0c6dfe" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>setConflictManager</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a7fc03218c3e94238097576bb92fe76db" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>setDeadlockDetection</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1ab4684c93cc079f350d57b6e0896bff50" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>setDeadlockPredictor</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a8050aef037a6881a9241ea090d1d0812" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>setDeadlockTimeout</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1ab8aa0d8b9aec4867bd93d5a12ebaf734" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>setDeadlockVictimPolicy</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a97653c665e910242f8df24c8178b0c1b" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>setDefaultTransactionTimeout</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a7c67029d823573dff50fcbe2b9d146c2" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>setHistoryManager</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a35295820f46642643b3c78e41f50f266" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>setSnapshotManager</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a618e774553a0964ba80cc3701c8e419d" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>setSSIConfig</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1ae532112be00f8f4abcab240ba3564ab4" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>setTransactionTimeout</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a4f42a130054a0a02f2127b6a62eee022" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>snapshot_mgr_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1ade0757d84719f0ea59cf85521f9efc28" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>ssi_config_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1af8330080a40581eeb13e7434f7cd6eab" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>ssi_config_mutex_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a5ba9f67b7f2a4e456f3cf010d4873b9b" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>stats_sequence_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a3814c1c46647229be73794e5949240d4" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>tenant_stats_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a5c35a4cf10efa7782ca920e83f2574b5" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>timeoutExpiredTransactions</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1aae6f353900debd86d180deab4c5f4cae" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>total_aborted_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a7aab6a96cdd7bd2c6ef2b2ab68ab3d05" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>total_begun_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a9e286aa70ba11c8cba5b0f6e1235497c" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>total_committed_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1ab5500aaa5bae4e7a97f778cb4c402922" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>total_deadlocks_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a93088454be652e53bf97fafe81848edf" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>total_timed_out_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1ad47f9a55a69412f731798a71f909bac9" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>trackLockAcquired</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a185258060785d0665287c71a8361ceff" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>trackLockReleased</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1aa36f6f151af4e1e5ca9d6a2499323c92" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>trackLockWaiting</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a45c78c38572dc2b797e3d1ae19368e5a" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>transaction_timeout_ms_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>TransactionId</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a1c5e8e0c2271a6a54d7996a3c210db2f" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>TransactionManager</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1add46986dccd1f7d6acd7492e0bed30cb" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>updateStatsWithSeqLock</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a507508c1306fb87878e24e6977853d79" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>vecIdx_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a0d483facbb204599abc24d6952942cea" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>victim_policy_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1a98b3ad09f115f2f836e2fbf44c0a3f86" prot="private" virt="non-virtual"><scope>themis::TransactionManager</scope><name>waiting_for_</name></member>
+      <member refid="classthemis_1_1_transaction_manager_1aa543746a9a4f97758d3af72a6f671e75" prot="public" virt="non-virtual"><scope>themis::TransactionManager</scope><name>~TransactionManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

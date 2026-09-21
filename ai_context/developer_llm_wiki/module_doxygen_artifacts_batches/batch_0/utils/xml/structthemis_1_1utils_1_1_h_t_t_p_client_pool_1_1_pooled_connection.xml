@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_pooled_connection" kind="struct" language="C++" prot="private">
+    <compoundname>themis::utils::HTTPClientPool::PooledConnection</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_pooled_connection_1ac93f9fe2f912fcbe6d4ae6cdffa038a6" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_h_t_t_p_client" kindref="compound">HTTPClient</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;HTTPClient&gt; themis::utils::HTTPClientPool::PooledConnection::client</definition>
+        <argsstring></argsstring>
+        <name>client</name>
+        <qualifiedname>themis::utils::HTTPClientPool::PooledConnection::client</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="258" column="25" bodyfile="include/utils/http_client_pool.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_pooled_connection_1ae09c7733bfaab214bb9d667ceae2d58b" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::utils::HTTPClientPool::PooledConnection::last_used</definition>
+        <argsstring></argsstring>
+        <name>last_used</name>
+        <qualifiedname>themis::utils::HTTPClientPool::PooledConnection::last_used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="259" column="47" bodyfile="include/utils/http_client_pool.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_pooled_connection_1a7b06a41f78aa470bd346b7cc15a5bb96" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::HTTPClientPool::PooledConnection::in_use</definition>
+        <argsstring></argsstring>
+        <name>in_use</name>
+        <qualifiedname>themis::utils::HTTPClientPool::PooledConnection::in_use</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="260" column="14" bodyfile="include/utils/http_client_pool.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_pooled_connection_1aaff04c6f97f6febeb049053c83e9db2a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::HTTPClientPool::PooledConnection::isStale</definition>
+        <argsstring>(std::chrono::seconds timeout) const</argsstring>
+        <name>isStale</name>
+        <qualifiedname>themis::utils::HTTPClientPool::PooledConnection::isStale</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="262" column="14" bodyfile="include/utils/http_client_pool.h" bodystart="262" bodyend="265"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Pooled connection with metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/http_client_pool.h" line="257" column="5" bodyfile="include/utils/http_client_pool.h" bodystart="257" bodyend="266"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_pooled_connection_1ac93f9fe2f912fcbe6d4ae6cdffa038a6" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool::PooledConnection</scope><name>client</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_pooled_connection_1a7b06a41f78aa470bd346b7cc15a5bb96" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool::PooledConnection</scope><name>in_use</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_pooled_connection_1aaff04c6f97f6febeb049053c83e9db2a" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool::PooledConnection</scope><name>isStale</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_pooled_connection_1ae09c7733bfaab214bb9d667ceae2d58b" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool::PooledConnection</scope><name>last_used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

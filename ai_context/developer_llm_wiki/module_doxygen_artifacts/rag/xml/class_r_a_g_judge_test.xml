@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_r_a_g_judge_test" kind="class" language="C++" prot="public">
+    <compoundname>RAGJudgeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_r_a_g_judge_test_1aa2b47c16906a9b5ae5c4ff8805c09c16" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref></type>
+        <definition>RAGJudgeConfig RAGJudgeTest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>RAGJudgeTest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge.cpp" line="27" column="20" bodyfile="tests/rag/test_rag_judge.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_r_a_g_judge_test_1aea4198980db64faaa8c9adbf8bc49636" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RAGJudgeTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>RAGJudgeTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge.cpp" line="16" column="10" bodyfile="tests/rag/test_rag_judge.cpp" bodystart="16" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_r_a_g_judge_test_1a79d3d2660762f2ceb9c31e545d0528ec" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; RetrievedDocument &gt; RAGJudgeTest::createTestDocuments</definition>
+        <argsstring>()</argsstring>
+        <name>createTestDocuments</name>
+        <qualifiedname>RAGJudgeTest::createTestDocuments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge.cpp" line="30" column="17" bodyfile="tests/rag/test_rag_judge.cpp" bodystart="30" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RAGJudgeTest</label>
+        <link refid="class_r_a_g_judge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RAGJudgeTest</label>
+        <link refid="class_r_a_g_judge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::judge::RAGJudgeConfig</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_judge.cpp" line="14" column="1" bodyfile="tests/rag/test_rag_judge.cpp" bodystart="14" bodyend="37"/>
+    <listofallmembers>
+      <member refid="class_r_a_g_judge_test_1aa2b47c16906a9b5ae5c4ff8805c09c16" prot="protected" virt="non-virtual"><scope>RAGJudgeTest</scope><name>config_</name></member>
+      <member refid="class_r_a_g_judge_test_1a79d3d2660762f2ceb9c31e545d0528ec" prot="protected" virt="non-virtual"><scope>RAGJudgeTest</scope><name>createTestDocuments</name></member>
+      <member refid="class_r_a_g_judge_test_1aea4198980db64faaa8c9adbf8bc49636" prot="protected" virt="non-virtual"><scope>RAGJudgeTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

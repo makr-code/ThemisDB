@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_learning_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::LearningStats</compoundname>
+    <includes refid="learning__metrics_8h" local="no">learning_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a599b9b95672ca0bd44487ce37064495c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::LearningStats::total_interactions_logged</definition>
+        <argsstring></argsstring>
+        <name>total_interactions_logged</name>
+        <qualifiedname>themis::rag::learning::LearningStats::total_interactions_logged</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="121" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a1b8c6e86ee1af18e01d97b4107cfba86" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::LearningStats::lora_retraining_count</definition>
+        <argsstring></argsstring>
+        <name>lora_retraining_count</name>
+        <qualifiedname>themis::rag::learning::LearningStats::lora_retraining_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="122" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a47c3450d3cd42d606b4424c85d5f2cdc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::LearningStats::prompt_optimizations</definition>
+        <argsstring></argsstring>
+        <name>prompt_optimizations</name>
+        <qualifiedname>themis::rag::learning::LearningStats::prompt_optimizations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="123" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_stats_1ac58a6f006103a178b805f9ec451f0d22" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::LearningStats::retrieval_optimizations</definition>
+        <argsstring></argsstring>
+        <name>retrieval_optimizations</name>
+        <qualifiedname>themis::rag::learning::LearningStats::retrieval_optimizations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="124" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a828b3e1fdce3219d21c4fcd5c6326352" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::LearningStats::current_accuracy</definition>
+        <argsstring></argsstring>
+        <name>current_accuracy</name>
+        <qualifiedname>themis::rag::learning::LearningStats::current_accuracy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="126" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_stats_1adf2fc16ce74c3c471dab8cf515fa0b43" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::LearningStats::accuracy_7d_avg</definition>
+        <argsstring></argsstring>
+        <name>accuracy_7d_avg</name>
+        <qualifiedname>themis::rag::learning::LearningStats::accuracy_7d_avg</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="127" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a48b3f5d56875765d8fd68ab251ea73d7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::LearningStats::accuracy_trend</definition>
+        <argsstring></argsstring>
+        <name>accuracy_trend</name>
+        <qualifiedname>themis::rag::learning::LearningStats::accuracy_trend</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Positive = improving, Negative = degrading. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="128" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a1b37b517d2246a60e594314bf76889b2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1learning_1_1_improvement_event" kindref="compound">ImprovementEvent</ref> &gt;</type>
+        <definition>std::vector&lt;ImprovementEvent&gt; themis::rag::learning::LearningStats::recent_improvements</definition>
+        <argsstring></argsstring>
+        <name>recent_improvements</name>
+        <qualifiedname>themis::rag::learning::LearningStats::recent_improvements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="130" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a45cd4bbc910c0e9f546297cdeb30d207" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info" kindref="compound">ABTestInfo</ref> &gt;</type>
+        <definition>std::vector&lt;ABTestInfo&gt; themis::rag::learning::LearningStats::active_ab_tests</definition>
+        <argsstring></argsstring>
+        <name>active_ab_tests</name>
+        <qualifiedname>themis::rag::learning::LearningStats::active_ab_tests</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="131" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Overall learning statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/learning_metrics.h" line="120" column="1" bodyfile="include/rag/learning_metrics.h" bodystart="120" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1adf2fc16ce74c3c471dab8cf515fa0b43" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningStats</scope><name>accuracy_7d_avg</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a48b3f5d56875765d8fd68ab251ea73d7" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningStats</scope><name>accuracy_trend</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a45cd4bbc910c0e9f546297cdeb30d207" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningStats</scope><name>active_ab_tests</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a828b3e1fdce3219d21c4fcd5c6326352" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningStats</scope><name>current_accuracy</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a1b8c6e86ee1af18e01d97b4107cfba86" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningStats</scope><name>lora_retraining_count</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a47c3450d3cd42d606b4424c85d5f2cdc" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningStats</scope><name>prompt_optimizations</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a1b37b517d2246a60e594314bf76889b2" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningStats</scope><name>recent_improvements</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1ac58a6f006103a178b805f9ec451f0d22" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningStats</scope><name>retrieval_optimizations</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a599b9b95672ca0bd44487ce37064495c" prot="public" virt="non-virtual"><scope>themis::rag::learning::LearningStats</scope><name>total_interactions_logged</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

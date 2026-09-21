@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::srv_dg::BenchTokenBucket</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket_1aacfb3fe7711e021da0971681bb229e04" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::srv_dg::BenchTokenBucket::cap_</definition>
+        <argsstring></argsstring>
+        <name>cap_</name>
+        <qualifiedname>themis::bench::srv_dg::BenchTokenBucket::cap_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="80" column="9" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket_1a1760132e019c79546bd66623c975a6f9" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::srv_dg::BenchTokenBucket::tokens_</definition>
+        <argsstring></argsstring>
+        <name>tokens_</name>
+        <qualifiedname>themis::bench::srv_dg::BenchTokenBucket::tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="81" column="9" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket_1a4c9c6bfb5ba11cb5c4f43a44155b2180" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::srv_dg::BenchTokenBucket::BenchTokenBucket</definition>
+        <argsstring>(int cap)</argsstring>
+        <name>BenchTokenBucket</name>
+        <qualifiedname>themis::bench::srv_dg::BenchTokenBucket::BenchTokenBucket</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>cap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="72" column="14" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket_1a1ed4e038b93c5bb9e94c606c965a6426" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::srv_dg::BenchTokenBucket::consume</definition>
+        <argsstring>()</argsstring>
+        <name>consume</name>
+        <qualifiedname>themis::bench::srv_dg::BenchTokenBucket::consume</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="73" column="10" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="73" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket_1a1b26ffc5628e79954ddf12c4c8194c99" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::srv_dg::BenchTokenBucket::refill</definition>
+        <argsstring>()</argsstring>
+        <name>refill</name>
+        <qualifiedname>themis::bench::srv_dg::BenchTokenBucket::refill</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="78" column="10" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="71" column="1" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="71" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket_1a4c9c6bfb5ba11cb5c4f43a44155b2180" prot="public" virt="non-virtual"><scope>themis::bench::srv_dg::BenchTokenBucket</scope><name>BenchTokenBucket</name></member>
+      <member refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket_1aacfb3fe7711e021da0971681bb229e04" prot="private" virt="non-virtual"><scope>themis::bench::srv_dg::BenchTokenBucket</scope><name>cap_</name></member>
+      <member refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket_1a1ed4e038b93c5bb9e94c606c965a6426" prot="public" virt="non-virtual"><scope>themis::bench::srv_dg::BenchTokenBucket</scope><name>consume</name></member>
+      <member refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket_1a1b26ffc5628e79954ddf12c4c8194c99" prot="public" virt="non-virtual"><scope>themis::bench::srv_dg::BenchTokenBucket</scope><name>refill</name></member>
+      <member refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket_1a1760132e019c79546bd66623c975a6f9" prot="private" virt="non-virtual"><scope>themis::bench::srv_dg::BenchTokenBucket</scope><name>tokens_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

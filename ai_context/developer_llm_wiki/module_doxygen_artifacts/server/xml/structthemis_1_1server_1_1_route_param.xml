@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_route_param" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::RouteParam</compoundname>
+    <includes refid="openapi__route__registry_8h" local="no">openapi_route_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_route_param_1a215ea2ef97170a3686abcbe7681ff63d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::RouteParam::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::server::RouteParam::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="26" column="17" bodyfile="include/server/openapi_route_registry.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_route_param_1a8cf08f0d2b8b45f2f1f108c85580edd3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::RouteParam::in</definition>
+        <argsstring></argsstring>
+        <name>in</name>
+        <qualifiedname>themis::server::RouteParam::in</qualifiedname>
+        <briefdescription>
+<para>&quot;path&quot;, &quot;query&quot;, or &quot;header&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="27" column="17" bodyfile="include/server/openapi_route_registry.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_route_param_1a6b0124f1c141d4696ccdd01f6868583d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::RouteParam::required</definition>
+        <argsstring></argsstring>
+        <name>required</name>
+        <qualifiedname>themis::server::RouteParam::required</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="28" column="17" bodyfile="include/server/openapi_route_registry.h" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_route_param_1adacc37414ce56467b564a8c34d7c6aa7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::RouteParam::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::server::RouteParam::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="29" column="17" bodyfile="include/server/openapi_route_registry.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_route_param_1ab7a48f9eb1216b2cfdda6fc8be36f1a3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref></type>
+        <definition>json themis::server::RouteParam::schema</definition>
+        <argsstring></argsstring>
+        <name>schema</name>
+        <qualifiedname>themis::server::RouteParam::schema</qualifiedname>
+        <briefdescription>
+<para>JSON Schema object, e.g. {{&quot;type&quot;,&quot;string&quot;}}. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="30" column="17" bodyfile="include/server/openapi_route_registry.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/openapi_route_registry.h" line="25" column="1" bodyfile="include/server/openapi_route_registry.h" bodystart="25" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_route_param_1adacc37414ce56467b564a8c34d7c6aa7" prot="public" virt="non-virtual"><scope>themis::server::RouteParam</scope><name>description</name></member>
+      <member refid="structthemis_1_1server_1_1_route_param_1a8cf08f0d2b8b45f2f1f108c85580edd3" prot="public" virt="non-virtual"><scope>themis::server::RouteParam</scope><name>in</name></member>
+      <member refid="structthemis_1_1server_1_1_route_param_1a215ea2ef97170a3686abcbe7681ff63d" prot="public" virt="non-virtual"><scope>themis::server::RouteParam</scope><name>name</name></member>
+      <member refid="structthemis_1_1server_1_1_route_param_1a6b0124f1c141d4696ccdd01f6868583d" prot="public" virt="non-virtual"><scope>themis::server::RouteParam</scope><name>required</name></member>
+      <member refid="structthemis_1_1server_1_1_route_param_1ab7a48f9eb1216b2cfdda6fc8be36f1a3" prot="public" virt="non-virtual"><scope>themis::server::RouteParam</scope><name>schema</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

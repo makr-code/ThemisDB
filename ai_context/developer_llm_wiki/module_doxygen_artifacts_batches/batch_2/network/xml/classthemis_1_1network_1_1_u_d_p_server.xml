@@ -1,0 +1,825 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_u_d_p_server" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::UDPServer</compoundname>
+    <includes refid="udp__server_8h" local="no">udp_server.h</includes>
+    <innerclass refid="structthemis_1_1network_1_1_u_d_p_server_1_1_config" prot="public">themis::network::UDPServer::Config</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_u_d_p_server_1_1_stats" prot="public">themis::network::UDPServer::Stats</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_u_d_p_server_1_1_rate_limit_entry" prot="private">themis::network::UDPServer::RateLimitEntry</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_u_d_p_server_1_1_dedup_entry" prot="private">themis::network::UDPServer::DedupEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1network_1_1_u_d_p_server_1abcb06f7f060508723d33fad98ecd2190" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1network_1_1_udp_packet" kindref="compound">UdpPacket</ref> &amp;)&gt;</type>
+        <definition>using themis::network::UDPServer::PacketHandler = std::function&lt;void(const UdpPacket&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>PacketHandler</name>
+        <qualifiedname>themis::network::UDPServer::PacketHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Called for every accepted packet (or batch of packets when batching is enabled). Invoked from an internal dispatch thread – must be thread-safe. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="158" column="5" bodyfile="include/network/udp_server.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1a3334201ea4eeed596bd874bcd359737b" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::network::UDPServer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::network::UDPServer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="261" column="19" bodyfile="include/network/udp_server.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1a738904bd22193183d3be1b9c341f77d5" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1network_1_1_u_d_p_server_1abcb06f7f060508723d33fad98ecd2190" kindref="member">PacketHandler</ref></type>
+        <definition>PacketHandler themis::network::UDPServer::handler_</definition>
+        <argsstring></argsstring>
+        <name>handler_</name>
+        <qualifiedname>themis::network::UDPServer::handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="262" column="19" bodyfile="include/network/udp_server.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1a1257aa91041f114b146496536d6e5582" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; net::io_context &gt;</type>
+        <definition>std::unique_ptr&lt;net::io_context&gt; themis::network::UDPServer::io_ctx_</definition>
+        <argsstring></argsstring>
+        <name>io_ctx_</name>
+        <qualifiedname>themis::network::UDPServer::io_ctx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="264" column="21" bodyfile="include/network/udp_server.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1a44c702fc33026963c0946e457b03e17a" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; udp::socket &gt;</type>
+        <definition>std::unique_ptr&lt;udp::socket&gt; themis::network::UDPServer::socket_</definition>
+        <argsstring></argsstring>
+        <name>socket_</name>
+        <qualifiedname>themis::network::UDPServer::socket_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="265" column="25" bodyfile="include/network/udp_server.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1a32749727bd6c39bc1e995b1554b1a039" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::UDPServer::socket_mutex_</definition>
+        <argsstring></argsstring>
+        <name>socket_mutex_</name>
+        <qualifiedname>themis::network::UDPServer::socket_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="266" column="38" bodyfile="include/network/udp_server.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1aaaac1aae194e9c2629089ade1cfc1a27" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::thread &gt;</type>
+        <definition>std::vector&lt;std::thread&gt; themis::network::UDPServer::io_threads_</definition>
+        <argsstring></argsstring>
+        <name>io_threads_</name>
+        <qualifiedname>themis::network::UDPServer::io_threads_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="267" column="25" bodyfile="include/network/udp_server.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1a8fedeab623532e3ab0c28dcf64551ea6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::network::UDPServer::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::network::UDPServer::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="269" column="17" bodyfile="include/network/udp_server.h" bodystart="269" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1aded5660e44ebaa0d177442b8d8877c14" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::network::UDPServer::recv_buf_</definition>
+        <argsstring></argsstring>
+        <name>recv_buf_</name>
+        <qualifiedname>themis::network::UDPServer::recv_buf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="272" column="17" bodyfile="include/network/udp_server.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1af0c1aaf805468665655f1a3e64d15211" prot="private" static="no" mutable="no">
+        <type>udp::endpoint</type>
+        <definition>udp::endpoint themis::network::UDPServer::sender_endpoint_</definition>
+        <argsstring></argsstring>
+        <name>sender_endpoint_</name>
+        <qualifiedname>themis::network::UDPServer::sender_endpoint_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="273" column="26" bodyfile="include/network/udp_server.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1a6501653758d79aa2ed787b47a16ab4f7" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::UDPServer::rate_mutex_</definition>
+        <argsstring></argsstring>
+        <name>rate_mutex_</name>
+        <qualifiedname>themis::network::UDPServer::rate_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="280" column="24" bodyfile="include/network/udp_server.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1aa4d8e55b1f01c5a08e943ea63f8857d5" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, RateLimitEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, RateLimitEntry&gt; themis::network::UDPServer::rate_limits_</definition>
+        <argsstring></argsstring>
+        <name>rate_limits_</name>
+        <qualifiedname>themis::network::UDPServer::rate_limits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="281" column="24" bodyfile="include/network/udp_server.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1acaf536f42cb61b05d270c430c2282c72" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::UDPServer::dedup_mutex_</definition>
+        <argsstring></argsstring>
+        <name>dedup_mutex_</name>
+        <qualifiedname>themis::network::UDPServer::dedup_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="288" column="24" bodyfile="include/network/udp_server.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1a8f6471622fb2329c40b7a26eb3494caa" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, DedupEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, DedupEntry&gt; themis::network::UDPServer::dedup_state_</definition>
+        <argsstring></argsstring>
+        <name>dedup_state_</name>
+        <qualifiedname>themis::network::UDPServer::dedup_state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="289" column="24" bodyfile="include/network/udp_server.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1a5db497bc0ca06edd021d658af9242a8d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::UDPServer::batch_mutex_</definition>
+        <argsstring></argsstring>
+        <name>batch_mutex_</name>
+        <qualifiedname>themis::network::UDPServer::batch_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="292" column="30" bodyfile="include/network/udp_server.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1ab1a14982351725d711c442d07a46a3e3" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::network::UDPServer::batch_cv_</definition>
+        <argsstring></argsstring>
+        <name>batch_cv_</name>
+        <qualifiedname>themis::network::UDPServer::batch_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="293" column="30" bodyfile="include/network/udp_server.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1a98abf07e19a2f7faa3ceef8890bfc86c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1network_1_1_udp_packet" kindref="compound">UdpPacket</ref> &gt;</type>
+        <definition>std::vector&lt;UdpPacket&gt; themis::network::UDPServer::batch_</definition>
+        <argsstring></argsstring>
+        <name>batch_</name>
+        <qualifiedname>themis::network::UDPServer::batch_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="294" column="19" bodyfile="include/network/udp_server.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1acb2b5f2edb7208549a52149e4d00e16a" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::UDPServer::batch_stop_</definition>
+        <argsstring></argsstring>
+        <name>batch_stop_</name>
+        <qualifiedname>themis::network::UDPServer::batch_stop_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="295" column="30" bodyfile="include/network/udp_server.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1a7693e651b2db2ef45c5bb5e2986b3c03" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::network::UDPServer::batch_thread_</definition>
+        <argsstring></argsstring>
+        <name>batch_thread_</name>
+        <qualifiedname>themis::network::UDPServer::batch_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="296" column="30" bodyfile="include/network/udp_server.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1a3ce992fb2646457b3a7288ca10564bb4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::UDPServer::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::network::UDPServer::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="299" column="24" bodyfile="include/network/udp_server.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_u_d_p_server_1a240d2e1a592c2d59a015324a98a6feff" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1network_1_1_u_d_p_server_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::network::UDPServer::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::network::UDPServer::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="300" column="24" bodyfile="include/network/udp_server.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_u_d_p_server_1a38d4834952b1ab0012b805bd21f9cbe2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::UDPServer::UDPServer</definition>
+        <argsstring>(const Config &amp;config, PacketHandler handler=nullptr)</argsstring>
+        <name>UDPServer</name>
+        <qualifiedname>themis::network::UDPServer::UDPServer</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_u_d_p_server_1abcb06f7f060508723d33fad98ecd2190" kindref="member">PacketHandler</ref></type>
+          <declname>handler</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct the UDP ingestion server. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Server configuration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Application callback invoked for every accepted packet. May be nullptr; in that case packets are validated and counted but the payload is discarded. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="217" column="14" bodyfile="src/network/udp_server.cpp" bodystart="105" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_u_d_p_server_1afec6d70e81313a31de337b3adeb8cf86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::UDPServer::~UDPServer</definition>
+        <argsstring>()</argsstring>
+        <name>~UDPServer</name>
+        <qualifiedname>themis::network::UDPServer::~UDPServer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="220" column="5" bodyfile="src/network/udp_server.cpp" bodystart="113" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_u_d_p_server_1a5edba645389a3ab5864bddc52a2c2a7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::UDPServer::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::network::UDPServer::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Bind the socket, start the batch-flush thread (if batching enabled), and launch I/O threads.</para>
+<para>Calls: load(), endpoint(), net::ip::make_address(), lock(), store(), THEMIS_INFO(), std::thread(), batchFlushLoop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="224" column="10" bodyfile="src/network/udp_server.cpp" bodystart="125" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_u_d_p_server_1a27889b1fabbb2f5eea54b8f2eada2ed3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::UDPServer::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::network::UDPServer::stop</qualifiedname>
+        <briefdescription>
+<para>Gracefully stop all threads and release the socket. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: exchange(), lk(), notify_all(), joinable(), timedJoin(), lock(), cancel(), close(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="227" column="10" bodyfile="src/network/udp_server.cpp" bodystart="159" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_u_d_p_server_1a2f4a1f533bdba4b34705a534e6585886" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::UDPServer::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::network::UDPServer::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="229" column="10" bodyfile="include/network/udp_server.h" bodystart="229" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_u_d_p_server_1a99dd6fd6ef392f698c813166bc876444" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_u_d_p_server_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>UDPServer::Stats themis::network::UDPServer::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::network::UDPServer::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="231" column="11" bodyfile="src/network/udp_server.cpp" bodystart="638" bodyend="646"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_u_d_p_server_1a0e96b95cf070147f3c2b9b40b6b9be00" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::UDPServer::validatePacket</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>validatePacket</name>
+        <qualifiedname>themis::network::UDPServer::validatePacket</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Validate the header of a raw UDP datagram. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Packet.</para>
+<para><simplesect kind="return"><para>true if magic, version, and payload-length field are consistent.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), std::memcpy(), data(), ntohs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="239" column="17" bodyfile="src/network/udp_server.cpp" bodystart="589" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_u_d_p_server_1ae7f4e8ef507b514c3ed599f9f462bb52" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::network::UDPServer::buildAck</definition>
+        <argsstring>(uint32_t seq_num, UdpServerStatus status)</argsstring>
+        <name>buildAck</name>
+        <qualifiedname>themis::network::UDPServer::buildAck</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>seq_num</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1a321e5ab8a36d19ca1d694fd3dab1e7d6" kindref="member">UdpServerStatus</ref></type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Build an ACK datagram to send back to the client. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Ack.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seq_num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Echoed from the original request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Outcome to report to the client.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), push_back(), htonl(), insert(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="246" column="24" bodyfile="src/network/udp_server.cpp" bodystart="616" bodyend="632"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_u_d_p_server_1a82a0c9c4081c497b5b1c28e770bb716c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::UDPServer::doReceive</definition>
+        <argsstring>()</argsstring>
+        <name>doReceive</name>
+        <qualifiedname>themis::network::UDPServer::doReceive</qualifiedname>
+        <briefdescription>
+<para>Do Receive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), get(), async_receive_from(), net::buffer(), THEMIS_ERROR(), message(), datagram(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="251" column="10" bodyfile="src/network/udp_server.cpp" bodystart="210" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_u_d_p_server_1a2d0b3e4581349c7ff310272caca08441" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::UDPServer::handleDatagram</definition>
+        <argsstring>(udp::endpoint sender, std::vector&lt; uint8_t &gt; data)</argsstring>
+        <name>handleDatagram</name>
+        <qualifiedname>themis::network::UDPServer::handleDatagram</qualifiedname>
+        <param>
+          <type>udp::endpoint</type>
+          <declname>sender</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint8_t &gt;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Handle Datagram. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sender</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: address(), to_string(), port(), checkRateLimit(), lk(), THEMIS_WARN(), anonymizeIpForLog(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="252" column="10" bodyfile="src/network/udp_server.cpp" bodystart="260" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_u_d_p_server_1abc35976051a24c5f31dac1099a58d02c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::UDPServer::checkRateLimit</definition>
+        <argsstring>(const std::string &amp;ip)</argsstring>
+        <name>checkRateLimit</name>
+        <qualifiedname>themis::network::UDPServer::checkRateLimit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a user exceeds the current rate limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the user remains within the configured limit.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), time_since_epoch(), count(), lk(), max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="253" column="10" bodyfile="src/network/udp_server.cpp" bodystart="364" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_u_d_p_server_1a9ff26c837a888b9908b02d46d7c6b2c5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::UDPServer::checkDuplicate</definition>
+        <argsstring>(const std::string &amp;ip, uint32_t seq_num)</argsstring>
+        <name>checkDuplicate</name>
+        <qualifiedname>themis::network::UDPServer::checkDuplicate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>seq_num</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── Duplicate detection (sliding window per source IP) ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), count(), push_back(), insert(), size(), front(), pop_front(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="254" column="10" bodyfile="src/network/udp_server.cpp" bodystart="396" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_u_d_p_server_1ad4ae95f7e76bddbfd7d30d29e59b54a6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::UDPServer::sendAck</definition>
+        <argsstring>(const udp::endpoint &amp;dest, uint32_t seq_num, UdpServerStatus status)</argsstring>
+        <name>sendAck</name>
+        <qualifiedname>themis::network::UDPServer::sendAck</qualifiedname>
+        <param>
+          <type>const udp::endpoint &amp;</type>
+          <declname>dest</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>seq_num</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1a321e5ab8a36d19ca1d694fd3dab1e7d6" kindref="member">UdpServerStatus</ref></type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Send Ack. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1network_1_1_u_d_p_server_1ae7f4e8ef507b514c3ed599f9f462bb52" kindref="member">buildAck()</ref>, lock(), is_open(), send_to(), net::buffer(), lk(), THEMIS_ERROR(), anonymizeIpForLog(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="255" column="10" bodyfile="src/network/udp_server.cpp" bodystart="429" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_u_d_p_server_1aeb1ba93f5b9fddd04f9e534dbe9c8d97" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::UDPServer::dispatchPacket</definition>
+        <argsstring>(const UdpPacket &amp;pkt)</argsstring>
+        <name>dispatchPacket</name>
+        <qualifiedname>themis::network::UDPServer::dispatchPacket</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1network_1_1_udp_packet" kindref="compound">UdpPacket</ref> &amp;</type>
+          <declname>pkt</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── Packet dispatch (batching or direct) ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pkt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), push_back(), handler_(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="256" column="10" bodyfile="src/network/udp_server.cpp" bodystart="456" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_u_d_p_server_1ae48987075a26f3393e2c870a344dffa8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::UDPServer::batchFlushLoop</definition>
+        <argsstring>()</argsstring>
+        <name>batchFlushLoop</name>
+        <qualifiedname>themis::network::UDPServer::batchFlushLoop</qualifiedname>
+        <briefdescription>
+<para>Batch Flush Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::milliseconds(), lk(), wait_for(), swap(), empty(), handler_(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="257" column="10" bodyfile="src/network/udp_server.cpp" bodystart="496" bodyend="577"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>UDP ingestion server for high-throughput, fire-and-forget writes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Binds a UDP socket and asynchronously receives datagrams from any client. Accepted opcodes: METRIC, LOG, EVENT, BATCH, PING.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Per-source-IP rate limiting</para>
+</listitem><listitem><para>Packet deduplication via sequence-number sliding window</para>
+</listitem><listitem><para>Optional application-level ACKs (enable_acks = true, or per-packet flag)</para>
+</listitem><listitem><para>Optional batching: accumulates packets and flushes to the handler at a configurable interval (enable_batching = true)</para>
+</listitem><listitem><para>Comprehensive statistics (packets, duplicates, rate-limited, acks sent)</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread safety: <ref refid="classthemis_1_1network_1_1_u_d_p_server_1a5edba645389a3ab5864bddc52a2c2a7d" kindref="member">start()</ref>/stop() must not be called concurrently. All statistics and internal state are protected internally. </para>
+    </detaileddescription>
+    <location file="include/network/udp_server.h" line="152" column="1" bodyfile="include/network/udp_server.h" bodystart="152" bodyend="301"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a98abf07e19a2f7faa3ceef8890bfc86c" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>batch_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1ab1a14982351725d711c442d07a46a3e3" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>batch_cv_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a5db497bc0ca06edd021d658af9242a8d" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>batch_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1acb2b5f2edb7208549a52149e4d00e16a" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>batch_stop_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a7693e651b2db2ef45c5bb5e2986b3c03" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>batch_thread_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1ae48987075a26f3393e2c870a344dffa8" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>batchFlushLoop</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1ae7f4e8ef507b514c3ed599f9f462bb52" prot="public" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>buildAck</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a9ff26c837a888b9908b02d46d7c6b2c5" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>checkDuplicate</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1abc35976051a24c5f31dac1099a58d02c" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>checkRateLimit</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a3334201ea4eeed596bd874bcd359737b" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1acaf536f42cb61b05d270c430c2282c72" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>dedup_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a8f6471622fb2329c40b7a26eb3494caa" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>dedup_state_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1aeb1ba93f5b9fddd04f9e534dbe9c8d97" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>dispatchPacket</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a82a0c9c4081c497b5b1c28e770bb716c" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>doReceive</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a99dd6fd6ef392f698c813166bc876444" prot="public" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a2d0b3e4581349c7ff310272caca08441" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>handleDatagram</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a738904bd22193183d3be1b9c341f77d5" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>handler_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a1257aa91041f114b146496536d6e5582" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>io_ctx_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1aaaac1aae194e9c2629089ade1cfc1a27" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>io_threads_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a2f4a1f533bdba4b34705a534e6585886" prot="public" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1abcb06f7f060508723d33fad98ecd2190" prot="public" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>PacketHandler</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1aa4d8e55b1f01c5a08e943ea63f8857d5" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>rate_limits_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a6501653758d79aa2ed787b47a16ab4f7" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>rate_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1aded5660e44ebaa0d177442b8d8877c14" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>recv_buf_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a8fedeab623532e3ab0c28dcf64551ea6" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>running_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1ad4ae95f7e76bddbfd7d30d29e59b54a6" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>sendAck</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1af0c1aaf805468665655f1a3e64d15211" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>sender_endpoint_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a44c702fc33026963c0946e457b03e17a" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>socket_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a32749727bd6c39bc1e995b1554b1a039" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>socket_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a5edba645389a3ab5864bddc52a2c2a7d" prot="public" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>start</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a240d2e1a592c2d59a015324a98a6feff" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a3ce992fb2646457b3a7288ca10564bb4" prot="private" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a27889b1fabbb2f5eea54b8f2eada2ed3" prot="public" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>stop</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a38d4834952b1ab0012b805bd21f9cbe2" prot="public" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>UDPServer</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1a0e96b95cf070147f3c2b9b40b6b9be00" prot="public" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>validatePacket</name></member>
+      <member refid="classthemis_1_1network_1_1_u_d_p_server_1afec6d70e81313a31de337b3adeb8cf86" prot="public" virt="non-virtual"><scope>themis::network::UDPServer</scope><name>~UDPServer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

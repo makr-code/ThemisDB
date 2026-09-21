@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::DistributedTransactionManager::Statistics</compoundname>
+    <includes refid="distributed__transaction__manager_8h" local="no">distributed_transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics_1ad991784943caceb5d1baf5ae390c72c7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::DistributedTransactionManager::Statistics::total_transactions</definition>
+        <argsstring></argsstring>
+        <name>total_transactions</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::Statistics::total_transactions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="349" column="18" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics_1a7d4d1155abac4d361e0c52733f640c87" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::DistributedTransactionManager::Statistics::committed</definition>
+        <argsstring></argsstring>
+        <name>committed</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::Statistics::committed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="350" column="18" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics_1af12adbbfaec715af9cad1ff1f49369bf" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::DistributedTransactionManager::Statistics::aborted</definition>
+        <argsstring></argsstring>
+        <name>aborted</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::Statistics::aborted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="351" column="18" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics_1a3b90a9b27cf65230b773b3cae01088ab" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::DistributedTransactionManager::Statistics::active</definition>
+        <argsstring></argsstring>
+        <name>active</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::Statistics::active</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="352" column="18" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Best-effort runtime statistics (approximate, not serialized). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/distributed_transaction_manager.h" line="348" column="5" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="348" bodyend="353"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics_1af12adbbfaec715af9cad1ff1f49369bf" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager::Statistics</scope><name>aborted</name></member>
+      <member refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics_1a3b90a9b27cf65230b773b3cae01088ab" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager::Statistics</scope><name>active</name></member>
+      <member refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics_1a7d4d1155abac4d361e0c52733f640c87" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager::Statistics</scope><name>committed</name></member>
+      <member refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics_1ad991784943caceb5d1baf5ae390c72c7" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager::Statistics</scope><name>total_transactions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

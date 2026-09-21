@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::crdt::CRDTTableState::CRDTRecord</compoundname>
+    <includes refid="crdt__importer_8h" local="no">crdt_importer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record_1ae7edea10c377e686cf625c962f310090" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::crdt::CRDTTableState::CRDTRecord::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::importers::crdt::CRDTTableState::CRDTRecord::id</qualifiedname>
+        <briefdescription>
+<para>Globally unique record identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/crdt_importer.h" line="28" column="21" bodyfile="include/importers/crdt_importer.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record_1af5da1104fc028c540cc0a326f17b7be2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1_1crdt_1a194fe690522048e783aa78af181b22ce" kindref="member">json</ref></type>
+        <definition>json themis::importers::crdt::CRDTTableState::CRDTRecord::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::importers::crdt::CRDTTableState::CRDTRecord::value</qualifiedname>
+        <briefdescription>
+<para>Record payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/crdt_importer.h" line="29" column="14" bodyfile="include/importers/crdt_importer.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record_1a50b06ab187d08e44a9d11a71ac403f0e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::crdt::CRDTTableState::CRDTRecord::lamport_clock</definition>
+        <argsstring></argsstring>
+        <name>lamport_clock</name>
+        <qualifiedname>themis::importers::crdt::CRDTTableState::CRDTRecord::lamport_clock</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Logical timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/crdt_importer.h" line="30" column="18" bodyfile="include/importers/crdt_importer.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record_1a2d9802c860e4110c3447ef204193acca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::crdt::CRDTTableState::CRDTRecord::replica_id</definition>
+        <argsstring></argsstring>
+        <name>replica_id</name>
+        <qualifiedname>themis::importers::crdt::CRDTTableState::CRDTRecord::replica_id</qualifiedname>
+        <briefdescription>
+<para>Originating importer instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/crdt_importer.h" line="31" column="21" bodyfile="include/importers/crdt_importer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record_1aa501a10de76a783102113b00db5402b6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::crdt::CRDTTableState::CRDTRecord::wall_clock_ns</definition>
+        <argsstring></argsstring>
+        <name>wall_clock_ns</name>
+        <qualifiedname>themis::importers::crdt::CRDTTableState::CRDTRecord::wall_clock_ns</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Physical timestamp (nanoseconds since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/crdt_importer.h" line="32" column="18" bodyfile="include/importers/crdt_importer.h" bodystart="32" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record_1a4521e81a921ce0bc3d83968f4dfd7796" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record" kindref="compound">CRDTRecord</ref></type>
+        <definition>CRDTTableState::CRDTRecord themis::importers::crdt::CRDTTableState::CRDTRecord::merge</definition>
+        <argsstring>(const CRDTRecord &amp;left, const CRDTRecord &amp;right)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themis::importers::crdt::CRDTTableState::CRDTRecord::merge</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record" kindref="compound">CRDTRecord</ref> &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record" kindref="compound">CRDTRecord</ref> &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Merge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements merge without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/crdt_importer.h" line="40" column="27" bodyfile="src/importers/crdt_importer.cpp" bodystart="33" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record_1a75cd49fde8cb36585f63d47f8c292706" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record" kindref="compound">CRDTRecord</ref></type>
+        <definition>CRDTTableState::CRDTRecord themis::importers::crdt::CRDTTableState::CRDTRecord::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::importers::crdt::CRDTTableState::CRDTRecord::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1_1crdt_1a194fe690522048e783aa78af181b22ce" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: at(), <ref refid="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record_1af5da1104fc028c540cc0a326f17b7be2" kindref="member">value()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/crdt_importer.h" line="52" column="27" bodyfile="src/importers/crdt_importer.cpp" bodystart="65" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record_1a73370b0dac39e9fa98602487493f3eeb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1_1crdt_1a194fe690522048e783aa78af181b22ce" kindref="member">json</ref></type>
+        <definition>json themis::importers::crdt::CRDTTableState::CRDTRecord::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::crdt::CRDTTableState::CRDTRecord::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/crdt_importer.h" line="46" column="14" bodyfile="src/importers/crdt_importer.cpp" bodystart="51" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/crdt_importer.h" line="27" column="5" bodyfile="include/importers/crdt_importer.h" bodystart="27" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record_1a75cd49fde8cb36585f63d47f8c292706" prot="public" virt="non-virtual"><scope>themis::importers::crdt::CRDTTableState::CRDTRecord</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record_1ae7edea10c377e686cf625c962f310090" prot="public" virt="non-virtual"><scope>themis::importers::crdt::CRDTTableState::CRDTRecord</scope><name>id</name></member>
+      <member refid="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record_1a50b06ab187d08e44a9d11a71ac403f0e" prot="public" virt="non-virtual"><scope>themis::importers::crdt::CRDTTableState::CRDTRecord</scope><name>lamport_clock</name></member>
+      <member refid="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record_1a4521e81a921ce0bc3d83968f4dfd7796" prot="public" virt="non-virtual"><scope>themis::importers::crdt::CRDTTableState::CRDTRecord</scope><name>merge</name></member>
+      <member refid="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record_1a2d9802c860e4110c3447ef204193acca" prot="public" virt="non-virtual"><scope>themis::importers::crdt::CRDTTableState::CRDTRecord</scope><name>replica_id</name></member>
+      <member refid="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record_1a73370b0dac39e9fa98602487493f3eeb" prot="public" virt="non-virtual"><scope>themis::importers::crdt::CRDTTableState::CRDTRecord</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record_1af5da1104fc028c540cc0a326f17b7be2" prot="public" virt="non-virtual"><scope>themis::importers::crdt::CRDTTableState::CRDTRecord</scope><name>value</name></member>
+      <member refid="structthemis_1_1importers_1_1crdt_1_1_c_r_d_t_table_state_1_1_c_r_d_t_record_1aa501a10de76a783102113b00db5402b6" prot="public" virt="non-virtual"><scope>themis::importers::crdt::CRDTTableState::CRDTRecord</scope><name>wall_clock_ns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

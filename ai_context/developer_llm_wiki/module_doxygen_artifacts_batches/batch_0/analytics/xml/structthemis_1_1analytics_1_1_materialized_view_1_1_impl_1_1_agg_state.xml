@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_materialized_view_1_1_impl_1_1_agg_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::MaterializedView::Impl::AggState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_materialized_view_1_1_impl_1_1_agg_state_1a764217796775182eab0af80315b15ef6" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::analytics::MaterializedView::Impl::AggState::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::analytics::MaterializedView::Impl::AggState::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1644" column="17" bodyfile="src/analytics/olap.cpp" bodystart="1644" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_materialized_view_1_1_impl_1_1_agg_state_1ad658b490ae535e16d171fa9e00ddb759" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::MaterializedView::Impl::AggState::sum</definition>
+        <argsstring></argsstring>
+        <name>sum</name>
+        <qualifiedname>themis::analytics::MaterializedView::Impl::AggState::sum</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1645" column="16" bodyfile="src/analytics/olap.cpp" bodystart="1645" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_materialized_view_1_1_impl_1_1_agg_state_1a912a1ef11949d8a746036ac3f3daab1a" prot="public" static="no" mutable="no">
+        <type>std::multiset&lt; double &gt;</type>
+        <definition>std::multiset&lt;double&gt; themis::analytics::MaterializedView::Impl::AggState::sorted</definition>
+        <argsstring></argsstring>
+        <name>sorted</name>
+        <qualifiedname>themis::analytics::MaterializedView::Impl::AggState::sorted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1646" column="23" bodyfile="src/analytics/olap.cpp" bodystart="1646" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_materialized_view_1_1_impl_1_1_agg_state_1ae3969d48763cce113c1ddcd76e719448" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::MaterializedView::Impl::AggState::wf_mean</definition>
+        <argsstring></argsstring>
+        <name>wf_mean</name>
+        <qualifiedname>themis::analytics::MaterializedView::Impl::AggState::wf_mean</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1647" column="16" bodyfile="src/analytics/olap.cpp" bodystart="1647" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_materialized_view_1_1_impl_1_1_agg_state_1a1887c8102fba6e2094c0542fdaf03c9c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::MaterializedView::Impl::AggState::wf_m2</definition>
+        <argsstring></argsstring>
+        <name>wf_m2</name>
+        <qualifiedname>themis::analytics::MaterializedView::Impl::AggState::wf_m2</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1648" column="16" bodyfile="src/analytics/olap.cpp" bodystart="1648" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_materialized_view_1_1_impl_1_1_agg_state_1a461bd7b5df9ff5d8e0528bec6dfe0df1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::MaterializedView::Impl::AggState::add</definition>
+        <argsstring>(double v, int sign)</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::analytics::MaterializedView::Impl::AggState::add</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>sign</declname>
+        </param>
+        <briefdescription>
+<para>Add. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sign</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: insert(), find(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1656" column="14" bodyfile="src/analytics/olap.cpp" bodystart="1656" bodyend="1683"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_materialized_view_1_1_impl_1_1_agg_state_1a6db2024c7dead95da00b77ffe881176d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::analytics::MaterializedView::Impl::AggState::result</definition>
+        <argsstring>(Measure::Function f, double pct=0.0) const</argsstring>
+        <name>result</name>
+        <qualifiedname>themis::analytics::MaterializedView::Impl::AggState::result</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2" kindref="member">Measure::Function</ref></type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>pct</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1684" column="16" bodyfile="src/analytics/olap.cpp" bodystart="1684" bodyend="1706"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/analytics/olap.cpp" line="1643" column="5" bodyfile="src/analytics/olap.cpp" bodystart="1643" bodyend="1707"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_materialized_view_1_1_impl_1_1_agg_state_1a461bd7b5df9ff5d8e0528bec6dfe0df1" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Impl::AggState</scope><name>add</name></member>
+      <member refid="structthemis_1_1analytics_1_1_materialized_view_1_1_impl_1_1_agg_state_1a764217796775182eab0af80315b15ef6" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Impl::AggState</scope><name>count</name></member>
+      <member refid="structthemis_1_1analytics_1_1_materialized_view_1_1_impl_1_1_agg_state_1a6db2024c7dead95da00b77ffe881176d" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Impl::AggState</scope><name>result</name></member>
+      <member refid="structthemis_1_1analytics_1_1_materialized_view_1_1_impl_1_1_agg_state_1a912a1ef11949d8a746036ac3f3daab1a" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Impl::AggState</scope><name>sorted</name></member>
+      <member refid="structthemis_1_1analytics_1_1_materialized_view_1_1_impl_1_1_agg_state_1ad658b490ae535e16d171fa9e00ddb759" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Impl::AggState</scope><name>sum</name></member>
+      <member refid="structthemis_1_1analytics_1_1_materialized_view_1_1_impl_1_1_agg_state_1a1887c8102fba6e2094c0542fdaf03c9c" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Impl::AggState</scope><name>wf_m2</name></member>
+      <member refid="structthemis_1_1analytics_1_1_materialized_view_1_1_impl_1_1_agg_state_1ae3969d48763cce113c1ddcd76e719448" prot="public" virt="non-virtual"><scope>themis::analytics::MaterializedView::Impl::AggState</scope><name>wf_mean</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AdaptiveVRAMAllocator::AllocationPlan</compoundname>
+    <derivedcompoundref refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_dual_model_allocation_plan" prot="public" virt="non-virtual">themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</derivedcompoundref>
+    <includes refid="adaptive__vram__allocator_8h" local="no">adaptive_vram_allocator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a4ee619b3d9dffac0c91fbfe10d7bf26d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::AllocationPlan::model_weights</definition>
+        <argsstring></argsstring>
+        <name>model_weights</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::AllocationPlan::model_weights</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="54" column="16" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a25dca865bb61b4d0093b2a2449c1c45b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::AllocationPlan::kv_cache_static</definition>
+        <argsstring></argsstring>
+        <name>kv_cache_static</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::AllocationPlan::kv_cache_static</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="55" column="16" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a544b161257a4dae6ce1cff2ede00ea5e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::AllocationPlan::kv_cache_dynamic</definition>
+        <argsstring></argsstring>
+        <name>kv_cache_dynamic</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::AllocationPlan::kv_cache_dynamic</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="56" column="16" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a8eabb13a4ac1fe2669430471d55580d2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::AllocationPlan::activations</definition>
+        <argsstring></argsstring>
+        <name>activations</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::AllocationPlan::activations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="57" column="16" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1adf466bc817f05ea65f24c315cb0f57ad" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::AllocationPlan::overhead</definition>
+        <argsstring></argsstring>
+        <name>overhead</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::AllocationPlan::overhead</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="58" column="16" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a55e4dc92a55eb1ba7d94c846cf322809" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::AllocationPlan::total</definition>
+        <argsstring></argsstring>
+        <name>total</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::AllocationPlan::total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="59" column="16" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a845bc62f32ce3fa94915ce3f2cc69fe5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::AllocationPlan::kv_size_per_token</definition>
+        <argsstring></argsstring>
+        <name>kv_size_per_token</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::AllocationPlan::kv_size_per_token</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="62" column="16" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a71a62a3cc34bdaab588df46dff2dd89e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::AllocationPlan::max_tokens_cached</definition>
+        <argsstring></argsstring>
+        <name>max_tokens_cached</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::AllocationPlan::max_tokens_cached</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="63" column="16" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a62ca21c75012caa50e3c9c0d9ca511dc" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::AdaptiveVRAMAllocator::AllocationPlan::expected_fragmentation</definition>
+        <argsstring></argsstring>
+        <name>expected_fragmentation</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::AllocationPlan::expected_fragmentation</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="64" column="15" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1ada56d3452bf8462457eae20353ba306e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::AdaptiveVRAMAllocator::AllocationPlan::fits_in_vram</definition>
+        <argsstring></argsstring>
+        <name>fits_in_vram</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::AllocationPlan::fits_in_vram</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="65" column="14" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1aec356bf771d65595b13afbe585079336" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdaptiveVRAMAllocator::AllocationPlan::recommendation</definition>
+        <argsstring></argsstring>
+        <name>recommendation</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::AllocationPlan::recommendation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="67" column="21" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::llm::AdaptiveVRAMAllocator::AllocationPlan</label>
+        <link refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</label>
+        <link refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_dual_model_allocation_plan"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/llm/adaptive_vram_allocator.h" line="53" column="5" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="53" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a8eabb13a4ac1fe2669430471d55580d2" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::AllocationPlan</scope><name>activations</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a62ca21c75012caa50e3c9c0d9ca511dc" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::AllocationPlan</scope><name>expected_fragmentation</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1ada56d3452bf8462457eae20353ba306e" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::AllocationPlan</scope><name>fits_in_vram</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a544b161257a4dae6ce1cff2ede00ea5e" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::AllocationPlan</scope><name>kv_cache_dynamic</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a25dca865bb61b4d0093b2a2449c1c45b" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::AllocationPlan</scope><name>kv_cache_static</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a845bc62f32ce3fa94915ce3f2cc69fe5" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::AllocationPlan</scope><name>kv_size_per_token</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a71a62a3cc34bdaab588df46dff2dd89e" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::AllocationPlan</scope><name>max_tokens_cached</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a4ee619b3d9dffac0c91fbfe10d7bf26d" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::AllocationPlan</scope><name>model_weights</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1adf466bc817f05ea65f24c315cb0f57ad" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::AllocationPlan</scope><name>overhead</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1aec356bf771d65595b13afbe585079336" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::AllocationPlan</scope><name>recommendation</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a55e4dc92a55eb1ba7d94c846cf322809" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::AllocationPlan</scope><name>total</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

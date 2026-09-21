@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1tests_1_1_mock_l_l_m_a_q_l_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::tests::MockLLMAQLHandler</compoundname>
+    <basecompoundref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" prot="public" virt="non-virtual">themis::aql::LLMAQLHandler</basecompoundref>
+    <basecompoundref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" prot="public" virt="non-virtual">themis::aql::LLMAQLHandler</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1tests_1_1_mock_l_l_m_a_q_l_handler_1a90475546c631c4fed4b8beb3aaa18c30" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::tests::MockLLMAQLHandler::executeChat</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;history, const std::string &amp;schema_context=&quot;&quot;) override</argsstring>
+        <name>executeChat</name>
+        <qualifiedname>themis::aql::tests::MockLLMAQLHandler::executeChat</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>history</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="24" column="17" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="24" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1tests_1_1_mock_l_l_m_a_q_l_handler_1ac603e998ad98c18716200a9dfc81a67f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::tests::MockLLMAQLHandler::executeInfer</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;context=&quot;&quot;) override</argsstring>
+        <name>executeInfer</name>
+        <qualifiedname>themis::aql::tests::MockLLMAQLHandler::executeInfer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="29" column="17" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1tests_1_1_mock_l_l_m_a_q_l_handler_1ad0e30b51dc9b17425a7b821215af229b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::tests::MockLLMAQLHandler::isInitialized</definition>
+        <argsstring>() const override</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::aql::tests::MockLLMAQLHandler::isInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="33" column="10" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1tests_1_1_mock_l_l_m_a_q_l_handler_1ae0825587cf1ee7b86e4cd2620c2e143a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::tests::MockLLMAQLHandler::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::aql::tests::MockLLMAQLHandler::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_episodic_compaction.cpp" line="34" column="10" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1tests_1_1_mock_l_l_m_a_q_l_handler_1a5f71a8e9a654fc6d5a0af2be85047056" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::MockLLMAQLHandler::MockLLMAQLHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>MockLLMAQLHandler</name>
+        <qualifiedname>themis::aql::tests::MockLLMAQLHandler::MockLLMAQLHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="80" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1tests_1_1_mock_l_l_m_a_q_l_handler_1ae056ae61fb397cb55970661f14e9a8d8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::tests::MockLLMAQLHandler::executeChat</definition>
+        <argsstring>(const std::vector&lt; llm::ChatMessage &gt; &amp;history) override</argsstring>
+        <name>executeChat</name>
+        <qualifiedname>themis::aql::tests::MockLLMAQLHandler::executeChat</qualifiedname>
+        <param>
+          <type>const std::vector&lt; llm::ChatMessage &gt; &amp;</type>
+          <declname>history</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="82" column="17" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="82" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::aql::LLMAQLHandler</label>
+        <link refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler"/>
+      </node>
+      <node id="1">
+        <label>themis::aql::tests::MockLLMAQLHandler</label>
+        <link refid="classthemis_1_1aql_1_1tests_1_1_mock_l_l_m_a_q_l_handler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::aql::LLMAQLHandler</label>
+        <link refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler"/>
+      </node>
+      <node id="1">
+        <label>themis::aql::tests::MockLLMAQLHandler</label>
+        <link refid="classthemis_1_1aql_1_1tests_1_1_mock_l_l_m_a_q_l_handler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_episodic_compaction.cpp" line="22" column="1" bodyfile="tests/aql/test_episodic_compaction.cpp" bodystart="22" bodyend="35"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1aba4169df2026459d85d4928ab5745d34" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>CAISafetyEvalFn</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1aaa670aa6786ad54554cd3789fa22ba12" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>DomainRouteResolver</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a77c7824692a745a153bab0bf9e82ffcf" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeBatchInfer</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a37a1c0f6ad806a8dce6ef183c8d62d72" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeCacheClear</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a3b738d607388f9909ff1f7eba1570f5c" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeCacheStats</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_mock_l_l_m_a_q_l_handler_1a90475546c631c4fed4b8beb3aaa18c30" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeChat</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_mock_l_l_m_a_q_l_handler_1ae056ae61fb397cb55970661f14e9a8d8" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeChat</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1aef07e172ce9467f67776e0ed6bfca1e4" prot="public" virt="non-virtual" ambiguityscope="themis::aql::LLMAQLHandler::"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeChat</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a0bb0e4a84d466d7584675d2af4b87ff2" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeEmbed</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_mock_l_l_m_a_q_l_handler_1ac603e998ad98c18716200a9dfc81a67f" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeInfer</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1acfa493b37b9ee9184322390a8216b25e" prot="public" virt="non-virtual" ambiguityscope="themis::aql::LLMAQLHandler::"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeInfer</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a8cee9c3cf3459a93a15c6b9419527cbf" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeInferStreaming</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1aa8721cc79fb8380fb2405438e4bd72bc" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeLoRAList</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1af81d0b9fb36e9adc6033080f7a0ba1fd" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeLoRALoad</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a890ecbe89018cdca6bfafc86038ae849" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeLoRAUnload</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1ab764078b5fdd6daf5718fad13bb82e3c" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeModelIngest</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a3c792679b816968d16b5ff1569f068f9" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeModelList</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a7ec645330079df6e34a693128348d4cb" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeModelLoad</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a0b4c8705c914eea94a9b2b76d7f6831b" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeModelUnload</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1abaed34befb64e10c1924d39ab960717a" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeRAG</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1ab95c07d8848cfa5c71adc115397ae7e6" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>executeStats</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a6d831ffde21236d8cf892659f20212cf" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>FederatedTelemetryFn</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a1d9e5035e268b4caf85e82fe9628e8b0" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>formatLLMResponse</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1ae9e5b5330d5ef067797b3f68fe3986bb" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>getCircuitBreakerStates</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a1a07840f803ab3e21de74e48e6b34d3c" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>getLLMClient</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1ac2a20966fab4d2d60c77a65314636848" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>getParserService</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a77c5e72a23cdf6320fea47bff2c68a87" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>getValidationLimits</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1ad064bfe480a25350b25d770f885007ca" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>getValidationMode</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a858a729249ee127d77a40f7ee76c2007" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>getValidationPipeline</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1aef9cb11564e50655700b7975f5b32548" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>getValidationPipelineConfig</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a8a067282167793e4e5ccc113975ba3a8" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>ingestionBridge</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_mock_l_l_m_a_q_l_handler_1ad0e30b51dc9b17425a7b821215af229b" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1ab016159dc9f3687a49750d500870d655" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>json</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1abfa3968abfd82437369075b250cf328b" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>LLMAQLHandler</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1ad2ed87b5ab6cf8f8d4b14031c016f4fe" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>LLMAQLHandler</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1abae02f13eac7d51f5b96fefa54b93482" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>makeEmbeddingBridge</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_mock_l_l_m_a_q_l_handler_1a5f71a8e9a654fc6d5a0af2be85047056" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>MockLLMAQLHandler</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_mock_l_l_m_a_q_l_handler_1ae0825587cf1ee7b86e4cd2620c2e143a" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>reset</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1ab519223cec923b9470c16dd1e46f5140" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>scoreQueryConfidence</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a20f5837c711a277807f90aa01b0d5bd6" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>setAdaptiveShardRouter</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1ad2c18622a6eebdf63fea6566c007464e" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>setBatchScheduler</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a794ba504996a61dd3ca5e83778f5c3ac" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>setChatExecutor</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a038b33025e291d77ca55e6bb0314a4d3" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>setCollectionAccessChecker</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a6f7d8e3f4e9e241edab6390d938317c9" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>setDomainRouteResolver</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a06fbc0a8fad7b67443bab262ed92aa08" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>setIngestionBridge</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a6e282689d297de0989edf5d9774666c5" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>setKVPrefixTransferManager</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1ab4c1cd88bf15ffc77c5c25fd67b22719" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>setLLMClient</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1aa01041a06bd1e57db462f383244cd5ef" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>setParserService</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1ac4b6d2d39a9fcf862392fd79cb08b312" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>setShardingManager</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a4a000bb9f249c43df11d46931d94f52a" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>setStorage</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1ad2fce48afcd1cd44e7cddb5881b05cc1" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>setTimeoutConfig</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1ace6ec3d43cab06a6e94cc65ffb8a41ea" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>setTokenEstimator</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a318f6092d2a6a5797f69f286e54f70a7" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>setValidationLimits</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a01dbfa64a6fd76612500b05a92255d18" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>setValidationMode</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a9a39fe30acf39ee2ffe227438ccbeb50" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>setValidationPipelineConfig</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a1c8d0287551732e109515ae501156847" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>streamExplainAQL</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a6165e8d13028940c2ebed1f7b2e162e6" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>streamExplainAQLAsSSE</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1ae0428041564d016c1cc930af3670e6e1" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>translateBatchNLToAQL</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a8519ec74dd2ee1b8298b399dba2bc845" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>translateBatchNLToAQLAsync</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a744e9337fbacf9724c85c84b6c9fdf2b" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>translateNLToAQL</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1ae259005f9394f1840bbe793c080b542e" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>translateNLToAQLStreaming</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1aaf0d8dca17988b9f1c632a084945b901" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>translateNLToAQLWithConfidence</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a35ce63c56d7d0fb0de618b8067c4f703" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>translateNLToAQLWithExamples</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1ad330f1b6e1e7091f98324fe24f213ef9" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockLLMAQLHandler</scope><name>~LLMAQLHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::MTLSConnectionPoolManager::Config</compoundname>
+    <includes refid="mtls__connection__pool_8h" local="no">mtls_connection_pool.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config_1a20abc9b73944123528939026fbabc581" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config" kindref="compound">EndpointConnectionPool::Config</ref></type>
+        <definition>EndpointConnectionPool::Config themis::sharding::MTLSConnectionPoolManager::Config::endpoint_config</definition>
+        <argsstring></argsstring>
+        <name>endpoint_config</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::Config::endpoint_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="229" column="40" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config_1acd64ab69c89cf80d906e347e35740e49" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::MTLSConnectionPoolManager::Config::max_total_connections</definition>
+        <argsstring></argsstring>
+        <name>max_total_connections</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::Config::max_total_connections</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="232" column="16" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config_1a49b9fd275a470bb0a0f230338fc2c0c3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::MTLSConnectionPoolManager::Config::enable_endpoint_eviction</definition>
+        <argsstring></argsstring>
+        <name>enable_endpoint_eviction</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::Config::enable_endpoint_eviction</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="235" column="14" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config_1a45b4d41512379608ca86acc8050ebd6c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::MTLSConnectionPoolManager::Config::max_endpoints</definition>
+        <argsstring></argsstring>
+        <name>max_endpoints</name>
+        <qualifiedname>themis::sharding::MTLSConnectionPoolManager::Config::max_endpoints</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_pool.h" line="236" column="16" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for pool manager. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::EndpointConnectionPool::Config</label>
+        <link refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::MTLSConnectionPoolManager::Config</label>
+        <link refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>endpoint_config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/mtls_connection_pool.h" line="228" column="5" bodyfile="include/sharding/mtls_connection_pool.h" bodystart="228" bodyend="237"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config_1a49b9fd275a470bb0a0f230338fc2c0c3" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager::Config</scope><name>enable_endpoint_eviction</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config_1a20abc9b73944123528939026fbabc581" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager::Config</scope><name>endpoint_config</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config_1a45b4d41512379608ca86acc8050ebd6c" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager::Config</scope><name>max_endpoints</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config_1acd64ab69c89cf80d906e347e35740e49" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionPoolManager::Config</scope><name>max_total_connections</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

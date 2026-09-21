@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1eu__ai__act_1_1articles" kind="namespace" language="C++">
+    <compoundname>themis::governance::eu_ai_act::articles</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1eu__ai__act_1_1articles_1a1b57e5eaab7b1d4d29b18558f3ed06a1" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::eu_ai_act::articles::kRiskCategorization</definition>
+        <argsstring></argsstring>
+        <name>kRiskCategorization</name>
+        <qualifiedname>themis::governance::eu_ai_act::articles::kRiskCategorization</qualifiedname>
+        <initializer>= &quot;Article 6&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="326" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1eu__ai__act_1_1articles_1a074a45463137b2103c4f7f63151b4d46" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::eu_ai_act::articles::kHighRiskSystems</definition>
+        <argsstring></argsstring>
+        <name>kHighRiskSystems</name>
+        <qualifiedname>themis::governance::eu_ai_act::articles::kHighRiskSystems</qualifiedname>
+        <initializer>= &quot;Article 8&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="327" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1eu__ai__act_1_1articles_1a96bfdd48ff9dc74683e6c835f26d0d7a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::eu_ai_act::articles::kTransparency</definition>
+        <argsstring></argsstring>
+        <name>kTransparency</name>
+        <qualifiedname>themis::governance::eu_ai_act::articles::kTransparency</qualifiedname>
+        <initializer>= &quot;Article 13&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="328" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1eu__ai__act_1_1articles_1ac625919794711786cb30edc9c17ab4d2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::eu_ai_act::articles::kHumanOversight</definition>
+        <argsstring></argsstring>
+        <name>kHumanOversight</name>
+        <qualifiedname>themis::governance::eu_ai_act::articles::kHumanOversight</qualifiedname>
+        <initializer>= &quot;Article 14&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="329" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1eu__ai__act_1_1articles_1afd5184669c79c81841dbee59a8a1f9e4" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::eu_ai_act::articles::kMonitoring</definition>
+        <argsstring></argsstring>
+        <name>kMonitoring</name>
+        <qualifiedname>themis::governance::eu_ai_act::articles::kMonitoring</qualifiedname>
+        <initializer>= &quot;Article 26&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="330" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1eu__ai__act_1_1articles_1a7e32e634d9a98b8fccfec9c77ef341b5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::eu_ai_act::articles::kRiskManagement</definition>
+        <argsstring></argsstring>
+        <name>kRiskManagement</name>
+        <qualifiedname>themis::governance::eu_ai_act::articles::kRiskManagement</qualifiedname>
+        <initializer>= &quot;Annex I&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="331" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1eu__ai__act_1_1articles_1a7917cb7206805504124de16443fbe89c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::eu_ai_act::articles::kDocumentation</definition>
+        <argsstring></argsstring>
+        <name>kDocumentation</name>
+        <qualifiedname>themis::governance::eu_ai_act::articles::kDocumentation</qualifiedname>
+        <initializer>= &quot;Annex V&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="332" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="325" column="1"/>
+  </compounddef>
+</doxygen>

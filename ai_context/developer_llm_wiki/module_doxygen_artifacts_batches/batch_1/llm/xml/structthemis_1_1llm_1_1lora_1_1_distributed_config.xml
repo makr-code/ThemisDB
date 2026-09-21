@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_distributed_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::DistributedConfig</compoundname>
+    <includes refid="distributed__trainer_8h" local="no">distributed_trainer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a0287ef371b4ec529319bdc06e88938d7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953" kindref="member">DistributedBackend</ref></type>
+        <definition>DistributedBackend themis::llm::lora::DistributedConfig::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>themis::llm::lora::DistributedConfig::backend</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953ab50339a10e1de285ac99d4c3990b8693" kindref="member">DistributedBackend::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="40" column="24" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a31b648683995a55b645459434a799e08" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::DistributedConfig::world_size</definition>
+        <argsstring></argsstring>
+        <name>world_size</name>
+        <qualifiedname>themis::llm::lora::DistributedConfig::world_size</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="41" column="9" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a517d490ec3c9cbde9fe2d7a10c101657" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::DistributedConfig::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::llm::lora::DistributedConfig::rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="42" column="9" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a2c4db2f64a1e55caa69167d02d693770" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::DistributedConfig::master_addr</definition>
+        <argsstring></argsstring>
+        <name>master_addr</name>
+        <qualifiedname>themis::llm::lora::DistributedConfig::master_addr</qualifiedname>
+        <initializer>= &quot;localhost&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="43" column="17" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distributed_config_1ac4f100b070017cef8ba0c4648983dc58" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::DistributedConfig::master_port</definition>
+        <argsstring></argsstring>
+        <name>master_port</name>
+        <qualifiedname>themis::llm::lora::DistributedConfig::master_port</qualifiedname>
+        <initializer>= 29500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="44" column="9" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a93cbf273029a5b4b36ea8cb3139ffd48" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DistributedConfig::gradient_as_bucket_view</definition>
+        <argsstring></argsstring>
+        <name>gradient_as_bucket_view</name>
+        <qualifiedname>themis::llm::lora::DistributedConfig::gradient_as_bucket_view</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="45" column="10" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_distributed_config_1ad22d20efcd36ecb400df832908ded1bd" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::DistributedConfig::bucket_cap_mb</definition>
+        <argsstring></argsstring>
+        <name>bucket_cap_mb</name>
+        <qualifiedname>themis::llm::lora::DistributedConfig::bucket_cap_mb</qualifiedname>
+        <initializer>= 25</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="46" column="9" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a8043c5ef0317e0c17b3e0723ce2cca7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::DistributedConfig::~DistributedConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DistributedConfig</name>
+        <qualifiedname>themis::llm::lora::DistributedConfig::~DistributedConfig</qualifiedname>
+        <briefdescription>
+<para>Distributed Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="39" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a635eac63e338b1a931a4bee32d7a555a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::DistributedConfig::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::DistributedConfig::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="48" column="10" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="48" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a2064db9387a9886694c5dd9c5db1a82e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config" kindref="compound">DistributedConfig</ref></type>
+        <definition>static DistributedConfig themis::llm::lora::DistributedConfig::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::lora::DistributedConfig::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="66" column="30" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="66" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/distributed_trainer.h" line="34" column="1" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="34" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a0287ef371b4ec529319bdc06e88938d7" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedConfig</scope><name>backend</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1ad22d20efcd36ecb400df832908ded1bd" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedConfig</scope><name>bucket_cap_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a2064db9387a9886694c5dd9c5db1a82e" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedConfig</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a93cbf273029a5b4b36ea8cb3139ffd48" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedConfig</scope><name>gradient_as_bucket_view</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a2c4db2f64a1e55caa69167d02d693770" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedConfig</scope><name>master_addr</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1ac4f100b070017cef8ba0c4648983dc58" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedConfig</scope><name>master_port</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a517d490ec3c9cbde9fe2d7a10c101657" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedConfig</scope><name>rank</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a635eac63e338b1a931a4bee32d7a555a" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedConfig</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a31b648683995a55b645459434a799e08" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedConfig</scope><name>world_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_distributed_config_1a8043c5ef0317e0c17b3e0723ce2cca7c" prot="public" virt="virtual"><scope>themis::llm::lora::DistributedConfig</scope><name>~DistributedConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_raster_grid" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::RasterGrid</compoundname>
+    <includes refid="utr__converter_8h" local="no">utr_converter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_raster_grid_1a3dc84ded76abad752dfa7142aebcd29c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::RasterGrid::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>themis::tensor::RasterGrid::rows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of latitude rows. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="42" column="25" bodyfile="include/tensor/utr_converter.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_raster_grid_1af0328e8f637fa25437d94f7cc9b319ae" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::RasterGrid::cols</definition>
+        <argsstring></argsstring>
+        <name>cols</name>
+        <qualifiedname>themis::tensor::RasterGrid::cols</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of longitude columns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="43" column="25" bodyfile="include/tensor/utr_converter.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_raster_grid_1a233ca82f496a181a6f1b223b5eea472b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::RasterGrid::lat_min</definition>
+        <argsstring></argsstring>
+        <name>lat_min</name>
+        <qualifiedname>themis::tensor::RasterGrid::lat_min</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Bottom-left latitude (WGS84). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="44" column="25" bodyfile="include/tensor/utr_converter.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_raster_grid_1a927f58d6bf98bca5d55567a37c42c4cf" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::RasterGrid::lon_min</definition>
+        <argsstring></argsstring>
+        <name>lon_min</name>
+        <qualifiedname>themis::tensor::RasterGrid::lon_min</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Bottom-left longitude (WGS84). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="45" column="25" bodyfile="include/tensor/utr_converter.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_raster_grid_1a6ab93535cad6958c6fc4b86a709da3fd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::RasterGrid::cell_size_deg</definition>
+        <argsstring></argsstring>
+        <name>cell_size_deg</name>
+        <qualifiedname>themis::tensor::RasterGrid::cell_size_deg</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Cell size in degrees (uniform). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="46" column="25" bodyfile="include/tensor/utr_converter.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_raster_grid_1ac2029c58c7dc0e0d7dc9a6a536d376b2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::tensor::RasterGrid::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>themis::tensor::RasterGrid::values</qualifiedname>
+        <briefdescription>
+<para>Row-major scalar values (rows × cols). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/utr_converter.h" line="47" column="18" bodyfile="include/tensor/utr_converter.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A regular raster grid of scalar observations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Cell (row, col) carries a scalar value such as flood risk, temperature, or population density. Coordinates are WGS84 degrees.</para>
+<para>Precision contract: lat/lon stored as double; round-trip via UTR must not lose &gt; 1e-7 degrees (checked by <computeroutput>fromGeospatial</computeroutput>). </para>
+    </detaileddescription>
+    <location file="include/tensor/utr_converter.h" line="41" column="1" bodyfile="include/tensor/utr_converter.h" bodystart="41" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_raster_grid_1a6ab93535cad6958c6fc4b86a709da3fd" prot="public" virt="non-virtual"><scope>themis::tensor::RasterGrid</scope><name>cell_size_deg</name></member>
+      <member refid="structthemis_1_1tensor_1_1_raster_grid_1af0328e8f637fa25437d94f7cc9b319ae" prot="public" virt="non-virtual"><scope>themis::tensor::RasterGrid</scope><name>cols</name></member>
+      <member refid="structthemis_1_1tensor_1_1_raster_grid_1a233ca82f496a181a6f1b223b5eea472b" prot="public" virt="non-virtual"><scope>themis::tensor::RasterGrid</scope><name>lat_min</name></member>
+      <member refid="structthemis_1_1tensor_1_1_raster_grid_1a927f58d6bf98bca5d55567a37c42c4cf" prot="public" virt="non-virtual"><scope>themis::tensor::RasterGrid</scope><name>lon_min</name></member>
+      <member refid="structthemis_1_1tensor_1_1_raster_grid_1a3dc84ded76abad752dfa7142aebcd29c" prot="public" virt="non-virtual"><scope>themis::tensor::RasterGrid</scope><name>rows</name></member>
+      <member refid="structthemis_1_1tensor_1_1_raster_grid_1ac2029c58c7dc0e0d7dc9a6a536d376b2" prot="public" virt="non-virtual"><scope>themis::tensor::RasterGrid</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

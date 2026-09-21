@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::fi_test::Coordinator3PC</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1a9b7602da388d690c3b5a4b845dda09dc" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> *</type>
+        <definition>SimWAL* themisdb::sharding::fi_test::Coordinator3PC::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator3PC::wal_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="700" column="33" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="700" bodyend="700"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1aa3367c100561f6838773700a237b372c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::fi_test::Coordinator3PC::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator3PC::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="701" column="34" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="701" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1add793b59dc2646f121615051208713f1" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_participant" kindref="compound">SimParticipant</ref> * &gt;</type>
+        <definition>std::vector&lt;SimParticipant*&gt; themisdb::sharding::fi_test::Coordinator3PC::participants_</definition>
+        <argsstring></argsstring>
+        <name>participants_</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator3PC::participants_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="702" column="17" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="702" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1a2527aa9f0ee6d9409bcc60d6fb423562" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1af5f6394e760fb63cc673a38804fc950b" kindref="member">Coord3PCState</ref></type>
+        <definition>Coord3PCState themisdb::sharding::fi_test::Coordinator3PC::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator3PC::state_</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1af5f6394e760fb63cc673a38804fc950bafaee4ca3c30ee18148ce3ada37466498" kindref="member">Coord3PCState::INIT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="703" column="34" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="703" bodyend="703"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1a3689dd7eb2a5d86f39d53bae602c9813" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::Coordinator3PC::Coordinator3PC</definition>
+        <argsstring>(SimWAL *wal)</argsstring>
+        <name>Coordinator3PC</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator3PC::Coordinator3PC</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> *</type>
+          <declname>wal</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="589" column="14" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="589" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1ab7f345805adbf9b299220a34f3afba07" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::fi_test::Coordinator3PC::addParticipant</definition>
+        <argsstring>(SimParticipant *p)</argsstring>
+        <name>addParticipant</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator3PC::addParticipant</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_participant" kindref="compound">SimParticipant</ref> *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="591" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="591" bodyend="594"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1a0ebb812946d174b4bdf4f36c6843cd21" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1af5f6394e760fb63cc673a38804fc950b" kindref="member">Coord3PCState</ref></type>
+        <definition>Coord3PCState themisdb::sharding::fi_test::Coordinator3PC::state</definition>
+        <argsstring>() const</argsstring>
+        <name>state</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator3PC::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="596" column="19" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="596" bodyend="599"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1a7be71dd6aea65839409d40a204b5633f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::fi_test::Coordinator3PC::execute</definition>
+        <argsstring>(const std::string &amp;txn_id, std::chrono::milliseconds timeout=500ms)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator3PC::execute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>500ms</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="601" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="601" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1a2839f7e0def0a6b48c5631da7a251dfc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::fi_test::Coordinator3PC::executeUntilCrashAfterPrecommit</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>executeUntilCrashAfterPrecommit</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator3PC::executeUntilCrashAfterPrecommit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Crash after sending PRECOMMIT (before COMMIT decision). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="657" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="657" bodyend="675"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1a816999c979c1e35bf280a60a08e55b20" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::fi_test::Coordinator3PC::recoverFromPrecommitCrash</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>recoverFromPrecommitCrash</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator3PC::recoverFromPrecommitCrash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Recovery from PRECOMMIT crash: log COMMIT and deliver to all participants. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="680" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="680" bodyend="692"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1acffc0f1d166b04a26e392d4ab0ecdd5c" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::fi_test::Coordinator3PC::transition</definition>
+        <argsstring>(Coord3PCState s)</argsstring>
+        <name>transition</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator3PC::transition</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1af5f6394e760fb63cc673a38804fc950b" kindref="member">Coord3PCState</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="695" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="695" bodyend="698"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-process 3PC coordinator with WAL. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="587" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="587" bodyend="704"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1ab7f345805adbf9b299220a34f3afba07" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator3PC</scope><name>addParticipant</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1a3689dd7eb2a5d86f39d53bae602c9813" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator3PC</scope><name>Coordinator3PC</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1a7be71dd6aea65839409d40a204b5633f" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator3PC</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1a2839f7e0def0a6b48c5631da7a251dfc" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator3PC</scope><name>executeUntilCrashAfterPrecommit</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1aa3367c100561f6838773700a237b372c" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator3PC</scope><name>mu_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1add793b59dc2646f121615051208713f1" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator3PC</scope><name>participants_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1a816999c979c1e35bf280a60a08e55b20" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator3PC</scope><name>recoverFromPrecommitCrash</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1a0ebb812946d174b4bdf4f36c6843cd21" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator3PC</scope><name>state</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1a2527aa9f0ee6d9409bcc60d6fb423562" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator3PC</scope><name>state_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1acffc0f1d166b04a26e392d4ab0ecdd5c" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator3PC</scope><name>transition</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator3_p_c_1a9b7602da388d690c3b5a4b845dda09dc" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator3PC</scope><name>wal_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

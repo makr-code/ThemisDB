@@ -1,0 +1,1807 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_replication_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicationManager</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_manager_1_1_lease_read_result" prot="public">themisdb::replication::ReplicationManager::LeaseReadResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1ae78f96d3313396d9a59bad5f1176c28f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_config" kindref="compound">ReplicationConfig</ref></type>
+        <definition>ReplicationConfig themisdb::replication::ReplicationManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1026" column="23" bodyfile="include/replication/replication_manager.h" bodystart="1026" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1abaaee50a52262b287328b544fe12a875" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationManager::node_id_</definition>
+        <argsstring></argsstring>
+        <name>node_id_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::node_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1027" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1027" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1a972e4b745d5af9ea20d4af63d3f877be" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;WALManager&gt; themisdb::replication::ReplicationManager::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::wal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1029" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1029" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1afbfe1914186fc264a763c54669713add" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_leader_election" kindref="compound">LeaderElection</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LeaderElection&gt; themisdb::replication::ReplicationManager::election_</definition>
+        <argsstring></argsstring>
+        <name>election_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::election_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1030" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1030" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1ab8632024d6ffd8ee7d966e3704bd579b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_replication_stream" kindref="compound">ReplicationStream</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;ReplicationStream&gt; &gt; themisdb::replication::ReplicationManager::streams_</definition>
+        <argsstring></argsstring>
+        <name>streams_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::streams_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1032" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1032" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1abb2a24cc06fb8637a3725fbbfc023676" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::replication::ReplicationManager::replicas_mutex_</definition>
+        <argsstring></argsstring>
+        <name>replicas_mutex_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::replicas_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1033" column="31" bodyfile="include/replication/replication_manager.h" bodystart="1033" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1a70517b6e9ef674bb76db43866d031a87" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt;</type>
+        <definition>std::vector&lt;ReplicaInfo&gt; themisdb::replication::ReplicationManager::replicas_</definition>
+        <argsstring></argsstring>
+        <name>replicas_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::replicas_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1034" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1034" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1a9b44f536d8f7580d8dff5faa14eda97b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_i_conflict_resolver" kindref="compound">IConflictResolver</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IConflictResolver&gt; themisdb::replication::ReplicationManager::conflict_resolver_</definition>
+        <argsstring></argsstring>
+        <name>conflict_resolver_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::conflict_resolver_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1036" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1036" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1ade58795eb19d9502749519ebc60bce6b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;IReplicationListener&gt; &gt; themisdb::replication::ReplicationManager::listeners_</definition>
+        <argsstring></argsstring>
+        <name>listeners_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::listeners_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1037" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1037" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1a9edd3c14617c1e977d2fd4017ba84c1c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_stats" kindref="compound">ReplicationStats</ref></type>
+        <definition>ReplicationStats themisdb::replication::ReplicationManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1039" column="22" bodyfile="include/replication/replication_manager.h" bodystart="1039" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1abcd605c7339910815073b12026b26f88" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::ReplicationManager::manager_mutex_</definition>
+        <argsstring></argsstring>
+        <name>manager_mutex_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::manager_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1041" column="16" bodyfile="include/replication/replication_manager.h" bodystart="1041" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1a7d4943bdde1b7ca8d55f7c1cae39cc9c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::replication::ReplicationManager::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::initialized_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1042" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1042" bodyend="1042"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1aa7ecb70fd7b889ee8dcce29fdaa3fd5b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::replication::ReplicationManager::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1043" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1043" bodyend="1043"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1a22f9c7e0d5101029116eeb77badca378" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::replication::ReplicationManager::heartbeat_thread_</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_thread_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::heartbeat_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1046" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1046" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1a9030dc6acc367bbc914a9815d1b92f53" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::replication::ReplicationManager::compaction_thread_</definition>
+        <argsstring></argsstring>
+        <name>compaction_thread_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::compaction_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1047" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1047" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1a36449c6f38de65bab5727922f0d083b7" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::replication::ReplicationManager::health_monitor_thread_</definition>
+        <argsstring></argsstring>
+        <name>health_monitor_thread_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::health_monitor_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1048" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1048" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1aad36bd234e7299c9a05b7330cc67a744" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::ReplicationManager::placement_policy_mutex_</definition>
+        <argsstring></argsstring>
+        <name>placement_policy_mutex_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::placement_policy_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1051" column="24" bodyfile="include/replication/replication_manager.h" bodystart="1051" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1acda28853a7827edc3eda67ecf0a6ac42" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;PlacementConstraints&gt; themisdb::replication::ReplicationManager::active_placement_policy_</definition>
+        <argsstring></argsstring>
+        <name>active_placement_policy_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::active_placement_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1052" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1052" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_manager_1a493d0d6f8a179e0ec015bab6bb4a0d18" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager" kindref="compound">GeoReplicaPlacementManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GeoReplicaPlacementManager&gt; themisdb::replication::ReplicationManager::placement_manager_</definition>
+        <argsstring></argsstring>
+        <name>placement_manager_</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::placement_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1053" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1053" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a18efc13fbbe580a9444193fe9d7d70ed" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationManager::ReplicationManager</definition>
+        <argsstring>(const ReplicationConfig &amp;config)</argsstring>
+        <name>ReplicationManager</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::ReplicationManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replication_config" kindref="compound">ReplicationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct a <ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref> with the given configuration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration parameters for replication behavior (mode, failover settings, WAL, conflict resolution, etc.)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="post"><para>Object is not yet active; call <ref refid="classthemisdb_1_1replication_1_1_replication_manager_1aa51b43289036bc06cac5e82b0387ef60" kindref="member">initialize()</ref> to start replication threads. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="628" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="1303" bodyend="1310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a00ff0befcecbb16d9626eb53b6c653c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationManager::~ReplicationManager</definition>
+        <argsstring>()</argsstring>
+        <name>~ReplicationManager</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::~ReplicationManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="630" column="5" bodyfile="src/replication/replication_manager.cpp" bodystart="1312" bodyend="1314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1aa51b43289036bc06cac5e82b0387ef60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationManager::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize replication subsystem and start background threads.</para>
+<para>Initializes WAL, replicas, leader election state, and background replication threads. If already initialized, returns true immediately (idempotent).</para>
+<para><simplesect kind="return"><para>true on success or if already initialized; false if configuration validation (validateConfig()) fails.</para>
+</simplesect>
+<simplesect kind="post"><para>On success, background replication threads are running and this node has joined the configured replica group.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), lock(), validateConfig(), reserve(), size(), std::chrono::system_clock::now(), push_back(), setClusterSize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="644" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1321" bodyend="1367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a4e689fbb42b81e162168607416a985fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationManager::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Shutdown replication subsystem and wait for background threads to exit.</para>
+<para>Gracefully stops replication threads, flushes any pending WAL entries, and releases all replica connections. Safe to call from any thread.</para>
+<para><simplesect kind="note"><para>Blocking; may take up to heartbeat_interval_ms + election_timeout_max_ms to complete in worst case (if leader election is in progress).</para>
+</simplesect>
+Calls: load(), store(), timedJoin(), stop(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="655" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1373" bodyend="1390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a86323fbe0391182187e4e818e4358b08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationManager::replicate</definition>
+        <argsstring>(const WALEntry &amp;entry)</argsstring>
+        <name>replicate</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::replicate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Replicate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Replicate a write operation to all configured replicas.</para>
+<para>Appends the WAL entry to this node&apos;s Write-Ahead Log and schedules replication to followers according to the configured replication mode (SYNC, SEMI_SYNC, or ASYNC).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>WAL entry containing operation, document, data, and checksum. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if entry was appended to WAL; false if this node is not the leader, WAL append failed, or replication is not initialized.</para>
+</simplesect>
+<simplesect kind="note"><para>In ASYNC mode, returns true immediately without waiting for replicas. In SEMI_SYNC mode, waits for min_sync_replicas to acknowledge. In SYNC mode, waits for all voting replicas.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), THEMIS_ERROR(), isLeader(), append(), size(), notifyListeners(), onWALEntryApplied(), <ref refid="classthemisdb_1_1replication_1_1_replication_manager_1ad74f1d7149175b98ae22ebc9a54756c8" kindref="member">waitForReplication()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="672" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1398" bodyend="1440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1ad74f1d7149175b98ae22ebc9a54756c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationManager::waitForReplication</definition>
+        <argsstring>(uint64_t sequence, uint32_t timeout_ms=0)</argsstring>
+        <name>waitForReplication</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::waitForReplication</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>timeout_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Wait for replication consensus acknowledgment from replica set - SYNC mode: requires all replicas to acknowledge - SEMI_SYNC mode: requires min_sync_replicas to acknowledge (quorum) - ASYNC mode: no waiting (checked in <ref refid="classthemisdb_1_1replication_1_1_replication_manager_1a86323fbe0391182187e4e818e4358b08" kindref="member">replicate()</ref> above) This implements the replicated state machine consensus pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Wait for a specific WAL entry to be replicated to a sufficient number of replicas.</para>
+<para>Blocks until either:<itemizedlist>
+<listitem><para>The entry (identified by sequence number) has been acknowledged by enough replicas to satisfy the configured replication mode, or</para>
+</listitem><listitem><para>timeout_ms milliseconds have elapsed (0 = no timeout).</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>WAL sequence number to wait for. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait in milliseconds; 0 means use the configured replication_timeout_ms from <ref refid="structthemisdb_1_1replication_1_1_replication_config" kindref="compound">ReplicationConfig</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if replication completed within timeout; false on timeout or error.</para>
+</simplesect>
+<simplesect kind="note"><para>Unused in ASYNC mode (returns immediately).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), std::chrono::milliseconds(), lock(), size(), THEMIS_ERROR(), getLastAckedSequence(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="689" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1449" bodyend="1499"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1ab53b424a0fcde3f53cfd3f821977cdd1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref></type>
+        <definition>ReplicationRole themisdb::replication::ReplicationManager::getRole</definition>
+        <argsstring>() const</argsstring>
+        <name>getRole</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::getRole</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the current replication role of this node.</para>
+<para><simplesect kind="return"><para><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3ab8058aa3ecd39b676ce80d6aaadc5e64" kindref="member">ReplicationRole::LEADER</ref> if this node is the leader; otherwise FOLLOWER, CANDIDATE, OBSERVER, or WITNESS. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="697" column="21" bodyfile="src/replication/replication_manager.cpp" bodystart="1501" bodyend="1503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a82a7a75eeaecb9ded4f320ffc9692052" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationManager::getLeaderEndpoint</definition>
+        <argsstring>() const</argsstring>
+        <name>getLeaderEndpoint</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::getLeaderEndpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the network endpoint of the current leader.</para>
+<para><simplesect kind="return"><para>Empty string if this node is the leader; otherwise the &quot;hostname:port&quot; endpoint of the current leader. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="705" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="1505" bodyend="1510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a23f37fd97b6893bb42bb7c44c5712fbb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt;</type>
+        <definition>std::vector&lt; ReplicaInfo &gt; themisdb::replication::ReplicationManager::getReplicas</definition>
+        <argsstring>() const</argsstring>
+        <name>getReplicas</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::getReplicas</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get information about all configured replicas.</para>
+<para><simplesect kind="return"><para>Vector of <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> structs for all known replicas, including role, health status, and replication lag. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replicas_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="713" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="1512" bodyend="1520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1ad18f4d3f97c7a4c07d82d244560cc12f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1replication_1_1_replication_stats" kindref="compound">ReplicationStats</ref> &amp;</type>
+        <definition>const ReplicationStats &amp; themisdb::replication::ReplicationManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get replication runtime statistics.</para>
+<para><simplesect kind="return"><para>Const reference to the current <ref refid="structthemisdb_1_1replication_1_1_replication_stats" kindref="compound">ReplicationStats</ref> (entries replicated, failures, latencies, etc.). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="721" column="28" bodyfile="include/replication/replication_manager.h" bodystart="721" bodyend="721"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1ab1c5b310ba60cdb5cadf678ab4dbb9d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationManager::addReplica</definition>
+        <argsstring>(const ReplicaInfo &amp;replica)</argsstring>
+        <name>addReplica</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::addReplica</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &amp;</type>
+          <declname>replica</declname>
+        </param>
+        <briefdescription>
+<para>Add Replica. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a replica to the replication group.</para>
+<para>The new replica will receive a full snapshot followed by incremental WAL entries. Adding a replica during active write traffic may incur lag until the replica catches up.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replica information (node_id and endpoint must be non-empty). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if node_id or endpoint is empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Rejects empty node_id or endpoint fail-closed to prevent silent replica registration failures.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replica</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), spdlog::error(), lock(), load(), spdlog::warn(), push_back(), isLeader(), start(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="735" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1527" bodyend="1567"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a82e45e10a80160a92a671d75b702e669" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationManager::removeReplica</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>removeReplica</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::removeReplica</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Replica. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove a replica from the replication group.</para>
+<para>Existing WAL entries are not deleted; the replica simply stops receiving new replication updates.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique identifier of the replica to remove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>If the removed replica is the current leader, failover is triggered.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), std::remove_if(), begin(), end(), setClusterSize(), size(), notifyListeners(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="746" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1574" bodyend="1592"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1ad382f94ec2889b99e45183e83eebd9f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationManager::addWitnessNode</definition>
+        <argsstring>(const std::string &amp;node_id, const std::string &amp;endpoint)</argsstring>
+        <name>addWitnessNode</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::addWitnessNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+<para>Add Witness Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a witness node to the cluster.</para>
+<para>A witness node participates in leader-election voting (and therefore contributes to quorum) but does NOT receive WAL data. This allows a 2-node data cluster to maintain quorum without requiring a third full data replica.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique identifier for the witness node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Network address (hostname:port) of the witness node.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), <ref refid="classthemisdb_1_1replication_1_1_replication_manager_1ab1c5b310ba60cdb5cadf678ab4dbb9d9" kindref="member">addReplica()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="759" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1609" bodyend="1621"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1acf31290718f490547e03f6f4f2d932e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationManager::setConflictResolver</definition>
+        <argsstring>(std::shared_ptr&lt; IConflictResolver &gt; resolver)</argsstring>
+        <name>setConflictResolver</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::setConflictResolver</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_i_conflict_resolver" kindref="compound">IConflictResolver</ref> &gt;</type>
+          <declname>resolver</declname>
+        </param>
+        <briefdescription>
+<para>Set Conflict Resolver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set a custom conflict resolver for multi-master replication.</para>
+<para>The resolver will be called whenever two or more writes conflict on the same document. The resolver must be thread-safe and idempotent.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Implementation of <ref refid="classthemisdb_1_1replication_1_1_i_conflict_resolver" kindref="compound">IConflictResolver</ref>; if nullptr, the default Last-Write-Wins strategy is used.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>This is only meaningful in multi-master (CRDT) replication mode. In leader-follower mode, write ordering prevents most conflicts.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">resolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConflictResolver without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="773" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1599" bodyend="1601"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a10e1433302c16db2b07c5101d8a3ab3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationManager::addListener</definition>
+        <argsstring>(std::shared_ptr&lt; IReplicationListener &gt; listener)</argsstring>
+        <name>addListener</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::addListener</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref> &gt;</type>
+          <declname>listener</declname>
+        </param>
+        <briefdescription>
+<para>Add Listener. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register a listener for replication lifecycle events.</para>
+<para>The listener will be called on the replication background thread for each event (apply, failover, conflict, lag, health change, etc.).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to an <ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref> implementation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Listeners must not block for more than 1 ms or spawn I/O. </para>
+</simplesect>
+<simplesect kind="note"><para>Multiple listeners can be registered; all are called for each event.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="785" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1628" bodyend="1631"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a17a1345fe2aea925113895b544b6d4a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationManager::triggerFailover</definition>
+        <argsstring>(const std::string &amp;target_node_id)</argsstring>
+        <name>triggerFailover</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::triggerFailover</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_node_id</declname>
+        </param>
+        <briefdescription>
+<para>Trigger Failover. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initiate a manual failover to a specific target replica.</para>
+<para>Attempts to promote the target replica to leader and demote this node (or the current leader) to follower. Useful for maintenance or deliberate topology changes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>target_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node ID of the replica to promote. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false if target replica is unreachable or unable to assume leadership.</para>
+</simplesect>
+<simplesect kind="note"><para>Blocking; may take up to election_timeout_max_ms to complete. </para>
+</simplesect>
+<simplesect kind="note"><para>If this node is not the current leader, the call is relayed to the leader for execution.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), THEMIS_WARN(), startElection(), isLeader(), notifyListeners(), onFailoverCompleted(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="802" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1639" bodyend="1672"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1ab58c233d8d5efae7a89d3cd7f64eb12a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationManager::promoteToLeader</definition>
+        <argsstring>()</argsstring>
+        <name>promoteToLeader</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::promoteToLeader</qualifiedname>
+        <briefdescription>
+<para>Promote To Leader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Promote this follower node to leader (for planned maintenance or deliberate topology change).</para>
+<para><simplesect kind="return"><para>true on success; false if this node is already the leader, unable to communicate with other replicas, or the quorum is not achieved. </para>
+</simplesect>
+<simplesect kind="note"><para>Blocking; may take up to election_timeout_max_ms to complete.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: startElection(), isLeader(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="813" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1679" bodyend="1685"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a281dcab7366c8b4ea3e5f39fe5d16fc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationManager::demoteToFollower</definition>
+        <argsstring>()</argsstring>
+        <name>demoteToFollower</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::demoteToFollower</qualifiedname>
+        <briefdescription>
+<para>Demote To Follower. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Demote this leader node to follower (used during planned maintenance).</para>
+<para>Stops accepting new writes and voluntarily steps down from leadership. Another replica will be elected as the new leader.</para>
+<para><simplesect kind="return"><para>true on success; false if this node is not the leader or if the new leader cannot be elected.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements demoteToFollower without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="824" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1692" bodyend="1695"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1aeffdaa4fa01267e816bb6ce65405d6ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationManager::enableMultiRegion</definition>
+        <argsstring>(const std::string &amp;region_id, const std::vector&lt; std::string &gt; &amp;peer_regions)</argsstring>
+        <name>enableMultiRegion</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::enableMultiRegion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>region_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>peer_regions</declname>
+        </param>
+        <briefdescription>
+<para>Enable Multi Region. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable multi-region replication <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>region_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier for this region </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>peer_regions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of peer region endpoints </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">region_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the region. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">peer_regions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), THEMIS_INFO(), std::chrono::system_clock::now(), push_back(), isLeader(), start(), std::move(), setClusterSize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="832" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1704" bodyend="1738"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a82a2c3fb4006ef5579186b7fa425df0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationManager::promoteReplica</definition>
+        <argsstring>(const std::string &amp;replica_id)</argsstring>
+        <name>promoteReplica</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::promoteReplica</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <briefdescription>
+<para>Promote Replica. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Promote a read replica to primary <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node ID of replica to promote </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the replica. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), THEMIS_INFO(), std::find_if(), begin(), end(), THEMIS_ERROR(), getCurrentSequence(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="840" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1746" bodyend="1814"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a8ca7cd9fa8973de102dc7b170f4c5838" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationManager::setupCascadingReplication</definition>
+        <argsstring>(const std::string &amp;source_replica, const std::vector&lt; std::string &gt; &amp;target_replicas)</argsstring>
+        <name>setupCascadingReplication</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::setupCascadingReplication</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_replica</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>target_replicas</declname>
+        </param>
+        <briefdescription>
+<para>Setup Cascading Replication. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Setup cascading replication (replica replicating to other replicas) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_replica</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source replica node ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_replicas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target replica node IDs </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_replica</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_replicas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_INFO(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="848" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1823" bodyend="1832"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a75e16cc01b3b82dfa634e95d3292fa7f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::ReplicationManager::getReplicationLag</definition>
+        <argsstring>(const std::string &amp;replica_id) const</argsstring>
+        <name>getReplicationLag</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::getReplicationLag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get replication lag for specific replica <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node ID of replica </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Lag in milliseconds </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replicas_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="856" column="13" bodyfile="src/replication/replication_manager.cpp" bodystart="1834" bodyend="1851"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a7fed892f4ee47cea6b83dbcaf9c6cafa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, bool &gt;</type>
+        <definition>std::map&lt; std::string, bool &gt; themisdb::replication::ReplicationManager::getClusterHealth</definition>
+        <argsstring>() const</argsstring>
+        <name>getClusterHealth</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::getClusterHealth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check cluster health <simplesect kind="return"><para>Health status map (node_id -&gt; is_healthy) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replicas_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="862" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="1853" bodyend="1871"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a4edb6c37babf9f1c090cf4fafb5a29e1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationManager::exportPrometheusMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>exportPrometheusMetrics</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::exportPrometheusMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Export metrics in Prometheus format <simplesect kind="return"><para>Prometheus-formatted metrics string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replicas_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="868" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="1873" bodyend="1911"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a59b8ffdc3cbcd1205963ad0a65135fa3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, <ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, HealthStatus &gt; &gt; themisdb::replication::ReplicationManager::getReplicaHealthStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getReplicaHealthStatus</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::getReplicaHealthStatus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get health status of all replicas.</para>
+<para><simplesect kind="return"><para>Vector of (node_id, <ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref>) pairs for all replicas, indicating whether each is HEALTHY, DEGRADED, FAILED, or UNKNOWN. </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref> enum for interpretation of each status. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replicas_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="876" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="1986" bodyend="2001"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1ae3240503d1462f4e39f670df40ce7fb2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationManager::hasQuorum</definition>
+        <argsstring>() const</argsstring>
+        <name>hasQuorum</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::hasQuorum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if the cluster currently has quorum for write operations.</para>
+<para>Quorum is defined as: for a cluster with N voting members, at least ceil(N/2)+1 members must be responsive (HEALTHY or DEGRADED status).</para>
+<para><simplesect kind="return"><para>true if quorum is achieved; false if partition or insufficient healthy replicas. </para>
+</simplesect>
+<simplesect kind="note"><para>This check is fast (O(1)) as quorum state is maintained continuously. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replicas_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="888" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="2003" bodyend="2042"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1af5109e47e9fb49e805c2e983724a6a5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationManager::performHealthCheck</definition>
+        <argsstring>()</argsstring>
+        <name>performHealthCheck</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::performHealthCheck</qualifiedname>
+        <briefdescription>
+<para>Perform Health Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Trigger a health check on all configured replicas.</para>
+<para>Sends heartbeat/ping messages to all replicas and updates their health status based on responses. Called automatically at heartbeat_interval_ms but can also be called explicitly to force immediate health assessment.</para>
+<para><simplesect kind="note"><para>Non-blocking; results are available via <ref refid="classthemisdb_1_1replication_1_1_replication_manager_1a59b8ffdc3cbcd1205963ad0a65135fa3" kindref="member">getReplicaHealthStatus()</ref> after heartbeat_interval_ms or on next check call.</para>
+</simplesect>
+Calls: lock(), reserve(), size(), updateReplicaHealth(), push_back(), notifyListeners(), onReplicaHealthChanged(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="900" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="2048" bodyend="2075"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a03a4cb5e1139c9726e59e374f998705e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationManager::detectNetworkPartition</definition>
+        <argsstring>() const</argsstring>
+        <name>detectNetworkPartition</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::detectNetworkPartition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect if there is a network partition in the cluster.</para>
+<para>A partition is detected when:<itemizedlist>
+<listitem><para>This node and some replicas are unable to communicate, and</para>
+</listitem><listitem><para>Neither partition can achieve quorum, or</para>
+</listitem><listitem><para>Quorum has been lost.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>true if a partition is detected; false if cluster is connected or this node is isolated but retains quorum.</para>
+</simplesect>
+<simplesect kind="note"><para>In leader mode: leader remains available for writes if it has quorum. </para>
+</simplesect>
+<simplesect kind="note"><para>In follower mode: no writes allowed; read traffic routed to healthy replicas or primary. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replicas_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="917" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="2077" bodyend="2095"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1ac1aa05aa3e494d3bd70a5cffe1ae6b97" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1replication_1abbde7da7944aeb6aa079b3957aab68c6" kindref="member">ReadPreference</ref></type>
+        <definition>ReadPreference themisdb::replication::ReplicationManager::getReadPreference</definition>
+        <argsstring>() const</argsstring>
+        <name>getReadPreference</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::getReadPreference</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the read preference configuration for query routing.</para>
+<para><simplesect kind="return"><para>Configured <ref refid="namespacethemisdb_1_1replication_1abbde7da7944aeb6aa079b3957aab68c6" kindref="member">ReadPreference</ref> (PRIMARY, SECONDARY, PRIMARY_PREFERRED, etc.). </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemisdb_1_1replication_1_1_replication_manager_1a23f3f15f6c7a2ee8033eb9800f9c69dc" kindref="member">setReadPreference()</ref> to change the default. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="925" column="20" bodyfile="include/replication/replication_manager.h" bodystart="925" bodyend="925"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a23f3f15f6c7a2ee8033eb9800f9c69dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationManager::setReadPreference</definition>
+        <argsstring>(ReadPreference preference)</argsstring>
+        <name>setReadPreference</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::setReadPreference</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1abbde7da7944aeb6aa079b3957aab68c6" kindref="member">ReadPreference</ref></type>
+          <declname>preference</declname>
+        </param>
+        <briefdescription>
+<para>Set Read Preference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the read preference for query routing.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>preference</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New read preference strategy.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Changes take effect immediately for new read requests. In-flight reads are not affected.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">preference</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setReadPreference without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="935" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="2102" bodyend="2104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a297d778ade34fec84a61b77864ac98c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_lag_based_read_router_1_1_routing_decision" kindref="compound">LagBasedReadRouter::RoutingDecision</ref></type>
+        <definition>LagBasedReadRouter::RoutingDecision themisdb::replication::ReplicationManager::selectReadReplica</definition>
+        <argsstring>(std::optional&lt; ReadPreference &gt; preference=std::nullopt) const</argsstring>
+        <name>selectReadReplica</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::selectReadReplica</qualifiedname>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemisdb_1_1replication_1abbde7da7944aeb6aa079b3957aab68c6" kindref="member">ReadPreference</ref> &gt;</type>
+          <declname>preference</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Select the best node for a read request using automated lag-based traffic shifting.</para>
+<para>Replicas whose replication lag exceeds <computeroutput>config_.max_replication_lag_ms</computeroutput> are excluded from read routing; if none are eligible the primary node is returned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>preference</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Override read preference (uses configured default when not provided). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>RoutingDecision describing which node was chosen and why. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replicas_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="949" column="41" bodyfile="src/replication/replication_manager.cpp" bodystart="6224" bodyend="6241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1ab4245c5882a82add81f3b25ce43b55e4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_manager_1_1_lease_read_result" kindref="compound">LeaseReadResult</ref></type>
+        <definition>ReplicationManager::LeaseReadResult themisdb::replication::ReplicationManager::leaseRead</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;document_id) const</argsstring>
+        <name>leaseRead</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::leaseRead</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Attempt a linearizable read via the leader lease mechanism.</para>
+<para>If this node is the current Raft leader <emphasis>and</emphasis> its lease is still valid, the read is served locally with linearizability guarantees (no quorum round-trip required). Otherwise the call returns <computeroutput>success=false</computeroutput> and the caller should redirect to the primary or use a quorum read.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection name (informational; not used for storage lookup within this module). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Document identifier (informational). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemisdb_1_1replication_1_1_replication_manager_1_1_lease_read_result" kindref="compound">LeaseReadResult</ref> describing whether the read was served and how. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="979" column="21" bodyfile="src/replication/replication_manager.cpp" bodystart="2117" bodyend="2154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1ac736595a37569982671674620eb34af3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationManager::hasLeaderLease</definition>
+        <argsstring>() const</argsstring>
+        <name>hasLeaderLease</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::hasLeaderLease</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true when this node is the leader AND its leader lease is currently valid. Can be used by routing layers to decide whether to serve a read locally. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="987" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="2110" bodyend="2115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a404ec3713712514b14109237907190ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationManager::setPlacementPolicy</definition>
+        <argsstring>(const PlacementConstraints &amp;constraints)</argsstring>
+        <name>setPlacementPolicy</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::setPlacementPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Geographic replica placement policies (v1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the geographic replica placement constraints for leader election and failover candidate selection.</para>
+<para>When set, the <ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref> will use these constraints to guide:<itemizedlist>
+<listitem><para>selectLeaderCandidate() for initial leader election</para>
+</listitem><listitem><para>selectFailoverCandidate() when the current leader fails</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Placement constraints (preferred/forbidden DCs, zones, etc.) An empty constraints object disables geographic placement policy.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para><ref refid="geo__placement_8h" kindref="compound">include/replication/geo_placement.h</ref> — <ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+8.0+) ============================================================================ Calls: lock(), THEMIS_INFO(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1006" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="2162" bodyend="2180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a9b08bed25b68203fdbf007e1f1590796" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref> &amp;</type>
+        <definition>const PlacementConstraints &amp; themisdb::replication::ReplicationManager::getPlacementPolicy</definition>
+        <argsstring>() const</argsstring>
+        <name>getPlacementPolicy</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::getPlacementPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the currently active geographic replica placement constraints.</para>
+<para><simplesect kind="return"><para>Reference to the active <ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref>, or empty constraints if no policy is set. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">placement_policy_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1014" column="32" bodyfile="src/replication/replication_manager.cpp" bodystart="2182" bodyend="2197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1aab611bfc9b0b2f70e5d70bfb86fbcf79" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_placement_validation_result" kindref="compound">PlacementValidationResult</ref></type>
+        <definition>PlacementValidationResult themisdb::replication::ReplicationManager::validatePlacementPolicy</definition>
+        <argsstring>() const</argsstring>
+        <name>validatePlacementPolicy</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::validatePlacementPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate whether the current replica topology satisfies the active geographic placement policy.</para>
+<para><simplesect kind="return"><para><ref refid="structthemisdb_1_1replication_1_1_placement_validation_result" kindref="compound">PlacementValidationResult</ref> with any violations or recommendations. An empty violations list means the topology satisfies the policy. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">placement_policy_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Replicas lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replicas_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1023" column="31" bodyfile="src/replication/replication_manager.cpp" bodystart="2199" bodyend="2218"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a49aaa8fbd2641608a66b12c9c4d38dff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationManager::validateConfig</definition>
+        <argsstring>()</argsstring>
+        <name>validateConfig</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::validateConfig</qualifiedname>
+        <briefdescription>
+<para>Validate Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_ERROR(), empty(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1055" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="2398" bodyend="2451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1af300829130e2adad432ceffd17b73370" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationManager::heartbeatLoop</definition>
+        <argsstring>()</argsstring>
+        <name>heartbeatLoop</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::heartbeatLoop</qualifiedname>
+        <briefdescription>
+<para>Heartbeat Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), isLeader(), getCurrentTerm(), lock(), receiveHeartbeat(), getCurrentSequence(), renewLease(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1056" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1917" bodyend="1948"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1af7ccac2911bc3e864b18640dbe8bc7e9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationManager::compactionLoop</definition>
+        <argsstring>()</argsstring>
+        <name>compactionLoop</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::compactionLoop</qualifiedname>
+        <briefdescription>
+<para>Compaction Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), getCurrentSequence(), lock(), std::min(), getLastAckedSequence(), truncateBefore(), std::this_thread::sleep_for(), std::chrono::seconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1057" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1954" bodyend="1975"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a690556a334f7a4d1a332aee110c802a3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationManager::healthMonitorLoop</definition>
+        <argsstring>()</argsstring>
+        <name>healthMonitorLoop</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::healthMonitorLoop</qualifiedname>
+        <briefdescription>
+<para>Health Monitor Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), <ref refid="classthemisdb_1_1replication_1_1_replication_manager_1af5109e47e9fb49e805c2e983724a6a5b" kindref="member">performHealthCheck()</ref>, isLeader(), getLeaderId(), lock(), empty(), fetch_add(), attemptAutomaticFailover(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1058" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="2224" bodyend="2301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a0e8fa7e3e1ebb6ab31b4153cd987da92" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationManager::notifyListeners</definition>
+        <argsstring>(std::function&lt; void(IReplicationListener &amp;)&gt; callback)</argsstring>
+        <name>notifyListeners</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::notifyListeners</qualifiedname>
+        <param>
+          <type>std::function&lt; void(<ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1059" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1977" bodyend="1984"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1a88c901dfb251632885b865848945ebde" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationManager::attemptAutomaticFailover</definition>
+        <argsstring>(const std::string &amp;failed_node_id)</argsstring>
+        <name>attemptAutomaticFailover</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::attemptAutomaticFailover</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failed_node_id</declname>
+        </param>
+        <briefdescription>
+<para>Attempt Automatic Failover. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the failed node.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemisdb_1_1replication_1_1_replication_manager_1ae3240503d1462f4e39f670df40ce7fb2" kindref="member">hasQuorum()</ref>, electNewLeader(), getLeaderId(), notifyListeners(), onFailoverStarted(), onFailoverCompleted(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1060" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="2308" bodyend="2334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1aec4dc500aa712bcbe1784834c5f0ff89" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicationManager::electNewLeader</definition>
+        <argsstring>()</argsstring>
+        <name>electNewLeader</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::electNewLeader</qualifiedname>
+        <briefdescription>
+<para>Elect New Leader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), size(), startElection(), isLeader(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1061" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="2341" bodyend="2379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_manager_1afe7af82a1558fbdce4f89c859f59308c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicationManager::updateReplicaHealth</definition>
+        <argsstring>(ReplicaInfo &amp;replica)</argsstring>
+        <name>updateReplicaHealth</name>
+        <qualifiedname>themisdb::replication::ReplicationManager::updateReplicaHealth</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &amp;</type>
+          <declname>replica</declname>
+        </param>
+        <briefdescription>
+<para>Update Replica Health. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">replica</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: updateHealthStatus(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1062" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="2386" bodyend="2391"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Main Replication Manager </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="618" column="1" bodyfile="include/replication/replication_manager.h" bodystart="618" bodyend="1063"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1acda28853a7827edc3eda67ecf0a6ac42" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>active_placement_policy_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a10e1433302c16db2b07c5101d8a3ab3e" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>addListener</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1ab1c5b310ba60cdb5cadf678ab4dbb9d9" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>addReplica</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1ad382f94ec2889b99e45183e83eebd9f5" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>addWitnessNode</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a88c901dfb251632885b865848945ebde" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>attemptAutomaticFailover</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a9030dc6acc367bbc914a9815d1b92f53" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>compaction_thread_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1af7ccac2911bc3e864b18640dbe8bc7e9" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>compactionLoop</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1ae78f96d3313396d9a59bad5f1176c28f" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a9b44f536d8f7580d8dff5faa14eda97b" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>conflict_resolver_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a281dcab7366c8b4ea3e5f39fe5d16fc1" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>demoteToFollower</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a03a4cb5e1139c9726e59e374f998705e" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>detectNetworkPartition</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1afbfe1914186fc264a763c54669713add" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>election_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1aec4dc500aa712bcbe1784834c5f0ff89" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>electNewLeader</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1aeffdaa4fa01267e816bb6ce65405d6ab" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>enableMultiRegion</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a4edb6c37babf9f1c090cf4fafb5a29e1" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>exportPrometheusMetrics</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a7fed892f4ee47cea6b83dbcaf9c6cafa" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>getClusterHealth</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a82a7a75eeaecb9ded4f320ffc9692052" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>getLeaderEndpoint</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a9b08bed25b68203fdbf007e1f1590796" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>getPlacementPolicy</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1ac1aa05aa3e494d3bd70a5cffe1ae6b97" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>getReadPreference</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a59b8ffdc3cbcd1205963ad0a65135fa3" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>getReplicaHealthStatus</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a23f37fd97b6893bb42bb7c44c5712fbb" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>getReplicas</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a75e16cc01b3b82dfa634e95d3292fa7f" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>getReplicationLag</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1ab53b424a0fcde3f53cfd3f821977cdd1" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>getRole</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1ad18f4d3f97c7a4c07d82d244560cc12f" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1ac736595a37569982671674620eb34af3" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>hasLeaderLease</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1ae3240503d1462f4e39f670df40ce7fb2" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>hasQuorum</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a36449c6f38de65bab5727922f0d083b7" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>health_monitor_thread_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a690556a334f7a4d1a332aee110c802a3" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>healthMonitorLoop</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a22f9c7e0d5101029116eeb77badca378" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>heartbeat_thread_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1af300829130e2adad432ceffd17b73370" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>heartbeatLoop</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1aa51b43289036bc06cac5e82b0387ef60" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>initialize</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a7d4943bdde1b7ca8d55f7c1cae39cc9c" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>initialized_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1ab4245c5882a82add81f3b25ce43b55e4" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>leaseRead</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1ade58795eb19d9502749519ebc60bce6b" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>listeners_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1abcd605c7339910815073b12026b26f88" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>manager_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1abaaee50a52262b287328b544fe12a875" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>node_id_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a0e8fa7e3e1ebb6ab31b4153cd987da92" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>notifyListeners</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1af5109e47e9fb49e805c2e983724a6a5b" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>performHealthCheck</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a493d0d6f8a179e0ec015bab6bb4a0d18" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>placement_manager_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1aad36bd234e7299c9a05b7330cc67a744" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>placement_policy_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a82a2c3fb4006ef5579186b7fa425df0d" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>promoteReplica</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1ab58c233d8d5efae7a89d3cd7f64eb12a" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>promoteToLeader</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a82e45e10a80160a92a671d75b702e669" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>removeReplica</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a70517b6e9ef674bb76db43866d031a87" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>replicas_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1abb2a24cc06fb8637a3725fbbfc023676" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>replicas_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a86323fbe0391182187e4e818e4358b08" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>replicate</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a18efc13fbbe580a9444193fe9d7d70ed" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>ReplicationManager</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1aa7ecb70fd7b889ee8dcce29fdaa3fd5b" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a297d778ade34fec84a61b77864ac98c5" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>selectReadReplica</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1acf31290718f490547e03f6f4f2d932e7" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>setConflictResolver</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a404ec3713712514b14109237907190ee" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>setPlacementPolicy</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a23f3f15f6c7a2ee8033eb9800f9c69dc" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>setReadPreference</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a8ca7cd9fa8973de102dc7b170f4c5838" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>setupCascadingReplication</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a4e689fbb42b81e162168607416a985fb" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>shutdown</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a9edd3c14617c1e977d2fd4017ba84c1c" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1ab8632024d6ffd8ee7d966e3704bd579b" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>streams_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a17a1345fe2aea925113895b544b6d4a9" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>triggerFailover</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1afe7af82a1558fbdce4f89c859f59308c" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>updateReplicaHealth</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a49aaa8fbd2641608a66b12c9c4d38dff" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>validateConfig</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1aab611bfc9b0b2f70e5d70bfb86fbcf79" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>validatePlacementPolicy</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1ad74f1d7149175b98ae22ebc9a54756c8" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>waitForReplication</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a972e4b745d5af9ea20d4af63d3f877be" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>wal_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_manager_1a00ff0befcecbb16d9626eb53b6c653c6" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationManager</scope><name>~ReplicationManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

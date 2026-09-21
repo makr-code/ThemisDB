@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::testing::AdversarialPromptTestBase</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_command_injection_test_class" prot="public" virt="non-virtual">themis::prompt_engineering::testing::CommandInjectionTestClass</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_complex_mixed_attack_test_class" prot="public" virt="non-virtual">themis::prompt_engineering::testing::ComplexMixedAttackTestClass</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_null_byte_injection_test_class" prot="public" virt="non-virtual">themis::prompt_engineering::testing::NullByteInjectionTestClass</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_path_traversal_test_class" prot="public" virt="non-virtual">themis::prompt_engineering::testing::PathTraversalTestClass</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_s_q_l_injection_test_class" prot="public" virt="non-virtual">themis::prompt_engineering::testing::SQLInjectionTestClass</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_template_recursion_test_class" prot="public" virt="non-virtual">themis::prompt_engineering::testing::TemplateRecursionTestClass</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_unicode_evasion_test_class" prot="public" virt="non-virtual">themis::prompt_engineering::testing::UnicodeEvasionTestClass</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_validation_hardening_test_class" prot="public" virt="non-virtual">themis::prompt_engineering::testing::ValidationHardeningTestClass</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_x_s_s_injection_test_class" prot="public" virt="non-virtual">themis::prompt_engineering::testing::XSSInjectionTestClass</derivedcompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1a6dfa9bf4194d883991fe54184e84cb5c" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager" kindref="compound">PromptManager</ref></type>
+        <definition>PromptManager themis::prompt_engineering::testing::AdversarialPromptTestBase::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themis::prompt_engineering::testing::AdversarialPromptTestBase::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="46" column="19" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1a399475a4ed74d00891eee56db952ee09" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_injection_detector" kindref="compound">PromptInjectionDetector</ref></type>
+        <definition>PromptInjectionDetector themis::prompt_engineering::testing::AdversarialPromptTestBase::detector_</definition>
+        <argsstring></argsstring>
+        <name>detector_</name>
+        <qualifiedname>themis::prompt_engineering::testing::AdversarialPromptTestBase::detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="47" column="29" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1add7b9b2c5ebe1420c27668c5e5e95f06" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::AdversarialPromptTestBase::AdversarialPromptTestBase</definition>
+        <argsstring>()</argsstring>
+        <name>AdversarialPromptTestBase</name>
+        <qualifiedname>themis::prompt_engineering::testing::AdversarialPromptTestBase::AdversarialPromptTestBase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="43" column="5" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="43" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1af16acd752ce06d6e677ba5a02c0f34cf" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::testing::AdversarialPromptTestBase::assertPayloadDetected</definition>
+        <argsstring>(const std::string &amp;malicious_payload, const std::string &amp;test_case_id)</argsstring>
+        <name>assertPayloadDetected</name>
+        <qualifiedname>themis::prompt_engineering::testing::AdversarialPromptTestBase::assertPayloadDetected</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>malicious_payload</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_case_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test that a malicious payload is detected </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="52" column="10" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="52" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1a4f70f9d1b844f207c739475bfd9b5a8d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::testing::AdversarialPromptTestBase::assertPayloadBenign</definition>
+        <argsstring>(const std::string &amp;benign_prompt)</argsstring>
+        <name>assertPayloadBenign</name>
+        <qualifiedname>themis::prompt_engineering::testing::AdversarialPromptTestBase::assertPayloadBenign</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>benign_prompt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test that a benign prompt is NOT detected as malicious </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="64" column="10" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="64" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1a40d775ee6ac38129c82dc1c6e78f2c76" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1_1testing_1a3ec99d2f9c566805e03505f44c6a841d" kindref="member">ValidationResult</ref></type>
+        <definition>ValidationResult themis::prompt_engineering::testing::AdversarialPromptTestBase::validateTemplate</definition>
+        <argsstring>(const PromptTemplate &amp;t)</argsstring>
+        <name>validateTemplate</name>
+        <qualifiedname>themis::prompt_engineering::testing::AdversarialPromptTestBase::validateTemplate</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1prompt__engineering_1_1testing_1aa11f9ed857028af02f31e15db0b26fda" kindref="member">PromptTemplate</ref> &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate template with enhanced injection checks </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="74" column="22" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="74" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base class for adversarial testing with common utilities. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::testing::AdversarialPromptTestBase</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::prompt_engineering::testing::CommandInjectionTestClass</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_command_injection_test_class"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::prompt_engineering::testing::ComplexMixedAttackTestClass</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_complex_mixed_attack_test_class"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::prompt_engineering::testing::NullByteInjectionTestClass</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_null_byte_injection_test_class"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::prompt_engineering::testing::PathTraversalTestClass</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_path_traversal_test_class"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::prompt_engineering::testing::SQLInjectionTestClass</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_s_q_l_injection_test_class"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::prompt_engineering::testing::TemplateRecursionTestClass</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_template_recursion_test_class"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>themis::prompt_engineering::testing::UnicodeEvasionTestClass</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_unicode_evasion_test_class"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>themis::prompt_engineering::testing::ValidationHardeningTestClass</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_validation_hardening_test_class"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>themis::prompt_engineering::testing::XSSInjectionTestClass</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_x_s_s_injection_test_class"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::prompt_engineering::PromptInjectionDetector</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_prompt_injection_detector"/>
+      </node>
+      <node id="3">
+        <label>themis::prompt_engineering::PromptManager</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_prompt_manager"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::testing::AdversarialPromptTestBase</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>manager_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>detector_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="41" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="41" bodyend="90"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1add7b9b2c5ebe1420c27668c5e5e95f06" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::AdversarialPromptTestBase</scope><name>AdversarialPromptTestBase</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1a4f70f9d1b844f207c739475bfd9b5a8d" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::AdversarialPromptTestBase</scope><name>assertPayloadBenign</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1af16acd752ce06d6e677ba5a02c0f34cf" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::AdversarialPromptTestBase</scope><name>assertPayloadDetected</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1a399475a4ed74d00891eee56db952ee09" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::AdversarialPromptTestBase</scope><name>detector_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1a6dfa9bf4194d883991fe54184e84cb5c" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::AdversarialPromptTestBase</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1a40d775ee6ac38129c82dc1c6e78f2c76" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::AdversarialPromptTestBase</scope><name>validateTemplate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

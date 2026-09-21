@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_read_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ReadResult</compoundname>
+    <includes refid="redundancy__strategy_8h" local="no">redundancy_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_read_result_1ae9a2b1bfb1a14e92de517b623ace50b7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ReadResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::ReadResult::success</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="291" column="10" bodyfile="include/sharding/redundancy_strategy.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_read_result_1ad67801e87d4f057e32ed6c815ee92ecd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ReadResult::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::sharding::ReadResult::document_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="292" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_read_result_1a103c50b069c62e963b0daf41623fe98d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ReadResult::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::sharding::ReadResult::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="293" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_read_result_1a8a7f710100d4a119513f20c560192138" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ReadResult::source_shard</definition>
+        <argsstring></argsstring>
+        <name>source_shard</name>
+        <qualifiedname>themis::sharding::ReadResult::source_shard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="294" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_read_result_1abcbcea974db66dbb53273d899ad5b1a4" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::ReadResult::latency</definition>
+        <argsstring></argsstring>
+        <name>latency</name>
+        <qualifiedname>themis::sharding::ReadResult::latency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="295" column="31" bodyfile="include/sharding/redundancy_strategy.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_read_result_1aea6632373dca5de1c13755e302fb6177" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ReadResult::from_replica</definition>
+        <argsstring></argsstring>
+        <name>from_replica</name>
+        <qualifiedname>themis::sharding::ReadResult::from_replica</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="296" column="10" bodyfile="include/sharding/redundancy_strategy.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_read_result_1a6d5c67b398ede17b7d166d429d4afd8c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::ReadResult::chunks_read</definition>
+        <argsstring></argsstring>
+        <name>chunks_read</name>
+        <qualifiedname>themis::sharding::ReadResult::chunks_read</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="297" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_read_result_1ab733fde8048bd090411ea62fc45f27ac" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ReadResult::version_token</definition>
+        <argsstring></argsstring>
+        <name>version_token</name>
+        <qualifiedname>themis::sharding::ReadResult::version_token</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="298" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_read_result_1aa758e1ea19fe1479d70260ec137eede8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ReadResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::sharding::ReadResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="299" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result payload for read path including source, chunk, and snapshot-version metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/redundancy_strategy.h" line="290" column="1" bodyfile="include/sharding/redundancy_strategy.h" bodystart="290" bodyend="300"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_read_result_1a6d5c67b398ede17b7d166d429d4afd8c" prot="public" virt="non-virtual"><scope>themis::sharding::ReadResult</scope><name>chunks_read</name></member>
+      <member refid="structthemis_1_1sharding_1_1_read_result_1a103c50b069c62e963b0daf41623fe98d" prot="public" virt="non-virtual"><scope>themis::sharding::ReadResult</scope><name>data</name></member>
+      <member refid="structthemis_1_1sharding_1_1_read_result_1ad67801e87d4f057e32ed6c815ee92ecd" prot="public" virt="non-virtual"><scope>themis::sharding::ReadResult</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_read_result_1aa758e1ea19fe1479d70260ec137eede8" prot="public" virt="non-virtual"><scope>themis::sharding::ReadResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1sharding_1_1_read_result_1aea6632373dca5de1c13755e302fb6177" prot="public" virt="non-virtual"><scope>themis::sharding::ReadResult</scope><name>from_replica</name></member>
+      <member refid="structthemis_1_1sharding_1_1_read_result_1abcbcea974db66dbb53273d899ad5b1a4" prot="public" virt="non-virtual"><scope>themis::sharding::ReadResult</scope><name>latency</name></member>
+      <member refid="structthemis_1_1sharding_1_1_read_result_1a8a7f710100d4a119513f20c560192138" prot="public" virt="non-virtual"><scope>themis::sharding::ReadResult</scope><name>source_shard</name></member>
+      <member refid="structthemis_1_1sharding_1_1_read_result_1ae9a2b1bfb1a14e92de517b623ace50b7" prot="public" virt="non-virtual"><scope>themis::sharding::ReadResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1sharding_1_1_read_result_1ab733fde8048bd090411ea62fc45f27ac" prot="public" virt="non-virtual"><scope>themis::sharding::ReadResult</scope><name>version_token</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

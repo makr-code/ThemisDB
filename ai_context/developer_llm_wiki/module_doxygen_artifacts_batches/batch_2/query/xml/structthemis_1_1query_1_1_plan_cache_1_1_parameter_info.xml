@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_plan_cache_1_1_parameter_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::PlanCache::ParameterInfo</compoundname>
+    <includes refid="plan__cache_8h" local="no">plan_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_parameter_info_1a320c003e4b8dab8dcd47359df983313b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::PlanCache::ParameterInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::PlanCache::ParameterInfo::name</qualifiedname>
+        <briefdescription>
+<para>Bind-parameter name (e.g. &quot;@age&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="45" column="21" bodyfile="include/query/plan_cache.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_parameter_info_1ab50f2e171717cf8901173c7694bf2475" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::PlanCache::ParameterInfo::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::PlanCache::ParameterInfo::type</qualifiedname>
+        <briefdescription>
+<para>Type hint: &quot;int&quot;, &quot;string&quot;, &quot;float&quot;, … </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="46" column="21" bodyfile="include/query/plan_cache.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_parameter_info_1ac72fc0923e470595e746cce1ae3b0880" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::PlanCache::ParameterInfo::sample_value</definition>
+        <argsstring></argsstring>
+        <name>sample_value</name>
+        <qualifiedname>themis::query::PlanCache::ParameterInfo::sample_value</qualifiedname>
+        <briefdescription>
+<para>Representative value used at plan time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="47" column="21" bodyfile="include/query/plan_cache.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/plan_cache.h" line="44" column="5" bodyfile="include/query/plan_cache.h" bodystart="44" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_parameter_info_1a320c003e4b8dab8dcd47359df983313b" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::ParameterInfo</scope><name>name</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_parameter_info_1ac72fc0923e470595e746cce1ae3b0880" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::ParameterInfo</scope><name>sample_value</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_parameter_info_1ab50f2e171717cf8901173c7694bf2475" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::ParameterInfo</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

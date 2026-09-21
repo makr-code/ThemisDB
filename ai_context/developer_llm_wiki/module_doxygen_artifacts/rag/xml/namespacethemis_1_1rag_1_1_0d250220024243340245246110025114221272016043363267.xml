@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag_1_1_0d250220024243340245246110025114221272016043363267" kind="namespace" language="C++">
+    <compoundname>themis::rag::@250220024243340245246110025114221272016043363267</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/rag/llm_integration.cpp" line="44" column="1"/>
+  </compounddef>
+</doxygen>

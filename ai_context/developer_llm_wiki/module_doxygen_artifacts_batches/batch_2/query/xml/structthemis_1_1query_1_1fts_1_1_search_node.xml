@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1fts_1_1_search_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::fts::SearchNode</compoundname>
+    <includes refid="fts__parser_8h" local="no">fts_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_search_node_1a229ef8b30f825481f0ab5654ada15066" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746" kindref="member">SearchNodeType</ref></type>
+        <definition>SearchNodeType themis::query::fts::SearchNode::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::fts::SearchNode::type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a8baeec6d282f1791ea9954d0c514ed8d" kindref="member">SearchNodeType::TERM</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_parser.h" line="19" column="18" bodyfile="include/query/fts_parser.h" bodystart="19" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_search_node_1a1d94eaf81fbedf014d575d049f54bae7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::fts::SearchNode::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themis::query::fts::SearchNode::term</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_parser.h" line="20" column="15" bodyfile="include/query/fts_parser.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_search_node_1adc5679d645b2e59fcf35399aae9344cf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref> &gt;</type>
+        <definition>std::vector&lt;SearchNode&gt; themis::query::fts::SearchNode::children</definition>
+        <argsstring></argsstring>
+        <name>children</name>
+        <qualifiedname>themis::query::fts::SearchNode::children</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_parser.h" line="21" column="15" bodyfile="include/query/fts_parser.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_search_node_1a8306e97fba2dd0a29c3c6777a25027c8" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::query::fts::SearchNode::boost</definition>
+        <argsstring></argsstring>
+        <name>boost</name>
+        <qualifiedname>themis::query::fts::SearchNode::boost</qualifiedname>
+        <initializer>{1.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_parser.h" line="22" column="9" bodyfile="include/query/fts_parser.h" bodystart="22" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_search_node_1a19c91020c0d4241665cb2ef8700f7f8c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::fts::SearchNode::proximity_distance</definition>
+        <argsstring></argsstring>
+        <name>proximity_distance</name>
+        <qualifiedname>themis::query::fts::SearchNode::proximity_distance</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_parser.h" line="23" column="12" bodyfile="include/query/fts_parser.h" bodystart="23" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_search_node_1aa1729b5a653d7e84357a9be5ae6f3014" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::fts::SearchNode::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::query::fts::SearchNode::field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_parser.h" line="24" column="15" bodyfile="include/query/fts_parser.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_search_node_1a56319587ae3f7673cc5e8423b49a8453" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; uint32_t &gt;</type>
+        <definition>std::optional&lt;uint32_t&gt; themis::query::fts::SearchNode::document_frequency</definition>
+        <argsstring></argsstring>
+        <name>document_frequency</name>
+        <qualifiedname>themis::query::fts::SearchNode::document_frequency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_parser.h" line="27" column="17" bodyfile="include/query/fts_parser.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_search_node_1a6f80384baf3fa36aafe2352fe172eb6a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; uint32_t &gt;</type>
+        <definition>std::optional&lt;uint32_t&gt; themis::query::fts::SearchNode::document_term_frequency</definition>
+        <argsstring></argsstring>
+        <name>document_term_frequency</name>
+        <qualifiedname>themis::query::fts::SearchNode::document_term_frequency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_parser.h" line="28" column="17" bodyfile="include/query/fts_parser.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_search_node_1a2e714657b33204b9094ad0f896cfb095" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; uint32_t &gt;</type>
+        <definition>std::optional&lt;uint32_t&gt; themis::query::fts::SearchNode::document_length_tokens</definition>
+        <argsstring></argsstring>
+        <name>document_length_tokens</name>
+        <qualifiedname>themis::query::fts::SearchNode::document_length_tokens</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_parser.h" line="29" column="17" bodyfile="include/query/fts_parser.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1fts_1_1_search_node_1a1c5e2946356794a192c502450e9991d3" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref></type>
+        <definition>static SearchNode themis::query::fts::SearchNode::makeTerm</definition>
+        <argsstring>(std::string value, float term_boost=1.0f)</argsstring>
+        <name>makeTerm</name>
+        <qualifiedname>themis::query::fts::SearchNode::makeTerm</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>term_boost</declname>
+          <defval>1.0f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_parser.h" line="31" column="21" bodyfile="include/query/fts_parser.h" bodystart="31" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1fts_1_1_search_node_1a2c3663a95745f92fbf1fe32a296a480d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref></type>
+        <definition>static SearchNode themis::query::fts::SearchNode::makePhrase</definition>
+        <argsstring>(std::string value, float term_boost=1.0f)</argsstring>
+        <name>makePhrase</name>
+        <qualifiedname>themis::query::fts::SearchNode::makePhrase</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>term_boost</declname>
+          <defval>1.0f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_parser.h" line="39" column="21" bodyfile="include/query/fts_parser.h" bodystart="39" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1fts_1_1_search_node_1a62890cc451cc12ecf740296d9c0539fd" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref></type>
+        <definition>static SearchNode themis::query::fts::SearchNode::makeBoolean</definition>
+        <argsstring>(SearchNodeType boolean_type, std::vector&lt; SearchNode &gt; operands)</argsstring>
+        <name>makeBoolean</name>
+        <qualifiedname>themis::query::fts::SearchNode::makeBoolean</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746" kindref="member">SearchNodeType</ref></type>
+          <declname>boolean_type</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref> &gt;</type>
+          <declname>operands</declname>
+        </param>
+        <briefdescription>
+<para>Make Boolean. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">boolean_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operands</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_parser.h" line="54" column="21" bodyfile="include/query/fts_parser.h" bodystart="54" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/fts_parser.h" line="18" column="1" bodyfile="include/query/fts_parser.h" bodystart="18" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1fts_1_1_search_node_1a8306e97fba2dd0a29c3c6777a25027c8" prot="public" virt="non-virtual"><scope>themis::query::fts::SearchNode</scope><name>boost</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_search_node_1adc5679d645b2e59fcf35399aae9344cf" prot="public" virt="non-virtual"><scope>themis::query::fts::SearchNode</scope><name>children</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_search_node_1a56319587ae3f7673cc5e8423b49a8453" prot="public" virt="non-virtual"><scope>themis::query::fts::SearchNode</scope><name>document_frequency</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_search_node_1a2e714657b33204b9094ad0f896cfb095" prot="public" virt="non-virtual"><scope>themis::query::fts::SearchNode</scope><name>document_length_tokens</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_search_node_1a6f80384baf3fa36aafe2352fe172eb6a" prot="public" virt="non-virtual"><scope>themis::query::fts::SearchNode</scope><name>document_term_frequency</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_search_node_1aa1729b5a653d7e84357a9be5ae6f3014" prot="public" virt="non-virtual"><scope>themis::query::fts::SearchNode</scope><name>field</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_search_node_1a62890cc451cc12ecf740296d9c0539fd" prot="public" virt="non-virtual"><scope>themis::query::fts::SearchNode</scope><name>makeBoolean</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_search_node_1a2c3663a95745f92fbf1fe32a296a480d" prot="public" virt="non-virtual"><scope>themis::query::fts::SearchNode</scope><name>makePhrase</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_search_node_1a1c5e2946356794a192c502450e9991d3" prot="public" virt="non-virtual"><scope>themis::query::fts::SearchNode</scope><name>makeTerm</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_search_node_1a19c91020c0d4241665cb2ef8700f7f8c" prot="public" virt="non-virtual"><scope>themis::query::fts::SearchNode</scope><name>proximity_distance</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_search_node_1a1d94eaf81fbedf014d575d049f54bae7" prot="public" virt="non-virtual"><scope>themis::query::fts::SearchNode</scope><name>term</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_search_node_1a229ef8b30f825481f0ab5654ada15066" prot="public" virt="non-virtual"><scope>themis::query::fts::SearchNode</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

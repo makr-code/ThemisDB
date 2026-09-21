@@ -1,0 +1,380 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::EthicsBaseEntityAdapter</compoundname>
+    <includes refid="ethics__base__entity__adapter_8h" local="no">ethics_base_entity_adapter.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a0ec834bdf259ce95d7b2e2a0e57f712a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>BaseEntity</type>
+        <definition>static BaseEntity themis::plugins::ethics::EthicsBaseEntityAdapter::toBaseEntity</definition>
+        <argsstring>(const EthicalArgument &amp;argument)</argsstring>
+        <name>toBaseEntity</name>
+        <qualifiedname>themis::plugins::ethics::EthicsBaseEntityAdapter::toBaseEntity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &amp;</type>
+          <declname>argument</declname>
+        </param>
+        <briefdescription>
+<para>========== Ethical Argument Conversion ========== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1plugins_1_1ethics_1a38d2de2f1069d8fba4a07ffb5762f187" kindref="member">argumentTypeToString()</ref>, <ref refid="namespacethemis_1_1plugins_1_1ethics_1a50d8a74b3d728784317577ccad997b97" kindref="member">argumentStrengthToString()</ref>, time_since_epoch(), count(), empty(), dump(), BaseEntity::fromFields(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_base_entity_adapter.h" line="33" column="23" bodyfile="src/ethics_ai/ethics_base_entity_adapter.h" bodystart="33" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a996072fc5fc0f3086f9a375ebd2988b0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref></type>
+        <definition>static EthicalArgument themis::plugins::ethics::EthicsBaseEntityAdapter::fromBaseEntity</definition>
+        <argsstring>(const BaseEntity &amp;entity)</argsstring>
+        <name>fromBaseEntity</name>
+        <qualifiedname>themis::plugins::ethics::EthicsBaseEntityAdapter::fromBaseEntity</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>From Base Entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getPrimaryKey(), getFieldAsString(), value_or(), <ref refid="namespacethemis_1_1plugins_1_1ethics_1a82b8d42188cd0749cb3a801eda438d96" kindref="member">stringToArgumentType()</ref>, <ref refid="namespacethemis_1_1plugins_1_1ethics_1ac16c552b2968943f30f3f956f79879b1" kindref="member">stringToArgumentStrength()</ref>, getFieldAsInt(), std::chrono::system_clock::from_time_t(), nlohmann::json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_base_entity_adapter.h" line="71" column="28" bodyfile="src/ethics_ai/ethics_base_entity_adapter.h" bodystart="71" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1ab1f1ea5567f1ab6bbdcbe2809c474853" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::plugins::ethics::EthicsBaseEntityAdapter::makeArgumentKey</definition>
+        <argsstring>(const std::string &amp;argument_id)</argsstring>
+        <name>makeArgumentKey</name>
+        <qualifiedname>themis::plugins::ethics::EthicsBaseEntityAdapter::makeArgumentKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>argument_id</declname>
+        </param>
+        <briefdescription>
+<para>Make Argument Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">argument_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the argument. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeArgumentKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_base_entity_adapter.h" line="128" column="24" bodyfile="src/ethics_ai/ethics_base_entity_adapter.h" bodystart="128" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a243e37f3234fd05a4e21c8f664f4f451" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>BaseEntity</type>
+        <definition>static BaseEntity themis::plugins::ethics::EthicsBaseEntityAdapter::toBaseEntity</definition>
+        <argsstring>(const EthicalDecision &amp;decision)</argsstring>
+        <name>toBaseEntity</name>
+        <qualifiedname>themis::plugins::ethics::EthicsBaseEntityAdapter::toBaseEntity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <briefdescription>
+<para>========== Ethical Decision Conversion ========== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: time_since_epoch(), count(), empty(), dump(), BaseEntity::fromFields(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_base_entity_adapter.h" line="139" column="23" bodyfile="src/ethics_ai/ethics_base_entity_adapter.h" bodystart="139" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a96a4556322c826d3e1d2c3ce3bec99db" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref></type>
+        <definition>static EthicalDecision themis::plugins::ethics::EthicsBaseEntityAdapter::fromBaseEntity</definition>
+        <argsstring>(const BaseEntity &amp;entity, bool is_decision)</argsstring>
+        <name>fromBaseEntity</name>
+        <qualifiedname>themis::plugins::ethics::EthicsBaseEntityAdapter::fromBaseEntity</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_decision</declname>
+        </param>
+        <briefdescription>
+<para>From Base Entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">is_decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getPrimaryKey(), getFieldAsString(), value_or(), getFieldAsDouble(), getFieldAsInt(), std::chrono::system_clock::from_time_t(), nlohmann::json::parse(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_base_entity_adapter.h" line="174" column="28" bodyfile="src/ethics_ai/ethics_base_entity_adapter.h" bodystart="174" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a895fc31ed4df3c806676f54f17ddd645" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::plugins::ethics::EthicsBaseEntityAdapter::makeDecisionKey</definition>
+        <argsstring>(const std::string &amp;decision_id)</argsstring>
+        <name>makeDecisionKey</name>
+        <qualifiedname>themis::plugins::ethics::EthicsBaseEntityAdapter::makeDecisionKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>decision_id</declname>
+        </param>
+        <briefdescription>
+<para>Make Decision Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the decision. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeDecisionKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_base_entity_adapter.h" line="217" column="24" bodyfile="src/ethics_ai/ethics_base_entity_adapter.h" bodystart="217" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1ae623fc464e05cc103f2b9c3c482a1f96" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>BaseEntity</type>
+        <definition>static BaseEntity themis::plugins::ethics::EthicsBaseEntityAdapter::toBaseEntity</definition>
+        <argsstring>(const PhilosophyProfile &amp;profile)</argsstring>
+        <name>toBaseEntity</name>
+        <qualifiedname>themis::plugins::ethics::EthicsBaseEntityAdapter::toBaseEntity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kindref="compound">PhilosophyProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>========== Philosophy Profile Conversion ========== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: dump(), BaseEntity::fromFields(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_base_entity_adapter.h" line="228" column="23" bodyfile="src/ethics_ai/ethics_base_entity_adapter.h" bodystart="228" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1aeafb6acc93e6d971f7e41267639f0b37" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kindref="compound">PhilosophyProfile</ref></type>
+        <definition>static PhilosophyProfile themis::plugins::ethics::EthicsBaseEntityAdapter::fromBaseEntityToProfile</definition>
+        <argsstring>(const BaseEntity &amp;entity)</argsstring>
+        <name>fromBaseEntityToProfile</name>
+        <qualifiedname>themis::plugins::ethics::EthicsBaseEntityAdapter::fromBaseEntityToProfile</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>From Base Entity To Profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getPrimaryKey(), getFieldAsString(), value_or(), nlohmann::json::parse(), THEMIS_WARN(), what(), parse_string_vec(), parse_string_map(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_base_entity_adapter.h" line="275" column="30" bodyfile="src/ethics_ai/ethics_base_entity_adapter.h" bodystart="275" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a4c877f0a1b5eb3fff4e0fd65921b6c21" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::plugins::ethics::EthicsBaseEntityAdapter::makeProfileKey</definition>
+        <argsstring>(const std::string &amp;school)</argsstring>
+        <name>makeProfileKey</name>
+        <qualifiedname>themis::plugins::ethics::EthicsBaseEntityAdapter::makeProfileKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>school</declname>
+        </param>
+        <briefdescription>
+<para>Make Profile Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">school</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeProfileKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_base_entity_adapter.h" line="319" column="24" bodyfile="src/ethics_ai/ethics_base_entity_adapter.h" bodystart="319" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a356428e2822df014be82a2423bf6bc38" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>BaseEntity</type>
+        <definition>static BaseEntity themis::plugins::ethics::EthicsBaseEntityAdapter::toBaseEntity</definition>
+        <argsstring>(const DebateInitialization &amp;debate)</argsstring>
+        <name>toBaseEntity</name>
+        <qualifiedname>themis::plugins::ethics::EthicsBaseEntityAdapter::toBaseEntity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization" kindref="compound">DebateInitialization</ref> &amp;</type>
+          <declname>debate</declname>
+        </param>
+        <briefdescription>
+<para>========== Debate Initialization Conversion ========== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">debate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: time_since_epoch(), count(), empty(), dump(), BaseEntity::fromFields(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_base_entity_adapter.h" line="330" column="23" bodyfile="src/ethics_ai/ethics_base_entity_adapter.h" bodystart="330" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1abdef3a6fb7fdfb2b5e960055cd29e7aa" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::plugins::ethics::EthicsBaseEntityAdapter::makeDebateKey</definition>
+        <argsstring>(const std::string &amp;debate_id)</argsstring>
+        <name>makeDebateKey</name>
+        <qualifiedname>themis::plugins::ethics::EthicsBaseEntityAdapter::makeDebateKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>debate_id</declname>
+        </param>
+        <briefdescription>
+<para>Make Debate Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">debate_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the debate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeDebateKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_base_entity_adapter.h" line="357" column="24" bodyfile="src/ethics_ai/ethics_base_entity_adapter.h" bodystart="357" bodyend="359"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ethics_ai/ethics_base_entity_adapter.h" line="24" column="1" bodyfile="src/ethics_ai/ethics_base_entity_adapter.h" bodystart="24" bodyend="360"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a996072fc5fc0f3086f9a375ebd2988b0" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsBaseEntityAdapter</scope><name>fromBaseEntity</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a96a4556322c826d3e1d2c3ce3bec99db" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsBaseEntityAdapter</scope><name>fromBaseEntity</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1aeafb6acc93e6d971f7e41267639f0b37" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsBaseEntityAdapter</scope><name>fromBaseEntityToProfile</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1ab1f1ea5567f1ab6bbdcbe2809c474853" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsBaseEntityAdapter</scope><name>makeArgumentKey</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1abdef3a6fb7fdfb2b5e960055cd29e7aa" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsBaseEntityAdapter</scope><name>makeDebateKey</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a895fc31ed4df3c806676f54f17ddd645" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsBaseEntityAdapter</scope><name>makeDecisionKey</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a4c877f0a1b5eb3fff4e0fd65921b6c21" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsBaseEntityAdapter</scope><name>makeProfileKey</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a0ec834bdf259ce95d7b2e2a0e57f712a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsBaseEntityAdapter</scope><name>toBaseEntity</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a243e37f3234fd05a4e21c8f664f4f451" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsBaseEntityAdapter</scope><name>toBaseEntity</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1ae623fc464e05cc103f2b9c3c482a1f96" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsBaseEntityAdapter</scope><name>toBaseEntity</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a356428e2822df014be82a2423bf6bc38" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsBaseEntityAdapter</scope><name>toBaseEntity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

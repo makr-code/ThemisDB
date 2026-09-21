@@ -1,0 +1,335 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1rmd" kind="namespace" language="C++">
+    <compoundname>themis::bench::rmd</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1rmd_1a161eebcc0119d550abfb273f2a65e283" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::rmd::kRmdSeed</definition>
+        <argsstring></argsstring>
+        <name>kRmdSeed</name>
+        <qualifiedname>themis::bench::rmd::kRmdSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all RMD benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="93" column="27" bodyfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1rmd_1a205239f6f122cac165059cdb4814aea3" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::bench::rmd::kWalSegmentBytes</definition>
+        <argsstring></argsstring>
+        <name>kWalSegmentBytes</name>
+        <qualifiedname>themis::bench::rmd::kWalSegmentBytes</qualifiedname>
+        <initializer>= 64 * 1024</initializer>
+        <briefdescription>
+<para>Segment size for WAL throughput benchmarks (64 KiB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="96" column="25" bodyfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1rmd_1a47a6c434aca5a82db220ab2022ff46f4" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::rmd::kReplicasPerDC</definition>
+        <argsstring></argsstring>
+        <name>kReplicasPerDC</name>
+        <qualifiedname>themis::bench::rmd::kReplicasPerDC</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+<para>Number of replicas per DC in the standard 3-DC topology. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="99" column="22" bodyfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1rmd_1ac989aa0c005faa8e744091800712a0fe" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::rmd::kDCCount</definition>
+        <argsstring></argsstring>
+        <name>kDCCount</name>
+        <qualifiedname>themis::bench::rmd::kDCCount</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Number of DCs in the standard topology. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="102" column="22" bodyfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1rmd_1a15f9bd0383dd86977a64a8fa467df449" prot="public" static="yes" mutable="no">
+        <type>const std::vector&lt; std::string &gt;</type>
+        <definition>const std::vector&lt;std::string&gt; themis::bench::rmd::kDCNames</definition>
+        <argsstring></argsstring>
+        <name>kDCNames</name>
+        <qualifiedname>themis::bench::rmd::kDCNames</qualifiedname>
+        <initializer>                                  = {
+    &quot;eu-west-1&quot;, &quot;us-east-1&quot;, &quot;ap-southeast-1&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="104" column="26" bodyfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" bodystart="104" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rmd_1ab6a298510670133e36a1504b1beb30da" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt;</type>
+        <definition>static std::vector&lt; ReplicaInfo &gt; themis::bench::rmd::build3DCTopology</definition>
+        <argsstring>()</argsstring>
+        <name>build3DCTopology</name>
+        <qualifiedname>themis::bench::rmd::build3DCTopology</qualifiedname>
+        <briefdescription>
+<para>Build a 3-DC topology with kReplicasPerDC healthy voting replicas per DC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="113" column="20" bodyfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" bodystart="113" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rmd_1a3f681c5e3f4bfb293f1f7c9f99858b00" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref></type>
+        <definition>static PlacementConstraints themis::bench::rmd::buildConstraints</definition>
+        <argsstring>()</argsstring>
+        <name>buildConstraints</name>
+        <qualifiedname>themis::bench::rmd::buildConstraints</qualifiedname>
+        <briefdescription>
+<para>Constraints that prefer the first DC and forbid the third. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="136" column="29" bodyfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" bodystart="136" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rmd_1aea1f899a847775ffba904de0347fbec1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rmd::BM_RMD01_GeoLeaderSelection</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RMD01_GeoLeaderSelection</name>
+        <qualifiedname>themis::bench::rmd::BM_RMD01_GeoLeaderSelection</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="151" column="13" bodyfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" bodystart="151" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rmd_1a2b8b07a0bebcd8e5fe4db2b1db28b43b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::rmd::Repetitions</definition>
+        <argsstring>(5) -&gt; ReportAggregatesOnly(true) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::rmd::Repetitions</qualifiedname>
+        <param>
+          <type>5</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="165" column="5" declfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" declline="165" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rmd_1af70a827111cef070b1d3af39dffc98c1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rmd::BM_RMD02_GeoFailoverSelection</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RMD02_GeoFailoverSelection</name>
+        <qualifiedname>themis::bench::rmd::BM_RMD02_GeoFailoverSelection</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="173" column="13" bodyfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" bodystart="173" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rmd_1a1fd2e6cf7b5d067e8159b0229d0e7ff0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rmd::BM_RMD03_GeoValidatePlacement</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RMD03_GeoValidatePlacement</name>
+        <qualifiedname>themis::bench::rmd::BM_RMD03_GeoValidatePlacement</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="198" column="13" bodyfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" bodystart="198" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rmd_1addd456005d18396a3fb399a620d00f4c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rmd::BM_RMD04_WalEnqueueThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RMD04_WalEnqueueThroughput</name>
+        <qualifiedname>themis::bench::rmd::BM_RMD04_WalEnqueueThroughput</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="220" column="13" bodyfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" bodystart="220" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rmd_1a840c142da51c9789752411b30fefd033" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::rmd::UseRealTime</definition>
+        <argsstring>() -&gt; Repetitions(3) -&gt;ReportAggregatesOnly(true) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>UseRealTime</name>
+        <qualifiedname>themis::bench::rmd::UseRealTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="257" column="5" declfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" declline="257" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rmd_1a557f6ac743c32a1d73cccd2d732333b5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rmd::BM_RMD05_WalLagCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RMD05_WalLagCheck</name>
+        <qualifiedname>themis::bench::rmd::BM_RMD05_WalLagCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="266" column="13" bodyfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" bodystart="266" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rmd_1ab11bcf00683b4e74a36a3a644895270b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rmd::BM_RMD06_MultiWriterConflictRate</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RMD06_MultiWriterConflictRate</name>
+        <qualifiedname>themis::bench::rmd::BM_RMD06_MultiWriterConflictRate</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="294" column="13" bodyfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" bodystart="294" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rmd_1aac6ab27c6683617325c666606358b28f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::rmd::Repetitions</definition>
+        <argsstring>(3) -&gt; ReportAggregatesOnly(false) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::rmd::Repetitions</qualifiedname>
+        <param>
+          <type>3</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="340" column="5" declfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" declline="340" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rmd_1a9ab016bce99ad4ed3b6669674a68f8a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rmd::BM_RMD07_MultiDCWriteThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RMD07_MultiDCWriteThroughput</name>
+        <qualifiedname>themis::bench::rmd::BM_RMD07_MultiDCWriteThroughput</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="348" column="13" bodyfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" bodystart="348" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rmd_1a0497a9422e81728b0df2a279d33ee0b0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rmd::BM_RMD08_LagAlertFireLatency</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RMD08_LagAlertFireLatency</name>
+        <qualifiedname>themis::bench::rmd::BM_RMD08_LagAlertFireLatency</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="395" column="13" bodyfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" bodystart="395" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rmd_1a7ed3649979a040b440f924a09a7131c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::rmd::Iterations</definition>
+        <argsstring>(10) -&gt; Unit(benchmark::kMillisecond)</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::bench::rmd::Iterations</qualifiedname>
+        <param>
+          <type>10</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="441" column="5" declfile="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" declline="441" declcolumn="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp" line="86" column="1"/>
+  </compounddef>
+</doxygen>

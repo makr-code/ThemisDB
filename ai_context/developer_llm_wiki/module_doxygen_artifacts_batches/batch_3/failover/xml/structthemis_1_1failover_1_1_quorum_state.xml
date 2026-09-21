@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1failover_1_1_quorum_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::failover::QuorumState</compoundname>
+    <includes refid="quorum__log_8h" local="no">quorum_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_quorum_state_1ad74317e17ba7eabc8c7dd371f1f18b6a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::QuorumState::last_epoch</definition>
+        <argsstring></argsstring>
+        <name>last_epoch</name>
+        <qualifiedname>themis::failover::QuorumState::last_epoch</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="22" column="14" bodyfile="include/failover/quorum_log.h" bodystart="22" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_quorum_state_1aba7f71fcdb69bd93c4373cac401b08df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::failover::QuorumState::last_promoted_node</definition>
+        <argsstring></argsstring>
+        <name>last_promoted_node</name>
+        <qualifiedname>themis::failover::QuorumState::last_promoted_node</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="23" column="17" bodyfile="include/failover/quorum_log.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_quorum_state_1ade60ee35cab750de1df33bf90e161390" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::failover::QuorumState::last_decision</definition>
+        <argsstring></argsstring>
+        <name>last_decision</name>
+        <qualifiedname>themis::failover::QuorumState::last_decision</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="24" column="17" bodyfile="include/failover/quorum_log.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_quorum_state_1afd951f803a7e82e886e338fd756354b8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::failover::QuorumState::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::failover::QuorumState::valid</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>false if log was empty or all entries were corrupt </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="25" column="10" bodyfile="include/failover/quorum_log.h" bodystart="25" bodyend="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/failover/quorum_log.h" line="21" column="1" bodyfile="include/failover/quorum_log.h" bodystart="21" bodyend="26"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1failover_1_1_quorum_state_1ade60ee35cab750de1df33bf90e161390" prot="public" virt="non-virtual"><scope>themis::failover::QuorumState</scope><name>last_decision</name></member>
+      <member refid="structthemis_1_1failover_1_1_quorum_state_1ad74317e17ba7eabc8c7dd371f1f18b6a" prot="public" virt="non-virtual"><scope>themis::failover::QuorumState</scope><name>last_epoch</name></member>
+      <member refid="structthemis_1_1failover_1_1_quorum_state_1aba7f71fcdb69bd93c4373cac401b08df" prot="public" virt="non-virtual"><scope>themis::failover::QuorumState</scope><name>last_promoted_node</name></member>
+      <member refid="structthemis_1_1failover_1_1_quorum_state_1afd951f803a7e82e886e338fd756354b8" prot="public" virt="non-virtual"><scope>themis::failover::QuorumState</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

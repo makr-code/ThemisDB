@@ -1,0 +1,879 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_adapter_repository" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::AdapterRepository</compoundname>
+    <includes refid="adapter__repository_8h" local="no">adapter_repository.h</includes>
+    <innerclass refid="structthemis_1_1tensor_1_1_adapter_repository_1_1_repository_stats" prot="public">themis::tensor::AdapterRepository::RepositoryStats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1tensor_1_1_adapter_repository_1a10f5de33b36bc8166511cb5a4ff0e32d" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1tensor_1_1_ggml_core_descriptor" kindref="compound">GgmlCoreDescriptor</ref>( const std::string &amp;tenant_id, const std::string &amp;domain, const std::string &amp;base_model_id, const std::string &amp;adapter_key, const std::shared_ptr&lt; storage::ITensorStorageBackend &gt; &amp;backend)&gt;</type>
+        <definition>using themis::tensor::AdapterRepository::MmapLoadFn = std::function&lt;GgmlCoreDescriptor(
+       const std::string&amp; tenant_id,
+       const std::string&amp; domain,
+       const std::string&amp; base_model_id,
+       const std::string&amp; adapter_key,
+       const std::shared_ptr&lt;storage::ITensorStorageBackend&gt;&amp; backend)&gt;</definition>
+        <argsstring></argsstring>
+        <name>MmapLoadFn</name>
+        <qualifiedname>themis::tensor::AdapterRepository::MmapLoadFn</qualifiedname>
+        <briefdescription>
+<para>Injectable mmap-style adapter loader (STUB #265 bridge). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="109" column="5" bodyfile="include/tensor/adapter_repository.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1tensor_1_1_adapter_repository_1a3770661f3dcb103b56ca449603c4ae81" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_similarity_result" kindref="compound">SimilarityResult</ref> &gt;( const std::string &amp;query_key, std::size_t k, const std::shared_ptr&lt; storage::ITensorStorageBackend &gt; &amp;backend)&gt;</type>
+        <definition>using themis::tensor::AdapterRepository::ExactSimilarityFn = std::function&lt;std::vector&lt;SimilarityResult&gt;(
+       const std::string&amp; query_key,
+       std::size_t k,
+       const std::shared_ptr&lt;storage::ITensorStorageBackend&gt;&amp; backend)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ExactSimilarityFn</name>
+        <qualifiedname>themis::tensor::AdapterRepository::ExactSimilarityFn</qualifiedname>
+        <briefdescription>
+<para>Injectable exact-similarity backend (STUB #266 bridge). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="119" column="5" bodyfile="include/tensor/adapter_repository.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_adapter_repository_1a575b4eba76aa181c8c08f310c44167a8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; storage::ITensorStorageBackend &gt;</type>
+        <definition>std::shared_ptr&lt;storage::ITensorStorageBackend&gt; themis::tensor::AdapterRepository::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::tensor::AdapterRepository::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="307" column="21" bodyfile="include/tensor/adapter_repository.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_adapter_repository_1a490536eaba642b7356084fd9a3aca2f3" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::AdapterRepository::tenant_id_</definition>
+        <argsstring></argsstring>
+        <name>tenant_id_</name>
+        <qualifiedname>themis::tensor::AdapterRepository::tenant_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="308" column="53" bodyfile="include/tensor/adapter_repository.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_adapter_repository_1aae960b9085364620b56395c20fa6e24e" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::tensor::AdapterRepository::graph_mutex_</definition>
+        <argsstring></argsstring>
+        <name>graph_mutex_</name>
+        <qualifiedname>themis::tensor::AdapterRepository::graph_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional fingerprint graph — set via <ref refid="classthemis_1_1tensor_1_1_adapter_repository_1addad6ba5bc2d26a7eb5ef327fd9e7adf" kindref="member">setFingerprintGraph()</ref>. Protected by graph_mutex_ (separate from stats_mutex_ to prevent lock-order inversions; graph reads must never hold stats_mutex_). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="313" column="45" bodyfile="include/tensor/adapter_repository.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_adapter_repository_1a5831914e24b5684e5e031c2536d42064" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TensorFingerprintGraph&gt; themis::tensor::AdapterRepository::fingerprint_graph_</definition>
+        <argsstring></argsstring>
+        <name>fingerprint_graph_</name>
+        <qualifiedname>themis::tensor::AdapterRepository::fingerprint_graph_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="314" column="21" bodyfile="include/tensor/adapter_repository.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_adapter_repository_1aa0dfedf2b2edef8f50bc0b7f230c174e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; index::AnnFrontdoor &gt;</type>
+        <definition>std::shared_ptr&lt;index::AnnFrontdoor&gt; themis::tensor::AdapterRepository::ann_frontdoor_</definition>
+        <argsstring></argsstring>
+        <name>ann_frontdoor_</name>
+        <qualifiedname>themis::tensor::AdapterRepository::ann_frontdoor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="315" column="24" bodyfile="include/tensor/adapter_repository.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_adapter_repository_1ab317751ec3c06a0ecec95878ed1e771f" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::tensor::AdapterRepository::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::tensor::AdapterRepository::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="317" column="31" bodyfile="include/tensor/adapter_repository.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_adapter_repository_1ad7cf87bd8b460ed0cc89b57a05056c4e" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1tensor_1_1_adapter_repository_1_1_repository_stats" kindref="compound">RepositoryStats</ref></type>
+        <definition>RepositoryStats themis::tensor::AdapterRepository::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::tensor::AdapterRepository::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="318" column="31" bodyfile="include/tensor/adapter_repository.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1a42acb6854deb6d19d597426ae19f6c73" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::AdapterRepository::AdapterRepository</definition>
+        <argsstring>(std::shared_ptr&lt; storage::ITensorStorageBackend &gt; backend, std::string tenant_id=&quot;default&quot;)</argsstring>
+        <name>AdapterRepository</name>
+        <qualifiedname>themis::tensor::AdapterRepository::AdapterRepository</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; storage::ITensorStorageBackend &gt;</type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Construct a repository backed by the given storage backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Storage backend (InMemoryTensorBackend for tests; RocksDBTensorBackend for production). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant namespace. All keys are scoped under this tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="131" column="14" bodyfile="src/tensor/adapter_repository.cpp" bodystart="128" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1af732d025a6e3f9e100f769ebd29f28eb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::AdapterRepository::AdapterRepository</definition>
+        <argsstring>()</argsstring>
+        <name>AdapterRepository</name>
+        <qualifiedname>themis::tensor::AdapterRepository::AdapterRepository</qualifiedname>
+        <briefdescription>
+<para>Default constructor for tests and quick setups. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructs an <computeroutput><ref refid="classthemis_1_1tensor_1_1_adapter_repository" kindref="compound">AdapterRepository</ref></computeroutput> with an in-memory backend and the default tenant. This keeps existing tests that call <computeroutput><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1af732d025a6e3f9e100f769ebd29f28eb" kindref="member">AdapterRepository()</ref></computeroutput> working without changes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="142" column="5" bodyfile="include/tensor/adapter_repository.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1a68f51bbcf5cc1d7f808d280415a2ecf3" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::AdapterRepository::store</definition>
+        <argsstring>(const std::string &amp;domain, const std::string &amp;base_model_id, const storage::TTTrain &amp;adapter_train, const AdapterMetadata &amp;meta={})</argsstring>
+        <name>store</name>
+        <qualifiedname>themis::tensor::AdapterRepository::store</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_id</declname>
+        </param>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>adapter_train</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>meta</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Persist a LoRA adapter as a TT graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Store.</para>
+<para>Serialises <computeroutput>adapter_train</computeroutput> and writes it to the storage backend under key <computeroutput>__adapters__:&lt;tenant_id&gt;:&lt;domain&gt;:&lt;base_model_id&gt;</computeroutput>. Overwrites any existing adapter at the same key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Domain tag (e.g. &quot;legal&quot;, &quot;medical&quot;, &quot;scientific&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>base_model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier for the base model (e.g. &quot;llama3-8b&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>adapter_train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>TT-format adapter weights. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional provenance metadata.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false if serialisation or backend write failed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the base model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), serialize(), makeKey(), get(), has_value(), storage::TTTrain::deserialize(), totalParams(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="160" column="11" bodyfile="src/tensor/adapter_repository.cpp" bodystart="162" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1ab00b8b717a7cedcd35893e07f59208ef" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::AdapterRepository::store</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;domain, const std::string &amp;adapter_key, const TensorTrainCore &amp;core)</argsstring>
+        <name>store</name>
+        <qualifiedname>themis::tensor::AdapterRepository::store</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_tensor_train_core" kindref="compound">TensorTrainCore</ref> &amp;</type>
+          <declname>core</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="167" column="11" bodyfile="include/tensor/adapter_repository.h" bodystart="167" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1ac0e56516dacc1846675d51de2293e157" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::AdapterRepository::store</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;domain, const std::string &amp;adapter_key, const std::string &amp;serialized_train)</argsstring>
+        <name>store</name>
+        <qualifiedname>themis::tensor::AdapterRepository::store</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>serialized_train</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="176" column="11" bodyfile="include/tensor/adapter_repository.h" bodystart="176" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1ac299d347b8a3a1443df50e4142559c7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::AdapterRepository::remove</definition>
+        <argsstring>(const std::string &amp;domain, const std::string &amp;base_model_id)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::tensor::AdapterRepository::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a stored adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove.</para>
+<para><simplesect kind="return"><para>true if the adapter was found and deleted, false otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the base model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: makeKey(), get(), has_value(), del(), lock(), glock(), removeAdapter(), registerScopeKind(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="190" column="10" bodyfile="src/tensor/adapter_repository.cpp" bodystart="233" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1a9e061f9c6fb88909dc855a82aa98b0d9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_ggml_core_descriptor" kindref="compound">GgmlCoreDescriptor</ref></type>
+        <definition>GgmlCoreDescriptor themis::tensor::AdapterRepository::loadAdapter</definition>
+        <argsstring>(const std::string &amp;domain, const std::string &amp;base_model_id) const</argsstring>
+        <name>loadAdapter</name>
+        <qualifiedname>themis::tensor::AdapterRepository::loadAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_id</declname>
+        </param>
+        <briefdescription>
+<para>Load an adapter and prepare it for ggml injection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Retrieves the serialised TTTrain and deserialises it into a <computeroutput><ref refid="structthemis_1_1tensor_1_1_ggml_core_descriptor" kindref="compound">GgmlCoreDescriptor</ref></computeroutput>. In the current implementation (STUB #172) the TT-core data is heap-copied; the production path uses mmap.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Domain tag. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>base_model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base model identifier.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1tensor_1_1_ggml_core_descriptor" kindref="compound">GgmlCoreDescriptor</ref> with <computeroutput>valid = true</computeroutput> on success, <computeroutput>valid = false</computeroutput> if the adapter is not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="209" column="9" bodyfile="src/tensor/adapter_repository.cpp" bodystart="272" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1a0306e667d64dab802bb546e0d7fd94f8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::tensor::AdapterRepository::listDomains</definition>
+        <argsstring>() const</argsstring>
+        <name>listDomains</name>
+        <qualifiedname>themis::tensor::AdapterRepository::listDomains</qualifiedname>
+        <briefdescription>
+<para>List all domain tags that have at least one stored adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Sorted, deduplicated vector of domain strings. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="217" column="18" bodyfile="src/tensor/adapter_repository.cpp" bodystart="380" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1a144429fed6f5316310d5ef6656106069" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; themis::tensor::AdapterRepository::listAdapters</definition>
+        <argsstring>() const</argsstring>
+        <name>listAdapters</name>
+        <qualifiedname>themis::tensor::AdapterRepository::listAdapters</qualifiedname>
+        <briefdescription>
+<para>List all (domain, base_model_id) pairs stored for this tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="223" column="9" bodyfile="src/tensor/adapter_repository.cpp" bodystart="413" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1addad6ba5bc2d26a7eb5ef327fd9e7adf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::AdapterRepository::setFingerprintGraph</definition>
+        <argsstring>(std::shared_ptr&lt; TensorFingerprintGraph &gt; graph)</argsstring>
+        <name>setFingerprintGraph</name>
+        <qualifiedname>themis::tensor::AdapterRepository::setFingerprintGraph</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> &gt;</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+<para>Wire a <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> to this repository. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Fingerprint Graph.</para>
+<para>When set, every <computeroutput><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a68f51bbcf5cc1d7f808d280415a2ecf3" kindref="member">store()</ref></computeroutput> call also registers the adapter fingerprint in the graph, and every <computeroutput><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1ac299d347b8a3a1443df50e4142559c7c" kindref="member">remove()</ref></computeroutput> call deregisters it. <computeroutput><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a3f56b7e2a55ed51ba4ef64fbe4a6eb1d" kindref="member">findSimilarAdapters()</ref></computeroutput> requires the graph to be set.</para>
+<para>Thread-safe; may be called at any time after construction.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared fingerprint graph (nullptr disables integration).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="238" column="10" bodyfile="src/tensor/adapter_repository.cpp" bodystart="445" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1a3f56b7e2a55ed51ba4ef64fbe4a6eb1d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_similarity_result" kindref="compound">SimilarityResult</ref> &gt;</type>
+        <definition>std::vector&lt; SimilarityResult &gt; themis::tensor::AdapterRepository::findSimilarAdapters</definition>
+        <argsstring>(const std::string &amp;domain, const std::string &amp;base_model_id, std::size_t k) const</argsstring>
+        <name>findSimilarAdapters</name>
+        <qualifiedname>themis::tensor::AdapterRepository::findSimilarAdapters</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_id</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Find the top-k adapters most similar to the given adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delegates to the wired <computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref></computeroutput>. By default, key-based similarity uses TT cosine (inner-product based). If <computeroutput><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a2ba872f5ba8487213c6f4e7ab7d6deb8" kindref="member">setExactSimilarityFn()</ref></computeroutput> is set, that backend overrides scoring.</para>
+<para><simplesect kind="note"><para>// STUB/SIMULATION NOTE (STUB #177): // Purpose: Expose adapter similarity search backed by fingerprint graph. // Activation: Only when <ref refid="classthemis_1_1tensor_1_1_adapter_repository_1addad6ba5bc2d26a7eb5ef327fd9e7adf" kindref="member">setFingerprintGraph()</ref> has been called. // Production Delta: Uses exact TT cosine by default and supports // optional backend override via <ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a2ba872f5ba8487213c6f4e7ab7d6deb8" kindref="member">setExactSimilarityFn()</ref>; does not yet // include ANN acceleration/indexing for large candidate pools. // Removal Plan: Q3 2027 — replace with full TTTrain::innerProduct() // similarity + HNSW index over fingerprints (Phase 4 AdaLoRA bridge).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Domain tag of the query adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>base_model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base model identifier of the query adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of results to return.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Sorted list (descending cosine score) of similar adapters. Empty when the graph is not set, the adapter is not registered, or k == 0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="266" column="9" bodyfile="src/tensor/adapter_repository.cpp" bodystart="456" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1a558d4c9eaf639e99315e968ea7747f7f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_adapter_repository_1_1_repository_stats" kindref="compound">RepositoryStats</ref></type>
+        <definition>AdapterRepository::RepositoryStats themis::tensor::AdapterRepository::stats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::tensor::AdapterRepository::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="279" column="22" bodyfile="src/tensor/adapter_repository.cpp" bodystart="541" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1a7bf1c4af55ad975e36eee41467973a05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::AdapterRepository::setAnnFrontdoor</definition>
+        <argsstring>(std::shared_ptr&lt; index::AnnFrontdoor &gt; frontdoor)</argsstring>
+        <name>setAnnFrontdoor</name>
+        <qualifiedname>themis::tensor::AdapterRepository::setAnnFrontdoor</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; index::AnnFrontdoor &gt;</type>
+          <declname>frontdoor</declname>
+        </param>
+        <briefdescription>
+<para>Inject an ANN frontdoor for adapter-scoped routing metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Ann Frontdoor.</para>
+<para>When configured, <ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a3f56b7e2a55ed51ba4ef64fbe4a6eb1d" kindref="member">findSimilarAdapters()</ref> exposes the adapter scope to the ANN frontdoor so the retrieval plan can be tracked uniformly alongside other ANN consumers.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">frontdoor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="300" column="10" bodyfile="src/tensor/adapter_repository.cpp" bodystart="120" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1a24a7bfcf3dca4ba64550e3fa50d64ab6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::AdapterRepository::setMmapLoadFn</definition>
+        <argsstring>(MmapLoadFn fn)</argsstring>
+        <name>setMmapLoadFn</name>
+        <qualifiedname>themis::tensor::AdapterRepository::setMmapLoadFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a10f5de33b36bc8166511cb5a4ff0e32d" kindref="member">MmapLoadFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a mmap-style loader backend for <ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a9e061f9c6fb88909dc855a82aa98b0d9" kindref="member">loadAdapter()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), mmapLoadFnMutex(), mmapLoadFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="284" column="17" bodyfile="src/tensor/adapter_repository.cpp" bodystart="79" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1aba0ab9b4db07b24b886b6074af2907d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::AdapterRepository::clearMmapLoadFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearMmapLoadFn</name>
+        <qualifiedname>themis::tensor::AdapterRepository::clearMmapLoadFn</qualifiedname>
+        <briefdescription>
+<para>Remove a previously injected mmap-style loader backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para>Calls: lk(), mmapLoadFnMutex(), mmapLoadFnStorage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="286" column="17" bodyfile="src/tensor/adapter_repository.cpp" bodystart="88" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1a2ba872f5ba8487213c6f4e7ab7d6deb8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::AdapterRepository::setExactSimilarityFn</definition>
+        <argsstring>(ExactSimilarityFn fn)</argsstring>
+        <name>setExactSimilarityFn</name>
+        <qualifiedname>themis::tensor::AdapterRepository::setExactSimilarityFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a3770661f3dcb103b56ca449603c4ae81" kindref="member">ExactSimilarityFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject an exact similarity backend for <ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a3f56b7e2a55ed51ba4ef64fbe4a6eb1d" kindref="member">findSimilarAdapters()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), exactSimilarityFnMutex(), exactSimilarityFnStorage(), std::move(), std::fprintf(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="289" column="17" bodyfile="src/tensor/adapter_repository.cpp" bodystart="98" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1a7c6522100bf3278158331572cdfa2455" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::AdapterRepository::clearExactSimilarityFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearExactSimilarityFn</name>
+        <qualifiedname>themis::tensor::AdapterRepository::clearExactSimilarityFn</qualifiedname>
+        <briefdescription>
+<para>Remove a previously injected exact similarity backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para>Calls: lk(), exactSimilarityFnMutex(), exactSimilarityFnStorage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="291" column="17" bodyfile="src/tensor/adapter_repository.cpp" bodystart="110" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adapter_repository_1aaae116a17003b039ca1d4d5ff0310d2f" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::AdapterRepository::makeKey</definition>
+        <argsstring>(const std::string &amp;domain, const std::string &amp;base_model_id) const</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::tensor::AdapterRepository::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_id</declname>
+        </param>
+        <briefdescription>
+<para>Build the RocksDB key for a given (domain, base_model_id) pair. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/adapter_repository.h" line="304" column="18" bodyfile="src/tensor/adapter_repository.cpp" bodystart="144" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Persistent store for LoRA/PEFT adapters as TT graphs. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Example</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;InMemoryTensorBackend&gt;();</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a42acb6854deb6d19d597426ae19f6c73" kindref="member">AdapterRepository</ref><sp/>repo(backend,<sp/></highlight><highlight class="stringliteral">&quot;tenant1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Store<sp/>a<sp/>legal<sp/>adapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">repo.store(</highlight><highlight class="stringliteral">&quot;legal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;llama3-8b&quot;</highlight><highlight class="normal">,<sp/>adapter_train,<sp/>meta);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Load<sp/>for<sp/>inference</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>desc<sp/>=<sp/>repo.loadAdapter(</highlight><highlight class="stringliteral">&quot;legal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;llama3-8b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(desc.valid)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ggml_bridge.inject(ctx,<sp/>desc);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/tensor/adapter_repository.h" line="104" column="1" bodyfile="include/tensor/adapter_repository.h" bodystart="104" bodyend="319"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1a42acb6854deb6d19d597426ae19f6c73" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>AdapterRepository</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1af732d025a6e3f9e100f769ebd29f28eb" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>AdapterRepository</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1aa0dfedf2b2edef8f50bc0b7f230c174e" prot="private" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>ann_frontdoor_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1a575b4eba76aa181c8c08f310c44167a8" prot="private" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1a7c6522100bf3278158331572cdfa2455" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>clearExactSimilarityFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1aba0ab9b4db07b24b886b6074af2907d8" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>clearMmapLoadFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1a3770661f3dcb103b56ca449603c4ae81" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>ExactSimilarityFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1a3f56b7e2a55ed51ba4ef64fbe4a6eb1d" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>findSimilarAdapters</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1a5831914e24b5684e5e031c2536d42064" prot="private" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>fingerprint_graph_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1aae960b9085364620b56395c20fa6e24e" prot="private" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>graph_mutex_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1a144429fed6f5316310d5ef6656106069" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>listAdapters</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1a0306e667d64dab802bb546e0d7fd94f8" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>listDomains</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1a9e061f9c6fb88909dc855a82aa98b0d9" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>loadAdapter</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1aaae116a17003b039ca1d4d5ff0310d2f" prot="private" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1a10f5de33b36bc8166511cb5a4ff0e32d" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>MmapLoadFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1ac299d347b8a3a1443df50e4142559c7c" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>remove</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1a7bf1c4af55ad975e36eee41467973a05" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>setAnnFrontdoor</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1a2ba872f5ba8487213c6f4e7ab7d6deb8" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>setExactSimilarityFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1addad6ba5bc2d26a7eb5ef327fd9e7adf" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>setFingerprintGraph</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1a24a7bfcf3dca4ba64550e3fa50d64ab6" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>setMmapLoadFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1a558d4c9eaf639e99315e968ea7747f7f" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>stats</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1ad7cf87bd8b460ed0cc89b57a05056c4e" prot="private" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1ab317751ec3c06a0ecec95878ed1e771f" prot="private" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1a68f51bbcf5cc1d7f808d280415a2ecf3" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>store</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1ab00b8b717a7cedcd35893e07f59208ef" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>store</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1ac0e56516dacc1846675d51de2293e157" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>store</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adapter_repository_1a490536eaba642b7356084fd9a3aca2f3" prot="private" virt="non-virtual"><scope>themis::tensor::AdapterRepository</scope><name>tenant_id_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

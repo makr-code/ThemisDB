@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_aaedf8fd5ceb3bf2b6d696068b5df1cb" kind="dir">
+    <compoundname>benchmarks/themis</compoundname>
+    <innerfile refid="bench__themis__core_8cpp">bench_themis_core.cpp</innerfile>
+    <innerfile refid="bench__themis__dedicated__gates_8cpp">bench_themis_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__themis__release__gates_8cpp">bench_themis_release_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/themis/"/>
+  </compounddef>
+</doxygen>

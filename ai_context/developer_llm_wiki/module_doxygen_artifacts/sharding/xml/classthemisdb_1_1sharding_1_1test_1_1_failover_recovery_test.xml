@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::test::FailoverRecoveryTest</compoundname>
+    <basecompoundref refid="classthemisdb_1_1sharding_1_1test_1_1_phase6_base" prot="public" virt="non-virtual">themisdb::sharding::test::Phase6Base</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::test::FailoverRecoveryTest</label>
+        <link refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::sharding::test::Phase6Base</label>
+        <link refid="classthemisdb_1_1sharding_1_1test_1_1_phase6_base"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::test::FailoverRecoveryTest</label>
+        <link refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::sharding::test::Phase6Base</label>
+        <link refid="classthemisdb_1_1sharding_1_1test_1_1_phase6_base"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>wal_</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themisdb::sharding::test::SimWAL</label>
+        <link refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1296" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1296" bodyend="1296"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_phase6_base_1a49b6251095599b20b653a93cc824082e" prot="protected" virt="non-virtual"><scope>themisdb::sharding::test::FailoverRecoveryTest</scope><name>txnId</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_phase6_base_1ad4d6ca4389988c41a58970dc618a5bbf" prot="protected" virt="non-virtual"><scope>themisdb::sharding::test::FailoverRecoveryTest</scope><name>wal_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

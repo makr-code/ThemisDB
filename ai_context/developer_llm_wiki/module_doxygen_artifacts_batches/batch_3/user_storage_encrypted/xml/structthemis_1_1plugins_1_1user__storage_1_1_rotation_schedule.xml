@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::user_storage::RotationSchedule</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1a56c8db313d906366a81ec0bbd5513100" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+        <definition>SecurityLevel themis::plugins::user_storage::RotationSchedule::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themis::plugins::user_storage::RotationSchedule::level</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/key_rotation_scheduler.cpp" line="27" column="19" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1a756a2ef1cc0e6e3234936eb606d0112b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::user_storage::RotationSchedule::interval_days</definition>
+        <argsstring></argsstring>
+        <name>interval_days</name>
+        <qualifiedname>themis::plugins::user_storage::RotationSchedule::interval_days</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/key_rotation_scheduler.cpp" line="28" column="9" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1afd110f749eee66fc9dcd1b231d5de1b6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::RotationSchedule::auto_rotate</definition>
+        <argsstring></argsstring>
+        <name>auto_rotate</name>
+        <qualifiedname>themis::plugins::user_storage::RotationSchedule::auto_rotate</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/key_rotation_scheduler.cpp" line="29" column="10" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1a603b6412859ab771907b3712fb15836a" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a2aa75e5bb70b5fcba2cc50adff8afa13" kindref="member">KeyRotationScheduler::RotationCallback</ref></type>
+        <definition>KeyRotationScheduler::RotationCallback themis::plugins::user_storage::RotationSchedule::callback</definition>
+        <argsstring></argsstring>
+        <name>callback</name>
+        <qualifiedname>themis::plugins::user_storage::RotationSchedule::callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/key_rotation_scheduler.cpp" line="30" column="44" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1a21623f069dbb13bbda2e92c6b9f7e78d" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::plugins::user_storage::RotationSchedule::last_check_ms</definition>
+        <argsstring></argsstring>
+        <name>last_check_ms</name>
+        <qualifiedname>themis::plugins::user_storage::RotationSchedule::last_check_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/key_rotation_scheduler.cpp" line="31" column="13" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1ab7676873c4ea2b406aa4caf59bd9dd73" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::RotationSchedule::RotationSchedule</definition>
+        <argsstring>()</argsstring>
+        <name>RotationSchedule</name>
+        <qualifiedname>themis::plugins::user_storage::RotationSchedule::RotationSchedule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/user_storage_encrypted/key_rotation_scheduler.cpp" line="33" column="5" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="33" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/user_storage_encrypted/key_rotation_scheduler.cpp" line="26" column="1" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="26" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1afd110f749eee66fc9dcd1b231d5de1b6" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::RotationSchedule</scope><name>auto_rotate</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1a603b6412859ab771907b3712fb15836a" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::RotationSchedule</scope><name>callback</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1a756a2ef1cc0e6e3234936eb606d0112b" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::RotationSchedule</scope><name>interval_days</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1a21623f069dbb13bbda2e92c6b9f7e78d" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::RotationSchedule</scope><name>last_check_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1a56c8db313d906366a81ec0bbd5513100" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::RotationSchedule</scope><name>level</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1ab7676873c4ea2b406aa4caf59bd9dd73" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::RotationSchedule</scope><name>RotationSchedule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

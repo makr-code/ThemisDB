@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_echo_l_l_m_provider" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>EchoLLMProvider</compoundname>
+    <basecompoundref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider" prot="public" virt="non-virtual">themis::prompt_engineering::ILLMProvider</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_echo_l_l_m_provider_1a82e0c674e0277fc8203b0555b0d20ef4" prot="public" static="no" mutable="yes">
+        <type>std::string</type>
+        <definition>std::string EchoLLMProvider::last_prompt_</definition>
+        <argsstring></argsstring>
+        <name>last_prompt_</name>
+        <qualifiedname>EchoLLMProvider::last_prompt_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="29" column="25" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_echo_l_l_m_provider_1ad72e935ae59a0d8fbc1cf68e1332cf0a" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string EchoLLMProvider::tag_</definition>
+        <argsstring></argsstring>
+        <name>tag_</name>
+        <qualifiedname>EchoLLMProvider::tag_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="32" column="17" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_echo_l_l_m_provider_1ab5a9f2b79a0f66a954087577fa666cb7" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>EchoLLMProvider::EchoLLMProvider</definition>
+        <argsstring>(std::string tag=&quot;echo&quot;)</argsstring>
+        <name>EchoLLMProvider</name>
+        <qualifiedname>EchoLLMProvider::EchoLLMProvider</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>tag</declname>
+          <defval>&quot;echo&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="20" column="14" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="20" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_echo_l_l_m_provider_1ac5f3c6f91c1f967d8797756c9ee83378" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string EchoLLMProvider::complete</definition>
+        <argsstring>(const std::string &amp;prompt) const override</argsstring>
+        <name>complete</name>
+        <qualifiedname>EchoLLMProvider::complete</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_1a634950a81c986e68988e4f73930273e9">complete</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Send a prompt to the underlying LLM and return its response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The complete prompt text to send </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The LLM-generated response, or an empty string on error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="22" column="17" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="22" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_echo_l_l_m_provider_1a68efdac1421d7f855cda76b4547c4241" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string EchoLLMProvider::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>EchoLLMProvider::name</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_1aa2c30480ce4a219752d6c977355e7668">name</reimplements>
+        <briefdescription>
+<para>Human-readable name of this provider (for logging / metrics). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="27" column="17" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>EchoLLMProvider</label>
+        <link refid="class_echo_l_l_m_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::ILLMProvider</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>EchoLLMProvider</label>
+        <link refid="class_echo_l_l_m_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::ILLMProvider</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" line="18" column="1" bodyfile="tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp" bodystart="18" bodyend="33"/>
+    <listofallmembers>
+      <member refid="class_echo_l_l_m_provider_1ac5f3c6f91c1f967d8797756c9ee83378" prot="public" virt="virtual"><scope>EchoLLMProvider</scope><name>complete</name></member>
+      <member refid="class_echo_l_l_m_provider_1ab5a9f2b79a0f66a954087577fa666cb7" prot="public" virt="non-virtual"><scope>EchoLLMProvider</scope><name>EchoLLMProvider</name></member>
+      <member refid="class_echo_l_l_m_provider_1a82e0c674e0277fc8203b0555b0d20ef4" prot="public" virt="non-virtual"><scope>EchoLLMProvider</scope><name>last_prompt_</name></member>
+      <member refid="class_echo_l_l_m_provider_1a68efdac1421d7f855cda76b4547c4241" prot="public" virt="virtual"><scope>EchoLLMProvider</scope><name>name</name></member>
+      <member refid="class_echo_l_l_m_provider_1ad72e935ae59a0d8fbc1cf68e1332cf0a" prot="private" virt="non-virtual"><scope>EchoLLMProvider</scope><name>tag_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_1acc12aebaa0e13e5bfba2cbd49e451734" prot="public" virt="virtual"><scope>EchoLLMProvider</scope><name>~ILLMProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::SecureTransportClient::Config</compoundname>
+    <includes refid="secure__transport__client_8h" local="no">secure_transport_client.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a27b459401ad7c3482fa0d94fe2df4496" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CompressionType</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Config::CompressionType</qualifiedname>
+        <enumvalue id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a27b459401ad7c3482fa0d94fe2df4496a6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a27b459401ad7c3482fa0d94fe2df4496aca0c64c0de8f56bc573828ea6d764594" prot="public">
+          <name>LZ4</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a27b459401ad7c3482fa0d94fe2df4496a0c8468c9ff2f38e853335e1e40ade4c3" prot="public">
+          <name>Zstd</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="47" column="9" bodyfile="include/sharding/secure_transport_client.h" bodystart="47" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a52cfa30d06108e5545a8b1525e45c823" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a27b459401ad7c3482fa0d94fe2df4496" kindref="member">CompressionType</ref></type>
+        <definition>CompressionType themis::sharding::SecureTransportClient::Config::compression</definition>
+        <argsstring></argsstring>
+        <name>compression</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Config::compression</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a27b459401ad7c3482fa0d94fe2df4496a0c8468c9ff2f38e853335e1e40ade4c3" kindref="member">CompressionType::Zstd</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="52" column="25" bodyfile="include/sharding/secure_transport_client.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1aed41bd013f276a239993a9072e283f5c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::SecureTransportClient::Config::compression_level</definition>
+        <argsstring></argsstring>
+        <name>compression_level</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Config::compression_level</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="53" column="13" bodyfile="include/sharding/secure_transport_client.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a5aabf0d05eefb9c9f84afeb1d79e48cf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::SecureTransportClient::Config::compression_threshold</definition>
+        <argsstring></argsstring>
+        <name>compression_threshold</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Config::compression_threshold</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="54" column="16" bodyfile="include/sharding/secure_transport_client.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a0de87bc8e777507075ee34c5da7e4d16" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::SecureTransportClient::Config::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Config::max_retries</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="57" column="18" bodyfile="include/sharding/secure_transport_client.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1aad6b258ecb24482fdff7d1fb009f73e1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::SecureTransportClient::Config::retry_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_delay_ms</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Config::retry_delay_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="58" column="18" bodyfile="include/sharding/secure_transport_client.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1aafb791e9ab88708a498fbb812cb95480" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::SecureTransportClient::Config::max_retry_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>max_retry_delay_ms</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Config::max_retry_delay_ms</qualifiedname>
+        <initializer>= 60000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="59" column="18" bodyfile="include/sharding/secure_transport_client.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a2ddd6a8deb83e118ba2967d64169120e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SecureTransportClient::Config::cert_path</definition>
+        <argsstring></argsstring>
+        <name>cert_path</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Config::cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="62" column="21" bodyfile="include/sharding/secure_transport_client.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a03f2417eb903ca2a7e4aec492b71a4b2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SecureTransportClient::Config::key_path</definition>
+        <argsstring></argsstring>
+        <name>key_path</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Config::key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="63" column="21" bodyfile="include/sharding/secure_transport_client.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a99d1a0a87622dd0f46e6bc1e020f23f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SecureTransportClient::Config::ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>ca_cert_path</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Config::ca_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="64" column="21" bodyfile="include/sharding/secure_transport_client.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a3240d73ac83561abb40cbc4bc9ec7d04" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::SecureTransportClient::Config::request_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>request_timeout_ms</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Config::request_timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="67" column="18" bodyfile="include/sharding/secure_transport_client.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Transport configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/secure_transport_client.h" line="45" column="5" bodyfile="include/sharding/secure_transport_client.h" bodystart="45" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a99d1a0a87622dd0f46e6bc1e020f23f5" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::Config</scope><name>ca_cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a2ddd6a8deb83e118ba2967d64169120e" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::Config</scope><name>cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a52cfa30d06108e5545a8b1525e45c823" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::Config</scope><name>compression</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1aed41bd013f276a239993a9072e283f5c" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::Config</scope><name>compression_level</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a5aabf0d05eefb9c9f84afeb1d79e48cf" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::Config</scope><name>compression_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a27b459401ad7c3482fa0d94fe2df4496" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::Config</scope><name>CompressionType</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a03f2417eb903ca2a7e4aec492b71a4b2" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::Config</scope><name>key_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a0de87bc8e777507075ee34c5da7e4d16" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::Config</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1aafb791e9ab88708a498fbb812cb95480" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::Config</scope><name>max_retry_delay_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a3240d73ac83561abb40cbc4bc9ec7d04" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::Config</scope><name>request_timeout_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1aad6b258ecb24482fdff7d1fb009f73e1" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::Config</scope><name>retry_delay_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

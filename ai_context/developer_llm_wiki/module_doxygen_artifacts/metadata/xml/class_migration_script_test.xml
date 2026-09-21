@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_migration_script_test" kind="class" language="C++" prot="public">
+    <compoundname>MigrationScriptTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_migration_script_test_1a5e0c5eb5fe60dec4a20965727beae78a" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; MigrationScriptTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>MigrationScriptTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_migration_script.cpp" line="82" column="28" bodyfile="tests/metadata/test_schema_migration_script.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_migration_script_test_1a84b161c42bcaec57c7ae7c27a96bf4fd" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; MigrationScriptTest::idx_</definition>
+        <argsstring></argsstring>
+        <name>idx_</name>
+        <qualifiedname>MigrationScriptTest::idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_migration_script.cpp" line="83" column="21" bodyfile="tests/metadata/test_schema_migration_script.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_migration_script_test_1a21b9adf5fc6e5c8f21f8cba3b3f8fff1" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SchemaManager&gt; MigrationScriptTest::schema_</definition>
+        <argsstring></argsstring>
+        <name>schema_</name>
+        <qualifiedname>MigrationScriptTest::schema_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_migration_script.cpp" line="84" column="29" bodyfile="tests/metadata/test_schema_migration_script.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_migration_script_test_1a88887c10f9b3404e7157f5746c9de8a1" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_schema_version_manager" kindref="compound">SchemaVersionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SchemaVersionManager&gt; MigrationScriptTest::version_</definition>
+        <argsstring></argsstring>
+        <name>version_</name>
+        <qualifiedname>MigrationScriptTest::version_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_migration_script.cpp" line="85" column="22" bodyfile="tests/metadata/test_schema_migration_script.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_migration_script_test_1a9bc8d95778eb50b5fcf01785735877f6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MigrationScriptTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MigrationScriptTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_migration_script.cpp" line="30" column="10" bodyfile="tests/metadata/test_schema_migration_script.cpp" bodystart="30" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_migration_script_test_1a0460989d5fbecfa597929e040c2a6e42" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MigrationScriptTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>MigrationScriptTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_migration_script.cpp" line="42" column="10" bodyfile="tests/metadata/test_schema_migration_script.cpp" bodystart="42" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_migration_script_test_1a3cf42ba475a97ce3dbb6396dab91b919" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref></type>
+        <definition>SchemaManager::TableSchema MigrationScriptTest::makeSchema</definition>
+        <argsstring>(const std::string &amp;table, const std::vector&lt; std::string &gt; &amp;cols, const std::string &amp;type=&quot;string&quot;, bool nullable=true) const</argsstring>
+        <name>makeSchema</name>
+        <qualifiedname>MigrationScriptTest::makeSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>cols</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type</declname>
+          <defval>&quot;string&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>nullable</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Build a TableSchema with the given columns (all type &quot;string&quot;, nullable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_migration_script.cpp" line="52" column="32" bodyfile="tests/metadata/test_schema_migration_script.cpp" bodystart="52" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_migration_script_test_1a5a2d2c37c2bbaa2856d81cf8637931fd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t MigrationScriptTest::snapshot</definition>
+        <argsstring>(const std::string &amp;table, const SchemaManager::TableSchema &amp;ts, const std::string &amp;author=&quot;test&quot;, const std::string &amp;desc=&quot;&quot;)</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>MigrationScriptTest::snapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> &amp;</type>
+          <declname>ts</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>author</declname>
+          <defval>&quot;test&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>desc</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Register schema in <ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> and create a version snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_migration_script.cpp" line="72" column="14" bodyfile="tests/metadata/test_schema_migration_script.cpp" bodystart="72" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MigrationScriptTest</label>
+        <link refid="class_migration_script_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MigrationScriptTest</label>
+        <link refid="class_migration_script_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/metadata/test_schema_migration_script.cpp" line="28" column="1" bodyfile="tests/metadata/test_schema_migration_script.cpp" bodystart="28" bodyend="86"/>
+    <listofallmembers>
+      <member refid="class_migration_script_test_1a5e0c5eb5fe60dec4a20965727beae78a" prot="protected" virt="non-virtual"><scope>MigrationScriptTest</scope><name>db_</name></member>
+      <member refid="class_migration_script_test_1a84b161c42bcaec57c7ae7c27a96bf4fd" prot="protected" virt="non-virtual"><scope>MigrationScriptTest</scope><name>idx_</name></member>
+      <member refid="class_migration_script_test_1a3cf42ba475a97ce3dbb6396dab91b919" prot="protected" virt="non-virtual"><scope>MigrationScriptTest</scope><name>makeSchema</name></member>
+      <member refid="class_migration_script_test_1a21b9adf5fc6e5c8f21f8cba3b3f8fff1" prot="protected" virt="non-virtual"><scope>MigrationScriptTest</scope><name>schema_</name></member>
+      <member refid="class_migration_script_test_1a9bc8d95778eb50b5fcf01785735877f6" prot="protected" virt="non-virtual"><scope>MigrationScriptTest</scope><name>SetUp</name></member>
+      <member refid="class_migration_script_test_1a5a2d2c37c2bbaa2856d81cf8637931fd" prot="protected" virt="non-virtual"><scope>MigrationScriptTest</scope><name>snapshot</name></member>
+      <member refid="class_migration_script_test_1a0460989d5fbecfa597929e040c2a6e42" prot="protected" virt="non-virtual"><scope>MigrationScriptTest</scope><name>TearDown</name></member>
+      <member refid="class_migration_script_test_1a88887c10f9b3404e7157f5746c9de8a1" prot="protected" virt="non-virtual"><scope>MigrationScriptTest</scope><name>version_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

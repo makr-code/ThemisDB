@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_be144eda31908357d4b05d067b0caf37" kind="dir">
+    <compoundname>src/llm/api</compoundname>
+    <innerfile refid="docs__assistant__adapter_8cpp">docs_assistant_adapter.cpp</innerfile>
+    <innerfile refid="embedded__llm__adapter_8cpp">embedded_llm_adapter.cpp</innerfile>
+    <innerfile refid="themis__help__lora__adapter_8cpp">themis_help_lora_adapter.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/api/"/>
+  </compounddef>
+</doxygen>

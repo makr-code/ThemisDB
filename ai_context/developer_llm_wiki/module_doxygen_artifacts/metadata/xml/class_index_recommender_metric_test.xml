@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_index_recommender_metric_test" kind="class" language="C++" prot="public">
+    <compoundname>IndexRecommenderMetricTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_index_recommender_metric_test_1adcec3022e871de63c465b159f90069b0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IndexRecommenderMetricTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>IndexRecommenderMetricTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_index_recommender.cpp" line="591" column="10" bodyfile="tests/metadata/test_index_recommender.cpp" bodystart="591" bodyend="593"/>
+      </memberdef>
+      <memberdef kind="function" id="class_index_recommender_metric_test_1aa81e65fd3882fa47d6a57cfc0fa82893" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IndexRecommenderMetricTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>IndexRecommenderMetricTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_index_recommender.cpp" line="594" column="10" bodyfile="tests/metadata/test_index_recommender.cpp" bodystart="594" bodyend="596"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>IndexRecommenderMetricTest</label>
+        <link refid="class_index_recommender_metric_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>IndexRecommenderMetricTest</label>
+        <link refid="class_index_recommender_metric_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/metadata/test_index_recommender.cpp" line="589" column="1" bodyfile="tests/metadata/test_index_recommender.cpp" bodystart="589" bodyend="597"/>
+    <listofallmembers>
+      <member refid="class_index_recommender_metric_test_1adcec3022e871de63c465b159f90069b0" prot="protected" virt="non-virtual"><scope>IndexRecommenderMetricTest</scope><name>SetUp</name></member>
+      <member refid="class_index_recommender_metric_test_1aa81e65fd3882fa47d6a57cfc0fa82893" prot="protected" virt="non-virtual"><scope>IndexRecommenderMetricTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

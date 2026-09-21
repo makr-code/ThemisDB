@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_capturing_transport" kind="class" language="C++" prot="public">
+    <compoundname>CapturingTransport</compoundname>
+    <basecompoundref refid="classthemis_1_1cdc_1_1_i_c_d_c_transport" prot="public" virt="non-virtual">themis::cdc::ICDCTransport</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_capturing_transport_1a3ea83ee1ca8fdb740baf7b33c858a586" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt;</type>
+        <definition>std::vector&lt;Changefeed::ChangeEvent&gt; CapturingTransport::published</definition>
+        <argsstring></argsstring>
+        <name>published</name>
+        <qualifiedname>CapturingTransport::published</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="316" column="17" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="316" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_capturing_transport_1aca1c188c288abaf2e1b59b358a6a263c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool CapturingTransport::start</definition>
+        <argsstring>() override</argsstring>
+        <name>start</name>
+        <qualifiedname>CapturingTransport::start</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_transport_1a50aa70a8d4e6b3894c3e7f11b7d5fcb7">start</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="310" column="10" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="310" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="class_capturing_transport_1afc7e0e06f7c0789cf899001587e02629" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void CapturingTransport::stop</definition>
+        <argsstring>() override</argsstring>
+        <name>stop</name>
+        <qualifiedname>CapturingTransport::stop</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_transport_1a1a788edc6fe7c2f58a6e1c396cd8edf4">stop</reimplements>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="311" column="10" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="311" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="class_capturing_transport_1acc0850818af8af5dd33baf0ea526146b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool CapturingTransport::publish</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;ev) override</argsstring>
+        <name>publish</name>
+        <qualifiedname>CapturingTransport::publish</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;</type>
+          <declname>ev</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="312" column="10" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="312" bodyend="315"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal in-process mock that records every published ChangeEvent. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CapturingTransport</label>
+        <link refid="class_capturing_transport"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cdc::ICDCTransport</label>
+        <link refid="classthemis_1_1cdc_1_1_i_c_d_c_transport"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CapturingTransport</label>
+        <link refid="class_capturing_transport"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cdc::ICDCTransport</label>
+        <link refid="classthemis_1_1cdc_1_1_i_c_d_c_transport"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="308" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="308" bodyend="317"/>
+    <listofallmembers>
+      <member refid="class_capturing_transport_1acc0850818af8af5dd33baf0ea526146b" prot="public" virt="non-virtual"><scope>CapturingTransport</scope><name>publish</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_transport_1ab4b9fad9dca393c235367b43f06ce6dd" prot="public" virt="pure-virtual" ambiguityscope="themis::cdc::ICDCTransport::"><scope>CapturingTransport</scope><name>publish</name></member>
+      <member refid="class_capturing_transport_1a3ea83ee1ca8fdb740baf7b33c858a586" prot="public" virt="non-virtual"><scope>CapturingTransport</scope><name>published</name></member>
+      <member refid="class_capturing_transport_1aca1c188c288abaf2e1b59b358a6a263c" prot="public" virt="virtual"><scope>CapturingTransport</scope><name>start</name></member>
+      <member refid="class_capturing_transport_1afc7e0e06f7c0789cf899001587e02629" prot="public" virt="virtual"><scope>CapturingTransport</scope><name>stop</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_transport_1ad8b70e2293510d7c8cc63892aa070a00" prot="public" virt="virtual"><scope>CapturingTransport</scope><name>~ICDCTransport</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

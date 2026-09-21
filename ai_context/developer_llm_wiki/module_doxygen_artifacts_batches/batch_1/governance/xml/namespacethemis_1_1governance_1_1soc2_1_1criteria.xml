@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1soc2_1_1criteria" kind="namespace" language="C++">
+    <compoundname>themis::governance::soc2::criteria</compoundname>
+    <innernamespace refid="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1common">themis::governance::soc2::criteria::common</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1security">themis::governance::soc2::criteria::security</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1availability">themis::governance::soc2::criteria::availability</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1processing">themis::governance::soc2::criteria::processing</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1confidentiality">themis::governance::soc2::criteria::confidentiality</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1soc2_1_1criteria_1_1privacy">themis::governance::soc2::criteria::privacy</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="207" column="1"/>
+  </compounddef>
+</doxygen>

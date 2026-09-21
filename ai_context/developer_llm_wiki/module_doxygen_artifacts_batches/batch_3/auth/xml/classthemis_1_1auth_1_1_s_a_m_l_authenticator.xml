@@ -1,0 +1,751 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_s_a_m_l_authenticator" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::SAMLAuthenticator</compoundname>
+    <includes refid="saml__authenticator_8h" local="no">saml_authenticator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a3e5fc073c7010d19f030a1170f085318" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_s_a_m_l_config" kindref="compound">SAMLConfig</ref></type>
+        <definition>SAMLConfig themis::auth::SAMLAuthenticator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="166" column="16" bodyfile="include/auth/saml_authenticator.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a4835ab6798fb81664d8c22b4b3cb550a" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::auth::SAMLAuthenticator::idp_public_key_</definition>
+        <argsstring></argsstring>
+        <name>idp_public_key_</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::idp_public_key_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>EVP_PKEY* for IdP certificate (opaque to avoid OpenSSL headers). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="167" column="10" bodyfile="include/auth/saml_authenticator.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1ac570ac6769abbda52cf6076c9399253a" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::auth::SAMLAuthenticator::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::audit_logger_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Non-owning, optional. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="168" column="24" bodyfile="include/auth/saml_authenticator.h" bodystart="168" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1ad090fb351736b26b408678a62cd271f2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::SAMLAuthenticator::replay_cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>replay_cache_mutex_</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::replay_cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="172" column="24" bodyfile="include/auth/saml_authenticator.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1ac3c475f5c1a9800ce85737515cbd016b" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::chrono::system_clock::time_point&gt; themis::auth::SAMLAuthenticator::seen_assertion_ids_</definition>
+        <argsstring></argsstring>
+        <name>seen_assertion_ids_</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::seen_assertion_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="173" column="32" bodyfile="include/auth/saml_authenticator.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a83ca4f682c2b3ed9789d2823ed052b89" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::chrono::system_clock::time_point()&gt;</type>
+        <definition>std::function&lt;std::chrono::system_clock::time_point()&gt; themis::auth::SAMLAuthenticator::clock_</definition>
+        <argsstring></argsstring>
+        <name>clock_</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::clock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="176" column="19" bodyfile="include/auth/saml_authenticator.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a3c57f9bd241806ea8ddcf646a477593f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SAMLAuthenticator::SAMLAuthenticator</definition>
+        <argsstring>(const SAMLConfig &amp;config)</argsstring>
+        <name>SAMLAuthenticator</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::SAMLAuthenticator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_s_a_m_l_config" kindref="compound">SAMLConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator" kindref="compound">SAMLAuthenticator</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="132" column="14" bodyfile="src/auth/saml_authenticator.cpp" bodystart="42" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a76b6fc76438d56e1c2a2a2a77b59514f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SAMLAuthenticator::~SAMLAuthenticator</definition>
+        <argsstring>()</argsstring>
+        <name>~SAMLAuthenticator</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::~SAMLAuthenticator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="134" column="5" bodyfile="src/auth/saml_authenticator.cpp" bodystart="66" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a8f046603fbd83e4f02128ccedf961996" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_authn_request_params" kindref="compound">AuthnRequestParams</ref></type>
+        <definition>AuthnRequestParams themis::auth::SAMLAuthenticator::buildAuthnRequest</definition>
+        <argsstring>(const std::string &amp;relay_state=&quot;&quot;) const</argsstring>
+        <name>buildAuthnRequest</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::buildAuthnRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>relay_state</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="140" column="24" bodyfile="src/auth/saml_authenticator.cpp" bodystart="249" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1af54c5af54aa01af13358f0546f8c9803" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLAuthenticator::buildAuthnRequestUrl</definition>
+        <argsstring>(const std::string &amp;relay_state=&quot;&quot;) const</argsstring>
+        <name>buildAuthnRequestUrl</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::buildAuthnRequestUrl</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>relay_state</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="142" column="17" bodyfile="src/auth/saml_authenticator.cpp" bodystart="263" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1affa66bf2b8ddb00c9fae956d12dab8ac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_s_a_m_l_claims" kindref="compound">SAMLClaims</ref></type>
+        <definition>SAMLClaims themis::auth::SAMLAuthenticator::processResponse</definition>
+        <argsstring>(const std::string &amp;saml_response_b64, const std::string &amp;in_response_to=&quot;&quot;) const</argsstring>
+        <name>processResponse</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::processResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>saml_response_b64</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>in_response_to</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="148" column="16" bodyfile="src/auth/saml_authenticator.cpp" bodystart="822" bodyend="841"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a7297292869c3d08a52e60a6daef4179e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::SAMLAuthenticator::setClockForTesting</definition>
+        <argsstring>(std::function&lt; std::chrono::system_clock::time_point()&gt; clock)</argsstring>
+        <name>setClockForTesting</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::setClockForTesting</qualifiedname>
+        <param>
+          <type>std::function&lt; std::chrono::system_clock::time_point()&gt;</type>
+          <declname>clock</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="156" column="10" bodyfile="src/auth/saml_authenticator.cpp" bodystart="106" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1af6a81c90c86ff0c8964eb148dc0fb997" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::SAMLAuthenticator::setAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::setAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuditLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="163" column="10" bodyfile="include/auth/saml_authenticator.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a045e834690f01cb0f25f0dc65d09cc3f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::SAMLAuthenticator::loadIdPCertificate</definition>
+        <argsstring>()</argsstring>
+        <name>loadIdPCertificate</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::loadIdPCertificate</qualifiedname>
+        <briefdescription>
+<para><mdash/> private helpers <mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Id PCertificate.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: BIO_new_mem_buf(), data(), size(), PEM_read_bio_X509(), BIO_free(), X509_get_pubkey(), X509_free(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="182" column="10" bodyfile="src/auth/saml_authenticator.cpp" bodystart="78" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1ac34c501e8972b6447c4f0d181d1c50df" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLAuthenticator::buildAuthnRequestXml</definition>
+        <argsstring>(const std::string &amp;request_id, const std::string &amp;issue_instant) const</argsstring>
+        <name>buildAuthnRequestXml</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::buildAuthnRequestXml</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>issue_instant</declname>
+        </param>
+        <briefdescription>
+<para>Build Authn Request Xml. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">issue_instant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="190" column="17" bodyfile="src/auth/saml_authenticator.cpp" bodystart="131" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a090a61f9c392397d7d3cdc970e2b2514" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::SAMLAuthenticator::verifyXmlSignature</definition>
+        <argsstring>(const std::string &amp;reference_xml, const std::string &amp;signature_value_b64, const std::string &amp;signed_info_c14n, const std::string &amp;digest_value_b64, const std::string &amp;digest_algorithm_uri, const std::string &amp;sig_algorithm_uri) const</argsstring>
+        <name>verifyXmlSignature</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::verifyXmlSignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reference_xml</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>signature_value_b64</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>signed_info_c14n</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>digest_value_b64</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>digest_algorithm_uri</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sig_algorithm_uri</declname>
+        </param>
+        <briefdescription>
+<para>Verify Xml Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reference_xml</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature_value_b64</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signed_info_c14n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">digest_value_b64</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">digest_algorithm_uri</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sig_algorithm_uri</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Computed digest. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">EVP_MAX_MD_SIZE</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="217" column="10" bodyfile="src/auth/saml_authenticator.cpp" bodystart="337" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a2acc0762725d1f5b7f9a37b25ce363ca" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_s_a_m_l_claims" kindref="compound">SAMLClaims</ref></type>
+        <definition>SAMLClaims themis::auth::SAMLAuthenticator::processResponseImpl</definition>
+        <argsstring>(const std::string &amp;saml_response_b64, const std::string &amp;in_response_to) const</argsstring>
+        <name>processResponseImpl</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::processResponseImpl</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>saml_response_b64</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>in_response_to</declname>
+        </param>
+        <briefdescription>
+<para>Process Response Impl. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saml_response_b64</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">in_response_to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replay_cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="250" column="16" bodyfile="src/auth/saml_authenticator.cpp" bodystart="843" bodyend="1368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1aa5d512c3fef7eb6cd8513b2499d34cb0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLAuthenticator::decryptAssertion</definition>
+        <argsstring>(const pugi::xml_node &amp;encrypted_assertion_node) const</argsstring>
+        <name>decryptAssertion</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::decryptAssertion</qualifiedname>
+        <param>
+          <type>const pugi::xml_node &amp;</type>
+          <declname>encrypted_assertion_node</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt Assertion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encrypted_assertion_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="258" column="17" bodyfile="src/auth/saml_authenticator.cpp" bodystart="561" bodyend="816"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a30938e87fa837e1f3f4370e6f0f97723" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLAuthenticator::deflateAndBase64Encode</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>deflateAndBase64Encode</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::deflateAndBase64Encode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Deflate And Base64 Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: compressBound(), size(), compressed(), deflateInit2(), data(), deflate(), deflateEnd(), resize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="198" column="24" bodyfile="src/auth/saml_authenticator.cpp" bodystart="181" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a7b876d916266fc07ae735f31e985edd6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::auth::SAMLAuthenticator::base64Decode</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>base64Decode</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::base64Decode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Base64 Decode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Base64 decode (for SAMLResponse POST body) ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: BIO_new(), BIO_f_base64(), BIO_new_mem_buf(), data(), size(), BIO_free(), BIO_push(), BIO_set_flags(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="205" column="24" bodyfile="src/auth/saml_authenticator.cpp" bodystart="274" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1af955178cce52c2cf33c4cfe14eee3227" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::SAMLAuthenticator::parseDateTime</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>parseDateTime</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::parseDateTime</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Parse Date Time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), std::sscanf(), c_str(), _mkgmtime(), timegm(), std::chrono::system_clock::from_time_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="229" column="50" bodyfile="src/auth/saml_authenticator.cpp" bodystart="307" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a71c4871aebcb16276b5f4929d1ce2977" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLAuthenticator::generateRequestId</definition>
+        <argsstring>()</argsstring>
+        <name>generateRequestId</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::generateRequestId</qualifiedname>
+        <briefdescription>
+<para>Generate Request Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: local_gen(), local_rd(), std::setfill(), std::setw(), dist(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="235" column="24" bodyfile="src/auth/saml_authenticator.cpp" bodystart="119" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1ac34738e20d0fa9d445005edaf24c7816" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLAuthenticator::urlEncode</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>urlEncode</name>
+        <qualifiedname>themis::auth::SAMLAuthenticator::urlEncode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Url Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::isalnum(), std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="242" column="24" bodyfile="src/auth/saml_authenticator.cpp" bodystart="236" bodyend="247"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/saml_authenticator.h" line="125" column="1" bodyfile="include/auth/saml_authenticator.h" bodystart="125" bodyend="259"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1ac570ac6769abbda52cf6076c9399253a" prot="private" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a7b876d916266fc07ae735f31e985edd6" prot="private" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>base64Decode</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a8f046603fbd83e4f02128ccedf961996" prot="public" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>buildAuthnRequest</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1af54c5af54aa01af13358f0546f8c9803" prot="public" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>buildAuthnRequestUrl</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1ac34c501e8972b6447c4f0d181d1c50df" prot="private" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>buildAuthnRequestXml</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a83ca4f682c2b3ed9789d2823ed052b89" prot="private" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>clock_</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a3e5fc073c7010d19f030a1170f085318" prot="private" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1aa5d512c3fef7eb6cd8513b2499d34cb0" prot="private" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>decryptAssertion</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a30938e87fa837e1f3f4370e6f0f97723" prot="private" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>deflateAndBase64Encode</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a71c4871aebcb16276b5f4929d1ce2977" prot="private" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>generateRequestId</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a4835ab6798fb81664d8c22b4b3cb550a" prot="private" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>idp_public_key_</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a045e834690f01cb0f25f0dc65d09cc3f" prot="private" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>loadIdPCertificate</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1af955178cce52c2cf33c4cfe14eee3227" prot="private" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>parseDateTime</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1affa66bf2b8ddb00c9fae956d12dab8ac" prot="public" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>processResponse</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a2acc0762725d1f5b7f9a37b25ce363ca" prot="private" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>processResponseImpl</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1ad090fb351736b26b408678a62cd271f2" prot="private" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>replay_cache_mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a3c57f9bd241806ea8ddcf646a477593f" prot="public" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>SAMLAuthenticator</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1ac3c475f5c1a9800ce85737515cbd016b" prot="private" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>seen_assertion_ids_</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1af6a81c90c86ff0c8964eb148dc0fb997" prot="public" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a7297292869c3d08a52e60a6daef4179e" prot="public" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>setClockForTesting</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1ac34738e20d0fa9d445005edaf24c7816" prot="private" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>urlEncode</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a090a61f9c392397d7d3cdc970e2b2514" prot="private" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>verifyXmlSignature</name></member>
+      <member refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator_1a76b6fc76438d56e1c2a2a2a77b59514f" prot="public" virt="non-virtual"><scope>themis::auth::SAMLAuthenticator</scope><name>~SAMLAuthenticator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

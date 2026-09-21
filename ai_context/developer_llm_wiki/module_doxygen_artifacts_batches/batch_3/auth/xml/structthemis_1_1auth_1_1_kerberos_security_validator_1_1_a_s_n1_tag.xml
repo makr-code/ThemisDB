@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_a_s_n1_tag" kind="struct" language="C++" prot="private">
+    <compoundname>themis::auth::KerberosSecurityValidator::ASN1Tag</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_a_s_n1_tag_1a8712c74e6af084a8cd01de3c8792eb8c" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::auth::KerberosSecurityValidator::ASN1Tag::tag_class</definition>
+        <argsstring></argsstring>
+        <name>tag_class</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::ASN1Tag::tag_class</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="160" column="17" bodyfile="include/auth/kerberos_security.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_a_s_n1_tag_1a677d6f3808e68924b337074d1daf9aa7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosSecurityValidator::ASN1Tag::is_constructed</definition>
+        <argsstring></argsstring>
+        <name>is_constructed</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::ASN1Tag::is_constructed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="161" column="14" bodyfile="include/auth/kerberos_security.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_a_s_n1_tag_1a0b9aa7462c6e4e8fba64d3f4549a78cc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::auth::KerberosSecurityValidator::ASN1Tag::tag_number</definition>
+        <argsstring></argsstring>
+        <name>tag_number</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::ASN1Tag::tag_number</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="162" column="18" bodyfile="include/auth/kerberos_security.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_a_s_n1_tag_1a2409f6ff6b0046660127ac814f162cf1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::KerberosSecurityValidator::ASN1Tag::length</definition>
+        <argsstring></argsstring>
+        <name>length</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::ASN1Tag::length</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="163" column="16" bodyfile="include/auth/kerberos_security.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_a_s_n1_tag_1a6b532481ef47612978954a598162526d" prot="public" static="no" mutable="no">
+        <type>const uint8_t *</type>
+        <definition>const uint8_t* themis::auth::KerberosSecurityValidator::ASN1Tag::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::ASN1Tag::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="164" column="23" bodyfile="include/auth/kerberos_security.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/kerberos_security.h" line="159" column="5" bodyfile="include/auth/kerberos_security.h" bodystart="159" bodyend="165"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_a_s_n1_tag_1a677d6f3808e68924b337074d1daf9aa7" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::ASN1Tag</scope><name>is_constructed</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_a_s_n1_tag_1a2409f6ff6b0046660127ac814f162cf1" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::ASN1Tag</scope><name>length</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_a_s_n1_tag_1a8712c74e6af084a8cd01de3c8792eb8c" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::ASN1Tag</scope><name>tag_class</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_a_s_n1_tag_1a0b9aa7462c6e4e8fba64d3f4549a78cc" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::ASN1Tag</scope><name>tag_number</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_a_s_n1_tag_1a6b532481ef47612978954a598162526d" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator::ASN1Tag</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

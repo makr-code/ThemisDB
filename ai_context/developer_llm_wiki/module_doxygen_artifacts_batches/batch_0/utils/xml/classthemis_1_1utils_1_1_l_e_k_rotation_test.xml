@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_l_e_k_rotation_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::LEKRotationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_rotation_test_1ae8a6372b1470476e364fc434210b6a87" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::utils::LEKRotationTest::temp_dir_</definition>
+        <argsstring></argsstring>
+        <name>temp_dir_</name>
+        <qualifiedname>themis::utils::LEKRotationTest::temp_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_lek_rotation_atomic.cpp" line="64" column="14" bodyfile="tests/utils/test_utils_lek_rotation_atomic.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_rotation_test_1aefd91fd43da6d35ad4b6d5f0e9425cda" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::utils::LEKRotationTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::utils::LEKRotationTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_lek_rotation_atomic.cpp" line="65" column="21" bodyfile="tests/utils/test_utils_lek_rotation_atomic.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_rotation_test_1a2fe85b04b05a6055c40278f2f4d16c28" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;VCCPKIClient&gt; themis::utils::LEKRotationTest::pki_</definition>
+        <argsstring></argsstring>
+        <name>pki_</name>
+        <qualifiedname>themis::utils::LEKRotationTest::pki_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_lek_rotation_atomic.cpp" line="66" column="21" bodyfile="tests/utils/test_utils_lek_rotation_atomic.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_rotation_test_1a3813a250789b8578ac78504c10caa1fb" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::MockKeyProvider &gt;</type>
+        <definition>std::shared_ptr&lt;themis::MockKeyProvider&gt; themis::utils::LEKRotationTest::key_provider_</definition>
+        <argsstring></argsstring>
+        <name>key_provider_</name>
+        <qualifiedname>themis::utils::LEKRotationTest::key_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_lek_rotation_atomic.cpp" line="67" column="21" bodyfile="tests/utils/test_utils_lek_rotation_atomic.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_l_e_k_rotation_test_1a16e0ff6fb5de28a8ac039eec39abb4b8" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1utils_1_1_l_e_k_manager" kindref="compound">LEKManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LEKManager&gt; themis::utils::LEKRotationTest::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themis::utils::LEKRotationTest::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_lek_rotation_atomic.cpp" line="68" column="21" bodyfile="tests/utils/test_utils_lek_rotation_atomic.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_rotation_test_1a38e70f4581fe8a4a6bfb5e32779b2d69" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>static std::shared_ptr&lt; RocksDBWrapper &gt; themis::utils::LEKRotationTest::openDb</definition>
+        <argsstring>(const fs::path &amp;path)</argsstring>
+        <name>openDb</name>
+        <qualifiedname>themis::utils::LEKRotationTest::openDb</qualifiedname>
+        <param>
+          <type>const fs::path &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_lek_rotation_atomic.cpp" line="27" column="28" bodyfile="tests/utils/test_utils_lek_rotation_atomic.cpp" bodystart="27" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_rotation_test_1adf161ecab4bfc13bdcda86d876b4d3d5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::LEKRotationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::utils::LEKRotationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_lek_rotation_atomic.cpp" line="44" column="10" bodyfile="tests/utils/test_utils_lek_rotation_atomic.cpp" bodystart="44" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_l_e_k_rotation_test_1a3059cf9310f985429192b685b5f48a1e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::LEKRotationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::utils::LEKRotationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_lek_rotation_atomic.cpp" line="56" column="10" bodyfile="tests/utils/test_utils_lek_rotation_atomic.cpp" bodystart="56" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::utils::LEKRotationTest</label>
+        <link refid="classthemis_1_1utils_1_1_l_e_k_rotation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::utils::LEKRotationTest</label>
+        <link refid="classthemis_1_1utils_1_1_l_e_k_rotation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/test_utils_lek_rotation_atomic.cpp" line="25" column="1" bodyfile="tests/utils/test_utils_lek_rotation_atomic.cpp" bodystart="25" bodyend="69"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_rotation_test_1aefd91fd43da6d35ad4b6d5f0e9425cda" prot="protected" virt="non-virtual"><scope>themis::utils::LEKRotationTest</scope><name>db_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_rotation_test_1a3813a250789b8578ac78504c10caa1fb" prot="protected" virt="non-virtual"><scope>themis::utils::LEKRotationTest</scope><name>key_provider_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_rotation_test_1a16e0ff6fb5de28a8ac039eec39abb4b8" prot="protected" virt="non-virtual"><scope>themis::utils::LEKRotationTest</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_rotation_test_1a38e70f4581fe8a4a6bfb5e32779b2d69" prot="protected" virt="non-virtual"><scope>themis::utils::LEKRotationTest</scope><name>openDb</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_rotation_test_1a2fe85b04b05a6055c40278f2f4d16c28" prot="protected" virt="non-virtual"><scope>themis::utils::LEKRotationTest</scope><name>pki_</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_rotation_test_1adf161ecab4bfc13bdcda86d876b4d3d5" prot="protected" virt="non-virtual"><scope>themis::utils::LEKRotationTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_rotation_test_1a3059cf9310f985429192b685b5f48a1e" prot="protected" virt="non-virtual"><scope>themis::utils::LEKRotationTest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1utils_1_1_l_e_k_rotation_test_1ae8a6372b1470476e364fc434210b6a87" prot="protected" virt="non-virtual"><scope>themis::utils::LEKRotationTest</scope><name>temp_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

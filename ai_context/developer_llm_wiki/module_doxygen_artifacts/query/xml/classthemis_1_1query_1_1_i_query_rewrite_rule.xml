@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_i_query_rewrite_rule" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::query::IQueryRewriteRule</compoundname>
+    <derivedcompoundref refid="classthemis_1_1query_1_1_common_subexpression_rule" prot="public" virt="non-virtual">themis::query::CommonSubexpressionRule</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1query_1_1_constant_folding_rule" prot="public" virt="non-virtual">themis::query::ConstantFoldingRule</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule" prot="public" virt="non-virtual">themis::query::OrToInRewriteRule</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1query_1_1_predicate_pushdown_rule" prot="public" virt="non-virtual">themis::query::PredicatePushdownRule</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1query_1_1_projection_pushdown_rule" prot="public" virt="non-virtual">themis::query::ProjectionPushdownRule</derivedcompoundref>
+    <includes refid="query__rewrite__rule_8h" local="no">query_rewrite_rule.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_rewrite_rule_1ae198d76b9e5f1ce78389e8af51f5636e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::query::IQueryRewriteRule::~IQueryRewriteRule</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IQueryRewriteRule</name>
+        <qualifiedname>themis::query::IQueryRewriteRule::~IQueryRewriteRule</qualifiedname>
+        <briefdescription>
+<para>IQuery Rewrite Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="46" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_rewrite_rule_1a7188c91178e7a315f921bce09de1e456" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::query::IQueryRewriteRule::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::IQueryRewriteRule::name</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_common_subexpression_rule_1aba0981f846e7b777e48c850d71708c7f">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_constant_folding_rule_1a8324db320a5921e041eefdaf215e9902">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1a5aa7f0b0d34443d2ca8fe0134335ef9a">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_predicate_pushdown_rule_1ab73113f25e4347bb120ae6b32ef18ae5">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_projection_pushdown_rule_1a7b819e0b1642eb69d5f34b24094eeaf5">name</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="48" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_rewrite_rule_1aa5f40172d8eeecc21b3c66f936cda68d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::query::IQueryRewriteRule::applies</definition>
+        <argsstring>(const nlohmann::json &amp;plan, const RewriteContext &amp;ctx) const =0</argsstring>
+        <name>applies</name>
+        <qualifiedname>themis::query::IQueryRewriteRule::applies</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_common_subexpression_rule_1aa6981c341a7520523a741fb86b541f22">applies</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_constant_folding_rule_1a1d603c7c5a7721ca72a1e2c9087980f1">applies</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1aba25e16500ac02834ec61ff380feda1b">applies</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_predicate_pushdown_rule_1aa430606296e1cc13bf55accff7a18ce8">applies</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_projection_pushdown_rule_1a4654206bbb26d3f180c04d32517377e7">applies</reimplementedby>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="50" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_rewrite_rule_1a9091b6186534bf99d50fc785ca8bf9a1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::query::IQueryRewriteRule::apply</definition>
+        <argsstring>(nlohmann::json &amp;plan, const RewriteContext &amp;ctx) const =0</argsstring>
+        <name>apply</name>
+        <qualifiedname>themis::query::IQueryRewriteRule::apply</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_common_subexpression_rule_1ae970dd5fc02d9a819ca98371bfcd777f">apply</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_constant_folding_rule_1a162a566f99131888689d7d5f45c4cb3d">apply</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule_1aafbf7f17bc309bcfcfb2be6d35c16a0f">apply</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_predicate_pushdown_rule_1a2ecda2b02be37b5bcdefa41e3603d183">apply</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_projection_pushdown_rule_1af25414f757b50cc4d29f15db5ceffab5">apply</reimplementedby>
+        <param>
+          <type>nlohmann::json &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="52" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::CommonSubexpressionRule</label>
+        <link refid="classthemis_1_1query_1_1_common_subexpression_rule"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::query::ConstantFoldingRule</label>
+        <link refid="classthemis_1_1query_1_1_constant_folding_rule"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::query::IQueryRewriteRule</label>
+        <link refid="classthemis_1_1query_1_1_i_query_rewrite_rule"/>
+      </node>
+      <node id="4">
+        <label>themis::query::OrToInRewriteRule</label>
+        <link refid="classthemis_1_1query_1_1_or_to_in_rewrite_rule"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::query::PredicatePushdownRule</label>
+        <link refid="classthemis_1_1query_1_1_predicate_pushdown_rule"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::query::ProjectionPushdownRule</label>
+        <link refid="classthemis_1_1query_1_1_projection_pushdown_rule"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/query/query_rewrite_rule.h" line="40" column="1" bodyfile="include/query/query_rewrite_rule.h" bodystart="40" bodyend="53"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1aa5f40172d8eeecc21b3c66f936cda68d" prot="public" virt="pure-virtual"><scope>themis::query::IQueryRewriteRule</scope><name>applies</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1a9091b6186534bf99d50fc785ca8bf9a1" prot="public" virt="pure-virtual"><scope>themis::query::IQueryRewriteRule</scope><name>apply</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1a7188c91178e7a315f921bce09de1e456" prot="public" virt="pure-virtual"><scope>themis::query::IQueryRewriteRule</scope><name>name</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1ae198d76b9e5f1ce78389e8af51f5636e" prot="public" virt="virtual"><scope>themis::query::IQueryRewriteRule</scope><name>~IQueryRewriteRule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

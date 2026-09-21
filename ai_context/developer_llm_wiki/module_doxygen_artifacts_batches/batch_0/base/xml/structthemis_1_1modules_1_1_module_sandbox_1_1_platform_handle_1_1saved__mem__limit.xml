@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_module_sandbox_1_1_platform_handle_1_1saved__mem__limit" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::ModuleSandbox::PlatformHandle::saved_mem_limit</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/base/module_sandbox.cpp" line="282" column="5" bodyfile="src/base/module_sandbox.cpp" bodystart="282" bodyend="282"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

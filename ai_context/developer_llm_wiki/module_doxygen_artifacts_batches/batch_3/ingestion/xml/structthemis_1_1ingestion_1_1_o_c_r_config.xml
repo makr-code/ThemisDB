@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_o_c_r_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::OCRConfig</compoundname>
+    <includes refid="filesystem__ingester_8h" local="no">filesystem_ingester.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_o_c_r_config_1a23638d29eb86bc57dfa1903056fda690" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::OCRConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::ingestion::OCRConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable OCR for scanned documents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="110" column="10" bodyfile="include/ingestion/filesystem_ingester.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_o_c_r_config_1a513c7409496e8aeb701506976516c700" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::OCRConfig::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::ingestion::OCRConfig::language</qualifiedname>
+        <initializer>= &quot;deu+eng&quot;</initializer>
+        <briefdescription>
+<para>Tesseract language codes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="111" column="17" bodyfile="include/ingestion/filesystem_ingester.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_o_c_r_config_1a3e06e41a44be8222c5bd6629d9ceaa9b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::OCRConfig::dpi</definition>
+        <argsstring></argsstring>
+        <name>dpi</name>
+        <qualifiedname>themis::ingestion::OCRConfig::dpi</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+<para>DPI for image processing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="112" column="9" bodyfile="include/ingestion/filesystem_ingester.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_o_c_r_config_1a5bd56a363a59ac24cb9f814e6d25a78e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::OCRConfig::skip_text_pdfs</definition>
+        <argsstring></argsstring>
+        <name>skip_text_pdfs</name>
+        <qualifiedname>themis::ingestion::OCRConfig::skip_text_pdfs</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Skip OCR if PDF has text layer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="113" column="10" bodyfile="include/ingestion/filesystem_ingester.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_o_c_r_config_1a709438fa89aff66f974294fa09fcb06e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::OCRConfig::OCRConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>OCRConfig</name>
+        <qualifiedname>themis::ingestion::OCRConfig::OCRConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="115" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>OCR configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/filesystem_ingester.h" line="109" column="1" bodyfile="include/ingestion/filesystem_ingester.h" bodystart="109" bodyend="116"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_o_c_r_config_1a3e06e41a44be8222c5bd6629d9ceaa9b" prot="public" virt="non-virtual"><scope>themis::ingestion::OCRConfig</scope><name>dpi</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_o_c_r_config_1a23638d29eb86bc57dfa1903056fda690" prot="public" virt="non-virtual"><scope>themis::ingestion::OCRConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_o_c_r_config_1a513c7409496e8aeb701506976516c700" prot="public" virt="non-virtual"><scope>themis::ingestion::OCRConfig</scope><name>language</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_o_c_r_config_1a709438fa89aff66f974294fa09fcb06e" prot="public" virt="non-virtual"><scope>themis::ingestion::OCRConfig</scope><name>OCRConfig</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_o_c_r_config_1a5bd56a363a59ac24cb9f814e6d25a78e" prot="public" virt="non-virtual"><scope>themis::ingestion::OCRConfig</scope><name>skip_text_pdfs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

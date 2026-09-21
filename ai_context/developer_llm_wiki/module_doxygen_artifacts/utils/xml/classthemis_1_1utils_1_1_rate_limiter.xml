@@ -1,0 +1,588 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_rate_limiter" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::RateLimiter</compoundname>
+    <includes refid="rate__limiter_8h" local="no">rate_limiter.h</includes>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1utils_1_1_rate_limiter_1a6b9f76a30ade6be2c698f35c1a5bf6b5" prot="private" static="no">
+        <type>std::chrono::steady_clock</type>
+        <definition>using themis::utils::RateLimiter::Clock = std::chrono::steady_clock</definition>
+        <argsstring></argsstring>
+        <name>Clock</name>
+        <qualifiedname>themis::utils::RateLimiter::Clock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="159" column="5" bodyfile="include/utils/rate_limiter.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_rate_limiter_1a6d63e0ad5127756efa7e2e0a3f629793" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::RateLimiter::MAX_RATE_PER_SECOND</definition>
+        <argsstring></argsstring>
+        <name>MAX_RATE_PER_SECOND</name>
+        <qualifiedname>themis::utils::RateLimiter::MAX_RATE_PER_SECOND</qualifiedname>
+        <initializer>= 1&apos;000&apos;000.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="33" column="29" bodyfile="include/utils/rate_limiter.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_rate_limiter_1aa24ff9c17f284bef0f0f0bf85b7281e6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::RateLimiter::MAX_BURST_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_BURST_SIZE</name>
+        <qualifiedname>themis::utils::RateLimiter::MAX_BURST_SIZE</qualifiedname>
+        <initializer>= 100&apos;000&apos;000.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="34" column="29" bodyfile="include/utils/rate_limiter.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_rate_limiter_1ab56e73abe759f9e0d51f49f9049ba901" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::RateLimiter::MIN_RATE_PER_SECOND</definition>
+        <argsstring></argsstring>
+        <name>MIN_RATE_PER_SECOND</name>
+        <qualifiedname>themis::utils::RateLimiter::MIN_RATE_PER_SECOND</qualifiedname>
+        <initializer>= 0.001</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="35" column="29" bodyfile="include/utils/rate_limiter.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_rate_limiter_1a84832e07aea2462cfa75a980788e1064" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::RateLimiter::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::utils::RateLimiter::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="152" column="24" bodyfile="include/utils/rate_limiter.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_rate_limiter_1a7860012d70abb7070cbb8e5d7fe7749c" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::utils::RateLimiter::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::utils::RateLimiter::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="153" column="29" bodyfile="include/utils/rate_limiter.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_rate_limiter_1a9cc6a2a7dcc100934aa02ea312316fc8" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::RateLimiter::rate_</definition>
+        <argsstring></argsstring>
+        <name>rate_</name>
+        <qualifiedname>themis::utils::RateLimiter::rate_</qualifiedname>
+        <briefdescription>
+<para>tokens per second </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="155" column="12" bodyfile="include/utils/rate_limiter.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_rate_limiter_1a630e0e1e458b2dcef08e917004e0ce22" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::RateLimiter::burst_</definition>
+        <argsstring></argsstring>
+        <name>burst_</name>
+        <qualifiedname>themis::utils::RateLimiter::burst_</qualifiedname>
+        <briefdescription>
+<para>max token capacity </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="156" column="12" bodyfile="include/utils/rate_limiter.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_rate_limiter_1ae0220a324346198dee155706bc852434" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::RateLimiter::tokens_</definition>
+        <argsstring></argsstring>
+        <name>tokens_</name>
+        <qualifiedname>themis::utils::RateLimiter::tokens_</qualifiedname>
+        <briefdescription>
+<para>current token count </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="157" column="12" bodyfile="include/utils/rate_limiter.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_rate_limiter_1af2587a29850482d9f1ea25b18f56e0e6" prot="private" static="no" mutable="no">
+        <type>Clock::time_point</type>
+        <definition>Clock::time_point themis::utils::RateLimiter::last_refill_</definition>
+        <argsstring></argsstring>
+        <name>last_refill_</name>
+        <qualifiedname>themis::utils::RateLimiter::last_refill_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="160" column="23" bodyfile="include/utils/rate_limiter.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_rate_limiter_1a4d47723acbd3d9f138a4c00a7dd6126b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::RateLimiter::RateLimiter</definition>
+        <argsstring>(double rate_per_second, double burst_size)</argsstring>
+        <name>RateLimiter</name>
+        <qualifiedname>themis::utils::RateLimiter::RateLimiter</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>rate_per_second</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>burst_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rate_per_second</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Steady-state token refill rate (tokens/s). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>burst_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum token capacity (controls burst allowance).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Resource Limits (Phase 2.6): rate_per_second clamped to [MIN_RATE, MAX_RATE]; burst_size clamped to [rate_per_second, MAX_BURST_SIZE]. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="44" column="5" bodyfile="src/utils/rate_limiter.cpp" bodystart="21" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_rate_limiter_1a09b2ae5423d57bb3210245b8f7ec9a21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::RateLimiter::try_acquire</definition>
+        <argsstring>(double tokens=1.0)</argsstring>
+        <name>try_acquire</name>
+        <qualifiedname>themis::utils::RateLimiter::try_acquire</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>tokens</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+<para>Attempt to consume <computeroutput>tokens</computeroutput> without blocking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Try acquire.</para>
+<para>Non-blocking operation that checks if sufficient tokens are available in the bucket. If available, tokens are consumed and true is returned. Otherwise, state is unchanged and false is returned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of tokens to acquire (default 1.0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if tokens were available and consumed; false otherwise</para>
+</simplesect>
+@error_contract <table rows="3" cols="5"><row>
+<entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref>  </para>
+</entry><entry thead="yes"><para>Severity  </para>
+</entry><entry thead="yes"><para>Logging  </para>
+</entry><entry thead="yes"><para>Recovery  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>tokens &lt;= 0 (no-op)  </para>
+</entry><entry thead="no"><para>n/a  </para>
+</entry><entry thead="no"><para>n/a  </para>
+</entry><entry thead="no"><para>None  </para>
+</entry><entry thead="no"><para>Return true  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Token bucket exhausted (insufficient tokens)  </para>
+</entry><entry thead="no"><para>RATELIMIT_EXCEEDED (9073)  </para>
+</entry><entry thead="no"><para>Warning  </para>
+</entry><entry thead="no"><para>requested, available, rate_per_s  </para>
+</entry><entry thead="no"><para>Return false (RATE_LIMIT_EXHAUSTED)  </para>
+</entry></row>
+</table>
+</para>
+<para>@degradation explicit false return + structured diagnostic on every rejection @bounded_resources<itemizedlist>
+<listitem><para>Tokens capped at burst_size (no unbounded accumulation)</para>
+</listitem><listitem><para>Operation O(1) time complexity</para>
+</listitem></itemizedlist>
+</para>
+<para>@thread_safety Thread-safe via internal mutex (no spin-loops) @performance Sub-microsecond; no sleep/wait</para>
+<para><simplesect kind="see"><para><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref> 9070-9079 for concurrency error taxonomy </para>
+</simplesect>
+<simplesect kind="see"><para>acquire() for blocking variant with automatic retry</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), refill_locked(), <ref refid="namespacethemis_1_1utils_1aba772fbe54adf8b16188ebcadf696949" kindref="member">themis::utils::makeErrorContext()</ref>, std::to_string(), <ref refid="namespacethemis_1_1utils_1a1d7488007dabd100fdd2536f837d44bf" kindref="member">themis::utils::logErrorWithContext()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="73" column="10" bodyfile="src/utils/rate_limiter.cpp" bodystart="60" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_rate_limiter_1a0761e6a6fee52c99ab906a9395dd9390" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::RateLimiter::try_acquire_for</definition>
+        <argsstring>(double tokens, std::chrono::milliseconds timeout) noexcept</argsstring>
+        <name>try_acquire_for</name>
+        <qualifiedname>themis::utils::RateLimiter::try_acquire_for</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>tokens</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>Try to acquire tokens, waiting at most <computeroutput>timeout</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of tokens to acquire (default 1.0) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if tokens were acquired; false on timeout</para>
+</simplesect>
+@error_contract<itemizedlist>
+<listitem><para>Returns true immediately if tokens &lt;= 0 (no-op)</para>
+</listitem><listitem><para>Returns false if timeout expires before tokens become available</para>
+</listitem><listitem><para>Thread-safe via internal mutex </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="87" column="10" bodyfile="src/utils/rate_limiter.cpp" bodystart="153" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_rate_limiter_1a1d408dc99ca97c3d9f70db67e98fdb30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::RateLimiter::acquire_with_timeout</definition>
+        <argsstring>(double tokens, std::chrono::milliseconds timeout)</argsstring>
+        <name>acquire_with_timeout</name>
+        <qualifiedname>themis::utils::RateLimiter::acquire_with_timeout</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>tokens</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>Block until <computeroutput>tokens</computeroutput> are available and consume them with timeout support. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Acquire with timeout.</para>
+<para>Graceful degradation:<itemizedlist>
+<listitem><para>If tokens &gt; burst_size: returns false immediately (tokens can never accumulate)</para>
+</listitem><listitem><para>If timeout expires: returns false and propagates error to caller</para>
+</listitem><listitem><para>Caller should implement fallback strategy (queue rejection or degraded mode)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of tokens to acquire (must be &lt;= burst_size) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait for tokens to become available </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if tokens acquired successfully; false on timeout or invalid request</para>
+</simplesect>
+@error_contract<itemizedlist>
+<listitem><para>If tokens &lt;= 0: returns true immediately (no-op); no logging emitted</para>
+</listitem><listitem><para>If tokens &gt; burst_size: returns false (error code: 9073 RATELIMIT_EXCEEDED)</para>
+</listitem><listitem><para>If timeout exceeded: returns false (error code: 9073 RATELIMIT_EXCEEDED)</para>
+</listitem><listitem><para>On successful acquisition: returns true</para>
+</listitem></itemizedlist>
+</para>
+<para>@bounded_resources<itemizedlist>
+<listitem><para>Maximum wait time: timeout parameter (caller-controlled)</para>
+</listitem><listitem><para>Memory: stack-only; no dynamic allocation</para>
+</listitem><listitem><para>CPU: minimal while waiting (uses condition_variable)</para>
+</listitem></itemizedlist>
+</para>
+<para>@thread_safety Thread-safe; condition variable handles concurrent waiters @performance O(wait_time); blocks thread until available or timeout</para>
+<para>@graceful_degradation When rate limit is exceeded:<orderedlist>
+<listitem><para>Caller receives false return value</para>
+</listitem><listitem><para>Should log incident (rate limit threshold breached)</para>
+</listitem><listitem><para>Can choose to: queue for later, reject request, or use degraded service tier</para>
+</listitem></orderedlist>
+</para>
+<para><simplesect kind="note"><para>Always use timeouts in production to prevent unbounded blocking </para>
+</simplesect>
+<simplesect kind="note"><para>Ensure tokens &lt;= burst_size to avoid timeout guarantee violation </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1utils_1_1_rate_limiter_1a09b2ae5423d57bb3210245b8f7ec9a21" kindref="member">try_acquire()</ref> for non-blocking variant (fail-fast) </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1utils_1_1_rate_limiter_1a1847f791ace24c1c3b7e21f45483a71a" kindref="member">set_rate()</ref> to adjust rate dynamically</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), std::chrono::steady_clock::now(), refill_locked(), wait_for_locked(), std::min(), wait_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="127" column="10" bodyfile="src/utils/rate_limiter.cpp" bodystart="91" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_rate_limiter_1a164d6003a23b058ed42840b3c9f24018" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::RateLimiter::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::utils::RateLimiter::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the bucket to <computeroutput>burst_size</computeroutput> and update the timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: lk(), <ref refid="classthemis_1_1utils_1_1_clock_1ae49f27527af18805d97b6da9427718ca" kindref="member">Clock::now()</ref>, notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="132" column="10" bodyfile="src/utils/rate_limiter.cpp" bodystart="120" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_rate_limiter_1a3501e9498c19b365458bd0ed52665534" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::utils::RateLimiter::available</definition>
+        <argsstring>() const</argsstring>
+        <name>available</name>
+        <qualifiedname>themis::utils::RateLimiter::available</qualifiedname>
+        <briefdescription>
+<para>Return the current number of available tokens (snapshot). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="137" column="12" bodyfile="src/utils/rate_limiter.cpp" bodystart="127" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_rate_limiter_1a1847f791ace24c1c3b7e21f45483a71a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::RateLimiter::set_rate</definition>
+        <argsstring>(double rate_per_second)</argsstring>
+        <name>set_rate</name>
+        <qualifiedname>themis::utils::RateLimiter::set_rate</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>rate_per_second</declname>
+        </param>
+        <briefdescription>
+<para>Update the refill rate. Takes effect immediately on the next refill calculation without resetting the bucket level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set rate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rate_per_second</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), refill_locked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="143" column="10" bodyfile="src/utils/rate_limiter.cpp" bodystart="144" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_rate_limiter_1a805a106cb6b3ae6181220e4302b46c96" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::RateLimiter::refill_locked</definition>
+        <argsstring>()</argsstring>
+        <name>refill_locked</name>
+        <qualifiedname>themis::utils::RateLimiter::refill_locked</qualifiedname>
+        <briefdescription>
+<para>Refill tokens based on elapsed time (must be called under lock). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Refill locked.</para>
+<para>Calls: <ref refid="classthemis_1_1utils_1_1_clock_1ae49f27527af18805d97b6da9427718ca" kindref="member">Clock::now()</ref>, count(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="147" column="10" bodyfile="src/utils/rate_limiter.cpp" bodystart="39" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_rate_limiter_1ac7e5df2e2a162d06b690b65470cf0fd9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::duration&lt; double &gt;</type>
+        <definition>std::chrono::duration&lt; double &gt; themis::utils::RateLimiter::wait_for_locked</definition>
+        <argsstring>(double tokens) const</argsstring>
+        <name>wait_for_locked</name>
+        <qualifiedname>themis::utils::RateLimiter::wait_for_locked</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>tokens</declname>
+        </param>
+        <briefdescription>
+<para>Compute wait duration needed for <computeroutput>tokens</computeroutput> to become available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/rate_limiter.h" line="150" column="27" bodyfile="src/utils/rate_limiter.cpp" bodystart="46" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Token-bucket rate limiter for shared use across modules. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tokens refill continuously at <computeroutput>rate_per_second</computeroutput> up to <computeroutput>burst_size</computeroutput>. Callers may either poll non-blocking (<computeroutput><ref refid="classthemis_1_1utils_1_1_rate_limiter_1a09b2ae5423d57bb3210245b8f7ec9a21" kindref="member">try_acquire</ref></computeroutput>) or block until the requested number of tokens is available (<computeroutput>acquire</computeroutput>).</para>
+<para>Thread-safety: all public methods are fully thread-safe. </para>
+    </detaileddescription>
+    <location file="include/utils/rate_limiter.h" line="30" column="1" bodyfile="include/utils/rate_limiter.h" bodystart="30" bodyend="161"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1a1d408dc99ca97c3d9f70db67e98fdb30" prot="public" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>acquire_with_timeout</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1a3501e9498c19b365458bd0ed52665534" prot="public" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>available</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1a630e0e1e458b2dcef08e917004e0ce22" prot="private" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>burst_</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1a6b9f76a30ade6be2c698f35c1a5bf6b5" prot="private" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>Clock</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1a7860012d70abb7070cbb8e5d7fe7749c" prot="private" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1af2587a29850482d9f1ea25b18f56e0e6" prot="private" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>last_refill_</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1aa24ff9c17f284bef0f0f0bf85b7281e6" prot="public" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>MAX_BURST_SIZE</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1a6d63e0ad5127756efa7e2e0a3f629793" prot="public" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>MAX_RATE_PER_SECOND</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1ab56e73abe759f9e0d51f49f9049ba901" prot="public" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>MIN_RATE_PER_SECOND</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1a84832e07aea2462cfa75a980788e1064" prot="private" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1a9cc6a2a7dcc100934aa02ea312316fc8" prot="private" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>rate_</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1a4d47723acbd3d9f138a4c00a7dd6126b" prot="public" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>RateLimiter</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1a805a106cb6b3ae6181220e4302b46c96" prot="private" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>refill_locked</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1a164d6003a23b058ed42840b3c9f24018" prot="public" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>reset</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1a1847f791ace24c1c3b7e21f45483a71a" prot="public" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>set_rate</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1ae0220a324346198dee155706bc852434" prot="private" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>tokens_</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1a09b2ae5423d57bb3210245b8f7ec9a21" prot="public" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>try_acquire</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1a0761e6a6fee52c99ab906a9395dd9390" prot="public" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>try_acquire_for</name></member>
+      <member refid="classthemis_1_1utils_1_1_rate_limiter_1ac7e5df2e2a162d06b690b65470cf0fd9" prot="private" virt="non-virtual"><scope>themis::utils::RateLimiter</scope><name>wait_for_locked</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

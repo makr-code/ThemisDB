@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_window_manager_test" kind="class" language="C++" prot="public">
+    <compoundname>WindowManagerTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_window_manager_test_1a1cc7aced0432310acb8fa3cbca79e5c1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_window_config" kindref="compound">WindowConfig</ref></type>
+        <definition>WindowConfig WindowManagerTest::makeTumbling</definition>
+        <argsstring>(std::chrono::milliseconds size)</argsstring>
+        <name>makeTumbling</name>
+        <qualifiedname>WindowManagerTest::makeTumbling</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_cep_engine.cpp" line="304" column="18" bodyfile="tests/analytics/test_cep_engine.cpp" bodystart="304" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="class_window_manager_test_1aa5895c2d6504c3c025c009a620831c50" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_window_config" kindref="compound">WindowConfig</ref></type>
+        <definition>WindowConfig WindowManagerTest::makeCount</definition>
+        <argsstring>(uint64_t count)</argsstring>
+        <name>makeCount</name>
+        <qualifiedname>WindowManagerTest::makeCount</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_cep_engine.cpp" line="312" column="18" bodyfile="tests/analytics/test_cep_engine.cpp" bodystart="312" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="class_window_manager_test_1a6871b0321322f61188305a2c7ace7dd7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_window_config" kindref="compound">WindowConfig</ref></type>
+        <definition>WindowConfig WindowManagerTest::makeSession</definition>
+        <argsstring>(std::chrono::milliseconds gap)</argsstring>
+        <name>makeSession</name>
+        <qualifiedname>WindowManagerTest::makeSession</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>gap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_cep_engine.cpp" line="320" column="18" bodyfile="tests/analytics/test_cep_engine.cpp" bodystart="320" bodyend="326"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>WindowManagerTest</label>
+        <link refid="class_window_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>WindowManagerTest</label>
+        <link refid="class_window_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_cep_engine.cpp" line="302" column="1" bodyfile="tests/analytics/test_cep_engine.cpp" bodystart="302" bodyend="327"/>
+    <listofallmembers>
+      <member refid="class_window_manager_test_1aa5895c2d6504c3c025c009a620831c50" prot="protected" virt="non-virtual"><scope>WindowManagerTest</scope><name>makeCount</name></member>
+      <member refid="class_window_manager_test_1a6871b0321322f61188305a2c7ace7dd7" prot="protected" virt="non-virtual"><scope>WindowManagerTest</scope><name>makeSession</name></member>
+      <member refid="class_window_manager_test_1a1cc7aced0432310acb8fa3cbca79e5c1" prot="protected" virt="non-virtual"><scope>WindowManagerTest</scope><name>makeTumbling</name></member>
+      <member refid="classtesting_1_1_test_1a57a4116f39f6636a80710ded7d42e889" prot="protected" virt="non-virtual"><scope>WindowManagerTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>WindowManagerTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

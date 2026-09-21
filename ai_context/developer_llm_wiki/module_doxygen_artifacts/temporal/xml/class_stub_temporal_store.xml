@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_temporal_store" kind="class" language="C++" prot="public">
+    <compoundname>StubTemporalStore</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_temporal_store_1aaa8e87816824ec4ab17acb6ec9a3ae61" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubTemporalStore::writes_</definition>
+        <argsstring></argsstring>
+        <name>writes_</name>
+        <qualifiedname>StubTemporalStore::writes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_highcardinality_stress.cpp" line="56" column="17" bodyfile="tests/temporal/test_temporal_highcardinality_stress.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_temporal_store_1a16710f2f8ffec0d6d355a1f677b6a672" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubTemporalStore::version_</definition>
+        <argsstring></argsstring>
+        <name>version_</name>
+        <qualifiedname>StubTemporalStore::version_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_highcardinality_stress.cpp" line="57" column="17" bodyfile="tests/temporal/test_temporal_highcardinality_stress.cpp" bodystart="57" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_temporal_store_1a27b0dc87112471ff223520b878df85a8" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="struct_write_result" kindref="compound">WriteResult</ref></type>
+        <definition>WriteResult StubTemporalStore::write</definition>
+        <argsstring>(uint64_t entity_id, uint64_t ts_ms, const std::string &amp;) noexcept</argsstring>
+        <name>write</name>
+        <qualifiedname>StubTemporalStore::write</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>entity_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>ts_ms</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_highcardinality_stress.cpp" line="48" column="17" bodyfile="tests/temporal/test_temporal_highcardinality_stress.cpp" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_temporal_store_1a617118a17996ede41f78cf1261a5a4ac" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubTemporalStore::totalWrites</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalWrites</name>
+        <qualifiedname>StubTemporalStore::totalWrites</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_highcardinality_stress.cpp" line="54" column="14" bodyfile="tests/temporal/test_temporal_highcardinality_stress.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/temporal/test_temporal_highcardinality_stress.cpp" line="46" column="1" bodyfile="tests/temporal/test_temporal_highcardinality_stress.cpp" bodystart="46" bodyend="58"/>
+    <listofallmembers>
+      <member refid="class_stub_temporal_store_1a617118a17996ede41f78cf1261a5a4ac" prot="public" virt="non-virtual"><scope>StubTemporalStore</scope><name>totalWrites</name></member>
+      <member refid="class_stub_temporal_store_1a16710f2f8ffec0d6d355a1f677b6a672" prot="private" virt="non-virtual"><scope>StubTemporalStore</scope><name>version_</name></member>
+      <member refid="class_stub_temporal_store_1a27b0dc87112471ff223520b878df85a8" prot="public" virt="non-virtual"><scope>StubTemporalStore</scope><name>write</name></member>
+      <member refid="class_stub_temporal_store_1aaa8e87816824ec4ab17acb6ec9a3ae61" prot="private" virt="non-virtual"><scope>StubTemporalStore</scope><name>writes_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

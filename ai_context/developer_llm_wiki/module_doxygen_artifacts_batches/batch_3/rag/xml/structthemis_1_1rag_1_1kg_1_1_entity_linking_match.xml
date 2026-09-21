@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1kg_1_1_entity_linking_match" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::kg::EntityLinkingMatch</compoundname>
+    <includes refid="knowledge__graph__retriever_8h" local="no">knowledge_graph_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_entity_linking_match_1a070e4dc985c1020ca15c61aac529f4a5" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1kg_1_1_entity" kindref="compound">Entity</ref></type>
+        <definition>Entity themis::rag::kg::EntityLinkingMatch::entity</definition>
+        <argsstring></argsstring>
+        <name>entity</name>
+        <qualifiedname>themis::rag::kg::EntityLinkingMatch::entity</qualifiedname>
+        <briefdescription>
+<para>The extracted surface entity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="99" column="17" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_entity_linking_match_1acf560bc9b1c7b80b48e12e651a5b0868" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::kg::EntityLinkingMatch::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::rag::kg::EntityLinkingMatch::node_id</qualifiedname>
+        <briefdescription>
+<para>Matched KG node identifier (empty if no match). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="100" column="17" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_entity_linking_match_1a7f53542b6c4bc747c2b64ee4e6208212" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::kg::EntityLinkingMatch::linking_score</definition>
+        <argsstring></argsstring>
+        <name>linking_score</name>
+        <qualifiedname>themis::rag::kg::EntityLinkingMatch::linking_score</qualifiedname>
+        <briefdescription>
+<para>Similarity score used for the link [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="101" column="17" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_entity_linking_match_1af6aaa1562d437aea3cb9170cdb52990f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::kg::EntityLinkingMatch::is_linked</definition>
+        <argsstring></argsstring>
+        <name>is_linked</name>
+        <qualifiedname>themis::rag::kg::EntityLinkingMatch::is_linked</qualifiedname>
+        <briefdescription>
+<para>True when a match was found. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="102" column="17" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of linking a single extracted entity to a KG node. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::kg::Entity</label>
+        <link refid="structthemis_1_1rag_1_1kg_1_1_entity"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::kg::EntityLinkingMatch</label>
+        <link refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>entity</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/knowledge_graph_retriever.h" line="98" column="1" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="98" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match_1a070e4dc985c1020ca15c61aac529f4a5" prot="public" virt="non-virtual"><scope>themis::rag::kg::EntityLinkingMatch</scope><name>entity</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match_1af6aaa1562d437aea3cb9170cdb52990f" prot="public" virt="non-virtual"><scope>themis::rag::kg::EntityLinkingMatch</scope><name>is_linked</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match_1a7f53542b6c4bc747c2b64ee4e6208212" prot="public" virt="non-virtual"><scope>themis::rag::kg::EntityLinkingMatch</scope><name>linking_score</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match_1acf560bc9b1c7b80b48e12e651a5b0868" prot="public" virt="non-virtual"><scope>themis::rag::kg::EntityLinkingMatch</scope><name>node_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

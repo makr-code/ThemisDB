@@ -1,0 +1,930 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_entity_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::EntityApiHandler</compoundname>
+    <includes refid="entity__api__handler_8h" local="no">entity_api_handler.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_entity_api_handler_1_1_auth_context" prot="public">themis::server::EntityApiHandler::AuthContext</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_entity_api_handler_1af6abc33fc6ef47d651b727b6c11f74c5" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::EntityApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::EntityApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="126" column="21" bodyfile="include/server/entity_api_handler.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_entity_api_handler_1a27de9298d4d524f7ad42d20ec769dcfb" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;SecondaryIndexManager&gt; themis::server::EntityApiHandler::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>themis::server::EntityApiHandler::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="127" column="21" bodyfile="include/server/entity_api_handler.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_entity_api_handler_1a5aab55db216b62b7487911199385a265" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;GraphIndexManager&gt; themis::server::EntityApiHandler::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>themis::server::EntityApiHandler::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="128" column="21" bodyfile="include/server/entity_api_handler.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_entity_api_handler_1a545972c1f153b11a019f89066c89dc82" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;TransactionManager&gt; themis::server::EntityApiHandler::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>themis::server::EntityApiHandler::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="129" column="21" bodyfile="include/server/entity_api_handler.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_entity_api_handler_1a8bb5b7370834b9dd193d277029143f49" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; FieldEncryption &gt;</type>
+        <definition>std::shared_ptr&lt;FieldEncryption&gt; themis::server::EntityApiHandler::field_encryption_</definition>
+        <argsstring></argsstring>
+        <name>field_encryption_</name>
+        <qualifiedname>themis::server::EntityApiHandler::field_encryption_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="130" column="21" bodyfile="include/server/entity_api_handler.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_entity_api_handler_1a056cbe53c10a4d56fc3524a1cff8a927" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+        <definition>std::shared_ptr&lt;KeyProvider&gt; themis::server::EntityApiHandler::key_provider_</definition>
+        <argsstring></argsstring>
+        <name>key_provider_</name>
+        <qualifiedname>themis::server::EntityApiHandler::key_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="131" column="21" bodyfile="include/server/entity_api_handler.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_entity_api_handler_1a08b4666f294ef983fb3587d16c263cdd" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::EntityApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::EntityApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="132" column="21" bodyfile="include/server/entity_api_handler.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_entity_api_handler_1a9a7b8ba7719d5b48a43fb9c083fe10ef" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_entity_api_config" kindref="compound">EntityApiConfig</ref></type>
+        <definition>EntityApiConfig themis::server::EntityApiHandler::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::server::EntityApiHandler::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="135" column="21" bodyfile="include/server/entity_api_handler.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_entity_api_handler_1a5f80020a3ce059c5f11d8dc8c6589bfd" prot="private" static="no" mutable="no">
+        <type>index::SpatialIndexManager *</type>
+        <definition>index::SpatialIndexManager* themis::server::EntityApiHandler::spatial_index_</definition>
+        <argsstring></argsstring>
+        <name>spatial_index_</name>
+        <qualifiedname>themis::server::EntityApiHandler::spatial_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="138" column="32" bodyfile="include/server/entity_api_handler.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_entity_api_handler_1af37aa0d2d2527ea06d9bdfec38f4a2a9" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; Changefeed &gt;</type>
+        <definition>std::shared_ptr&lt;Changefeed&gt; themis::server::EntityApiHandler::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>themis::server::EntityApiHandler::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="139" column="21" bodyfile="include/server/entity_api_handler.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_entity_api_handler_1a8c689e77b11d255d2b3d5badbbcefcf4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::WALManager &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::WALManager&gt; themis::server::EntityApiHandler::wal_manager_</definition>
+        <argsstring></argsstring>
+        <name>wal_manager_</name>
+        <qualifiedname>themis::server::EntityApiHandler::wal_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="140" column="21" bodyfile="include/server/entity_api_handler.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_entity_api_handler_1a571d871695d1c497da94bd4e0d9c2b86" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::ReplicationCoordinator &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::ReplicationCoordinator&gt; themis::server::EntityApiHandler::replication_coordinator_</definition>
+        <argsstring></argsstring>
+        <name>replication_coordinator_</name>
+        <qualifiedname>themis::server::EntityApiHandler::replication_coordinator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="141" column="21" bodyfile="include/server/entity_api_handler.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_entity_api_handler_1a676b9553cbf3bf6134dc7ea7185af8e7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::MultiPrimaryCoordinator &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::MultiPrimaryCoordinator&gt; themis::server::EntityApiHandler::multi_primary_coordinator_</definition>
+        <argsstring></argsstring>
+        <name>multi_primary_coordinator_</name>
+        <qualifiedname>themis::server::EntityApiHandler::multi_primary_coordinator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="142" column="21" bodyfile="include/server/entity_api_handler.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_entity_api_handler_1a23f5902884a3029440fc21bb823782be" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::CollectionRedundancyManager &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::CollectionRedundancyManager&gt; themis::server::EntityApiHandler::redundancy_manager_</definition>
+        <argsstring></argsstring>
+        <name>redundancy_manager_</name>
+        <qualifiedname>themis::server::EntityApiHandler::redundancy_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="145" column="21" bodyfile="include/server/entity_api_handler.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_entity_api_handler_1a10d6dee3e0af3beac712f5ccf3cb707b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::ConsistentHashRing &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::ConsistentHashRing&gt; themis::server::EntityApiHandler::hash_ring_</definition>
+        <argsstring></argsstring>
+        <name>hash_ring_</name>
+        <qualifiedname>themis::server::EntityApiHandler::hash_ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="146" column="21" bodyfile="include/server/entity_api_handler.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_entity_api_handler_1af03442a52ed7b729123b63b93f34240a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::ShardTopology &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::ShardTopology&gt; themis::server::EntityApiHandler::shard_topology_</definition>
+        <argsstring></argsstring>
+        <name>shard_topology_</name>
+        <qualifiedname>themis::server::EntityApiHandler::shard_topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="147" column="21" bodyfile="include/server/entity_api_handler.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_entity_api_handler_1a81e3fc597f52651ae022bdb2b32f8d8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::EntityApiHandler::EntityApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; SecondaryIndexManager &gt; secondary_index, std::shared_ptr&lt; GraphIndexManager &gt; graph_index, std::shared_ptr&lt; TransactionManager &gt; tx_manager, std::shared_ptr&lt; FieldEncryption &gt; field_encryption, std::shared_ptr&lt; KeyProvider &gt; key_provider, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth, const EntityApiConfig &amp;config=EntityApiConfig{}, index::SpatialIndexManager *spatial_index=nullptr, std::shared_ptr&lt; Changefeed &gt; changefeed=nullptr, std::shared_ptr&lt; sharding::WALManager &gt; wal_manager=nullptr, std::shared_ptr&lt; sharding::ReplicationCoordinator &gt; replication_coordinator=nullptr, std::shared_ptr&lt; sharding::MultiPrimaryCoordinator &gt; multi_primary_coordinator=nullptr, std::shared_ptr&lt; sharding::CollectionRedundancyManager &gt; redundancy_manager=nullptr, std::shared_ptr&lt; sharding::ConsistentHashRing &gt; hash_ring=nullptr, std::shared_ptr&lt; sharding::ShardTopology &gt; shard_topology=nullptr)</argsstring>
+        <name>EntityApiHandler</name>
+        <qualifiedname>themis::server::EntityApiHandler::EntityApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+          <declname>secondary_index</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; GraphIndexManager &gt;</type>
+          <declname>graph_index</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; TransactionManager &gt;</type>
+          <declname>tx_manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; FieldEncryption &gt;</type>
+          <declname>field_encryption</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+          <declname>key_provider</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_entity_api_config" kindref="compound">EntityApiConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1server_1_1_entity_api_config" kindref="compound">EntityApiConfig</ref>{}</defval>
+        </param>
+        <param>
+          <type>index::SpatialIndexManager *</type>
+          <declname>spatial_index</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; Changefeed &gt;</type>
+          <declname>changefeed</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::WALManager &gt;</type>
+          <declname>wal_manager</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ReplicationCoordinator &gt;</type>
+          <declname>replication_coordinator</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::MultiPrimaryCoordinator &gt;</type>
+          <declname>multi_primary_coordinator</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::CollectionRedundancyManager &gt;</type>
+          <declname>redundancy_manager</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ConsistentHashRing &gt;</type>
+          <declname>hash_ring</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ShardTopology &gt;</type>
+          <declname>shard_topology</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="71" column="5" bodyfile="src/server/entity_api_handler.cpp" bodystart="69" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_entity_api_handler_1ae9cd5d8496140fd00983e4e661313a56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EntityApiHandler::handleGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGet</name>
+        <qualifiedname>themis::server::EntityApiHandler::handleGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), empty(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), fetch_add(), isEnabled(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="95" column="20" bodyfile="src/server/entity_api_handler.cpp" bodystart="190" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_entity_api_handler_1a05a406f34e4ee76ed2a6ea78cbb42095" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EntityApiHandler::handlePut</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handlePut</name>
+        <qualifiedname>themis::server::EntityApiHandler::handlePut</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isEnabled(), std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="102" column="20" bodyfile="src/server/entity_api_handler.cpp" bodystart="414" bodyend="789"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_entity_api_handler_1a22dd9f84258550a9e703303d3a1facc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EntityApiHandler::handleDelete</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleDelete</name>
+        <qualifiedname>themis::server::EntityApiHandler::handleDelete</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isEnabled(), std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), extractPathParam(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="109" column="20" bodyfile="src/server/entity_api_handler.cpp" bodystart="797" bodyend="897"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_entity_api_handler_1af8478c60ff2665cc1280dfeac8b8174e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EntityApiHandler::handleBatch</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleBatch</name>
+        <qualifiedname>themis::server::EntityApiHandler::handleBatch</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isEnabled(), requireAccess(), Tracer::startSpan(), json::parse(), body(), contains(), is_array(), setStatus(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="116" column="20" bodyfile="src/server/entity_api_handler.cpp" bodystart="905" bodyend="1198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_entity_api_handler_1a48f43ce4bbfa788fde0b452c3e176d1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EntityApiHandler::handleBulkNdjson</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleBulkNdjson</name>
+        <qualifiedname>themis::server::EntityApiHandler::handleBulkNdjson</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Bulk Ndjson. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> POST /v2/documents – bulk insert from newline-delimited JSON (NDJSON) ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Stream. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="123" column="20" bodyfile="src/server/entity_api_handler.cpp" bodystart="1265" bodyend="1386"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_entity_api_handler_1a375547d8f1451327c5fa80d99c0735df" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::EntityApiHandler::extractPathParam</definition>
+        <argsstring>(const std::string &amp;target, const std::string &amp;prefix)</argsstring>
+        <name>extractPathParam</name>
+        <qualifiedname>themis::server::EntityApiHandler::extractPathParam</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Extract Path Param. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: rfind(), substr(), length(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="156" column="17" bodyfile="src/server/entity_api_handler.cpp" bodystart="1207" bodyend="1218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_entity_api_handler_1ab2e3763143ee982a6c053eb24f9de319" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EntityApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::EntityApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="164" column="20" bodyfile="src/server/entity_api_handler.cpp" bodystart="1228" bodyend="1237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_entity_api_handler_1a81173f1b897d7e696d36abcb8714314c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EntityApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::EntityApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="173" column="20" bodyfile="src/server/entity_api_handler.cpp" bodystart="1247" bodyend="1257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_entity_api_handler_1a30a757826d10f1c22293169ba84a338f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_entity_api_handler_1_1_auth_context" kindref="compound">AuthContext</ref></type>
+        <definition>EntityApiHandler::AuthContext themis::server::EntityApiHandler::extractAuthContext</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>extractAuthContext</name>
+        <qualifiedname>themis::server::EntityApiHandler::extractAuthContext</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Extract Auth Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="182" column="17" bodyfile="src/server/entity_api_handler.cpp" bodystart="106" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_entity_api_handler_1a34ecbe528f799deeef5727fcaec1ba4a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; http::response&lt; http::string_body &gt; &gt;</type>
+        <definition>std::optional&lt; http::response&lt; http::string_body &gt; &gt; themis::server::EntityApiHandler::requireAccess</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;scope, const std::string &amp;action, const std::string &amp;resource)</argsstring>
+        <name>requireAccess</name>
+        <qualifiedname>themis::server::EntityApiHandler::requireAccess</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scope</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Require Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isEnabled(), empty(), makeErrorResponse(), <ref refid="classthemis_1_1_auth_middleware_1afd9141c415789d07acb119a78724d28b" kindref="member">themis::AuthMiddleware::extractBearerToken()</ref>, std::string_view(), data(), size(), authorize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="191" column="19" bodyfile="src/server/entity_api_handler.cpp" bodystart="149" bodyend="182"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/entity_api_handler.h" line="64" column="1" bodyfile="include/server/entity_api_handler.h" bodystart="64" bodyend="197"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a08b4666f294ef983fb3587d16c263cdd" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1af37aa0d2d2527ea06d9bdfec38f4a2a9" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>changefeed_</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a9a7b8ba7719d5b48a43fb9c083fe10ef" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>config_</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a81e3fc597f52651ae022bdb2b32f8d8a" prot="public" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>EntityApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a30a757826d10f1c22293169ba84a338f" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>extractAuthContext</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a375547d8f1451327c5fa80d99c0735df" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>extractPathParam</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a8bb5b7370834b9dd193d277029143f49" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>field_encryption_</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a5aab55db216b62b7487911199385a265" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>graph_index_</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1af8478c60ff2665cc1280dfeac8b8174e" prot="public" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>handleBatch</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a48f43ce4bbfa788fde0b452c3e176d1b" prot="public" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>handleBulkNdjson</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a22dd9f84258550a9e703303d3a1facc5" prot="public" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>handleDelete</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1ae9cd5d8496140fd00983e4e661313a56" prot="public" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>handleGet</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a05a406f34e4ee76ed2a6ea78cbb42095" prot="public" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>handlePut</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a10d6dee3e0af3beac712f5ccf3cb707b" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>hash_ring_</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a056cbe53c10a4d56fc3524a1cff8a927" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>key_provider_</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1ab2e3763143ee982a6c053eb24f9de319" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a81173f1b897d7e696d36abcb8714314c" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a676b9553cbf3bf6134dc7ea7185af8e7" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>multi_primary_coordinator_</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a23f5902884a3029440fc21bb823782be" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>redundancy_manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a571d871695d1c497da94bd4e0d9c2b86" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>replication_coordinator_</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a34ecbe528f799deeef5727fcaec1ba4a" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>requireAccess</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a27de9298d4d524f7ad42d20ec769dcfb" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>secondary_index_</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1af03442a52ed7b729123b63b93f34240a" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>shard_topology_</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a5f80020a3ce059c5f11d8dc8c6589bfd" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>spatial_index_</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1af6abc33fc6ef47d651b727b6c11f74c5" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a545972c1f153b11a019f89066c89dc82" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>tx_manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_entity_api_handler_1a8c689e77b11d255d2b3d5badbbcefcf4" prot="private" virt="non-virtual"><scope>themis::server::EntityApiHandler</scope><name>wal_manager_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

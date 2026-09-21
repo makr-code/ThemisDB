@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_persistence_manager" kind="class" language="C++" prot="public">
+    <compoundname>MockPersistenceManager</compoundname>
+    <innerclass refid="struct_mock_persistence_manager_1_1_checkpoint" prot="public">MockPersistenceManager::Checkpoint</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_persistence_manager_1a3e8a6fb4d6637ac85c2f2117fb8b9b04" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex MockPersistenceManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>MockPersistenceManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="476" column="24" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="476" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_persistence_manager_1abb4df7e1c8ea0bbbdbed05eefa4aaff3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_mock_persistence_manager_1_1_checkpoint" kindref="compound">Checkpoint</ref> &gt;</type>
+        <definition>std::vector&lt;Checkpoint&gt; MockPersistenceManager::checkpoints_</definition>
+        <argsstring></argsstring>
+        <name>checkpoints_</name>
+        <qualifiedname>MockPersistenceManager::checkpoints_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="477" column="17" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="477" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_persistence_manager_1a421822a910766853c12b4c43f80c586f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="struct_mock_persistence_manager_1_1_checkpoint" kindref="compound">Checkpoint</ref> &gt;</type>
+        <definition>std::optional&lt; Checkpoint &gt; MockPersistenceManager::lastCheckpoint</definition>
+        <argsstring>() const</argsstring>
+        <name>lastCheckpoint</name>
+        <qualifiedname>MockPersistenceManager::lastCheckpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="457" column="19" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="457" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_persistence_manager_1a18ade286494a17fcc8e4983caef54184" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockPersistenceManager::addCheckpoint</definition>
+        <argsstring>(const Checkpoint &amp;cp)</argsstring>
+        <name>addCheckpoint</name>
+        <qualifiedname>MockPersistenceManager::addCheckpoint</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_mock_persistence_manager_1_1_checkpoint" kindref="compound">Checkpoint</ref> &amp;</type>
+          <declname>cp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="465" column="10" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="465" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_persistence_manager_1a29e5d90d14de1b55531c8eb0413b24e3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t MockPersistenceManager::checkpointCount</definition>
+        <argsstring>() const</argsstring>
+        <name>checkpointCount</name>
+        <qualifiedname>MockPersistenceManager::checkpointCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="470" column="12" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="470" bodyend="473"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/query/test_continuous_query_hardening.cpp" line="447" column="1" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="447" bodyend="478"/>
+    <listofallmembers>
+      <member refid="class_mock_persistence_manager_1a18ade286494a17fcc8e4983caef54184" prot="public" virt="non-virtual"><scope>MockPersistenceManager</scope><name>addCheckpoint</name></member>
+      <member refid="class_mock_persistence_manager_1a29e5d90d14de1b55531c8eb0413b24e3" prot="public" virt="non-virtual"><scope>MockPersistenceManager</scope><name>checkpointCount</name></member>
+      <member refid="class_mock_persistence_manager_1abb4df7e1c8ea0bbbdbed05eefa4aaff3" prot="private" virt="non-virtual"><scope>MockPersistenceManager</scope><name>checkpoints_</name></member>
+      <member refid="class_mock_persistence_manager_1a421822a910766853c12b4c43f80c586f" prot="public" virt="non-virtual"><scope>MockPersistenceManager</scope><name>lastCheckpoint</name></member>
+      <member refid="class_mock_persistence_manager_1a3e8a6fb4d6637ac85c2f2117fb8b9b04" prot="private" virt="non-virtual"><scope>MockPersistenceManager</scope><name>mutex_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

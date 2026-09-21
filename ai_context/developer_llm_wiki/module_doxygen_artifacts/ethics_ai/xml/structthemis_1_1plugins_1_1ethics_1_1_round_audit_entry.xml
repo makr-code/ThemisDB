@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::RoundAuditEntry</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1afe78d9f5d2014076c816c2f8042d2008" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::RoundAuditEntry::round_id</definition>
+        <argsstring></argsstring>
+        <name>round_id</name>
+        <qualifiedname>themis::plugins::ethics::RoundAuditEntry::round_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="433" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="433" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1a233d2ef5aa89e7f0b42e8a1ac17a827a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::RoundAuditEntry::timestamp_utc</definition>
+        <argsstring></argsstring>
+        <name>timestamp_utc</name>
+        <qualifiedname>themis::plugins::ethics::RoundAuditEntry::timestamp_utc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="434" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="434" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1aa2d376bfff6400e2fd24616da1ccf91d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::RoundAuditEntry::dilemma_hash</definition>
+        <argsstring></argsstring>
+        <name>dilemma_hash</name>
+        <qualifiedname>themis::plugins::ethics::RoundAuditEntry::dilemma_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="435" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="435" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1a64b0df3a2635d2d03f8b1a8fd8b17eae" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::RoundAuditEntry::participating_schools</definition>
+        <argsstring></argsstring>
+        <name>participating_schools</name>
+        <qualifiedname>themis::plugins::ethics::RoundAuditEntry::participating_schools</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="436" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="436" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1a28b3936e6bba83280a1e2bb73f4632ef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::RoundAuditEntry::verdict</definition>
+        <argsstring></argsstring>
+        <name>verdict</name>
+        <qualifiedname>themis::plugins::ethics::RoundAuditEntry::verdict</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="437" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="437" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1ad2c6ad9aa1d01a8270de62c9a3eaeb89" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::RoundAuditEntry::convergence_score</definition>
+        <argsstring></argsstring>
+        <name>convergence_score</name>
+        <qualifiedname>themis::plugins::ethics::RoundAuditEntry::convergence_score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="438" column="12" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="438" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1a0337ddcebe7cb870b7d61a4c6d4875ea" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::RoundAuditEntry::norm_citations</definition>
+        <argsstring></argsstring>
+        <name>norm_citations</name>
+        <qualifiedname>themis::plugins::ethics::RoundAuditEntry::norm_citations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="439" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="439" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1a98ea0117c82601ce9c17426d2edfa5c4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::ethics::RoundAuditEntry::round_index</definition>
+        <argsstring></argsstring>
+        <name>round_index</name>
+        <qualifiedname>themis::plugins::ethics::RoundAuditEntry::round_index</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="440" column="14" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="440" bodyend="440"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="432" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="432" bodyend="441"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1ad2c6ad9aa1d01a8270de62c9a3eaeb89" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RoundAuditEntry</scope><name>convergence_score</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1aa2d376bfff6400e2fd24616da1ccf91d" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RoundAuditEntry</scope><name>dilemma_hash</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1a0337ddcebe7cb870b7d61a4c6d4875ea" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RoundAuditEntry</scope><name>norm_citations</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1a64b0df3a2635d2d03f8b1a8fd8b17eae" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RoundAuditEntry</scope><name>participating_schools</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1afe78d9f5d2014076c816c2f8042d2008" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RoundAuditEntry</scope><name>round_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1a98ea0117c82601ce9c17426d2edfa5c4" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RoundAuditEntry</scope><name>round_index</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1a233d2ef5aa89e7f0b42e8a1ac17a827a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RoundAuditEntry</scope><name>timestamp_utc</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1a28b3936e6bba83280a1e2bb73f4632ef" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RoundAuditEntry</scope><name>verdict</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

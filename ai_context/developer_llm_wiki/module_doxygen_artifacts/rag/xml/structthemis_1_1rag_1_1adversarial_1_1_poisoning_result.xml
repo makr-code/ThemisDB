@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::adversarial::PoisoningResult</compoundname>
+    <includes refid="adversarial__tester_8h" local="no">adversarial_tester.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1a48f2c54fa81d50a76146dd4bb820c79d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::adversarial::PoisoningResult::original_doc_id</definition>
+        <argsstring></argsstring>
+        <name>original_doc_id</name>
+        <qualifiedname>themis::rag::adversarial::PoisoningResult::original_doc_id</qualifiedname>
+        <briefdescription>
+<para>ID of the poisoned document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="82" column="17" bodyfile="include/rag/adversarial_tester.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1a77d8c573e1a5f630c143f4a48ad751d9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::adversarial::PoisoningResult::poison_payload</definition>
+        <argsstring></argsstring>
+        <name>poison_payload</name>
+        <qualifiedname>themis::rag::adversarial::PoisoningResult::poison_payload</qualifiedname>
+        <briefdescription>
+<para>Injected content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="83" column="17" bodyfile="include/rag/adversarial_tester.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1ad2a10d62f5c7ac2ec8684d6448c78403" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::adversarial::PoisoningResult::faithfulness_before</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_before</name>
+        <qualifiedname>themis::rag::adversarial::PoisoningResult::faithfulness_before</qualifiedname>
+        <briefdescription>
+<para>Faithfulness before poisoning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="84" column="17" bodyfile="include/rag/adversarial_tester.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1a8e9c54331484a041afe4ab2c7d5ea501" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::adversarial::PoisoningResult::faithfulness_after</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_after</name>
+        <qualifiedname>themis::rag::adversarial::PoisoningResult::faithfulness_after</qualifiedname>
+        <briefdescription>
+<para>Faithfulness after poisoning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="85" column="17" bodyfile="include/rag/adversarial_tester.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1a0a1a031c80104a61cde32928b206718d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::adversarial::PoisoningResult::attack_succeeded</definition>
+        <argsstring></argsstring>
+        <name>attack_succeeded</name>
+        <qualifiedname>themis::rag::adversarial::PoisoningResult::attack_succeeded</qualifiedname>
+        <briefdescription>
+<para>true if faithfulness dropped below threshold </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="86" column="17" bodyfile="include/rag/adversarial_tester.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Summary of a document-poisoning experiment. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/adversarial_tester.h" line="81" column="1" bodyfile="include/rag/adversarial_tester.h" bodystart="81" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1a0a1a031c80104a61cde32928b206718d" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::PoisoningResult</scope><name>attack_succeeded</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1a8e9c54331484a041afe4ab2c7d5ea501" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::PoisoningResult</scope><name>faithfulness_after</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1ad2a10d62f5c7ac2ec8684d6448c78403" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::PoisoningResult</scope><name>faithfulness_before</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1a48f2c54fa81d50a76146dd4bb820c79d" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::PoisoningResult</scope><name>original_doc_id</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1a77d8c573e1a5f630c143f4a48ad751d9" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::PoisoningResult</scope><name>poison_payload</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_search_analytics_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SearchAnalytics::Config</compoundname>
+    <includes refid="search__analytics_8h" local="no">search_analytics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_search_analytics_1_1_config_1a861e3155fb36545e10e88ec788d95d53" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SearchAnalytics::Config::max_events</definition>
+        <argsstring></argsstring>
+        <name>max_events</name>
+        <qualifiedname>themis::SearchAnalytics::Config::max_events</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+<para>Maximum events to retain in memory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_analytics.h" line="87" column="16" bodyfile="include/search/search_analytics.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_search_analytics_1_1_config_1a06839303391062cdf9c74e0d3d0a3fdb" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_search_analytics_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::SearchAnalytics::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::SearchAnalytics::Config::defaults</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_analytics.h" line="88" column="23" bodyfile="include/search/search_analytics.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/search_analytics.h" line="86" column="5" bodyfile="include/search/search_analytics.h" bodystart="86" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_search_analytics_1_1_config_1a06839303391062cdf9c74e0d3d0a3fdb" prot="public" virt="non-virtual"><scope>themis::SearchAnalytics::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1_search_analytics_1_1_config_1a861e3155fb36545e10e88ec788d95d53" prot="public" virt="non-virtual"><scope>themis::SearchAnalytics::Config</scope><name>max_events</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

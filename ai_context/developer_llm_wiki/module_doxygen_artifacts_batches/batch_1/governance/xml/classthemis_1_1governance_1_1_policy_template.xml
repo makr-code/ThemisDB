@@ -1,0 +1,448 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_policy_template" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::governance::PolicyTemplate</compoundname>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_compliance_template" prot="public" virt="non-virtual">themis::governance::ComplianceTemplate</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_data_lifecycle_template" prot="public" virt="non-virtual">themis::governance::DataLifecycleTemplate</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_least_privilege_template" prot="public" virt="non-virtual">themis::governance::LeastPrivilegeTemplate</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_separation_of_duties_template" prot="public" virt="non-virtual">themis::governance::SeparationOfDutiesTemplate</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_soc2_compliance_template" prot="public" virt="non-virtual">themis::governance::Soc2ComplianceTemplate</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_time_based_access_template" prot="public" virt="non-virtual">themis::governance::TimeBasedAccessTemplate</derivedcompoundref>
+    <includes refid="policy__template_8h" local="no">policy_template.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_template_1a248a4c5352ad69db12b0cb9ba2995b0a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyTemplate::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::governance::PolicyTemplate::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_template.h" line="49" column="17" bodyfile="include/governance/policy_template.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_template_1abc27d6995b79479c5b83fddd7d18c58a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyTemplate::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::governance::PolicyTemplate::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_template.h" line="50" column="17" bodyfile="include/governance/policy_template.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_template_1a54a6b483f93bf8dbcbe37bd4246b932b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyTemplate::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::PolicyTemplate::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_template.h" line="51" column="17" bodyfile="include/governance/policy_template.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_template_1a8d364ffab08620270a0598fe6b1acbf0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyTemplate::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::governance::PolicyTemplate::category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_template.h" line="52" column="17" bodyfile="include/governance/policy_template.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_template_1afe50952152c427c505cc0c031992e213" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_template_parameter" kindref="compound">TemplateParameter</ref> &gt;</type>
+        <definition>std::vector&lt;TemplateParameter&gt; themis::governance::PolicyTemplate::parameters</definition>
+        <argsstring></argsstring>
+        <name>parameters</name>
+        <qualifiedname>themis::governance::PolicyTemplate::parameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_template.h" line="53" column="17" bodyfile="include/governance/policy_template.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_template_1a95764d8783cae5f4c52a127e42eb4487" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::PolicyTemplate::PolicyTemplate</definition>
+        <argsstring>()=default</argsstring>
+        <name>PolicyTemplate</name>
+        <qualifiedname>themis::governance::PolicyTemplate::PolicyTemplate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_template.h" line="55" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_template_1a3df26c409f77be643633b74a922cb3a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::PolicyTemplate::PolicyTemplate</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;name, const std::string &amp;description, const std::string &amp;category)</argsstring>
+        <name>PolicyTemplate</name>
+        <qualifiedname>themis::governance::PolicyTemplate::PolicyTemplate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_template.h" line="56" column="5" bodyfile="src/governance/policy_template.cpp" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_template_1a79e6094a51eecdac75a42f3d46a805c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::PolicyTemplate::addParameter</definition>
+        <argsstring>(const TemplateParameter &amp;param)</argsstring>
+        <name>addParameter</name>
+        <qualifiedname>themis::governance::PolicyTemplate::addParameter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_template_parameter" kindref="compound">TemplateParameter</ref> &amp;</type>
+          <declname>param</declname>
+        </param>
+        <briefdescription>
+<para>Add Parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_template.h" line="67" column="10" bodyfile="src/governance/policy_template.cpp" bodystart="79" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_template_1aac0fcc16b40fc70a422bc4cb697b4480" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyTemplate::validateParameters</definition>
+        <argsstring>(const nlohmann::json &amp;params) const</argsstring>
+        <name>validateParameters</name>
+        <qualifiedname>themis::governance::PolicyTemplate::validateParameters</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Validate Parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_template.h" line="74" column="10" bodyfile="src/governance/policy_template.cpp" bodystart="83" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_template_1abbe5281f8c8a87e50c4d4c59943bc348" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref></type>
+        <definition>PolicyRule themis::governance::PolicyTemplate::instantiate</definition>
+        <argsstring>(const nlohmann::json &amp;params, const std::string &amp;rule_id) const</argsstring>
+        <name>instantiate</name>
+        <qualifiedname>themis::governance::PolicyTemplate::instantiate</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Instantiate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_template.h" line="82" column="16" bodyfile="src/governance/policy_template.cpp" bodystart="112" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_template_1af3f34889eb662d5aa606dca289ea98d1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref></type>
+        <definition>PolicyRule themis::governance::PolicyTemplate::preview</definition>
+        <argsstring>(const nlohmann::json &amp;params, const std::string &amp;rule_id) const</argsstring>
+        <name>preview</name>
+        <qualifiedname>themis::governance::PolicyTemplate::preview</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Preview. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_template.h" line="93" column="16" bodyfile="src/governance/policy_template.cpp" bodystart="120" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_template_1a3816c49f43067d8d2f7a0fb42fba12eb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::PolicyTemplate::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::PolicyTemplate::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_template.h" line="102" column="20" bodyfile="src/governance/policy_template.cpp" bodystart="124" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_template_1a1b802692e0c6c814ff5df37d29bfece7" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref></type>
+        <definition>virtual PolicyRule themis::governance::PolicyTemplate::instantiateImpl</definition>
+        <argsstring>(const nlohmann::json &amp;params, const std::string &amp;rule_id) const =0</argsstring>
+        <name>instantiateImpl</name>
+        <qualifiedname>themis::governance::PolicyTemplate::instantiateImpl</qualifiedname>
+        <reimplementedby refid="classthemis_1_1governance_1_1_compliance_template_1acd34b451c862e6bf6caa45fbd3cd7e5d">instantiateImpl</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_data_lifecycle_template_1a7a2e6dec8a8916404238a5cfce4c2026">instantiateImpl</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_least_privilege_template_1a7181cf7ce67cb8eb7e9af26959fec8b2">instantiateImpl</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_separation_of_duties_template_1a6292437703af0daf33317ef54b6f5efa">instantiateImpl</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_soc2_compliance_template_1ae8d3ad33fed04967ba80119c3b0ed72a">instantiateImpl</reimplementedby>
+        <reimplementedby refid="classthemis_1_1governance_1_1_time_based_access_template_1aed490e459104c334c6acc3aac8278edb">instantiateImpl</reimplementedby>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Instantiate Impl. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_template.h" line="111" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_template_1a64b682d65cf5a4759916dd0d41ecfd16" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T</type>
+        <definition>T themis::governance::PolicyTemplate::getParam</definition>
+        <argsstring>(const nlohmann::json &amp;params, const std::string &amp;name, const T &amp;default_val) const</argsstring>
+        <name>getParam</name>
+        <qualifiedname>themis::governance::PolicyTemplate::getParam</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+          <declname>default_val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_template.h" line="117" column="7" bodyfile="include/governance/policy_template.h" bodystart="117" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::governance::ComplianceTemplate</label>
+        <link refid="classthemis_1_1governance_1_1_compliance_template"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::governance::DataLifecycleTemplate</label>
+        <link refid="classthemis_1_1governance_1_1_data_lifecycle_template"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::governance::LeastPrivilegeTemplate</label>
+        <link refid="classthemis_1_1governance_1_1_least_privilege_template"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::governance::PolicyTemplate</label>
+        <link refid="classthemis_1_1governance_1_1_policy_template"/>
+      </node>
+      <node id="5">
+        <label>themis::governance::SeparationOfDutiesTemplate</label>
+        <link refid="classthemis_1_1governance_1_1_separation_of_duties_template"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::governance::Soc2ComplianceTemplate</label>
+        <link refid="classthemis_1_1governance_1_1_soc2_compliance_template"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::governance::TimeBasedAccessTemplate</label>
+        <link refid="classthemis_1_1governance_1_1_time_based_access_template"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/governance/policy_template.h" line="47" column="1" bodyfile="include/governance/policy_template.h" bodystart="47" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1a79e6094a51eecdac75a42f3d46a805c4" prot="public" virt="non-virtual"><scope>themis::governance::PolicyTemplate</scope><name>addParameter</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1a8d364ffab08620270a0598fe6b1acbf0" prot="public" virt="non-virtual"><scope>themis::governance::PolicyTemplate</scope><name>category</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1a54a6b483f93bf8dbcbe37bd4246b932b" prot="public" virt="non-virtual"><scope>themis::governance::PolicyTemplate</scope><name>description</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1a64b682d65cf5a4759916dd0d41ecfd16" prot="protected" virt="non-virtual"><scope>themis::governance::PolicyTemplate</scope><name>getParam</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1a248a4c5352ad69db12b0cb9ba2995b0a" prot="public" virt="non-virtual"><scope>themis::governance::PolicyTemplate</scope><name>id</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1abbe5281f8c8a87e50c4d4c59943bc348" prot="public" virt="non-virtual"><scope>themis::governance::PolicyTemplate</scope><name>instantiate</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1a1b802692e0c6c814ff5df37d29bfece7" prot="protected" virt="pure-virtual"><scope>themis::governance::PolicyTemplate</scope><name>instantiateImpl</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1abc27d6995b79479c5b83fddd7d18c58a" prot="public" virt="non-virtual"><scope>themis::governance::PolicyTemplate</scope><name>name</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1afe50952152c427c505cc0c031992e213" prot="public" virt="non-virtual"><scope>themis::governance::PolicyTemplate</scope><name>parameters</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1a95764d8783cae5f4c52a127e42eb4487" prot="public" virt="non-virtual"><scope>themis::governance::PolicyTemplate</scope><name>PolicyTemplate</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1a3df26c409f77be643633b74a922cb3a4" prot="public" virt="non-virtual"><scope>themis::governance::PolicyTemplate</scope><name>PolicyTemplate</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1af3f34889eb662d5aa606dca289ea98d1" prot="public" virt="non-virtual"><scope>themis::governance::PolicyTemplate</scope><name>preview</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1a3816c49f43067d8d2f7a0fb42fba12eb" prot="public" virt="non-virtual"><scope>themis::governance::PolicyTemplate</scope><name>toJson</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1aac0fcc16b40fc70a422bc4cb697b4480" prot="public" virt="non-virtual"><scope>themis::governance::PolicyTemplate</scope><name>validateParameters</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

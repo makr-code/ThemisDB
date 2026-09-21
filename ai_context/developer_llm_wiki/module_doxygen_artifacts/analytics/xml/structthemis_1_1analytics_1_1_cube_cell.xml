@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_cube_cell" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::CubeCell</compoundname>
+    <includes refid="olap_8h" local="no">olap.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_cube_cell_1a161a8664c819847de0c05089101bea2f" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::optional&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::optional&lt;std::string&gt; &gt; themis::analytics::CubeCell::dimensions</definition>
+        <argsstring></argsstring>
+        <name>dimensions</name>
+        <qualifiedname>themis::analytics::CubeCell::dimensions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="111" column="24" bodyfile="include/analytics/olap.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_cube_cell_1a8e555c074ade8c19e36464fd09c0aa39" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::analytics::CubeCell::measures</definition>
+        <argsstring></argsstring>
+        <name>measures</name>
+        <qualifiedname>themis::analytics::CubeCell::measures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="112" column="24" bodyfile="include/analytics/olap.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_cube_cell_1a1be117a8cb2a5724672fd7e239d130cd" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::analytics::CubeCell::grouping_id</definition>
+        <argsstring></argsstring>
+        <name>grouping_id</name>
+        <qualifiedname>themis::analytics::CubeCell::grouping_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="113" column="13" bodyfile="include/analytics/olap.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/olap.h" line="110" column="1" bodyfile="include/analytics/olap.h" bodystart="110" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_cube_cell_1a161a8664c819847de0c05089101bea2f" prot="public" virt="non-virtual"><scope>themis::analytics::CubeCell</scope><name>dimensions</name></member>
+      <member refid="structthemis_1_1analytics_1_1_cube_cell_1a1be117a8cb2a5724672fd7e239d130cd" prot="public" virt="non-virtual"><scope>themis::analytics::CubeCell</scope><name>grouping_id</name></member>
+      <member refid="structthemis_1_1analytics_1_1_cube_cell_1a8e555c074ade8c19e36464fd09c0aa39" prot="public" virt="non-virtual"><scope>themis::analytics::CubeCell</scope><name>measures</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

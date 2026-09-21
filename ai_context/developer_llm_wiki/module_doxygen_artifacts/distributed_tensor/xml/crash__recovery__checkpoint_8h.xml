@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="crash__recovery__checkpoint_8h" kind="file" language="C++">
+    <compoundname>crash_recovery_checkpoint.h</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2artifact__manifest_8h" local="yes">artifact_manifest.h</includes>
+    <includes refid="tensor__delta__log_8h" local="yes">tensor_delta_log.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="snapshot__update__worker_8h" local="yes">src/distributed_tensor/include/snapshot_update_worker.h</includedby>
+    <includedby refid="crash__recovery__checkpoint_8cc" local="yes">src/distributed_tensor/src/crash_recovery_checkpoint.cc</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>artifact_manifest.h</label>
+        <link refid="src_2distributed__tensor_2include_2artifact__manifest_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/distributed_tensor/include/crash_recovery_checkpoint.h</label>
+        <link refid="crash__recovery__checkpoint_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>tensor_delta_log.h</label>
+        <link refid="tensor__delta__log_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>src/distributed_tensor/include/crash_recovery_checkpoint.h</label>
+        <link refid="crash__recovery__checkpoint_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/distributed_tensor/include/snapshot_update_worker.h</label>
+        <link refid="snapshot__update__worker_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/distributed_tensor/src/crash_recovery_checkpoint.cc</label>
+        <link refid="crash__recovery__checkpoint_8cc"/>
+      </node>
+      <node id="3">
+        <label>src/distributed_tensor/src/snapshot_update_worker.cc</label>
+        <link refid="snapshot__update__worker_8cc"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_checkpoint" prot="public">themis::distributed_tensor::Checkpoint</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint" prot="public">themis::distributed_tensor::CrashRecoveryCheckpoint</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats" prot="public">themis::distributed_tensor::CrashRecoveryCheckpoint::CheckpointStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__tensor">themis::distributed_tensor</innernamespace>
+    <briefdescription>
+<para>Crash recovery checkpoint mechanism for update worker. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>ThemisDB EPIC 3 Implementation Team </para>
+</simplesect>
+<simplesect kind="date"><para>2026-07-03</para>
+</simplesect>
+This header defines checkpoint persistence for the update worker, enabling recovery from crashes during long-running artifact updates.</para>
+<sect1 id="crash__recovery__checkpoint_8h_1autotoc_md5_1s1"><sect2 id="crash__recovery__checkpoint_8h_1autotoc_md5">
+<title>Design</title><para>Checkpoints capture:<itemizedlist>
+<listitem><para>Current artifact being processed</para>
+</listitem><listitem><para>Delta window being analyzed</para>
+</listitem><listitem><para>Current manifest state</para>
+</listitem><listitem><para>Update decision taken</para>
+</listitem><listitem><para>Partial execution progress</para>
+</listitem></itemizedlist>
+</para>
+<para>Checkpoints are:<itemizedlist>
+<listitem><para>Written to disk before starting long-running operations</para>
+</listitem><listitem><para>Atomic (all-or-nothing writes)</para>
+</listitem><listitem><para>Idempotent (recovery replay is safe)</para>
+</listitem><listitem><para>Versioned (for forward compatibility) </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="src_2distributed__tensor_2include_2artifact__manifest_8h" kindref="compound">artifact_manifest.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__delta__log_8h" kindref="compound">tensor_delta_log.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__tensor" kindref="compound">distributed_tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6" kindref="member">CheckpointStatus</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6ae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1af758624e81b186ccd110b1082f9d2739ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a8c02547a8a3b02382bac3557bcb2280d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a8c02547a8a3b02382bac3557bcb2280d" kindref="member">NOT_FOUND</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a079c6dcd1b1ee137ecf0244d4f8bad01" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a079c6dcd1b1ee137ecf0244d4f8bad01" kindref="member">CORRUPTED</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a198489bd72edc2407c15917c5323cd93" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1af758624e81b186ccd110b1082f9d2739a198489bd72edc2407c15917c5323cd93" kindref="member">IO_ERROR</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a94f58f39fbe930b311f80bb571faa31e" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a94f58f39fbe930b311f80bb571faa31e" kindref="member">VERSION_MISMATCH</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a41e55833795c7b587b2ca4530eb28609" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a41e55833795c7b587b2ca4530eb28609" kindref="member">NO_SPACE</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a9a10f345b0f755d461a8673a5e9ef6b4" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a9a10f345b0f755d461a8673a5e9ef6b4" kindref="member">UNKNOWN_ERROR</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1distributed__tensor_1_1_checkpoint" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1af6c160f0bd8ffec7fbcb9b558b723c88" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1af6c160f0bd8ffec7fbcb9b558b723c88" kindref="member">version</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a945941bba93c0989a6f5c2ec92687037" refkind="member"><highlight class="normal"><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a945941bba93c0989a6f5c2ec92687037" kindref="member">created_at_unix_sec</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a0cd2ece363201f0205d4a5d0af2df7b8" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a0cd2ece363201f0205d4a5d0af2df7b8" kindref="member">artifact_id</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1aa9b000014c3053e888dcc22b5805186b" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1aa9b000014c3053e888dcc22b5805186b" kindref="member">delta_window</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a23f3887b0f46895a74c2088cb474abc9" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a23f3887b0f46895a74c2088cb474abc9" kindref="member">current_manifest</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a96ff0667a62cfd7e03605168630f6953" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a96ff0667a62cfd7e03605168630f6953" kindref="member">artifact_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a9432be80ad6250ec05cb69d818845572" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a9432be80ad6250ec05cb69d818845572" kindref="member">last_decision</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>UpdateDecision<sp/>as<sp/>uint32_t</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a48b8daa19af65e0cdaef2e95a2db558f" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a48b8daa19af65e0cdaef2e95a2db558f" kindref="member">progress_percent</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a5b7620178a6622b157dd4dd55f0321fc" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a5b7620178a6622b157dd4dd55f0321fc" kindref="member">last_error_message</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a43aaced0ac001ff7cc3932febab876f9" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a43aaced0ac001ff7cc3932febab876f9" kindref="member">retry_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a51fc931cb471de3c294334ff26f698c0" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint_1a51fc931cb471de3c294334ff26f698c0" kindref="member">max_retries</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af085a46ec4e57bf4631791c5454312fd" kindref="member">CrashRecoveryCheckpoint</ref><sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af085a46ec4e57bf4631791c5454312fd" kindref="member">CrashRecoveryCheckpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>checkpoint_dir);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af894d75b4048b2fbd1e7140529921883" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af894d75b4048b2fbd1e7140529921883" kindref="member">~CrashRecoveryCheckpoint</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copy/move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a512f4f3c93e38ea3962ff07d6acd9b73" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a512f4f3c93e38ea3962ff07d6acd9b73" kindref="member">CrashRecoveryCheckpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af085a46ec4e57bf4631791c5454312fd" kindref="member">CrashRecoveryCheckpoint</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a7b31ad9560908840c75fc99fed800aaa" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af085a46ec4e57bf4631791c5454312fd" kindref="member">CrashRecoveryCheckpoint</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a7b31ad9560908840c75fc99fed800aaa" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af085a46ec4e57bf4631791c5454312fd" kindref="member">CrashRecoveryCheckpoint</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a9c6ee1a7e237c92fd0c3817c49f66eab" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a9c6ee1a7e237c92fd0c3817c49f66eab" kindref="member">CrashRecoveryCheckpoint</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af085a46ec4e57bf4631791c5454312fd" kindref="member">CrashRecoveryCheckpoint</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a0b91d8ee2ece8c19c51ca0381a2f2395" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af085a46ec4e57bf4631791c5454312fd" kindref="member">CrashRecoveryCheckpoint</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a0b91d8ee2ece8c19c51ca0381a2f2395" kindref="member">operator=</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1af085a46ec4e57bf4631791c5454312fd" kindref="member">CrashRecoveryCheckpoint</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6" kindref="member">CheckpointStatus</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a5890b077435d96e9083371e5d40445a3" kindref="member">save</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref>&amp;<sp/>checkpoint);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6" kindref="member">CheckpointStatus</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a0f739ff375a612fcdc0ec1516b353b70" kindref="member">load</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref>&amp;<sp/>checkpoint);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6" kindref="member">CheckpointStatus</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a072a479b92364ea969eeee9c84f69ac7" kindref="member">deleteCheckpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a835cd7ea511a5c80776a3e8a21750a6c" kindref="member">exists</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats" refkind="compound"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats" kindref="compound">CheckpointStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats_1a1cb32daf799dcd2028277f8699540c61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats_1a1cb32daf799dcd2028277f8699540c61" kindref="member">checkpoint_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats_1afb5481cf1432701ba07019d376dfa55a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats_1afb5481cf1432701ba07019d376dfa55a" kindref="member">total_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats_1a07453764478b18832e91daefebf23283" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats_1a07453764478b18832e91daefebf23283" kindref="member">oldest_checkpoint_unix_sec</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats_1a0fc923d5c25f620edfe20bd9298ad501" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats_1a0fc923d5c25f620edfe20bd9298ad501" kindref="member">newest_checkpoint_unix_sec</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1_1_checkpoint_stats" kindref="compound">CheckpointStats</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1acc30d11cace6dc251253df9e353c471a" kindref="member">getStats</ref>();</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a3350af10629220c077bd0e458bbc08bb" kindref="member">cleanupOldCheckpoints</ref>(uint32_t<sp/>retention_days);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1ae8ddafcb861a3d61b2b859e8aa953f30" kindref="member">setCheckpointDir</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>checkpoint_dir);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1aa20ff7890ec0776fab2969b603bf2f9d" kindref="member">getCheckpointDir</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1aaf9c4521521bee6fb9231590b7363186" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1aaf9c4521521bee6fb9231590b7363186" kindref="member">checkpoint_dir_</ref>;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a3a70a6e79607513adc1d7c24d446547e" kindref="member">serializeCheckpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref>&amp;<sp/>checkpoint);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1ab0ee19db7a6846242a3b0eaa64a5dbb1" kindref="member">deserializeCheckpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a31fb114f46533476c83768c28a0ac8f1" kindref="member">getCheckpointPath</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6" kindref="member">CheckpointStatus</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint_1a0bf83f40ad2a0dba804c46614855a88a" kindref="member">validateCheckpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref>&amp;<sp/>checkpoint);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>distributed_tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h"/>
+  </compounddef>
+</doxygen>

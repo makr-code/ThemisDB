@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1org_1_1_bench_histogram" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::org::BenchHistogram</compoundname>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a7a03f501ca8da5ae1eef82f7bf8d6a28" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::bench::org::BenchHistogram::kBuckets</definition>
+        <argsstring></argsstring>
+        <name>kBuckets</name>
+        <qualifiedname>themis::bench::org::BenchHistogram::kBuckets</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="87" column="34" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a215587bab7866a29e827eea1a4962a2b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::org::BenchHistogram::bounds[kBuckets]</definition>
+        <argsstring>[kBuckets]</argsstring>
+        <name>bounds</name>
+        <qualifiedname>themis::bench::org::BenchHistogram::bounds</qualifiedname>
+        <initializer>= {1, 5, 10, 50, 100, 500, 1000, 5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="88" column="20" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a5976a65a7cbe08f08e48a7062b4d9dd8" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::bench::org::BenchHistogram::counts[kBuckets+1]</definition>
+        <argsstring>[kBuckets+1]</argsstring>
+        <name>counts</name>
+        <qualifiedname>themis::bench::org::BenchHistogram::counts</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="89" column="20" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a69877b8442af1607278a5a8b5d796a75" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::bench::org::BenchHistogram::total_count</definition>
+        <argsstring></argsstring>
+        <name>total_count</name>
+        <qualifiedname>themis::bench::org::BenchHistogram::total_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="90" column="20" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1org_1_1_bench_histogram_1aa37ecf706021b8696e68e7ec1e8a1937" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::org::BenchHistogram::total_sum</definition>
+        <argsstring></argsstring>
+        <name>total_sum</name>
+        <qualifiedname>themis::bench::org::BenchHistogram::total_sum</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="91" column="20" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a574586fadb005968d2c33bbf8b986eaa" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::org::BenchHistogram::record</definition>
+        <argsstring>(double v) noexcept</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::bench::org::BenchHistogram::record</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="93" column="10" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="93" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="86" column="1" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="86" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a215587bab7866a29e827eea1a4962a2b" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchHistogram</scope><name>bounds</name></member>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a5976a65a7cbe08f08e48a7062b4d9dd8" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchHistogram</scope><name>counts</name></member>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a7a03f501ca8da5ae1eef82f7bf8d6a28" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchHistogram</scope><name>kBuckets</name></member>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a574586fadb005968d2c33bbf8b986eaa" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchHistogram</scope><name>record</name></member>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a69877b8442af1607278a5a8b5d796a75" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchHistogram</scope><name>total_count</name></member>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1aa37ecf706021b8696e68e7ec1e8a1937" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchHistogram</scope><name>total_sum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

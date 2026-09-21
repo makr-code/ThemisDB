@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="exporter__stress__framework_8h" kind="file" language="C++">
+    <compoundname>exporter_stress_framework.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includedby refid="exporter__stress__framework_8cpp" local="yes">src/observability/exporter_stress_framework.cpp</includedby>
+    <includedby refid="test__exporter__stress__framework_8cpp" local="yes">tests/observability/test_exporter_stress_framework.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/exporter_stress_framework.h</label>
+        <link refid="exporter__stress__framework_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/observability/exporter_stress_framework.h</label>
+        <link refid="exporter__stress__framework_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/observability/exporter_stress_framework.cpp</label>
+        <link refid="exporter__stress__framework_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/observability/test_exporter_stress_framework.cpp</label>
+        <link refid="test__exporter__stress__framework_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_exporter_stress_test_config" prot="public">themis::observability::ExporterStressTestConfig</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_observation" prot="public">themis::observability::Observation</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics" prot="public">themis::observability::ExporterStressTestMetrics</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_exporter_stress_test_result" prot="public">themis::observability::ExporterStressTestResult</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_mock_exporter_backend" prot="public">themis::observability::MockExporterBackend</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_exporter_stress_framework" prot="public">themis::observability::ExporterStressFramework</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 BETA (Phase 2 Observability Expansion) </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 0/100 (implementation in progress) </para>
+</simplesect>
+<simplesect kind="note"><para>Status: OpenTelemetry exporter stress testing framework </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1observability_1a72f5b4147229e33a7355144a990e7c91" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a72f5b4147229e33a7355144a990e7c91" kindref="member">StressTestStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1observability_1a72f5b4147229e33a7355144a990e7c91a269f3d1562cbd15624e7d2c4b10122e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a72f5b4147229e33a7355144a990e7c91a269f3d1562cbd15624e7d2c4b10122e3" kindref="member">PASSED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1observability_1a72f5b4147229e33a7355144a990e7c91ab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a72f5b4147229e33a7355144a990e7c91ab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1observability_1a72f5b4147229e33a7355144a990e7c91a0021017005f0e5134b204c2e69d3d4ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a72f5b4147229e33a7355144a990e7c91a0021017005f0e5134b204c2e69d3d4ed" kindref="member">DEGRADED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1observability_1a72f5b4147229e33a7355144a990e7c91a070a0fb40f6c308ab544b227660aadff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a72f5b4147229e33a7355144a990e7c91a070a0fb40f6c308ab544b227660aadff" kindref="member">TIMEOUT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1observability_1a72f5b4147229e33a7355144a990e7c91a2e47f45b8584e07c8ebd4f693d8cfe10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a72f5b4147229e33a7355144a990e7c91a2e47f45b8584e07c8ebd4f693d8cfe10" kindref="member">INCOMPLETE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831" kindref="member">FailureMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a774d11946aec58b20be06de975d92bccab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831a07148c42561786754664ffe6689bcdc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831a07148c42561786754664ffe6689bcdc3" kindref="member">BACKEND_TIMEOUT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831ad38ea596bc41688d4da58ca576f4d692" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831ad38ea596bc41688d4da58ca576f4d692" kindref="member">BACKEND_UNAVAILABLE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831a50441ccae2187c05f53969350aed8b32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831a50441ccae2187c05f53969350aed8b32" kindref="member">PARTIAL_PACKET_LOSS</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831a22be0dae72d713ad97345960d0a55098" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831a22be0dae72d713ad97345960d0a55098" kindref="member">HIGH_LATENCY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831afb14246e34ef4b60b705ace13c4e19a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831afb14246e34ef4b60b705ace13c4e19a0" kindref="member">BACKEND_SLOW</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831a315e088ccb1914727ea4c17d04bcdd4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831a315e088ccb1914727ea4c17d04bcdd4b" kindref="member">QUEUE_EXHAUSTION</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831a44f3f7f07b99bd9bf164011f82d16f2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831a44f3f7f07b99bd9bf164011f82d16f2e" kindref="member">MEMORY_PRESSURE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1observability_1_1_exporter_stress_test_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config" kindref="compound">ExporterStressTestConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a0579b3a2037d5d93a6a4d6db70dd408d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a0579b3a2037d5d93a6a4d6db70dd408d" kindref="member">metrics_per_second</ref>{5000};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a3e0d7ea02fc6056051e8e84c8e5b11ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a3e0d7ea02fc6056051e8e84c8e5b11ef" kindref="member">spans_per_second</ref>{2000};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a79d7ebdaf31b5b1303d50929849e0970" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a79d7ebdaf31b5b1303d50929849e0970" kindref="member">metric_cardinality</ref>{100};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a4eb7acca9901e90a05a0b7370eb38557" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a4eb7acca9901e90a05a0b7370eb38557" kindref="member">duration_seconds</ref>{60};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1aef95e51bab6de119dae4582795f6bc12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831" kindref="member">FailureMode</ref><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1aef95e51bab6de119dae4582795f6bc12" kindref="member">failure_mode</ref>{<ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831ab50339a10e1de285ac99d4c3990b8693" kindref="member">FailureMode::NONE</ref>};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a0d17d88a5c8f422d28554f14c6f0d9d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a0d17d88a5c8f422d28554f14c6f0d9d8" kindref="member">p95_latency_ms_threshold</ref>{10};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a7d1c427f30625ed5e4935978c666dcd9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a7d1c427f30625ed5e4935978c666dcd9" kindref="member">p99_latency_ms_threshold</ref>{50};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a0e2dd207cb8a11f994c44c9d4e66823f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a0e2dd207cb8a11f994c44c9d4e66823f" kindref="member">acceptable_metric_loss_percent</ref>{0.1};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a62075da19407f2f723473bee4f3e4ae9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a62075da19407f2f723473bee4f3e4ae9" kindref="member">acceptable_span_loss_percent</ref>{1.0};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1ae80fd069eda60db45c6eb6a2f746e452" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1ae80fd069eda60db45c6eb6a2f746e452" kindref="member">validate_recovery</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1adf9742e40e57b9ca55ec50f4a7a7ccde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1adf9742e40e57b9ca55ec50f4a7a7ccde" kindref="member">recovery_timeout_seconds</ref>{30};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a103b224ac00a0b4ccbead7d5f2bc70b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a103b224ac00a0b4ccbead7d5f2bc70b5" kindref="member">concurrent_producers</ref>{4};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a660b05c5aa85d67da1bfe24061cfb191" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a660b05c5aa85d67da1bfe24061cfb191" kindref="member">measure_memory</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a512f56d2517cfdfc8b052206343aff3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a512f56d2517cfdfc8b052206343aff3a" kindref="member">memory_threshold_mb</ref>{512};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a0912a571a6ab420704f600e716f4f1d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a0912a571a6ab420704f600e716f4f1d6" kindref="member">random_seed</ref>{42};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a5a47603cd16985fc91a3e9ceb97c6c8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config_1a5a47603cd16985fc91a3e9ceb97c6c8a" kindref="member">verbose</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1observability_1_1_observation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_observation" kindref="compound">Observation</ref><sp/>{</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1observability_1_1_observation_1aef179948fd4d5e5a2931a704b5aa197d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1observability_1_1_observation_1aef179948fd4d5e5a2931a704b5aa197d" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1observability_1_1_observation_1ac009d9f2e31e7c4c7b6d4e51f14ed907" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1observability_1_1_observation_1ac009d9f2e31e7c4c7b6d4e51f14ed907" kindref="member">created_ns</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1observability_1_1_observation_1aeb7a92d529aa40e8331a3b8c105bdab9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_observation_1aeb7a92d529aa40e8331a3b8c105bdab9" kindref="member">type</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1observability_1_1_observation_1a23714fbd50e64fe8881dae5938b18d6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_observation_1a23714fbd50e64fe8881dae5938b18d6c" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1observability_1_1_observation_1a2c6c6cd9dd923dd50cba6221d5685107" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_observation_1a2c6c6cd9dd923dd50cba6221d5685107" kindref="member">value</ref>{0.0};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1observability_1_1_observation_1af1f00e879058bcf3b07acf874f4ced87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_observation_1af1f00e879058bcf3b07acf874f4ced87" kindref="member">labels</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1observability_1_1_observation_1a788caf5459e83e969edeb1e5ce7e4e80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_observation_1a788caf5459e83e969edeb1e5ce7e4e80" kindref="member">exported</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1observability_1_1_observation_1a5da60af6a4950b506adaef431299c94c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1observability_1_1_observation_1a5da60af6a4950b506adaef431299c94c" kindref="member">exported_ns</ref>{0};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1observability_1_1_observation_1a4294dc638750a62d7289999f6a4f0eca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1observability_1_1_observation_1a4294dc638750a62d7289999f6a4f0eca" kindref="member">latency_ms</ref>{0};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics" kindref="compound">ExporterStressTestMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a532a57bcf597d69936de09a3c305cd70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a532a57bcf597d69936de09a3c305cd70" kindref="member">total_observations</ref>{0};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a49fa4107d9544976de6eb300623439ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a49fa4107d9544976de6eb300623439ba" kindref="member">successful_observations</ref>{0};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1ae82284569d6c92d078a60a7daaff2fd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1ae82284569d6c92d078a60a7daaff2fd5" kindref="member">lost_observations</ref>{0};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1acf73d741a38f6e47962d8368f19bfbee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1acf73d741a38f6e47962d8368f19bfbee" kindref="member">loss_percent</ref>{0.0};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a5e7578b02ba523086799b4a3cab3e547" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a5e7578b02ba523086799b4a3cab3e547" kindref="member">min_latency_ms</ref>{0};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a2a2badef17404922b3911ef7ea537f8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a2a2badef17404922b3911ef7ea537f8b" kindref="member">max_latency_ms</ref>{0};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1ab15a42aa38ee66d686344f1c5dda149d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1ab15a42aa38ee66d686344f1c5dda149d" kindref="member">p50_latency_ms</ref>{0};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a7a0e25f9203d0f67bca3812ee673a6d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a7a0e25f9203d0f67bca3812ee673a6d3" kindref="member">p95_latency_ms</ref>{0};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a1a63fe4492afdcfdacf36590c67f4e31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a1a63fe4492afdcfdacf36590c67f4e31" kindref="member">p99_latency_ms</ref>{0};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a09ba33c53dccb7300e78314842e15558" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a09ba33c53dccb7300e78314842e15558" kindref="member">avg_latency_ms</ref>{0.0};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1aee54d5d32bc79c46d3ddd6419bbd6de6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1aee54d5d32bc79c46d3ddd6419bbd6de6" kindref="member">peak_memory_mb</ref>{0};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a9596dbdfc120af16230b347dbdad9e51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a9596dbdfc120af16230b347dbdad9e51" kindref="member">exporter_reconnects</ref>{0};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a78278089254e8b3dfba2855871f12310" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a78278089254e8b3dfba2855871f12310" kindref="member">recovery_time_seconds</ref>{0};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a61328d4ead5417ff8f6c4484b70377b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a61328d4ead5417ff8f6c4484b70377b3" kindref="member">recovery_successful</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a3cdcea09c7e344feec07aa89d6316070" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1a3cdcea09c7e344feec07aa89d6316070" kindref="member">test_duration_seconds</ref>{0};</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1ac6395ba48c50f7b76d557d69f068ebad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics_1ac6395ba48c50f7b76d557d69f068ebad" kindref="member">collected_at_ns</ref>{0};</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="structthemis_1_1observability_1_1_exporter_stress_test_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_result" kindref="compound">ExporterStressTestResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1ac4650aa98bf2b2c321172b25a4253922" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config" kindref="compound">ExporterStressTestConfig</ref><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1ac4650aa98bf2b2c321172b25a4253922" kindref="member">config</ref>;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1afbe77b4c3f190d1c131c8b4dbe469a4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_metrics" kindref="compound">ExporterStressTestMetrics</ref><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1afbe77b4c3f190d1c131c8b4dbe469a4a" kindref="member">metrics</ref>;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1af62bb9751fec8eb7a55d72387dfc091c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a72f5b4147229e33a7355144a990e7c91" kindref="member">StressTestStatus</ref><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1af62bb9751fec8eb7a55d72387dfc091c" kindref="member">status</ref>{<ref refid="namespacethemis_1_1observability_1a72f5b4147229e33a7355144a990e7c91a2e47f45b8584e07c8ebd4f693d8cfe10" kindref="member">StressTestStatus::INCOMPLETE</ref>};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1a868cc5028cfb7ff6ce2e32e5d193e586" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1a868cc5028cfb7ff6ce2e32e5d193e586" kindref="member">summary</ref>;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1ac15841784eba8723ce24a3642752fcd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1ac15841784eba8723ce24a3642752fcd1" kindref="member">failure_reason</ref>;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1ac78074a1ce59f9398b179f4ee3975758" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1ac78074a1ce59f9398b179f4ee3975758" kindref="member">failed_checks</ref>;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211" refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1a687794ba27166852b6c9d4275cf26718" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1a687794ba27166852b6c9d4275cf26718" kindref="member">recommendations</ref>;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1aa5119dd1b8003185edb0e829b8b83f99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Observation&gt;<sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_result_1aa5119dd1b8003185edb0e829b8b83f99" kindref="member">sample_observations</ref>;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="classthemis_1_1observability_1_1_mock_exporter_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_mock_exporter_backend_1a529149e18a0a93b25c41590a5bfca0df" kindref="member">MockExporterBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="229" refid="classthemis_1_1observability_1_1_mock_exporter_backend_1a529149e18a0a93b25c41590a5bfca0df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_mock_exporter_backend_1a529149e18a0a93b25c41590a5bfca0df" kindref="member">MockExporterBackend</ref>(<ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831" kindref="member">FailureMode</ref><sp/>failure_mode<sp/>=<sp/><ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831ab50339a10e1de285ac99d4c3990b8693" kindref="member">FailureMode::NONE</ref>)</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1observability_1_1_mock_exporter_backend_1a1a8155622476c128cfda5e5285109472" kindref="member">failure_mode_</ref>(failure_mode)<sp/>{}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235" refid="classthemis_1_1observability_1_1_mock_exporter_backend_1aebc8fa6b72b1716f6aabf82d693edf62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_mock_exporter_backend_1aebc8fa6b72b1716f6aabf82d693edf62" kindref="member">~MockExporterBackend</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246" refid="classthemis_1_1observability_1_1_mock_exporter_backend_1a348a5a3921e4401d8f50c494420c76bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1observability_1_1_mock_exporter_backend_1a348a5a3921e4401d8f50c494420c76bd" kindref="member">export_observations</ref>(</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Observation&gt;&amp;<sp/>observations)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253" refid="classthemis_1_1observability_1_1_mock_exporter_backend_1aab1fcc82f527f11968910f808d27e185" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_mock_exporter_backend_1aab1fcc82f527f11968910f808d27e185" kindref="member">isHealthy</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259" refid="classthemis_1_1observability_1_1_mock_exporter_backend_1a18fcedd23b12b9cb5e4ef87bbc253b42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_mock_exporter_backend_1a18fcedd23b12b9cb5e4ef87bbc253b42" kindref="member">reset</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265" refid="classthemis_1_1observability_1_1_mock_exporter_backend_1aff6faba98b7826bfface1297e2aef4fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="classthemis_1_1observability_1_1_mock_exporter_backend_1aff6faba98b7826bfface1297e2aef4fe" kindref="member">getStatistics</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="268" refid="classthemis_1_1observability_1_1_mock_exporter_backend_1a1a8155622476c128cfda5e5285109472" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831" kindref="member">FailureMode</ref><sp/><ref refid="classthemis_1_1observability_1_1_mock_exporter_backend_1a1a8155622476c128cfda5e5285109472" kindref="member">failure_mode_</ref>;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327" refid="classthemis_1_1observability_1_1_exporter_stress_framework" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_exporter_stress_framework_1a5bdf4c283edbbf837b9a8d314dfeb134" kindref="member">ExporterStressFramework</ref><sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="332" refid="classthemis_1_1observability_1_1_exporter_stress_framework_1a5bdf4c283edbbf837b9a8d314dfeb134" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_exporter_stress_framework_1a5bdf4c283edbbf837b9a8d314dfeb134" kindref="member">ExporterStressFramework</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337" refid="classthemis_1_1observability_1_1_exporter_stress_framework_1ab5057e98d4e0cfb573891db89ee140af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_exporter_stress_framework_1ab5057e98d4e0cfb573891db89ee140af" kindref="member">~ExporterStressFramework</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347" refid="classthemis_1_1observability_1_1_exporter_stress_framework_1a7e78504e7d6724d98af1105067a051fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_result" kindref="compound">ExporterStressTestResult</ref><sp/><ref refid="classthemis_1_1observability_1_1_exporter_stress_framework_1a7e78504e7d6724d98af1105067a051fb" kindref="member">runStressTest</ref>(</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_config" kindref="compound">ExporterStressTestConfig</ref>&amp;<sp/>config)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358" refid="classthemis_1_1observability_1_1_exporter_stress_framework_1ab55b45835e42d770f7dd709472752d86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;ExporterStressTestResult&gt;<sp/><ref refid="classthemis_1_1observability_1_1_exporter_stress_framework_1ab55b45835e42d770f7dd709472752d86" kindref="member">runMultipleTests</ref>(</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ExporterStressTestConfig&gt;&amp;<sp/>configs)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368" refid="classthemis_1_1observability_1_1_exporter_stress_framework_1a9099d47b0bfc003b47f8552e8e5adb51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;ExporterStressTestResult&gt;<sp/><ref refid="classthemis_1_1observability_1_1_exporter_stress_framework_1a9099d47b0bfc003b47f8552e8e5adb51" kindref="member">runGateBenchmarks</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377" refid="classthemis_1_1observability_1_1_exporter_stress_framework_1a38cc850ee1dc6cb900b04f4fe3f91659" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1observability_1_1_exporter_stress_framework_1a38cc850ee1dc6cb900b04f4fe3f91659" kindref="member">generateComparisonReport</ref>(</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_result" kindref="compound">ExporterStressTestResult</ref>&amp;<sp/>baseline,</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_exporter_stress_test_result" kindref="compound">ExporterStressTestResult</ref>&amp;<sp/>candidate)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386" refid="classthemis_1_1observability_1_1_exporter_stress_framework_1ac11f016b2372f7ca38373d86113540af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_exporter_stress_framework_1ac11f016b2372f7ca38373d86113540af" kindref="member">setProgressCallback</ref>(</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(std::uint32_t<sp/>progress_percent)&gt;<sp/>callback)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394" refid="classthemis_1_1observability_1_1_exporter_stress_framework_1aefd18cfcbc63702f97c3a46f3150b026" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_exporter_stress_framework_1aefd18cfcbc63702f97c3a46f3150b026" kindref="member">cancelTest</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="400" refid="classthemis_1_1observability_1_1_exporter_stress_framework_1a4cbde90400b38a36c6b471260282c00b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1observability_1_1_exporter_stress_framework_1a4cbde90400b38a36c6b471260282c00b" kindref="member">getRegisteredGateCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"></highlight></codeline>
+<codeline lineno="408" refid="classthemis_1_1observability_1_1_exporter_stress_framework_1ad946ed5752f60b86746deccfd620e3d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1observability_1_1_exporter_stress_framework_1ad946ed5752f60b86746deccfd620e3d6" kindref="member">getGateName</ref>(std::size_t<sp/>gate_index)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="409"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="411"><highlight class="normal">std::unique_ptr&lt;MockExporterBackend&gt;<sp/><ref refid="namespacethemis_1_1observability_1a2aceacec67b1497410c78d10979f3154" kindref="member">createMockExporterBackend</ref>(</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831" kindref="member">FailureMode</ref><sp/>failure_mode);</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal">std::unique_ptr&lt;ExporterStressFramework&gt;<sp/><ref refid="namespacethemis_1_1observability_1a6ce8e8e4684b31a9cd6ec0dea16f9495" kindref="member">createExporterStressFramework</ref>();</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight></codeline>
+<codeline lineno="416"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/exporter_stress_framework.h"/>
+  </compounddef>
+</doxygen>

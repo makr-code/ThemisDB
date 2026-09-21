@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_vector_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::VectorRecord</compoundname>
+    <includes refid="base__entity_8h" local="no">base_entity.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_vector_record_1a98e0d93b83a78f864020c34c4e573ee0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::VectorRecord::chunk_id</definition>
+        <argsstring></argsstring>
+        <name>chunk_id</name>
+        <qualifiedname>themis::ingestion::VectorRecord::chunk_id</qualifiedname>
+        <briefdescription>
+<para>References <ref refid="structthemis_1_1ingestion_1_1_base_entity_1abc66172d3ef801492143543271428f6e" kindref="member">BaseEntity::id</ref> of the chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="196" column="24" bodyfile="include/ingestion/base_entity.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_vector_record_1af1cdeca310c7f9a47aa1425f989bd061" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::VectorRecord::source_file_id</definition>
+        <argsstring></argsstring>
+        <name>source_file_id</name>
+        <qualifiedname>themis::ingestion::VectorRecord::source_file_id</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of the originating file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="197" column="24" bodyfile="include/ingestion/base_entity.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_vector_record_1a6ebfade338ffedf4672844b73a657d4a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::VectorRecord::text_snippet</definition>
+        <argsstring></argsstring>
+        <name>text_snippet</name>
+        <qualifiedname>themis::ingestion::VectorRecord::text_snippet</qualifiedname>
+        <briefdescription>
+<para>The chunk text (for hit inspection). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="198" column="24" bodyfile="include/ingestion/base_entity.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_vector_record_1a330c8f5fa67c2fd9d6b19a6305be86e1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::ingestion::VectorRecord::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::ingestion::VectorRecord::embedding</qualifiedname>
+        <briefdescription>
+<para>Dense embedding vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="199" column="17" bodyfile="include/ingestion/base_entity.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_vector_record_1a09ae7c481b637b0e460cff38fb547dde" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::ingestion::VectorRecord::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::ingestion::VectorRecord::metadata</qualifiedname>
+        <briefdescription>
+<para>Additional retrieval-time metadata, e.g. &quot;section_ref&quot;, &quot;page&quot;, &quot;language&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/base_entity.h" line="200" column="24" bodyfile="include/ingestion/base_entity.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One entry in the vector index produced by the embedding step. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A <computeroutput><ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref></computeroutput> is a lighter-weight companion to <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref></computeroutput>: it carries just the embedding + enough metadata to reconstruct the context for a retrieval hit. In practice, <computeroutput><ref refid="structthemis_1_1ingestion_1_1_vector_record_1a98e0d93b83a78f864020c34c4e573ee0" kindref="member">chunk_id</ref></computeroutput> references the <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_1abc66172d3ef801492143543271428f6e" kindref="member">BaseEntity::id</ref></computeroutput> of a <computeroutput>CHUNK</computeroutput> entity. </para>
+    </detaileddescription>
+    <location file="include/ingestion/base_entity.h" line="195" column="1" bodyfile="include/ingestion/base_entity.h" bodystart="195" bodyend="202"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_vector_record_1a98e0d93b83a78f864020c34c4e573ee0" prot="public" virt="non-virtual"><scope>themis::ingestion::VectorRecord</scope><name>chunk_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_vector_record_1a330c8f5fa67c2fd9d6b19a6305be86e1" prot="public" virt="non-virtual"><scope>themis::ingestion::VectorRecord</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_vector_record_1a09ae7c481b637b0e460cff38fb547dde" prot="public" virt="non-virtual"><scope>themis::ingestion::VectorRecord</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_vector_record_1af1cdeca310c7f9a47aa1425f989bd061" prot="public" virt="non-virtual"><scope>themis::ingestion::VectorRecord</scope><name>source_file_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_vector_record_1a6ebfade338ffedf4672844b73a657d4a" prot="public" virt="non-virtual"><scope>themis::ingestion::VectorRecord</scope><name>text_snippet</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

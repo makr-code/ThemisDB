@@ -1,0 +1,484 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptRegressionRunner</compoundname>
+    <includes refid="prompt__regression__runner_8h" local="no">prompt_regression_runner.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a4ac562571f6bb69b2108b4ca52068907" prot="public" static="no">
+        <type>std::function&lt; void(const nlohmann::json &amp;)&gt;</type>
+        <definition>using themis::prompt_engineering::PromptRegressionRunner::LogCallback = std::function&lt;void(const nlohmann::json&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LogCallback</name>
+        <qualifiedname>themis::prompt_engineering::PromptRegressionRunner::LogCallback</qualifiedname>
+        <briefdescription>
+<para>Callback type for structured log events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="158" column="5" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a3b5ffcd690accc2c67e15ad905da3167" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_evaluator_config" kindref="compound">EvaluatorConfig</ref></type>
+        <definition>EvaluatorConfig themis::prompt_engineering::PromptRegressionRunner::eval_config_</definition>
+        <argsstring></argsstring>
+        <name>eval_config_</name>
+        <qualifiedname>themis::prompt_engineering::PromptRegressionRunner::eval_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="254" column="22" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1aa529c1d07125dee8220652b1a2c455bd" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_regression_config" kindref="compound">RegressionConfig</ref></type>
+        <definition>RegressionConfig themis::prompt_engineering::PromptRegressionRunner::run_config_</definition>
+        <argsstring></argsstring>
+        <name>run_config_</name>
+        <qualifiedname>themis::prompt_engineering::PromptRegressionRunner::run_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="255" column="22" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a540857b49ee5c40b83d5527473901bf3" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_evaluator" kindref="compound">PromptEvaluator</ref></type>
+        <definition>PromptEvaluator themis::prompt_engineering::PromptRegressionRunner::evaluator_</definition>
+        <argsstring></argsstring>
+        <name>evaluator_</name>
+        <qualifiedname>themis::prompt_engineering::PromptRegressionRunner::evaluator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="256" column="22" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a7abc1eac46344fc15181fa6067a0266d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_regression_fixture" kindref="compound">RegressionFixture</ref> &gt;</type>
+        <definition>std::vector&lt;RegressionFixture&gt; themis::prompt_engineering::PromptRegressionRunner::fixtures_</definition>
+        <argsstring></argsstring>
+        <name>fixtures_</name>
+        <qualifiedname>themis::prompt_engineering::PromptRegressionRunner::fixtures_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="258" column="17" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a21c9fdea6cdb0da0ccb654558370cb05" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a4ac562571f6bb69b2108b4ca52068907" kindref="member">LogCallback</ref></type>
+        <definition>LogCallback themis::prompt_engineering::PromptRegressionRunner::log_callback_</definition>
+        <argsstring></argsstring>
+        <name>log_callback_</name>
+        <qualifiedname>themis::prompt_engineering::PromptRegressionRunner::log_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="259" column="36" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a8da9c10e8e2e689c4845cef02911909f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::PromptRegressionRunner::PromptRegressionRunner</definition>
+        <argsstring>(const EvaluatorConfig &amp;eval_config=EvaluatorConfig{}, const RegressionConfig &amp;run_config=RegressionConfig{})</argsstring>
+        <name>PromptRegressionRunner</name>
+        <qualifiedname>themis::prompt_engineering::PromptRegressionRunner::PromptRegressionRunner</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_evaluator_config" kindref="compound">EvaluatorConfig</ref> &amp;</type>
+          <declname>eval_config</declname>
+          <defval><ref refid="structthemis_1_1prompt__engineering_1_1_evaluator_config" kindref="compound">EvaluatorConfig</ref>{}</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_regression_config" kindref="compound">RegressionConfig</ref> &amp;</type>
+          <declname>run_config</declname>
+          <defval><ref refid="structthemis_1_1prompt__engineering_1_1_regression_config" kindref="compound">RegressionConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct with optional evaluator config and runner config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eval_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_evaluator" kindref="compound">PromptEvaluator</ref> settings. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>run_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Regression runner settings. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="165" column="14" bodyfile="src/prompt_engineering/prompt_regression_runner.cpp" bodystart="85" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a0af11497e5270f91a3f19a8bb48219a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptRegressionRunner::setFixtures</definition>
+        <argsstring>(std::vector&lt; RegressionFixture &gt; fixtures)</argsstring>
+        <name>setFixtures</name>
+        <qualifiedname>themis::prompt_engineering::PromptRegressionRunner::setFixtures</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_regression_fixture" kindref="compound">RegressionFixture</ref> &gt;</type>
+          <declname>fixtures</declname>
+        </param>
+        <briefdescription>
+<para>Replace the entire fixture set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Fixtures.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fixtures</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fixtures to use for all subsequent <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a1541157962f2069afe7a970b859c27c3" kindref="member">run()</ref></computeroutput> calls.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fixtures</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="177" column="10" bodyfile="src/prompt_engineering/prompt_regression_runner.cpp" bodystart="101" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a36bd80e72158ea51dfded9989aa1966b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptRegressionRunner::loadFeedbackFixtures</definition>
+        <argsstring>(const FeedbackCollector &amp;collector, const std::string &amp;template_id, std::size_t limit=100)</argsstring>
+        <name>loadFeedbackFixtures</name>
+        <qualifiedname>themis::prompt_engineering::PromptRegressionRunner::loadFeedbackFixtures</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector" kindref="compound">FeedbackCollector</ref> &amp;</type>
+          <declname>collector</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>template_id</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Append fixtures derived from positive human feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Feedback Fixtures.</para>
+<para>Pulls <computeroutput>limit</computeroutput> entries with <computeroutput><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a741a693bbff093ea47dabeeea8dafe07" kindref="member">FeedbackType::USER_POSITIVE</ref></computeroutput> for the given <computeroutput>template_id</computeroutput> from <computeroutput>collector</computeroutput>. Each entry becomes a fixture whose <computeroutput>expected_output</computeroutput> is the recorded response and <computeroutput>source</computeroutput> is <computeroutput>"feedback"</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector" kindref="compound">FeedbackCollector</ref> to query (not owned). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>template_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Template ID to filter feedback for. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum entries to import (0 = all).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">template_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the template. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getFeedback(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="190" column="10" bodyfile="src/prompt_engineering/prompt_regression_runner.cpp" bodystart="113" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a9a077573ac4259b29bd3559de80c7c09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptRegressionRunner::clearFixtures</definition>
+        <argsstring>()</argsstring>
+        <name>clearFixtures</name>
+        <qualifiedname>themis::prompt_engineering::PromptRegressionRunner::clearFixtures</qualifiedname>
+        <briefdescription>
+<para>Remove all fixtures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Fixtures.</para>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="198" column="10" bodyfile="src/prompt_engineering/prompt_regression_runner.cpp" bodystart="134" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a683680e2fbd86368478c358ce8655ca7" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::prompt_engineering::PromptRegressionRunner::fixtureCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>fixtureCount</name>
+        <qualifiedname>themis::prompt_engineering::PromptRegressionRunner::fixtureCount</qualifiedname>
+        <briefdescription>
+<para>Return the current fixture count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="201" column="17" bodyfile="src/prompt_engineering/prompt_regression_runner.cpp" bodystart="138" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a1541157962f2069afe7a970b859c27c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_regression_result" kindref="compound">RegressionResult</ref></type>
+        <definition>RegressionResult themis::prompt_engineering::PromptRegressionRunner::run</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;baseline_outputs, const std::vector&lt; std::string &gt; &amp;candidate_outputs) const</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::prompt_engineering::PromptRegressionRunner::run</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>baseline_outputs</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>candidate_outputs</declname>
+        </param>
+        <briefdescription>
+<para>Run the regression suite. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluates each fixture using <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_evaluator_1aac4f34997a81bc84507c1c5f44da75f9" kindref="member">PromptEvaluator::evaluateSingle()</ref></computeroutput>. <computeroutput>baseline_outputs[i]</computeroutput> is the old-version output for <computeroutput>fixtures_[i]</computeroutput>; <computeroutput>candidate_outputs[i]</computeroutput> is the new-version output.</para>
+<para>If vector sizes differ or fewer than <computeroutput>config_.min_fixtures</computeroutput> fixtures are available, <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_regression_result_1af432755f262a701b6bc710ca2a8618b8" kindref="member">RegressionResult::inconclusive</ref></computeroutput> is set to <computeroutput>true</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>baseline_outputs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Outputs from the current (published) version. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidate_outputs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Outputs from the candidate (new) version. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_regression_result" kindref="compound">RegressionResult</ref></computeroutput> with all scores, delta_pct, and flags. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="221" column="22" bodyfile="src/prompt_engineering/prompt_regression_runner.cpp" bodystart="146" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1ab06b75acb2dfc4288926999cc3b39cab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptRegressionRunner::setLogCallback</definition>
+        <argsstring>(LogCallback cb)</argsstring>
+        <name>setLogCallback</name>
+        <qualifiedname>themis::prompt_engineering::PromptRegressionRunner::setLogCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a4ac562571f6bb69b2108b4ca52068907" kindref="member">LogCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Attach a log callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callback is invoked once per <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a1541157962f2069afe7a970b859c27c3" kindref="member">run()</ref></computeroutput> with a structured JSON log entry containing <computeroutput>template_id</computeroutput>, fixture count, scores, delta, and regression flag.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback; pass an empty <computeroutput>std::function</computeroutput> to disable. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="238" column="10" bodyfile="src/prompt_engineering/prompt_regression_runner.cpp" bodystart="263" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a32b6f40d43f81398e9e0d9508fb90170" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_evaluator_config" kindref="compound">EvaluatorConfig</ref> &amp;</type>
+        <definition>const EvaluatorConfig &amp; themis::prompt_engineering::PromptRegressionRunner::evalConfig</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>evalConfig</name>
+        <qualifiedname>themis::prompt_engineering::PromptRegressionRunner::evalConfig</qualifiedname>
+        <briefdescription>
+<para>Return the current evaluator config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="245" column="27" bodyfile="src/prompt_engineering/prompt_regression_runner.cpp" bodystart="295" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1aa210f53a9b5a64fe6ae651a069dcab4c" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_regression_config" kindref="compound">RegressionConfig</ref> &amp;</type>
+        <definition>const RegressionConfig &amp; themis::prompt_engineering::PromptRegressionRunner::runConfig</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>runConfig</name>
+        <qualifiedname>themis::prompt_engineering::PromptRegressionRunner::runConfig</qualifiedname>
+        <briefdescription>
+<para>Return the current runner config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="248" column="28" bodyfile="src/prompt_engineering/prompt_regression_runner.cpp" bodystart="299" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a27e6392e79996a3a869ddee7071ded2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptRegressionRunner::setRunConfig</definition>
+        <argsstring>(const RegressionConfig &amp;cfg)</argsstring>
+        <name>setRunConfig</name>
+        <qualifiedname>themis::prompt_engineering::PromptRegressionRunner::setRunConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_regression_config" kindref="compound">RegressionConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Update the runner config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Run Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRunConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="251" column="10" bodyfile="src/prompt_engineering/prompt_regression_runner.cpp" bodystart="308" bodyend="310"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a96802b3389ef694db62a234d4adae988" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptRegressionRunner::emitLog</definition>
+        <argsstring>(const RegressionResult &amp;result, const std::string &amp;template_id) const</argsstring>
+        <name>emitLog</name>
+        <qualifiedname>themis::prompt_engineering::PromptRegressionRunner::emitLog</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_regression_result" kindref="compound">RegressionResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>template_id</declname>
+        </param>
+        <briefdescription>
+<para>Emit a structured log entry (no-op when callback is empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="262" column="10" bodyfile="src/prompt_engineering/prompt_regression_runner.cpp" bodystart="267" bodyend="289"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Automated prompt quality regression runner. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage — basic: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a8da9c10e8e2e689c4845cef02911909f" kindref="member">PromptRegressionRunner</ref><sp/>runner;</highlight></codeline>
+<codeline><highlight class="normal">runner.setFixtures(my_golden_fixtures);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>runner.run(baseline_outputs,<sp/>candidate_outputs);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.blocked)<sp/>{<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Regression<sp/>detected&quot;</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+</programlisting></para>
+<para>Usage — with <ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector" kindref="compound">FeedbackCollector</ref> integration: <programlisting><codeline><highlight class="normal">runner.loadFeedbackFixtures(collector,<sp/></highlight><highlight class="stringliteral">&quot;my_template_id&quot;</highlight><highlight class="normal">,<sp/>50);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>runner.run(baseline_outputs,<sp/>candidate_outputs);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_regression_runner.h" line="155" column="1" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="155" bodyend="264"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a9a077573ac4259b29bd3559de80c7c09" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptRegressionRunner</scope><name>clearFixtures</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a96802b3389ef694db62a234d4adae988" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptRegressionRunner</scope><name>emitLog</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a3b5ffcd690accc2c67e15ad905da3167" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptRegressionRunner</scope><name>eval_config_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a32b6f40d43f81398e9e0d9508fb90170" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptRegressionRunner</scope><name>evalConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a540857b49ee5c40b83d5527473901bf3" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptRegressionRunner</scope><name>evaluator_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a683680e2fbd86368478c358ce8655ca7" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptRegressionRunner</scope><name>fixtureCount</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a7abc1eac46344fc15181fa6067a0266d" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptRegressionRunner</scope><name>fixtures_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a36bd80e72158ea51dfded9989aa1966b" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptRegressionRunner</scope><name>loadFeedbackFixtures</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a21c9fdea6cdb0da0ccb654558370cb05" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptRegressionRunner</scope><name>log_callback_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a4ac562571f6bb69b2108b4ca52068907" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptRegressionRunner</scope><name>LogCallback</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a8da9c10e8e2e689c4845cef02911909f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptRegressionRunner</scope><name>PromptRegressionRunner</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a1541157962f2069afe7a970b859c27c3" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptRegressionRunner</scope><name>run</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1aa529c1d07125dee8220652b1a2c455bd" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptRegressionRunner</scope><name>run_config_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1aa210f53a9b5a64fe6ae651a069dcab4c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptRegressionRunner</scope><name>runConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a0af11497e5270f91a3f19a8bb48219a8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptRegressionRunner</scope><name>setFixtures</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1ab06b75acb2dfc4288926999cc3b39cab" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptRegressionRunner</scope><name>setLogCallback</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner_1a27e6392e79996a3a869ddee7071ded2a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptRegressionRunner</scope><name>setRunConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

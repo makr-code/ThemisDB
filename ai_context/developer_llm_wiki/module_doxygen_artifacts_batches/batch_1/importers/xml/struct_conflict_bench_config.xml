@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_conflict_bench_config" kind="struct" language="C++" prot="public">
+    <compoundname>ConflictBenchConfig</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_conflict_bench_config_1a135c486fc3822c017e3f594e00450537" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ConflictBenchConfig::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>ConflictBenchConfig::label</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="792" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="792" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_conflict_bench_config_1ae09504b4dd6789243ab9e1baebd2cb48" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ConflictBenchConfig::num_rows</definition>
+        <argsstring></argsstring>
+        <name>num_rows</name>
+        <qualifiedname>ConflictBenchConfig::num_rows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="793" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="793" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_conflict_bench_config_1a6199b9d6420ceeb7e45c828623e77018" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ConflictBenchConfig::num_fields</definition>
+        <argsstring></argsstring>
+        <name>num_fields</name>
+        <qualifiedname>ConflictBenchConfig::num_fields</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Fields per document (for MERGE scenario). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="794" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="794" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_conflict_bench_config_1a7bf90f6a6978097a9d5b80395c2ad984" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ConflictBenchConfig::conflict_pct</definition>
+        <argsstring></argsstring>
+        <name>conflict_pct</name>
+        <qualifiedname>ConflictBenchConfig::conflict_pct</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Percentage of rows that are duplicates (0-100). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="795" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="795" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_conflict_bench_config_1a0e2490d3e63e3894f018909ea2db3683" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacebench__internal_1a3b3bb441febfe026c1bda61d26c264db" kindref="member">bench_internal::ConflictStrategy</ref></type>
+        <definition>bench_internal::ConflictStrategy ConflictBenchConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>ConflictBenchConfig::strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="796" column="38" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="796" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/importers/bench_importer_throughput.cpp" line="791" column="1" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="791" bodyend="797"/>
+    <listofallmembers>
+      <member refid="struct_conflict_bench_config_1a7bf90f6a6978097a9d5b80395c2ad984" prot="public" virt="non-virtual"><scope>ConflictBenchConfig</scope><name>conflict_pct</name></member>
+      <member refid="struct_conflict_bench_config_1a135c486fc3822c017e3f594e00450537" prot="public" virt="non-virtual"><scope>ConflictBenchConfig</scope><name>label</name></member>
+      <member refid="struct_conflict_bench_config_1a6199b9d6420ceeb7e45c828623e77018" prot="public" virt="non-virtual"><scope>ConflictBenchConfig</scope><name>num_fields</name></member>
+      <member refid="struct_conflict_bench_config_1ae09504b4dd6789243ab9e1baebd2cb48" prot="public" virt="non-virtual"><scope>ConflictBenchConfig</scope><name>num_rows</name></member>
+      <member refid="struct_conflict_bench_config_1a0e2490d3e63e3894f018909ea2db3683" prot="public" virt="non-virtual"><scope>ConflictBenchConfig</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

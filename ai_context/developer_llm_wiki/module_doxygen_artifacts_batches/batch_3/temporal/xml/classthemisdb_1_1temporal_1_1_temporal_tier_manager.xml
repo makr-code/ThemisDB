@@ -1,0 +1,1050 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_temporal_tier_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TemporalTierManager</compoundname>
+    <includes refid="temporal__tier__manager_8h" local="no">temporal_tier_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_key_tier_stats" prot="public">themisdb::temporal::TemporalTierManager::KeyTierStats</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_table_tier_stats" prot="public">themisdb::temporal::TemporalTierManager::TableTierStats</innerclass>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a9adbb3b63f4cdcc919bc51f6b9084f47" prot="private" static="no">
+        <type>std::map&lt; <ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref>, <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>using themisdb::temporal::TemporalTierManager::HotMap = std::map&lt;Timestamp, VersionedDocument&gt;</definition>
+        <argsstring></argsstring>
+        <name>HotMap</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::HotMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="449" column="5" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="449" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a51295e86cc67002ac724d059a7751ad3" prot="private" static="no">
+        <type>std::map&lt; std::string, HotMap &gt;</type>
+        <definition>using themisdb::temporal::TemporalTierManager::KeyHotMap = std::map&lt;std::string, HotMap&gt;</definition>
+        <argsstring></argsstring>
+        <name>KeyHotMap</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::KeyHotMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="450" column="5" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="450" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a9df93b920c5fb92595244a3e3069a150" prot="private" static="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_version_block" kindref="compound">VersionBlock</ref> &gt;</type>
+        <definition>using themisdb::temporal::TemporalTierManager::WarmBlocks = std::vector&lt;VersionBlock&gt;</definition>
+        <argsstring></argsstring>
+        <name>WarmBlocks</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::WarmBlocks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="454" column="5" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="454" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1ad56500a961ce984b72c25829737560ca" prot="private" static="no">
+        <type>std::map&lt; std::string, WarmBlocks &gt;</type>
+        <definition>using themisdb::temporal::TemporalTierManager::KeyWarmMap = std::map&lt;std::string, WarmBlocks&gt;</definition>
+        <argsstring></argsstring>
+        <name>KeyWarmMap</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::KeyWarmMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="455" column="5" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="455" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a3506ad1f255ed0df18317cdb64af74a8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_tier_policy" kindref="compound">TierPolicy</ref></type>
+        <definition>TierPolicy themisdb::temporal::TemporalTierManager::policy_</definition>
+        <argsstring></argsstring>
+        <name>policy_</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="445" column="40" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="445" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a299fb2a6fce4317832ee7c4b0ea799bb" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1temporal_1_1_temporal_cold_store" kindref="compound">TemporalColdStore</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TemporalColdStore&gt; themisdb::temporal::TemporalTierManager::cold_</definition>
+        <argsstring></argsstring>
+        <name>cold_</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::cold_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="446" column="21" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="446" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1abf21fa280663440df9f977a8938a2c19" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, KeyHotMap &gt;</type>
+        <definition>std::map&lt;std::string, KeyHotMap&gt; themisdb::temporal::TemporalTierManager::hot_</definition>
+        <argsstring></argsstring>
+        <name>hot_</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::hot_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="451" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a7a0aaf86f4490ec03ffb01dbd63a1c8d" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, KeyWarmMap &gt;</type>
+        <definition>std::map&lt;std::string, KeyWarmMap&gt; themisdb::temporal::TemporalTierManager::warm_</definition>
+        <argsstring></argsstring>
+        <name>warm_</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::warm_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="456" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="456" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1ab03a2da9252451183b7ed8de868969db" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::temporal::TemporalTierManager::total_warm_bytes_</definition>
+        <argsstring></argsstring>
+        <name>total_warm_bytes_</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::total_warm_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="458" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="458" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1ac9d9005a30ed06d8be8e7b3c511a4e80" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themisdb::temporal::TemporalTierManager::stat_flush_hot_warm_</definition>
+        <argsstring></argsstring>
+        <name>stat_flush_hot_warm_</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::stat_flush_hot_warm_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="461" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="461" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a252153725a47b7fe72a8c4946928a990" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themisdb::temporal::TemporalTierManager::stat_flush_warm_cold_</definition>
+        <argsstring></argsstring>
+        <name>stat_flush_warm_cold_</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::stat_flush_warm_cold_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="462" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="462" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a538e718369a76f0d926d509869ab0a5e" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::temporal::TemporalTierManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="464" column="31" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="464" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a8a7008ebda20f0167109d1c2a51e0aef" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::temporal::TemporalTierManager::compact_thread_</definition>
+        <argsstring></argsstring>
+        <name>compact_thread_</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::compact_thread_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="467" column="29" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="467" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1ac657d8bfbbc20157869b3f6b82ad6340" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::temporal::TemporalTierManager::compact_stop_</definition>
+        <argsstring></argsstring>
+        <name>compact_stop_</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::compact_stop_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="468" column="23" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="468" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a5df63cf438388e91ab722b2c02449e58" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::temporal::TemporalTierManager::compact_cv_mutex_</definition>
+        <argsstring></argsstring>
+        <name>compact_cv_mutex_</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::compact_cv_mutex_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="469" column="29" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="469" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1ade143de0249ee2c32e1ea629baecbf01" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::temporal::TemporalTierManager::compact_cv_</definition>
+        <argsstring></argsstring>
+        <name>compact_cv_</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::compact_cv_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="470" column="29" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="470" bodyend="470"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1af5eb0e90657c9b3ab9e36f445b6bc3ab" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalTierManager::TemporalTierManager</definition>
+        <argsstring>(TierPolicy policy={}, std::shared_ptr&lt; TemporalColdStore &gt; cold_store=nullptr)</argsstring>
+        <name>TemporalTierManager</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::TemporalTierManager</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1temporal_1_1_tier_policy" kindref="compound">TierPolicy</ref></type>
+          <declname>policy</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1temporal_1_1_temporal_cold_store" kindref="compound">TemporalColdStore</ref> &gt;</type>
+          <declname>cold_store</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="319" column="14" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="135" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a6fc172c02964492e52eec014f8b8e550" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalTierManager::~TemporalTierManager</definition>
+        <argsstring>()</argsstring>
+        <name>~TemporalTierManager</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::~TemporalTierManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="323" column="5" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="143" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a83c554dcb609a074479434640daeb9ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalTierManager::TemporalTierManager</definition>
+        <argsstring>(const TemporalTierManager &amp;)=delete</argsstring>
+        <name>TemporalTierManager</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::TemporalTierManager</qualifiedname>
+        <param>
+          <type>const TemporalTierManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="326" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1af99a8b22cfb836f9de09c29c641654ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1af5eb0e90657c9b3ab9e36f445b6bc3ab" kindref="member">TemporalTierManager</ref> &amp;</type>
+        <definition>TemporalTierManager &amp; themisdb::temporal::TemporalTierManager::operator=</definition>
+        <argsstring>(const TemporalTierManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1af5eb0e90657c9b3ab9e36f445b6bc3ab" kindref="member">TemporalTierManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="327" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1af6dcbcffedddc2f8408bcdb59e640b36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::TemporalTierManager::insert</definition>
+        <argsstring>(const std::string &amp;table_name, const VersionedDocument &amp;doc)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::insert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Insert a <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> into the hot tier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Insert.</para>
+<para>The version is inserted into the sorted hot-tier map for its key. After insertion the tier-decision is evaluated; if FLUSH_HOT_TO_WARM or FLUSH_WARM_TO_COLD is returned the corresponding operation is performed synchronously before returning.</para>
+<para><simplesect kind="return"><para>false if doc.isCurrent() is true (current versions belong to the live table, not the history tiers).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: isCurrent(), lk(), makeContext(), evaluate(), flushWarmToColdLocked(), size(), flushHotToWarmLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="342" column="10" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="158" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a5fa83368cbd8c00140b1302f33700a94" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::optional&lt; VersionedDocument &gt; themisdb::temporal::TemporalTierManager::getAsOf</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;doc_key, Timestamp as_of) const</argsstring>
+        <name>getAsOf</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::getAsOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>as_of</declname>
+        </param>
+        <briefdescription>
+<para>Return the version valid at timestamp as_of. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Queries hot → warm → cold in order, returning the first match. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="351" column="19" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="191" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a3ba8148ff6a7a75968849bf9cbb46529" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalTierManager::getHistory</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;doc_key) const</argsstring>
+        <name>getHistory</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::getHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_key</declname>
+        </param>
+        <briefdescription>
+<para>Return all stored historical versions, sorted by sys_start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Merges hot + warm + cold tiers. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="360" column="17" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="249" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1afd1e4c4b48e802b8346cd621d8eacf6d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalTierManager::getHistoryInRange</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;doc_key, const TimeRange &amp;range) const</argsstring>
+        <name>getHistoryInRange</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::getHistoryInRange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+<para>Return versions whose sys_time overlaps range, sorted by sys_start. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="367" column="17" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="303" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a81e2e17a4d6f546234602469b5d06564" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalTierManager::flushHotToWarm</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;doc_key)</argsstring>
+        <name>flushHotToWarm</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::flushHotToWarm</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_key</declname>
+        </param>
+        <briefdescription>
+<para>Flush oldest hot-tier versions to a new warm <ref refid="structthemisdb_1_1temporal_1_1_version_block" kindref="compound">VersionBlock</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush Hot To Warm.</para>
+<para>Moves the oldest <computeroutput>(hot_count - policy.hot_max_versions_per_key)</computeroutput> closed versions from the hot map into a new <ref refid="structthemisdb_1_1temporal_1_1_version_block" kindref="compound">VersionBlock</ref> appended to the warm tier.</para>
+<para><simplesect kind="return"><para>Number of versions moved.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), flushHotToWarmLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="383" column="12" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="378" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a39679feac0f333469014d1d6ffaeb064" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalTierManager::flushWarmToCold</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;doc_key)</argsstring>
+        <name>flushWarmToCold</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::flushWarmToCold</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_key</declname>
+        </param>
+        <briefdescription>
+<para>Flush the oldest warm VersionBlock(s) to cold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush Warm To Cold.</para>
+<para>Moves versions from the oldest warm block(s) into <ref refid="classthemisdb_1_1temporal_1_1_temporal_cold_store" kindref="compound">TemporalColdStore</ref>.</para>
+<para><simplesect kind="return"><para>Number of versions moved.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), flushWarmToColdLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="393" column="12" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="393" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1af4a9046fa701fe237bea9de68829779a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalTierManager::compactTable</definition>
+        <argsstring>(const std::string &amp;table_name)</argsstring>
+        <name>compactTable</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::compactTable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Compact all keys in table_name according to current policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compact Table.</para>
+<para><simplesect kind="return"><para>Total versions moved across all tiers.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), find(), end(), push_back(), std::find(), begin(), makeContext(), evaluate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="400" column="12" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="406" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a56646202a74edd03e1216875bc91e8b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::TemporalTierManager::setPolicy</definition>
+        <argsstring>(const TierPolicy &amp;policy)</argsstring>
+        <name>setPolicy</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::setPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_tier_policy" kindref="compound">TierPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="404" column="10" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="451" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a74e70ebbb833ed27e179c36581f59e4e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1temporal_1_1_tier_policy" kindref="compound">TierPolicy</ref> &amp;</type>
+        <definition>const TierPolicy &amp; themisdb::temporal::TemporalTierManager::policy</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>policy</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::policy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="405" column="22" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="405" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a8e225665428093df458adf42108f983e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::TemporalTierManager::startCompactionWorker</definition>
+        <argsstring>()</argsstring>
+        <name>startCompactionWorker</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::startCompactionWorker</qualifiedname>
+        <briefdescription>
+<para>Start the periodic background compaction thread (idempotent). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Compaction Worker.</para>
+<para>Calls: joinable(), std::thread(), compactionLoop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="410" column="10" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="464" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1af9fbe9baa942fe779853056515543fe6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::TemporalTierManager::stopCompactionWorker</definition>
+        <argsstring>()</argsstring>
+        <name>stopCompactionWorker</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::stopCompactionWorker</qualifiedname>
+        <briefdescription>
+<para>Stop the background compaction thread and wait for it to exit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop Compaction Worker.</para>
+<para>Calls: notify_all(), joinable(), join(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="413" column="10" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="474" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a2a6da0fbc4d213d284bbf46783664eba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_key_tier_stats" kindref="compound">KeyTierStats</ref></type>
+        <definition>TemporalTierManager::KeyTierStats themisdb::temporal::TemporalTierManager::keyStats</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;doc_key) const</argsstring>
+        <name>keyStats</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::keyStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="426" column="18" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="522" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1aecf22af96dbed6ecfcea48e14831c66d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_tier_manager_1_1_table_tier_stats" kindref="compound">TableTierStats</ref></type>
+        <definition>TemporalTierManager::TableTierStats themisdb::temporal::TemporalTierManager::tableStats</definition>
+        <argsstring>(const std::string &amp;table_name) const</argsstring>
+        <name>tableStats</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::tableStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="440" column="20" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="551" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a1459b84d27b1b28eb09ff479e5dcd7ce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::TemporalTierManager::statsJson</definition>
+        <argsstring>(const std::string &amp;table_name) const</argsstring>
+        <name>statsJson</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::statsJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="442" column="20" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="581" bodyend="591"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a08f94966582bbc93c132688c1ebba9e6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::TemporalTierManager::compactionLoop</definition>
+        <argsstring>()</argsstring>
+        <name>compactionLoop</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::compactionLoop</qualifiedname>
+        <briefdescription>
+<para>Compaction Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), wait_for(), load(), push_back(), std::find(), begin(), end(), <ref refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1af4a9046fa701fe237bea9de68829779a" kindref="member">compactTable()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="472" column="10" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="486" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a9a0b0380a970020dd80e7ac8b6b202fd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_tier_decision_context" kindref="compound">TierDecisionContext</ref></type>
+        <definition>TierDecisionContext themisdb::temporal::TemporalTierManager::makeContext</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;doc_key) const</argsstring>
+        <name>makeContext</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::makeContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_key</declname>
+        </param>
+        <briefdescription>
+<para>Build a <ref refid="structthemisdb_1_1temporal_1_1_tier_decision_context" kindref="compound">TierDecisionContext</ref> for (table, key). Lock must be held. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="477" column="25" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="598" bodyend="629"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a762ce80af470a9f8d9dbbe2a2b45ef29" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalTierManager::flushHotToWarmLocked</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;doc_key, HotMap &amp;hot_map, WarmBlocks &amp;warm_blocks)</argsstring>
+        <name>flushHotToWarmLocked</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::flushHotToWarmLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_key</declname>
+        </param>
+        <param>
+          <type>HotMap &amp;</type>
+          <declname>hot_map</declname>
+        </param>
+        <param>
+          <type>WarmBlocks &amp;</type>
+          <declname>warm_blocks</declname>
+        </param>
+        <briefdescription>
+<para>Flush hot → warm for key. Exclusive lock must be held. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="481" column="12" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="631" bodyend="673"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1abcadc24411c73714e3283d7a46f9f630" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalTierManager::flushWarmToColdLocked</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;doc_key, WarmBlocks &amp;warm_blocks)</argsstring>
+        <name>flushWarmToColdLocked</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::flushWarmToColdLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_key</declname>
+        </param>
+        <param>
+          <type>WarmBlocks &amp;</type>
+          <declname>warm_blocks</declname>
+        </param>
+        <briefdescription>
+<para>Flush oldest warm block → cold for key. Exclusive lock must be held. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="487" column="12" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="675" bodyend="708"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a12155b41ba84911d1b5fe88c462017cd" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_version_block" kindref="compound">VersionBlock</ref></type>
+        <definition>VersionBlock themisdb::temporal::TemporalTierManager::makeBlock</definition>
+        <argsstring>(const std::string &amp;doc_key, std::vector&lt; VersionedDocument &gt; versions)</argsstring>
+        <name>makeBlock</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::makeBlock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_key</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+          <declname>versions</declname>
+        </param>
+        <briefdescription>
+<para>Build an immutable <ref refid="structthemisdb_1_1temporal_1_1_version_block" kindref="compound">VersionBlock</ref> from a sorted vector of documents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">versions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::sort(), begin(), end(), size(), BloomFilter(), reserve(), std::min(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="492" column="25" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="717" bodyend="748"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1abf47d25e7869284682cada2d09214be0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::optional&lt; VersionedDocument &gt; themisdb::temporal::TemporalTierManager::searchBlock</definition>
+        <argsstring>(const VersionBlock &amp;block, Timestamp as_of)</argsstring>
+        <name>searchBlock</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::searchBlock</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_version_block" kindref="compound">VersionBlock</ref> &amp;</type>
+          <declname>block</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>as_of</declname>
+        </param>
+        <briefdescription>
+<para>Search a single <ref refid="structthemisdb_1_1temporal_1_1_version_block" kindref="compound">VersionBlock</ref> for the version containing as_of. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="497" column="5" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="752" bodyend="780"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1abaf70d60cbdd5a91a35cc022843bd0fc" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalTierManager::allFromBlock</definition>
+        <argsstring>(const VersionBlock &amp;block)</argsstring>
+        <name>allFromBlock</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::allFromBlock</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_version_block" kindref="compound">VersionBlock</ref> &amp;</type>
+          <declname>block</declname>
+        </param>
+        <briefdescription>
+<para>Collect all versions from a <ref refid="structthemisdb_1_1temporal_1_1_version_block" kindref="compound">VersionBlock</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="501" column="5" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="784" bodyend="800"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1aae67e99cc08ae7613b2d99b2e8fa5099" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalTierManager::rangeFromBlock</definition>
+        <argsstring>(const VersionBlock &amp;block, const TimeRange &amp;range)</argsstring>
+        <name>rangeFromBlock</name>
+        <qualifiedname>themisdb::temporal::TemporalTierManager::rangeFromBlock</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_version_block" kindref="compound">VersionBlock</ref> &amp;</type>
+          <declname>block</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+<para>Collect overlapping versions from a <ref refid="structthemisdb_1_1temporal_1_1_version_block" kindref="compound">VersionBlock</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="505" column="5" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="804" bodyend="827"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Three-tier LSM-style manager for <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> history. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements the RocksDB philosophy for temporal data:</para>
+<para>Write path: <ref refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1af6dcbcffedddc2f8408bcdb59e640b36" kindref="member">insert()</ref> → hot (MemTable) → [flush trigger] → warm (L0 blocks) → [compaction trigger] → cold (disk SST via <ref refid="classthemisdb_1_1temporal_1_1_temporal_cold_store" kindref="compound">TemporalColdStore</ref>)</para>
+<para>Read path (getAsOf):<orderedlist>
+<listitem><para>Hot tier: O(log h) — upper_bound on sorted map</para>
+</listitem><listitem><para>Warm tier: O(b) — per-block: Bloom check → range check → scan</para>
+</listitem><listitem><para>Cold tier: O(log N) — RAM index upper_bound + 1 disk read</para>
+</listitem></orderedlist>
+</para>
+<sect1 id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1autotoc_md25_1s1"><sect2 id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1autotoc_md25">
+<title>Concurrency model</title><para>Uses <computeroutput>std::shared_mutex</computeroutput>:<itemizedlist>
+<listitem><para>Reads (getAsOf, getHistory) hold shared lock → parallel readers.</para>
+</listitem><listitem><para>Writes (insert, flush, compact) hold exclusive lock.</para>
+</listitem><listitem><para>Background compaction thread acquires exclusive lock per key batch.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1autotoc_md26_1s1"><sect2 id="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1autotoc_md26">
+<title>Usage</title><para>auto cold = std::make_shared&lt;TemporalColdStore&gt;( std::make_unique&lt;FileSystemBackend&gt;(&quot;/data/cold&quot;));</para>
+<para><ref refid="structthemisdb_1_1temporal_1_1_tier_policy" kindref="compound">TierPolicy</ref> policy; policy.hot_max_versions_per_key = 200; policy.max_warm_bytes = 128 * 1024 * 1024;</para>
+<para><ref refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager" kindref="compound">TemporalTierManager</ref> mgr(policy, cold); mgr.startCompactionWorker();</para>
+<para>mgr.insert(&quot;orders&quot;, doc); auto v = mgr.getAsOf(&quot;orders&quot;, &quot;k1&quot;, t);</para>
+<para>Thread-safety: all public methods are thread-safe. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/temporal/temporal_tier_manager.h" line="317" column="1" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="317" bodyend="506"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1abaf70d60cbdd5a91a35cc022843bd0fc" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>allFromBlock</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a299fb2a6fce4317832ee7c4b0ea799bb" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>cold_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1ade143de0249ee2c32e1ea629baecbf01" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>compact_cv_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a5df63cf438388e91ab722b2c02449e58" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>compact_cv_mutex_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1ac657d8bfbbc20157869b3f6b82ad6340" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>compact_stop_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a8a7008ebda20f0167109d1c2a51e0aef" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>compact_thread_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a08f94966582bbc93c132688c1ebba9e6" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>compactionLoop</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1af4a9046fa701fe237bea9de68829779a" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>compactTable</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a81e2e17a4d6f546234602469b5d06564" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>flushHotToWarm</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a762ce80af470a9f8d9dbbe2a2b45ef29" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>flushHotToWarmLocked</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a39679feac0f333469014d1d6ffaeb064" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>flushWarmToCold</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1abcadc24411c73714e3283d7a46f9f630" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>flushWarmToColdLocked</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a5fa83368cbd8c00140b1302f33700a94" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>getAsOf</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a3ba8148ff6a7a75968849bf9cbb46529" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>getHistory</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1afd1e4c4b48e802b8346cd621d8eacf6d" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>getHistoryInRange</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1abf21fa280663440df9f977a8938a2c19" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>hot_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a9adbb3b63f4cdcc919bc51f6b9084f47" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>HotMap</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1af6dcbcffedddc2f8408bcdb59e640b36" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>insert</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a51295e86cc67002ac724d059a7751ad3" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>KeyHotMap</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a2a6da0fbc4d213d284bbf46783664eba" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>keyStats</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1ad56500a961ce984b72c25829737560ca" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>KeyWarmMap</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a12155b41ba84911d1b5fe88c462017cd" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>makeBlock</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a9a0b0380a970020dd80e7ac8b6b202fd" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>makeContext</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a538e718369a76f0d926d509869ab0a5e" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1af99a8b22cfb836f9de09c29c641654ae" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a74e70ebbb833ed27e179c36581f59e4e" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>policy</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a3506ad1f255ed0df18317cdb64af74a8" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>policy_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1aae67e99cc08ae7613b2d99b2e8fa5099" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>rangeFromBlock</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1abf47d25e7869284682cada2d09214be0" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>searchBlock</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a56646202a74edd03e1216875bc91e8b3" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>setPolicy</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a8e225665428093df458adf42108f983e" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>startCompactionWorker</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1ac9d9005a30ed06d8be8e7b3c511a4e80" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>stat_flush_hot_warm_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a252153725a47b7fe72a8c4946928a990" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>stat_flush_warm_cold_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a1459b84d27b1b28eb09ff479e5dcd7ce" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>statsJson</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1af9fbe9baa942fe779853056515543fe6" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>stopCompactionWorker</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1aecf22af96dbed6ecfcea48e14831c66d" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>tableStats</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1af5eb0e90657c9b3ab9e36f445b6bc3ab" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>TemporalTierManager</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a83c554dcb609a074479434640daeb9ae" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>TemporalTierManager</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1ab03a2da9252451183b7ed8de868969db" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>total_warm_bytes_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a7a0aaf86f4490ec03ffb01dbd63a1c8d" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>warm_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a9df93b920c5fb92595244a3e3069a150" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>WarmBlocks</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager_1a6fc172c02964492e52eec014f8b8e550" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager</scope><name>~TemporalTierManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

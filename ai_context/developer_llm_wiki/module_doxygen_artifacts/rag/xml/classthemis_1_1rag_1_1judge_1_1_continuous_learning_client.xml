@@ -1,0 +1,419 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::ContinuousLearningClient</compoundname>
+    <includes refid="continuous__learning__client_8h" local="no">continuous_learning_client.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config" prot="public">themis::rag::judge::ContinuousLearningClient::Config</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_statistics" prot="public">themis::rag::judge::ContinuousLearningClient::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_impl" prot="public">themis::rag::judge::ContinuousLearningClient::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a7f0a2abdcf44a0f46ec2ea0478fdfe94" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::judge::ContinuousLearningClient::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="182" column="21" bodyfile="include/rag/continuous_learning_client.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a807f2595fc691d131fc3fda16fbf5b6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::ContinuousLearningClient::ContinuousLearningClient</definition>
+        <argsstring>()</argsstring>
+        <name>ContinuousLearningClient</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::ContinuousLearningClient</qualifiedname>
+        <briefdescription>
+<para>Construct client with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="119" column="5" bodyfile="src/rag/continuous_learning_client.cpp" bodystart="176" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1aaf6233d5624f9e34fa9277e2a65dc901" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::ContinuousLearningClient::ContinuousLearningClient</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>ContinuousLearningClient</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::ContinuousLearningClient</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct client with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Client configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="124" column="14" bodyfile="src/rag/continuous_learning_client.cpp" bodystart="180" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1ad488fac035199445533852b913690786" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::ContinuousLearningClient::~ContinuousLearningClient</definition>
+        <argsstring>()</argsstring>
+        <name>~ContinuousLearningClient</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::~ContinuousLearningClient</qualifiedname>
+        <briefdescription>
+<para>Destructor - flushes any pending metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="129" column="5" bodyfile="src/rag/continuous_learning_client.cpp" bodystart="191" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a6c6b9a7db7b343c800beefa0acc3e84c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::ContinuousLearningClient::logQCResult</definition>
+        <argsstring>(const QCResult &amp;result)</argsstring>
+        <name>logQCResult</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::logQCResult</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_q_c_result" kindref="compound">QCResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Log quality control result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Public Methods ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quality control result</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacethemis_1_1rag_1_1judge_1_1cl__utils_1a5b22c6b881db9fda930f601cbe3a50b4" kindref="member">cl_utils::qcResultToMetrics()</ref>, <ref refid="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a17aa58c38b9553c7a989932dd6d88732" kindref="member">logMetric()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="135" column="10" bodyfile="src/rag/continuous_learning_client.cpp" bodystart="201" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a17aa58c38b9553c7a989932dd6d88732" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::ContinuousLearningClient::logMetric</definition>
+        <argsstring>(const QualityMetric &amp;metric)</argsstring>
+        <name>logMetric</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::logMetric</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric" kindref="compound">QualityMetric</ref> &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <briefdescription>
+<para>Log individual metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log Metric.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quality metric</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), addToHistory(), push_back(), size(), to_send(), begin(), end(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="141" column="10" bodyfile="src/rag/continuous_learning_client.cpp" bodystart="220" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a8641ed7d37b43977bedfd7b03328a93f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::ContinuousLearningClient::logMetricsBatch</definition>
+        <argsstring>(const std::vector&lt; QualityMetric &gt; &amp;metrics)</argsstring>
+        <name>logMetricsBatch</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::logMetricsBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric" kindref="compound">QualityMetric</ref> &gt; &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Log batch of metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log Metrics Batch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of metrics</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), addToHistory(), sendMetrics(), evaluateTriggers(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="147" column="10" bodyfile="src/rag/continuous_learning_client.cpp" bodystart="266" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a9ea86ba898843f4af13471303bb34b79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_optimization_trigger" kindref="compound">OptimizationTrigger</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; OptimizationTrigger &gt; themis::rag::judge::ContinuousLearningClient::checkTriggers</definition>
+        <argsstring>()</argsstring>
+        <name>checkTriggers</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::checkTriggers</qualifiedname>
+        <briefdescription>
+<para>Check if optimization should be triggered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Triggers.</para>
+<para><simplesect kind="return"><para>Trigger information if triggered, nullptr otherwise</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getRecentMetrics(), empty(), std::accumulate(), begin(), end(), size(), lock(), createTrigger(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="153" column="21" bodyfile="src/rag/continuous_learning_client.cpp" bodystart="292" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a3068b70b4c7c3f6824d61e173c7e0e5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::ContinuousLearningClient::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::flush</qualifiedname>
+        <briefdescription>
+<para>Flush pending metrics immediately. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush.</para>
+<para>Calls: flushBatch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="158" column="10" bodyfile="src/rag/continuous_learning_client.cpp" bodystart="372" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1af7a480ac326ce6d4098cbb55a1c40a18" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>ContinuousLearningClient::Statistics themis::rag::judge::ContinuousLearningClient::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="170" column="16" bodyfile="src/rag/continuous_learning_client.cpp" bodystart="378" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1ab154285286e19c81a8415746158011f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::ContinuousLearningClient::setTriggerCallback</definition>
+        <argsstring>(std::function&lt; void(const OptimizationTrigger &amp;)&gt; callback)</argsstring>
+        <name>setTriggerCallback</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::setTriggerCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1rag_1_1judge_1_1_optimization_trigger" kindref="compound">OptimizationTrigger</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set callback for optimization triggers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function called when trigger fires </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="176" column="10" bodyfile="src/rag/continuous_learning_client.cpp" bodystart="383" bodyend="388"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a125356ecff5aa8600cf8e8b5c94b843e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::ContinuousLearningClient::sendMetrics</definition>
+        <argsstring>(const std::vector&lt; QualityMetric &gt; &amp;metrics)</argsstring>
+        <name>sendMetrics</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::sendMetrics</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric" kindref="compound">QualityMetric</ref> &gt; &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Private Methods ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: sendMetricsInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="185" column="10" bodyfile="src/rag/continuous_learning_client.cpp" bodystart="396" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1acb1b73e07b60b1e982120cde5c3b2569" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::ContinuousLearningClient::evaluateTriggers</definition>
+        <argsstring>()</argsstring>
+        <name>evaluateTriggers</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::evaluateTriggers</qualifiedname>
+        <briefdescription>
+<para>Evaluate Triggers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a9ea86ba898843f4af13471303bb34b79" kindref="member">checkTriggers()</ref>, THEMIS_INFO(), lock(), trigger_callback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="186" column="10" bodyfile="src/rag/continuous_learning_client.cpp" bodystart="404" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1acc5359ee4a7b2aeb1ad9143a4fcd1983" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_optimization_trigger" kindref="compound">OptimizationTrigger</ref></type>
+        <definition>OptimizationTrigger themis::rag::judge::ContinuousLearningClient::createTrigger</definition>
+        <argsstring>(const std::string &amp;type, double threshold, double current_value, const std::string &amp;recommendation)</argsstring>
+        <name>createTrigger</name>
+        <qualifiedname>themis::rag::judge::ContinuousLearningClient::createTrigger</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>current_value</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>recommendation</declname>
+        </param>
+        <briefdescription>
+<para>Create Trigger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">recommendation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="187" column="25" bodyfile="src/rag/continuous_learning_client.cpp" bodystart="429" bodyend="443"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Continuous Learning Client. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Logs quality control metrics to the continuous learning system for automatic prompt optimization, retrieval tuning, and model fine-tuning. </para>
+    </detaileddescription>
+    <location file="include/rag/continuous_learning_client.h" line="92" column="1" bodyfile="include/rag/continuous_learning_client.h" bodystart="92" bodyend="193"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a9ea86ba898843f4af13471303bb34b79" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient</scope><name>checkTriggers</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a807f2595fc691d131fc3fda16fbf5b6c" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient</scope><name>ContinuousLearningClient</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1aaf6233d5624f9e34fa9277e2a65dc901" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient</scope><name>ContinuousLearningClient</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1acc5359ee4a7b2aeb1ad9143a4fcd1983" prot="private" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient</scope><name>createTrigger</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1acb1b73e07b60b1e982120cde5c3b2569" prot="private" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient</scope><name>evaluateTriggers</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a3068b70b4c7c3f6824d61e173c7e0e5c" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient</scope><name>flush</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1af7a480ac326ce6d4098cbb55a1c40a18" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a7f0a2abdcf44a0f46ec2ea0478fdfe94" prot="private" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a17aa58c38b9553c7a989932dd6d88732" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient</scope><name>logMetric</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a8641ed7d37b43977bedfd7b03328a93f" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient</scope><name>logMetricsBatch</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a6c6b9a7db7b343c800beefa0acc3e84c" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient</scope><name>logQCResult</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1a125356ecff5aa8600cf8e8b5c94b843e" prot="private" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient</scope><name>sendMetrics</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1ab154285286e19c81a8415746158011f6" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient</scope><name>setTriggerCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client_1ad488fac035199445533852b913690786" prot="public" virt="non-virtual"><scope>themis::rag::judge::ContinuousLearningClient</scope><name>~ContinuousLearningClient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

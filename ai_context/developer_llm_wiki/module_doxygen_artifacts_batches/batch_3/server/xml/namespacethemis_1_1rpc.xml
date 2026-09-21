@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rpc" kind="namespace" language="C++">
+    <compoundname>themis::rpc</compoundname>
+    <innerclass refid="structthemis_1_1rpc_1_1_blob_config" prot="public">themis::rpc::BlobConfig</innerclass>
+    <innerclass refid="structthemis_1_1rpc_1_1_blob_metadata" prot="public">themis::rpc::BlobMetadata</innerclass>
+    <innerclass refid="structthemis_1_1rpc_1_1_blob_progress" prot="public">themis::rpc::BlobProgress</innerclass>
+    <innerclass refid="classthemis_1_1rpc_1_1_blob_transfer_handler" prot="public">themis::rpc::BlobTransferHandler</innerclass>
+    <innerclass refid="structthemis_1_1rpc_1_1_chunk_info" prot="public">themis::rpc::ChunkInfo</innerclass>
+    <innerclass refid="structthemis_1_1rpc_1_1_delta_result" prot="public">themis::rpc::DeltaResult</innerclass>
+    <innerclass refid="classthemis_1_1rpc_1_1_differential_update_engine" prot="public">themis::rpc::DifferentialUpdateEngine</innerclass>
+    <innerclass refid="classthemis_1_1rpc_1_1_rabin_fingerprint" prot="public">themis::rpc::RabinFingerprint</innerclass>
+    <innerclass refid="structthemis_1_1rpc_1_1_snapshot_config" prot="public">themis::rpc::SnapshotConfig</innerclass>
+    <innerclass refid="structthemis_1_1rpc_1_1_snapshot_progress" prot="public">themis::rpc::SnapshotProgress</innerclass>
+    <innerclass refid="classthemis_1_1rpc_1_1_snapshot_transfer_handler" prot="public">themis::rpc::SnapshotTransferHandler</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BlobStatus</name>
+        <qualifiedname>themis::rpc::BlobStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48a8f737af44729e0cfd2728f45ba3fb6a9" prot="public">
+          <name>ERROR_BLOB_NOT_FOUND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48ae51514a9fceddf4a245159cdef19c262" prot="public">
+          <name>ERROR_COMPRESSION_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48add2f0502425543edc64f189090481856" prot="public">
+          <name>ERROR_CHECKSUM_MISMATCH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48ad994dfe6c044a93fc4467f5da1dab671" prot="public">
+          <name>ERROR_IO_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48ac762622087deb4bb842e148f07ca3f8a" prot="public">
+          <name>ERROR_INVALID_CONFIG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48af659c3978eeb3c6c52bfa8e0fb0ccbd7" prot="public">
+          <name>ERROR_NETWORK_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc_1a205e9cac7cef3ee4d3803c3f6a4ace48a77cc79a94d0369d391b52fd149b49785" prot="public">
+          <name>ERROR_RESUME_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="73" column="1" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="73" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SnapshotStatus</name>
+        <qualifiedname>themis::rpc::SnapshotStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878a44ae870fe91bbc64344d9c8476acf1d1" prot="public">
+          <name>ERROR_SNAPSHOT_NOT_FOUND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878ae51514a9fceddf4a245159cdef19c262" prot="public">
+          <name>ERROR_COMPRESSION_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878add2f0502425543edc64f189090481856" prot="public">
+          <name>ERROR_CHECKSUM_MISMATCH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878aedc8c66cb6646649a953b27507b7b65d" prot="public">
+          <name>ERROR_ROCKSDB_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878ac762622087deb4bb842e148f07ca3f8a" prot="public">
+          <name>ERROR_INVALID_CONFIG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878af659c3978eeb3c6c52bfa8e0fb0ccbd7" prot="public">
+          <name>ERROR_NETWORK_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rpc_1aade86b078950d7ca0a744a8a7c3e3878a7b8a07ad54883c11bfd4825bed07c242" prot="public">
+          <name>ERROR_SECURITY_PATH_TRAVERSAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="76" column="1" bodyfile="include/server/rpc/snapshot_transfer_handler.h" bodystart="76" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1rpc_1a3f6df784ec8f560594925bc145cce106" prot="public" static="no">
+        <type>std::function&lt; void(const themis::sharding::proto::BlobChunk &amp;)&gt;</type>
+        <definition>using themis::rpc::BlobChunkCallback = std::function&lt;void(const themis::sharding::proto::BlobChunk&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>BlobChunkCallback</name>
+        <qualifiedname>themis::rpc::BlobChunkCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/blob_transfer_handler.h" line="85" column="1" bodyfile="include/server/rpc/blob_transfer_handler.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1rpc_1a7e81b852e40b834aed4a8d198dc3d680" prot="public" static="no">
+        <type>std::function&lt; void(const shard_proto::SnapshotChunk &amp;)&gt;</type>
+        <definition>using themis::rpc::ChunkCallback = std::function&lt;void(const shard_proto::SnapshotChunk&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ChunkCallback</name>
+        <qualifiedname>themis::rpc::ChunkCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/snapshot_transfer_handler.h" line="88" column="1" bodyfile="include/server/rpc/snapshot_transfer_handler.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1rpc_1a41813f76eb7d64d60efc3dff2bdbf73a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rpc::MAX_CHUNK_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_CHUNK_SIZE</name>
+        <qualifiedname>themis::rpc::MAX_CHUNK_SIZE</qualifiedname>
+        <initializer>= 100 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rpc/blob_transfer_handler.cpp" line="55" column="25" bodyfile="src/server/rpc/blob_transfer_handler.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rpc/blob_transfer_handler.h" line="28" column="1"/>
+  </compounddef>
+</doxygen>

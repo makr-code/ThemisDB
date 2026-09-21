@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_latency_tracker_1_1_latency_stats" kind="struct" language="C++" prot="public">
+    <compoundname>LatencyTracker::LatencyStats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_latency_tracker_1_1_latency_stats_1a34aa6d4c115af56c241069ab4a4c913a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double LatencyTracker::LatencyStats::min_us</definition>
+        <argsstring></argsstring>
+        <name>min_us</name>
+        <qualifiedname>LatencyTracker::LatencyStats::min_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_latency_comprehensive.cpp" line="44" column="16" bodyfile="benchmarks/base/bench_latency_comprehensive.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_latency_tracker_1_1_latency_stats_1a64b357d70027964e6bb146524ca49248" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double LatencyTracker::LatencyStats::max_us</definition>
+        <argsstring></argsstring>
+        <name>max_us</name>
+        <qualifiedname>LatencyTracker::LatencyStats::max_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_latency_comprehensive.cpp" line="45" column="16" bodyfile="benchmarks/base/bench_latency_comprehensive.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_latency_tracker_1_1_latency_stats_1ae3ba336adf8d03c146b10aa749be163e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double LatencyTracker::LatencyStats::mean_us</definition>
+        <argsstring></argsstring>
+        <name>mean_us</name>
+        <qualifiedname>LatencyTracker::LatencyStats::mean_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_latency_comprehensive.cpp" line="46" column="16" bodyfile="benchmarks/base/bench_latency_comprehensive.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_latency_tracker_1_1_latency_stats_1a42f6c6d53080fb8f3ae4320fd3e86276" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double LatencyTracker::LatencyStats::p50_us</definition>
+        <argsstring></argsstring>
+        <name>p50_us</name>
+        <qualifiedname>LatencyTracker::LatencyStats::p50_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_latency_comprehensive.cpp" line="47" column="16" bodyfile="benchmarks/base/bench_latency_comprehensive.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_latency_tracker_1_1_latency_stats_1a276a004655bdecbe43085f39a0e1f155" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double LatencyTracker::LatencyStats::p95_us</definition>
+        <argsstring></argsstring>
+        <name>p95_us</name>
+        <qualifiedname>LatencyTracker::LatencyStats::p95_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_latency_comprehensive.cpp" line="48" column="16" bodyfile="benchmarks/base/bench_latency_comprehensive.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_latency_tracker_1_1_latency_stats_1a55b4a48d9bb0248679e67b495885035e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double LatencyTracker::LatencyStats::p99_us</definition>
+        <argsstring></argsstring>
+        <name>p99_us</name>
+        <qualifiedname>LatencyTracker::LatencyStats::p99_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_latency_comprehensive.cpp" line="49" column="16" bodyfile="benchmarks/base/bench_latency_comprehensive.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_latency_tracker_1_1_latency_stats_1aea9b128bef7ad2624f5d4b673b1f5306" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double LatencyTracker::LatencyStats::p99_9_us</definition>
+        <argsstring></argsstring>
+        <name>p99_9_us</name>
+        <qualifiedname>LatencyTracker::LatencyStats::p99_9_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_latency_comprehensive.cpp" line="50" column="16" bodyfile="benchmarks/base/bench_latency_comprehensive.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_latency_tracker_1_1_latency_stats_1a8e8930cb88ef4eb0c6098b1c775bd1a5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t LatencyTracker::LatencyStats::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>LatencyTracker::LatencyStats::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_latency_comprehensive.cpp" line="51" column="16" bodyfile="benchmarks/base/bench_latency_comprehensive.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/base/bench_latency_comprehensive.cpp" line="43" column="5" bodyfile="benchmarks/base/bench_latency_comprehensive.cpp" bodystart="43" bodyend="52"/>
+    <listofallmembers>
+      <member refid="struct_latency_tracker_1_1_latency_stats_1a8e8930cb88ef4eb0c6098b1c775bd1a5" prot="public" virt="non-virtual"><scope>LatencyTracker::LatencyStats</scope><name>count</name></member>
+      <member refid="struct_latency_tracker_1_1_latency_stats_1a64b357d70027964e6bb146524ca49248" prot="public" virt="non-virtual"><scope>LatencyTracker::LatencyStats</scope><name>max_us</name></member>
+      <member refid="struct_latency_tracker_1_1_latency_stats_1ae3ba336adf8d03c146b10aa749be163e" prot="public" virt="non-virtual"><scope>LatencyTracker::LatencyStats</scope><name>mean_us</name></member>
+      <member refid="struct_latency_tracker_1_1_latency_stats_1a34aa6d4c115af56c241069ab4a4c913a" prot="public" virt="non-virtual"><scope>LatencyTracker::LatencyStats</scope><name>min_us</name></member>
+      <member refid="struct_latency_tracker_1_1_latency_stats_1a42f6c6d53080fb8f3ae4320fd3e86276" prot="public" virt="non-virtual"><scope>LatencyTracker::LatencyStats</scope><name>p50_us</name></member>
+      <member refid="struct_latency_tracker_1_1_latency_stats_1a276a004655bdecbe43085f39a0e1f155" prot="public" virt="non-virtual"><scope>LatencyTracker::LatencyStats</scope><name>p95_us</name></member>
+      <member refid="struct_latency_tracker_1_1_latency_stats_1aea9b128bef7ad2624f5d4b673b1f5306" prot="public" virt="non-virtual"><scope>LatencyTracker::LatencyStats</scope><name>p99_9_us</name></member>
+      <member refid="struct_latency_tracker_1_1_latency_stats_1a55b4a48d9bb0248679e67b495885035e" prot="public" virt="non-virtual"><scope>LatencyTracker::LatencyStats</scope><name>p99_us</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

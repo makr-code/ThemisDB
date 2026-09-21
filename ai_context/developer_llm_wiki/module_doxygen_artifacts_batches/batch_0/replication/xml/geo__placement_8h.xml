@@ -1,0 +1,521 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="geo__placement_8h" kind="file" language="C++">
+    <compoundname>geo_placement.h</compoundname>
+    <includes refid="replication__manager_8h" local="yes">replication/replication_manager.h</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">set</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__geo__placement__wal__shipping_8cpp" local="yes">benchmarks/replication/bench_geo_placement_wal_shipping.cpp</includedby>
+    <includedby refid="bench__replication__multi__dc__multi__writer_8cpp" local="yes">benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp</includedby>
+    <includedby refid="replication__manager_8h" local="yes">include/replication/replication_manager.h</includedby>
+    <includedby refid="geo__placement_8cpp" local="yes">src/replication/geo_placement.cpp</includedby>
+    <includedby refid="replication__manager_8cpp" local="yes">src/replication/replication_manager.cpp</includedby>
+    <includedby refid="bench__replication__geo__wal__baselines_8cpp" local="yes">tests/replication/bench_replication_geo_wal_baselines.cpp</includedby>
+    <includedby refid="test__replication__chaos__failover__focused_8cpp" local="yes">tests/replication/test_replication_chaos_failover_focused.cpp</includedby>
+    <includedby refid="test__replication__geo__placement__wal__shipping__focused_8cpp" local="yes">tests/replication/test_replication_geo_placement_wal_shipping_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/replication/geo_placement.h</label>
+        <link refid="geo__placement_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>replication/replication_manager.h</label>
+        <link refid="replication__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="1" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>condition_variable</label>
+      </node>
+      <node id="15">
+        <label>deque</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="16">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>queue</label>
+      </node>
+      <node id="17">
+        <label>set</label>
+      </node>
+      <node id="10">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>thread</label>
+      </node>
+      <node id="18">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/replication/bench_geo_placement_wal_shipping.cpp</label>
+        <link refid="bench__geo__placement__wal__shipping_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp</label>
+        <link refid="bench__replication__multi__dc__multi__writer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>benchmarks/replication/bench_replication_throughput.cpp</label>
+        <link refid="bench__replication__throughput_8cpp"/>
+      </node>
+      <node id="6">
+        <label>include/replication/conflict_resolution.h</label>
+        <link refid="conflict__resolution_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/replication/event_stream.h</label>
+        <link refid="event__stream_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/replication/geo_placement.h</label>
+        <link refid="geo__placement_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/replication/logical_replication.h</label>
+        <link refid="logical__replication_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/replication/multi_tier_replication.h</label>
+        <link refid="multi__tier__replication_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/replication/observability.h</label>
+        <link refid="observability_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/replication/policy.h</label>
+        <link refid="policy_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/replication/raft_v2.h</label>
+        <link refid="raft__v2_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/replication/replication_manager.h</label>
+        <link refid="replication__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="1" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/replication/replication_slot.h</label>
+        <link refid="replication__slot_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/replication/schema_cdc.h</label>
+        <link refid="schema__cdc_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/replication/conflict_resolution.cpp</label>
+        <link refid="conflict__resolution_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/replication/event_stream.cpp</label>
+        <link refid="event__stream_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/replication/geo_placement.cpp</label>
+        <link refid="geo__placement_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/replication/logical_replication.cpp</label>
+        <link refid="logical__replication_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/replication/multi_tier_replication.cpp</label>
+        <link refid="multi__tier__replication_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/replication/observability.cpp</label>
+        <link refid="observability_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/replication/policy.cpp</label>
+        <link refid="policy_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/replication/raft_v2.cpp</label>
+        <link refid="raft__v2_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/replication/replication_manager.cpp</label>
+        <link refid="replication__manager_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/replication/replication_slot.cpp</label>
+        <link refid="replication__slot_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/replication/schema_cdc.cpp</label>
+        <link refid="schema__cdc_8cpp"/>
+      </node>
+      <node id="33">
+        <label>tests/replication/bench_replication_geo_wal_baselines.cpp</label>
+        <link refid="bench__replication__geo__wal__baselines_8cpp"/>
+      </node>
+      <node id="34">
+        <label>tests/replication/test_replication_chaos_failover_focused.cpp</label>
+        <link refid="test__replication__chaos__failover__focused_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/replication/test_replication_conflict_focused.cpp</label>
+        <link refid="test__replication__conflict__focused_8cpp"/>
+      </node>
+      <node id="30">
+        <label>tests/replication/test_replication_geo_placement_wal_shipping_focused.cpp</label>
+        <link refid="test__replication__geo__placement__wal__shipping__focused_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/replication/test_replication_ha.cpp</label>
+        <link refid="test__replication__ha_8cpp"/>
+      </node>
+      <node id="31">
+        <label>tests/replication/test_replication_manager_addReplica_simple.cpp</label>
+        <link refid="test__replication__manager__add_replica__simple_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/replication/test_replication_new_features.cpp</label>
+        <link refid="test__replication__new__features_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/replication/test_replication_raft_v2.cpp</label>
+        <link refid="test__replication__raft__v2_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/replication/test_replication_wave1_critical_fixes.cpp</label>
+        <link refid="test__replication__wave1__critical__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1replication_1_1_placement_constraints" prot="public">themisdb::replication::PlacementConstraints</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_placement_validation_result" prot="public">themisdb::replication::PlacementValidationResult</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager" prot="public">themisdb::replication::GeoReplicaPlacementManager</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1replication">themisdb::replication</innernamespace>
+    <briefdescription>
+<para>Geographic Replica Placement Policy API for ThemisDB replication. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides constraint-based placement policy evaluation for leader election and failover candidate selection in multi-datacenter (multi-DC) topologies.</para>
+<para><heading level="3">Design constraints</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>PlacementConstraints are evaluated read-only; they never mutate topology.</para>
+</listitem><listitem><para>selectLeaderCandidate() and selectFailoverCandidate() return the best matching ReplicaInfo according to the active constraints; callers remain responsible for actually performing promotion.</para>
+</listitem><listitem><para>All methods are thread-safe.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Placement constraint semantics</heading>
+</para>
+<para><table rows="8" cols="2"><row>
+<entry thead="yes"><para>Constraint field  </para>
+</entry><entry thead="yes"><para>Meaning  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>preferred_datacenters  </para>
+</entry><entry thead="no"><para>Ordered list; first matching DC wins.  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>forbidden_datacenters  </para>
+</entry><entry thead="no"><para>Candidates in these DCs are rejected outright.  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>required_datacenters  </para>
+</entry><entry thead="no"><para>At least one candidate must come from each entry.  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>min_copies_per_dc  </para>
+</entry><entry thead="no"><para>Minimum healthy replicas per DC for valid placement  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>zone_affinity  </para>
+</entry><entry thead="no"><para>Prefer candidates in the same zone as the caller.  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>zone_anti_affinity  </para>
+</entry><entry thead="no"><para>Reject candidates in the same zone as the caller.  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>require_voter  </para>
+</entry><entry thead="no"><para>Only voting members are eligible.  </para>
+</entry></row>
+</table>
+</para>
+<para><simplesect kind="see"><para><ref refid="replication__manager_8h" kindref="compound">include/replication/replication_manager.h</ref> — ReplicaInfo </para>
+</simplesect>
+<simplesect kind="see"><para>src/replication/ROADMAP.md — §3.1 Geographic replica placement policies </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="replication__manager_8h" kindref="compound">replication/replication_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1replication" kindref="compound">replication</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PlacementConstraints<sp/>—<sp/>DSL<sp/>for<sp/>geo/zone-level<sp/>replica<sp/>placement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemisdb_1_1replication_1_1_placement_constraints" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemisdb_1_1replication_1_1_placement_constraints_1a2ec93edca91804061d257ca1e6c81058" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1a2ec93edca91804061d257ca1e6c81058" kindref="member">preferred_datacenters</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemisdb_1_1replication_1_1_placement_constraints_1a24750e160cf84a23cee248108ee360a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1a24750e160cf84a23cee248108ee360a1" kindref="member">forbidden_datacenters</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemisdb_1_1replication_1_1_placement_constraints_1a583c8efa0af3566e907c367430b43323" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1a583c8efa0af3566e907c367430b43323" kindref="member">required_datacenters</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemisdb_1_1replication_1_1_placement_constraints_1adc39c476050a4e1ce2083bb8df6ceee1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1adc39c476050a4e1ce2083bb8df6ceee1" kindref="member">min_copies_per_dc</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemisdb_1_1replication_1_1_placement_constraints_1a215db07c16ed81ef40dc431aa4db580f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1a215db07c16ed81ef40dc431aa4db580f" kindref="member">zone_affinity_zone</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemisdb_1_1replication_1_1_placement_constraints_1a0147475807eb5930a04cb545b6bcacca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1a0147475807eb5930a04cb545b6bcacca" kindref="member">zone_anti_affinity_zone</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemisdb_1_1replication_1_1_placement_constraints_1aafc8164ef559c231bd3f19c180e4b29f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1aafc8164ef559c231bd3f19c180e4b29f" kindref="member">require_voter</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemisdb_1_1replication_1_1_placement_constraints_1a0559f0174cc753d77f5e9bd923a87811" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1a0559f0174cc753d77f5e9bd923a87811" kindref="member">healthy_only</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PlacementValidationResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemisdb_1_1replication_1_1_placement_validation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_placement_validation_result" kindref="compound">PlacementValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="117" refid="structthemisdb_1_1replication_1_1_placement_validation_result_1a7555bd95487ec2aa92282b2ab196d5a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_placement_validation_result_1a7555bd95487ec2aa92282b2ab196d5a6" kindref="member">is_valid</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118" refid="structthemisdb_1_1replication_1_1_placement_validation_result_1a086236bb6fc0a87dba854b6ce3507fe0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1replication_1_1_placement_validation_result_1a086236bb6fc0a87dba854b6ce3507fe0" kindref="member">violations</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemisdb_1_1replication_1_1_placement_validation_result_1a2fee2e6d9208f0a5ba0b024fc26e7bc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1replication_1_1_placement_validation_result_1a2fee2e6d9208f0a5ba0b024fc26e7bc8" kindref="member">recommendations</ref>;<sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GeoReplicaPlacementManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a152cd7dc4cd59376b5cbc2ab13908580" kindref="member">GeoReplicaPlacementManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="161" refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a152cd7dc4cd59376b5cbc2ab13908580" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a152cd7dc4cd59376b5cbc2ab13908580" kindref="member">GeoReplicaPlacementManager</ref>()<sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162" refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a204c977431e24b3191f197d437bc28bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a204c977431e24b3191f197d437bc28bd" kindref="member">~GeoReplicaPlacementManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a444d0cf426d40deb74742413574da32f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a444d0cf426d40deb74742413574da32f" kindref="member">GeoReplicaPlacementManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a152cd7dc4cd59376b5cbc2ab13908580" kindref="member">GeoReplicaPlacementManager</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166" refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a390ccdca1d6295f93da9067afd454b38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a152cd7dc4cd59376b5cbc2ab13908580" kindref="member">GeoReplicaPlacementManager</ref>&amp;<sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a390ccdca1d6295f93da9067afd454b38" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a152cd7dc4cd59376b5cbc2ab13908580" kindref="member">GeoReplicaPlacementManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167" refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a50dbdf0814b934fcebfc3b32fe6bbdbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a50dbdf0814b934fcebfc3b32fe6bbdbc" kindref="member">GeoReplicaPlacementManager</ref>(<ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a152cd7dc4cd59376b5cbc2ab13908580" kindref="member">GeoReplicaPlacementManager</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="168" refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1aeb2385b833b3f12fe5a3c6e7b54deea3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a152cd7dc4cd59376b5cbc2ab13908580" kindref="member">GeoReplicaPlacementManager</ref>&amp;<sp/>operator=(<ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a152cd7dc4cd59376b5cbc2ab13908580" kindref="member">GeoReplicaPlacementManager</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Candidate<sp/>selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref>&gt;<sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1afa015959b8589efbde17cad09b099553" kindref="member">selectLeaderCandidate</ref>(</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref>&gt;&amp;<sp/>replicas,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref>&amp;<sp/><sp/><sp/><sp/><sp/>constraints)<sp/>const;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref>&gt;<sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a827d37182db584ef939c6ffa7d0e2d91" kindref="member">selectFailoverCandidate</ref>(</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref>&gt;&amp;<sp/>replicas,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref>&amp;<sp/><sp/><sp/><sp/><sp/>constraints,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>failed_node_id)<sp/>const;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_placement_validation_result" kindref="compound">PlacementValidationResult</ref><sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a86e45a53e9b5620515f98c4c55bd097e" kindref="member">validatePlacement</ref>(</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref>&gt;&amp;<sp/>replicas,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref>&amp;<sp/><sp/><sp/><sp/><sp/>constraints)<sp/>const;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Topology<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>uint32_t&gt;<sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a64553f825f04acc995d75837fd937581" kindref="member">healthyCountPerDC</ref>(</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref>&gt;&amp;<sp/>replicas)<sp/>const;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isEligible(const<sp/><ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>candidate,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref>&amp;<sp/>constraints)<sp/>const;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dcPreferenceScore(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>datacenter,</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref>&amp;<sp/>constraints)<sp/>const;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>replication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/replication/geo_placement.h"/>
+  </compounddef>
+</doxygen>

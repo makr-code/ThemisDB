@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::test::AQLParserServiceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test_1abe89ba7ac614ccb5adf545a1c4376727" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1query_1_1_a_q_l_parser_service" kindref="compound">AQLParserService</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AQLParserService&gt; themis::query::test::AQLParserServiceTest::service_</definition>
+        <argsstring></argsstring>
+        <name>service_</name>
+        <qualifiedname>themis::query::test::AQLParserServiceTest::service_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="26" column="21" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test_1a39971a80b56e1ac784a49dfc78a4cf51" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::AQLParserServiceTest::AQLParserServiceTest</definition>
+        <argsstring>()</argsstring>
+        <name>AQLParserServiceTest</name>
+        <qualifiedname>themis::query::test::AQLParserServiceTest::AQLParserServiceTest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="23" column="5" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="23" bodyend="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::test::AQLParserServiceTest</label>
+        <link refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::test::AQLParserServiceTest</label>
+        <link refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_aql_parser_service.cpp" line="21" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="21" bodyend="27"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test_1a39971a80b56e1ac784a49dfc78a4cf51" prot="protected" virt="non-virtual"><scope>themis::query::test::AQLParserServiceTest</scope><name>AQLParserServiceTest</name></member>
+      <member refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test_1abe89ba7ac614ccb5adf545a1c4376727" prot="protected" virt="non-virtual"><scope>themis::query::test::AQLParserServiceTest</scope><name>service_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

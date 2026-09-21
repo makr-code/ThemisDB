@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_prompt_injection_pattern_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::PromptInjectionPatternRegistry</compoundname>
+    <includes refid="prompt__injection__pattern__registry_8h" local="no">prompt_injection_pattern_registry.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a789de1ec010461e3a420b611419f959e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1security_1_1_shared_pattern_entry" kindref="compound">SharedPatternEntry</ref> &gt;</type>
+        <definition>std::vector&lt;SharedPatternEntry&gt; themis::security::PromptInjectionPatternRegistry::patterns_</definition>
+        <argsstring></argsstring>
+        <name>patterns_</name>
+        <qualifiedname>themis::security::PromptInjectionPatternRegistry::patterns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="105" column="17" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a922576b0cfd4d3af4aa01c766cd22667" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::PromptInjectionPatternRegistry::keywords_</definition>
+        <argsstring></argsstring>
+        <name>keywords_</name>
+        <qualifiedname>themis::security::PromptInjectionPatternRegistry::keywords_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="106" column="24" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1ab9ac84956ba743b01fcc72564d90b0e4" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::PromptInjectionPatternRegistry::version_</definition>
+        <argsstring></argsstring>
+        <name>version_</name>
+        <qualifiedname>themis::security::PromptInjectionPatternRegistry::version_</qualifiedname>
+        <initializer>= 1u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="107" column="37" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1af03da8564beb3267202542bb881ffa99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::PromptInjectionPatternRegistry::PromptInjectionPatternRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>PromptInjectionPatternRegistry</name>
+        <qualifiedname>themis::security::PromptInjectionPatternRegistry::PromptInjectionPatternRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="62" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a35a3190ae9b4289580c2c034f7ead5dc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1security_1_1_shared_pattern_entry" kindref="compound">SharedPatternEntry</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; SharedPatternEntry &gt; &amp; themis::security::PromptInjectionPatternRegistry::patterns</definition>
+        <argsstring>() const</argsstring>
+        <name>patterns</name>
+        <qualifiedname>themis::security::PromptInjectionPatternRegistry::patterns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="65" column="23" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a161b8ed0f610202129d09389ab98c9ab" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::string &gt; &amp;</type>
+        <definition>const std::vector&lt; std::string &gt; &amp; themis::security::PromptInjectionPatternRegistry::keywords</definition>
+        <argsstring>() const</argsstring>
+        <name>keywords</name>
+        <qualifiedname>themis::security::PromptInjectionPatternRegistry::keywords</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="66" column="30" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a1aacfba35816b0eaf691db5ac14b73a6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::security::PromptInjectionPatternRegistry::patternCount</definition>
+        <argsstring>() const</argsstring>
+        <name>patternCount</name>
+        <qualifiedname>themis::security::PromptInjectionPatternRegistry::patternCount</qualifiedname>
+        <briefdescription>
+<para>Returns number of regex patterns in the registry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="69" column="12" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a06d11a8091d3a75b0af02a8fd0098ab1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::security::PromptInjectionPatternRegistry::keywordCount</definition>
+        <argsstring>() const</argsstring>
+        <name>keywordCount</name>
+        <qualifiedname>themis::security::PromptInjectionPatternRegistry::keywordCount</qualifiedname>
+        <briefdescription>
+<para>Returns number of keywords in the registry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="71" column="12" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a661c9a04f1dbd4ad6429b04a81ae313b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::PromptInjectionPatternRegistry::version</definition>
+        <argsstring>() const</argsstring>
+        <name>version</name>
+        <qualifiedname>themis::security::PromptInjectionPatternRegistry::version</qualifiedname>
+        <briefdescription>
+<para>Monotonic version counter — increments on each <ref refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a49a75c7a460b06efeb19b367625ba621" kindref="member">addPattern()</ref>/addKeyword(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="73" column="14" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a49a75c7a460b06efeb19b367625ba621" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::PromptInjectionPatternRegistry::addPattern</definition>
+        <argsstring>(SharedPatternEntry entry)</argsstring>
+        <name>addPattern</name>
+        <qualifiedname>themis::security::PromptInjectionPatternRegistry::addPattern</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1security_1_1_shared_pattern_entry" kindref="compound">SharedPatternEntry</ref></type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>── Mutators (for custom / test-only registries) ────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="80" column="10" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="80" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a11ca82c019ec563031ad0c9580affcde" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::PromptInjectionPatternRegistry::addKeyword</definition>
+        <argsstring>(std::string keyword)</argsstring>
+        <name>addKeyword</name>
+        <qualifiedname>themis::security::PromptInjectionPatternRegistry::addKeyword</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>keyword</declname>
+        </param>
+        <briefdescription>
+<para>Add Keyword. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="89" column="10" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="89" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a8d8c31f6da4d0f16d110d53e1e4e02b9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1af03da8564beb3267202542bb881ffa99" kindref="member">PromptInjectionPatternRegistry</ref> &amp;</type>
+        <definition>const PromptInjectionPatternRegistry &amp; themis::security::PromptInjectionPatternRegistry::defaultRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>defaultRegistry</name>
+        <qualifiedname>themis::security::PromptInjectionPatternRegistry::defaultRegistry</qualifiedname>
+        <briefdescription>
+<para>Returns the canonical, lazily-initialised shared registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default Registry.</para>
+<para>Contains SHARED_INJECTION_PATTERN_COUNT patterns (see below) and SHARED_INJECTION_KEYWORD_COUNT keywords. Thread-safe after first call. <simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/prompt_injection_pattern_registry.h" line="102" column="49" bodyfile="src/security/prompt_injection_pattern_registry.cpp" bodystart="19" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical shared registry of prompt injection detection patterns. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Both <computeroutput>themis::rag::security::PromptInjectionDetector</computeroutput> and <computeroutput>themis::prompt_engineering::PromptInjectionDetector</computeroutput> load the default registry at construction time to ensure pattern parity.</para>
+<para>Compile-time enforcement: each detector&apos;s constructor asserts <computeroutput><ref refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a8d8c31f6da4d0f16d110d53e1e4e02b9" kindref="member">defaultRegistry()</ref>.<ref refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a1aacfba35816b0eaf691db5ac14b73a6" kindref="member">patternCount()</ref> == <ref refid="namespacethemis_1_1security_1a8bb2198a0b8d0c07327fe3f56266b07c" kindref="member">SHARED_INJECTION_PATTERN_COUNT</ref></computeroutput> (defined below) so that a mismatch triggers a startup failure rather than a silent security regression. </para>
+    </detaileddescription>
+    <location file="include/security/prompt_injection_pattern_registry.h" line="60" column="1" bodyfile="include/security/prompt_injection_pattern_registry.h" bodystart="60" bodyend="108"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a11ca82c019ec563031ad0c9580affcde" prot="public" virt="non-virtual"><scope>themis::security::PromptInjectionPatternRegistry</scope><name>addKeyword</name></member>
+      <member refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a49a75c7a460b06efeb19b367625ba621" prot="public" virt="non-virtual"><scope>themis::security::PromptInjectionPatternRegistry</scope><name>addPattern</name></member>
+      <member refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a8d8c31f6da4d0f16d110d53e1e4e02b9" prot="public" virt="non-virtual"><scope>themis::security::PromptInjectionPatternRegistry</scope><name>defaultRegistry</name></member>
+      <member refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a06d11a8091d3a75b0af02a8fd0098ab1" prot="public" virt="non-virtual"><scope>themis::security::PromptInjectionPatternRegistry</scope><name>keywordCount</name></member>
+      <member refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a161b8ed0f610202129d09389ab98c9ab" prot="public" virt="non-virtual"><scope>themis::security::PromptInjectionPatternRegistry</scope><name>keywords</name></member>
+      <member refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a922576b0cfd4d3af4aa01c766cd22667" prot="private" virt="non-virtual"><scope>themis::security::PromptInjectionPatternRegistry</scope><name>keywords_</name></member>
+      <member refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a1aacfba35816b0eaf691db5ac14b73a6" prot="public" virt="non-virtual"><scope>themis::security::PromptInjectionPatternRegistry</scope><name>patternCount</name></member>
+      <member refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a35a3190ae9b4289580c2c034f7ead5dc" prot="public" virt="non-virtual"><scope>themis::security::PromptInjectionPatternRegistry</scope><name>patterns</name></member>
+      <member refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a789de1ec010461e3a420b611419f959e" prot="private" virt="non-virtual"><scope>themis::security::PromptInjectionPatternRegistry</scope><name>patterns_</name></member>
+      <member refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1af03da8564beb3267202542bb881ffa99" prot="public" virt="non-virtual"><scope>themis::security::PromptInjectionPatternRegistry</scope><name>PromptInjectionPatternRegistry</name></member>
+      <member refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a661c9a04f1dbd4ad6429b04a81ae313b" prot="public" virt="non-virtual"><scope>themis::security::PromptInjectionPatternRegistry</scope><name>version</name></member>
+      <member refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1ab9ac84956ba743b01fcc72564d90b0e4" prot="private" virt="non-virtual"><scope>themis::security::PromptInjectionPatternRegistry</scope><name>version_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

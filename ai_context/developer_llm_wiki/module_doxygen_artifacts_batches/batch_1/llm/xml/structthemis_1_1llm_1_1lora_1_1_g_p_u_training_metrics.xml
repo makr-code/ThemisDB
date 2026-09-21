@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GPUTrainingMetrics</compoundname>
+    <includes refid="gpu__training__loop_8h" local="no">gpu_training_loop.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a854cb69dd6d9b162815cfdd0db7833ee" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::GPUTrainingMetrics::current_epoch</definition>
+        <argsstring></argsstring>
+        <name>current_epoch</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingMetrics::current_epoch</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="41" column="9" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a4ea751b4596ebd4461d3e8d6cff2fc12" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::GPUTrainingMetrics::total_epochs</definition>
+        <argsstring></argsstring>
+        <name>total_epochs</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingMetrics::total_epochs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="42" column="9" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a3819d4785cf8bc265292dcb83d946616" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::GPUTrainingMetrics::current_step</definition>
+        <argsstring></argsstring>
+        <name>current_step</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingMetrics::current_step</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="43" column="9" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1ade8f0dc2e2e3ca656e42351666d33639" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::GPUTrainingMetrics::total_steps</definition>
+        <argsstring></argsstring>
+        <name>total_steps</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingMetrics::total_steps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="44" column="9" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a1d357c2e5206cfb0c7d8e5f1322e0d98" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUTrainingMetrics::current_loss</definition>
+        <argsstring></argsstring>
+        <name>current_loss</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingMetrics::current_loss</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="45" column="11" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1affbc3e5052e6beb25c8d5a19ec5ff43e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUTrainingMetrics::learning_rate</definition>
+        <argsstring></argsstring>
+        <name>learning_rate</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingMetrics::learning_rate</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="46" column="11" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a584ed589bbbbf06c1279858f1323a723" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUTrainingMetrics::progress</definition>
+        <argsstring></argsstring>
+        <name>progress</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingMetrics::progress</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="47" column="11" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a8a23266c8546abe905d33841c3fc1b07" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUTrainingMetrics::gpu_memory_used</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_used</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingMetrics::gpu_memory_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="48" column="12" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1ab11bf44bb120533b0fbffa21a85c32d3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUTrainingMetrics::gpu_memory_available</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_available</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingMetrics::gpu_memory_available</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="49" column="12" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1aa621bd7e9c84bc5778985a13332ba366" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUTrainingMetrics::gpu_utilization</definition>
+        <argsstring></argsstring>
+        <name>gpu_utilization</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingMetrics::gpu_utilization</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="50" column="11" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a2cf09af1f0728bde6f02c60b5db62e68" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::GPUTrainingMetrics::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingMetrics::status</qualifiedname>
+        <initializer>= &quot;idle&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="51" column="17" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1ac3b03478c1ddb3e70aedacdbe6166af4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::GPUTrainingMetrics::~GPUTrainingMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GPUTrainingMetrics</name>
+        <qualifiedname>themis::llm::lora::GPUTrainingMetrics::~GPUTrainingMetrics</qualifiedname>
+        <briefdescription>
+<para>GPUTraining Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_training_loop.h" line="40" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gpu_training_loop.h" line="35" column="1" bodyfile="include/llm/lora_framework/gpu_training_loop.h" bodystart="35" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a854cb69dd6d9b162815cfdd0db7833ee" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingMetrics</scope><name>current_epoch</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a1d357c2e5206cfb0c7d8e5f1322e0d98" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingMetrics</scope><name>current_loss</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a3819d4785cf8bc265292dcb83d946616" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingMetrics</scope><name>current_step</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1ab11bf44bb120533b0fbffa21a85c32d3" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingMetrics</scope><name>gpu_memory_available</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a8a23266c8546abe905d33841c3fc1b07" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingMetrics</scope><name>gpu_memory_used</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1aa621bd7e9c84bc5778985a13332ba366" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingMetrics</scope><name>gpu_utilization</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1affbc3e5052e6beb25c8d5a19ec5ff43e" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingMetrics</scope><name>learning_rate</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a584ed589bbbbf06c1279858f1323a723" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingMetrics</scope><name>progress</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a2cf09af1f0728bde6f02c60b5db62e68" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingMetrics</scope><name>status</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a4ea751b4596ebd4461d3e8d6cff2fc12" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingMetrics</scope><name>total_epochs</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1ade8f0dc2e2e3ca656e42351666d33639" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUTrainingMetrics</scope><name>total_steps</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1ac3b03478c1ddb3e70aedacdbe6166af4" prot="public" virt="virtual"><scope>themis::llm::lora::GPUTrainingMetrics</scope><name>~GPUTrainingMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

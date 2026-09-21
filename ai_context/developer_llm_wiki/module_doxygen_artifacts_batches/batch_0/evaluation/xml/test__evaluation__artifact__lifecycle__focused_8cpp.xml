@@ -1,0 +1,413 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__evaluation__artifact__lifecycle__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_evaluation_artifact_lifecycle_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="artifact__lifecycle_8h" local="yes">artifact_lifecycle.h</includes>
+    <includes local="no">cstdint</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>artifact_lifecycle.h</label>
+        <link refid="artifact__lifecycle_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp</label>
+        <link refid="test__evaluation__artifact__lifecycle__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>utility</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__evaluation__artifact__lifecycle__focused_8cpp_1a81e2881a74db25133a5295f517a27486" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref></type>
+        <definition>static LifecycleMetadata make_ready_metadata</definition>
+        <argsstring>(const std::string &amp;id=&quot;art1&quot;)</argsstring>
+        <name>make_ready_metadata</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+          <defval>&quot;art1&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" line="20" column="26" bodyfile="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" bodystart="20" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__artifact__lifecycle__focused_8cpp_1aa39490cd6e2b838a2064b7e862dd28e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationArtifactLifecycleFocusedTests, AL1_ReadyArtifact_BelowThresholds_StaysReady)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationArtifactLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>AL1_ReadyArtifact_BelowThresholds_StaysReady</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" line="34" column="1" bodyfile="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" bodystart="34" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__artifact__lifecycle__focused_8cpp_1a3354648195926cbf2f3d4096605ad465" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationArtifactLifecycleFocusedTests, AL2_ReadyArtifact_AgeExceeded_BecomesStale)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationArtifactLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>AL2_ReadyArtifact_AgeExceeded_BecomesStale</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" line="47" column="1" bodyfile="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" bodystart="47" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__artifact__lifecycle__focused_8cpp_1aa720ff0ccd5917976ec3429a8f0a50ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationArtifactLifecycleFocusedTests, AL3_ReadyArtifact_DeltaLagExceeded_BecomesStale)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationArtifactLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>AL3_ReadyArtifact_DeltaLagExceeded_BecomesStale</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" line="59" column="1" bodyfile="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" bodystart="59" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__artifact__lifecycle__focused_8cpp_1a5adc7abda15cf82acb2af4687c857960" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationArtifactLifecycleFocusedTests, AL4_InvalidatedArtifact_StaysInvalidated)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationArtifactLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>AL4_InvalidatedArtifact_StaysInvalidated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" line="71" column="1" bodyfile="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" bodystart="71" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__artifact__lifecycle__focused_8cpp_1ade79b22eec68fb7c78c68814aca96432" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationArtifactLifecycleFocusedTests, AL5_IsUsableForPlanning_ReadyAndStale)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationArtifactLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>AL5_IsUsableForPlanning_ReadyAndStale</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" line="81" column="1" bodyfile="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" bodystart="81" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__artifact__lifecycle__focused_8cpp_1a2ab50b5548e6cd60c1739d5742da25f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationArtifactLifecycleFocusedTests, AL6_RequiresImmediateRebuild_InvalidatedAndFailed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationArtifactLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>AL6_RequiresImmediateRebuild_InvalidatedAndFailed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" line="90" column="1" bodyfile="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" bodystart="90" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__artifact__lifecycle__focused_8cpp_1a5920803ae7a9b03711367586e4b265e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationArtifactLifecycleFocusedTests, AL7_Invalidate_SetsStateAndReason)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationArtifactLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>AL7_Invalidate_SetsStateAndReason</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" line="99" column="1" bodyfile="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" bodystart="99" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__artifact__lifecycle__focused_8cpp_1ad0191699417adef482a36980fc10c700" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationArtifactLifecycleFocusedTests, AL8_BeginRebuild_SetsRebuildingAndIncrementsCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationArtifactLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>AL8_BeginRebuild_SetsRebuildingAndIncrementsCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" line="110" column="1" bodyfile="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" bodystart="110" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__artifact__lifecycle__focused_8cpp_1a8cb5baee4715c11200dab62c0fe33552" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationArtifactLifecycleFocusedTests, AL9_ResidualThreshold_TriggersStaleness)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationArtifactLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>AL9_ResidualThreshold_TriggersStaleness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" line="120" column="1" bodyfile="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" bodystart="120" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__artifact__lifecycle__focused_8cpp_1ad4edac9dd62ba6bae8857a9d588c0311" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationArtifactLifecycleFocusedTests, AL10_PristineArtifact_StaysPristine)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationArtifactLifecycleFocusedTests</type>
+        </param>
+        <param>
+          <type>AL10_PristineArtifact_StaysPristine</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" line="132" column="1" bodyfile="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp" bodystart="132" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Group AL — Unit tests for <ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager" kindref="compound">ArtifactLifecycleManager</ref> and <ref refid="classthemis_1_1evaluation_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Exercises: AL1-AL4 computeState() state transitions AL5-AL6 isUsableForPlanning() and requiresImmediateRebuild() classification AL7-AL8 invalidate() and beginRebuild() transitions AL9 <ref refid="classthemis_1_1evaluation_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref> threshold wiring </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="artifact__lifecycle_8h" kindref="compound">artifact_lifecycle.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1evaluation" kindref="compound">themis::evaluation</ref>;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>helpers<sp/>───────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref><sp/>make_ready_metadata(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;art1&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref><sp/>m;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1aa61bd872dde6a971a7021503d89c0cbe" kindref="member">artifact_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a42725718ef42cc828ce9f14ff14f74c8" kindref="member">state</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a2baa69eafc7204f3bd8648eba580c489" kindref="member">LifecycleState::READY</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1aaaff3de124b46e62a39bfbc5c813c956" kindref="member">artifact_age_ms</ref><sp/><sp/><sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a1554e057e755a48ad1ca5db8cbd25e79" kindref="member">delta_lag</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a4f2b0bb339f758448c8be37b102eadf3" kindref="member">approximation_residual</ref><sp/>=<sp/>0.01;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a426d74d321b9e576871a54e7542b5237" kindref="member">max_permissible_rank</ref><sp/><sp/><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>AL<sp/>—<sp/>Artifact<sp/>Lifecycle<sp/>─────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AL1:<sp/>READY<sp/>artifact<sp/>with<sp/>no<sp/>threshold<sp/>exceeded<sp/>stays<sp/>READY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="test__evaluation__artifact__lifecycle__focused_8cpp_1aa39490cd6e2b838a2064b7e862dd28e0" kindref="member">TEST</ref>(EvaluationArtifactLifecycleFocusedTests,<sp/>AL1_ReadyArtifact_BelowThresholds_StaysReady)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager" kindref="compound">ArtifactLifecycleManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>meta<sp/>=<sp/>make_ready_metadata();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref><sp/>policy;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="classthemis_1_1evaluation_1_1_staleness_policy_1afe2bc8d11050ebd3ccc1c5bf830c7e02" kindref="member">withAgeThresholdMs</ref>(10000)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1evaluation_1_1_staleness_policy_1afaeec2b5b653b758049ed199c3c9f5a7" kindref="member">withDeltaLagThreshold</ref>(1000)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1evaluation_1_1_staleness_policy_1a505c3b76334484ec638ab2d687587147" kindref="member">withResidualThreshold</ref>(0.10);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a224fbf7d764bd51bcd54a5e167be0c05" kindref="member">computeState</ref>(meta,<sp/>policy),<sp/><ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a2baa69eafc7204f3bd8648eba580c489" kindref="member">LifecycleState::READY</ref>);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AL2:<sp/>READY<sp/>artifact<sp/>exceeding<sp/>age<sp/>threshold<sp/>becomes<sp/>STALE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__evaluation__artifact__lifecycle__focused_8cpp_1aa39490cd6e2b838a2064b7e862dd28e0" kindref="member">TEST</ref>(EvaluationArtifactLifecycleFocusedTests,<sp/>AL2_ReadyArtifact_AgeExceeded_BecomesStale)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager" kindref="compound">ArtifactLifecycleManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>meta<sp/>=<sp/>make_ready_metadata();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.artifact_age_ms<sp/>=<sp/>20000;<sp/><sp/></highlight><highlight class="comment">//<sp/>exceeds<sp/>threshold<sp/>of<sp/>5000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref><sp/>policy;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="classthemis_1_1evaluation_1_1_staleness_policy_1afe2bc8d11050ebd3ccc1c5bf830c7e02" kindref="member">withAgeThresholdMs</ref>(5000);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a224fbf7d764bd51bcd54a5e167be0c05" kindref="member">computeState</ref>(meta,<sp/>policy),<sp/><ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a4d855a061b3066dc14a3b12ed26b5456" kindref="member">LifecycleState::STALE</ref>);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AL3:<sp/>READY<sp/>artifact<sp/>exceeding<sp/>delta_lag<sp/>threshold<sp/>becomes<sp/>STALE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__evaluation__artifact__lifecycle__focused_8cpp_1aa39490cd6e2b838a2064b7e862dd28e0" kindref="member">TEST</ref>(EvaluationArtifactLifecycleFocusedTests,<sp/>AL3_ReadyArtifact_DeltaLagExceeded_BecomesStale)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager" kindref="compound">ArtifactLifecycleManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>meta<sp/>=<sp/>make_ready_metadata();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.delta_lag<sp/>=<sp/>5000;<sp/><sp/></highlight><highlight class="comment">//<sp/>exceeds<sp/>threshold<sp/>of<sp/>100</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref><sp/>policy;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="classthemis_1_1evaluation_1_1_staleness_policy_1afaeec2b5b653b758049ed199c3c9f5a7" kindref="member">withDeltaLagThreshold</ref>(100);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a224fbf7d764bd51bcd54a5e167be0c05" kindref="member">computeState</ref>(meta,<sp/>policy),<sp/><ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a4d855a061b3066dc14a3b12ed26b5456" kindref="member">LifecycleState::STALE</ref>);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AL4:<sp/>INVALIDATED<sp/>artifact<sp/>remains<sp/>INVALIDATED<sp/>regardless<sp/>of<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__evaluation__artifact__lifecycle__focused_8cpp_1aa39490cd6e2b838a2064b7e862dd28e0" kindref="member">TEST</ref>(EvaluationArtifactLifecycleFocusedTests,<sp/>AL4_InvalidatedArtifact_StaysInvalidated)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager" kindref="compound">ArtifactLifecycleManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>meta<sp/>=<sp/>make_ready_metadata();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.state<sp/>=<sp/><ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a2b4710604f043a2056edb0c8d2462e39" kindref="member">LifecycleState::INVALIDATED</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref><sp/>policy;<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>thresholds<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a224fbf7d764bd51bcd54a5e167be0c05" kindref="member">computeState</ref>(meta,<sp/>policy),<sp/><ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a2b4710604f043a2056edb0c8d2462e39" kindref="member">LifecycleState::INVALIDATED</ref>);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AL5:<sp/>isUsableForPlanning<sp/>is<sp/>true<sp/>for<sp/>READY<sp/>and<sp/>STALE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__evaluation__artifact__lifecycle__focused_8cpp_1aa39490cd6e2b838a2064b7e862dd28e0" kindref="member">TEST</ref>(EvaluationArtifactLifecycleFocusedTests,<sp/>AL5_IsUsableForPlanning_ReadyAndStale)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a1c22923de2292ccc49413fca776541d2" kindref="member">ArtifactLifecycleManager::isUsableForPlanning</ref>(<ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a2baa69eafc7204f3bd8648eba580c489" kindref="member">LifecycleState::READY</ref>));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a1c22923de2292ccc49413fca776541d2" kindref="member">ArtifactLifecycleManager::isUsableForPlanning</ref>(<ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a4d855a061b3066dc14a3b12ed26b5456" kindref="member">LifecycleState::STALE</ref>));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a1c22923de2292ccc49413fca776541d2" kindref="member">ArtifactLifecycleManager::isUsableForPlanning</ref>(<ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a2b4710604f043a2056edb0c8d2462e39" kindref="member">LifecycleState::INVALIDATED</ref>));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a1c22923de2292ccc49413fca776541d2" kindref="member">ArtifactLifecycleManager::isUsableForPlanning</ref>(<ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a509579b889462e42f8ff497733516749" kindref="member">LifecycleState::REBUILDING</ref>));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a1c22923de2292ccc49413fca776541d2" kindref="member">ArtifactLifecycleManager::isUsableForPlanning</ref>(<ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1ab9e14d9b2886bcff408b85aefa780419" kindref="member">LifecycleState::FAILED</ref>));</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AL6:<sp/>requiresImmediateRebuild<sp/>is<sp/>true<sp/>for<sp/>INVALIDATED<sp/>and<sp/>FAILED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__evaluation__artifact__lifecycle__focused_8cpp_1aa39490cd6e2b838a2064b7e862dd28e0" kindref="member">TEST</ref>(EvaluationArtifactLifecycleFocusedTests,<sp/>AL6_RequiresImmediateRebuild_InvalidatedAndFailed)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a749a65e2de833f4d94cc6f8c42f7b3f8" kindref="member">ArtifactLifecycleManager::requiresImmediateRebuild</ref>(<ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a2b4710604f043a2056edb0c8d2462e39" kindref="member">LifecycleState::INVALIDATED</ref>));</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a749a65e2de833f4d94cc6f8c42f7b3f8" kindref="member">ArtifactLifecycleManager::requiresImmediateRebuild</ref>(<ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1ab9e14d9b2886bcff408b85aefa780419" kindref="member">LifecycleState::FAILED</ref>));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a749a65e2de833f4d94cc6f8c42f7b3f8" kindref="member">ArtifactLifecycleManager::requiresImmediateRebuild</ref>(<ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a2baa69eafc7204f3bd8648eba580c489" kindref="member">LifecycleState::READY</ref>));</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a749a65e2de833f4d94cc6f8c42f7b3f8" kindref="member">ArtifactLifecycleManager::requiresImmediateRebuild</ref>(<ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a4d855a061b3066dc14a3b12ed26b5456" kindref="member">LifecycleState::STALE</ref>));</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a749a65e2de833f4d94cc6f8c42f7b3f8" kindref="member">ArtifactLifecycleManager::requiresImmediateRebuild</ref>(<ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a509579b889462e42f8ff497733516749" kindref="member">LifecycleState::REBUILDING</ref>));</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AL7:<sp/>invalidate()<sp/>transitions<sp/>to<sp/>INVALIDATED<sp/>with<sp/>correct<sp/>reason</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__evaluation__artifact__lifecycle__focused_8cpp_1aa39490cd6e2b838a2064b7e862dd28e0" kindref="member">TEST</ref>(EvaluationArtifactLifecycleFocusedTests,<sp/>AL7_Invalidate_SetsStateAndReason)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>meta<sp/>=<sp/>make_ready_metadata();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>updated<sp/>=<sp/><ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a0bc19f32ca78f8375347e865794e434e" kindref="member">ArtifactLifecycleManager::invalidate</ref>(</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>meta,<sp/><ref refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0bab3cb5a62e39afc6be880a16f152a78bc" kindref="member">InvalidationReason::STALENESS_EXCEEDED</ref>);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(updated.state,<sp/><ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a2b4710604f043a2056edb0c8d2462e39" kindref="member">LifecycleState::INVALIDATED</ref>);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(updated.invalidation_reason,<sp/><ref refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0bab3cb5a62e39afc6be880a16f152a78bc" kindref="member">InvalidationReason::STALENESS_EXCEEDED</ref>);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(updated.artifact_id,<sp/>meta.artifact_id);<sp/><sp/></highlight><highlight class="comment">//<sp/>id<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AL8:<sp/>beginRebuild()<sp/>transitions<sp/>to<sp/>REBUILDING<sp/>and<sp/>increments<sp/>attempt<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__evaluation__artifact__lifecycle__focused_8cpp_1aa39490cd6e2b838a2064b7e862dd28e0" kindref="member">TEST</ref>(EvaluationArtifactLifecycleFocusedTests,<sp/>AL8_BeginRebuild_SetsRebuildingAndIncrementsCount)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>meta<sp/>=<sp/><ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a0bc19f32ca78f8375347e865794e434e" kindref="member">ArtifactLifecycleManager::invalidate</ref>(</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>make_ready_metadata(),<sp/><ref refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0bab3cb5a62e39afc6be880a16f152a78bc" kindref="member">InvalidationReason::STALENESS_EXCEEDED</ref>);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rebuilding<sp/>=<sp/><ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a1f346da7e866a45405f9a0e14e6d79c1" kindref="member">ArtifactLifecycleManager::beginRebuild</ref>(meta);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rebuilding.state,<sp/><ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a509579b889462e42f8ff497733516749" kindref="member">LifecycleState::REBUILDING</ref>);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rebuilding.rebuild_attempt_count,<sp/>meta.rebuild_attempt_count<sp/>+<sp/>1u);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AL9:<sp/>StalenessPolicy<sp/>residual<sp/>threshold<sp/>triggers<sp/>STALE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__evaluation__artifact__lifecycle__focused_8cpp_1aa39490cd6e2b838a2064b7e862dd28e0" kindref="member">TEST</ref>(EvaluationArtifactLifecycleFocusedTests,<sp/>AL9_ResidualThreshold_TriggersStaleness)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager" kindref="compound">ArtifactLifecycleManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>meta<sp/>=<sp/>make_ready_metadata();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.approximation_residual<sp/>=<sp/>0.20;<sp/><sp/></highlight><highlight class="comment">//<sp/>exceeds<sp/>threshold<sp/>of<sp/>0.05</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref><sp/>policy;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="classthemis_1_1evaluation_1_1_staleness_policy_1a505c3b76334484ec638ab2d687587147" kindref="member">withResidualThreshold</ref>(0.05);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a224fbf7d764bd51bcd54a5e167be0c05" kindref="member">computeState</ref>(meta,<sp/>policy),<sp/><ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a4d855a061b3066dc14a3b12ed26b5456" kindref="member">LifecycleState::STALE</ref>);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AL10:<sp/>PRISTINE<sp/>artifact<sp/>with<sp/>no<sp/>staleness<sp/>policy<sp/>stays<sp/>PRISTINE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__evaluation__artifact__lifecycle__focused_8cpp_1aa39490cd6e2b838a2064b7e862dd28e0" kindref="member">TEST</ref>(EvaluationArtifactLifecycleFocusedTests,<sp/>AL10_PristineArtifact_StaysPristine)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager" kindref="compound">ArtifactLifecycleManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref><sp/>meta;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1aa61bd872dde6a971a7021503d89c0cbe" kindref="member">artifact_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;new&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata_1a42725718ef42cc828ce9f14ff14f74c8" kindref="member">state</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a491ca4a69e8dd441c32a551d1339552c" kindref="member">LifecycleState::PRISTINE</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref><sp/>policy;<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>thresholds<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a224fbf7d764bd51bcd54a5e167be0c05" kindref="member">computeState</ref>(meta,<sp/>policy),<sp/><ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a491ca4a69e8dd441c32a551d1339552c" kindref="member">LifecycleState::PRISTINE</ref>);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp"/>
+  </compounddef>
+</doxygen>

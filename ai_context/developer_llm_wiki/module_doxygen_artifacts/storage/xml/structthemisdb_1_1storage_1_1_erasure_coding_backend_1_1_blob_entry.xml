@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1storage_1_1_erasure_coding_backend_1_1_blob_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themisdb::storage::ErasureCodingBackend::BlobEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_erasure_coding_backend_1_1_blob_entry_1ab7f320ee8b72d4ad4a80aedb9642092a" prot="public" static="no" mutable="no">
+        <type>std::map&lt; uint32_t, std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::map&lt;uint32_t, std::vector&lt;uint8_t&gt; &gt; themisdb::storage::ErasureCodingBackend::BlobEntry::chunks</definition>
+        <argsstring></argsstring>
+        <name>chunks</name>
+        <qualifiedname>themisdb::storage::ErasureCodingBackend::BlobEntry::chunks</qualifiedname>
+        <briefdescription>
+<para>chunk_index → data </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/erasure_coding_backend.h" line="216" column="18" bodyfile="include/storage/erasure_coding_backend.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_erasure_coding_backend_1_1_blob_entry_1add5bb4097701011fc03fbd04f614d352" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::storage::ErasureCodingBackend::BlobEntry::original_size</definition>
+        <argsstring></argsstring>
+        <name>original_size</name>
+        <qualifiedname>themisdb::storage::ErasureCodingBackend::BlobEntry::original_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/erasure_coding_backend.h" line="217" column="18" bodyfile="include/storage/erasure_coding_backend.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/erasure_coding_backend.h" line="215" column="5" bodyfile="include/storage/erasure_coding_backend.h" bodystart="215" bodyend="218"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1storage_1_1_erasure_coding_backend_1_1_blob_entry_1ab7f320ee8b72d4ad4a80aedb9642092a" prot="public" virt="non-virtual"><scope>themisdb::storage::ErasureCodingBackend::BlobEntry</scope><name>chunks</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_erasure_coding_backend_1_1_blob_entry_1add5bb4097701011fc03fbd04f614d352" prot="public" virt="non-virtual"><scope>themisdb::storage::ErasureCodingBackend::BlobEntry</scope><name>original_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

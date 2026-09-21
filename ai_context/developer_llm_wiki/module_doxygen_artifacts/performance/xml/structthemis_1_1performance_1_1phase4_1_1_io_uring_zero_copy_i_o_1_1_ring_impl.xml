@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1_1_ring_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::IoUringZeroCopyIO::RingImpl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1_1_ring_impl_1ad94385e80a291afd186e40aca5110b9c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::performance::phase4::IoUringZeroCopyIO::RingImpl::ring_fd</definition>
+        <argsstring></argsstring>
+        <name>ring_fd</name>
+        <qualifiedname>themis::performance::phase4::IoUringZeroCopyIO::RingImpl::ring_fd</qualifiedname>
+        <initializer>{-1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/phase4/io_uring_zero_copy.cpp" line="190" column="9" bodyfile="src/performance/phase4/io_uring_zero_copy.cpp" bodystart="190" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/performance/phase4/io_uring_zero_copy.cpp" line="189" column="1" bodyfile="src/performance/phase4/io_uring_zero_copy.cpp" bodystart="189" bodyend="191"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1_1_ring_impl_1ad94385e80a291afd186e40aca5110b9c" prot="public" virt="non-virtual"><scope>themis::performance::phase4::IoUringZeroCopyIO::RingImpl</scope><name>ring_fd</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

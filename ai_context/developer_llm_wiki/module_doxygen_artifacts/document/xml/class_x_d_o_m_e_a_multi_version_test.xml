@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_x_d_o_m_e_a_multi_version_test" kind="class" language="C++" prot="public">
+    <compoundname>XDOMEAMultiVersionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_x_d_o_m_e_a_multi_version_test_1a08c9599c81f59436ab2730126670f949" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_in_memory_x_d_o_m_e_a_connector" kindref="compound">InMemoryXDOMEAConnector</ref></type>
+        <definition>InMemoryXDOMEAConnector XDOMEAMultiVersionTest::connector_</definition>
+        <argsstring></argsstring>
+        <name>connector_</name>
+        <qualifiedname>XDOMEAMultiVersionTest::connector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_xdomea_focused.cpp" line="606" column="35" bodyfile="tests/document/test_document_xdomea_focused.cpp" bodystart="606" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_x_d_o_m_e_a_multi_version_test_1a7b52662970287486e6f82e0ce79bf408" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_in_memory_document_schema_evolution" kindref="compound">InMemoryDocumentSchemaEvolution</ref></type>
+        <definition>InMemoryDocumentSchemaEvolution XDOMEAMultiVersionTest::schema_</definition>
+        <argsstring></argsstring>
+        <name>schema_</name>
+        <qualifiedname>XDOMEAMultiVersionTest::schema_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_xdomea_focused.cpp" line="607" column="37" bodyfile="tests/document/test_document_xdomea_focused.cpp" bodystart="607" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_x_d_o_m_e_a_multi_version_test_1a4c69c4348c068fcc4f312be470e4a9cf" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void XDOMEAMultiVersionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>XDOMEAMultiVersionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_xdomea_focused.cpp" line="591" column="10" bodyfile="tests/document/test_document_xdomea_focused.cpp" bodystart="591" bodyend="604"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Multi-version document test fixture. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Combines <ref refid="classthemis_1_1document_1_1_in_memory_x_d_o_m_e_a_connector" kindref="compound">InMemoryXDOMEAConnector</ref> with <ref refid="classthemis_1_1document_1_1_in_memory_document_schema_evolution" kindref="compound">InMemoryDocumentSchemaEvolution</ref> to exercise documents that carry an explicit schema version across store / retrieve / validate lifecycle steps. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>XDOMEAMultiVersionTest</label>
+        <link refid="class_x_d_o_m_e_a_multi_version_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>XDOMEAMultiVersionTest</label>
+        <link refid="class_x_d_o_m_e_a_multi_version_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>connector_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>schema_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="6">
+        <label>themis::document::IDocumentSchemaEvolution</label>
+        <link refid="classthemis_1_1document_1_1_i_document_schema_evolution"/>
+      </node>
+      <node id="4">
+        <label>themis::document::IXDOMEAConnector</label>
+        <link refid="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector"/>
+      </node>
+      <node id="5">
+        <label>themis::document::InMemoryDocumentSchemaEvolution</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_schema_evolution"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::document::InMemoryXDOMEAConnector</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_x_d_o_m_e_a_connector"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/document/test_document_xdomea_focused.cpp" line="589" column="1" bodyfile="tests/document/test_document_xdomea_focused.cpp" bodystart="589" bodyend="608"/>
+    <listofallmembers>
+      <member refid="class_x_d_o_m_e_a_multi_version_test_1a08c9599c81f59436ab2730126670f949" prot="protected" virt="non-virtual"><scope>XDOMEAMultiVersionTest</scope><name>connector_</name></member>
+      <member refid="class_x_d_o_m_e_a_multi_version_test_1a7b52662970287486e6f82e0ce79bf408" prot="protected" virt="non-virtual"><scope>XDOMEAMultiVersionTest</scope><name>schema_</name></member>
+      <member refid="class_x_d_o_m_e_a_multi_version_test_1a4c69c4348c068fcc4f312be470e4a9cf" prot="protected" virt="non-virtual"><scope>XDOMEAMultiVersionTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

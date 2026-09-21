@@ -1,0 +1,1100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__chaos__network_8cpp" kind="file" language="C++">
+    <compoundname>test_chaos_network.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">server/http_server.h</includes>
+    <includes local="yes">server/monitoring_api_handler.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/chaos/test_chaos_network.cpp</label>
+        <link refid="test__chaos__network_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>server/http_server.h</label>
+      </node>
+      <node id="10">
+        <label>server/monitoring_api_handler.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>thread</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="test__chaos__network_8cpp_1abbae112e09a650b420da55146a2ca8b1" prot="public" static="no">
+        <type>themis::server::HttpServer::Config</type>
+        <definition>using Config = themis::server::HttpServer::Config</definition>
+        <argsstring></argsstring>
+        <name>Config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="30" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a7601fde517a3d2b3e6751a66c5dac165" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::request&lt; http::string_body &gt;</type>
+        <definition>static http::request&lt; http::string_body &gt; make_request</definition>
+        <argsstring>(http::verb method, const std::string &amp;target, const std::string &amp;body=&quot;&quot;, const std::string &amp;content_type=&quot;application/json&quot;)</argsstring>
+        <name>make_request</name>
+        <param>
+          <type>http::verb</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_type</declname>
+          <defval>&quot;application/json&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="37" column="22" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="37" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a7af47920f3e5acdee60d00c4752940ec" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; themis::server::MonitoringApiHandler &gt;</type>
+        <definition>static std::unique_ptr&lt; themis::server::MonitoringApiHandler &gt; make_monitoring_handler</definition>
+        <argsstring>()</argsstring>
+        <name>make_monitoring_handler</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="53" column="24" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="53" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosNetworkConfig, ZeroMaxConnectionsMeansUnlimited)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosNetworkConfig</type>
+        </param>
+        <param>
+          <type>ZeroMaxConnectionsMeansUnlimited</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="68" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="68" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a47418381ac7bedf5a18438424b97c61c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosNetworkConfig, MaxConnectionsCanBeSet)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosNetworkConfig</type>
+        </param>
+        <param>
+          <type>MaxConnectionsCanBeSet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="73" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="73" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a8b7cdd04652346ffe758e083407dfdc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosNetworkConfig, MaxConnectionsLimitOf1)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosNetworkConfig</type>
+        </param>
+        <param>
+          <type>MaxConnectionsLimitOf1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="79" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="79" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1ade2b0123681f84de8435e52a9235745d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosNetworkConfig, ZeroBodySizeAllowsAnyBody)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosNetworkConfig</type>
+        </param>
+        <param>
+          <type>ZeroBodySizeAllowsAnyBody</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="85" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="85" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a2049d36e7ca03e8b906f79d850c81628" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosNetworkConfig, ZeroHeaderSizeDisablesCheck)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosNetworkConfig</type>
+        </param>
+        <param>
+          <type>ZeroHeaderSizeDisablesCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="91" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="91" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1aa7ee1ebe02e23e80945ded44270b4aba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosOversizedBody, ExceedsDefaultBodyLimit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosOversizedBody</type>
+        </param>
+        <param>
+          <type>ExceedsDefaultBodyLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="101" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="101" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1acf75cd39b11e6b2838745da7388b5751" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosOversizedBody, ExactlyAtLimitIsAllowed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosOversizedBody</type>
+        </param>
+        <param>
+          <type>ExactlyAtLimitIsAllowed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="110" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="110" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1aff6f651300ff35d2811b886316349d4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosOversizedBody, OneByteOverLimitIsRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosOversizedBody</type>
+        </param>
+        <param>
+          <type>OneByteOverLimitIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="119" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="119" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1af91e41c9b7a158d97adb6730d76fa668" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosOversizedBody, EmptyBodyIsAlwaysAllowed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosOversizedBody</type>
+        </param>
+        <param>
+          <type>EmptyBodyIsAlwaysAllowed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="127" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="127" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a504cf65a555e88017c645334d88cefa7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosOversizedHeaders, ExceedsDefaultHeaderLimit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosOversizedHeaders</type>
+        </param>
+        <param>
+          <type>ExceedsDefaultHeaderLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="138" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="138" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1add891932cb7eed21a8d319bc48722a9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosOversizedHeaders, ExactlyAtHeaderLimitIsAllowed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosOversizedHeaders</type>
+        </param>
+        <param>
+          <type>ExactlyAtHeaderLimitIsAllowed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="145" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="145" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a96719554a3c19a23a250b830a50be59e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosOversizedHeaders, OneByteOverHeaderLimitIsRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosOversizedHeaders</type>
+        </param>
+        <param>
+          <type>OneByteOverHeaderLimitIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="152" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="152" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a0de9746a5f07e498c9c11c90f79696d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosOversizedHeaders, ZeroHeaderLimitDisablesCheck)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosOversizedHeaders</type>
+        </param>
+        <param>
+          <type>ZeroHeaderLimitDisablesCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="158" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="158" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1af67171553cf625dc62f07259b91f0898" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosPayloads, EmptyBodyIsValidForGetRequests)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosPayloads</type>
+        </param>
+        <param>
+          <type>EmptyBodyIsValidForGetRequests</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="169" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="169" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1aab2257a8e2064bc37efd6df13b9ddb0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosPayloads, MalformedJsonBodyDoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosPayloads</type>
+        </param>
+        <param>
+          <type>MalformedJsonBodyDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="174" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="174" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1aba75184446c532ec363ffc20c8ae2618" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosPayloads, TruncatedJsonBodyDoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosPayloads</type>
+        </param>
+        <param>
+          <type>TruncatedJsonBodyDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="182" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="182" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a1b13af6c4b951136069f1e0f06e37ec9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosPayloads, InvalidUtf8InBodyDoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosPayloads</type>
+        </param>
+        <param>
+          <type>InvalidUtf8InBodyDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="189" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="189" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a9146a3f2e3961f948be87160dfe06b69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosPayloads, ValidEmptyJsonObject)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosPayloads</type>
+        </param>
+        <param>
+          <type>ValidEmptyJsonObject</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="197" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="197" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a336effc78b68dbf15c0115dd24f8eaba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosPayloads, ValidEmptyJsonArray)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosPayloads</type>
+        </param>
+        <param>
+          <type>ValidEmptyJsonArray</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="206" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="206" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a138306216d61e98605e591d89d2bff1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosPayloads, DeeplyNestedJsonDoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosPayloads</type>
+        </param>
+        <param>
+          <type>DeeplyNestedJsonDoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="215" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="215" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1ac3e3540ba3db9909c70f046df83c0be3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosConnectionCounter, StartsAtZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosConnectionCounter</type>
+        </param>
+        <param>
+          <type>StartsAtZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="232" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="232" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a07e5837ad4b6b16f25d738d4618a02ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosConnectionCounter, IncrementOnConnect)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosConnectionCounter</type>
+        </param>
+        <param>
+          <type>IncrementOnConnect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="237" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="237" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1ae52f4acd5cfc965be69473103ba7fa2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosConnectionCounter, DecrementOnDisconnect)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosConnectionCounter</type>
+        </param>
+        <param>
+          <type>DecrementOnDisconnect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="243" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="243" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a82c040faeca8d4b7bdf03828c3df7296" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosConnectionCounter, MaxConnectionsEnforcement)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosConnectionCounter</type>
+        </param>
+        <param>
+          <type>MaxConnectionsEnforcement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="249" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="249" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a5023d2702b9a1db0f0214c7840d34bfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosConnectionCounter, ConcurrentConnectsAndDisconnects)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosConnectionCounter</type>
+        </param>
+        <param>
+          <type>ConcurrentConnectsAndDisconnects</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="267" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="267" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1afaa4a79d8017ddf0e15da0709c0f5951" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosAccessLog, RequestIdIsGeneratedWhenMissing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosAccessLog</type>
+        </param>
+        <param>
+          <type>RequestIdIsGeneratedWhenMissing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="292" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="292" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a370aa8027cca5a8d3e89373b978ef4e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosAccessLog, RequestIdIsPreservedWhenPresent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosAccessLog</type>
+        </param>
+        <param>
+          <type>RequestIdIsPreservedWhenPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="300" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="300" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a3567f755e09541a106d10e12ed302456" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosAccessLog, ClientIpFromXForwardedFor)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosAccessLog</type>
+        </param>
+        <param>
+          <type>ClientIpFromXForwardedFor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="306" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="306" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1ac5ccb3bf71074bc191043f52b39c074e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosAccessLog, ClientIpFromXRealIp)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosAccessLog</type>
+        </param>
+        <param>
+          <type>ClientIpFromXRealIp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="312" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="312" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1ac43a3c979a74cbfbf18c0428f3677b7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosHealthEndpoint, LivenessRapidCalls)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosHealthEndpoint</type>
+        </param>
+        <param>
+          <type>LivenessRapidCalls</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="322" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="322" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1aa36f79a55d7a278600bca9aa1130109b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosHealthEndpoint, ReadinessRapidCalls)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosHealthEndpoint</type>
+        </param>
+        <param>
+          <type>ReadinessRapidCalls</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="332" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="332" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__network_8cpp_1a2937312a6360a9543921db5a949bb2ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosHealthEndpoint, ConcurrentLivenessCalls)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChaosHealthEndpoint</type>
+        </param>
+        <param>
+          <type>ConcurrentLivenessCalls</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_network.cpp" line="342" column="1" bodyfile="tests/chaos/test_chaos_network.cpp" bodystart="342" bodyend="362"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Chaos and edge-case tests for the HTTP server network stack. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates robustness under adversarial conditions:<itemizedlist>
+<listitem><para>Oversized request bodies (payload too large)</para>
+</listitem><listitem><para>Oversized request headers (request header fields too large)</para>
+</listitem><listitem><para>Missing/empty content body</para>
+</listitem><listitem><para>Malformed JSON payloads</para>
+</listitem><listitem><para>Repeated concurrent requests</para>
+</listitem><listitem><para>Request ID generation / propagation</para>
+</listitem><listitem><para>Server config boundary conditions</para>
+</listitem></itemizedlist>
+</para>
+<para>These tests operate at the configuration and logic level (no live TCP server) and through the MonitoringApiHandler to keep test execution fast and dependency-free. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/http_server.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/monitoring_api_handler.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__chaos__network_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>=<sp/>themis::server::HttpServer::Config;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">http<sp/>=<sp/>boost::beast::http;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;<sp/>make_request(</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>http::verb<sp/>method,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>http::request&lt;http::string_body&gt;<sp/>req{method,<sp/>target,<sp/>11};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>req.set(http::field::host,<sp/></highlight><highlight class="stringliteral">&quot;localhost&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!body.empty())<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.set(http::field::content_type,<sp/>content_type);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.body()<sp/>=<sp/>body;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>req.prepare_payload();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>req;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;themis::server::MonitoringApiHandler&gt;<sp/>make_monitoring_handler()<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>req_count{0};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>err_count{0};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic&lt;bool&gt;<sp/>running{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_unique&lt;themis::server::MonitoringApiHandler&gt;(</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>&amp;req_count,<sp/>&amp;err_count,<sp/>&amp;start,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>&amp;running,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Config<sp/>Boundary<sp/>Conditions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosNetworkConfig,<sp/>ZeroMaxConnectionsMeansUnlimited)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__chaos__network_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.max_connections,<sp/>0u);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosNetworkConfig,<sp/>MaxConnectionsCanBeSet)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__chaos__network_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_connections<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.max_connections,<sp/>1000u);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosNetworkConfig,<sp/>MaxConnectionsLimitOf1)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__chaos__network_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_connections<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.max_connections,<sp/>1u);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosNetworkConfig,<sp/>ZeroBodySizeAllowsAnyBody)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__chaos__network_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_request_size_mb<sp/>=<sp/>0;<sp/></highlight><highlight class="comment">//<sp/>0<sp/>=<sp/>unlimited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.max_request_size_mb,<sp/>0u);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosNetworkConfig,<sp/>ZeroHeaderSizeDisablesCheck)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__chaos__network_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_header_size_bytes<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.max_header_size_bytes,<sp/>0u);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Oversized<sp/>Body<sp/>Simulation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosOversizedBody,<sp/>ExceedsDefaultBodyLimit)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate:<sp/>client<sp/>sends<sp/>body<sp/>larger<sp/>than<sp/>10<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>body_bytes<sp/>=<sp/>11<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/></highlight><highlight class="comment">//<sp/>11<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__chaos__network_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_body<sp/>=<sp/>cfg.max_request_size_mb<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(body_bytes,<sp/>max_body);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>routeRequest()<sp/>will<sp/>return<sp/>413<sp/>when<sp/>body_bytes<sp/>&gt;<sp/>max_body_bytes_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosOversizedBody,<sp/>ExactlyAtLimitIsAllowed)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__chaos__network_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_request_size_mb<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_body<sp/>=<sp/>cfg.max_request_size_mb<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>body_bytes<sp/>=<sp/>max_body;<sp/></highlight><highlight class="comment">//<sp/>Exactly<sp/>at<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(body_bytes,<sp/>max_body);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>routeRequest()<sp/>allows<sp/>body_bytes<sp/>==<sp/>max_body_bytes_<sp/>(&gt;<sp/>check,<sp/>not<sp/>&gt;=)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosOversizedBody,<sp/>OneByteOverLimitIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__chaos__network_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_request_size_mb<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_body<sp/>=<sp/>cfg.max_request_size_mb<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>body_bytes<sp/>=<sp/>max_body<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(body_bytes,<sp/>max_body);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosOversizedBody,<sp/>EmptyBodyIsAlwaysAllowed)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__chaos__network_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.max_request_size_mb,<sp/>0u);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>body_bytes<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(body_bytes,<sp/>cfg.max_request_size_mb<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Oversized<sp/>Header<sp/>Simulation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosOversizedHeaders,<sp/>ExceedsDefaultHeaderLimit)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__chaos__network_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate:<sp/>total<sp/>header<sp/>bytes<sp/>exceeds<sp/>8<sp/>KB<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>header_bytes<sp/>=<sp/>9000;<sp/></highlight><highlight class="comment">//<sp/>&gt;<sp/>8192</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(header_bytes,<sp/>cfg.max_header_size_bytes);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosOversizedHeaders,<sp/>ExactlyAtHeaderLimitIsAllowed)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__chaos__network_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>header_bytes<sp/>=<sp/>cfg.max_header_size_bytes;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(header_bytes,<sp/>cfg.max_header_size_bytes);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>check<sp/>is<sp/>strict<sp/>&gt;,<sp/>so<sp/>exactly<sp/>at<sp/>limit<sp/>is<sp/>allowed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosOversizedHeaders,<sp/>OneByteOverHeaderLimitIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__chaos__network_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>header_bytes<sp/>=<sp/>cfg.max_header_size_bytes<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(header_bytes,<sp/>cfg.max_header_size_bytes);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosOversizedHeaders,<sp/>ZeroHeaderLimitDisablesCheck)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__chaos__network_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_header_size_bytes<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>0,<sp/>the<sp/>check<sp/>is<sp/>skipped<sp/>regardless<sp/>of<sp/>header<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.max_header_size_bytes,<sp/>0u);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Malformed<sp/>/<sp/>Empty<sp/>JSON<sp/>Payloads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosPayloads,<sp/>EmptyBodyIsValidForGetRequests)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>make_request(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/health&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(req.body().empty());</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosPayloads,<sp/>MalformedJsonBodyDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>nlohmann::json<sp/>throws<sp/>on<sp/>malformed<sp/>input<sp/>(parse<sp/>guard<sp/>in<sp/>routeRequest)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>bad_json<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;key\&quot;:<sp/>}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parsed<sp/>=<sp/>nlohmann::json::parse(bad_json);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/>nlohmann::json::parse_error);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosPayloads,<sp/>TruncatedJsonBodyDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>truncated<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;key\&quot;:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parsed<sp/>=<sp/>nlohmann::json::parse(truncated);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/>nlohmann::json::parse_error);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosPayloads,<sp/>InvalidUtf8InBodyDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Strings<sp/>with<sp/>invalid<sp/>UTF-8<sp/>bytes<sp/>should<sp/>be<sp/>handled<sp/>gracefully</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>invalid_utf8<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;key\&quot;:<sp/>\&quot;\xff\xfe\&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parsed<sp/>=<sp/>nlohmann::json::parse(invalid_utf8);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/>nlohmann::json::parse_error);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosPayloads,<sp/>ValidEmptyJsonObject)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>empty_obj<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>nlohmann::json::parse(empty_obj);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.is_object());</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.empty());</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosPayloads,<sp/>ValidEmptyJsonArray)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>empty_arr<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;[]&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>nlohmann::json::parse(empty_arr);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.is_array());</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.empty());</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosPayloads,<sp/>DeeplyNestedJsonDoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>deeply<sp/>nested<sp/>JSON<sp/>(100<sp/>levels)<sp/>–<sp/>should<sp/>parse<sp/>without<sp/>stack<sp/>overflow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>deep<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>deep<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;n\&quot;:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>deep<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>deep<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parsed<sp/>=<sp/>nlohmann::json::parse(deep);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Active<sp/>Connections<sp/>Counter<sp/>Semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosConnectionCounter,<sp/>StartsAtZero)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>conns{0};</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conns.load(),<sp/>0u);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosConnectionCounter,<sp/>IncrementOnConnect)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>conns{0};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>conns.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conns.load(),<sp/>1u);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosConnectionCounter,<sp/>DecrementOnDisconnect)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>conns{2};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>conns.fetch_sub(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conns.load(),<sp/>1u);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosConnectionCounter,<sp/>MaxConnectionsEnforcement)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>conns{0};</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>accepting<sp/>connections<sp/>up<sp/>to<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>accepted<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(conns.load(std::memory_order_relaxed)<sp/>&lt;<sp/>limit)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conns.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++accepted;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>else:<sp/>reject</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(accepted,<sp/>limit);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conns.load(),<sp/>limit);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosConnectionCounter,<sp/>ConcurrentConnectsAndDisconnects)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>conns{0};</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(N<sp/>*<sp/>2);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>N;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;conns]()<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conns.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::microseconds(10));</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conns.fetch_sub(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conns.load(),<sp/>0u);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Access<sp/>Log<sp/>Structured<sp/>Fields<sp/>Validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosAccessLog,<sp/>RequestIdIsGeneratedWhenMissing)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>X-Request-ID<sp/>is<sp/>absent,<sp/>server<sp/>generates<sp/>one<sp/>(timestamp-counter)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>make_request(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/health&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>req.find(</highlight><highlight class="stringliteral">&quot;X-Request-ID&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>set<sp/>in<sp/>request<sp/>→<sp/>server<sp/>should<sp/>generate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(it,<sp/>req.end());</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosAccessLog,<sp/>RequestIdIsPreservedWhenPresent)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>make_request(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/health&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>req.set(</highlight><highlight class="stringliteral">&quot;X-Request-ID&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test-req-123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string(req[</highlight><highlight class="stringliteral">&quot;X-Request-ID&quot;</highlight><highlight class="normal">]),<sp/></highlight><highlight class="stringliteral">&quot;test-req-123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosAccessLog,<sp/>ClientIpFromXForwardedFor)<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>make_request(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/health&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>req.set(</highlight><highlight class="stringliteral">&quot;X-Forwarded-For&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10.0.0.1,<sp/>192.168.1.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string(req[</highlight><highlight class="stringliteral">&quot;X-Forwarded-For&quot;</highlight><highlight class="normal">]),<sp/></highlight><highlight class="stringliteral">&quot;10.0.0.1,<sp/>192.168.1.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosAccessLog,<sp/>ClientIpFromXRealIp)<sp/>{</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>make_request(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/health&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>req.set(</highlight><highlight class="stringliteral">&quot;X-Real-IP&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10.0.0.5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::string(req[</highlight><highlight class="stringliteral">&quot;X-Real-IP&quot;</highlight><highlight class="normal">]),<sp/></highlight><highlight class="stringliteral">&quot;10.0.0.5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Health<sp/>Endpoint<sp/>Liveness<sp/>Under<sp/>Rapid<sp/>Calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosHealthEndpoint,<sp/>LivenessRapidCalls)<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>handler<sp/>=<sp/>make_monitoring_handler();</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rapid<sp/>successive<sp/>calls<sp/>should<sp/>all<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>make_request(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/health/live&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>handler-&gt;handleLiveness(req);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(res.result(),<sp/>http::status::ok);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosHealthEndpoint,<sp/>ReadinessRapidCalls)<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>handler<sp/>=<sp/>make_monitoring_handler();</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>make_request(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/health/ready&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>handler-&gt;handleReadiness(req);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ready<sp/>(server_running=true,<sp/>no<sp/>storage<sp/>configured<sp/>-&gt;<sp/>ok)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(res.result(),<sp/>http::status::ok);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><ref refid="test__chaos__network_8cpp_1aa12fbb48966f7581e9222c21a27de80b" kindref="member">TEST</ref>(ChaosHealthEndpoint,<sp/>ConcurrentLivenessCalls)<sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>handler<sp/>=<sp/>make_monitoring_handler();</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>ok_count{0};</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(N);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>N;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;handler,<sp/>&amp;ok_count]()<sp/>{</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>make_request(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/health/live&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>handler-&gt;handleLiveness(req);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(res.result()<sp/>==<sp/>http::status::ok)<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ok_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ok_count.load(),<sp/>N);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/chaos/test_chaos_network.cpp"/>
+  </compounddef>
+</doxygen>

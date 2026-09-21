@@ -1,0 +1,322 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_thread_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::ThreadGuard</compoundname>
+    <includes refid="thread__guard_8h" local="no">thread_guard.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_thread_guard_1a46b5e3c94e0f4cb8dff633ba23943811" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::utils::ThreadGuard::thread_</definition>
+        <argsstring></argsstring>
+        <name>thread_</name>
+        <qualifiedname>themis::utils::ThreadGuard::thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_guard.h" line="126" column="17" bodyfile="include/utils/thread_guard.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_thread_guard_1a505aa83df7821372ae72802512544832" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::utils::ThreadGuard::timeout_</definition>
+        <argsstring></argsstring>
+        <name>timeout_</name>
+        <qualifiedname>themis::utils::ThreadGuard::timeout_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_guard.h" line="127" column="31" bodyfile="include/utils/thread_guard.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_thread_guard_1a7a802849f9aff103f9ac94b68d8a1aec" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::ThreadGuard::joined_</definition>
+        <argsstring></argsstring>
+        <name>joined_</name>
+        <qualifiedname>themis::utils::ThreadGuard::joined_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_guard.h" line="128" column="10" bodyfile="include/utils/thread_guard.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_guard_1ac108f52d8fafec9bbb539e7dd2c31dee" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ThreadGuard::ThreadGuard</definition>
+        <argsstring>(std::thread thread, std::chrono::milliseconds timeout=std::chrono::seconds(30))</argsstring>
+        <name>ThreadGuard</name>
+        <qualifiedname>themis::utils::ThreadGuard::ThreadGuard</qualifiedname>
+        <param>
+          <type>std::thread</type>
+          <declname>thread</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::seconds(30)</defval>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1utils_1_1_thread_guard" kindref="compound">ThreadGuard</ref> from a joinable thread and timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>thread</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rvalue reference to std::thread (will be moved) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum duration to wait for thread completion</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if thread is not joinable </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if internal synchronization fails</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception guarantee: STRONG - if an exception is thrown, the guard is not constructed and the thread reference is returned to the caller. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_guard.h" line="67" column="14" bodyfile="src/utils/thread_guard.cpp" bodystart="33" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_guard_1acd0f2b18b5afd2377a41b78c6fd88aca" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ThreadGuard::~ThreadGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ThreadGuard</name>
+        <qualifiedname>themis::utils::ThreadGuard::~ThreadGuard</qualifiedname>
+        <briefdescription>
+<para>Destructor: joins thread with timeout, logs any issues. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>noexcept - guaranteed not to throw exceptions<itemizedlist>
+<listitem><para>If join succeeds: silent cleanup</para>
+</listitem><listitem><para>If join times out: logs WARNING, leaves thread in indeterminate state</para>
+</listitem><listitem><para>If thread was already joined/detached: silent (idempotent)</para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+<simplesect kind="warning"><para>Never throws - exceptions are logged but suppressed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_guard.h" line="82" column="5" bodyfile="src/utils/thread_guard.cpp" bodystart="46" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_guard_1a87044e8cc18b5f3fc7d917fdb89fff96" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::ThreadGuard::join_with_timeout</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>join_with_timeout</name>
+        <qualifiedname>themis::utils::ThreadGuard::join_with_timeout</qualifiedname>
+        <briefdescription>
+<para>Explicitly join the thread with timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if thread joined successfully, false if timeout occurred</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if join fails for system reasons</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>If thread is not joinable, returns false (idempotent). </para>
+</simplesect>
+<simplesect kind="note"><para>Subsequent calls return immediately with false (thread already joined). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_guard.h" line="94" column="10" bodyfile="src/utils/thread_guard.cpp" bodystart="68" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_guard_1aba4274dc18ac76c93930703f84e774fa" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::ThreadGuard::is_joinable</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_joinable</name>
+        <qualifiedname>themis::utils::ThreadGuard::is_joinable</qualifiedname>
+        <briefdescription>
+<para>Check if thread is currently joinable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if std::thread::joinable() returns true </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_guard.h" line="101" column="11" bodyfile="include/utils/thread_guard.h" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_guard_1ae6df4adcce924c7d21a4c5e402644250" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::thread &amp;</type>
+        <definition>std::thread &amp; themis::utils::ThreadGuard::get_thread</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>get_thread</name>
+        <qualifiedname>themis::utils::ThreadGuard::get_thread</qualifiedname>
+        <briefdescription>
+<para>Get reference to underlying thread (for advanced use cases). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Reference to the std::thread</para>
+</simplesect>
+<simplesect kind="warning"><para>Direct access to the thread bypasses timeout protection. Prefer not to use this unless necessary. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_guard.h" line="113" column="17" bodyfile="include/utils/thread_guard.h" bodystart="113" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_guard_1a2e5ae7a4c10c902c217f4d945cfdcff4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ThreadGuard::ThreadGuard</definition>
+        <argsstring>(const ThreadGuard &amp;)=delete</argsstring>
+        <name>ThreadGuard</name>
+        <qualifiedname>themis::utils::ThreadGuard::ThreadGuard</qualifiedname>
+        <param>
+          <type>const ThreadGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_guard.h" line="118" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_guard_1a8f38f7e78e26e8ee22da350f9c832fe7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_thread_guard_1ac108f52d8fafec9bbb539e7dd2c31dee" kindref="member">ThreadGuard</ref> &amp;</type>
+        <definition>ThreadGuard &amp; themis::utils::ThreadGuard::operator=</definition>
+        <argsstring>(const ThreadGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::utils::ThreadGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1utils_1_1_thread_guard_1ac108f52d8fafec9bbb539e7dd2c31dee" kindref="member">ThreadGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_guard.h" line="119" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_guard_1ae500131915a7d7bc95bcceb28f87fa40" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ThreadGuard::ThreadGuard</definition>
+        <argsstring>(ThreadGuard &amp;&amp;) noexcept=default</argsstring>
+        <name>ThreadGuard</name>
+        <qualifiedname>themis::utils::ThreadGuard::ThreadGuard</qualifiedname>
+        <param>
+          <type>ThreadGuard &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_guard.h" line="122" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_guard_1a30b167b63a42dfbddb14dd41e8c856ca" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_thread_guard_1ac108f52d8fafec9bbb539e7dd2c31dee" kindref="member">ThreadGuard</ref> &amp;</type>
+        <definition>ThreadGuard &amp; themis::utils::ThreadGuard::operator=</definition>
+        <argsstring>(ThreadGuard &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::utils::ThreadGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_thread_guard_1ac108f52d8fafec9bbb539e7dd2c31dee" kindref="member">ThreadGuard</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_guard.h" line="123" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Exception-safe RAII wrapper for std::thread with timeout support. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Ensures:<itemizedlist>
+<listitem><para>Thread is properly joined or detached on destruction</para>
+</listitem><listitem><para>Timeout prevents indefinite hangs in destructors</para>
+</listitem><listitem><para>Exception-safe: no exceptions thrown from destructor</para>
+</listitem><listitem><para>Strong exception guarantee during construction</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage: <programlisting filename=".cpp"><codeline><highlight class="normal">std::thread<sp/>worker<sp/>=<sp/>std::thread([]()<sp/>{<sp/>});<sp/><sp/></highlight><highlight class="comment">//<sp/>work<sp/>in<sp/>lambda</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_thread_guard_1ac108f52d8fafec9bbb539e7dd2c31dee" kindref="member">ThreadGuard</ref><sp/>guard(std::move(worker),<sp/>std::chrono::seconds(30));</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread<sp/>automatically<sp/>joins<sp/>with<sp/>30-second<sp/>timeout<sp/>on<sp/>guard<sp/>destruction</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timeout duration type (default: std::chrono::seconds)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>This class is move-only; copying is explicitly deleted to prevent ambiguous ownership semantics.</para>
+</simplesect>
+<simplesect kind="note"><para>If join times out, the thread is left in an indeterminate state. The thread is NOT forcefully terminated (C++ has no portable way to do this). Prefer to design threads with cooperative shutdown (atomic flags + notify). </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/utils/thread_guard.h" line="53" column="1" bodyfile="include/utils/thread_guard.h" bodystart="53" bodyend="129"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_thread_guard_1ae6df4adcce924c7d21a4c5e402644250" prot="public" virt="non-virtual"><scope>themis::utils::ThreadGuard</scope><name>get_thread</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_guard_1aba4274dc18ac76c93930703f84e774fa" prot="public" virt="non-virtual"><scope>themis::utils::ThreadGuard</scope><name>is_joinable</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_guard_1a87044e8cc18b5f3fc7d917fdb89fff96" prot="public" virt="non-virtual"><scope>themis::utils::ThreadGuard</scope><name>join_with_timeout</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_guard_1a7a802849f9aff103f9ac94b68d8a1aec" prot="private" virt="non-virtual"><scope>themis::utils::ThreadGuard</scope><name>joined_</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_guard_1a8f38f7e78e26e8ee22da350f9c832fe7" prot="public" virt="non-virtual"><scope>themis::utils::ThreadGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_guard_1a30b167b63a42dfbddb14dd41e8c856ca" prot="public" virt="non-virtual"><scope>themis::utils::ThreadGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_guard_1a46b5e3c94e0f4cb8dff633ba23943811" prot="private" virt="non-virtual"><scope>themis::utils::ThreadGuard</scope><name>thread_</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_guard_1ac108f52d8fafec9bbb539e7dd2c31dee" prot="public" virt="non-virtual"><scope>themis::utils::ThreadGuard</scope><name>ThreadGuard</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_guard_1a2e5ae7a4c10c902c217f4d945cfdcff4" prot="public" virt="non-virtual"><scope>themis::utils::ThreadGuard</scope><name>ThreadGuard</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_guard_1ae500131915a7d7bc95bcceb28f87fa40" prot="public" virt="non-virtual"><scope>themis::utils::ThreadGuard</scope><name>ThreadGuard</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_guard_1a505aa83df7821372ae72802512544832" prot="private" virt="non-virtual"><scope>themis::utils::ThreadGuard</scope><name>timeout_</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_guard_1acd0f2b18b5afd2377a41b78c6fd88aca" prot="public" virt="non-virtual"><scope>themis::utils::ThreadGuard</scope><name>~ThreadGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

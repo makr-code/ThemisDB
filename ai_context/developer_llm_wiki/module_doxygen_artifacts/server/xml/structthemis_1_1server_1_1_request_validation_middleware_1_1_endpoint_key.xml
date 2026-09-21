@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_request_validation_middleware_1_1_endpoint_key" kind="struct" language="C++" prot="private">
+    <compoundname>themis::server::RequestValidationMiddleware::EndpointKey</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_validation_middleware_1_1_endpoint_key_1ac5857e8f01f2014769fde60d1c74e886" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::RequestValidationMiddleware::EndpointKey::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::EndpointKey::method</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="123" column="21" bodyfile="include/server/request_validation_middleware.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_validation_middleware_1_1_endpoint_key_1a2861d9a7936e6059075f8c11a24d23fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::RequestValidationMiddleware::EndpointKey::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::EndpointKey::path</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="124" column="21" bodyfile="include/server/request_validation_middleware.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_request_validation_middleware_1_1_endpoint_key_1adfb8ccf03596304500122512f072bd28" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::RequestValidationMiddleware::EndpointKey::operator==</definition>
+        <argsstring>(const EndpointKey &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::EndpointKey::operator==</qualifiedname>
+        <param>
+          <type>const EndpointKey &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="125" column="14" bodyfile="include/server/request_validation_middleware.h" bodystart="125" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/request_validation_middleware.h" line="122" column="5" bodyfile="include/server/request_validation_middleware.h" bodystart="122" bodyend="128"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_endpoint_key_1ac5857e8f01f2014769fde60d1c74e886" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware::EndpointKey</scope><name>method</name></member>
+      <member refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_endpoint_key_1adfb8ccf03596304500122512f072bd28" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware::EndpointKey</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_endpoint_key_1a2861d9a7936e6059075f8c11a24d23fc" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware::EndpointKey</scope><name>path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

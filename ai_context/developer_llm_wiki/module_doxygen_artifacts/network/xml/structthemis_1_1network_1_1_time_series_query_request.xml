@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_time_series_query_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::TimeSeriesQueryRequest</compoundname>
+    <includes refid="wire__protocol__helpers_8h" local="no">wire_protocol_helpers.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_time_series_query_request_1a68efe4d099d76e1af8d9617566ed0177" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::TimeSeriesQueryRequest::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::network::TimeSeriesQueryRequest::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="120" column="17" bodyfile="include/network/wire_protocol_helpers.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_time_series_query_request_1ab575b46f60661789036828e361838095" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::TimeSeriesQueryRequest::start_time_ns</definition>
+        <argsstring></argsstring>
+        <name>start_time_ns</name>
+        <qualifiedname>themis::network::TimeSeriesQueryRequest::start_time_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="121" column="14" bodyfile="include/network/wire_protocol_helpers.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_time_series_query_request_1a23670f3098eaab759691cd0bd8556361" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::TimeSeriesQueryRequest::end_time_ns</definition>
+        <argsstring></argsstring>
+        <name>end_time_ns</name>
+        <qualifiedname>themis::network::TimeSeriesQueryRequest::end_time_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="122" column="14" bodyfile="include/network/wire_protocol_helpers.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_time_series_query_request_1ab0025c07354c5f2bdd708c029e145ff3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::TimeSeriesQueryRequest::aggregation</definition>
+        <argsstring></argsstring>
+        <name>aggregation</name>
+        <qualifiedname>themis::network::TimeSeriesQueryRequest::aggregation</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="123" column="14" bodyfile="include/network/wire_protocol_helpers.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_time_series_query_request_1a1bf2b7be51ad0adaa68ac2b369c5f476" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::TimeSeriesQueryRequest::bucket_size_ns</definition>
+        <argsstring></argsstring>
+        <name>bucket_size_ns</name>
+        <qualifiedname>themis::network::TimeSeriesQueryRequest::bucket_size_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="124" column="14" bodyfile="include/network/wire_protocol_helpers.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_time_series_query_request_1a20914996544203e970c712c2d3dc1f22" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::TimeSeriesQueryRequest::parse</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, TimeSeriesQueryRequest &amp;request)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::network::TimeSeriesQueryRequest::parse</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1network_1_1_time_series_query_request" kindref="compound">TimeSeriesQueryRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Parse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: parser(), atEnd(), readTag(), readString(), readVarint(), skipField(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="127" column="17" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="270" bodyend="342"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1network_1_1_time_series_query_request" kindref="compound">TimeSeriesQueryRequest</ref> parser. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Parses protobuf message: message <ref refid="structthemis_1_1network_1_1_time_series_query_request" kindref="compound">TimeSeriesQueryRequest</ref> { string collection = 1; uint64 start_time_ns = 2; uint64 end_time_ns = 3; Aggregation aggregation = 4; uint64 bucket_size_ns = 5; map&lt;string, Value&gt; filters = 6; // Simplified: skip for MVP } </para>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_helpers.h" line="119" column="1" bodyfile="include/network/wire_protocol_helpers.h" bodystart="119" bodyend="128"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_time_series_query_request_1ab0025c07354c5f2bdd708c029e145ff3" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesQueryRequest</scope><name>aggregation</name></member>
+      <member refid="structthemis_1_1network_1_1_time_series_query_request_1a1bf2b7be51ad0adaa68ac2b369c5f476" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesQueryRequest</scope><name>bucket_size_ns</name></member>
+      <member refid="structthemis_1_1network_1_1_time_series_query_request_1a68efe4d099d76e1af8d9617566ed0177" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesQueryRequest</scope><name>collection</name></member>
+      <member refid="structthemis_1_1network_1_1_time_series_query_request_1a23670f3098eaab759691cd0bd8556361" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesQueryRequest</scope><name>end_time_ns</name></member>
+      <member refid="structthemis_1_1network_1_1_time_series_query_request_1a20914996544203e970c712c2d3dc1f22" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesQueryRequest</scope><name>parse</name></member>
+      <member refid="structthemis_1_1network_1_1_time_series_query_request_1ab575b46f60661789036828e361838095" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesQueryRequest</scope><name>start_time_ns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

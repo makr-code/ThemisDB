@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1timeseries_1_1_prom_time_series" kind="struct" language="C++" prot="public">
+    <compoundname>themis::timeseries::PromTimeSeries</compoundname>
+    <includes refid="prometheus__remote__write_8h" local="no">prometheus_remote_write.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_prom_time_series_1a52166fcce09108c6787704ae98a502c9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1timeseries_1_1_prom_label" kindref="compound">PromLabel</ref> &gt;</type>
+        <definition>std::vector&lt;PromLabel&gt; themis::timeseries::PromTimeSeries::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::timeseries::PromTimeSeries::labels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/prometheus_remote_write.h" line="76" column="18" bodyfile="include/timeseries/prometheus_remote_write.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1timeseries_1_1_prom_time_series_1a4d437d85122f4a4ebb0c11ac3290b40d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1timeseries_1_1_prom_sample" kindref="compound">PromSample</ref> &gt;</type>
+        <definition>std::vector&lt;PromSample&gt; themis::timeseries::PromTimeSeries::samples</definition>
+        <argsstring></argsstring>
+        <name>samples</name>
+        <qualifiedname>themis::timeseries::PromTimeSeries::samples</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/prometheus_remote_write.h" line="77" column="17" bodyfile="include/timeseries/prometheus_remote_write.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_prom_time_series_1a38f4026333e4e222ec7eff5007e9b4af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::timeseries::PromTimeSeries::metricName</definition>
+        <argsstring>() const</argsstring>
+        <name>metricName</name>
+        <qualifiedname>themis::timeseries::PromTimeSeries::metricName</qualifiedname>
+        <briefdescription>
+<para>Returns the value of the <computeroutput>__name__</computeroutput> label, or an empty string when absent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/prometheus_remote_write.h" line="80" column="17" bodyfile="src/timeseries/prometheus_remote_write.cpp" bodystart="338" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1timeseries_1_1_prom_time_series_1aa458c63e57a90629f2ed4524167f0cdd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::timeseries::PromTimeSeries::labelValue</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>labelValue</name>
+        <qualifiedname>themis::timeseries::PromTimeSeries::labelValue</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Returns the value of the label with the given name, or an empty string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/prometheus_remote_write.h" line="83" column="17" bodyfile="src/timeseries/prometheus_remote_write.cpp" bodystart="342" bodyend="349"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A decoded Prometheus TimeSeries (labels + samples). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/prometheus_remote_write.h" line="75" column="1" bodyfile="include/timeseries/prometheus_remote_write.h" bodystart="75" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1timeseries_1_1_prom_time_series_1a52166fcce09108c6787704ae98a502c9" prot="public" virt="non-virtual"><scope>themis::timeseries::PromTimeSeries</scope><name>labels</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_prom_time_series_1aa458c63e57a90629f2ed4524167f0cdd" prot="public" virt="non-virtual"><scope>themis::timeseries::PromTimeSeries</scope><name>labelValue</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_prom_time_series_1a38f4026333e4e222ec7eff5007e9b4af" prot="public" virt="non-virtual"><scope>themis::timeseries::PromTimeSeries</scope><name>metricName</name></member>
+      <member refid="structthemis_1_1timeseries_1_1_prom_time_series_1a4d437d85122f4a4ebb0c11ac3290b40d" prot="public" virt="non-virtual"><scope>themis::timeseries::PromTimeSeries</scope><name>samples</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

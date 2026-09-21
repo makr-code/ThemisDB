@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_krum_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::KrumDetector</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_byzantine_detector" prot="public" virt="non-virtual">themis::llm::ByzantineDetector</basecompoundref>
+    <includes refid="byzantine__detector_8h" local="no">byzantine_detector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_krum_detector_1a0aa97c8c6ed25b86d68859247d15e5ed" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::KrumDetector::max_byzantine_shards_</definition>
+        <argsstring></argsstring>
+        <name>max_byzantine_shards_</name>
+        <qualifiedname>themis::llm::KrumDetector::max_byzantine_shards_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="218" column="9" bodyfile="include/llm/byzantine_detector.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_krum_detector_1ac8f7bc4e1f9f72d61ddca7042de0d9d9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::KrumDetector::KrumDetector</definition>
+        <argsstring>(int max_byzantine_shards=1)</argsstring>
+        <name>KrumDetector</name>
+        <qualifiedname>themis::llm::KrumDetector::KrumDetector</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>max_byzantine_shards</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="190" column="14" bodyfile="src/llm/byzantine_detector.cpp" bodystart="256" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_krum_detector_1ab19847cbeafda17888305a714935fbce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::KrumDetector::~KrumDetector</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~KrumDetector</name>
+        <qualifiedname>themis::llm::KrumDetector::~KrumDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="191" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_krum_detector_1a5dc57c8b5327f31c27236178c91f15c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>DetectionResult themis::llm::KrumDetector::detectByzantineShards</definition>
+        <argsstring>(const std::map&lt; std::string, std::vector&lt; GradientTensor &gt; &gt; &amp;shard_gradients) override</argsstring>
+        <name>detectByzantineShards</name>
+        <qualifiedname>themis::llm::KrumDetector::detectByzantineShards</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_byzantine_detector_1ac1f15db263cd4bbcab509b329551918c">detectByzantineShards</reimplements>
+        <param>
+          <type>const std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &gt; &amp;</type>
+          <declname>shard_gradients</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="193" column="21" bodyfile="src/llm/byzantine_detector.cpp" bodystart="365" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_krum_detector_1af09ab1ab945e4e4ee55f3dc535452d19" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_gradient_statistics" kindref="compound">GradientStatistics</ref></type>
+        <definition>GradientStatistics themis::llm::KrumDetector::computeStatistics</definition>
+        <argsstring>(const std::map&lt; std::string, std::vector&lt; GradientTensor &gt; &gt; &amp;shard_gradients) override</argsstring>
+        <name>computeStatistics</name>
+        <qualifiedname>themis::llm::KrumDetector::computeStatistics</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_byzantine_detector_1a6a8bc0a1f7052f77f9cd5840c927e830">computeStatistics</reimplements>
+        <param>
+          <type>const std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &gt; &amp;</type>
+          <declname>shard_gradients</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="197" column="24" bodyfile="src/llm/byzantine_detector.cpp" bodystart="357" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_krum_detector_1a215d882b44a07ce50cf6827bf429df64" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::KrumDetector::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::llm::KrumDetector::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_byzantine_detector_1a530eac2670dbff83051ce034e092037d">getName</reimplements>
+        <briefdescription>
+<para>Get Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="201" column="17" bodyfile="include/llm/byzantine_detector.h" bodystart="201" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_krum_detector_1adf05c73fe994ff39950352b1727d25bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::KrumDetector::setMaxByzantineShards</definition>
+        <argsstring>(int f)</argsstring>
+        <name>setMaxByzantineShards</name>
+        <qualifiedname>themis::llm::KrumDetector::setMaxByzantineShards</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+<para>Set Max Byzantine Shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setMaxByzantineShards without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="208" column="10" bodyfile="include/llm/byzantine_detector.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_krum_detector_1a84577172d379839aeb55361f08b40933" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::KrumDetector::getMaxByzantineShards</definition>
+        <argsstring>() const</argsstring>
+        <name>getMaxByzantineShards</name>
+        <qualifiedname>themis::llm::KrumDetector::getMaxByzantineShards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="209" column="9" bodyfile="include/llm/byzantine_detector.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_krum_detector_1a44bea8a6f748e7e4925c9677557002de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::KrumDetector::selectKrumGradients</definition>
+        <argsstring>(const std::map&lt; std::string, std::vector&lt; GradientTensor &gt; &gt; &amp;shard_gradients, int num_to_select) const</argsstring>
+        <name>selectKrumGradients</name>
+        <qualifiedname>themis::llm::KrumDetector::selectKrumGradients</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &gt; &amp;</type>
+          <declname>shard_gradients</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num_to_select</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="212" column="17" bodyfile="src/llm/byzantine_detector.cpp" bodystart="287" bodyend="355"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_krum_detector_1aafd50df6f897870ced229767752dc3aa" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::KrumDetector::computeDistance</definition>
+        <argsstring>(const std::vector&lt; GradientTensor &gt; &amp;grad1, const std::vector&lt; GradientTensor &gt; &amp;grad2) const</argsstring>
+        <name>computeDistance</name>
+        <qualifiedname>themis::llm::KrumDetector::computeDistance</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &amp;</type>
+          <declname>grad1</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &amp;</type>
+          <declname>grad2</declname>
+        </param>
+        <briefdescription>
+<para>Compute Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">grad1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grad2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="227" column="11" bodyfile="src/llm/byzantine_detector.cpp" bodystart="263" bodyend="285"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::ByzantineDetector</label>
+        <link refid="classthemis_1_1llm_1_1_byzantine_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::KrumDetector</label>
+        <link refid="classthemis_1_1llm_1_1_krum_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::ByzantineDetector</label>
+        <link refid="classthemis_1_1llm_1_1_byzantine_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::KrumDetector</label>
+        <link refid="classthemis_1_1llm_1_1_krum_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/byzantine_detector.h" line="188" column="1" bodyfile="include/llm/byzantine_detector.h" bodystart="188" bodyend="231"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_krum_detector_1aafd50df6f897870ced229767752dc3aa" prot="private" virt="non-virtual"><scope>themis::llm::KrumDetector</scope><name>computeDistance</name></member>
+      <member refid="classthemis_1_1llm_1_1_krum_detector_1af09ab1ab945e4e4ee55f3dc535452d19" prot="public" virt="virtual"><scope>themis::llm::KrumDetector</scope><name>computeStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_krum_detector_1a5dc57c8b5327f31c27236178c91f15c1" prot="public" virt="virtual"><scope>themis::llm::KrumDetector</scope><name>detectByzantineShards</name></member>
+      <member refid="classthemis_1_1llm_1_1_krum_detector_1a84577172d379839aeb55361f08b40933" prot="public" virt="non-virtual"><scope>themis::llm::KrumDetector</scope><name>getMaxByzantineShards</name></member>
+      <member refid="classthemis_1_1llm_1_1_krum_detector_1a215d882b44a07ce50cf6827bf429df64" prot="public" virt="virtual"><scope>themis::llm::KrumDetector</scope><name>getName</name></member>
+      <member refid="classthemis_1_1llm_1_1_krum_detector_1ac8f7bc4e1f9f72d61ddca7042de0d9d9" prot="public" virt="non-virtual"><scope>themis::llm::KrumDetector</scope><name>KrumDetector</name></member>
+      <member refid="classthemis_1_1llm_1_1_krum_detector_1a0aa97c8c6ed25b86d68859247d15e5ed" prot="private" virt="non-virtual"><scope>themis::llm::KrumDetector</scope><name>max_byzantine_shards_</name></member>
+      <member refid="classthemis_1_1llm_1_1_krum_detector_1a44bea8a6f748e7e4925c9677557002de" prot="public" virt="non-virtual"><scope>themis::llm::KrumDetector</scope><name>selectKrumGradients</name></member>
+      <member refid="classthemis_1_1llm_1_1_krum_detector_1adf05c73fe994ff39950352b1727d25bf" prot="public" virt="non-virtual"><scope>themis::llm::KrumDetector</scope><name>setMaxByzantineShards</name></member>
+      <member refid="classthemis_1_1llm_1_1_byzantine_detector_1a4cc09740318777bbda9c4e689de03ad8" prot="public" virt="virtual"><scope>themis::llm::KrumDetector</scope><name>~ByzantineDetector</name></member>
+      <member refid="classthemis_1_1llm_1_1_krum_detector_1ab19847cbeafda17888305a714935fbce" prot="public" virt="non-virtual"><scope>themis::llm::KrumDetector</scope><name>~KrumDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

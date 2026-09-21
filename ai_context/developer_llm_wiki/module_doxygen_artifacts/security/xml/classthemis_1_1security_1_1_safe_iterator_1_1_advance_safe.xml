@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_safe_iterator_1_1_advance_safe" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::SafeIterator::AdvanceSafe</compoundname>
+    <includes refid="safe__iterator_8h" local="no">safe_iterator.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_iterator_1_1_advance_safe_1a23e9a55043f7be090c08dc17d2231c94" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Iterator</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>static void themis::security::SafeIterator::AdvanceSafe::advance</definition>
+        <argsstring>(Iterator &amp;it, typename std::iterator_traits&lt; Iterator &gt;::difference_type distance, const Iterator &amp;begin, const Iterator &amp;end)</argsstring>
+        <name>advance</name>
+        <qualifiedname>themis::security::SafeIterator::AdvanceSafe::advance</qualifiedname>
+        <param>
+          <type>Iterator &amp;</type>
+          <declname>it</declname>
+        </param>
+        <param>
+          <type>typename std::iterator_traits&lt; Iterator &gt;::difference_type</type>
+          <declname>distance</declname>
+        </param>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+<para>Advance an iterator within the validated range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">it</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Iterator to advance in place. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">distance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of steps to advance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">begin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Beginning of the valid range. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End of the valid range. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: constexpr(), std::distance(), std::to_string(), <ref refid="namespacespdlog_1abfac27f3c201763e7acaf1c63b5228ea" kindref="member">spdlog::debug()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="119" column="17" bodyfile="include/security/safe_iterator.h" bodystart="119" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_iterator_1_1_advance_safe_1ae80b994fa46a15b35f940f5f78fa8e03" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Iterator</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>static bool themis::security::SafeIterator::AdvanceSafe::can_advance</definition>
+        <argsstring>(const Iterator &amp;it, typename std::iterator_traits&lt; Iterator &gt;::difference_type distance, const Iterator &amp;begin, const Iterator &amp;end) noexcept</argsstring>
+        <name>can_advance</name>
+        <qualifiedname>themis::security::SafeIterator::AdvanceSafe::can_advance</qualifiedname>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>it</declname>
+        </param>
+        <param>
+          <type>typename std::iterator_traits&lt; Iterator &gt;::difference_type</type>
+          <declname>distance</declname>
+        </param>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="172" column="17" bodyfile="include/security/safe_iterator.h" bodystart="172" bodyend="197"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/safe_iterator.h" line="107" column="1" bodyfile="include/security/safe_iterator.h" bodystart="107" bodyend="198"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_advance_safe_1a23e9a55043f7be090c08dc17d2231c94" prot="public" virt="non-virtual"><scope>themis::security::SafeIterator::AdvanceSafe</scope><name>advance</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_advance_safe_1ae80b994fa46a15b35f940f5f78fa8e03" prot="public" virt="non-virtual"><scope>themis::security::SafeIterator::AdvanceSafe</scope><name>can_advance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

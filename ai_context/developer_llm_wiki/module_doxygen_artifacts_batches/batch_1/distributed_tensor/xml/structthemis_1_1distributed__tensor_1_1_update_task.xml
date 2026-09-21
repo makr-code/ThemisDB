@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_update_task" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::UpdateTask</compoundname>
+    <includes refid="snapshot__update__worker_8h" local="no">snapshot_update_worker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_update_task_1a975b6c558170f9a09d4452073d883741" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::UpdateTask::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::distributed_tensor::UpdateTask::artifact_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="88" column="15" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_update_task_1a6f444e6c8f9e50c0cf538521957858d5" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref></type>
+        <definition>DeltaWindow themis::distributed_tensor::UpdateTask::delta_window</definition>
+        <argsstring></argsstring>
+        <name>delta_window</name>
+        <qualifiedname>themis::distributed_tensor::UpdateTask::delta_window</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="90" column="15" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_update_task_1a74533dfaa5a78b0f51d3c74bdacf289b" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref></type>
+        <definition>ArtifactManifest themis::distributed_tensor::UpdateTask::current_manifest</definition>
+        <argsstring></argsstring>
+        <name>current_manifest</name>
+        <qualifiedname>themis::distributed_tensor::UpdateTask::current_manifest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="92" column="20" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_update_task_1a257d9a9a8b1ad4fff101542b84c7815f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::UpdateTask::artifact_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>artifact_size_bytes</name>
+        <qualifiedname>themis::distributed_tensor::UpdateTask::artifact_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="94" column="12" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::distributed_tensor::ArtifactIntegrity</label>
+        <link refid="structthemis_1_1distributed__tensor_1_1_artifact_integrity"/>
+      </node>
+      <node id="3">
+        <label>themis::distributed_tensor::ArtifactManifest</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>integrity</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::distributed_tensor::DeltaWindow</label>
+        <link refid="structthemis_1_1distributed__tensor_1_1_delta_window"/>
+      </node>
+      <node id="1">
+        <label>themis::distributed_tensor::UpdateTask</label>
+        <link refid="structthemis_1_1distributed__tensor_1_1_update_task"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>delta_window</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>current_manifest</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="87" column="1" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="87" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_update_task_1a975b6c558170f9a09d4452073d883741" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::UpdateTask</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_update_task_1a257d9a9a8b1ad4fff101542b84c7815f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::UpdateTask</scope><name>artifact_size_bytes</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_update_task_1a74533dfaa5a78b0f51d3c74bdacf289b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::UpdateTask</scope><name>current_manifest</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_update_task_1a6f444e6c8f9e50c0cf538521957858d5" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::UpdateTask</scope><name>delta_window</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::ValidationResult</compoundname>
+    <includes refid="aql__query__validator_8h" local="no">aql_query_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_validation_result_1a6e5a57c7223a2dda8c2bebc719cdda30" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::ValidationResult::is_valid</definition>
+        <argsstring></argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::aql::ValidationResult::is_valid</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>true iff no ERRORs are present </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_validator.h" line="41" column="34" bodyfile="include/aql/aql_query_validator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_validation_result_1aab86d472c643e90af13798e9ab52b52a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_validation_issue" kindref="compound">ValidationIssue</ref> &gt;</type>
+        <definition>std::vector&lt;ValidationIssue&gt; themis::aql::ValidationResult::issues</definition>
+        <argsstring></argsstring>
+        <name>issues</name>
+        <qualifiedname>themis::aql::ValidationResult::issues</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_validator.h" line="42" column="17" bodyfile="include/aql/aql_query_validator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_validation_result_1ab652e7862d2e0613e36104dd676e1f1b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::ValidationResult::hasErrors</definition>
+        <argsstring>() const</argsstring>
+        <name>hasErrors</name>
+        <qualifiedname>themis::aql::ValidationResult::hasErrors</qualifiedname>
+        <briefdescription>
+<para>Has Errors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_validator.h" line="48" column="10" bodyfile="src/aql/aql_query_validator.cpp" bodystart="37" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_validation_result_1a2fc9d64665a517a8a255236ba8f7e1d5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::ValidationResult::hasWarnings</definition>
+        <argsstring>() const</argsstring>
+        <name>hasWarnings</name>
+        <qualifiedname>themis::aql::ValidationResult::hasWarnings</qualifiedname>
+        <briefdescription>
+<para>Has Warnings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_validator.h" line="53" column="10" bodyfile="src/aql/aql_query_validator.cpp" bodystart="42" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_validation_result_1aaf990a7308f9149f65f8f3b85ff2d99a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::ValidationResult::summary</definition>
+        <argsstring>() const</argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::aql::ValidationResult::summary</qualifiedname>
+        <briefdescription>
+<para>Summary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_validator.h" line="58" column="17" bodyfile="src/aql/aql_query_validator.cpp" bodystart="47" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_query_validator.h" line="40" column="1" bodyfile="include/aql/aql_query_validator.h" bodystart="40" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_validation_result_1ab652e7862d2e0613e36104dd676e1f1b" prot="public" virt="non-virtual"><scope>themis::aql::ValidationResult</scope><name>hasErrors</name></member>
+      <member refid="structthemis_1_1aql_1_1_validation_result_1a2fc9d64665a517a8a255236ba8f7e1d5" prot="public" virt="non-virtual"><scope>themis::aql::ValidationResult</scope><name>hasWarnings</name></member>
+      <member refid="structthemis_1_1aql_1_1_validation_result_1a6e5a57c7223a2dda8c2bebc719cdda30" prot="public" virt="non-virtual"><scope>themis::aql::ValidationResult</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1aql_1_1_validation_result_1aab86d472c643e90af13798e9ab52b52a" prot="public" virt="non-virtual"><scope>themis::aql::ValidationResult</scope><name>issues</name></member>
+      <member refid="structthemis_1_1aql_1_1_validation_result_1aaf990a7308f9149f65f8f3b85ff2d99a" prot="public" virt="non-virtual"><scope>themis::aql::ValidationResult</scope><name>summary</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

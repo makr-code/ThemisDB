@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_type_definition" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::TypeDefinition</compoundname>
+    <includes refid="graphql_8h" local="no">graphql.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1graphql_1_1_type_definition_1a2ccd94f7f46f75e910ad95849fabf350" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Kind</name>
+        <qualifiedname>themis::graphql::TypeDefinition::Kind</qualifiedname>
+        <enumvalue id="structthemis_1_1graphql_1_1_type_definition_1a2ccd94f7f46f75e910ad95849fabf350af60357a8d17e45793298323f1b372a74" prot="public">
+          <name>Scalar</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_type_definition_1a2ccd94f7f46f75e910ad95849fabf350a497031794414a552435f90151ac3b54b" prot="public">
+          <name>Object</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_type_definition_1a2ccd94f7f46f75e910ad95849fabf350a3c1aac82863ed9e5a9aca8ce687f711d" prot="public">
+          <name>Interface</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_type_definition_1a2ccd94f7f46f75e910ad95849fabf350aaef12e903e606a4895a16b393bfdec8c" prot="public">
+          <name>Union</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_type_definition_1a2ccd94f7f46f75e910ad95849fabf350acf20423ed48998082c20099488a0917c" prot="public">
+          <name>Enum</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1graphql_1_1_type_definition_1a2ccd94f7f46f75e910ad95849fabf350a0bd965605200bd66296c5988ee1ca689" prot="public">
+          <name>InputObject</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="640" column="5" bodyfile="include/api/graphql.h" bodystart="640" bodyend="647"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_type_definition_1a8f5af97e7d936ab418740ca83cc76250" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graphql_1_1_type_definition_1a2ccd94f7f46f75e910ad95849fabf350" kindref="member">Kind</ref></type>
+        <definition>Kind themis::graphql::TypeDefinition::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::graphql::TypeDefinition::kind</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1graphql_1_1_type_definition_1a2ccd94f7f46f75e910ad95849fabf350a497031794414a552435f90151ac3b54b" kindref="member">Kind::Object</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="649" column="10" bodyfile="include/api/graphql.h" bodystart="649" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_type_definition_1aa88802b3165818d8cdc179565fd988a4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::TypeDefinition::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::graphql::TypeDefinition::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="650" column="17" bodyfile="include/api/graphql.h" bodystart="650" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_type_definition_1a4b126ecb41381a8f661f816b3f5cf589" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::TypeDefinition::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::graphql::TypeDefinition::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="651" column="17" bodyfile="include/api/graphql.h" bodystart="651" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_type_definition_1afec61af6eba0fb5b6a2cf85a6dafd518" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graphql_1_1_field_definition" kindref="compound">FieldDefinition</ref> &gt;</type>
+        <definition>std::vector&lt;FieldDefinition&gt; themis::graphql::TypeDefinition::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>themis::graphql::TypeDefinition::fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="652" column="17" bodyfile="include/api/graphql.h" bodystart="652" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_type_definition_1ae620ece5911ee75df8d986d2f2d04484" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graphql::TypeDefinition::enum_values</definition>
+        <argsstring></argsstring>
+        <name>enum_values</name>
+        <qualifiedname>themis::graphql::TypeDefinition::enum_values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="653" column="17" bodyfile="include/api/graphql.h" bodystart="653" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_type_definition_1a32d7dfd5414f9d704a5a10ef65a3b4bc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graphql::TypeDefinition::interfaces</definition>
+        <argsstring></argsstring>
+        <name>interfaces</name>
+        <qualifiedname>themis::graphql::TypeDefinition::interfaces</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="654" column="17" bodyfile="include/api/graphql.h" bodystart="654" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql.h" line="639" column="1" bodyfile="include/api/graphql.h" bodystart="639" bodyend="655"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_type_definition_1a4b126ecb41381a8f661f816b3f5cf589" prot="public" virt="non-virtual"><scope>themis::graphql::TypeDefinition</scope><name>description</name></member>
+      <member refid="structthemis_1_1graphql_1_1_type_definition_1ae620ece5911ee75df8d986d2f2d04484" prot="public" virt="non-virtual"><scope>themis::graphql::TypeDefinition</scope><name>enum_values</name></member>
+      <member refid="structthemis_1_1graphql_1_1_type_definition_1afec61af6eba0fb5b6a2cf85a6dafd518" prot="public" virt="non-virtual"><scope>themis::graphql::TypeDefinition</scope><name>fields</name></member>
+      <member refid="structthemis_1_1graphql_1_1_type_definition_1a32d7dfd5414f9d704a5a10ef65a3b4bc" prot="public" virt="non-virtual"><scope>themis::graphql::TypeDefinition</scope><name>interfaces</name></member>
+      <member refid="structthemis_1_1graphql_1_1_type_definition_1a2ccd94f7f46f75e910ad95849fabf350" prot="public" virt="non-virtual"><scope>themis::graphql::TypeDefinition</scope><name>Kind</name></member>
+      <member refid="structthemis_1_1graphql_1_1_type_definition_1a8f5af97e7d936ab418740ca83cc76250" prot="public" virt="non-virtual"><scope>themis::graphql::TypeDefinition</scope><name>kind</name></member>
+      <member refid="structthemis_1_1graphql_1_1_type_definition_1aa88802b3165818d8cdc179565fd988a4" prot="public" virt="non-virtual"><scope>themis::graphql::TypeDefinition</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__similarity__dispatch_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_similarity_dispatch.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="yes">query/aql_runner.h</includes>
+    <includes local="yes">query/query_engine.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/aql/test_aql_similarity_dispatch.cpp</label>
+        <link refid="test__aql__similarity__dispatch_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="5">
+        <label>query/aql_runner.h</label>
+      </node>
+      <node id="6">
+        <label>query/query_engine.h</label>
+      </node>
+      <node id="8">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="7">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_a_q_l_similarity_dispatch_test" prot="public">AQLSimilarityDispatchTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__aql__similarity__dispatch_8cpp_1a7733f3974b38501dbf3941589e2c0ccf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLSimilarityDispatchTest, ExecuteSimilarityVectorGeoFallback)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_similarity_dispatch_test" kindref="compound">AQLSimilarityDispatchTest</ref></type>
+        </param>
+        <param>
+          <type>ExecuteSimilarityVectorGeoFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_similarity_dispatch.cpp" line="44" column="1" bodyfile="tests/aql/test_aql_similarity_dispatch.cpp" bodystart="44" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Dispatch<sp/>test<sp/>for<sp/>SIMILARITY<sp/>syntax<sp/>sugar</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/aql_runner.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/query_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::query;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="class_a_q_l_similarity_dispatch_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_q_l_similarity_dispatch_test" kindref="compound">AQLSimilarityDispatchTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_q_l_similarity_dispatch_test_1a2f9a3dfd2499885715bdc72b0b435bfb" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_similarity_dispatch_test_1a598d69c819017ddd445db33996e6605c" kindref="member">db_path_</ref><sp/>=<sp/>(std::filesystem::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_aql_similarity_dispatch_&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(std::chrono::steady_clock::now().time_since_epoch().count())))</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_a_q_l_similarity_dispatch_test_1a598d69c819017ddd445db33996e6605c" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;<sp/>cfg.db_path<sp/>=<sp/><ref refid="class_a_q_l_similarity_dispatch_test_1a598d69c819017ddd445db33996e6605c" kindref="member">db_path_</ref>;<sp/>cfg.memtable_size_mb<sp/>=<sp/>32;<sp/>cfg.block_cache_size_mb<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_similarity_dispatch_test_1a2e9c75c738ec668992638ad2c4ac327d" kindref="member">db</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);<sp/>ASSERT_TRUE(<ref refid="class_a_q_l_similarity_dispatch_test_1a2e9c75c738ec668992638ad2c4ac327d" kindref="member">db</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_similarity_dispatch_test_1a1ec00a3b7000ebe876171cf497d56b1a" kindref="member">sec</ref><sp/>=<sp/>std::make_unique&lt;SecondaryIndexManager&gt;(*<ref refid="class_a_q_l_similarity_dispatch_test_1a2e9c75c738ec668992638ad2c4ac327d" kindref="member">db</ref>);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_similarity_dispatch_test_1aacc785bf40193c83f9c9678e165c9a50" kindref="member">engine</ref><sp/>=<sp/>std::make_unique&lt;QueryEngine&gt;(*<ref refid="class_a_q_l_similarity_dispatch_test_1a2e9c75c738ec668992638ad2c4ac327d" kindref="member">db</ref>,<sp/>*<ref refid="class_a_q_l_similarity_dispatch_test_1a1ec00a3b7000ebe876171cf497d56b1a" kindref="member">sec</ref>);<sp/></highlight><highlight class="comment">//<sp/>no<sp/>vector/spatial<sp/>index<sp/>managers<sp/>attached<sp/>(fallback<sp/>paths)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>a<sp/>minimal<sp/>entity<sp/>with<sp/>embedding<sp/>+<sp/>location<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>e(</highlight><highlight class="stringliteral">&quot;h1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">,<sp/>std::vector&lt;float&gt;{0.1f,0.2f});</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;location&quot;</highlight><highlight class="normal">,<sp/>std::vector&lt;float&gt;{0.5f,0.5f});</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_similarity_dispatch_test_1a1ec00a3b7000ebe876171cf497d56b1a" kindref="member">sec</ref>-&gt;put(</highlight><highlight class="stringliteral">&quot;hotels&quot;</highlight><highlight class="normal">,<sp/>e);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_q_l_similarity_dispatch_test_1a2aef84536e63dc1ad2952b4bc9baf883" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_similarity_dispatch_test_1aacc785bf40193c83f9c9678e165c9a50" kindref="member">engine</ref>.reset();<sp/><ref refid="class_a_q_l_similarity_dispatch_test_1a1ec00a3b7000ebe876171cf497d56b1a" kindref="member">sec</ref>.reset();<sp/><ref refid="class_a_q_l_similarity_dispatch_test_1a2e9c75c738ec668992638ad2c4ac327d" kindref="member">db</ref>.reset();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_a_q_l_similarity_dispatch_test_1a598d69c819017ddd445db33996e6605c" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_q_l_similarity_dispatch_test_1a598d69c819017ddd445db33996e6605c" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><ref refid="class_a_q_l_similarity_dispatch_test_1a2e9c75c738ec668992638ad2c4ac327d" kindref="member">db</ref>;<sp/>std::unique_ptr&lt;SecondaryIndexManager&gt;<sp/><ref refid="class_a_q_l_similarity_dispatch_test_1a1ec00a3b7000ebe876171cf497d56b1a" kindref="member">sec</ref>;<sp/>std::unique_ptr&lt;QueryEngine&gt;<sp/><ref refid="class_a_q_l_similarity_dispatch_test_1aacc785bf40193c83f9c9678e165c9a50" kindref="member">engine</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Previously<sp/>disabled<sp/>on<sp/>MSVC;<sp/>now<sp/>stable<sp/>after<sp/>RocksDB<sp/>env<sp/>isolation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="test__aql__similarity__dispatch_8cpp_1a7733f3974b38501dbf3941589e2c0ccf" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_similarity_dispatch_test" kindref="compound">AQLSimilarityDispatchTest</ref>,<sp/>ExecuteSimilarityVectorGeoFallback)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>SIMILARITY<sp/>syntax<sp/>in<sp/>SORT<sp/>clause<sp/>(without<sp/>complex<sp/>spatial<sp/>filter)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>hotels</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SORT<sp/>SIMILARITY(doc.embedding,<sp/>[0.1,0.2])<sp/>DESC</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LIMIT<sp/>1</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>jsonRes<sp/>=<sp/>executeAql(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/>*engine);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(jsonRes.has_value())<sp/>&lt;&lt;<sp/>jsonRes.error().message();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>execute<sp/>successfully<sp/>and<sp/>return<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(jsonRes-&gt;contains(</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE((*jsonRes)[</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">].size(),<sp/>0);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/aql/test_aql_similarity_dispatch.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_workload_classifier_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::WorkloadClassifier::Stats</compoundname>
+    <includes refid="hnsw__parameter__tuner_8h" local="no">hnsw_parameter_tuner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_workload_classifier_1_1_stats_1ab5a475a4542aab490127e8f507a203ed" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::WorkloadClassifier::Stats::total_inserts</definition>
+        <argsstring></argsstring>
+        <name>total_inserts</name>
+        <qualifiedname>themis::index::WorkloadClassifier::Stats::total_inserts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="252" column="18" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_workload_classifier_1_1_stats_1ac80d7e7d67100fcc71b24434b8f903ab" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::WorkloadClassifier::Stats::total_queries</definition>
+        <argsstring></argsstring>
+        <name>total_queries</name>
+        <qualifiedname>themis::index::WorkloadClassifier::Stats::total_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="253" column="18" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_workload_classifier_1_1_stats_1a6210e671bb575032165b28adb60b9330" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::WorkloadClassifier::Stats::avg_batch_size</definition>
+        <argsstring></argsstring>
+        <name>avg_batch_size</name>
+        <qualifiedname>themis::index::WorkloadClassifier::Stats::avg_batch_size</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="254" column="18" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_workload_classifier_1_1_stats_1a659bdcfb004ab86a61ca8182e5a421d5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::WorkloadClassifier::Stats::avg_k</definition>
+        <argsstring></argsstring>
+        <name>avg_k</name>
+        <qualifiedname>themis::index::WorkloadClassifier::Stats::avg_k</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="255" column="18" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics snapshot for inspection / testing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/hnsw_parameter_tuner.h" line="251" column="5" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="251" bodyend="256"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats_1a6210e671bb575032165b28adb60b9330" prot="public" virt="non-virtual"><scope>themis::index::WorkloadClassifier::Stats</scope><name>avg_batch_size</name></member>
+      <member refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats_1a659bdcfb004ab86a61ca8182e5a421d5" prot="public" virt="non-virtual"><scope>themis::index::WorkloadClassifier::Stats</scope><name>avg_k</name></member>
+      <member refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats_1ab5a475a4542aab490127e8f507a203ed" prot="public" virt="non-virtual"><scope>themis::index::WorkloadClassifier::Stats</scope><name>total_inserts</name></member>
+      <member refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats_1ac80d7e7d67100fcc71b24434b8f903ab" prot="public" virt="non-virtual"><scope>themis::index::WorkloadClassifier::Stats</scope><name>total_queries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

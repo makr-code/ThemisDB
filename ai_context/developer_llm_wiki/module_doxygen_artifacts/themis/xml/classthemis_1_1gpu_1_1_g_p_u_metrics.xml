@@ -1,0 +1,630 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUMetrics</compoundname>
+    <includes refid="metrics_8h" local="no">metrics.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_sample" prot="public">themis::gpu::GPUMetrics::Sample</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record" prot="public">themis::gpu::GPUMetrics::KernelRecord</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1acbe0fc9ef69d6de3edcfcc8d26e142b0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPUMetrics::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::GPUMetrics::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="183" column="24" bodyfile="include/themis/gpu/metrics.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a28e95526d1e5c2f8cd574cfcabfc8370" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::gpu::GPUMetrics::counters_</definition>
+        <argsstring></argsstring>
+        <name>counters_</name>
+        <qualifiedname>themis::gpu::GPUMetrics::counters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="186" column="24" bodyfile="include/themis/gpu/metrics.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a0e5c7eced783452ad18fec10d95d14a1" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::gpu::GPUMetrics::gauges_</definition>
+        <argsstring></argsstring>
+        <name>gauges_</name>
+        <qualifiedname>themis::gpu::GPUMetrics::gauges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="188" column="24" bodyfile="include/themis/gpu/metrics.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a230c50b61eceed0ceab15e3b0be0ce4a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::gpu::GPUMetrics::metric_types_</definition>
+        <argsstring></argsstring>
+        <name>metric_types_</name>
+        <qualifiedname>themis::gpu::GPUMetrics::metric_types_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="190" column="24" bodyfile="include/themis/gpu/metrics.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a72e6c1d520dd70d6fc85e47c520dcdf8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record" kindref="compound">KernelRecord</ref> &gt;</type>
+        <definition>std::vector&lt;KernelRecord&gt; themis::gpu::GPUMetrics::kernels_</definition>
+        <argsstring></argsstring>
+        <name>kernels_</name>
+        <qualifiedname>themis::gpu::GPUMetrics::kernels_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="192" column="17" bodyfile="include/themis/gpu/metrics.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a4962e0e303bdd6a555ffb5cca8cbd377" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GPUMetrics &amp;</type>
+        <definition>static GPUMetrics &amp; themis::gpu::GPUMetrics::GetInstance</definition>
+        <argsstring>()</argsstring>
+        <name>GetInstance</name>
+        <qualifiedname>themis::gpu::GPUMetrics::GetInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="77" column="23" bodyfile="include/themis/gpu/metrics.h" bodystart="77" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a2ec2367b77704acd39d01fcb5f82452f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMetrics::recordAllocSuccess</definition>
+        <argsstring>(uint64_t bytes, const std::string &amp;tenant_id=&quot;&quot;)</argsstring>
+        <name>recordAllocSuccess</name>
+        <qualifiedname>themis::gpu::GPUMetrics::recordAllocSuccess</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="86" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a18ee49dba0dd92a13eee9e353c94608b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMetrics::recordAllocFailGlobal</definition>
+        <argsstring>(uint64_t bytes, const std::string &amp;tenant_id=&quot;&quot;)</argsstring>
+        <name>recordAllocFailGlobal</name>
+        <qualifiedname>themis::gpu::GPUMetrics::recordAllocFailGlobal</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="87" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1af72cdfb65852b465ae1763a11e73eab1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMetrics::recordAllocFailTenant</definition>
+        <argsstring>(uint64_t bytes, const std::string &amp;tenant_id)</argsstring>
+        <name>recordAllocFailTenant</name>
+        <qualifiedname>themis::gpu::GPUMetrics::recordAllocFailTenant</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="88" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1af6918e4cc4703a82e8b038c475e0439a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMetrics::recordDealloc</definition>
+        <argsstring>(uint64_t bytes, const std::string &amp;tenant_id=&quot;&quot;)</argsstring>
+        <name>recordDealloc</name>
+        <qualifiedname>themis::gpu::GPUMetrics::recordDealloc</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="89" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1adcaf8bef088692d8bcf0099e3a3739bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMetrics::recordFallback</definition>
+        <argsstring>(const std::string &amp;reason=&quot;oom&quot;)</argsstring>
+        <name>recordFallback</name>
+        <qualifiedname>themis::gpu::GPUMetrics::recordFallback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+          <defval>&quot;oom&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="90" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a9db5f51176ebcd0d13cd8307f4be50dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMetrics::recordCircuitOpen</definition>
+        <argsstring>()</argsstring>
+        <name>recordCircuitOpen</name>
+        <qualifiedname>themis::gpu::GPUMetrics::recordCircuitOpen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="91" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a7e2909260e675b0df3d597dfe5d1fa14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMetrics::setVRAMAllocated</definition>
+        <argsstring>(uint64_t bytes, const std::string &amp;tenant_id=&quot;&quot;)</argsstring>
+        <name>setVRAMAllocated</name>
+        <qualifiedname>themis::gpu::GPUMetrics::setVRAMAllocated</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Update the live VRAM gauge (must be called after each alloc/free). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="96" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a93b479d956186ed8b34f500d134941dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMetrics::setVRAMPeak</definition>
+        <argsstring>(uint64_t bytes)</argsstring>
+        <name>setVRAMPeak</name>
+        <qualifiedname>themis::gpu::GPUMetrics::setVRAMPeak</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="97" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1ae885bcb7cc81beca27fe1cb4e70039aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMetrics::setTemperature</definition>
+        <argsstring>(int device_id, double celsius)</argsstring>
+        <name>setTemperature</name>
+        <qualifiedname>themis::gpu::GPUMetrics::setTemperature</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>celsius</declname>
+        </param>
+        <briefdescription>
+<para>Update the live temperature gauge for a specific GPU device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CUDA/ROCm device ordinal (0-based). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>celsius</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current junction temperature in degrees Celsius. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="109" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a1df28b3962cdf0b5a3f753771f98696d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMetrics::setPowerDraw</definition>
+        <argsstring>(int device_id, double watts)</argsstring>
+        <name>setPowerDraw</name>
+        <qualifiedname>themis::gpu::GPUMetrics::setPowerDraw</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>watts</declname>
+        </param>
+        <briefdescription>
+<para>Update the live power-draw gauge for a specific GPU device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CUDA/ROCm device ordinal (0-based). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>watts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current board power draw in watts. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="117" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a36283c50e0eff3d3ca8b8773527498ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMetrics::setPowerLimit</definition>
+        <argsstring>(int device_id, double watts)</argsstring>
+        <name>setPowerLimit</name>
+        <qualifiedname>themis::gpu::GPUMetrics::setPowerLimit</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>watts</declname>
+        </param>
+        <briefdescription>
+<para>Update the enforced power-limit gauge for a specific GPU device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CUDA/ROCm device ordinal (0-based). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>watts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configured power limit in watts. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="125" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a8e63d8facfab48f7dba614451a4eebfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMetrics::recordKernelDuration</definition>
+        <argsstring>(const KernelRecord &amp;record)</argsstring>
+        <name>recordKernelDuration</name>
+        <qualifiedname>themis::gpu::GPUMetrics::recordKernelDuration</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record" kindref="compound">KernelRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Record a GPU kernel execution for Nsight-compatible export. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Appends one <ref refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record" kindref="compound">KernelRecord</ref> to the internal kernel list and also increments the themis_gpu_kernel_duration_ns gauge so the data is visible in Prometheus snapshots too.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Populated <ref refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_kernel_record" kindref="compound">KernelRecord</ref> (name and duration_ns required). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="136" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1abaac375b2923271ec1816391ff6772f0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_metrics_1_1_sample" kindref="compound">Sample</ref> &gt;</type>
+        <definition>std::vector&lt; Sample &gt; themis::gpu::GPUMetrics::snapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::gpu::GPUMetrics::snapshot</qualifiedname>
+        <briefdescription>
+<para>Return all current metric samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Suitable for serialisation into Prometheus text format or OTel OTLP. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="147" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a301b70bb1b8e2c48974b68acca5cea30" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUMetrics::nsight_export</definition>
+        <argsstring>() const</argsstring>
+        <name>nsight_export</name>
+        <qualifiedname>themis::gpu::GPUMetrics::nsight_export</qualifiedname>
+        <briefdescription>
+<para>Export kernel records in CUDA Nsight Compute-compatible JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Produces a JSON document that mirrors the top-level schema used by Nsight Compute&apos;s <computeroutput>--export json</computeroutput> option so that tooling built around that format (e.g. ncu-ui, custom analysis scripts) can consume the output without modification.</para>
+<para><simplesect kind="return"><para>UTF-8 JSON string. When no kernels have been recorded the <computeroutput>"Kernels"</computeroutput> array is present but empty (<computeroutput>"Kernels": []</computeroutput>). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="160" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a020bc7c63beb45ae307fef2779a98f37" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUMetrics::rocm_profiler_export</definition>
+        <argsstring>() const</argsstring>
+        <name>rocm_profiler_export</name>
+        <qualifiedname>themis::gpu::GPUMetrics::rocm_profiler_export</qualifiedname>
+        <briefdescription>
+<para>Export kernel records in ROCm profiler Chrome trace JSON format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Produces a Chrome trace JSON document compatible with AMD ROCm profiler&apos;s <computeroutput>--sys-trace</computeroutput> output and with Perfetto / chrome://tracing. Each kernel is emitted as a complete event (<computeroutput>"ph": "X"</computeroutput>) so that tooling built around the ROCm profiler JSON schema can consume the output without modification.</para>
+<para><simplesect kind="return"><para>UTF-8 JSON string. When no kernels have been recorded the <computeroutput>"traceEvents"</computeroutput> array is present but empty. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="174" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a900dba3057a2c34da2fa3d37186e9844" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMetrics::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::gpu::GPUMetrics::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all counters, gauges, and kernel records (for testing). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="179" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a1af820f44ea05b542adc31e8d50cf376" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMetrics::GPUMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>GPUMetrics</name>
+        <qualifiedname>themis::gpu::GPUMetrics::GPUMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="182" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a1d1ed5c955cca63f5b0d2a360201ed57" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMetrics::incrCounter</definition>
+        <argsstring>(const std::string &amp;name, const std::unordered_map&lt; std::string, std::string &gt; &amp;labels, double delta=1.0)</argsstring>
+        <name>incrCounter</name>
+        <qualifiedname>themis::gpu::GPUMetrics::incrCounter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="194" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a9d028bab82187a3c85f54fb9969cd378" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMetrics::setGauge</definition>
+        <argsstring>(const std::string &amp;name, const std::unordered_map&lt; std::string, std::string &gt; &amp;labels, double value)</argsstring>
+        <name>setGauge</name>
+        <qualifiedname>themis::gpu::GPUMetrics::setGauge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="197" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_metrics_1a6c1000dd1fd1a8bffb50e85f2b73986a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::gpu::GPUMetrics::buildKey</definition>
+        <argsstring>(const std::string &amp;name, const std::unordered_map&lt; std::string, std::string &gt; &amp;labels)</argsstring>
+        <name>buildKey</name>
+        <qualifiedname>themis::gpu::GPUMetrics::buildKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/metrics.h" line="201" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight in-process GPU metrics registry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Aggregates counters and gauges that can be scraped by a Prometheus/OTel exporter or logged by the admin endpoint. All metrics are labelled so they can carry tenant_id and device backend dimensions.</para>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_metrics_1autotoc_md33_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_metrics_1autotoc_md33">
+<title>Metric families</title><para><itemizedlist>
+<listitem><para>themis_gpu_vram_allocated_bytes (gauge, per-tenant or global)</para>
+</listitem><listitem><para>themis_gpu_vram_peak_bytes (gauge)</para>
+</listitem><listitem><para>themis_gpu_alloc_total (counter, result=success|fail_global|fail_tenant)</para>
+</listitem><listitem><para>themis_gpu_dealloc_total (counter)</para>
+</listitem><listitem><para>themis_gpu_fallback_total (counter, reason=oom|circuit_open|device_unavailable)</para>
+</listitem><listitem><para>themis_gpu_circuit_open_total (counter)</para>
+</listitem><listitem><para>themis_gpu_temperature_celsius (gauge, device=&lt;id&gt;)</para>
+</listitem><listitem><para>themis_gpu_power_draw_watts (gauge, device=&lt;id&gt;)</para>
+</listitem><listitem><para>themis_gpu_power_limit_watts (gauge, device=&lt;id&gt;)</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread safety: all methods are protected by an internal mutex. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/gpu/metrics.h" line="44" column="1" bodyfile="include/themis/gpu/metrics.h" bodystart="44" bodyend="204"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a6c1000dd1fd1a8bffb50e85f2b73986a" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>buildKey</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a28e95526d1e5c2f8cd574cfcabfc8370" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>counters_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a0e5c7eced783452ad18fec10d95d14a1" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>gauges_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a4962e0e303bdd6a555ffb5cca8cbd377" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>GetInstance</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a1af820f44ea05b542adc31e8d50cf376" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>GPUMetrics</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a1d1ed5c955cca63f5b0d2a360201ed57" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>incrCounter</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a72e6c1d520dd70d6fc85e47c520dcdf8" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>kernels_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a230c50b61eceed0ceab15e3b0be0ce4a" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>metric_types_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1acbe0fc9ef69d6de3edcfcc8d26e142b0" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a301b70bb1b8e2c48974b68acca5cea30" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>nsight_export</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a18ee49dba0dd92a13eee9e353c94608b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>recordAllocFailGlobal</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1af72cdfb65852b465ae1763a11e73eab1" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>recordAllocFailTenant</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a2ec2367b77704acd39d01fcb5f82452f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>recordAllocSuccess</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a9db5f51176ebcd0d13cd8307f4be50dd" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>recordCircuitOpen</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1af6918e4cc4703a82e8b038c475e0439a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>recordDealloc</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1adcaf8bef088692d8bcf0099e3a3739bf" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>recordFallback</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a8e63d8facfab48f7dba614451a4eebfd" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>recordKernelDuration</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a900dba3057a2c34da2fa3d37186e9844" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>reset</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a020bc7c63beb45ae307fef2779a98f37" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>rocm_profiler_export</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a9d028bab82187a3c85f54fb9969cd378" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>setGauge</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a1df28b3962cdf0b5a3f753771f98696d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>setPowerDraw</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a36283c50e0eff3d3ca8b8773527498ea" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>setPowerLimit</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1ae885bcb7cc81beca27fe1cb4e70039aa" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>setTemperature</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a7e2909260e675b0df3d597dfe5d1fa14" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>setVRAMAllocated</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1a93b479d956186ed8b34f500d134941dc" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>setVRAMPeak</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_metrics_1abaac375b2923271ec1816391ff6772f0" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMetrics</scope><name>snapshot</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

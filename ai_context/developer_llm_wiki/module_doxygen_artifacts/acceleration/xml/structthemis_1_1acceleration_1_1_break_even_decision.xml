@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_break_even_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::BreakEvenDecision</compoundname>
+    <includes refid="break__even__validator_8h" local="no">break_even_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_break_even_decision_1ab689b087ae615791421492fd9286771a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BreakEvenDecision::use_gpu</definition>
+        <argsstring></argsstring>
+        <name>use_gpu</name>
+        <qualifiedname>themis::acceleration::BreakEvenDecision::use_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="75" column="10" bodyfile="include/acceleration/break_even_validator.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_break_even_decision_1a565e78602d5b46b97670c777162def92" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::acceleration::BreakEvenDecision::speedup_ratio</definition>
+        <argsstring></argsstring>
+        <name>speedup_ratio</name>
+        <qualifiedname>themis::acceleration::BreakEvenDecision::speedup_ratio</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="77" column="11" bodyfile="include/acceleration/break_even_validator.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_break_even_decision_1a55b229601214da3091ab798f229a730e" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::acceleration::BreakEvenDecision::cpu_time_ms</definition>
+        <argsstring></argsstring>
+        <name>cpu_time_ms</name>
+        <qualifiedname>themis::acceleration::BreakEvenDecision::cpu_time_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="79" column="31" bodyfile="include/acceleration/break_even_validator.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_break_even_decision_1a2d81f1285d1ae3269f96468ac883e3d6" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::acceleration::BreakEvenDecision::gpu_time_ms</definition>
+        <argsstring></argsstring>
+        <name>gpu_time_ms</name>
+        <qualifiedname>themis::acceleration::BreakEvenDecision::gpu_time_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="81" column="31" bodyfile="include/acceleration/break_even_validator.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_break_even_decision_1a9689b431a6d9b3322f164edff4e32c17" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::BreakEvenDecision::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::acceleration::BreakEvenDecision::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="83" column="17" bodyfile="include/acceleration/break_even_validator.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_break_even_decision_1a3e9af5cafbdaa2888523a9fc86aa0bfe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BreakEvenDecision::from_cache</definition>
+        <argsstring></argsstring>
+        <name>from_cache</name>
+        <qualifiedname>themis::acceleration::BreakEvenDecision::from_cache</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="85" column="10" bodyfile="include/acceleration/break_even_validator.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_break_even_decision_1a141b890099eba7906ccea270ea59cd7b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::BreakEvenDecision::ToString</definition>
+        <argsstring>() const</argsstring>
+        <name>ToString</name>
+        <qualifiedname>themis::acceleration::BreakEvenDecision::ToString</qualifiedname>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="91" column="17" bodyfile="src/acceleration/break_even_validator.cc" bodystart="229" bodyend="240"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/break_even_validator.h" line="74" column="1" bodyfile="include/acceleration/break_even_validator.h" bodystart="74" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_break_even_decision_1a55b229601214da3091ab798f229a730e" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenDecision</scope><name>cpu_time_ms</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_break_even_decision_1a3e9af5cafbdaa2888523a9fc86aa0bfe" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenDecision</scope><name>from_cache</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_break_even_decision_1a2d81f1285d1ae3269f96468ac883e3d6" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenDecision</scope><name>gpu_time_ms</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_break_even_decision_1a9689b431a6d9b3322f164edff4e32c17" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenDecision</scope><name>reason</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_break_even_decision_1a565e78602d5b46b97670c777162def92" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenDecision</scope><name>speedup_ratio</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_break_even_decision_1a141b890099eba7906ccea270ea59cd7b" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenDecision</scope><name>ToString</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_break_even_decision_1ab689b087ae615791421492fd9286771a" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenDecision</scope><name>use_gpu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

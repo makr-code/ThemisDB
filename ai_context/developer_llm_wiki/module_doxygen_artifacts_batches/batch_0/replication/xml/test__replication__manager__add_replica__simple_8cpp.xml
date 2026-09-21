@@ -1,0 +1,392 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__replication__manager__add_replica__simple_8cpp" kind="file" language="C++">
+    <compoundname>test_replication_manager_addReplica_simple.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="replication__manager_8h" local="yes">replication/replication_manager.h</includes>
+    <incdepgraph>
+      <node id="19">
+        <label>replication/geo_placement.h</label>
+        <link refid="geo__placement_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>replication/replication_manager.h</label>
+        <link refid="replication__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/replication/test_replication_manager_addReplica_simple.cpp</label>
+        <link refid="test__replication__manager__add_replica__simple_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>condition_variable</label>
+      </node>
+      <node id="16">
+        <label>deque</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="17">
+        <label>map</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="14">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>queue</label>
+      </node>
+      <node id="18">
+        <label>set</label>
+      </node>
+      <node id="11">
+        <label>shared_mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>thread</label>
+      </node>
+      <node id="20">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_replication_manager_add_replica_test" prot="public">ReplicationManagerAddReplicaTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__replication__manager__add_replica__simple_8cpp_1adeef25a67f3bf25074676e86d243d9e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ReplicationManagerAddReplicaTest, RejectsEmptyNodeId)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_replication_manager_add_replica_test" kindref="compound">ReplicationManagerAddReplicaTest</ref></type>
+        </param>
+        <param>
+          <type>RejectsEmptyNodeId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 1: Reject empty node_id </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_manager_addReplica_simple.cpp" line="38" column="1" bodyfile="tests/replication/test_replication_manager_addReplica_simple.cpp" bodystart="38" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__replication__manager__add_replica__simple_8cpp_1a0d10112f1c106b35576c3389a8175e1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ReplicationManagerAddReplicaTest, RejectsEmptyEndpoint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_replication_manager_add_replica_test" kindref="compound">ReplicationManagerAddReplicaTest</ref></type>
+        </param>
+        <param>
+          <type>RejectsEmptyEndpoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 2: Reject empty endpoint </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_manager_addReplica_simple.cpp" line="62" column="1" bodyfile="tests/replication/test_replication_manager_addReplica_simple.cpp" bodystart="62" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__replication__manager__add_replica__simple_8cpp_1a8157ef1f77fb44724cf73f7e38cfceda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ReplicationManagerAddReplicaTest, AcceptsValidReplicaInfo)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_replication_manager_add_replica_test" kindref="compound">ReplicationManagerAddReplicaTest</ref></type>
+        </param>
+        <param>
+          <type>AcceptsValidReplicaInfo</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 3: Accept valid node_id and endpoint </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_manager_addReplica_simple.cpp" line="83" column="1" bodyfile="tests/replication/test_replication_manager_addReplica_simple.cpp" bodystart="83" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__replication__manager__add_replica__simple_8cpp_1acbbd48763522d1bda43d7be8ad4cf936" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ReplicationManagerAddReplicaTest, MultipleReplicasCanBeAdded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_replication_manager_add_replica_test" kindref="compound">ReplicationManagerAddReplicaTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleReplicasCanBeAdded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 4: Multiple valid replicas can be added </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_manager_addReplica_simple.cpp" line="115" column="1" bodyfile="tests/replication/test_replication_manager_addReplica_simple.cpp" bodystart="115" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__replication__manager__add_replica__simple_8cpp_1a3f3cd7a270b06c832d88b1801b2e2c2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ReplicationManagerAddReplicaTest, FailClosedGuardsAreIndependent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_replication_manager_add_replica_test" kindref="compound">ReplicationManagerAddReplicaTest</ref></type>
+        </param>
+        <param>
+          <type>FailClosedGuardsAreIndependent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 5: Guard is independent across multiple calls </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_manager_addReplica_simple.cpp" line="143" column="1" bodyfile="tests/replication/test_replication_manager_addReplica_simple.cpp" bodystart="143" bodyend="173"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="replication__manager_8h" kindref="compound">replication/replication_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1replication" kindref="compound">themisdb::replication</ref>;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="class_replication_manager_add_replica_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_replication_manager_add_replica_test" kindref="compound">ReplicationManagerAddReplicaTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ReplicationManager&gt;<sp/><ref refid="class_replication_manager_add_replica_test_1aaa57f72fd0924188818ee749079747fc" kindref="member">manager_</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_replication_manager_add_replica_test_1aad63a8f6190e92d7198883d3aeba1a4e" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>with<sp/>default<sp/>ReplicationConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replication_config" kindref="compound">ReplicationConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_replication_manager_add_replica_test_1aaa57f72fd0924188818ee749079747fc" kindref="member">manager_</ref><sp/>=<sp/>std::make_shared&lt;ReplicationManager&gt;(config);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_replication_manager_add_replica_test_1aaa57f72fd0924188818ee749079747fc" kindref="member">manager_</ref>-&gt;initialize());</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_replication_manager_add_replica_test_1a70d7d1659e148a961ce490f43f70d072" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_replication_manager_add_replica_test_1aaa57f72fd0924188818ee749079747fc" kindref="member">manager_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_replication_manager_add_replica_test_1aaa57f72fd0924188818ee749079747fc" kindref="member">manager_</ref>-&gt;shutdown();</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="test__replication__manager__add_replica__simple_8cpp_1adeef25a67f3bf25074676e86d243d9e0" kindref="member">TEST_F</ref>(<ref refid="class_replication_manager_add_replica_test" kindref="compound">ReplicationManagerAddReplicaTest</ref>,<sp/>RejectsEmptyNodeId)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref><sp/>replica;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>replica.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a4e14caea8db5dc2689a15d91f08a5e65" kindref="member">node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Empty!</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>replica.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a2590844231ca9272d26f534a648301a2" kindref="member">endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;localhost:5432&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>replica.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a50ba50793bd1427830d11c8263571f1a" kindref="member">role</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3a8026987f2531b5fa5178a851c108397c" kindref="member">ReplicationRole::FOLLOWER</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Before<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replicas_before<sp/>=<sp/>manager_-&gt;getReplicas();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size_before<sp/>=<sp/>replicas_before.size();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Call<sp/>with<sp/>empty<sp/>node_id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;addReplica(replica);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replicas_after<sp/>=<sp/>manager_-&gt;getReplicas();</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size_after<sp/>=<sp/>replicas_after.size();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify:<sp/>size<sp/>unchanged<sp/>(guard<sp/>rejected<sp/>the<sp/>call)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(size_before,<sp/>size_after);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__replication__manager__add_replica__simple_8cpp_1adeef25a67f3bf25074676e86d243d9e0" kindref="member">TEST_F</ref>(<ref refid="class_replication_manager_add_replica_test" kindref="compound">ReplicationManagerAddReplicaTest</ref>,<sp/>RejectsEmptyEndpoint)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref><sp/>replica;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>replica.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a4e14caea8db5dc2689a15d91f08a5e65" kindref="member">node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;replica-1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>replica.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a2590844231ca9272d26f534a648301a2" kindref="member">endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Empty!</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>replica.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a50ba50793bd1427830d11c8263571f1a" kindref="member">role</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3a8026987f2531b5fa5178a851c108397c" kindref="member">ReplicationRole::FOLLOWER</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replicas_before<sp/>=<sp/>manager_-&gt;getReplicas();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size_before<sp/>=<sp/>replicas_before.size();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;addReplica(replica);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replicas_after<sp/>=<sp/>manager_-&gt;getReplicas();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size_after<sp/>=<sp/>replicas_after.size();</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Guard<sp/>rejected<sp/>(endpoint<sp/>is<sp/>empty)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(size_before,<sp/>size_after);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="test__replication__manager__add_replica__simple_8cpp_1adeef25a67f3bf25074676e86d243d9e0" kindref="member">TEST_F</ref>(<ref refid="class_replication_manager_add_replica_test" kindref="compound">ReplicationManagerAddReplicaTest</ref>,<sp/>AcceptsValidReplicaInfo)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref><sp/>replica;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>replica.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a4e14caea8db5dc2689a15d91f08a5e65" kindref="member">node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;replica-1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>replica.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a2590844231ca9272d26f534a648301a2" kindref="member">endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;localhost:5432&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>replica.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a50ba50793bd1427830d11c8263571f1a" kindref="member">role</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3a8026987f2531b5fa5178a851c108397c" kindref="member">ReplicationRole::FOLLOWER</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>replica.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a1480e359db84b06334e862151d09d728" kindref="member">is_voting_member</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replicas_before<sp/>=<sp/>manager_-&gt;getReplicas();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size_before<sp/>=<sp/>replicas_before.size();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;addReplica(replica);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replicas_after<sp/>=<sp/>manager_-&gt;getReplicas();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size_after<sp/>=<sp/>replicas_after.size();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Guard<sp/>accepted<sp/>(valid<sp/>node_id<sp/>and<sp/>endpoint)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(size_after,<sp/>size_before<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>the<sp/>replica<sp/>was<sp/>actually<sp/>added</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>replicas_after)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r.node_id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;replica-1&quot;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>r.endpoint<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;localhost:5432&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__replication__manager__add_replica__simple_8cpp_1adeef25a67f3bf25074676e86d243d9e0" kindref="member">TEST_F</ref>(<ref refid="class_replication_manager_add_replica_test" kindref="compound">ReplicationManagerAddReplicaTest</ref>,<sp/>MultipleReplicasCanBeAdded)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref><sp/>r1,<sp/>r2,<sp/>r3;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>r1.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a4e14caea8db5dc2689a15d91f08a5e65" kindref="member">node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;replica-1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>r1.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a2590844231ca9272d26f534a648301a2" kindref="member">endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;host1:5432&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>r1.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a50ba50793bd1427830d11c8263571f1a" kindref="member">role</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3a8026987f2531b5fa5178a851c108397c" kindref="member">ReplicationRole::FOLLOWER</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>r2.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a4e14caea8db5dc2689a15d91f08a5e65" kindref="member">node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;replica-2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>r2.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a2590844231ca9272d26f534a648301a2" kindref="member">endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;host2:5432&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>r2.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a50ba50793bd1427830d11c8263571f1a" kindref="member">role</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3a8026987f2531b5fa5178a851c108397c" kindref="member">ReplicationRole::FOLLOWER</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>r3.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a4e14caea8db5dc2689a15d91f08a5e65" kindref="member">node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;replica-3&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>r3.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a2590844231ca9272d26f534a648301a2" kindref="member">endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;host3:5432&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>r3.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a50ba50793bd1427830d11c8263571f1a" kindref="member">role</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3aff728df6b722b64ac3eb9019959d716c" kindref="member">ReplicationRole::OBSERVER</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>size_before<sp/>=<sp/>manager_-&gt;getReplicas().size();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;addReplica(r1);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;addReplica(r2);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;addReplica(r3);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replicas_after<sp/>=<sp/>manager_-&gt;getReplicas();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(replicas_after.size(),<sp/>size_before<sp/>+<sp/>3);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="test__replication__manager__add_replica__simple_8cpp_1adeef25a67f3bf25074676e86d243d9e0" kindref="member">TEST_F</ref>(<ref refid="class_replication_manager_add_replica_test" kindref="compound">ReplicationManagerAddReplicaTest</ref>,<sp/>FailClosedGuardsAreIndependent)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref><sp/>r_invalid1,<sp/>r_valid,<sp/>r_invalid2;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>r_invalid1.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a4e14caea8db5dc2689a15d91f08a5e65" kindref="member">node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>r_invalid1.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a2590844231ca9272d26f534a648301a2" kindref="member">endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;host1:5432&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>r_invalid1.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a50ba50793bd1427830d11c8263571f1a" kindref="member">role</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3a8026987f2531b5fa5178a851c108397c" kindref="member">ReplicationRole::FOLLOWER</ref>;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>r_valid.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a4e14caea8db5dc2689a15d91f08a5e65" kindref="member">node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;replica-valid&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>r_valid.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a2590844231ca9272d26f534a648301a2" kindref="member">endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;host-valid:5432&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>r_valid.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a50ba50793bd1427830d11c8263571f1a" kindref="member">role</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3a8026987f2531b5fa5178a851c108397c" kindref="member">ReplicationRole::FOLLOWER</ref>;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>r_invalid2.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a4e14caea8db5dc2689a15d91f08a5e65" kindref="member">node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;replica-2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>r_invalid2.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a2590844231ca9272d26f534a648301a2" kindref="member">endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>r_invalid2.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a50ba50793bd1427830d11c8263571f1a" kindref="member">role</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3a8026987f2531b5fa5178a851c108397c" kindref="member">ReplicationRole::FOLLOWER</ref>;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>invalid<sp/>call<sp/>(empty<sp/>node_id)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;addReplica(r_invalid1);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Valid<sp/>call<sp/>(should<sp/>succeed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;addReplica(r_valid);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>invalid<sp/>call<sp/>(empty<sp/>endpoint)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;addReplica(r_invalid2);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replicas<sp/>=<sp/>manager_-&gt;getReplicas();</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expect<sp/>only<sp/>r_valid<sp/>was<sp/>added</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(replicas.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(replicas[0].node_id,<sp/></highlight><highlight class="stringliteral">&quot;replica-valid&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(replicas[0].endpoint,<sp/></highlight><highlight class="stringliteral">&quot;host-valid:5432&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/replication/test_replication_manager_addReplica_simple.cpp"/>
+  </compounddef>
+</doxygen>

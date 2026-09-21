@@ -1,0 +1,973 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_p_i_t_r_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::PITRManager</compoundname>
+    <includes refid="pitr__manager_8h" local="no">pitr_manager.h</includes>
+    <innerclass refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options" prot="public">themis::PITRManager::RestoreOptions</innerclass>
+    <innerclass refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview" prot="public">themis::PITRManager::RestorePreview</innerclass>
+    <innerclass refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress" prot="public">themis::PITRManager::RestoreProgress</innerclass>
+    <innerclass refid="structthemis_1_1_p_i_t_r_manager_1_1_status" prot="public">themis::PITRManager::Status</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_p_i_t_r_manager_1ac9ac187d25e353969a8af900ad5641d5" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> *</type>
+        <definition>RocksDBWrapper* themis::PITRManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::PITRManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="273" column="20" bodyfile="include/storage/pitr_manager.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_p_i_t_r_manager_1a32c95a24823eaef97005a742708e12aa" prot="private" static="no" mutable="no">
+        <type>Changefeed *</type>
+        <definition>Changefeed* themis::PITRManager::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>themis::PITRManager::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="274" column="16" bodyfile="include/storage/pitr_manager.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_p_i_t_r_manager_1aeecb596c31a4ca504dcc4db8dc4890ac" prot="private" static="no" mutable="no">
+        <type>transaction::SnapshotManager *</type>
+        <definition>transaction::SnapshotManager* themis::PITRManager::snapshot_mgr_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_mgr_</name>
+        <qualifiedname>themis::PITRManager::snapshot_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="275" column="34" bodyfile="include/storage/pitr_manager.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_p_i_t_r_manager_1aa2e0639fab98c39792d2d25a28fbac6e" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress" kindref="compound">RestoreProgress</ref></type>
+        <definition>RestoreProgress themis::PITRManager::progress_</definition>
+        <argsstring></argsstring>
+        <name>progress_</name>
+        <qualifiedname>themis::PITRManager::progress_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="278" column="29" bodyfile="include/storage/pitr_manager.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1aa3ff502f03ec3fb87a346713aa9c3cdc" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::PITRManager::PITRManager</definition>
+        <argsstring>(RocksDBWrapper *db, Changefeed *changefeed, transaction::SnapshotManager *snapshot_mgr)</argsstring>
+        <name>PITRManager</name>
+        <qualifiedname>themis::PITRManager::PITRManager</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>Changefeed *</type>
+          <declname>changefeed</declname>
+        </param>
+        <param>
+          <type>transaction::SnapshotManager *</type>
+          <declname>snapshot_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Construct <ref refid="classthemis_1_1_p_i_t_r_manager" kindref="compound">PITRManager</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB wrapper instance (not owned) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>changefeed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Changefeed instance (not owned) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>snapshot_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SnapshotManager instance (not owned) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="151" column="14" bodyfile="src/storage/pitr_manager.cpp" bodystart="35" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1a6d60f0a96ed7702a2104b402903afb0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::PITRManager::~PITRManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PITRManager</name>
+        <qualifiedname>themis::PITRManager::~PITRManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="155" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1a69e099e5344539931fe1c0139b910df9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::PITRManager::PITRManager</definition>
+        <argsstring>(const PITRManager &amp;)=delete</argsstring>
+        <name>PITRManager</name>
+        <qualifiedname>themis::PITRManager::PITRManager</qualifiedname>
+        <param>
+          <type>const PITRManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="158" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1aa5497e8ce033346ddd53239f190b82c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_p_i_t_r_manager_1aa3ff502f03ec3fb87a346713aa9c3cdc" kindref="member">PITRManager</ref> &amp;</type>
+        <definition>PITRManager &amp; themis::PITRManager::operator=</definition>
+        <argsstring>(const PITRManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::PITRManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_p_i_t_r_manager_1aa3ff502f03ec3fb87a346713aa9c3cdc" kindref="member">PITRManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="159" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1a15d237bd58f0552736659827551f4203" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::PITRManager::PITRManager</definition>
+        <argsstring>(PITRManager &amp;&amp;) noexcept=default</argsstring>
+        <name>PITRManager</name>
+        <qualifiedname>themis::PITRManager::PITRManager</qualifiedname>
+        <param>
+          <type>PITRManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="160" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1a038fe6176d607c43eb111851b2296560" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_p_i_t_r_manager_1aa3ff502f03ec3fb87a346713aa9c3cdc" kindref="member">PITRManager</ref> &amp;</type>
+        <definition>PITRManager &amp; themis::PITRManager::operator=</definition>
+        <argsstring>(PITRManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::PITRManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_p_i_t_r_manager_1aa3ff502f03ec3fb87a346713aa9c3cdc" kindref="member">PITRManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="161" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1a2fdb16b40ee69ef9eb6d7001e5ce12a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PITRManager::Status themis::PITRManager::restoreToSequence</definition>
+        <argsstring>(uint64_t target_sequence, const RestoreOptions &amp;options)</argsstring>
+        <name>restoreToSequence</name>
+        <qualifiedname>themis::PITRManager::restoreToSequence</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>target_sequence</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options" kindref="compound">RestoreOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Restore database to a specific sequence number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore To Sequence.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>target_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sequence number to restore to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Restore options (dry_run, backup, etc.) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref> with progress information</para>
+</simplesect>
+Process:<orderedlist>
+<listitem><para>Create auto-backup snapshot (if enabled)</para>
+</listitem><listitem><para>Validate target sequence</para>
+</listitem><listitem><para>Replay events backward from current to target</para>
+</listitem><listitem><para>Commit or rollback on error</para>
+</listitem></orderedlist>
+</para>
+<para>Errors:<itemizedlist>
+<listitem><para>INVALID_SEQUENCE: Target sequence is invalid or in the future</para>
+</listitem><listitem><para>BACKUP_FAILED: Auto-backup creation failed</para>
+</listitem></itemizedlist>
+</para>
+<para>WAL_REPLAY_INCOMPLETE: Required replay events are missing (truncated log)<itemizedlist>
+<listitem><para>REPLAY_FAILED: Event replay failed</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_p_i_t_r_manager_1a739a849a09c75663af9e89ce56fbb688" kindref="member">isRestoreInProgress()</ref>, <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a8d2e0566aea4e59e09ce43a113e57e1a" kindref="member">Status::Error()</ref>, <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a3f209f61543409753e38c70867086678" kindref="member">RestoreProgress::getCurrentTimeMs()</ref>, getLatestSequence(), validate(), THEMIS_INFO(), createAutoBackup(), replayBackward(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="182" column="12" bodyfile="src/storage/pitr_manager.cpp" bodystart="60" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1abcb3beb493ae3d798f89231f6478c9ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PITRManager::Status themis::PITRManager::restoreToSequence</definition>
+        <argsstring>(uint64_t target_sequence)</argsstring>
+        <name>restoreToSequence</name>
+        <qualifiedname>themis::PITRManager::restoreToSequence</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>target_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Restore to sequence with default options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore To Sequence.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements restoreToSequence without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="185" column="12" bodyfile="src/storage/pitr_manager.cpp" bodystart="486" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1a705ca4b5a3743c8e674a6747c880ba99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PITRManager::Status themis::PITRManager::restoreToTag</definition>
+        <argsstring>(const std::string &amp;tag_name, const RestoreOptions &amp;options)</argsstring>
+        <name>restoreToTag</name>
+        <qualifiedname>themis::PITRManager::restoreToTag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options" kindref="compound">RestoreOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Restore database to a named snapshot tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore To Tag.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tag identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Restore options </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref> with progress information</para>
+</simplesect>
+Errors:<itemizedlist>
+<listitem><para>TAG_NOT_FOUND: Tag does not exist</para>
+</listitem><listitem><para>(plus all errors from restoreToSequence)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tag. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getTag(), has_value(), <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a8d2e0566aea4e59e09ce43a113e57e1a" kindref="member">Status::Error()</ref>, THEMIS_INFO(), <ref refid="classthemis_1_1_p_i_t_r_manager_1a2fdb16b40ee69ef9eb6d7001e5ce12a0" kindref="member">restoreToSequence()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="198" column="12" bodyfile="src/storage/pitr_manager.cpp" bodystart="124" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1a2689ff3d3f1d403d33c285a595997340" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PITRManager::Status themis::PITRManager::restoreToTag</definition>
+        <argsstring>(const std::string &amp;tag_name)</argsstring>
+        <name>restoreToTag</name>
+        <qualifiedname>themis::PITRManager::restoreToTag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag_name</declname>
+        </param>
+        <briefdescription>
+<para>Restore to tag with default options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore To Tag.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tag. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements restoreToTag without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="201" column="12" bodyfile="src/storage/pitr_manager.cpp" bodystart="496" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1ababb9690b93bb30763c0807f9095ede7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PITRManager::Status themis::PITRManager::restoreToTimestamp</definition>
+        <argsstring>(int64_t timestamp_ms, const RestoreOptions &amp;options)</argsstring>
+        <name>restoreToTimestamp</name>
+        <qualifiedname>themis::PITRManager::restoreToTimestamp</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options" kindref="compound">RestoreOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Restore database to a specific timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore To Timestamp.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unix timestamp in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Restore options </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref> with progress information</para>
+</simplesect>
+Finds the latest sequence number &lt;= timestamp and restores to it.</para>
+<para>Errors:<itemizedlist>
+<listitem><para>NO_EVENTS_AT_TIME: No events found at or before timestamp</para>
+</listitem><listitem><para>(plus all errors from restoreToSequence)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: findSequenceForTimestamp(), has_value(), <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a8d2e0566aea4e59e09ce43a113e57e1a" kindref="member">Status::Error()</ref>, THEMIS_INFO(), value(), <ref refid="classthemis_1_1_p_i_t_r_manager_1a2fdb16b40ee69ef9eb6d7001e5ce12a0" kindref="member">restoreToSequence()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="216" column="12" bodyfile="src/storage/pitr_manager.cpp" bodystart="150" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1a4fda23869f3c120d27abc5e029b16ab8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PITRManager::Status themis::PITRManager::restoreToTimestamp</definition>
+        <argsstring>(int64_t timestamp_ms)</argsstring>
+        <name>restoreToTimestamp</name>
+        <qualifiedname>themis::PITRManager::restoreToTimestamp</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>Restore to timestamp with default options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore To Timestamp.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements restoreToTimestamp without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="219" column="12" bodyfile="src/storage/pitr_manager.cpp" bodystart="506" bodyend="508"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1a2529ff6a3a53720a520ec888e1af62e4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview" kindref="compound">RestorePreview</ref></type>
+        <definition>PITRManager::RestorePreview themis::PITRManager::previewRestore</definition>
+        <argsstring>(uint64_t target_sequence, const RestoreOptions &amp;options) const</argsstring>
+        <name>previewRestore</name>
+        <qualifiedname>themis::PITRManager::previewRestore</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>target_sequence</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options" kindref="compound">RestoreOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Preview restore operation (dry-run). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>target_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sequence to restore to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Restore options (only tables filter is used) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Preview with estimated impact</para>
+</simplesect>
+Useful for:<itemizedlist>
+<listitem><para>Estimating restore time</para>
+</listitem><listitem><para>Checking affected tables/keys</para>
+</listitem><listitem><para>Validating restore feasibility </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="233" column="20" bodyfile="src/storage/pitr_manager.cpp" bodystart="165" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1ae2c913851f3658801dc5079f850c7099" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_preview" kindref="compound">RestorePreview</ref></type>
+        <definition>PITRManager::RestorePreview themis::PITRManager::previewRestore</definition>
+        <argsstring>(uint64_t target_sequence) const</argsstring>
+        <name>previewRestore</name>
+        <qualifiedname>themis::PITRManager::previewRestore</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>target_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Preview restore with default options. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="236" column="20" bodyfile="src/storage/pitr_manager.cpp" bodystart="510" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1ac47ac9a78a0459bf32ce145ecbc55731" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress" kindref="compound">RestoreProgress</ref> &gt;</type>
+        <definition>std::optional&lt; PITRManager::RestoreProgress &gt; themis::PITRManager::getProgress</definition>
+        <argsstring>() const</argsstring>
+        <name>getProgress</name>
+        <qualifiedname>themis::PITRManager::getProgress</qualifiedname>
+        <briefdescription>
+<para>Get current restore progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current progress, or nullopt if no restore in progress </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="243" column="19" bodyfile="src/storage/pitr_manager.cpp" bodystart="229" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1a739a849a09c75663af9e89ce56fbb688" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::PITRManager::isRestoreInProgress</definition>
+        <argsstring>() const</argsstring>
+        <name>isRestoreInProgress</name>
+        <qualifiedname>themis::PITRManager::isRestoreInProgress</qualifiedname>
+        <briefdescription>
+<para>Check if a restore operation is currently in progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if restore is active </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="250" column="10" bodyfile="src/storage/pitr_manager.cpp" bodystart="236" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1a267a4d4ebd540b0900515d1d27aff7fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; uint64_t &gt;</type>
+        <definition>std::optional&lt; uint64_t &gt; themis::PITRManager::getSequenceForTag</definition>
+        <argsstring>(const std::string &amp;tag_name) const</argsstring>
+        <name>getSequenceForTag</name>
+        <qualifiedname>themis::PITRManager::getSequenceForTag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag_name</declname>
+        </param>
+        <briefdescription>
+<para>Get sequence number for a named tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tag identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Sequence number if tag exists, nullopt otherwise</para>
+</simplesect>
+Useful for API clients that want to convert tags to sequences. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="260" column="19" bodyfile="src/storage/pitr_manager.cpp" bodystart="243" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1affe52a821ad8039d522c8a40e25bbf15" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; uint64_t &gt;</type>
+        <definition>std::optional&lt; uint64_t &gt; themis::PITRManager::getSequenceForTimestamp</definition>
+        <argsstring>(int64_t timestamp_ms) const</argsstring>
+        <name>getSequenceForTimestamp</name>
+        <qualifiedname>themis::PITRManager::getSequenceForTimestamp</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>Get sequence number for a timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unix timestamp in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Latest sequence number &lt;= timestamp, nullopt if no events found</para>
+</simplesect>
+Useful for API clients that want to convert timestamps to sequences. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="270" column="19" bodyfile="src/storage/pitr_manager.cpp" bodystart="253" bodyend="255"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1a200e1dc81dc7c15879f1da060c4ffa48" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; uint64_t &gt;</type>
+        <definition>std::optional&lt; uint64_t &gt; themis::PITRManager::findSequenceForTimestamp</definition>
+        <argsstring>(int64_t timestamp_ms) const</argsstring>
+        <name>findSequenceForTimestamp</name>
+        <qualifiedname>themis::PITRManager::findSequenceForTimestamp</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>Find sequence number for a given timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the latest sequence &lt;= timestamp </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="285" column="19" bodyfile="src/storage/pitr_manager.cpp" bodystart="257" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1aecddfa163c96518a7b959c10e7a25c3f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PITRManager::Status themis::PITRManager::replayBackward</definition>
+        <argsstring>(uint64_t from_sequence, uint64_t to_sequence, const RestoreOptions &amp;options)</argsstring>
+        <name>replayBackward</name>
+        <qualifiedname>themis::PITRManager::replayBackward</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>from_sequence</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>to_sequence</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options" kindref="compound">RestoreOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Replay events backward from current to target sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Replay Backward.</para>
+<para>For each event in reverse order:<itemizedlist>
+<listitem><para>PUT → DELETE (remove the value)</para>
+</listitem><listitem><para>DELETE → PUT (restore the value)</para>
+</listitem><listitem><para>TRANSACTION_COMMIT/ROLLBACK → Metadata only, skip</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a8d2e0566aea4e59e09ce43a113e57e1a" kindref="member">Status::Error()</ref>, std::min(), listEvents(), size(), std::to_string(), THEMIS_INFO(), std::reverse(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="295" column="12" bodyfile="src/storage/pitr_manager.cpp" bodystart="286" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1ae2e469b93d3f505e0403a1bdaef1752d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PITRManager::Status themis::PITRManager::applyEventReverse</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event)</argsstring>
+        <name>applyEventReverse</name>
+        <qualifiedname>themis::PITRManager::applyEventReverse</qualifiedname>
+        <param>
+          <type>const Changefeed::ChangeEvent &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Apply a single event in reverse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply Event Reverse.</para>
+<para><itemizedlist>
+<listitem><para>PUT event → Delete the key</para>
+</listitem></itemizedlist>
+</para>
+<para>DELETE event → Restore previous value (requires value or before_snapshot)</para>
+<para>Fails closed when the previous value is unavailable.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: del(), <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a8d2e0566aea4e59e09ce43a113e57e1a" kindref="member">Status::Error()</ref>, has_value(), put(), <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a0199f41d79364eece738a10932b90ced" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="306" column="12" bodyfile="src/storage/pitr_manager.cpp" bodystart="381" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1a23663abe24da07263daf02f499983eb4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PITRManager::Status themis::PITRManager::createAutoBackup</definition>
+        <argsstring>(const RestoreOptions &amp;options)</argsstring>
+        <name>createAutoBackup</name>
+        <qualifiedname>themis::PITRManager::createAutoBackup</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_options" kindref="compound">RestoreOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Create automatic backup before restore. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Auto Backup.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: createTag(), has_value(), <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a8d2e0566aea4e59e09ce43a113e57e1a" kindref="member">Status::Error()</ref>, THEMIS_INFO(), <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status_1a0199f41d79364eece738a10932b90ced" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="311" column="12" bodyfile="src/storage/pitr_manager.cpp" bodystart="431" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1adfd88d38cdf0b9bdd62e732c7f4108d4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PITRManager::Status themis::PITRManager::validate</definition>
+        <argsstring>(uint64_t target_sequence, uint64_t current_sequence) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::PITRManager::validate</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>target_sequence</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>current_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Validate restore parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="316" column="12" bodyfile="src/storage/pitr_manager.cpp" bodystart="447" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_p_i_t_r_manager_1a6f106dd9d514a7ff60b08ea715f16deb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::PITRManager::updateProgress</definition>
+        <argsstring>(RestoreProgress::Phase phase, const std::string &amp;message=&quot;&quot;)</argsstring>
+        <name>updateProgress</name>
+        <qualifiedname>themis::PITRManager::updateProgress</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884" kindref="member">RestoreProgress::Phase</ref></type>
+          <declname>phase</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Update progress tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Progress.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="321" column="10" bodyfile="src/storage/pitr_manager.cpp" bodystart="467" bodyend="472"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Point-in-Time Recovery (PITR) Manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides Git-like functionality to restore the database to a previous state:<itemizedlist>
+<listitem><para>Restore to a specific sequence number</para>
+</listitem><listitem><para>Restore to a named snapshot (tag)</para>
+</listitem><listitem><para>Restore to a specific timestamp</para>
+</listitem><listitem><para>Preview restore operations (dry-run)</para>
+</listitem><listitem><para>Selective restore (table-level)</para>
+</listitem></itemizedlist>
+</para>
+<para>Safety features:<itemizedlist>
+<listitem><para>Automatic backup before restore</para>
+</listitem><listitem><para>Dry-run mode with detailed preview</para>
+</listitem><listitem><para>Automatic rollback on errors</para>
+</listitem><listitem><para>Progress tracking for long operations</para>
+</listitem></itemizedlist>
+</para>
+<para>Use cases:<itemizedlist>
+<listitem><para>Disaster Recovery: Restore after data corruption</para>
+</listitem><listitem><para>Schema Migration Rollback: Undo failed migrations</para>
+</listitem><listitem><para>Testing: Restore to known-good state</para>
+</listitem><listitem><para>Compliance: Restore to historical audit points</para>
+</listitem></itemizedlist>
+</para>
+<para>Implementation:<itemizedlist>
+<listitem><para>Uses Changefeed events for backward replay</para>
+</listitem><listitem><para>Reverses operations: PUT→DELETE, DELETE→PUT</para>
+</listitem><listitem><para>Maintains transaction atomicity</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safety:<itemizedlist>
+<listitem><para>NOT thread-safe: Restore operations should be single-threaded</para>
+</listitem><listitem><para>Concurrent reads/writes during restore are blocked</para>
+</listitem><listitem><para>Use external locking for production environments </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/storage/pitr_manager.h" line="62" column="1" bodyfile="include/storage/pitr_manager.h" bodystart="62" bodyend="322"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1ae2e469b93d3f505e0403a1bdaef1752d" prot="private" virt="non-virtual"><scope>themis::PITRManager</scope><name>applyEventReverse</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1a32c95a24823eaef97005a742708e12aa" prot="private" virt="non-virtual"><scope>themis::PITRManager</scope><name>changefeed_</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1a23663abe24da07263daf02f499983eb4" prot="private" virt="non-virtual"><scope>themis::PITRManager</scope><name>createAutoBackup</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1ac9ac187d25e353969a8af900ad5641d5" prot="private" virt="non-virtual"><scope>themis::PITRManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1a200e1dc81dc7c15879f1da060c4ffa48" prot="private" virt="non-virtual"><scope>themis::PITRManager</scope><name>findSequenceForTimestamp</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1ac47ac9a78a0459bf32ce145ecbc55731" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>getProgress</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1a267a4d4ebd540b0900515d1d27aff7fc" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>getSequenceForTag</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1affe52a821ad8039d522c8a40e25bbf15" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>getSequenceForTimestamp</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1a739a849a09c75663af9e89ce56fbb688" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>isRestoreInProgress</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1aa5497e8ce033346ddd53239f190b82c8" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1a038fe6176d607c43eb111851b2296560" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1aa3ff502f03ec3fb87a346713aa9c3cdc" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>PITRManager</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1a69e099e5344539931fe1c0139b910df9" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>PITRManager</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1a15d237bd58f0552736659827551f4203" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>PITRManager</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1a2529ff6a3a53720a520ec888e1af62e4" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>previewRestore</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1ae2c913851f3658801dc5079f850c7099" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>previewRestore</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1aa2e0639fab98c39792d2d25a28fbac6e" prot="private" virt="non-virtual"><scope>themis::PITRManager</scope><name>progress_</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1aecddfa163c96518a7b959c10e7a25c3f" prot="private" virt="non-virtual"><scope>themis::PITRManager</scope><name>replayBackward</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1a2fdb16b40ee69ef9eb6d7001e5ce12a0" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>restoreToSequence</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1abcb3beb493ae3d798f89231f6478c9ce" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>restoreToSequence</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1a705ca4b5a3743c8e674a6747c880ba99" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>restoreToTag</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1a2689ff3d3f1d403d33c285a595997340" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>restoreToTag</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1ababb9690b93bb30763c0807f9095ede7" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>restoreToTimestamp</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1a4fda23869f3c120d27abc5e029b16ab8" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>restoreToTimestamp</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1aeecb596c31a4ca504dcc4db8dc4890ac" prot="private" virt="non-virtual"><scope>themis::PITRManager</scope><name>snapshot_mgr_</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1a6f106dd9d514a7ff60b08ea715f16deb" prot="private" virt="non-virtual"><scope>themis::PITRManager</scope><name>updateProgress</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1adfd88d38cdf0b9bdd62e732c7f4108d4" prot="private" virt="non-virtual"><scope>themis::PITRManager</scope><name>validate</name></member>
+      <member refid="classthemis_1_1_p_i_t_r_manager_1a6d60f0a96ed7702a2104b402903afb0e" prot="public" virt="non-virtual"><scope>themis::PITRManager</scope><name>~PITRManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

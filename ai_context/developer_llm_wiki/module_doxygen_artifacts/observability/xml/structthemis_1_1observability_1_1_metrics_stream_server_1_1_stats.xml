@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_metrics_stream_server_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::MetricsStreamServer::Stats</compoundname>
+    <includes refid="metrics__stream__server_8h" local="no">metrics_stream_server.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metrics_stream_server_1_1_stats_1a8337e21bc4bc1a8f6f67c2c9c5a25a9b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::MetricsStreamServer::Stats::active_subscriptions</definition>
+        <argsstring></argsstring>
+        <name>active_subscriptions</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::Stats::active_subscriptions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of currently active subscriptions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="136" column="16" bodyfile="include/observability/metrics_stream_server.h" bodystart="136" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metrics_stream_server_1_1_stats_1aa062809207b7aa315c7fd62770832991" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::MetricsStreamServer::Stats::total_updates_pushed</definition>
+        <argsstring></argsstring>
+        <name>total_updates_pushed</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::Stats::total_updates_pushed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total metric updates pushed via <ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1af861918e3144ee13507910f6ca78fb2b" kindref="member">pushMetrics()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="138" column="18" bodyfile="include/observability/metrics_stream_server.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metrics_stream_server_1_1_stats_1a07c1863f55dc19f59b5dbf7eb2bcfda2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::MetricsStreamServer::Stats::total_deliveries</definition>
+        <argsstring></argsstring>
+        <name>total_deliveries</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::Stats::total_deliveries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total deliveries sent to subscribers (after filter / rate-limit). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="140" column="18" bodyfile="include/observability/metrics_stream_server.h" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metrics_stream_server_1_1_stats_1a947128d4ddc9637ffd84b23dd8e007fa" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::MetricsStreamServer::Stats::throttled_deliveries</definition>
+        <argsstring></argsstring>
+        <name>throttled_deliveries</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::Stats::throttled_deliveries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Deliveries skipped because the subscription interval had not elapsed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="142" column="18" bodyfile="include/observability/metrics_stream_server.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metrics_stream_server_1_1_stats_1ad96c1b17878e8183eaf3a76d8ca74de2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::MetricsStreamServer::Stats::filtered_deliveries</definition>
+        <argsstring></argsstring>
+        <name>filtered_deliveries</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::Stats::filtered_deliveries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Deliveries skipped because the update did not match the subscription. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="144" column="18" bodyfile="include/observability/metrics_stream_server.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated runtime statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/metrics_stream_server.h" line="134" column="5" bodyfile="include/observability/metrics_stream_server.h" bodystart="134" bodyend="145"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_metrics_stream_server_1_1_stats_1a8337e21bc4bc1a8f6f67c2c9c5a25a9b" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer::Stats</scope><name>active_subscriptions</name></member>
+      <member refid="structthemis_1_1observability_1_1_metrics_stream_server_1_1_stats_1ad96c1b17878e8183eaf3a76d8ca74de2" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer::Stats</scope><name>filtered_deliveries</name></member>
+      <member refid="structthemis_1_1observability_1_1_metrics_stream_server_1_1_stats_1a947128d4ddc9637ffd84b23dd8e007fa" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer::Stats</scope><name>throttled_deliveries</name></member>
+      <member refid="structthemis_1_1observability_1_1_metrics_stream_server_1_1_stats_1a07c1863f55dc19f59b5dbf7eb2bcfda2" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer::Stats</scope><name>total_deliveries</name></member>
+      <member refid="structthemis_1_1observability_1_1_metrics_stream_server_1_1_stats_1aa062809207b7aa315c7fd62770832991" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer::Stats</scope><name>total_updates_pushed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

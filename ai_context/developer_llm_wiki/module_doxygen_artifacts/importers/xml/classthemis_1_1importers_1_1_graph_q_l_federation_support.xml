@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_graph_q_l_federation_support" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::GraphQLFederationSupport</compoundname>
+    <includes refid="graphql__federation_8h" local="no">graphql_federation.h</includes>
+    <innerclass refid="classthemis_1_1importers_1_1_graph_q_l_federation_support_1_1_graph_q_l_schema_generator" prot="public">themis::importers::GraphQLFederationSupport::GraphQLSchemaGenerator</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/graphql_federation.h" line="21" column="1" bodyfile="include/importers/graphql_federation.h" bodystart="21" bodyend="67"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

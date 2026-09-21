@@ -1,0 +1,848 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRACheckpointManager</compoundname>
+    <includes refid="lora__checkpoint__manager_8h" local="no">lora_checkpoint_manager.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1_1_config" prot="public">themis::llm::lora::LoRACheckpointManager::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a8e89590c2105496d0d9d03e81faea817" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::lora::LoRACheckpointManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="168" column="17" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a9586bee25ea6d123011c52b1a36a7257" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::lora::LoRACheckpointManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="169" column="24" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a3e4773bcfe3df3f186bfa0ca4dde4a34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRACheckpointManager::LoRACheckpointManager</definition>
+        <argsstring>()</argsstring>
+        <name>LoRACheckpointManager</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::LoRACheckpointManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="82" column="5" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="160" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1afc113bb014ba91622257c18b6a86dec4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRACheckpointManager::LoRACheckpointManager</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>LoRACheckpointManager</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::LoRACheckpointManager</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Lo RACheckpoint Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="88" column="14" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="163" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1abc557f8a9f379acde1f3e216e2c9a8ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRACheckpointManager::~LoRACheckpointManager</definition>
+        <argsstring>()</argsstring>
+        <name>~LoRACheckpointManager</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::~LoRACheckpointManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="89" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a8560839bcdb8b0a40c026596580d1a40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRACheckpointManager::LoRACheckpointManager</definition>
+        <argsstring>(const LoRACheckpointManager &amp;)=delete</argsstring>
+        <name>LoRACheckpointManager</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::LoRACheckpointManager</qualifiedname>
+        <param>
+          <type>const LoRACheckpointManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="92" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1ae72b10864734c17906a0b8e05822667c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a3e4773bcfe3df3f186bfa0ca4dde4a34" kindref="member">LoRACheckpointManager</ref> &amp;</type>
+        <definition>LoRACheckpointManager &amp; themis::llm::lora::LoRACheckpointManager::operator=</definition>
+        <argsstring>(const LoRACheckpointManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a3e4773bcfe3df3f186bfa0ca4dde4a34" kindref="member">LoRACheckpointManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="93" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1aa71ab8ca112a7440b172936749431647" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRACheckpointManager::save</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::vector&lt; uint8_t &gt; &amp;weights, CheckpointMeta meta)</argsstring>
+        <name>save</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::save</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta" kindref="compound">CheckpointMeta</ref></type>
+          <declname>meta</declname>
+        </param>
+        <briefdescription>
+<para>── Save / Load ─────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Save.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="103" column="17" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="247" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a0bbec68fad8e9d346409c32a2f45a100" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_ref" kindref="compound">CheckpointRef</ref> &gt;</type>
+        <definition>std::optional&lt; CheckpointRef &gt; themis::llm::lora::LoRACheckpointManager::loadLatest</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>loadLatest</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::loadLatest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Load Latest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="112" column="19" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="350" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1acda870b8761cf8612190ee51d653faa5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_ref" kindref="compound">CheckpointRef</ref> &gt;</type>
+        <definition>std::optional&lt; CheckpointRef &gt; themis::llm::lora::LoRACheckpointManager::loadBest</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>loadBest</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::loadBest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Load Best. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="119" column="19" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="359" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1af8139c971827109c628b84e2a372bbfb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_ref" kindref="compound">CheckpointRef</ref> &gt;</type>
+        <definition>std::optional&lt; CheckpointRef &gt; themis::llm::lora::LoRACheckpointManager::loadByStep</definition>
+        <argsstring>(const std::string &amp;adapter_id, uint64_t step) const</argsstring>
+        <name>loadByStep</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::loadByStep</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+<para>Load By Step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="127" column="19" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="382" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a7c518681239c56e5ab5ad8556c1c3e25" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::llm::lora::LoRACheckpointManager::readWeights</definition>
+        <argsstring>(const CheckpointRef &amp;ref) const</argsstring>
+        <name>readWeights</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::readWeights</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_ref" kindref="compound">CheckpointRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Read Weights. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="135" column="17" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="413" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1ae36a19196d7180edd1e33d0a431a5973" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_ref" kindref="compound">CheckpointRef</ref> &gt;</type>
+        <definition>std::vector&lt; CheckpointRef &gt; themis::llm::lora::LoRACheckpointManager::listCheckpoints</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>listCheckpoints</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::listCheckpoints</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>── Listing / Management ───────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="143" column="17" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="291" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1af6bc3156820a43cdf9bb630c182e3dbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRACheckpointManager::deleteCheckpoint</definition>
+        <argsstring>(const std::string &amp;adapter_id, uint64_t step)</argsstring>
+        <name>deleteCheckpoint</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::deleteCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+<para>Delete Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), fs::path(), weightPath(), metaPath(), fs::exists(), fs::remove(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="151" column="10" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="439" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a23704245dffbfec9169f03f72b634a57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRACheckpointManager::deleteAll</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>deleteAll</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::deleteAll</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), fs::path(), adapterDir(), fs::exists(), fs::remove_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="157" column="10" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="455" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1adcbaf8ba4494a62ba4d573cb6c482611" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRACheckpointManager::prune</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>prune</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::prune</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Prune. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: readBestMeta(), fs::path(), adapterDir(), fs::exists(), fs::directory_iterator(), path(), filename(), string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="163" column="10" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="468" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a9be1ac497934e14e39269a357d221a32" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::llm::lora::LoRACheckpointManager::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="165" column="18" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a0164089139d2320fc6e4870a6be695ac" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRACheckpointManager::adapterDir</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>adapterDir</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::adapterDir</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Adapter Dir. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="176" column="17" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="172" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1afc84d3da1e3393fb9368b2a90f0e5181" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRACheckpointManager::weightPath</definition>
+        <argsstring>(const std::string &amp;adapter_id, uint64_t step) const</argsstring>
+        <name>weightPath</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::weightPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+<para>Weight Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="183" column="17" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="176" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1ab28b7803701e28db5312da2e79884f68" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRACheckpointManager::metaPath</definition>
+        <argsstring>(const std::string &amp;adapter_id, uint64_t step) const</argsstring>
+        <name>metaPath</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::metaPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+<para>Meta Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="190" column="17" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="183" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a9998907cf3a8d8569d0caf7f5799b391" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRACheckpointManager::writeMeta</definition>
+        <argsstring>(const std::string &amp;path, const CheckpointMeta &amp;meta) const</argsstring>
+        <name>writeMeta</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::writeMeta</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta" kindref="compound">CheckpointMeta</ref> &amp;</type>
+          <declname>meta</declname>
+        </param>
+        <briefdescription>
+<para>Write Meta. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="197" column="10" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="194" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a050cdb1669cc068c334991ef5859c2bf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta" kindref="compound">CheckpointMeta</ref></type>
+        <definition>CheckpointMeta themis::llm::lora::LoRACheckpointManager::readMeta</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>readMeta</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::readMeta</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Read Meta. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="203" column="20" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="202" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a01c0eaaee2935b31b43658864c7cbafa" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRACheckpointManager::updateBestRecord</definition>
+        <argsstring>(const std::string &amp;adapter_id, const CheckpointMeta &amp;meta) const</argsstring>
+        <name>updateBestRecord</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::updateBestRecord</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta" kindref="compound">CheckpointMeta</ref> &amp;</type>
+          <declname>meta</declname>
+        </param>
+        <briefdescription>
+<para>Update Best Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="209" column="10" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="208" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1aa1aff3cc028d7c041a04696fd4533978" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta" kindref="compound">CheckpointMeta</ref> &gt;</type>
+        <definition>std::optional&lt; CheckpointMeta &gt; themis::llm::lora::LoRACheckpointManager::readBestMeta</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>readBestMeta</name>
+        <qualifiedname>themis::llm::lora::LoRACheckpointManager::readBestMeta</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Read Best Meta. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="216" column="19" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="224" bodyend="234"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="71" column="1" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="71" bodyend="217"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a0164089139d2320fc6e4870a6be695ac" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>adapterDir</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a9be1ac497934e14e39269a357d221a32" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>config</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a8e89590c2105496d0d9d03e81faea817" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a23704245dffbfec9169f03f72b634a57" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>deleteAll</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1af6bc3156820a43cdf9bb630c182e3dbb" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>deleteCheckpoint</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1ae36a19196d7180edd1e33d0a431a5973" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>listCheckpoints</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1acda870b8761cf8612190ee51d653faa5" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>loadBest</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1af8139c971827109c628b84e2a372bbfb" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>loadByStep</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a0bbec68fad8e9d346409c32a2f45a100" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>loadLatest</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a3e4773bcfe3df3f186bfa0ca4dde4a34" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>LoRACheckpointManager</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1afc113bb014ba91622257c18b6a86dec4" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>LoRACheckpointManager</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a8560839bcdb8b0a40c026596580d1a40" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>LoRACheckpointManager</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1ab28b7803701e28db5312da2e79884f68" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>metaPath</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a9586bee25ea6d123011c52b1a36a7257" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1ae72b10864734c17906a0b8e05822667c" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1adcbaf8ba4494a62ba4d573cb6c482611" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>prune</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1aa1aff3cc028d7c041a04696fd4533978" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>readBestMeta</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a050cdb1669cc068c334991ef5859c2bf" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>readMeta</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a7c518681239c56e5ab5ad8556c1c3e25" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>readWeights</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1aa71ab8ca112a7440b172936749431647" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>save</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a01c0eaaee2935b31b43658864c7cbafa" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>updateBestRecord</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1afc84d3da1e3393fb9368b2a90f0e5181" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>weightPath</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1a9998907cf3a8d8569d0caf7f5799b391" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>writeMeta</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_checkpoint_manager_1abc557f8a9f379acde1f3e216e2c9a8ea" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRACheckpointManager</scope><name>~LoRACheckpointManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

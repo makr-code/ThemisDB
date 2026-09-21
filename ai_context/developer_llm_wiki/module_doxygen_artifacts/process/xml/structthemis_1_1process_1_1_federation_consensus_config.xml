@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_federation_consensus_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::FederationConsensusConfig</compoundname>
+    <includes refid="federation__consensus__manager_8h" local="no">federation_consensus_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_federation_consensus_config_1af8e0ef0397813cb1c2a837eb8ffdd6dd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::FederationConsensusConfig::network_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>network_latency_ms</name>
+        <qualifiedname>themis::process::FederationConsensusConfig::network_latency_ms</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_consensus_manager.h" line="27" column="12" bodyfile="include/process/federation_consensus_manager.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_federation_consensus_config_1a49093945775151b8a7794f67b796a62b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::FederationConsensusConfig::heartbeat_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_interval_ms</name>
+        <qualifiedname>themis::process::FederationConsensusConfig::heartbeat_interval_ms</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_consensus_manager.h" line="28" column="12" bodyfile="include/process/federation_consensus_manager.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_federation_consensus_config_1a36b14bc828e4c84d59785231ea03aeb8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::FederationConsensusConfig::election_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>election_timeout_ms</name>
+        <qualifiedname>themis::process::FederationConsensusConfig::election_timeout_ms</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_consensus_manager.h" line="29" column="12" bodyfile="include/process/federation_consensus_manager.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for consensus manager. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/federation_consensus_manager.h" line="26" column="1" bodyfile="include/process/federation_consensus_manager.h" bodystart="26" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_federation_consensus_config_1a36b14bc828e4c84d59785231ea03aeb8" prot="public" virt="non-virtual"><scope>themis::process::FederationConsensusConfig</scope><name>election_timeout_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_federation_consensus_config_1a49093945775151b8a7794f67b796a62b" prot="public" virt="non-virtual"><scope>themis::process::FederationConsensusConfig</scope><name>heartbeat_interval_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_federation_consensus_config_1af8e0ef0397813cb1c2a837eb8ffdd6dd" prot="public" virt="non-virtual"><scope>themis::process::FederationConsensusConfig</scope><name>network_latency_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ValidationResult</compoundname>
+    <includes refid="content__policy_8h" local="no">content_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_validation_result_1a1a184b50cc9a85fe88f890bfd38721c2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ValidationResult::allowed</definition>
+        <argsstring></argsstring>
+        <name>allowed</name>
+        <qualifiedname>themis::content::ValidationResult::allowed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="90" column="10" bodyfile="include/content/content_policy.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_validation_result_1a73b87cecea5d1e064ebbe65b3f93b498" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ValidationResult::mime_type</definition>
+        <argsstring></argsstring>
+        <name>mime_type</name>
+        <qualifiedname>themis::content::ValidationResult::mime_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="91" column="17" bodyfile="include/content/content_policy.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_validation_result_1ade20c2c59bb1684eb46d2daac8106625" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ValidationResult::file_size</definition>
+        <argsstring></argsstring>
+        <name>file_size</name>
+        <qualifiedname>themis::content::ValidationResult::file_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="92" column="14" bodyfile="include/content/content_policy.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_validation_result_1a4d3fd7a18accbadee54fb618f7c13e2a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ValidationResult::max_allowed_size</definition>
+        <argsstring></argsstring>
+        <name>max_allowed_size</name>
+        <qualifiedname>themis::content::ValidationResult::max_allowed_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="93" column="14" bodyfile="include/content/content_policy.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_validation_result_1adf16142138e8ff54cf21153651618e6b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ValidationResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::content::ValidationResult::reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="94" column="17" bodyfile="include/content/content_policy.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_validation_result_1a3e7e8ec11b2db283d62c287682b7d32e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ValidationResult::size_exceeded</definition>
+        <argsstring></argsstring>
+        <name>size_exceeded</name>
+        <qualifiedname>themis::content::ValidationResult::size_exceeded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="97" column="10" bodyfile="include/content/content_policy.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_validation_result_1a8af83b7d49f69392659c1494baf50293" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ValidationResult::blacklisted</definition>
+        <argsstring></argsstring>
+        <name>blacklisted</name>
+        <qualifiedname>themis::content::ValidationResult::blacklisted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="98" column="10" bodyfile="include/content/content_policy.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_validation_result_1a9d9fc2b52ee04cf52c3d54b3aa264e8d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ValidationResult::not_whitelisted</definition>
+        <argsstring></argsstring>
+        <name>not_whitelisted</name>
+        <qualifiedname>themis::content::ValidationResult::not_whitelisted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="99" column="10" bodyfile="include/content/content_policy.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_validation_result_1a5d129bcada62b02efa9ff65176bb9f99" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ValidationResult::ocr_recommended</definition>
+        <argsstring></argsstring>
+        <name>ocr_recommended</name>
+        <qualifiedname>themis::content::ValidationResult::ocr_recommended</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>OCR should be triggered (image MIME type + policy ocr_enabled). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="100" column="10" bodyfile="include/content/content_policy.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_policy.h" line="89" column="1" bodyfile="include/content/content_policy.h" bodystart="89" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_validation_result_1a1a184b50cc9a85fe88f890bfd38721c2" prot="public" virt="non-virtual"><scope>themis::content::ValidationResult</scope><name>allowed</name></member>
+      <member refid="structthemis_1_1content_1_1_validation_result_1a8af83b7d49f69392659c1494baf50293" prot="public" virt="non-virtual"><scope>themis::content::ValidationResult</scope><name>blacklisted</name></member>
+      <member refid="structthemis_1_1content_1_1_validation_result_1ade20c2c59bb1684eb46d2daac8106625" prot="public" virt="non-virtual"><scope>themis::content::ValidationResult</scope><name>file_size</name></member>
+      <member refid="structthemis_1_1content_1_1_validation_result_1a4d3fd7a18accbadee54fb618f7c13e2a" prot="public" virt="non-virtual"><scope>themis::content::ValidationResult</scope><name>max_allowed_size</name></member>
+      <member refid="structthemis_1_1content_1_1_validation_result_1a73b87cecea5d1e064ebbe65b3f93b498" prot="public" virt="non-virtual"><scope>themis::content::ValidationResult</scope><name>mime_type</name></member>
+      <member refid="structthemis_1_1content_1_1_validation_result_1a9d9fc2b52ee04cf52c3d54b3aa264e8d" prot="public" virt="non-virtual"><scope>themis::content::ValidationResult</scope><name>not_whitelisted</name></member>
+      <member refid="structthemis_1_1content_1_1_validation_result_1a5d129bcada62b02efa9ff65176bb9f99" prot="public" virt="non-virtual"><scope>themis::content::ValidationResult</scope><name>ocr_recommended</name></member>
+      <member refid="structthemis_1_1content_1_1_validation_result_1adf16142138e8ff54cf21153651618e6b" prot="public" virt="non-virtual"><scope>themis::content::ValidationResult</scope><name>reason</name></member>
+      <member refid="structthemis_1_1content_1_1_validation_result_1a3e7e8ec11b2db283d62c287682b7d32e" prot="public" virt="non-virtual"><scope>themis::content::ValidationResult</scope><name>size_exceeded</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

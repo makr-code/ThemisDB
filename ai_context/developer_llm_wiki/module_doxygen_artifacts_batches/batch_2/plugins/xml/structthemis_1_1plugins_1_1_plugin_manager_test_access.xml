@@ -1,0 +1,330 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_plugin_manager_test_access" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginManagerTestAccess</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a4965de4012f1171c64e5b627f94f9cfa" prot="public" static="no">
+        <type>PluginManager::PluginEntry</type>
+        <definition>using themis::plugins::PluginManagerTestAccess::PluginEntry = PluginManager::PluginEntry</definition>
+        <argsstring></argsstring>
+        <name>PluginEntry</name>
+        <qualifiedname>themis::plugins::PluginManagerTestAccess::PluginEntry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="32" column="5" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a060bec74bb9acd93f7803b4c244bf0cc" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">PluginsError</ref></type>
+        <definition>static PluginsError themis::plugins::PluginManagerTestAccess::recoverPartialRegistryState</definition>
+        <argsstring>(PluginManager &amp;manager, const std::string &amp;plugin_name)</argsstring>
+        <name>recoverPartialRegistryState</name>
+        <qualifiedname>themis::plugins::PluginManagerTestAccess::recoverPartialRegistryState</qualifiedname>
+        <param>
+          <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="34" column="25" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="34" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_plugin_manager_test_access_1aa7117f233277874b98c80d6d7ee6ef59" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">PluginsError</ref></type>
+        <definition>static PluginsError themis::plugins::PluginManagerTestAccess::validateManifestOptionalFields</definition>
+        <argsstring>(PluginManager &amp;manager, PluginManifest &amp;manifest)</argsstring>
+        <name>validateManifestOptionalFields</name>
+        <qualifiedname>themis::plugins::PluginManagerTestAccess::validateManifestOptionalFields</qualifiedname>
+        <param>
+          <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="38" column="25" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a54df36504620329d6f1a2e6ad884847f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">PluginsError</ref></type>
+        <definition>static PluginsError themis::plugins::PluginManagerTestAccess::validateConcurrentStateChange</definition>
+        <argsstring>(PluginManager &amp;manager, const PluginEntry &amp;plugin_entry, PluginLifecycleState requested_state)</argsstring>
+        <name>validateConcurrentStateChange</name>
+        <qualifiedname>themis::plugins::PluginManagerTestAccess::validateConcurrentStateChange</qualifiedname>
+        <param>
+          <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a4965de4012f1171c64e5b627f94f9cfa" kindref="member">PluginEntry</ref> &amp;</type>
+          <declname>plugin_entry</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cc" kindref="member">PluginLifecycleState</ref></type>
+          <declname>requested_state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="42" column="25" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="42" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a36d0a1b7045d4ea37ace3bbfac74fc89" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">PluginsError</ref></type>
+        <definition>static PluginsError themis::plugins::PluginManagerTestAccess::validateABICompatibility</definition>
+        <argsstring>(PluginManager &amp;manager, const PluginEntry &amp;previous_entry, const PluginManifest &amp;new_manifest)</argsstring>
+        <name>validateABICompatibility</name>
+        <qualifiedname>themis::plugins::PluginManagerTestAccess::validateABICompatibility</qualifiedname>
+        <param>
+          <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a4965de4012f1171c64e5b627f94f9cfa" kindref="member">PluginEntry</ref> &amp;</type>
+          <declname>previous_entry</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref> &amp;</type>
+          <declname>new_manifest</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="49" column="25" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="49" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a09c7c46795911d878a7c4f30a015896d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::plugins::PluginManagerTestAccess::verifyManifestSignatureWithTimeout</definition>
+        <argsstring>(PluginManager &amp;manager, const std::string &amp;manifest_path, uint32_t timeout_ms, std::string &amp;error_details)</argsstring>
+        <name>verifyManifestSignatureWithTimeout</name>
+        <qualifiedname>themis::plugins::PluginManagerTestAccess::verifyManifestSignatureWithTimeout</qualifiedname>
+        <param>
+          <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>manifest_path</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_details</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="56" column="17" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="56" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a7090ef5f17adb56a8ab6393884add017" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref></type>
+        <definition>static json themis::plugins::PluginManagerTestAccess::getDiagnosticsForPlugin</definition>
+        <argsstring>(PluginManager &amp;manager, const std::string &amp;plugin_name)</argsstring>
+        <name>getDiagnosticsForPlugin</name>
+        <qualifiedname>themis::plugins::PluginManagerTestAccess::getDiagnosticsForPlugin</qualifiedname>
+        <param>
+          <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="64" column="17" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="64" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a018531fbe2663a48ef0eba1b112a997c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222b" kindref="member">ManifestErrorCode</ref></type>
+        <definition>static ManifestErrorCode themis::plugins::PluginManagerTestAccess::validateManifestEditionRestrictions</definition>
+        <argsstring>(PluginManager &amp;manager, const PluginManifest &amp;manifest, std::string &amp;error_details)</argsstring>
+        <name>validateManifestEditionRestrictions</name>
+        <qualifiedname>themis::plugins::PluginManagerTestAccess::validateManifestEditionRestrictions</qualifiedname>
+        <param>
+          <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_details</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="68" column="30" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="68" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_plugin_manager_test_access_1ac83f34de43e2fe0f7bd2b801ddd11fa4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222b" kindref="member">ManifestErrorCode</ref></type>
+        <definition>static ManifestErrorCode themis::plugins::PluginManagerTestAccess::validateManifestPublicPrivateBoundary</definition>
+        <argsstring>(PluginManager &amp;manager, const PluginManifest &amp;manifest, const std::string &amp;plugin_path, std::string &amp;error_details)</argsstring>
+        <name>validateManifestPublicPrivateBoundary</name>
+        <qualifiedname>themis::plugins::PluginManagerTestAccess::validateManifestPublicPrivateBoundary</qualifiedname>
+        <param>
+          <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_path</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_details</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="75" column="30" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="75" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_plugin_manager_test_access_1afbc4b40a2a0293b5062af1a17a9258d8" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::plugins::PluginManagerTestAccess::formatDiagnosticMessage</definition>
+        <argsstring>(PluginsError error_code, const std::string &amp;context, const std::string &amp;plugin_name=&quot;&quot;)</argsstring>
+        <name>formatDiagnosticMessage</name>
+        <qualifiedname>themis::plugins::PluginManagerTestAccess::formatDiagnosticMessage</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">PluginsError</ref></type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="83" column="24" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="83" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_plugin_manager_test_access_1ac83f34de43e2fe0f7bd2b801ddd11fa4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222b" kindref="member">ManifestErrorCode</ref></type>
+        <definition>static ManifestErrorCode themis::plugins::PluginManagerTestAccess::validateManifestPublicPrivateBoundary</definition>
+        <argsstring>(PluginManager &amp;manager, const PluginManifest &amp;manifest, const std::string &amp;plugin_path, std::string &amp;error_details)</argsstring>
+        <name>validateManifestPublicPrivateBoundary</name>
+        <qualifiedname>themis::plugins::PluginManagerTestAccess::validateManifestPublicPrivateBoundary</qualifiedname>
+        <param>
+          <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_path</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_details</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manifest_edition_gates_focused.cpp" line="34" column="30" bodyfile="tests/plugins/test_plugin_manifest_edition_gates_focused.cpp" bodystart="34" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a018531fbe2663a48ef0eba1b112a997c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222b" kindref="member">ManifestErrorCode</ref></type>
+        <definition>static ManifestErrorCode themis::plugins::PluginManagerTestAccess::validateManifestEditionRestrictions</definition>
+        <argsstring>(PluginManager &amp;manager, const PluginManifest &amp;manifest, std::string &amp;error_details)</argsstring>
+        <name>validateManifestEditionRestrictions</name>
+        <qualifiedname>themis::plugins::PluginManagerTestAccess::validateManifestEditionRestrictions</qualifiedname>
+        <param>
+          <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_details</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manifest_edition_gates_focused.cpp" line="42" column="30" bodyfile="tests/plugins/test_plugin_manifest_edition_gates_focused.cpp" bodystart="42" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="31" column="1" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="31" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manager_test_access_1afbc4b40a2a0293b5062af1a17a9258d8" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManagerTestAccess</scope><name>formatDiagnosticMessage</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a7090ef5f17adb56a8ab6393884add017" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManagerTestAccess</scope><name>getDiagnosticsForPlugin</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a4965de4012f1171c64e5b627f94f9cfa" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManagerTestAccess</scope><name>PluginEntry</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a060bec74bb9acd93f7803b4c244bf0cc" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManagerTestAccess</scope><name>recoverPartialRegistryState</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a36d0a1b7045d4ea37ace3bbfac74fc89" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManagerTestAccess</scope><name>validateABICompatibility</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a54df36504620329d6f1a2e6ad884847f" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManagerTestAccess</scope><name>validateConcurrentStateChange</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a018531fbe2663a48ef0eba1b112a997c" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManagerTestAccess</scope><name>validateManifestEditionRestrictions</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a018531fbe2663a48ef0eba1b112a997c" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManagerTestAccess</scope><name>validateManifestEditionRestrictions</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manager_test_access_1aa7117f233277874b98c80d6d7ee6ef59" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManagerTestAccess</scope><name>validateManifestOptionalFields</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manager_test_access_1ac83f34de43e2fe0f7bd2b801ddd11fa4" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManagerTestAccess</scope><name>validateManifestPublicPrivateBoundary</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manager_test_access_1ac83f34de43e2fe0f7bd2b801ddd11fa4" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManagerTestAccess</scope><name>validateManifestPublicPrivateBoundary</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manager_test_access_1a09c7c46795911d878a7c4f30a015896d" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManagerTestAccess</scope><name>verifyManifestSignatureWithTimeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

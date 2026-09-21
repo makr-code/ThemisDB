@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1srv__dg_1_1_bench_route_table" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::srv_dg::BenchRouteTable</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1srv__dg_1_1_bench_route_table_1a72a519ff5acb37162f25e99eb054e0fe" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::bench::srv_dg::BenchRouteTable::table_</definition>
+        <argsstring></argsstring>
+        <name>table_</name>
+        <qualifiedname>themis::bench::srv_dg::BenchRouteTable::table_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="64" column="24" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1srv__dg_1_1_bench_route_table_1a170771273f6edaf3c9ccd45a18090c94" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::srv_dg::BenchRouteTable::BenchRouteTable</definition>
+        <argsstring>()</argsstring>
+        <name>BenchRouteTable</name>
+        <qualifiedname>themis::bench::srv_dg::BenchRouteTable::BenchRouteTable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="55" column="5" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="55" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1bench_1_1srv__dg_1_1_bench_route_table_1abce64222ab110a0cd4aded69e78b7349" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::srv_dg::BenchRouteTable::lookup</definition>
+        <argsstring>(const std::string &amp;r) const</argsstring>
+        <name>lookup</name>
+        <qualifiedname>themis::bench::srv_dg::BenchRouteTable::lookup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="60" column="10" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="60" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="54" column="1" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="54" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_route_table_1a170771273f6edaf3c9ccd45a18090c94" prot="public" virt="non-virtual"><scope>themis::bench::srv_dg::BenchRouteTable</scope><name>BenchRouteTable</name></member>
+      <member refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_route_table_1abce64222ab110a0cd4aded69e78b7349" prot="public" virt="non-virtual"><scope>themis::bench::srv_dg::BenchRouteTable</scope><name>lookup</name></member>
+      <member refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_route_table_1a72a519ff5acb37162f25e99eb054e0fe" prot="private" virt="non-virtual"><scope>themis::bench::srv_dg::BenchRouteTable</scope><name>table_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_l_d_a_p_config_1_1_group_mapping" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::LDAPConfig::GroupMapping</compoundname>
+    <includes refid="ldap__authenticator_8h" local="no">ldap_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1_1_group_mapping_1ab967e597c4e44f94f20d20c9e87d5cb0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPConfig::GroupMapping::group_name</definition>
+        <argsstring></argsstring>
+        <name>group_name</name>
+        <qualifiedname>themis::auth::LDAPConfig::GroupMapping::group_name</qualifiedname>
+        <briefdescription>
+<para><ref refid="ldap__connection__pool_8h_1ae1d91d802fce48f28cb3fa636dc5bc1e" kindref="member">LDAP</ref> group name (exact match). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="63" column="21" bodyfile="include/auth/ldap_authenticator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_l_d_a_p_config_1_1_group_mapping_1a0a07cb001f6e639d22b93c66d9083c1c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPConfig::GroupMapping::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>themis::auth::LDAPConfig::GroupMapping::role</qualifiedname>
+        <briefdescription>
+<para>ThemisDB role to assign. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="64" column="21" bodyfile="include/auth/ldap_authenticator.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/ldap_authenticator.h" line="62" column="5" bodyfile="include/auth/ldap_authenticator.h" bodystart="62" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1_1_group_mapping_1ab967e597c4e44f94f20d20c9e87d5cb0" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig::GroupMapping</scope><name>group_name</name></member>
+      <member refid="structthemis_1_1auth_1_1_l_d_a_p_config_1_1_group_mapping_1a0a07cb001f6e639d22b93c66d9083c1c" prot="public" virt="non-virtual"><scope>themis::auth::LDAPConfig::GroupMapping</scope><name>role</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

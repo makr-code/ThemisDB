@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_cd6695b662b103116b21c86e6f6f3747" kind="dir">
+    <compoundname>tests/aql</compoundname>
+    <innerdir refid="dir_1b7ef241a24201c1f2fe1e4e70c14fd6">tests/aql/fixtures</innerdir>
+    <innerfile refid="test__aql__agent_8cpp">test_aql_agent.cpp</innerfile>
+    <innerfile refid="test__aql__api__stability_8cpp">test_aql_api_stability.cpp</innerfile>
+    <innerfile refid="test__aql__async__backend_8cpp">test_aql_async_backend.cpp</innerfile>
+    <innerfile refid="test__aql__autocomplete_8cpp">test_aql_autocomplete.cpp</innerfile>
+    <innerfile refid="test__aql__bm25_8cpp">test_aql_bm25.cpp</innerfile>
+    <innerfile refid="test__aql__bridge__degradation_8cpp">test_aql_bridge_degradation.cpp</innerfile>
+    <innerfile refid="test__aql__circuit__breaker__policy_8cpp">test_aql_circuit_breaker_policy.cpp</innerfile>
+    <innerfile refid="test__aql__confidence__scorer_8cpp">test_aql_confidence_scorer.cpp</innerfile>
+    <innerfile refid="test__aql__consistency__hardening__focused_8cpp">test_aql_consistency_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__aql__conversation__concurrency_8cpp">test_aql_conversation_concurrency.cpp</innerfile>
+    <innerfile refid="test__aql__conversation__context_8cpp">test_aql_conversation_context.cpp</innerfile>
+    <innerfile refid="test__aql__explain_8cpp">test_aql_explain.cpp</innerfile>
+    <innerfile refid="test__aql__fewshot__example__library_8cpp">test_aql_fewshot_example_library.cpp</innerfile>
+    <innerfile refid="test__aql__fulltext__hybrid_8cpp">test_aql_fulltext_hybrid.cpp</innerfile>
+    <innerfile refid="test__aql__functions_8cpp">test_aql_functions.cpp</innerfile>
+    <innerfile refid="test__aql__general__traversal_8cpp">test_aql_general_traversal.cpp</innerfile>
+    <innerfile refid="test__aql__graphql__integration_8cpp">test_aql_graphql_integration.cpp</innerfile>
+    <innerfile refid="test__aql__highcardinality__stress_8cpp">test_aql_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__aql__injection__detector_8cpp">test_aql_injection_detector.cpp</innerfile>
+    <innerfile refid="test__aql__join__minimal_8cpp">test_aql_join_minimal.cpp</innerfile>
+    <innerfile refid="test__aql__let_8cpp">test_aql_let.cpp</innerfile>
+    <innerfile refid="test__aql__let__st_8cpp">test_aql_let_st.cpp</innerfile>
+    <innerfile refid="test__aql__llm__validation__pipeline_8cpp">test_aql_llm_validation_pipeline.cpp</innerfile>
+    <innerfile refid="test__aql__llm__validation__pipeline__phase04_8cpp">test_aql_llm_validation_pipeline_phase04.cpp</innerfile>
+    <innerfile refid="test__aql__lora__finetuner_8cpp">test_aql_lora_finetuner.cpp</innerfile>
+    <innerfile refid="test__aql__migration__assistant_8cpp">test_aql_migration_assistant.cpp</innerfile>
+    <innerfile refid="test__aql__model__router_8cpp">test_aql_model_router.cpp</innerfile>
+    <innerfile refid="test__aql__multi__statement__transaction_8cpp">test_aql_multi_statement_transaction.cpp</innerfile>
+    <innerfile refid="test__aql__multimodal_8cpp">test_aql_multimodal.cpp</innerfile>
+    <innerfile refid="test__aql__mutations__executor_8cpp">test_aql_mutations_executor.cpp</innerfile>
+    <innerfile refid="test__aql__mutations__parser_8cpp">test_aql_mutations_parser.cpp</innerfile>
+    <innerfile refid="test__aql__mutations__phase4_8cpp">test_aql_mutations_phase4.cpp</innerfile>
+    <innerfile refid="test__aql__mutations__phase5_8cpp">test_aql_mutations_phase5.cpp</innerfile>
+    <innerfile refid="test__aql__mutations__translator_8cpp">test_aql_mutations_translator.cpp</innerfile>
+    <innerfile refid="test__aql__mutations__validation_8cpp">test_aql_mutations_validation.cpp</innerfile>
+    <innerfile refid="test__aql__optimizer__advisor_8cpp">test_aql_optimizer_advisor.cpp</innerfile>
+    <innerfile refid="test__aql__or_8cpp">test_aql_or.cpp</innerfile>
+    <innerfile refid="test__aql__or__not_8cpp">test_aql_or_not.cpp</innerfile>
+    <innerfile refid="test__aql__parser_8cpp">test_aql_parser.cpp</innerfile>
+    <innerfile refid="test__aql__path__constraints_8cpp">test_aql_path_constraints.cpp</innerfile>
+    <innerfile refid="test__aql__provider__degradation_8cpp">test_aql_provider_degradation.cpp</innerfile>
+    <innerfile refid="test__aql__proximity_8cpp">test_aql_proximity.cpp</innerfile>
+    <innerfile refid="test__aql__proximity__dispatch_8cpp">test_aql_proximity_dispatch.cpp</innerfile>
+    <innerfile refid="test__aql__proximity__let_8cpp">test_aql_proximity_let.cpp</innerfile>
+    <innerfile refid="test__aql__query__builder_8cpp">test_aql_query_builder.cpp</innerfile>
+    <innerfile refid="test__aql__query__diff__explainer_8cpp">test_aql_query_diff_explainer.cpp</innerfile>
+    <innerfile refid="test__aql__query__template__library_8cpp">test_aql_query_template_library.cpp</innerfile>
+    <innerfile refid="test__aql__query__validator_8cpp">test_aql_query_validator.cpp</innerfile>
+    <innerfile refid="test__aql__rollback__suggester_8cpp">test_aql_rollback_suggester.cpp</innerfile>
+    <innerfile refid="test__aql__schema__aware_8cpp">test_aql_schema_aware.cpp</innerfile>
+    <innerfile refid="test__aql__schema__edge__cases_8cpp">test_aql_schema_edge_cases.cpp</innerfile>
+    <innerfile refid="test__aql__shortest__path_8cpp">test_aql_shortest_path.cpp</innerfile>
+    <innerfile refid="test__aql__shortest__path__dispatch_8cpp">test_aql_shortest_path_dispatch.cpp</innerfile>
+    <innerfile refid="test__aql__shortestpath_8cpp">test_aql_shortestpath.cpp</innerfile>
+    <innerfile refid="test__aql__similarity_8cpp">test_aql_similarity.cpp</innerfile>
+    <innerfile refid="test__aql__similarity__dispatch_8cpp">test_aql_similarity_dispatch.cpp</innerfile>
+    <innerfile refid="test__aql__similarity__let_8cpp">test_aql_similarity_let.cpp</innerfile>
+    <innerfile refid="test__aql__st__predicates_8cpp">test_aql_st_predicates.cpp</innerfile>
+    <innerfile refid="test__aql__subqueries_8cpp">test_aql_subqueries.cpp</innerfile>
+    <innerfile refid="test__aql__syntax__highlighter_8cpp">test_aql_syntax_highlighter.cpp</innerfile>
+    <innerfile refid="test__aql__token__policy_8cpp">test_aql_token_policy.cpp</innerfile>
+    <innerfile refid="test__aql__token__stream_8cpp">test_aql_token_stream.cpp</innerfile>
+    <innerfile refid="test__aql__translation__recovery_8cpp">test_aql_translation_recovery.cpp</innerfile>
+    <innerfile refid="test__aql__translator_8cpp">test_aql_translator.cpp</innerfile>
+    <innerfile refid="test__aql__validation__error__handling_8cpp">test_aql_validation_error_handling.cpp</innerfile>
+    <innerfile refid="test__aql__with__clause_8cpp">test_aql_with_clause.cpp</innerfile>
+    <innerfile refid="test__episodic__compaction_8cpp">test_episodic_compaction.cpp</innerfile>
+    <innerfile refid="test__llm__aql__handler__phase03_8cpp">test_llm_aql_handler_phase03.cpp</innerfile>
+    <innerfile refid="test__p2__d05__runtime__integration_8cpp">test_p2_d05_runtime_integration.cpp</innerfile>
+    <innerfile refid="test__p2__d06__benchmarks_8cpp">test_p2_d06_benchmarks.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/"/>
+  </compounddef>
+</doxygen>

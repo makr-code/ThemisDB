@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_blob_ref" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::BlobRef</compoundname>
+    <includes refid="blob__storage__backend_8h" local="no">blob_storage_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_ref_1aee8e0ab57630baddb77b617ae206291b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::BlobRef::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::storage::BlobRef::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="44" column="17" bodyfile="include/storage/blob_storage_backend.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_ref_1a928a3f3e7ff050fff50f6075df659b92" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42" kindref="member">BlobStorageType</ref></type>
+        <definition>BlobStorageType themis::storage::BlobRef::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::storage::BlobRef::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="45" column="21" bodyfile="include/storage/blob_storage_backend.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_ref_1ad95c84baf77bda97a2a4c216869eb0e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::BlobRef::uri</definition>
+        <argsstring></argsstring>
+        <name>uri</name>
+        <qualifiedname>themis::storage::BlobRef::uri</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="46" column="17" bodyfile="include/storage/blob_storage_backend.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_ref_1a69de9d18e7520f657d00e7d034dc1da6" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::BlobRef::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::storage::BlobRef::size_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="47" column="13" bodyfile="include/storage/blob_storage_backend.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_ref_1a8df7e72f728ed0b8cd7634b394d099ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::BlobRef::hash_sha256</definition>
+        <argsstring></argsstring>
+        <name>hash_sha256</name>
+        <qualifiedname>themis::storage::BlobRef::hash_sha256</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="48" column="17" bodyfile="include/storage/blob_storage_backend.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_ref_1a7bf3f22475384b34d96f7e334b03e11c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::BlobRef::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::storage::BlobRef::created_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="51" column="13" bodyfile="include/storage/blob_storage_backend.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_ref_1aac896fea128639fcad074ac059fbd85f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::BlobRef::compressed</definition>
+        <argsstring></argsstring>
+        <name>compressed</name>
+        <qualifiedname>themis::storage::BlobRef::compressed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="52" column="10" bodyfile="include/storage/blob_storage_backend.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_ref_1ad1f3fe746fd8f62e9d007d9daf794317" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::BlobRef::compression_type</definition>
+        <argsstring></argsstring>
+        <name>compression_type</name>
+        <qualifiedname>themis::storage::BlobRef::compression_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="53" column="17" bodyfile="include/storage/blob_storage_backend.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Blob Reference. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Contains metadata about a blob stored in an external backend. </para>
+    </detaileddescription>
+    <location file="include/storage/blob_storage_backend.h" line="43" column="1" bodyfile="include/storage/blob_storage_backend.h" bodystart="43" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_blob_ref_1aac896fea128639fcad074ac059fbd85f" prot="public" virt="non-virtual"><scope>themis::storage::BlobRef</scope><name>compressed</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_ref_1ad1f3fe746fd8f62e9d007d9daf794317" prot="public" virt="non-virtual"><scope>themis::storage::BlobRef</scope><name>compression_type</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_ref_1a7bf3f22475384b34d96f7e334b03e11c" prot="public" virt="non-virtual"><scope>themis::storage::BlobRef</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_ref_1a8df7e72f728ed0b8cd7634b394d099ad" prot="public" virt="non-virtual"><scope>themis::storage::BlobRef</scope><name>hash_sha256</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_ref_1aee8e0ab57630baddb77b617ae206291b" prot="public" virt="non-virtual"><scope>themis::storage::BlobRef</scope><name>id</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_ref_1a69de9d18e7520f657d00e7d034dc1da6" prot="public" virt="non-virtual"><scope>themis::storage::BlobRef</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_ref_1a928a3f3e7ff050fff50f6075df659b92" prot="public" virt="non-virtual"><scope>themis::storage::BlobRef</scope><name>type</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_ref_1ad95c84baf77bda97a2a4c216869eb0e8" prot="public" virt="non-virtual"><scope>themis::storage::BlobRef</scope><name>uri</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,523 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::user_storage::Argon2idKeyDerivationService</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service" prot="public" virt="non-virtual">themis::plugins::user_storage::IKeyDerivationService</basecompoundref>
+    <basecompoundref refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service" prot="public" virt="non-virtual">themis::plugins::user_storage::KeyDerivationService</basecompoundref>
+    <includes refid="key__derivation__service_8hpp" local="no">key_derivation_service.hpp</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1afa529790d0764cd47059ba8e80ac42b4" prot="public" static="no">
+        <type>std::function&lt; <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; uint8_t &gt; &gt;( const std::vector&lt; uint8_t &gt; &amp;master_key, const std::vector&lt; uint8_t &gt; &amp;salt)&gt;</type>
+        <definition>using themis::plugins::user_storage::Argon2idKeyDerivationService::DeriveKeyFn = std::function&lt;Result&lt;std::vector&lt;uint8_t&gt;&gt;(
+       const std::vector&lt;uint8_t&gt;&amp; master_key,
+       const std::vector&lt;uint8_t&gt;&amp; salt)&gt;</definition>
+        <argsstring></argsstring>
+        <name>DeriveKeyFn</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idKeyDerivationService::DeriveKeyFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="123" column="5" bodyfile="include/user_storage_encrypted/key_derivation_service.hpp" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a5b6f0595431eb5fe774ee17e49e88cb9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::user_storage::Argon2idKeyDerivationService::kMemoryCost</definition>
+        <argsstring></argsstring>
+        <name>kMemoryCost</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idKeyDerivationService::kMemoryCost</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+<para>KiB (64 MiB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="112" column="31" bodyfile="include/user_storage_encrypted/key_derivation_service.hpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ab2a26ab70ed84fc7f17ef35064d6c804" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::user_storage::Argon2idKeyDerivationService::kTimeCost</definition>
+        <argsstring></argsstring>
+        <name>kTimeCost</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idKeyDerivationService::kTimeCost</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="113" column="31" bodyfile="include/user_storage_encrypted/key_derivation_service.hpp" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a055ba60ba4d76f024cdf90116bcbbcff" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::user_storage::Argon2idKeyDerivationService::kParallelism</definition>
+        <argsstring></argsstring>
+        <name>kParallelism</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idKeyDerivationService::kParallelism</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="114" column="31" bodyfile="include/user_storage_encrypted/key_derivation_service.hpp" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ae79f1d884e15f57d27ebe5da824af811" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::user_storage::Argon2idKeyDerivationService::kKeyLength</definition>
+        <argsstring></argsstring>
+        <name>kKeyLength</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idKeyDerivationService::kKeyLength</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+<para>bytes </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="115" column="31" bodyfile="include/user_storage_encrypted/key_derivation_service.hpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ac1f1ae9292607973c66b0f8b1966320c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params" kindref="compound">Argon2idParams</ref></type>
+        <definition>Argon2idParams themis::plugins::user_storage::Argon2idKeyDerivationService::params_</definition>
+        <argsstring></argsstring>
+        <name>params_</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idKeyDerivationService::params_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="153" column="20" bodyfile="include/user_storage_encrypted/key_derivation_service.hpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ac8c1a352be5319647609e214d1950d15" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::Argon2idKeyDerivationService::Argon2idKeyDerivationService</definition>
+        <argsstring>(const Argon2idParams &amp;params=Argon2idParams{})</argsstring>
+        <name>Argon2idKeyDerivationService</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idKeyDerivationService::Argon2idKeyDerivationService</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params" kindref="compound">Argon2idParams</ref> &amp;</type>
+          <declname>params</declname>
+          <defval><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params" kindref="compound">Argon2idParams</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="117" column="14" bodyfile="src/user_storage_encrypted/key_derivation_service.cpp" bodystart="296" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1abb8f3facbb9b8e0c110f0544b253cd49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::Argon2idKeyDerivationService::~Argon2idKeyDerivationService</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~Argon2idKeyDerivationService</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idKeyDerivationService::~Argon2idKeyDerivationService</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="118" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1abacb854a43377d2afcb9c862a966b113" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::plugins::user_storage::Argon2idKeyDerivationService::deriveKey</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;master_key, const std::vector&lt; uint8_t &gt; &amp;salt) const override</argsstring>
+        <name>deriveKey</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idKeyDerivationService::deriveKey</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service_1a03c2df5d557322b844aac5b3b7d55767">deriveKey</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>master_key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>salt</declname>
+        </param>
+        <briefdescription>
+<para>Derive a 256-bit (32-byte) key from master_key and salt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>master_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw key material (must not be empty). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>salt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-container or per-user salt (must not be empty). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>32-byte derived key on success, or error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s_kdf_fn_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="131" column="12" bodyfile="src/user_storage_encrypted/key_derivation_service.cpp" bodystart="139" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a165e881f885e9ce9b42338632cc865d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::plugins::user_storage::Argon2idKeyDerivationService::generateSalt</definition>
+        <argsstring>() const override</argsstring>
+        <name>generateSalt</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idKeyDerivationService::generateSalt</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service_1a93819bc58b0097456c966372931fc353">generateSalt</reimplements>
+        <briefdescription>
+<para>Generate a cryptographically random salt suitable for this KDF. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>32-byte random salt. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="136" column="12" bodyfile="src/user_storage_encrypted/key_derivation_service.cpp" bodystart="196" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a50de0cabb54d91a924104b0672d83e68" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::plugins::user_storage::Argon2idKeyDerivationService::loadOrCreateSalt</definition>
+        <argsstring>(const std::string &amp;salt_file_path) const override</argsstring>
+        <name>loadOrCreateSalt</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idKeyDerivationService::loadOrCreateSalt</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service_1a33b9d6a0ce6df85c3fd4695be70d0d06">loadOrCreateSalt</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>salt_file_path</declname>
+        </param>
+        <briefdescription>
+<para>Load salt from a file, creating it with <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a165e881f885e9ce9b42338632cc865d8" kindref="member">generateSalt()</ref> if absent. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>salt_file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the salt file (e.g., &quot;.themis_kdf_salt&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Salt bytes. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>F. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">salt_file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the salt file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Another process may have created it concurrently — try to read <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">salt_file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the salt file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="138" column="12" bodyfile="src/user_storage_encrypted/key_derivation_service.cpp" bodystart="225" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1aa4cb19e39968e18ba040e8de951e2f84" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::plugins::user_storage::Argon2idKeyDerivationService::derive</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;master_key, const std::string &amp;user_id, const std::string &amp;container_id, const std::vector&lt; uint8_t &gt; &amp;salt) override</argsstring>
+        <name>derive</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idKeyDerivationService::derive</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1abf508cab4525d6e1524afb441aa505a9">derive</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>master_key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>container_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>salt</declname>
+        </param>
+        <briefdescription>
+<para>Derive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">master_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">container_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the container. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">salt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), size(), reserve(), insert(), end(), begin(), data(), derived_key(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="143" column="17" bodyfile="src/user_storage_encrypted/key_derivation_service.cpp" bodystart="310" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a4d7396feff10cc27fe3c499637fc3c2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::plugins::user_storage::Argon2idKeyDerivationService::generateSalt</definition>
+        <argsstring>(size_t length) override</argsstring>
+        <name>generateSalt</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idKeyDerivationService::generateSalt</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1a8d83a4462949fca86c59d8fbf4c9ade6">generateSalt</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+<para>Generate Salt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: salt(), rd(), open(), read(), data(), close(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="150" column="17" bodyfile="src/user_storage_encrypted/key_derivation_service.cpp" bodystart="372" bodyend="404"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a003e4fd62e173c7109ecfc360b04a363" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::user_storage::Argon2idKeyDerivationService::setDeriveKeyFn</definition>
+        <argsstring>(DeriveKeyFn fn)</argsstring>
+        <name>setDeriveKeyFn</name>
+        <qualifiedname>themis::plugins::user_storage::Argon2idKeyDerivationService::setDeriveKeyFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1afa529790d0764cd47059ba8e80ac42b4" kindref="member">DeriveKeyFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a custom KDF (e.g., real Argon2id). Pass empty fn to restore default. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Derive Key Fn.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="128" column="17" bodyfile="src/user_storage_encrypted/key_derivation_service.cpp" bodystart="133" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Argon2id key derivation service — unified implementation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Inherits from both <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service" kindref="compound">IKeyDerivationService</ref> (<ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result&lt;&gt;</ref>-based API) and <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service" kindref="compound">KeyDerivationService</ref> (plain-vector API) so a single instance can be used with either interface.</para>
+<para>Parameters (NIST / OWASP recommended for interactive use):<itemizedlist>
+<listitem><para>Memory: m = 65536 KiB (64 MiB)</para>
+</listitem><listitem><para>Iterations: t = 3</para>
+</listitem><listitem><para>Parallelism: p = 4</para>
+</listitem><listitem><para>Output: 32 bytes (256 bit)</para>
+</listitem></itemizedlist>
+</para>
+<para>Requires libargon2 (apt: libargon2-dev). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::plugins::user_storage::Argon2idKeyDerivationService</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::user_storage::IKeyDerivationService</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service"/>
+      </node>
+      <node id="3">
+        <label>themis::plugins::user_storage::KeyDerivationService</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::plugins::user_storage::Argon2idKeyDerivationService</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::user_storage::IKeyDerivationService</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service"/>
+      </node>
+      <node id="3">
+        <label>themis::plugins::user_storage::KeyDerivationService</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/user_storage_encrypted/key_derivation_service.hpp" line="109" column="1" bodyfile="include/user_storage_encrypted/key_derivation_service.hpp" bodystart="109" bodyend="154"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ac8c1a352be5319647609e214d1950d15" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Argon2idKeyDerivationService</scope><name>Argon2idKeyDerivationService</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1aa4cb19e39968e18ba040e8de951e2f84" prot="public" virt="virtual"><scope>themis::plugins::user_storage::Argon2idKeyDerivationService</scope><name>derive</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1abacb854a43377d2afcb9c862a966b113" prot="public" virt="virtual"><scope>themis::plugins::user_storage::Argon2idKeyDerivationService</scope><name>deriveKey</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1afa529790d0764cd47059ba8e80ac42b4" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Argon2idKeyDerivationService</scope><name>DeriveKeyFn</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a165e881f885e9ce9b42338632cc865d8" prot="public" virt="virtual"><scope>themis::plugins::user_storage::Argon2idKeyDerivationService</scope><name>generateSalt</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a4d7396feff10cc27fe3c499637fc3c2f" prot="public" virt="virtual"><scope>themis::plugins::user_storage::Argon2idKeyDerivationService</scope><name>generateSalt</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ae79f1d884e15f57d27ebe5da824af811" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Argon2idKeyDerivationService</scope><name>kKeyLength</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a5b6f0595431eb5fe774ee17e49e88cb9" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Argon2idKeyDerivationService</scope><name>kMemoryCost</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a055ba60ba4d76f024cdf90116bcbbcff" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Argon2idKeyDerivationService</scope><name>kParallelism</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ab2a26ab70ed84fc7f17ef35064d6c804" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Argon2idKeyDerivationService</scope><name>kTimeCost</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a50de0cabb54d91a924104b0672d83e68" prot="public" virt="virtual"><scope>themis::plugins::user_storage::Argon2idKeyDerivationService</scope><name>loadOrCreateSalt</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ac1f1ae9292607973c66b0f8b1966320c" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::Argon2idKeyDerivationService</scope><name>params_</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a003e4fd62e173c7109ecfc360b04a363" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Argon2idKeyDerivationService</scope><name>setDeriveKeyFn</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1abb8f3facbb9b8e0c110f0544b253cd49" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::Argon2idKeyDerivationService</scope><name>~Argon2idKeyDerivationService</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service_1ad8faeafb85140dcee5c0f70e12540b4a" prot="public" virt="virtual"><scope>themis::plugins::user_storage::Argon2idKeyDerivationService</scope><name>~IKeyDerivationService</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1ad3f3dcc9c359238db5ef58233e8e5977" prot="public" virt="virtual"><scope>themis::plugins::user_storage::Argon2idKeyDerivationService</scope><name>~KeyDerivationService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

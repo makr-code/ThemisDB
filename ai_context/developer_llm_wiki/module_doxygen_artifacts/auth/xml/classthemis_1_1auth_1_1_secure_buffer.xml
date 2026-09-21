@@ -1,0 +1,456 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_secure_buffer" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::SecureBuffer</compoundname>
+    <includes refid="secure__memory_8h" local="no">secure_memory.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_secure_buffer_1ab916d3bc3c6f52d84c180a86baa47456" prot="private" static="no" mutable="no">
+        <type>T *</type>
+        <definition>T* themis::auth::SecureBuffer&lt; T &gt;::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themis::auth::SecureBuffer::data_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="300" column="16" bodyfile="include/auth/secure_memory.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_secure_buffer_1afe962bbe5f95837b9b66443e6c068646" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::auth::SecureBuffer&lt; T &gt;::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::auth::SecureBuffer::size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="301" column="17" bodyfile="include/auth/secure_memory.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1a0d4d859ce3c66bb6b6e3e9f0da810cc2" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SecureBuffer&lt; T &gt;::SecureBuffer</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>SecureBuffer</name>
+        <qualifiedname>themis::auth::SecureBuffer::SecureBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="222" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1a6f6460da7edd4973e362be2b2915dabd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SecureBuffer&lt; T &gt;::SecureBuffer</definition>
+        <argsstring>(std::size_t n, T val=T{})</argsstring>
+        <name>SecureBuffer</name>
+        <qualifiedname>themis::auth::SecureBuffer::SecureBuffer</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>T</type>
+          <declname>val</declname>
+          <defval>T{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="224" column="5" bodyfile="include/auth/secure_memory.h" bodystart="224" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1a0933e16285803ad50b012c9d296db568" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SecureBuffer&lt; T &gt;::SecureBuffer</definition>
+        <argsstring>(const std::vector&lt; T &gt; &amp;v)</argsstring>
+        <name>SecureBuffer</name>
+        <qualifiedname>themis::auth::SecureBuffer::SecureBuffer</qualifiedname>
+        <param>
+          <type>const std::vector&lt; T &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="235" column="5" bodyfile="include/auth/secure_memory.h" bodystart="235" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1aac2e6f4cb1df231f3661c06a988242b9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SecureBuffer&lt; T &gt;::SecureBuffer</definition>
+        <argsstring>(const SecureBuffer &amp;o)</argsstring>
+        <name>SecureBuffer</name>
+        <qualifiedname>themis::auth::SecureBuffer::SecureBuffer</qualifiedname>
+        <param>
+          <type>const SecureBuffer &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="240" column="5" bodyfile="include/auth/secure_memory.h" bodystart="240" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1af85e35a21d40b9d0b910df3efb2a865e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_secure_buffer_1a0d4d859ce3c66bb6b6e3e9f0da810cc2" kindref="member">SecureBuffer</ref> &amp;</type>
+        <definition>SecureBuffer &amp; themis::auth::SecureBuffer&lt; T &gt;::operator=</definition>
+        <argsstring>(const SecureBuffer &amp;o)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::SecureBuffer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_secure_buffer_1a0d4d859ce3c66bb6b6e3e9f0da810cc2" kindref="member">SecureBuffer</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="244" column="18" bodyfile="include/auth/secure_memory.h" bodystart="244" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1af5c0b24f4fc6a7df40b647b506ec06ea" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_secure_buffer_1a0d4d859ce3c66bb6b6e3e9f0da810cc2" kindref="member">SecureBuffer</ref> &amp;</type>
+        <definition>SecureBuffer &amp; themis::auth::SecureBuffer&lt; T &gt;::operator=</definition>
+        <argsstring>(const std::vector&lt; T &gt; &amp;v)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::SecureBuffer::operator=</qualifiedname>
+        <param>
+          <type>const std::vector&lt; T &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="249" column="18" bodyfile="include/auth/secure_memory.h" bodystart="249" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1a63c836b7d1ad3bac0e20d2cb1f5d8825" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SecureBuffer&lt; T &gt;::SecureBuffer</definition>
+        <argsstring>(SecureBuffer &amp;&amp;o) noexcept</argsstring>
+        <name>SecureBuffer</name>
+        <qualifiedname>themis::auth::SecureBuffer::SecureBuffer</qualifiedname>
+        <param>
+          <type>SecureBuffer &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="254" column="5" bodyfile="include/auth/secure_memory.h" bodystart="254" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1aafb5af9033cc3cd57189612181db59b0" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_secure_buffer_1a0d4d859ce3c66bb6b6e3e9f0da810cc2" kindref="member">SecureBuffer</ref> &amp;</type>
+        <definition>SecureBuffer &amp; themis::auth::SecureBuffer&lt; T &gt;::operator=</definition>
+        <argsstring>(SecureBuffer &amp;&amp;o) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::SecureBuffer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_secure_buffer_1a0d4d859ce3c66bb6b6e3e9f0da810cc2" kindref="member">SecureBuffer</ref> &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="259" column="18" bodyfile="include/auth/secure_memory.h" bodystart="259" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1aab8600da6d672d158d510b105374197e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SecureBuffer&lt; T &gt;::~SecureBuffer</definition>
+        <argsstring>()</argsstring>
+        <name>~SecureBuffer</name>
+        <qualifiedname>themis::auth::SecureBuffer::~SecureBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="268" column="5" bodyfile="include/auth/secure_memory.h" bodystart="268" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1a40e3d7085874bc24b4addeedbd613deb" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * themis::auth::SecureBuffer&lt; T &gt;::data</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::auth::SecureBuffer::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="270" column="16" bodyfile="include/auth/secure_memory.h" bodystart="270" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1ad08020401dd9f732b8c4cb979acdebb1" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const T *</type>
+        <definition>const T * themis::auth::SecureBuffer&lt; T &gt;::data</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::auth::SecureBuffer::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="271" column="16" bodyfile="include/auth/secure_memory.h" bodystart="271" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1aa9f2c24e5d33923d85efe9c635b45c68" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::auth::SecureBuffer&lt; T &gt;::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::auth::SecureBuffer::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="272" column="17" bodyfile="include/auth/secure_memory.h" bodystart="272" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1adb17f4db3db41190e36377247806baae" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::SecureBuffer&lt; T &gt;::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::auth::SecureBuffer::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="273" column="17" bodyfile="include/auth/secure_memory.h" bodystart="273" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1a75a594f3eab4deff452148681420d604" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T &amp; themis::auth::SecureBuffer&lt; T &gt;::operator[]</definition>
+        <argsstring>(std::size_t i) noexcept</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>themis::auth::SecureBuffer::operator[]</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="275" column="13" bodyfile="include/auth/secure_memory.h" bodystart="275" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1aa3590f78cb0554ad8d1a5c1e99196e3f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const T &amp;</type>
+        <definition>const T &amp; themis::auth::SecureBuffer&lt; T &gt;::operator[]</definition>
+        <argsstring>(std::size_t i) const noexcept</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>themis::auth::SecureBuffer::operator[]</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="276" column="13" bodyfile="include/auth/secure_memory.h" bodystart="276" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1a721cbc95f1ce7ad7eb6c6019bad87d6c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::SecureBuffer&lt; T &gt;::operator==</definition>
+        <argsstring>(const SecureBuffer &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::auth::SecureBuffer::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_secure_buffer_1a0d4d859ce3c66bb6b6e3e9f0da810cc2" kindref="member">SecureBuffer</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="278" column="10" bodyfile="include/auth/secure_memory.h" bodystart="278" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1a221bdeb1fba1747196b95dc26f336f24" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::SecureBuffer&lt; T &gt;::operator==</definition>
+        <argsstring>(const std::vector&lt; T &gt; &amp;v) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::auth::SecureBuffer::operator==</qualifiedname>
+        <param>
+          <type>const std::vector&lt; T &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="287" column="10" bodyfile="include/auth/secure_memory.h" bodystart="287" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1a56716135ebe93c155b15b9190315ee93" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::SecureBuffer&lt; T &gt;::operator!=</definition>
+        <argsstring>(const SecureBuffer &amp;o) const noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::auth::SecureBuffer::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_secure_buffer_1a0d4d859ce3c66bb6b6e3e9f0da810cc2" kindref="member">SecureBuffer</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="296" column="10" bodyfile="include/auth/secure_memory.h" bodystart="296" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1abba3647e52eade1f6c83c4dd0d0b5b5c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::SecureBuffer&lt; T &gt;::operator!=</definition>
+        <argsstring>(const std::vector&lt; T &gt; &amp;v) const noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::auth::SecureBuffer::operator!=</qualifiedname>
+        <param>
+          <type>const std::vector&lt; T &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="297" column="10" bodyfile="include/auth/secure_memory.h" bodystart="297" bodyend="297"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1aa49d429087a379ac9d040521a8551dc7" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::SecureBuffer&lt; T &gt;::assign</definition>
+        <argsstring>(const T *src, std::size_t n)</argsstring>
+        <name>assign</name>
+        <qualifiedname>themis::auth::SecureBuffer::assign</qualifiedname>
+        <param>
+          <type>const T *</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Assign. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::memcpy(), <ref refid="namespacethemis_1_1auth_1_1detail_1aa075aabc2e6ecf386e292c617bc6490f" kindref="member">detail::secure_mlock()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="309" column="10" bodyfile="include/auth/secure_memory.h" bodystart="309" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_secure_buffer_1a6bc10ccc2db9e6a1c4c55321a954afbe" prot="private" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::SecureBuffer&lt; T &gt;::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::auth::SecureBuffer::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="321" column="10" bodyfile="include/auth/secure_memory.h" bodystart="321" bodyend="327"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/secure_memory.h" line="220" column="1" bodyfile="include/auth/secure_memory.h" bodystart="220" bodyend="328"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1aa49d429087a379ac9d040521a8551dc7" prot="private" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>assign</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1a40e3d7085874bc24b4addeedbd613deb" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>data</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1ad08020401dd9f732b8c4cb979acdebb1" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>data</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1ab916d3bc3c6f52d84c180a86baa47456" prot="private" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>data_</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1adb17f4db3db41190e36377247806baae" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>empty</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1a56716135ebe93c155b15b9190315ee93" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>operator!=</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1abba3647e52eade1f6c83c4dd0d0b5b5c" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>operator!=</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1af85e35a21d40b9d0b910df3efb2a865e" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1af5c0b24f4fc6a7df40b647b506ec06ea" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1aafb5af9033cc3cd57189612181db59b0" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1a721cbc95f1ce7ad7eb6c6019bad87d6c" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>operator==</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1a221bdeb1fba1747196b95dc26f336f24" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>operator==</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1a75a594f3eab4deff452148681420d604" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>operator[]</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1aa3590f78cb0554ad8d1a5c1e99196e3f" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>operator[]</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1a6bc10ccc2db9e6a1c4c55321a954afbe" prot="private" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>release</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1a0d4d859ce3c66bb6b6e3e9f0da810cc2" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>SecureBuffer</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1a6f6460da7edd4973e362be2b2915dabd" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>SecureBuffer</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1a0933e16285803ad50b012c9d296db568" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>SecureBuffer</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1aac2e6f4cb1df231f3661c06a988242b9" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>SecureBuffer</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1a63c836b7d1ad3bac0e20d2cb1f5d8825" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>SecureBuffer</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1aa9f2c24e5d33923d85efe9c635b45c68" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>size</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1afe962bbe5f95837b9b66443e6c068646" prot="private" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>size_</name></member>
+      <member refid="classthemis_1_1auth_1_1_secure_buffer_1aab8600da6d672d158d510b105374197e" prot="public" virt="non-virtual"><scope>themis::auth::SecureBuffer</scope><name>~SecureBuffer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

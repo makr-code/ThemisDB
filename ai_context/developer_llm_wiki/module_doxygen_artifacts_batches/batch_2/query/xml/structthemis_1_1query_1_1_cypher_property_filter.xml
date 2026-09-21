@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_cypher_property_filter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CypherPropertyFilter</compoundname>
+    <includes refid="cypher__parser_8h" local="no">cypher_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_property_filter_1a267b8fe2760037f44b0a71077960c918" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::CypherPropertyFilter::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::query::CypherPropertyFilter::key</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="48" column="17" bodyfile="include/query/cypher_parser.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_property_filter_1a26238354662303c08a4f944e90db8d82" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1ac952d9530117fac7be6118903a519eb8" kindref="member">CypherLiteralValue</ref></type>
+        <definition>CypherLiteralValue themis::query::CypherPropertyFilter::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::query::CypherPropertyFilter::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="49" column="24" bodyfile="include/query/cypher_parser.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/cypher_parser.h" line="47" column="1" bodyfile="include/query/cypher_parser.h" bodystart="47" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_cypher_property_filter_1a267b8fe2760037f44b0a71077960c918" prot="public" virt="non-virtual"><scope>themis::query::CypherPropertyFilter</scope><name>key</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_property_filter_1a26238354662303c08a4f944e90db8d82" prot="public" virt="non-virtual"><scope>themis::query::CypherPropertyFilter</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="graph__error__taxonomy_8h" kind="file" language="C++">
+    <compoundname>graph_error_taxonomy.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">ostream</includes>
+    <includedby refid="graph__error__taxonomy_8cpp" local="yes">src/graph/graph_error_taxonomy.cpp</includedby>
+    <includedby refid="test__graph__error__taxonomy__phase1_8cpp" local="yes">tests/graph/test_graph_error_taxonomy_phase1.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/graph/graph_error_taxonomy.h</label>
+        <link refid="graph__error__taxonomy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>ostream</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/graph/graph_error_taxonomy.h</label>
+        <link refid="graph__error__taxonomy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/graph/graph_error_taxonomy.cpp</label>
+        <link refid="graph__error__taxonomy_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/graph/test_graph_error_taxonomy_phase1.cpp</label>
+        <link refid="test__graph__error__taxonomy__phase1_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1graph_1_1_error_context" prot="public">themis::graph::ErrorContext</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1graph">themis::graph</innernamespace>
+    <briefdescription>
+<para>Graph Module Error Taxonomy and Contract Definitions. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines the canonical error model for all Graph module components, including error codes, classes, and recovery semantics.</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-01 </para>
+</simplesect>
+<simplesect kind="author"><para>Graph Module Hardening Phase 1</para>
+</simplesect>
+Error Classification:<itemizedlist>
+<listitem><para>DENIAL: Operation cannot proceed (invalid input, constraint violation)</para>
+</listitem><listitem><para>FALLBACK: Acceleration unavailable, fallback to CPU required</para>
+</listitem><listitem><para>REASONING_CONFLICT: Knowledge graph inference conflict detected </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;ostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">graph</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>Categories<sp/>(Phase<sp/>1<sp/>Taxonomy)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ff" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ff" kindref="member">ErrorCategory</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ffa1d1b796d362097826000f8fe3209f86a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ffa1d1b796d362097826000f8fe3209f86a" kindref="member">DENIAL</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ffaf35b388d8d4adeab05bce916c73d7a72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ffaf35b388d8d4adeab05bce916c73d7a72" kindref="member">FALLBACK</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ffa448226c857e56581051776a9f4e30315" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ffa448226c857e56581051776a9f4e30315" kindref="member">REASONING_CONFLICT</ref><sp/>=<sp/>2</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7d" kindref="member">GraphErrorCode</ref><sp/>:<sp/>uint32_t<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sentinel</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7dad0749aaba8b833466dfcbb0428e4f89c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7dad0749aaba8b833466dfcbb0428e4f89c" kindref="member">SUCCESS</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>QUERY<sp/>OPTIMIZER<sp/>Errors<sp/>(GRAPH01)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da2dfe65c9edac8c5eb0b7707965bce749" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da2dfe65c9edac8c5eb0b7707965bce749" kindref="member">OPT_INVALID_QUERY_AST</ref><sp/>=<sp/>0x01010001,</highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da6323ff87bcbaf1300292356b61b3ff00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da6323ff87bcbaf1300292356b61b3ff00" kindref="member">OPT_UNSUPPORTED_QUERY_PATTERN</ref><sp/>=<sp/>0x01010002,</highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7dab6ebd5c26a63c3205e8215b7bd3e7370" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7dab6ebd5c26a63c3205e8215b7bd3e7370" kindref="member">OPT_MISSING_GRAPH_STATISTICS</ref><sp/>=<sp/>0x01010003,</highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7dad8d97b76e2fecb8e6082cc02571ea74e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7dad8d97b76e2fecb8e6082cc02571ea74e" kindref="member">OPT_COST_CALC_OVERFLOW</ref><sp/>=<sp/>0x01010004,</highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daeb0980e786b73b0e7ac964ce98184c04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daeb0980e786b73b0e7ac964ce98184c04" kindref="member">OPT_GPU_UNAVAILABLE</ref><sp/>=<sp/>0x01020001,</highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da1e52ce11c025e4bf740e39c44b3ad8a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da1e52ce11c025e4bf740e39c44b3ad8a4" kindref="member">OPT_DISTRIBUTED_PLANNER_OFFLINE</ref><sp/>=<sp/>0x01020002,</highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daaf17e16eb96a6951c1312c64321a62b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daaf17e16eb96a6951c1312c64321a62b5" kindref="member">OPT_UNSATISFIABLE_CONSTRAINTS</ref><sp/>=<sp/>0x01030001,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TRAVERSAL<sp/>&amp;<sp/>EXECUTION<sp/>Errors<sp/>(GRAPH02)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da7cb127899582fc54a59ccc9703256981" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da7cb127899582fc54a59ccc9703256981" kindref="member">TRAV_VERTEX_NOT_FOUND</ref><sp/>=<sp/>0x02010001,</highlight></codeline>
+<codeline lineno="93" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da068c9ca92a082a6f3badb8e7cd5c11c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da068c9ca92a082a6f3badb8e7cd5c11c0" kindref="member">TRAV_INVALID_EDGE_FILTER</ref><sp/>=<sp/>0x02010002,</highlight></codeline>
+<codeline lineno="95" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da45cc8cc3910c37498a8a9ff23168a7a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da45cc8cc3910c37498a8a9ff23168a7a9" kindref="member">TRAV_FRONTIER_OVERFLOW</ref><sp/>=<sp/>0x02010003,</highlight></codeline>
+<codeline lineno="97" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf18381f82dff1b5a8cbeca136bd13fd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf18381f82dff1b5a8cbeca136bd13fd7" kindref="member">TRAV_MAX_DEPTH_EXCEEDED</ref><sp/>=<sp/>0x02010004,</highlight></codeline>
+<codeline lineno="99" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da8e30792adaa507790f9d5d83b90761d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da8e30792adaa507790f9d5d83b90761d6" kindref="member">TRAV_TIMEOUT</ref><sp/>=<sp/>0x02010005,</highlight></codeline>
+<codeline lineno="101" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da247cef61827a574d15582f57dc501725" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da247cef61827a574d15582f57dc501725" kindref="member">TRAV_THREAD_CREATION_FAILED</ref><sp/>=<sp/>0x02010006,</highlight></codeline>
+<codeline lineno="103" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf9049de330f0b46ce1610eea43165c7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf9049de330f0b46ce1610eea43165c7b" kindref="member">TRAV_GPU_MEMORY_EXHAUSTED</ref><sp/>=<sp/>0x02020001,</highlight></codeline>
+<codeline lineno="105" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da8661b3d324067bf7ce0efd723914b65b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da8661b3d324067bf7ce0efd723914b65b" kindref="member">TRAV_GPU_KERNEL_FAILED</ref><sp/>=<sp/>0x02020002,</highlight></codeline>
+<codeline lineno="107" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da075afd336159f115c03f5a3ee3167d79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da075afd336159f115c03f5a3ee3167d79" kindref="member">TRAV_SHARD_UNAVAILABLE</ref><sp/>=<sp/>0x02020003,</highlight></codeline>
+<codeline lineno="109" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da10ada271667c423c099dbca8c1d6e2c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da10ada271667c423c099dbca8c1d6e2c4" kindref="member">TRAV_CONSTRAINT_VIOLATION</ref><sp/>=<sp/>0x02030001,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SEMANTIC<sp/>&amp;<sp/>REASONING<sp/>Errors<sp/>(GRAPH03)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daa03e7f1cafb2d9c79b95b1e1f360452b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daa03e7f1cafb2d9c79b95b1e1f360452b" kindref="member">REASON_INVALID_RULE_SYNTAX</ref><sp/>=<sp/>0x03010001,</highlight></codeline>
+<codeline lineno="118" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da34f2d0aa4a32f13c13e96df57b40dbe2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da34f2d0aa4a32f13c13e96df57b40dbe2" kindref="member">REASON_ONTOLOGY_LOAD_FAILED</ref><sp/>=<sp/>0x03010002,</highlight></codeline>
+<codeline lineno="120" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da3e04ec1732b3b548e729f99d97b7cd12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da3e04ec1732b3b548e729f99d97b7cd12" kindref="member">REASON_BINDING_FAILED</ref><sp/>=<sp/>0x03010003,</highlight></codeline>
+<codeline lineno="122" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da8a42cb1680af9384e2c7911031ad194d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da8a42cb1680af9384e2c7911031ad194d" kindref="member">REASON_INFERENCE_CONFLICT</ref><sp/>=<sp/>0x03030001,</highlight></codeline>
+<codeline lineno="124" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daaee7301a8a0637aa0b858ecf2f2a6fc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daaee7301a8a0637aa0b858ecf2f2a6fc7" kindref="member">REASON_CYCLIC_RULE</ref><sp/>=<sp/>0x03030002,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TENSOR<sp/>UTILITIES<sp/>Errors<sp/>(GRAPH04)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf9176ffb1b3188e172ccceab95e2cb91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf9176ffb1b3188e172ccceab95e2cb91" kindref="member">TENSOR_INVALID_SHAPE</ref><sp/>=<sp/>0x04010001,</highlight></codeline>
+<codeline lineno="133" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da62ed9c9149771ffa90efeffeed613bd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da62ed9c9149771ffa90efeffeed613bd6" kindref="member">TENSOR_FINGERPRINT_FAILED</ref><sp/>=<sp/>0x04010002,</highlight></codeline>
+<codeline lineno="135" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf6294bf3b9c81ae11f63f6e896428890" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf6294bf3b9c81ae11f63f6e896428890" kindref="member">TENSOR_INVALID_THRESHOLD</ref><sp/>=<sp/>0x04010003,</highlight></codeline>
+<codeline lineno="137" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da7fc86aa80a787499020e3c94085ae655" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da7fc86aa80a787499020e3c94085ae655" kindref="member">TENSOR_GPU_OP_UNAVAILABLE</ref><sp/>=<sp/>0x04020001,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DISTRIBUTED<sp/>GRAPH<sp/>Errors<sp/>(GRAPH05)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da3f30a1b764a136a477867d792387bbeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da3f30a1b764a136a477867d792387bbeb" kindref="member">DIST_INVALID_SHARD_CONFIG</ref><sp/>=<sp/>0x05010001,</highlight></codeline>
+<codeline lineno="146" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf24355a284ecd250bfdb470a7a1707db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf24355a284ecd250bfdb470a7a1707db" kindref="member">DIST_MERGE_FAILED</ref><sp/>=<sp/>0x05010002,</highlight></codeline>
+<codeline lineno="148" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daa7b856fc3445e94bdbd45c149d51360c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daa7b856fc3445e94bdbd45c149d51360c" kindref="member">DIST_VERTEX_UNHASHED</ref><sp/>=<sp/>0x05010003,</highlight></codeline>
+<codeline lineno="150" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da2bac5faf183cde9c536cbacdad37a12c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da2bac5faf183cde9c536cbacdad37a12c" kindref="member">DIST_SHARD_PEER_OFFLINE</ref><sp/>=<sp/>0x05020001,</highlight></codeline>
+<codeline lineno="152" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da175bed962b6c48f2b4e4efcce1828855" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da175bed962b6c48f2b4e4efcce1828855" kindref="member">DIST_RPC_TIMEOUT</ref><sp/>=<sp/>0x05020002,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RESOURCE<sp/>&amp;<sp/>PLANNING<sp/>Errors<sp/>(GRAPH06)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf7707a73b61b97f51c0ec24bbd73b91c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7daf7707a73b61b97f51c0ec24bbd73b91c" kindref="member">CACHE_PLAN_CACHE_FULL</ref><sp/>=<sp/>0x06010001,</highlight></codeline>
+<codeline lineno="161" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da05b8cd21d53f2f1d74ffce1d733085b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da05b8cd21d53f2f1d74ffce1d733085b3" kindref="member">POOL_RESOURCE_EXHAUSTED</ref><sp/>=<sp/>0x06010002,</highlight></codeline>
+<codeline lineno="163" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da7e2bfe14690bd9d387462c28062c54cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da7e2bfe14690bd9d387462c28062c54cd" kindref="member">LB_DECISION_FAILED</ref><sp/>=<sp/>0x06010003,</highlight></codeline>
+<codeline lineno="165" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7dab18ae448d41f7b0ce63861c51d1bf16a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7dab18ae448d41f7b0ce63861c51d1bf16a" kindref="member">CACHE_MISS</ref><sp/>=<sp/>0x06020001,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GENERIC<sp/>/<sp/>INFRASTRUCTURE<sp/>Errors<sp/>(GRAPH07)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da574dfca5e088abccfa24fec2a681e9c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da574dfca5e088abccfa24fec2a681e9c8" kindref="member">GENERIC_ERROR</ref><sp/>=<sp/>0x07010001,</highlight></codeline>
+<codeline lineno="174" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da3e860a081575fc82cc7b6ed2ca602947" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da3e860a081575fc82cc7b6ed2ca602947" kindref="member">NOT_IMPLEMENTED</ref><sp/>=<sp/>0x07010002,</highlight></codeline>
+<codeline lineno="176" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da8c51da4c6c8da2fd1ab2c760e152c84b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da8c51da4c6c8da2fd1ab2c760e152c84b" kindref="member">INTERNAL_INVARIANT_FAILED</ref><sp/>=<sp/>0x07010003,</highlight></codeline>
+<codeline lineno="178" refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da2599f038befb31287e92307199bf259b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7da2599f038befb31287e92307199bf259b" kindref="member">SYSTEM_RESOURCE_UNAVAILABLE</ref><sp/>=<sp/>0x07020001,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>Category<sp/>Mapping<sp/>(Phase<sp/>1<sp/>frozen)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ff" kindref="member">ErrorCategory</ref></highlight></codeline>
+<codeline lineno="194" refid="namespacethemis_1_1graph_1ac7861e5b54daa04e99697c72443fd472" refkind="member"><highlight class="normal"><ref refid="namespacethemis_1_1graph_1ac7861e5b54daa04e99697c72443fd472" kindref="member">getErrorCategory</ref>(<ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7d" kindref="member">GraphErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>code<sp/>layout:<sp/>0xMMCCSSSS<sp/>(MM=module,<sp/>CC=category,<sp/>SSSS=sequence)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>category_byte<sp/>=<sp/>(c<sp/>&gt;&gt;<sp/>16)<sp/>&amp;<sp/>0xFF;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(category_byte<sp/>==<sp/>0x02)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ffaf35b388d8d4adeab05bce916c73d7a72" kindref="member">ErrorCategory::FALLBACK</ref>;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(category_byte<sp/>==<sp/>0x03)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ffa448226c857e56581051776a9f4e30315" kindref="member">ErrorCategory::REASONING_CONFLICT</ref>;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(category_byte<sp/>==<sp/>0x01)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ffa1d1b796d362097826000f8fe3209f86a" kindref="member">ErrorCategory::DENIAL</ref>;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ffa1d1b796d362097826000f8fe3209f86a" kindref="member">ErrorCategory::DENIAL</ref>;<sp/></highlight><highlight class="comment">//<sp/>Default<sp/>to<sp/>DENIAL<sp/>for<sp/>unknown<sp/>codes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219" refid="namespacethemis_1_1graph_1abfa7fd6cc90de6dc89f7235a1c77c540" refkind="member"><highlight class="normal"><ref refid="namespacethemis_1_1graph_1abfa7fd6cc90de6dc89f7235a1c77c540" kindref="member">isRecoverableFallback</ref>(<ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7d" kindref="member">GraphErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1graph_1ac7861e5b54daa04e99697c72443fd472" kindref="member">getErrorCategory</ref>(code)<sp/>==<sp/><ref refid="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ffaf35b388d8d4adeab05bce916c73d7a72" kindref="member">ErrorCategory::FALLBACK</ref>;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="namespacethemis_1_1graph_1aa871df03b4ff89e5fbfc7a63414f46c0" refkind="member"><highlight class="normal"><ref refid="namespacethemis_1_1graph_1aa871df03b4ff89e5fbfc7a63414f46c0" kindref="member">isReasoningConflict</ref>(<ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7d" kindref="member">GraphErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1graph_1ac7861e5b54daa04e99697c72443fd472" kindref="member">getErrorCategory</ref>(code)<sp/>==<sp/><ref refid="namespacethemis_1_1graph_1a335cf822ae0752114b1489293237b5ffa448226c857e56581051776a9f4e30315" kindref="member">ErrorCategory::REASONING_CONFLICT</ref>;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>Description<sp/>&amp;<sp/>Diagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal">[[nodiscard]]<sp/>std::string_view</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><ref refid="namespacethemis_1_1graph_1acef51ef8a647e3c4d5eb50cda22ba455" kindref="member">getErrorDescription</ref>(<ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7d" kindref="member">GraphErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal">[[nodiscard]]<sp/>std::string</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><ref refid="namespacethemis_1_1graph_1a39bb5bcc88f69095b01a9308f4698ee1" kindref="member">getErrorCodeHex</ref>(<ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7d" kindref="member">GraphErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268" refid="structthemis_1_1graph_1_1_error_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_error_context" kindref="compound">ErrorContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="269" refid="structthemis_1_1graph_1_1_error_context_1af028b86eca49c4f9413e7d2a6ea53344" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7d" kindref="member">GraphErrorCode</ref><sp/><ref refid="structthemis_1_1graph_1_1_error_context_1af028b86eca49c4f9413e7d2a6ea53344" kindref="member">code</ref><sp/>=<sp/><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7dad0749aaba8b833466dfcbb0428e4f89c" kindref="member">GraphErrorCode::SUCCESS</ref>;</highlight></codeline>
+<codeline lineno="270" refid="structthemis_1_1graph_1_1_error_context_1aef2e8d31943ab7faf2651fb83cee4e57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_error_context_1aef2e8d31943ab7faf2651fb83cee4e57" kindref="member">component</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271" refid="structthemis_1_1graph_1_1_error_context_1a4492174888029126c1338a3e46297b87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_error_context_1a4492174888029126c1338a3e46297b87" kindref="member">operation</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272" refid="structthemis_1_1graph_1_1_error_context_1a14a35784339dbbb99be329309f6af730" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_error_context_1a14a35784339dbbb99be329309f6af730" kindref="member">context</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="273" refid="structthemis_1_1graph_1_1_error_context_1a77439b1a3b10746cfdd1def316bf3e4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_error_context_1a77439b1a3b10746cfdd1def316bf3e4e" kindref="member">recovery_hint</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_error_context_1a7153800ff880f89465a0326da10699cf" kindref="member">getRecoveryRecommendation</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_error_context_1a17dd2609571cb3ba4c3425c2e6f11eb0" kindref="member">formatDiagnostic</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase<sp/>1<sp/>Contract<sp/>Invariants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><ref refid="group___g_r_a_p_h___e_r_r_o_r___i_n_v_a_r_i_a_n_t_s_1ga4b8bb4fcf1e84ee54ef723f3f839b68d" kindref="member">isValidErrorCode</ref>(<ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7d" kindref="member">GraphErrorCode</ref><sp/><ref refid="structthemis_1_1graph_1_1_error_context_1af028b86eca49c4f9413e7d2a6ea53344" kindref="member">code</ref>)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>end<sp/>of<sp/>GRAPH_ERROR_INVARIANTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/graph/graph_error_taxonomy.h"/>
+  </compounddef>
+</doxygen>

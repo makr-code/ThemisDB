@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_prompt_context_value" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptContextValue</compoundname>
+    <includes refid="prompt__template__compiler_8h" local="no">prompt_template_compiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a02c664fba0da50ffafe0967b91a6c591" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744b" kindref="member">SlotType</ref></type>
+        <definition>SlotType themis::prompt_engineering::PromptContextValue::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::prompt_engineering::PromptContextValue::kind</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744ba63b588d5559f64f89a416e656880b949" kindref="member">SlotType::STRING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="72" column="14" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1ad0345c3d36fa8a9c4e2a03eab9b8b62f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptContextValue::str_val</definition>
+        <argsstring></argsstring>
+        <name>str_val</name>
+        <qualifiedname>themis::prompt_engineering::PromptContextValue::str_val</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="74" column="54" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a8a1e075a7e03d0f0308709f990d5fdfc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::PromptContextValue::list_val</definition>
+        <argsstring></argsstring>
+        <name>list_val</name>
+        <qualifiedname>themis::prompt_engineering::PromptContextValue::list_val</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="75" column="41" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1acb50a685a89ff82953f326bee78ea73e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; themis::prompt_engineering::PromptContextValue::chunks</definition>
+        <argsstring></argsstring>
+        <name>chunks</name>
+        <qualifiedname>themis::prompt_engineering::PromptContextValue::chunks</qualifiedname>
+        <briefdescription>
+<para>(content, source) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="76" column="17" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a8e38308085378c5939dbd404c97a9f6d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value" kindref="compound">PromptContextValue</ref></type>
+        <definition>static PromptContextValue themis::prompt_engineering::PromptContextValue::fromString</definition>
+        <argsstring>(std::string s)</argsstring>
+        <name>fromString</name>
+        <qualifiedname>themis::prompt_engineering::PromptContextValue::fromString</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="78" column="31" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="78" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a35ed7d8e431166e54dd6c00ac89ba7cb" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value" kindref="compound">PromptContextValue</ref></type>
+        <definition>static PromptContextValue themis::prompt_engineering::PromptContextValue::fromList</definition>
+        <argsstring>(std::vector&lt; std::string &gt; l)</argsstring>
+        <name>fromList</name>
+        <qualifiedname>themis::prompt_engineering::PromptContextValue::fromList</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>l</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="85" column="31" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="85" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1ab0c2220c4277d939803647798515b4bc" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value" kindref="compound">PromptContextValue</ref></type>
+        <definition>static PromptContextValue themis::prompt_engineering::PromptContextValue::fromChunks</definition>
+        <argsstring>(std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; c)</argsstring>
+        <name>fromChunks</name>
+        <qualifiedname>themis::prompt_engineering::PromptContextValue::fromChunks</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="92" column="31" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="92" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a0ed8812669afcfc0c4a3debb154dae8e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptContextValue::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::prompt_engineering::PromptContextValue::toString</qualifiedname>
+        <briefdescription>
+<para>Serialise to a plain string (for TEXT substitution). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="101" column="17" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="50" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1affacb5f04fee7a6cf591e2d59e537bcf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptContextValue::asBool</definition>
+        <argsstring>() const</argsstring>
+        <name>asBool</name>
+        <qualifiedname>themis::prompt_engineering::PromptContextValue::asBool</qualifiedname>
+        <briefdescription>
+<para>Truthy test used by <computeroutput>{% if %}</computeroutput> blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="104" column="10" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="80" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A typed context value bound to a slot at render time. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_template_compiler.h" line="71" column="1" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="71" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1affacb5f04fee7a6cf591e2d59e537bcf" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptContextValue</scope><name>asBool</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1acb50a685a89ff82953f326bee78ea73e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptContextValue</scope><name>chunks</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1ab0c2220c4277d939803647798515b4bc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptContextValue</scope><name>fromChunks</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a35ed7d8e431166e54dd6c00ac89ba7cb" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptContextValue</scope><name>fromList</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a8e38308085378c5939dbd404c97a9f6d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptContextValue</scope><name>fromString</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a02c664fba0da50ffafe0967b91a6c591" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptContextValue</scope><name>kind</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a8a1e075a7e03d0f0308709f990d5fdfc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptContextValue</scope><name>list_val</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1ad0345c3d36fa8a9c4e2a03eab9b8b62f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptContextValue</scope><name>str_val</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a0ed8812669afcfc0c4a3debb154dae8e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptContextValue</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

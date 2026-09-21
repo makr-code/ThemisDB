@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1training_1_1provenance__aql" kind="namespace" language="C++">
+    <compoundname>themis::training::provenance_aql</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1training_1_1provenance__aql_1a10b8aedf0e969159670b8b5f3a1923ea" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::training::provenance_aql::INSERT_SAMPLE_VERTEX</definition>
+        <argsstring></argsstring>
+        <name>INSERT_SAMPLE_VERTEX</name>
+        <qualifiedname>themis::training::provenance_aql::INSERT_SAMPLE_VERTEX</qualifiedname>
+        <initializer>                                      =
+&quot;INSERT {&quot;
+&quot;  _key: @sample_id,&quot;
+&quot;  source_doc_urn: @source_doc_urn,&quot;
+&quot;  extraction_timestamp: @extraction_ts,&quot;
+&quot;  labeler_version: @labeler_version,&quot;
+&quot;  modality: @modality,&quot;
+&quot;  enrichment_fingerprints: @fingerprints&quot;
+&quot;} INTO @@collection OPTIONS { ignoreErrors: false }&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/provenance_tracker.cpp" line="36" column="26" bodyfile="src/training/provenance_tracker.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1training_1_1provenance__aql_1a48e6492ebf9d4d896476925da95d1f44" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::training::provenance_aql::INSERT_DERIVED_FROM_EDGE</definition>
+        <argsstring></argsstring>
+        <name>INSERT_DERIVED_FROM_EDGE</name>
+        <qualifiedname>themis::training::provenance_aql::INSERT_DERIVED_FROM_EDGE</qualifiedname>
+        <initializer>                                          =
+&quot;INSERT {&quot;
+&quot;  _from: CONCAT(@@sample_collection, &apos;/&apos;, @sample_id),&quot;
+&quot;  _to:   CONCAT(@@doc_collection,    &apos;/&apos;, @doc_id),&quot;
+&quot;  derived_at: @derived_at&quot;
+&quot;} INTO @@edge_collection OPTIONS { ignoreErrors: true }&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/provenance_tracker.cpp" line="47" column="26" bodyfile="src/training/provenance_tracker.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1training_1_1provenance__aql_1a1bea2dbeb35f941f986065d8a6cf8e03" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::training::provenance_aql::LINEAGE_TRAVERSAL</definition>
+        <argsstring></argsstring>
+        <name>LINEAGE_TRAVERSAL</name>
+        <qualifiedname>themis::training::provenance_aql::LINEAGE_TRAVERSAL</qualifiedname>
+        <initializer>                                   =
+&quot;FOR v, e, p IN 1..@max_hops INBOUND CONCAT(@@sample_collection, &apos;/&apos;, @root_id) &quot;
+&quot;@@edge_collection &quot;
+&quot;RETURN {node_type: v.node_type, node_id: v._key, label: v.label}&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/provenance_tracker.cpp" line="55" column="26" bodyfile="src/training/provenance_tracker.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1training_1_1provenance__aql_1ae0f185ccc046b3788d5378cd8c94d079" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::training::provenance_aql::FETCH_RECORD</definition>
+        <argsstring></argsstring>
+        <name>FETCH_RECORD</name>
+        <qualifiedname>themis::training::provenance_aql::FETCH_RECORD</qualifiedname>
+        <initializer>                              =
+&quot;FOR doc IN @@collection FILTER doc._key == @sample_id LIMIT 1 RETURN doc&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/provenance_tracker.cpp" line="61" column="26" bodyfile="src/training/provenance_tracker.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/provenance_tracker.cpp" line="34" column="1"/>
+  </compounddef>
+</doxygen>

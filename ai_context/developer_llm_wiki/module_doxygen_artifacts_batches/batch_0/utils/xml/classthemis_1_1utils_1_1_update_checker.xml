@@ -1,0 +1,500 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_update_checker" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::UpdateChecker</compoundname>
+    <includes refid="update__checker_8h" local="no">update_checker.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_update_checker_1acc19f9131f81c39accc63094f37b46a5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_update_checker_config" kindref="compound">UpdateCheckerConfig</ref></type>
+        <definition>UpdateCheckerConfig themis::utils::UpdateChecker::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::utils::UpdateChecker::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="227" column="25" bodyfile="include/utils/update_checker.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_update_checker_1a89c28175b7fdd56a4e3a37c43fa154dd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::UpdateChecker::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::utils::UpdateChecker::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="228" column="24" bodyfile="include/utils/update_checker.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_update_checker_1aae72dac72f6e3e6129da8cc5ffa7d6bf" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::utils::UpdateChecker::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::utils::UpdateChecker::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="230" column="17" bodyfile="include/utils/update_checker.h" bodystart="230" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_update_checker_1a010e13b0beb62c0d1f4617e55bcaa8df" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; std::thread &gt;</type>
+        <definition>std::unique_ptr&lt;std::thread&gt; themis::utils::UpdateChecker::check_thread_</definition>
+        <argsstring></argsstring>
+        <name>check_thread_</name>
+        <qualifiedname>themis::utils::UpdateChecker::check_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="231" column="21" bodyfile="include/utils/update_checker.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_update_checker_1a8ff875a2bc4919f69503b2eca9570b4e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_update_check_result" kindref="compound">UpdateCheckResult</ref></type>
+        <definition>UpdateCheckResult themis::utils::UpdateChecker::last_result_</definition>
+        <argsstring></argsstring>
+        <name>last_result_</name>
+        <qualifiedname>themis::utils::UpdateChecker::last_result_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="233" column="23" bodyfile="include/utils/update_checker.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_update_checker_1aee62d443443aece68f982130b423df53" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1utils_1_1_update_check_result" kindref="compound">UpdateCheckResult</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const UpdateCheckResult&amp;)&gt; themis::utils::UpdateChecker::update_callback_</definition>
+        <argsstring></argsstring>
+        <name>update_callback_</name>
+        <qualifiedname>themis::utils::UpdateChecker::update_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="234" column="19" bodyfile="include/utils/update_checker.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_update_checker_1ab3e66b1af0f7a29bf3181447b9da5da8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::UpdateChecker::UpdateChecker</definition>
+        <argsstring>(const UpdateCheckerConfig &amp;config)</argsstring>
+        <name>UpdateChecker</name>
+        <qualifiedname>themis::utils::UpdateChecker::UpdateChecker</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_update_checker_config" kindref="compound">UpdateCheckerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct update checker with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="166" column="14" bodyfile="src/utils/update_checker.cpp" bodystart="313" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_update_checker_1adef43c1300ffe5500c1a186253e2a5f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::UpdateChecker::~UpdateChecker</definition>
+        <argsstring>()</argsstring>
+        <name>~UpdateChecker</name>
+        <qualifiedname>themis::utils::UpdateChecker::~UpdateChecker</qualifiedname>
+        <briefdescription>
+<para>Destructor - stops background checking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="171" column="5" bodyfile="src/utils/update_checker.cpp" bodystart="319" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_update_checker_1a616972fde38fea9d873e84df1f543399" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::UpdateChecker::UpdateChecker</definition>
+        <argsstring>(const UpdateChecker &amp;)=delete</argsstring>
+        <name>UpdateChecker</name>
+        <qualifiedname>themis::utils::UpdateChecker::UpdateChecker</qualifiedname>
+        <param>
+          <type>const UpdateChecker &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="174" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_update_checker_1a7fc8ff9c215aff146a2d8925857afdf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_update_checker_1ab3e66b1af0f7a29bf3181447b9da5da8" kindref="member">UpdateChecker</ref> &amp;</type>
+        <definition>UpdateChecker &amp; themis::utils::UpdateChecker::operator=</definition>
+        <argsstring>(const UpdateChecker &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::utils::UpdateChecker::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1utils_1_1_update_checker_1ab3e66b1af0f7a29bf3181447b9da5da8" kindref="member">UpdateChecker</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="175" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_update_checker_1a499b3f376e26e7fc7d05c7b98d7319d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::UpdateChecker::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::utils::UpdateChecker::start</qualifiedname>
+        <briefdescription>
+<para>Start periodic background checking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Calls: lock(), <ref refid="thread__guard_8cpp_1a3dd84b7daa8b86c1dda5d0c9b6e6dc11" kindref="member">LOG_WARN()</ref>, <ref refid="update__checker_8cpp_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>, count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="180" column="10" bodyfile="src/utils/update_checker.cpp" bodystart="327" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_update_checker_1a0cae009f1f516aca9e6b27bebf1492ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::UpdateChecker::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::utils::UpdateChecker::stop</qualifiedname>
+        <briefdescription>
+<para>Stop periodic background checking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: lock(), joinable(), join(), <ref refid="update__checker_8cpp_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="185" column="10" bodyfile="src/utils/update_checker.cpp" bodystart="345" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_update_checker_1a1dc23b4debb19d5a41a6908612b26a5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_update_check_result" kindref="compound">UpdateCheckResult</ref></type>
+        <definition>UpdateCheckResult themis::utils::UpdateChecker::checkNow</definition>
+        <argsstring>()</argsstring>
+        <name>checkNow</name>
+        <qualifiedname>themis::utils::UpdateChecker::checkNow</qualifiedname>
+        <briefdescription>
+<para>Check for updates now (blocking). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Now.</para>
+<para><simplesect kind="return"><para>Update check result</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="update__checker_8cpp_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>, std::chrono::system_clock::now(), <ref refid="classthemis_1_1utils_1_1_update_checker_1aa22cefec24de6156c03ce2a7bebb2048" kindref="member">fetchReleases()</ref>, <ref refid="thread__guard_8cpp_1ad9c73bc78b8b2564e47a037b5a6ca226" kindref="member">LOG_ERROR()</ref>, analyzeReleases(), toJson(), update_callback_(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="191" column="23" bodyfile="src/utils/update_checker.cpp" bodystart="391" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_update_checker_1afac6de2e7adc6c9a58e642ae52ffd769" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_update_check_result" kindref="compound">UpdateCheckResult</ref></type>
+        <definition>UpdateCheckResult themis::utils::UpdateChecker::getLastResult</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastResult</name>
+        <qualifiedname>themis::utils::UpdateChecker::getLastResult</qualifiedname>
+        <briefdescription>
+<para>Get last check result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="196" column="23" bodyfile="src/utils/update_checker.cpp" bodystart="430" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_update_checker_1a6ddc4788fc73bd045dae179b66a10e8f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_update_checker_config" kindref="compound">UpdateCheckerConfig</ref></type>
+        <definition>UpdateCheckerConfig themis::utils::UpdateChecker::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::utils::UpdateChecker::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="201" column="25" bodyfile="src/utils/update_checker.cpp" bodystart="440" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_update_checker_1ae1ba3afc89284e0fc7518a5ef3b2ba6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::UpdateChecker::updateConfig</definition>
+        <argsstring>(const UpdateCheckerConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themis::utils::UpdateChecker::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_update_checker_config" kindref="compound">UpdateCheckerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration (stops and restarts if running). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the access control configuration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), <ref refid="classthemis_1_1utils_1_1_update_checker_1a0cae009f1f516aca9e6b27bebf1492ad" kindref="member">stop()</ref>, <ref refid="classthemis_1_1utils_1_1_update_checker_1a499b3f376e26e7fc7d05c7b98d7319d5" kindref="member">start()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="206" column="10" bodyfile="src/utils/update_checker.cpp" bodystart="455" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_update_checker_1acc62b500a4afaf665fb9362156b59838" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::UpdateChecker::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::utils::UpdateChecker::isRunning</qualifiedname>
+        <briefdescription>
+<para>Check if checker is running. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="211" column="10" bodyfile="src/utils/update_checker.cpp" bodystart="476" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_update_checker_1aa22cefec24de6156c03ce2a7bebb2048" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; std::vector&lt; <ref refid="structthemis_1_1utils_1_1_release_info" kindref="compound">ReleaseInfo</ref> &gt;, std::string &gt;</type>
+        <definition>std::variant&lt; std::vector&lt; ReleaseInfo &gt;, std::string &gt; themis::utils::UpdateChecker::fetchReleases</definition>
+        <argsstring>(int limit=10)</argsstring>
+        <name>fetchReleases</name>
+        <qualifiedname>themis::utils::UpdateChecker::fetchReleases</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>limit</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Fetch releases from GitHub API. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of releases to fetch (default 10) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of releases or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="218" column="18" bodyfile="src/utils/update_checker.cpp" bodystart="480" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_update_checker_1a76fe062479e7c56925c8223fdf7637e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::UpdateChecker::onUpdateAvailable</definition>
+        <argsstring>(std::function&lt; void(const UpdateCheckResult &amp;)&gt; callback)</argsstring>
+        <name>onUpdateAvailable</name>
+        <qualifiedname>themis::utils::UpdateChecker::onUpdateAvailable</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1utils_1_1_update_check_result" kindref="compound">UpdateCheckResult</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register callback for update notifications. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function called when new update is found </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="224" column="10" bodyfile="src/utils/update_checker.cpp" bodystart="667" bodyend="675"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_update_checker_1a8f91498362b5243d67c447162e95c2c1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::UpdateChecker::checkLoop</definition>
+        <argsstring>()</argsstring>
+        <name>checkLoop</name>
+        <qualifiedname>themis::utils::UpdateChecker::checkLoop</qualifiedname>
+        <briefdescription>
+<para>Background check loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Loop.</para>
+<para>Calls: <ref refid="classthemis_1_1utils_1_1_update_checker_1a1dc23b4debb19d5a41a6908612b26a5f" kindref="member">checkNow()</ref>, std::chrono::seconds(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="239" column="10" bodyfile="src/utils/update_checker.cpp" bodystart="365" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_update_checker_1a8f804573d0ac2c9b3ef6faa1916bb73f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; <ref refid="namespacethemis_1_1utils_1ae4db8de75ec73bf0351ca66e78ed8867" kindref="member">json</ref>, std::string &gt;</type>
+        <definition>std::variant&lt; json, std::string &gt; themis::utils::UpdateChecker::httpGet</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>httpGet</name>
+        <qualifiedname>themis::utils::UpdateChecker::httpGet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+<para>Perform HTTP request to GitHub API. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="244" column="18" bodyfile="src/utils/update_checker.cpp" bodystart="540" bodyend="605"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_update_checker_1a76c5a415a06616ef0fb7f882473b528d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_update_check_result" kindref="compound">UpdateCheckResult</ref></type>
+        <definition>UpdateCheckResult themis::utils::UpdateChecker::analyzeReleases</definition>
+        <argsstring>(const std::vector&lt; ReleaseInfo &gt; &amp;releases)</argsstring>
+        <name>analyzeReleases</name>
+        <qualifiedname>themis::utils::UpdateChecker::analyzeReleases</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1utils_1_1_release_info" kindref="compound">ReleaseInfo</ref> &gt; &amp;</type>
+          <declname>releases</declname>
+        </param>
+        <briefdescription>
+<para>Compare current version with releases. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyze Releases.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">releases</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1utils_1_1_version_1a4dc9bd21a2fcf1c3c7b6b330018abcde" kindref="member">Version::parse()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/update_checker.h" line="249" column="23" bodyfile="src/utils/update_checker.cpp" bodystart="613" bodyend="665"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>GitHub Update Checker Subsystem. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class provides functionality to:<itemizedlist>
+<listitem><para>Periodically check GitHub for new releases</para>
+</listitem><listitem><para>Compare versions using semantic versioning</para>
+</listitem><listitem><para>Identify critical security patches</para>
+</listitem><listitem><para>Expose update status via HTTP API</para>
+</listitem><listitem><para>Support hot-reload for critical patches (future)</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-Safety: All public methods are thread-safe </para>
+    </detaileddescription>
+    <location file="include/utils/update_checker.h" line="161" column="1" bodyfile="include/utils/update_checker.h" bodystart="161" bodyend="250"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1a76c5a415a06616ef0fb7f882473b528d" prot="private" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>analyzeReleases</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1a010e13b0beb62c0d1f4617e55bcaa8df" prot="private" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>check_thread_</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1a8f91498362b5243d67c447162e95c2c1" prot="private" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>checkLoop</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1a1dc23b4debb19d5a41a6908612b26a5f" prot="public" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>checkNow</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1acc19f9131f81c39accc63094f37b46a5" prot="private" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>config_</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1aa22cefec24de6156c03ce2a7bebb2048" prot="public" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>fetchReleases</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1a6ddc4788fc73bd045dae179b66a10e8f" prot="public" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1afac6de2e7adc6c9a58e642ae52ffd769" prot="public" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>getLastResult</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1a8f804573d0ac2c9b3ef6faa1916bb73f" prot="private" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>httpGet</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1acc62b500a4afaf665fb9362156b59838" prot="public" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1a8ff875a2bc4919f69503b2eca9570b4e" prot="private" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>last_result_</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1a89c28175b7fdd56a4e3a37c43fa154dd" prot="private" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1a76fe062479e7c56925c8223fdf7637e2" prot="public" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>onUpdateAvailable</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1a7fc8ff9c215aff146a2d8925857afdf9" prot="public" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1aae72dac72f6e3e6129da8cc5ffa7d6bf" prot="private" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>running_</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1a499b3f376e26e7fc7d05c7b98d7319d5" prot="public" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>start</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1a0cae009f1f516aca9e6b27bebf1492ad" prot="public" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>stop</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1aee62d443443aece68f982130b423df53" prot="private" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>update_callback_</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1ab3e66b1af0f7a29bf3181447b9da5da8" prot="public" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>UpdateChecker</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1a616972fde38fea9d873e84df1f543399" prot="public" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>UpdateChecker</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1ae1ba3afc89284e0fc7518a5ef3b2ba6b" prot="public" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>updateConfig</name></member>
+      <member refid="classthemis_1_1utils_1_1_update_checker_1adef43c1300ffe5500c1a186253e2a5f4" prot="public" virt="non-virtual"><scope>themis::utils::UpdateChecker</scope><name>~UpdateChecker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

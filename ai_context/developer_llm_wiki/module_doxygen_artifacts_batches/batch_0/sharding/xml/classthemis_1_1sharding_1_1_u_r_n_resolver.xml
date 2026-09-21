@@ -1,0 +1,464 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_u_r_n_resolver" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::URNResolver</compoundname>
+    <includes refid="urn__resolver_8h" local="no">urn_resolver.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_u_r_n_resolver_1a4a388a832e787110fbe5e5ef282deb38" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardTopology&gt; themis::sharding::URNResolver::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themis::sharding::URNResolver::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn_resolver.h" line="133" column="21" bodyfile="include/sharding/urn_resolver.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_u_r_n_resolver_1a1fa512c9e679276aa191ad858adf5cd6" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ConsistentHashRing&gt; themis::sharding::URNResolver::hash_ring_</definition>
+        <argsstring></argsstring>
+        <name>hash_ring_</name>
+        <qualifiedname>themis::sharding::URNResolver::hash_ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn_resolver.h" line="134" column="21" bodyfile="include/sharding/urn_resolver.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_u_r_n_resolver_1a499a6c4cc8abbe6b9a023ad2e054bfe8" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::URNResolver::local_shard_id_</definition>
+        <argsstring></argsstring>
+        <name>local_shard_id_</name>
+        <qualifiedname>themis::sharding::URNResolver::local_shard_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn_resolver.h" line="135" column="17" bodyfile="include/sharding/urn_resolver.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_u_r_n_resolver_1a9e5c0ff72969bebdf09bfe684bc707a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::URNResolver::URNResolver</definition>
+        <argsstring>(std::shared_ptr&lt; ShardTopology &gt; topology, std::shared_ptr&lt; ConsistentHashRing &gt; hash_ring, const std::string &amp;local_shard_id=&quot;&quot;)</argsstring>
+        <name>URNResolver</name>
+        <qualifiedname>themis::sharding::URNResolver::URNResolver</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &gt;</type>
+          <declname>hash_ring</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_shard_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Construct resolver over topology and hash ring services. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard topology manager. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hash_ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Consistent hash ring for shard routing. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>local_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional local shard identifier for locality checks. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn_resolver.h" line="39" column="5" bodyfile="src/sharding/urn_resolver.cpp" bodystart="17" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_u_r_n_resolver_1add527c4614beb20a1c7e1f4740b1bbd6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ShardInfo &gt; themis::sharding::URNResolver::resolvePrimary</definition>
+        <argsstring>(const URN &amp;urn) const</argsstring>
+        <name>resolvePrimary</name>
+        <qualifiedname>themis::sharding::URNResolver::resolvePrimary</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> &amp;</type>
+          <declname>urn</declname>
+        </param>
+        <briefdescription>
+<para>Resolve primary owner shard for a <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>urn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> to resolve. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Primary shard info, or std::nullopt when ring/topology has no mapping. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn_resolver.h" line="50" column="19" bodyfile="src/sharding/urn_resolver.cpp" bodystart="26" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_u_r_n_resolver_1a4511ebc9d194eebbc18451ec539b6552" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &gt;</type>
+        <definition>std::vector&lt; ShardInfo &gt; themis::sharding::URNResolver::resolveReplicas</definition>
+        <argsstring>(const URN &amp;urn, size_t replica_count=2) const</argsstring>
+        <name>resolveReplicas</name>
+        <qualifiedname>themis::sharding::URNResolver::resolveReplicas</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> &amp;</type>
+          <declname>urn</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>replica_count</declname>
+          <defval>2</defval>
+        </param>
+        <briefdescription>
+<para>Resolve primary plus healthy replica targets. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>urn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> to resolve. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>replica_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of replica entries requested in addition to primary. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector with primary first, followed by healthy replicas up to request. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn_resolver.h" line="58" column="17" bodyfile="src/sharding/urn_resolver.cpp" bodystart="38" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_u_r_n_resolver_1ac0e2f5322e46c62f7ffb0d7ce35953a6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::URNResolver::isLocal</definition>
+        <argsstring>(const URN &amp;urn) const</argsstring>
+        <name>isLocal</name>
+        <qualifiedname>themis::sharding::URNResolver::isLocal</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> &amp;</type>
+          <declname>urn</declname>
+        </param>
+        <briefdescription>
+<para>Check whether <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> is owned by the configured local shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>urn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> to check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when local_shard_id_ matches the current primary shard. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn_resolver.h" line="65" column="10" bodyfile="src/sharding/urn_resolver.cpp" bodystart="64" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_u_r_n_resolver_1ae8afa99bb9707e3044b5902132c6a00a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::URNResolver::getShardId</definition>
+        <argsstring>(const URN &amp;urn) const</argsstring>
+        <name>getShardId</name>
+        <qualifiedname>themis::sharding::URNResolver::getShardId</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> &amp;</type>
+          <declname>urn</declname>
+        </param>
+        <briefdescription>
+<para>Resolve only the shard identifier for a <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>urn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> to resolve. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shard ID string, or empty string when no ring mapping exists. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn_resolver.h" line="72" column="17" bodyfile="src/sharding/urn_resolver.cpp" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_u_r_n_resolver_1a1df1ae1e551a7c9660737973eac8f49c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::URNResolver::getShardForKey</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;key) const</argsstring>
+        <name>getShardForKey</name>
+        <qualifiedname>themis::sharding::URNResolver::getShardForKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the single shard responsible for an arbitrary partition key.</para>
+<para>The key is hashed with the same FNV-1a + mix64 function used by the ring, then looked up with a clockwise walk.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection name (for logging / future topology hints) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Partition key value (e.g. document _key; non-empty required) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shard ID, or empty string if the ring is empty or key is empty </para>
+</simplesect>
+<simplesect kind="note"><para>Rejects empty keys fail-closed, returns empty string without processing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn_resolver.h" line="85" column="17" bodyfile="src/sharding/urn_resolver.cpp" bodystart="77" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_u_r_n_resolver_1a46f458ee459f12466aa1c5d1350a3edf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::URNResolver::getShardsForKeyRange</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;min_key, const std::string &amp;max_key) const</argsstring>
+        <name>getShardsForKeyRange</name>
+        <qualifiedname>themis::sharding::URNResolver::getShardsForKeyRange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>min_key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>max_key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all shards that could own keys in the range [min_key, max_key].</para>
+<para>Hashes both endpoints and collects every shard whose virtual-node token falls within that hash range (clockwise walk). For wrap-around ranges every shard is returned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inclusive lower bound of the key range </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inclusive upper bound of the key range </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Deduplicated list of shard IDs; never empty if the ring is not empty </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn_resolver.h" line="99" column="17" bodyfile="src/sharding/urn_resolver.cpp" bodystart="90" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_u_r_n_resolver_1ab19e9494b52291f1c9a3ffa552624984" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &gt;</type>
+        <definition>std::vector&lt; ShardInfo &gt; themis::sharding::URNResolver::getAllShards</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllShards</name>
+        <qualifiedname>themis::sharding::URNResolver::getAllShards</qualifiedname>
+        <briefdescription>
+<para>Return all shards currently known in topology. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn_resolver.h" line="106" column="17" bodyfile="src/sharding/urn_resolver.cpp" bodystart="111" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_u_r_n_resolver_1a133d5e04865e87313814334b846bb92b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &gt;</type>
+        <definition>std::vector&lt; ShardInfo &gt; themis::sharding::URNResolver::getHealthyShards</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthyShards</name>
+        <qualifiedname>themis::sharding::URNResolver::getHealthyShards</qualifiedname>
+        <briefdescription>
+<para>Return currently healthy shards from topology state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn_resolver.h" line="109" column="17" bodyfile="src/sharding/urn_resolver.cpp" bodystart="115" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_u_r_n_resolver_1a7a1d459ad5b7967e7555dbe1ecb45562" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::URNResolver::refreshTopology</definition>
+        <argsstring>()</argsstring>
+        <name>refreshTopology</name>
+        <qualifiedname>themis::sharding::URNResolver::refreshTopology</qualifiedname>
+        <briefdescription>
+<para>Refresh topology view from metadata backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Refresh Topology.</para>
+<para>Calls: refresh(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn_resolver.h" line="114" column="10" bodyfile="src/sharding/urn_resolver.cpp" bodystart="123" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_u_r_n_resolver_1a889c35740ecae893c6377574b1840e67" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::URNResolver::setLocalShardId</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>setLocalShardId</name>
+        <qualifiedname>themis::sharding::URNResolver::setLocalShardId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Update local shard identifier used by isLocal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>This node&apos;s shard identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn_resolver.h" line="120" column="10" bodyfile="include/sharding/urn_resolver.h" bodystart="120" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_u_r_n_resolver_1a26360b0e04d512807a0a49e3baa223b4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::sharding::URNResolver::getLocalShardId</definition>
+        <argsstring>() const</argsstring>
+        <name>getLocalShardId</name>
+        <qualifiedname>themis::sharding::URNResolver::getLocalShardId</qualifiedname>
+        <briefdescription>
+<para>Return configured local shard identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Local shard identifier string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/urn_resolver.h" line="128" column="23" bodyfile="include/sharding/urn_resolver.h" bodystart="128" bodyend="130"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Resolve URNs and partition keys to physical shard placement. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The resolver combines consistent hashing with topology lookups to map logical identifiers to concrete shard endpoints for reads and writes. </para>
+    </detaileddescription>
+    <location file="include/sharding/urn_resolver.h" line="31" column="1" bodyfile="include/sharding/urn_resolver.h" bodystart="31" bodyend="136"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_u_r_n_resolver_1ab19e9494b52291f1c9a3ffa552624984" prot="public" virt="non-virtual"><scope>themis::sharding::URNResolver</scope><name>getAllShards</name></member>
+      <member refid="classthemis_1_1sharding_1_1_u_r_n_resolver_1a133d5e04865e87313814334b846bb92b" prot="public" virt="non-virtual"><scope>themis::sharding::URNResolver</scope><name>getHealthyShards</name></member>
+      <member refid="classthemis_1_1sharding_1_1_u_r_n_resolver_1a26360b0e04d512807a0a49e3baa223b4" prot="public" virt="non-virtual"><scope>themis::sharding::URNResolver</scope><name>getLocalShardId</name></member>
+      <member refid="classthemis_1_1sharding_1_1_u_r_n_resolver_1a1df1ae1e551a7c9660737973eac8f49c" prot="public" virt="non-virtual"><scope>themis::sharding::URNResolver</scope><name>getShardForKey</name></member>
+      <member refid="classthemis_1_1sharding_1_1_u_r_n_resolver_1ae8afa99bb9707e3044b5902132c6a00a" prot="public" virt="non-virtual"><scope>themis::sharding::URNResolver</scope><name>getShardId</name></member>
+      <member refid="classthemis_1_1sharding_1_1_u_r_n_resolver_1a46f458ee459f12466aa1c5d1350a3edf" prot="public" virt="non-virtual"><scope>themis::sharding::URNResolver</scope><name>getShardsForKeyRange</name></member>
+      <member refid="classthemis_1_1sharding_1_1_u_r_n_resolver_1a1fa512c9e679276aa191ad858adf5cd6" prot="private" virt="non-virtual"><scope>themis::sharding::URNResolver</scope><name>hash_ring_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_u_r_n_resolver_1ac0e2f5322e46c62f7ffb0d7ce35953a6" prot="public" virt="non-virtual"><scope>themis::sharding::URNResolver</scope><name>isLocal</name></member>
+      <member refid="classthemis_1_1sharding_1_1_u_r_n_resolver_1a499a6c4cc8abbe6b9a023ad2e054bfe8" prot="private" virt="non-virtual"><scope>themis::sharding::URNResolver</scope><name>local_shard_id_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_u_r_n_resolver_1a7a1d459ad5b7967e7555dbe1ecb45562" prot="public" virt="non-virtual"><scope>themis::sharding::URNResolver</scope><name>refreshTopology</name></member>
+      <member refid="classthemis_1_1sharding_1_1_u_r_n_resolver_1add527c4614beb20a1c7e1f4740b1bbd6" prot="public" virt="non-virtual"><scope>themis::sharding::URNResolver</scope><name>resolvePrimary</name></member>
+      <member refid="classthemis_1_1sharding_1_1_u_r_n_resolver_1a4511ebc9d194eebbc18451ec539b6552" prot="public" virt="non-virtual"><scope>themis::sharding::URNResolver</scope><name>resolveReplicas</name></member>
+      <member refid="classthemis_1_1sharding_1_1_u_r_n_resolver_1a889c35740ecae893c6377574b1840e67" prot="public" virt="non-virtual"><scope>themis::sharding::URNResolver</scope><name>setLocalShardId</name></member>
+      <member refid="classthemis_1_1sharding_1_1_u_r_n_resolver_1a4a388a832e787110fbe5e5ef282deb38" prot="private" virt="non-virtual"><scope>themis::sharding::URNResolver</scope><name>topology_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_u_r_n_resolver_1a9e5c0ff72969bebdf09bfe684bc707a0" prot="public" virt="non-virtual"><scope>themis::sharding::URNResolver</scope><name>URNResolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

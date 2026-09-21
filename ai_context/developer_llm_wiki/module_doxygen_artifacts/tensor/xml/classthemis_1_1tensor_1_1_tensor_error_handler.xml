@@ -1,0 +1,499 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_tensor_error_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorErrorHandler</compoundname>
+    <includes refid="tensor__error__handling_8h" local="no">tensor_error_handling.h</includes>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_error_handler_1_1_operation_stats" prot="private">themis::tensor::TensorErrorHandler::OperationStats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1tensor_1_1_tensor_error_handler_1aacbdc659729532a9015d3a1c68216d9e" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1tensor_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;)&gt;</type>
+        <definition>using themis::tensor::TensorErrorHandler::ErrorCallback = std::function&lt;void(const ErrorContext&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ErrorCallback</name>
+        <qualifiedname>themis::tensor::TensorErrorHandler::ErrorCallback</qualifiedname>
+        <briefdescription>
+<para>Error callback function type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="77" column="5" bodyfile="include/tensor/tensor_error_handling.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1tensor_1_1_tensor_error_handler_1ab9e990003e670ce3c49aaba1c9653392" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="structthemis_1_1tensor_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;)&gt;</type>
+        <definition>using themis::tensor::TensorErrorHandler::RecoveryFn = std::function&lt;bool(const ErrorContext&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RecoveryFn</name>
+        <qualifiedname>themis::tensor::TensorErrorHandler::RecoveryFn</qualifiedname>
+        <briefdescription>
+<para>Recovery function type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="80" column="5" bodyfile="include/tensor/tensor_error_handling.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_error_handler_1ac54c503912e21f3423c1452dbe95a5fb" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1tensor_1_1_tensor_error_handler_1aacbdc659729532a9015d3a1c68216d9e" kindref="member">ErrorCallback</ref></type>
+        <definition>ErrorCallback themis::tensor::TensorErrorHandler::error_callback_</definition>
+        <argsstring></argsstring>
+        <name>error_callback_</name>
+        <qualifiedname>themis::tensor::TensorErrorHandler::error_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="177" column="19" bodyfile="include/tensor/tensor_error_handling.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_error_handler_1a89de03f9acc5bb4d3716a32e94ae6443" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="classthemis_1_1tensor_1_1_tensor_error_handler_1ab9e990003e670ce3c49aaba1c9653392" kindref="member">RecoveryFn</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, RecoveryFn&gt; themis::tensor::TensorErrorHandler::recovery_fns_</definition>
+        <argsstring></argsstring>
+        <name>recovery_fns_</name>
+        <qualifiedname>themis::tensor::TensorErrorHandler::recovery_fns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="178" column="24" bodyfile="include/tensor/tensor_error_handling.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_error_handler_1a66571107bc279b64d70555151bac080a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, OperationStats &gt;</type>
+        <definition>std::unordered_map&lt;std::string, OperationStats&gt; themis::tensor::TensorErrorHandler::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::tensor::TensorErrorHandler::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="179" column="24" bodyfile="include/tensor/tensor_error_handling.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_error_handler_1ab9490c224a96f6dc17bec7e2d39e377b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorErrorHandler::TensorErrorHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>TensorErrorHandler</name>
+        <qualifiedname>themis::tensor::TensorErrorHandler::TensorErrorHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="82" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_error_handler_1a6f54bf73edd7c7cf410396ecbcfe7e3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorErrorHandler::setErrorCallback</definition>
+        <argsstring>(ErrorCallback callback)</argsstring>
+        <name>setErrorCallback</name>
+        <qualifiedname>themis::tensor::TensorErrorHandler::setErrorCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_tensor_error_handler_1aacbdc659729532a9015d3a1c68216d9e" kindref="member">ErrorCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback for error notifications. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Error Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to call when error occurs.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="89" column="10" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="41" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_error_handler_1af85aa48886784e9bb59a2f73eefd3d51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorErrorHandler::registerRecoveryFn</definition>
+        <argsstring>(const std::string &amp;operation, RecoveryFn recovery_fn)</argsstring>
+        <name>registerRecoveryFn</name>
+        <qualifiedname>themis::tensor::TensorErrorHandler::registerRecoveryFn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_tensor_error_handler_1ab9e990003e670ce3c49aaba1c9653392" kindref="member">RecoveryFn</ref></type>
+          <declname>recovery_fn</declname>
+        </param>
+        <briefdescription>
+<para>Register a custom recovery function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Recovery Fn.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation name (e.g., &quot;COMPRESSION&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>recovery_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to call for recovery.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">recovery_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="97" column="10" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="51" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_error_handler_1a818d6789236dbff1b904b5ec2299f0cd" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; bool, std::string &gt;</type>
+        <definition>std::pair&lt; bool, std::string &gt; themis::tensor::TensorErrorHandler::handleCompressionFailure</definition>
+        <argsstring>(const ErrorContext &amp;original_error, std::unique_ptr&lt; ICompressionStrategy &gt; fallback_strategy, const CompressionConfig &amp;config)</argsstring>
+        <name>handleCompressionFailure</name>
+        <qualifiedname>themis::tensor::TensorErrorHandler::handleCompressionFailure</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>original_error</declname>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_i_compression_strategy" kindref="compound">ICompressionStrategy</ref> &gt;</type>
+          <declname>fallback_strategy</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Handle a compression failure with fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>original_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original error context. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fallback_strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Alternative compression strategy to try. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recovery result (success flag and recovery action taken). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="107" column="16" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="57" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_error_handler_1ac4f30de17347eb5da30bceadd1c1e38c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref></type>
+        <definition>RoutingDecision themis::tensor::TensorErrorHandler::handleRoutingFailure</definition>
+        <argsstring>(const ErrorContext &amp;original_error, const std::string &amp;fallback_target)</argsstring>
+        <name>handleRoutingFailure</name>
+        <qualifiedname>themis::tensor::TensorErrorHandler::handleRoutingFailure</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>original_error</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fallback_target</declname>
+        </param>
+        <briefdescription>
+<para>Handle a routing failure with fallback decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle Routing Failure.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>original_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original error context. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fallback_target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fallback routing target. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref> with fallback settings.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">original_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fallback_target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1tensor_1_1_tensor_error_handler_1aae912fad3714c862c7f1ed66d60275e1" kindref="member">logError()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="119" column="22" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="91" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_error_handler_1aae912fad3714c862c7f1ed66d60275e1" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorErrorHandler::logError</definition>
+        <argsstring>(const ErrorContext &amp;context) const noexcept</argsstring>
+        <name>logError</name>
+        <qualifiedname>themis::tensor::TensorErrorHandler::logError</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Log an error with full context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error context to log. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="128" column="10" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="109" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_error_handler_1abbb891a073198720e970b91145d6b009" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::TensorErrorHandler::shouldRetry</definition>
+        <argsstring>(const ErrorContext &amp;context) const noexcept</argsstring>
+        <name>shouldRetry</name>
+        <qualifiedname>themis::tensor::TensorErrorHandler::shouldRetry</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Check if operation should be retried. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error context. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if retry should be attempted. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="136" column="11" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="131" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_error_handler_1a25482616bb9a7de13ecd9e57e21b6c2e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorErrorHandler::recordOperation</definition>
+        <argsstring>(const std::string &amp;operation, bool success, int error_code=0) noexcept</argsstring>
+        <name>recordOperation</name>
+        <qualifiedname>themis::tensor::TensorErrorHandler::recordOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>error_code</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Update error statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether operation succeeded. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error code if failed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="145" column="10" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="136" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_error_handler_1ab9a37d022bba89fbced197d8c78bf255" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::tuple&lt; int, int, int &gt;</type>
+        <definition>std::tuple&lt; int, int, int &gt; themis::tensor::TensorErrorHandler::getErrorStats</definition>
+        <argsstring>(const std::string &amp;operation) const noexcept</argsstring>
+        <name>getErrorStats</name>
+        <qualifiedname>themis::tensor::TensorErrorHandler::getErrorStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <briefdescription>
+<para>Get error statistics for an operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Tuple of (success_count, failure_count, last_error_code). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="156" column="17" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="150" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_error_handler_1a48f529eb3639170277e4af609404b8dc" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_resilience_monitor" kindref="compound">ResilienceMonitor</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ResilienceMonitor &gt; themis::tensor::TensorErrorHandler::getResilienceMonitor</definition>
+        <argsstring>() const</argsstring>
+        <name>getResilienceMonitor</name>
+        <qualifiedname>themis::tensor::TensorErrorHandler::getResilienceMonitor</qualifiedname>
+        <briefdescription>
+<para>Access a <ref refid="classthemis_1_1tensor_1_1_resilience_monitor" kindref="compound">ResilienceMonitor</ref> for external inspection or tests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Provided as a lightweight testing helper; returns a fresh monitor instance representing the current metrics snapshot. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="165" column="22" bodyfile="include/tensor/tensor_error_handling.h" bodystart="165" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Centralized error handler for tensor mid-layer operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides consistent error logging, recovery strategies, and metrics. </para>
+    </detaileddescription>
+    <location file="include/tensor/tensor_error_handling.h" line="74" column="1" bodyfile="include/tensor/tensor_error_handling.h" bodystart="74" bodyend="180"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_tensor_error_handler_1ac54c503912e21f3423c1452dbe95a5fb" prot="private" virt="non-virtual"><scope>themis::tensor::TensorErrorHandler</scope><name>error_callback_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_error_handler_1aacbdc659729532a9015d3a1c68216d9e" prot="public" virt="non-virtual"><scope>themis::tensor::TensorErrorHandler</scope><name>ErrorCallback</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_error_handler_1ab9a37d022bba89fbced197d8c78bf255" prot="public" virt="non-virtual"><scope>themis::tensor::TensorErrorHandler</scope><name>getErrorStats</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_error_handler_1a48f529eb3639170277e4af609404b8dc" prot="public" virt="non-virtual"><scope>themis::tensor::TensorErrorHandler</scope><name>getResilienceMonitor</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_error_handler_1a818d6789236dbff1b904b5ec2299f0cd" prot="public" virt="non-virtual"><scope>themis::tensor::TensorErrorHandler</scope><name>handleCompressionFailure</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_error_handler_1ac4f30de17347eb5da30bceadd1c1e38c" prot="public" virt="non-virtual"><scope>themis::tensor::TensorErrorHandler</scope><name>handleRoutingFailure</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_error_handler_1aae912fad3714c862c7f1ed66d60275e1" prot="public" virt="non-virtual"><scope>themis::tensor::TensorErrorHandler</scope><name>logError</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_error_handler_1a25482616bb9a7de13ecd9e57e21b6c2e" prot="public" virt="non-virtual"><scope>themis::tensor::TensorErrorHandler</scope><name>recordOperation</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_error_handler_1a89de03f9acc5bb4d3716a32e94ae6443" prot="private" virt="non-virtual"><scope>themis::tensor::TensorErrorHandler</scope><name>recovery_fns_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_error_handler_1ab9e990003e670ce3c49aaba1c9653392" prot="public" virt="non-virtual"><scope>themis::tensor::TensorErrorHandler</scope><name>RecoveryFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_error_handler_1af85aa48886784e9bb59a2f73eefd3d51" prot="public" virt="non-virtual"><scope>themis::tensor::TensorErrorHandler</scope><name>registerRecoveryFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_error_handler_1a6f54bf73edd7c7cf410396ecbcfe7e3c" prot="public" virt="non-virtual"><scope>themis::tensor::TensorErrorHandler</scope><name>setErrorCallback</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_error_handler_1abbb891a073198720e970b91145d6b009" prot="public" virt="non-virtual"><scope>themis::tensor::TensorErrorHandler</scope><name>shouldRetry</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_error_handler_1a66571107bc279b64d70555151bac080a" prot="private" virt="non-virtual"><scope>themis::tensor::TensorErrorHandler</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_error_handler_1ab9490c224a96f6dc17bec7e2d39e377b" prot="public" virt="non-virtual"><scope>themis::tensor::TensorErrorHandler</scope><name>TensorErrorHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

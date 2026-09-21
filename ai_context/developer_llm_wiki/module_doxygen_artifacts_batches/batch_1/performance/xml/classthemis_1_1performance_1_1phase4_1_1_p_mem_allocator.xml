@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::PMemAllocator</compoundname>
+    <includes refid="pmem__storage_8h" local="no">pmem_storage.h</includes>
+    <innerclass refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1_1rebind" prot="public">themis::performance::phase4::PMemAllocator::rebind</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1a1aae6f24ce54da14c5d02f5dbc897e62" prot="public" static="no">
+        <type>T</type>
+        <definition>using themis::performance::phase4::PMemAllocator&lt; T &gt;::value_type = T</definition>
+        <argsstring></argsstring>
+        <name>value_type</name>
+        <qualifiedname>themis::performance::phase4::PMemAllocator::value_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="264" column="5" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1af966a1464480cf071ca697c658907ad5" prot="public" static="no">
+        <type>T *</type>
+        <definition>using themis::performance::phase4::PMemAllocator&lt; T &gt;::pointer = T*</definition>
+        <argsstring></argsstring>
+        <name>pointer</name>
+        <qualifiedname>themis::performance::phase4::PMemAllocator::pointer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="265" column="5" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1ae3939f7a8d670241b82bc6adc2e19ab8" prot="public" static="no">
+        <type>const T *</type>
+        <definition>using themis::performance::phase4::PMemAllocator&lt; T &gt;::const_pointer = const T*</definition>
+        <argsstring></argsstring>
+        <name>const_pointer</name>
+        <qualifiedname>themis::performance::phase4::PMemAllocator::const_pointer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="266" column="5" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1a9b557fd4cdfcba552d3fd1065ed5e684" prot="public" static="no">
+        <type>std::size_t</type>
+        <definition>using themis::performance::phase4::PMemAllocator&lt; T &gt;::size_type = std::size_t</definition>
+        <argsstring></argsstring>
+        <name>size_type</name>
+        <qualifiedname>themis::performance::phase4::PMemAllocator::size_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="267" column="5" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1a055727761e92fe071738b7febc6da213" prot="public" static="no">
+        <type>std::ptrdiff_t</type>
+        <definition>using themis::performance::phase4::PMemAllocator&lt; T &gt;::difference_type = std::ptrdiff_t</definition>
+        <argsstring></argsstring>
+        <name>difference_type</name>
+        <qualifiedname>themis::performance::phase4::PMemAllocator::difference_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="268" column="5" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1ab72117eae41c8d2fe45f197eb157b56c" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool" kindref="compound">PMemPool</ref> *</type>
+        <definition>PMemPool* themis::performance::phase4::PMemAllocator&lt; T &gt;::pool_</definition>
+        <argsstring></argsstring>
+        <name>pool_</name>
+        <qualifiedname>themis::performance::phase4::PMemAllocator::pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="294" column="14" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1acaf0d558efbf11e56df5e985214a2705" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::PMemAllocator&lt; T &gt;::PMemAllocator</definition>
+        <argsstring>(PMemPool *pool) noexcept</argsstring>
+        <name>PMemAllocator</name>
+        <qualifiedname>themis::performance::phase4::PMemAllocator::PMemAllocator</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool" kindref="compound">PMemPool</ref> *</type>
+          <declname>pool</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="273" column="14" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="273" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1aaf5faab299660042edcfeaeed91845cd" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename U</type>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>themis::performance::phase4::PMemAllocator&lt; T &gt;::PMemAllocator</definition>
+        <argsstring>(const PMemAllocator&lt; U &gt; &amp;other) noexcept</argsstring>
+        <name>PMemAllocator</name>
+        <qualifiedname>themis::performance::phase4::PMemAllocator::PMemAllocator</qualifiedname>
+        <param>
+          <type>const PMemAllocator&lt; U &gt; &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="276" column="14" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="276" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1a5488c300b33d7546bd8c8a4787b0a6b5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * themis::performance::phase4::PMemAllocator&lt; T &gt;::allocate</definition>
+        <argsstring>(size_type n)</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::performance::phase4::PMemAllocator::allocate</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1a9b557fd4cdfcba552d3fd1065ed5e684" kindref="member">size_type</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="279" column="7" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="279" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1ac08f4108b5269fabab19904852e16c86" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::PMemAllocator&lt; T &gt;::deallocate</definition>
+        <argsstring>(T *p, size_type n) noexcept</argsstring>
+        <name>deallocate</name>
+        <qualifiedname>themis::performance::phase4::PMemAllocator::deallocate</qualifiedname>
+        <param>
+          <type>T *</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1a9b557fd4cdfcba552d3fd1065ed5e684" kindref="member">size_type</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="287" column="10" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="287" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1a8ae346cd963b36213224b3cb0fc1f126" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::PMemAllocator&lt; T &gt;::operator==</definition>
+        <argsstring>(const PMemAllocator &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::performance::phase4::PMemAllocator::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1acaf0d558efbf11e56df5e985214a2705" kindref="member">PMemAllocator</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="291" column="10" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="291" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1afc4c7bf8ff66192ed17452242433f854" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::PMemAllocator&lt; T &gt;::operator!=</definition>
+        <argsstring>(const PMemAllocator &amp;o) const noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::performance::phase4::PMemAllocator::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1acaf0d558efbf11e56df5e985214a2705" kindref="member">PMemAllocator</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="292" column="10" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="292" bodyend="292"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>STL-compatible allocator that obtains memory from a <ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool" kindref="compound">PMemPool</ref>. Designed for use with std::vector, std::unordered_map, etc.</para>
+<para>Example: <ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool" kindref="compound">PMemPool</ref> pool({.path=&quot;/mnt/pmem0/themis.pool&quot;, .pool_size=1&lt;&lt;30}); std::vector&lt;int, PMemAllocator&lt;int&gt;&gt; v(PMemAllocator&lt;int&gt;(&amp;pool)); </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::performance::phase4::PMemAllocator&lt; T &gt;</label>
+        <link refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>pool_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::performance::phase4::PMemPool</label>
+        <link refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/performance/phase4/pmem_storage.h" line="262" column="1" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="262" bodyend="295"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1a5488c300b33d7546bd8c8a4787b0a6b5" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemAllocator</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1ae3939f7a8d670241b82bc6adc2e19ab8" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemAllocator</scope><name>const_pointer</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1ac08f4108b5269fabab19904852e16c86" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemAllocator</scope><name>deallocate</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1a055727761e92fe071738b7febc6da213" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemAllocator</scope><name>difference_type</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1afc4c7bf8ff66192ed17452242433f854" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemAllocator</scope><name>operator!=</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1a8ae346cd963b36213224b3cb0fc1f126" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemAllocator</scope><name>operator==</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1acaf0d558efbf11e56df5e985214a2705" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemAllocator</scope><name>PMemAllocator</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1aaf5faab299660042edcfeaeed91845cd" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemAllocator</scope><name>PMemAllocator</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1af966a1464480cf071ca697c658907ad5" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemAllocator</scope><name>pointer</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1ab72117eae41c8d2fe45f197eb157b56c" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemAllocator</scope><name>pool_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1a9b557fd4cdfcba552d3fd1065ed5e684" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemAllocator</scope><name>size_type</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1a1aae6f24ce54da14c5d02f5dbc897e62" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemAllocator</scope><name>value_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

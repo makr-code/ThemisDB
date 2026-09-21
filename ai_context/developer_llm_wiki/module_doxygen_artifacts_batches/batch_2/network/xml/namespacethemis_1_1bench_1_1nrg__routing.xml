@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1nrg__routing" kind="namespace" language="C++">
+    <compoundname>themis::bench::nrg_routing</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1nrg__routing_1ab30fcecac5395552a9f0bd042f13bbc0" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::nrg_routing::kNetworkCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kNetworkCanonicalSeed</name>
+        <qualifiedname>themis::bench::nrg_routing::kNetworkCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_routing_gates.cpp" line="64" column="32" bodyfile="benchmarks/network/bench_network_routing_gates.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1nrg__routing_1af4470beb2367e97aeb4b078ba0d704a0" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::nrg_routing::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::nrg_routing::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_routing_gates.cpp" line="65" column="32" bodyfile="benchmarks/network/bench_network_routing_gates.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1nrg__routing_1a170d540fabfa2e2c4c6e67f2bf74e7fc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::nrg_routing::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::nrg_routing::kWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_routing_gates.cpp" line="66" column="32" bodyfile="benchmarks/network/bench_network_routing_gates.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg__routing_1ac7224af1e146228eb428b52e57b7fef4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const BenchTopologyRouter &amp;</type>
+        <definition>static const BenchTopologyRouter &amp; themis::bench::nrg_routing::benchRouter</definition>
+        <argsstring>()</argsstring>
+        <name>benchRouter</name>
+        <qualifiedname>themis::bench::nrg_routing::benchRouter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_routing_gates.cpp" line="234" column="34" bodyfile="benchmarks/network/bench_network_routing_gates.cpp" bodystart="234" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg__routing_1a7c3295e6d1479b055eeed04f222c0700" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::nrg_routing::BM_NRG07_TopologySelectHotPath</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NRG07_TopologySelectHotPath</name>
+        <qualifiedname>themis::bench::nrg_routing::BM_NRG07_TopologySelectHotPath</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>NRG-07: Two-pass topology-aware select over 8 backends. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 200 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_routing_gates.cpp" line="248" column="13" bodyfile="benchmarks/network/bench_network_routing_gates.cpp" bodystart="248" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg__routing_1aa579776ce169bcafdbeede8e97b12988" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::nrg_routing::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::nrg_routing::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_routing_gates.cpp" line="262" column="5" declfile="benchmarks/network/bench_network_routing_gates.cpp" declline="262" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg__routing_1a2351a73ac7b31655698125cbe24c118e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::nrg_routing::BM_NRG08_LoadBalancerForward</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NRG08_LoadBalancerForward</name>
+        <qualifiedname>themis::bench::nrg_routing::BM_NRG08_LoadBalancerForward</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>NRG-08: Atomic-counter round-robin forward over 8 backends. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 200 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_routing_gates.cpp" line="274" column="13" bodyfile="benchmarks/network/bench_network_routing_gates.cpp" bodystart="274" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg__routing_1afae372c056605222dd7c48fb0de668bb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::nrg_routing::BM_NRG09_CircuitBreakerShouldAllow</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NRG09_CircuitBreakerShouldAllow</name>
+        <qualifiedname>themis::bench::nrg_routing::BM_NRG09_CircuitBreakerShouldAllow</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>NRG-09: <ref refid="classthemis_1_1network_1_1_adaptive_circuit_breaker_1a2142741aee2babc9b9f0c0e9bd58a0fd" kindref="member">AdaptiveCircuitBreaker::shouldAllow()</ref> in CLOSED state — lock-free atomic read path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 50 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_routing_gates.cpp" line="298" column="13" bodyfile="benchmarks/network/bench_network_routing_gates.cpp" bodystart="298" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg__routing_1ae01ac9277c1f15e242b84de91c318400" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::nrg_routing::BM_NRG10_ConnectionLimitCheckOk</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NRG10_ConnectionLimitCheckOk</name>
+        <qualifiedname>themis::bench::nrg_routing::BM_NRG10_ConnectionLimitCheckOk</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>NRG-10: Atomic accept() under limit — fast OK path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 50 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_routing_gates.cpp" line="325" column="13" bodyfile="benchmarks/network/bench_network_routing_gates.cpp" bodystart="325" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg__routing_1a15f63c850fe60e2c23d1402f9c44d052" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::nrg_routing::BM_NRG11_QueueGateAdmitDrain</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NRG11_QueueGateAdmitDrain</name>
+        <qualifiedname>themis::bench::nrg_routing::BM_NRG11_QueueGateAdmitDrain</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>NRG-11: Single admit + drain cycle against a capacity-4 queue gate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_routing_gates.cpp" line="352" column="13" bodyfile="benchmarks/network/bench_network_routing_gates.cpp" bodystart="352" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg__routing_1ab1c3396f31983a093b063744578ca22b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::nrg_routing::BM_NRG12_SessionGuardEvaluate</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NRG12_SessionGuardEvaluate</name>
+        <qualifiedname>themis::bench::nrg_routing::BM_NRG12_SessionGuardEvaluate</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>NRG-12: In-memory session-guard evaluate() with 256 pre-populated entries — warm unordered_map lookup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_routing_gates.cpp" line="378" column="13" bodyfile="benchmarks/network/bench_network_routing_gates.cpp" bodystart="378" bodyend="389"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/network/bench_network_routing_gates.cpp" line="55" column="1"/>
+  </compounddef>
+</doxygen>

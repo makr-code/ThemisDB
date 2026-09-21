@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1importers_1_1_0d370141176351056071232363053102245366264367014320" kind="namespace" language="C++">
+    <compoundname>themis::importers::@370141176351056071232363053102245366264367014320</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/importers/s3_importer.cpp" line="40" column="1"/>
+  </compounddef>
+</doxygen>

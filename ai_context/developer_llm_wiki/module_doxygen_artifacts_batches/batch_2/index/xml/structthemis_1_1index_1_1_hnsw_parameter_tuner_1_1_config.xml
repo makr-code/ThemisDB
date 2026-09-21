@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::HnswParameterTuner::Config</compoundname>
+    <includes refid="hnsw__parameter__tuner_8h" local="no">hnsw_parameter_tuner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a64bc40cd03dd0a04787bdee4480441b3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::HnswParameterTuner::Config::M</definition>
+        <argsstring></argsstring>
+        <name>M</name>
+        <qualifiedname>themis::index::HnswParameterTuner::Config::M</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>Connections per node (fixed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="61" column="13" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1aa4fead32b75904f98654e37be8740406" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::HnswParameterTuner::Config::ef_construction</definition>
+        <argsstring></argsstring>
+        <name>ef_construction</name>
+        <qualifiedname>themis::index::HnswParameterTuner::Config::ef_construction</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Construction-time search width (fixed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="62" column="13" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a386a678b464e23ac275f7061cd5fce41" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" kindref="member">WorkloadType</ref></type>
+        <definition>WorkloadType themis::index::HnswParameterTuner::Config::workload</definition>
+        <argsstring></argsstring>
+        <name>workload</name>
+        <qualifiedname>themis::index::HnswParameterTuner::Config::workload</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefda516a2342953891f249b58ff1c3943723" kindref="member">WorkloadType::MIXED</ref></initializer>
+        <briefdescription>
+<para>Workload type for optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="65" column="22" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1ab0846af7f9953bb10d6f38f8ba7a6438" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::HnswParameterTuner::Config::ef_search_min</definition>
+        <argsstring></argsstring>
+        <name>ef_search_min</name>
+        <qualifiedname>themis::index::HnswParameterTuner::Config::ef_search_min</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+<para>Minimum efSearch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="68" column="13" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1abbe12988cbe5d5911a489d0b48c6545c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::HnswParameterTuner::Config::ef_search_max</definition>
+        <argsstring></argsstring>
+        <name>ef_search_max</name>
+        <qualifiedname>themis::index::HnswParameterTuner::Config::ef_search_max</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Maximum efSearch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="69" column="13" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a2760804478d0500888da794e8a1994d8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::HnswParameterTuner::Config::ef_search_default</definition>
+        <argsstring></argsstring>
+        <name>ef_search_default</name>
+        <qualifiedname>themis::index::HnswParameterTuner::Config::ef_search_default</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Default efSearch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="70" column="13" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a57f540a847f2a6a79975289d74c05b03" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::HnswParameterTuner::Config::adaptive</definition>
+        <argsstring></argsstring>
+        <name>adaptive</name>
+        <qualifiedname>themis::index::HnswParameterTuner::Config::adaptive</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable adaptive tuning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="73" column="14" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a5ee803caeb956c76cf733f490706405c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::HnswParameterTuner::Config::target_recall</definition>
+        <argsstring></argsstring>
+        <name>target_recall</name>
+        <qualifiedname>themis::index::HnswParameterTuner::Config::target_recall</qualifiedname>
+        <initializer>= 0.95</initializer>
+        <briefdescription>
+<para>Target recall (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="74" column="16" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a348eadd08c60ba21c0ef93ed9614081b" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::index::HnswParameterTuner::Config::target_latency</definition>
+        <argsstring></argsstring>
+        <name>target_latency</name>
+        <qualifiedname>themis::index::HnswParameterTuner::Config::target_latency</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+<para>Target query latency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="75" column="35" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a68ed1c8104816579eb25624df001a167" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::HnswParameterTuner::Config::stats_window_size</definition>
+        <argsstring></argsstring>
+        <name>stats_window_size</name>
+        <qualifiedname>themis::index::HnswParameterTuner::Config::stats_window_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Statistics window for adaptation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="76" column="16" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a4581e8dcc15dc29149f000b94f547121" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::HnswParameterTuner::Config::scale_with_dataset</definition>
+        <argsstring></argsstring>
+        <name>scale_with_dataset</name>
+        <qualifiedname>themis::index::HnswParameterTuner::Config::scale_with_dataset</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Scale efSearch with dataset size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="79" column="14" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/hnsw_parameter_tuner.h" line="59" column="5" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="59" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a57f540a847f2a6a79975289d74c05b03" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::Config</scope><name>adaptive</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1aa4fead32b75904f98654e37be8740406" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::Config</scope><name>ef_construction</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a2760804478d0500888da794e8a1994d8" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::Config</scope><name>ef_search_default</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1abbe12988cbe5d5911a489d0b48c6545c" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::Config</scope><name>ef_search_max</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1ab0846af7f9953bb10d6f38f8ba7a6438" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::Config</scope><name>ef_search_min</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a64bc40cd03dd0a04787bdee4480441b3" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::Config</scope><name>M</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a4581e8dcc15dc29149f000b94f547121" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::Config</scope><name>scale_with_dataset</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a68ed1c8104816579eb25624df001a167" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::Config</scope><name>stats_window_size</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a348eadd08c60ba21c0ef93ed9614081b" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::Config</scope><name>target_latency</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a5ee803caeb956c76cf733f490706405c" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::Config</scope><name>target_recall</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_parameter_tuner_1_1_config_1a386a678b464e23ac275f7061cd5fce41" prot="public" virt="non-virtual"><scope>themis::index::HnswParameterTuner::Config</scope><name>workload</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

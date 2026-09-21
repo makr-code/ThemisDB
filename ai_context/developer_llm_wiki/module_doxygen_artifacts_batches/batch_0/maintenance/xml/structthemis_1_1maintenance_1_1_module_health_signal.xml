@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1maintenance_1_1_module_health_signal" kind="struct" language="C++" prot="public">
+    <compoundname>themis::maintenance::ModuleHealthSignal</compoundname>
+    <includes refid="maintenance__health__report_8h" local="no">maintenance_health_report.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_module_health_signal_1a8c9178e36aeef6ef39b008b6ae4cb0a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::ModuleHealthSignal::module_name</definition>
+        <argsstring></argsstring>
+        <name>module_name</name>
+        <qualifiedname>themis::maintenance::ModuleHealthSignal::module_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="36" column="23" bodyfile="include/maintenance/maintenance_health_report.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_module_health_signal_1ac1bbea07d7324dabe1115915fe8265a8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5" kindref="member">ModuleHealthStatus</ref></type>
+        <definition>ModuleHealthStatus themis::maintenance::ModuleHealthSignal::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::maintenance::ModuleHealthSignal::status</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">ModuleHealthStatus::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="37" column="24" bodyfile="include/maintenance/maintenance_health_report.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_module_health_signal_1a8223e6258c0553ab356653622cac6ec4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::ModuleHealthSignal::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::maintenance::ModuleHealthSignal::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable status message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="38" column="23" bodyfile="include/maintenance/maintenance_health_report.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_module_health_signal_1af345fcc4c29a64f644b9c70410652b74" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::maintenance::ModuleHealthSignal::checked_at_ms</definition>
+        <argsstring></argsstring>
+        <name>checked_at_ms</name>
+        <qualifiedname>themis::maintenance::ModuleHealthSignal::checked_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix ms when this signal was collected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="39" column="23" bodyfile="include/maintenance/maintenance_health_report.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_module_health_signal_1a3efe1185213315532ce945116f2f746f" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::maintenance::ModuleHealthSignal::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::maintenance::ModuleHealthSignal::details</qualifiedname>
+        <briefdescription>
+<para>Additional key/value details (e.g., fragmentation %, queue depth, …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="42" column="14" bodyfile="include/maintenance/maintenance_health_report.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1_module_health_signal_1ac8f05dbb9b92fa702e709c9146fc6edc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::maintenance::ModuleHealthSignal::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::maintenance::ModuleHealthSignal::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="44" column="20" bodyfile="include/maintenance/maintenance_health_report.h" bodystart="44" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Health contribution from a single module. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/maintenance/maintenance_health_report.h" line="35" column="1" bodyfile="include/maintenance/maintenance_health_report.h" bodystart="35" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1maintenance_1_1_module_health_signal_1af345fcc4c29a64f644b9c70410652b74" prot="public" virt="non-virtual"><scope>themis::maintenance::ModuleHealthSignal</scope><name>checked_at_ms</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_module_health_signal_1a3efe1185213315532ce945116f2f746f" prot="public" virt="non-virtual"><scope>themis::maintenance::ModuleHealthSignal</scope><name>details</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_module_health_signal_1a8223e6258c0553ab356653622cac6ec4" prot="public" virt="non-virtual"><scope>themis::maintenance::ModuleHealthSignal</scope><name>message</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_module_health_signal_1a8c9178e36aeef6ef39b008b6ae4cb0a7" prot="public" virt="non-virtual"><scope>themis::maintenance::ModuleHealthSignal</scope><name>module_name</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_module_health_signal_1ac1bbea07d7324dabe1115915fe8265a8" prot="public" virt="non-virtual"><scope>themis::maintenance::ModuleHealthSignal</scope><name>status</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_module_health_signal_1ac8f05dbb9b92fa702e709c9146fc6edc" prot="public" virt="non-virtual"><scope>themis::maintenance::ModuleHealthSignal</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

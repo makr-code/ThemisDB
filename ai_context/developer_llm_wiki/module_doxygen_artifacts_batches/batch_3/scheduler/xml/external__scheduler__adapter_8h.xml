@@ -1,0 +1,340 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="external__scheduler__adapter_8h" kind="file" language="C++">
+    <compoundname>external_scheduler_adapter.h</compoundname>
+    <includes refid="task__scheduler_8h" local="yes">scheduler/task_scheduler.h</includes>
+    <includes refid="scheduler__api__contract_8h" local="yes">scheduler/scheduler_api_contract.h</includes>
+    <includes refid="task__result__store_8h" local="yes">scheduler/task_result_store.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="external__scheduler__adapter_8cpp" local="yes">src/scheduler/external_scheduler_adapter.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/scheduler/external_scheduler_adapter.h</label>
+        <link refid="external__scheduler__adapter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>scheduler/scheduler_api_contract.h</label>
+        <link refid="scheduler__api__contract_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>scheduler/task_audit_event.h</label>
+        <link refid="task__audit__event_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>scheduler/task_result_store.h</label>
+        <link refid="task__result__store_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>scheduler/task_scheduler.h</label>
+        <link refid="task__scheduler_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="18">
+        <label>cdc/changefeed.h</label>
+      </node>
+      <node id="12">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>condition_variable</label>
+      </node>
+      <node id="20">
+        <label>cstdint</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="17">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="23">
+        <label>observability/alertmanager.h</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>set</label>
+      </node>
+      <node id="10">
+        <label>shared_mutex</label>
+      </node>
+      <node id="24">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>thread</label>
+      </node>
+      <node id="16">
+        <label>unordered_set</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/scheduler/external_scheduler_adapter.h</label>
+        <link refid="external__scheduler__adapter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/scheduler/external_scheduler_adapter.cpp</label>
+        <link refid="external__scheduler__adapter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config" prot="public">themis::scheduler::KubernetesCronJobConfig</innerclass>
+    <innerclass refid="structthemis_1_1scheduler_1_1_airflow_dag_config" prot="public">themis::scheduler::AirflowDagConfig</innerclass>
+    <innerclass refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter" prot="public">themis::scheduler::ExternalSchedulerAdapter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scheduler">themis::scheduler</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="task__scheduler_8h" kindref="compound">scheduler/task_scheduler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="scheduler__api__contract_8h" kindref="compound">scheduler/scheduler_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="task__result__store_8h" kindref="compound">scheduler/task_result_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1scheduler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scheduler" kindref="compound">scheduler</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1scheduler_1adad64463c80c3c05bbd6faed6a0a246f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scheduler_1adad64463c80c3c05bbd6faed6a0a246f" kindref="member">ExternalSchedulerType</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1scheduler_1adad64463c80c3c05bbd6faed6a0a246fa5cbe606f96514dc91a9fcfe3c884c47a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1adad64463c80c3c05bbd6faed6a0a246fa5cbe606f96514dc91a9fcfe3c884c47a" kindref="member">KUBERNETES_CRONJOB</ref>,<sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1scheduler_1adad64463c80c3c05bbd6faed6a0a246fab9deaa30a735787526665d99195eb027" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1adad64463c80c3c05bbd6faed6a0a246fab9deaa30a735787526665d99195eb027" kindref="member">AIRFLOW</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config" kindref="compound">KubernetesCronJobConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1ae1e285cd54539b5d367f1cc4e1f4d0d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1ae1e285cd54539b5d367f1cc4e1f4d0d3" kindref="member">k8s_namespace</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1aad2c22254bbade2acb54cd60e80932e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1aad2c22254bbade2acb54cd60e80932e5" kindref="member">job_image</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;curlimages/curl:8.6.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a0920d88dd4587238326d338e9c2e4844" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a0920d88dd4587238326d338e9c2e4844" kindref="member">themisdb_base_url</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a0966e4cdf5aba20a088ae7ba730348e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a0966e4cdf5aba20a088ae7ba730348e9" kindref="member">api_token_secret_name</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1ae1726dfe5471f9c319b88cb864165555" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/><ref refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1ae1726dfe5471f9c319b88cb864165555" kindref="member">successful_jobs_history_limit</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a265df0eeefe35f2fd0fe20a9bada3358" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/><ref refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a265df0eeefe35f2fd0fe20a9bada3358" kindref="member">failed_jobs_history_limit</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a83c8f7f6dd7ead5d37584e1fd313aecd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a83c8f7f6dd7ead5d37584e1fd313aecd" kindref="member">suspend</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a26208eaa0205eda9422888aed1e91f40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a26208eaa0205eda9422888aed1e91f40" kindref="member">extra_labels</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1scheduler_1_1_airflow_dag_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scheduler_1_1_airflow_dag_config" kindref="compound">AirflowDagConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1ad326574dc5763d7e25034b191cf115fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1ad326574dc5763d7e25034b191cf115fb" kindref="member">dag_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb_scheduled_tasks&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1af2a5be88e725c29743718714aa821d91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1af2a5be88e725c29743718714aa821d91" kindref="member">owner</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1af35df0cc09c3288befb4f6233a171524" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1af35df0cc09c3288befb4f6233a171524" kindref="member">start_date</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2026-01-01&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1a16d5062ff11e1fddd563e5618197ffc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1a16d5062ff11e1fddd563e5618197ffc0" kindref="member">themisdb_base_url</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1a9cc7b98c83c216fbfa997cc0cef0b696" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1a9cc7b98c83c216fbfa997cc0cef0b696" kindref="member">http_conn_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb_default&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1a93e39529757f943ba17f806c93f22383" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1a93e39529757f943ba17f806c93f22383" kindref="member">default_schedule</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;@daily&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1a350ddd29e54f1568e1f5851eb0b25111" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1a350ddd29e54f1568e1f5851eb0b25111" kindref="member">is_paused_upon_creation</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1ae81bb0944e4162611de02817281b5bf0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1ae81bb0944e4162611de02817281b5bf0" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ThemisDB<sp/>scheduled<sp/>tasks<sp/>exported<sp/>via<sp/>ExternalSchedulerAdapter&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1a097cda943a0119e87ec540b1b7b5ad8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_airflow_dag_config_1a097cda943a0119e87ec540b1b7b5ad8a" kindref="member">tags</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1ab882746b4bed160155ca841d5aa95d3e" kindref="member">ExternalSchedulerAdapter</ref><sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1ab882746b4bed160155ca841d5aa95d3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1ab882746b4bed160155ca841d5aa95d3e" kindref="member">ExternalSchedulerAdapter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Kubernetes<sp/>CronJob<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1ae777370a83a213b03e4ef6703a7054df" kindref="member">toKubernetesCronJobJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref>&amp;<sp/>task,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config" kindref="compound">KubernetesCronJobConfig</ref>&amp;<sp/>config)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a3f4d23e3768b112e32989abbdbff67f4" kindref="member">toKubernetesCronJobYaml</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref>&amp;<sp/>task,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config" kindref="compound">KubernetesCronJobConfig</ref>&amp;<sp/>config)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref><sp/><ref refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a316bb7824f942cd50b0c2117b02bf7e0" kindref="member">fromKubernetesCronJobJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>manifest)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Airflow<sp/>DAG<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1aca66832d9adef66511aca6b77b5175df" kindref="member">toAirflowDagPython</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ScheduledTask&gt;&amp;<sp/>tasks,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_airflow_dag_config" kindref="compound">AirflowDagConfig</ref>&amp;<sp/>config)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Shared<sp/>utilities<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1aaf420b397f8cf52d6f526e740ef41b9e" kindref="member">intervalToCron</ref>(std::chrono::milliseconds<sp/>interval);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a2b4697f6264e68f408f4483d54a60bbc" kindref="member">effectiveCronSchedule</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref>&amp;<sp/>task);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1aa402be963b6e341462ef5bb6f34fcdff" kindref="member">toK8sName</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>External<sp/>Scheduler<sp/>Integration<sp/>and<sp/>Status<sp/>Sync<sp/>───────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">SchedulerError</ref><sp/><ref refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a06c0d9c10cc4f5e8799fa43149d0b175" kindref="member">dispatchTaskToExternal</ref>(</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref>&amp;<sp/>task,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1adad64463c80c3c05bbd6faed6a0a246f" kindref="member">ExternalSchedulerType</ref><sp/>scheduler_type,</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>external_config);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">SchedulerError</ref><sp/><ref refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a448ca36ead07aa3c11e8705d4070deb9" kindref="member">pollExternalStatus</ref>(</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id,</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>external_task_id,</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1adad64463c80c3c05bbd6faed6a0a246f" kindref="member">ExternalSchedulerType</ref><sp/>scheduler_type,</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>external_config,</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scheduler_1_1_task_result_store" kindref="compound">TaskResultStore</ref>*<sp/>result_store,</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_retries<sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>initial_backoff_ms<sp/>=<sp/>std::chrono::milliseconds{100});</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">SchedulerError</ref><sp/><ref refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1acc3b554a1fd723e2fba56690c166d67a" kindref="member">classifyAndMapExternalError</ref>(</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error_msg,</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>http_status,</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id,</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1adad64463c80c3c05bbd6faed6a0a246f" kindref="member">ExternalSchedulerType</ref><sp/>scheduler_type);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>jsonToYaml(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>indent<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>pyStringEscape(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>scheduler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/scheduler/external_scheduler_adapter.h"/>
+  </compounddef>
+</doxygen>

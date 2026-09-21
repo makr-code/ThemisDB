@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_operational_audit_logger_1_1_performance_metrics" kind="struct" language="C++" prot="private">
+    <compoundname>themis::governance::OperationalAuditLogger::PerformanceMetrics</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_operational_audit_logger_1_1_performance_metrics_1ac4e6385952ef3efb181fa8273dd5a1dd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; themis::governance::OperationalAuditLogger::PerformanceMetrics::logging_times_us</definition>
+        <argsstring></argsstring>
+        <name>logging_times_us</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::PerformanceMetrics::logging_times_us</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="334" column="21" bodyfile="include/governance/operational_audit.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_operational_audit_logger_1_1_performance_metrics_1a412198ff631a700c6995a5de77fa214f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; themis::governance::OperationalAuditLogger::PerformanceMetrics::query_times_us</definition>
+        <argsstring></argsstring>
+        <name>query_times_us</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::PerformanceMetrics::query_times_us</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="335" column="21" bodyfile="include/governance/operational_audit.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_operational_audit_logger_1_1_performance_metrics_1a0718577e1502c5e0a6cb1b4d2325b348" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::OperationalAuditLogger::PerformanceMetrics::total_operations</definition>
+        <argsstring></argsstring>
+        <name>total_operations</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::PerformanceMetrics::total_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="336" column="17" bodyfile="include/governance/operational_audit.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_operational_audit_logger_1_1_performance_metrics_1a0e128d9de3be31eff9035fad80f33f3d" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::OperationalAuditLogger::PerformanceMetrics::total_query_operations</definition>
+        <argsstring></argsstring>
+        <name>total_query_operations</name>
+        <qualifiedname>themis::governance::OperationalAuditLogger::PerformanceMetrics::total_query_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="337" column="17" bodyfile="include/governance/operational_audit.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/operational_audit.h" line="333" column="5" bodyfile="include/governance/operational_audit.h" bodystart="333" bodyend="338"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_operational_audit_logger_1_1_performance_metrics_1ac4e6385952ef3efb181fa8273dd5a1dd" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger::PerformanceMetrics</scope><name>logging_times_us</name></member>
+      <member refid="structthemis_1_1governance_1_1_operational_audit_logger_1_1_performance_metrics_1a412198ff631a700c6995a5de77fa214f" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger::PerformanceMetrics</scope><name>query_times_us</name></member>
+      <member refid="structthemis_1_1governance_1_1_operational_audit_logger_1_1_performance_metrics_1a0718577e1502c5e0a6cb1b4d2325b348" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger::PerformanceMetrics</scope><name>total_operations</name></member>
+      <member refid="structthemis_1_1governance_1_1_operational_audit_logger_1_1_performance_metrics_1a0e128d9de3be31eff9035fad80f33f3d" prot="public" virt="non-virtual"><scope>themis::governance::OperationalAuditLogger::PerformanceMetrics</scope><name>total_query_operations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

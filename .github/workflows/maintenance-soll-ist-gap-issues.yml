@@ -1,0 +1,81 @@
+name: maintenance-soll-ist-gap-issues
+
+"on":
+  workflow_dispatch:
+    inputs:
+      apply_changes:
+        description: "Write changes to GitHub issues"
+        required: false
+        default: "false"
+      close_resolved:
+        description: "Close resolved tracked issues (guarded; default disabled)"
+        required: false
+        default: "false"
+      source_gap_glob:
+        description: "Glob for verified source gap files"
+        required: false
+        default: "ai_working/gap_scanner_verified_*.json"
+  schedule:
+    - cron: "30 2 * * 1"
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: maintenance-soll-ist-gap-${{ github.ref_name || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  soll_ist_sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Generate Soll-Ist report (preview)
+        run: |
+          python scripts/sync_soll_ist_gaps.py \
+            --repo-root . \
+            --docs-compliance-md docs/governance/SRC_MODULE_DOCUMENTATION_COMPLIANCE_2026-09-20.md \
+            --source-gap-glob "${{ github.event.inputs.source_gap_glob || 'ai_working/gap_scanner_verified_*.json' }}" \
+            --report-json ai_context/developer_llm_wiki/SOLL_IST_GAP_REPORT.json \
+            --summary-md ai_context/developer_llm_wiki/SOLL_IST_GAP_SUMMARY.md
+
+      - name: Upload report artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: soll-ist-gap-report
+          path: |
+            ai_context/developer_llm_wiki/SOLL_IST_GAP_REPORT.json
+            ai_context/developer_llm_wiki/SOLL_IST_GAP_SUMMARY.md
+
+      - name: Sync issues (idempotent)
+        if: github.event_name == 'schedule' || github.event.inputs.apply_changes == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python scripts/sync_soll_ist_gaps.py \
+            --repo-root . \
+            --docs-compliance-md docs/governance/SRC_MODULE_DOCUMENTATION_COMPLIANCE_2026-09-20.md \
+            --source-gap-glob "${{ github.event.inputs.source_gap_glob || 'ai_working/gap_scanner_verified_*.json' }}" \
+            --report-json ai_context/developer_llm_wiki/SOLL_IST_GAP_REPORT.json \
+            --summary-md ai_context/developer_llm_wiki/SOLL_IST_GAP_SUMMARY.md \
+            --sync-issues \
+            --apply \
+            ${{ github.event.inputs.close_resolved == 'true' && '--close-resolved' || '' }}
+
+      - name: Upload issue sync result
+        if: github.event_name == 'schedule' || github.event.inputs.apply_changes == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: soll-ist-gap-issue-sync
+          path: |
+            ai_context/developer_llm_wiki/SOLL_IST_ISSUE_SYNC_RESULT.json

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_149dbf94b189b80864849b34ae93a7f3" kind="dir">
+    <compoundname>include/observability</compoundname>
+    <innerfile refid="advanced__metrics_8h">advanced_metrics.h</innerfile>
+    <innerfile refid="alerting__engine_8h">alerting_engine.h</innerfile>
+    <innerfile refid="alertmanager_8h">alertmanager.h</innerfile>
+    <innerfile refid="continuous__profiler_8h">continuous_profiler.h</innerfile>
+    <innerfile refid="distributed__flame__graph_8h">distributed_flame_graph.h</innerfile>
+    <innerfile refid="distributed__trace__span_8h">distributed_trace_span.h</innerfile>
+    <innerfile refid="distributed__tracing__sdk_8h">distributed_tracing_sdk.h</innerfile>
+    <innerfile refid="ebpf__tracer_8h">ebpf_tracer.h</innerfile>
+    <innerfile refid="exporter__stress__framework_8h">exporter_stress_framework.h</innerfile>
+    <innerfile refid="field__diagnostics__collector_8h">field_diagnostics_collector.h</innerfile>
+    <innerfile refid="high__cardinality__metrics_8h">high_cardinality_metrics.h</innerfile>
+    <innerfile refid="layer__decision__log_8h">layer_decision_log.h</innerfile>
+    <innerfile refid="log__aggregator_8h">log_aggregator.h</innerfile>
+    <innerfile refid="log__search__engine_8h">log_search_engine.h</innerfile>
+    <innerfile refid="metric__aggregator_8h">metric_aggregator.h</innerfile>
+    <innerfile refid="metric__anomaly__detector_8h">metric_anomaly_detector.h</innerfile>
+    <innerfile refid="metrics__collector_8h">metrics_collector.h</innerfile>
+    <innerfile refid="metrics__stream__server_8h">metrics_stream_server.h</innerfile>
+    <innerfile refid="ml__anomaly__detector_8h">ml_anomaly_detector.h</innerfile>
+    <innerfile refid="observability__api__contract_8h">observability_api_contract.h</innerfile>
+    <innerfile refid="opentelemetry__tracer_8h">opentelemetry_tracer.h</innerfile>
+    <innerfile refid="operator__remediation__engine_8h">operator_remediation_engine.h</innerfile>
+    <innerfile refid="otlp__exemplar_8h">otlp_exemplar.h</innerfile>
+    <innerfile refid="performance__analyzer_8h">performance_analyzer.h</innerfile>
+    <innerfile refid="provenance__store_8h">provenance_store.h</innerfile>
+    <innerfile refid="query__profiler_8h">query_profiler.h</innerfile>
+    <innerfile refid="reason__codes_8h">reason_codes.h</innerfile>
+    <innerfile refid="retrieval__provenance_8h">retrieval_provenance.h</innerfile>
+    <innerfile refid="root__cause__analyzer_8h">root_cause_analyzer.h</innerfile>
+    <innerfile refid="slo__reporter_8h">slo_reporter.h</innerfile>
+    <innerfile refid="storage__profiler_8h">storage_profiler.h</innerfile>
+    <innerfile refid="telemetry__keys_8h">telemetry_keys.h</innerfile>
+    <innerfile refid="tenant__metrics__namespace_8h">tenant_metrics_namespace.h</innerfile>
+    <innerfile refid="trace__instrumentation_8h">trace_instrumentation.h</innerfile>
+    <innerfile refid="tracer_8h">tracer.h</innerfile>
+    <innerfile refid="wave__d__high__cardinality__metrics_8h">wave_d_high_cardinality_metrics.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/"/>
+  </compounddef>
+</doxygen>

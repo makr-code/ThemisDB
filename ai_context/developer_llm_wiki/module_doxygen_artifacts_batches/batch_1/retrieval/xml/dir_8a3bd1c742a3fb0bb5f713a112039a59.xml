@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8a3bd1c742a3fb0bb5f713a112039a59" kind="dir">
+    <compoundname>tests/retrieval</compoundname>
+    <innerfile refid="test__retrieval__highcardinality__stress_8cpp">test_retrieval_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__retrieval__hybrid__parity__focused_8cpp">test_retrieval_hybrid_parity_focused.cpp</innerfile>
+    <innerfile refid="test__retrieval__llm__reranking__focused_8cpp">test_retrieval_llm_reranking_focused.cpp</innerfile>
+    <innerfile refid="test__retrieval__lora__trust__boundary__focused_8cpp">test_retrieval_lora_trust_boundary_focused.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/retrieval/"/>
+  </compounddef>
+</doxygen>

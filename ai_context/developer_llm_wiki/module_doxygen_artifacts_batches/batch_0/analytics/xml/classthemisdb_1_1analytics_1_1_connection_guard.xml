@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_connection_guard" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ConnectionGuard</compoundname>
+    <includes refid="connection__guard_8h" local="no">connection_guard.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1analytics_1_1_connection_guard_1a0e469c228c3cf58072376aa5ba63787a" prot="public" static="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>using themisdb::analytics::ConnectionGuard::Releaser = std::function&lt;void()&gt;</definition>
+        <argsstring></argsstring>
+        <name>Releaser</name>
+        <qualifiedname>themisdb::analytics::ConnectionGuard::Releaser</qualifiedname>
+        <briefdescription>
+<para>Callback type for connection release operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/connection_guard.h" line="49" column="5" bodyfile="include/analytics/connection_guard.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_connection_guard_1a4c3ed54c1e65f2441fd76cfa184c7708" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ConnectionGuard::connection_id_</definition>
+        <argsstring></argsstring>
+        <name>connection_id_</name>
+        <qualifiedname>themisdb::analytics::ConnectionGuard::connection_id_</qualifiedname>
+        <briefdescription>
+<para>Unique identifier for this connection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/connection_guard.h" line="175" column="9" bodyfile="include/analytics/connection_guard.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_connection_guard_1a0f86782618072e5b94a4cac4ea6de0b2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_connection_guard_1a0e469c228c3cf58072376aa5ba63787a" kindref="member">Releaser</ref></type>
+        <definition>Releaser themisdb::analytics::ConnectionGuard::releaser_</definition>
+        <argsstring></argsstring>
+        <name>releaser_</name>
+        <qualifiedname>themisdb::analytics::ConnectionGuard::releaser_</qualifiedname>
+        <briefdescription>
+<para>Callback to release connection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/connection_guard.h" line="176" column="14" bodyfile="include/analytics/connection_guard.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_connection_guard_1abdb907b1ee1fcda6892e7fc2b7c43f37" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ConnectionGuard::is_released_</definition>
+        <argsstring></argsstring>
+        <name>is_released_</name>
+        <qualifiedname>themisdb::analytics::ConnectionGuard::is_released_</qualifiedname>
+        <briefdescription>
+<para>Has the connection been released? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/connection_guard.h" line="177" column="10" bodyfile="include/analytics/connection_guard.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_guard_1a10226090117980ee75f9804dea2617c7" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_connection_guard_1a46d2dc78880050b5fd75a340e0384036" kindref="member">ConnectionGuard</ref></type>
+        <definition>static ConnectionGuard themisdb::analytics::ConnectionGuard::acquire</definition>
+        <argsstring>(int connection_id, Releaser releaser)</argsstring>
+        <name>acquire</name>
+        <qualifiedname>themisdb::analytics::ConnectionGuard::acquire</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_connection_guard_1a0e469c228c3cf58072376aa5ba63787a" kindref="member">Releaser</ref></type>
+          <declname>releaser</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Acquire a connection from the database manager.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique identifier for this connection </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>releaser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback to invoke when connection should be released</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemisdb_1_1analytics_1_1_connection_guard" kindref="compound">ConnectionGuard</ref> that manages the connection lifetime</para>
+</simplesect>
+SAFETY: The releaser callback MUST NOT throw exceptions. If it does, the exception will be caught and suppressed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/connection_guard.h" line="62" column="17" bodyfile="include/analytics/connection_guard.h" bodystart="62" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_guard_1a46d2dc78880050b5fd75a340e0384036" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ConnectionGuard::ConnectionGuard</definition>
+        <argsstring>(int connection_id, Releaser releaser) noexcept</argsstring>
+        <name>ConnectionGuard</name>
+        <qualifiedname>themisdb::analytics::ConnectionGuard::ConnectionGuard</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_connection_guard_1a0e469c228c3cf58072376aa5ba63787a" kindref="member">Releaser</ref></type>
+          <declname>releaser</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct a connection guard.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique identifier for this connection </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>releaser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback to invoke on destruction </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/connection_guard.h" line="72" column="14" bodyfile="include/analytics/connection_guard.h" bodystart="72" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_guard_1a9da7612e1be58b0434a549f37fd8deb5" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ConnectionGuard::ConnectionGuard</definition>
+        <argsstring>(ConnectionGuard &amp;&amp;other) noexcept</argsstring>
+        <name>ConnectionGuard</name>
+        <qualifiedname>themisdb::analytics::ConnectionGuard::ConnectionGuard</qualifiedname>
+        <param>
+          <type>ConnectionGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Move constructor: transfer connection ownership </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/connection_guard.h" line="84" column="5" bodyfile="include/analytics/connection_guard.h" bodystart="84" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_guard_1adeeccdf0a3442aae47412fa32121abb0" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_connection_guard_1a46d2dc78880050b5fd75a340e0384036" kindref="member">ConnectionGuard</ref> &amp;</type>
+        <definition>ConnectionGuard &amp; themisdb::analytics::ConnectionGuard::operator=</definition>
+        <argsstring>(ConnectionGuard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::ConnectionGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_connection_guard_1a46d2dc78880050b5fd75a340e0384036" kindref="member">ConnectionGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Move assignment: transfer connection ownership </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/connection_guard.h" line="96" column="21" bodyfile="include/analytics/connection_guard.h" bodystart="96" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_guard_1a299d2b01134300d4fde2839f0fb0ce21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ConnectionGuard::ConnectionGuard</definition>
+        <argsstring>(const ConnectionGuard &amp;)=delete</argsstring>
+        <name>ConnectionGuard</name>
+        <qualifiedname>themisdb::analytics::ConnectionGuard::ConnectionGuard</qualifiedname>
+        <param>
+          <type>const ConnectionGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/connection_guard.h" line="114" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_guard_1aff10c312c1e071313ed5eadbb46ea4cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_connection_guard_1a46d2dc78880050b5fd75a340e0384036" kindref="member">ConnectionGuard</ref> &amp;</type>
+        <definition>ConnectionGuard &amp; themisdb::analytics::ConnectionGuard::operator=</definition>
+        <argsstring>(const ConnectionGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::ConnectionGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_connection_guard_1a46d2dc78880050b5fd75a340e0384036" kindref="member">ConnectionGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/connection_guard.h" line="115" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_guard_1a8027bf9c5e80ed5f09e4cd1b0f48fb6a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::analytics::ConnectionGuard::getId</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getId</name>
+        <qualifiedname>themisdb::analytics::ConnectionGuard::getId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the connection identifier</para>
+<para><simplesect kind="return"><para>Connection ID (or -1 if already released) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/connection_guard.h" line="126" column="9" bodyfile="include/analytics/connection_guard.h" bodystart="126" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_guard_1a7cbec34b217a2dc859c214b5ffd4ec5b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ConnectionGuard::isHeld</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isHeld</name>
+        <qualifiedname>themisdb::analytics::ConnectionGuard::isHeld</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if connection is still held</para>
+<para><simplesect kind="return"><para>true if connection is held, false if released </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/connection_guard.h" line="135" column="10" bodyfile="include/analytics/connection_guard.h" bodystart="135" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_guard_1ab0bcf48917c2be2206f099497fb084b9" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ConnectionGuard::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themisdb::analytics::ConnectionGuard::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Manually release the connection.</para>
+<para>Called automatically in destructor, but can be called explicitly if needed. Safe to call multiple times (subsequent calls are no-ops).</para>
+<para>SAFETY: This method catches and suppresses all exceptions. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/connection_guard.h" line="147" column="10" bodyfile="include/analytics/connection_guard.h" bodystart="147" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_guard_1a914e89bcab1d3dc71517a60ed711dd0f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ConnectionGuard::~ConnectionGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ConnectionGuard</name>
+        <qualifiedname>themisdb::analytics::ConnectionGuard::~ConnectionGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Destructor: ensures connection is released.</para>
+<para>RAII: Cleanup guaranteed on scope exit, even if exception thrown.</para>
+<para>THREAD-SAFETY: If the connection needs to be released by a specific thread (e.g., the I/O thread that acquired it), ensure the guard is destroyed on that thread. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/connection_guard.h" line="170" column="5" bodyfile="include/analytics/connection_guard.h" bodystart="170" bodyend="172"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>RAII wrapper for database connection lifecycle management.</para>
+<para>Ensures database connections are returned to the pool on destruction, preventing resource exhaustion in both normal and exception paths.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>connection_id<sp/>=<sp/>acquireConnectionId();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>guard<sp/>=<sp/><ref refid="classthemisdb_1_1analytics_1_1_connection_guard_1a10226090117980ee75f9804dea2617c7" kindref="member">ConnectionGuard::acquire</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>connection_id,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>releaseConnection(connection_id);<sp/>});</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>executeQuery();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connection<sp/>automatically<sp/>released<sp/>when<sp/>guard<sp/>goes<sp/>out<sp/>of<sp/>scope</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>SAFETY: This guard is exception-safe. Even if an exception is thrown after acquiring the connection, the destructor will release it. </para>
+    </detaileddescription>
+    <location file="include/analytics/connection_guard.h" line="46" column="1" bodyfile="include/analytics/connection_guard.h" bodystart="46" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_guard_1a10226090117980ee75f9804dea2617c7" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionGuard</scope><name>acquire</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_guard_1a4c3ed54c1e65f2441fd76cfa184c7708" prot="private" virt="non-virtual"><scope>themisdb::analytics::ConnectionGuard</scope><name>connection_id_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_guard_1a46d2dc78880050b5fd75a340e0384036" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionGuard</scope><name>ConnectionGuard</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_guard_1a9da7612e1be58b0434a549f37fd8deb5" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionGuard</scope><name>ConnectionGuard</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_guard_1a299d2b01134300d4fde2839f0fb0ce21" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionGuard</scope><name>ConnectionGuard</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_guard_1a8027bf9c5e80ed5f09e4cd1b0f48fb6a" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionGuard</scope><name>getId</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_guard_1abdb907b1ee1fcda6892e7fc2b7c43f37" prot="private" virt="non-virtual"><scope>themisdb::analytics::ConnectionGuard</scope><name>is_released_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_guard_1a7cbec34b217a2dc859c214b5ffd4ec5b" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionGuard</scope><name>isHeld</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_guard_1adeeccdf0a3442aae47412fa32121abb0" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionGuard</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_guard_1aff10c312c1e071313ed5eadbb46ea4cd" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionGuard</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_guard_1ab0bcf48917c2be2206f099497fb084b9" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionGuard</scope><name>release</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_guard_1a0e469c228c3cf58072376aa5ba63787a" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionGuard</scope><name>Releaser</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_guard_1a0f86782618072e5b94a4cac4ea6de0b2" prot="private" virt="non-virtual"><scope>themisdb::analytics::ConnectionGuard</scope><name>releaser_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_guard_1a914e89bcab1d3dc71517a60ed711dd0f" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionGuard</scope><name>~ConnectionGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_vector_clock" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::VectorClock</compoundname>
+    <includes refid="replica__consistency_8h" local="no">replica_consistency.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_vector_clock_1a0a36e2b8419b49799a2a2ed60b07c7d8" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::map&lt;std::string, uint64_t&gt; themisdb::sharding::VectorClock::timestamps_</definition>
+        <argsstring></argsstring>
+        <name>timestamps_</name>
+        <qualifiedname>themisdb::sharding::VectorClock::timestamps_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="70" column="14" bodyfile="include/sharding/replica_consistency.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_vector_clock_1a4bee281d2f31ad02e122b731f88a34c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::VectorClock::VectorClock</definition>
+        <argsstring>()=default</argsstring>
+        <name>VectorClock</name>
+        <qualifiedname>themisdb::sharding::VectorClock::VectorClock</qualifiedname>
+        <briefdescription>
+<para>Construct empty vector clock. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_vector_clock_1a80dbcdaba74fb34802cef7a63aa0f953" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::VectorClock::VectorClock</definition>
+        <argsstring>(const std::map&lt; std::string, uint64_t &gt; &amp;timestamps)</argsstring>
+        <name>VectorClock</name>
+        <qualifiedname>themisdb::sharding::VectorClock::VectorClock</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, uint64_t &gt; &amp;</type>
+          <declname>timestamps</declname>
+        </param>
+        <briefdescription>
+<para>Construct vector clock from node-&gt;counter map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="38" column="14" bodyfile="src/sharding/replica_consistency.cpp" bodystart="25" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_vector_clock_1a5f814a70149eff6a5052926c57141449" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::VectorClock::increment</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>increment</name>
+        <qualifiedname>themisdb::sharding::VectorClock::increment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Increment logical counter for node_id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="41" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_vector_clock_1a8d23241ec8e77a4db62010ac3affd315" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::VectorClock::update</definition>
+        <argsstring>(const VectorClock &amp;other)</argsstring>
+        <name>update</name>
+        <qualifiedname>themisdb::sharding::VectorClock::update</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_vector_clock_1a4bee281d2f31ad02e122b731f88a34c2" kindref="member">VectorClock</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Merge with another clock using element-wise maximum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="44" column="10" bodyfile="src/sharding/replica_consistency.cpp" bodystart="42" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_vector_clock_1a4dc4cfb46651a041a32bcd5217dfda04" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::VectorClock::get</definition>
+        <argsstring>(const std::string &amp;node_id) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themisdb::sharding::VectorClock::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Get node counter value (0 when node is absent). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="47" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_vector_clock_1a90337dc50c58ba905cac8f57b000a959" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::VectorClock::happensBefore</definition>
+        <argsstring>(const VectorClock &amp;other) const</argsstring>
+        <name>happensBefore</name>
+        <qualifiedname>themisdb::sharding::VectorClock::happensBefore</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_vector_clock_1a4bee281d2f31ad02e122b731f88a34c2" kindref="member">VectorClock</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Return true when this clock causally precedes other clock. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="50" column="10" bodyfile="src/sharding/replica_consistency.cpp" bodystart="53" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_vector_clock_1aa16606c6ac89f94d66e00e34110dc84b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::VectorClock::happensAfter</definition>
+        <argsstring>(const VectorClock &amp;other) const</argsstring>
+        <name>happensAfter</name>
+        <qualifiedname>themisdb::sharding::VectorClock::happensAfter</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_vector_clock_1a4bee281d2f31ad02e122b731f88a34c2" kindref="member">VectorClock</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Return true when this clock causally succeeds other clock. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="53" column="10" bodyfile="src/sharding/replica_consistency.cpp" bodystart="81" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_vector_clock_1ab8a61028418bb58193adb3df8a0da69d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::VectorClock::isConcurrent</definition>
+        <argsstring>(const VectorClock &amp;other) const</argsstring>
+        <name>isConcurrent</name>
+        <qualifiedname>themisdb::sharding::VectorClock::isConcurrent</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_vector_clock_1a4bee281d2f31ad02e122b731f88a34c2" kindref="member">VectorClock</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Return true when clocks are concurrent (no causal ordering). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="56" column="10" bodyfile="src/sharding/replica_consistency.cpp" bodystart="85" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_vector_clock_1ac3365c4bfb22f209e1800d172f38c891" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::VectorClock::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themisdb::sharding::VectorClock::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialize to stable comma-separated node:counter string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="59" column="17" bodyfile="src/sharding/replica_consistency.cpp" bodystart="89" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_vector_clock_1a25dd8378f3d27d72e5e8149131af835c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::map&lt; std::string, uint64_t &gt; &amp;</type>
+        <definition>const std::map&lt; std::string, uint64_t &gt; &amp; themisdb::sharding::VectorClock::getTimestamps</definition>
+        <argsstring>() const</argsstring>
+        <name>getTimestamps</name>
+        <qualifiedname>themisdb::sharding::VectorClock::getTimestamps</qualifiedname>
+        <briefdescription>
+<para>Return full node-&gt;counter timestamp map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="65" column="20" bodyfile="include/sharding/replica_consistency.h" bodystart="65" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_vector_clock_1a6f06856cb6785786cbe628cad9996348" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="classthemisdb_1_1sharding_1_1_vector_clock_1a4bee281d2f31ad02e122b731f88a34c2" kindref="member">VectorClock</ref> &gt;</type>
+        <definition>std::optional&lt; VectorClock &gt; themisdb::sharding::VectorClock::deserialize</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themisdb::sharding::VectorClock::deserialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Parse vector clock from serialized node:counter representation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deserialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemis_1_1sharding_1_1_vector_clock_1a6492e60de9e16e6bf0031b1768a5621e" kindref="member">VectorClock()</ref>, iss(), std::getline(), find(), substr(), std::stoull(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="62" column="26" bodyfile="src/sharding/replica_consistency.cpp" bodystart="112" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Vector clock for causality tracking. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/replica_consistency.h" line="33" column="1" bodyfile="include/sharding/replica_consistency.h" bodystart="33" bodyend="71"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_vector_clock_1a6f06856cb6785786cbe628cad9996348" prot="public" virt="non-virtual"><scope>themisdb::sharding::VectorClock</scope><name>deserialize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_vector_clock_1a4dc4cfb46651a041a32bcd5217dfda04" prot="public" virt="non-virtual"><scope>themisdb::sharding::VectorClock</scope><name>get</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_vector_clock_1a25dd8378f3d27d72e5e8149131af835c" prot="public" virt="non-virtual"><scope>themisdb::sharding::VectorClock</scope><name>getTimestamps</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_vector_clock_1aa16606c6ac89f94d66e00e34110dc84b" prot="public" virt="non-virtual"><scope>themisdb::sharding::VectorClock</scope><name>happensAfter</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_vector_clock_1a90337dc50c58ba905cac8f57b000a959" prot="public" virt="non-virtual"><scope>themisdb::sharding::VectorClock</scope><name>happensBefore</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_vector_clock_1a5f814a70149eff6a5052926c57141449" prot="public" virt="non-virtual"><scope>themisdb::sharding::VectorClock</scope><name>increment</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_vector_clock_1ab8a61028418bb58193adb3df8a0da69d" prot="public" virt="non-virtual"><scope>themisdb::sharding::VectorClock</scope><name>isConcurrent</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_vector_clock_1ac3365c4bfb22f209e1800d172f38c891" prot="public" virt="non-virtual"><scope>themisdb::sharding::VectorClock</scope><name>serialize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_vector_clock_1a0a36e2b8419b49799a2a2ed60b07c7d8" prot="private" virt="non-virtual"><scope>themisdb::sharding::VectorClock</scope><name>timestamps_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_vector_clock_1a8d23241ec8e77a4db62010ac3affd315" prot="public" virt="non-virtual"><scope>themisdb::sharding::VectorClock</scope><name>update</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_vector_clock_1a4bee281d2f31ad02e122b731f88a34c2" prot="public" virt="non-virtual"><scope>themisdb::sharding::VectorClock</scope><name>VectorClock</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_vector_clock_1a80dbcdaba74fb34802cef7a63aa0f953" prot="public" virt="non-virtual"><scope>themisdb::sharding::VectorClock</scope><name>VectorClock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

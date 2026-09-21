@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_lag_alert_manager_1_1_replica_state" kind="struct" language="C++" prot="private">
+    <compoundname>themisdb::replication::LagAlertManager::ReplicaState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_lag_alert_manager_1_1_replica_state_1ac13e511a162b0bc28093c429ba85bbb8" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replica_lag" kindref="compound">ReplicaLag</ref></type>
+        <definition>ReplicaLag themisdb::replication::LagAlertManager::ReplicaState::lag</definition>
+        <argsstring></argsstring>
+        <name>lag</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::ReplicaState::lag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="444" column="25" bodyfile="include/replication/lag_alert_manager.h" bodystart="444" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_lag_alert_manager_1_1_replica_state_1aeb9b86e680726206fb215e2e72844080" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::LagAlertManager::ReplicaState::in_alert</definition>
+        <argsstring></argsstring>
+        <name>in_alert</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::ReplicaState::in_alert</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="445" column="25" bodyfile="include/replication/lag_alert_manager.h" bodystart="445" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_lag_alert_manager_1_1_replica_state_1a592a838cb57164695a1b8b367867b33f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::LagAlertManager::ReplicaState::in_critical</definition>
+        <argsstring></argsstring>
+        <name>in_critical</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::ReplicaState::in_critical</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="446" column="25" bodyfile="include/replication/lag_alert_manager.h" bodystart="446" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_lag_alert_manager_1_1_replica_state_1ae786b00e0da5c917a46749cf7e623aff" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::replication::LagAlertManager::ReplicaState::critical_start_time</definition>
+        <argsstring></argsstring>
+        <name>critical_start_time</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::ReplicaState::critical_start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="447" column="47" bodyfile="include/replication/lag_alert_manager.h" bodystart="447" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_lag_alert_manager_1_1_replica_state_1ab4f721816251d7fc7880070897564331" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::LagAlertManager::ReplicaState::alert_count</definition>
+        <argsstring></argsstring>
+        <name>alert_count</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::ReplicaState::alert_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="449" column="25" bodyfile="include/replication/lag_alert_manager.h" bodystart="449" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_lag_alert_manager_1_1_replica_state_1ade70e71a5782c9156c9bfb76d3d26ce7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::LagAlertManager::ReplicaState::critical_count</definition>
+        <argsstring></argsstring>
+        <name>critical_count</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::ReplicaState::critical_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="450" column="25" bodyfile="include/replication/lag_alert_manager.h" bodystart="450" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_lag_alert_manager_1_1_replica_state_1af326ea1922182ed8fd19485f43c91673" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::LagAlertManager::ReplicaState::failover_count</definition>
+        <argsstring></argsstring>
+        <name>failover_count</name>
+        <qualifiedname>themisdb::replication::LagAlertManager::ReplicaState::failover_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="451" column="25" bodyfile="include/replication/lag_alert_manager.h" bodystart="451" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::replication::LagAlertManager::ReplicaState</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>lag</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::ReplicaLag</label>
+        <link refid="structthemisdb_1_1replication_1_1_replica_lag"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/lag_alert_manager.h" line="443" column="5" bodyfile="include/replication/lag_alert_manager.h" bodystart="443" bodyend="452"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_lag_alert_manager_1_1_replica_state_1ab4f721816251d7fc7880070897564331" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager::ReplicaState</scope><name>alert_count</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_lag_alert_manager_1_1_replica_state_1ade70e71a5782c9156c9bfb76d3d26ce7" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager::ReplicaState</scope><name>critical_count</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_lag_alert_manager_1_1_replica_state_1ae786b00e0da5c917a46749cf7e623aff" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager::ReplicaState</scope><name>critical_start_time</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_lag_alert_manager_1_1_replica_state_1af326ea1922182ed8fd19485f43c91673" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager::ReplicaState</scope><name>failover_count</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_lag_alert_manager_1_1_replica_state_1aeb9b86e680726206fb215e2e72844080" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager::ReplicaState</scope><name>in_alert</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_lag_alert_manager_1_1_replica_state_1a592a838cb57164695a1b8b367867b33f" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager::ReplicaState</scope><name>in_critical</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_lag_alert_manager_1_1_replica_state_1ac13e511a162b0bc28093c429ba85bbb8" prot="public" virt="non-virtual"><scope>themisdb::replication::LagAlertManager::ReplicaState</scope><name>lag</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

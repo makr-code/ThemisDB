@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ethics__selection__router_8h" kind="file" language="C++">
+    <compoundname>ethics_selection_router.h</compoundname>
+    <includes local="yes">ethics_ai/ethics_profile_registry.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">map</includes>
+    <includedby refid="bench__ldm_8cpp" local="yes">benchmarks/ethics_ai/bench_ldm.cpp</includedby>
+    <includedby refid="discourse__orchestrator_8h" local="yes">include/ethics_ai/discourse_orchestrator.h</includedby>
+    <includedby refid="ethics__selection__router_8cpp" local="yes">src/ethics_ai/ethics_selection_router.cpp</includedby>
+    <includedby refid="meta__verdict__builder_8cpp" local="yes">src/ethics_ai/meta_verdict_builder.cpp</includedby>
+    <includedby refid="test__ethics__ai__community__separability_8cpp" local="yes">tests/ethics_ai/test_ethics_ai_community_separability.cpp</includedby>
+    <includedby refid="test__ethics__ai__discourse__hardening__focused_8cpp" local="yes">tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp</includedby>
+    <includedby refid="test__ethics__ai__eu__compliance_8cpp" local="yes">tests/ethics_ai/test_ethics_ai_eu_compliance.cpp</includedby>
+    <includedby refid="test__ethics__ai__euai__compliance__focused_8cpp" local="yes">tests/ethics_ai/test_ethics_ai_euai_compliance_focused.cpp</includedby>
+    <includedby refid="test__ethics__ai__ldm__contract__focused_8cpp" local="yes">tests/ethics_ai/test_ethics_ai_ldm_contract_focused.cpp</includedby>
+    <includedby refid="test__ethics__ai__profile__reload__focused_8cpp" local="yes">tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/ethics_ai/ethics_selection_router.h</label>
+        <link refid="ethics__selection__router_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ethics_ai/ethics_profile_registry.h</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/ethics_ai/bench_ldm.cpp</label>
+        <link refid="bench__ldm_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/ethics_ai/discourse_orchestrator.h</label>
+        <link refid="discourse__orchestrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/ethics_ai/ethics_selection_router.h</label>
+        <link refid="ethics__selection__router_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/ethics_ai/discourse_orchestrator.cpp</label>
+        <link refid="discourse__orchestrator_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/ethics_ai/ethics_selection_router.cpp</label>
+        <link refid="ethics__selection__router_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/ethics_ai/meta_verdict_builder.cpp</label>
+        <link refid="meta__verdict__builder_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/ethics_ai/test_ethics_ai_community_separability.cpp</label>
+        <link refid="test__ethics__ai__community__separability_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp</label>
+        <link refid="test__ethics__ai__discourse__hardening__focused_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/ethics_ai/test_ethics_ai_eu_compliance.cpp</label>
+        <link refid="test__ethics__ai__eu__compliance_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/ethics_ai/test_ethics_ai_euai_compliance_focused.cpp</label>
+        <link refid="test__ethics__ai__euai__compliance__focused_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/ethics_ai/test_ethics_ai_ldm_contract_focused.cpp</label>
+        <link refid="test__ethics__ai__ldm__contract__focused_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp</label>
+        <link refid="test__ethics__ai__profile__reload__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan" prot="public">themis::plugins::ethics::DiscourseOrchestratorPlan</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" prot="public">themis::plugins::ethics::RouterConfig</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate" prot="public">themis::plugins::ethics::RouterCandidate</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_router_result" prot="public">themis::plugins::ethics::RouterResult</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router" prot="public">themis::plugins::ethics::EthicsSelectionRouter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1ethics">themis::plugins::ethics</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ethics_ai/ethics_profile_registry.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1ethics" kindref="compound">ethics</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LDM-1<sp/>—<sp/>Layered<sp/>Discourse<sp/>Model<sp/>mode<sp/>selector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1" kindref="member">DiscourseMode</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1a0282fee2140132ea4e4dfa14f6998688" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1a0282fee2140132ea4e4dfa14f6998688" kindref="member">SELECTION_ONLY</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1a55d96dc755ff8b17fe7f1890aaf41c99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1a55d96dc755ff8b17fe7f1890aaf41c99" kindref="member">LAYERED_FAST</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1aebdb3aa847ab672c277e9005782de104" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1aebdb3aa847ab672c277e9005782de104" kindref="member">LAYERED_FULL</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan" kindref="compound">DiscourseOrchestratorPlan</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1abe503f234f57354a68126db2835a9f27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1" kindref="member">DiscourseMode</ref><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1abe503f234f57354a68126db2835a9f27" kindref="member">mode</ref>{<ref refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1a0282fee2140132ea4e4dfa14f6998688" kindref="member">DiscourseMode::SELECTION_ONLY</ref>};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1adaf42d0dea9318ae4dab98aca49a4193" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1adaf42d0dea9318ae4dab98aca49a4193" kindref="member">ebene1_school_ids</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1a40f3c8ffb5d00838f970600655db21d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1a40f3c8ffb5d00838f970600655db21d9" kindref="member">initial_weight</ref>{1.0};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1ad73ba3ea8779587bf941c865d389fe28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1ad73ba3ea8779587bf941c865d389fe28" kindref="member">cluster_map</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1ac120576d1cde556632f1963101179b01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1ac120576d1cde556632f1963101179b01" kindref="member">tension_axes</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1ab239a4592d53494675698ef521abf0e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1ab239a4592d53494675698ef521abf0e9" kindref="member">empty</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1adaf42d0dea9318ae4dab98aca49a4193" kindref="member">ebene1_school_ids</ref>.empty();<sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1aa81d26f1791c32723f82398211cf5fb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1aa81d26f1791c32723f82398211cf5fb2" kindref="member">taxonomy_yaml_path</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a9bd5967899748c93e59bb920bdfab357" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a9bd5967899748c93e59bb920bdfab357" kindref="member">top_n</ref>{5};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a2b691b35592c7fc0b45f055b966b72f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a2b691b35592c7fc0b45f055b966b72f4" kindref="member">stage2_top_k</ref>{10};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a3f9632ec6c3bb9f19cd9d30d54512e6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a3f9632ec6c3bb9f19cd9d30d54512e6e" kindref="member">weight_semantic</ref>{0.40};</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1addf1d8262e76c8c5b4caab2aa2b08e27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1addf1d8262e76c8c5b4caab2aa2b08e27" kindref="member">weight_precedent</ref>{0.40};</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1aecc57958978efba473f95b141b5d91a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1aecc57958978efba473f95b141b5d91a4" kindref="member">weight_taxonomy</ref>{0.20};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a29adce80e3f648c910ff1f0166894e9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a29adce80e3f648c910ff1f0166894e9a" kindref="member">deployment_context</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LDM-1<sp/>additions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1ce2979af390385176deb95cf22b2af4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1" kindref="member">DiscourseMode</ref><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1ce2979af390385176deb95cf22b2af4" kindref="member">discourse_mode</ref>{<ref refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1a0282fee2140132ea4e4dfa14f6998688" kindref="member">DiscourseMode::SELECTION_ONLY</ref>};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a4c5f5bfb8fc08dfb3dc57870f3fbab59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a4c5f5bfb8fc08dfb3dc57870f3fbab59" kindref="member">school_bias</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a196c7caa400e3af5b7e9d59a9d7c82ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a196c7caa400e3af5b7e9d59a9d7c82ac" kindref="member">chain_visualizer_output_path</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LDM<sp/>hardening<sp/>additions<sp/>(Q4<sp/>2026)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" kindref="member">conflict_threshold_ratio</ref>{0.6};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a05834fc597e9632774af574aeb10f95b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a05834fc597e9632774af574aeb10f95b" kindref="member">snapshot_profile_on_round_start</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate" kindref="compound">RouterCandidate</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a53ed4713aebf1e494f2003f441548993" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a53ed4713aebf1e494f2003f441548993" kindref="member">school_id</ref>;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a2186e05145bc78060091c2d14b643786" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a2186e05145bc78060091c2d14b643786" kindref="member">taxonomy_score</ref>{0.0};<sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a0f31bbb16d841c3f5ffb3f5e9c17e9ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a0f31bbb16d841c3f5ffb3f5e9c17e9ba" kindref="member">semantic_score</ref>{0.0};<sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a00994dbc1152c92525f7a9e422b0831f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a00994dbc1152c92525f7a9e422b0831f" kindref="member">precedent_dc</ref>{0.0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a25cfba55ec8fc4d230627d3a15b23cb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a25cfba55ec8fc4d230627d3a15b23cb5" kindref="member">final_score</ref>{0.0};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1plugins_1_1ethics_1_1_router_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_result" kindref="compound">RouterResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1plugins_1_1ethics_1_1_router_result_1a1cf0340e8f25237c1fc85ccb23df5ac1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RouterCandidate&gt;<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_result_1a1cf0340e8f25237c1fc85ccb23df5ac1" kindref="member">selected</ref>;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1plugins_1_1ethics_1_1_router_result_1a8f5aab9bbba232889675d8c1c077fc2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_result_1a8f5aab9bbba232889675d8c1c077fc2f" kindref="member">stage1_count</ref>{0};</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1plugins_1_1ethics_1_1_router_result_1ac5868c597ad073d211d581fd5b17f4cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_result_1ac5868c597ad073d211d581fd5b17f4cc" kindref="member">stage2_count</ref>{0};</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1plugins_1_1ethics_1_1_router_result_1a485f755768c15db350c8a10ef48702d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_result_1a485f755768c15db350c8a10ef48702d7" kindref="member">stage3_count</ref>{0};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a9b7c8bb046aa5020c8f24be4fe871ad3" kindref="member">EthicsSelectionRouter</ref><sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1add64b1aa29bac8f15fcbb5f0e05e47d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1add64b1aa29bac8f15fcbb5f0e05e47d1" kindref="member">EmbeddingFn</ref><sp/>=<sp/>std::function&lt;std::vector&lt;float&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)&gt;;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1aec39e7e454ec842d80507c7f5a53b222" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1aec39e7e454ec842d80507c7f5a53b222" kindref="member">PrecedentQueryFn</ref><sp/>=<sp/>std::function&lt;double(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dilemma_domain,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>school_id)&gt;;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a9b7c8bb046aa5020c8f24be4fe871ad3" kindref="member">EthicsSelectionRouter</ref>(<ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry" kindref="compound">IEthicsProfileRegistry</ref>*<sp/>registry,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref>&amp;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a4a2ec514fa8e719ca82b22f00548cf5b" kindref="member">config</ref><sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a1dbb9dfba6d19147ee2e8c7297a4055d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a1dbb9dfba6d19147ee2e8c7297a4055d" kindref="member">~EthicsSelectionRouter</ref>();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1abfa2d58adce0da00b3bf05be8771f97c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1abfa2d58adce0da00b3bf05be8771f97c" kindref="member">EthicsSelectionRouter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a9b7c8bb046aa5020c8f24be4fe871ad3" kindref="member">EthicsSelectionRouter</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1af947338eac3c3b8f1390e4dccd454469" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a9b7c8bb046aa5020c8f24be4fe871ad3" kindref="member">EthicsSelectionRouter</ref>&amp;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1af947338eac3c3b8f1390e4dccd454469" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a9b7c8bb046aa5020c8f24be4fe871ad3" kindref="member">EthicsSelectionRouter</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a3fe7bbc8ecbfa373c08e40fbe87b06b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a3fe7bbc8ecbfa373c08e40fbe87b06b8" kindref="member">EthicsSelectionRouter</ref>(<ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a9b7c8bb046aa5020c8f24be4fe871ad3" kindref="member">EthicsSelectionRouter</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a6d5a9eb38213b9f701de7ac853d101bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a9b7c8bb046aa5020c8f24be4fe871ad3" kindref="member">EthicsSelectionRouter</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a9b7c8bb046aa5020c8f24be4fe871ad3" kindref="member">EthicsSelectionRouter</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan" kindref="compound">DiscourseOrchestratorPlan</ref><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a66dde838780e8fc70f632eb49d42102a" kindref="member">planDiscourse</ref>(</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>domain_context<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_result" kindref="compound">RouterResult</ref><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a7d51a12db365d2b87727acfcecb872db" kindref="member">route</ref>(</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dilemma_text,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dilemma_domain,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>dilemma_tags<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>regulatory_context<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a4f84b5a0f50a18511dc3e7006d94f0b0" kindref="member">recordDecisionOutcome</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dilemma_type,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>school_id,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dc_score);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>RouterConfig&amp;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a4a2ec514fa8e719ca82b22f00548cf5b" kindref="member">config</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a5c489a14788f5674446ee1130a0c95ac" kindref="member">setEmbeddingFn</ref>(<ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1add64b1aa29bac8f15fcbb5f0e05e47d1" kindref="member">EmbeddingFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a376453397f70f34fee8f7cf45b3686f8" kindref="member">setPrecedentQueryFn</ref>(<ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1aec39e7e454ec842d80507c7f5a53b222" kindref="member">PrecedentQueryFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ethics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ethics_ai/ethics_selection_router.h"/>
+  </compounddef>
+</doxygen>

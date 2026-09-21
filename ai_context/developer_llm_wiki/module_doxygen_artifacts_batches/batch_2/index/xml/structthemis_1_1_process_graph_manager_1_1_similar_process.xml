@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_graph_manager_1_1_similar_process" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessGraphManager::SimilarProcess</compoundname>
+    <includes refid="process__graph_8h" local="no">process_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_similar_process_1a0a450568e0b8650290fbf00a9889b674" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessGraphManager::SimilarProcess::process_id</definition>
+        <argsstring></argsstring>
+        <name>process_id</name>
+        <qualifiedname>themis::ProcessGraphManager::SimilarProcess::process_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="777" column="21" bodyfile="include/index/process_graph.h" bodystart="777" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_similar_process_1a0f03879540217065e5cd24435ec9de5c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessGraphManager::SimilarProcess::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::ProcessGraphManager::SimilarProcess::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="778" column="21" bodyfile="include/index/process_graph.h" bodystart="778" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_similar_process_1a9f01be09082c985470bed1fd7d069b6c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::ProcessGraphManager::SimilarProcess::similarity</definition>
+        <argsstring></argsstring>
+        <name>similarity</name>
+        <qualifiedname>themis::ProcessGraphManager::SimilarProcess::similarity</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="779" column="15" bodyfile="include/index/process_graph.h" bodystart="779" bodyend="779"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Find similar processes by description embedding. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses vector similarity to find processes with similar purpose. </para>
+    </detaileddescription>
+    <location file="include/index/process_graph.h" line="776" column="5" bodyfile="include/index/process_graph.h" bodystart="776" bodyend="780"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_similar_process_1a0f03879540217065e5cd24435ec9de5c" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::SimilarProcess</scope><name>name</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_similar_process_1a0a450568e0b8650290fbf00a9889b674" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::SimilarProcess</scope><name>process_id</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_similar_process_1a9f01be09082c985470bed1fd7d069b6c" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::SimilarProcess</scope><name>similarity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

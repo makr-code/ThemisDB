@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::PairwiseComparisonResult</compoundname>
+    <includes refid="pairwise__comparator_8h" local="no">pairwise_comparator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1a9b90dbfb0f497ee1df87b010b203c4af" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4b" kindref="member">ComparisonWinner</ref></type>
+        <definition>ComparisonWinner themis::rag::judge::PairwiseComparisonResult::overall_winner</definition>
+        <argsstring></argsstring>
+        <name>overall_winner</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparisonResult::overall_winner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="55" column="22" bodyfile="include/rag/pairwise_comparator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1a789869a58a9f6a7ec961b14e6a1cffa3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::PairwiseComparisonResult::overall_confidence</definition>
+        <argsstring></argsstring>
+        <name>overall_confidence</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparisonResult::overall_confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="56" column="12" bodyfile="include/rag/pairwise_comparator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1a195758b90f086df088e6689fed347874" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::PairwiseComparisonResult::overall_reasoning</definition>
+        <argsstring></argsstring>
+        <name>overall_reasoning</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparisonResult::overall_reasoning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="57" column="17" bodyfile="include/rag/pairwise_comparator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1a0b1742574a616e02de93f35a96effaec" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_comparison" kindref="compound">DimensionComparison</ref> &gt;</type>
+        <definition>std::vector&lt;DimensionComparison&gt; themis::rag::judge::PairwiseComparisonResult::dimension_comparisons</definition>
+        <argsstring></argsstring>
+        <name>dimension_comparisons</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparisonResult::dimension_comparisons</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="60" column="17" bodyfile="include/rag/pairwise_comparator.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1aefa279527b0c180cb8af9d3d61ce0ba0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::PairwiseComparisonResult::answer_a_overall_score</definition>
+        <argsstring></argsstring>
+        <name>answer_a_overall_score</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparisonResult::answer_a_overall_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="63" column="12" bodyfile="include/rag/pairwise_comparator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1a17b371f46c23fe6d13d7e0b161e81a6c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::PairwiseComparisonResult::answer_b_overall_score</definition>
+        <argsstring></argsstring>
+        <name>answer_b_overall_score</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparisonResult::answer_b_overall_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="64" column="12" bodyfile="include/rag/pairwise_comparator.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1a987f9b84a9138a55b659dfc81b5496e0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::PairwiseComparisonResult::position_bias_detected</definition>
+        <argsstring></argsstring>
+        <name>position_bias_detected</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparisonResult::position_bias_detected</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="67" column="10" bodyfile="include/rag/pairwise_comparator.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1afa79556ff06673d3da54febcaf2a8f8f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::PairwiseComparisonResult::position_bias_magnitude</definition>
+        <argsstring></argsstring>
+        <name>position_bias_magnitude</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparisonResult::position_bias_magnitude</qualifiedname>
+        <briefdescription>
+<para>0-1, higher = more bias </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="68" column="12" bodyfile="include/rag/pairwise_comparator.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1a7c647ba6a521fe44874ec574446dde8d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::PairwiseComparisonResult::num_evaluations</definition>
+        <argsstring></argsstring>
+        <name>num_evaluations</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparisonResult::num_evaluations</qualifiedname>
+        <briefdescription>
+<para>Number of evaluations performed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="71" column="9" bodyfile="include/rag/pairwise_comparator.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1ab8c947a91a2679e22ad44a61330c36a3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::PairwiseComparisonResult::flip_tested</definition>
+        <argsstring></argsstring>
+        <name>flip_tested</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparisonResult::flip_tested</qualifiedname>
+        <briefdescription>
+<para>Whether flip test was performed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="72" column="10" bodyfile="include/rag/pairwise_comparator.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Complete pairwise comparison result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/pairwise_comparator.h" line="54" column="1" bodyfile="include/rag/pairwise_comparator.h" bodystart="54" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1aefa279527b0c180cb8af9d3d61ce0ba0" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparisonResult</scope><name>answer_a_overall_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1a17b371f46c23fe6d13d7e0b161e81a6c" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparisonResult</scope><name>answer_b_overall_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1a0b1742574a616e02de93f35a96effaec" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparisonResult</scope><name>dimension_comparisons</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1ab8c947a91a2679e22ad44a61330c36a3" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparisonResult</scope><name>flip_tested</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1a7c647ba6a521fe44874ec574446dde8d" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparisonResult</scope><name>num_evaluations</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1a789869a58a9f6a7ec961b14e6a1cffa3" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparisonResult</scope><name>overall_confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1a195758b90f086df088e6689fed347874" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparisonResult</scope><name>overall_reasoning</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1a9b90dbfb0f497ee1df87b010b203c4af" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparisonResult</scope><name>overall_winner</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1a987f9b84a9138a55b659dfc81b5496e0" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparisonResult</scope><name>position_bias_detected</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result_1afa79556ff06673d3da54febcaf2a8f8f" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparisonResult</scope><name>position_bias_magnitude</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

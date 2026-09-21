@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_24a5f33577d98ba260d019f64619f8af" kind="dir">
+    <compoundname>tests/rpc_grpc</compoundname>
+    <innerfile refid="test__rpc__grpc__circuit__breaker__focused_8cpp">test_rpc_grpc_circuit_breaker_focused.cpp</innerfile>
+    <innerfile refid="test__rpc__grpc__contract__hardening__focused_8cpp">test_rpc_grpc_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__rpc__grpc__highcardinality__stress_8cpp">test_rpc_grpc_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__rpc__grpc__integration__focused_8cpp">test_rpc_grpc_integration_focused.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/rpc_grpc/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_distributed_vector_index_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::DistributedVectorIndexStats</compoundname>
+    <includes refid="distributed__vector__index_8h" local="no">distributed_vector_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_distributed_vector_index_stats_1a8613a9ba77b2f592c98c87759d2509cf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::DistributedVectorIndexStats::total_vectors</definition>
+        <argsstring></argsstring>
+        <name>total_vectors</name>
+        <qualifiedname>themis::index::DistributedVectorIndexStats::total_vectors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="65" column="12" bodyfile="include/index/distributed_vector_index.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_distributed_vector_index_stats_1ac63d86372b56bb34bef333c75ec55629" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::DistributedVectorIndexStats::num_shards</definition>
+        <argsstring></argsstring>
+        <name>num_shards</name>
+        <qualifiedname>themis::index::DistributedVectorIndexStats::num_shards</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="66" column="12" bodyfile="include/index/distributed_vector_index.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_distributed_vector_index_stats_1a52429921af267d0cc10cd9f8c853f35d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::DistributedVectorIndexStats::max_shard_size</definition>
+        <argsstring></argsstring>
+        <name>max_shard_size</name>
+        <qualifiedname>themis::index::DistributedVectorIndexStats::max_shard_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="67" column="12" bodyfile="include/index/distributed_vector_index.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_distributed_vector_index_stats_1aefdce70ee5b1dfd07b44c15e414779b0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::DistributedVectorIndexStats::min_shard_size</definition>
+        <argsstring></argsstring>
+        <name>min_shard_size</name>
+        <qualifiedname>themis::index::DistributedVectorIndexStats::min_shard_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="68" column="12" bodyfile="include/index/distributed_vector_index.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_distributed_vector_index_stats_1a3f7e371a72a0c569c867d4ddff17e4e3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::DistributedVectorIndexStats::load_imbalance</definition>
+        <argsstring></argsstring>
+        <name>load_imbalance</name>
+        <qualifiedname>themis::index::DistributedVectorIndexStats::load_imbalance</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>(max - min) / mean; 0 = perfectly balanced </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="69" column="12" bodyfile="include/index/distributed_vector_index.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/distributed_vector_index.h" line="64" column="1" bodyfile="include/index/distributed_vector_index.h" bodystart="64" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_distributed_vector_index_stats_1a3f7e371a72a0c569c867d4ddff17e4e3" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndexStats</scope><name>load_imbalance</name></member>
+      <member refid="structthemis_1_1index_1_1_distributed_vector_index_stats_1a52429921af267d0cc10cd9f8c853f35d" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndexStats</scope><name>max_shard_size</name></member>
+      <member refid="structthemis_1_1index_1_1_distributed_vector_index_stats_1aefdce70ee5b1dfd07b44c15e414779b0" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndexStats</scope><name>min_shard_size</name></member>
+      <member refid="structthemis_1_1index_1_1_distributed_vector_index_stats_1ac63d86372b56bb34bef333c75ec55629" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndexStats</scope><name>num_shards</name></member>
+      <member refid="structthemis_1_1index_1_1_distributed_vector_index_stats_1a8613a9ba77b2f592c98c87759d2509cf" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndexStats</scope><name>total_vectors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

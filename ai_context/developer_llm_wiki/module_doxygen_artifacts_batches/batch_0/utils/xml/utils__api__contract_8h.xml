@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="utils__api__contract_8h" kind="file" language="C++">
+    <compoundname>utils_api_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__utils__release__gates_8cpp" local="yes">benchmarks/utils/bench_utils_release_gates.cpp</includedby>
+    <includedby refid="test__utils__contract__hardening__focused_8cpp" local="yes">tests/utils/test_utils_contract_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/utils/utils_api_contract.h</label>
+        <link refid="utils__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/utils/bench_utils_release_gates.cpp</label>
+        <link refid="bench__utils__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/utils/utils_api_contract.h</label>
+        <link refid="utils__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/utils/test_utils_contract_hardening_focused.cpp</label>
+        <link refid="test__utils__contract__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1utils_1_1_bloom_filter_config" prot="public">themis::utils::BloomFilterConfig</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_retry_policy" prot="public">themis::utils::RetryPolicy</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>Frozen API contract for the ThemisDB utils module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+</para>
+<sect1 id="utils__api__contract_8h_1purpose">
+<title>Purpose</title><para>The utils module provides cross-cutting infrastructure: audit logging, batch operation management, Bloom filters, concurrency helpers, retry scheduling, serialisation, and metrics collection. All utilities must be side-effect-free unless they explicitly manage external resources.</para>
+</sect1>
+<sect1 id="utils__api__contract_8h_1contracts">
+<title>API Contracts</title><para><heading level="3">AuditLogger</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>log()</computeroutput> is non-blocking for normal writes; flushes are synchronous.</para>
+</listitem><listitem><para>Log entries are immutable once written.</para>
+</listitem><listitem><para>If the sink is full → UTILS_AUDIT_OVERFLOW (entries are NOT silently dropped unless the &quot;drop-on-full&quot; policy is explicitly configured).</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">BatchOperationManager</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Batch operations are committed atomically; partial failure triggers full rollback and returns UTILS_BATCH_ROLLBACK.</para>
+</listitem><listitem><para>Maximum batch size is configurable at construction; exceeding it returns UTILS_BATCH_SIZE_EXCEEDED.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">BloomFilter</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>contains()</computeroutput> never returns a false negative.</para>
+</listitem><listitem><para><computeroutput>falsePositiveRate()</computeroutput> is bounded by the configured target FPR at creation.</para>
+</listitem><listitem><para>After <computeroutput>clear()</computeroutput>, all subsequent <computeroutput>contains()</computeroutput> calls return false.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">RetryScheduler</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Retry attempts are bounded by <computeroutput>maxAttempts</computeroutput>; exhaustion → UTILS_RETRY_EXHAUSTED.</para>
+</listitem><listitem><para>Jitter is deterministic given a fixed seed (for testability).</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Serialisation</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>serialize()</computeroutput> / <computeroutput>deserialize()</computeroutput> round-trip is lossless for supported types.</para>
+</listitem><listitem><para>Deserialising malformed input returns UTILS_DESER_INVALID.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="utils__api__contract_8h_1error_taxonomy">
+<title>Error Taxonomy</title><para><table rows="7" cols="2"><row>
+<entry thead="yes"><para>Code  </para>
+</entry><entry thead="yes"><para>Meaning  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>UTILS_AUDIT_OVERFLOW  </para>
+</entry><entry thead="no"><para>Audit log sink full; entries queued/dropped  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>UTILS_BATCH_ROLLBACK  </para>
+</entry><entry thead="no"><para>Batch partially failed; fully rolled back  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>UTILS_BATCH_SIZE_EXCEEDED  </para>
+</entry><entry thead="no"><para>Batch exceeds configured maximum size  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>UTILS_RETRY_EXHAUSTED  </para>
+</entry><entry thead="no"><para>Max retry attempts reached  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>UTILS_DESER_INVALID  </para>
+</entry><entry thead="no"><para>Deserialisation input is malformed  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>UTILS_POOL_EXHAUSTED  </para>
+</entry><entry thead="no"><para>Thread/connection pool exhausted  </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="utils__api__contract_8h_1threading">
+<title>Threading Guarantees</title><para><itemizedlist>
+<listitem><para><computeroutput>AuditLogger</computeroutput> is thread-safe (lock-free ring buffer).</para>
+</listitem><listitem><para><computeroutput>BatchOperationManager</computeroutput> is NOT thread-safe; callers must serialise access.</para>
+</listitem><listitem><para><computeroutput>BloomFilter</computeroutput> read path is thread-safe; mutations require external sync.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="utils__api__contract_8h_1contract_freeze">
+<title>Contract Freeze</title><para>Frozen for ThemisDB v2.x.</para>
+<para><simplesect kind="see"><para>src/utils/ROADMAP.md — Phase 1 gate </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="bench__utils__release__gates_8cpp" kindref="compound">benchmarks/utils/bench_utils_release_gates.cpp</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="test__utils__contract__hardening__focused_8cpp" kindref="compound">tests/utils/test_utils_contract_hardening_focused.cpp</ref> </para>
+</simplesect>
+</para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">themis::utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1utils_1a912d19420f88a73b3633d2aa53afd4ab" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a912d19420f88a73b3633d2aa53afd4ab" kindref="member">UtilsError</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1utils_1a912d19420f88a73b3633d2aa53afd4aba9f346b27328ea1f407fbc7bc41dc548d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a912d19420f88a73b3633d2aa53afd4aba9f346b27328ea1f407fbc7bc41dc548d" kindref="member">kAuditOverflow</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7300,<sp/></highlight></codeline>
+<codeline lineno="75" refid="namespacethemis_1_1utils_1a912d19420f88a73b3633d2aa53afd4aba05a52003bd7425f0c96bc3fb1b42fd3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a912d19420f88a73b3633d2aa53afd4aba05a52003bd7425f0c96bc3fb1b42fd3b" kindref="member">kBatchRollback</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7301,<sp/></highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1utils_1a912d19420f88a73b3633d2aa53afd4aba5e3fc7a8f5efce4382f4659761ed39ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a912d19420f88a73b3633d2aa53afd4aba5e3fc7a8f5efce4382f4659761ed39ba" kindref="member">kBatchSizeExceeded</ref><sp/><sp/>=<sp/>7302,<sp/></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1utils_1a912d19420f88a73b3633d2aa53afd4aba34730488a8f6b02017292a45ed049919" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a912d19420f88a73b3633d2aa53afd4aba34730488a8f6b02017292a45ed049919" kindref="member">kRetryExhausted</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>7303,<sp/></highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1utils_1a912d19420f88a73b3633d2aa53afd4abad9384981d2a56923e1537bff31a22469" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a912d19420f88a73b3633d2aa53afd4abad9384981d2a56923e1537bff31a22469" kindref="member">kDeserInvalid</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7304,<sp/></highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1utils_1a912d19420f88a73b3633d2aa53afd4aba1b2b165717a1de7a26bb87921998ae69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a912d19420f88a73b3633d2aa53afd4aba1b2b165717a1de7a26bb87921998ae69" kindref="member">kPoolExhausted</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7305,<sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1utils_1_1_bloom_filter_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_bloom_filter_config" kindref="compound">BloomFilterConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1utils_1_1_bloom_filter_config_1a70f975dc8c2008b1234438b6d6cfb479" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1utils_1_1_bloom_filter_config_1a70f975dc8c2008b1234438b6d6cfb479" kindref="member">expectedItems</ref>{100000};</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1utils_1_1_bloom_filter_config_1aeb9bf9bb6e51dde4f81c925c4f176da2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_bloom_filter_config_1aeb9bf9bb6e51dde4f81c925c4f176da2" kindref="member">targetFalsePositiveRate</ref>{0.01};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1utils_1_1_retry_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_retry_policy" kindref="compound">RetryPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1utils_1_1_retry_policy_1a3e350acb1f80e5ba7bd5310a588d90bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1utils_1_1_retry_policy_1a3e350acb1f80e5ba7bd5310a588d90bf" kindref="member">maxAttempts</ref>{3};</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1utils_1_1_retry_policy_1abecb63bfdcc66317370751ff9a830d86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1utils_1_1_retry_policy_1abecb63bfdcc66317370751ff9a830d86" kindref="member">initialDelay</ref>{100};</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1utils_1_1_retry_policy_1a27e8803f0408ca45321a062502766e97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_retry_policy_1a27e8803f0408ca45321a062502766e97" kindref="member">backoffMultiplier</ref>{2.0};</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1utils_1_1_retry_policy_1a58da3b205be3e60132594a69a34cd4c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_retry_policy_1a58da3b205be3e60132594a69a34cd4c2" kindref="member">withJitter</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::utils</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/utils_api_contract.h"/>
+  </compounddef>
+</doxygen>

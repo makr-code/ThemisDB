@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_refinement_round_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::RefinementRoundStats</compoundname>
+    <includes refid="self__rag_8h" local="no">self_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_refinement_round_stats_1ac3d2b15de08ebe0c4ca8e2fae88399a2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::RefinementRoundStats::round</definition>
+        <argsstring></argsstring>
+        <name>round</name>
+        <qualifiedname>themis::rag::RefinementRoundStats::round</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>1-based round index </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="57" column="12" bodyfile="include/rag/self_rag.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_refinement_round_stats_1ac7933bce854c1f4c95a9f1b095d77129" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::RefinementRoundStats::retrieved</definition>
+        <argsstring></argsstring>
+        <name>retrieved</name>
+        <qualifiedname>themis::rag::RefinementRoundStats::retrieved</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Documents retrieved this round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="58" column="12" bodyfile="include/rag/self_rag.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_refinement_round_stats_1a2a4ccd2649810212bf0cebc9f21237fb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::RefinementRoundStats::relevant</definition>
+        <argsstring></argsstring>
+        <name>relevant</name>
+        <qualifiedname>themis::rag::RefinementRoundStats::relevant</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Passages rated [Relevant]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="59" column="12" bodyfile="include/rag/self_rag.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_refinement_round_stats_1a376a6571d5ad8d35c89fa4602cfab481" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::RefinementRoundStats::partial</definition>
+        <argsstring></argsstring>
+        <name>partial</name>
+        <qualifiedname>themis::rag::RefinementRoundStats::partial</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Passages rated [Partial]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="60" column="12" bodyfile="include/rag/self_rag.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_refinement_round_stats_1ac8617ca2869887f97c21d039687a1b31" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::RefinementRoundStats::irrelevant</definition>
+        <argsstring></argsstring>
+        <name>irrelevant</name>
+        <qualifiedname>themis::rag::RefinementRoundStats::irrelevant</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Passages rated [Irrelevant]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="61" column="12" bodyfile="include/rag/self_rag.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_refinement_round_stats_1af2dcf956c0623fffd747fc200b202ac0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::RefinementRoundStats::stop_early</definition>
+        <argsstring></argsstring>
+        <name>stop_early</name>
+        <qualifiedname>themis::rag::RefinementRoundStats::stop_early</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when target was met before max rounds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="62" column="12" bodyfile="include/rag/self_rag.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-round metrics for the refinement loop. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/self_rag.h" line="56" column="1" bodyfile="include/rag/self_rag.h" bodystart="56" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_refinement_round_stats_1ac8617ca2869887f97c21d039687a1b31" prot="public" virt="non-virtual"><scope>themis::rag::RefinementRoundStats</scope><name>irrelevant</name></member>
+      <member refid="structthemis_1_1rag_1_1_refinement_round_stats_1a376a6571d5ad8d35c89fa4602cfab481" prot="public" virt="non-virtual"><scope>themis::rag::RefinementRoundStats</scope><name>partial</name></member>
+      <member refid="structthemis_1_1rag_1_1_refinement_round_stats_1a2a4ccd2649810212bf0cebc9f21237fb" prot="public" virt="non-virtual"><scope>themis::rag::RefinementRoundStats</scope><name>relevant</name></member>
+      <member refid="structthemis_1_1rag_1_1_refinement_round_stats_1ac7933bce854c1f4c95a9f1b095d77129" prot="public" virt="non-virtual"><scope>themis::rag::RefinementRoundStats</scope><name>retrieved</name></member>
+      <member refid="structthemis_1_1rag_1_1_refinement_round_stats_1ac3d2b15de08ebe0c4ca8e2fae88399a2" prot="public" virt="non-virtual"><scope>themis::rag::RefinementRoundStats</scope><name>round</name></member>
+      <member refid="structthemis_1_1rag_1_1_refinement_round_stats_1af2dcf956c0623fffd747fc200b202ac0" prot="public" virt="non-virtual"><scope>themis::rag::RefinementRoundStats</scope><name>stop_early</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

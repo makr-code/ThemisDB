@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::GpuCompressionManager::Stats</compoundname>
+    <includes refid="gpu__compression_8h" local="no">gpu_compression.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1ad264bad06a1952322f4dd0346de5017c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::GpuCompressionManager::Stats::total_compress_ops</definition>
+        <argsstring></argsstring>
+        <name>total_compress_ops</name>
+        <qualifiedname>themis::storage::GpuCompressionManager::Stats::total_compress_ops</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="318" column="18" bodyfile="include/storage/gpu_compression.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1aad2947e4f710ed88cd4808a8a7e073d6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::GpuCompressionManager::Stats::gpu_compress_ops</definition>
+        <argsstring></argsstring>
+        <name>gpu_compress_ops</name>
+        <qualifiedname>themis::storage::GpuCompressionManager::Stats::gpu_compress_ops</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="319" column="18" bodyfile="include/storage/gpu_compression.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a0039ca2ecf1c9a4c4ae07171c598dafa" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::GpuCompressionManager::Stats::total_decompress_ops</definition>
+        <argsstring></argsstring>
+        <name>total_decompress_ops</name>
+        <qualifiedname>themis::storage::GpuCompressionManager::Stats::total_decompress_ops</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="320" column="18" bodyfile="include/storage/gpu_compression.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a5caab524426d7d9cbf340e4da8854f26" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::GpuCompressionManager::Stats::gpu_decompress_ops</definition>
+        <argsstring></argsstring>
+        <name>gpu_decompress_ops</name>
+        <qualifiedname>themis::storage::GpuCompressionManager::Stats::gpu_decompress_ops</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="321" column="18" bodyfile="include/storage/gpu_compression.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a5bedc6b004dc0eda85a67a771c558769" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::GpuCompressionManager::Stats::cpu_fallbacks</definition>
+        <argsstring></argsstring>
+        <name>cpu_fallbacks</name>
+        <qualifiedname>themis::storage::GpuCompressionManager::Stats::cpu_fallbacks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="322" column="18" bodyfile="include/storage/gpu_compression.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1ac330de5971265b562361c7f6f8b60d56" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::GpuCompressionManager::Stats::bytes_in</definition>
+        <argsstring></argsstring>
+        <name>bytes_in</name>
+        <qualifiedname>themis::storage::GpuCompressionManager::Stats::bytes_in</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total uncompressed bytes processed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="323" column="18" bodyfile="include/storage/gpu_compression.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a804b67f929f47f70a9b8dd992f611d07" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::GpuCompressionManager::Stats::bytes_out</definition>
+        <argsstring></argsstring>
+        <name>bytes_out</name>
+        <qualifiedname>themis::storage::GpuCompressionManager::Stats::bytes_out</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total compressed bytes produced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="324" column="18" bodyfile="include/storage/gpu_compression.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a2af9dbdafca95d8adee0fed94d02a524" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::GpuCompressionManager::Stats::avg_gpu_compress_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_gpu_compress_ms</name>
+        <qualifiedname>themis::storage::GpuCompressionManager::Stats::avg_gpu_compress_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="325" column="18" bodyfile="include/storage/gpu_compression.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a656cd6d695725b2989a75c7f56084d4e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::GpuCompressionManager::Stats::avg_cpu_compress_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_cpu_compress_ms</name>
+        <qualifiedname>themis::storage::GpuCompressionManager::Stats::avg_cpu_compress_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="326" column="18" bodyfile="include/storage/gpu_compression.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a134df5b12e779d9ce014c65b02b3f97d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::GpuCompressionManager::Stats::avg_gpu_decompress_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_gpu_decompress_ms</name>
+        <qualifiedname>themis::storage::GpuCompressionManager::Stats::avg_gpu_decompress_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="327" column="18" bodyfile="include/storage/gpu_compression.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a718f9bf1895ebf21b456f703d5245d81" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::GpuCompressionManager::Stats::avg_cpu_decompress_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_cpu_decompress_ms</name>
+        <qualifiedname>themis::storage::GpuCompressionManager::Stats::avg_cpu_decompress_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="328" column="18" bodyfile="include/storage/gpu_compression.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cumulative performance counters. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/gpu_compression.h" line="317" column="5" bodyfile="include/storage/gpu_compression.h" bodystart="317" bodyend="329"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a656cd6d695725b2989a75c7f56084d4e" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionManager::Stats</scope><name>avg_cpu_compress_ms</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a718f9bf1895ebf21b456f703d5245d81" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionManager::Stats</scope><name>avg_cpu_decompress_ms</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a2af9dbdafca95d8adee0fed94d02a524" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionManager::Stats</scope><name>avg_gpu_compress_ms</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a134df5b12e779d9ce014c65b02b3f97d" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionManager::Stats</scope><name>avg_gpu_decompress_ms</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1ac330de5971265b562361c7f6f8b60d56" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionManager::Stats</scope><name>bytes_in</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a804b67f929f47f70a9b8dd992f611d07" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionManager::Stats</scope><name>bytes_out</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a5bedc6b004dc0eda85a67a771c558769" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionManager::Stats</scope><name>cpu_fallbacks</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1aad2947e4f710ed88cd4808a8a7e073d6" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionManager::Stats</scope><name>gpu_compress_ops</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a5caab524426d7d9cbf340e4da8854f26" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionManager::Stats</scope><name>gpu_decompress_ops</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1ad264bad06a1952322f4dd0346de5017c" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionManager::Stats</scope><name>total_compress_ops</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a0039ca2ecf1c9a4c4ae07171c598dafa" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionManager::Stats</scope><name>total_decompress_ops</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__pki__eidas_8cpp" kind="file" language="C++">
+    <compoundname>test_pki_eidas.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_pki_eidas.cpp</label>
+        <link refid="test__pki__eidas_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__pki__eidas_8cpp_1a3aaa1c439091216a2a4c69b8517bbbd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PKIeIDAS, Placeholder)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PKIeIDAS</type>
+        </param>
+        <param>
+          <type>Placeholder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_eidas.cpp" line="5" column="1" bodyfile="tests/security/test_pki_eidas.cpp" bodystart="5" bodyend="7"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TODO:<sp/>Implement<sp/>unit/integration<sp/>tests<sp/>for<sp/>PKI/eIDAS<sp/>signing<sp/>once<sp/>SigningService<sp/>exists.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><ref refid="test__pki__eidas_8cpp_1a3aaa1c439091216a2a4c69b8517bbbd4" kindref="member">TEST</ref>(PKIeIDAS,<sp/>Placeholder)<sp/>{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;PKI/eIDAS<sp/>tests<sp/>not<sp/>implemented<sp/>yet&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_pki_eidas.cpp"/>
+  </compounddef>
+</doxygen>

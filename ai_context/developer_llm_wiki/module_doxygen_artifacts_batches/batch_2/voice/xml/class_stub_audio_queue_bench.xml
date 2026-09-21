@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_audio_queue_bench" kind="class" language="C++" prot="public">
+    <compoundname>StubAudioQueueBench</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_audio_queue_bench_1a98617c3894adc61aea9f3fd4b2fa57b4" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex StubAudioQueueBench::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubAudioQueueBench::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_dedicated_gates.cpp" line="65" column="16" bodyfile="benchmarks/voice/bench_voice_dedicated_gates.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_audio_queue_bench_1a2963a7ce7917bb27cc20c3dea6bd696f" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::deque&lt;std::vector&lt;uint8_t&gt; &gt; StubAudioQueueBench::q_</definition>
+        <argsstring></argsstring>
+        <name>q_</name>
+        <qualifiedname>StubAudioQueueBench::q_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_dedicated_gates.cpp" line="66" column="16" bodyfile="benchmarks/voice/bench_voice_dedicated_gates.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_audio_queue_bench_1a412a28c871b12834ed8fc47f30401dc1" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t StubAudioQueueBench::cap_</definition>
+        <argsstring></argsstring>
+        <name>cap_</name>
+        <qualifiedname>StubAudioQueueBench::cap_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_dedicated_gates.cpp" line="67" column="17" bodyfile="benchmarks/voice/bench_voice_dedicated_gates.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_audio_queue_bench_1ac84602f540d3de888db5ecb3137176b8" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubAudioQueueBench::StubAudioQueueBench</definition>
+        <argsstring>(std::size_t cap)</argsstring>
+        <name>StubAudioQueueBench</name>
+        <qualifiedname>StubAudioQueueBench::StubAudioQueueBench</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>cap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_dedicated_gates.cpp" line="52" column="14" bodyfile="benchmarks/voice/bench_voice_dedicated_gates.cpp" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_audio_queue_bench_1a9f2fb938a49f54b28556608f1c41e426" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubAudioQueueBench::push</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;c)</argsstring>
+        <name>push</name>
+        <qualifiedname>StubAudioQueueBench::push</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_dedicated_gates.cpp" line="53" column="10" bodyfile="benchmarks/voice/bench_voice_dedicated_gates.cpp" bodystart="53" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_audio_queue_bench_1a1ff39cd144b61a25ab3c7c28199a7098" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubAudioQueueBench::pop</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;out)</argsstring>
+        <name>pop</name>
+        <qualifiedname>StubAudioQueueBench::pop</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_dedicated_gates.cpp" line="59" column="10" bodyfile="benchmarks/voice/bench_voice_dedicated_gates.cpp" bodystart="59" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/voice/bench_voice_dedicated_gates.cpp" line="50" column="1" bodyfile="benchmarks/voice/bench_voice_dedicated_gates.cpp" bodystart="50" bodyend="68"/>
+    <listofallmembers>
+      <member refid="class_stub_audio_queue_bench_1a412a28c871b12834ed8fc47f30401dc1" prot="private" virt="non-virtual"><scope>StubAudioQueueBench</scope><name>cap_</name></member>
+      <member refid="class_stub_audio_queue_bench_1a98617c3894adc61aea9f3fd4b2fa57b4" prot="private" virt="non-virtual"><scope>StubAudioQueueBench</scope><name>mu_</name></member>
+      <member refid="class_stub_audio_queue_bench_1a1ff39cd144b61a25ab3c7c28199a7098" prot="public" virt="non-virtual"><scope>StubAudioQueueBench</scope><name>pop</name></member>
+      <member refid="class_stub_audio_queue_bench_1a9f2fb938a49f54b28556608f1c41e426" prot="public" virt="non-virtual"><scope>StubAudioQueueBench</scope><name>push</name></member>
+      <member refid="class_stub_audio_queue_bench_1a2963a7ce7917bb27cc20c3dea6bd696f" prot="private" virt="non-virtual"><scope>StubAudioQueueBench</scope><name>q_</name></member>
+      <member refid="class_stub_audio_queue_bench_1ac84602f540d3de888db5ecb3137176b8" prot="public" virt="non-virtual"><scope>StubAudioQueueBench</scope><name>StubAudioQueueBench</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

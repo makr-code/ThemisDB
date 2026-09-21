@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::ZeroTrustAuthVerifier::Config</compoundname>
+    <includes refid="zero__trust__auth__verifier_8h" local="no">zero_trust_auth_verifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config_1a65790a4c611df90829d8550c64c149f4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::auth::ZeroTrustAuthVerifier::Config::min_trust_score</definition>
+        <argsstring></argsstring>
+        <name>min_trust_score</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::Config::min_trust_score</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="40" column="16" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config_1af6b1dc89e09207aa6f4119ef4196a05d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::ZeroTrustAuthVerifier::Config::device_id_expected</definition>
+        <argsstring></argsstring>
+        <name>device_id_expected</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::Config::device_id_expected</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="42" column="14" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config_1a06aee0afb4ccbcb6cbef35f7ea049f35" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::auth::ZeroTrustAuthVerifier::Config::re_evaluation_interval</definition>
+        <argsstring></argsstring>
+        <name>re_evaluation_interval</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::Config::re_evaluation_interval</qualifiedname>
+        <initializer>{std::chrono::seconds(300)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="44" column="35" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/zero_trust_auth_verifier.h" line="39" column="5" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="39" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config_1af6b1dc89e09207aa6f4119ef4196a05d" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::Config</scope><name>device_id_expected</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config_1a65790a4c611df90829d8550c64c149f4" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::Config</scope><name>min_trust_score</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config_1a06aee0afb4ccbcb6cbef35f7ea049f35" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::Config</scope><name>re_evaluation_interval</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

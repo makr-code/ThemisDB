@@ -1,0 +1,574 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::user_storage::KeyRotationScheduler</compoundname>
+    <includes refid="key__rotation__scheduler_8hpp" local="no">key_rotation_scheduler.hpp</includes>
+    <innerclass refid="structthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1_1_impl" prot="public">themis::plugins::user_storage::KeyRotationScheduler::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a2aa75e5bb70b5fcba2cc50adff8afa13" prot="public" static="no">
+        <type>std::function&lt; void(<ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref>, bool, const std::string &amp;)&gt;</type>
+        <definition>using themis::plugins::user_storage::KeyRotationScheduler::RotationCallback = std::function&lt;void(SecurityLevel, bool, const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RotationCallback</name>
+        <qualifiedname>themis::plugins::user_storage::KeyRotationScheduler::RotationCallback</qualifiedname>
+        <briefdescription>
+<para>Callback for key rotation events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parameters: level, success, error_message </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_rotation_scheduler.hpp" line="50" column="5" bodyfile="include/user_storage_encrypted/key_rotation_scheduler.hpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a7ec59a9b9a5d13ac6382a428e2179a3f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::plugins::user_storage::KeyRotationScheduler::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::plugins::user_storage::KeyRotationScheduler::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_rotation_scheduler.hpp" line="132" column="21" bodyfile="include/user_storage_encrypted/key_rotation_scheduler.hpp" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a7468938443f72c2daf0e308ddc48df93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::KeyRotationScheduler::KeyRotationScheduler</definition>
+        <argsstring>()</argsstring>
+        <name>KeyRotationScheduler</name>
+        <qualifiedname>themis::plugins::user_storage::KeyRotationScheduler::KeyRotationScheduler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_rotation_scheduler.hpp" line="52" column="5" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="57" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a36d707bd416b1653e86bc34ab8855f88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::KeyRotationScheduler::~KeyRotationScheduler</definition>
+        <argsstring>()</argsstring>
+        <name>~KeyRotationScheduler</name>
+        <qualifiedname>themis::plugins::user_storage::KeyRotationScheduler::~KeyRotationScheduler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_rotation_scheduler.hpp" line="53" column="5" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="61" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a746a06f38186e56c02b4c4e3eee914ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::user_storage::KeyRotationScheduler::setRotationStore</definition>
+        <argsstring>(std::shared_ptr&lt; IRotationStore &gt; store)</argsstring>
+        <name>setRotationStore</name>
+        <qualifiedname>themis::plugins::user_storage::KeyRotationScheduler::setRotationStore</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store" kindref="compound">IRotationStore</ref> &gt;</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+<para>Attach a persistence store for last_check_ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Rotation Store.</para>
+<para>Must be called before <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a68795fc9fa0ca47cea858393cc98f40a" kindref="member">initialize()</ref>. Defaults to <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_null_rotation_store" kindref="compound">NullRotationStore</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_rotation_scheduler.hpp" line="60" column="10" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="70" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a68795fc9fa0ca47cea858393cc98f40a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::KeyRotationScheduler::initialize</definition>
+        <argsstring>(int check_interval_seconds=3600, std::shared_ptr&lt; IRotationStore &gt; store=nullptr)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::plugins::user_storage::KeyRotationScheduler::initialize</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>check_interval_seconds</declname>
+          <defval>3600</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store" kindref="compound">IRotationStore</ref> &gt;</type>
+          <declname>store</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Initialize scheduler, optionally loading persisted rotation state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para>When a non-null <computeroutput>store</computeroutput> is supplied the scheduler loads any previously persisted last_check_ms values for each <ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref> so that rotation intervals survive process restarts. After each successful callback invocation the updated state is written back to the store.</para>
+<para>RocksDB integration: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>store<sp/>=<sp/>makeRocksDBRotationStore(&amp;rocksdb_wrapper);</highlight></codeline>
+<codeline><highlight class="normal">scheduler.initialize(3600,<sp/>std::move(store));</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>check_interval_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How often to check for rotation needs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional persistence backend (may be nullptr).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">check_interval_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: error(), std::move(), std::thread(), schedulerLoop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_rotation_scheduler.hpp" line="79" column="12" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="84" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1abe996f82fa9b6eae0c9be1ac04c50ee5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::user_storage::KeyRotationScheduler::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::plugins::user_storage::KeyRotationScheduler::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Shutdown.</para>
+<para>Calls: notify_all(), joinable(), join(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_rotation_scheduler.hpp" line="87" column="10" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="111" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1ab007c99a74114d75188d0950600ca3b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::KeyRotationScheduler::scheduleRotation</definition>
+        <argsstring>(SecurityLevel level, int interval_days, bool auto_rotate, RotationCallback callback)</argsstring>
+        <name>scheduleRotation</name>
+        <qualifiedname>themis::plugins::user_storage::KeyRotationScheduler::scheduleRotation</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>interval_days</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>auto_rotate</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a2aa75e5bb70b5fcba2cc50adff8afa13" kindref="member">RotationCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Schedule rotation for a security level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Schedule Rotation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Security level to rotate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>interval_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rotation interval in days </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>auto_rotate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Enable automatic rotation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback function for rotation events</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">interval_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">auto_rotate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), getCurrentTimeMs(), <ref refid="namespacethemis_1_1plugins_1_1user__storage_1a29902bdf997d755c8e98ebfc83215697" kindref="member">securityLevelToString()</ref>, get(), nlohmann::json::parse(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_rotation_scheduler.hpp" line="97" column="12" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="131" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a78f54e41eb486780f8c6ef4d770caecc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::user_storage::KeyRotationScheduler::cancelRotation</definition>
+        <argsstring>(SecurityLevel level)</argsstring>
+        <name>cancelRotation</name>
+        <qualifiedname>themis::plugins::user_storage::KeyRotationScheduler::cancelRotation</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Cancel scheduled rotation for a level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cancel Rotation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_rotation_scheduler.hpp" line="107" column="10" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="178" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1acd93004cddb00266f4387c7ab2deef54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::KeyRotationScheduler::isRotationDue</definition>
+        <argsstring>(SecurityLevel level, int64_t last_rotation_ms)</argsstring>
+        <name>isRotationDue</name>
+        <qualifiedname>themis::plugins::user_storage::KeyRotationScheduler::isRotationDue</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>last_rotation_ms</declname>
+        </param>
+        <briefdescription>
+<para>Check if rotation is due for a level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Rotation Due.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Security level </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>last_rotation_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Last rotation timestamp </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if rotation is due</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">last_rotation_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), getCurrentTimeMs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_rotation_scheduler.hpp" line="116" column="10" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="190" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1aa0b15b61cb94b2acd50014c7df776c7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::plugins::user_storage::KeyRotationScheduler::getNextRotationTime</definition>
+        <argsstring>(SecurityLevel level)</argsstring>
+        <name>getNextRotationTime</name>
+        <qualifiedname>themis::plugins::user_storage::KeyRotationScheduler::getNextRotationTime</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Get next rotation time for a level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Next Rotation Time.</para>
+<para><simplesect kind="return"><para>Timestamp in milliseconds, 0 if not scheduled</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_rotation_scheduler.hpp" line="123" column="13" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="212" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1af6088bf8579e506b802d6d84235ea6a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::user_storage::KeyRotationScheduler::triggerRotation</definition>
+        <argsstring>(SecurityLevel level)</argsstring>
+        <name>triggerRotation</name>
+        <qualifiedname>themis::plugins::user_storage::KeyRotationScheduler::triggerRotation</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Manually trigger rotation check for a level (for testing). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Trigger Rotation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), getCurrentTimeMs(), callback(), persistRotationState(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_rotation_scheduler.hpp" line="128" column="10" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="232" bodyend="251"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1aa05fde7c1a6ea9106ab934448ed63ffa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::user_storage::KeyRotationScheduler::schedulerLoop</definition>
+        <argsstring>()</argsstring>
+        <name>schedulerLoop</name>
+        <qualifiedname>themis::plugins::user_storage::KeyRotationScheduler::schedulerLoop</qualifiedname>
+        <briefdescription>
+<para>Scheduler Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), getCurrentTimeMs(), callback(), persistRotationState(), cv_lock(), wait_for(), std::chrono::seconds(), load(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_rotation_scheduler.hpp" line="134" column="10" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="257" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1aec26b0479ff44ff0a219778cf92ceace" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::plugins::user_storage::KeyRotationScheduler::getCurrentTimeMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTimeMs</name>
+        <qualifiedname>themis::plugins::user_storage::KeyRotationScheduler::getCurrentTimeMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_rotation_scheduler.hpp" line="135" column="13" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="295" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a3ea45b6af570f4e222509dd1feda4df5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::user_storage::KeyRotationScheduler::persistRotationState</definition>
+        <argsstring>(SecurityLevel level)</argsstring>
+        <name>persistRotationState</name>
+        <qualifiedname>themis::plugins::user_storage::KeyRotationScheduler::persistRotationState</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> Persistence helpers (called with mutex held) ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), <ref refid="namespacethemis_1_1plugins_1_1user__storage_1a29902bdf997d755c8e98ebfc83215697" kindref="member">securityLevelToString()</ref>, put(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_rotation_scheduler.hpp" line="137" column="10" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="307" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1ae305fcaa723f1dc5cc60d4b16f7ddc22" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::user_storage::KeyRotationScheduler::loadRotationState</definition>
+        <argsstring>(SecurityLevel level)</argsstring>
+        <name>loadRotationState</name>
+        <qualifiedname>themis::plugins::user_storage::KeyRotationScheduler::loadRotationState</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Load Rotation State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), <ref refid="namespacethemis_1_1plugins_1_1user__storage_1a29902bdf997d755c8e98ebfc83215697" kindref="member">securityLevelToString()</ref>, get(), nlohmann::json::parse(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/key_rotation_scheduler.hpp" line="138" column="10" bodyfile="src/user_storage_encrypted/key_rotation_scheduler.cpp" bodystart="332" bodyend="360"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Key rotation scheduler for automatic key rotation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Features:<itemizedlist>
+<listitem><para>Schedule-based rotation (e.g., every 90 days)</para>
+</listitem><listitem><para>Zero-downtime rotation process</para>
+</listitem><listitem><para>Notification on rotation completion</para>
+</listitem><listitem><para>Thread-safe operation</para>
+</listitem><listitem><para>Optional persistent state via <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store" kindref="compound">IRotationStore</ref> (last_check_ms survives restart)</para>
+</listitem><listitem><para>Optional persistence via <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store" kindref="compound">IRotationStore</ref> (Feature 3)</para>
+</listitem></itemizedlist>
+</para>
+<para>Rotation Process:<orderedlist>
+<listitem><para>Create new container with new key</para>
+</listitem><listitem><para>Copy data from old to new container</para>
+</listitem><listitem><para>Atomically switch containers (rename)</para>
+</listitem><listitem><para>Keep old container as backup</para>
+</listitem><listitem><para>Notify administrators </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <location file="include/user_storage_encrypted/key_rotation_scheduler.hpp" line="43" column="1" bodyfile="include/user_storage_encrypted/key_rotation_scheduler.hpp" bodystart="43" bodyend="139"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a78f54e41eb486780f8c6ef4d770caecc" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::KeyRotationScheduler</scope><name>cancelRotation</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1aec26b0479ff44ff0a219778cf92ceace" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::KeyRotationScheduler</scope><name>getCurrentTimeMs</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1aa0b15b61cb94b2acd50014c7df776c7e" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::KeyRotationScheduler</scope><name>getNextRotationTime</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a7ec59a9b9a5d13ac6382a428e2179a3f" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::KeyRotationScheduler</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a68795fc9fa0ca47cea858393cc98f40a" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::KeyRotationScheduler</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1acd93004cddb00266f4387c7ab2deef54" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::KeyRotationScheduler</scope><name>isRotationDue</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a7468938443f72c2daf0e308ddc48df93" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::KeyRotationScheduler</scope><name>KeyRotationScheduler</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1ae305fcaa723f1dc5cc60d4b16f7ddc22" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::KeyRotationScheduler</scope><name>loadRotationState</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a3ea45b6af570f4e222509dd1feda4df5" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::KeyRotationScheduler</scope><name>persistRotationState</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a2aa75e5bb70b5fcba2cc50adff8afa13" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::KeyRotationScheduler</scope><name>RotationCallback</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1aa05fde7c1a6ea9106ab934448ed63ffa" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::KeyRotationScheduler</scope><name>schedulerLoop</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1ab007c99a74114d75188d0950600ca3b9" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::KeyRotationScheduler</scope><name>scheduleRotation</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a746a06f38186e56c02b4c4e3eee914ea" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::KeyRotationScheduler</scope><name>setRotationStore</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1abe996f82fa9b6eae0c9be1ac04c50ee5" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::KeyRotationScheduler</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1af6088bf8579e506b802d6d84235ea6a9" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::KeyRotationScheduler</scope><name>triggerRotation</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a36d707bd416b1653e86bc34ab8855f88" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::KeyRotationScheduler</scope><name>~KeyRotationScheduler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

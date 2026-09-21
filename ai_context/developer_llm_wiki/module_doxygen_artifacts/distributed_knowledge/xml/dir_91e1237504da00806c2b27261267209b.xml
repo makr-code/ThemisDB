@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_91e1237504da00806c2b27261267209b" kind="dir">
+    <compoundname>benchmarks/distributed_knowledge</compoundname>
+    <innerfile refid="bench__distributed__knowledge_8cpp">bench_distributed_knowledge.cpp</innerfile>
+    <innerfile refid="bench__distributed__knowledge__or_8cpp">bench_distributed_knowledge_or.cpp</innerfile>
+    <innerfile refid="bench__dk__release__gates_8cpp">bench_dk_release_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/distributed_knowledge/"/>
+  </compounddef>
+</doxygen>

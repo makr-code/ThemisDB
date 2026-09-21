@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__themis__core__grpc__service__bridge_8cpp" kind="file" language="C++">
+    <compoundname>test_themis_core_grpc_service_bridge.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">server/themis_core_grpc_service.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">stdexcept</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/themis/test_themis_core_grpc_service_bridge.cpp</label>
+        <link refid="test__themis__core__grpc__service__bridge_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>server/themis_core_grpc_service.h</label>
+      </node>
+      <node id="5">
+        <label>stdexcept</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__themis__core__grpc__service__bridge_8cpp_1a86c0e8a0c2b6dd97f82c54825db12e8b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ThemisCoreServiceImpl</type>
+        <definition>static ThemisCoreServiceImpl makeService</definition>
+        <argsstring>()</argsstring>
+        <name>makeService</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_core_grpc_service_bridge.cpp" line="21" column="30" bodyfile="tests/themis/test_themis_core_grpc_service_bridge.cpp" bodystart="21" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="test__themis__core__grpc__service__bridge_8cpp_1a3059a1e617e3086dadcf023685e10d51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThemisCoreServiceImplBridgeTest, NoAccessorThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThemisCoreServiceImplBridgeTest</type>
+        </param>
+        <param>
+          <type>NoAccessorThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_core_grpc_service_bridge.cpp" line="27" column="1" bodyfile="tests/themis/test_themis_core_grpc_service_bridge.cpp" bodystart="27" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="test__themis__core__grpc__service__bridge_8cpp_1a03997ec5e1d917a1e85133db59c97fdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThemisCoreServiceImplBridgeTest, InjectedPointerIsReturned)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThemisCoreServiceImplBridgeTest</type>
+        </param>
+        <param>
+          <type>InjectedPointerIsReturned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_core_grpc_service_bridge.cpp" line="35" column="1" bodyfile="tests/themis/test_themis_core_grpc_service_bridge.cpp" bodystart="35" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__themis__core__grpc__service__bridge_8cpp_1aa43aff9f92840351f738f7a49ce3f416" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThemisCoreServiceImplBridgeTest, AccessorExceptionThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThemisCoreServiceImplBridgeTest</type>
+        </param>
+        <param>
+          <type>AccessorExceptionThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_core_grpc_service_bridge.cpp" line="47" column="1" bodyfile="tests/themis/test_themis_core_grpc_service_bridge.cpp" bodystart="47" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__themis__core__grpc__service__bridge_8cpp_1a450336fac4d8ceeda9297cc93ad3d71f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThemisCoreServiceImplBridgeTest, NullAccessorResultThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThemisCoreServiceImplBridgeTest</type>
+        </param>
+        <param>
+          <type>NullAccessorResultThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_core_grpc_service_bridge.cpp" line="56" column="1" bodyfile="tests/themis/test_themis_core_grpc_service_bridge.cpp" bodystart="56" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for ThemisCoreServiceImpl service-instance bridge (STUB #58). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests verify strict fail-closed behavior in non-proto builds: constructor throws without a callback, accepts a non-null injected pointer, and throws when callback execution fails or returns nullptr.</para>
+<para>Tests: CORE-GRPC-BRIDGE-01..03 </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/themis_core_grpc_service.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">themis::core::ThemisCoreServiceImpl;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Helpers<sp/>────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>ThemisCoreServiceImpl<sp/>makeService()<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ThemisCoreServiceImpl(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>CORE-GRPC-BRIDGE-01<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Without<sp/>any<sp/>injected<sp/>accessor<sp/>construction<sp/>must<sp/>fail<sp/>closed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="test__themis__core__grpc__service__bridge_8cpp_1a3059a1e617e3086dadcf023685e10d51" kindref="member">TEST</ref>(ThemisCoreServiceImplBridgeTest,<sp/>NoAccessorThrows)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>ThemisCoreServiceImpl::setServiceInstanceFn({});<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ensure<sp/>clean<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW((</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)makeService(),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>ThemisCoreServiceImpl::setServiceInstanceFn({});<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>CORE-GRPC-BRIDGE-02<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>When<sp/>an<sp/>accessor<sp/>is<sp/>registered<sp/>the<sp/>constructor<sp/>picks<sp/>up<sp/>the<sp/>returned<sp/>pointer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__themis__core__grpc__service__bridge_8cpp_1a3059a1e617e3086dadcf023685e10d51" kindref="member">TEST</ref>(ThemisCoreServiceImplBridgeTest,<sp/>InjectedPointerIsReturned)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>expected<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::uintptr_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0xABCD));</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>ThemisCoreServiceImpl::setServiceInstanceFn([expected]()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>expected;<sp/>});</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>svc<sp/>=<sp/>makeService();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(svc.getServiceInstance(),<sp/>expected);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>ThemisCoreServiceImpl::setServiceInstanceFn({});<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>CORE-GRPC-BRIDGE-03<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>If<sp/>the<sp/>accessor<sp/>callback<sp/>throws,<sp/>construction<sp/>must<sp/>fail.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__themis__core__grpc__service__bridge_8cpp_1a3059a1e617e3086dadcf023685e10d51" kindref="member">TEST</ref>(ThemisCoreServiceImplBridgeTest,<sp/>AccessorExceptionThrows)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>ThemisCoreServiceImpl::setServiceInstanceFn([]()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;simulated<sp/>accessor<sp/>failure&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW((</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)makeService(),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>ThemisCoreServiceImpl::setServiceInstanceFn({});<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>If<sp/>the<sp/>accessor<sp/>callback<sp/>returns<sp/>nullptr,<sp/>construction<sp/>must<sp/>fail.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__themis__core__grpc__service__bridge_8cpp_1a3059a1e617e3086dadcf023685e10d51" kindref="member">TEST</ref>(ThemisCoreServiceImplBridgeTest,<sp/>NullAccessorResultThrows)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>ThemisCoreServiceImpl::setServiceInstanceFn([]()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW((</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)makeService(),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>ThemisCoreServiceImpl::setServiceInstanceFn({});<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/themis/test_themis_core_grpc_service_bridge.cpp"/>
+  </compounddef>
+</doxygen>

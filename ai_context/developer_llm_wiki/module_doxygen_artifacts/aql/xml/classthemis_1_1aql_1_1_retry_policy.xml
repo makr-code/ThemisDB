@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_retry_policy" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::RetryPolicy</compoundname>
+    <includes refid="llm__timeout__manager_8h" local="no">llm_timeout_manager.h</includes>
+    <innerclass refid="structthemis_1_1aql_1_1_retry_policy_1_1_config" prot="public">themis::aql::RetryPolicy::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_retry_policy_1a36e908eb13801bb62d694b1a0760309d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1aql_1_1_retry_policy_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::aql::RetryPolicy::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::aql::RetryPolicy::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="331" column="12" bodyfile="include/aql/llm_timeout_manager.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_retry_policy_1ab91e685ead9bbc5edf677eb14f2c24b3" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::RetryPolicy::RetryPolicy</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>RetryPolicy</name>
+        <qualifiedname>themis::aql::RetryPolicy::RetryPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_retry_policy_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1aql_1_1_retry_policy_1_1_config_1a8d9e0f9866c8fa178fa4aa9a0d84f7ec" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="267" column="14" bodyfile="include/aql/llm_timeout_manager.h" bodystart="267" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_retry_policy_1a3ff72b21bbaa70a3c3a622ce03799d5f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto themis::aql::RetryPolicy::executeWithRetry</definition>
+        <argsstring>(Func &amp;&amp;func, std::function&lt; bool(const std::exception &amp;)&gt; should_retry=nullptr)</argsstring>
+        <name>executeWithRetry</name>
+        <qualifiedname>themis::aql::RetryPolicy::executeWithRetry</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>func</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(const std::exception &amp;)&gt;</type>
+          <declname>should_retry</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="271" column="10" bodyfile="include/aql/llm_timeout_manager.h" bodystart="271" bodyend="306"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_retry_policy_1a8a90026ebee73b1b8cf1ecbccf5ba8a6" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::aql::RetryPolicy::isRetryableError</definition>
+        <argsstring>(const std::exception &amp;e)</argsstring>
+        <name>isRetryableError</name>
+        <qualifiedname>themis::aql::RetryPolicy::isRetryableError</qualifiedname>
+        <param>
+          <type>const std::exception &amp;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Is Retryable Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getErrorCode(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="314" column="17" bodyfile="include/aql/llm_timeout_manager.h" bodystart="314" bodyend="328"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_timeout_manager.h" line="252" column="1" bodyfile="include/aql/llm_timeout_manager.h" bodystart="252" bodyend="332"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_retry_policy_1a36e908eb13801bb62d694b1a0760309d" prot="private" virt="non-virtual"><scope>themis::aql::RetryPolicy</scope><name>config_</name></member>
+      <member refid="classthemis_1_1aql_1_1_retry_policy_1a3ff72b21bbaa70a3c3a622ce03799d5f" prot="public" virt="non-virtual"><scope>themis::aql::RetryPolicy</scope><name>executeWithRetry</name></member>
+      <member refid="classthemis_1_1aql_1_1_retry_policy_1a8a90026ebee73b1b8cf1ecbccf5ba8a6" prot="public" virt="non-virtual"><scope>themis::aql::RetryPolicy</scope><name>isRetryableError</name></member>
+      <member refid="classthemis_1_1aql_1_1_retry_policy_1ab91e685ead9bbc5edf677eb14f2c24b3" prot="public" virt="non-virtual"><scope>themis::aql::RetryPolicy</scope><name>RetryPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

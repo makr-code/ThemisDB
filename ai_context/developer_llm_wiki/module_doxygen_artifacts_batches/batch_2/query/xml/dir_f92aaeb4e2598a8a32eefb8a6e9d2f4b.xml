@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f92aaeb4e2598a8a32eefb8a6e9d2f4b" kind="dir">
+    <compoundname>include/query</compoundname>
+    <innerdir refid="dir_693b8751a06d27ae7ada681afbe3cd41">include/query/functions</innerdir>
+    <innerfile refid="adaptive__join_8h">adaptive_join.h</innerfile>
+    <innerfile refid="adaptive__optimizer_8h">adaptive_optimizer.h</innerfile>
+    <innerfile refid="approximate__aggregator_8h">approximate_aggregator.h</innerfile>
+    <innerfile refid="aql__mutation__validator_8h">aql_mutation_validator.h</innerfile>
+    <innerfile refid="aql__parser_8h">aql_parser.h</innerfile>
+    <innerfile refid="aql__parser__service_8h">aql_parser_service.h</innerfile>
+    <innerfile refid="aql__runner_8h">aql_runner.h</innerfile>
+    <innerfile refid="aql__safety__validator_8h">aql_safety_validator.h</innerfile>
+    <innerfile refid="aql__translator_8h">aql_translator.h</innerfile>
+    <innerfile refid="bm25__scorer_8h">bm25_scorer.h</innerfile>
+    <innerfile refid="continuous__query__engine_8h">continuous_query_engine.h</innerfile>
+    <innerfile refid="continuous__query__engine__impl_8h">continuous_query_engine_impl.h</innerfile>
+    <innerfile refid="continuous__query__planner_8h">continuous_query_planner.h</innerfile>
+    <innerfile refid="continuous__query__registry_8h">continuous_query_registry.h</innerfile>
+    <innerfile refid="cq__watermark_8h">cq_watermark.h</innerfile>
+    <innerfile refid="cross__cluster__federation_8h">cross_cluster_federation.h</innerfile>
+    <innerfile refid="cte__cache_8h">cte_cache.h</innerfile>
+    <innerfile refid="cte__subquery_8h">cte_subquery.h</innerfile>
+    <innerfile refid="cypher__parser_8h">cypher_parser.h</innerfile>
+    <innerfile refid="ddl__executor_8h">ddl_executor.h</innerfile>
+    <innerfile refid="federation__resilience_8h">federation_resilience.h</innerfile>
+    <innerfile refid="fts__executor_8h">fts_executor.h</innerfile>
+    <innerfile refid="fts__index_8h">fts_index.h</innerfile>
+    <innerfile refid="fts__parser_8h">fts_parser.h</innerfile>
+    <innerfile refid="geospatial__cost__model_8h">geospatial_cost_model.h</innerfile>
+    <innerfile refid="geospatial__index__selector_8h">geospatial_index_selector.h</innerfile>
+    <innerfile refid="geospatial__optimizer__hints_8h">geospatial_optimizer_hints.h</innerfile>
+    <innerfile refid="geospatial__query__rewrite_8h">geospatial_query_rewrite.h</innerfile>
+    <innerfile refid="graphql__dialect_8h">graphql_dialect.h</innerfile>
+    <innerfile refid="gremlin__parser_8h">gremlin_parser.h</innerfile>
+    <innerfile refid="incremental__agg_8h">incremental_agg.h</innerfile>
+    <innerfile refid="incremental__view_8h">incremental_view.h</innerfile>
+    <innerfile refid="index__cache_8h">index_cache.h</innerfile>
+    <innerfile refid="let__evaluator_8h">let_evaluator.h</innerfile>
+    <innerfile refid="llm__generate__operator_8h">llm_generate_operator.h</innerfile>
+    <innerfile refid="materialized__cte_8h">materialized_cte.h</innerfile>
+    <innerfile refid="materialized__view_8h">materialized_view.h</innerfile>
+    <innerfile refid="mutation__execution__plan_8h">mutation_execution_plan.h</innerfile>
+    <innerfile refid="mutation__executor_8h">mutation_executor.h</innerfile>
+    <innerfile refid="mutation__transaction_8h">mutation_transaction.h</innerfile>
+    <innerfile refid="optimizer__cost__model_8h">optimizer_cost_model.h</innerfile>
+    <innerfile refid="parallel__executor_8h">parallel_executor.h</innerfile>
+    <innerfile refid="parallel__scan_8h">parallel_scan.h</innerfile>
+    <innerfile refid="plan__cache_8h">plan_cache.h</innerfile>
+    <innerfile refid="query__cache_8h">query_cache.h</innerfile>
+    <innerfile refid="query__cache__manager_8h">query_cache_manager.h</innerfile>
+    <innerfile refid="query__canceller_8h">query_canceller.h</innerfile>
+    <innerfile refid="query__compiler_8h">query_compiler.h</innerfile>
+    <innerfile refid="query__engine_8h">query_engine.h</innerfile>
+    <innerfile refid="query__executor_8h">query_executor.h</innerfile>
+    <innerfile refid="query__federation_8h">query_federation.h</innerfile>
+    <innerfile refid="query__federation__memory_8h">query_federation_memory.h</innerfile>
+    <innerfile refid="query__federation__timeout_8h">query_federation_timeout.h</innerfile>
+    <innerfile refid="query__optimizer_8h">query_optimizer.h</innerfile>
+    <innerfile refid="query__plan__visualizer_8h">query_plan_visualizer.h</innerfile>
+    <innerfile refid="query__profiler_8h">query_profiler.h</innerfile>
+    <innerfile refid="query__resource__limits_8h">query_resource_limits.h</innerfile>
+    <innerfile refid="query__rewrite__rule_8h">query_rewrite_rule.h</innerfile>
+    <innerfile refid="result__stream_8h">result_stream.h</innerfile>
+    <innerfile refid="result__type__annotation_8h">result_type_annotation.h</innerfile>
+    <innerfile refid="runtime__reoptimizer_8h">runtime_reoptimizer.h</innerfile>
+    <innerfile refid="scope__enforcer_8h">scope_enforcer.h</innerfile>
+    <innerfile refid="semantic__cache_8h">semantic_cache.h</innerfile>
+    <innerfile refid="sparql__parser_8h">sparql_parser.h</innerfile>
+    <innerfile refid="sql__parser_8h">sql_parser.h</innerfile>
+    <innerfile refid="statistical__aggregator_8h">statistical_aggregator.h</innerfile>
+    <innerfile refid="subquery__optimizer_8h">subquery_optimizer.h</innerfile>
+    <innerfile refid="synopsis__store_8h">synopsis_store.h</innerfile>
+    <innerfile refid="tensor__aware__query__optimizer_8h">tensor_aware_query_optimizer.h</innerfile>
+    <innerfile refid="tensor__contraction__engine_8h">tensor_contraction_engine.h</innerfile>
+    <innerfile refid="tensor__rag__cost__model_8h">tensor_rag_cost_model.h</innerfile>
+    <innerfile refid="vectorized__execution_8h">vectorized_execution.h</innerfile>
+    <innerfile refid="window__evaluator_8h">window_evaluator.h</innerfile>
+    <innerfile refid="window__spec_8h">window_spec.h</innerfile>
+    <innerfile refid="workload__cache__strategy_8h">workload_cache_strategy.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/"/>
+  </compounddef>
+</doxygen>

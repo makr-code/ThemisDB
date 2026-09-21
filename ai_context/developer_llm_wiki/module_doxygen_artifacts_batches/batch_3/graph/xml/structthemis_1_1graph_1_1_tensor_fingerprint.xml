@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_tensor_fingerprint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::TensorFingerprint</compoundname>
+    <includes refid="tensor__fingerprint__graph_8h" local="no">tensor_fingerprint_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_tensor_fingerprint_1aa988ce09bb21b7459ea1539899ef6e79" prot="public" static="no" mutable="no">
+        <type>std::array&lt; uint64_t, 128 &gt;</type>
+        <definition>std::array&lt;uint64_t, 128&gt; themis::graph::TensorFingerprint::minhash</definition>
+        <argsstring></argsstring>
+        <name>minhash</name>
+        <qualifiedname>themis::graph::TensorFingerprint::minhash</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="37" column="16" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_tensor_fingerprint_1a597c450c4696cc0809fbc0fdcfa89a74" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::graph::TensorFingerprint::core_norms</definition>
+        <argsstring></argsstring>
+        <name>core_norms</name>
+        <qualifiedname>themis::graph::TensorFingerprint::core_norms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="39" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_tensor_fingerprint_1a264c57ad08b4600d29be18a4328a1662" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::graph::TensorFingerprint::total_norm</definition>
+        <argsstring></argsstring>
+        <name>total_norm</name>
+        <qualifiedname>themis::graph::TensorFingerprint::total_norm</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="41" column="11" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_tensor_fingerprint_1a5a8c2782419f2e4e5fa8549ca8c7c536" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::TensorFingerprint::order</definition>
+        <argsstring></argsstring>
+        <name>order</name>
+        <qualifiedname>themis::graph::TensorFingerprint::order</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="43" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_tensor_fingerprint_1abf5dd21260ed1618f71c2bc4e947020f" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::TensorFingerprint::max_rank</definition>
+        <argsstring></argsstring>
+        <name>max_rank</name>
+        <qualifiedname>themis::graph::TensorFingerprint::max_rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="45" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/tensor_fingerprint_graph.h" line="36" column="1" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="36" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_tensor_fingerprint_1a597c450c4696cc0809fbc0fdcfa89a74" prot="public" virt="non-virtual"><scope>themis::graph::TensorFingerprint</scope><name>core_norms</name></member>
+      <member refid="structthemis_1_1graph_1_1_tensor_fingerprint_1abf5dd21260ed1618f71c2bc4e947020f" prot="public" virt="non-virtual"><scope>themis::graph::TensorFingerprint</scope><name>max_rank</name></member>
+      <member refid="structthemis_1_1graph_1_1_tensor_fingerprint_1aa988ce09bb21b7459ea1539899ef6e79" prot="public" virt="non-virtual"><scope>themis::graph::TensorFingerprint</scope><name>minhash</name></member>
+      <member refid="structthemis_1_1graph_1_1_tensor_fingerprint_1a5a8c2782419f2e4e5fa8549ca8c7c536" prot="public" virt="non-virtual"><scope>themis::graph::TensorFingerprint</scope><name>order</name></member>
+      <member refid="structthemis_1_1graph_1_1_tensor_fingerprint_1a264c57ad08b4600d29be18a4328a1662" prot="public" virt="non-virtual"><scope>themis::graph::TensorFingerprint</scope><name>total_norm</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint_1_1_element" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::PostgreSQLImporter::ExcludeConstraint::Element</compoundname>
+    <includes refid="postgres__importer_8h" local="no">postgres_importer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint_1_1_element_1a4062a44e4d2d65b583a221f9ff8c9bc5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::ExcludeConstraint::Element::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::ExcludeConstraint::Element::column</qualifiedname>
+        <briefdescription>
+<para>Column or expression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="90" column="25" bodyfile="include/importers/postgres_importer.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint_1_1_element_1a203631c13e8989a200cc850d555268ce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::ExcludeConstraint::Element::with_operator</definition>
+        <argsstring></argsstring>
+        <name>with_operator</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::ExcludeConstraint::Element::with_operator</qualifiedname>
+        <briefdescription>
+<para>Exclusion operator (e.g. &quot;=&quot;, &quot;&amp;&amp;&quot;, &quot;&lt;&gt;&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="91" column="25" bodyfile="include/importers/postgres_importer.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/postgres_importer.h" line="89" column="9" bodyfile="include/importers/postgres_importer.h" bodystart="89" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint_1_1_element_1a4062a44e4d2d65b583a221f9ff8c9bc5" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::ExcludeConstraint::Element</scope><name>column</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint_1_1_element_1a203631c13e8989a200cc850d555268ce" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::ExcludeConstraint::Element</scope><name>with_operator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

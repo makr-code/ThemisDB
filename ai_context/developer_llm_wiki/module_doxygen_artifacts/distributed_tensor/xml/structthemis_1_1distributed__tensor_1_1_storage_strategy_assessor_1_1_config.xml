@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_storage_strategy_assessor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::StorageStrategyAssessor::Config</compoundname>
+    <includes refid="tensor__storage__strategy_8h" local="no">tensor_storage_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_storage_strategy_assessor_1_1_config_1a9e4edc67f45e89d569faa2342e35fb4d" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_quantization_constraints" kindref="compound">QuantizationConstraints</ref></type>
+        <definition>QuantizationConstraints themis::distributed_tensor::StorageStrategyAssessor::Config::quant</definition>
+        <argsstring></argsstring>
+        <name>quant</name>
+        <qualifiedname>themis::distributed_tensor::StorageStrategyAssessor::Config::quant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="327" column="33" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_storage_strategy_assessor_1_1_config_1a21ccdbc8b3382849de0ced9000e12993" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::StorageStrategyAssessor::Config::storage_on_nvme</definition>
+        <argsstring></argsstring>
+        <name>storage_on_nvme</name>
+        <qualifiedname>themis::distributed_tensor::StorageStrategyAssessor::Config::storage_on_nvme</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="329" column="14" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_storage_strategy_assessor_1_1_config_1a5938d50888f924a4cbe755ce18b92e78" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::StorageStrategyAssessor::Config::multi_consumer</definition>
+        <argsstring></argsstring>
+        <name>multi_consumer</name>
+        <qualifiedname>themis::distributed_tensor::StorageStrategyAssessor::Config::multi_consumer</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="331" column="14" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_storage_strategy_assessor_1_1_config_1a2b1ec25e89fa044a4020ed4621ce0f1d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::StorageStrategyAssessor::Config::os_supports_mmap</definition>
+        <argsstring></argsstring>
+        <name>os_supports_mmap</name>
+        <qualifiedname>themis::distributed_tensor::StorageStrategyAssessor::Config::os_supports_mmap</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="333" column="14" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_storage_strategy_assessor_1_1_config_1afd56a6e7028ce934df6b2e003e0f0432" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::StorageStrategyAssessor::Config::can_lock_pages</definition>
+        <argsstring></argsstring>
+        <name>can_lock_pages</name>
+        <qualifiedname>themis::distributed_tensor::StorageStrategyAssessor::Config::can_lock_pages</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="335" column="14" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::distributed_tensor::QuantizationConstraints</label>
+        <link refid="structthemis_1_1distributed__tensor_1_1_quantization_constraints"/>
+      </node>
+      <node id="1">
+        <label>themis::distributed_tensor::StorageStrategyAssessor::Config</label>
+        <link refid="structthemis_1_1distributed__tensor_1_1_storage_strategy_assessor_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>quant</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/distributed_tensor/tensor_storage_strategy.h" line="326" column="5" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="326" bodyend="336"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_storage_strategy_assessor_1_1_config_1afd56a6e7028ce934df6b2e003e0f0432" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StorageStrategyAssessor::Config</scope><name>can_lock_pages</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_storage_strategy_assessor_1_1_config_1a5938d50888f924a4cbe755ce18b92e78" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StorageStrategyAssessor::Config</scope><name>multi_consumer</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_storage_strategy_assessor_1_1_config_1a2b1ec25e89fa044a4020ed4621ce0f1d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StorageStrategyAssessor::Config</scope><name>os_supports_mmap</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_storage_strategy_assessor_1_1_config_1a9e4edc67f45e89d569faa2342e35fb4d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StorageStrategyAssessor::Config</scope><name>quant</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_storage_strategy_assessor_1_1_config_1a21ccdbc8b3382849de0ced9000e12993" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StorageStrategyAssessor::Config</scope><name>storage_on_nvme</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

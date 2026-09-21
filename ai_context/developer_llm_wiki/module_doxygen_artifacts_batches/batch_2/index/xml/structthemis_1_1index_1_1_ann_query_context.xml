@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_ann_query_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::AnnQueryContext</compoundname>
+    <includes refid="ann__frontdoor_8h" local="no">ann_frontdoor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_query_context_1ac24bf63685d5d008530b2f2cd5d96424" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::index::AnnQueryContext::dataset_size</definition>
+        <argsstring></argsstring>
+        <name>dataset_size</name>
+        <qualifiedname>themis::index::AnnQueryContext::dataset_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="89" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_query_context_1ac9b8997853672b7ebe1f2c095bb3199c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::AnnQueryContext::hot_tier</definition>
+        <argsstring></argsstring>
+        <name>hot_tier</name>
+        <qualifiedname>themis::index::AnnQueryContext::hot_tier</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="91" column="10" bodyfile="include/index/ann_frontdoor.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_query_context_1acac70d5acb2a17ff2733ec96f0b37214" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::AnnQueryContext::shard_aware</definition>
+        <argsstring></argsstring>
+        <name>shard_aware</name>
+        <qualifiedname>themis::index::AnnQueryContext::shard_aware</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="93" column="10" bodyfile="include/index/ann_frontdoor.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_query_context_1a85419040e63df176b5ef3535430d6782" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::AnnQueryContext::recall_target</definition>
+        <argsstring></argsstring>
+        <name>recall_target</name>
+        <qualifiedname>themis::index::AnnQueryContext::recall_target</qualifiedname>
+        <initializer>= 0.95</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="95" column="12" bodyfile="include/index/ann_frontdoor.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_query_context_1a1b12a1c96a4b82fd2f74223c95f24d76" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::AnnQueryContext::latency_budget_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_budget_ms</name>
+        <qualifiedname>themis::index::AnnQueryContext::latency_budget_ms</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="97" column="12" bodyfile="include/index/ann_frontdoor.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_query_context_1a3666eb4e1798a13d2d3cd19fa4235344" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::AnnQueryContext::scope_id</definition>
+        <argsstring></argsstring>
+        <name>scope_id</name>
+        <qualifiedname>themis::index::AnnQueryContext::scope_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="99" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_query_context_1a9bd29a57f2bc22f92ac83847281acc19" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::AnnQueryContext::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::index::AnnQueryContext::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="101" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_query_context_1a10e842193c08e2212550d0b98c991c98" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::AnnQueryContext::confidence_policy_version</definition>
+        <argsstring></argsstring>
+        <name>confidence_policy_version</name>
+        <qualifiedname>themis::index::AnnQueryContext::confidence_policy_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="103" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_query_context_1a742032c2ee8f42b6a71e8479360e5c25" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::AnnQueryContext::confidence_threshold_key</definition>
+        <argsstring></argsstring>
+        <name>confidence_threshold_key</name>
+        <qualifiedname>themis::index::AnnQueryContext::confidence_threshold_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="105" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/ann_frontdoor.h" line="88" column="1" bodyfile="include/index/ann_frontdoor.h" bodystart="88" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_ann_query_context_1a10e842193c08e2212550d0b98c991c98" prot="public" virt="non-virtual"><scope>themis::index::AnnQueryContext</scope><name>confidence_policy_version</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_query_context_1a742032c2ee8f42b6a71e8479360e5c25" prot="public" virt="non-virtual"><scope>themis::index::AnnQueryContext</scope><name>confidence_threshold_key</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_query_context_1a9bd29a57f2bc22f92ac83847281acc19" prot="public" virt="non-virtual"><scope>themis::index::AnnQueryContext</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_query_context_1ac24bf63685d5d008530b2f2cd5d96424" prot="public" virt="non-virtual"><scope>themis::index::AnnQueryContext</scope><name>dataset_size</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_query_context_1ac9b8997853672b7ebe1f2c095bb3199c" prot="public" virt="non-virtual"><scope>themis::index::AnnQueryContext</scope><name>hot_tier</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_query_context_1a1b12a1c96a4b82fd2f74223c95f24d76" prot="public" virt="non-virtual"><scope>themis::index::AnnQueryContext</scope><name>latency_budget_ms</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_query_context_1a85419040e63df176b5ef3535430d6782" prot="public" virt="non-virtual"><scope>themis::index::AnnQueryContext</scope><name>recall_target</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_query_context_1a3666eb4e1798a13d2d3cd19fa4235344" prot="public" virt="non-virtual"><scope>themis::index::AnnQueryContext</scope><name>scope_id</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_query_context_1acac70d5acb2a17ff2733ec96f0b37214" prot="public" virt="non-virtual"><scope>themis::index::AnnQueryContext</scope><name>shard_aware</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

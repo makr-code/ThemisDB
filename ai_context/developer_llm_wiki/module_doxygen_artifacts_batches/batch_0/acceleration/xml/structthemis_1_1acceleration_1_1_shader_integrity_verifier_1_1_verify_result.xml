@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_shader_integrity_verifier_1_1_verify_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::ShaderIntegrityVerifier::VerifyResult</compoundname>
+    <includes refid="shader__integrity_8h" local="no">shader_integrity.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_shader_integrity_verifier_1_1_verify_result_1a8deffedd15818bb4607d2ed118d0e1f9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::ShaderIntegrityVerifier::VerifyResult::passed</definition>
+        <argsstring></argsstring>
+        <name>passed</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::VerifyResult::passed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="46" column="21" bodyfile="include/acceleration/shader_integrity.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_shader_integrity_verifier_1_1_verify_result_1a2d9ebedecd724ece20efb10d2c49973e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::ShaderIntegrityVerifier::VerifyResult::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::VerifyResult::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="47" column="21" bodyfile="include/acceleration/shader_integrity.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_shader_integrity_verifier_1_1_verify_result_1a86813584897b93e37a71b03048b2e20e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::ShaderIntegrityVerifier::VerifyResult::actualHash</definition>
+        <argsstring></argsstring>
+        <name>actualHash</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::VerifyResult::actualHash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="48" column="21" bodyfile="include/acceleration/shader_integrity.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_shader_integrity_verifier_1_1_verify_result_1a14738a9993b6e00969f9d8620d2d4a26" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::ShaderIntegrityVerifier::VerifyResult::expectedHash</definition>
+        <argsstring></argsstring>
+        <name>expectedHash</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::VerifyResult::expectedHash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="49" column="21" bodyfile="include/acceleration/shader_integrity.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_shader_integrity_verifier_1_1_verify_result_1a3e76fc5447f3cd00fcfcf15be0d82551" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::ShaderIntegrityVerifier::VerifyResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::acceleration::ShaderIntegrityVerifier::VerifyResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/shader_integrity.h" line="50" column="21" bodyfile="include/acceleration/shader_integrity.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/shader_integrity.h" line="45" column="5" bodyfile="include/acceleration/shader_integrity.h" bodystart="45" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_shader_integrity_verifier_1_1_verify_result_1a86813584897b93e37a71b03048b2e20e" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier::VerifyResult</scope><name>actualHash</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_shader_integrity_verifier_1_1_verify_result_1a14738a9993b6e00969f9d8620d2d4a26" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier::VerifyResult</scope><name>expectedHash</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_shader_integrity_verifier_1_1_verify_result_1a3e76fc5447f3cd00fcfcf15be0d82551" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier::VerifyResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_shader_integrity_verifier_1_1_verify_result_1a2d9ebedecd724ece20efb10d2c49973e" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier::VerifyResult</scope><name>name</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_shader_integrity_verifier_1_1_verify_result_1a8deffedd15818bb4607d2ed118d0e1f9" prot="public" virt="non-virtual"><scope>themis::acceleration::ShaderIntegrityVerifier::VerifyResult</scope><name>passed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

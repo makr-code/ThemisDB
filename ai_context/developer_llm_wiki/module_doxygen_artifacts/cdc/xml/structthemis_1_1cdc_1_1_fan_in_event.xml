@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_fan_in_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::FanInEvent</compoundname>
+    <includes refid="icdc__fan__in_8h" local="no">icdc_fan_in.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_fan_in_event_1a41f8c675895b2bdbb695704b6e57637b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cdc_1a5af31e7761367151e1668596b4d17d0f" kindref="member">CollectionId</ref></type>
+        <definition>CollectionId themis::cdc::FanInEvent::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::cdc::FanInEvent::collection</qualifiedname>
+        <briefdescription>
+<para>Name of the originating collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_fan_in.h" line="51" column="28" bodyfile="include/cdc/icdc_fan_in.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_fan_in_event_1a82530736c5460dbf4213add90a20155c" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref></type>
+        <definition>Changefeed::ChangeEvent themis::cdc::FanInEvent::event</definition>
+        <argsstring></argsstring>
+        <name>event</name>
+        <qualifiedname>themis::cdc::FanInEvent::event</qualifiedname>
+        <briefdescription>
+<para>The underlying change event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_fan_in.h" line="52" column="29" bodyfile="include/cdc/icdc_fan_in.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_fan_in_event_1a02b02c5bdf75f5260a6e96507fe81e5d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::FanInEvent::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cdc::FanInEvent::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_fan_in.h" line="54" column="20" bodyfile="include/cdc/icdc_fan_in.h" bodystart="54" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::Changefeed::ChangeEvent</label>
+        <link refid="structthemis_1_1_changefeed_1_1_change_event"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::FanInEvent</label>
+        <link refid="structthemis_1_1cdc_1_1_fan_in_event"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>event</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/icdc_fan_in.h" line="50" column="1" bodyfile="include/cdc/icdc_fan_in.h" bodystart="50" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_fan_in_event_1a41f8c675895b2bdbb695704b6e57637b" prot="public" virt="non-virtual"><scope>themis::cdc::FanInEvent</scope><name>collection</name></member>
+      <member refid="structthemis_1_1cdc_1_1_fan_in_event_1a82530736c5460dbf4213add90a20155c" prot="public" virt="non-virtual"><scope>themis::cdc::FanInEvent</scope><name>event</name></member>
+      <member refid="structthemis_1_1cdc_1_1_fan_in_event_1a02b02c5bdf75f5260a6e96507fe81e5d" prot="public" virt="non-virtual"><scope>themis::cdc::FanInEvent</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

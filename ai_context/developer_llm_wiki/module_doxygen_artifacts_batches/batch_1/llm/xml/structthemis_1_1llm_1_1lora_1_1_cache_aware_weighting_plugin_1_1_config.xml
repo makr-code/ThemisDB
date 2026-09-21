@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::CacheAwareWeightingPlugin::Config</compoundname>
+    <includes refid="feedback__plugin_8h" local="no">feedback_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1a574a51a9d2b962c28c58656ad03add91" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::CacheAwareWeightingPlugin::Config::direct_response_weight</definition>
+        <argsstring></argsstring>
+        <name>direct_response_weight</name>
+        <qualifiedname>themis::llm::lora::CacheAwareWeightingPlugin::Config::direct_response_weight</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="140" column="15" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1aab60360f9a9f7712982edc455c31fd4f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::CacheAwareWeightingPlugin::Config::exact_cache_weight</definition>
+        <argsstring></argsstring>
+        <name>exact_cache_weight</name>
+        <qualifiedname>themis::llm::lora::CacheAwareWeightingPlugin::Config::exact_cache_weight</qualifiedname>
+        <initializer>= 0.4f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="141" column="15" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1a69349132cc67b37004a654bc9e93cf78" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::CacheAwareWeightingPlugin::Config::semantic_cache_base_weight</definition>
+        <argsstring></argsstring>
+        <name>semantic_cache_base_weight</name>
+        <qualifiedname>themis::llm::lora::CacheAwareWeightingPlugin::Config::semantic_cache_base_weight</qualifiedname>
+        <initializer>= 0.3f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="142" column="15" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1ab30ac7beb48c60dc70ab963e2f20bf5c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::CacheAwareWeightingPlugin::Config::similarity_weight_factor</definition>
+        <argsstring></argsstring>
+        <name>similarity_weight_factor</name>
+        <qualifiedname>themis::llm::lora::CacheAwareWeightingPlugin::Config::similarity_weight_factor</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="143" column="15" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1ae4c7af5d391d1d8cc48f43756fb9e086" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::CacheAwareWeightingPlugin::Config::disable_cache_training</definition>
+        <argsstring></argsstring>
+        <name>disable_cache_training</name>
+        <qualifiedname>themis::llm::lora::CacheAwareWeightingPlugin::Config::disable_cache_training</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="144" column="14" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/feedback_plugin.h" line="139" column="5" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="139" bodyend="145"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1a574a51a9d2b962c28c58656ad03add91" prot="public" virt="non-virtual"><scope>themis::llm::lora::CacheAwareWeightingPlugin::Config</scope><name>direct_response_weight</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1ae4c7af5d391d1d8cc48f43756fb9e086" prot="public" virt="non-virtual"><scope>themis::llm::lora::CacheAwareWeightingPlugin::Config</scope><name>disable_cache_training</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1aab60360f9a9f7712982edc455c31fd4f" prot="public" virt="non-virtual"><scope>themis::llm::lora::CacheAwareWeightingPlugin::Config</scope><name>exact_cache_weight</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1a69349132cc67b37004a654bc9e93cf78" prot="public" virt="non-virtual"><scope>themis::llm::lora::CacheAwareWeightingPlugin::Config</scope><name>semantic_cache_base_weight</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1ab30ac7beb48c60dc70ab963e2f20bf5c" prot="public" virt="non-virtual"><scope>themis::llm::lora::CacheAwareWeightingPlugin::Config</scope><name>similarity_weight_factor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

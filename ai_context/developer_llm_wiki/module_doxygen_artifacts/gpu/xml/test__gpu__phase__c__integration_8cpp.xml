@@ -1,0 +1,1079 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__phase__c__integration_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_phase_c_integration.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">iostream</includes>
+    <includes local="yes">themis/gpu/gpu_error.h</includes>
+    <includes local="yes">themis/gpu/gpu_memory.h</includes>
+    <includes local="yes">themis/gpu/gpu_timeout.h</includes>
+    <includes local="yes">themis/gpu/gpu_checked_ops.h</includes>
+    <includes local="yes">themis/gpu/query_accelerator.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_phase_c_integration.cpp</label>
+        <link refid="test__gpu__phase__c__integration_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>iostream</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>stdexcept</label>
+      </node>
+      <node id="13">
+        <label>themis/gpu/gpu_checked_ops.h</label>
+      </node>
+      <node id="10">
+        <label>themis/gpu/gpu_error.h</label>
+      </node>
+      <node id="11">
+        <label>themis/gpu/gpu_memory.h</label>
+      </node>
+      <node id="12">
+        <label>themis/gpu/gpu_timeout.h</label>
+      </node>
+      <node id="14">
+        <label>themis/gpu/query_accelerator.h</label>
+      </node>
+      <node id="6">
+        <label>thread</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_query_accel_with_error_test" prot="public">QueryAccelWithErrorTest</innerclass>
+    <innerclass refid="class_memory_manager_with_timeout_test" prot="public">MemoryManagerWithTimeoutTest</innerclass>
+    <innerclass refid="class_r_o_cm_backend_with_fallback_test" prot="public">ROCmBackendWithFallbackTest</innerclass>
+    <innerclass refid="class_r_a_i_i_lifecycle_test" prot="public">RAIILifecycleTest</innerclass>
+    <innerclass refid="class_full_pipeline_test" prot="public">FullPipelineTest</innerclass>
+    <innerclass refid="struct_full_pipeline_test_1_1_query_result" prot="protected">FullPipelineTest::QueryResult</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1aedd99a0b986d79c9a224f8dc9ed96756" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryAccelWithErrorTest, QueryAccelWithErrorInjection_QuotaExceeded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_accel_with_error_test" kindref="compound">QueryAccelWithErrorTest</ref></type>
+        </param>
+        <param>
+          <type>QueryAccelWithErrorInjection_QuotaExceeded</type>
+        </param>
+        <briefdescription>
+<para>Test query accelerator handles quota exceeded error gracefully. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000070"><xreftitle>Test</xreftitle><xrefdescription><para>test_query_accel_with_error_injection_quota </para>
+</xrefdescription></xrefsect></para>
+<para>Scenario: GPU memory allocation fails during query Expected: Fallback to CPU, result is correct </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="59" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="59" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1a0b27405e5c0f63ad1332fc739dcbce73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryAccelWithErrorTest, QueryAccelWithErrorInjection_KernelTimeout)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_accel_with_error_test" kindref="compound">QueryAccelWithErrorTest</ref></type>
+        </param>
+        <param>
+          <type>QueryAccelWithErrorInjection_KernelTimeout</type>
+        </param>
+        <briefdescription>
+<para>Test query accelerator handles kernel timeout error gracefully. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000071"><xreftitle>Test</xreftitle><xrefdescription><para>test_query_accel_with_error_injection_timeout </para>
+</xrefdescription></xrefsect></para>
+<para>Scenario: Kernel exceeds 5-second SLA Expected: Timeout triggers, fallback to CPU </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="77" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="77" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1a683c77bae994ed98d8fc1011197a52e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryAccelWithErrorTest, QueryAccelWithErrorInjection_Communication)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_accel_with_error_test" kindref="compound">QueryAccelWithErrorTest</ref></type>
+        </param>
+        <param>
+          <type>QueryAccelWithErrorInjection_Communication</type>
+        </param>
+        <briefdescription>
+<para>Test query accelerator handles H2D transfer failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000072"><xreftitle>Test</xreftitle><xrefdescription><para>test_query_accel_with_error_injection_communication </para>
+</xrefdescription></xrefsect></para>
+<para>Scenario: Host-to-device memory copy fails Expected: Retry once, then fallback to CPU </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="102" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="102" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1a87781dddc139371c64c7714f633efb8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryAccelWithErrorTest, QueryAccelFallback_CorrectResult)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_accel_with_error_test" kindref="compound">QueryAccelWithErrorTest</ref></type>
+        </param>
+        <param>
+          <type>QueryAccelFallback_CorrectResult</type>
+        </param>
+        <briefdescription>
+<para>Verify fallback path produces correct result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000073"><xreftitle>Test</xreftitle><xrefdescription><para>test_query_accel_fallback_produces_correct_result </para>
+</xrefdescription></xrefsect></para>
+<para>Acceptance: CPU fallback result matches expected computation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="118" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="118" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1ae339a990c4e3d990565759ae47fc3d5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MemoryManagerWithTimeoutTest, MemoryManagerWithTimeout_Allocation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_memory_manager_with_timeout_test" kindref="compound">MemoryManagerWithTimeoutTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryManagerWithTimeout_Allocation</type>
+        </param>
+        <briefdescription>
+<para>Test memory manager handles timeout during allocation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000074"><xreftitle>Test</xreftitle><xrefdescription><para>test_memory_manager_with_timeout_allocation </para>
+</xrefdescription></xrefsect></para>
+<para>Scenario: Allocation takes longer than expected Expected: Timeout detected, operation degraded or retried </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="149" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="149" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1a1d8f5e3113a0bfaaf9e9635d5a5afc0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MemoryManagerWithTimeoutTest, MemoryManagerWithTimeout_Deallocation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_memory_manager_with_timeout_test" kindref="compound">MemoryManagerWithTimeoutTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryManagerWithTimeout_Deallocation</type>
+        </param>
+        <briefdescription>
+<para>Test memory manager handles timeout during deallocation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000075"><xreftitle>Test</xreftitle><xrefdescription><para>test_memory_manager_with_timeout_deallocation </para>
+</xrefdescription></xrefsect></para>
+<para>Scenario: Deallocation (cudaFree) times out Expected: Resource is marked for cleanup, operation continues </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="164" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="164" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1a4cb0a5e8c56ede9db12964499387cd32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MemoryManagerWithTimeoutTest, MemoryManagerWithTimeout_ExceptionSafe)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_memory_manager_with_timeout_test" kindref="compound">MemoryManagerWithTimeoutTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryManagerWithTimeout_ExceptionSafe</type>
+        </param>
+        <briefdescription>
+<para>Verify memory manager is exception-safe under timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000076"><xreftitle>Test</xreftitle><xrefdescription><para>test_memory_manager_with_timeout_exception_safe </para>
+</xrefdescription></xrefsect></para>
+<para>Scenario: Timeout occurs while exception handling in progress Expected: No resource leaks, no corrupted state </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="180" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="180" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1aaf3c1f9accb0721a9a9ec451f144b837" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MemoryManagerWithTimeoutTest, MemoryManagerWithTimeout_QuotaInteraction)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_memory_manager_with_timeout_test" kindref="compound">MemoryManagerWithTimeoutTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryManagerWithTimeout_QuotaInteraction</type>
+        </param>
+        <briefdescription>
+<para>Test interaction between timeout and quota exceeded errors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000077"><xreftitle>Test</xreftitle><xrefdescription><para>test_memory_manager_with_timeout_quota_interaction </para>
+</xrefdescription></xrefsect></para>
+<para>Scenario: Both timeout and quota errors occur Expected: Deterministic error ordering and recovery </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="197" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="197" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1ab95b8abcc86890042fec0dbdfd8813b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ROCmBackendWithFallbackTest, ROCmBackendWithFallback_HIPError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_o_cm_backend_with_fallback_test" kindref="compound">ROCmBackendWithFallbackTest</ref></type>
+        </param>
+        <param>
+          <type>ROCmBackendWithFallback_HIPError</type>
+        </param>
+        <briefdescription>
+<para>Test ROCm backend handles HIP errors via error handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000078"><xreftitle>Test</xreftitle><xrefdescription><para>test_rocm_backend_with_fallback_hip_error </para>
+</xrefdescription></xrefsect></para>
+<para>Scenario: HIP call fails (e.g., hipMalloc) Expected: Error classified, recovery policy applied </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="234" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="234" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1ae41a34ebf449798a63ee7294e1f614dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ROCmBackendWithFallbackTest, ROCmBackendWithFallback_UnifiedMemory)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_o_cm_backend_with_fallback_test" kindref="compound">ROCmBackendWithFallbackTest</ref></type>
+        </param>
+        <param>
+          <type>ROCmBackendWithFallback_UnifiedMemory</type>
+        </param>
+        <briefdescription>
+<para>Test unified memory operations fallback correctly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000079"><xreftitle>Test</xreftitle><xrefdescription><para>test_rocm_backend_with_fallback_unified_memory </para>
+</xrefdescription></xrefsect></para>
+<para>Scenario: Unified memory allocation or access fails Expected: Fallback to separate allocations or CPU-only mode </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="252" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="252" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1a41c8a87a0be6828e372f15dc8a3d7547" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ROCmBackendWithFallbackTest, ROCmBackendWithFallback_DeviceOffline)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_o_cm_backend_with_fallback_test" kindref="compound">ROCmBackendWithFallbackTest</ref></type>
+        </param>
+        <param>
+          <type>ROCmBackendWithFallback_DeviceOffline</type>
+        </param>
+        <briefdescription>
+<para>Test ROCm backend handles device offline scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000080"><xreftitle>Test</xreftitle><xrefdescription><para>test_rocm_backend_with_fallback_device_offline </para>
+</xrefdescription></xrefsect></para>
+<para>Scenario: GPU device goes offline during operation Expected: Device marked unavailable, operations degrade to CPU </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="269" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="269" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1ac33078eaeb68392fa2f3c139135d56e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ROCmBackendWithFallbackTest, ROCmBackendWithFallback_Parity)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_o_cm_backend_with_fallback_test" kindref="compound">ROCmBackendWithFallbackTest</ref></type>
+        </param>
+        <param>
+          <type>ROCmBackendWithFallback_Parity</type>
+        </param>
+        <briefdescription>
+<para>Verify ROCm fallback path produces correct results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000081"><xreftitle>Test</xreftitle><xrefdescription><para>test_rocm_backend_with_fallback_parity </para>
+</xrefdescription></xrefsect></para>
+<para>Acceptance: CPU fallback result matches HIP computation (or is identical since it&apos;s CPU) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="285" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="285" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1ad5b87fbba82e66f7dd3ed8135dd6ae98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAIILifecycleTest, RAIILifecycle_MoveSemantics)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_i_i_lifecycle_test" kindref="compound">RAIILifecycleTest</ref></type>
+        </param>
+        <param>
+          <type>RAIILifecycle_MoveSemantics</type>
+        </param>
+        <briefdescription>
+<para>Verify RAII wrapper move semantics work correctly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000082"><xreftitle>Test</xreftitle><xrefdescription><para>test_raii_lifecycle_move_semantics </para>
+</xrefdescription></xrefsect></para>
+<para>Acceptance: Move constructor/assignment properly transfers ownership </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="318" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="318" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1ac9e065a12afd3b7e185b8436966bcbee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAIILifecycleTest, RAIILifecycle_ExceptionCleanup)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_i_i_lifecycle_test" kindref="compound">RAIILifecycleTest</ref></type>
+        </param>
+        <param>
+          <type>RAIILifecycle_ExceptionCleanup</type>
+        </param>
+        <briefdescription>
+<para>Verify RAII cleanup occurs during exception unwinding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000083"><xreftitle>Test</xreftitle><xrefdescription><para>test_raii_lifecycle_exception_cleanup </para>
+</xrefdescription></xrefsect></para>
+<para>Acceptance: Destructor called even when exception thrown </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="352" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="352" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1ae26d8b069d446438b409dc0d635dc8ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAIILifecycleTest, RAIILifecycle_NestedScopes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_i_i_lifecycle_test" kindref="compound">RAIILifecycleTest</ref></type>
+        </param>
+        <param>
+          <type>RAIILifecycle_NestedScopes</type>
+        </param>
+        <briefdescription>
+<para>Verify RAII cleanup in nested scopes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000084"><xreftitle>Test</xreftitle><xrefdescription><para>test_raii_lifecycle_nested_scopes </para>
+</xrefdescription></xrefsect></para>
+<para>Acceptance: Each scope&apos;s RAII objects cleaned up in reverse order </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="387" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="387" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1a84a896053fd3aa42ec2511ffa8fe3478" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAIILifecycleTest, RAIILifecycle_ThrowingDestructor)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_i_i_lifecycle_test" kindref="compound">RAIILifecycleTest</ref></type>
+        </param>
+        <param>
+          <type>RAIILifecycle_ThrowingDestructor</type>
+        </param>
+        <briefdescription>
+<para>Verify behavior when RAII destructor throws. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000085"><xreftitle>Test</xreftitle><xrefdescription><para>test_raii_lifecycle_exception_in_raii </para>
+</xrefdescription></xrefsect></para>
+<para>Acceptance: No double-throw; exception safely handled </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="410" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="410" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1aba724a415721458e8907fbe3eb5df49e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RAIILifecycleTest, RAIILifecycle_ConcurrentCleanup)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_a_i_i_lifecycle_test" kindref="compound">RAIILifecycleTest</ref></type>
+        </param>
+        <param>
+          <type>RAIILifecycle_ConcurrentCleanup</type>
+        </param>
+        <briefdescription>
+<para>Verify thread-safe RAII cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000086"><xreftitle>Test</xreftitle><xrefdescription><para>test_raii_lifecycle_concurrent_cleanup </para>
+</xrefdescription></xrefsect></para>
+<para>Acceptance: Concurrent cleanup doesn&apos;t corrupt state </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="432" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="432" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1a2ffe204dc6f9efa5ac2f42e782ca7346" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FullPipelineTest, FullPipeline_GPUSuccess)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_full_pipeline_test" kindref="compound">FullPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>FullPipeline_GPUSuccess</type>
+        </param>
+        <briefdescription>
+<para>Verify full pipeline succeeds when GPU available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000087"><xreftitle>Test</xreftitle><xrefdescription><para>test_full_pipeline_gpu_success </para>
+</xrefdescription></xrefsect></para>
+<para>Scenario: GPU path available and no errors Expected: used_gpu=true, result correct </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="505" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="505" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1acb53a2131a18f23b0528a2e35fc4b0a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FullPipelineTest, FullPipeline_GPUToCPUQuota)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_full_pipeline_test" kindref="compound">FullPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>FullPipeline_GPUToCPUQuota</type>
+        </param>
+        <briefdescription>
+<para>Verify pipeline degrades to CPU on quota exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000088"><xreftitle>Test</xreftitle><xrefdescription><para>test_full_pipeline_gpu_to_cpu_quota </para>
+</xrefdescription></xrefsect></para>
+<para>Scenario: GPU memory allocation fails Expected: Fallback to CPU, result still correct </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="521" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="521" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1a2f23b431987cb09235a5af2b0bf2ff9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FullPipelineTest, FullPipeline_GPUToCPUTimeout)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_full_pipeline_test" kindref="compound">FullPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>FullPipeline_GPUToCPUTimeout</type>
+        </param>
+        <briefdescription>
+<para>Verify pipeline degrades to CPU on kernel timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000089"><xreftitle>Test</xreftitle><xrefdescription><para>test_full_pipeline_gpu_to_cpu_timeout </para>
+</xrefdescription></xrefsect></para>
+<para>Scenario: GPU kernel exceeds 5s SLA Expected: Timeout detected, CPU fallback, result correct </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="544" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="544" bodyend="558"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1a42ad68be6ec72f3fe94174a29afa00be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FullPipelineTest, FullPipeline_GPUToCPUCommunication)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_full_pipeline_test" kindref="compound">FullPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>FullPipeline_GPUToCPUCommunication</type>
+        </param>
+        <briefdescription>
+<para>Verify pipeline handles communication failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000090"><xreftitle>Test</xreftitle><xrefdescription><para>test_full_pipeline_gpu_to_cpu_communication </para>
+</xrefdescription></xrefsect></para>
+<para>Scenario: H2D or D2H transfer fails Expected: Retry, then fallback to CPU </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="567" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="567" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__phase__c__integration_8cpp_1a433b0df6e3129fa00e7c51750b5a6ea0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FullPipelineTest, FullPipeline_DeterministicFallback)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_full_pipeline_test" kindref="compound">FullPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>FullPipeline_DeterministicFallback</type>
+        </param>
+        <briefdescription>
+<para>Verify fallback path is deterministic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000091"><xreftitle>Test</xreftitle><xrefdescription><para>test_full_pipeline_deterministic_fallback </para>
+</xrefdescription></xrefsect></para>
+<para>Acceptance: Multiple runs with same data produce identical results </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="589" column="1" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="589" bodyend="609"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Integration tests for GPU Block 3 Phase 5 - combining all 4 phases. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>End-to-end tests combining all 4 phases:<itemizedlist>
+<listitem><para>test_query_accel_with_error_injection: Phase 2 + Phase 1 errors</para>
+</listitem><listitem><para>test_memory_manager_with_timeout: Phase 3 + Phase 4 timeout</para>
+</listitem><listitem><para>test_rocm_backend_with_fallback: Phase 4 + Phase 1 fallback</para>
+</listitem><listitem><para>test_raii_lifecycle_under_exceptions: all phases + exception paths</para>
+</listitem><listitem><para>test_full_pipeline_gpu_to_cpu: end-to-end query → GPU failure → CPU</para>
+</listitem></itemizedlist>
+</para>
+<para>All tests verify error injection and fallback paths. Minimum 10 test cases required for Phase C acceptance.</para>
+<para><simplesect kind="author"><para>ThemisDB GPU Team </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-18 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/gpu_error.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/gpu_memory.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/gpu_timeout.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/gpu_checked_ops.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/query_accelerator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Suite:<sp/>Query<sp/>Accelerator<sp/>with<sp/>Error<sp/>Injection<sp/>(Phase<sp/>2<sp/>+<sp/>Phase<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="class_query_accel_with_error_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_query_accel_with_error_test" kindref="compound">QueryAccelWithErrorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;GPUErrorHandler&gt;<sp/><ref refid="class_query_accel_with_error_test_1a9cdab87951f1c1cff30dd4cc3fd6f5ed" kindref="member">handler</ref><sp/>=<sp/>GPUErrorHandler::Create();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;GPUQueryAccelerator&gt;<sp/><ref refid="class_query_accel_with_error_test_1a0a9f3f1c4282769ac06a2032bc6eff12" kindref="member">accelerator</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_query_accel_with_error_test_1af5a3a541b89c30927cd90bb952b886fe" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(<ref refid="class_query_accel_with_error_test_1a9cdab87951f1c1cff30dd4cc3fd6f5ed" kindref="member">handler</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_query_accel_with_error_test_1a0a9f3f1c4282769ac06a2032bc6eff12" kindref="member">accelerator</ref><sp/>=<sp/>std::make_shared&lt;GPUQueryAccelerator&gt;();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(<ref refid="class_query_accel_with_error_test_1a0a9f3f1c4282769ac06a2032bc6eff12" kindref="member">accelerator</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_query_accel_with_error_test" kindref="compound">QueryAccelWithErrorTest</ref>,<sp/>QueryAccelWithErrorInjection_QuotaExceeded)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>that<sp/>quota<sp/>error<sp/>occurred</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>error_info<sp/>=<sp/>handler-&gt;recordErrorOccurrence(</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kQuotaExceeded,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;GPU<sp/>memory<sp/>allocation<sp/>failed<sp/>in<sp/>query&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/>);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/>EXPECT_EQ(error_info.error_class,<sp/>GPUErrorClass::kQuotaExceeded);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/>EXPECT_EQ(error_info.recovery_policy,<sp/>ErrorRecoveryPolicy::kFallbackCPU);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_query_accel_with_error_test" kindref="compound">QueryAccelWithErrorTest</ref>,<sp/>QueryAccelWithErrorInjection_KernelTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/>KernelSLAGuard<sp/>sla_guard(5s);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>timeout<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>timed_out<sp/>=<sp/>sla_guard.checkTimeoutDeadline();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(timed_out);<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>timeout<sp/>immediately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>timeout<sp/>would<sp/>occur,<sp/>error<sp/>handler<sp/>kicks<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(timed_out)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>error_info<sp/>=<sp/>handler-&gt;recordErrorOccurrence(</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kKernelTimeout,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;query<sp/>kernel<sp/>exceeded<sp/>5s<sp/>SLA&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(error_info.error_class,<sp/>GPUErrorClass::kKernelTimeout);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(error_info.recovery_policy,<sp/>ErrorRecoveryPolicy::kFallbackCPU);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_query_accel_with_error_test" kindref="compound">QueryAccelWithErrorTest</ref>,<sp/>QueryAccelWithErrorInjection_Communication)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>error_info<sp/>=<sp/>handler-&gt;recordErrorOccurrence(</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kMemoryCommunication,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;H2D<sp/>transfer<sp/>failed<sp/>in<sp/>query&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/>);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/>EXPECT_EQ(error_info.error_class,<sp/>GPUErrorClass::kMemoryCommunication);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/>EXPECT_EQ(error_info.recovery_policy,<sp/>ErrorRecoveryPolicy::kRetryOnce);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_query_accel_with_error_test" kindref="compound">QueryAccelWithErrorTest</ref>,<sp/>QueryAccelFallback_CorrectResult)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>CPU<sp/>fallback<sp/>for<sp/>simple<sp/>aggregate<sp/>(SUM)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/>std::vector&lt;float&gt;<sp/>test_data<sp/>=<sp/>{1.0f,<sp/>2.0f,<sp/>3.0f,<sp/>4.0f,<sp/>5.0f};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>expected_sum<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>val<sp/>:<sp/>test_data)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>expected_sum<sp/>+=<sp/>val;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/>EXPECT_FLOAT_EQ(expected_sum,<sp/>15.0f);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Suite:<sp/>Memory<sp/>Manager<sp/>with<sp/>Timeout<sp/>(Phase<sp/>3<sp/>+<sp/>Phase<sp/>4)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="class_memory_manager_with_timeout_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_memory_manager_with_timeout_test" kindref="compound">MemoryManagerWithTimeoutTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;GPUErrorHandler&gt;<sp/><ref refid="class_memory_manager_with_timeout_test_1abfae683006c77a80ada39bcce3bda2e7" kindref="member">handler</ref><sp/>=<sp/>GPUErrorHandler::Create();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_memory_manager_with_timeout_test_1a1158b1e970018695600f2529e0c56d3f" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(<ref refid="class_memory_manager_with_timeout_test_1abfae683006c77a80ada39bcce3bda2e7" kindref="member">handler</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_memory_manager_with_timeout_test" kindref="compound">MemoryManagerWithTimeoutTest</ref>,<sp/>MemoryManagerWithTimeout_Allocation)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/>KernelSLAGuard<sp/>allocation_timeout(5s);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>timeout<sp/>guard<sp/>is<sp/>active</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>timed_out<sp/>=<sp/>allocation_timeout.checkTimeoutDeadline();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(timed_out);<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>timeout<sp/>immediately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_memory_manager_with_timeout_test" kindref="compound">MemoryManagerWithTimeoutTest</ref>,<sp/>MemoryManagerWithTimeout_Deallocation)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>timeout<sp/>guard<sp/>for<sp/>deallocation<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/>KernelSLAGuard<sp/>dealloc_timeout(5s);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>deallocation<sp/>attempt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>timed_out<sp/>=<sp/>dealloc_timeout.checkTimeoutDeadline();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(timed_out);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_memory_manager_with_timeout_test" kindref="compound">MemoryManagerWithTimeoutTest</ref>,<sp/>MemoryManagerWithTimeout_ExceptionSafe)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>KernelSLAGuard<sp/>guard(5s);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>guard<sp/>can<sp/>be<sp/>destructed<sp/>safely</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>exception<sp/>should<sp/>be<sp/>thrown</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Exception<sp/>should<sp/>not<sp/>be<sp/>thrown<sp/>in<sp/>timeout<sp/>guard&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_memory_manager_with_timeout_test" kindref="compound">MemoryManagerWithTimeoutTest</ref>,<sp/>MemoryManagerWithTimeout_QuotaInteraction)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>quota<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>error1<sp/>=<sp/>handler-&gt;recordErrorOccurrence(</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kQuotaExceeded,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;quota<sp/>exceeded&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/>);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>timeout<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>error2<sp/>=<sp/>handler-&gt;recordErrorOccurrence(</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kKernelTimeout,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;timeout<sp/>after<sp/>quota&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/>);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/>EXPECT_EQ(error1.error_class,<sp/>GPUErrorClass::kQuotaExceeded);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/>EXPECT_EQ(error2.error_class,<sp/>GPUErrorClass::kKernelTimeout);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Suite:<sp/>ROCm<sp/>Backend<sp/>with<sp/>Fallback<sp/>(Phase<sp/>4<sp/>+<sp/>Phase<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="class_r_o_cm_backend_with_fallback_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_r_o_cm_backend_with_fallback_test" kindref="compound">ROCmBackendWithFallbackTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;GPUErrorHandler&gt;<sp/><ref refid="class_r_o_cm_backend_with_fallback_test_1a0808ed46b4f780ff9275462e03d37155" kindref="member">handler</ref><sp/>=<sp/>GPUErrorHandler::Create();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_r_o_cm_backend_with_fallback_test_1ab4c9a325006f5a4a5e017da16f32abca" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(<ref refid="class_r_o_cm_backend_with_fallback_test_1a0808ed46b4f780ff9275462e03d37155" kindref="member">handler</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_r_o_cm_backend_with_fallback_test" kindref="compound">ROCmBackendWithFallbackTest</ref>,<sp/>ROCmBackendWithFallback_HIPError)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>HIP<sp/>error<sp/>occurrence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>error_info<sp/>=<sp/>handler-&gt;recordErrorOccurrence(</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kQuotaExceeded,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;hipMalloc<sp/>failed&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/>);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/>EXPECT_EQ(error_info.error_class,<sp/>GPUErrorClass::kQuotaExceeded);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/>EXPECT_EQ(error_info.recovery_policy,<sp/>ErrorRecoveryPolicy::kFallbackCPU);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_r_o_cm_backend_with_fallback_test" kindref="compound">ROCmBackendWithFallbackTest</ref>,<sp/>ROCmBackendWithFallback_UnifiedMemory)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>unified<sp/>memory<sp/>error<sp/>handling<sp/>path<sp/>exists</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>error_info<sp/>=<sp/>handler-&gt;recordErrorOccurrence(</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kMemoryCommunication,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;unified<sp/>memory<sp/>access<sp/>failed&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/>);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/>EXPECT_EQ(error_info.error_class,<sp/>GPUErrorClass::kMemoryCommunication);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_r_o_cm_backend_with_fallback_test" kindref="compound">ROCmBackendWithFallbackTest</ref>,<sp/>ROCmBackendWithFallback_DeviceOffline)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>error_info<sp/>=<sp/>handler-&gt;recordErrorOccurrence(</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kBackendUnavailable,</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;device<sp/>offline&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/>);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/>EXPECT_EQ(error_info.error_class,<sp/>GPUErrorClass::kBackendUnavailable);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/>EXPECT_EQ(error_info.recovery_policy,<sp/>ErrorRecoveryPolicy::kMarkUnavailable);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_r_o_cm_backend_with_fallback_test" kindref="compound">ROCmBackendWithFallbackTest</ref>,<sp/>ROCmBackendWithFallback_Parity)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>CPU<sp/>sum<sp/>computation<sp/>(same<sp/>as<sp/>fallback)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/>std::vector&lt;float&gt;<sp/>data<sp/>=<sp/>{1.0f,<sp/>2.0f,<sp/>3.0f,<sp/>4.0f,<sp/>5.0f};</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>cpu_sum<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>val<sp/>:<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>cpu_sum<sp/>+=<sp/>val;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>computation<sp/>is<sp/>correct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/>EXPECT_FLOAT_EQ(cpu_sum,<sp/>15.0f);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Suite:<sp/>RAII<sp/>Lifecycle<sp/>Under<sp/>Exceptions<sp/>(All<sp/>Phases<sp/>+<sp/>Exceptions)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301" refid="class_r_a_i_i_lifecycle_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_r_a_i_i_lifecycle_test" kindref="compound">RAIILifecycleTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;GPUErrorHandler&gt;<sp/><ref refid="class_r_a_i_i_lifecycle_test_1abbc526af284d904821ac56e783253639" kindref="member">handler</ref><sp/>=<sp/>GPUErrorHandler::Create();</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/>std::atomic&lt;int&gt;<sp/><ref refid="class_r_a_i_i_lifecycle_test_1adce434f13cd6ed98a678d892dbb90b16" kindref="member">cleanup_count</ref>{0};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_r_a_i_i_lifecycle_test_1afb3593cfddfc61db9bdd393ff05ffc01" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(<ref refid="class_r_a_i_i_lifecycle_test_1abbc526af284d904821ac56e783253639" kindref="member">handler</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_r_a_i_i_lifecycle_test_1adce434f13cd6ed98a678d892dbb90b16" kindref="member">cleanup_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_r_a_i_i_lifecycle_test" kindref="compound">RAIILifecycleTest</ref>,<sp/>RAIILifecycle_MoveSemantics)<sp/>{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>RAII<sp/>move<sp/>scenario</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockGPUPtr<sp/>{</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>MockGPUPtr(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>:<sp/>ptr_(ptr)<sp/>{}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>MockGPUPtr(MockGPUPtr&amp;&amp;<sp/>other)<sp/>noexcept<sp/>:<sp/>ptr_(other.release())<sp/>{}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>MockGPUPtr&amp;<sp/>operator=(MockGPUPtr&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>reset(other.release());</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>~MockGPUPtr()<sp/>{<sp/>reset(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>release()<sp/>{</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>tmp<sp/>=<sp/>ptr_;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>ptr_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tmp;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>reset(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>ptr)<sp/>{<sp/>ptr_<sp/>=<sp/>ptr;<sp/>}</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>ptr_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/>MockGPUPtr<sp/>ptr1(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">(42));</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/>MockGPUPtr<sp/>ptr2<sp/>=<sp/>std::move(ptr1);<sp/><sp/></highlight><highlight class="comment">//<sp/>Move<sp/>construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>ptr1<sp/>should<sp/>be<sp/>null<sp/>after<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/>EXPECT_EQ(ptr1.release(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_r_a_i_i_lifecycle_test" kindref="compound">RAIILifecycleTest</ref>,<sp/>RAIILifecycle_ExceptionCleanup)<sp/>{</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockGPUPtr<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>MockGPUPtr(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>ptr,<sp/>std::atomic&lt;int&gt;*<sp/>cleanup_counter)</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>ptr_(ptr),<sp/>cleanup_counter_(cleanup_counter)<sp/>{}</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>~MockGPUPtr()<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ptr_)<sp/>{</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cleanup_counter_-&gt;fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>ptr_;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ptr_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>ptr_;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;*<sp/>cleanup_counter_;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>initial_count<sp/>=<sp/>cleanup_count.load();</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>MockGPUPtr<sp/>ptr(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">(42),<sp/>&amp;cleanup_count);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;simulated<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::runtime_error&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exception<sp/>caught</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>cleanup<sp/>happened</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/>EXPECT_GT(cleanup_count.load(),<sp/>initial_count);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_r_a_i_i_lifecycle_test" kindref="compound">RAIILifecycleTest</ref>,<sp/>RAIILifecycle_NestedScopes)<sp/>{</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cleanup_order<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Outer<sp/>scope</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inner<sp/>scope</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>cleanup_order<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inner<sp/>scope<sp/>destroyed,<sp/>cleanup<sp/>should<sp/>happen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>cleanup_order<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Outer<sp/>scope<sp/>destroyed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/>EXPECT_EQ(cleanup_order,<sp/>2);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_r_a_i_i_lifecycle_test" kindref="compound">RAIILifecycleTest</ref>,<sp/>RAIILifecycle_ThrowingDestructor)<sp/>{</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>modern<sp/>C++,<sp/>throwing<sp/>in<sp/>destructor<sp/>is<sp/>generally<sp/>avoided</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>the<sp/>pattern<sp/>is<sp/>not<sp/>used<sp/>incorrectly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">SafeGPUPtr<sp/>{</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>~SafeGPUPtr()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Destructor<sp/>must<sp/>not<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Do<sp/>cleanup<sp/>safely</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>destructor<sp/>is<sp/>noexcept</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(std::is_nothrow_destructible_v&lt;SafeGPUPtr&gt;);</highlight></codeline>
+<codeline lineno="424"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_r_a_i_i_lifecycle_test" kindref="compound">RAIILifecycleTest</ref>,<sp/>RAIILifecycle_ConcurrentCleanup)<sp/>{</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/>std::atomic&lt;int&gt;<sp/>cleanup_events{0};</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>concurrent<sp/>RAII<sp/>cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;cleanup_events]()<sp/>{</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>RAII<sp/>object<sp/>going<sp/>out<sp/>of<sp/>scope</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>cleanup_events.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>thread<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/>thread.join();</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/>EXPECT_EQ(cleanup_events.load(),<sp/>4);</highlight></codeline>
+<codeline lineno="449"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="452"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Suite:<sp/>Full<sp/>Pipeline<sp/>GPU→CPU<sp/>Degradation<sp/>(End-to-End)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="453"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"></highlight></codeline>
+<codeline lineno="455" refid="class_full_pipeline_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_full_pipeline_test" kindref="compound">FullPipelineTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;GPUErrorHandler&gt;<sp/><ref refid="class_full_pipeline_test_1ab350cc9f97b995c25724e1f33a794124" kindref="member">handler</ref><sp/>=<sp/>GPUErrorHandler::Create();</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;GPUQueryAccelerator&gt;<sp/><ref refid="class_full_pipeline_test_1a57a8c19c1ef0358c880c3f6be2e07d6f" kindref="member">accelerator</ref>;</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_full_pipeline_test_1aaa9d2a9e9525b097ecc911bca1bf9e6b" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(<ref refid="class_full_pipeline_test_1ab350cc9f97b995c25724e1f33a794124" kindref="member">handler</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_full_pipeline_test_1a57a8c19c1ef0358c880c3f6be2e07d6f" kindref="member">accelerator</ref><sp/>=<sp/>std::make_shared&lt;GPUQueryAccelerator&gt;();</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>a<sp/>full<sp/>query<sp/>pipeline.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>@param<sp/>data<sp/><sp/><sp/><sp/>Input<sp/>floats<sp/>to<sp/>aggregate.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>@param<sp/>force_cpu<sp/><sp/>When<sp/>true,<sp/>simulate<sp/>a<sp/>GPU<sp/>failure<sp/>and<sp/>force<sp/>CPU<sp/>fallback.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="468" refid="struct_full_pipeline_test_1_1_query_result" refkind="compound"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_full_pipeline_test_1_1_query_result" kindref="compound">QueryResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_full_pipeline_test_1_1_query_result_1a463102885eaa688d49e9335c2cec7a3e" kindref="member">used_gpu</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="struct_full_pipeline_test_1_1_query_result_1a43b43f5128ab1a612e4ce041435c83e5" kindref="member">result</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><ref refid="struct_full_pipeline_test_1_1_query_result" kindref="compound">QueryResult</ref><sp/><ref refid="class_full_pipeline_test_1aaca5de0c0b7f8607a04798996d81bee2" kindref="member">simulate_query</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>force_cpu<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>query:<sp/>try<sp/>GPU,<sp/>fallback<sp/>to<sp/>CPU<sp/>on<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_full_pipeline_test_1_1_query_result" kindref="compound">QueryResult</ref><sp/>qr;</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>GPU<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>gpu_available<sp/>=<sp/>!force_cpu;</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>gpu_succeeded<sp/>=<sp/>!force_cpu;</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(gpu_available<sp/>&amp;&amp;<sp/>gpu_succeeded)<sp/>{</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>path<sp/>succeeded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>qr.<ref refid="struct_full_pipeline_test_1_1_query_result_1a463102885eaa688d49e9335c2cec7a3e" kindref="member">used_gpu</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(would<sp/>sum<sp/>on<sp/>GPU)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>failed,<sp/>fallback<sp/>to<sp/>CPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>qr.<ref refid="struct_full_pipeline_test_1_1_query_result_1a463102885eaa688d49e9335c2cec7a3e" kindref="member">used_gpu</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>qr.<ref refid="struct_full_pipeline_test_1_1_query_result_1a43b43f5128ab1a612e4ce041435c83e5" kindref="member">result</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>val<sp/>:<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>qr.<ref refid="struct_full_pipeline_test_1_1_query_result_1a43b43f5128ab1a612e4ce041435c83e5" kindref="member">result</ref><sp/>+=<sp/>val;</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>qr;</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="496"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"></highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_full_pipeline_test" kindref="compound">FullPipelineTest</ref>,<sp/>FullPipeline_GPUSuccess)<sp/>{</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/>std::vector&lt;float&gt;<sp/>data<sp/>=<sp/>{1.0f,<sp/>2.0f,<sp/>3.0f,<sp/>4.0f,<sp/>5.0f};</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>simulate_query(data);</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>path<sp/>would<sp/>be<sp/>used<sp/>(in<sp/>real<sp/>scenario)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(result.used_gpu<sp/>||<sp/>result.result<sp/>&gt;<sp/>0.0f);</highlight></codeline>
+<codeline lineno="512"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="513"><highlight class="normal"></highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_full_pipeline_test" kindref="compound">FullPipelineTest</ref>,<sp/>FullPipeline_GPUToCPUQuota)<sp/>{</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/>std::vector&lt;float&gt;<sp/>data<sp/>=<sp/>{1.0f,<sp/>2.0f,<sp/>3.0f,<sp/>4.0f,<sp/>5.0f};</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>quota<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>error_info<sp/>=<sp/>handler-&gt;recordErrorOccurrence(</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kQuotaExceeded,</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;pipeline<sp/>quota<sp/>exceeded&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/>);</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><sp/><sp/>EXPECT_EQ(error_info.recovery_policy,<sp/>ErrorRecoveryPolicy::kFallbackCPU);</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Fallback<sp/>to<sp/>CPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>simulate_query(data,<sp/></highlight><highlight class="comment">/*force_cpu=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(result.used_gpu);</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/>EXPECT_FLOAT_EQ(result.result,<sp/>15.0f);</highlight></codeline>
+<codeline lineno="535"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"></highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_full_pipeline_test" kindref="compound">FullPipelineTest</ref>,<sp/>FullPipeline_GPUToCPUTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"><sp/><sp/>std::vector&lt;float&gt;<sp/>data<sp/>=<sp/>{1.0f,<sp/>2.0f,<sp/>3.0f,<sp/>4.0f,<sp/>5.0f};</highlight></codeline>
+<codeline lineno="546"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="547"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="548"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>error_info<sp/>=<sp/>handler-&gt;recordErrorOccurrence(</highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kKernelTimeout,</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;pipeline<sp/>kernel<sp/>timeout&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="551"><highlight class="normal"><sp/><sp/>);</highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><sp/><sp/>EXPECT_EQ(error_info.recovery_policy,<sp/>ErrorRecoveryPolicy::kFallbackCPU);</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Fallback<sp/>to<sp/>CPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>simulate_query(data,<sp/></highlight><highlight class="comment">/*force_cpu=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(result.used_gpu);</highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/>EXPECT_FLOAT_EQ(result.result,<sp/>15.0f);</highlight></codeline>
+<codeline lineno="558"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"></highlight></codeline>
+<codeline lineno="567"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_full_pipeline_test" kindref="compound">FullPipelineTest</ref>,<sp/>FullPipeline_GPUToCPUCommunication)<sp/>{</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"><sp/><sp/>std::vector&lt;float&gt;<sp/>data<sp/>=<sp/>{1.0f,<sp/>2.0f,<sp/>3.0f,<sp/>4.0f,<sp/>5.0f};</highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>communication<sp/>error<sp/>with<sp/>retry<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="571"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>error_info<sp/>=<sp/>handler-&gt;recordErrorOccurrence(</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GPUErrorClass::kMemoryCommunication,</highlight></codeline>
+<codeline lineno="573"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;pipeline<sp/>H2D<sp/>failed&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><sp/><sp/>);</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"><sp/><sp/>EXPECT_EQ(error_info.recovery_policy,<sp/>ErrorRecoveryPolicy::kRetryOnce);</highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>retry<sp/>fails,<sp/>fallback<sp/>to<sp/>CPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="578"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>simulate_query(data,<sp/></highlight><highlight class="comment">/*force_cpu=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="579"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(result.used_gpu);</highlight></codeline>
+<codeline lineno="580"><highlight class="normal"><sp/><sp/>EXPECT_FLOAT_EQ(result.result,<sp/>15.0f);</highlight></codeline>
+<codeline lineno="581"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="582"><highlight class="normal"></highlight></codeline>
+<codeline lineno="589"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="class_full_pipeline_test" kindref="compound">FullPipelineTest</ref>,<sp/>FullPipeline_DeterministicFallback)<sp/>{</highlight></codeline>
+<codeline lineno="590"><highlight class="normal"><sp/><sp/>std::vector&lt;float&gt;<sp/>data<sp/>=<sp/>{1.0f,<sp/>2.0f,<sp/>3.0f,<sp/>4.0f,<sp/>5.0f};</highlight></codeline>
+<codeline lineno="591"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="592"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>result1<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="593"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="594"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="595"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>2;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="596"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>sum<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="597"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>val<sp/>:<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="598"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>sum<sp/>+=<sp/>val;</highlight></codeline>
+<codeline lineno="599"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="600"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="601"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="602"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>result1<sp/>=<sp/>sum;</highlight></codeline>
+<codeline lineno="603"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="604"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>sum;</highlight></codeline>
+<codeline lineno="605"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="606"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="607"><highlight class="normal"><sp/><sp/>EXPECT_FLOAT_EQ(result1,<sp/>result2);</highlight></codeline>
+<codeline lineno="608"><highlight class="normal"><sp/><sp/>EXPECT_FLOAT_EQ(result1,<sp/>15.0f);</highlight></codeline>
+<codeline lineno="609"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="610"><highlight class="normal"></highlight></codeline>
+<codeline lineno="611"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="612"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Main<sp/>and<sp/>Test<sp/>Count<sp/>Verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="613"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="614"><highlight class="normal"></highlight></codeline>
+<codeline lineno="615"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_phase_c_integration.cpp"/>
+  </compounddef>
+</doxygen>

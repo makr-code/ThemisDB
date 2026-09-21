@@ -1,0 +1,760 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ErrorRecoveryHandler</compoundname>
+    <includes refid="error__recovery__handler_8h" local="no">error_recovery_handler.h</includes>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats" prot="public">themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats</innerclass>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1ad165b33a16509e3b6c7e8bab887bde8d" prot="protected" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::ErrorRecoveryHandler::residual_increase_threshold_</definition>
+        <argsstring></argsstring>
+        <name>residual_increase_threshold_</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::residual_increase_threshold_</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="196" column="10" bodyfile="src/distributed_tensor/include/error_recovery_handler.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1aae0b9965b0af8cdb46056b7bebb6ae07" prot="protected" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::ErrorRecoveryHandler::retry_threshold_</definition>
+        <argsstring></argsstring>
+        <name>retry_threshold_</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::retry_threshold_</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="197" column="12" bodyfile="src/distributed_tensor/include/error_recovery_handler.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats" kindref="compound">RecoveryStats</ref></type>
+        <definition>RecoveryStats themis::distributed_tensor::ErrorRecoveryHandler::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="198" column="17" bodyfile="src/distributed_tensor/include/error_recovery_handler.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1acd1cfec3fc8ac1caf975cf9bf03fb486" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::ErrorRecoveryHandler::ErrorRecoveryHandler</definition>
+        <argsstring>()</argsstring>
+        <name>ErrorRecoveryHandler</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::ErrorRecoveryHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="86" column="3" bodyfile="src/distributed_tensor/src/error_recovery_handler.cc" bodystart="13" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1ad2240ce1294ec005e9f51c105115144f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::distributed_tensor::ErrorRecoveryHandler::~ErrorRecoveryHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ErrorRecoveryHandler</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::~ErrorRecoveryHandler</qualifiedname>
+        <briefdescription>
+<para>Error Recovery Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="92" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a1a2d6d35f792b77da57b35cebb7c09d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::ErrorRecoveryHandler::ErrorRecoveryHandler</definition>
+        <argsstring>(const ErrorRecoveryHandler &amp;)=delete</argsstring>
+        <name>ErrorRecoveryHandler</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::ErrorRecoveryHandler</qualifiedname>
+        <param>
+          <type>const ErrorRecoveryHandler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="95" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1af9227b1332c6544ea4ac8600d8e9f9d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1acd1cfec3fc8ac1caf975cf9bf03fb486" kindref="member">ErrorRecoveryHandler</ref> &amp;</type>
+        <definition>ErrorRecoveryHandler &amp; themis::distributed_tensor::ErrorRecoveryHandler::operator=</definition>
+        <argsstring>(const ErrorRecoveryHandler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1acd1cfec3fc8ac1caf975cf9bf03fb486" kindref="member">ErrorRecoveryHandler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="96" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a3bc510da0954ae2627074045ece266cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::ErrorRecoveryHandler::ErrorRecoveryHandler</definition>
+        <argsstring>(ErrorRecoveryHandler &amp;&amp;)=delete</argsstring>
+        <name>ErrorRecoveryHandler</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::ErrorRecoveryHandler</qualifiedname>
+        <param>
+          <type>ErrorRecoveryHandler &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="97" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a7d4db85d9ebe2b3e3e64a48498d94b32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1acd1cfec3fc8ac1caf975cf9bf03fb486" kindref="member">ErrorRecoveryHandler</ref> &amp;</type>
+        <definition>ErrorRecoveryHandler &amp; themis::distributed_tensor::ErrorRecoveryHandler::operator=</definition>
+        <argsstring>(const ErrorRecoveryHandler &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1acd1cfec3fc8ac1caf975cf9bf03fb486" kindref="member">ErrorRecoveryHandler</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="98" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1ac2afaa6ff301899af9a876697a5d1cb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info" kindref="compound">ErrorRecoveryInfo</ref></type>
+        <definition>ErrorRecoveryInfo themis::distributed_tensor::ErrorRecoveryHandler::analyzePartialRefitFailure</definition>
+        <argsstring>(const std::string &amp;artifact_id, const std::string &amp;failure_reason, double previous_residual, double resulting_residual)</argsstring>
+        <name>analyzePartialRefitFailure</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::analyzePartialRefitFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failure_reason</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>previous_residual</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>resulting_residual</declname>
+        </param>
+        <briefdescription>
+<para>Analyze Partial Refit Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">failure_reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">previous_residual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resulting_residual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">failure_reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">previous_residual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resulting_residual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements analyzePartialRefitFailure without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="108" column="29" bodyfile="src/distributed_tensor/src/error_recovery_handler.cc" bodystart="34" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a2c55deaeb129303d5920ae56326c2dce" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info" kindref="compound">ErrorRecoveryInfo</ref></type>
+        <definition>ErrorRecoveryInfo themis::distributed_tensor::ErrorRecoveryHandler::analyzeRankCapBreach</definition>
+        <argsstring>(const std::string &amp;artifact_id, uint32_t current_rank_status, uint32_t rank_cap)</argsstring>
+        <name>analyzeRankCapBreach</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::analyzeRankCapBreach</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>current_rank_status</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>rank_cap</declname>
+        </param>
+        <briefdescription>
+<para>Analyze Rank Cap Breach. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_rank_status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank_cap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_rank_status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank_cap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="121" column="29" bodyfile="src/distributed_tensor/src/error_recovery_handler.cc" bodystart="76" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1ad826424542f9e882d21114e9116b34f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info" kindref="compound">ErrorRecoveryInfo</ref></type>
+        <definition>ErrorRecoveryInfo themis::distributed_tensor::ErrorRecoveryHandler::analyzeResidualBreach</definition>
+        <argsstring>(const std::string &amp;artifact_id, double resulting_residual, double residual_threshold)</argsstring>
+        <name>analyzeResidualBreach</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::analyzeResidualBreach</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>resulting_residual</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>residual_threshold</declname>
+        </param>
+        <briefdescription>
+<para>Analyze Residual Breach. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resulting_residual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">residual_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resulting_residual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">residual_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="132" column="29" bodyfile="src/distributed_tensor/src/error_recovery_handler.cc" bodystart="105" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1ad2dded997161a397de8db0a311ea99a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info" kindref="compound">ErrorRecoveryInfo</ref></type>
+        <definition>ErrorRecoveryInfo themis::distributed_tensor::ErrorRecoveryHandler::analyzeLockTimeout</definition>
+        <argsstring>(const std::string &amp;artifact_id, int64_t timeout_ms)</argsstring>
+        <name>analyzeLockTimeout</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::analyzeLockTimeout</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+<para>Analyze Lock Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="142" column="29" bodyfile="src/distributed_tensor/src/error_recovery_handler.cc" bodystart="133" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a60fac3968870410d4aba9583f67981da" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info" kindref="compound">ErrorRecoveryInfo</ref></type>
+        <definition>ErrorRecoveryInfo themis::distributed_tensor::ErrorRecoveryHandler::analyzeCheckpointCorruption</definition>
+        <argsstring>(const std::string &amp;artifact_id)</argsstring>
+        <name>analyzeCheckpointCorruption</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::analyzeCheckpointCorruption</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Analyze <ref refid="structthemis_1_1distributed__tensor_1_1_checkpoint" kindref="compound">Checkpoint</ref> Corruption. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements analyzeCheckpointCorruption without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="150" column="29" bodyfile="src/distributed_tensor/src/error_recovery_handler.cc" bodystart="158" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a939f21ba94ddce8d526ebc580f9987cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info" kindref="compound">ErrorRecoveryInfo</ref></type>
+        <definition>ErrorRecoveryInfo themis::distributed_tensor::ErrorRecoveryHandler::analyzeUpdateTimeout</definition>
+        <argsstring>(const std::string &amp;artifact_id, int64_t timeout_ms, uint64_t delta_lag)</argsstring>
+        <name>analyzeUpdateTimeout</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::analyzeUpdateTimeout</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>delta_lag</declname>
+        </param>
+        <briefdescription>
+<para>Analyze Update Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_lag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta_lag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="159" column="29" bodyfile="src/distributed_tensor/src/error_recovery_handler.cc" bodystart="183" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1af143418c85284a2b53223556f6f49c86" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats" kindref="compound">RecoveryStats</ref></type>
+        <definition>ErrorRecoveryHandler::RecoveryStats themis::distributed_tensor::ErrorRecoveryHandler::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="181" column="25" bodyfile="src/distributed_tensor/src/error_recovery_handler.cc" bodystart="211" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a47d1237b19dac2ad2684deb5c0006cfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::ErrorRecoveryHandler::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: RecoveryStats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="186" column="16" bodyfile="src/distributed_tensor/src/error_recovery_handler.cc" bodystart="219" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1abb43323a8309848026206ee5aec72150" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::ErrorRecoveryHandler::setRecoveryThresholds</definition>
+        <argsstring>(double residual_increase_threshold, uint32_t retry_threshold)</argsstring>
+        <name>setRecoveryThresholds</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::setRecoveryThresholds</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>residual_increase_threshold</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>retry_threshold</declname>
+        </param>
+        <briefdescription>
+<para>Set Recovery Thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">residual_increase_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">retry_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">residual_increase_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">retry_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRecoveryThresholds without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="193" column="8" bodyfile="src/distributed_tensor/src/error_recovery_handler.cc" bodystart="229" bodyend="233"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a06d1ca42f58387c5a90ae63740544f1f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::ErrorRecoveryHandler::getCurrentTimeMs</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentTimeMs</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::getCurrentTimeMs</qualifiedname>
+        <briefdescription>
+<para>Get Current Time Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::high_resolution_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="204" column="11" bodyfile="src/distributed_tensor/src/error_recovery_handler.cc" bodystart="20" bodyend="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::distributed_tensor::ErrorRecoveryHandler</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>stats_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats</label>
+        <link refid="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/distributed_tensor/include/error_recovery_handler.h" line="84" column="1" bodyfile="src/distributed_tensor/include/error_recovery_handler.h" bodystart="84" bodyend="205"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a60fac3968870410d4aba9583f67981da" prot="public" virt="virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>analyzeCheckpointCorruption</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1ad2dded997161a397de8db0a311ea99a4" prot="public" virt="virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>analyzeLockTimeout</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1ac2afaa6ff301899af9a876697a5d1cb6" prot="public" virt="virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>analyzePartialRefitFailure</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a2c55deaeb129303d5920ae56326c2dce" prot="public" virt="virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>analyzeRankCapBreach</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1ad826424542f9e882d21114e9116b34f8" prot="public" virt="virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>analyzeResidualBreach</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a939f21ba94ddce8d526ebc580f9987cf" prot="public" virt="virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>analyzeUpdateTimeout</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1acd1cfec3fc8ac1caf975cf9bf03fb486" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>ErrorRecoveryHandler</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a1a2d6d35f792b77da57b35cebb7c09d6" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>ErrorRecoveryHandler</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a3bc510da0954ae2627074045ece266cd" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>ErrorRecoveryHandler</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a06d1ca42f58387c5a90ae63740544f1f" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>getCurrentTimeMs</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1af143418c85284a2b53223556f6f49c86" prot="public" virt="virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1af9227b1332c6544ea4ac8600d8e9f9d5" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a7d4db85d9ebe2b3e3e64a48498d94b32" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a47d1237b19dac2ad2684deb5c0006cfe" prot="public" virt="virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1ad165b33a16509e3b6c7e8bab887bde8d" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>residual_increase_threshold_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1aae0b9965b0af8cdb46056b7bebb6ae07" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>retry_threshold_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1abb43323a8309848026206ee5aec72150" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>setRecoveryThresholds</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1ad2240ce1294ec005e9f51c105115144f" prot="public" virt="virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler</scope><name>~ErrorRecoveryHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

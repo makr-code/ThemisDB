@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_parallel_executor_1_1_partial_agg" kind="struct" language="C++" prot="private">
+    <compoundname>themis::ParallelExecutor::PartialAgg</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_parallel_executor_1_1_partial_agg_1a370c771b44f232d41e82ed4236ec5b66" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ParallelExecutor::PartialAgg::sum</definition>
+        <argsstring></argsstring>
+        <name>sum</name>
+        <qualifiedname>themis::ParallelExecutor::PartialAgg::sum</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="175" column="16" bodyfile="include/query/parallel_executor.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_parallel_executor_1_1_partial_agg_1a8eccad79e4403cabc43e572d987e9871" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ParallelExecutor::PartialAgg::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::ParallelExecutor::PartialAgg::count</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="176" column="16" bodyfile="include/query/parallel_executor.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_parallel_executor_1_1_partial_agg_1ae392a01b45c046bdb31b5019bf986417" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ParallelExecutor::PartialAgg::min</definition>
+        <argsstring></argsstring>
+        <name>min</name>
+        <qualifiedname>themis::ParallelExecutor::PartialAgg::min</qualifiedname>
+        <initializer>= std::numeric_limits&lt;double&gt;::max()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="177" column="16" bodyfile="include/query/parallel_executor.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_parallel_executor_1_1_partial_agg_1ae90c8d7390a00cb66600dea965b5bb03" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ParallelExecutor::PartialAgg::max</definition>
+        <argsstring></argsstring>
+        <name>max</name>
+        <qualifiedname>themis::ParallelExecutor::PartialAgg::max</qualifiedname>
+        <initializer>= std::numeric_limits&lt;double&gt;::lowest()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="178" column="16" bodyfile="include/query/parallel_executor.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/parallel_executor.h" line="174" column="5" bodyfile="include/query/parallel_executor.h" bodystart="174" bodyend="179"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_parallel_executor_1_1_partial_agg_1a8eccad79e4403cabc43e572d987e9871" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor::PartialAgg</scope><name>count</name></member>
+      <member refid="structthemis_1_1_parallel_executor_1_1_partial_agg_1ae90c8d7390a00cb66600dea965b5bb03" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor::PartialAgg</scope><name>max</name></member>
+      <member refid="structthemis_1_1_parallel_executor_1_1_partial_agg_1ae392a01b45c046bdb31b5019bf986417" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor::PartialAgg</scope><name>min</name></member>
+      <member refid="structthemis_1_1_parallel_executor_1_1_partial_agg_1a370c771b44f232d41e82ed4236ec5b66" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor::PartialAgg</scope><name>sum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

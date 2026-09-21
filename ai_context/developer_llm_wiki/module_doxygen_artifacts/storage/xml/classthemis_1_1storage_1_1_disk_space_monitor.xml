@@ -1,0 +1,1011 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_disk_space_monitor" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::DiskSpaceMonitor</compoundname>
+    <includes refid="disk__space__monitor_8h" local="no">disk_space_monitor.h</includes>
+    <innerclass refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config" prot="public">themis::storage::DiskSpaceMonitor::Config</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" prot="public">themis::storage::DiskSpaceMonitor::SpaceInfo</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats" prot="public">themis::storage::DiskSpaceMonitor::MonitorStats</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_usage_snapshot" prot="private">themis::storage::DiskSpaceMonitor::UsageSnapshot</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SpaceLevel</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::SpaceLevel</qualifiedname>
+        <enumvalue id="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003da1e23852820b9154316c7c06e2b7ba051" prot="public">
+          <name>NORMAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003da059e9861e0400dfbe05c98a841f3f96b" prot="public">
+          <name>WARNING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003da99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003da1d9e8d5522fd3de1bbc21723300efd30" prot="public">
+          <name>EMERGENCY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="44" column="5" bodyfile="include/storage/disk_space_monitor.h" bodystart="44" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1storage_1_1_disk_space_monitor_1a58f6e041b9ae446047c326af49b88716" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" kindref="compound">SpaceInfo</ref> &amp;, const std::string &amp;message)&gt;</type>
+        <definition>using themis::storage::DiskSpaceMonitor::AlertCallback = std::function&lt;void(const SpaceInfo&amp;, const std::string&amp; message)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AlertCallback</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::AlertCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="100" column="5" bodyfile="include/storage/disk_space_monitor.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1storage_1_1_disk_space_monitor_1a8d47c9add4196eb5436a6f60c9b1962c" prot="public" static="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>using themis::storage::DiskSpaceMonitor::GCCallback = std::function&lt;void()&gt;</definition>
+        <argsstring></argsstring>
+        <name>GCCallback</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::GCCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="101" column="5" bodyfile="include/storage/disk_space_monitor.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_monitor_1a761fd56aa252a6e0a9d1663ffa17c499" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::DiskSpaceMonitor::path_</definition>
+        <argsstring></argsstring>
+        <name>path_</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="210" column="17" bodyfile="include/storage/disk_space_monitor.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_monitor_1a64498a4c5a6a34b637535fdd84166db5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::storage::DiskSpaceMonitor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="211" column="12" bodyfile="include/storage/disk_space_monitor.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_monitor_1a5fbe1692f384d2ff4827474034ca4b00" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::DiskSpaceMonitor::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="213" column="24" bodyfile="include/storage/disk_space_monitor.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_monitor_1a8cc67127cab0a05cb6d3a2c37ce2cd71" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::storage::DiskSpaceMonitor::monitoring_active_</definition>
+        <argsstring></argsstring>
+        <name>monitoring_active_</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::monitoring_active_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="214" column="17" bodyfile="include/storage/disk_space_monitor.h" bodystart="214" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_monitor_1a5c9ac97de5e61180df8ec4f25168011b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::storage::DiskSpaceMonitor::should_stop_</definition>
+        <argsstring></argsstring>
+        <name>should_stop_</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::should_stop_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="215" column="17" bodyfile="include/storage/disk_space_monitor.h" bodystart="215" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_monitor_1ae2eefecb7b2e06e5a89e839a1ba1c0f3" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::storage::DiskSpaceMonitor::monitor_thread_</definition>
+        <argsstring></argsstring>
+        <name>monitor_thread_</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::monitor_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="216" column="17" bodyfile="include/storage/disk_space_monitor.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_monitor_1aa9f37fd89c59c8b7673a2de2bb862219" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" kindref="compound">SpaceInfo</ref></type>
+        <definition>SpaceInfo themis::storage::DiskSpaceMonitor::current_info_</definition>
+        <argsstring></argsstring>
+        <name>current_info_</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::current_info_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="219" column="15" bodyfile="include/storage/disk_space_monitor.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_monitor_1ae35bb72c1d3a69de8c1517a1cb513641" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003d" kindref="member">SpaceLevel</ref> &gt;</type>
+        <definition>std::atomic&lt;SpaceLevel&gt; themis::storage::DiskSpaceMonitor::current_level_</definition>
+        <argsstring></argsstring>
+        <name>current_level_</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::current_level_</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003da1e23852820b9154316c7c06e2b7ba051" kindref="member">SpaceLevel::NORMAL</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="220" column="17" bodyfile="include/storage/disk_space_monitor.h" bodystart="220" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_monitor_1a1db910f969193d5594387786654cf4f4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::storage::DiskSpaceMonitor::writes_blocked_</definition>
+        <argsstring></argsstring>
+        <name>writes_blocked_</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::writes_blocked_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="221" column="17" bodyfile="include/storage/disk_space_monitor.h" bodystart="221" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_monitor_1accf5f468a27803e6d62302a0bb3b62e0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::storage::DiskSpaceMonitor::read_only_override_</definition>
+        <argsstring></argsstring>
+        <name>read_only_override_</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::read_only_override_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="222" column="17" bodyfile="include/storage/disk_space_monitor.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_monitor_1a7e626f65be602b8ae5a693ab8abc93af" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats" kindref="compound">MonitorStats</ref></type>
+        <definition>MonitorStats themis::storage::DiskSpaceMonitor::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="225" column="18" bodyfile="include/storage/disk_space_monitor.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_monitor_1abe47d1bc3dc5e84ec77fdf22a94111b0" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a58f6e041b9ae446047c326af49b88716" kindref="member">AlertCallback</ref></type>
+        <definition>AlertCallback themis::storage::DiskSpaceMonitor::alert_callback_</definition>
+        <argsstring></argsstring>
+        <name>alert_callback_</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::alert_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="228" column="19" bodyfile="include/storage/disk_space_monitor.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_monitor_1a640a07fa62fdf2929c8cd3ebfb2c26f7" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a8d47c9add4196eb5436a6f60c9b1962c" kindref="member">GCCallback</ref></type>
+        <definition>GCCallback themis::storage::DiskSpaceMonitor::gc_callback_</definition>
+        <argsstring></argsstring>
+        <name>gc_callback_</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::gc_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="229" column="16" bodyfile="include/storage/disk_space_monitor.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_monitor_1a04e69dd28ffdc1b88829c1a70545a059" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; UsageSnapshot &gt;</type>
+        <definition>std::vector&lt;UsageSnapshot&gt; themis::storage::DiskSpaceMonitor::usage_history_</definition>
+        <argsstring></argsstring>
+        <name>usage_history_</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::usage_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="236" column="17" bodyfile="include/storage/disk_space_monitor.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_monitor_1a1f24ef9c8003dca503af750d0c744fee" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DiskSpaceMonitor::max_history_size_</definition>
+        <argsstring></argsstring>
+        <name>max_history_size_</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::max_history_size_</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="237" column="29" bodyfile="include/storage/disk_space_monitor.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1a7d5b3704237451d414e4ba5970edc1ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::DiskSpaceMonitor::DiskSpaceMonitor</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>DiskSpaceMonitor</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::DiskSpaceMonitor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="103" column="5" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="37" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1a6f35ff469f84fdf694316523ea8bea24" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::DiskSpaceMonitor::DiskSpaceMonitor</definition>
+        <argsstring>(const std::string &amp;path, const Config &amp;config)</argsstring>
+        <name>DiskSpaceMonitor</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::DiskSpaceMonitor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="104" column="14" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="54" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1af8bcd91a058e306fb44b23792dd38c99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::DiskSpaceMonitor::~DiskSpaceMonitor</definition>
+        <argsstring>()</argsstring>
+        <name>~DiskSpaceMonitor</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::~DiskSpaceMonitor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="105" column="5" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="71" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1a82015b436ed20122fc3196c383d2774f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::DiskSpaceMonitor::startMonitoring</definition>
+        <argsstring>()</argsstring>
+        <name>startMonitoring</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::startMonitoring</qualifiedname>
+        <briefdescription>
+<para>Start automatic monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Monitoring.</para>
+<para>Calls: load(), std::thread(), spdlog::info(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="110" column="10" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="79" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1aeabbbdd3e2d6350c579f11550bfcd981" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::DiskSpaceMonitor::stopMonitoring</definition>
+        <argsstring>()</argsstring>
+        <name>stopMonitoring</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::stopMonitoring</qualifiedname>
+        <briefdescription>
+<para>Stop automatic monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop Monitoring.</para>
+<para>Calls: load(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="115" column="10" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="97" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1aacacfdf03f7de15f698615b388dbcced" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" kindref="compound">SpaceInfo</ref></type>
+        <definition>DiskSpaceMonitor::SpaceInfo themis::storage::DiskSpaceMonitor::checkSpace</definition>
+        <argsstring>()</argsstring>
+        <name>checkSpace</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::checkSpace</qualifiedname>
+        <briefdescription>
+<para>Check disk space immediately. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Space.</para>
+<para><simplesect kind="return"><para>Current space information</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: queryDiskSpace(), lock(), load(), updateSpaceLevel(), recordUsage(), std::chrono::system_clock::now(), spdlog::warn(), shouldSendAlert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="122" column="15" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="119" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1a0295cb540485c22c74b898be507aa310" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::DiskSpaceMonitor::canWrite</definition>
+        <argsstring>(size_t bytes_to_write=0)</argsstring>
+        <name>canWrite</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::canWrite</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes_to_write</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Check if write operation can proceed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Can Write.</para>
+<para>Performs pre-flight check before allowing write operations.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bytes_to_write</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of planned write operation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Zero-byte writes are always allowed because they do not consume disk capacity. </para>
+</simplesect>
+<simplesect kind="return"><para>true if write should proceed, false if blocked</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_to_write</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), spdlog::warn(), <ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1ae5c31612f3df27ba2f07fd6dfac63d0d" kindref="member">isReadOnly()</ref>, <ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a106ab3c4d5ecc4b264fd0ca14b338128" kindref="member">getSpaceInfo()</ref>, spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="134" column="10" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="190" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1ae5c31612f3df27ba2f07fd6dfac63d0d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::DiskSpaceMonitor::isReadOnly</definition>
+        <argsstring>() const</argsstring>
+        <name>isReadOnly</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::isReadOnly</qualifiedname>
+        <briefdescription>
+<para>Check if database is in read-only mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="139" column="10" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="236" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1a26e164c98096df621773c45a92f9fd28" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003d" kindref="member">SpaceLevel</ref></type>
+        <definition>DiskSpaceMonitor::SpaceLevel themis::storage::DiskSpaceMonitor::getSpaceLevel</definition>
+        <argsstring>() const</argsstring>
+        <name>getSpaceLevel</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::getSpaceLevel</qualifiedname>
+        <briefdescription>
+<para>Get current space level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="144" column="16" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="244" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1a106ab3c4d5ecc4b264fd0ca14b338128" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" kindref="compound">SpaceInfo</ref></type>
+        <definition>DiskSpaceMonitor::SpaceInfo themis::storage::DiskSpaceMonitor::getSpaceInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>getSpaceInfo</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::getSpaceInfo</qualifiedname>
+        <briefdescription>
+<para>Get current space info. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="149" column="15" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="248" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1ae1a717c9b35554dc6817bb2103af325d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_monitor_stats" kindref="compound">MonitorStats</ref></type>
+        <definition>DiskSpaceMonitor::MonitorStats themis::storage::DiskSpaceMonitor::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::getStats</qualifiedname>
+        <briefdescription>
+<para>Get monitoring statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="154" column="18" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="258" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1a90936f38d6af9374db853d6f8693f366" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::DiskSpaceMonitor::setAlertCallback</definition>
+        <argsstring>(AlertCallback callback)</argsstring>
+        <name>setAlertCallback</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::setAlertCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a58f6e041b9ae446047c326af49b88716" kindref="member">AlertCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register callback for space alerts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Alert Callback.</para>
+<para>Callback is invoked when space level changes or threshold crossed</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="161" column="10" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="273" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1afa0afec5ac1e1a219d2df7b0f2d05ec4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::DiskSpaceMonitor::setGCCallback</definition>
+        <argsstring>(GCCallback callback)</argsstring>
+        <name>setGCCallback</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::setGCCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a8d47c9add4196eb5436a6f60c9b1962c" kindref="member">GCCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register callback for garbage collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set <ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a8d47c9add4196eb5436a6f60c9b1962c" kindref="member">GCCallback</ref>.</para>
+<para>Callback is invoked when automatic GC should run</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="168" column="10" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="283" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1a410b76696fb18c5acf22847e0f17f468" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::DiskSpaceMonitor::triggerGC</definition>
+        <argsstring>()</argsstring>
+        <name>triggerGC</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::triggerGC</qualifiedname>
+        <briefdescription>
+<para>Force a garbage collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Trigger GC.</para>
+<para>Manually trigger the registered GC callback</para>
+<para>Calls: lock(), spdlog::info(), gc_cb(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="175" column="10" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="292" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1a2789f17a004c2da160de5f23e1ca55b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::DiskSpaceMonitor::setReadOnlyOverride</definition>
+        <argsstring>(bool read_only)</argsstring>
+        <name>setReadOnlyOverride</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::setReadOnlyOverride</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>read_only</declname>
+        </param>
+        <briefdescription>
+<para>Override read-only mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Read Only Override.</para>
+<para>Use with caution - allows writes even in critical state</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">read_only</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="182" column="10" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="319" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1acfe2fe831814e2a4d6e27ccf4ef70c7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::DiskSpaceMonitor::setRocksDBSize</definition>
+        <argsstring>(uint64_t size_bytes)</argsstring>
+        <name>setRocksDBSize</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::setRocksDBSize</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Update the tracked RocksDB on-disk size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Rocks DBSize.</para>
+<para>Called by storage components after computing the SST files size via <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a43c668ac200cbbe88555bd149ffa4446" kindref="member">RocksDBWrapper::getApproximateSize()</ref>. The value is propagated into <ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info_1a1f1bc195c8c070927f570c726423e389" kindref="member">SpaceInfo::rocksdb_size_bytes</ref> and is returned by <ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a106ab3c4d5ecc4b264fd0ca14b338128" kindref="member">getSpaceInfo()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total RocksDB SST on-disk size in bytes</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="193" column="10" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="329" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1a452ca77f5a13e48473ea48b528b8f71d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::DiskSpaceMonitor::getRecommendedAction</definition>
+        <argsstring>() const</argsstring>
+        <name>getRecommendedAction</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::getRecommendedAction</qualifiedname>
+        <briefdescription>
+<para>Get recommended action based on space level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="198" column="17" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="334" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1aaf47a633f366d47c49ca1a823ff7e9bd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::storage::DiskSpaceMonitor::estimateTimeUntilFull</definition>
+        <argsstring>() const</argsstring>
+        <name>estimateTimeUntilFull</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::estimateTimeUntilFull</qualifiedname>
+        <briefdescription>
+<para>Calculate time until disk full. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Estimates time until disk full based on recent usage patterns</para>
+<para><simplesect kind="return"><para>Estimated seconds until full, or 0 if cannot estimate </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="207" column="26" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="357" bodyend="399"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1a6fa9e2fc5e9fc546e205f7d170542091" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::DiskSpaceMonitor::monitoringLoop</definition>
+        <argsstring>()</argsstring>
+        <name>monitoringLoop</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::monitoringLoop</qualifiedname>
+        <briefdescription>
+<para>Monitoring Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), <ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1aacacfdf03f7de15f698615b388dbcced" kindref="member">checkSpace()</ref>, spdlog::error(), what(), std::chrono::seconds(), std::min(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="240" column="10" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="405" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1a0d1878dd479537c8f8446ce92fc19def" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" kindref="compound">SpaceInfo</ref></type>
+        <definition>DiskSpaceMonitor::SpaceInfo themis::storage::DiskSpaceMonitor::queryDiskSpace</definition>
+        <argsstring>()</argsstring>
+        <name>queryDiskSpace</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::queryDiskSpace</qualifiedname>
+        <briefdescription>
+<para>Query Disk Space. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1storage_1_1disk__utils_1a78ac210e7529f3de29c25e7920aa36cd" kindref="member">disk_utils::getDiskSpace()</ref>, spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="241" column="15" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="428" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1a8a2a466aef99d0954e782e5a31bb4eec" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::DiskSpaceMonitor::updateSpaceLevel</definition>
+        <argsstring>(const SpaceInfo &amp;info)</argsstring>
+        <name>updateSpaceLevel</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::updateSpaceLevel</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" kindref="compound">SpaceInfo</ref> &amp;</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+<para>Update Space Level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements updateSpaceLevel without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="242" column="10" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="476" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1a9dac09e198826ad77bc159cf0e92c94b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::DiskSpaceMonitor::handleSpaceLevelChange</definition>
+        <argsstring>(SpaceLevel old_level, SpaceLevel new_level)</argsstring>
+        <name>handleSpaceLevelChange</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::handleSpaceLevelChange</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003d" kindref="member">SpaceLevel</ref></type>
+          <declname>old_level</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003d" kindref="member">SpaceLevel</ref></type>
+          <declname>new_level</declname>
+        </param>
+        <briefdescription>
+<para>Handle Space Level Change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">old_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::warn(), shouldSendAlert(), <ref refid="namespacethemis_1_1storage_1_1disk__utils_1ace98df33d729500f0312b577a6314f48" kindref="member">disk_utils::formatBytes()</ref>, std::setprecision(), sendAlert(), str(), <ref refid="classthemis_1_1storage_1_1_disk_space_monitor_1a410b76696fb18c5acf22847e0f17f468" kindref="member">triggerGC()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="243" column="10" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="487" bodyend="522"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1ac8fc4706e669b1537d6ba31641ef5036" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::DiskSpaceMonitor::sendAlert</definition>
+        <argsstring>(const SpaceInfo &amp;info, const std::string &amp;message)</argsstring>
+        <name>sendAlert</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::sendAlert</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" kindref="compound">SpaceInfo</ref> &amp;</type>
+          <declname>info</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Send Alert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::system_clock::now(), spdlog::warn(), alert_cb(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="244" column="10" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="530" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1adb1acd34bcb0cd6a5c56552932683622" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::DiskSpaceMonitor::shouldSendAlert</definition>
+        <argsstring>() const</argsstring>
+        <name>shouldSendAlert</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::shouldSendAlert</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="245" column="10" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="550" bodyend="556"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1a02dc19ce76cfb13b5cefe6f7c327c529" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::DiskSpaceMonitor::recordUsage</definition>
+        <argsstring>(const SpaceInfo &amp;info)</argsstring>
+        <name>recordUsage</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::recordUsage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_disk_space_monitor_1_1_space_info" kindref="compound">SpaceInfo</ref> &amp;</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+<para>Record Usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), push_back(), size(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="246" column="10" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="563" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_monitor_1a001662c7098783a5b9a3824b5a4b1d1c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::storage::DiskSpaceMonitor::calculateUsageTrend</definition>
+        <argsstring>() const</argsstring>
+        <name>calculateUsageTrend</name>
+        <qualifiedname>themis::storage::DiskSpaceMonitor::calculateUsageTrend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="247" column="11"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Disk Space Monitor. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Monitors disk space usage and implements safe-fail mechanisms:<itemizedlist>
+<listitem><para>Pre-flight disk space checks before writes</para>
+</listitem><listitem><para>Write prevention when disk space critical</para>
+</listitem><listitem><para>Administrator alerting for low disk space</para>
+</listitem><listitem><para>Automatic garbage collection triggering</para>
+</listitem><listitem><para>Graceful degradation when disk full</para>
+</listitem></itemizedlist>
+</para>
+<para>Best Practices:<itemizedlist>
+<listitem><para>Proactive monitoring: Check space before operations</para>
+</listitem><listitem><para>Fail-safe thresholds: Stop writes before completely full</para>
+</listitem><listitem><para>Alert administrators: Early warning system</para>
+</listitem><listitem><para>Graceful degradation: Read-only mode when critical</para>
+</listitem><listitem><para>Space reclamation: Trigger cleanup automatically </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/storage/disk_space_monitor.h" line="42" column="1" bodyfile="include/storage/disk_space_monitor.h" bodystart="42" bodyend="248"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1abe47d1bc3dc5e84ec77fdf22a94111b0" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>alert_callback_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a58f6e041b9ae446047c326af49b88716" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>AlertCallback</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a001662c7098783a5b9a3824b5a4b1d1c" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>calculateUsageTrend</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a0295cb540485c22c74b898be507aa310" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>canWrite</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1aacacfdf03f7de15f698615b388dbcced" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>checkSpace</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a64498a4c5a6a34b637535fdd84166db5" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1aa9f37fd89c59c8b7673a2de2bb862219" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>current_info_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1ae35bb72c1d3a69de8c1517a1cb513641" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>current_level_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a7d5b3704237451d414e4ba5970edc1ac" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>DiskSpaceMonitor</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a6f35ff469f84fdf694316523ea8bea24" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>DiskSpaceMonitor</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1aaf47a633f366d47c49ca1a823ff7e9bd" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>estimateTimeUntilFull</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a640a07fa62fdf2929c8cd3ebfb2c26f7" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>gc_callback_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a8d47c9add4196eb5436a6f60c9b1962c" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>GCCallback</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a452ca77f5a13e48473ea48b528b8f71d" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>getRecommendedAction</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a106ab3c4d5ecc4b264fd0ca14b338128" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>getSpaceInfo</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a26e164c98096df621773c45a92f9fd28" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>getSpaceLevel</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1ae1a717c9b35554dc6817bb2103af325d" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a9dac09e198826ad77bc159cf0e92c94b" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>handleSpaceLevelChange</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1ae5c31612f3df27ba2f07fd6dfac63d0d" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>isReadOnly</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a1f24ef9c8003dca503af750d0c744fee" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>max_history_size_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1ae2eefecb7b2e06e5a89e839a1ba1c0f3" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>monitor_thread_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a8cc67127cab0a05cb6d3a2c37ce2cd71" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>monitoring_active_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a6fa9e2fc5e9fc546e205f7d170542091" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>monitoringLoop</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a5fbe1692f384d2ff4827474034ca4b00" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a761fd56aa252a6e0a9d1663ffa17c499" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>path_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a0d1878dd479537c8f8446ce92fc19def" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>queryDiskSpace</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1accf5f468a27803e6d62302a0bb3b62e0" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>read_only_override_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a02dc19ce76cfb13b5cefe6f7c327c529" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>recordUsage</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1ac8fc4706e669b1537d6ba31641ef5036" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>sendAlert</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a90936f38d6af9374db853d6f8693f366" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>setAlertCallback</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1afa0afec5ac1e1a219d2df7b0f2d05ec4" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>setGCCallback</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2789f17a004c2da160de5f23e1ca55b3" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>setReadOnlyOverride</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1acfe2fe831814e2a4d6e27ccf4ef70c7c" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>setRocksDBSize</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a5c9ac97de5e61180df8ec4f25168011b" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>should_stop_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1adb1acd34bcb0cd6a5c56552932683622" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>shouldSendAlert</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a2911302645b8aee328ecda15bd80003d" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>SpaceLevel</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a82015b436ed20122fc3196c383d2774f" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>startMonitoring</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a7e626f65be602b8ae5a693ab8abc93af" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1aeabbbdd3e2d6350c579f11550bfcd981" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>stopMonitoring</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a410b76696fb18c5acf22847e0f17f468" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>triggerGC</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a8a2a466aef99d0954e782e5a31bb4eec" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>updateSpaceLevel</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a04e69dd28ffdc1b88829c1a70545a059" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>usage_history_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1a1db910f969193d5594387786654cf4f4" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>writes_blocked_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_monitor_1af8bcd91a058e306fb44b23792dd38c99" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceMonitor</scope><name>~DiskSpaceMonitor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

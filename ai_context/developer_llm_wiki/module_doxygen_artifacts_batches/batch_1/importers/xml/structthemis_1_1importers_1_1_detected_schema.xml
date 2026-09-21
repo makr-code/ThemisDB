@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_detected_schema" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::DetectedSchema</compoundname>
+    <includes refid="schema__validator_8h" local="no">schema_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_detected_schema_1abe4e6197d1c388550940d66b52e6b3f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::DetectedSchema::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::importers::DetectedSchema::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="32" column="30" bodyfile="include/importers/schema_validator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_detected_schema_1a670e07a88d2282e8b9d1fa23db5d6ad8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::DetectedSchema::columns</definition>
+        <argsstring></argsstring>
+        <name>columns</name>
+        <qualifiedname>themis::importers::DetectedSchema::columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="33" column="17" bodyfile="include/importers/schema_validator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_detected_schema_1a2dc116694954ddbf5a19a270905e3eb7" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemis_1_1importers_1a2630f499c7477f493ccfce1d7eff4cb3" kindref="member">DetectedFieldType</ref> &gt;</type>
+        <definition>std::map&lt;std::string, DetectedFieldType&gt; themis::importers::DetectedSchema::column_types</definition>
+        <argsstring></argsstring>
+        <name>column_types</name>
+        <qualifiedname>themis::importers::DetectedSchema::column_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_validator.h" line="34" column="14" bodyfile="include/importers/schema_validator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/schema_validator.h" line="31" column="1" bodyfile="include/importers/schema_validator.h" bodystart="31" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_detected_schema_1a2dc116694954ddbf5a19a270905e3eb7" prot="public" virt="non-virtual"><scope>themis::importers::DetectedSchema</scope><name>column_types</name></member>
+      <member refid="structthemis_1_1importers_1_1_detected_schema_1a670e07a88d2282e8b9d1fa23db5d6ad8" prot="public" virt="non-virtual"><scope>themis::importers::DetectedSchema</scope><name>columns</name></member>
+      <member refid="structthemis_1_1importers_1_1_detected_schema_1abe4e6197d1c388550940d66b52e6b3f7" prot="public" virt="non-virtual"><scope>themis::importers::DetectedSchema</scope><name>table_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

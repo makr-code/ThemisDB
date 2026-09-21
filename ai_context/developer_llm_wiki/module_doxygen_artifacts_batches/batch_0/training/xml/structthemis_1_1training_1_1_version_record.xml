@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_version_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::VersionRecord</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_version_record_1a4f0fa8c1d2e81e55f8909065e07f6eba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::VersionRecord::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::training::VersionRecord::version</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="253" column="17" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="253" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_version_record_1ae18d971b8b2cc5b4fb780248fb2b209a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::VersionRecord::traffic_split</definition>
+        <argsstring></argsstring>
+        <name>traffic_split</name>
+        <qualifiedname>themis::training::VersionRecord::traffic_split</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>0..1, fraction of traffic routed to this version </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="254" column="11" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_version_record_1a75c64684055c5c3eb1fc38a11dc3822e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::VersionRecord::is_active</definition>
+        <argsstring></argsstring>
+        <name>is_active</name>
+        <qualifiedname>themis::training::VersionRecord::is_active</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="255" column="10" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_version_record_1a3133b78cb5340811962dcd0c9e353f4e" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::training::VersionRecord::deployed_at</definition>
+        <argsstring></argsstring>
+        <name>deployed_at</name>
+        <qualifiedname>themis::training::VersionRecord::deployed_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="256" column="43" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_version_record_1ad780255249324bacfa844ca184c1c3d2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::VersionRecord::training_loss</definition>
+        <argsstring></argsstring>
+        <name>training_loss</name>
+        <qualifiedname>themis::training::VersionRecord::training_loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="257" column="12" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_version_record_1a4d2aa3cd09078b86615eece5f2deeaa0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::VersionRecord::accuracy</definition>
+        <argsstring></argsstring>
+        <name>accuracy</name>
+        <qualifiedname>themis::training::VersionRecord::accuracy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/incremental_lora_trainer.cpp" line="258" column="12" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="258" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/incremental_lora_trainer.cpp" line="252" column="1" bodyfile="src/training/incremental_lora_trainer.cpp" bodystart="252" bodyend="259"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_version_record_1a4d2aa3cd09078b86615eece5f2deeaa0" prot="public" virt="non-virtual"><scope>themis::training::VersionRecord</scope><name>accuracy</name></member>
+      <member refid="structthemis_1_1training_1_1_version_record_1a3133b78cb5340811962dcd0c9e353f4e" prot="public" virt="non-virtual"><scope>themis::training::VersionRecord</scope><name>deployed_at</name></member>
+      <member refid="structthemis_1_1training_1_1_version_record_1a75c64684055c5c3eb1fc38a11dc3822e" prot="public" virt="non-virtual"><scope>themis::training::VersionRecord</scope><name>is_active</name></member>
+      <member refid="structthemis_1_1training_1_1_version_record_1ae18d971b8b2cc5b4fb780248fb2b209a" prot="public" virt="non-virtual"><scope>themis::training::VersionRecord</scope><name>traffic_split</name></member>
+      <member refid="structthemis_1_1training_1_1_version_record_1ad780255249324bacfa844ca184c1c3d2" prot="public" virt="non-virtual"><scope>themis::training::VersionRecord</scope><name>training_loss</name></member>
+      <member refid="structthemis_1_1training_1_1_version_record_1a4f0fa8c1d2e81e55f8909065e07f6eba" prot="public" virt="non-virtual"><scope>themis::training::VersionRecord</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

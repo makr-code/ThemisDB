@@ -1,0 +1,1121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_s_t_t_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::STTProcessor</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_content_processor_plugin" prot="public" virt="non-virtual">themis::content::IContentProcessorPlugin</basecompoundref>
+    <includes refid="stt__processor_8h" local="no">stt_processor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_s_t_t_processor_1a4d7841116abe5b5e7f1541fc354e5b7f" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::STTProcessor::model_path_</definition>
+        <argsstring></argsstring>
+        <name>model_path_</name>
+        <qualifiedname>themis::content::STTProcessor::model_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="102" column="17" bodyfile="include/content/stt_processor.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_s_t_t_processor_1ae5e130b9d87e88f577011cf4cc5b6eb1" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::STTProcessor::model_size_</definition>
+        <argsstring></argsstring>
+        <name>model_size_</name>
+        <qualifiedname>themis::content::STTProcessor::model_size_</qualifiedname>
+        <initializer>= &quot;base&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="103" column="17" bodyfile="include/content/stt_processor.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_s_t_t_processor_1a36f3437bf8b60bd3b3d299ebf99072df" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::STTProcessor::default_language_</definition>
+        <argsstring></argsstring>
+        <name>default_language_</name>
+        <qualifiedname>themis::content::STTProcessor::default_language_</qualifiedname>
+        <initializer>= &quot;auto&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="104" column="17" bodyfile="include/content/stt_processor.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_s_t_t_processor_1a23a7e0d0be662d2c2c909aa173d192fa" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::STTProcessor::enable_timestamps_</definition>
+        <argsstring></argsstring>
+        <name>enable_timestamps_</name>
+        <qualifiedname>themis::content::STTProcessor::enable_timestamps_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="105" column="10" bodyfile="include/content/stt_processor.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_s_t_t_processor_1ad08d5b6fbe2c40f51432b382d54918fa" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::STTProcessor::enable_speaker_diarization_</definition>
+        <argsstring></argsstring>
+        <name>enable_speaker_diarization_</name>
+        <qualifiedname>themis::content::STTProcessor::enable_speaker_diarization_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="106" column="10" bodyfile="include/content/stt_processor.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_s_t_t_processor_1a9f3dc9532f836ea3f05f246ec483a67e" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::STTProcessor::max_speakers_</definition>
+        <argsstring></argsstring>
+        <name>max_speakers_</name>
+        <qualifiedname>themis::content::STTProcessor::max_speakers_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="107" column="9" bodyfile="include/content/stt_processor.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_s_t_t_processor_1a2a40266fee35b479867aff8d02311bbe" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::STTProcessor::enable_word_confidence_</definition>
+        <argsstring></argsstring>
+        <name>enable_word_confidence_</name>
+        <qualifiedname>themis::content::STTProcessor::enable_word_confidence_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="108" column="10" bodyfile="include/content/stt_processor.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_s_t_t_processor_1abb5cd4232304c7283b0e341ce626db6f" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::content::STTProcessor::vad_threshold_</definition>
+        <argsstring></argsstring>
+        <name>vad_threshold_</name>
+        <qualifiedname>themis::content::STTProcessor::vad_threshold_</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="109" column="11" bodyfile="include/content/stt_processor.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_s_t_t_processor_1a0be37a1db13b707593878fa294c19086" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::content::STTProcessor::whisper_ctx_</definition>
+        <argsstring></argsstring>
+        <name>whisper_ctx_</name>
+        <qualifiedname>themis::content::STTProcessor::whisper_ctx_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="112" column="10" bodyfile="include/content/stt_processor.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_s_t_t_processor_1aea6fdb38abd87b7245c16e51cfdee71d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::content::STTProcessor::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::content::STTProcessor::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="115" column="24" bodyfile="include/content/stt_processor.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_s_t_t_processor_1a219950b56f6b4acc306391ae739444f9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::STTProcessor::transcriptions_completed_</definition>
+        <argsstring></argsstring>
+        <name>transcriptions_completed_</name>
+        <qualifiedname>themis::content::STTProcessor::transcriptions_completed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="116" column="17" bodyfile="include/content/stt_processor.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_s_t_t_processor_1afcff3dde41faa5df667023aa75cb82e3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::STTProcessor::total_audio_duration_ms_</definition>
+        <argsstring></argsstring>
+        <name>total_audio_duration_ms_</name>
+        <qualifiedname>themis::content::STTProcessor::total_audio_duration_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="117" column="17" bodyfile="include/content/stt_processor.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_s_t_t_processor_1a2ce7b299c4db6f4cad52d034d3d3fb16" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::STTProcessor::total_processing_time_ms_</definition>
+        <argsstring></argsstring>
+        <name>total_processing_time_ms_</name>
+        <qualifiedname>themis::content::STTProcessor::total_processing_time_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="118" column="17" bodyfile="include/content/stt_processor.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_s_t_t_processor_1a1eb2fbc5db2ae82b515100c362923316" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::STTProcessor::errors_</definition>
+        <argsstring></argsstring>
+        <name>errors_</name>
+        <qualifiedname>themis::content::STTProcessor::errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="119" column="17" bodyfile="include/content/stt_processor.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_s_t_t_processor_1a0591478896f107fa9a8d08f1fedf249e" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::STTProcessor::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::content::STTProcessor::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="121" column="10" bodyfile="include/content/stt_processor.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_s_t_t_processor_1a556a69b2dcdc1095d2eb9ffa561baee4" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a3a0637c70fed5dc28d0f81c736e48e89" kindref="member">STTTranscribeFn</ref></type>
+        <definition>STTTranscribeFn themis::content::STTProcessor::transcribe_fn_</definition>
+        <argsstring></argsstring>
+        <name>transcribe_fn_</name>
+        <qualifiedname>themis::content::STTProcessor::transcribe_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="125" column="21" bodyfile="include/content/stt_processor.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1acc370131ee54a484ff604add108d6c90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::STTProcessor::STTProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>STTProcessor</name>
+        <qualifiedname>themis::content::STTProcessor::STTProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="49" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1a2d02c4ee9cc68bc30404656264c43ad7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::STTProcessor::~STTProcessor</definition>
+        <argsstring>() override</argsstring>
+        <name>~STTProcessor</name>
+        <qualifiedname>themis::content::STTProcessor::~STTProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="50" column="5" bodyfile="src/content/stt_processor.cpp" bodystart="32" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1a5b1bbfc5a0392043d0ca4b3b6a6ae295" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_plugin_info" kindref="compound">PluginInfo</ref></type>
+        <definition>PluginInfo themis::content::STTProcessor::getInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>themis::content::STTProcessor::getInfo</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a8e52be85b5ae560c3011da03a6c6c8f4">getInfo</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="53" column="16" bodyfile="src/content/stt_processor.cpp" bodystart="38" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1a06b993922ea3f3816fd127e2488250b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::STTProcessor::initialize</definition>
+        <argsstring>(const PluginConfig &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::content::STTProcessor::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1aeca4397e7b73a85723905580d527609c">initialize</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1content_1_1_plugin_config" kindref="compound">PluginConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: loadWhisperModel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="54" column="10" bodyfile="src/content/stt_processor.cpp" bodystart="67" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1a95ae6f6413bbf07817af0ee06b0954a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::content::STTProcessor::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::content::STTProcessor::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac85694c52ef13fe9cce6962d855e7ecc">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: unloadWhisperModel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="55" column="10" bodyfile="src/content/stt_processor.cpp" bodystart="95" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1a3429c09e1c650966d3dc7cf828c07147" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::STTProcessor::canProcess</definition>
+        <argsstring>(const std::string &amp;mime_type) const override</argsstring>
+        <name>canProcess</name>
+        <qualifiedname>themis::content::STTProcessor::canProcess</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac907820228242cebb5eefedc0bcc9099">canProcess</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="56" column="10" bodyfile="src/content/stt_processor.cpp" bodystart="114" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1a06c06e9813a997547b8285a3b0e84f07" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_extraction_result" kindref="compound">ContentExtractionResult</ref></type>
+        <definition>ContentExtractionResult themis::content::STTProcessor::extract</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, const std::string &amp;mime_type, const ExtractionOptions &amp;options={}) override</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::STTProcessor::extract</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ab75f0b659364d0827bb04d25620d026d">extract</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_options" kindref="compound">ExtractionOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Extract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), size(), empty(), convertToWav16kHz(), extractPCMData(), transcribeInternal(), json::array(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="58" column="29" bodyfile="src/content/stt_processor.cpp" bodystart="130" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1a9c1763a8171fe58d49d3b99570879c14" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_chunk" kindref="compound">ContentChunk</ref> &gt;</type>
+        <definition>std::vector&lt; ContentChunk &gt; themis::content::STTProcessor::chunk</definition>
+        <argsstring>(const ContentExtractionResult &amp;result, int max_tokens, int overlap) override</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::STTProcessor::chunk</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac22b3bce77a0fbafc94e5d1ae959cbde">chunk</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_extraction_result" kindref="compound">ContentExtractionResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+<para>Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), contains(), <ref refid="namespacethemis_1_1content_1af5b4c2d5e4f47a70645a225a95de29f8" kindref="member">countTokens()</ref>, push_back(), <ref refid="namespacethemis_1_1content_1a2b7a37dea4bc189fe2bbd96a0ee5c3d7" kindref="member">splitSentences()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="64" column="17" bodyfile="src/content/stt_processor.cpp" bodystart="226" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1a309854cb43914c8862056397f9c19365" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::STTProcessor::healthCheck</definition>
+        <argsstring>() const override</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themis::content::STTProcessor::healthCheck</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a1bc044108d313feaa4caca2087743529">healthCheck</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="70" column="10" bodyfile="src/content/stt_processor.cpp" bodystart="321" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1a51f77e23575f894d55e18b08db0ca04b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::STTProcessor::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::content::STTProcessor::getStatistics</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a44d5c1d1d89d2c55eb8a59bbb4125d46">getStatistics</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="71" column="10" bodyfile="src/content/stt_processor.cpp" bodystart="325" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1af35adffc8b7f71742964c5e20471d74d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_transcription_result" kindref="compound">TranscriptionResult</ref></type>
+        <definition>TranscriptionResult themis::content::STTProcessor::transcribe</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio_blob, const json &amp;options={})</argsstring>
+        <name>transcribe</name>
+        <qualifiedname>themis::content::STTProcessor::transcribe</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio_blob</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Transcribe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: convertToWav16kHz(), extractPCMData(), transcribeInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="73" column="25" bodyfile="src/content/stt_processor.cpp" bodystart="349" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1a536264f0da0bd9b531c791f2c1e4e729" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::STTProcessor::streamTranscribe</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio_stream, std::function&lt; void(const TranscriptionSegment &amp;)&gt; callback)</argsstring>
+        <name>streamTranscribe</name>
+        <qualifiedname>themis::content::STTProcessor::streamTranscribe</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio_stream</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1content_1_1_transcription_segment" kindref="compound">TranscriptionSegment</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="78" column="10" bodyfile="src/content/stt_processor.cpp" bodystart="363" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1afee6cf78d794a42cc77986fc48708159" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::STTProcessor::generateMeetingProtocol</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio_blob, const json &amp;options={})</argsstring>
+        <name>generateMeetingProtocol</name>
+        <qualifiedname>themis::content::STTProcessor::generateMeetingProtocol</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio_blob</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Generate Meeting Protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), <ref refid="classthemis_1_1content_1_1_s_t_t_processor_1af35adffc8b7f71742964c5e20471d74d" kindref="member">transcribe()</ref>, formatAsProtocol(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="89" column="10" bodyfile="src/content/stt_processor.cpp" bodystart="439" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1a2b53c6e154ae8ebf4022021f77d76b79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::STTProcessor::setTranscribeFn</definition>
+        <argsstring>(STTTranscribeFn fn)</argsstring>
+        <name>setTranscribeFn</name>
+        <qualifiedname>themis::content::STTProcessor::setTranscribeFn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1content_1a3a0637c70fed5dc28d0f81c736e48e89" kindref="member">STTTranscribeFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Transcribe Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="98" column="10" bodyfile="src/content/stt_processor.cpp" bodystart="109" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1ace855a20fc26d104a367994b21cf5f4e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_transcription_segment" kindref="compound">TranscriptionSegment</ref> &gt;</type>
+        <definition>std::vector&lt; TranscriptionSegment &gt; themis::content::STTProcessor::diarizeSegments</definition>
+        <argsstring>(const std::vector&lt; TranscriptionSegment &gt; &amp;segments, const std::vector&lt; float &gt; &amp;pcm_data, int max_speakers=0)</argsstring>
+        <name>diarizeSegments</name>
+        <qualifiedname>themis::content::STTProcessor::diarizeSegments</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1content_1_1_transcription_segment" kindref="compound">TranscriptionSegment</ref> &gt; &amp;</type>
+          <declname>segments</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm_data</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_speakers</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Diarize Segments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">segments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pcm_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_speakers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), empty(), std::max(), int64_t(), std::min(), fv(), data(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="83" column="24" bodyfile="src/content/stt_processor.cpp" bodystart="964" bodyend="1182"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1ac6fde99fdef6504087f0ecaba125b625" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::STTProcessor::loadWhisperModel</definition>
+        <argsstring>()</argsstring>
+        <name>loadWhisperModel</name>
+        <qualifiedname>themis::content::STTProcessor::loadWhisperModel</qualifiedname>
+        <briefdescription>
+<para>Load Whisper Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: whisper_context_default_params(), whisper_init_from_file_with_params(), c_str(), whisper_is_multilingual(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="132" column="10" bodyfile="src/content/stt_processor.cpp" bodystart="464" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1a9ed0cf271f481e131508b82ec1b585de" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::STTProcessor::unloadWhisperModel</definition>
+        <argsstring>()</argsstring>
+        <name>unloadWhisperModel</name>
+        <qualifiedname>themis::content::STTProcessor::unloadWhisperModel</qualifiedname>
+        <briefdescription>
+<para>Unload Whisper Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: whisper_free(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="136" column="10" bodyfile="src/content/stt_processor.cpp" bodystart="498" bodyend="507"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1ab10a382a1b6bc6a6285459be05bcafda" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::content::STTProcessor::convertToWav16kHz</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio_blob)</argsstring>
+        <name>convertToWav16kHz</name>
+        <qualifiedname>themis::content::STTProcessor::convertToWav16kHz</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio_blob</declname>
+        </param>
+        <briefdescription>
+<para>Convert To Wav16k Hz. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements convertToWav16kHz without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="143" column="17" bodyfile="src/content/stt_processor.cpp" bodystart="515" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1ad45e71550f535efd58eb6fa142349c0c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::content::STTProcessor::extractPCMData</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;wav_data)</argsstring>
+        <name>extractPCMData</name>
+        <qualifiedname>themis::content::STTProcessor::extractPCMData</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>wav_data</declname>
+        </param>
+        <briefdescription>
+<para>Extract PCMData. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wav_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wav_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), std::to_string(), readUInt32LE(), readUInt16LE(), reserve(), std::memcpy(), std::max(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="149" column="17" bodyfile="src/content/stt_processor.cpp" bodystart="529" bodyend="786"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1ab0c44489f232a12e6b6a2cb66fb088af" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_transcription_result" kindref="compound">TranscriptionResult</ref></type>
+        <definition>TranscriptionResult themis::content::STTProcessor::transcribeInternal</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pcm_data, const json &amp;options)</argsstring>
+        <name>transcribeInternal</name>
+        <qualifiedname>themis::content::STTProcessor::transcribeInternal</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Transcribe Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pcm_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pcm_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), whisper_full_default_params(), value(), c_str(), whisper_full(), data(), size(), whisper_full_n_segments(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="157" column="25" bodyfile="src/content/stt_processor.cpp" bodystart="795" bodyend="948"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1a2265b6f00293cbdc567969d7739c6795" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_transcription_segment" kindref="compound">TranscriptionSegment</ref> &gt;</type>
+        <definition>std::vector&lt; TranscriptionSegment &gt; themis::content::STTProcessor::performSpeakerDiarization</definition>
+        <argsstring>(const std::vector&lt; TranscriptionSegment &gt; &amp;segments, const std::vector&lt; float &gt; &amp;pcm_data)</argsstring>
+        <name>performSpeakerDiarization</name>
+        <qualifiedname>themis::content::STTProcessor::performSpeakerDiarization</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1content_1_1_transcription_segment" kindref="compound">TranscriptionSegment</ref> &gt; &amp;</type>
+          <declname>segments</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm_data</declname>
+        </param>
+        <briefdescription>
+<para>Perform Speaker Diarization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">segments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pcm_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="168" column="17" bodyfile="src/content/stt_processor.cpp" bodystart="951" bodyend="954"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1a9e8224db78b382e7b2d7e3fd54bfbff0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::STTProcessor::formatAsProtocol</definition>
+        <argsstring>(const TranscriptionResult &amp;result, const json &amp;options)</argsstring>
+        <name>formatAsProtocol</name>
+        <qualifiedname>themis::content::STTProcessor::formatAsProtocol</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_transcription_result" kindref="compound">TranscriptionResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Format As Protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), json::array(), formatTimestamp(), std::to_string(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="179" column="10" bodyfile="src/content/stt_processor.cpp" bodystart="1191" bodyend="1226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_s_t_t_processor_1a6b7d71e631a7ed076157d08cecf2fb64" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::STTProcessor::formatTimestamp</definition>
+        <argsstring>(int64_t ms)</argsstring>
+        <name>formatTimestamp</name>
+        <qualifiedname>themis::content::STTProcessor::formatTimestamp</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>ms</declname>
+        </param>
+        <briefdescription>
+<para>Format Timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Helper function to format timestamp.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: snprintf(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/stt_processor.h" line="189" column="17" bodyfile="src/content/stt_processor.cpp" bodystart="1234" bodyend="1243"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::content::IContentProcessorPlugin</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::content::STTProcessor</label>
+        <link refid="classthemis_1_1content_1_1_s_t_t_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::IContentProcessorPlugin</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::content::STTProcessor</label>
+        <link refid="classthemis_1_1content_1_1_s_t_t_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/stt_processor.h" line="47" column="1" bodyfile="include/content/stt_processor.h" bodystart="47" bodyend="190"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a3429c09e1c650966d3dc7cf828c07147" prot="public" virt="virtual"><scope>themis::content::STTProcessor</scope><name>canProcess</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a9c1763a8171fe58d49d3b99570879c14" prot="public" virt="virtual"><scope>themis::content::STTProcessor</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1ab10a382a1b6bc6a6285459be05bcafda" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>convertToWav16kHz</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a36f3437bf8b60bd3b3d299ebf99072df" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>default_language_</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1ace855a20fc26d104a367994b21cf5f4e" prot="public" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>diarizeSegments</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1ad08d5b6fbe2c40f51432b382d54918fa" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>enable_speaker_diarization_</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a23a7e0d0be662d2c2c909aa173d192fa" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>enable_timestamps_</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a2a40266fee35b479867aff8d02311bbe" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>enable_word_confidence_</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a1eb2fbc5db2ae82b515100c362923316" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>errors_</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a06c06e9813a997547b8285a3b0e84f07" prot="public" virt="virtual"><scope>themis::content::STTProcessor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1ad45e71550f535efd58eb6fa142349c0c" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>extractPCMData</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a9e8224db78b382e7b2d7e3fd54bfbff0" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>formatAsProtocol</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a6b7d71e631a7ed076157d08cecf2fb64" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>formatTimestamp</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1af5574d3a58ab4c08aab471346728895b" prot="public" virt="virtual"><scope>themis::content::STTProcessor</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1afee6cf78d794a42cc77986fc48708159" prot="public" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>generateMeetingProtocol</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a5b1bbfc5a0392043d0ca4b3b6a6ae295" prot="public" virt="virtual"><scope>themis::content::STTProcessor</scope><name>getInfo</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a51f77e23575f894d55e18b08db0ca04b" prot="public" virt="virtual"><scope>themis::content::STTProcessor</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a309854cb43914c8862056397f9c19365" prot="public" virt="virtual"><scope>themis::content::STTProcessor</scope><name>healthCheck</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a06b993922ea3f3816fd127e2488250b0" prot="public" virt="virtual"><scope>themis::content::STTProcessor</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a0591478896f107fa9a8d08f1fedf249e" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1ac6fde99fdef6504087f0ecaba125b625" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>loadWhisperModel</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a9f3dc9532f836ea3f05f246ec483a67e" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>max_speakers_</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a4d7841116abe5b5e7f1541fc354e5b7f" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>model_path_</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1ae5e130b9d87e88f577011cf4cc5b6eb1" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>model_size_</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a2265b6f00293cbdc567969d7739c6795" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>performSpeakerDiarization</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a2b53c6e154ae8ebf4022021f77d76b79" prot="public" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>setTranscribeFn</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a95ae6f6413bbf07817af0ee06b0954a7" prot="public" virt="virtual"><scope>themis::content::STTProcessor</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1aea6fdb38abd87b7245c16e51cfdee71d" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a536264f0da0bd9b531c791f2c1e4e729" prot="public" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>streamTranscribe</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1acc370131ee54a484ff604add108d6c90" prot="public" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>STTProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1afcff3dde41faa5df667023aa75cb82e3" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>total_audio_duration_ms_</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a2ce7b299c4db6f4cad52d034d3d3fb16" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>total_processing_time_ms_</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1af35adffc8b7f71742964c5e20471d74d" prot="public" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>transcribe</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a556a69b2dcdc1095d2eb9ffa561baee4" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>transcribe_fn_</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1ab0c44489f232a12e6b6a2cb66fb088af" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>transcribeInternal</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a219950b56f6b4acc306391ae739444f9" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>transcriptions_completed_</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a9ed0cf271f481e131508b82ec1b585de" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>unloadWhisperModel</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1abb5cd4232304c7283b0e341ce626db6f" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>vad_threshold_</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a0be37a1db13b707593878fa294c19086" prot="private" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>whisper_ctx_</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a1dcdabe9bde9b32c70262ec3ec23cd2d" prot="public" virt="virtual"><scope>themis::content::STTProcessor</scope><name>~IContentProcessorPlugin</name></member>
+      <member refid="classthemis_1_1content_1_1_s_t_t_processor_1a2d02c4ee9cc68bc30404656264c43ad7" prot="public" virt="non-virtual"><scope>themis::content::STTProcessor</scope><name>~STTProcessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

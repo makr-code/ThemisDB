@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUUnifiedMemoryAllocator::AllocationRecord</compoundname>
+    <includes refid="unified__memory_8h" local="no">unified_memory.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record_1a1fb1f66929b65d8f30ea14f7fa4b2d22" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::gpu::GPUUnifiedMemoryAllocator::AllocationRecord::ptr</definition>
+        <argsstring></argsstring>
+        <name>ptr</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::AllocationRecord::ptr</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="84" column="20" bodyfile="include/themis/gpu/unified_memory.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record_1a9365bfd31a2f34682b1cda74d64e2682" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUUnifiedMemoryAllocator::AllocationRecord::bytes</definition>
+        <argsstring></argsstring>
+        <name>bytes</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::AllocationRecord::bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="85" column="21" bodyfile="include/themis/gpu/unified_memory.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record_1abe37fe5bd741776fd0847cb7865758ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUUnifiedMemoryAllocator::AllocationRecord::tag</definition>
+        <argsstring></argsstring>
+        <name>tag</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::AllocationRecord::tag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="86" column="21" bodyfile="include/themis/gpu/unified_memory.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record_1a025c8ea4b1e275580874a976c9185d3a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUUnifiedMemoryAllocator::AllocationRecord::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::AllocationRecord::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="87" column="21" bodyfile="include/themis/gpu/unified_memory.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/unified_memory.h" line="83" column="5" bodyfile="include/themis/gpu/unified_memory.h" bodystart="83" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record_1a9365bfd31a2f34682b1cda74d64e2682" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator::AllocationRecord</scope><name>bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record_1a1fb1f66929b65d8f30ea14f7fa4b2d22" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator::AllocationRecord</scope><name>ptr</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record_1abe37fe5bd741776fd0847cb7865758ab" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator::AllocationRecord</scope><name>tag</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_allocation_record_1a025c8ea4b1e275580874a976c9185d3a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator::AllocationRecord</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

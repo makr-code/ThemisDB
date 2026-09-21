@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_cuda_event_guard" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::CudaEventGuard</compoundname>
+    <includes refid="cuda__raii_8h" local="no">cuda_raii.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cuda_event_guard_1a790e73a6bb801fbce60dc066afcedbaa" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::gpu::CudaEventGuard::event</definition>
+        <argsstring></argsstring>
+        <name>event</name>
+        <qualifiedname>themis::gpu::CudaEventGuard::event</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="144" column="10" bodyfile="include/gpu/cuda_raii.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_event_guard_1a40b60a50f5c073ca8508d06d8df92ced" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaEventGuard::CudaEventGuard</definition>
+        <argsstring>()</argsstring>
+        <name>CudaEventGuard</name>
+        <qualifiedname>themis::gpu::CudaEventGuard::CudaEventGuard</qualifiedname>
+        <briefdescription>
+<para>Cuda Event Guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: cudaEventCreate(), <ref refid="cuda__raii_8h_1a2f005f70bed18a2c1871fc5105922d6c" kindref="member">THEMIS_CUDA_RAII_LOG_WARN()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="152" column="14" bodyfile="include/gpu/cuda_raii.h" bodystart="152" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_event_guard_1aeb1df37b5d821d14a287bf9220341256" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaEventGuard::~CudaEventGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~CudaEventGuard</name>
+        <qualifiedname>themis::gpu::CudaEventGuard::~CudaEventGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="161" column="5" bodyfile="include/gpu/cuda_raii.h" bodystart="161" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_event_guard_1a8ad1b9e29c96ae0f6412a6939ddde3ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaEventGuard::CudaEventGuard</definition>
+        <argsstring>(const CudaEventGuard &amp;)=delete</argsstring>
+        <name>CudaEventGuard</name>
+        <qualifiedname>themis::gpu::CudaEventGuard::CudaEventGuard</qualifiedname>
+        <param>
+          <type>const CudaEventGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="171" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_event_guard_1a1d8b02dda6a834290465c88116f6c401" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_cuda_event_guard_1a40b60a50f5c073ca8508d06d8df92ced" kindref="member">CudaEventGuard</ref> &amp;</type>
+        <definition>CudaEventGuard &amp; themis::gpu::CudaEventGuard::operator=</definition>
+        <argsstring>(const CudaEventGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::CudaEventGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_cuda_event_guard_1a40b60a50f5c073ca8508d06d8df92ced" kindref="member">CudaEventGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="172" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_event_guard_1ab265d10fec6aa8da68dca02cbfbb3420" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaEventGuard::CudaEventGuard</definition>
+        <argsstring>(CudaEventGuard &amp;&amp;o) noexcept</argsstring>
+        <name>CudaEventGuard</name>
+        <qualifiedname>themis::gpu::CudaEventGuard::CudaEventGuard</qualifiedname>
+        <param>
+          <type>CudaEventGuard &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="174" column="5" bodyfile="include/gpu/cuda_raii.h" bodystart="174" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_event_guard_1a9ef63bf757e22b31d51e4993fa3a894c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_cuda_event_guard_1a40b60a50f5c073ca8508d06d8df92ced" kindref="member">CudaEventGuard</ref> &amp;</type>
+        <definition>CudaEventGuard &amp; themis::gpu::CudaEventGuard::operator=</definition>
+        <argsstring>(CudaEventGuard &amp;&amp;o) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::CudaEventGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1gpu_1_1_cuda_event_guard_1a40b60a50f5c073ca8508d06d8df92ced" kindref="member">CudaEventGuard</ref> &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="177" column="20" bodyfile="include/gpu/cuda_raii.h" bodystart="177" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_event_guard_1a7c6e19c8c106e079771cca158ae7ca95" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::CudaEventGuard::isValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::gpu::CudaEventGuard::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="189" column="11" bodyfile="include/gpu/cuda_raii.h" bodystart="189" bodyend="189"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/cuda_raii.h" line="140" column="1" bodyfile="include/gpu/cuda_raii.h" bodystart="140" bodyend="190"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_cuda_event_guard_1a40b60a50f5c073ca8508d06d8df92ced" prot="public" virt="non-virtual"><scope>themis::gpu::CudaEventGuard</scope><name>CudaEventGuard</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_event_guard_1a8ad1b9e29c96ae0f6412a6939ddde3ca" prot="public" virt="non-virtual"><scope>themis::gpu::CudaEventGuard</scope><name>CudaEventGuard</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_event_guard_1ab265d10fec6aa8da68dca02cbfbb3420" prot="public" virt="non-virtual"><scope>themis::gpu::CudaEventGuard</scope><name>CudaEventGuard</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_event_guard_1a790e73a6bb801fbce60dc066afcedbaa" prot="public" virt="non-virtual"><scope>themis::gpu::CudaEventGuard</scope><name>event</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_event_guard_1a7c6e19c8c106e079771cca158ae7ca95" prot="public" virt="non-virtual"><scope>themis::gpu::CudaEventGuard</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_event_guard_1a1d8b02dda6a834290465c88116f6c401" prot="public" virt="non-virtual"><scope>themis::gpu::CudaEventGuard</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_event_guard_1a9ef63bf757e22b31d51e4993fa3a894c" prot="public" virt="non-virtual"><scope>themis::gpu::CudaEventGuard</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_event_guard_1aeb1df37b5d821d14a287bf9220341256" prot="public" virt="non-virtual"><scope>themis::gpu::CudaEventGuard</scope><name>~CudaEventGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

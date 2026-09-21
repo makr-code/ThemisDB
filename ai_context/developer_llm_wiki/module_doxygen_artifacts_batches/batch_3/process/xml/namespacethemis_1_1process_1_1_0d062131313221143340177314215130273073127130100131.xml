@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1process_1_1_0d062131313221143340177314215130273073127130100131" kind="namespace" language="C++">
+    <compoundname>themis::process::@062131313221143340177314215130273073127130100131</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/process/process_light_retriever.cpp" line="36" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::LLMValidationPipeline::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl_1a70f07b7f744d1f6684032f3800d38ad7" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; query::AQLParserService &gt;</type>
+        <definition>std::shared_ptr&lt;query::AQLParserService&gt; themis::aql::LLMValidationPipeline::Impl::parser_service</definition>
+        <argsstring></argsstring>
+        <name>parser_service</name>
+        <qualifiedname>themis::aql::LLMValidationPipeline::Impl::parser_service</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/llm_validation_pipeline.cpp" line="25" column="21" bodyfile="src/aql/llm_validation_pipeline.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl_1a87383124385ffa7a03dfcd7e0672463c" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; llm::LLMClient &gt;</type>
+        <definition>std::shared_ptr&lt;llm::LLMClient&gt; themis::aql::LLMValidationPipeline::Impl::llm_client</definition>
+        <argsstring></argsstring>
+        <name>llm_client</name>
+        <qualifiedname>themis::aql::LLMValidationPipeline::Impl::llm_client</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/llm_validation_pipeline.cpp" line="26" column="21" bodyfile="src/aql/llm_validation_pipeline.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl_1a0ad014e6c913191cf63675d550288235" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config" kindref="compound">LLMValidationPipelineConfig</ref></type>
+        <definition>LLMValidationPipelineConfig themis::aql::LLMValidationPipeline::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::aql::LLMValidationPipeline::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/llm_validation_pipeline.cpp" line="27" column="33" bodyfile="src/aql/llm_validation_pipeline.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl_1adcacb632ec13d52af48086860f2e61c1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1aql_1a73c45bd9c6132715cd9bee98b6a986e9" kindref="member">FeedbackGenerator</ref></type>
+        <definition>FeedbackGenerator themis::aql::LLMValidationPipeline::Impl::feedback_generator</definition>
+        <argsstring></argsstring>
+        <name>feedback_generator</name>
+        <qualifiedname>themis::aql::LLMValidationPipeline::Impl::feedback_generator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/llm_validation_pipeline.cpp" line="29" column="23" bodyfile="src/aql/llm_validation_pipeline.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl_1aee2d52f5b56d17762bd750c87e6759a0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1aql_1a655dd6b1fdbe0f3204739a182ee877e0" kindref="member">RetryabilityCheck</ref></type>
+        <definition>RetryabilityCheck themis::aql::LLMValidationPipeline::Impl::retryability_check</definition>
+        <argsstring></argsstring>
+        <name>retryability_check</name>
+        <qualifiedname>themis::aql::LLMValidationPipeline::Impl::retryability_check</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/llm_validation_pipeline.cpp" line="30" column="23" bodyfile="src/aql/llm_validation_pipeline.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl_1a16c8af9ffb4356dcd36f0bb0e2b647c3" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::LLMValidationPipeline::Impl::Impl</definition>
+        <argsstring>(std::shared_ptr&lt; query::AQLParserService &gt; parser, std::shared_ptr&lt; llm::LLMClient &gt; llm, const LLMValidationPipelineConfig &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::aql::LLMValidationPipeline::Impl::Impl</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; query::AQLParserService &gt;</type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; llm::LLMClient &gt;</type>
+          <declname>llm</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config" kindref="compound">LLMValidationPipelineConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">llm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/llm_validation_pipeline.cpp" line="39" column="14" bodyfile="src/aql/llm_validation_pipeline.cpp" bodystart="39" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl_1a2851e719ac29cca77e5aaf28e60904ac" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1aql_1a73c45bd9c6132715cd9bee98b6a986e9" kindref="member">FeedbackGenerator</ref></type>
+        <definition>static FeedbackGenerator themis::aql::LLMValidationPipeline::Impl::defaultFeedbackGenerator</definition>
+        <argsstring>()</argsstring>
+        <name>defaultFeedbackGenerator</name>
+        <qualifiedname>themis::aql::LLMValidationPipeline::Impl::defaultFeedbackGenerator</qualifiedname>
+        <briefdescription>
+<para>Default Feedback Generator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/llm_validation_pipeline.cpp" line="54" column="30" bodyfile="src/aql/llm_validation_pipeline.cpp" bodystart="54" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl_1a826cc628a4b86e366a0fee95b7d0f364" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1aql_1a655dd6b1fdbe0f3204739a182ee877e0" kindref="member">RetryabilityCheck</ref></type>
+        <definition>static RetryabilityCheck themis::aql::LLMValidationPipeline::Impl::defaultRetryabilityCheck</definition>
+        <argsstring>()</argsstring>
+        <name>defaultRetryabilityCheck</name>
+        <qualifiedname>themis::aql::LLMValidationPipeline::Impl::defaultRetryabilityCheck</qualifiedname>
+        <briefdescription>
+<para>Default Retryability Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaultRetryabilityCheck without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/llm_validation_pipeline.cpp" line="76" column="30" bodyfile="src/aql/llm_validation_pipeline.cpp" bodystart="76" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::aql::LLMValidationPipeline::Impl</label>
+        <link refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::aql::LLMValidationPipelineConfig</label>
+        <link refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/aql/llm_validation_pipeline.cpp" line="23" column="1" bodyfile="src/aql/llm_validation_pipeline.cpp" bodystart="23" bodyend="100"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl_1a0ad014e6c913191cf63675d550288235" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationPipeline::Impl</scope><name>config</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl_1a2851e719ac29cca77e5aaf28e60904ac" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationPipeline::Impl</scope><name>defaultFeedbackGenerator</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl_1a826cc628a4b86e366a0fee95b7d0f364" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationPipeline::Impl</scope><name>defaultRetryabilityCheck</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl_1adcacb632ec13d52af48086860f2e61c1" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationPipeline::Impl</scope><name>feedback_generator</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl_1a16c8af9ffb4356dcd36f0bb0e2b647c3" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationPipeline::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl_1a87383124385ffa7a03dfcd7e0672463c" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationPipeline::Impl</scope><name>llm_client</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl_1a70f07b7f744d1f6684032f3800d38ad7" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationPipeline::Impl</scope><name>parser_service</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl_1aee2d52f5b56d17762bd750c87e6759a0" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationPipeline::Impl</scope><name>retryability_check</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

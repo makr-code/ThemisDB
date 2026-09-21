@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::RocksDBProvenanceStore::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_impl_1adbf7b38a4709a8c8a43bddfab4ebd347" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; rocksdb::DB &gt;</type>
+        <definition>std::unique_ptr&lt;rocksdb::DB&gt; themis::observability::RocksDBProvenanceStore::Impl::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::observability::RocksDBProvenanceStore::Impl::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/provenance_store.cpp" line="187" column="31" bodyfile="src/observability/provenance_store.cpp" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_impl_1a3be2049ec45dc4cdf4b89989477bcae7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config" kindref="compound">RocksDBProvenanceStore::Config</ref></type>
+        <definition>RocksDBProvenanceStore::Config themis::observability::RocksDBProvenanceStore::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::observability::RocksDBProvenanceStore::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/provenance_store.cpp" line="188" column="36" bodyfile="src/observability/provenance_store.cpp" bodystart="188" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_impl_1a85caa2734a0f5868a7b4538d797aab76" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::RocksDBProvenanceStore::Impl::Impl</definition>
+        <argsstring>(const RocksDBProvenanceStore::Config &amp;config)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::observability::RocksDBProvenanceStore::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config" kindref="compound">RocksDBProvenanceStore::Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: themis::storage::detail::openDbCompat(), ok(), std::string(), ToString(), db_instance(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/provenance_store.cpp" line="159" column="14" bodyfile="src/observability/provenance_store.cpp" bodystart="159" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_impl_1a067302a62b758d811e8497a7dd6bfcad" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>rocksdb::DB *</type>
+        <definition>rocksdb::DB * themis::observability::RocksDBProvenanceStore::Impl::getDb</definition>
+        <argsstring>() const</argsstring>
+        <name>getDb</name>
+        <qualifiedname>themis::observability::RocksDBProvenanceStore::Impl::getDb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/provenance_store.cpp" line="182" column="18" bodyfile="src/observability/provenance_store.cpp" bodystart="182" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_impl_1a38ec2717c05b5837b329699c4638fda0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_config" kindref="compound">RocksDBProvenanceStore::Config</ref> &amp;</type>
+        <definition>const RocksDBProvenanceStore::Config &amp; themis::observability::RocksDBProvenanceStore::Impl::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::observability::RocksDBProvenanceStore::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/provenance_store.cpp" line="184" column="43" bodyfile="src/observability/provenance_store.cpp" bodystart="184" bodyend="184"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/observability/provenance_store.cpp" line="150" column="1" bodyfile="src/observability/provenance_store.cpp" bodystart="150" bodyend="189"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_impl_1a38ec2717c05b5837b329699c4638fda0" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBProvenanceStore::Impl</scope><name>config</name></member>
+      <member refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_impl_1a3be2049ec45dc4cdf4b89989477bcae7" prot="private" virt="non-virtual"><scope>themis::observability::RocksDBProvenanceStore::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_impl_1adbf7b38a4709a8c8a43bddfab4ebd347" prot="private" virt="non-virtual"><scope>themis::observability::RocksDBProvenanceStore::Impl</scope><name>db_</name></member>
+      <member refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_impl_1a067302a62b758d811e8497a7dd6bfcad" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBProvenanceStore::Impl</scope><name>getDb</name></member>
+      <member refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1_1_impl_1a85caa2734a0f5868a7b4538d797aab76" prot="public" virt="non-virtual"><scope>themis::observability::RocksDBProvenanceStore::Impl</scope><name>Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

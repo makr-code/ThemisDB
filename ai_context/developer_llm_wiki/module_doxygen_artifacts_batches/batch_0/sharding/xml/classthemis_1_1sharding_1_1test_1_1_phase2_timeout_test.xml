@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1test_1_1_phase2_timeout_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::test::Phase2TimeoutTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1test_1_1_phase2_timeout_test_1a8d4be1c1873fa55dcfcddf582530170e" prot="protected" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::test::Phase2TimeoutTest::seed_</definition>
+        <argsstring></argsstring>
+        <name>seed_</name>
+        <qualifiedname>themis::sharding::test::Phase2TimeoutTest::seed_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="71" column="14" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="71" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1test_1_1_phase2_timeout_test_1aaded297ca03e976e0c1fce2d6a0130be" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::test::Phase2TimeoutTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::sharding::test::Phase2TimeoutTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="67" column="10" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="67" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::sharding::test::Phase2TimeoutTest</label>
+        <link refid="classthemis_1_1sharding_1_1test_1_1_phase2_timeout_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::sharding::test::Phase2TimeoutTest</label>
+        <link refid="classthemis_1_1sharding_1_1test_1_1_phase2_timeout_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_sharding_phase2_hardening.cpp" line="65" column="1" bodyfile="tests/sharding/test_sharding_phase2_hardening.cpp" bodystart="65" bodyend="72"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_phase2_timeout_test_1a8d4be1c1873fa55dcfcddf582530170e" prot="protected" virt="non-virtual"><scope>themis::sharding::test::Phase2TimeoutTest</scope><name>seed_</name></member>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_phase2_timeout_test_1aaded297ca03e976e0c1fce2d6a0130be" prot="protected" virt="non-virtual"><scope>themis::sharding::test::Phase2TimeoutTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

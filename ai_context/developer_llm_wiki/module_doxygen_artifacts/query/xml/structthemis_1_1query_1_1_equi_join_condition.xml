@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_equi_join_condition" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::EquiJoinCondition</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_equi_join_condition_1a9c1691ac68253a9a7bc03285f060cc79" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::EquiJoinCondition::found</definition>
+        <argsstring></argsstring>
+        <name>found</name>
+        <qualifiedname>themis::query::EquiJoinCondition::found</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/query_engine.cpp" line="3435" column="6" bodyfile="src/query/query_engine.cpp" bodystart="3435" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_equi_join_condition_1a2a0050e490bc2003a99f86150e911476" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::EquiJoinCondition::left_var</definition>
+        <argsstring></argsstring>
+        <name>left_var</name>
+        <qualifiedname>themis::query::EquiJoinCondition::left_var</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/query_engine.cpp" line="3436" column="13" bodyfile="src/query/query_engine.cpp" bodystart="3436" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_equi_join_condition_1abf1df9b19dc05987c5250d0ea99c8bad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::EquiJoinCondition::left_field</definition>
+        <argsstring></argsstring>
+        <name>left_field</name>
+        <qualifiedname>themis::query::EquiJoinCondition::left_field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/query_engine.cpp" line="3437" column="13" bodyfile="src/query/query_engine.cpp" bodystart="3437" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_equi_join_condition_1abd7815f04ddb47c8680a2c8a850e4996" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::EquiJoinCondition::right_var</definition>
+        <argsstring></argsstring>
+        <name>right_var</name>
+        <qualifiedname>themis::query::EquiJoinCondition::right_var</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/query_engine.cpp" line="3438" column="13" bodyfile="src/query/query_engine.cpp" bodystart="3438" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_equi_join_condition_1af422c30370e982ca91383ec86daae415" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::EquiJoinCondition::right_field</definition>
+        <argsstring></argsstring>
+        <name>right_field</name>
+        <qualifiedname>themis::query::EquiJoinCondition::right_field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/query_engine.cpp" line="3439" column="13" bodyfile="src/query/query_engine.cpp" bodystart="3439" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/query_engine.cpp" line="3434" column="1" bodyfile="src/query/query_engine.cpp" bodystart="3434" bodyend="3440"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_equi_join_condition_1a9c1691ac68253a9a7bc03285f060cc79" prot="public" virt="non-virtual"><scope>themis::query::EquiJoinCondition</scope><name>found</name></member>
+      <member refid="structthemis_1_1query_1_1_equi_join_condition_1abf1df9b19dc05987c5250d0ea99c8bad" prot="public" virt="non-virtual"><scope>themis::query::EquiJoinCondition</scope><name>left_field</name></member>
+      <member refid="structthemis_1_1query_1_1_equi_join_condition_1a2a0050e490bc2003a99f86150e911476" prot="public" virt="non-virtual"><scope>themis::query::EquiJoinCondition</scope><name>left_var</name></member>
+      <member refid="structthemis_1_1query_1_1_equi_join_condition_1af422c30370e982ca91383ec86daae415" prot="public" virt="non-virtual"><scope>themis::query::EquiJoinCondition</scope><name>right_field</name></member>
+      <member refid="structthemis_1_1query_1_1_equi_join_condition_1abd7815f04ddb47c8680a2c8a850e4996" prot="public" virt="non-virtual"><scope>themis::query::EquiJoinCondition</scope><name>right_var</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

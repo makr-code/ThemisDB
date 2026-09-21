@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="security__initialization_8h" kind="file" language="C++">
+    <compoundname>security_initialization.h</compoundname>
+    <includes local="yes">themis/base/interfaces/security_interface.h</includes>
+    <includes local="yes">security/encryption.h</includes>
+    <includes local="yes">security/rbac.h</includes>
+    <includes local="yes">auth/jwt_validator.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="security__initialization_8cpp" local="yes">src/core/security_initialization.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/core/security_initialization.h</label>
+        <link refid="security__initialization_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>auth/jwt_validator.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>security/encryption.h</label>
+      </node>
+      <node id="4">
+        <label>security/rbac.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>themis/base/interfaces/security_interface.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/core/security_initialization.h</label>
+        <link refid="security__initialization_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/core/security_initialization.cpp</label>
+        <link refid="security__initialization_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_security_layer_builder" prot="public">themis::SecurityLayerBuilder</innerclass>
+    <innerclass refid="structthemis_1_1_security_layer_builder_1_1_security_layer" prot="public">themis::SecurityLayerBuilder::SecurityLayer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/base/interfaces/security_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/encryption.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/rbac.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/jwt_validator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="classthemis_1_1_security_layer_builder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" kindref="member">SecurityLayerBuilder</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabf" kindref="member">KeyProviderType</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabfa54b4c4075463b2e02cd69f5cd139b5b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabfa54b4c4075463b2e02cd69f5cd139b5b2" kindref="member">LOCAL</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabfae9569439466b447c2678d48306e433f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabfae9569439466b447c2678d48306e433f9" kindref="member">VAULT</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabfab91400497dbb394f86600c0713c3541b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabfab91400497dbb394f86600c0713c3541b" kindref="member">HSM</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1_security_layer_builder_1_1_security_layer" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_security_layer_builder_1_1_security_layer" kindref="compound">SecurityLayer</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1_security_layer_builder_1_1_security_layer_1ac4b0aab4e5df0f11df96bedd8536908f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IFieldEncryption&gt;<sp/><ref refid="structthemis_1_1_security_layer_builder_1_1_security_layer_1ac4b0aab4e5df0f11df96bedd8536908f" kindref="member">field_encryption</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1_security_layer_builder_1_1_security_layer_1a1e587b419ec86b67b2612b8551b8347b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;security::RBAC&gt;<sp/><ref refid="structthemis_1_1_security_layer_builder_1_1_security_layer_1a1e587b419ec86b67b2612b8551b8347b" kindref="member">rbac</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1_security_layer_builder_1_1_security_layer_1a27fbd3507a01b999eedff819fec6d3db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;auth::JWTValidator&gt;<sp/><ref refid="structthemis_1_1_security_layer_builder_1_1_security_layer_1a27fbd3507a01b999eedff819fec6d3db" kindref="member">jwt</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" kindref="member">SecurityLayerBuilder</ref>();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" kindref="member">SecurityLayerBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1_security_layer_builder_1a2c741eca819fbd528e4e7c0d47a192a7" kindref="member">withKeyProvider</ref>(</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabf" kindref="member">KeyProviderType</ref><sp/>type,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>config_json<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" kindref="member">SecurityLayerBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1_security_layer_builder_1a9cbc0932d6b90af4d6be7c742fd64c5b" kindref="member">withFieldEncryption</ref>(</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EncryptionConfig&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" kindref="member">SecurityLayerBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1_security_layer_builder_1a49a5a65d2adcf46bba59ae524a15da38" kindref="member">withRBACPolicy</ref>(</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>policy_file);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" kindref="member">SecurityLayerBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1_security_layer_builder_1a53bb3be0e383596ab78c05117d748cdf" kindref="member">withJWT</ref>(</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cert_file,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>allowed_issuers);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" kindref="member">SecurityLayerBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1_security_layer_builder_1a53bb3be0e383596ab78c05117d748cdf" kindref="member">withJWT</ref>(</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>auth::JWTValidatorConfig&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_security_layer_builder_1_1_security_layer" kindref="compound">SecurityLayer</ref><sp/><ref refid="classthemis_1_1_security_layer_builder_1a20c3a3b59f429d2318acf7b45ad98924" kindref="member">build</ref>();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_security_layer_builder_1a3afd605d4e16eab4c51de984ddc7966f" kindref="member">SecurityLayerBuilder</ref><sp/><ref refid="classthemis_1_1_security_layer_builder_1a468374a1c0885d4934d8fd4a30a40266" kindref="member">standard</ref>();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>IKeyProviderPtr<sp/>key_provider_;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;KeyProviderType&gt;<sp/>key_provider_type_;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>key_provider_config_;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EncryptionConfig<sp/>encryption_config_;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>rbac_policy_file_;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>auth::JWTValidatorConfig<sp/>jwt_config_;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>jwt_configured_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>loadFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>IKeyProviderPtr<sp/>createKeyProvider(</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_security_layer_builder_1a5e6476a4123b4218dc9981b22270cabf" kindref="member">KeyProviderType</ref><sp/>type,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>config_json);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/core/security_initialization.h"/>
+  </compounddef>
+</doxygen>

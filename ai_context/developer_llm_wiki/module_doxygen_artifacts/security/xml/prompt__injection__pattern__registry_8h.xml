@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="prompt__injection__pattern__registry_8h" kind="file" language="C++">
+    <compoundname>prompt_injection_pattern_registry.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="prompt__injection__pattern__registry_8cpp" local="yes">src/security/prompt_injection_pattern_registry.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/security/prompt_injection_pattern_registry.h</label>
+        <link refid="prompt__injection__pattern__registry_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/security/prompt_injection_pattern_registry.h</label>
+        <link refid="prompt__injection__pattern__registry_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/security/prompt_injection_pattern_registry.cpp</label>
+        <link refid="prompt__injection__pattern__registry_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1security_1_1_shared_pattern_entry" prot="public">themis::security::SharedPatternEntry</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry" prot="public">themis::security::PromptInjectionPatternRegistry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">themis::security</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Severity<sp/>hint<sp/>for<sp/>a<sp/>shared<sp/>pattern<sp/>entry.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Numeric<sp/>values<sp/>intentionally<sp/>match<sp/>themis::rag::security::InjectionSeverity.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1security_1a6365b69786e5f97cc85ac4d4a1aed2b8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1security_1a6365b69786e5f97cc85ac4d4a1aed2b8" kindref="member">SharedPatternSeverity</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1security_1a6365b69786e5f97cc85ac4d4a1aed2b8a41bc94cbd8eebea13ce0491b2ac11b88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384a41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">LOW</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1security_1a6365b69786e5f97cc85ac4d4a1aed2b8ac87f3be66ffc3c0d4249f1c2cc5f3cce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384ac87f3be66ffc3c0d4249f1c2cc5f3cce" kindref="member">MEDIUM</ref><sp/><sp/><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1security_1a6365b69786e5f97cc85ac4d4a1aed2b8ab89de3b4b81c4facfac906edf29aec8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384ab89de3b4b81c4facfac906edf29aec8c" kindref="member">HIGH</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1security_1a6365b69786e5f97cc85ac4d4a1aed2b8a99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>single<sp/>shared<sp/>pattern<sp/>entry.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1security_1_1_shared_pattern_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_shared_pattern_entry" kindref="compound">SharedPatternEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1security_1_1_shared_pattern_entry_1a176f791927e36f4393193cc06a1450db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_shared_pattern_entry_1a176f791927e36f4393193cc06a1450db" kindref="member">label</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1security_1_1_shared_pattern_entry_1a1aea363631aeee32bb36e193cdebab2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_shared_pattern_entry_1a1aea363631aeee32bb36e193cdebab2e" kindref="member">pattern_str</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1security_1_1_shared_pattern_entry_1a1cbe37bd85612c8c132b93e52d6be2a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_shared_pattern_entry_1a1cbe37bd85612c8c132b93e52d6be2a6" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1security_1_1_shared_pattern_entry_1a3d781ddc166dd0c0cd9b6f01477a58d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a6365b69786e5f97cc85ac4d4a1aed2b8" kindref="member">SharedPatternSeverity</ref><sp/><ref refid="structthemis_1_1security_1_1_shared_pattern_entry_1a3d781ddc166dd0c0cd9b6f01477a58d8" kindref="member">severity</ref><sp/>=<sp/><ref refid="namespacethemis_1_1security_1a6365b69786e5f97cc85ac4d4a1aed2b8ab89de3b4b81c4facfac906edf29aec8c" kindref="member">SharedPatternSeverity::HIGH</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PromptInjectionPatternRegistry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1af03da8564beb3267202542bb881ffa99" kindref="member">PromptInjectionPatternRegistry</ref><sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1af03da8564beb3267202542bb881ffa99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1af03da8564beb3267202542bb881ffa99" kindref="member">PromptInjectionPatternRegistry</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Accessors<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a35a3190ae9b4289580c2c034f7ead5dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;SharedPatternEntry&gt;&amp;<sp/><ref refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a35a3190ae9b4289580c2c034f7ead5dc" kindref="member">patterns</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>patterns_;<sp/>}</highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a161b8ed0f610202129d09389ab98c9ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a161b8ed0f610202129d09389ab98c9ab" kindref="member">keywords</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>keywords_;<sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a1aacfba35816b0eaf691db5ac14b73a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a1aacfba35816b0eaf691db5ac14b73a6" kindref="member">patternCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>patterns_.size();<sp/>}</highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a06d11a8091d3a75b0af02a8fd0098ab1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a06d11a8091d3a75b0af02a8fd0098ab1" kindref="member">keywordCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>keywords_.size();<sp/>}</highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a661c9a04f1dbd4ad6429b04a81ae313b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a661c9a04f1dbd4ad6429b04a81ae313b" kindref="member">version</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>version_;<sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a49a75c7a460b06efeb19b367625ba621" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a49a75c7a460b06efeb19b367625ba621" kindref="member">addPattern</ref>(<ref refid="structthemis_1_1security_1_1_shared_pattern_entry" kindref="compound">SharedPatternEntry</ref><sp/>entry)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>patterns_.push_back(std::move(entry));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++version_;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a11ca82c019ec563031ad0c9580affcde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a11ca82c019ec563031ad0c9580affcde" kindref="member">addKeyword</ref>(std::string<sp/>keyword)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keywords_.push_back(std::move(keyword));</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++version_;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Default<sp/>(canonical)<sp/>registry<sp/>──────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry" kindref="compound">PromptInjectionPatternRegistry</ref>&amp;<sp/><ref refid="classthemis_1_1security_1_1_prompt_injection_pattern_registry_1a8d8c31f6da4d0f16d110d53e1e4e02b9" kindref="member">defaultRegistry</ref>();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SharedPatternEntry&gt;<sp/>patterns_;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keywords_;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>version_<sp/>=<sp/>1u;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compile-time<sp/>constants<sp/>used<sp/>by<sp/>each<sp/>detector&apos;s<sp/>constructor<sp/>assertion.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Update<sp/>these<sp/>when<sp/>patterns<sp/>are<sp/>added<sp/>to<sp/>defaultRegistry().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="namespacethemis_1_1security_1a8bb2198a0b8d0c07327fe3f56266b07c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1security_1a8bb2198a0b8d0c07327fe3f56266b07c" kindref="member">SHARED_INJECTION_PATTERN_COUNT</ref><sp/>=<sp/>11u;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="namespacethemis_1_1security_1a7d2286f90b9cb43b6fccfa8b23df9b18" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1security_1a7d2286f90b9cb43b6fccfa8b23df9b18" kindref="member">SHARED_INJECTION_KEYWORD_COUNT</ref><sp/>=<sp/>11u;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::security</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/prompt_injection_pattern_registry.h"/>
+  </compounddef>
+</doxygen>

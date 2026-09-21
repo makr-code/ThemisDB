@@ -1,0 +1,335 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_connection_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::ConnectionGuard</compoundname>
+    <includes refid="connection__guard_8h" local="no">connection_guard.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1index_1_1_connection_guard_1ab0b42634fd9c7f9099c2cd0c0d022029" prot="public" static="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>using themis::index::ConnectionGuard::Releaser = std::function&lt;void()&gt;</definition>
+        <argsstring></argsstring>
+        <name>Releaser</name>
+        <qualifiedname>themis::index::ConnectionGuard::Releaser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/connection_guard.h" line="53" column="5" bodyfile="include/index/connection_guard.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_connection_guard_1adbe8f454b33054b266ac16924b341c49" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1index_1_1_connection_guard_1ab0b42634fd9c7f9099c2cd0c0d022029" kindref="member">Releaser</ref></type>
+        <definition>Releaser themis::index::ConnectionGuard::releaser_</definition>
+        <argsstring></argsstring>
+        <name>releaser_</name>
+        <qualifiedname>themis::index::ConnectionGuard::releaser_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/connection_guard.h" line="176" column="14" bodyfile="include/index/connection_guard.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_connection_guard_1acd9797f7468fe3f4f41e7b78feaffb70" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::ConnectionGuard::connection_id_</definition>
+        <argsstring></argsstring>
+        <name>connection_id_</name>
+        <qualifiedname>themis::index::ConnectionGuard::connection_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/connection_guard.h" line="177" column="9" bodyfile="include/index/connection_guard.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_connection_guard_1ad6b71fcb8c3470fc7b85ccde969033d3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::index::ConnectionGuard::released_</definition>
+        <argsstring></argsstring>
+        <name>released_</name>
+        <qualifiedname>themis::index::ConnectionGuard::released_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/connection_guard.h" line="178" column="17" bodyfile="include/index/connection_guard.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_connection_guard_1a8a1f2b589f439f5e1ab39507bb9c96a5" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::ConnectionGuard::ConnectionGuard</definition>
+        <argsstring>(Releaser releaser, int connection_id=-1) noexcept</argsstring>
+        <name>ConnectionGuard</name>
+        <qualifiedname>themis::index::ConnectionGuard::ConnectionGuard</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_connection_guard_1ab0b42634fd9c7f9099c2cd0c0d022029" kindref="member">Releaser</ref></type>
+          <declname>releaser</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>connection_id</declname>
+          <defval>-1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct with release function</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>releaser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to call on destruction MUST be exception-safe (catches internal exceptions) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional identifier for logging/debugging </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/connection_guard.h" line="62" column="14" bodyfile="include/index/connection_guard.h" bodystart="62" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_connection_guard_1abc0f0e0f255344514824b6689f749d8d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::ConnectionGuard::ConnectionGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>ConnectionGuard</name>
+        <qualifiedname>themis::index::ConnectionGuard::ConnectionGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default constructor: empty guard (no release needed) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/connection_guard.h" line="70" column="5" bodyfile="include/index/connection_guard.h" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_connection_guard_1a077e5a0b652009811aa70479ba806afc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::ConnectionGuard::ConnectionGuard</definition>
+        <argsstring>(const ConnectionGuard &amp;)=delete</argsstring>
+        <name>ConnectionGuard</name>
+        <qualifiedname>themis::index::ConnectionGuard::ConnectionGuard</qualifiedname>
+        <param>
+          <type>const ConnectionGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete copy constructor: exclusive ownership </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/connection_guard.h" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_connection_guard_1a0986a25cb208829665c4f001e2795fd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_connection_guard_1a8a1f2b589f439f5e1ab39507bb9c96a5" kindref="member">ConnectionGuard</ref> &amp;</type>
+        <definition>ConnectionGuard &amp; themis::index::ConnectionGuard::operator=</definition>
+        <argsstring>(const ConnectionGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::index::ConnectionGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1index_1_1_connection_guard_1a8a1f2b589f439f5e1ab39507bb9c96a5" kindref="member">ConnectionGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete copy assignment: exclusive ownership </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/connection_guard.h" line="82" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_connection_guard_1ab671b35664b38f50757ce442ad28198a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::ConnectionGuard::ConnectionGuard</definition>
+        <argsstring>(ConnectionGuard &amp;&amp;other) noexcept</argsstring>
+        <name>ConnectionGuard</name>
+        <qualifiedname>themis::index::ConnectionGuard::ConnectionGuard</qualifiedname>
+        <param>
+          <type>ConnectionGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Move constructor: transfer ownership</para>
+<para>Moved-from object becomes inactive (won&apos;t release on destruction) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/connection_guard.h" line="89" column="5" bodyfile="include/index/connection_guard.h" bodystart="89" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_connection_guard_1a83f0b847726e4e420338addfc7ef6491" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_connection_guard_1a8a1f2b589f439f5e1ab39507bb9c96a5" kindref="member">ConnectionGuard</ref> &amp;</type>
+        <definition>ConnectionGuard &amp; themis::index::ConnectionGuard::operator=</definition>
+        <argsstring>(ConnectionGuard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::index::ConnectionGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_connection_guard_1a8a1f2b589f439f5e1ab39507bb9c96a5" kindref="member">ConnectionGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Move assignment: transfer ownership with cleanup of current guard </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/connection_guard.h" line="100" column="21" bodyfile="include/index/connection_guard.h" bodystart="100" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_connection_guard_1af1f1cede1c42aa8a4138f84e6d1322d8" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::ConnectionGuard::~ConnectionGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ConnectionGuard</name>
+        <qualifiedname>themis::index::ConnectionGuard::~ConnectionGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Destructor: exception-safe cleanup</para>
+<para>Guaranteed to call releaser() exactly once if not yet released. Catches and suppresses all exceptions per C++ guidelines. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/connection_guard.h" line="119" column="5" bodyfile="include/index/connection_guard.h" bodystart="119" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_connection_guard_1a9914c07326d48c28bdd1e09e99b3f348" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::ConnectionGuard::isActive</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isActive</name>
+        <qualifiedname>themis::index::ConnectionGuard::isActive</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if guard is still active (has not released yet)</para>
+<para><simplesect kind="return"><para>true if connection still needs cleanup, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/connection_guard.h" line="128" column="10" bodyfile="include/index/connection_guard.h" bodystart="128" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_connection_guard_1a295fe72a2458dce5910cb99dc6e5c9d9" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::index::ConnectionGuard::getId</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getId</name>
+        <qualifiedname>themis::index::ConnectionGuard::getId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get connection ID (for debugging/logging)</para>
+<para><simplesect kind="return"><para>Connection identifier, or -1 if not set </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/connection_guard.h" line="137" column="9" bodyfile="include/index/connection_guard.h" bodystart="137" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_connection_guard_1a1dd4eb6de1dd4e79598650dd0cded969" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::ConnectionGuard::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::index::ConnectionGuard::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Manual release (optional, idempotent)</para>
+<para>Safe to call multiple times. Prevents releaser() from being called more than once.</para>
+<para>Guarantees:<itemizedlist>
+<listitem><para>Exception-safe (catches all internal exceptions)</para>
+</listitem><listitem><para>Idempotent (safe to call multiple times)</para>
+</listitem><listitem><para>No-throw (noexcept) </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/connection_guard.h" line="152" column="10" bodyfile="include/index/connection_guard.h" bodystart="152" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_connection_guard_1a4b323d7ce15916b7d4a860b520574f50" prot="public" static="no" const="yes" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::ConnectionGuard::operator bool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::index::ConnectionGuard::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if guard is valid (has a releaser function)</para>
+<para><simplesect kind="return"><para>true if guard can perform cleanup </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/connection_guard.h" line="171" column="14" bodyfile="include/index/connection_guard.h" bodystart="171" bodyend="173"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper for connection lifecycle management. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Guarantees cleanup on all exit paths:<itemizedlist>
+<listitem><para>Scope exit (normal)</para>
+</listitem><listitem><para>Exception throws (unwinding)</para>
+</listitem><listitem><para>Early returns (short-circuit)</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe design:<itemizedlist>
+<listitem><para>Move semantics (exclusive ownership transfer)</para>
+</listitem><listitem><para>No copying (prevents accidental double-cleanup)</para>
+</listitem><listitem><para>Atomic release flag (prevents double-release)</para>
+</listitem></itemizedlist>
+</para>
+<para>Example usage: <programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>guard<sp/>=<sp/><ref refid="namespacethemis_1_1index_1a0dde061255abf06c330901e79f19756c" kindref="member">makeConnectionGuard</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>db_.releaseConnection(connection_id);<sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>connection_id);</highlight></codeline>
+<codeline><highlight class="normal">performDatabaseOperation();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Scope<sp/>exit:<sp/>guard<sp/>cleanup<sp/>triggered</highlight></codeline>
+</programlisting></para>
+<para>Phase 3 A-6: Gap A-6.1 through A-6.34 (34 connection leak sites) </para>
+    </detaileddescription>
+    <location file="include/index/connection_guard.h" line="51" column="1" bodyfile="include/index/connection_guard.h" bodystart="51" bodyend="179"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_connection_guard_1acd9797f7468fe3f4f41e7b78feaffb70" prot="private" virt="non-virtual"><scope>themis::index::ConnectionGuard</scope><name>connection_id_</name></member>
+      <member refid="classthemis_1_1index_1_1_connection_guard_1a8a1f2b589f439f5e1ab39507bb9c96a5" prot="public" virt="non-virtual"><scope>themis::index::ConnectionGuard</scope><name>ConnectionGuard</name></member>
+      <member refid="classthemis_1_1index_1_1_connection_guard_1abc0f0e0f255344514824b6689f749d8d" prot="public" virt="non-virtual"><scope>themis::index::ConnectionGuard</scope><name>ConnectionGuard</name></member>
+      <member refid="classthemis_1_1index_1_1_connection_guard_1a077e5a0b652009811aa70479ba806afc" prot="public" virt="non-virtual"><scope>themis::index::ConnectionGuard</scope><name>ConnectionGuard</name></member>
+      <member refid="classthemis_1_1index_1_1_connection_guard_1ab671b35664b38f50757ce442ad28198a" prot="public" virt="non-virtual"><scope>themis::index::ConnectionGuard</scope><name>ConnectionGuard</name></member>
+      <member refid="classthemis_1_1index_1_1_connection_guard_1a295fe72a2458dce5910cb99dc6e5c9d9" prot="public" virt="non-virtual"><scope>themis::index::ConnectionGuard</scope><name>getId</name></member>
+      <member refid="classthemis_1_1index_1_1_connection_guard_1a9914c07326d48c28bdd1e09e99b3f348" prot="public" virt="non-virtual"><scope>themis::index::ConnectionGuard</scope><name>isActive</name></member>
+      <member refid="classthemis_1_1index_1_1_connection_guard_1a4b323d7ce15916b7d4a860b520574f50" prot="public" virt="non-virtual"><scope>themis::index::ConnectionGuard</scope><name>operator bool</name></member>
+      <member refid="classthemis_1_1index_1_1_connection_guard_1a0986a25cb208829665c4f001e2795fd4" prot="public" virt="non-virtual"><scope>themis::index::ConnectionGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1index_1_1_connection_guard_1a83f0b847726e4e420338addfc7ef6491" prot="public" virt="non-virtual"><scope>themis::index::ConnectionGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1index_1_1_connection_guard_1a1dd4eb6de1dd4e79598650dd0cded969" prot="public" virt="non-virtual"><scope>themis::index::ConnectionGuard</scope><name>release</name></member>
+      <member refid="classthemis_1_1index_1_1_connection_guard_1ad6b71fcb8c3470fc7b85ccde969033d3" prot="private" virt="non-virtual"><scope>themis::index::ConnectionGuard</scope><name>released_</name></member>
+      <member refid="classthemis_1_1index_1_1_connection_guard_1ab0b42634fd9c7f9099c2cd0c0d022029" prot="public" virt="non-virtual"><scope>themis::index::ConnectionGuard</scope><name>Releaser</name></member>
+      <member refid="classthemis_1_1index_1_1_connection_guard_1adbe8f454b33054b266ac16924b341c49" prot="private" virt="non-virtual"><scope>themis::index::ConnectionGuard</scope><name>releaser_</name></member>
+      <member refid="classthemis_1_1index_1_1_connection_guard_1af1f1cede1c42aa8a4138f84e6d1322d8" prot="public" virt="non-virtual"><scope>themis::index::ConnectionGuard</scope><name>~ConnectionGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

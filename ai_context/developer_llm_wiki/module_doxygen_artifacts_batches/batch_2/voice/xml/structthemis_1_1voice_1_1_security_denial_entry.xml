@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_security_denial_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::SecurityDenialEntry</compoundname>
+    <includes refid="voice__security_8h" local="no">voice_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_security_denial_entry_1a592106215d087e181acd87c2596f9701" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::SecurityDenialEntry::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::voice::SecurityDenialEntry::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="157" column="13" bodyfile="include/voice/voice_security.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_security_denial_entry_1a2d672d64984d5116bb78f5f2b6639b53" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::SecurityDenialEntry::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::voice::SecurityDenialEntry::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="158" column="17" bodyfile="include/voice/voice_security.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_security_denial_entry_1a70d3d1cb5f5e9b087783b1f01e91187b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::SecurityDenialEntry::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::voice::SecurityDenialEntry::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="159" column="17" bodyfile="include/voice/voice_security.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_security_denial_entry_1aa789d45d9190f5a6483d487b3083b4e1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::SecurityDenialEntry::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::voice::SecurityDenialEntry::action</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="160" column="17" bodyfile="include/voice/voice_security.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_security_denial_entry_1a5bacdaad331f80ce5961c63c1d6e9eff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::SecurityDenialEntry::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>themis::voice::SecurityDenialEntry::resource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="161" column="17" bodyfile="include/voice/voice_security.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_security_denial_entry_1ad56f08e00b4679b14cc197f1c38f3204" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::SecurityDenialEntry::denial_reason</definition>
+        <argsstring></argsstring>
+        <name>denial_reason</name>
+        <qualifiedname>themis::voice::SecurityDenialEntry::denial_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="162" column="17" bodyfile="include/voice/voice_security.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_security_denial_entry_1a749316938e58365c1f4340115ef75cf9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::SecurityDenialEntry::denial_code</definition>
+        <argsstring></argsstring>
+        <name>denial_code</name>
+        <qualifiedname>themis::voice::SecurityDenialEntry::denial_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="163" column="17" bodyfile="include/voice/voice_security.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_security.h" line="156" column="1" bodyfile="include/voice/voice_security.h" bodystart="156" bodyend="164"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_security_denial_entry_1aa789d45d9190f5a6483d487b3083b4e1" prot="public" virt="non-virtual"><scope>themis::voice::SecurityDenialEntry</scope><name>action</name></member>
+      <member refid="structthemis_1_1voice_1_1_security_denial_entry_1a749316938e58365c1f4340115ef75cf9" prot="public" virt="non-virtual"><scope>themis::voice::SecurityDenialEntry</scope><name>denial_code</name></member>
+      <member refid="structthemis_1_1voice_1_1_security_denial_entry_1ad56f08e00b4679b14cc197f1c38f3204" prot="public" virt="non-virtual"><scope>themis::voice::SecurityDenialEntry</scope><name>denial_reason</name></member>
+      <member refid="structthemis_1_1voice_1_1_security_denial_entry_1a5bacdaad331f80ce5961c63c1d6e9eff" prot="public" virt="non-virtual"><scope>themis::voice::SecurityDenialEntry</scope><name>resource</name></member>
+      <member refid="structthemis_1_1voice_1_1_security_denial_entry_1a70d3d1cb5f5e9b087783b1f01e91187b" prot="public" virt="non-virtual"><scope>themis::voice::SecurityDenialEntry</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_security_denial_entry_1a592106215d087e181acd87c2596f9701" prot="public" virt="non-virtual"><scope>themis::voice::SecurityDenialEntry</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_security_denial_entry_1a2d672d64984d5116bb78f5f2b6639b53" prot="public" virt="non-virtual"><scope>themis::voice::SecurityDenialEntry</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

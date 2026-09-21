@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1benchmark_1_1_bpmn_parser_1_1_bpmn_model" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::BpmnParser::BpmnModel</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_bpmn_parser_1_1_bpmn_model_1ad5fa8f61eca15514e9ffb7fee376d36d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::BpmnParser::BpmnModel::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::process::benchmark::BpmnParser::BpmnModel::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="30" column="21" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_bpmn_parser_1_1_bpmn_model_1ac1bb6b580b3b372b6f6e014d41b6cc81" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::BpmnParser::BpmnModel::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::process::benchmark::BpmnParser::BpmnModel::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="31" column="21" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_bpmn_parser_1_1_bpmn_model_1a01504e134e313c9aa5f5c73f4d9faef7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::benchmark::BpmnParser::BpmnModel::tasks</definition>
+        <argsstring></argsstring>
+        <name>tasks</name>
+        <qualifiedname>themis::process::benchmark::BpmnParser::BpmnModel::tasks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="32" column="21" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_bpmn_parser_1_1_bpmn_model_1a252432062a94601c11b8a83178cd0d7c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::benchmark::BpmnParser::BpmnModel::gateways</definition>
+        <argsstring></argsstring>
+        <name>gateways</name>
+        <qualifiedname>themis::process::benchmark::BpmnParser::BpmnModel::gateways</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="33" column="21" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_bpmn_parser_1_1_bpmn_model_1a9739b1a7b430b7f730b77039bc56c626" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; themis::process::benchmark::BpmnParser::BpmnModel::flows</definition>
+        <argsstring></argsstring>
+        <name>flows</name>
+        <qualifiedname>themis::process::benchmark::BpmnParser::BpmnModel::flows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="34" column="21" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_parser_gates.cpp" line="29" column="5" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="29" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_bpmn_parser_1_1_bpmn_model_1a9739b1a7b430b7f730b77039bc56c626" prot="public" virt="non-virtual"><scope>themis::process::benchmark::BpmnParser::BpmnModel</scope><name>flows</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_bpmn_parser_1_1_bpmn_model_1a252432062a94601c11b8a83178cd0d7c" prot="public" virt="non-virtual"><scope>themis::process::benchmark::BpmnParser::BpmnModel</scope><name>gateways</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_bpmn_parser_1_1_bpmn_model_1ad5fa8f61eca15514e9ffb7fee376d36d" prot="public" virt="non-virtual"><scope>themis::process::benchmark::BpmnParser::BpmnModel</scope><name>id</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_bpmn_parser_1_1_bpmn_model_1ac1bb6b580b3b372b6f6e014d41b6cc81" prot="public" virt="non-virtual"><scope>themis::process::benchmark::BpmnParser::BpmnModel</scope><name>name</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_bpmn_parser_1_1_bpmn_model_1a01504e134e313c9aa5f5c73f4d9faef7" prot="public" virt="non-virtual"><scope>themis::process::benchmark::BpmnParser::BpmnModel</scope><name>tasks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

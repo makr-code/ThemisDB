@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::boundary_enforcement::BoundaryEnforcementTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test_1af663fec102c8400447852204dbcfc514" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_credential_scanner" kindref="compound">CredentialScanner</ref></type>
+        <definition>CredentialScanner themis::plugins::boundary_enforcement::BoundaryEnforcementTest::scanner_</definition>
+        <argsstring></argsstring>
+        <name>scanner_</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::BoundaryEnforcementTest::scanner_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="282" column="23" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test_1a9ac447088fefd007df0539344d301674" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_s_b_o_m_verifier" kindref="compound">SBOMVerifier</ref></type>
+        <definition>SBOMVerifier themis::plugins::boundary_enforcement::BoundaryEnforcementTest::sbom_verifier_</definition>
+        <argsstring></argsstring>
+        <name>sbom_verifier_</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::BoundaryEnforcementTest::sbom_verifier_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="283" column="18" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test_1a8934bd54e8a6de1a71772ca06ebbd8dd" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_scoped_checkout_validator" kindref="compound">ScopedCheckoutValidator</ref></type>
+        <definition>ScopedCheckoutValidator themis::plugins::boundary_enforcement::BoundaryEnforcementTest::checkout_validator_</definition>
+        <argsstring></argsstring>
+        <name>checkout_validator_</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::BoundaryEnforcementTest::checkout_validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="284" column="29" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="284" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test_1a9f109b73b1ea874f662680f39ab5aea9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::boundary_enforcement::BoundaryEnforcementTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::BoundaryEnforcementTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="286" column="10" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="286" bodyend="288"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::plugins::boundary_enforcement::BoundaryEnforcementTest</label>
+        <link refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::plugins::boundary_enforcement::BoundaryEnforcementTest</label>
+        <link refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>scanner_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>sbom_verifier_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>checkout_validator_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::plugins::boundary_enforcement::CredentialScanner</label>
+        <link refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_credential_scanner"/>
+      </node>
+      <node id="4">
+        <label>themis::plugins::boundary_enforcement::SBOMVerifier</label>
+        <link refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_s_b_o_m_verifier"/>
+      </node>
+      <node id="5">
+        <label>themis::plugins::boundary_enforcement::ScopedCheckoutValidator</label>
+        <link refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_scoped_checkout_validator"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="280" column="1" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="280" bodyend="289"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test_1a8934bd54e8a6de1a71772ca06ebbd8dd" prot="protected" virt="non-virtual"><scope>themis::plugins::boundary_enforcement::BoundaryEnforcementTest</scope><name>checkout_validator_</name></member>
+      <member refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test_1a9ac447088fefd007df0539344d301674" prot="protected" virt="non-virtual"><scope>themis::plugins::boundary_enforcement::BoundaryEnforcementTest</scope><name>sbom_verifier_</name></member>
+      <member refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test_1af663fec102c8400447852204dbcfc514" prot="protected" virt="non-virtual"><scope>themis::plugins::boundary_enforcement::BoundaryEnforcementTest</scope><name>scanner_</name></member>
+      <member refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test_1a9f109b73b1ea874f662680f39ab5aea9" prot="protected" virt="non-virtual"><scope>themis::plugins::boundary_enforcement::BoundaryEnforcementTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

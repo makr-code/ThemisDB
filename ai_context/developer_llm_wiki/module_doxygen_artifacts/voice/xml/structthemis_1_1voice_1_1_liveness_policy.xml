@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_liveness_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::LivenessPolicy</compoundname>
+    <includes refid="voice__liveness__checker_8h" local="no">voice_liveness_checker.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_policy_1a495ee0650ba47e080c446f1726634034" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::voice::LivenessPolicy::MIN_LIVENESS_CONFIDENCE_THRESHOLD</definition>
+        <argsstring></argsstring>
+        <name>MIN_LIVENESS_CONFIDENCE_THRESHOLD</name>
+        <qualifiedname>themis::voice::LivenessPolicy::MIN_LIVENESS_CONFIDENCE_THRESHOLD</qualifiedname>
+        <initializer>= 60</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Confidence threshold for liveness rejection (0-100). If detected liveness confidence is below this, audio is accepted. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="69" column="30" bodyfile="include/voice/voice_liveness_checker.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_policy_1ae9786e9e69d44900800bfe0fbc0084c2" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::voice::LivenessPolicy::MAX_SPOOF_CONFIDENCE_THRESHOLD</definition>
+        <argsstring></argsstring>
+        <name>MAX_SPOOF_CONFIDENCE_THRESHOLD</name>
+        <qualifiedname>themis::voice::LivenessPolicy::MAX_SPOOF_CONFIDENCE_THRESHOLD</qualifiedname>
+        <initializer>= 40</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Confidence threshold for spoof detection (0-100). If spoof confidence is above this, audio is rejected. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="73" column="30" bodyfile="include/voice/voice_liveness_checker.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_policy_1a2335beb8edf0e416a70a40600a5d13b7" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::LivenessPolicy::MAX_SILENCE_MS</definition>
+        <argsstring></argsstring>
+        <name>MAX_SILENCE_MS</name>
+        <qualifiedname>themis::voice::LivenessPolicy::MAX_SILENCE_MS</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Maximum time between consecutive audio chunks (5 seconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="76" column="31" bodyfile="include/voice/voice_liveness_checker.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_policy_1a0f61a18da35dba4ed90434793f4b2289" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int8_t</type>
+        <definition>int8_t themis::voice::LivenessPolicy::MIN_AUDIO_LEVEL_DBSPL</definition>
+        <argsstring></argsstring>
+        <name>MIN_AUDIO_LEVEL_DBSPL</name>
+        <qualifiedname>themis::voice::LivenessPolicy::MIN_AUDIO_LEVEL_DBSPL</qualifiedname>
+        <initializer>= -80</initializer>
+        <briefdescription>
+<para>Minimum audio level (dB SPL) to be considered live speech. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="79" column="29" bodyfile="include/voice/voice_liveness_checker.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_policy_1ab8b1032a38542788cf1bc237f4e72239" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int8_t</type>
+        <definition>int8_t themis::voice::LivenessPolicy::MAX_AUDIO_LEVEL_DBSPL</definition>
+        <argsstring></argsstring>
+        <name>MAX_AUDIO_LEVEL_DBSPL</name>
+        <qualifiedname>themis::voice::LivenessPolicy::MAX_AUDIO_LEVEL_DBSPL</qualifiedname>
+        <initializer>= 90</initializer>
+        <briefdescription>
+<para>Maximum audio level (dB SPL) before clipping/saturation suspected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="82" column="29" bodyfile="include/voice/voice_liveness_checker.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_policy_1af618539026800b7ca8e4bfcad9bd504b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::voice::LivenessPolicy::MIN_FREQUENCY_VARIATION</definition>
+        <argsstring></argsstring>
+        <name>MIN_FREQUENCY_VARIATION</name>
+        <qualifiedname>themis::voice::LivenessPolicy::MIN_FREQUENCY_VARIATION</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Minimum frequency variation in legitimate speech (Hz). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="85" column="31" bodyfile="include/voice/voice_liveness_checker.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_policy_1a44c572bbcb43453b9077aecc85e69f70" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::voice::LivenessPolicy::MAX_SUSTAINED_FREQUENCY_MS</definition>
+        <argsstring></argsstring>
+        <name>MAX_SUSTAINED_FREQUENCY_MS</name>
+        <qualifiedname>themis::voice::LivenessPolicy::MAX_SUSTAINED_FREQUENCY_MS</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+<para>Maximum sustained frequency (indicates synthetic speech). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="88" column="31" bodyfile="include/voice/voice_liveness_checker.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_policy_1a586241d7903ed97a2b1400db458091dc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::LivenessPolicy::MAX_SESSION_HISTORY_FOR_REPLAY_CHECK</definition>
+        <argsstring></argsstring>
+        <name>MAX_SESSION_HISTORY_FOR_REPLAY_CHECK</name>
+        <qualifiedname>themis::voice::LivenessPolicy::MAX_SESSION_HISTORY_FOR_REPLAY_CHECK</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Number of historical sessions to check for replay patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_checker.h" line="91" column="31" bodyfile="include/voice/voice_liveness_checker.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for liveness detection thresholds and behavior. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_liveness_checker.h" line="66" column="1" bodyfile="include/voice/voice_liveness_checker.h" bodystart="66" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_liveness_policy_1ab8b1032a38542788cf1bc237f4e72239" prot="public" virt="non-virtual"><scope>themis::voice::LivenessPolicy</scope><name>MAX_AUDIO_LEVEL_DBSPL</name></member>
+      <member refid="structthemis_1_1voice_1_1_liveness_policy_1a586241d7903ed97a2b1400db458091dc" prot="public" virt="non-virtual"><scope>themis::voice::LivenessPolicy</scope><name>MAX_SESSION_HISTORY_FOR_REPLAY_CHECK</name></member>
+      <member refid="structthemis_1_1voice_1_1_liveness_policy_1a2335beb8edf0e416a70a40600a5d13b7" prot="public" virt="non-virtual"><scope>themis::voice::LivenessPolicy</scope><name>MAX_SILENCE_MS</name></member>
+      <member refid="structthemis_1_1voice_1_1_liveness_policy_1ae9786e9e69d44900800bfe0fbc0084c2" prot="public" virt="non-virtual"><scope>themis::voice::LivenessPolicy</scope><name>MAX_SPOOF_CONFIDENCE_THRESHOLD</name></member>
+      <member refid="structthemis_1_1voice_1_1_liveness_policy_1a44c572bbcb43453b9077aecc85e69f70" prot="public" virt="non-virtual"><scope>themis::voice::LivenessPolicy</scope><name>MAX_SUSTAINED_FREQUENCY_MS</name></member>
+      <member refid="structthemis_1_1voice_1_1_liveness_policy_1a0f61a18da35dba4ed90434793f4b2289" prot="public" virt="non-virtual"><scope>themis::voice::LivenessPolicy</scope><name>MIN_AUDIO_LEVEL_DBSPL</name></member>
+      <member refid="structthemis_1_1voice_1_1_liveness_policy_1af618539026800b7ca8e4bfcad9bd504b" prot="public" virt="non-virtual"><scope>themis::voice::LivenessPolicy</scope><name>MIN_FREQUENCY_VARIATION</name></member>
+      <member refid="structthemis_1_1voice_1_1_liveness_policy_1a495ee0650ba47e080c446f1726634034" prot="public" virt="non-virtual"><scope>themis::voice::LivenessPolicy</scope><name>MIN_LIVENESS_CONFIDENCE_THRESHOLD</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

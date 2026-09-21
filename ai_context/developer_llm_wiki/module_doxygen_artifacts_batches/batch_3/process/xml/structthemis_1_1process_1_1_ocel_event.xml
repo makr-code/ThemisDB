@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_ocel_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::OcelEvent</compoundname>
+    <includes refid="object__centric__tracer_8h" local="no">object_centric_tracer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_ocel_event_1a977d381a9dd9c421ca7ac251774c9fb8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::OcelEvent::event_id</definition>
+        <argsstring></argsstring>
+        <name>event_id</name>
+        <qualifiedname>themis::process::OcelEvent::event_id</qualifiedname>
+        <briefdescription>
+<para>&quot;attach:&lt;inst&gt;:&lt;obj&gt;&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/object_centric_tracer.h" line="46" column="17" bodyfile="include/process/object_centric_tracer.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_ocel_event_1adb0a42872d01ebfffed91c1f610bba6a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::OcelEvent::activity</definition>
+        <argsstring></argsstring>
+        <name>activity</name>
+        <qualifiedname>themis::process::OcelEvent::activity</qualifiedname>
+        <briefdescription>
+<para>toString(link_type) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/object_centric_tracer.h" line="47" column="17" bodyfile="include/process/object_centric_tracer.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_ocel_event_1ace74098215a0d06c9bb699a2cbff6663" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::OcelEvent::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::process::OcelEvent::timestamp_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>attached_at_ms </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/object_centric_tracer.h" line="48" column="17" bodyfile="include/process/object_centric_tracer.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_ocel_event_1ae39103ac7e4d09b11394b26d1a5ea58d" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::process::OcelEvent::object_refs</definition>
+        <argsstring></argsstring>
+        <name>object_refs</name>
+        <qualifiedname>themis::process::OcelEvent::object_refs</qualifiedname>
+        <briefdescription>
+<para>{type→[ids]} </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/object_centric_tracer.h" line="49" column="14" bodyfile="include/process/object_centric_tracer.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_ocel_event_1ad9072d45cfca22529fc34c54646de80d" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::process::OcelEvent::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::process::OcelEvent::attributes</qualifiedname>
+        <briefdescription>
+<para>Additional fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/object_centric_tracer.h" line="50" column="20" bodyfile="include/process/object_centric_tracer.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-memory representation of a single OCEL 2.0 event. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each <computeroutput><ref refid="structthemis_1_1process_1_1_process_attachment" kindref="compound">ProcessAttachment</ref></computeroutput> maps to exactly one <computeroutput><ref refid="structthemis_1_1process_1_1_ocel_event" kindref="compound">OcelEvent</ref></computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/process/object_centric_tracer.h" line="45" column="1" bodyfile="include/process/object_centric_tracer.h" bodystart="45" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_ocel_event_1adb0a42872d01ebfffed91c1f610bba6a" prot="public" virt="non-virtual"><scope>themis::process::OcelEvent</scope><name>activity</name></member>
+      <member refid="structthemis_1_1process_1_1_ocel_event_1ad9072d45cfca22529fc34c54646de80d" prot="public" virt="non-virtual"><scope>themis::process::OcelEvent</scope><name>attributes</name></member>
+      <member refid="structthemis_1_1process_1_1_ocel_event_1a977d381a9dd9c421ca7ac251774c9fb8" prot="public" virt="non-virtual"><scope>themis::process::OcelEvent</scope><name>event_id</name></member>
+      <member refid="structthemis_1_1process_1_1_ocel_event_1ae39103ac7e4d09b11394b26d1a5ea58d" prot="public" virt="non-virtual"><scope>themis::process::OcelEvent</scope><name>object_refs</name></member>
+      <member refid="structthemis_1_1process_1_1_ocel_event_1ace74098215a0d06c9bb699a2cbff6663" prot="public" virt="non-virtual"><scope>themis::process::OcelEvent</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

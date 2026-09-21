@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="graphql__aql__resolver_8h" kind="file" language="C++">
+    <compoundname>graphql_aql_resolver.h</compoundname>
+    <includes refid="graphql_8h" local="yes">api/graphql.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="graphql__aql__resolver_8cpp" local="yes">src/api/graphql_aql_resolver.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>api/graphql.h</label>
+        <link refid="graphql_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/api/graphql_aql_resolver.h</label>
+        <link refid="graphql__aql__resolver_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>string_view</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="7">
+        <label>variant</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/api/graphql_aql_resolver.h</label>
+        <link refid="graphql__aql__resolver_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/api/graphql_aql_resolver.cpp</label>
+        <link refid="graphql__aql__resolver_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1graphql_1_1_graph_q_l_complexity_estimator" prot="public">themis::graphql::GraphQLComplexityEstimator</innerclass>
+    <innerclass refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory" prot="public">themis::graphql::GraphQLAqlResolverFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <innernamespace refid="namespacethemis_1_1graphql">themis::graphql</innernamespace>
+    <briefdescription>
+<para>Bridge between GraphQL queries and ThemisDB&apos;s internal AQL engine. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Translates GraphQL operations (queries, mutations, subscriptions) into AQL (Attribute Query Language) commands executed against the database.</para>
+<para>Core components:<itemizedlist>
+<listitem><para><computeroutput>QueryEngine</computeroutput>: Translates GraphQL queries to AQL, enforces limits</para>
+</listitem><listitem><para><computeroutput>QueryResourceLimits</computeroutput>: Configuration for max depth, fields, complexity</para>
+</listitem><listitem><para>Field resolvers for scalar types, objects, and collections</para>
+</listitem></itemizedlist>
+</para>
+<para>Resolution process:<orderedlist>
+<listitem><para>Parse GraphQL query into Operation AST</para>
+</listitem><listitem><para>Validate against resource limits (depth, field count, complexity)</para>
+</listitem><listitem><para>Translate field selections to AQL projections</para>
+</listitem><listitem><para>Translate filters/arguments to AQL predicates</para>
+</listitem><listitem><para>Execute AQL command against database</para>
+</listitem><listitem><para>Map results back to GraphQL response shape</para>
+</listitem></orderedlist>
+</para>
+<para>Resource limits prevent DoS attacks:<itemizedlist>
+<listitem><para>max_query_depth: prevents deeply nested selections (e.g., user → friend → friend → ...)</para>
+</listitem><listitem><para>max_field_count: limits total fields across all selections</para>
+</listitem><listitem><para>max_complexity_score: bounds expensive operations (joins, aggregations)</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para><computeroutput>QueryEngine</computeroutput> instances are typically per-request (not shared). Stateless field resolvers are safe for concurrent calls.</para>
+<para><heading level="3">Error handling</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Invalid field references return ERR_GRAPHQL_INVALID_SELECTION</para>
+</listitem><listitem><para>Complexity violations return ERR_GRAPHQL_QUERY_TOO_COMPLEX</para>
+</listitem><listitem><para>AQL execution errors propagate with context</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="43"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>-<sp/>AQL<sp/>↔<sp/>GraphQL<sp/>Resolver<sp/>Bridge</highlight></codeline>
+<codeline lineno="44"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="45"><highlight class="comment"><sp/>*<sp/>File:<sp/><sp/><sp/><sp/>graphql_aql_resolver.h</highlight></codeline>
+<codeline lineno="46"><highlight class="comment"><sp/>*<sp/>Version:<sp/>1.0.0</highlight></codeline>
+<codeline lineno="47"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="48"><highlight class="comment"><sp/>*<sp/>Provides<sp/>two<sp/>integration<sp/>layers:</highlight></codeline>
+<codeline lineno="49"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="50"><highlight class="comment"><sp/>*<sp/><sp/><sp/>Layer<sp/>1<sp/>–<sp/>AQL<sp/>in<sp/>GraphQL</highlight></codeline>
+<codeline lineno="51"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>GraphQLAqlResolverFactory<sp/>wires<sp/>QueryEngine<sp/>resolvers<sp/>into<sp/>a</highlight></codeline>
+<codeline lineno="52"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>graphql::ExecutionContext<sp/>so<sp/>that:</highlight></codeline>
+<codeline lineno="53"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>query<sp/><sp/>{<sp/>aql(query:<sp/>&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>RETURN<sp/>d&quot;)<sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutation<sp/>{<sp/>aqlMutation(query:<sp/>&quot;INSERT<sp/>{x:1}<sp/>INTO<sp/>docs&quot;)<sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>query<sp/><sp/>{<sp/>apiVersion<sp/>schemaVersion<sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>all<sp/>execute<sp/>real<sp/>AQL<sp/>and<sp/>return<sp/>typed<sp/>JSON.</highlight></codeline>
+<codeline lineno="57"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="58"><highlight class="comment"><sp/>*<sp/><sp/><sp/>Layer<sp/>2<sp/>–<sp/>Cost<sp/>model<sp/>bridge</highlight></codeline>
+<codeline lineno="59"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>GraphQLComplexityEstimator<sp/>scores<sp/>a<sp/>GraphQL<sp/>document<sp/>using<sp/>the<sp/>same</highlight></codeline>
+<codeline lineno="60"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>cost<sp/>abstractions<sp/>as<sp/>the<sp/>AQL<sp/>OptimizerCostModel<sp/>/<sp/>QueryResourceLimits,</highlight></codeline>
+<codeline lineno="61"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>so<sp/>expensive<sp/>GraphQL<sp/>operations<sp/>(deep<sp/>nesting,<sp/>many<sp/>fields,<sp/>AQL</highlight></codeline>
+<codeline lineno="62"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>sub-fields)<sp/>receive<sp/>proportionally<sp/>tighter<sp/>AQL<sp/>resource<sp/>limits.</highlight></codeline>
+<codeline lineno="63"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="64"><highlight class="comment"><sp/>*<sp/>Cost<sp/>scoring<sp/>rules<sp/>(additive):</highlight></codeline>
+<codeline lineno="65"><highlight class="comment"><sp/>*<sp/><sp/><sp/>-<sp/>Every<sp/>selected<sp/>field:<sp/><sp/><sp/><sp/><sp/><sp/><sp/>+1</highlight></codeline>
+<codeline lineno="66"><highlight class="comment"><sp/>*<sp/><sp/><sp/>-<sp/>Every<sp/>argument<sp/>on<sp/>a<sp/>field:<sp/><sp/>+0.5</highlight></codeline>
+<codeline lineno="67"><highlight class="comment"><sp/>*<sp/><sp/><sp/>-<sp/>aql<sp/>/<sp/>aqlMutation<sp/>field:<sp/><sp/><sp/><sp/>+50<sp/><sp/>(full<sp/>AQL<sp/>execution)</highlight></codeline>
+<codeline lineno="68"><highlight class="comment"><sp/>*<sp/><sp/><sp/>-<sp/>Depth<sp/>multiplier<sp/>per<sp/>level:<sp/>×<sp/>depth<sp/>(1-based)</highlight></codeline>
+<codeline lineno="69"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="70"><highlight class="comment"><sp/>*<sp/>AQL<sp/>resource<sp/>limits<sp/>derived<sp/>from<sp/>score:</highlight></codeline>
+<codeline lineno="71"><highlight class="comment"><sp/>*<sp/><sp/><sp/>complexity<sp/>≤<sp/><sp/>100<sp/>→<sp/>max_rows<sp/>=<sp/>unlimited,<sp/><sp/>timeout_ms<sp/>=<sp/>30<sp/>000</highlight></codeline>
+<codeline lineno="72"><highlight class="comment"><sp/>*<sp/><sp/><sp/>complexity<sp/>≤<sp/><sp/>500<sp/>→<sp/>max_rows<sp/>=<sp/>50<sp/>000,<sp/><sp/><sp/><sp/><sp/>timeout_ms<sp/>=<sp/>20<sp/>000</highlight></codeline>
+<codeline lineno="73"><highlight class="comment"><sp/>*<sp/><sp/><sp/>complexity<sp/>≤<sp/>1000<sp/>→<sp/>max_rows<sp/>=<sp/>10<sp/>000,<sp/><sp/><sp/><sp/><sp/>timeout_ms<sp/>=<sp/>10<sp/>000</highlight></codeline>
+<codeline lineno="74"><highlight class="comment"><sp/>*<sp/><sp/><sp/>complexity<sp/>&gt;<sp/>1000<sp/>→<sp/>rejected<sp/>(TOO_COMPLEX<sp/>error)</highlight></codeline>
+<codeline lineno="75"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="graphql_8h" kindref="compound">api/graphql.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations<sp/>to<sp/>prevent<sp/>namespace<sp/>pollution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="87" refid="namespacethemis_1_1query" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">QueryResourceLimits;</highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1query_1_1expected" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>E&gt;<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1expected" kindref="compound">expected</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">QueryError;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93" refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref><sp/>=<sp/>query::QueryEngine;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">graphql<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations<sp/>to<sp/>avoid<sp/>header<sp/>bloat</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Document;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Field;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Value;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ExecutionContext;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">SelectionSet;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Complexity<sp/>Estimation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="namespacethemis_1_1graphql_1a741fbf5bb9b268f70edcc3d922bb3303" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="namespacethemis_1_1graphql_1a741fbf5bb9b268f70edcc3d922bb3303" kindref="member">kGraphQLMaxComplexity</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1graphql_1a30d569ff68714998912abc8fa837918c" kindref="member">makeComplexityErrorMessage</ref>(uint32_t<sp/>actual,<sp/>uint32_t<sp/>budget);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="classthemis_1_1graphql_1_1_graph_q_l_complexity_estimator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graphql_1_1_graph_q_l_complexity_estimator" kindref="compound">GraphQLComplexityEstimator</ref><sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1graphql_1_1_graph_q_l_complexity_estimator_1a1ba0071ea7be09c570739fb980d5a3dc" kindref="member">estimate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;Document&gt;&amp;<sp/>doc);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>::themis::query::QueryResourceLimits<sp/><ref refid="classthemis_1_1graphql_1_1_graph_q_l_complexity_estimator_1ab429dabfcea39d62ad811d46e643b38b" kindref="member">limitsFor</ref>(uint32_t<sp/>complexity);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint32_t<sp/>scoreSelectionSet(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;SelectionSet&gt;&amp;<sp/>set,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>depth);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Conversion<sp/>helpers<sp/>(forward<sp/>declarations)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal">std::shared_ptr&lt;Value&gt;<sp/><ref refid="namespacethemis_1_1graphql_1ac12974aab198f5ba53e4f4c4be355964" kindref="member">jsonToGqlValue</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal">nlohmann::json<sp/><ref refid="namespacethemis_1_1graphql_1a0c6d638886c559e37fadbbd7c3c0a09b" kindref="member">gqlValueToJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;Value&gt;&amp;<sp/>v);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Resolver<sp/>Factory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory_1ace04d3d451b45b6ab7253f0c62ebfd99" kindref="member">GraphQLAqlResolverFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory_1ace04d3d451b45b6ab7253f0c62ebfd99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory_1ace04d3d451b45b6ab7253f0c62ebfd99" kindref="member">GraphQLAqlResolverFactory</ref>(<ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">::themis::QueryEngine</ref>*<sp/>engine<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>engine_(engine)<sp/>{}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graphql_1_1_execution_context_1af0393bce614745d17f8175871e51988a" kindref="member">ExecutionContext::Resolver</ref><sp/><ref refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory_1a28b00b2ca3a3b91bbe000b8246549291" kindref="member">makeAqlQueryResolver</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_document" kindref="compound">Document</ref>&amp;<sp/>doc)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graphql_1_1_execution_context_1af0393bce614745d17f8175871e51988a" kindref="member">ExecutionContext::Resolver</ref><sp/><ref refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory_1aa04e43a8ff5c9a92c8d37f45b51e0a0d" kindref="member">makeAqlMutationResolver</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_document" kindref="compound">Document</ref>&amp;<sp/>doc)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_execution_context_1af0393bce614745d17f8175871e51988a" kindref="member">ExecutionContext::Resolver</ref><sp/><ref refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory_1a50d17d92b922510fb07cb8ffe23ff46c" kindref="member">makeApiVersionResolver</ref>();</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_execution_context_1af0393bce614745d17f8175871e51988a" kindref="member">ExecutionContext::Resolver</ref><sp/><ref refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory_1ad96344d7b3c46daaf5785156ff24a8bc" kindref="member">makeSchemaVersionResolver</ref>();</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graphql_1_1_graph_q_l_aql_resolver_factory_1ada917448436f3786d924a6c434b9c719" kindref="member">injectResolvers</ref>(<ref refid="structthemis_1_1graphql_1_1_execution_context" kindref="compound">ExecutionContext</ref>&amp;<sp/>ctx,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_document" kindref="compound">Document</ref>&amp;<sp/>doc,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">::themis::QueryEngine</ref>*<sp/>eng);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">::themis::QueryEngine</ref>*<sp/>engine_;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>extractStringArg(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graphql_1_1_field" kindref="compound">Field</ref>&amp;<sp/>field,</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>argName)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>::tl::expected&lt;nlohmann::json,<sp/>::themis::query::QueryError&gt;<sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>executeAqlWithLimits(</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">::themis::QueryEngine</ref>&amp;<sp/>eng,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>::themis::query::QueryResourceLimits&amp;<sp/>limits)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>graphql</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/api/graphql_aql_resolver.h"/>
+  </compounddef>
+</doxygen>

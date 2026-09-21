@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_lock_manager_1_1_predicate_lock" kind="struct" language="C++" prot="private">
+    <compoundname>themis::LockManager::PredicateLock</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_predicate_lock_1a8bb8c66f9bb095d39cacb574c98bbcf5" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_lock_manager_1ab23a55f8833d948a29d3704cb21d4abb" kindref="member">TransactionId</ref></type>
+        <definition>TransactionId themis::LockManager::PredicateLock::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>themis::LockManager::PredicateLock::txn_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="312" column="23" bodyfile="include/transaction/lock_manager.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_predicate_lock_1aeffb4c159c2aeacb4c86d71c856818fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LockManager::PredicateLock::start_key</definition>
+        <argsstring></argsstring>
+        <name>start_key</name>
+        <qualifiedname>themis::LockManager::PredicateLock::start_key</qualifiedname>
+        <briefdescription>
+<para>lower bound (inclusive) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="313" column="23" bodyfile="include/transaction/lock_manager.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_predicate_lock_1a3640500e85eff5b430e6ab861aaa8e90" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LockManager::PredicateLock::end_key</definition>
+        <argsstring></argsstring>
+        <name>end_key</name>
+        <qualifiedname>themis::LockManager::PredicateLock::end_key</qualifiedname>
+        <briefdescription>
+<para>upper bound (inclusive) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="314" column="23" bodyfile="include/transaction/lock_manager.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/lock_manager.h" line="311" column="5" bodyfile="include/transaction/lock_manager.h" bodystart="311" bodyend="315"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_lock_manager_1_1_predicate_lock_1a3640500e85eff5b430e6ab861aaa8e90" prot="public" virt="non-virtual"><scope>themis::LockManager::PredicateLock</scope><name>end_key</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_predicate_lock_1aeffb4c159c2aeacb4c86d71c856818fc" prot="public" virt="non-virtual"><scope>themis::LockManager::PredicateLock</scope><name>start_key</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_predicate_lock_1a8bb8c66f9bb095d39cacb574c98bbcf5" prot="public" virt="non-virtual"><scope>themis::LockManager::PredicateLock</scope><name>txn_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

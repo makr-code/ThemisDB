@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::JSONLLLMConfig::FieldMapping</compoundname>
+    <includes refid="jsonl__llm__exporter_8h" local="no">jsonl_llm_exporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping_1a323854726a0dccded7dd01041af14a96" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMConfig::FieldMapping::instruction_field</definition>
+        <argsstring></argsstring>
+        <name>instruction_field</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::FieldMapping::instruction_field</qualifiedname>
+        <initializer>= &quot;question&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="38" column="21" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping_1a3ca4b4e568feca4650ae260e51091678" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMConfig::FieldMapping::input_field</definition>
+        <argsstring></argsstring>
+        <name>input_field</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::FieldMapping::input_field</qualifiedname>
+        <initializer>= &quot;context&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="39" column="21" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping_1af3e68b9b4bd1c4fd57242c8c058a6049" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMConfig::FieldMapping::output_field</definition>
+        <argsstring></argsstring>
+        <name>output_field</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::FieldMapping::output_field</qualifiedname>
+        <initializer>= &quot;answer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="40" column="21" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping_1a86257ec95fa27a6b025be3f4c3514e94" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMConfig::FieldMapping::text_field</definition>
+        <argsstring></argsstring>
+        <name>text_field</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::FieldMapping::text_field</qualifiedname>
+        <initializer>= &quot;content&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="41" column="21" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping_1ae5c05e787115fe9a0170ce2f1fce21d6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMConfig::FieldMapping::system_field</definition>
+        <argsstring></argsstring>
+        <name>system_field</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::FieldMapping::system_field</qualifiedname>
+        <initializer>= &quot;system_prompt&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="42" column="21" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping_1accd922b41975a3805a9e79f63be80359" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMConfig::FieldMapping::user_field</definition>
+        <argsstring></argsstring>
+        <name>user_field</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::FieldMapping::user_field</qualifiedname>
+        <initializer>= &quot;user_message&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="43" column="21" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping_1a3ba2bca4c586e98c55e2bcbd88581782" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMConfig::FieldMapping::assistant_field</definition>
+        <argsstring></argsstring>
+        <name>assistant_field</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::FieldMapping::assistant_field</qualifiedname>
+        <initializer>= &quot;assistant_response&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="44" column="21" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/jsonl_llm_exporter.h" line="37" column="5" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="37" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping_1a3ba2bca4c586e98c55e2bcbd88581782" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::FieldMapping</scope><name>assistant_field</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping_1a3ca4b4e568feca4650ae260e51091678" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::FieldMapping</scope><name>input_field</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping_1a323854726a0dccded7dd01041af14a96" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::FieldMapping</scope><name>instruction_field</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping_1af3e68b9b4bd1c4fd57242c8c058a6049" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::FieldMapping</scope><name>output_field</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping_1ae5c05e787115fe9a0170ce2f1fce21d6" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::FieldMapping</scope><name>system_field</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping_1a86257ec95fa27a6b025be3f4c3514e94" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::FieldMapping</scope><name>text_field</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping_1accd922b41975a3805a9e79f63be80359" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::FieldMapping</scope><name>user_field</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

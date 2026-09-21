@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::graph::test::phase3::res::ConnectionPool</compoundname>
+    <innerclass refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1_1_config" prot="public">themisdb::graph::test::phase3::res::ConnectionPool::Config</innerclass>
+    <innerclass refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1_1_metrics" prot="public">themisdb::graph::test::phase3::res::ConnectionPool::Metrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1a7d00978c0ef600802fdc4e1ad34ffdb9" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::graph::test::phase3::res::ConnectionPool::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1333" column="24" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1ac059b4704d55c26090bd8b06f102b978" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::graph::test::phase3::res::ConnectionPool::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1334" column="24" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1ae1659a33f9015e70e6fcc69e10f5d7ca" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::graph::test::phase3::res::ConnectionPool::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1335" column="29" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1ad7f242734cfb6d83dd6bef24d7821cd5" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; int &gt;</type>
+        <definition>std::deque&lt;int&gt; themisdb::graph::test::phase3::res::ConnectionPool::available_</definition>
+        <argsstring></argsstring>
+        <name>available_</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::available_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1336" column="19" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1a24bc48e2eb93907fc2d132509d566cb5" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::graph::test::phase3::res::ConnectionPool::current_size_</definition>
+        <argsstring></argsstring>
+        <name>current_size_</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::current_size_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1337" column="24" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1337" bodyend="1337"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1af8e4e53b0cba25d30e9b5bbef2e0783f" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::graph::test::phase3::res::ConnectionPool::id_counter_</definition>
+        <argsstring></argsstring>
+        <name>id_counter_</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::id_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1338" column="24" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1338" bodyend="1338"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1a2841bd84a8d27e571e424316e44706fe" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themisdb::graph::test::phase3::res::ConnectionPool::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1339" column="24" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1339" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1ac668fed69d842562d1da8e629ad62103" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::res::ConnectionPool::ConnectionPool</definition>
+        <argsstring>()</argsstring>
+        <name>ConnectionPool</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::ConnectionPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1274" column="5" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1274" bodyend="1274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1a4a095c31bda6de96b6b521c6be354680" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::res::ConnectionPool::ConnectionPool</definition>
+        <argsstring>(Config cfg)</argsstring>
+        <name>ConnectionPool</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::ConnectionPool</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1_1_config" kindref="compound">Config</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1276" column="14" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1276" bodyend="1281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1a29f9be2bbf44946fcc8e1ae0d3e218eb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::graph::test::phase3::res::ConnectionPool::acquire</definition>
+        <argsstring>()</argsstring>
+        <name>acquire</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::acquire</qualifiedname>
+        <briefdescription>
+<para>Acquire a connection (blocks up to acquire_timeout, returns -1 on timeout). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1284" column="9" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1284" bodyend="1313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1ad4b35377a4a925d450c4e6db74c2cb61" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::graph::test::phase3::res::ConnectionPool::release</definition>
+        <argsstring>(int id)</argsstring>
+        <name>release</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::release</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Release a previously acquired connection back to the pool. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1316" column="10" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1316" bodyend="1324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1adbcded431dba1375f6e228efdb50b115" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::graph::test::phase3::res::ConnectionPool::availableCount</definition>
+        <argsstring>() const</argsstring>
+        <name>availableCount</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::availableCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1326" column="13" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1326" bodyend="1326"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1a693dd7facb0b3e1ded82ebcab9f63f59" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::graph::test::phase3::res::ConnectionPool::currentSize</definition>
+        <argsstring>() const</argsstring>
+        <name>currentSize</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::currentSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1327" column="13" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1327" bodyend="1327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1a7b6f0b4badc9c21fb93f4d2ae6992e4f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themisdb::graph::test::phase3::res::ConnectionPool::metrics</definition>
+        <argsstring>() const</argsstring>
+        <name>metrics</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1328" column="13" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1328" bodyend="1328"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1a092ebe9491eee29b08e3e46f51b1ad82" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::graph::test::phase3::res::ConnectionPool::nextId</definition>
+        <argsstring>()</argsstring>
+        <name>nextId</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::nextId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1331" column="9" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1331" bodyend="1331"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Adaptive connection pool with min/max bounds and scale-up tracking. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1258" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1258" bodyend="1340"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1a29f9be2bbf44946fcc8e1ae0d3e218eb" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool</scope><name>acquire</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1ad7f242734cfb6d83dd6bef24d7821cd5" prot="private" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool</scope><name>available_</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1adbcded431dba1375f6e228efdb50b115" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool</scope><name>availableCount</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1a7d00978c0ef600802fdc4e1ad34ffdb9" prot="private" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool</scope><name>cfg_</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1ac668fed69d842562d1da8e629ad62103" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool</scope><name>ConnectionPool</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1a4a095c31bda6de96b6b521c6be354680" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool</scope><name>ConnectionPool</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1a24bc48e2eb93907fc2d132509d566cb5" prot="private" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool</scope><name>current_size_</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1a693dd7facb0b3e1ded82ebcab9f63f59" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool</scope><name>currentSize</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1ae1659a33f9015e70e6fcc69e10f5d7ca" prot="private" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool</scope><name>cv_</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1af8e4e53b0cba25d30e9b5bbef2e0783f" prot="private" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool</scope><name>id_counter_</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1a7b6f0b4badc9c21fb93f4d2ae6992e4f" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool</scope><name>metrics</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1a2841bd84a8d27e571e424316e44706fe" prot="private" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool</scope><name>metrics_</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1ac059b4704d55c26090bd8b06f102b978" prot="private" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool</scope><name>mu_</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1a092ebe9491eee29b08e3e46f51b1ad82" prot="private" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool</scope><name>nextId</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1ad4b35377a4a925d450c4e6db74c2cb61" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool</scope><name>release</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

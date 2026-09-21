@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::MultiPerspectiveGenerator::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1ad880f8b77e65ad118f04cee5b50fa250" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_multi_perspective_config" kindref="compound">MultiPerspectiveConfig</ref></type>
+        <definition>MultiPerspectiveConfig themis::llm::MultiPerspectiveGenerator::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGenerator::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/multi_perspective_generator.cpp" line="75" column="28" bodyfile="src/llm/multi_perspective_generator.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1a8e831e89405b0b02d1540803495d6010" prot="public" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themis::llm::MultiPerspectiveGenerator::Impl::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGenerator::Impl::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/multi_perspective_generator.cpp" line="76" column="24" bodyfile="src/llm/multi_perspective_generator.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1ad9e8c131a86a28a86123a25915b1afc7" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::MultiPerspectiveGenerator::Impl::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGenerator::Impl::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/multi_perspective_generator.cpp" line="77" column="24" bodyfile="src/llm/multi_perspective_generator.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1a914ede63a14d2fc9c38ad8c003171059" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_ethical_perspective" kindref="compound">EthicalPerspective</ref> &gt;</type>
+        <definition>std::vector&lt;EthicalPerspective&gt; themis::llm::MultiPerspectiveGenerator::Impl::perspectives</definition>
+        <argsstring></argsstring>
+        <name>perspectives</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGenerator::Impl::perspectives</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/multi_perspective_generator.cpp" line="80" column="17" bodyfile="src/llm/multi_perspective_generator.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1a8b62bc90df9840794fde6847f983609b" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1_multi_perspective_result" kindref="compound">MultiPerspectiveResult</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, MultiPerspectiveResult&gt; themis::llm::MultiPerspectiveGenerator::Impl::cache</definition>
+        <argsstring></argsstring>
+        <name>cache</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGenerator::Impl::cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/multi_perspective_generator.cpp" line="83" column="24" bodyfile="src/llm/multi_perspective_generator.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1abb886b140faf941fdc58f1f6faff2a87" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::MultiPerspectiveGenerator::Impl::ethical_keywords</definition>
+        <argsstring></argsstring>
+        <name>ethical_keywords</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGenerator::Impl::ethical_keywords</qualifiedname>
+        <initializer>                             = {
+    &quot;ethical&quot;, &quot;moral&quot;, &quot;right&quot;, &quot;wrong&quot;, &quot;should&quot;, &quot;ought&quot;,
+    &quot;virtue&quot;, &quot;duty&quot;, &quot;obligation&quot;, &quot;justice&quot;, &quot;fairness&quot;,
+    &quot;harm&quot;, &quot;benefit&quot;, &quot;consequences&quot;, &quot;rights&quot;, &quot;values&quot;,
+    &quot;conscience&quot;, &quot;good&quot;, &quot;bad&quot;, &quot;evil&quot;, &quot;responsibility&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/multi_perspective_generator.cpp" line="86" column="17" bodyfile="src/llm/multi_perspective_generator.cpp" bodystart="86" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1a413e056302e6cc8c4cbccdf2d3ec3bcc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::MultiPerspectiveGenerator::Impl::ethical_question_patterns</definition>
+        <argsstring></argsstring>
+        <name>ethical_question_patterns</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGenerator::Impl::ethical_question_patterns</qualifiedname>
+        <initializer>                                      = {
+    &quot;is it ethical&quot;, &quot;is it moral&quot;, &quot;is it right&quot;, &quot;is it wrong&quot;,
+    &quot;should i&quot;, &quot;ought i&quot;, &quot;may i&quot;, &quot;can i ethically&quot;,
+    &quot;what is the right&quot;, &quot;what is the moral&quot;, &quot;how should&quot;,
+    &quot;what ought&quot;, &quot;ethically speaking&quot;, &quot;morally speaking&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/multi_perspective_generator.cpp" line="93" column="17" bodyfile="src/llm/multi_perspective_generator.cpp" bodystart="93" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1a2ec4a6cfd0d22651bc306db728d85a54" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_ethical_guidelines_manager" kindref="compound">EthicalGuidelinesManager</ref> *</type>
+        <definition>EthicalGuidelinesManager* themis::llm::MultiPerspectiveGenerator::Impl::guidelines_manager</definition>
+        <argsstring></argsstring>
+        <name>guidelines_manager</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGenerator::Impl::guidelines_manager</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/multi_perspective_generator.cpp" line="101" column="30" bodyfile="src/llm/multi_perspective_generator.cpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1a7069adb85be553eee5190a9d0c385227" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1llm_1_1_multi_perspective_result" kindref="compound">MultiPerspectiveResult</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const MultiPerspectiveResult&amp;)&gt; themis::llm::MultiPerspectiveGenerator::Impl::callback</definition>
+        <argsstring></argsstring>
+        <name>callback</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGenerator::Impl::callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/multi_perspective_generator.cpp" line="104" column="19" bodyfile="src/llm/multi_perspective_generator.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::llm::EthicalGuidelinesManager</label>
+        <link refid="classthemis_1_1llm_1_1_ethical_guidelines_manager"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::MultiPerspectiveConfig</label>
+        <link refid="structthemis_1_1llm_1_1_multi_perspective_config"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::MultiPerspectiveGenerator::Impl</label>
+        <link refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>guidelines_manager</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::MultiPerspectiveGenerator::Statistics</label>
+        <link refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/llm/multi_perspective_generator.cpp" line="74" column="1" bodyfile="src/llm/multi_perspective_generator.cpp" bodystart="74" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1a8b62bc90df9840794fde6847f983609b" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGenerator::Impl</scope><name>cache</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1a7069adb85be553eee5190a9d0c385227" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGenerator::Impl</scope><name>callback</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1ad880f8b77e65ad118f04cee5b50fa250" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGenerator::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1abb886b140faf941fdc58f1f6faff2a87" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGenerator::Impl</scope><name>ethical_keywords</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1a413e056302e6cc8c4cbccdf2d3ec3bcc" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGenerator::Impl</scope><name>ethical_question_patterns</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1a2ec4a6cfd0d22651bc306db728d85a54" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGenerator::Impl</scope><name>guidelines_manager</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1ad9e8c131a86a28a86123a25915b1afc7" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGenerator::Impl</scope><name>mutex</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1a914ede63a14d2fc9c38ad8c003171059" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGenerator::Impl</scope><name>perspectives</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_impl_1a8e831e89405b0b02d1540803495d6010" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGenerator::Impl</scope><name>stats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

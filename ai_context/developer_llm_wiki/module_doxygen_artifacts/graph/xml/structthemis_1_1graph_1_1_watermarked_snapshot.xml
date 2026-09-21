@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_watermarked_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::WatermarkedSnapshot</compoundname>
+    <includes refid="graph__watermark_8h" local="no">graph_watermark.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_watermarked_snapshot_1ae1963aa9e7196cfc9314237edd74a686" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_snapshot" kindref="compound">GraphSnapshot</ref></type>
+        <definition>GraphSnapshot themis::graph::WatermarkedSnapshot::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::graph::WatermarkedSnapshot::data</qualifiedname>
+        <briefdescription>
+<para>The watermarked graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_watermark.h" line="30" column="19" bodyfile="include/graph/graph_watermark.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_watermarked_snapshot_1ab2ff14edb8af530e598d9bbddf0f6d95" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::WatermarkedSnapshot::fingerprint_id</definition>
+        <argsstring></argsstring>
+        <name>fingerprint_id</name>
+        <qualifiedname>themis::graph::WatermarkedSnapshot::fingerprint_id</qualifiedname>
+        <briefdescription>
+<para>Unique fingerprint identifier for this embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_watermark.h" line="31" column="19" bodyfile="include/graph/graph_watermark.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::graph::GraphSnapshot</label>
+        <link refid="structthemis_1_1graph_1_1_graph_snapshot"/>
+      </node>
+      <node id="1">
+        <label>themis::graph::WatermarkedSnapshot</label>
+        <link refid="structthemis_1_1graph_1_1_watermarked_snapshot"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>data</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/graph/graph_watermark.h" line="29" column="1" bodyfile="include/graph/graph_watermark.h" bodystart="29" bodyend="32"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_watermarked_snapshot_1ae1963aa9e7196cfc9314237edd74a686" prot="public" virt="non-virtual"><scope>themis::graph::WatermarkedSnapshot</scope><name>data</name></member>
+      <member refid="structthemis_1_1graph_1_1_watermarked_snapshot_1ab2ff14edb8af530e598d9bbddf0f6d95" prot="public" virt="non-virtual"><scope>themis::graph::WatermarkedSnapshot</scope><name>fingerprint_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

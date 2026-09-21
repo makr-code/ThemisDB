@@ -1,0 +1,512 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1voice_1_1bench" kind="namespace" language="C++">
+    <compoundname>themis::voice::bench</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1a7fd1a87223817172b57d1f917c5a7831" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themis::voice::bench::create_audio_chunk</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>create_audio_chunk</name>
+        <qualifiedname>themis::voice::bench::create_audio_chunk</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="102" column="20" bodyfile="benchmarks/voice/bench_voice_a8_baselines.cpp" bodystart="102" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1a7039b2807d7cc77f1321705594475c8c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::voice::bench::BenchStreamValidatorCreation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchStreamValidatorCreation</name>
+        <qualifiedname>themis::voice::bench::BenchStreamValidatorCreation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-V8-001: Stream validator creation overhead.</para>
+<para>Baseline: Should be &lt; 10µs (simple initialization). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="119" column="13" bodyfile="benchmarks/voice/bench_voice_a8_baselines.cpp" bodystart="119" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1ad11c5329a4b0556a62b1cc96129f70bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::bench::BENCHMARK</definition>
+        <argsstring>(BenchStreamValidatorCreation) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::voice::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchStreamValidatorCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="125" column="1" declfile="benchmarks/voice/bench_voice_a8_baselines.cpp" declline="125" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1a6d99c59bfc2b32bc27ec7d030b8ae224" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::voice::bench::BenchSingleChunkValidation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchSingleChunkValidation</name>
+        <qualifiedname>themis::voice::bench::BenchSingleChunkValidation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-V8-002: Single chunk validation.</para>
+<para>Baseline: Should be &lt; 100µs (includes copy + validation). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="132" column="13" bodyfile="benchmarks/voice/bench_voice_a8_baselines.cpp" bodystart="132" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1a1d952a3d77fdf704c584d5929251ca49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::bench::BENCHMARK</definition>
+        <argsstring>(BenchSingleChunkValidation) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::voice::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchSingleChunkValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="149" column="1" declfile="benchmarks/voice/bench_voice_a8_baselines.cpp" declline="149" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1ab62364f5451a3072af20b1e9a2eec3f4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::voice::bench::BenchChunkSizeValidation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchChunkSizeValidation</name>
+        <qualifiedname>themis::voice::bench::BenchChunkSizeValidation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-V8-003: Chunk size validation check.</para>
+<para>Baseline: Should be &lt; 50ns (simple comparison). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="156" column="13" bodyfile="benchmarks/voice/bench_voice_a8_baselines.cpp" bodystart="156" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1a610c5721da9dbabb3ea4d66541d8c6fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::bench::BENCHMARK</definition>
+        <argsstring>(BenchChunkSizeValidation) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::voice::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchChunkSizeValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="164" column="1" declfile="benchmarks/voice/bench_voice_a8_baselines.cpp" declline="164" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1ac2da6c3359edb7535c2e92b8601bda1b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::voice::bench::BenchSequenceValidation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchSequenceValidation</name>
+        <qualifiedname>themis::voice::bench::BenchSequenceValidation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-V8-004: Sequential ordering check.</para>
+<para>Baseline: Should be &lt; 50ns (arithmetic + comparison). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="171" column="13" bodyfile="benchmarks/voice/bench_voice_a8_baselines.cpp" bodystart="171" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1ad6212517f1957420fee5fc28de719e2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::bench::BENCHMARK</definition>
+        <argsstring>(BenchSequenceValidation) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::voice::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchSequenceValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="180" column="1" declfile="benchmarks/voice/bench_voice_a8_baselines.cpp" declline="180" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1a5113c1b19319b8857de5d6726514d09e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::voice::bench::BenchLivenessCheckerCreation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchLivenessCheckerCreation</name>
+        <qualifiedname>themis::voice::bench::BenchLivenessCheckerCreation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-V8-005: Liveness checker creation overhead.</para>
+<para>Baseline: Should be &lt; 10µs (simple initialization). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="191" column="13" bodyfile="benchmarks/voice/bench_voice_a8_baselines.cpp" bodystart="191" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1a82310b4efc98d59b5df44f0dac608095" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::bench::BENCHMARK</definition>
+        <argsstring>(BenchLivenessCheckerCreation) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::voice::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchLivenessCheckerCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="197" column="1" declfile="benchmarks/voice/bench_voice_a8_baselines.cpp" declline="197" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1a64426f4daf56c3e9160e8fc1cb4ff415" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::voice::bench::BenchSingleChunkLivenessCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchSingleChunkLivenessCheck</name>
+        <qualifiedname>themis::voice::bench::BenchSingleChunkLivenessCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-V8-006: Single audio chunk liveness check.</para>
+<para>Baseline: Should be &lt; 50µs (includes silence detection + spoof scoring). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="204" column="13" bodyfile="benchmarks/voice/bench_voice_a8_baselines.cpp" bodystart="204" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1a1e9a439e7f2bab09320bf85ff77737d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::bench::BENCHMARK</definition>
+        <argsstring>(BenchSingleChunkLivenessCheck) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::voice::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchSingleChunkLivenessCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="213" column="1" declfile="benchmarks/voice/bench_voice_a8_baselines.cpp" declline="213" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1a799dce0f894288f154a892ebc6b2bcc0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::voice::bench::BenchSilenceDetection</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchSilenceDetection</name>
+        <qualifiedname>themis::voice::bench::BenchSilenceDetection</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-V8-007: Silence detection check.</para>
+<para>Baseline: Should be &lt; 20µs (scan first KB of audio). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="220" column="13" bodyfile="benchmarks/voice/bench_voice_a8_baselines.cpp" bodystart="220" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1ad15b7504088dd5d6c27fdd8c76a9c439" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::bench::BENCHMARK</definition>
+        <argsstring>(BenchSilenceDetection) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::voice::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchSilenceDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="229" column="1" declfile="benchmarks/voice/bench_voice_a8_baselines.cpp" declline="229" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1a0d03614ccb342c7f478963980345201c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::voice::bench::BenchAudioHashComputation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchAudioHashComputation</name>
+        <qualifiedname>themis::voice::bench::BenchAudioHashComputation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-V8-008: Audio hash computation.</para>
+<para>Baseline: Should be &lt; 30µs (checksum of first 1KB). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="236" column="13" bodyfile="benchmarks/voice/bench_voice_a8_baselines.cpp" bodystart="236" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1a03ac58b7d47bdfd9074b4569095415f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::bench::BENCHMARK</definition>
+        <argsstring>(BenchAudioHashComputation) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::voice::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchAudioHashComputation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="245" column="1" declfile="benchmarks/voice/bench_voice_a8_baselines.cpp" declline="245" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1ad2986e37148ed8ef35fce21fd0ace1e7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::voice::bench::BenchReplayDetection</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchReplayDetection</name>
+        <qualifiedname>themis::voice::bench::BenchReplayDetection</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-V8-009: Replay detection check.</para>
+<para>Baseline: Should be &lt; 50µs (vector scan + insertion). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="252" column="13" bodyfile="benchmarks/voice/bench_voice_a8_baselines.cpp" bodystart="252" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1ab72528457597077fcdaaad40715a69fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::bench::BENCHMARK</definition>
+        <argsstring>(BenchReplayDetection) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::voice::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchReplayDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="260" column="1" declfile="benchmarks/voice/bench_voice_a8_baselines.cpp" declline="260" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1aa0ef6e7d38959e55566cf62fc46f0db0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::voice::bench::BenchStreamProcessingPipeline</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchStreamProcessingPipeline</name>
+        <qualifiedname>themis::voice::bench::BenchStreamProcessingPipeline</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-V8-010: Sequential chunk processing pipeline.</para>
+<para>Simulates validating and checking liveness for a stream of chunks. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="271" column="13" bodyfile="benchmarks/voice/bench_voice_a8_baselines.cpp" bodystart="271" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1aa7beacb694fe4718be004538f9f1c787" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::bench::BENCHMARK</definition>
+        <argsstring>(BenchStreamProcessingPipeline) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::voice::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchStreamProcessingPipeline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="289" column="1" declfile="benchmarks/voice/bench_voice_a8_baselines.cpp" declline="289" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1a7661bae80954de83d1b65fd0f28ab642" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::voice::bench::BenchMultiSessionInitialization</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchMultiSessionInitialization</name>
+        <qualifiedname>themis::voice::bench::BenchMultiSessionInitialization</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-V8-011: Multi-session concurrent initialization.</para>
+<para>Tests parallel session creation overhead. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="296" column="13" bodyfile="benchmarks/voice/bench_voice_a8_baselines.cpp" bodystart="296" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1a811cbf3d105d0a508503404ba406f6b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::bench::BENCHMARK</definition>
+        <argsstring>(BenchMultiSessionInitialization) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::voice::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchMultiSessionInitialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="306" column="1" declfile="benchmarks/voice/bench_voice_a8_baselines.cpp" declline="306" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1ac765af1eea0cf69b1e15bbc8236c293c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::voice::bench::BenchValidatorReset</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchValidatorReset</name>
+        <qualifiedname>themis::voice::bench::BenchValidatorReset</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-V8-012: Validator reset/cleanup cost.</para>
+<para>Baseline: Should be &lt; 10µs (just state reset). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="313" column="13" bodyfile="benchmarks/voice/bench_voice_a8_baselines.cpp" bodystart="313" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1aca40f9da06b6ad94698a4385731e3e46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::bench::BENCHMARK</definition>
+        <argsstring>(BenchValidatorReset) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::voice::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchValidatorReset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="328" column="1" declfile="benchmarks/voice/bench_voice_a8_baselines.cpp" declline="328" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1a4202e164a398ae0fd5f269cafb1cd00a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::voice::bench::BenchLivenessCheckerReset</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchLivenessCheckerReset</name>
+        <qualifiedname>themis::voice::bench::BenchLivenessCheckerReset</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-V8-013: Liveness checker reset/cleanup cost.</para>
+<para>Baseline: Should be &lt; 10µs (just state reset). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="335" column="13" bodyfile="benchmarks/voice/bench_voice_a8_baselines.cpp" bodystart="335" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1bench_1a375df2e76050db1d67dbf9757889f5c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::bench::BENCHMARK</definition>
+        <argsstring>(BenchLivenessCheckerReset) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::voice::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchLivenessCheckerReset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="350" column="1" declfile="benchmarks/voice/bench_voice_a8_baselines.cpp" declline="350" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="23" column="1"/>
+  </compounddef>
+</doxygen>

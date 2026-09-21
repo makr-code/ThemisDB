@@ -1,0 +1,634 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_temporal_migrator" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TemporalMigrator</compoundname>
+    <includes refid="temporal__migrator_8h" local="no">temporal_migrator.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1a02ed8af122c9e8bc321230138f15c8a4" prot="public" static="no">
+        <type>std::function&lt; void(<ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" kindref="member">MigrationStatus</ref>, const std::string &amp;message)&gt;</type>
+        <definition>using themisdb::temporal::TemporalMigrator::ProgressCallback = std::function&lt;void(MigrationStatus, const std::string&amp; message)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ProgressCallback</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::ProgressCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="235" column="5" bodyfile="include/temporal/temporal_migrator.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1ab1241cf0a3de93bd64d6cd26cb2e2fe2" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" kindref="member">MigrationStatus</ref></type>
+        <definition>MigrationStatus themisdb::temporal::TemporalMigrator::status_</definition>
+        <argsstring></argsstring>
+        <name>status_</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::status_</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">MigrationStatus::PENDING</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="347" column="22" bodyfile="include/temporal/temporal_migrator.h" bodystart="347" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1a16069cafb2c2bd5ed453c376497519b1" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_migration_stats" kindref="compound">MigrationStats</ref></type>
+        <definition>MigrationStats themisdb::temporal::TemporalMigrator::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="348" column="22" bodyfile="include/temporal/temporal_migrator.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1a4b3c75554422bd682279fcb9835207da" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_migration_report" kindref="compound">MigrationReport</ref></type>
+        <definition>MigrationReport themisdb::temporal::TemporalMigrator::last_report_</definition>
+        <argsstring></argsstring>
+        <name>last_report_</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::last_report_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="349" column="22" bodyfile="include/temporal/temporal_migrator.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1a974d989313924645d1ad54b95ae005cf" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_migration_plan" kindref="compound">MigrationPlan</ref></type>
+        <definition>MigrationPlan themisdb::temporal::TemporalMigrator::last_plan_</definition>
+        <argsstring></argsstring>
+        <name>last_plan_</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::last_plan_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="350" column="22" bodyfile="include/temporal/temporal_migrator.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1af36f1e86b52ec22f46b30148c35aca2c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a02ed8af122c9e8bc321230138f15c8a4" kindref="member">ProgressCallback</ref></type>
+        <definition>ProgressCallback themisdb::temporal::TemporalMigrator::progress_cb_</definition>
+        <argsstring></argsstring>
+        <name>progress_cb_</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::progress_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="351" column="22" bodyfile="include/temporal/temporal_migrator.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3bbcc9136ce7e5ab9b52119e77941981" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalMigrator::TemporalMigrator</definition>
+        <argsstring>()=default</argsstring>
+        <name>TemporalMigrator</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::TemporalMigrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="237" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3f9c80c9a173dca83b871e918581e748" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalMigrator::TemporalMigrator</definition>
+        <argsstring>(const TemporalMigrator &amp;)=delete</argsstring>
+        <name>TemporalMigrator</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::TemporalMigrator</qualifiedname>
+        <param>
+          <type>const TemporalMigrator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="240" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1ac5bf57875e994aa124a526bd9d6a5c05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3bbcc9136ce7e5ab9b52119e77941981" kindref="member">TemporalMigrator</ref> &amp;</type>
+        <definition>TemporalMigrator &amp; themisdb::temporal::TemporalMigrator::operator=</definition>
+        <argsstring>(const TemporalMigrator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3bbcc9136ce7e5ab9b52119e77941981" kindref="member">TemporalMigrator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="241" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1a50922040f01e4e85e80a48e41e36c24b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalMigrator::TemporalMigrator</definition>
+        <argsstring>(TemporalMigrator &amp;&amp;) noexcept=default</argsstring>
+        <name>TemporalMigrator</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::TemporalMigrator</qualifiedname>
+        <param>
+          <type>TemporalMigrator &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="242" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1aecde3212eb09d1805d4eae484147e467" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3bbcc9136ce7e5ab9b52119e77941981" kindref="member">TemporalMigrator</ref> &amp;</type>
+        <definition>TemporalMigrator &amp; themisdb::temporal::TemporalMigrator::operator=</definition>
+        <argsstring>(TemporalMigrator &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3bbcc9136ce7e5ab9b52119e77941981" kindref="member">TemporalMigrator</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="243" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1ad90b57888320d071b2d07e9f9bde2c2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::TemporalMigrator::setProgressCallback</definition>
+        <argsstring>(ProgressCallback cb)</argsstring>
+        <name>setProgressCallback</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::setProgressCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a02ed8af122c9e8bc321230138f15c8a4" kindref="member">ProgressCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Set Progress Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register a callback that is invoked on every <ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" kindref="member">MigrationStatus</ref> transition.</para>
+<para>Pass nullptr to remove any previously registered callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="252" column="10" bodyfile="src/temporal/temporal_migrator.cpp" bodystart="205" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1ab8c5c282dfd858ad9b26c038d7a4a048" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_migration_plan" kindref="compound">MigrationPlan</ref></type>
+        <definition>MigrationPlan themisdb::temporal::TemporalMigrator::analyzeMigration</definition>
+        <argsstring>(const std::string &amp;table_name, const std::unordered_map&lt; std::string, Document &gt; &amp;source_docs)</argsstring>
+        <name>analyzeMigration</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::analyzeMigration</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, <ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref> &gt; &amp;</type>
+          <declname>source_docs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyse a source document collection and produce a <ref refid="structthemisdb_1_1temporal_1_1_migration_plan" kindref="compound">MigrationPlan</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical name of the source table / collection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source_docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map from row key to document payload. An empty map is accepted (the plan will have source_row_count=0). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <ref refid="structthemisdb_1_1temporal_1_1_migration_plan" kindref="compound">MigrationPlan</ref> ready for inspection and use in <ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a6c1a0bb10807f0aab6d351509419309b" kindref="member">migrateToTemporal()</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="265" column="19" bodyfile="src/temporal/temporal_migrator.cpp" bodystart="213" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1a6c1a0bb10807f0aab6d351509419309b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref>, bool &gt;</type>
+        <definition>std::pair&lt; SystemVersionedTable, bool &gt; themisdb::temporal::TemporalMigrator::migrateToTemporal</definition>
+        <argsstring>(const MigrationPlan &amp;plan, const std::unordered_map&lt; std::string, Document &gt; &amp;source_docs)</argsstring>
+        <name>migrateToTemporal</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::migrateToTemporal</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_migration_plan" kindref="compound">MigrationPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, <ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref> &gt; &amp;</type>
+          <declname>source_docs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute the migration described by <computeroutput>plan</computeroutput>.</para>
+<para>Creates a <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> and inserts every entry from <computeroutput>source_docs</computeroutput> as the initial current version. The <computeroutput>sys_start</computeroutput> timestamp for each row is taken from plan.baseline_timestamp unless the document contains a field named <computeroutput>"_created_at"</computeroutput> (interpreted as a millisecond-epoch integer).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plan produced by <ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ab8c5c282dfd858ad9b26c038d7a4a048" kindref="member">analyzeMigration()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source_docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The actual key/document pairs to migrate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of (populated <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref>, success flag). On failure, stats.errors describes what went wrong. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="285" column="15" bodyfile="src/temporal/temporal_migrator.cpp" bodystart="256" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1a84650bd3de9ef8d74bd7aed64f9e8e73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalMigrator::backfillHistory</definition>
+        <argsstring>(SystemVersionedTable &amp;table, const std::vector&lt; VersionedDocument &gt; &amp;history_entries)</argsstring>
+        <name>backfillHistory</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::backfillHistory</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt; &amp;</type>
+          <declname>history_entries</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Step 3: backfillHistory ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Insert historical versions from an audit log into an already-migrated <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref>.</para>
+<para>Each <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> in <computeroutput>history_entries</computeroutput> is inserted as a closed (historical) version. Entries with sys_time.end == kMaxTimestamp are treated as &quot;open&quot; and are skipped with a warning because they would conflict with the current version inserted during <ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a6c1a0bb10807f0aab6d351509419309b" kindref="member">migrateToTemporal()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> (already migrated). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>history_entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Audit-log snapshots to backfill. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of historical versions successfully inserted.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">history_entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), getAsOf(), has_value(), insert(), replaceHistoricalPayload(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="304" column="12" bodyfile="src/temporal/temporal_migrator.cpp" bodystart="316" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1ab2fda21724b84b2d6f0207115b0a23dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_migration_report" kindref="compound">MigrationReport</ref></type>
+        <definition>MigrationReport themisdb::temporal::TemporalMigrator::verifyMigration</definition>
+        <argsstring>(const SystemVersionedTable &amp;table)</argsstring>
+        <name>verifyMigration</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::verifyMigration</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Step 4: verifyMigration ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run a suite of data-integrity checks against a migrated table.</para>
+<para>Checks performed:<itemizedlist>
+<listitem><para>KEY_COUNT: total key count matches plan.source_row_count (if plan was set)</para>
+</listitem><listitem><para>VERSION_ORDER: for every key, versions are in ascending sys_start order</para>
+</listitem><listitem><para>NO_OVERLAPPING_VERSIONS: no two versions for the same key overlap in sys_time</para>
+</listitem><listitem><para>CURRENT_VERSION_OPEN: all current versions have sys_time.end == kMaxTimestamp</para>
+</listitem><listitem><para>HISTORY_CONTINUITY: closed versions form a contiguous chain (no gaps) (only checked when has_history_to_backfill was true in the plan)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The migrated <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> to verify. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemisdb_1_1temporal_1_1_migration_report" kindref="compound">MigrationReport</ref> with all check results and aggregated stats.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: setStatus(), tableName(), keyCount(), std::to_string(), push_back(), getAllKeys(), getHistory(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="324" column="21" bodyfile="src/temporal/temporal_migrator.cpp" bodystart="375" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1a1051e5f341dd1e9174c8fad29d3d1792" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" kindref="member">MigrationStatus</ref></type>
+        <definition>MigrationStatus themisdb::temporal::TemporalMigrator::getStatus</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getStatus</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::getStatus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the current migration lifecycle state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="329" column="21" bodyfile="include/temporal/temporal_migrator.h" bodystart="329" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1ab3dc7b31c84afc3159ec47449db8cf70" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1temporal_1_1_migration_stats" kindref="compound">MigrationStats</ref> &amp;</type>
+        <definition>const MigrationStats &amp; themisdb::temporal::TemporalMigrator::getStats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return accumulated stats from the most recent migration run. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="332" column="26" bodyfile="include/temporal/temporal_migrator.h" bodystart="332" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1a58fe526b717eae06aa2f113371577c45" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1temporal_1_1_migration_report" kindref="compound">MigrationReport</ref> &amp;</type>
+        <definition>const MigrationReport &amp; themisdb::temporal::TemporalMigrator::getLastReport</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getLastReport</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::getLastReport</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the <ref refid="structthemisdb_1_1temporal_1_1_migration_report" kindref="compound">MigrationReport</ref> from the most recent <ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ab2fda21724b84b2d6f0207115b0a23dc" kindref="member">verifyMigration()</ref> call. Returns a default-constructed report if <ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ab2fda21724b84b2d6f0207115b0a23dc" kindref="member">verifyMigration()</ref> has not been called yet. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="339" column="27" bodyfile="include/temporal/temporal_migrator.h" bodystart="339" bodyend="339"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1a1b9f8c4258dc78db6e3353cee710aa8f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalMigrator::statusName</definition>
+        <argsstring>(MigrationStatus s)</argsstring>
+        <name>statusName</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::statusName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" kindref="member">MigrationStatus</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Status Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Convert <ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" kindref="member">MigrationStatus</ref> to a human-readable string.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements statusName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="344" column="24" bodyfile="src/temporal/temporal_migrator.cpp" bodystart="37" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1af140ea229a737e9f21b92e98484c59b4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::TemporalMigrator::setStatus</definition>
+        <argsstring>(MigrationStatus s, const std::string &amp;msg=&quot;&quot;)</argsstring>
+        <name>setStatus</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::setStatus</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" kindref="member">MigrationStatus</ref></type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Set Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: progress_cb_(), empty(), <ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a1b9f8c4258dc78db6e3353cee710aa8f" kindref="member">statusName()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="353" column="10" bodyfile="src/temporal/temporal_migrator.cpp" bodystart="193" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1aeff83fd58b5c40bc3623ebb0cca09b48" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_column_info" kindref="compound">ColumnInfo</ref> &gt;</type>
+        <definition>std::vector&lt; ColumnInfo &gt; themisdb::temporal::TemporalMigrator::inferColumns</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, Document &gt; &amp;docs)</argsstring>
+        <name>inferColumns</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::inferColumns</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, <ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref> &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Infer column metadata by sampling all documents. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="356" column="24" bodyfile="src/temporal/temporal_migrator.cpp" bodystart="77" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_migrator_1a0dec5479201ed6427c503ceab9298f32" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalMigrator::inferType</definition>
+        <argsstring>(const nlohmann::json &amp;value)</argsstring>
+        <name>inferType</name>
+        <qualifiedname>themisdb::temporal::TemporalMigrator::inferType</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Infer Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract the inferred JSON type name for a single value.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_null(), is_boolean(), is_number(), is_string(), is_array(), is_object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="360" column="24" bodyfile="src/temporal/temporal_migrator.cpp" bodystart="55" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Migrate existing document collections to system-versioned tables. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator" kindref="compound">TemporalMigrator</ref> is the single entry-point for Phase-5 table migration. It follows a four-step workflow:</para>
+<para><orderedlist>
+<listitem><para><bold>analyzeMigration</bold> – inspect source documents, infer schema, build plan</para>
+</listitem><listitem><para><bold>migrateToTemporal</bold> – create and populate a <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref></para>
+</listitem><listitem><para><bold>backfillHistory</bold> (optional) – insert historical audit-log versions</para>
+</listitem><listitem><para><bold>verifyMigration</bold> – run integrity checks and return a <ref refid="structthemisdb_1_1temporal_1_1_migration_report" kindref="compound">MigrationReport</ref></para>
+</listitem></orderedlist>
+</para>
+<para><heading level="3">Progress callbacks</heading>
+</para>
+<para>Register an optional callback via <ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ad90b57888320d071b2d07e9f9bde2c2e" kindref="member">setProgressCallback()</ref> to receive <ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" kindref="member">MigrationStatus</ref> transitions. The callback is invoked from the calling thread, never concurrently.</para>
+<para><heading level="3">Thread-safety</heading>
+</para>
+<para>A single <ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator" kindref="compound">TemporalMigrator</ref> instance should not be shared across threads without external locking. Creating one migrator per migration task is the recommended pattern. </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_migrator.h" line="233" column="1" bodyfile="include/temporal/temporal_migrator.h" bodystart="233" bodyend="361"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ab8c5c282dfd858ad9b26c038d7a4a048" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>analyzeMigration</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a84650bd3de9ef8d74bd7aed64f9e8e73" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>backfillHistory</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a58fe526b717eae06aa2f113371577c45" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>getLastReport</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ab3dc7b31c84afc3159ec47449db8cf70" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a1051e5f341dd1e9174c8fad29d3d1792" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>getStatus</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1aeff83fd58b5c40bc3623ebb0cca09b48" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>inferColumns</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a0dec5479201ed6427c503ceab9298f32" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>inferType</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a974d989313924645d1ad54b95ae005cf" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>last_plan_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a4b3c75554422bd682279fcb9835207da" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>last_report_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a6c1a0bb10807f0aab6d351509419309b" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>migrateToTemporal</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ac5bf57875e994aa124a526bd9d6a5c05" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1aecde3212eb09d1805d4eae484147e467" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1af36f1e86b52ec22f46b30148c35aca2c" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>progress_cb_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a02ed8af122c9e8bc321230138f15c8a4" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>ProgressCallback</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ad90b57888320d071b2d07e9f9bde2c2e" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>setProgressCallback</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1af140ea229a737e9f21b92e98484c59b4" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>setStatus</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a16069cafb2c2bd5ed453c376497519b1" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ab1241cf0a3de93bd64d6cd26cb2e2fe2" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>status_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a1b9f8c4258dc78db6e3353cee710aa8f" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>statusName</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3bbcc9136ce7e5ab9b52119e77941981" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>TemporalMigrator</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3f9c80c9a173dca83b871e918581e748" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>TemporalMigrator</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a50922040f01e4e85e80a48e41e36c24b" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>TemporalMigrator</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ab2fda21724b84b2d6f0207115b0a23dc" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalMigrator</scope><name>verifyMigration</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

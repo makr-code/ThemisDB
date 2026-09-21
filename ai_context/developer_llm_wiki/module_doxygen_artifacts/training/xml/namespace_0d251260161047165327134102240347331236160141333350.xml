@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d251260161047165327134102240347331236160141333350" kind="namespace" language="C++">
+    <compoundname>@251260161047165327134102240347331236160141333350</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/training/test_deterministic_training_lifecycle.cpp" line="51" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_staged_deletion_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::StagedDeletionPolicy</compoundname>
+    <includes refid="retention_8h" local="no">retention.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_staged_deletion_policy_1a13f226fac284ded73344810e3122813e" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::StagedDeletionPolicy::mark_after</definition>
+        <argsstring></argsstring>
+        <name>mark_after</name>
+        <qualifiedname>themis::StagedDeletionPolicy::mark_after</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Mark expired after this age (0 = skip). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="47" column="26" bodyfile="include/timeseries/retention.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_staged_deletion_policy_1a02bc76ddec77f1713100d415034e424d" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::StagedDeletionPolicy::soft_delete_after</definition>
+        <argsstring></argsstring>
+        <name>soft_delete_after</name>
+        <qualifiedname>themis::StagedDeletionPolicy::soft_delete_after</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Soft-delete after this age (0 = skip). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="48" column="26" bodyfile="include/timeseries/retention.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_staged_deletion_policy_1a1f6461bd861ded254abff90ba4af9139" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::StagedDeletionPolicy::hard_delete_after</definition>
+        <argsstring></argsstring>
+        <name>hard_delete_after</name>
+        <qualifiedname>themis::StagedDeletionPolicy::hard_delete_after</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Hard-delete after this age (required &gt; 0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/retention.h" line="49" column="26" bodyfile="include/timeseries/retention.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Staged deletion policy for graduated data retirement. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Instead of immediate hard deletion, data passes through stages:<orderedlist>
+<listitem><para>Mark → flagged as expired (still readable)</para>
+</listitem><listitem><para>Soft → moved to cold storage / compressed (still recoverable)</para>
+</listitem><listitem><para>Hard → permanently deleted</para>
+</listitem></orderedlist>
+</para>
+<para>Each stage is optional and has a configurable age threshold. </para>
+    </detaileddescription>
+    <location file="include/timeseries/retention.h" line="46" column="1" bodyfile="include/timeseries/retention.h" bodystart="46" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_staged_deletion_policy_1a1f6461bd861ded254abff90ba4af9139" prot="public" virt="non-virtual"><scope>themis::StagedDeletionPolicy</scope><name>hard_delete_after</name></member>
+      <member refid="structthemis_1_1_staged_deletion_policy_1a13f226fac284ded73344810e3122813e" prot="public" virt="non-virtual"><scope>themis::StagedDeletionPolicy</scope><name>mark_after</name></member>
+      <member refid="structthemis_1_1_staged_deletion_policy_1a02bc76ddec77f1713100d415034e424d" prot="public" virt="non-virtual"><scope>themis::StagedDeletionPolicy</scope><name>soft_delete_after</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classrocksdb_1_1_column_family_handle" kind="class" language="C++" prot="public">
+    <compoundname>rocksdb::ColumnFamilyHandle</compoundname>
+    <includes refid="rocksdb__wrapper_8h" local="no">rocksdb_wrapper.h</includes>
+    <briefdescription>
+<para>Column family handle. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/rocksdb_wrapper.h" line="80" column="5" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="80" bodyend="80"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

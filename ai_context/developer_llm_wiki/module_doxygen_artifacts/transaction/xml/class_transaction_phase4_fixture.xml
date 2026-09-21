@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_transaction_phase4_fixture" kind="class" language="C++" prot="public">
+    <compoundname>TransactionPhase4Fixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_transaction_phase4_fixture_1a9c2bf60391a7b160387cacb72111e6c8" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string TransactionPhase4Fixture::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>TransactionPhase4Fixture::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="147" column="17" bodyfile="benchmarks/transaction/bench_transaction_phase4.cpp" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_phase4_fixture_1ab0627a227e419583c3af974d881e6288" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; TransactionPhase4Fixture::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>TransactionPhase4Fixture::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="148" column="30" bodyfile="benchmarks/transaction/bench_transaction_phase4.cpp" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_phase4_fixture_1a49de162fe317a1af8360a391472d7f6e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; TransactionPhase4Fixture::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>TransactionPhase4Fixture::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="149" column="23" bodyfile="benchmarks/transaction/bench_transaction_phase4.cpp" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_phase4_fixture_1a193958d0bd43b201dc4c22b57088b362" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; TransactionPhase4Fixture::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>TransactionPhase4Fixture::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="150" column="27" bodyfile="benchmarks/transaction/bench_transaction_phase4.cpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_phase4_fixture_1a0fcfe94dff764c437281f690e30f7084" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;VectorIndexManager&gt; TransactionPhase4Fixture::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>TransactionPhase4Fixture::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="151" column="26" bodyfile="benchmarks/transaction/bench_transaction_phase4.cpp" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_phase4_fixture_1a0ba6698c00f36ac981154d1e6783d57a" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_transaction_manager" kindref="compound">TransactionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TransactionManager&gt; TransactionPhase4Fixture::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>TransactionPhase4Fixture::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="152" column="26" bodyfile="benchmarks/transaction/bench_transaction_phase4.cpp" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_transaction_phase4_fixture_1ad163181b9de66e289c48c442660f4408" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransactionPhase4Fixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TransactionPhase4Fixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="100" column="10" bodyfile="benchmarks/transaction/bench_transaction_phase4.cpp" bodystart="100" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="class_transaction_phase4_fixture_1a69f1f7b66d0803a5a98ba685e985fdb8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransactionPhase4Fixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TransactionPhase4Fixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="132" column="10" bodyfile="benchmarks/transaction/bench_transaction_phase4.cpp" bodystart="132" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TransactionPhase4Fixture</label>
+        <link refid="class_transaction_phase4_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TransactionPhase4Fixture</label>
+        <link refid="class_transaction_phase4_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="98" column="1" bodyfile="benchmarks/transaction/bench_transaction_phase4.cpp" bodystart="98" bodyend="153"/>
+    <listofallmembers>
+      <member refid="class_transaction_phase4_fixture_1ab0627a227e419583c3af974d881e6288" prot="protected" virt="non-virtual"><scope>TransactionPhase4Fixture</scope><name>db_</name></member>
+      <member refid="class_transaction_phase4_fixture_1a193958d0bd43b201dc4c22b57088b362" prot="protected" virt="non-virtual"><scope>TransactionPhase4Fixture</scope><name>graph_index_</name></member>
+      <member refid="class_transaction_phase4_fixture_1a49de162fe317a1af8360a391472d7f6e" prot="protected" virt="non-virtual"><scope>TransactionPhase4Fixture</scope><name>secondary_index_</name></member>
+      <member refid="class_transaction_phase4_fixture_1ad163181b9de66e289c48c442660f4408" prot="public" virt="non-virtual"><scope>TransactionPhase4Fixture</scope><name>SetUp</name></member>
+      <member refid="class_transaction_phase4_fixture_1a69f1f7b66d0803a5a98ba685e985fdb8" prot="public" virt="non-virtual"><scope>TransactionPhase4Fixture</scope><name>TearDown</name></member>
+      <member refid="class_transaction_phase4_fixture_1a9c2bf60391a7b160387cacb72111e6c8" prot="protected" virt="non-virtual"><scope>TransactionPhase4Fixture</scope><name>test_db_path_</name></member>
+      <member refid="class_transaction_phase4_fixture_1a0ba6698c00f36ac981154d1e6783d57a" prot="protected" virt="non-virtual"><scope>TransactionPhase4Fixture</scope><name>tx_manager_</name></member>
+      <member refid="class_transaction_phase4_fixture_1a0fcfe94dff764c437281f690e30f7084" prot="protected" virt="non-virtual"><scope>TransactionPhase4Fixture</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

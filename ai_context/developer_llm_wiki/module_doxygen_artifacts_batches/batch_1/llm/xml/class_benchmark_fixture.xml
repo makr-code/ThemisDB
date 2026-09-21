@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_benchmark_fixture" kind="class" language="C++" prot="public">
+    <compoundname>BenchmarkFixture</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_benchmark_fixture_1a24bc187576ef1f3cf9e51f92db12a2e5" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; BenchmarkFixture::generateModelData</definition>
+        <argsstring>(size_t size_mb)</argsstring>
+        <name>generateModelData</name>
+        <qualifiedname>BenchmarkFixture::generateModelData</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size_mb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_model_loading_from_themisdb.cpp" line="42" column="24" bodyfile="tests/llm/bench_model_loading_from_themisdb.cpp" bodystart="42" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_benchmark_fixture_1aa804beff6bcefd3e887ed68d0f0a068e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata" kindref="compound">LLMModelMetadata</ref></type>
+        <definition>static LLMModelMetadata BenchmarkFixture::createMetadata</definition>
+        <argsstring>(const std::string &amp;model_id, size_t size_bytes)</argsstring>
+        <name>createMetadata</name>
+        <qualifiedname>BenchmarkFixture::createMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_model_loading_from_themisdb.cpp" line="57" column="29" bodyfile="tests/llm/bench_model_loading_from_themisdb.cpp" bodystart="57" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/bench_model_loading_from_themisdb.cpp" line="40" column="1" bodyfile="tests/llm/bench_model_loading_from_themisdb.cpp" bodystart="40" bodyend="70"/>
+    <listofallmembers>
+      <member refid="class_benchmark_fixture_1aa804beff6bcefd3e887ed68d0f0a068e" prot="public" virt="non-virtual"><scope>BenchmarkFixture</scope><name>createMetadata</name></member>
+      <member refid="class_benchmark_fixture_1a24bc187576ef1f3cf9e51f92db12a2e5" prot="public" virt="non-virtual"><scope>BenchmarkFixture</scope><name>generateModelData</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

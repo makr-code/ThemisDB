@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_spatial_hint_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SpatialHintContext</compoundname>
+    <includes refid="geospatial__optimizer__hints_8h" local="no">geospatial_optimizer_hints.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_hint_context_1a37af1150f7434292e8696ddddec91e96" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_spatial_plan" kindref="compound">SpatialPlan</ref> &gt;</type>
+        <definition>std::vector&lt;SpatialPlan&gt; themis::query::SpatialHintContext::plans</definition>
+        <argsstring></argsstring>
+        <name>plans</name>
+        <qualifiedname>themis::query::SpatialHintContext::plans</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="112" column="17" bodyfile="include/query/geospatial_optimizer_hints.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_spatial_hint_context_1a1a66bc4bb169af4d5f16bce895b0739e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_spatial_plan" kindref="compound">SpatialPlan</ref> *</type>
+        <definition>const SpatialPlan * themis::query::SpatialHintContext::getPlanForPredicate</definition>
+        <argsstring>(const std::string &amp;predicateId) const</argsstring>
+        <name>getPlanForPredicate</name>
+        <qualifiedname>themis::query::SpatialHintContext::getPlanForPredicate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicateId</declname>
+        </param>
+        <briefdescription>
+<para>Get Plan For Predicate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="119" column="23" bodyfile="src/query/geospatial_optimizer_hints.cpp" bodystart="281" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_spatial_hint_context_1a245ae05a55503665b7a0954782d1b8f2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::SpatialHintContext::shouldUseIndex</definition>
+        <argsstring>(const std::string &amp;predicateId) const</argsstring>
+        <name>shouldUseIndex</name>
+        <qualifiedname>themis::query::SpatialHintContext::shouldUseIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicateId</declname>
+        </param>
+        <briefdescription>
+<para>Should Use Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="126" column="10" bodyfile="src/query/geospatial_optimizer_hints.cpp" bodystart="292" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_spatial_hint_context_1a7a74655812c90bc555712710768866b6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::SpatialHintContext::getRecommendedIndex</definition>
+        <argsstring>(const std::string &amp;predicateId) const</argsstring>
+        <name>getRecommendedIndex</name>
+        <qualifiedname>themis::query::SpatialHintContext::getRecommendedIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicateId</declname>
+        </param>
+        <briefdescription>
+<para>Get Recommended Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="133" column="17" bodyfile="src/query/geospatial_optimizer_hints.cpp" bodystart="310" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_spatial_hint_context_1a9cd7afa46d563f1b06161b86cb8170ec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::SpatialHintContext::getCostAdjustment</definition>
+        <argsstring>(const std::string &amp;predicateId) const</argsstring>
+        <name>getCostAdjustment</name>
+        <qualifiedname>themis::query::SpatialHintContext::getCostAdjustment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicateId</declname>
+        </param>
+        <briefdescription>
+<para>Get Cost Adjustment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="140" column="12" bodyfile="src/query/geospatial_optimizer_hints.cpp" bodystart="324" bodyend="329"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/geospatial_optimizer_hints.h" line="111" column="1" bodyfile="include/query/geospatial_optimizer_hints.h" bodystart="111" bodyend="141"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_spatial_hint_context_1a9cd7afa46d563f1b06161b86cb8170ec" prot="public" virt="non-virtual"><scope>themis::query::SpatialHintContext</scope><name>getCostAdjustment</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_hint_context_1a1a66bc4bb169af4d5f16bce895b0739e" prot="public" virt="non-virtual"><scope>themis::query::SpatialHintContext</scope><name>getPlanForPredicate</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_hint_context_1a7a74655812c90bc555712710768866b6" prot="public" virt="non-virtual"><scope>themis::query::SpatialHintContext</scope><name>getRecommendedIndex</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_hint_context_1a37af1150f7434292e8696ddddec91e96" prot="public" virt="non-virtual"><scope>themis::query::SpatialHintContext</scope><name>plans</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_hint_context_1a245ae05a55503665b7a0954782d1b8f2" prot="public" virt="non-virtual"><scope>themis::query::SpatialHintContext</scope><name>shouldUseIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRATrainingException</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="lora__training__error__codes_8h" local="no">lora_training_error_codes.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1acd1f4af6e75e1849c6a37ece8ee1ac35" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9" kindref="member">LoRATrainingErrorCode</ref></type>
+        <definition>LoRATrainingErrorCode themis::llm::lora::LoRATrainingException::error_code_</definition>
+        <argsstring></argsstring>
+        <name>error_code_</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingException::error_code_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_training_error_codes.h" line="276" column="27" bodyfile="include/llm/lora_training_error_codes.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1a96e6c701df4af4d997a6fbcc188b6179" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRATrainingException::adapter_id_</definition>
+        <argsstring></argsstring>
+        <name>adapter_id_</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingException::adapter_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_training_error_codes.h" line="277" column="17" bodyfile="include/llm/lora_training_error_codes.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1a4daf64b8ca0999a8eb1d0a5b0e48824e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRATrainingException::stage_</definition>
+        <argsstring></argsstring>
+        <name>stage_</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingException::stage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_training_error_codes.h" line="278" column="17" bodyfile="include/llm/lora_training_error_codes.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1afc0d4d222bb2b2f00cbc5c0995c86a33" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRATrainingException::recovery_hint_</definition>
+        <argsstring></argsstring>
+        <name>recovery_hint_</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingException::recovery_hint_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_training_error_codes.h" line="279" column="17" bodyfile="include/llm/lora_training_error_codes.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1a1604cbe2ac5dd2412b79a847752c66fd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRATrainingException::LoRATrainingException</definition>
+        <argsstring>(LoRATrainingErrorCode code, const std::string &amp;message)</argsstring>
+        <name>LoRATrainingException</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingException::LoRATrainingException</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9" kindref="member">LoRATrainingErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_training_error_codes.h" line="122" column="5" bodyfile="include/llm/lora_training_error_codes.h" bodystart="122" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1a2588ca703f8acd8c14df5c1896a2d770" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRATrainingException::LoRATrainingException</definition>
+        <argsstring>(LoRATrainingErrorCode code, const std::string &amp;message, const std::string &amp;adapter_id, const std::string &amp;stage, const std::string &amp;recovery_hint)</argsstring>
+        <name>LoRATrainingException</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingException::LoRATrainingException</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9" kindref="member">LoRATrainingErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stage</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>recovery_hint</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_training_error_codes.h" line="130" column="5" bodyfile="include/llm/lora_training_error_codes.h" bodystart="130" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1af87b38cdcc7f0dceb684a045d71b0892" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9" kindref="member">LoRATrainingErrorCode</ref></type>
+        <definition>LoRATrainingErrorCode themis::llm::lora::LoRATrainingException::getErrorCode</definition>
+        <argsstring>() const</argsstring>
+        <name>getErrorCode</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingException::getErrorCode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_training_error_codes.h" line="144" column="27" bodyfile="include/llm/lora_training_error_codes.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1a9c4a35ee5ff386ad766ee8933385b383" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::llm::lora::LoRATrainingException::getAdapterId</definition>
+        <argsstring>() const</argsstring>
+        <name>getAdapterId</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingException::getAdapterId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_training_error_codes.h" line="146" column="23" bodyfile="include/llm/lora_training_error_codes.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1a45f5d5aaa8b1f563a4b34839f410579c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::llm::lora::LoRATrainingException::getStage</definition>
+        <argsstring>() const</argsstring>
+        <name>getStage</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingException::getStage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_training_error_codes.h" line="148" column="23" bodyfile="include/llm/lora_training_error_codes.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1acb32c867da119dfeda9c8e0f355377d3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::llm::lora::LoRATrainingException::getRecoveryHint</definition>
+        <argsstring>() const</argsstring>
+        <name>getRecoveryHint</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingException::getRecoveryHint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_training_error_codes.h" line="150" column="23" bodyfile="include/llm/lora_training_error_codes.h" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1a3402120de2dd723405632f3f2e25aeb3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRATrainingException::getFormattedMessage</definition>
+        <argsstring>() const</argsstring>
+        <name>getFormattedMessage</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingException::getFormattedMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_training_error_codes.h" line="261" column="17" bodyfile="include/llm/lora_training_error_codes.h" bodystart="261" bodyend="273"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1ae03967991efacc1742de0f8e19b6e7ca" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::llm::lora::LoRATrainingException::getErrorCodeString</definition>
+        <argsstring>(LoRATrainingErrorCode code)</argsstring>
+        <name>getErrorCodeString</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingException::getErrorCodeString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1aed047b7f5448f5537fe790d967d9e4a9" kindref="member">LoRATrainingErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Get Error Code String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getErrorCodeString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_training_error_codes.h" line="158" column="24" bodyfile="include/llm/lora_training_error_codes.h" bodystart="158" bodyend="259"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::LoRATrainingException</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::LoRATrainingException</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_training_error_codes.h" line="120" column="1" bodyfile="include/llm/lora_training_error_codes.h" bodystart="120" bodyend="280"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1a96e6c701df4af4d997a6fbcc188b6179" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingException</scope><name>adapter_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1acd1f4af6e75e1849c6a37ece8ee1ac35" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingException</scope><name>error_code_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1a9c4a35ee5ff386ad766ee8933385b383" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingException</scope><name>getAdapterId</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1af87b38cdcc7f0dceb684a045d71b0892" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingException</scope><name>getErrorCode</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1ae03967991efacc1742de0f8e19b6e7ca" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingException</scope><name>getErrorCodeString</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1a3402120de2dd723405632f3f2e25aeb3" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingException</scope><name>getFormattedMessage</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1acb32c867da119dfeda9c8e0f355377d3" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingException</scope><name>getRecoveryHint</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1a45f5d5aaa8b1f563a4b34839f410579c" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingException</scope><name>getStage</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1a1604cbe2ac5dd2412b79a847752c66fd" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingException</scope><name>LoRATrainingException</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1a2588ca703f8acd8c14df5c1896a2d770" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingException</scope><name>LoRATrainingException</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1afc0d4d222bb2b2f00cbc5c0995c86a33" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingException</scope><name>recovery_hint_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_exception_1a4daf64b8ca0999a8eb1d0a5b0e48824e" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingException</scope><name>stage_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

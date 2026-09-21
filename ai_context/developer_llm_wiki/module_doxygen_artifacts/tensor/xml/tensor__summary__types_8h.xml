@@ -1,0 +1,423 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tensor__summary__types_8h" kind="file" language="C++">
+    <compoundname>tensor_summary_types.h</compoundname>
+    <includes refid="compression__strategy_8h" local="yes">tensor/compression_strategy.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="tensor__redundancy__detection_8h" local="yes">include/tensor/tensor_redundancy_detection.h</includedby>
+    <includedby refid="tensor__routing__strategy_8h" local="yes">include/tensor/tensor_routing_strategy.h</includedby>
+    <includedby refid="tensor__summary__types_8cpp" local="yes">src/tensor/tensor_summary_types.cpp</includedby>
+    <includedby refid="test__federated__tensor__summaries_8cpp" local="yes">tests/tensor/test_federated_tensor_summaries.cpp</includedby>
+    <includedby refid="test__tensor__mid__layer__abstractions_8cpp" local="yes">tests/tensor/test_tensor_mid_layer_abstractions.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>tensor/compression_strategy.h</label>
+        <link refid="compression__strategy_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>tensor/tensor_compat.h</label>
+        <link refid="tensor__compat_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/tensor/tensor_summary_types.h</label>
+        <link refid="tensor__summary__types_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>storage/tensor_train_decomposer.h</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/tensor/bench_tensor_integration_baseline.cpp</label>
+        <link refid="bench__tensor__integration__baseline_8cpp"/>
+      </node>
+      <node id="8">
+        <label>include/tensor/tensor_error_handling.h</label>
+        <link refid="tensor__error__handling_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/tensor/tensor_redundancy_detection.h</label>
+        <link refid="tensor__redundancy__detection_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/tensor/tensor_routing_strategy.h</label>
+        <link refid="tensor__routing__strategy_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/tensor/tensor_summary_types.h</label>
+        <link refid="tensor__summary__types_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>src/tensor/tensor_error_handling.cpp</label>
+        <link refid="tensor__error__handling_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/tensor/tensor_fingerprint_graph.cpp</label>
+        <link refid="tensor__fingerprint__graph_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/tensor/tensor_redundancy_detection.cpp</label>
+        <link refid="tensor__redundancy__detection_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/tensor/tensor_routing_strategy.cpp</label>
+        <link refid="tensor__routing__strategy_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/tensor/tensor_summary_types.cpp</label>
+        <link refid="tensor__summary__types_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/tensor/test_federated_tensor_summaries.cpp</label>
+        <link refid="test__federated__tensor__summaries_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/tensor/test_tensor_mid_layer_abstractions.cpp</label>
+        <link refid="test__tensor__mid__layer__abstractions_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/tensor/test_tensor_mid_layer_integration.cpp</label>
+        <link refid="test__tensor__mid__layer__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1tensor_1_1_base_tensor_summary" prot="public">themis::tensor::BaseTensorSummary</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_adapter_summary" prot="public">themis::tensor::AdapterSummary</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_package_summary" prot="public">themis::tensor::PackageSummary</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_shard_summary" prot="public">themis::tensor::ShardSummary</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_entity_summary" prot="public">themis::tensor::EntitySummary</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_chunk_summary" prot="public">themis::tensor::ChunkSummary</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_fingerprint_summary" prot="public">themis::tensor::FingerprintSummary</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_summary_factory" prot="public">themis::tensor::SummaryFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tensor">themis::tensor</innernamespace>
+    <briefdescription>
+<para>Tensor summary type abstractions for the tensor mid-layer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines concrete summary types for different entity categories: adapters, packages, shards, entities, chunks, and fingerprints. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="compression__strategy_8h" kindref="compound">tensor/compression_strategy.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1tensor" kindref="compound">tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BaseTensorSummary<sp/>—<sp/>common<sp/>base<sp/>for<sp/>all<sp/>summary<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1tensor_1_1_base_tensor_summary" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a64892e40aa70517d46e09e6d11842741" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a64892e40aa70517d46e09e6d11842741" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1tensor_1_1_base_tensor_summary_1ac6acd2dff1ca02aaf504b1d97c3163f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary_1ac6acd2dff1ca02aaf504b1d97c3163f2" kindref="member">tenant_id</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a11d14d4114d5df375b2c948660e92ec2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a11d14d4114d5df375b2c948660e92ec2" kindref="member">domain</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a161a274c6b0209c4704e776e1f3b7b39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a161a274c6b0209c4704e776e1f3b7b39" kindref="member">compression_strategy</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a262766ce8623272fd51a89243f694687" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1_compression_result" kindref="compound">CompressionResult</ref><sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a262766ce8623272fd51a89243f694687" kindref="member">compression_info</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1tensor_1_1_base_tensor_summary_1af80994cc65277d71b3a6eca31ad4dfc2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary_1af80994cc65277d71b3a6eca31ad4dfc2" kindref="member">similarity_score</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1tensor_1_1_base_tensor_summary_1adcda9163e400eed8923e92b457c04057" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary_1adcda9163e400eed8923e92b457c04057" kindref="member">confidence</ref><sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a8784066e1ff14eed769e135d36b06c2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a8784066e1ff14eed769e135d36b06c2b" kindref="member">validated</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a642e98edb63b4c79f113cd07df747046" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a642e98edb63b4c79f113cd07df747046" kindref="member">created_at</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a21d90f934dee6c82ea89128e9cd02570" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a21d90f934dee6c82ea89128e9cd02570" kindref="member">routing_reason</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AdapterSummary<sp/>—<sp/>summary<sp/>for<sp/>LoRA/PEFT<sp/>adapters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1tensor_1_1_adapter_summary" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_adapter_summary" kindref="compound">AdapterSummary</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref><sp/>{</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1tensor_1_1_adapter_summary_1ab66cc9233afb9f183bfd40bb659d912e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_adapter_summary_1ab66cc9233afb9f183bfd40bb659d912e" kindref="member">adapter_key</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1tensor_1_1_adapter_summary_1ae030a33bd477d17202303b19effb063c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_adapter_summary_1ae030a33bd477d17202303b19effb063c" kindref="member">base_model_id</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1tensor_1_1_adapter_summary_1a6f72b9b7471afbc43e8db5d8497fc50d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_adapter_summary_1a6f72b9b7471afbc43e8db5d8497fc50d" kindref="member">param_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1tensor_1_1_adapter_summary_1a2520f95f979696c69fdfdba913af5da2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_adapter_summary_1a2520f95f979696c69fdfdba913af5da2" kindref="member">avg_tt_rank</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1tensor_1_1_adapter_summary_1a5bbed9137786f996e54231e6c9aae7ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_adapter_summary_1a5bbed9137786f996e54231e6c9aae7ba" kindref="member">adapter_norm</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1tensor_1_1_adapter_summary_1a8b238eebef88bbc672d4e68d37356dbf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_adapter_summary_1a8b238eebef88bbc672d4e68d37356dbf" kindref="member">fingerprint</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1tensor_1_1_adapter_summary_1abbadf10fa6b2b33cc839b3be920c206f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_adapter_summary_1abbadf10fa6b2b33cc839b3be920c206f" kindref="member">adapter_metadata</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1tensor_1_1_adapter_summary_1a75842c77f45e2752feffb856bf702b7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_adapter_summary_1a75842c77f45e2752feffb856bf702b7a" kindref="member">inference_ready</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PackageSummary<sp/>—<sp/>summary<sp/>for<sp/>adapter<sp/>packages</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1tensor_1_1_package_summary" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_package_summary" kindref="compound">PackageSummary</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref><sp/>{</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1tensor_1_1_package_summary_1ace180b98dc3971d93a8e57d314795fbf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_package_summary_1ace180b98dc3971d93a8e57d314795fbf" kindref="member">package_id</ref>;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1tensor_1_1_package_summary_1a450ad1c13826f35fe03b4bb608b60617" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_package_summary_1a450ad1c13826f35fe03b4bb608b60617" kindref="member">adapter_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1tensor_1_1_package_summary_1a0b5533c0e17136a330468d29d09114cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_package_summary_1a0b5533c0e17136a330468d29d09114cd" kindref="member">adapter_keys</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1tensor_1_1_package_summary_1af7421977d3dfebe03083cce267cb9413" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_package_summary_1af7421977d3dfebe03083cce267cb9413" kindref="member">internal_similarity</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1tensor_1_1_package_summary_1a1aa8947cefb8df41b4f62a7a23b0e4f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_package_summary_1a1aa8947cefb8df41b4f62a7a23b0e4f4" kindref="member">package_fingerprint</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1tensor_1_1_package_summary_1af15b09685c8c1ef5074336d61b4ba846" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_package_summary_1af15b09685c8c1ef5074336d61b4ba846" kindref="member">production_ready</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1tensor_1_1_package_summary_1acaf0a50ed3a5da04d9805d3d13ffe3ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_package_summary_1acaf0a50ed3a5da04d9805d3d13ffe3ef" kindref="member">version</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1tensor_1_1_package_summary_1a767b43851b2da4b36306e96de9238c65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_package_summary_1a767b43851b2da4b36306e96de9238c65" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Freshness<sp/>state<sp/>enumeration<sp/>for<sp/>shard<sp/>summaries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7" kindref="member">SummaryFreshnessState</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="147" refid="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7aa56278fcd527ad6b4619050916ca2ca8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7aa56278fcd527ad6b4619050916ca2ca8" kindref="member">FRESH</ref><sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148" refid="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7a4d855a061b3066dc14a3b12ed26b5456" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7a4d855a061b3066dc14a3b12ed26b5456" kindref="member">STALE</ref><sp/>=<sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149" refid="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7accc0377a8afbf50e7094f5c23a8af223" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7accc0377a8afbf50e7094f5c23a8af223" kindref="member">INVALID</ref><sp/>=<sp/>2<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ShardSummary<sp/>—<sp/>summary<sp/>for<sp/>cross-shard<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1tensor_1_1_shard_summary" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_shard_summary" kindref="compound">ShardSummary</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref><sp/>{</highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1tensor_1_1_shard_summary_1a8e871bdcfe6b6100e840af1837876513" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1a8e871bdcfe6b6100e840af1837876513" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1tensor_1_1_shard_summary_1a0ffb0d687ac70d24c478e9bf609ae162" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1a0ffb0d687ac70d24c478e9bf609ae162" kindref="member">scope_kind</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1tensor_1_1_shard_summary_1a27ff704aaa3f1e11d4234c672b9ef6fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1a27ff704aaa3f1e11d4234c672b9ef6fb" kindref="member">candidates_before_compression</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1tensor_1_1_shard_summary_1a0e4eb618622b3061fd718ca486f8cad9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1a0e4eb618622b3061fd718ca486f8cad9" kindref="member">candidates_after_compression</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="structthemis_1_1tensor_1_1_shard_summary_1a68e8613dc18a8b09a9123cfffba23307" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1a68e8613dc18a8b09a9123cfffba23307" kindref="member">shard_relevance</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1tensor_1_1_shard_summary_1a32cedc950977203b1e99235536ab6758" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1a32cedc950977203b1e99235536ab6758" kindref="member">retrieval_latency_ms</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1tensor_1_1_shard_summary_1a44a078265bfa0941a6a28468faa1411a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1a44a078265bfa0941a6a28468faa1411a" kindref="member">shard_healthy</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1tensor_1_1_shard_summary_1a5ba67f80ca5d114c666b081cc028656b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1a5ba67f80ca5d114c666b081cc028656b" kindref="member">shard_routing_reason</ref>;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1tensor_1_1_shard_summary_1a8b15fcb252f7c1ff5ad1b54cd10efa24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1a8b15fcb252f7c1ff5ad1b54cd10efa24" kindref="member">compressed_candidates</ref>;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Freshness<sp/>&amp;<sp/>Staleness<sp/>Tracking<sp/>───────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1tensor_1_1_shard_summary_1a7677e469fa809bd1f62d67b156ae0c0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1a7677e469fa809bd1f62d67b156ae0c0e" kindref="member">last_update_timestamp</ref>;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1tensor_1_1_shard_summary_1aec67a15b6cd4d7c17484fca022e37931" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1aec67a15b6cd4d7c17484fca022e37931" kindref="member">freshness_ttl_seconds</ref><sp/>=<sp/>3600;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1tensor_1_1_shard_summary_1a071b4e21c7056536407f51aab3c85f9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7" kindref="member">SummaryFreshnessState</ref><sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1a071b4e21c7056536407f51aab3c85f9c" kindref="member">freshness_state</ref><sp/>=<sp/><ref refid="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7aa56278fcd527ad6b4619050916ca2ca8" kindref="member">SummaryFreshnessState::FRESH</ref>;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1a0a11c29dc191fcf1cab8a793a16dd2b7" kindref="member">isStale</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>now_timestamp<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219" refid="structthemis_1_1tensor_1_1_shard_summary_1a7dbc6c06c1f525c7525183dd3e2b9b1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1a7dbc6c06c1f525c7525183dd3e2b9b1d" kindref="member">markAsStale</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1a071b4e21c7056536407f51aab3c85f9c" kindref="member">freshness_state</ref><sp/>=<sp/><ref refid="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7a4d855a061b3066dc14a3b12ed26b5456" kindref="member">SummaryFreshnessState::STALE</ref>;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="structthemis_1_1tensor_1_1_shard_summary_1a792d4dfbe73347acdeb8501368d42994" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1a792d4dfbe73347acdeb8501368d42994" kindref="member">markAsInvalid</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1a071b4e21c7056536407f51aab3c85f9c" kindref="member">freshness_state</ref><sp/>=<sp/><ref refid="namespacethemis_1_1tensor_1a73ec359ee10de20cd9f84756cb445dc7accc0377a8afbf50e7094f5c23a8af223" kindref="member">SummaryFreshnessState::INVALID</ref>;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary_1a5253436352119aa8912985a6dafbde57" kindref="member">markAsFresh</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>update_timestamp<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EntitySummary<sp/>—<sp/>summary<sp/>for<sp/>knowledge<sp/>graph<sp/>entities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252" refid="structthemis_1_1tensor_1_1_entity_summary" refkind="compound"><highlight class="normal">struct<sp/><ref refid="structthemis_1_1tensor_1_1_entity_summary" kindref="compound">EntitySummary</ref><sp/>:<sp/>public<sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref><sp/>{</highlight></codeline>
+<codeline lineno="254" refid="structthemis_1_1tensor_1_1_entity_summary_1a8ce3affd19b89ccc98a7941b6e8d1781" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_entity_summary_1a8ce3affd19b89ccc98a7941b6e8d1781" kindref="member">entity_id</ref>;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257" refid="structthemis_1_1tensor_1_1_entity_summary_1aa2836edc8080875c0efb7486fe93dd66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_entity_summary_1aa2836edc8080875c0efb7486fe93dd66" kindref="member">entity_type</ref>;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="structthemis_1_1tensor_1_1_entity_summary_1a80e1ca56f9da4999e40f2a9c689c941c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_entity_summary_1a80e1ca56f9da4999e40f2a9c689c941c" kindref="member">entity_label</ref>;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263" refid="structthemis_1_1tensor_1_1_entity_summary_1a15c0b1fc3f6f484dfbd59a789057a665" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_entity_summary_1a15c0b1fc3f6f484dfbd59a789057a665" kindref="member">relationship_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266" refid="structthemis_1_1tensor_1_1_entity_summary_1ae31e4b8197328dce404dbe95d8f46731" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_entity_summary_1ae31e4b8197328dce404dbe95d8f46731" kindref="member">related_entity_ids</ref>;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269" refid="structthemis_1_1tensor_1_1_entity_summary_1ae66174e7221a140e0eb88edb560e989e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_entity_summary_1ae66174e7221a140e0eb88edb560e989e" kindref="member">relationship_types</ref>;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272" refid="structthemis_1_1tensor_1_1_entity_summary_1a7d32bd81bb9b1fe795d279c24b658f40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_entity_summary_1a7d32bd81bb9b1fe795d279c24b658f40" kindref="member">entity_embedding</ref>;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275" refid="structthemis_1_1tensor_1_1_entity_summary_1a89d8761a3743896fabf857098bb83622" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_entity_summary_1a89d8761a3743896fabf857098bb83622" kindref="member">entity_attributes</ref>;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278" refid="structthemis_1_1tensor_1_1_entity_summary_1ac19c5052e4af435dd22d34f25fa0c8fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_entity_summary_1ac19c5052e4af435dd22d34f25fa0c8fa" kindref="member">centrality_score</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ChunkSummary<sp/>—<sp/>summary<sp/>for<sp/>document<sp/>chunks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291" refid="structthemis_1_1tensor_1_1_chunk_summary" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_chunk_summary" kindref="compound">ChunkSummary</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref><sp/>{</highlight></codeline>
+<codeline lineno="293" refid="structthemis_1_1tensor_1_1_chunk_summary_1a52c94efc94680416f399c51a30d8f620" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_chunk_summary_1a52c94efc94680416f399c51a30d8f620" kindref="member">chunk_id</ref>;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296" refid="structthemis_1_1tensor_1_1_chunk_summary_1a568f26a01c5180ea0efb951b43dbf952" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_chunk_summary_1a568f26a01c5180ea0efb951b43dbf952" kindref="member">document_id</ref>;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299" refid="structthemis_1_1tensor_1_1_chunk_summary_1aa0bd493f7fb7a60512bd87de25453e70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_chunk_summary_1aa0bd493f7fb7a60512bd87de25453e70" kindref="member">document_title</ref>;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302" refid="structthemis_1_1tensor_1_1_chunk_summary_1a53afab7d62ef926ba4aaeb4e37f79edf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_chunk_summary_1a53afab7d62ef926ba4aaeb4e37f79edf" kindref="member">chunk_content</ref>;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305" refid="structthemis_1_1tensor_1_1_chunk_summary_1a8aa0ad2e6417e845b325db40557ba10c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_chunk_summary_1a8aa0ad2e6417e845b325db40557ba10c" kindref="member">chunk_position</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308" refid="structthemis_1_1tensor_1_1_chunk_summary_1a4e83f06940d0b6bbe2ba24272add40c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_chunk_summary_1a4e83f06940d0b6bbe2ba24272add40c5" kindref="member">content_length</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311" refid="structthemis_1_1tensor_1_1_chunk_summary_1a996242400f1ef92fb124516d09af0514" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_chunk_summary_1a996242400f1ef92fb124516d09af0514" kindref="member">bm25_score</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314" refid="structthemis_1_1tensor_1_1_chunk_summary_1a1d421b9e8f77336f30654bf5be42dd0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_chunk_summary_1a1d421b9e8f77336f30654bf5be42dd0a" kindref="member">tfidf_score</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317" refid="structthemis_1_1tensor_1_1_chunk_summary_1a10528545131bfa76532d7be7081bfa05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_chunk_summary_1a10528545131bfa76532d7be7081bfa05" kindref="member">chunk_embedding</ref>;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320" refid="structthemis_1_1tensor_1_1_chunk_summary_1a3b252938b6e746c7e30fd388c57b5a84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_chunk_summary_1a3b252938b6e746c7e30fd388c57b5a84" kindref="member">document_metadata</ref>;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323" refid="structthemis_1_1tensor_1_1_chunk_summary_1a7b6ade2911b34130991d1c96db5b4ea8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_chunk_summary_1a7b6ade2911b34130991d1c96db5b4ea8" kindref="member">verified_source</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FingerprintSummary<sp/>—<sp/>summary<sp/>based<sp/>on<sp/>LSH<sp/>fingerprints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336" refid="structthemis_1_1tensor_1_1_fingerprint_summary" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_fingerprint_summary" kindref="compound">FingerprintSummary</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref><sp/>{</highlight></codeline>
+<codeline lineno="338" refid="structthemis_1_1tensor_1_1_fingerprint_summary_1ae2345f8575dd498f66a63699439f27cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_fingerprint_summary_1ae2345f8575dd498f66a63699439f27cb" kindref="member">fingerprint_hash</ref>;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341" refid="structthemis_1_1tensor_1_1_fingerprint_summary_1a9a56c6136645a72cb7737c4d29cb000f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structthemis_1_1tensor_1_1_fingerprint_summary_1a9a56c6136645a72cb7737c4d29cb000f" kindref="member">fingerprint_bits</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344" refid="structthemis_1_1tensor_1_1_fingerprint_summary_1af2220bfe5a37446370e60ac0e1e2357e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_fingerprint_summary_1af2220bfe5a37446370e60ac0e1e2357e" kindref="member">hash_function</ref>;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347" refid="structthemis_1_1tensor_1_1_fingerprint_summary_1ad4dbe47c56fdcad1a7f17e7a54e753a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_fingerprint_summary_1ad4dbe47c56fdcad1a7f17e7a54e753a4" kindref="member">candidates_matched</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350" refid="structthemis_1_1tensor_1_1_fingerprint_summary_1a2b7e330608f5324f1dcf154532817df0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1tensor_1_1_fingerprint_summary_1a2b7e330608f5324f1dcf154532817df0" kindref="member">hamming_distance</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353" refid="structthemis_1_1tensor_1_1_fingerprint_summary_1a9f332cea1e1a0d343da4e1498065d85d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_fingerprint_summary_1a9f332cea1e1a0d343da4e1498065d85d" kindref="member">lsh_band_info</ref>;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356" refid="structthemis_1_1tensor_1_1_fingerprint_summary_1a9f6f2f89773a4498c7f6f36920d1d530" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_fingerprint_summary_1a9f6f2f89773a4498c7f6f36920d1d530" kindref="member">matched_candidates</ref>;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359" refid="structthemis_1_1tensor_1_1_fingerprint_summary_1ace7610479c6defb67a6c0eb9cae12604" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_fingerprint_summary_1ace7610479c6defb67a6c0eb9cae12604" kindref="member">collision_probability</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362" refid="structthemis_1_1tensor_1_1_fingerprint_summary_1ada1f52891fab33089e245fea6c117c8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_fingerprint_summary_1ada1f52891fab33089e245fea6c117c8a" kindref="member">had_false_positives</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SummaryFactory<sp/>—<sp/>factory<sp/>for<sp/>creating<sp/>summary<sp/>instances</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372" refid="classthemis_1_1tensor_1_1_summary_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1tensor_1_1_summary_factory" kindref="compound">SummaryFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_adapter_summary" kindref="compound">AdapterSummary</ref><sp/><ref refid="classthemis_1_1tensor_1_1_summary_factory_1a160c74e28b213d8e6ab1e9d04f9d0979" kindref="member">createAdapterSummary</ref>(</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter_key,</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>base_model_id,</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_compression_result" kindref="compound">CompressionResult</ref>&amp;<sp/><sp/>compression_result);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_package_summary" kindref="compound">PackageSummary</ref><sp/><ref refid="classthemis_1_1tensor_1_1_summary_factory_1a17c3937f739a8f2fa4f73a2d1093d6f7" kindref="member">createPackageSummary</ref>(</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>package_id,</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>adapter_keys);</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary" kindref="compound">ShardSummary</ref><sp/><ref refid="classthemis_1_1tensor_1_1_summary_factory_1a9aee3809f63b47b5b7831a2c79ee257f" kindref="member">createShardSummary</ref>(</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard_id,</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>candidates_before,</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_compression_result" kindref="compound">CompressionResult</ref>&amp;<sp/><sp/>compression_result);</highlight></codeline>
+<codeline lineno="410"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/tensor/tensor_summary_types.h"/>
+  </compounddef>
+</doxygen>

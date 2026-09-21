@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_timestamp_merge_policy" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::TimestampMergePolicy</compoundname>
+    <basecompoundref refid="classthemis_1_1cdc_1_1_i_fan_in_merge_policy" prot="public" virt="non-virtual">themis::cdc::IFanInMergePolicy</basecompoundref>
+    <includes refid="icdc__fan__in_8h" local="no">icdc_fan_in.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_timestamp_merge_policy_1a5c17911fb224d548357d95e211872f85" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cdc::TimestampMergePolicy::merge</definition>
+        <argsstring>(std::vector&lt; FanInEvent &gt; &amp;events) const override</argsstring>
+        <name>merge</name>
+        <qualifiedname>themis::cdc::TimestampMergePolicy::merge</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_fan_in_merge_policy_1a33e807774a26349f119cf49ed4fd1408">merge</reimplements>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1cdc_1_1_fan_in_event" kindref="compound">FanInEvent</ref> &gt; &amp;</type>
+          <declname>events</declname>
+        </param>
+        <briefdescription>
+<para>Merge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">events</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_fan_in.h" line="82" column="10" bodyfile="include/cdc/icdc_fan_in.h" bodystart="82" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::cdc::IFanInMergePolicy</label>
+        <link refid="classthemis_1_1cdc_1_1_i_fan_in_merge_policy"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::TimestampMergePolicy</label>
+        <link refid="classthemis_1_1cdc_1_1_timestamp_merge_policy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::cdc::IFanInMergePolicy</label>
+        <link refid="classthemis_1_1cdc_1_1_i_fan_in_merge_policy"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::TimestampMergePolicy</label>
+        <link refid="classthemis_1_1cdc_1_1_timestamp_merge_policy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/icdc_fan_in.h" line="80" column="1" bodyfile="include/cdc/icdc_fan_in.h" bodystart="80" bodyend="94"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_timestamp_merge_policy_1a5c17911fb224d548357d95e211872f85" prot="public" virt="virtual"><scope>themis::cdc::TimestampMergePolicy</scope><name>merge</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_fan_in_merge_policy_1ae0736bb4d34178e720bb499793ec4c9f" prot="public" virt="virtual"><scope>themis::cdc::TimestampMergePolicy</scope><name>~IFanInMergePolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

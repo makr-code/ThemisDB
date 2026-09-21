@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryFederation::QueryMetadata</compoundname>
+    <includes refid="query__federation_8h" local="no">query_federation.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate" prot="public">themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1aa1011539907427b90553198aeaf3d2fc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::QueryFederation::QueryMetadata::tables</definition>
+        <argsstring></argsstring>
+        <name>tables</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::tables</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="183" column="21" bodyfile="include/query/query_federation.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a4d84d39bdd0744cda694593967a9340b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::QueryFederation::QueryMetadata::predicates</definition>
+        <argsstring></argsstring>
+        <name>predicates</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::predicates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="184" column="21" bodyfile="include/query/query_federation.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a566463282c931b5d082410ec04a22fd5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::QueryFederation::QueryMetadata::projections</definition>
+        <argsstring></argsstring>
+        <name>projections</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::projections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="185" column="21" bodyfile="include/query/query_federation.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1ad6a70e8e3107c0ac970ec2070188d718" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::QueryFederation::QueryMetadata::aggregations</definition>
+        <argsstring></argsstring>
+        <name>aggregations</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::aggregations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="186" column="21" bodyfile="include/query/query_federation.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a70dedef73f51f13a990dd819375233b6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::QueryFederation::QueryMetadata::joins</definition>
+        <argsstring></argsstring>
+        <name>joins</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::joins</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="187" column="21" bodyfile="include/query/query_federation.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a3f7f10226f94e2a41e36bfb5fc0e8d4b" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::query::QueryFederation::QueryMetadata::order_by</definition>
+        <argsstring></argsstring>
+        <name>order_by</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::order_by</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="188" column="23" bodyfile="include/query/query_federation.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1afb2977f146fad032e52fd39df304c86f" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; uint64_t &gt;</type>
+        <definition>std::optional&lt;uint64_t&gt; themis::query::QueryFederation::QueryMetadata::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::limit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="189" column="23" bodyfile="include/query/query_federation.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a4fdedc296a9fa5c3b0e25365f08847fc" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; uint64_t &gt;</type>
+        <definition>std::optional&lt;uint64_t&gt; themis::query::QueryFederation::QueryMetadata::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::offset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="190" column="23" bodyfile="include/query/query_federation.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a80f014513a79ab0e15ecb03b7b5969b0" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate" kindref="compound">ShardKeyPredicate</ref> &gt;</type>
+        <definition>std::optional&lt;ShardKeyPredicate&gt; themis::query::QueryFederation::QueryMetadata::shard_key_predicate</definition>
+        <argsstring></argsstring>
+        <name>shard_key_predicate</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::shard_key_predicate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="193" column="23" bodyfile="include/query/query_federation.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a53d6ace15f22c8c76bf15196e08b2b64" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryFederation::QueryMetadata::query_text</definition>
+        <argsstring></argsstring>
+        <name>query_text</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::query_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="196" column="21" bodyfile="include/query/query_federation.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1aec97f748c147be9abfb0c158081496bf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::query::QueryFederation::QueryMetadata::embeddings</definition>
+        <argsstring></argsstring>
+        <name>embeddings</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::embeddings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="197" column="21" bodyfile="include/query/query_federation.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a082ab346eb623dcd993747ae81da4b08" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::query::QueryFederation::QueryMetadata::point_lookup_key</definition>
+        <argsstring></argsstring>
+        <name>point_lookup_key</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::point_lookup_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="202" column="23" bodyfile="include/query/query_federation.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1afaf8b5175bdb3962bfb83e7619604768" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::optional&lt;std::pair&lt;std::string, std::string&gt; &gt; themis::query::QueryFederation::QueryMetadata::key_range</definition>
+        <argsstring></argsstring>
+        <name>key_range</name>
+        <qualifiedname>themis::query::QueryFederation::QueryMetadata::key_range</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="205" column="23" bodyfile="include/query/query_federation.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_federation.h" line="170" column="5" bodyfile="include/query/query_federation.h" bodystart="170" bodyend="206"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1ad6a70e8e3107c0ac970ec2070188d718" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata</scope><name>aggregations</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1aec97f748c147be9abfb0c158081496bf" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata</scope><name>embeddings</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a70dedef73f51f13a990dd819375233b6" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata</scope><name>joins</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1afaf8b5175bdb3962bfb83e7619604768" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata</scope><name>key_range</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1afb2977f146fad032e52fd39df304c86f" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata</scope><name>limit</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a4fdedc296a9fa5c3b0e25365f08847fc" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata</scope><name>offset</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a3f7f10226f94e2a41e36bfb5fc0e8d4b" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata</scope><name>order_by</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a082ab346eb623dcd993747ae81da4b08" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata</scope><name>point_lookup_key</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a4d84d39bdd0744cda694593967a9340b" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata</scope><name>predicates</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a566463282c931b5d082410ec04a22fd5" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata</scope><name>projections</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a53d6ace15f22c8c76bf15196e08b2b64" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata</scope><name>query_text</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a80f014513a79ab0e15ecb03b7b5969b0" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata</scope><name>shard_key_predicate</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1aa1011539907427b90553198aeaf3d2fc" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::QueryMetadata</scope><name>tables</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

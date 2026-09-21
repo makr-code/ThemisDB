@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_collection_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::CollectionMetadata</compoundname>
+    <includes refid="aql__schema__provider_8h" local="no">aql_schema_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_collection_metadata_1ad7ccf916220f610632c5d08c20a72503" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::CollectionMetadata::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::aql::CollectionMetadata::name</qualifiedname>
+        <briefdescription>
+<para>Collection/table name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_schema_provider.h" line="31" column="36" bodyfile="include/aql/aql_schema_provider.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_collection_metadata_1a803e55a7316fe592124e4b883d0722fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::CollectionMetadata::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::aql::CollectionMetadata::type</qualifiedname>
+        <briefdescription>
+<para>&quot;document&quot;, &quot;relational&quot;, &quot;graph_node&quot;, etc. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_schema_provider.h" line="32" column="36" bodyfile="include/aql/aql_schema_provider.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_collection_metadata_1ab642676d9192d4c8273782b4bd0b38a9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_collection_field_info" kindref="compound">CollectionFieldInfo</ref> &gt;</type>
+        <definition>std::vector&lt;CollectionFieldInfo&gt; themis::aql::CollectionMetadata::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>themis::aql::CollectionMetadata::fields</qualifiedname>
+        <briefdescription>
+<para>Known fields (may be incomplete). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_schema_provider.h" line="33" column="17" bodyfile="include/aql/aql_schema_provider.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_collection_metadata_1ad221b3226542ae1c63ff2506be6f77e5" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::CollectionMetadata::estimated_count</definition>
+        <argsstring></argsstring>
+        <name>estimated_count</name>
+        <qualifiedname>themis::aql::CollectionMetadata::estimated_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Approximate document count (0 = unknown). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_schema_provider.h" line="34" column="36" bodyfile="include/aql/aql_schema_provider.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_schema_provider.h" line="30" column="1" bodyfile="include/aql/aql_schema_provider.h" bodystart="30" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_collection_metadata_1ad221b3226542ae1c63ff2506be6f77e5" prot="public" virt="non-virtual"><scope>themis::aql::CollectionMetadata</scope><name>estimated_count</name></member>
+      <member refid="structthemis_1_1aql_1_1_collection_metadata_1ab642676d9192d4c8273782b4bd0b38a9" prot="public" virt="non-virtual"><scope>themis::aql::CollectionMetadata</scope><name>fields</name></member>
+      <member refid="structthemis_1_1aql_1_1_collection_metadata_1ad7ccf916220f610632c5d08c20a72503" prot="public" virt="non-virtual"><scope>themis::aql::CollectionMetadata</scope><name>name</name></member>
+      <member refid="structthemis_1_1aql_1_1_collection_metadata_1a803e55a7316fe592124e4b883d0722fc" prot="public" virt="non-virtual"><scope>themis::aql::CollectionMetadata</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

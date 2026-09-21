@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_pinned_key" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::PinnedKey</compoundname>
+    <includes refid="signed__plugin__repository_8h" local="no">signed_plugin_repository.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_pinned_key_1ace69ee9f67cb5bcfdbf61563e12846ee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PinnedKey::fingerprint</definition>
+        <argsstring></argsstring>
+        <name>fingerprint</name>
+        <qualifiedname>themis::plugins::PinnedKey::fingerprint</qualifiedname>
+        <briefdescription>
+<para>Hex-encoded SHA-256 fingerprint of the raw 32-byte Ed25519 public key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/signed_plugin_repository.h" line="39" column="17" bodyfile="include/plugins/signed_plugin_repository.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_pinned_key_1a6972cddd11c86b2ffe59d71396574f4a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::plugins::PinnedKey::public_key</definition>
+        <argsstring></argsstring>
+        <name>public_key</name>
+        <qualifiedname>themis::plugins::PinnedKey::public_key</qualifiedname>
+        <briefdescription>
+<para>Raw 32-byte Ed25519 public key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/signed_plugin_repository.h" line="42" column="17" bodyfile="include/plugins/signed_plugin_repository.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_pinned_key_1a14e823a55444a54606a03b92af87ee1a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PinnedKey::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::plugins::PinnedKey::label</qualifiedname>
+        <briefdescription>
+<para>Human-readable label, e.g. &quot;ThemisDB Official Repository&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/signed_plugin_repository.h" line="45" column="17" bodyfile="include/plugins/signed_plugin_repository.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_pinned_key_1a7b706b30100f1847a651951e2b0fbece" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::PinnedKey::active</definition>
+        <argsstring></argsstring>
+        <name>active</name>
+        <qualifiedname>themis::plugins::PinnedKey::active</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When false the key is retained for audit purposes but not used for verification (allows graceful key rotation without hard removal). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/signed_plugin_repository.h" line="49" column="10" bodyfile="include/plugins/signed_plugin_repository.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A pinned public key entry for plugin repository signature verification. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Key pinning binds a specific Ed25519 public key to a trusted plugin publisher or repository authority. Only catalog entries whose detached signature was produced by one of the pinned keys are accepted.</para>
+<para>Key pinning prevents man-in-the-middle and registry-substitution attacks by binding the repository to an explicit, administrator-controlled set of public keys — analogous to HTTP Public Key Pinning (HPKP) for TLS or GPG keyring management in package managers such as apt/dnf. </para>
+    </detaileddescription>
+    <location file="include/plugins/signed_plugin_repository.h" line="37" column="1" bodyfile="include/plugins/signed_plugin_repository.h" bodystart="37" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_pinned_key_1a7b706b30100f1847a651951e2b0fbece" prot="public" virt="non-virtual"><scope>themis::plugins::PinnedKey</scope><name>active</name></member>
+      <member refid="structthemis_1_1plugins_1_1_pinned_key_1ace69ee9f67cb5bcfdbf61563e12846ee" prot="public" virt="non-virtual"><scope>themis::plugins::PinnedKey</scope><name>fingerprint</name></member>
+      <member refid="structthemis_1_1plugins_1_1_pinned_key_1a14e823a55444a54606a03b92af87ee1a" prot="public" virt="non-virtual"><scope>themis::plugins::PinnedKey</scope><name>label</name></member>
+      <member refid="structthemis_1_1plugins_1_1_pinned_key_1a6972cddd11c86b2ffe59d71396574f4a" prot="public" virt="non-virtual"><scope>themis::plugins::PinnedKey</scope><name>public_key</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,464 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::maintenance::MaintenanceScheduleEntry</compoundname>
+    <includes refid="maintenance__schedule_8h" local="no">maintenance_schedule.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a907a09f316dd3318cb66d829b4a3a99b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::MaintenanceScheduleEntry::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::id</qualifiedname>
+        <briefdescription>
+<para>UUID, assigned by orchestrator on create. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="151" column="17" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ad1560c81ceb9546c4ca14869cc3857e6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::MaintenanceScheduleEntry::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable label (required, must be non-empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="152" column="17" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a594f19f925fdc131b410155ad42d3f13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::MaintenanceScheduleEntry::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::description</qualifiedname>
+        <briefdescription>
+<para>Optional longer description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="153" column="17" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1aff8cf6b81c816731d54d06ad590568b3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::MaintenanceScheduleEntry::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Optional tenant identifier; empty = global/system schedule. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="154" column="17" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a4376e8d06d774c63aa545bbe5dedf07a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1maintenance_1aea3aefc527a6968cd6f09772e0903ac5" kindref="member">ScheduleFrequency</ref></type>
+        <definition>ScheduleFrequency themis::maintenance::MaintenanceScheduleEntry::frequency</definition>
+        <argsstring></argsstring>
+        <name>frequency</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::frequency</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1maintenance_1aea3aefc527a6968cd6f09772e0903ac5a791490f9f4842958f00f3791f6c01576" kindref="member">ScheduleFrequency::DAILY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="157" column="23" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1aad275d6df3f6b9bfa3924c65884a57ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::MaintenanceScheduleEntry::cron_expression</definition>
+        <argsstring></argsstring>
+        <name>cron_expression</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::cron_expression</qualifiedname>
+        <briefdescription>
+<para>Used when frequency == CUSTOM, or auto-derived otherwise. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="158" column="17" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a8235b1489e9179df1be4ea55e24f9b9f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kindref="member">MaintenanceTaskType</ref> &gt;</type>
+        <definition>std::vector&lt;MaintenanceTaskType&gt; themis::maintenance::MaintenanceScheduleEntry::tasks</definition>
+        <argsstring></argsstring>
+        <name>tasks</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::tasks</qualifiedname>
+        <briefdescription>
+<para>Ordered list of operations to run. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="161" column="24" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a8e2dba0d1ffdbcf60e4bc162bcf90417" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1maintenance_1_1_maintenance_task_dependency" kindref="compound">MaintenanceTaskDependency</ref> &gt;</type>
+        <definition>std::vector&lt;MaintenanceTaskDependency&gt; themis::maintenance::MaintenanceScheduleEntry::task_dependencies</definition>
+        <argsstring></argsstring>
+        <name>task_dependencies</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::task_dependencies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional per-task dependency declarations. When non-empty the orchestrator resolves execution order via topological sort instead of relying on positional order in <computeroutput><ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a8235b1489e9179df1be4ea55e24f9b9f" kindref="member">tasks</ref></computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="162" column="18" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a9f8ec0426924954745619c023f786583" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::maintenance::MaintenanceScheduleEntry::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>When false the schedule is registered but never fired. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="168" column="10" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1aaaa82f9b8e34d694fab5683592c846a4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::maintenance::MaintenanceScheduleEntry::enforce_window</definition>
+        <argsstring></argsstring>
+        <name>enforce_window</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::enforce_window</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Abort if started outside the window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="169" column="10" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a86760e8fc4540df38534ad3d618f58cb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::maintenance::MaintenanceScheduleEntry::window_start_hour</definition>
+        <argsstring></argsstring>
+        <name>window_start_hour</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::window_start_hour</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Inclusive start (0–23, UTC). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="170" column="10" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a0556a4657097e756ca713c65a0db27d2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::maintenance::MaintenanceScheduleEntry::window_end_hour</definition>
+        <argsstring></argsstring>
+        <name>window_end_hour</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::window_end_hour</qualifiedname>
+        <initializer>= 6</initializer>
+        <briefdescription>
+<para>Exclusive end (0–23, UTC). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="171" column="10" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a566a378170fd45838cff3daf98348f7e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::maintenance::MaintenanceScheduleEntry::halt_on_task_failure</definition>
+        <argsstring></argsstring>
+        <name>halt_on_task_failure</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::halt_on_task_failure</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Stop subsequent tasks if any task fails. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="174" column="10" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a3bfcf2191572df7e5bc7ca2aa4640ac0" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::maintenance::MaintenanceScheduleEntry::lock_ttl_ms</definition>
+        <argsstring></argsstring>
+        <name>lock_ttl_ms</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::lock_ttl_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Time-to-live for the distributed lock acquired before each scheduled run, in milliseconds. 0 (default) means the orchestrator auto-computes the TTL from the maintenance window duration plus a 30-second safety margin. Operators should set this to at least the estimated task duration + 30 s to prevent premature lock expiry on slow nodes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="184" column="13" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ad24bf9f0f5a1c21b8eabf0fe7c8038be" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::maintenance::MaintenanceScheduleEntry::max_schedule_changes_per_interval</definition>
+        <argsstring></argsstring>
+        <name>max_schedule_changes_per_interval</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::max_schedule_changes_per_interval</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Maximum permitted mutations (create/update/patch/delete) per rolling interval (DatabaseMaintenanceOrchestrator::kChurnIntervalMs, default 60 s). 0 = disabled (no rate limit applied). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><heading level="3">Semantics</heading>
+</para>
+<para>When &gt; 0 the orchestrator counts each CRUD write for this schedule within the current interval window. The (N+1)th mutation within the same window is rejected with <ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba89eb04a7d77d4cd399ea2e4ee8cbd63e" kindref="member">MaintenanceError::kChurnLimitExceeded</ref> and a structured error message containing the schedule_id and the current count.</para>
+<para><heading level="3">Max schedule age concept</heading>
+</para>
+<para>Schedules may carry an implicit age derived from <computeroutput><ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a5facc5dc3479702fb8ac213cac2ec882" kindref="member">created_at_ms</ref></computeroutput>. Future tooling will surface schedules older than a configurable TTL as candidates for review or auto-expiry (TTL-policy placeholder — see FUTURE_ENHANCEMENTS.md). The <computeroutput><ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ad24bf9f0f5a1c21b8eabf0fe7c8038be" kindref="member">max_schedule_changes_per_interval</ref></computeroutput> field participates in that governance by slowing accidental churn on aged schedules.</para>
+<para><heading level="3">Auto-expire behaviour note</heading>
+</para>
+<para>Auto-expiry (removing schedules that have not run within a TTL window) is a planned feature. The presence of this field does not imply auto-expiry is currently active. When auto-expiry is introduced it will be gated on a separate <computeroutput>auto_expire_ttl_ms</computeroutput> field (TTL-policy placeholder, currently unset / 0 = disabled). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="215" column="14" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a5facc5dc3479702fb8ac213cac2ec882" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::maintenance::MaintenanceScheduleEntry::created_at_ms</definition>
+        <argsstring></argsstring>
+        <name>created_at_ms</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::created_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix ms, set on create. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="218" column="13" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ad0801b24244572fc03c824d4be2f66b0" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::maintenance::MaintenanceScheduleEntry::updated_at_ms</definition>
+        <argsstring></argsstring>
+        <name>updated_at_ms</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::updated_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix ms, updated on every CRUD write. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="219" column="13" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ab1273d7ccf2e6b31a7328dee12b9f984" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::MaintenanceScheduleEntry::created_by</definition>
+        <argsstring></argsstring>
+        <name>created_by</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::created_by</qualifiedname>
+        <briefdescription>
+<para>Principal who created this entry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="220" column="17" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ab641c0e36a49a8018397796fbe2041ef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::MaintenanceScheduleEntry::updated_by</definition>
+        <argsstring></argsstring>
+        <name>updated_by</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::updated_by</qualifiedname>
+        <briefdescription>
+<para>Principal who last modified this entry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="221" column="17" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a6897ba239cdc537fb3f8e217938f39e1" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::maintenance::MaintenanceScheduleEntry::last_run_ms</definition>
+        <argsstring></argsstring>
+        <name>last_run_ms</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::last_run_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix ms of last execution start. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="224" column="17" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a117313d9c495df979215cac30a16eec7" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::maintenance::MaintenanceScheduleEntry::next_run_ms</definition>
+        <argsstring></argsstring>
+        <name>next_run_ms</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::next_run_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix ms of next scheduled execution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="225" column="17" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1aeb2f344d017e3974d667761899a1cdaf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::MaintenanceScheduleEntry::last_run_state</definition>
+        <argsstring></argsstring>
+        <name>last_run_state</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::last_run_state</qualifiedname>
+        <briefdescription>
+<para>&quot;success&quot; | &quot;failed&quot; | &quot;running&quot; | &quot;&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="226" column="17" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1aeaea37615ea01f7326f93df16ef3d794" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::MaintenanceScheduleEntry::last_job_id</definition>
+        <argsstring></argsstring>
+        <name>last_job_id</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::last_job_id</qualifiedname>
+        <briefdescription>
+<para>Job ID of the most-recent execution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="227" column="17" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ab27924726307c45b44785dfe673bb3a7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::maintenance::MaintenanceScheduleEntry::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="231" column="20" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="231" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1af458505fbd9d619976b74a8a05b45f0c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::MaintenanceScheduleEntry::applyPatch</definition>
+        <argsstring>(const nlohmann::json &amp;patch)</argsstring>
+        <name>applyPatch</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::applyPatch</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>patch</declname>
+        </param>
+        <briefdescription>
+<para>Apply a partial JSON patch (PATCH semantics: only provided fields are updated). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="348" column="10" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="348" bodyend="397"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a29a4acd08c1aa547258eaeb8b22ee70c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref></type>
+        <definition>static MaintenanceScheduleEntry themis::maintenance::MaintenanceScheduleEntry::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::maintenance::MaintenanceScheduleEntry::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="267" column="37" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="267" bodyend="345"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A durable, operator-managed maintenance schedule. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This is the primary entity managed by the CRUD API. Each entry binds a frequency/cron expression to a set of <ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kindref="member">MaintenanceTaskType</ref> operations and optional maintenance-window constraints. </para>
+    </detaileddescription>
+    <location file="include/maintenance/maintenance_schedule.h" line="149" column="1" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="149" bodyend="398"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1af458505fbd9d619976b74a8a05b45f0c" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>applyPatch</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a5facc5dc3479702fb8ac213cac2ec882" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>created_at_ms</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ab1273d7ccf2e6b31a7328dee12b9f984" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>created_by</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1aad275d6df3f6b9bfa3924c65884a57ea" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>cron_expression</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a594f19f925fdc131b410155ad42d3f13" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>description</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a9f8ec0426924954745619c023f786583" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1aaaa82f9b8e34d694fab5683592c846a4" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>enforce_window</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a4376e8d06d774c63aa545bbe5dedf07a" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>frequency</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a29a4acd08c1aa547258eaeb8b22ee70c" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a566a378170fd45838cff3daf98348f7e" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>halt_on_task_failure</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a907a09f316dd3318cb66d829b4a3a99b" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>id</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1aeaea37615ea01f7326f93df16ef3d794" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>last_job_id</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a6897ba239cdc537fb3f8e217938f39e1" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>last_run_ms</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1aeb2f344d017e3974d667761899a1cdaf" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>last_run_state</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a3bfcf2191572df7e5bc7ca2aa4640ac0" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>lock_ttl_ms</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ad24bf9f0f5a1c21b8eabf0fe7c8038be" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>max_schedule_changes_per_interval</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ad1560c81ceb9546c4ca14869cc3857e6" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>name</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a117313d9c495df979215cac30a16eec7" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>next_run_ms</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a8e2dba0d1ffdbcf60e4bc162bcf90417" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>task_dependencies</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a8235b1489e9179df1be4ea55e24f9b9f" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>tasks</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1aff8cf6b81c816731d54d06ad590568b3" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ab27924726307c45b44785dfe673bb3a7" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ad0801b24244572fc03c824d4be2f66b0" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>updated_at_ms</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1ab641c0e36a49a8018397796fbe2041ef" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>updated_by</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a0556a4657097e756ca713c65a0db27d2" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>window_end_hour</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a86760e8fc4540df38534ad3d618f58cb" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceScheduleEntry</scope><name>window_start_hour</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

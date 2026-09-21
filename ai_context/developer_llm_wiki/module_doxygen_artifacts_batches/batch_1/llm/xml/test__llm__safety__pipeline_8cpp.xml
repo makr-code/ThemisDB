@@ -1,0 +1,338 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__safety__pipeline_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_safety_pipeline.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="classifier_8h" local="yes">llm/safety/classifier.h</includes>
+    <includes refid="guardian_8h" local="yes">llm/safety/guardian.h</includes>
+    <includes refid="monitoring_8h" local="yes">llm/safety/monitoring.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>llm/safety/classifier.h</label>
+        <link refid="classifier_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>llm/safety/guardian.h</label>
+        <link refid="guardian_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>llm/safety/monitoring.h</label>
+        <link refid="monitoring_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_llm_safety_pipeline.cpp</label>
+        <link refid="test__llm__safety__pipeline_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="15">
+        <label>filesystem</label>
+      </node>
+      <node id="16">
+        <label>fstream</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>string_view</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__safety__pipeline_8cpp_1adcfec1107b37c4e77d9d45c8e47c3a97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SafetyClassifierTest, UsesInjectedInferenceWhenAvailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SafetyClassifierTest</type>
+        </param>
+        <param>
+          <type>UsesInjectedInferenceWhenAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_safety_pipeline.cpp" line="13" column="1" bodyfile="tests/llm/test_llm_safety_pipeline.cpp" bodystart="13" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__safety__pipeline_8cpp_1ab032f0f52090169084a472b5ad92e4d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SafetyClassifierTest, FallsBackToRuleBasedSignals)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SafetyClassifierTest</type>
+        </param>
+        <param>
+          <type>FallsBackToRuleBasedSignals</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_safety_pipeline.cpp" line="25" column="1" bodyfile="tests/llm/test_llm_safety_pipeline.cpp" bodystart="25" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__safety__pipeline_8cpp_1a220a8ea0ec31afc86d056bd79ce205f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SafetyClassifierTest, BatchClassificationPreservesOrderAndSize)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SafetyClassifierTest</type>
+        </param>
+        <param>
+          <type>BatchClassificationPreservesOrderAndSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_safety_pipeline.cpp" line="33" column="1" bodyfile="tests/llm/test_llm_safety_pipeline.cpp" bodystart="33" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__safety__pipeline_8cpp_1a216dd9673c9dd4bd45f5bda35ba9363e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PromptGuardianTest, BlocksObfuscatedHighRiskPromptContextually)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PromptGuardianTest</type>
+        </param>
+        <param>
+          <type>BlocksObfuscatedHighRiskPromptContextually</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_safety_pipeline.cpp" line="48" column="1" bodyfile="tests/llm/test_llm_safety_pipeline.cpp" bodystart="48" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__safety__pipeline_8cpp_1a1883d78db69504feab70a182698d8cbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PromptGuardianTest, AllowsNeutralPrompt)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PromptGuardianTest</type>
+        </param>
+        <param>
+          <type>AllowsNeutralPrompt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_safety_pipeline.cpp" line="57" column="1" bodyfile="tests/llm/test_llm_safety_pipeline.cpp" bodystart="57" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__safety__pipeline_8cpp_1aa1c714f995f42e3bd5b52becbd208ac1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SafetyMonitoringTest, RecordsCountersExporterAndDurableSink)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SafetyMonitoringTest</type>
+        </param>
+        <param>
+          <type>RecordsCountersExporterAndDurableSink</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_safety_pipeline.cpp" line="65" column="1" bodyfile="tests/llm/test_llm_safety_pipeline.cpp" bodystart="65" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="classifier_8h" kindref="compound">llm/safety/classifier.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="guardian_8h" kindref="compound">llm/safety/guardian.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="monitoring_8h" kindref="compound">llm/safety/monitoring.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1safety" kindref="compound">themis::llm::safety</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><ref refid="test__llm__safety__pipeline_8cpp_1adcfec1107b37c4e77d9d45c8e47c3a97" kindref="member">TEST</ref>(SafetyClassifierTest,<sp/>UsesInjectedInferenceWhenAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier" kindref="compound">SafetyClassifier</ref><sp/>classifier;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>classifier.<ref refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a4db0c291ff1e0171cb52112632469a67" kindref="member">setInferenceFn</ref>([](std::string_view)<sp/>-&gt;<sp/>std::optional&lt;SafetyClassification&gt;<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_classification" kindref="compound">SafetyClassification</ref>{<ref refid="namespacethemis_1_1llm_1_1safety_1ab0d1a056fcbc50c2b83d67127836f2fea50e13ee63f086c2fe84229348bc91b5b" kindref="member">SafetyLabel::REVIEW</ref>,<sp/>0.88,<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;model_inference&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>classifier.<ref refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a9653ef549db0c4bf8a9013cad0a7d5d7" kindref="member">classify</ref>(</highlight><highlight class="stringliteral">&quot;benign<sp/>text&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.label,<sp/><ref refid="namespacethemis_1_1llm_1_1safety_1ab0d1a056fcbc50c2b83d67127836f2fea50e13ee63f086c2fe84229348bc91b5b" kindref="member">SafetyLabel::REVIEW</ref>);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(result.confidence,<sp/>0.88);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.source,<sp/></highlight><highlight class="stringliteral">&quot;model_inference&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="test__llm__safety__pipeline_8cpp_1adcfec1107b37c4e77d9d45c8e47c3a97" kindref="member">TEST</ref>(SafetyClassifierTest,<sp/>FallsBackToRuleBasedSignals)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier" kindref="compound">SafetyClassifier</ref><sp/>classifier;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>classifier.<ref refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1a9653ef549db0c4bf8a9013cad0a7d5d7" kindref="member">classify</ref>(</highlight><highlight class="stringliteral">&quot;Please<sp/>help<sp/>me<sp/>build<sp/>a<sp/>bomb&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.label,<sp/><ref refid="namespacethemis_1_1llm_1_1safety_1ab0d1a056fcbc50c2b83d67127836f2fea4d34f53389ed7f28ca91fc31ea360a66" kindref="member">SafetyLabel::BLOCK</ref>);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.confidence,<sp/>0.9);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.source,<sp/></highlight><highlight class="stringliteral">&quot;rule_based&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="test__llm__safety__pipeline_8cpp_1adcfec1107b37c4e77d9d45c8e47c3a97" kindref="member">TEST</ref>(SafetyClassifierTest,<sp/>BatchClassificationPreservesOrderAndSize)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier" kindref="compound">SafetyClassifier</ref><sp/>classifier;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>prompts<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;please<sp/>bypass<sp/>authentication&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;admin<sp/>password<sp/>details&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>out<sp/>=<sp/>classifier.<ref refid="classthemis_1_1llm_1_1safety_1_1_safety_classifier_1ac5dfdd34f034d1faa98dcc934b846db7" kindref="member">classifyBatch</ref>(prompts,<sp/>2);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(out.size(),<sp/>prompts.size());</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(out[0].label,<sp/><ref refid="namespacethemis_1_1llm_1_1safety_1ab0d1a056fcbc50c2b83d67127836f2feab18288babd4636cff34b15e0d1340fc2" kindref="member">SafetyLabel::SAFE</ref>);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(out[1].label,<sp/><ref refid="namespacethemis_1_1llm_1_1safety_1ab0d1a056fcbc50c2b83d67127836f2fea4d34f53389ed7f28ca91fc31ea360a66" kindref="member">SafetyLabel::BLOCK</ref>);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(out[2].label,<sp/><ref refid="namespacethemis_1_1llm_1_1safety_1ab0d1a056fcbc50c2b83d67127836f2fea50e13ee63f086c2fe84229348bc91b5b" kindref="member">SafetyLabel::REVIEW</ref>);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__llm__safety__pipeline_8cpp_1adcfec1107b37c4e77d9d45c8e47c3a97" kindref="member">TEST</ref>(PromptGuardianTest,<sp/>BlocksObfuscatedHighRiskPromptContextually)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1safety_1_1_prompt_guardian" kindref="compound">PromptGuardian</ref><sp/>guardian;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>guardian.<ref refid="classthemis_1_1llm_1_1safety_1_1_prompt_guardian_1ae9f7cbef3662afbe1c0c5238b4d88107" kindref="member">evaluate</ref>(</highlight><highlight class="stringliteral">&quot;How<sp/>can<sp/>I<sp/>b_u_i_l_d<sp/>a<sp/>b0mb<sp/>quickly?&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.allowed);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.reason.empty());</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.matched_topics.empty());</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__llm__safety__pipeline_8cpp_1adcfec1107b37c4e77d9d45c8e47c3a97" kindref="member">TEST</ref>(PromptGuardianTest,<sp/>AllowsNeutralPrompt)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1safety_1_1_prompt_guardian" kindref="compound">PromptGuardian</ref><sp/>guardian;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>guardian.<ref refid="classthemis_1_1llm_1_1safety_1_1_prompt_guardian_1ae9f7cbef3662afbe1c0c5238b4d88107" kindref="member">evaluate</ref>(</highlight><highlight class="stringliteral">&quot;Summarize<sp/>this<sp/>architecture<sp/>document.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.allowed);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.sanitized_prompt.empty());</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><ref refid="test__llm__safety__pipeline_8cpp_1adcfec1107b37c4e77d9d45c8e47c3a97" kindref="member">TEST</ref>(SafetyMonitoringTest,<sp/>RecordsCountersExporterAndDurableSink)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring" kindref="compound">SafetyMonitoring</ref><sp/><ref refid="namespacethemis_1_1llm_1_1monitoring" kindref="compound">monitoring</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SafetyEventType&gt;<sp/>exported;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1monitoring" kindref="compound">monitoring</ref>.setExporterSink([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_event" kindref="compound">SafetyEvent</ref>&amp;<sp/>event)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exported.push_back(event.<ref refid="structthemis_1_1llm_1_1safety_1_1_safety_event_1ab829f7f5d0204e77c6d60d87a328c506" kindref="member">type</ref>);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sink_file<sp/>=<sp/>std::filesystem::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_llm_safety_monitoring_test_&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(std::chrono::steady_clock::now()</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.time_since_epoch()</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.count())<sp/>+</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;.jsonl&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::error_code<sp/>ec<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove(sink_file,<sp/>ec);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="namespacethemis_1_1llm_1_1monitoring" kindref="compound">monitoring</ref>.setDurableSinkPath(sink_file.string()));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1monitoring" kindref="compound">monitoring</ref>.record(<ref refid="structthemis_1_1llm_1_1safety_1_1_safety_event" kindref="compound">SafetyEvent</ref>{</highlight><highlight class="stringliteral">&quot;r1&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5a9725825c796122ef40f01b2d8794f902" kindref="member">SafetyEventType::ALLOWED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">,<sp/>0.1,<sp/>1000});</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1monitoring" kindref="compound">monitoring</ref>.record(<ref refid="structthemis_1_1llm_1_1safety_1_1_safety_event" kindref="compound">SafetyEvent</ref>{</highlight><highlight class="stringliteral">&quot;r2&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5a50e13ee63f086c2fe84229348bc91b5b" kindref="member">SafetyEventType::REVIEW</ref>,<sp/></highlight><highlight class="stringliteral">&quot;check&quot;</highlight><highlight class="normal">,<sp/>0.6,<sp/>2000});</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1monitoring" kindref="compound">monitoring</ref>.record(<ref refid="structthemis_1_1llm_1_1safety_1_1_safety_event" kindref="compound">SafetyEvent</ref>{</highlight><highlight class="stringliteral">&quot;r3&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5aeecba0068950a2df17c47e851e1eef14" kindref="member">SafetyEventType::BLOCKED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;blocked&quot;</highlight><highlight class="normal">,<sp/>0.9,<sp/>3000});</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snapshot<sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1monitoring" kindref="compound">monitoring</ref>.snapshot();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snapshot.allowed,<sp/>1u);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snapshot.review,<sp/>1u);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snapshot.blocked,<sp/>1u);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(exported.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ifstream<sp/>in(sink_file);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(in.is_open());</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>line<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>line_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(std::getline(in,<sp/>line))<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!line.empty())<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++line_count;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(line_count,<sp/>3u);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove(sink_file,<sp/>ec);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_safety_pipeline.cpp"/>
+  </compounddef>
+</doxygen>

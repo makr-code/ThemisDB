@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::BranchManager::BranchStats</compoundname>
+    <includes refid="branch__manager_8h" local="no">branch_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1ab571fc30e4c7fa093d17ba173dfd4430" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::BranchManager::BranchStats::total_branches</definition>
+        <argsstring></argsstring>
+        <name>total_branches</name>
+        <qualifiedname>themis::transaction::BranchManager::BranchStats::total_branches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/branch_manager.h" line="56" column="16" bodyfile="include/transaction/branch_manager.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1a21472d038eacbfee7adb6787ea5a5bb1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::BranchManager::BranchStats::active_branches</definition>
+        <argsstring></argsstring>
+        <name>active_branches</name>
+        <qualifiedname>themis::transaction::BranchManager::BranchStats::active_branches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/branch_manager.h" line="57" column="16" bodyfile="include/transaction/branch_manager.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1aaaa8f5079c313e135a4e69d09418d638" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::transaction::BranchManager::BranchStats::oldest_creation_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>oldest_creation_timestamp_ms</name>
+        <qualifiedname>themis::transaction::BranchManager::BranchStats::oldest_creation_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/branch_manager.h" line="58" column="17" bodyfile="include/transaction/branch_manager.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1ae47f938c0634bb141856424cefc5af3e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::transaction::BranchManager::BranchStats::newest_creation_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>newest_creation_timestamp_ms</name>
+        <qualifiedname>themis::transaction::BranchManager::BranchStats::newest_creation_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/branch_manager.h" line="59" column="17" bodyfile="include/transaction/branch_manager.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1ab7987851c310c21954275c744ba3703a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::BranchManager::BranchStats::default_branch</definition>
+        <argsstring></argsstring>
+        <name>default_branch</name>
+        <qualifiedname>themis::transaction::BranchManager::BranchStats::default_branch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/branch_manager.h" line="60" column="21" bodyfile="include/transaction/branch_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1a4955cb6cd8fb2033738b262a2a20f172" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref></type>
+        <definition>json themis::transaction::BranchManager::BranchStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::transaction::BranchManager::BranchStats::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/branch_manager.h" line="66" column="14" bodyfile="src/transaction/branch_manager.cpp" bodystart="54" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/branch_manager.h" line="55" column="5" bodyfile="include/transaction/branch_manager.h" bodystart="55" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1a21472d038eacbfee7adb6787ea5a5bb1" prot="public" virt="non-virtual"><scope>themis::transaction::BranchManager::BranchStats</scope><name>active_branches</name></member>
+      <member refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1ab7987851c310c21954275c744ba3703a" prot="public" virt="non-virtual"><scope>themis::transaction::BranchManager::BranchStats</scope><name>default_branch</name></member>
+      <member refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1ae47f938c0634bb141856424cefc5af3e" prot="public" virt="non-virtual"><scope>themis::transaction::BranchManager::BranchStats</scope><name>newest_creation_timestamp_ms</name></member>
+      <member refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1aaaa8f5079c313e135a4e69d09418d638" prot="public" virt="non-virtual"><scope>themis::transaction::BranchManager::BranchStats</scope><name>oldest_creation_timestamp_ms</name></member>
+      <member refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1a4955cb6cd8fb2033738b262a2a20f172" prot="public" virt="non-virtual"><scope>themis::transaction::BranchManager::BranchStats</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1ab571fc30e4c7fa093d17ba173dfd4430" prot="public" virt="non-virtual"><scope>themis::transaction::BranchManager::BranchStats</scope><name>total_branches</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_v_r_a_m_benchmark" kind="class" language="C++" prot="public">
+    <compoundname>VRAMBenchmark</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_v_r_a_m_benchmark_1af4c44d3fcdaaf15ab08674719764b46c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void VRAMBenchmark::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>VRAMBenchmark::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_vram_allocation.cpp" line="17" column="10" bodyfile="benchmarks/gpu/bench_gpu_vram_allocation.cpp" bodystart="17" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_v_r_a_m_benchmark_1a178e5a58b9560164d3775d7353725c2c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void VRAMBenchmark::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>VRAMBenchmark::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_vram_allocation.cpp" line="21" column="10" bodyfile="benchmarks/gpu/bench_gpu_vram_allocation.cpp" bodystart="21" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="class_v_r_a_m_benchmark_1ad85899bf72dca53583ed8c8e29662a14" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>AdaptiveVRAMAllocator::ModelConfig</type>
+        <definition>AdaptiveVRAMAllocator::ModelConfig VRAMBenchmark::createLlama7B</definition>
+        <argsstring>()</argsstring>
+        <name>createLlama7B</name>
+        <qualifiedname>VRAMBenchmark::createLlama7B</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_vram_allocation.cpp" line="25" column="40" bodyfile="benchmarks/gpu/bench_gpu_vram_allocation.cpp" bodystart="25" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_v_r_a_m_benchmark_1a38884ae0cfe1d0b195513b3b2d136c65" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>AdaptiveVRAMAllocator::HardwareInfo</type>
+        <definition>AdaptiveVRAMAllocator::HardwareInfo VRAMBenchmark::createRTX4090</definition>
+        <argsstring>()</argsstring>
+        <name>createRTX4090</name>
+        <qualifiedname>VRAMBenchmark::createRTX4090</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_vram_allocation.cpp" line="38" column="41" bodyfile="benchmarks/gpu/bench_gpu_vram_allocation.cpp" bodystart="38" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>VRAMBenchmark</label>
+        <link refid="class_v_r_a_m_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>VRAMBenchmark</label>
+        <link refid="class_v_r_a_m_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/gpu/bench_gpu_vram_allocation.cpp" line="15" column="1" bodyfile="benchmarks/gpu/bench_gpu_vram_allocation.cpp" bodystart="15" bodyend="48"/>
+    <listofallmembers>
+      <member refid="class_v_r_a_m_benchmark_1ad85899bf72dca53583ed8c8e29662a14" prot="protected" virt="non-virtual"><scope>VRAMBenchmark</scope><name>createLlama7B</name></member>
+      <member refid="class_v_r_a_m_benchmark_1a38884ae0cfe1d0b195513b3b2d136c65" prot="protected" virt="non-virtual"><scope>VRAMBenchmark</scope><name>createRTX4090</name></member>
+      <member refid="class_v_r_a_m_benchmark_1af4c44d3fcdaaf15ab08674719764b46c" prot="protected" virt="non-virtual"><scope>VRAMBenchmark</scope><name>SetUp</name></member>
+      <member refid="class_v_r_a_m_benchmark_1a178e5a58b9560164d3775d7353725c2c" prot="protected" virt="non-virtual"><scope>VRAMBenchmark</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

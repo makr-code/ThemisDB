@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_9be04aabaafde4e3ff7df8fdee06928a" kind="dir">
+    <compoundname>include/themis/base/interfaces</compoundname>
+    <innerfile refid="index__interface_8h">index_interface.h</innerfile>
+    <innerfile refid="query__interface_8h">query_interface.h</innerfile>
+    <innerfile refid="security__interface_8h">security_interface.h</innerfile>
+    <innerfile refid="storage__interface_8h">storage_interface.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/"/>
+  </compounddef>
+</doxygen>

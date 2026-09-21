@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_classification_profile" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::ClassificationProfile</compoundname>
+    <includes refid="policy__engine_8h" local="no">policy_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_classification_profile_1aaa20b2ad171ef98c508d199172b97af8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ClassificationProfile::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themis::governance::ClassificationProfile::level</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="46" column="17" bodyfile="include/governance/policy_engine.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_classification_profile_1a945e2de006113e2867d1e436b01cf589" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::ClassificationProfile::encryption_required</definition>
+        <argsstring></argsstring>
+        <name>encryption_required</name>
+        <qualifiedname>themis::governance::ClassificationProfile::encryption_required</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="47" column="10" bodyfile="include/governance/policy_engine.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_classification_profile_1ade9fa1c28246affc535090eae5a46a4c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::ClassificationProfile::ann_allowed</definition>
+        <argsstring></argsstring>
+        <name>ann_allowed</name>
+        <qualifiedname>themis::governance::ClassificationProfile::ann_allowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="48" column="10" bodyfile="include/governance/policy_engine.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_classification_profile_1a70d4ffd57c30219984c342b89bdf00c8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::ClassificationProfile::export_allowed</definition>
+        <argsstring></argsstring>
+        <name>export_allowed</name>
+        <qualifiedname>themis::governance::ClassificationProfile::export_allowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="49" column="10" bodyfile="include/governance/policy_engine.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_classification_profile_1ad8b630526071ec63e231c5f4707da9a9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::ClassificationProfile::cache_allowed</definition>
+        <argsstring></argsstring>
+        <name>cache_allowed</name>
+        <qualifiedname>themis::governance::ClassificationProfile::cache_allowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="50" column="10" bodyfile="include/governance/policy_engine.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_classification_profile_1a53e9ba36c48f6612f782e9cb93a48c78" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ClassificationProfile::redaction_level</definition>
+        <argsstring></argsstring>
+        <name>redaction_level</name>
+        <qualifiedname>themis::governance::ClassificationProfile::redaction_level</qualifiedname>
+        <initializer>= &quot;standard&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="51" column="17" bodyfile="include/governance/policy_engine.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_classification_profile_1a4b3da86f68654968d16eb0dea4e0c7eb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::ClassificationProfile::retention_days</definition>
+        <argsstring></argsstring>
+        <name>retention_days</name>
+        <qualifiedname>themis::governance::ClassificationProfile::retention_days</qualifiedname>
+        <initializer>= 365</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="52" column="9" bodyfile="include/governance/policy_engine.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_classification_profile_1a91f2aa9f8a85d124cb0cc56a0be9d4e1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::ClassificationProfile::log_encryption</definition>
+        <argsstring></argsstring>
+        <name>log_encryption</name>
+        <qualifiedname>themis::governance::ClassificationProfile::log_encryption</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="53" column="10" bodyfile="include/governance/policy_engine.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_engine.h" line="45" column="1" bodyfile="include/governance/policy_engine.h" bodystart="45" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_classification_profile_1ade9fa1c28246affc535090eae5a46a4c" prot="public" virt="non-virtual"><scope>themis::governance::ClassificationProfile</scope><name>ann_allowed</name></member>
+      <member refid="structthemis_1_1governance_1_1_classification_profile_1ad8b630526071ec63e231c5f4707da9a9" prot="public" virt="non-virtual"><scope>themis::governance::ClassificationProfile</scope><name>cache_allowed</name></member>
+      <member refid="structthemis_1_1governance_1_1_classification_profile_1a945e2de006113e2867d1e436b01cf589" prot="public" virt="non-virtual"><scope>themis::governance::ClassificationProfile</scope><name>encryption_required</name></member>
+      <member refid="structthemis_1_1governance_1_1_classification_profile_1a70d4ffd57c30219984c342b89bdf00c8" prot="public" virt="non-virtual"><scope>themis::governance::ClassificationProfile</scope><name>export_allowed</name></member>
+      <member refid="structthemis_1_1governance_1_1_classification_profile_1aaa20b2ad171ef98c508d199172b97af8" prot="public" virt="non-virtual"><scope>themis::governance::ClassificationProfile</scope><name>level</name></member>
+      <member refid="structthemis_1_1governance_1_1_classification_profile_1a91f2aa9f8a85d124cb0cc56a0be9d4e1" prot="public" virt="non-virtual"><scope>themis::governance::ClassificationProfile</scope><name>log_encryption</name></member>
+      <member refid="structthemis_1_1governance_1_1_classification_profile_1a53e9ba36c48f6612f782e9cb93a48c78" prot="public" virt="non-virtual"><scope>themis::governance::ClassificationProfile</scope><name>redaction_level</name></member>
+      <member refid="structthemis_1_1governance_1_1_classification_profile_1a4b3da86f68654968d16eb0dea4e0c7eb" prot="public" virt="non-virtual"><scope>themis::governance::ClassificationProfile</scope><name>retention_days</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

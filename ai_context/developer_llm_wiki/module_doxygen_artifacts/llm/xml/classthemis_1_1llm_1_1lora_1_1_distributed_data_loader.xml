@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::DistributedDataLoader</compoundname>
+    <includes refid="distributed__dataloader_8h" local="no">distributed_dataloader.h</includes>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_dataset" prot="public">themis::llm::lora::DistributedDataLoader::Dataset</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator" prot="public">themis::llm::lora::DistributedDataLoader::Iterator</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1ac877f8eccbfd46a931971a7d853da3b4" prot="private" static="no" mutable="no">
+        <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_dataset" kindref="compound">Dataset</ref> &amp;</type>
+        <definition>const Dataset&amp; themis::llm::lora::DistributedDataLoader::dataset_</definition>
+        <argsstring></argsstring>
+        <name>dataset_</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::dataset_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="91" column="19" bodyfile="include/llm/lora_framework/distributed_dataloader.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1abab06894013ca8200de371844d008653" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::DistributedDataLoader::batch_size_</definition>
+        <argsstring></argsstring>
+        <name>batch_size_</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::batch_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="92" column="12" bodyfile="include/llm/lora_framework/distributed_dataloader.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a43acdaf0a992056e489b1106afa3c51f" prot="private" static="no" mutable="no">
+        <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_context" kindref="compound">MultiGPUContext</ref> &amp;</type>
+        <definition>const MultiGPUContext&amp; themis::llm::lora::DistributedDataLoader::ctx_</definition>
+        <argsstring></argsstring>
+        <name>ctx_</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::ctx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="93" column="27" bodyfile="include/llm/lora_framework/distributed_dataloader.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1ab261e92cb8171c525c2262cb3070048e" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DistributedDataLoader::shuffle_</definition>
+        <argsstring></argsstring>
+        <name>shuffle_</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::shuffle_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="94" column="10" bodyfile="include/llm/lora_framework/distributed_dataloader.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1af5da6458487f99c387533ed7bf2809df" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DistributedDataLoader::drop_last_</definition>
+        <argsstring></argsstring>
+        <name>drop_last_</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::drop_last_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="95" column="10" bodyfile="include/llm/lora_framework/distributed_dataloader.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1aa705393c5d8bd3321c49e2b2d38f99d4" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::DistributedDataLoader::batch_size_per_gpu_</definition>
+        <argsstring></argsstring>
+        <name>batch_size_per_gpu_</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::batch_size_per_gpu_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="97" column="12" bodyfile="include/llm/lora_framework/distributed_dataloader.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1aff32d7ad2d7217bc6a37f847fc5e3483" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::DistributedDataLoader::num_batches_</definition>
+        <argsstring></argsstring>
+        <name>num_batches_</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::num_batches_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="98" column="12" bodyfile="include/llm/lora_framework/distributed_dataloader.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a6dea9688e4190f151e733808bea9ebad" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::llm::lora::DistributedDataLoader::indices_</definition>
+        <argsstring></argsstring>
+        <name>indices_</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::indices_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="99" column="17" bodyfile="include/llm/lora_framework/distributed_dataloader.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a8e5e44946afa03bd8ec259d01f7ba287" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::DistributedDataLoader::DistributedDataLoader</definition>
+        <argsstring>(const Dataset &amp;dataset, size_t batch_size, const MultiGPUContext &amp;ctx, bool shuffle=true, bool drop_last=false)</argsstring>
+        <name>DistributedDataLoader</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::DistributedDataLoader</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_dataset" kindref="compound">Dataset</ref> &amp;</type>
+          <declname>dataset</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_context" kindref="compound">MultiGPUContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>shuffle</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>drop_last</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="48" column="5" bodyfile="src/llm/lora_framework/distributed_dataloader.cpp" bodystart="21" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1ac5b6e882a9bd0d7d5d2b3b7b16191b26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::DistributedDataLoader::~DistributedDataLoader</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DistributedDataLoader</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::~DistributedDataLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="55" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a6fa58884c49c7f1653263808b3296657" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator" kindref="compound">Iterator</ref></type>
+        <definition>DistributedDataLoader::Iterator themis::llm::lora::DistributedDataLoader::begin</definition>
+        <argsstring>()</argsstring>
+        <name>begin</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::begin</qualifiedname>
+        <briefdescription>
+<para>Begin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Iterator(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="74" column="14" bodyfile="src/llm/lora_framework/distributed_dataloader.cpp" bodystart="173" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1acb08128987847d663b28ba77b313c9ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator" kindref="compound">Iterator</ref></type>
+        <definition>DistributedDataLoader::Iterator themis::llm::lora::DistributedDataLoader::end</definition>
+        <argsstring>()</argsstring>
+        <name>end</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::end</qualifiedname>
+        <briefdescription>
+<para>End. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Iterator(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="79" column="14" bodyfile="src/llm/lora_framework/distributed_dataloader.cpp" bodystart="182" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a8bc338766806d82edc97a1bc86e01c88" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::DistributedDataLoader::num_batches</definition>
+        <argsstring>() const</argsstring>
+        <name>num_batches</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::num_batches</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="81" column="12" bodyfile="include/llm/lora_framework/distributed_dataloader.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a9c7b45c5f382b5bd9d702ed32c3c2f56" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::DistributedDataLoader::batch_size_per_gpu</definition>
+        <argsstring>() const</argsstring>
+        <name>batch_size_per_gpu</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::batch_size_per_gpu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="83" column="12" bodyfile="include/llm/lora_framework/distributed_dataloader.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a7f7f0cf5849332aef4368da0e39a8ed5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::DistributedDataLoader::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: gen(), rd(), std::shuffle(), <ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a6fa58884c49c7f1653263808b3296657" kindref="member">begin()</ref>, <ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1acb08128987847d663b28ba77b313c9ed" kindref="member">end()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="88" column="10" bodyfile="src/llm/lora_framework/distributed_dataloader.cpp" bodystart="160" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1ad8ee5b896e77cb6c5cfcbb36fc2e3e46" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::DistributedDataLoader::initialize_indices</definition>
+        <argsstring>()</argsstring>
+        <name>initialize_indices</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::initialize_indices</qualifiedname>
+        <briefdescription>
+<para>Initialize indices. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: size(), resize(), gen(), rd(), std::shuffle(), <ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a6fa58884c49c7f1653263808b3296657" kindref="member">begin()</ref>, <ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1acb08128987847d663b28ba77b313c9ed" kindref="member">end()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="104" column="10" bodyfile="src/llm/lora_framework/distributed_dataloader.cpp" bodystart="54" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a0f92dd58ee402d3c75604b489be1adcd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &gt;</type>
+        <definition>std::vector&lt; GPUTensor &gt; themis::llm::lora::DistributedDataLoader::load_batch</definition>
+        <argsstring>(size_t batch_idx)</argsstring>
+        <name>load_batch</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::load_batch</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>batch_idx</declname>
+        </param>
+        <briefdescription>
+<para>Load batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::min(), size(), reserve(), push_back(), get(), num_gpus(), emplace_back(), get_device(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="110" column="17" bodyfile="src/llm/lora_framework/distributed_dataloader.cpp" bodystart="75" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/distributed_dataloader.h" line="24" column="1" bodyfile="include/llm/lora_framework/distributed_dataloader.h" bodystart="24" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1abab06894013ca8200de371844d008653" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader</scope><name>batch_size_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a9c7b45c5f382b5bd9d702ed32c3c2f56" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader</scope><name>batch_size_per_gpu</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1aa705393c5d8bd3321c49e2b2d38f99d4" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader</scope><name>batch_size_per_gpu_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a6fa58884c49c7f1653263808b3296657" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader</scope><name>begin</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a43acdaf0a992056e489b1106afa3c51f" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader</scope><name>ctx_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1ac877f8eccbfd46a931971a7d853da3b4" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader</scope><name>dataset_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a8e5e44946afa03bd8ec259d01f7ba287" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader</scope><name>DistributedDataLoader</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1af5da6458487f99c387533ed7bf2809df" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader</scope><name>drop_last_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1acb08128987847d663b28ba77b313c9ed" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader</scope><name>end</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a6dea9688e4190f151e733808bea9ebad" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader</scope><name>indices_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1ad8ee5b896e77cb6c5cfcbb36fc2e3e46" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader</scope><name>initialize_indices</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a0f92dd58ee402d3c75604b489be1adcd" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader</scope><name>load_batch</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a8bc338766806d82edc97a1bc86e01c88" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader</scope><name>num_batches</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1aff32d7ad2d7217bc6a37f847fc5e3483" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader</scope><name>num_batches_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a7f7f0cf5849332aef4368da0e39a8ed5" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader</scope><name>reset</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1ab261e92cb8171c525c2262cb3070048e" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader</scope><name>shuffle_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1ac5b6e882a9bd0d7d5d2b3b7b16191b26" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader</scope><name>~DistributedDataLoader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

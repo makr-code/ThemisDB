@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_citation_highlighter_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::CitationHighlighter::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_citation_highlighter_1_1_impl_1a1a110af8e35c9416de612e5aac4bfba6" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::CitationHighlighter::Impl::mtx</definition>
+        <argsstring></argsstring>
+        <name>mtx</name>
+        <qualifiedname>themis::rag::CitationHighlighter::Impl::mtx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/citation_highlighter.cpp" line="71" column="30" bodyfile="src/rag/citation_highlighter.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_citation_highlighter_1_1_impl_1a5c52c8bf055bf06a57332f87538567a1" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config" kindref="compound">CitationHighlighterConfig</ref></type>
+        <definition>CitationHighlighterConfig themis::rag::CitationHighlighter::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::CitationHighlighter::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/citation_highlighter.cpp" line="72" column="31" bodyfile="src/rag/citation_highlighter.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_citation_highlighter_1_1_impl_1ab462edfb9aec4fb1d78a2a6b7e68cc80" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::CitationHighlighter::Impl::Impl</definition>
+        <argsstring>(CitationHighlighterConfig cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::rag::CitationHighlighter::Impl::Impl</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config" kindref="compound">CitationHighlighterConfig</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/citation_highlighter.cpp" line="74" column="14" bodyfile="src/rag/citation_highlighter.cpp" bodystart="74" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::CitationHighlighter::Impl</label>
+        <link refid="structthemis_1_1rag_1_1_citation_highlighter_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::CitationHighlighterConfig</label>
+        <link refid="structthemis_1_1rag_1_1_citation_highlighter_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/citation_highlighter.cpp" line="70" column="1" bodyfile="src/rag/citation_highlighter.cpp" bodystart="70" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_citation_highlighter_1_1_impl_1a5c52c8bf055bf06a57332f87538567a1" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighter::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1_citation_highlighter_1_1_impl_1ab462edfb9aec4fb1d78a2a6b7e68cc80" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighter::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1rag_1_1_citation_highlighter_1_1_impl_1a1a110af8e35c9416de612e5aac4bfba6" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighter::Impl</scope><name>mtx</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

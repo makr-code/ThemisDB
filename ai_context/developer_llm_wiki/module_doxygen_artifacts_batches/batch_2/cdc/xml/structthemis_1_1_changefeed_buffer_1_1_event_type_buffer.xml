@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_changefeed_buffer_1_1_event_type_buffer" kind="struct" language="C++" prot="private">
+    <compoundname>themis::ChangefeedBuffer::EventTypeBuffer</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_1_1_event_type_buffer_1ac9f391ea646bfdfc67b0ae3c97d14e0e" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; BufferedEvent &gt;</type>
+        <definition>std::deque&lt;BufferedEvent&gt; themis::ChangefeedBuffer::EventTypeBuffer::events</definition>
+        <argsstring></argsstring>
+        <name>events</name>
+        <qualifiedname>themis::ChangefeedBuffer::EventTypeBuffer::events</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="204" column="20" bodyfile="include/cdc/changefeed_buffer.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_1_1_event_type_buffer_1ae5e4a6d128f982f80d653d71b5c2eb7d" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::ChangefeedBuffer::EventTypeBuffer::first_event_time</definition>
+        <argsstring></argsstring>
+        <name>first_event_time</name>
+        <qualifiedname>themis::ChangefeedBuffer::EventTypeBuffer::first_event_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="205" column="47" bodyfile="include/cdc/changefeed_buffer.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_1_1_event_type_buffer_1af644c06e2d6e3735d6125e61d387baa0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ChangefeedBuffer::EventTypeBuffer::memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::ChangefeedBuffer::EventTypeBuffer::memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="206" column="16" bodyfile="include/cdc/changefeed_buffer.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_changefeed_buffer_1_1_event_type_buffer_1a5dbc3d9a61bc709adc55b2e8475cc10a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ChangefeedBuffer::EventTypeBuffer::add</definition>
+        <argsstring>(BufferedEvent &amp;&amp;event)</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::ChangefeedBuffer::EventTypeBuffer::add</qualifiedname>
+        <param>
+          <type>BufferedEvent &amp;&amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Add. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), std::chrono::steady_clock::now(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="213" column="14" bodyfile="include/cdc/changefeed_buffer.h" bodystart="213" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_changefeed_buffer_1_1_event_type_buffer_1ad74df7b1a7decd2d3d476fbfe95cec68" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ChangefeedBuffer::EventTypeBuffer::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::ChangefeedBuffer::EventTypeBuffer::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="225" column="14" bodyfile="include/cdc/changefeed_buffer.h" bodystart="225" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/changefeed_buffer.h" line="203" column="5" bodyfile="include/cdc/changefeed_buffer.h" bodystart="203" bodyend="229"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_changefeed_buffer_1_1_event_type_buffer_1a5dbc3d9a61bc709adc55b2e8475cc10a" prot="public" virt="non-virtual"><scope>themis::ChangefeedBuffer::EventTypeBuffer</scope><name>add</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_1_1_event_type_buffer_1ad74df7b1a7decd2d3d476fbfe95cec68" prot="public" virt="non-virtual"><scope>themis::ChangefeedBuffer::EventTypeBuffer</scope><name>clear</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_1_1_event_type_buffer_1ac9f391ea646bfdfc67b0ae3c97d14e0e" prot="public" virt="non-virtual"><scope>themis::ChangefeedBuffer::EventTypeBuffer</scope><name>events</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_1_1_event_type_buffer_1ae5e4a6d128f982f80d653d71b5c2eb7d" prot="public" virt="non-virtual"><scope>themis::ChangefeedBuffer::EventTypeBuffer</scope><name>first_event_time</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_1_1_event_type_buffer_1af644c06e2d6e3735d6125e61d387baa0" prot="public" virt="non-virtual"><scope>themis::ChangefeedBuffer::EventTypeBuffer</scope><name>memory_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

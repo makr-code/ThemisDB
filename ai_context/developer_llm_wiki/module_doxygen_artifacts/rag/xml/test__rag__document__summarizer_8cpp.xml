@@ -1,0 +1,1015 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__rag__document__summarizer_8cpp" kind="file" language="C++">
+    <compoundname>test_rag_document_summarizer.cpp</compoundname>
+    <includes refid="document__summarizer_8h" local="yes">rag/document_summarizer.h</includes>
+    <includes refid="llm__integration_8h" local="yes">rag/llm_integration.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>rag/document_summarizer.h</label>
+        <link refid="document__summarizer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>rag/llm_integration.h</label>
+        <link refid="llm__integration_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>rag/streaming_retriever.h</label>
+        <link refid="streaming__retriever_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/rag/test_rag_document_summarizer.cpp</label>
+        <link refid="test__rag__document__summarizer_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>cmath</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="15">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_document_summarizer_test" prot="public">DocumentSummarizerTest</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__rag__document__summarizer_8cpp_1a9453a5d97c9cc078baa584788c90925c" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string kDocParis</definition>
+        <argsstring></argsstring>
+        <name>kDocParis</name>
+        <initializer>                               =
+&quot;Paris is the capital of France. &quot;
+&quot;It is located in northern France on the river Seine. &quot;
+&quot;Paris is known for the Eiffel Tower, which was built in 1889. &quot;
+&quot;The city is a major center of art, fashion, and culture. &quot;
+&quot;Millions of tourists visit Paris every year.&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="56" column="26" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test__rag__document__summarizer_8cpp_1aa6b2385aafa4e668c7c1d1016edc28c5" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string kDocGermany</definition>
+        <argsstring></argsstring>
+        <name>kDocGermany</name>
+        <initializer>                                 =
+&quot;Berlin is the capital of Germany. &quot;
+&quot;Germany is the largest economy in Europe. &quot;
+&quot;The country borders nine other nations. &quot;
+&quot;German engineering is renowned worldwide. &quot;
+&quot;The Rhine river flows through western Germany.&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="63" column="26" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1ab048a5f2f524576d09529e943170be0c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref></type>
+        <definition>static RetrievedDocument makeRetrievedDoc</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;content, double score=0.9)</argsstring>
+        <name>makeRetrievedDoc</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>score</declname>
+          <defval>0.9</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="37" column="26" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="37" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1abe9cd5cf7fd0b8faa48ed4bf29a5a1e6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref></type>
+        <definition>static StreamedDocument makeStreamedDoc</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;content, double score=0.9)</argsstring>
+        <name>makeStreamedDoc</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>score</declname>
+          <defval>0.9</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="48" column="25" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, SingleDocSummaryNotEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>SingleDocSummaryNotEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="98" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="98" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1ae09c91b282aa1b4578989959be496ab5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, SingleDocSummaryRespectsBudget)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>SingleDocSummaryRespectsBudget</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="104" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="104" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1aa6cbec9076b0cff240af93b187f28111" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, SingleDocCoverageScoreInRange)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>SingleDocCoverageScoreInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="111" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="111" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1a73fda703d62086b03f026c53f4f88a01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, SingleDocEmptyContent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>SingleDocEmptyContent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="118" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="118" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1a9f4e87e28da6136e588bbda5f8150f26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, SingleDocUsedLlmFalseInExtractiveMode)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>SingleDocUsedLlmFalseInExtractiveMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="125" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="125" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1a2e96c935cb74dea48578d64c184480d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, SingleDocQueryRelevanceImprovesSentenceSelection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>SingleDocQueryRelevanceImprovesSentenceSelection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="131" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="131" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1ac814a481133e0b06bececfea42283022" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, SingleDocNoQueryStillProducesSummary)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>SingleDocNoQueryStillProducesSummary</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="138" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="138" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1aa3011d3bc0f91106c0552e62b2b23bac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, MultiDocCombinedNotEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>MultiDocCombinedNotEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="148" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="148" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1a29ecb5a6bfdd190ef684eccecc9a96b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, MultiDocPerDocumentBreakdownCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>MultiDocPerDocumentBreakdownCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="158" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="158" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1addf08d4ced244bf5c111099ffa7c7b2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, MultiDocTotalInputChars)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>MultiDocTotalInputChars</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="168" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="168" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1a215913a03fc55e9fb5ac7d00719f1ef7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, MultiDocCompressionRatioInRange)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>MultiDocCompressionRatioInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="179" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="179" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1acc245ad1732f9ba578a50fba23dee09a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, MultiDocUsedLlmFalseInExtractiveMode)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>MultiDocUsedLlmFalseInExtractiveMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="190" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="190" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1a85a2b1ebd65db418ed40a25f7f1e468c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, MultiDocSourceAttributionPresent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>MultiDocSourceAttributionPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="199" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="199" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1ada9f953140517b75bc35fab27c344057" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, MultiDocSourceAttributionAbsent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>MultiDocSourceAttributionAbsent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="209" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="209" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1a1d077b9cd6f1d2b53fc46a34fd207834" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, MultiDocEmptyList)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>MultiDocEmptyList</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="219" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="219" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1a3b5912ee2a64fd6f9fc0c1742808fdcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, MultiDocElapsedMsNonNegative)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>MultiDocElapsedMsNonNegative</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="227" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="227" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1afe46f4e1f77fe177aa934dfe201f9528" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, StreamedDocOverloadProducesSummary)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>StreamedDocOverloadProducesSummary</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="240" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="240" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1a92f14875c013e60b7dac832d0da31f05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, StreamedDocOverloadEmptyList)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>StreamedDocOverloadEmptyList</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="251" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="251" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1a87b84dfc554a2548f59cc6be0e0ddf80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, AbstractiveWithoutLLMReturnsNonEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>AbstractiveWithoutLLMReturnsNonEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="262" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="262" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1a5bd3f81b3e8783b0612afb19f617e5bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, AutoStrategyWithoutLLMUsesExtractive)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>AutoStrategyWithoutLLMUsesExtractive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="283" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="283" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1a503200502365caefc4db607d44dfe662" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DocumentSummarizerTest, ConfigRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref></type>
+        </param>
+        <param>
+          <type>ConfigRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="299" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="299" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1ac5646b23e05aae3a0eeb5b600c34dbb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DocumentSummarizerFactoryTest, CreateExtractiveNotNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DocumentSummarizerFactoryTest</type>
+        </param>
+        <param>
+          <type>CreateExtractiveNotNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="317" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="317" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1a5a89fed136d51e60dc1b6983eacfd0e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DocumentSummarizerFactoryTest, CreateAbstractiveNotNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DocumentSummarizerFactoryTest</type>
+        </param>
+        <param>
+          <type>CreateAbstractiveNotNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="325" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="325" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__document__summarizer_8cpp_1af20ace3a5b09a3086da0b01cf2429804" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DocumentSummarizerFactoryTest, CreateAutoNotNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DocumentSummarizerFactoryTest</type>
+        </param>
+        <param>
+          <type>CreateAutoNotNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="333" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="333" bodyend="338"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref> (multi-document summarization before context injection – RAG Phase 3). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All tests exercise the heuristic-extractive path so they run without a live LLM engine (LLMIntegration::setInferenceEngine(nullptr)). Tests cover:<itemizedlist>
+<listitem><para>Single-document extractive summarization</para>
+</listitem><listitem><para>Multi-document extractive summarization (<ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref>)</para>
+</listitem><listitem><para>Multi-document extractive summarization (<ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref> overload)</para>
+</listitem><listitem><para>Empty document / empty document list edge cases</para>
+</listitem><listitem><para>max_summary_chars budget enforcement</para>
+</listitem><listitem><para>Source attribution presence/absence</para>
+</listitem><listitem><para>Compression ratio in [0, 1]</para>
+</listitem><listitem><para>Factory helpers (createExtractive, createAbstractive, createAuto)</para>
+</listitem><listitem><para>Configuration round-trip via getConfig/setConfig</para>
+</listitem><listitem><para>used_llm flag is false in extractive mode</para>
+</listitem><listitem><para>ABSTRACTIVE strategy without LLM falls back gracefully </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="document__summarizer_8h" kindref="compound">rag/document_summarizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__integration_8h" kindref="compound">rag/llm_integration.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1streaming" kindref="compound">themis::rag::streaming</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref><sp/>makeRetrievedDoc(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/>0.9)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref><sp/>d;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document_1ab4c5dbdcc47ac579d33603f713d1a370" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document_1a13a7721cc1eaad3d89335467a5aca5c6" kindref="member">content</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>content;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document_1a470d2fdc59604430e11a52a1fedaf51f" kindref="member">similarity_score</ref><sp/>=<sp/>score;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>d;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref><sp/>makeStreamedDoc(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/>0.9)</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref>{id,<sp/>content,<sp/>score,<sp/>0};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Typical<sp/>multi-sentence<sp/>document<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>kDocParis<sp/>=</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;It<sp/>is<sp/>located<sp/>in<sp/>northern<sp/>France<sp/>on<sp/>the<sp/>river<sp/>Seine.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>known<sp/>for<sp/>the<sp/>Eiffel<sp/>Tower,<sp/>which<sp/>was<sp/>built<sp/>in<sp/>1889.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>city<sp/>is<sp/>a<sp/>major<sp/>center<sp/>of<sp/>art,<sp/>fashion,<sp/>and<sp/>culture.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Millions<sp/>of<sp/>tourists<sp/>visit<sp/>Paris<sp/>every<sp/>year.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>kDocGermany<sp/>=</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Berlin<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>Germany.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Germany<sp/>is<sp/>the<sp/>largest<sp/>economy<sp/>in<sp/>Europe.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>country<sp/>borders<sp/>nine<sp/>other<sp/>nations.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;German<sp/>engineering<sp/>is<sp/>renowned<sp/>worldwide.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>Rhine<sp/>river<sp/>flows<sp/>through<sp/>western<sp/>Germany.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="class_document_summarizer_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_document_summarizer_test_1ad950989d3c00cb1723383ba6a4e3d9ca" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ensure<sp/>no<sp/>LLM<sp/>engine<sp/>is<sp/>injected<sp/>–<sp/>tests<sp/>use<sp/>extractive<sp/>path<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_integration_1a2db171ce7e6b6723ff39a94ed737f043" kindref="member">LLMIntegration::setInferenceEngine</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_document_summarizer_test_1ae13967747393d453cddfcc79cc3804f0" kindref="member">cfg_</ref>.strategy<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999a1184fc314b69e4f95e8065c460b2b60d" kindref="member">DocumentSummarizerConfig::Strategy::EXTRACTIVE</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_document_summarizer_test_1ae13967747393d453cddfcc79cc3804f0" kindref="member">cfg_</ref>.max_summary_chars<sp/><sp/><sp/><sp/><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_document_summarizer_test_1ae13967747393d453cddfcc79cc3804f0" kindref="member">cfg_</ref>.max_sentences_per_doc<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_document_summarizer_test_1ae13967747393d453cddfcc79cc3804f0" kindref="member">cfg_</ref>.min_sentence_chars<sp/><sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_document_summarizer_test_1ae13967747393d453cddfcc79cc3804f0" kindref="member">cfg_</ref>.include_source_attribution<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_document_summarizer_test_1aedaa71eaf2697c9ad885e014dbd18ac7" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_integration_1a2db171ce7e6b6723ff39a94ed737f043" kindref="member">LLMIntegration::setInferenceEngine</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config" kindref="compound">DocumentSummarizerConfig</ref><sp/><ref refid="class_document_summarizer_test_1ae13967747393d453cddfcc79cc3804f0" kindref="member">cfg_</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Single-document<sp/>summarization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>SingleDocSummaryNotEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarize(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>kDocParis,<sp/></highlight><highlight class="stringliteral">&quot;Eiffel<sp/>Tower&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.summary.empty());</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>SingleDocSummaryRespectsBudget)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg_.max_summary_chars<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarize(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>kDocParis,<sp/></highlight><highlight class="stringliteral">&quot;capital<sp/>France&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.summary.size(),<sp/>200u);<sp/></highlight><highlight class="comment">//<sp/>generous<sp/>tolerance<sp/>for<sp/>sentence<sp/>boundaries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>SingleDocCoverageScoreInRange)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarize(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>kDocParis,<sp/></highlight><highlight class="stringliteral">&quot;Paris&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.coverage_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.coverage_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>SingleDocEmptyContent)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarize(</highlight><highlight class="stringliteral">&quot;doc_empty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.summary.empty());</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.document_id,<sp/></highlight><highlight class="stringliteral">&quot;doc_empty&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>SingleDocUsedLlmFalseInExtractiveMode)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarize(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>kDocParis,<sp/></highlight><highlight class="stringliteral">&quot;Paris&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.used_llm);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>SingleDocQueryRelevanceImprovesSentenceSelection)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarize(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>kDocParis,<sp/></highlight><highlight class="stringliteral">&quot;Eiffel<sp/>Tower&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>Eiffel<sp/>Tower<sp/>sentence<sp/>should<sp/>be<sp/>selected<sp/>when<sp/>that&apos;s<sp/>the<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.summary.find(</highlight><highlight class="stringliteral">&quot;Eiffel&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>SingleDocNoQueryStillProducesSummary)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarize(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>kDocParis);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.summary.empty());</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Multi-document<sp/>summarization<sp/>–<sp/>RetrievedDocument</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>MultiDocCombinedNotEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeRetrievedDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/>kDocParis,<sp/>0.9),</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeRetrievedDoc(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/>kDocGermany,<sp/>0.8)</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarizeMultiple(docs,<sp/></highlight><highlight class="stringliteral">&quot;capital<sp/>cities&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.combined_summary.empty());</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>MultiDocPerDocumentBreakdownCount)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeRetrievedDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/>kDocParis),</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeRetrievedDoc(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/>kDocGermany)</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarizeMultiple(docs,<sp/></highlight><highlight class="stringliteral">&quot;Europe&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.per_document_summaries.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>MultiDocTotalInputChars)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeRetrievedDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/>kDocParis),</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeRetrievedDoc(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/>kDocGermany)</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarizeMultiple(docs,<sp/></highlight><highlight class="stringliteral">&quot;Europe&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total_input_chars,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kDocParis.size()<sp/>+<sp/>kDocGermany.size());</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>MultiDocCompressionRatioInRange)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeRetrievedDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/>kDocParis),</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeRetrievedDoc(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/>kDocGermany)</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarizeMultiple(docs,<sp/></highlight><highlight class="stringliteral">&quot;capital&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.compression_ratio,<sp/>0.0);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.compression_ratio,<sp/>1.0);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>MultiDocUsedLlmFalseInExtractiveMode)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeRetrievedDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/>kDocParis)</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarizeMultiple(docs,<sp/></highlight><highlight class="stringliteral">&quot;Paris&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.used_llm);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>MultiDocSourceAttributionPresent)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg_.include_source_attribution<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeRetrievedDoc(</highlight><highlight class="stringliteral">&quot;my-doc-id&quot;</highlight><highlight class="normal">,<sp/>kDocParis)</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarizeMultiple(docs,<sp/></highlight><highlight class="stringliteral">&quot;Paris&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.combined_summary.find(</highlight><highlight class="stringliteral">&quot;my-doc-id&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>MultiDocSourceAttributionAbsent)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg_.include_source_attribution<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeRetrievedDoc(</highlight><highlight class="stringliteral">&quot;my-doc-id&quot;</highlight><highlight class="normal">,<sp/>kDocParis)</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarizeMultiple(docs,<sp/></highlight><highlight class="stringliteral">&quot;Paris&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.combined_summary.find(</highlight><highlight class="stringliteral">&quot;[Source:&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>MultiDocEmptyList)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarizeMultiple(</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;{},<sp/></highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.combined_summary.empty());</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.total_input_chars,<sp/>0u);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>MultiDocElapsedMsNonNegative)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeRetrievedDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/>kDocParis)</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarizeMultiple(docs,<sp/></highlight><highlight class="stringliteral">&quot;Paris&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.elapsed_ms,<sp/>0.0);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Multi-document<sp/>summarization<sp/>–<sp/>StreamedDocument<sp/>overload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>StreamedDocOverloadProducesSummary)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;StreamedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeStreamedDoc(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/>kDocParis,<sp/>0.9),</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeStreamedDoc(</highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/>kDocGermany,<sp/>0.7)</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarizeMultiple(docs,<sp/></highlight><highlight class="stringliteral">&quot;Europe<sp/>capitals&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.combined_summary.empty());</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.per_document_summaries.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>StreamedDocOverloadEmptyList)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(cfg_);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarizeMultiple(</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;StreamedDocument&gt;{},<sp/></highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.combined_summary.empty());</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ABSTRACTIVE<sp/>strategy<sp/>without<sp/>an<sp/>LLM<sp/>engine<sp/>(graceful<sp/>degradation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>AbstractiveWithoutLLMReturnsNonEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config" kindref="compound">DocumentSummarizerConfig</ref><sp/>abs_cfg<sp/>=<sp/>cfg_;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>abs_cfg.<ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a3d5237d50762db41724c676fad2c1d00" kindref="member">strategy</ref><sp/>=<sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999aab0d4ca8119c255b94aa2ac648f2e1b8" kindref="member">DocumentSummarizerConfig::Strategy::ABSTRACTIVE</ref>;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(abs_cfg);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LLM<sp/>is<sp/>nullptr<sp/>→<sp/>LLMIntegration::generate()<sp/>returns<sp/>an<sp/>empty<sp/>/<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>string;<sp/>the<sp/>summarizer<sp/>must<sp/>not<sp/>crash<sp/>and<sp/>must<sp/>return<sp/>a<sp/>well-formed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(possibly<sp/>empty)<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeRetrievedDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/>kDocParis)</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarizeMultiple(docs,<sp/></highlight><highlight class="stringliteral">&quot;Paris&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>used_llm<sp/>should<sp/>be<sp/>true<sp/>(we<sp/>requested<sp/>abstractive)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.used_llm);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>crash,<sp/>per_document_summaries<sp/>has<sp/>one<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.per_document_summaries.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AUTO<sp/>strategy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>AutoStrategyWithoutLLMUsesExtractive)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config" kindref="compound">DocumentSummarizerConfig</ref><sp/>auto_cfg<sp/>=<sp/>cfg_;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>auto_cfg.<ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a3d5237d50762db41724c676fad2c1d00" kindref="member">strategy</ref><sp/>=<sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">DocumentSummarizerConfig::Strategy::AUTO</ref>;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s(auto_cfg);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeRetrievedDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/>kDocParis)</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>s.summarizeMultiple(docs,<sp/></highlight><highlight class="stringliteral">&quot;Paris&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.used_llm);<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>engine<sp/>→<sp/>extractive</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.combined_summary.empty());</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1a16ef657dcbed76f981f61e98c663d547" kindref="member">TEST_F</ref>(<ref refid="class_document_summarizer_test" kindref="compound">DocumentSummarizerTest</ref>,<sp/>ConfigRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer" kindref="compound">DocumentSummarizer</ref><sp/>s;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config" kindref="compound">DocumentSummarizerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1accfc6243e27f7055593d67e2ed464691" kindref="member">max_summary_chars</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1234;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a783b279893b772df65553ed87aed4006" kindref="member">max_sentences_per_doc</ref><sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a3d5237d50762db41724c676fad2c1d00" kindref="member">strategy</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999a1184fc314b69e4f95e8065c460b2b60d" kindref="member">DocumentSummarizerConfig::Strategy::EXTRACTIVE</ref>;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="classthemis_1_1rag_1_1_document_summarizer_1a2e6e0b4bf434694683f4fdf0e83e709a" kindref="member">setConfig</ref>(cfg);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>stored<sp/>=<sp/>s.<ref refid="classthemis_1_1rag_1_1_document_summarizer_1a9b93e91650a58468c2111b01a364702b" kindref="member">getConfig</ref>();</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stored.max_summary_chars,<sp/>1234u);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stored.max_sentences_per_doc,<sp/>7u);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stored.strategy,</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999a1184fc314b69e4f95e8065c460b2b60d" kindref="member">DocumentSummarizerConfig::Strategy::EXTRACTIVE</ref>);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Factory<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1ac5646b23e05aae3a0eeb5b600c34dbb2" kindref="member">TEST</ref>(DocumentSummarizerFactoryTest,<sp/>CreateExtractiveNotNull)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_factory_1a9d91e3b09c23be43c7be7704be0fe745" kindref="member">DocumentSummarizerFactory::createExtractive</ref>(3);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(s,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s-&gt;<ref refid="classthemis_1_1rag_1_1_document_summarizer_1a9b93e91650a58468c2111b01a364702b" kindref="member">getConfig</ref>().<ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a3d5237d50762db41724c676fad2c1d00" kindref="member">strategy</ref>,</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999a1184fc314b69e4f95e8065c460b2b60d" kindref="member">DocumentSummarizerConfig::Strategy::EXTRACTIVE</ref>);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s-&gt;<ref refid="classthemis_1_1rag_1_1_document_summarizer_1a9b93e91650a58468c2111b01a364702b" kindref="member">getConfig</ref>().<ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a783b279893b772df65553ed87aed4006" kindref="member">max_sentences_per_doc</ref>,<sp/>3u);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1ac5646b23e05aae3a0eeb5b600c34dbb2" kindref="member">TEST</ref>(DocumentSummarizerFactoryTest,<sp/>CreateAbstractiveNotNull)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_factory_1abe8fb1ff6d059400d2cbdb374f1dd263" kindref="member">DocumentSummarizerFactory::createAbstractive</ref>(1500);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(s,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s-&gt;<ref refid="classthemis_1_1rag_1_1_document_summarizer_1a9b93e91650a58468c2111b01a364702b" kindref="member">getConfig</ref>().<ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a3d5237d50762db41724c676fad2c1d00" kindref="member">strategy</ref>,</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999aab0d4ca8119c255b94aa2ac648f2e1b8" kindref="member">DocumentSummarizerConfig::Strategy::ABSTRACTIVE</ref>);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s-&gt;<ref refid="classthemis_1_1rag_1_1_document_summarizer_1a9b93e91650a58468c2111b01a364702b" kindref="member">getConfig</ref>().<ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1accfc6243e27f7055593d67e2ed464691" kindref="member">max_summary_chars</ref>,<sp/>1500u);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><ref refid="test__rag__document__summarizer_8cpp_1ac5646b23e05aae3a0eeb5b600c34dbb2" kindref="member">TEST</ref>(DocumentSummarizerFactoryTest,<sp/>CreateAutoNotNull)<sp/>{</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_document_summarizer_factory_1ac15a77a4b7cb62c5c917acf87d5e84ec" kindref="member">DocumentSummarizerFactory::createAuto</ref>();</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(s,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s-&gt;<ref refid="classthemis_1_1rag_1_1_document_summarizer_1a9b93e91650a58468c2111b01a364702b" kindref="member">getConfig</ref>().<ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a3d5237d50762db41724c676fad2c1d00" kindref="member">strategy</ref>,</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_document_summarizer_config_1a11ebda516e34876c762b430999e57999ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">DocumentSummarizerConfig::Strategy::AUTO</ref>);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/rag/test_rag_document_summarizer.cpp"/>
+  </compounddef>
+</doxygen>

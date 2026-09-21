@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_retention_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::RetentionStatus</compoundname>
+    <includes refid="cdc__admin_8h" local="no">cdc_admin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_retention_status_1a7de160a6458754bdc76aa06b4067021a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::RetentionStatus::total_events</definition>
+        <argsstring></argsstring>
+        <name>total_events</name>
+        <qualifiedname>themis::cdc::RetentionStatus::total_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current number of change events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="110" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_retention_status_1ab619401220a9283bb1e8009727db24dd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::RetentionStatus::total_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_size_bytes</name>
+        <qualifiedname>themis::cdc::RetentionStatus::total_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Approximate log size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="111" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_retention_status_1abaf8469c389a221e101d2118bac9bfcc" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cdc::RetentionStatus::oldest_event_age_ms</definition>
+        <argsstring></argsstring>
+        <name>oldest_event_age_ms</name>
+        <qualifiedname>themis::cdc::RetentionStatus::oldest_event_age_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Age of the oldest event (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="112" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_retention_status_1afec9a743b0cc5fb98911fcd2cb653750" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cdc::RetentionStatus::oldest_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>oldest_timestamp_ms</name>
+        <qualifiedname>themis::cdc::RetentionStatus::oldest_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Absolute timestamp of oldest event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="113" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_retention_status_1a399466ae72ee270c1de812922f03bd78" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cdc::RetentionStatus::newest_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>newest_timestamp_ms</name>
+        <qualifiedname>themis::cdc::RetentionStatus::newest_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Absolute timestamp of newest event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="114" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_retention_status_1a6962dedddf4e1837d011a72a2514e43c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cdc::RetentionStatus::next_cleanup_time_ms</definition>
+        <argsstring></argsstring>
+        <name>next_cleanup_time_ms</name>
+        <qualifiedname>themis::cdc::RetentionStatus::next_cleanup_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Estimated time of next scheduled cleanup (epoch ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="115" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_retention_status_1a2d4f879676aedc3f42ba8b82a1d70200" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cdc::RetentionStatus::compact_on_cleanup</definition>
+        <argsstring></argsstring>
+        <name>compact_on_cleanup</name>
+        <qualifiedname>themis::cdc::RetentionStatus::compact_on_cleanup</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether key compaction runs with each cleanup cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="116" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_retention_status_1ac6556ce999f3f2a2aa417e933dc6abdb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cdc::RetentionStatus::policy_enabled</definition>
+        <argsstring></argsstring>
+        <name>policy_enabled</name>
+        <qualifiedname>themis::cdc::RetentionStatus::policy_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether automatic retention cleanup is active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="119" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_retention_status_1a5a9b71f9d3d7fa437b61bbf54e3555b3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cdc::RetentionStatus::policy_max_age_hours</definition>
+        <argsstring></argsstring>
+        <name>policy_max_age_hours</name>
+        <qualifiedname>themis::cdc::RetentionStatus::policy_max_age_hours</qualifiedname>
+        <initializer>= 168</initializer>
+        <briefdescription>
+<para>Maximum event age before deletion (hours). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="120" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_retention_status_1aa2ca2c76cee08546f667e7ed38771e1f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::RetentionStatus::policy_max_event_count</definition>
+        <argsstring></argsstring>
+        <name>policy_max_event_count</name>
+        <qualifiedname>themis::cdc::RetentionStatus::policy_max_event_count</qualifiedname>
+        <initializer>= 1000000</initializer>
+        <briefdescription>
+<para>Maximum number of events to retain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="121" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_retention_status_1a5eb94620b63dfc93c005ed13978319d0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::RetentionStatus::policy_max_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>policy_max_size_bytes</name>
+        <qualifiedname>themis::cdc::RetentionStatus::policy_max_size_bytes</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_changefeed_1_1_retention_policy_1adf35895bcc414f85378a690852d43702" kindref="member">Changefeed::RetentionPolicy::DEFAULT_MAX_SIZE_BYTES</ref></initializer>
+        <briefdescription>
+<para>Maximum log size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="122" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_retention_status_1ad27c767963e34844f6ea8e27cf35ac31" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cdc::RetentionStatus::policy_cleanup_interval_minutes</definition>
+        <argsstring></argsstring>
+        <name>policy_cleanup_interval_minutes</name>
+        <qualifiedname>themis::cdc::RetentionStatus::policy_cleanup_interval_minutes</qualifiedname>
+        <initializer>= 60</initializer>
+        <briefdescription>
+<para>Interval between background cleanup runs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="123" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_retention_status_1a8998af4641c3f5423d34e80c7728fe5d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cdc::RetentionStatus::cleanup_thread_running</definition>
+        <argsstring></argsstring>
+        <name>cleanup_thread_running</name>
+        <qualifiedname>themis::cdc::RetentionStatus::cleanup_thread_running</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the background cleanup thread is currently active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="124" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_retention_status_1a73cdea3f5ae3da085861e70d22f1ac82" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::RetentionStatus::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cdc::RetentionStatus::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="126" column="20" bodyfile="include/cdc/cdc_admin.h" bodystart="126" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/cdc_admin.h" line="108" column="1" bodyfile="include/cdc/cdc_admin.h" bodystart="108" bodyend="145"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_retention_status_1a8998af4641c3f5423d34e80c7728fe5d" prot="public" virt="non-virtual"><scope>themis::cdc::RetentionStatus</scope><name>cleanup_thread_running</name></member>
+      <member refid="structthemis_1_1cdc_1_1_retention_status_1a2d4f879676aedc3f42ba8b82a1d70200" prot="public" virt="non-virtual"><scope>themis::cdc::RetentionStatus</scope><name>compact_on_cleanup</name></member>
+      <member refid="structthemis_1_1cdc_1_1_retention_status_1a399466ae72ee270c1de812922f03bd78" prot="public" virt="non-virtual"><scope>themis::cdc::RetentionStatus</scope><name>newest_timestamp_ms</name></member>
+      <member refid="structthemis_1_1cdc_1_1_retention_status_1a6962dedddf4e1837d011a72a2514e43c" prot="public" virt="non-virtual"><scope>themis::cdc::RetentionStatus</scope><name>next_cleanup_time_ms</name></member>
+      <member refid="structthemis_1_1cdc_1_1_retention_status_1abaf8469c389a221e101d2118bac9bfcc" prot="public" virt="non-virtual"><scope>themis::cdc::RetentionStatus</scope><name>oldest_event_age_ms</name></member>
+      <member refid="structthemis_1_1cdc_1_1_retention_status_1afec9a743b0cc5fb98911fcd2cb653750" prot="public" virt="non-virtual"><scope>themis::cdc::RetentionStatus</scope><name>oldest_timestamp_ms</name></member>
+      <member refid="structthemis_1_1cdc_1_1_retention_status_1ad27c767963e34844f6ea8e27cf35ac31" prot="public" virt="non-virtual"><scope>themis::cdc::RetentionStatus</scope><name>policy_cleanup_interval_minutes</name></member>
+      <member refid="structthemis_1_1cdc_1_1_retention_status_1ac6556ce999f3f2a2aa417e933dc6abdb" prot="public" virt="non-virtual"><scope>themis::cdc::RetentionStatus</scope><name>policy_enabled</name></member>
+      <member refid="structthemis_1_1cdc_1_1_retention_status_1a5a9b71f9d3d7fa437b61bbf54e3555b3" prot="public" virt="non-virtual"><scope>themis::cdc::RetentionStatus</scope><name>policy_max_age_hours</name></member>
+      <member refid="structthemis_1_1cdc_1_1_retention_status_1aa2ca2c76cee08546f667e7ed38771e1f" prot="public" virt="non-virtual"><scope>themis::cdc::RetentionStatus</scope><name>policy_max_event_count</name></member>
+      <member refid="structthemis_1_1cdc_1_1_retention_status_1a5eb94620b63dfc93c005ed13978319d0" prot="public" virt="non-virtual"><scope>themis::cdc::RetentionStatus</scope><name>policy_max_size_bytes</name></member>
+      <member refid="structthemis_1_1cdc_1_1_retention_status_1a73cdea3f5ae3da085861e70d22f1ac82" prot="public" virt="non-virtual"><scope>themis::cdc::RetentionStatus</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1cdc_1_1_retention_status_1a7de160a6458754bdc76aa06b4067021a" prot="public" virt="non-virtual"><scope>themis::cdc::RetentionStatus</scope><name>total_events</name></member>
+      <member refid="structthemis_1_1cdc_1_1_retention_status_1ab619401220a9283bb1e8009727db24dd" prot="public" virt="non-virtual"><scope>themis::cdc::RetentionStatus</scope><name>total_size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

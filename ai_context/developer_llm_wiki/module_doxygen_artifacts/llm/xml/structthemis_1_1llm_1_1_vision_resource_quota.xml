@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vision_resource_quota" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::VisionResourceQuota</compoundname>
+    <includes refid="vision__config_8h" local="no">vision_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_quota_1aee029345ab817d3ed7ffdb32cf3b37ae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionResourceQuota::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::VisionResourceQuota::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Quota enforcement enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="117" column="10" bodyfile="include/llm/vision_config.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_quota_1a7b5c93aba71c5c79e6b08fd4737b2b2a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionResourceQuota::enforcement</definition>
+        <argsstring></argsstring>
+        <name>enforcement</name>
+        <qualifiedname>themis::llm::VisionResourceQuota::enforcement</qualifiedname>
+        <briefdescription>
+<para>Enforcement mode: soft, hard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="118" column="17" bodyfile="include/llm/vision_config.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_quota_1aff07a4e60c701ce1602204617049f62d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceQuota::daily_requests</definition>
+        <argsstring></argsstring>
+        <name>daily_requests</name>
+        <qualifiedname>themis::llm::VisionResourceQuota::daily_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Daily request quota. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="119" column="12" bodyfile="include/llm/vision_config.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_quota_1a8ad62371b1da2a31bb659a0ac5ff6305" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceQuota::monthly_requests</definition>
+        <argsstring></argsstring>
+        <name>monthly_requests</name>
+        <qualifiedname>themis::llm::VisionResourceQuota::monthly_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Monthly request quota. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="120" column="12" bodyfile="include/llm/vision_config.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_quota_1a2a459616656498c50493968b622f4ce4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceQuota::total_inference_minutes</definition>
+        <argsstring></argsstring>
+        <name>total_inference_minutes</name>
+        <qualifiedname>themis::llm::VisionResourceQuota::total_inference_minutes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total inference time quota. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="121" column="12" bodyfile="include/llm/vision_config.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_quota_1afbca5eacd14ee294d126f5f8b4e202ec" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceQuota::total_vram_hours</definition>
+        <argsstring></argsstring>
+        <name>total_vram_hours</name>
+        <qualifiedname>themis::llm::VisionResourceQuota::total_vram_hours</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>GPU hours quota. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="122" column="12" bodyfile="include/llm/vision_config.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_quota_1a43aa6b9da89d6219c414869741670770" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionResourceQuota::reset_period</definition>
+        <argsstring></argsstring>
+        <name>reset_period</name>
+        <qualifiedname>themis::llm::VisionResourceQuota::reset_period</qualifiedname>
+        <briefdescription>
+<para>Reset period: daily, weekly, monthly. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="123" column="17" bodyfile="include/llm/vision_config.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_vision_resource_quota_1af2111eb560e4f9bfb14391a002566a9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::VisionResourceQuota::~VisionResourceQuota</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VisionResourceQuota</name>
+        <qualifiedname>themis::llm::VisionResourceQuota::~VisionResourceQuota</qualifiedname>
+        <briefdescription>
+<para>Vision Resource Quota. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="116" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_config.h" line="111" column="1" bodyfile="include/llm/vision_config.h" bodystart="111" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_quota_1aff07a4e60c701ce1602204617049f62d" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceQuota</scope><name>daily_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_quota_1aee029345ab817d3ed7ffdb32cf3b37ae" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceQuota</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_quota_1a7b5c93aba71c5c79e6b08fd4737b2b2a" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceQuota</scope><name>enforcement</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_quota_1a8ad62371b1da2a31bb659a0ac5ff6305" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceQuota</scope><name>monthly_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_quota_1a43aa6b9da89d6219c414869741670770" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceQuota</scope><name>reset_period</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_quota_1a2a459616656498c50493968b622f4ce4" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceQuota</scope><name>total_inference_minutes</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_quota_1afbca5eacd14ee294d126f5f8b4e202ec" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceQuota</scope><name>total_vram_hours</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_quota_1af2111eb560e4f9bfb14391a002566a9b" prot="public" virt="virtual"><scope>themis::llm::VisionResourceQuota</scope><name>~VisionResourceQuota</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

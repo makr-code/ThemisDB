@@ -1,0 +1,572 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1streaming_1_1_stream_transfer_task" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::streaming::StreamTransferTask</compoundname>
+    <includes refid="stream__protocol_8h" local="no">stream_protocol.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1ac99eb417eb2110efdb4262c458ab7cca" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1streaming_1_1_stream_file_info" kindref="compound">StreamFileInfo</ref></type>
+        <definition>StreamFileInfo themisdb::streaming::StreamTransferTask::file_</definition>
+        <argsstring></argsstring>
+        <name>file_</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::file_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="459" column="20" bodyfile="include/sharding/stream_protocol.h" bodystart="459" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a3ff02d5e25a00fc569c50cf174002f2d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1streaming_1_1_stream_session_config" kindref="compound">StreamSessionConfig</ref></type>
+        <definition>StreamSessionConfig themisdb::streaming::StreamTransferTask::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="460" column="25" bodyfile="include/sharding/stream_protocol.h" bodystart="460" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a1e5d060d195be44569814eb448f10984" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1streaming_1_1_stream_rate_limiter" kindref="compound">StreamRateLimiter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;StreamRateLimiter&gt; themisdb::streaming::StreamTransferTask::rate_limiter_</definition>
+        <argsstring></argsstring>
+        <name>rate_limiter_</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::rate_limiter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="461" column="21" bodyfile="include/sharding/stream_protocol.h" bodystart="461" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a7891492888d7105e1c48f24bb6e4a545" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::streaming::StreamTransferTask::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="463" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="463" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1acfef66813663984f00a206c96b613f3b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::streaming::StreamTransferTask::paused_</definition>
+        <argsstring></argsstring>
+        <name>paused_</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::paused_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="464" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="464" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a860efdd45f61ce1cecd5bb2d27a84c2d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::streaming::StreamTransferTask::complete_</definition>
+        <argsstring></argsstring>
+        <name>complete_</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::complete_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="465" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="465" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a8d9b5b1332aa69db5e2e5e180c8ca2d9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::streaming::StreamTransferTask::failed_</definition>
+        <argsstring></argsstring>
+        <name>failed_</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::failed_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="466" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="466" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a9131e2380c61eee0dbbaa7f491c69777" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt;bool&gt; themisdb::streaming::StreamTransferTask::chunks_acked_</definition>
+        <argsstring></argsstring>
+        <name>chunks_acked_</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::chunks_acked_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="469" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="469" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a1f6587af5f9c341b2b0843d90678dc0a" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; uint32_t &gt;</type>
+        <definition>std::queue&lt;uint32_t&gt; themisdb::streaming::StreamTransferTask::pending_retries_</definition>
+        <argsstring></argsstring>
+        <name>pending_retries_</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::pending_retries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="470" column="16" bodyfile="include/sharding/stream_protocol.h" bodystart="470" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1aebd3aaafdab17c7541871ffd8dad3292" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamTransferTask::next_chunk_to_send_</definition>
+        <argsstring></argsstring>
+        <name>next_chunk_to_send_</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::next_chunk_to_send_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="471" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="471" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a4714ba918beec3df5260e8e163baa09b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1streaming_1_1_stream_file_progress" kindref="compound">StreamFileProgress</ref></type>
+        <definition>StreamFileProgress themisdb::streaming::StreamTransferTask::progress_</definition>
+        <argsstring></argsstring>
+        <name>progress_</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::progress_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="474" column="24" bodyfile="include/sharding/stream_protocol.h" bodystart="474" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1aa8f9c36c5c55bf6de70a24c0f75c264b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::streaming::StreamTransferTask::progress_mutex_</definition>
+        <argsstring></argsstring>
+        <name>progress_mutex_</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::progress_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="475" column="24" bodyfile="include/sharding/stream_protocol.h" bodystart="475" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a65396bdbd6753b212a7505b5043aeef1" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::streaming::StreamTransferTask::transfer_thread_</definition>
+        <argsstring></argsstring>
+        <name>transfer_thread_</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::transfer_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="478" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="478" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a9e22c798f8bfaf6fed5535a3f70002df" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::streaming::StreamTransferTask::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="479" column="29" bodyfile="include/sharding/stream_protocol.h" bodystart="479" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a5848c79858b51c8b1077bdf50066c670" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::streaming::StreamTransferTask::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="480" column="16" bodyfile="include/sharding/stream_protocol.h" bodystart="480" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a44d9afabe54b86312ab8d25c520494bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::streaming::StreamTransferTask::StreamTransferTask</definition>
+        <argsstring>(const StreamFileInfo &amp;file, std::shared_ptr&lt; StreamRateLimiter &gt; rate_limiter, const StreamSessionConfig &amp;config)</argsstring>
+        <name>StreamTransferTask</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::StreamTransferTask</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1streaming_1_1_stream_file_info" kindref="compound">StreamFileInfo</ref> &amp;</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1streaming_1_1_stream_rate_limiter" kindref="compound">StreamRateLimiter</ref> &gt;</type>
+          <declname>rate_limiter</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1streaming_1_1_stream_session_config" kindref="compound">StreamSessionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct transfer task for one file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="422" column="5" bodyfile="src/sharding/stream_protocol.cpp" bodystart="1366" bodyend="1373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1abe160803370201da6669d2c0e1816578" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::streaming::StreamTransferTask::~StreamTransferTask</definition>
+        <argsstring>()</argsstring>
+        <name>~StreamTransferTask</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::~StreamTransferTask</qualifiedname>
+        <briefdescription>
+<para>Destructor stops worker thread if running. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="429" column="5" bodyfile="src/sharding/stream_protocol.cpp" bodystart="1375" bodyend="1383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a4eb0b79729d82fb95ca7e1c687d2fe03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::streaming::StreamTransferTask::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::start</qualifiedname>
+        <briefdescription>
+<para>Start asynchronous file transfer worker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: store(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="432" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="1390" bodyend="1394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a3e74878fbba7bc3a88cda274b40f3a37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamTransferTask::pause</definition>
+        <argsstring>()</argsstring>
+        <name>pause</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::pause</qualifiedname>
+        <briefdescription>
+<para>Pause transfer progress until resume is called. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Pause.</para>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="435" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="1400" bodyend="1402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a0f4e6692d0c6838185936ca688539b51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamTransferTask::resume</definition>
+        <argsstring>()</argsstring>
+        <name>resume</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::resume</qualifiedname>
+        <briefdescription>
+<para>Resume a previously paused transfer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Resume.</para>
+<para>Calls: store(), notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="438" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="1408" bodyend="1411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a4f0da7931c0c17989a43692ade1130ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamTransferTask::abort</definition>
+        <argsstring>()</argsstring>
+        <name>abort</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::abort</qualifiedname>
+        <briefdescription>
+<para>Abort transfer and mark task as failed/incomplete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Abort.</para>
+<para>Calls: store(), notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="441" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="1417" bodyend="1421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a277f2aabb093088a7e8c2ce5d5f850d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamTransferTask::onChunkAck</definition>
+        <argsstring>(uint32_t chunk_index)</argsstring>
+        <name>onChunkAck</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::onChunkAck</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>chunk_index</declname>
+        </param>
+        <briefdescription>
+<para>Mark chunk as acknowledged by receiver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On Chunk Ack.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="444" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="1428" bodyend="1436"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1ad14b9575d1ce2fa536c1c979e9f9e7a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamTransferTask::onRetryRequest</definition>
+        <argsstring>(uint32_t chunk_index)</argsstring>
+        <name>onRetryRequest</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::onRetryRequest</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>chunk_index</declname>
+        </param>
+        <briefdescription>
+<para>Queue chunk for retransmission after retry request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On Retry Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push(), notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="447" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="1443" bodyend="1449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1adf955fdd435500b3ca7613fbcb9d99ae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1streaming_1_1_stream_file_progress" kindref="compound">StreamFileProgress</ref></type>
+        <definition>StreamFileProgress themisdb::streaming::StreamTransferTask::getProgress</definition>
+        <argsstring>() const</argsstring>
+        <name>getProgress</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::getProgress</qualifiedname>
+        <briefdescription>
+<para>Return point-in-time file transfer progress snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="450" column="24" bodyfile="src/sharding/stream_protocol.cpp" bodystart="1451" bodyend="1459"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1adf6fc20c5149b39acd8ff8e6bdb33f8e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::streaming::StreamTransferTask::isComplete</definition>
+        <argsstring>() const</argsstring>
+        <name>isComplete</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::isComplete</qualifiedname>
+        <briefdescription>
+<para>Return true once all required chunks are transferred/acked. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="453" column="10" bodyfile="include/sharding/stream_protocol.h" bodystart="453" bodyend="453"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a0dcddfeaba4b956db87b6261629c1814" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::streaming::StreamTransferTask::isFailed</definition>
+        <argsstring>() const</argsstring>
+        <name>isFailed</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::isFailed</qualifiedname>
+        <briefdescription>
+<para>Return true when task reached a failed terminal state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="456" column="10" bodyfile="include/sharding/stream_protocol.h" bodystart="456" bodyend="456"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a350ef0385e1400a4358199b61d118e97" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamTransferTask::transferLoop</definition>
+        <argsstring>()</argsstring>
+        <name>transferLoop</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::transferLoop</qualifiedname>
+        <briefdescription>
+<para>Transfer Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), lock(), std::chrono::milliseconds(), wait_for(), empty(), front(), pop(), createChunk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="482" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="1465" bodyend="1534"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1aab4b79f9f32657b25d4227f4d890bb0b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1streaming_1_1_stream_chunk" kindref="compound">StreamChunk</ref> &gt;</type>
+        <definition>std::optional&lt; StreamChunk &gt; themisdb::streaming::StreamTransferTask::createChunk</definition>
+        <argsstring>(uint32_t chunk_index)</argsstring>
+        <name>createChunk</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::createChunk</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>chunk_index</declname>
+        </param>
+        <briefdescription>
+<para>Create Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: resize(), file(), seekg(), read(), data(), calculateCRC32(), <ref refid="classthemisdb_1_1streaming_1_1_stream_compressor_1a9bd8724d0698d21055122dac2eebba28" kindref="member">StreamCompressor::compress()</ref>, size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="483" column="19" bodyfile="src/sharding/stream_protocol.cpp" bodystart="1542" bodyend="1591"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a2d136b23d2901e415e820825dd6cb71c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::streaming::StreamTransferTask::sendChunk</definition>
+        <argsstring>(const StreamChunk &amp;chunk)</argsstring>
+        <name>sendChunk</name>
+        <qualifiedname>themisdb::streaming::StreamTransferTask::sendChunk</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1streaming_1_1_stream_chunk" kindref="compound">StreamChunk</ref> &amp;</type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+<para>Send Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::filesystem::temp_directory_path(), std::filesystem::exists(), std::filesystem::create_directories(), std::filesystem::permissions(), what(), max(), spdlog::error(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="484" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="1599" bodyend="1681"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Worker responsible for sending one file within a session. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/stream_protocol.h" line="419" column="1" bodyfile="include/sharding/stream_protocol.h" bodystart="419" bodyend="485"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a4f0da7931c0c17989a43692ade1130ba" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>abort</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a9131e2380c61eee0dbbaa7f491c69777" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>chunks_acked_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a860efdd45f61ce1cecd5bb2d27a84c2d" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>complete_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a3ff02d5e25a00fc569c50cf174002f2d" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1aab4b79f9f32657b25d4227f4d890bb0b" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>createChunk</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a9e22c798f8bfaf6fed5535a3f70002df" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>cv_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a8d9b5b1332aa69db5e2e5e180c8ca2d9" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>failed_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1ac99eb417eb2110efdb4262c458ab7cca" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>file_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1adf955fdd435500b3ca7613fbcb9d99ae" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>getProgress</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1adf6fc20c5149b39acd8ff8e6bdb33f8e" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>isComplete</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a0dcddfeaba4b956db87b6261629c1814" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>isFailed</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a5848c79858b51c8b1077bdf50066c670" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1aebd3aaafdab17c7541871ffd8dad3292" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>next_chunk_to_send_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a277f2aabb093088a7e8c2ce5d5f850d0" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>onChunkAck</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1ad14b9575d1ce2fa536c1c979e9f9e7a7" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>onRetryRequest</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a3e74878fbba7bc3a88cda274b40f3a37" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>pause</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1acfef66813663984f00a206c96b613f3b" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>paused_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a1f6587af5f9c341b2b0843d90678dc0a" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>pending_retries_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a4714ba918beec3df5260e8e163baa09b" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>progress_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1aa8f9c36c5c55bf6de70a24c0f75c264b" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>progress_mutex_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a1e5d060d195be44569814eb448f10984" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>rate_limiter_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a0f4e6692d0c6838185936ca688539b51" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>resume</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a7891492888d7105e1c48f24bb6e4a545" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a2d136b23d2901e415e820825dd6cb71c" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>sendChunk</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a4eb0b79729d82fb95ca7e1c687d2fe03" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a44d9afabe54b86312ab8d25c520494bf" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>StreamTransferTask</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a65396bdbd6753b212a7505b5043aeef1" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>transfer_thread_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1a350ef0385e1400a4358199b61d118e97" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>transferLoop</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_transfer_task_1abe160803370201da6669d2c0e1816578" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamTransferTask</scope><name>~StreamTransferTask</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

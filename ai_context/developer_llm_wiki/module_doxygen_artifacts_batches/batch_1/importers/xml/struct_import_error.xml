@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_import_error" kind="struct" language="C++" prot="public">
+    <compoundname>ImportError</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_import_error_1a5015ca64d76c3c773f2193c56b91e70c" prot="public" static="no" mutable="no">
+        <type><ref refid="test__phase4__importer__hardening_8cpp_1a7193e726dbb79a5d60479d6b5689d5fb" kindref="member">ImportErrorCode</ref></type>
+        <definition>ImportErrorCode ImportError::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>ImportError::code</qualifiedname>
+        <initializer>= <ref refid="test__importer__async__api_8cpp_1a7193e726dbb79a5d60479d6b5689d5fba696b031073e74bf2cb98e5ef201d4aa3" kindref="member">ImportErrorCode::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="46" column="25" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_error_1a47311f670418833a25240cf6a4381f85" prot="public" static="no" mutable="no">
+        <type><ref refid="test__phase4__importer__hardening_8cpp_1a94c16938e96783489dad35c9a1e84a9e" kindref="member">ImportErrorSeverity</ref></type>
+        <definition>ImportErrorSeverity ImportError::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>ImportError::severity</qualifiedname>
+        <initializer>= <ref refid="test__importer__async__api_8cpp_1a94c16938e96783489dad35c9a1e84a9eabb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">ImportErrorSeverity::ERROR</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="47" column="25" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_error_1a4af6aef6c58e47008259bc23e45d4a99" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ImportError::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>ImportError::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="48" column="25" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_error_1a1923bec85117deb81ab6128e1bfa956d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ImportError::location</definition>
+        <argsstring></argsstring>
+        <name>location</name>
+        <qualifiedname>ImportError::location</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="49" column="25" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/importers/test_importer_async_api.cpp" line="45" column="1" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="45" bodyend="50"/>
+    <listofallmembers>
+      <member refid="struct_import_error_1a5015ca64d76c3c773f2193c56b91e70c" prot="public" virt="non-virtual"><scope>ImportError</scope><name>code</name></member>
+      <member refid="struct_import_error_1a1923bec85117deb81ab6128e1bfa956d" prot="public" virt="non-virtual"><scope>ImportError</scope><name>location</name></member>
+      <member refid="struct_import_error_1a4af6aef6c58e47008259bc23e45d4a99" prot="public" virt="non-virtual"><scope>ImportError</scope><name>message</name></member>
+      <member refid="struct_import_error_1a47311f670418833a25240cf6a4381f85" prot="public" virt="non-virtual"><scope>ImportError</scope><name>severity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

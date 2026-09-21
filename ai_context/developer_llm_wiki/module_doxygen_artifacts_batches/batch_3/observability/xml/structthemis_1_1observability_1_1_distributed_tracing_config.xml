@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_distributed_tracing_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::DistributedTracingConfig</compoundname>
+    <includes refid="distributed__tracing__sdk_8h" local="no">distributed_tracing_sdk.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_distributed_tracing_config_1a698de95b0d3df77917919445b09b107b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5d" kindref="member">TraceContextFormat</ref></type>
+        <definition>TraceContextFormat themis::observability::DistributedTracingConfig::default_format</definition>
+        <argsstring></argsstring>
+        <name>default_format</name>
+        <qualifiedname>themis::observability::DistributedTracingConfig::default_format</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5daae8ff6eda9aad5462befff3fab67b29b" kindref="member">TraceContextFormat::W3C_TRACE_CONTEXT</ref>}</initializer>
+        <briefdescription>
+<para>Default propagation format for serializing trace context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="209" column="24" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_distributed_tracing_config_1ab31fc9838f78280a3d679c66f116081f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::DistributedTracingConfig::inherit_baggage</definition>
+        <argsstring></argsstring>
+        <name>inherit_baggage</name>
+        <qualifiedname>themis::observability::DistributedTracingConfig::inherit_baggage</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Whether to inherit baggage from parent context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="212" column="10" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="212" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_distributed_tracing_config_1aa9c22edba85813bdbc959be11bca7bff" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::observability::DistributedTracingConfig::max_baggage_items</definition>
+        <argsstring></argsstring>
+        <name>max_baggage_items</name>
+        <qualifiedname>themis::observability::DistributedTracingConfig::max_baggage_items</qualifiedname>
+        <initializer>{128}</initializer>
+        <briefdescription>
+<para>Maximum number of baggage items per trace context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="215" column="17" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="215" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_distributed_tracing_config_1a84a953fd1abcad7922aa5e21a2c23579" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::DistributedTracingConfig::propagate_baggage</definition>
+        <argsstring></argsstring>
+        <name>propagate_baggage</name>
+        <qualifiedname>themis::observability::DistributedTracingConfig::propagate_baggage</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Whether to automatically propagate baggage in downstream calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="218" column="10" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="218" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_distributed_tracing_config_1a2cf99cbb8b712a5652f744ad913a2580" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DistributedTracingConfig::service_name</definition>
+        <argsstring></argsstring>
+        <name>service_name</name>
+        <qualifiedname>themis::observability::DistributedTracingConfig::service_name</qualifiedname>
+        <briefdescription>
+<para>Service name for identifying this service in trace context (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="221" column="17" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_distributed_tracing_config_1a64c937a0a74323df75b10ce8663dff1d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::DistributedTracingConfig::enable_trace_correlation_logging</definition>
+        <argsstring></argsstring>
+        <name>enable_trace_correlation_logging</name>
+        <qualifiedname>themis::observability::DistributedTracingConfig::enable_trace_correlation_logging</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Whether to enable distributed trace correlation logging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="224" column="10" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the distributed tracing SDK. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Specifies how the SDK should handle trace context propagation, baggage handling, and upstream/downstream service interactions. </para>
+    </detaileddescription>
+    <location file="include/observability/distributed_tracing_sdk.h" line="207" column="1" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="207" bodyend="225"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_distributed_tracing_config_1a698de95b0d3df77917919445b09b107b" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTracingConfig</scope><name>default_format</name></member>
+      <member refid="structthemis_1_1observability_1_1_distributed_tracing_config_1a64c937a0a74323df75b10ce8663dff1d" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTracingConfig</scope><name>enable_trace_correlation_logging</name></member>
+      <member refid="structthemis_1_1observability_1_1_distributed_tracing_config_1ab31fc9838f78280a3d679c66f116081f" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTracingConfig</scope><name>inherit_baggage</name></member>
+      <member refid="structthemis_1_1observability_1_1_distributed_tracing_config_1aa9c22edba85813bdbc959be11bca7bff" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTracingConfig</scope><name>max_baggage_items</name></member>
+      <member refid="structthemis_1_1observability_1_1_distributed_tracing_config_1a84a953fd1abcad7922aa5e21a2c23579" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTracingConfig</scope><name>propagate_baggage</name></member>
+      <member refid="structthemis_1_1observability_1_1_distributed_tracing_config_1a2cf99cbb8b712a5652f744ad913a2580" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTracingConfig</scope><name>service_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

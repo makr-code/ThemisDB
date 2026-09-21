@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_i_stateful_plugin" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::plugins::IStatefulPlugin</compoundname>
+    <derivedcompoundref refid="class_stateful_test_plugin" prot="public" virt="non-virtual">StatefulTestPlugin</derivedcompoundref>
+    <includes refid="plugin__interface_8h" local="no">plugin_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_stateful_plugin_1a170384bc3c40e85f08d1f27aede53e83" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::plugins::IStatefulPlugin::~IStatefulPlugin</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IStatefulPlugin</name>
+        <qualifiedname>themis::plugins::IStatefulPlugin::~IStatefulPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="313" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_stateful_plugin_1a0b6fdbe8a9b9246d48c8784b07b69f4a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::plugins::IStatefulPlugin::saveState</definition>
+        <argsstring>()=0</argsstring>
+        <name>saveState</name>
+        <qualifiedname>themis::plugins::IStatefulPlugin::saveState</qualifiedname>
+        <reimplementedby refid="class_stateful_test_plugin_1af6700061f24d0473b10f65207548922d">saveState</reimplementedby>
+        <briefdescription>
+<para>Save plugin state before reload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called by <ref refid="classthemis_1_1plugins_1_1_plugin_manager" kindref="compound">PluginManager</ref> before unloading during hot-reload. The returned state will be passed back to <ref refid="classthemis_1_1plugins_1_1_i_stateful_plugin_1a70cffac1f390d0b4f53a5b48146849d2" kindref="member">restoreState()</ref> after reload.</para>
+<para><simplesect kind="return"><para>Serialized state as JSON string, or empty string if no state </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::exception</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on serialization error (will be logged, not fatal) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="324" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_stateful_plugin_1a70cffac1f390d0b4f53a5b48146849d2" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::plugins::IStatefulPlugin::restoreState</definition>
+        <argsstring>(const std::string &amp;state)=0</argsstring>
+        <name>restoreState</name>
+        <qualifiedname>themis::plugins::IStatefulPlugin::restoreState</qualifiedname>
+        <reimplementedby refid="class_stateful_test_plugin_1a3514b4612d971a6cf585b65d975c5537">restoreState</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Restore plugin state after reload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called by <ref refid="classthemis_1_1plugins_1_1_plugin_manager" kindref="compound">PluginManager</ref> after successful reload. The plugin should restore its internal state from the provided data.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Previously saved state from <ref refid="classthemis_1_1plugins_1_1_i_stateful_plugin_1a0b6fdbe8a9b9246d48c8784b07b69f4a" kindref="member">saveState()</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if state restored successfully, false otherwise </para>
+</simplesect>
+<simplesect kind="note"><para>If restoration fails, plugin remains loaded with default state </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="336" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stateful Plugin Interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Optional interface for plugins that need state preservation during hot-reload. Plugins implementing this interface can save their state before unload and restore it after reload, enabling zero-downtime updates.</para>
+<para>Thread-Safety: Implementations must be thread-safe </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>StatefulTestPlugin</label>
+        <link refid="class_stateful_test_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::plugins::IStatefulPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_stateful_plugin"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/plugins/plugin_interface.h" line="311" column="1" bodyfile="include/plugins/plugin_interface.h" bodystart="311" bodyend="337"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_i_stateful_plugin_1a70cffac1f390d0b4f53a5b48146849d2" prot="public" virt="pure-virtual"><scope>themis::plugins::IStatefulPlugin</scope><name>restoreState</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_stateful_plugin_1a0b6fdbe8a9b9246d48c8784b07b69f4a" prot="public" virt="pure-virtual"><scope>themis::plugins::IStatefulPlugin</scope><name>saveState</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_stateful_plugin_1a170384bc3c40e85f08d1f27aede53e83" prot="public" virt="virtual"><scope>themis::plugins::IStatefulPlugin</scope><name>~IStatefulPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

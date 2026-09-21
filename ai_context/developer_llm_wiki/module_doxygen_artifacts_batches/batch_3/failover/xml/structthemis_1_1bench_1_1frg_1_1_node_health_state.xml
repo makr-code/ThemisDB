@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1frg_1_1_node_health_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::frg::NodeHealthState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1frg_1_1_node_health_state_1a87a751d05afadebc366844a6af832840" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::frg::NodeHealthState::last_hb_ms</definition>
+        <argsstring></argsstring>
+        <name>last_hb_ms</name>
+        <qualifiedname>themis::bench::frg::NodeHealthState::last_hb_ms</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="130" column="19" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1frg_1_1_node_health_state_1a92a009f30b242b04d99f98c2c6c542be" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::frg::NodeHealthState::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::bench::frg::NodeHealthState::timeout_ms</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="131" column="19" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="131" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1frg_1_1_node_health_state_1a654fb9ad7184e42eb2ed1791a6f46653" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::bench::frg::NodeHealthState::alive</definition>
+        <argsstring></argsstring>
+        <name>alive</name>
+        <qualifiedname>themis::bench::frg::NodeHealthState::alive</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="132" column="19" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="132" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="129" column="1" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="129" bodyend="133"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1frg_1_1_node_health_state_1a654fb9ad7184e42eb2ed1791a6f46653" prot="public" virt="non-virtual"><scope>themis::bench::frg::NodeHealthState</scope><name>alive</name></member>
+      <member refid="structthemis_1_1bench_1_1frg_1_1_node_health_state_1a87a751d05afadebc366844a6af832840" prot="public" virt="non-virtual"><scope>themis::bench::frg::NodeHealthState</scope><name>last_hb_ms</name></member>
+      <member refid="structthemis_1_1bench_1_1frg_1_1_node_health_state_1a92a009f30b242b04d99f98c2c6c542be" prot="public" virt="non-virtual"><scope>themis::bench::frg::NodeHealthState</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

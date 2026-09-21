@@ -1,0 +1,338 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1toolbox_1_1_text_chunker" kind="class" language="C++" prot="public">
+    <compoundname>themis::toolbox::TextChunker</compoundname>
+    <includes refid="text__chunker_8h" local="no">text_chunker.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1toolbox_1_1_text_chunker_1a16e2c7fceeaab7ae7c25ea17d5c8ec72" prot="private" static="no" mutable="no">
+        <type>rag::DocumentSplitter</type>
+        <definition>rag::DocumentSplitter themis::toolbox::TextChunker::splitter_</definition>
+        <argsstring></argsstring>
+        <name>splitter_</name>
+        <qualifiedname>themis::toolbox::TextChunker::splitter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_chunker.h" line="98" column="27" bodyfile="include/toolbox/text_chunker.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_text_chunker_1a0d18ba96217e468f2e99987f65c1ab2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::TextChunker::TextChunker</definition>
+        <argsstring>()</argsstring>
+        <name>TextChunker</name>
+        <qualifiedname>themis::toolbox::TextChunker::TextChunker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct with default <computeroutput>DocumentSplitterConfig</computeroutput> (chunk_size=512, overlap=64, strategy=Sentence). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_chunker.h" line="37" column="5" bodyfile="src/toolbox/text_chunker.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_text_chunker_1a48601948f44af02bbbb7e9d7c2fb1910" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::TextChunker::TextChunker</definition>
+        <argsstring>(const rag::DocumentSplitterConfig &amp;config)</argsstring>
+        <name>TextChunker</name>
+        <qualifiedname>themis::toolbox::TextChunker::TextChunker</qualifiedname>
+        <param>
+          <type>const rag::DocumentSplitterConfig &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct with a custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_chunker.h" line="40" column="14" bodyfile="src/toolbox/text_chunker.cpp" bodystart="37" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_text_chunker_1adce9a9aaa893409e288b80b95a9810f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::TextChunker::~TextChunker</definition>
+        <argsstring>()</argsstring>
+        <name>~TextChunker</name>
+        <qualifiedname>themis::toolbox::TextChunker::~TextChunker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_chunker.h" line="42" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_text_chunker_1ae98a164dd56d256497c1eefdda7b4b11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::TextChunker::TextChunker</definition>
+        <argsstring>(const TextChunker &amp;)=delete</argsstring>
+        <name>TextChunker</name>
+        <qualifiedname>themis::toolbox::TextChunker::TextChunker</qualifiedname>
+        <param>
+          <type>const TextChunker &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_chunker.h" line="44" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_text_chunker_1a524a1027dc49fad9088f1d98e33e597f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_text_chunker_1a0d18ba96217e468f2e99987f65c1ab2e" kindref="member">TextChunker</ref> &amp;</type>
+        <definition>TextChunker &amp; themis::toolbox::TextChunker::operator=</definition>
+        <argsstring>(const TextChunker &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::toolbox::TextChunker::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1toolbox_1_1_text_chunker_1a0d18ba96217e468f2e99987f65c1ab2e" kindref="member">TextChunker</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_chunker.h" line="45" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_text_chunker_1a264acd51160b3699213fba6e0b9f72b0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::TextChunker::TextChunker</definition>
+        <argsstring>(TextChunker &amp;&amp;) noexcept=default</argsstring>
+        <name>TextChunker</name>
+        <qualifiedname>themis::toolbox::TextChunker::TextChunker</qualifiedname>
+        <param>
+          <type>TextChunker &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_chunker.h" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_text_chunker_1ad3bae515b6fae6257b3b388881f4e75e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_text_chunker_1a0d18ba96217e468f2e99987f65c1ab2e" kindref="member">TextChunker</ref> &amp;</type>
+        <definition>TextChunker &amp; themis::toolbox::TextChunker::operator=</definition>
+        <argsstring>(TextChunker &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::toolbox::TextChunker::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1toolbox_1_1_text_chunker_1a0d18ba96217e468f2e99987f65c1ab2e" kindref="member">TextChunker</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_chunker.h" line="47" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_text_chunker_1ad66be2e468fc43f37df06c9551b5bc4b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const rag::DocumentSplitterConfig &amp;</type>
+        <definition>const rag::DocumentSplitterConfig &amp; themis::toolbox::TextChunker::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::toolbox::TextChunker::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return the active splitting configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_chunker.h" line="52" column="39" bodyfile="src/toolbox/text_chunker.cpp" bodystart="43" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_text_chunker_1afe9273f0b9e068fa20a346ea4f23a17b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::toolbox::TextChunker::setConfig</definition>
+        <argsstring>(const rag::DocumentSplitterConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::toolbox::TextChunker::setConfig</qualifiedname>
+        <param>
+          <type>const rag::DocumentSplitterConfig &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Replace the active configuration. <parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid parameters (overlap &gt;= chunk_size or chunk_size == 0).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_chunker.h" line="57" column="10" bodyfile="src/toolbox/text_chunker.cpp" bodystart="52" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_text_chunker_1a6cbdc7b85d038ecbd647642757de0cf8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; rag::DocumentChunk &gt;</type>
+        <definition>std::vector&lt; rag::DocumentChunk &gt; themis::toolbox::TextChunker::chunk</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;document_id=&quot;&quot;) const</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::toolbox::TextChunker::chunk</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Split <computeroutput>text</computeroutput> into overlapping chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 source text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional document identifier embedded in each chunk. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ordered vector of <computeroutput>DocumentChunk</computeroutput> objects (empty when <computeroutput>text</computeroutput> is empty or only whitespace). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_chunker.h" line="69" column="17" bodyfile="src/toolbox/text_chunker.cpp" bodystart="56" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_text_chunker_1a4c4bb738ace69e8521c3bb5190d2becc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::toolbox::TextChunker::chunkTexts</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;document_id=&quot;&quot;) const</argsstring>
+        <name>chunkTexts</name>
+        <qualifiedname>themis::toolbox::TextChunker::chunkTexts</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Split <computeroutput>text</computeroutput> and return only the raw text strings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Convenience variant for callers that only need the text and not the full <computeroutput>DocumentChunk</computeroutput> metadata.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 source text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional document identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ordered vector of chunk text strings. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_chunker.h" line="83" column="17" bodyfile="src/toolbox/text_chunker.cpp" bodystart="63" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_text_chunker_1aaf3713b9dfab59b40668183c6d2c086d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::toolbox::TextChunker::estimateTokens</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>estimateTokens</name>
+        <qualifiedname>themis::toolbox::TextChunker::estimateTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Estimate the token count for <computeroutput>text</computeroutput> using the current config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses the same <computeroutput>chars_per_token</computeroutput> factor as the underlying splitter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Estimated token count. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_chunker.h" line="95" column="17" bodyfile="src/toolbox/text_chunker.cpp" bodystart="77" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Token-based text chunking façade over <computeroutput>rag::DocumentSplitter</computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides a stable toolbox-namespace API for text chunking so that modules outside <computeroutput>rag/</computeroutput> do not need to depend on <computeroutput>rag::DocumentSplitter</computeroutput> directly. Delegates all splitting logic to the underlying <computeroutput>DocumentSplitter</computeroutput>.</para>
+<para>Thread-safety: instances are not thread-safe; use one instance per thread or protect with an external lock. The free function <computeroutput><ref refid="namespacethemis_1_1toolbox_1a00d8815744183486ab8e128ac1985b32" kindref="member">chunkText()</ref></computeroutput> creates a temporary instance and is therefore safe to call from multiple threads. </para>
+    </detaileddescription>
+    <location file="include/toolbox/text_chunker.h" line="33" column="1" bodyfile="include/toolbox/text_chunker.h" bodystart="33" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1toolbox_1_1_text_chunker_1a6cbdc7b85d038ecbd647642757de0cf8" prot="public" virt="non-virtual"><scope>themis::toolbox::TextChunker</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_text_chunker_1a4c4bb738ace69e8521c3bb5190d2becc" prot="public" virt="non-virtual"><scope>themis::toolbox::TextChunker</scope><name>chunkTexts</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_text_chunker_1aaf3713b9dfab59b40668183c6d2c086d" prot="public" virt="non-virtual"><scope>themis::toolbox::TextChunker</scope><name>estimateTokens</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_text_chunker_1ad66be2e468fc43f37df06c9551b5bc4b" prot="public" virt="non-virtual"><scope>themis::toolbox::TextChunker</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_text_chunker_1a524a1027dc49fad9088f1d98e33e597f" prot="public" virt="non-virtual"><scope>themis::toolbox::TextChunker</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_text_chunker_1ad3bae515b6fae6257b3b388881f4e75e" prot="public" virt="non-virtual"><scope>themis::toolbox::TextChunker</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_text_chunker_1afe9273f0b9e068fa20a346ea4f23a17b" prot="public" virt="non-virtual"><scope>themis::toolbox::TextChunker</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_text_chunker_1a16e2c7fceeaab7ae7c25ea17d5c8ec72" prot="private" virt="non-virtual"><scope>themis::toolbox::TextChunker</scope><name>splitter_</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_text_chunker_1a0d18ba96217e468f2e99987f65c1ab2e" prot="public" virt="non-virtual"><scope>themis::toolbox::TextChunker</scope><name>TextChunker</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_text_chunker_1a48601948f44af02bbbb7e9d7c2fb1910" prot="public" virt="non-virtual"><scope>themis::toolbox::TextChunker</scope><name>TextChunker</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_text_chunker_1ae98a164dd56d256497c1eefdda7b4b11" prot="public" virt="non-virtual"><scope>themis::toolbox::TextChunker</scope><name>TextChunker</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_text_chunker_1a264acd51160b3699213fba6e0b9f72b0" prot="public" virt="non-virtual"><scope>themis::toolbox::TextChunker</scope><name>TextChunker</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_text_chunker_1adce9a9aaa893409e288b80b95a9810f3" prot="public" virt="non-virtual"><scope>themis::toolbox::TextChunker</scope><name>~TextChunker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_performance_gates_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>PerformanceGatesIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PerformanceGatesIntegrationTest</label>
+        <link refid="class_performance_gates_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PerformanceGatesIntegrationTest</label>
+        <link refid="class_performance_gates_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="384" column="1" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="384" bodyend="384"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

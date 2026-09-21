@@ -1,0 +1,448 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1voice_1_1benchmark_1_1gates" kind="namespace" language="C++">
+    <compoundname>themis::voice::benchmark::gates</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1a5adc33e3a28da67e9b4593cb1cfb33d1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateSTTLatencyP95_100ms</definition>
+        <argsstring></argsstring>
+        <name>kGateSTTLatencyP95_100ms</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateSTTLatencyP95_100ms</qualifiedname>
+        <initializer>= 2&apos;000&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="61" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1ae2d15513581663afb1696e52cba44718" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateSTTLatencyP99_100ms</definition>
+        <argsstring></argsstring>
+        <name>kGateSTTLatencyP99_100ms</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateSTTLatencyP99_100ms</qualifiedname>
+        <initializer>= 5&apos;000&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="62" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1a5df50ec32bb3cbbfe96873db7bce4fb0" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateSTTLatencyP95_5s</definition>
+        <argsstring></argsstring>
+        <name>kGateSTTLatencyP95_5s</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateSTTLatencyP95_5s</qualifiedname>
+        <initializer>= 10&apos;000&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="63" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1a740ed4ccbc493cd247fa4ec7baedc6a4" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateSTTLatencyP99_5s</definition>
+        <argsstring></argsstring>
+        <name>kGateSTTLatencyP99_5s</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateSTTLatencyP99_5s</qualifiedname>
+        <initializer>= 15&apos;000&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="64" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1aa4d0f8e8bdc7b911e3819946d53d19b3" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateSTTLatencyP95_60s</definition>
+        <argsstring></argsstring>
+        <name>kGateSTTLatencyP95_60s</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateSTTLatencyP95_60s</qualifiedname>
+        <initializer>= 60&apos;000&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="65" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1a27511cad5c6d399374774c212faf4f78" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateSTTLatencyP99_60s</definition>
+        <argsstring></argsstring>
+        <name>kGateSTTLatencyP99_60s</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateSTTLatencyP99_60s</qualifiedname>
+        <initializer>= 120&apos;000&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="66" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1a61ebcddda9a3fee5083bb258cb56e2e3" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateTTSLatencyP95_ShortText</definition>
+        <argsstring></argsstring>
+        <name>kGateTTSLatencyP95_ShortText</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateTTSLatencyP95_ShortText</qualifiedname>
+        <initializer>= 1&apos;000&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="69" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1acc60934e42ba50bbc263a3dafc5d203e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateTTSLatencyP99_ShortText</definition>
+        <argsstring></argsstring>
+        <name>kGateTTSLatencyP99_ShortText</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateTTSLatencyP99_ShortText</qualifiedname>
+        <initializer>= 2&apos;000&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="70" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1adb422f97bde136250136048a2710ffab" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateTTSLatencyP95_MediumText</definition>
+        <argsstring></argsstring>
+        <name>kGateTTSLatencyP95_MediumText</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateTTSLatencyP95_MediumText</qualifiedname>
+        <initializer>= 3&apos;000&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="71" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1ac3c3eef8867c2d2adb3fa90303d8f32d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateTTSLatencyP99_MediumText</definition>
+        <argsstring></argsstring>
+        <name>kGateTTSLatencyP99_MediumText</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateTTSLatencyP99_MediumText</qualifiedname>
+        <initializer>= 5&apos;000&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="72" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1ad78731fd8332793526696cc67276e836" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateStreamThroughput</definition>
+        <argsstring></argsstring>
+        <name>kGateStreamThroughput</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateStreamThroughput</qualifiedname>
+        <initializer>= 1&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="75" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1a354188e9139560dc90b3017361c4d9cf" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateStreamLatencyP95</definition>
+        <argsstring></argsstring>
+        <name>kGateStreamLatencyP95</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateStreamLatencyP95</qualifiedname>
+        <initializer>= 50&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="76" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1a23eff013aff2bc1d1f1ef76773ceda46" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateStreamMemory</definition>
+        <argsstring></argsstring>
+        <name>kGateStreamMemory</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateStreamMemory</qualifiedname>
+        <initializer>= 10&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="77" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1adbdc43ac8f42697d5d20a914aefd6929" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateStreamRecovery</definition>
+        <argsstring></argsstring>
+        <name>kGateStreamRecovery</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateStreamRecovery</qualifiedname>
+        <initializer>= 500&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="78" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1aea8a113e0a2b98ad3cfe9e547acd9c1d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateSessionCreate</definition>
+        <argsstring></argsstring>
+        <name>kGateSessionCreate</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateSessionCreate</qualifiedname>
+        <initializer>= 100&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="81" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1a969f2008ea3c331c7925fc1948f34300" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateSessionDelete</definition>
+        <argsstring></argsstring>
+        <name>kGateSessionDelete</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateSessionDelete</qualifiedname>
+        <initializer>= 50&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="82" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1a82ec3aedba347dbab5ffdc2e9c549b9c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateSessionMemory100</definition>
+        <argsstring></argsstring>
+        <name>kGateSessionMemory100</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateSessionMemory100</qualifiedname>
+        <initializer>= 500&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="83" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1affdebe41ec47e84cbf54fa1ede18f0d4" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateSessionMemory1000</definition>
+        <argsstring></argsstring>
+        <name>kGateSessionMemory1000</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateSessionMemory1000</qualifiedname>
+        <initializer>= 2&apos;000&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="84" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1a79b52a0e0103d96e3a5fd78456ffbef3" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateSessionCleanupLeak</definition>
+        <argsstring></argsstring>
+        <name>kGateSessionCleanupLeak</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateSessionCleanupLeak</qualifiedname>
+        <initializer>= 10&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="85" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1ac73ef9336f375e4a225b0b49cd43ee86" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateAudioValidateSmall</definition>
+        <argsstring></argsstring>
+        <name>kGateAudioValidateSmall</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateAudioValidateSmall</qualifiedname>
+        <initializer>= 10&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="88" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1ae30341360b67bb1e649364f00e7f5cf2" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateAudioValidateLarge</definition>
+        <argsstring></argsstring>
+        <name>kGateAudioValidateLarge</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateAudioValidateLarge</qualifiedname>
+        <initializer>= 50&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="89" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1ad35179650478497321cd3a8aae061add" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateAudioPreprocess</definition>
+        <argsstring></argsstring>
+        <name>kGateAudioPreprocess</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateAudioPreprocess</qualifiedname>
+        <initializer>= 500&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="90" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1a25aa7b18fb260fbce752c4dba267cb40" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateWakeWordLatency</definition>
+        <argsstring></argsstring>
+        <name>kGateWakeWordLatency</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateWakeWordLatency</qualifiedname>
+        <initializer>= 1&apos;000&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="91" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1a2942a33bd19e1a4653f9aa6c5bc0d2f5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateIntentLatency</definition>
+        <argsstring></argsstring>
+        <name>kGateIntentLatency</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateIntentLatency</qualifiedname>
+        <initializer>= 500&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="92" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1a9b6ece9a073773af1a3442520de662c5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateLLMLatencyP95</definition>
+        <argsstring></argsstring>
+        <name>kGateLLMLatencyP95</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateLLMLatencyP95</qualifiedname>
+        <initializer>= 3&apos;000&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="95" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1a46c36e9b72f32b5c36f1dca47c92d44f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateLLMLatencyP99</definition>
+        <argsstring></argsstring>
+        <name>kGateLLMLatencyP99</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateLLMLatencyP99</qualifiedname>
+        <initializer>= 10&apos;000&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="96" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1ad30dff838203505120aef84bcb162cc4" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateTTSSynthesis</definition>
+        <argsstring></argsstring>
+        <name>kGateTTSSynthesis</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateTTSSynthesis</qualifiedname>
+        <initializer>= 2&apos;000&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="97" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1a05f5caa3e788bb70d28a866e7fbb30f1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateE2ELatencyP95</definition>
+        <argsstring></argsstring>
+        <name>kGateE2ELatencyP95</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateE2ELatencyP95</qualifiedname>
+        <initializer>= 6&apos;000&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="98" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1_1gates_1a981cd52bfa8b26157d564b38828e5e73" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::gates::kGateCommandParse</definition>
+        <argsstring></argsstring>
+        <name>kGateCommandParse</name>
+        <qualifiedname>themis::voice::benchmark::gates::kGateCommandParse</qualifiedname>
+        <initializer>= 100&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="99" column="30" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/voice/benchmark_fixtures.h" line="59" column="1"/>
+  </compounddef>
+</doxygen>

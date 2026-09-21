@@ -1,0 +1,1094 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::EnhancedPluginSecurityVerifier</compoundname>
+    <includes refid="plugin__security_8h" local="no">plugin_security.h</includes>
+    <innerclass refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result" prot="public">themis::acceleration::EnhancedPluginSecurityVerifier::VerificationResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1af93a23291661f5acdbc9f6fd421a1428" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>VerificationLevel</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::VerificationLevel</qualifiedname>
+        <enumvalue id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1af93a23291661f5acdbc9f6fd421a1428a403f9c776cbf8204aa09b8b96c481d6e" prot="public">
+          <name>LEVEL_1_HASH_ONLY</name>
+          <briefdescription>
+<para>Only SHA-256 hash (fast). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1af93a23291661f5acdbc9f6fd421a1428a311f4ea2cee40d7207944b79a33a307a" prot="public">
+          <name>LEVEL_2_EMBEDDED_SIGNATURE</name>
+          <briefdescription>
+<para>Embedded signature check. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1af93a23291661f5acdbc9f6fd421a1428a209114cbcfc6f233cde9e723097889dc" prot="public">
+          <name>LEVEL_3_PLATFORM_SIGNATURE</name>
+          <briefdescription>
+<para>Platform code-signing (PE/ELF/Mach-O). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1af93a23291661f5acdbc9f6fd421a1428a2930061bd5a0e8d32d8ab6e857c129dd" prot="public">
+          <name>LEVEL_4_FULL_CHAIN</name>
+          <briefdescription>
+<para>Complete cert chain + CRL/OCSP. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="189" column="5" bodyfile="include/acceleration/plugin_security.h" bodystart="189" bodyend="194"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a90967b45468a503dfd00deb47704a521" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1acceleration_1_1_plugin_security_policy" kindref="compound">PluginSecurityPolicy</ref></type>
+        <definition>PluginSecurityPolicy themis::acceleration::EnhancedPluginSecurityVerifier::policy_</definition>
+        <argsstring></argsstring>
+        <name>policy_</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="238" column="26" bodyfile="include/acceleration/plugin_security.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a7c528aac581a502eb9637a89d8a574ee" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::EnhancedPluginSecurityVerifier::EnhancedPluginSecurityVerifier</definition>
+        <argsstring>(const PluginSecurityPolicy &amp;policy)</argsstring>
+        <name>EnhancedPluginSecurityVerifier</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::EnhancedPluginSecurityVerifier</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_plugin_security_policy" kindref="compound">PluginSecurityPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Enhanced Plugin Security Verifier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="221" column="14" bodyfile="src/acceleration/plugin_security.cpp" bodystart="1346" bodyend="1346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a64e1dc75af25ee422f1c5d60b635cd74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::EnhancedPluginSecurityVerifier::~EnhancedPluginSecurityVerifier</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EnhancedPluginSecurityVerifier</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::~EnhancedPluginSecurityVerifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="222" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1af6f7b994c5fc83660ce14150d5984f59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result" kindref="compound">VerificationResult</ref></type>
+        <definition>EnhancedPluginSecurityVerifier::VerificationResult themis::acceleration::EnhancedPluginSecurityVerifier::verifyPlugin</definition>
+        <argsstring>(const std::string &amp;plugin_path, VerificationLevel required_level=VerificationLevel::LEVEL_3_PLATFORM_SIGNATURE)</argsstring>
+        <name>verifyPlugin</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::verifyPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_path</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1af93a23291661f5acdbc9f6fd421a1428" kindref="member">VerificationLevel</ref></type>
+          <declname>required_level</declname>
+          <defval><ref refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1af93a23291661f5acdbc9f6fd421a1428a209114cbcfc6f233cde9e723097889dc" kindref="member">VerificationLevel::LEVEL_3_PLATFORM_SIGNATURE</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="224" column="24" bodyfile="src/acceleration/plugin_security.cpp" bodystart="1349" bodyend="1419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1aa9a369dfc3b4bc9c0d2f424ba53cbdee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::EnhancedPluginSecurityVerifier::updatePolicy</definition>
+        <argsstring>(const PluginSecurityPolicy &amp;policy)</argsstring>
+        <name>updatePolicy</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::updatePolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_plugin_security_policy" kindref="compound">PluginSecurityPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Update Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements updatePolicy without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="233" column="10" bodyfile="src/acceleration/plugin_security.cpp" bodystart="2510" bodyend="2512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a4a0b37a6405becf43683b7cde757e476" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1acceleration_1_1_plugin_security_policy" kindref="compound">PluginSecurityPolicy</ref> &amp;</type>
+        <definition>const PluginSecurityPolicy &amp; themis::acceleration::EnhancedPluginSecurityVerifier::getPolicy</definition>
+        <argsstring>() const</argsstring>
+        <name>getPolicy</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::getPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="235" column="32" bodyfile="include/acceleration/plugin_security.h" bodystart="235" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a354e051ec2877fe34c733fb4a7069347" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::acceleration::EnhancedPluginSecurityVerifier::extractSigningCertificateForTesting</definition>
+        <argsstring>(const std::string &amp;plugin_path)</argsstring>
+        <name>extractSigningCertificateForTesting</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::extractSigningCertificateForTesting</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_path</declname>
+        </param>
+        <briefdescription>
+<para>Extract Signing Certificate For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractEmbeddedCertificate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="381" column="19" bodyfile="include/acceleration/plugin_security.h" bodystart="381" bodyend="384"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a46fae170a043200e1f7241811ee0b01c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::EnhancedPluginSecurityVerifier::verifyHash</definition>
+        <argsstring>(const std::string &amp;plugin_path, VerificationResult &amp;result)</argsstring>
+        <name>verifyHash</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::verifyHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_path</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result" kindref="compound">VerificationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Verify Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: basic_verifier(), calculateFileHash(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="246" column="10" bodyfile="src/acceleration/plugin_security.cpp" bodystart="1428" bodyend="1439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1aefb3cd03d792a36b13880585b148809e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::EnhancedPluginSecurityVerifier::verifyEmbeddedSignature</definition>
+        <argsstring>(const std::string &amp;plugin_path, VerificationResult &amp;result)</argsstring>
+        <name>verifyEmbeddedSignature</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::verifyEmbeddedSignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_path</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result" kindref="compound">VerificationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Verify Embedded Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: extractEmbeddedCertificate(), data(), d2i_X509(), size(), isOfficialThemisDBCertificate(), getCertificateIssuer(), X509_free(), isCertificateValid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="254" column="10" bodyfile="src/acceleration/plugin_security.cpp" bodystart="1448" bodyend="1510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a868a77a7d7a8aa126774212ac1a7e764" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::EnhancedPluginSecurityVerifier::verifyPlatformSignature</definition>
+        <argsstring>(const std::string &amp;plugin_path, VerificationResult &amp;result)</argsstring>
+        <name>verifyPlatformSignature</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::verifyPlatformSignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_path</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result" kindref="compound">VerificationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Verify Platform Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: verifyAuthenticodeSignature(), defined(), verifyMacOSCodeSignature(), verifyGPGSignature(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="262" column="10" bodyfile="src/acceleration/plugin_security.cpp" bodystart="1519" bodyend="1528"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1af1b6ccffaeb816668ea8c46e20539b7e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::EnhancedPluginSecurityVerifier::verifyFullChain</definition>
+        <argsstring>(const std::string &amp;plugin_path, VerificationResult &amp;result)</argsstring>
+        <name>verifyFullChain</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::verifyFullChain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_path</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result" kindref="compound">VerificationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Verify Full Chain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: verifyEmbeddedSignature(), verifyPlatformSignature(), empty(), loadPluginMetadataForChainValidation(), basic_verifier(), verifyCertificateChain(), checkCRL(), checkOCSP(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="270" column="10" bodyfile="src/acceleration/plugin_security.cpp" bodystart="1537" bodyend="1600"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1abe28fa742f61ccba8e2dcda5f863a7ac" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::acceleration::EnhancedPluginSecurityVerifier::extractEmbeddedCertificate</definition>
+        <argsstring>(const std::string &amp;plugin_path)</argsstring>
+        <name>extractEmbeddedCertificate</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::extractEmbeddedCertificate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_path</declname>
+        </param>
+        <briefdescription>
+<para>Extract Embedded Certificate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Blob. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Sig file. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sig_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the sig. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+We need at least hdr_size bytes to read ncmds and sizeofcmds. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hdr_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Re-read the header with enough bytes if needed.</para>
+<para>Load all load commands into memory. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sizeofcmds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Sig blob. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">datasize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="277" column="19" bodyfile="src/acceleration/plugin_security.cpp" bodystart="1615" bodyend="2030"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1ad9ddced46e5e63860ea660456b7eb4ad" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::acceleration::EnhancedPluginSecurityVerifier::extractEmbeddedSignature</definition>
+        <argsstring>(const std::string &amp;plugin_path)</argsstring>
+        <name>extractEmbeddedSignature</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::extractEmbeddedSignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_path</declname>
+        </param>
+        <briefdescription>
+<para>Extract Embedded Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Sig stream. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sig_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Sig data. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="286" column="19" bodyfile="src/acceleration/plugin_security.cpp" bodystart="2033" bodyend="2115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a506ea0a0ec646c64ad47057417c41f83" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::EnhancedPluginSecurityVerifier::isOfficialThemisDBCertificate</definition>
+        <argsstring>(X509 *cert)</argsstring>
+        <name>isOfficialThemisDBCertificate</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::isOfficialThemisDBCertificate</qualifiedname>
+        <param>
+          <type>X509 *</type>
+          <declname>cert</declname>
+        </param>
+        <briefdescription>
+<para>Is Official Themis DBCertificate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getCertificateIssuer(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="295" column="10" bodyfile="src/acceleration/plugin_security.cpp" bodystart="2123" bodyend="2133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1ac33a7999dd5c3f53d30f38b21c8ec7f8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::EnhancedPluginSecurityVerifier::verifyGPGSignature</definition>
+        <argsstring>(const std::string &amp;plugin_path, VerificationResult &amp;result)</argsstring>
+        <name>verifyGPGSignature</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::verifyGPGSignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_path</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1_1_verification_result" kindref="compound">VerificationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Verify GPGSignature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::filesystem::exists(), empty(), pipe(), posix_spawn_file_actions_init(), posix_spawn_file_actions_adddup2(), posix_spawn_file_actions_addclose(), c_str(), posix_spawn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="321" column="10" bodyfile="src/acceleration/plugin_security.cpp" bodystart="2261" bodyend="2338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a46b60b5f173c5fdd364c2a1bfc7bd044" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::acceleration::EnhancedPluginSecurityVerifier::calculateHashExcludingSignature</definition>
+        <argsstring>(const std::string &amp;plugin_path)</argsstring>
+        <name>calculateHashExcludingSignature</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::calculateHashExcludingSignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_path</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Hash Excluding Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: file(), header(), read(), data(), size(), gcount(), seekg(), EVP_MD_CTX_new(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="329" column="17" bodyfile="src/acceleration/plugin_security.cpp" bodystart="2347" bodyend="2399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a3a316f5e03ced6c13a5dcb496f6a0bb6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::EnhancedPluginSecurityVerifier::verifyRSASignature</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::vector&lt; uint8_t &gt; &amp;signature, EVP_PKEY *pubkey)</argsstring>
+        <name>verifyRSASignature</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::verifyRSASignature</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>EVP_PKEY *</type>
+          <declname>pubkey</declname>
+        </param>
+        <briefdescription>
+<para>Verify RSASignature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">pubkey</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">pubkey</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), EVP_MD_CTX_new(), EVP_DigestVerifyInit(), EVP_sha256(), EVP_DigestVerify(), data(), size(), EVP_MD_CTX_free(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="338" column="10" bodyfile="src/acceleration/plugin_security.cpp" bodystart="2409" bodyend="2431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a695cb9ec13ffc922c3563b51f005b700" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::EnhancedPluginSecurityVerifier::getCertificateIssuer</definition>
+        <argsstring>(X509 *cert)</argsstring>
+        <name>getCertificateIssuer</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::getCertificateIssuer</qualifiedname>
+        <param>
+          <type>X509 *</type>
+          <declname>cert</declname>
+        </param>
+        <briefdescription>
+<para>Get Certificate Issuer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: X509_get_issuer_name(), X509_NAME_oneline(), result(), OPENSSL_free(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="349" column="17" bodyfile="src/acceleration/plugin_security.cpp" bodystart="2439" bodyend="2457"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a347885ffb668c9585f56401b98c062a9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::EnhancedPluginSecurityVerifier::getCertificateSubject</definition>
+        <argsstring>(X509 *cert)</argsstring>
+        <name>getCertificateSubject</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::getCertificateSubject</qualifiedname>
+        <param>
+          <type>X509 *</type>
+          <declname>cert</declname>
+        </param>
+        <briefdescription>
+<para>Get Certificate Subject. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: X509_get_subject_name(), X509_NAME_oneline(), result(), OPENSSL_free(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="356" column="17" bodyfile="src/acceleration/plugin_security.cpp" bodystart="2465" bodyend="2483"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a40d1ff750c8b577352c9fee63abf017b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::EnhancedPluginSecurityVerifier::isCertificateValid</definition>
+        <argsstring>(X509 *cert)</argsstring>
+        <name>isCertificateValid</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::isCertificateValid</qualifiedname>
+        <param>
+          <type>X509 *</type>
+          <declname>cert</declname>
+        </param>
+        <briefdescription>
+<para>Is Certificate Valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: X509_cmp_current_time(), X509_get0_notBefore(), X509_get0_notAfter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="363" column="10" bodyfile="src/acceleration/plugin_security.cpp" bodystart="2491" bodyend="2503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1ab94171907de5088250a17eb7c3af0e81" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1acceleration_1_1_plugin_metadata" kindref="compound">PluginMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; PluginMetadata &gt; themis::acceleration::EnhancedPluginSecurityVerifier::loadPluginMetadataForChainValidation</definition>
+        <argsstring>(const std::string &amp;plugin_path)</argsstring>
+        <name>loadPluginMetadataForChainValidation</name>
+        <qualifiedname>themis::acceleration::EnhancedPluginSecurityVerifier::loadPluginMetadataForChainValidation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_path</declname>
+        </param>
+        <briefdescription>
+<para>Load Plugin Metadata For Chain Validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Basic verifier. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="370" column="19" bodyfile="src/acceleration/plugin_security.cpp" bodystart="1604" bodyend="1612"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/plugin_security.h" line="187" column="1" bodyfile="include/acceleration/plugin_security.h" bodystart="187" bodyend="385"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a46b60b5f173c5fdd364c2a1bfc7bd044" prot="private" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>calculateHashExcludingSignature</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a7c528aac581a502eb9637a89d8a574ee" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>EnhancedPluginSecurityVerifier</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1abe28fa742f61ccba8e2dcda5f863a7ac" prot="private" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>extractEmbeddedCertificate</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1ad9ddced46e5e63860ea660456b7eb4ad" prot="private" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>extractEmbeddedSignature</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a354e051ec2877fe34c733fb4a7069347" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>extractSigningCertificateForTesting</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a695cb9ec13ffc922c3563b51f005b700" prot="private" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>getCertificateIssuer</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a347885ffb668c9585f56401b98c062a9" prot="private" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>getCertificateSubject</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a4a0b37a6405becf43683b7cde757e476" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>getPolicy</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a40d1ff750c8b577352c9fee63abf017b" prot="private" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>isCertificateValid</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a506ea0a0ec646c64ad47057417c41f83" prot="private" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>isOfficialThemisDBCertificate</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1ab94171907de5088250a17eb7c3af0e81" prot="private" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>loadPluginMetadataForChainValidation</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a90967b45468a503dfd00deb47704a521" prot="private" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>policy_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1aa9a369dfc3b4bc9c0d2f424ba53cbdee" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>updatePolicy</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1af93a23291661f5acdbc9f6fd421a1428" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>VerificationLevel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1aefb3cd03d792a36b13880585b148809e" prot="private" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>verifyEmbeddedSignature</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1af1b6ccffaeb816668ea8c46e20539b7e" prot="private" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>verifyFullChain</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1ac33a7999dd5c3f53d30f38b21c8ec7f8" prot="private" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>verifyGPGSignature</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a46fae170a043200e1f7241811ee0b01c" prot="private" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>verifyHash</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a868a77a7d7a8aa126774212ac1a7e764" prot="private" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>verifyPlatformSignature</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1af6f7b994c5fc83660ce14150d5984f59" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>verifyPlugin</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a3a316f5e03ced6c13a5dcb496f6a0bb6" prot="private" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>verifyRSASignature</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_enhanced_plugin_security_verifier_1a64e1dc75af25ee422f1c5d60b635cd74" prot="public" virt="non-virtual"><scope>themis::acceleration::EnhancedPluginSecurityVerifier</scope><name>~EnhancedPluginSecurityVerifier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

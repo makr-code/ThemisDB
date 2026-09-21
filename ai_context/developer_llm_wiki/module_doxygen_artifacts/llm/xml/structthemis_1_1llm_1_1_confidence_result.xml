@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_confidence_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ConfidenceResult</compoundname>
+    <includes refid="ethics__aware__confidence__detector_8h" local="no">ethics_aware_confidence_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_confidence_result_1afc47d34ac6070f05e030f26fd70d2a52" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ConfidenceResult::technical_confidence</definition>
+        <argsstring></argsstring>
+        <name>technical_confidence</name>
+        <qualifiedname>themis::llm::ConfidenceResult::technical_confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Technical confidence (entropy-based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="51" column="11" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_confidence_result_1a4b41d4a36b16820dbff0e8771064c3a9" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ConfidenceResult::autonomy_respect_score</definition>
+        <argsstring></argsstring>
+        <name>autonomy_respect_score</name>
+        <qualifiedname>themis::llm::ConfidenceResult::autonomy_respect_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Autonomy respect score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="52" column="11" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_confidence_result_1af5d5e66253b00d3356c162894f81b7bc" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ConfidenceResult::transparency_score</definition>
+        <argsstring></argsstring>
+        <name>transparency_score</name>
+        <qualifiedname>themis::llm::ConfidenceResult::transparency_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Transparency/limitation acknowledgment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="53" column="11" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_confidence_result_1a5d7c19081e086d0f20d3e02708ab9062" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ConfidenceResult::combined_confidence</definition>
+        <argsstring></argsstring>
+        <name>combined_confidence</name>
+        <qualifiedname>themis::llm::ConfidenceResult::combined_confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Weighted combination. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="56" column="11" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_confidence_result_1a0bc8fa4fd6c375818f0ee28b15a9f8d2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ConfidenceResult::has_patronizing_language</definition>
+        <argsstring></argsstring>
+        <name>has_patronizing_language</name>
+        <qualifiedname>themis::llm::ConfidenceResult::has_patronizing_language</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Detected patronizing language. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="59" column="10" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_confidence_result_1afa1cfa54c7e7bad53bda30412fc1f760" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ConfidenceResult::acknowledges_uncertainty</definition>
+        <argsstring></argsstring>
+        <name>acknowledges_uncertainty</name>
+        <qualifiedname>themis::llm::ConfidenceResult::acknowledges_uncertainty</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Acknowledges limitations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="60" column="10" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_confidence_result_1aaff256d042cdaba5a72f72cc40fa456b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ConfidenceResult::preserves_human_choice</definition>
+        <argsstring></argsstring>
+        <name>preserves_human_choice</name>
+        <qualifiedname>themis::llm::ConfidenceResult::preserves_human_choice</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Preserves human agency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="61" column="10" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_confidence_result_1a9dfc699ac003bf3dfe854ed19ac5daa1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::ConfidenceResult::patronizing_phrases</definition>
+        <argsstring></argsstring>
+        <name>patronizing_phrases</name>
+        <qualifiedname>themis::llm::ConfidenceResult::patronizing_phrases</qualifiedname>
+        <briefdescription>
+<para>Detected problematic phrases. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="64" column="17" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_confidence_result_1a2c196a77cce06ed7b3e7d48487d09629" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::ConfidenceResult::imperatives</definition>
+        <argsstring></argsstring>
+        <name>imperatives</name>
+        <qualifiedname>themis::llm::ConfidenceResult::imperatives</qualifiedname>
+        <briefdescription>
+<para>Detected imperative commands. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="65" column="17" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_confidence_result_1aa268efda833138ec9197bede88e48bee" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::ConfidenceResult::hedge_words</definition>
+        <argsstring></argsstring>
+        <name>hedge_words</name>
+        <qualifiedname>themis::llm::ConfidenceResult::hedge_words</qualifiedname>
+        <briefdescription>
+<para>Detected uncertainty indicators. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="66" column="17" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_confidence_result_1aec2811b00372e5d9923941319f5969cd" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ConfidenceResult::avg_token_entropy</definition>
+        <argsstring></argsstring>
+        <name>avg_token_entropy</name>
+        <qualifiedname>themis::llm::ConfidenceResult::avg_token_entropy</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Average token-level entropy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="69" column="11" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_confidence_result_1a79624f94870cb690142dc8588661113d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ConfidenceResult::perplexity</definition>
+        <argsstring></argsstring>
+        <name>perplexity</name>
+        <qualifiedname>themis::llm::ConfidenceResult::perplexity</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Overall perplexity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="70" column="11" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_confidence_result_1a64ac0f9827fef50132f1a788be6b0713" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ConfidenceResult::meets_quality_threshold</definition>
+        <argsstring></argsstring>
+        <name>meets_quality_threshold</name>
+        <qualifiedname>themis::llm::ConfidenceResult::meets_quality_threshold</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Meets minimum quality standards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="73" column="10" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_confidence_result_1aac4c5be8b9fd070616263a60c27cf090" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ConfidenceResult::reasoning</definition>
+        <argsstring></argsstring>
+        <name>reasoning</name>
+        <qualifiedname>themis::llm::ConfidenceResult::reasoning</qualifiedname>
+        <briefdescription>
+<para>Explanation of scores. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="74" column="17" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ethics_aware_confidence_detector.h" line="49" column="1" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="49" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_confidence_result_1afa1cfa54c7e7bad53bda30412fc1f760" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceResult</scope><name>acknowledges_uncertainty</name></member>
+      <member refid="structthemis_1_1llm_1_1_confidence_result_1a4b41d4a36b16820dbff0e8771064c3a9" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceResult</scope><name>autonomy_respect_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_confidence_result_1aec2811b00372e5d9923941319f5969cd" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceResult</scope><name>avg_token_entropy</name></member>
+      <member refid="structthemis_1_1llm_1_1_confidence_result_1a5d7c19081e086d0f20d3e02708ab9062" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceResult</scope><name>combined_confidence</name></member>
+      <member refid="structthemis_1_1llm_1_1_confidence_result_1a0bc8fa4fd6c375818f0ee28b15a9f8d2" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceResult</scope><name>has_patronizing_language</name></member>
+      <member refid="structthemis_1_1llm_1_1_confidence_result_1aa268efda833138ec9197bede88e48bee" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceResult</scope><name>hedge_words</name></member>
+      <member refid="structthemis_1_1llm_1_1_confidence_result_1a2c196a77cce06ed7b3e7d48487d09629" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceResult</scope><name>imperatives</name></member>
+      <member refid="structthemis_1_1llm_1_1_confidence_result_1a64ac0f9827fef50132f1a788be6b0713" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceResult</scope><name>meets_quality_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_confidence_result_1a9dfc699ac003bf3dfe854ed19ac5daa1" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceResult</scope><name>patronizing_phrases</name></member>
+      <member refid="structthemis_1_1llm_1_1_confidence_result_1a79624f94870cb690142dc8588661113d" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceResult</scope><name>perplexity</name></member>
+      <member refid="structthemis_1_1llm_1_1_confidence_result_1aaff256d042cdaba5a72f72cc40fa456b" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceResult</scope><name>preserves_human_choice</name></member>
+      <member refid="structthemis_1_1llm_1_1_confidence_result_1aac4c5be8b9fd070616263a60c27cf090" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceResult</scope><name>reasoning</name></member>
+      <member refid="structthemis_1_1llm_1_1_confidence_result_1afc47d34ac6070f05e030f26fd70d2a52" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceResult</scope><name>technical_confidence</name></member>
+      <member refid="structthemis_1_1llm_1_1_confidence_result_1af5d5e66253b00d3356c162894f81b7bc" prot="public" virt="non-virtual"><scope>themis::llm::ConfidenceResult</scope><name>transparency_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

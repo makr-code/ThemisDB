@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_i_spatial_join_filter" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::geo::ISpatialJoinFilter</compoundname>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_and_filter" prot="public" virt="non-virtual">themis::geo::AndFilter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_contains_filter" prot="public" virt="non-virtual">themis::geo::ContainsFilter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_d_within_filter" prot="public" virt="non-virtual">themis::geo::DWithinFilter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_intersects_filter" prot="public" virt="non-virtual">themis::geo::IntersectsFilter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_not_filter" prot="public" virt="non-virtual">themis::geo::NotFilter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_or_filter" prot="public" virt="non-virtual">themis::geo::OrFilter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_touches_filter" prot="public" virt="non-virtual">themis::geo::TouchesFilter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_within_filter" prot="public" virt="non-virtual">themis::geo::WithinFilter</derivedcompoundref>
+    <includes refid="spatial__join__filter_8h" local="no">spatial_join_filter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_spatial_join_filter_1ada2b261151f8bd9dc7d82edb21f9c41b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::geo::ISpatialJoinFilter::~ISpatialJoinFilter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ISpatialJoinFilter</name>
+        <qualifiedname>themis::geo::ISpatialJoinFilter::~ISpatialJoinFilter</qualifiedname>
+        <briefdescription>
+<para>ISpatial Join Filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="31" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_spatial_join_filter_1a5bf70906dfdc5934ea6377aa01e9758c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::geo::ISpatialJoinFilter::matches</definition>
+        <argsstring>(const IGeoJSONGeometry &amp;a, const IGeoJSONGeometry &amp;b) const =0</argsstring>
+        <name>matches</name>
+        <qualifiedname>themis::geo::ISpatialJoinFilter::matches</qualifiedname>
+        <reimplementedby refid="classthemis_1_1geo_1_1_and_filter_1a000c7a90fb6ed67a04971ba90bb70095">matches</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_contains_filter_1af0d2c2657f4b59d640e236824a502925">matches</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_d_within_filter_1ac11076415ef1c8f23b2357cd5ba70a38">matches</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_intersects_filter_1ac779cc13e373ee76a23ef59c126d73e1">matches</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_not_filter_1ade902e7cdaabb4effeb8c0dd6fb49004">matches</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_or_filter_1aabe502de96f1213eb7ab36fdcbe6f76f">matches</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_touches_filter_1a5e725f13932d89f9f26a97ddd8958fdf">matches</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_within_filter_1a765035ba64abe5ed0aeec92f6de6650c">matches</reimplementedby>
+        <param>
+          <type>const <ref refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry" kindref="compound">IGeoJSONGeometry</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry" kindref="compound">IGeoJSONGeometry</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="33" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::geo::AndFilter</label>
+        <link refid="classthemis_1_1geo_1_1_and_filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::geo::ContainsFilter</label>
+        <link refid="classthemis_1_1geo_1_1_contains_filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::geo::DWithinFilter</label>
+        <link refid="classthemis_1_1geo_1_1_d_within_filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::geo::ISpatialJoinFilter</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_join_filter"/>
+      </node>
+      <node id="5">
+        <label>themis::geo::IntersectsFilter</label>
+        <link refid="classthemis_1_1geo_1_1_intersects_filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::geo::NotFilter</label>
+        <link refid="classthemis_1_1geo_1_1_not_filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::geo::OrFilter</label>
+        <link refid="classthemis_1_1geo_1_1_or_filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::geo::TouchesFilter</label>
+        <link refid="classthemis_1_1geo_1_1_touches_filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>themis::geo::WithinFilter</label>
+        <link refid="classthemis_1_1geo_1_1_within_filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/geo/spatial_join_filter.h" line="25" column="1" bodyfile="include/geo/spatial_join_filter.h" bodystart="25" bodyend="35"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_i_spatial_join_filter_1a5bf70906dfdc5934ea6377aa01e9758c" prot="public" virt="pure-virtual"><scope>themis::geo::ISpatialJoinFilter</scope><name>matches</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_spatial_join_filter_1ada2b261151f8bd9dc7d82edb21f9c41b" prot="public" virt="virtual"><scope>themis::geo::ISpatialJoinFilter</scope><name>~ISpatialJoinFilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

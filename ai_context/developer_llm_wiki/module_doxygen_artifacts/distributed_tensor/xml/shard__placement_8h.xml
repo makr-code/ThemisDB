@@ -1,0 +1,275 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="shard__placement_8h" kind="file" language="C++">
+    <compoundname>shard_placement.h</compoundname>
+    <includes refid="include_2distributed__tensor_2artifact__manifest_8h" local="yes">distributed_tensor/artifact_manifest.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includedby refid="shard__placement_8cc" local="yes">src/distributed_tensor/shard_placement.cc</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>distributed_tensor/artifact_manifest.h</label>
+        <link refid="include_2distributed__tensor_2artifact__manifest_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/distributed_tensor/shard_placement.h</label>
+        <link refid="shard__placement_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>distributed_tensor/tensor_artifact_classes.h</label>
+        <link refid="include_2distributed__tensor_2tensor__artifact__classes_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/distributed_tensor/shard_placement.h</label>
+        <link refid="shard__placement_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/distributed_tensor/shard_placement.cc</label>
+        <link refid="shard__placement_8cc"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_node_capacity" prot="public">themis::distributed_tensor::NodeCapacity</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint" prot="public">themis::distributed_tensor::FactorizationPlacementHint</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_placement_plan" prot="public">themis::distributed_tensor::PlacementPlan</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy" prot="public">themis::distributed_tensor::ShardPlacementStrategy</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy" prot="public">themis::distributed_tensor::DefaultShardPlacementStrategy</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__tensor">themis::distributed_tensor</innernamespace>
+    <briefdescription>
+<para>Shard placement strategy for distributed tensor operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines placement policies that map logical tensor shards to physical nodes based on capacity, topology, and user-specified constraints. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2026<sp/>ThemisDB<sp/>Team</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="include_2distributed__tensor_2artifact__manifest_8h" kindref="compound">distributed_tensor/artifact_manifest.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__tensor" kindref="compound">distributed_tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1distributed__tensor_1_1_node_capacity" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity" kindref="compound">NodeCapacity</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a06d9455fab18831ffe1bb3e51fa84df5" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a06d9455fab18831ffe1bb3e51fa84df5" kindref="member">node_id</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a184b17fb03a274e3537f7301d28bf4a7" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a184b17fb03a274e3537f7301d28bf4a7" kindref="member">available_capacity_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a0a99391a8cddc3a73d24baeac6451018" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a0a99391a8cddc3a73d24baeac6451018" kindref="member">tier_level</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;warm&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1ae99941ebe2c9455aee79df711803644e" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1ae99941ebe2c9455aee79df711803644e" kindref="member">accelerator_type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CPU&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a4caba49f047eae321baa2b54bac876e4" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a4caba49f047eae321baa2b54bac876e4" kindref="member">bandwidth_utilization</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1ab110772beaa78a79fd16318707929276" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1ab110772beaa78a79fd16318707929276" kindref="member">network_latency_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a1bcbf7a1eca929e4ff219c845abfbd1d" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a1bcbf7a1eca929e4ff219c845abfbd1d" kindref="member">topology_zone</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1ae63145567b7f322ae5ed686c4d944e96" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1ae63145567b7f322ae5ed686c4d944e96" kindref="member">load_factor</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a7c7426566337cd5a97ecdd47d33d43a7" refkind="member"><highlight class="normal"><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity_1a7c7426566337cd5a97ecdd47d33d43a7" kindref="member">custom_metadata</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint" kindref="compound">FactorizationPlacementHint</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1a7342a302932ca869342325a05e8c9444" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1a7342a302932ca869342325a05e8c9444" kindref="member">factorization_type</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1ae32ba5b64083ca1aadbd5717b56e8b9c" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1ae32ba5b64083ca1aadbd5717b56e8b9c" kindref="member">factor_dimensions</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1ad1f2f162f11838780e910db3c2e646ea" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1ad1f2f162f11838780e910db3c2e646ea" kindref="member">prefer_colocated_factors</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1ab92bf7e2e49ca77ffaed877da6042b0b" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1ab92bf7e2e49ca77ffaed877da6042b0b" kindref="member">prefer_hot_tier_for_frequent_factors</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1a1104df453ff66db7d03eefeb4d4c31c0" refkind="member"><highlight class="normal"><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1a1104df453ff66db7d03eefeb4d4c31c0" kindref="member">custom_metadata</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834" kindref="member">PlacementConstraint</ref><sp/>{</highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a4fd78c00dbe16c1cb7ad9ef5e97f52ddab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834a3a6ad65b0b0eec06e7abf8390a514981" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834a3a6ad65b0b0eec06e7abf8390a514981" kindref="member">CROSS_ZONE_REPLICATION</ref>,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834a4c968bf24ba0d8ae26df4e9ac5aaf5d3" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834a4c968bf24ba0d8ae26df4e9ac5aaf5d3" kindref="member">LOCAL_AFFINITY</ref>,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834ae51f64a1de2cd495509509641388cd9f" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834ae51f64a1de2cd495509509641388cd9f" kindref="member">PROXIMITY_TO_COMPUTE</ref>,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834a72c7c2649580ed06678f3e5303a8f474" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834a72c7c2649580ed06678f3e5303a8f474" kindref="member">ACCELERATOR_REQUIRED</ref>,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834a35d15c524844d92c7e4bdf8d8a5756a5" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834a35d15c524844d92c7e4bdf8d8a5756a5" kindref="member">TIER_AWARE</ref>,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1distributed__tensor_1_1_placement_plan" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan" kindref="compound">PlacementPlan</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a089e723e6b41bd90a9c386235bde9278" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a089e723e6b41bd90a9c386235bde9278" kindref="member">artifact_id</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1abeee9350b0c223108b23f96645b0f4df" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;ShardPlacement&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1abeee9350b0c223108b23f96645b0f4df" kindref="member">shard_placements</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a6e57646edebf44a354dc82c6eee18b25" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a6e57646edebf44a354dc82c6eee18b25" kindref="member">confidence_score</ref><sp/>=<sp/>0.5f;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a9fa939e5cfb2bb302cd891c6a6e3086f" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a9fa939e5cfb2bb302cd891c6a6e3086f" kindref="member">estimated_cost</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a249552fc9754602911a2bebe01137c46" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a249552fc9754602911a2bebe01137c46" kindref="member">placement_rationale</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a503bdb04c218c03a87e083c5d37331fe" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a503bdb04c218c03a87e083c5d37331fe" kindref="member">satisfies_hard_constraints</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a9391f2e67c1d8413d61715b1b19e4077" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a9391f2e67c1d8413d61715b1b19e4077" kindref="member">is_degraded</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a4aa25180d07e58ce71dfe2a9d1efd43b" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a4aa25180d07e58ce71dfe2a9d1efd43b" kindref="member">placement_warnings</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a00239540b7e0359a5f3bae70a663ae35" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan_1a00239540b7e0359a5f3bae70a663ae35" kindref="member">computed_at</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3f8911709eec97a46bbde03b5b9bfff" kindref="member">ShardPlacementStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3f8911709eec97a46bbde03b5b9bfff" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3f8911709eec97a46bbde03b5b9bfff" kindref="member">ShardPlacementStrategy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ab69bbacb10b8f72dd4171298a54808c4" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ab69bbacb10b8f72dd4171298a54808c4" kindref="member">ShardPlacementStrategy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3f8911709eec97a46bbde03b5b9bfff" kindref="member">ShardPlacementStrategy</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3abc73bc1405f714f5108100c5b3d94" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3abc73bc1405f714f5108100c5b3d94" kindref="member">ShardPlacementStrategy</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3f8911709eec97a46bbde03b5b9bfff" kindref="member">ShardPlacementStrategy</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1a507775e8bce566fedb62e21a000faed9" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3f8911709eec97a46bbde03b5b9bfff" kindref="member">ShardPlacementStrategy</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3f8911709eec97a46bbde03b5b9bfff" kindref="member">ShardPlacementStrategy</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1af7f8148ecd036aaac5bd51b69ba97cb5" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3f8911709eec97a46bbde03b5b9bfff" kindref="member">ShardPlacementStrategy</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3f8911709eec97a46bbde03b5b9bfff" kindref="member">ShardPlacementStrategy</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1a03331abb3f3d1038a66c0aa7dfc3d8b5" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/>~<ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3f8911709eec97a46bbde03b5b9bfff" kindref="member">ShardPlacementStrategy</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1af4f052407ed5bb4d9266bcf162ac383d" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan" kindref="compound">PlacementPlan</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1af4f052407ed5bb4d9266bcf162ac383d" kindref="member">compute_placement</ref>(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>num_shards,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>shard_size_bytes,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity" kindref="compound">NodeCapacity</ref>&gt;&amp;<sp/>available_nodes,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::optional&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint" kindref="compound">FactorizationPlacementHint</ref>&gt;&amp;<sp/>factorization_hint<sp/>=</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::nullopt,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834" kindref="member">PlacementConstraint</ref><sp/>constraints<sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834" kindref="member">PlacementConstraint</ref>::<ref refid="namespacethemis_1_1distributed__tensor_1a4fd78c00dbe16c1cb7ad9ef5e97f52ddab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>)<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ab168548b41ae087e4d7b066cfa95766c" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ab168548b41ae087e4d7b066cfa95766c" kindref="member">validate_placement</ref>(const<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan" kindref="compound">PlacementPlan</ref>&amp;<sp/>plan,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834" kindref="member">PlacementConstraint</ref><sp/>constraints)<sp/>const</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1aec9dd9dacd6f282fd5dde8a056f44856" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan" kindref="compound">PlacementPlan</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1aec9dd9dacd6f282fd5dde8a056f44856" kindref="member">optimize_placement</ref>(</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan" kindref="compound">PlacementPlan</ref>&amp;<sp/>current_plan,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity" kindref="compound">NodeCapacity</ref>&gt;&amp;<sp/>available_nodes)<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy_1a54701e91dd7848b812b7fea92ef53f0f" kindref="member">DefaultShardPlacementStrategy</ref><sp/>:<sp/>public<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy_1ae3f8911709eec97a46bbde03b5b9bfff" kindref="member">ShardPlacementStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy_1a54701e91dd7848b812b7fea92ef53f0f" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy_1a54701e91dd7848b812b7fea92ef53f0f" kindref="member">DefaultShardPlacementStrategy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy_1ad635123b895966389ca5c8804d453628" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy_1ad635123b895966389ca5c8804d453628" kindref="member">DefaultShardPlacementStrategy</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy_1a54701e91dd7848b812b7fea92ef53f0f" kindref="member">DefaultShardPlacementStrategy</ref>&amp;&amp;)<sp/>noexcept<sp/>=</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>default;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy_1a5fa7e86392a831898f4f84a33a098d33" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy_1a54701e91dd7848b812b7fea92ef53f0f" kindref="member">DefaultShardPlacementStrategy</ref>&amp;<sp/>operator=(</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy_1a54701e91dd7848b812b7fea92ef53f0f" kindref="member">DefaultShardPlacementStrategy</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy_1a3195fa4b25a65a2a331d48ca4e27fd7a" refkind="member"><highlight class="normal"><sp/><sp/>~<ref refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy_1a54701e91dd7848b812b7fea92ef53f0f" kindref="member">DefaultShardPlacementStrategy</ref>()<sp/>override<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan" kindref="compound">PlacementPlan</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy_1ad9d71920c4008f063147dd1265c0a07c" kindref="member">compute_placement</ref>(</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>num_shards,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>shard_size_bytes,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity" kindref="compound">NodeCapacity</ref>&gt;&amp;<sp/>available_nodes,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::optional&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint" kindref="compound">FactorizationPlacementHint</ref>&gt;&amp;<sp/>factorization_hint<sp/>=</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::nullopt,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834" kindref="member">PlacementConstraint</ref><sp/>constraints<sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834" kindref="member">PlacementConstraint</ref>::<ref refid="namespacethemis_1_1distributed__tensor_1a4fd78c00dbe16c1cb7ad9ef5e97f52ddab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>)<sp/>noexcept</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>override;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy_1a0005276dcfce9f0fcd547105f3eebf16" kindref="member">validate_placement</ref>(const<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan" kindref="compound">PlacementPlan</ref>&amp;<sp/>plan,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834" kindref="member">PlacementConstraint</ref><sp/>constraints)<sp/>const<sp/>noexcept</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>override;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan" kindref="compound">PlacementPlan</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy_1ac8703d3514ac7f14930529fd1ed48091" kindref="member">optimize_placement</ref>(</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_placement_plan" kindref="compound">PlacementPlan</ref>&amp;<sp/>current_plan,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity" kindref="compound">NodeCapacity</ref>&gt;&amp;<sp/>available_nodes)<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/>private:</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>select_best_node(</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity" kindref="compound">NodeCapacity</ref>&gt;&amp;<sp/>available_nodes,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>shard_size_bytes,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834" kindref="member">PlacementConstraint</ref><sp/>constraints)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>satisfies_constraints(const<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_node_capacity" kindref="compound">NodeCapacity</ref>&amp;<sp/>node,</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>shard_size_bytes,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834" kindref="member">PlacementConstraint</ref><sp/>constraints)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>distributed_tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/distributed_tensor/shard_placement.h"/>
+  </compounddef>
+</doxygen>

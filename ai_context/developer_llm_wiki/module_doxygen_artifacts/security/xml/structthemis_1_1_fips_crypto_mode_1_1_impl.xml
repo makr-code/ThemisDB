@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_fips_crypto_mode_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::FipsCryptoMode::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_fips_crypto_mode_1_1_impl_1ac1e93e7bffc48d22ef288880fe92ed73" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::FipsCryptoMode::Impl::mtx</definition>
+        <argsstring></argsstring>
+        <name>mtx</name>
+        <qualifiedname>themis::FipsCryptoMode::Impl::mtx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/fips_crypto_mode.cpp" line="69" column="24" bodyfile="src/security/fips_crypto_mode.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_fips_crypto_mode_1_1_impl_1a67cd6e0921e59b885608c2bfb8d50472" prot="public" static="no" mutable="no">
+        <type>OSSL_PROVIDER *</type>
+        <definition>OSSL_PROVIDER* themis::FipsCryptoMode::Impl::fips_provider</definition>
+        <argsstring></argsstring>
+        <name>fips_provider</name>
+        <qualifiedname>themis::FipsCryptoMode::Impl::fips_provider</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/fips_crypto_mode.cpp" line="70" column="19" bodyfile="src/security/fips_crypto_mode.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_fips_crypto_mode_1_1_impl_1a4c14de64cb6dea5839c0404c787a30e9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::FipsCryptoMode::Impl::fips_active</definition>
+        <argsstring></argsstring>
+        <name>fips_active</name>
+        <qualifiedname>themis::FipsCryptoMode::Impl::fips_active</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/fips_crypto_mode.cpp" line="71" column="10" bodyfile="src/security/fips_crypto_mode.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_fips_crypto_mode_1_1_impl_1af1120baad38aafeb32819e9c83e50d6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::FipsCryptoMode::Impl::Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::FipsCryptoMode::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/fips_crypto_mode.cpp" line="73" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_fips_crypto_mode_1_1_impl_1abd0347d02413967b86b47417f5161a1e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::FipsCryptoMode::Impl::~Impl</definition>
+        <argsstring>()</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::FipsCryptoMode::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/fips_crypto_mode.cpp" line="75" column="5" bodyfile="src/security/fips_crypto_mode.cpp" bodystart="75" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/security/fips_crypto_mode.cpp" line="68" column="1" bodyfile="src/security/fips_crypto_mode.cpp" bodystart="68" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_fips_crypto_mode_1_1_impl_1a4c14de64cb6dea5839c0404c787a30e9" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode::Impl</scope><name>fips_active</name></member>
+      <member refid="structthemis_1_1_fips_crypto_mode_1_1_impl_1a67cd6e0921e59b885608c2bfb8d50472" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode::Impl</scope><name>fips_provider</name></member>
+      <member refid="structthemis_1_1_fips_crypto_mode_1_1_impl_1af1120baad38aafeb32819e9c83e50d6f" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1_fips_crypto_mode_1_1_impl_1ac1e93e7bffc48d22ef288880fe92ed73" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode::Impl</scope><name>mtx</name></member>
+      <member refid="structthemis_1_1_fips_crypto_mode_1_1_impl_1abd0347d02413967b86b47417f5161a1e" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

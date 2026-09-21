@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_n_v_me_manager_1_1_io_uring_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::NVMeManager::IoUringState</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/storage/nvme_manager.cpp" line="104" column="1" bodyfile="src/storage/nvme_manager.cpp" bodystart="104" bodyend="134"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

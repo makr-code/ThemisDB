@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_chunked_writer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::ChunkedWriterConfig</compoundname>
+    <includes refid="chunked__response__writer_8h" local="no">chunked_response_writer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_chunked_writer_config_1a1b07897fda58061538f0e82cc519aa85" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::ChunkedWriterConfig::chunk_size</definition>
+        <argsstring></argsstring>
+        <name>chunk_size</name>
+        <qualifiedname>themis::server::ChunkedWriterConfig::chunk_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/chunked_response_writer.h" line="31" column="12" bodyfile="include/server/chunked_response_writer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_chunked_writer_config_1a161b7e546547c5d2715b0352a23c23e0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::ChunkedWriterConfig::max_items</definition>
+        <argsstring></argsstring>
+        <name>max_items</name>
+        <qualifiedname>themis::server::ChunkedWriterConfig::max_items</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/chunked_response_writer.h" line="32" column="12" bodyfile="include/server/chunked_response_writer.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_chunked_writer_config_1ac64a86a7e55154f2c9c0472d4465f521" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ChunkedWriterConfig::content_type</definition>
+        <argsstring></argsstring>
+        <name>content_type</name>
+        <qualifiedname>themis::server::ChunkedWriterConfig::content_type</qualifiedname>
+        <initializer>= &quot;application/x-ndjson&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/chunked_response_writer.h" line="33" column="17" bodyfile="include/server/chunked_response_writer.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/chunked_response_writer.h" line="30" column="1" bodyfile="include/server/chunked_response_writer.h" bodystart="30" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_chunked_writer_config_1a1b07897fda58061538f0e82cc519aa85" prot="public" virt="non-virtual"><scope>themis::server::ChunkedWriterConfig</scope><name>chunk_size</name></member>
+      <member refid="structthemis_1_1server_1_1_chunked_writer_config_1ac64a86a7e55154f2c9c0472d4465f521" prot="public" virt="non-virtual"><scope>themis::server::ChunkedWriterConfig</scope><name>content_type</name></member>
+      <member refid="structthemis_1_1server_1_1_chunked_writer_config_1a161b7e546547c5d2715b0352a23c23e0" prot="public" virt="non-virtual"><scope>themis::server::ChunkedWriterConfig</scope><name>max_items</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

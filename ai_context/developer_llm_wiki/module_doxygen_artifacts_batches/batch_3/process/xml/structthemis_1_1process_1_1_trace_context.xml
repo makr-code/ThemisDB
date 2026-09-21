@@ -1,0 +1,338 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_trace_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::TraceContext</compoundname>
+    <includes refid="federated__span__contract_8h" local="no">federated_span_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_trace_context_1a6a34f447c0a5633fd5c088e37bbc2a37" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::TraceContext::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::process::TraceContext::trace_id</qualifiedname>
+        <briefdescription>
+<para>32-hex W3C trace ID (128-bit) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="230" column="17" bodyfile="include/process/federated_span_contract.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_trace_context_1ae95dd399c594d125b97de2b24c09d095" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::TraceContext::span_id</definition>
+        <argsstring></argsstring>
+        <name>span_id</name>
+        <qualifiedname>themis::process::TraceContext::span_id</qualifiedname>
+        <briefdescription>
+<para>16-hex W3C span ID (64-bit) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="233" column="17" bodyfile="include/process/federated_span_contract.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_trace_context_1a21e4f9cc4a1c30c9813412d0ffd7c33d" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::process::TraceContext::trace_flags</definition>
+        <argsstring></argsstring>
+        <name>trace_flags</name>
+        <qualifiedname>themis::process::TraceContext::trace_flags</qualifiedname>
+        <initializer>= 0x01</initializer>
+        <briefdescription>
+<para>Trace flags (1 byte): bit 0 = sampled flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="236" column="13" bodyfile="include/process/federated_span_contract.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_trace_context_1a7e8e125a16c4603c40a49779032f477f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::TraceContext::tracestate</definition>
+        <argsstring></argsstring>
+        <name>tracestate</name>
+        <qualifiedname>themis::process::TraceContext::tracestate</qualifiedname>
+        <briefdescription>
+<para>Vendor extensions (e.g., &quot;themis=shard_id,principal_id&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="239" column="17" bodyfile="include/process/federated_span_contract.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_trace_context_1a8296fa2b5fb8af7bc60ed24d1a8b6deb" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::process::TraceContext::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::process::TraceContext::trace_id</qualifiedname>
+        <briefdescription>
+<para>Globally unique trace identifier (e.g., UUID, OpenTelemetry trace ID). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="118" column="19" bodyfile="include/process/process_diagnostics_api.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_trace_context_1a97fceb549fba2b3f5acefc8ce8797387" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::process::TraceContext::span_id</definition>
+        <argsstring></argsstring>
+        <name>span_id</name>
+        <qualifiedname>themis::process::TraceContext::span_id</qualifiedname>
+        <briefdescription>
+<para>Operation-specific span identifier within the trace. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="120" column="19" bodyfile="include/process/process_diagnostics_api.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_trace_context_1a1fd8c462be0f4510a644be095650238c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::TraceContext::parent_span_id</definition>
+        <argsstring></argsstring>
+        <name>parent_span_id</name>
+        <qualifiedname>themis::process::TraceContext::parent_span_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_integration.h" line="39" column="15" bodyfile="include/process/process_telemetry_integration.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_trace_context_1a6ec28b8598ee9e97893f0523a68b1f8d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt; std::string, std::string &gt; themis::process::TraceContext::toHeaders</definition>
+        <argsstring>() const</argsstring>
+        <name>toHeaders</name>
+        <qualifiedname>themis::process::TraceContext::toHeaders</qualifiedname>
+        <briefdescription>
+<para>Serialize to W3C Trace Context headers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Map of header_name -&gt; header_value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="245" column="14" bodyfile="include/process/federated_span_contract.h" bodystart="245" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_trace_context_1a1b0c44df084a1c4d4db73afdb135af11" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::TraceContext::isValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::process::TraceContext::isValid</qualifiedname>
+        <briefdescription>
+<para>Check if this context is valid (non-empty trace_id and span_id). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if valid </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="266" column="10" bodyfile="include/process/federated_span_contract.h" bodystart="266" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_trace_context_1a6cce99ca584dbf4cb59defaa90c7a166" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::TraceContext::format</definition>
+        <argsstring>() const</argsstring>
+        <name>format</name>
+        <qualifiedname>themis::process::TraceContext::format</qualifiedname>
+        <briefdescription>
+<para>Format trace context as a string for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>&quot;[trace_id=X, span_id=Y]&quot; or empty string if no context </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="126" column="18" bodyfile="include/process/process_diagnostics_api.h" bodystart="387" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_trace_context_1a243da6ad30ba0ea076dcfe7e79489647" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::TraceContext::isPresent</definition>
+        <argsstring>() const</argsstring>
+        <name>isPresent</name>
+        <qualifiedname>themis::process::TraceContext::isPresent</qualifiedname>
+        <briefdescription>
+<para>Check if trace context is present. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if either trace_id or span_id is set </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="132" column="11" bodyfile="include/process/process_diagnostics_api.h" bodystart="132" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_trace_context_1a12235bd9e81621bdf137e53bfef57a07" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::TraceContext::ToHeader</definition>
+        <argsstring>() const</argsstring>
+        <name>ToHeader</name>
+        <qualifiedname>themis::process::TraceContext::ToHeader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="115" column="15" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="115" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_trace_context_1afedc3fffa196a20619e8c5f049ae665d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref> &gt;</type>
+        <definition>static std::optional&lt; TraceContext &gt; themis::process::TraceContext::fromHeaders</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;headers)</argsstring>
+        <name>fromHeaders</name>
+        <qualifiedname>themis::process::TraceContext::fromHeaders</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+<para>Parse from W3C Trace Context headers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>headers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of header_name -&gt; header_value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parsed <ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref>, or std::nullopt if invalid </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="258" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_trace_context_1a06eff20f3069f92fb242ae836d82ad39" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::process::TraceContext::GenerateTraceId</definition>
+        <argsstring>()</argsstring>
+        <name>GenerateTraceId</name>
+        <qualifiedname>themis::process::TraceContext::GenerateTraceId</qualifiedname>
+        <briefdescription>
+<para>Generate Trace Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: rng(), std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="93" column="22" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="93" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_trace_context_1a101853876bc585f17f517bba76d3dd15" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::process::TraceContext::GenerateSpanId</definition>
+        <argsstring>()</argsstring>
+        <name>GenerateSpanId</name>
+        <qualifiedname>themis::process::TraceContext::GenerateSpanId</qualifiedname>
+        <briefdescription>
+<para>Generate Span Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: rng(), std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="108" column="22" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="108" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_trace_context_1afae312de1d76fe0b9f70afb003cbf888" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref></type>
+        <definition>static TraceContext themis::process::TraceContext::FromHeader</definition>
+        <argsstring>(const std::string &amp;header)</argsstring>
+        <name>FromHeader</name>
+        <qualifiedname>themis::process::TraceContext::FromHeader</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>header</declname>
+        </param>
+        <briefdescription>
+<para>From Header. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">header</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_telemetry_integration.cpp" line="129" column="23" bodyfile="src/process/process_telemetry_integration.cpp" bodystart="129" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>W3C Trace Context for correlation ID propagation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>W3C Trace Context for distributed tracing.</para>
+<para>Trace context for correlating multi-step operations.</para>
+<para>Encodes trace_id, span_id, and sampling decision for propagation across RPC boundaries.</para>
+<para>Enables distributed tracing and request correlation across multiple process module operations (import→validate→link).</para>
+<para>Fields are optional to support both traced and non-traced deployments.</para>
+<para><simplesect kind="invariant"><para>trace_id and span_id, if present, are globally unique identifiers </para>
+</simplesect>
+<simplesect kind="invariant"><para>trace_id is shared across all operations in a trace </para>
+</simplesect>
+<simplesect kind="invariant"><para>span_id is unique within a trace </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/process/federated_span_contract.h" line="228" column="1" bodyfile="include/process/federated_span_contract.h" bodystart="228" bodyend="269"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_trace_context_1a6cce99ca584dbf4cb59defaa90c7a166" prot="public" virt="non-virtual"><scope>themis::process::TraceContext</scope><name>format</name></member>
+      <member refid="structthemis_1_1process_1_1_trace_context_1afae312de1d76fe0b9f70afb003cbf888" prot="public" virt="non-virtual"><scope>themis::process::TraceContext</scope><name>FromHeader</name></member>
+      <member refid="structthemis_1_1process_1_1_trace_context_1afedc3fffa196a20619e8c5f049ae665d" prot="public" virt="non-virtual"><scope>themis::process::TraceContext</scope><name>fromHeaders</name></member>
+      <member refid="structthemis_1_1process_1_1_trace_context_1a101853876bc585f17f517bba76d3dd15" prot="public" virt="non-virtual"><scope>themis::process::TraceContext</scope><name>GenerateSpanId</name></member>
+      <member refid="structthemis_1_1process_1_1_trace_context_1a06eff20f3069f92fb242ae836d82ad39" prot="public" virt="non-virtual"><scope>themis::process::TraceContext</scope><name>GenerateTraceId</name></member>
+      <member refid="structthemis_1_1process_1_1_trace_context_1a243da6ad30ba0ea076dcfe7e79489647" prot="public" virt="non-virtual"><scope>themis::process::TraceContext</scope><name>isPresent</name></member>
+      <member refid="structthemis_1_1process_1_1_trace_context_1a1b0c44df084a1c4d4db73afdb135af11" prot="public" virt="non-virtual"><scope>themis::process::TraceContext</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1process_1_1_trace_context_1a1fd8c462be0f4510a644be095650238c" prot="public" virt="non-virtual"><scope>themis::process::TraceContext</scope><name>parent_span_id</name></member>
+      <member refid="structthemis_1_1process_1_1_trace_context_1ae95dd399c594d125b97de2b24c09d095" prot="public" virt="non-virtual"><scope>themis::process::TraceContext</scope><name>span_id</name></member>
+      <member refid="structthemis_1_1process_1_1_trace_context_1a97fceb549fba2b3f5acefc8ce8797387" prot="public" virt="non-virtual"><scope>themis::process::TraceContext</scope><name>span_id</name></member>
+      <member refid="structthemis_1_1process_1_1_trace_context_1a12235bd9e81621bdf137e53bfef57a07" prot="public" virt="non-virtual"><scope>themis::process::TraceContext</scope><name>ToHeader</name></member>
+      <member refid="structthemis_1_1process_1_1_trace_context_1a6ec28b8598ee9e97893f0523a68b1f8d" prot="public" virt="non-virtual"><scope>themis::process::TraceContext</scope><name>toHeaders</name></member>
+      <member refid="structthemis_1_1process_1_1_trace_context_1a21e4f9cc4a1c30c9813412d0ffd7c33d" prot="public" virt="non-virtual"><scope>themis::process::TraceContext</scope><name>trace_flags</name></member>
+      <member refid="structthemis_1_1process_1_1_trace_context_1a6a34f447c0a5633fd5c088e37bbc2a37" prot="public" virt="non-virtual"><scope>themis::process::TraceContext</scope><name>trace_id</name></member>
+      <member refid="structthemis_1_1process_1_1_trace_context_1a8296fa2b5fb8af7bc60ed24d1a8b6deb" prot="public" virt="non-virtual"><scope>themis::process::TraceContext</scope><name>trace_id</name></member>
+      <member refid="structthemis_1_1process_1_1_trace_context_1a7e8e125a16c4603c40a49779032f477f" prot="public" virt="non-virtual"><scope>themis::process::TraceContext</scope><name>tracestate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

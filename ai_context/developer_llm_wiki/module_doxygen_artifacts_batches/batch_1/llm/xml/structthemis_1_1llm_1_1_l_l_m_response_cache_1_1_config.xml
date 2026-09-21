@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LLMResponseCache::Config</compoundname>
+    <includes refid="llm__response__cache_8h" local="no">llm_response_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1a6f7e3109559798fdba6cf5b604dc6ff7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LLMResponseCache::Config::similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>similarity_threshold</name>
+        <qualifiedname>themis::llm::LLMResponseCache::Config::similarity_threshold</qualifiedname>
+        <initializer>= 0.90f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="43" column="15" bodyfile="include/llm/llm_response_cache.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1a39369cf79acdfcaa8f0a4ef84d126dac" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::LLMResponseCache::Config::ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>ttl_seconds</name>
+        <qualifiedname>themis::llm::LLMResponseCache::Config::ttl_seconds</qualifiedname>
+        <initializer>= 3600</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="44" column="18" bodyfile="include/llm/llm_response_cache.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1ace1a8c6a6b54e4b395231b154964afca" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMResponseCache::Config::max_entries</definition>
+        <argsstring></argsstring>
+        <name>max_entries</name>
+        <qualifiedname>themis::llm::LLMResponseCache::Config::max_entries</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="45" column="16" bodyfile="include/llm/llm_response_cache.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1a77b665e748a03e7847c5b1d919d902ff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMResponseCache::Config::cache_dir</definition>
+        <argsstring></argsstring>
+        <name>cache_dir</name>
+        <qualifiedname>themis::llm::LLMResponseCache::Config::cache_dir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="48" column="21" bodyfile="include/llm/llm_response_cache.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1a343c58ebc13970923f5da85cc15ab6f1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMResponseCache::Config::embedding_dim</definition>
+        <argsstring></argsstring>
+        <name>embedding_dim</name>
+        <qualifiedname>themis::llm::LLMResponseCache::Config::embedding_dim</qualifiedname>
+        <initializer>= 384</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="49" column="16" bodyfile="include/llm/llm_response_cache.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1af281cd3163f15f352c8162a6e74ff71e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMResponseCache::Config::use_vector_index</definition>
+        <argsstring></argsstring>
+        <name>use_vector_index</name>
+        <qualifiedname>themis::llm::LLMResponseCache::Config::use_vector_index</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="50" column="14" bodyfile="include/llm/llm_response_cache.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1acd3ec490f82a5453c7beb21dbc3ced05" prot="public" static="no" mutable="no">
+        <type>RocksDBWrapper *</type>
+        <definition>RocksDBWrapper* themis::llm::LLMResponseCache::Config::db_ptr</definition>
+        <argsstring></argsstring>
+        <name>db_ptr</name>
+        <qualifiedname>themis::llm::LLMResponseCache::Config::db_ptr</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="51" column="24" bodyfile="include/llm/llm_response_cache.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1a5d92a92cc8f21808a0b4f2330e529e4d" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_embedded_l_l_m" kindref="compound">EmbeddedLLM</ref> *</type>
+        <definition>EmbeddedLLM* themis::llm::LLMResponseCache::Config::llm_ptr</definition>
+        <argsstring></argsstring>
+        <name>llm_ptr</name>
+        <qualifiedname>themis::llm::LLMResponseCache::Config::llm_ptr</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="52" column="21" bodyfile="include/llm/llm_response_cache.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1a84d8b89318e8fa2bbc21fd70d2d92365" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::vector&lt; float &gt;(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;std::vector&lt;float&gt;(const std::string&amp;)&gt; themis::llm::LLMResponseCache::Config::embedding_fn</definition>
+        <argsstring></argsstring>
+        <name>embedding_fn</name>
+        <qualifiedname>themis::llm::LLMResponseCache::Config::embedding_fn</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_response_cache.h" line="53" column="25" bodyfile="include/llm/llm_response_cache.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::EmbeddedLLM</label>
+        <link refid="classthemis_1_1llm_1_1_embedded_l_l_m"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::LLMResponseCache::Config</label>
+        <link refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>llm_ptr</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/llm_response_cache.h" line="42" column="5" bodyfile="include/llm/llm_response_cache.h" bodystart="42" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1a77b665e748a03e7847c5b1d919d902ff" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache::Config</scope><name>cache_dir</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1acd3ec490f82a5453c7beb21dbc3ced05" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache::Config</scope><name>db_ptr</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1a343c58ebc13970923f5da85cc15ab6f1" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache::Config</scope><name>embedding_dim</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1a84d8b89318e8fa2bbc21fd70d2d92365" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache::Config</scope><name>embedding_fn</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1a5d92a92cc8f21808a0b4f2330e529e4d" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache::Config</scope><name>llm_ptr</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1ace1a8c6a6b54e4b395231b154964afca" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache::Config</scope><name>max_entries</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1a6f7e3109559798fdba6cf5b604dc6ff7" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache::Config</scope><name>similarity_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1a39369cf79acdfcaa8f0a4ef84d126dac" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache::Config</scope><name>ttl_seconds</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config_1af281cd3163f15f352c8162a6e74ff71e" prot="public" virt="non-virtual"><scope>themis::llm::LLMResponseCache::Config</scope><name>use_vector_index</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_pii_http_lazy_init_test" kind="class" language="C++" prot="public">
+    <compoundname>PiiHttpLazyInitTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_pii_http_lazy_init_test_1aade3d084e3123402057e4531362b399f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; PiiHttpLazyInitTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>PiiHttpLazyInitTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_pii_lazy_init.cpp" line="110" column="21" bodyfile="tests/network/test_http_pii_lazy_init.cpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_pii_http_lazy_init_test_1a67437a260484b27fb2fb753ba2f93a01" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; PiiHttpLazyInitTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>PiiHttpLazyInitTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_pii_lazy_init.cpp" line="111" column="21" bodyfile="tests/network/test_http_pii_lazy_init.cpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_pii_http_lazy_init_test_1abbf1376bb96aae62b86fd32c5c06fcf4" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; PiiHttpLazyInitTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>PiiHttpLazyInitTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_pii_lazy_init.cpp" line="112" column="21" bodyfile="tests/network/test_http_pii_lazy_init.cpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_pii_http_lazy_init_test_1a0b8b6e51ba0b20fe867fb15393996b06" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; PiiHttpLazyInitTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>PiiHttpLazyInitTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_pii_lazy_init.cpp" line="113" column="21" bodyfile="tests/network/test_http_pii_lazy_init.cpp" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_pii_http_lazy_init_test_1a7538dd006f9c35de8b6fe64e4dd80435" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; PiiHttpLazyInitTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>PiiHttpLazyInitTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_pii_lazy_init.cpp" line="114" column="21" bodyfile="tests/network/test_http_pii_lazy_init.cpp" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_pii_http_lazy_init_test_1a80809b1386526f719d1fe6249e66a267" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; PiiHttpLazyInitTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>PiiHttpLazyInitTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_pii_lazy_init.cpp" line="115" column="21" bodyfile="tests/network/test_http_pii_lazy_init.cpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_pii_http_lazy_init_test_1a3823112f5c0071ad9b45e9044b6646e3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PiiHttpLazyInitTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>PiiHttpLazyInitTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_pii_lazy_init.cpp" line="24" column="10" bodyfile="tests/network/test_http_pii_lazy_init.cpp" bodystart="24" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_pii_http_lazy_init_test_1a6c3acdee6e1a4dbc2a693f37e8a98893" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PiiHttpLazyInitTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>PiiHttpLazyInitTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_pii_lazy_init.cpp" line="61" column="10" bodyfile="tests/network/test_http_pii_lazy_init.cpp" bodystart="61" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_pii_http_lazy_init_test_1a2aa911716629dd0a4519b898b0eaa5e0" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>static http::response&lt; http::string_body &gt; PiiHttpLazyInitTest::http_get</definition>
+        <argsstring>(const std::string &amp;host, const std::string &amp;port, const std::string &amp;target, const std::map&lt; std::string, std::string &gt; &amp;headers={})</argsstring>
+        <name>http_get</name>
+        <qualifiedname>PiiHttpLazyInitTest::http_get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_pii_lazy_init.cpp" line="82" column="27" bodyfile="tests/network/test_http_pii_lazy_init.cpp" bodystart="82" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PiiHttpLazyInitTest</label>
+        <link refid="class_pii_http_lazy_init_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PiiHttpLazyInitTest</label>
+        <link refid="class_pii_http_lazy_init_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_pii_lazy_init.cpp" line="22" column="1" bodyfile="tests/network/test_http_pii_lazy_init.cpp" bodystart="22" bodyend="116"/>
+    <listofallmembers>
+      <member refid="class_pii_http_lazy_init_test_1a0b8b6e51ba0b20fe867fb15393996b06" prot="protected" virt="non-virtual"><scope>PiiHttpLazyInitTest</scope><name>graph_index_</name></member>
+      <member refid="class_pii_http_lazy_init_test_1a2aa911716629dd0a4519b898b0eaa5e0" prot="protected" virt="non-virtual"><scope>PiiHttpLazyInitTest</scope><name>http_get</name></member>
+      <member refid="class_pii_http_lazy_init_test_1abbf1376bb96aae62b86fd32c5c06fcf4" prot="protected" virt="non-virtual"><scope>PiiHttpLazyInitTest</scope><name>secondary_index_</name></member>
+      <member refid="class_pii_http_lazy_init_test_1aade3d084e3123402057e4531362b399f" prot="protected" virt="non-virtual"><scope>PiiHttpLazyInitTest</scope><name>server_</name></member>
+      <member refid="class_pii_http_lazy_init_test_1a3823112f5c0071ad9b45e9044b6646e3" prot="protected" virt="non-virtual"><scope>PiiHttpLazyInitTest</scope><name>SetUp</name></member>
+      <member refid="class_pii_http_lazy_init_test_1a67437a260484b27fb2fb753ba2f93a01" prot="protected" virt="non-virtual"><scope>PiiHttpLazyInitTest</scope><name>storage_</name></member>
+      <member refid="class_pii_http_lazy_init_test_1a6c3acdee6e1a4dbc2a693f37e8a98893" prot="protected" virt="non-virtual"><scope>PiiHttpLazyInitTest</scope><name>TearDown</name></member>
+      <member refid="class_pii_http_lazy_init_test_1a80809b1386526f719d1fe6249e66a267" prot="protected" virt="non-virtual"><scope>PiiHttpLazyInitTest</scope><name>tx_manager_</name></member>
+      <member refid="class_pii_http_lazy_init_test_1a7538dd006f9c35de8b6fe64e4dd80435" prot="protected" virt="non-virtual"><scope>PiiHttpLazyInitTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

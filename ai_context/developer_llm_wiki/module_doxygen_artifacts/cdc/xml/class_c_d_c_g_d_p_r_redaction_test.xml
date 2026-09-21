@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_c_d_c_g_d_p_r_redaction_test" kind="class" language="C++" prot="public">
+    <compoundname>CDCGDPRRedactionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_c_d_c_g_d_p_r_redaction_test_1a7a6901bacb7ed4b13ea84d1833d9c8ac" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CDCGDPRRedactionTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>CDCGDPRRedactionTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="75" column="17" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_d_c_g_d_p_r_redaction_test_1a38cdda9ead1835cc7d134cdbe2e1e5a6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; CDCGDPRRedactionTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>CDCGDPRRedactionTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="76" column="23" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_d_c_g_d_p_r_redaction_test_1a4e78770e7c7faf0cf21ec4dc02d624a4" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; CDCGDPRRedactionTest::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>CDCGDPRRedactionTest::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="77" column="27" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_d_c_g_d_p_r_redaction_test_1ae249a01c48aba38366a735151da95fc3" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_c_d_c_admin" kindref="compound">CDCAdmin</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CDCAdmin&gt; CDCGDPRRedactionTest::admin_</definition>
+        <argsstring></argsstring>
+        <name>admin_</name>
+        <qualifiedname>CDCGDPRRedactionTest::admin_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="78" column="29" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_c_d_c_g_d_p_r_redaction_test_1a90b7f06ed49a7aff234adf38c0810ce1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CDCGDPRRedactionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CDCGDPRRedactionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="24" column="10" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="24" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_d_c_g_d_p_r_redaction_test_1aefc3e97dc89e7b0bb1b2c57d28e010da" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CDCGDPRRedactionTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CDCGDPRRedactionTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="52" column="10" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="52" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_d_c_g_d_p_r_redaction_test_1ac93ddd7b03426568d3dc546045b6dd66" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref></type>
+        <definition>Changefeed::ChangeEvent CDCGDPRRedactionTest::makePutEvent</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>makePutEvent</name>
+        <qualifiedname>CDCGDPRRedactionTest::makePutEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="64" column="29" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="64" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CDCGDPRRedactionTest</label>
+        <link refid="class_c_d_c_g_d_p_r_redaction_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CDCGDPRRedactionTest</label>
+        <link refid="class_c_d_c_g_d_p_r_redaction_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="22" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="22" bodyend="79"/>
+    <listofallmembers>
+      <member refid="class_c_d_c_g_d_p_r_redaction_test_1ae249a01c48aba38366a735151da95fc3" prot="protected" virt="non-virtual"><scope>CDCGDPRRedactionTest</scope><name>admin_</name></member>
+      <member refid="class_c_d_c_g_d_p_r_redaction_test_1a4e78770e7c7faf0cf21ec4dc02d624a4" prot="protected" virt="non-virtual"><scope>CDCGDPRRedactionTest</scope><name>changefeed_</name></member>
+      <member refid="class_c_d_c_g_d_p_r_redaction_test_1a38cdda9ead1835cc7d134cdbe2e1e5a6" prot="protected" virt="non-virtual"><scope>CDCGDPRRedactionTest</scope><name>db_</name></member>
+      <member refid="class_c_d_c_g_d_p_r_redaction_test_1ac93ddd7b03426568d3dc546045b6dd66" prot="protected" virt="non-virtual"><scope>CDCGDPRRedactionTest</scope><name>makePutEvent</name></member>
+      <member refid="class_c_d_c_g_d_p_r_redaction_test_1a90b7f06ed49a7aff234adf38c0810ce1" prot="protected" virt="non-virtual"><scope>CDCGDPRRedactionTest</scope><name>SetUp</name></member>
+      <member refid="class_c_d_c_g_d_p_r_redaction_test_1aefc3e97dc89e7b0bb1b2c57d28e010da" prot="protected" virt="non-virtual"><scope>CDCGDPRRedactionTest</scope><name>TearDown</name></member>
+      <member refid="class_c_d_c_g_d_p_r_redaction_test_1a7a6901bacb7ed4b13ea84d1833d9c8ac" prot="protected" virt="non-virtual"><scope>CDCGDPRRedactionTest</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

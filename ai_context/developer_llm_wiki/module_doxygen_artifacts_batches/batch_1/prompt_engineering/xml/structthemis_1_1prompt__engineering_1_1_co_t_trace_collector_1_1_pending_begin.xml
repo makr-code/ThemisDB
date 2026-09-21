@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_co_t_trace_collector_1_1_pending_begin" kind="struct" language="C++" prot="private">
+    <compoundname>themis::prompt_engineering::CoTTraceCollector::PendingBegin</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_co_t_trace_collector_1_1_pending_begin_1af6bf2e4ef86c860fdbff83c4b73c6f31" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::CoTTraceCollector::PendingBegin::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::prompt_engineering::CoTTraceCollector::PendingBegin::label</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="231" column="21" bodyfile="include/prompt_engineering/cot_tracer.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_co_t_trace_collector_1_1_pending_begin_1aab1a419321c4c1dc9b05403c9620930e" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::prompt_engineering::CoTTraceCollector::PendingBegin::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::prompt_engineering::CoTTraceCollector::PendingBegin::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="232" column="47" bodyfile="include/prompt_engineering/cot_tracer.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/cot_tracer.h" line="230" column="5" bodyfile="include/prompt_engineering/cot_tracer.h" bodystart="230" bodyend="233"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_co_t_trace_collector_1_1_pending_begin_1af6bf2e4ef86c860fdbff83c4b73c6f31" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CoTTraceCollector::PendingBegin</scope><name>label</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_co_t_trace_collector_1_1_pending_begin_1aab1a419321c4c1dc9b05403c9620930e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CoTTraceCollector::PendingBegin</scope><name>start_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

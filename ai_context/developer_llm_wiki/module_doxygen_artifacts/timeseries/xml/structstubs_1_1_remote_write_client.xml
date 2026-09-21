@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstubs_1_1_remote_write_client" kind="struct" language="C++" prot="public">
+    <compoundname>stubs::RemoteWriteClient</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstubs_1_1_remote_write_client_1ac53f5400b69a252cef6c41b739847661" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::RemoteWriteClient::sent</definition>
+        <argsstring></argsstring>
+        <name>sent</name>
+        <qualifiedname>stubs::RemoteWriteClient::sent</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_highcardinality_stress.cpp" line="44" column="17" bodyfile="tests/timeseries/test_timeseries_highcardinality_stress.cpp" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="variable" id="structstubs_1_1_remote_write_client_1ace6d874de8789bb006f0b4ef9334f4b4" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::RemoteWriteClient::retries</definition>
+        <argsstring></argsstring>
+        <name>retries</name>
+        <qualifiedname>stubs::RemoteWriteClient::retries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_highcardinality_stress.cpp" line="45" column="17" bodyfile="tests/timeseries/test_timeseries_highcardinality_stress.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="variable" id="structstubs_1_1_remote_write_client_1a5515969ad22e485a7e211b68409f6b73" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::RemoteWriteClient::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>stubs::RemoteWriteClient::errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_highcardinality_stress.cpp" line="46" column="17" bodyfile="tests/timeseries/test_timeseries_highcardinality_stress.cpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstubs_1_1_remote_write_client_1ab396f1ee88466e5aacfa406f3e88f07d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::RemoteWriteClient::write</definition>
+        <argsstring>(uint64_t batch_id)</argsstring>
+        <name>write</name>
+        <qualifiedname>stubs::RemoteWriteClient::write</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>batch_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_highcardinality_stress.cpp" line="49" column="10" bodyfile="tests/timeseries/test_timeseries_highcardinality_stress.cpp" bodystart="49" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/timeseries/test_timeseries_highcardinality_stress.cpp" line="43" column="1" bodyfile="tests/timeseries/test_timeseries_highcardinality_stress.cpp" bodystart="43" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structstubs_1_1_remote_write_client_1a5515969ad22e485a7e211b68409f6b73" prot="public" virt="non-virtual"><scope>stubs::RemoteWriteClient</scope><name>errors</name></member>
+      <member refid="structstubs_1_1_remote_write_client_1ace6d874de8789bb006f0b4ef9334f4b4" prot="public" virt="non-virtual"><scope>stubs::RemoteWriteClient</scope><name>retries</name></member>
+      <member refid="structstubs_1_1_remote_write_client_1ac53f5400b69a252cef6c41b739847661" prot="public" virt="non-virtual"><scope>stubs::RemoteWriteClient</scope><name>sent</name></member>
+      <member refid="structstubs_1_1_remote_write_client_1ab396f1ee88466e5aacfa406f3e88f07d" prot="public" virt="non-virtual"><scope>stubs::RemoteWriteClient</scope><name>write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

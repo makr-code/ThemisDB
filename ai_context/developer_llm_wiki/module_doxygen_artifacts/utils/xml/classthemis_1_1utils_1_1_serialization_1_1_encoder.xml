@@ -1,0 +1,596 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_serialization_1_1_encoder" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::Serialization::Encoder</compoundname>
+    <includes refid="serialization_8h" local="no">serialization.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a7298fa0cd5f33aa05d4237e2b0dea058" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::utils::Serialization::Encoder::buffer_</definition>
+        <argsstring></argsstring>
+        <name>buffer_</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="121" column="21" bodyfile="include/utils/serialization.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a5d34295672ebaa3a8c26418ed033567e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::Serialization::Encoder::Encoder</definition>
+        <argsstring>()</argsstring>
+        <name>Encoder</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::Encoder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="77" column="9" bodyfile="src/utils/serialization.cpp" bodystart="24" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1ab968c1c488f56a35ffac4a01c9ed77fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::encodeNull</definition>
+        <argsstring>()</argsstring>
+        <name>encodeNull</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::encodeNull</qualifiedname>
+        <briefdescription>
+<para>Encode Null. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: writeTag(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="79" column="14" bodyfile="src/utils/serialization.cpp" bodystart="64" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a1cfed9670fa2aa786a6e26fb991318ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::encodeBool</definition>
+        <argsstring>(bool value)</argsstring>
+        <name>encodeBool</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::encodeBool</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Encode Bool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: writeTag(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="80" column="14" bodyfile="src/utils/serialization.cpp" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a790cf523ef41f7eae1a97a8f1366f33e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::encodeInt32</definition>
+        <argsstring>(int32_t value)</argsstring>
+        <name>encodeInt32</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::encodeInt32</qualifiedname>
+        <param>
+          <type>int32_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Encode Int32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: writeTag(), writeUInt32(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="81" column="14" bodyfile="src/utils/serialization.cpp" bodystart="82" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a516b88a0756f0a1911fb8c2821684508" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::encodeInt64</definition>
+        <argsstring>(int64_t value)</argsstring>
+        <name>encodeInt64</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::encodeInt64</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Encode Int64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: writeTag(), writeUInt64(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="82" column="14" bodyfile="src/utils/serialization.cpp" bodystart="92" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1ac197fb7a56332862ce64b6bd8bdfe4f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::encodeUInt32</definition>
+        <argsstring>(uint32_t value)</argsstring>
+        <name>encodeUInt32</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::encodeUInt32</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Encode UInt32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: writeTag(), writeUInt32(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="83" column="14" bodyfile="src/utils/serialization.cpp" bodystart="102" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a1e1049976ace9b6ac30dd5f462233f6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::encodeUInt64</definition>
+        <argsstring>(uint64_t value)</argsstring>
+        <name>encodeUInt64</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::encodeUInt64</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Encode UInt64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: writeTag(), writeUInt64(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="84" column="14" bodyfile="src/utils/serialization.cpp" bodystart="112" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a483daaff046ff4dcc658e87728e94ee5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::encodeFloat</definition>
+        <argsstring>(float value)</argsstring>
+        <name>encodeFloat</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::encodeFloat</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Encode Float. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: writeTag(), <ref refid="classthemis_1_1utils_1_1_float_bits_1a41f73d8ff66fae2d53d5300f981fb973" kindref="member">FloatBits::to_u32()</ref>, writeUInt32(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="85" column="14" bodyfile="src/utils/serialization.cpp" bodystart="122" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a254d6a941abe2752186598683af2e53b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::encodeDouble</definition>
+        <argsstring>(double value)</argsstring>
+        <name>encodeDouble</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::encodeDouble</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Encode Double. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: writeTag(), <ref refid="classthemis_1_1utils_1_1_float_bits_1a4d58f980bed2eea04e4a8a2bf9ce83cd" kindref="member">FloatBits::to_u64()</ref>, writeUInt64(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="86" column="14" bodyfile="src/utils/serialization.cpp" bodystart="134" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a6cb6bab1416ae94ec58e393a8f431328" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::encodeString</definition>
+        <argsstring>(std::string_view str)</argsstring>
+        <name>encodeString</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::encodeString</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Encode String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: writeTag(), writeUInt32(), size(), insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="87" column="14" bodyfile="src/utils/serialization.cpp" bodystart="146" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1ade1b365b1bb23cd9ddd4f965c1e1d10f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::encodeBinary</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>encodeBinary</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::encodeBinary</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Encode Binary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: writeTag(), writeUInt32(), size(), insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="88" column="14" bodyfile="src/utils/serialization.cpp" bodystart="157" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a7c6aff0b068672158a1b6c6a404d62a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::encodeFloatVector</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;vec)</argsstring>
+        <name>encodeFloatVector</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::encodeFloatVector</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Encode float vector (for embeddings) - optimized format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Encode Float Vector.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: writeTag(), writeUInt32(), size(), data(), insert(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="91" column="14" bodyfile="src/utils/serialization.cpp" bodystart="168" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1afae183d47d84f92d553dd6eb86848a0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::beginArray</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>beginArray</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::beginArray</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Begin/end array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Begin Array.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: writeTag(), writeUInt32(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="94" column="14" bodyfile="src/utils/serialization.cpp" bodystart="184" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1ade0dc1d7e2949a68d95c574b8cdd36f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::endArray</definition>
+        <argsstring>()</argsstring>
+        <name>endArray</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::endArray</qualifiedname>
+        <briefdescription>
+<para>End Array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements endArray without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="95" column="14" bodyfile="src/utils/serialization.cpp" bodystart="193" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1aa15277f3705ff66fe1a80921c3f35d07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::beginObject</definition>
+        <argsstring>(size_t num_fields)</argsstring>
+        <name>beginObject</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::beginObject</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_fields</declname>
+        </param>
+        <briefdescription>
+<para>Begin/end object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Begin Object.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: writeTag(), writeUInt32(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="98" column="14" bodyfile="src/utils/serialization.cpp" bodystart="202" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1ab520f3436b516a1a3e60f4cae81f3280" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::endObject</definition>
+        <argsstring>()</argsstring>
+        <name>endObject</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::endObject</qualifiedname>
+        <briefdescription>
+<para>End Object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements endObject without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="99" column="14" bodyfile="src/utils/serialization.cpp" bodystart="211" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a5769dac5193e554c98fc641e98ce9587" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::utils::Serialization::Encoder::finish</definition>
+        <argsstring>()</argsstring>
+        <name>finish</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::finish</qualifiedname>
+        <briefdescription>
+<para>Finalise the encoded buffer and return the serialized bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Finish.</para>
+<para><simplesect kind="return"><para>Serialized binary representation of all encoded values.</para>
+</simplesect>
+<simplesect kind="note"><para>Nesting safety: Incomplete array/object nesting (unmatched begin/end calls) produces an internally consistent buffer but may fail decoding. Validate with <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder" kindref="compound">Decoder</ref> after encoding.</para>
+</simplesect>
+@error_contract <table rows="2" cols="5"><row>
+<entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref>  </para>
+</entry><entry thead="yes"><para>Severity  </para>
+</entry><entry thead="yes"><para>Logging  </para>
+</entry><entry thead="yes"><para>Recovery  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Memory exhaustion while encode* operations append/grow the buffer  </para>
+</entry><entry thead="no"><para>std::bad_alloc (SERIALIZATION_FAILED 9080)  </para>
+</entry><entry thead="no"><para>Critical  </para>
+</entry><entry thead="no"><para>–  </para>
+</entry><entry thead="no"><para>Propagates exception  </para>
+</entry></row>
+</table>
+</para>
+<para>@bounded_resources Nesting depth is limited by available stack space; callers are responsible for bounding the number of nested begin/end calls.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="118" column="21" bodyfile="src/utils/serialization.cpp" bodystart="220" bodyend="222"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a87f3175273333983b2b14d70dfc07981" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::writeTag</definition>
+        <argsstring>(TypeTag tag)</argsstring>
+        <name>writeTag</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::writeTag</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3" kindref="member">TypeTag</ref></type>
+          <declname>tag</declname>
+        </param>
+        <briefdescription>
+<para>Write Tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="122" column="14" bodyfile="src/utils/serialization.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a85419484a5d31960cf7109307ab0a113" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::writeUInt32</definition>
+        <argsstring>(uint32_t value)</argsstring>
+        <name>writeUInt32</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::writeUInt32</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Write UInt32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="123" column="14" bodyfile="src/utils/serialization.cpp" bodystart="42" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a8b9e0285a4c5dadc896cbeda2ceb391d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Encoder::writeUInt64</definition>
+        <argsstring>(uint64_t value)</argsstring>
+        <name>writeUInt64</name>
+        <qualifiedname>themis::utils::Serialization::Encoder::writeUInt64</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Write UInt64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="124" column="14" bodyfile="src/utils/serialization.cpp" bodystart="54" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder" kindref="compound">Encoder</ref> component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/serialization.h" line="75" column="5" bodyfile="include/utils/serialization.h" bodystart="75" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1afae183d47d84f92d553dd6eb86848a0e" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>beginArray</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1aa15277f3705ff66fe1a80921c3f35d07" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>beginObject</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a7298fa0cd5f33aa05d4237e2b0dea058" prot="private" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>buffer_</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1ade1b365b1bb23cd9ddd4f965c1e1d10f" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>encodeBinary</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a1cfed9670fa2aa786a6e26fb991318ab" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>encodeBool</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a254d6a941abe2752186598683af2e53b" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>encodeDouble</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a483daaff046ff4dcc658e87728e94ee5" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>encodeFloat</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a7c6aff0b068672158a1b6c6a404d62a0" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>encodeFloatVector</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a790cf523ef41f7eae1a97a8f1366f33e" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>encodeInt32</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a516b88a0756f0a1911fb8c2821684508" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>encodeInt64</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1ab968c1c488f56a35ffac4a01c9ed77fa" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>encodeNull</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a5d34295672ebaa3a8c26418ed033567e" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>Encoder</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a6cb6bab1416ae94ec58e393a8f431328" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>encodeString</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1ac197fb7a56332862ce64b6bd8bdfe4f6" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>encodeUInt32</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a1e1049976ace9b6ac30dd5f462233f6e" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>encodeUInt64</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1ade0dc1d7e2949a68d95c574b8cdd36f2" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>endArray</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1ab520f3436b516a1a3e60f4cae81f3280" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>endObject</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a5769dac5193e554c98fc641e98ce9587" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>finish</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a87f3175273333983b2b14d70dfc07981" prot="private" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>writeTag</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a85419484a5d31960cf7109307ab0a113" prot="private" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>writeUInt32</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a8b9e0285a4c5dadc896cbeda2ceb391d" prot="private" virt="non-virtual"><scope>themis::utils::Serialization::Encoder</scope><name>writeUInt64</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

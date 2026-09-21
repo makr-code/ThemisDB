@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_right_to_delete" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::governance::RightToDelete</compoundname>
+    <basecompoundref refid="classthemis_1_1governance_1_1_i_compliance_rule" prot="public" virt="non-virtual">themis::governance::IComplianceRule</basecompoundref>
+    <includes refid="ccpa__rules_8h" local="no">ccpa_rules.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_right_to_delete_1a77431a1a2911e57893a892cfc6e1d58a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::RightToDelete::id</definition>
+        <argsstring>() const override</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::governance::RightToDelete::id</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1a01395f8af99fa20ce9be6b77cd3b5557">id</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="97" column="17" bodyfile="include/governance/ccpa_rules.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_right_to_delete_1aa22b8f73d3dc1e6106139e78b60303de" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::RightToDelete::framework</definition>
+        <argsstring>() const override</argsstring>
+        <name>framework</name>
+        <qualifiedname>themis::governance::RightToDelete::framework</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1ae95c843e2f550ded2eeb7ad923960aba">framework</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="98" column="17" bodyfile="include/governance/ccpa_rules.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_right_to_delete_1ac00a86c4775c3940cd51706d40f7ef87" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::RightToDelete::description</definition>
+        <argsstring>() const override</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::RightToDelete::description</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1af1ff57617e2151936aa46d9a4d6d39b2">description</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="99" column="17" bodyfile="include/governance/ccpa_rules.h" bodystart="99" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_right_to_delete_1a0f9e10b43705e99bb90de034097d0f06" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::RightToDelete::evaluate</definition>
+        <argsstring>(const PolicyRule &amp;rule) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::governance::RightToDelete::evaluate</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1a96562e0417b8471400cfcf2ea185a7ea">evaluate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="104" column="10" bodyfile="src/governance/ccpa_rules.cpp" bodystart="64" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::governance::IComplianceRule</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_rule"/>
+      </node>
+      <node id="1">
+        <label>themis::governance::RightToDelete</label>
+        <link refid="classthemis_1_1governance_1_1_right_to_delete"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::governance::IComplianceRule</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_rule"/>
+      </node>
+      <node id="1">
+        <label>themis::governance::RightToDelete</label>
+        <link refid="classthemis_1_1governance_1_1_right_to_delete"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/ccpa_rules.h" line="95" column="1" bodyfile="include/governance/ccpa_rules.h" bodystart="95" bodyend="105"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_right_to_delete_1ac00a86c4775c3940cd51706d40f7ef87" prot="public" virt="virtual"><scope>themis::governance::RightToDelete</scope><name>description</name></member>
+      <member refid="classthemis_1_1governance_1_1_right_to_delete_1a0f9e10b43705e99bb90de034097d0f06" prot="public" virt="virtual"><scope>themis::governance::RightToDelete</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1governance_1_1_right_to_delete_1aa22b8f73d3dc1e6106139e78b60303de" prot="public" virt="virtual"><scope>themis::governance::RightToDelete</scope><name>framework</name></member>
+      <member refid="classthemis_1_1governance_1_1_right_to_delete_1a77431a1a2911e57893a892cfc6e1d58a" prot="public" virt="virtual"><scope>themis::governance::RightToDelete</scope><name>id</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_compliance_rule_1a6f34423b2bbde587233879f221cb63b8" prot="public" virt="virtual"><scope>themis::governance::RightToDelete</scope><name>~IComplianceRule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

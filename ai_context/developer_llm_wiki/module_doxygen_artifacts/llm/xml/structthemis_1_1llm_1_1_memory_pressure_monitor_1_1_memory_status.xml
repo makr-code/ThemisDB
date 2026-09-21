@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_memory_pressure_monitor_1_1_memory_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::MemoryPressureMonitor::MemoryStatus</compoundname>
+    <includes refid="gpu__safe__fail_8h" local="no">gpu_safe_fail.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_memory_pressure_monitor_1_1_memory_status_1ac7421bc4059f141f6c69eb9351ac489f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MemoryPressureMonitor::MemoryStatus::total_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_bytes</name>
+        <qualifiedname>themis::llm::MemoryPressureMonitor::MemoryStatus::total_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="249" column="16" bodyfile="include/llm/gpu_safe_fail.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_memory_pressure_monitor_1_1_memory_status_1a384214f6154d10e2f5b835e2e4876a52" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MemoryPressureMonitor::MemoryStatus::used_bytes</definition>
+        <argsstring></argsstring>
+        <name>used_bytes</name>
+        <qualifiedname>themis::llm::MemoryPressureMonitor::MemoryStatus::used_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="250" column="16" bodyfile="include/llm/gpu_safe_fail.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_memory_pressure_monitor_1_1_memory_status_1aae4daca7b282af0039112bb7dcb8359b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MemoryPressureMonitor::MemoryStatus::free_bytes</definition>
+        <argsstring></argsstring>
+        <name>free_bytes</name>
+        <qualifiedname>themis::llm::MemoryPressureMonitor::MemoryStatus::free_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="251" column="16" bodyfile="include/llm/gpu_safe_fail.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_memory_pressure_monitor_1_1_memory_status_1afeff3bc373324d2fe0ffdd974ecc7428" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MemoryPressureMonitor::MemoryStatus::usage_percent</definition>
+        <argsstring></argsstring>
+        <name>usage_percent</name>
+        <qualifiedname>themis::llm::MemoryPressureMonitor::MemoryStatus::usage_percent</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="252" column="15" bodyfile="include/llm/gpu_safe_fail.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_memory_pressure_monitor_1_1_memory_status_1a28e05dd19f482e13e827d99e44293ca5" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_memory_pressure_monitor_1acd2dd8537632416a8d0496a463af5eaf" kindref="member">PressureLevel</ref></type>
+        <definition>PressureLevel themis::llm::MemoryPressureMonitor::MemoryStatus::pressure</definition>
+        <argsstring></argsstring>
+        <name>pressure</name>
+        <qualifiedname>themis::llm::MemoryPressureMonitor::MemoryStatus::pressure</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1llm_1_1_memory_pressure_monitor_1acd2dd8537632416a8d0496a463af5eafa1e23852820b9154316c7c06e2b7ba051" kindref="member">PressureLevel::NORMAL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="253" column="23" bodyfile="include/llm/gpu_safe_fail.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_memory_pressure_monitor_1_1_memory_status_1a26910081fced783832cc9142ebf40172" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MemoryPressureMonitor::MemoryStatus::should_trigger_gc</definition>
+        <argsstring></argsstring>
+        <name>should_trigger_gc</name>
+        <qualifiedname>themis::llm::MemoryPressureMonitor::MemoryStatus::should_trigger_gc</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="254" column="14" bodyfile="include/llm/gpu_safe_fail.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_memory_pressure_monitor_1_1_memory_status_1a635a16ade8dc2c6dbb407e2ef726fd49" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MemoryPressureMonitor::MemoryStatus::should_block_new</definition>
+        <argsstring></argsstring>
+        <name>should_block_new</name>
+        <qualifiedname>themis::llm::MemoryPressureMonitor::MemoryStatus::should_block_new</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="255" column="14" bodyfile="include/llm/gpu_safe_fail.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/gpu_safe_fail.h" line="248" column="5" bodyfile="include/llm/gpu_safe_fail.h" bodystart="248" bodyend="256"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_memory_pressure_monitor_1_1_memory_status_1aae4daca7b282af0039112bb7dcb8359b" prot="public" virt="non-virtual"><scope>themis::llm::MemoryPressureMonitor::MemoryStatus</scope><name>free_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_memory_pressure_monitor_1_1_memory_status_1a28e05dd19f482e13e827d99e44293ca5" prot="public" virt="non-virtual"><scope>themis::llm::MemoryPressureMonitor::MemoryStatus</scope><name>pressure</name></member>
+      <member refid="structthemis_1_1llm_1_1_memory_pressure_monitor_1_1_memory_status_1a635a16ade8dc2c6dbb407e2ef726fd49" prot="public" virt="non-virtual"><scope>themis::llm::MemoryPressureMonitor::MemoryStatus</scope><name>should_block_new</name></member>
+      <member refid="structthemis_1_1llm_1_1_memory_pressure_monitor_1_1_memory_status_1a26910081fced783832cc9142ebf40172" prot="public" virt="non-virtual"><scope>themis::llm::MemoryPressureMonitor::MemoryStatus</scope><name>should_trigger_gc</name></member>
+      <member refid="structthemis_1_1llm_1_1_memory_pressure_monitor_1_1_memory_status_1ac7421bc4059f141f6c69eb9351ac489f" prot="public" virt="non-virtual"><scope>themis::llm::MemoryPressureMonitor::MemoryStatus</scope><name>total_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_memory_pressure_monitor_1_1_memory_status_1afeff3bc373324d2fe0ffdd974ecc7428" prot="public" virt="non-virtual"><scope>themis::llm::MemoryPressureMonitor::MemoryStatus</scope><name>usage_percent</name></member>
+      <member refid="structthemis_1_1llm_1_1_memory_pressure_monitor_1_1_memory_status_1a384214f6154d10e2f5b835e2e4876a52" prot="public" virt="non-virtual"><scope>themis::llm::MemoryPressureMonitor::MemoryStatus</scope><name>used_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

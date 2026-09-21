@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_plugin_dependency_graph_1_1_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::PluginDependencyGraph::Node</compoundname>
+    <includes refid="plugin__dependency__graph_8h" local="no">plugin_dependency_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_dependency_graph_1_1_node_1a1a2a03f978e3588a41da8ad2323682aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginDependencyGraph::Node::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::Node::name</qualifiedname>
+        <briefdescription>
+<para>Module/plugin name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="85" column="21" bodyfile="include/themis/base/plugin_dependency_graph.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_dependency_graph_1_1_node_1a959c79469063d4f5d34c88434fbe8125" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginDependencyGraph::Node::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::modules::PluginDependencyGraph::Node::version</qualifiedname>
+        <briefdescription>
+<para>Semantic version string (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="86" column="21" bodyfile="include/themis/base/plugin_dependency_graph.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single node in the dependency graph. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/plugin_dependency_graph.h" line="84" column="5" bodyfile="include/themis/base/plugin_dependency_graph.h" bodystart="84" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_plugin_dependency_graph_1_1_node_1a1a2a03f978e3588a41da8ad2323682aa" prot="public" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph::Node</scope><name>name</name></member>
+      <member refid="structthemis_1_1modules_1_1_plugin_dependency_graph_1_1_node_1a959c79469063d4f5d34c88434fbe8125" prot="public" virt="non-virtual"><scope>themis::modules::PluginDependencyGraph::Node</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_biometric_authenticator" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceBiometricAuthenticator</compoundname>
+    <includes refid="voice__auth_8h" local="no">voice_auth.h</includes>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_biometric_authenticator_1_1_voice_profile" prot="private">themis::voice::VoiceBiometricAuthenticator::VoiceProfile</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a7483e2e3c5ad01323bbe4da8a7a45383" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_auth_config" kindref="compound">VoiceAuthConfig</ref></type>
+        <definition>VoiceAuthConfig themis::voice::VoiceBiometricAuthenticator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="317" column="21" bodyfile="include/voice/voice_auth.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1acbce717c6dd78f48a4ea29b0691ebe0f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::voice::VoiceBiometricAuthenticator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="318" column="24" bodyfile="include/voice/voice_auth.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1af4c6bca1e8d2fa3597f58932501df082" prot="private" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref>, VoiceProfile &gt;</type>
+        <definition>std::map&lt;VoiceProfileID, VoiceProfile&gt; themis::voice::VoiceBiometricAuthenticator::profiles_</definition>
+        <argsstring></argsstring>
+        <name>profiles_</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::profiles_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="320" column="14" bodyfile="include/voice/voice_auth.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a7eb006c98da4e5c285a09478a57bf55c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref> &gt;</type>
+        <definition>std::map&lt;std::string, VoiceProfileID&gt; themis::voice::VoiceBiometricAuthenticator::user_to_profile_</definition>
+        <argsstring></argsstring>
+        <name>user_to_profile_</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::user_to_profile_</qualifiedname>
+        <briefdescription>
+<para>user_id → profile_id </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="321" column="15" bodyfile="include/voice/voice_auth.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a2d00a7096164f687b96fccdadcc89f00" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::VoiceBiometricAuthenticator::total_enrollments_</definition>
+        <argsstring></argsstring>
+        <name>total_enrollments_</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::total_enrollments_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="323" column="14" bodyfile="include/voice/voice_auth.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1acb956bc688d5c4541608287cd5ae09b3" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::VoiceBiometricAuthenticator::total_verifications_</definition>
+        <argsstring></argsstring>
+        <name>total_verifications_</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::total_verifications_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="324" column="14" bodyfile="include/voice/voice_auth.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a76b43b01ced2ff201bf9f9b8870d6cbd" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::VoiceBiometricAuthenticator::total_identifications_</definition>
+        <argsstring></argsstring>
+        <name>total_identifications_</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::total_identifications_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="325" column="14" bodyfile="include/voice/voice_auth.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1ae4e6e2225700bdd73dcf99f47f4245b5" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::VoiceBiometricAuthenticator::successful_authentications_</definition>
+        <argsstring></argsstring>
+        <name>successful_authentications_</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::successful_authentications_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="326" column="14" bodyfile="include/voice/voice_auth.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1ab248d979a98bdd4bb31f85afbd7bc800" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::VoiceBiometricAuthenticator::total_auth_audit_events_</definition>
+        <argsstring></argsstring>
+        <name>total_auth_audit_events_</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::total_auth_audit_events_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="327" column="14" bodyfile="include/voice/voice_auth.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a41dfc87bc532efebb85859b9f8b196ee" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const std::string &amp;, const <ref refid="structthemis_1_1voice_1_1_voice_auth_result" kindref="compound">VoiceAuthResult</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const std::string&amp;, const VoiceAuthResult&amp;)&gt; themis::voice::VoiceBiometricAuthenticator::auth_audit_callback_</definition>
+        <argsstring></argsstring>
+        <name>auth_audit_callback_</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::auth_audit_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="329" column="19" bodyfile="include/voice/voice_auth.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a51862d05669648d6a6a1c68c98ef5b73" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceBiometricAuthenticator::VoiceBiometricAuthenticator</definition>
+        <argsstring>(const VoiceAuthConfig &amp;config={})</argsstring>
+        <name>VoiceBiometricAuthenticator</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::VoiceBiometricAuthenticator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_voice_auth_config" kindref="compound">VoiceAuthConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct an authenticator with the given configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Runtime parameters (thresholds, feature dimension). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="174" column="14" bodyfile="src/voice/voice_authenticator.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a76ff087765eb6ea6a8a176df1de305df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceBiometricAuthenticator::~VoiceBiometricAuthenticator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VoiceBiometricAuthenticator</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::~VoiceBiometricAuthenticator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="175" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1ab5c253bc6029ec8f6e20c53d81688936" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceBiometricAuthenticator::VoiceBiometricAuthenticator</definition>
+        <argsstring>(const VoiceBiometricAuthenticator &amp;)=delete</argsstring>
+        <name>VoiceBiometricAuthenticator</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::VoiceBiometricAuthenticator</qualifiedname>
+        <param>
+          <type>const VoiceBiometricAuthenticator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="178" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a1dccb51b314f135ccf0632d3bfde0664" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a51862d05669648d6a6a1c68c98ef5b73" kindref="member">VoiceBiometricAuthenticator</ref> &amp;</type>
+        <definition>VoiceBiometricAuthenticator &amp; themis::voice::VoiceBiometricAuthenticator::operator=</definition>
+        <argsstring>(const VoiceBiometricAuthenticator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a51862d05669648d6a6a1c68c98ef5b73" kindref="member">VoiceBiometricAuthenticator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="179" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a17c0c6efccc96afdd1abfdd43ec3b6c5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceBiometricAuthenticator::VoiceBiometricAuthenticator</definition>
+        <argsstring>(VoiceBiometricAuthenticator &amp;&amp;) noexcept=default</argsstring>
+        <name>VoiceBiometricAuthenticator</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::VoiceBiometricAuthenticator</qualifiedname>
+        <param>
+          <type>VoiceBiometricAuthenticator &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="180" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a21e5e47bd5f0b378de8aa175c3880568" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a51862d05669648d6a6a1c68c98ef5b73" kindref="member">VoiceBiometricAuthenticator</ref> &amp;</type>
+        <definition>VoiceBiometricAuthenticator &amp; themis::voice::VoiceBiometricAuthenticator::operator=</definition>
+        <argsstring>(VoiceBiometricAuthenticator &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a51862d05669648d6a6a1c68c98ef5b73" kindref="member">VoiceBiometricAuthenticator</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="181" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1aafa7ba7b0fd16b824e6e4e954a0cb667" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceBiometricAuthenticator::enroll_voice</definition>
+        <argsstring>(const std::string &amp;user_id, const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;audio_samples, VoiceProfileID &amp;out_profile_id, const EnrollmentConfig &amp;config={})</argsstring>
+        <name>enroll_voice</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::enroll_voice</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>audio_samples</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref> &amp;</type>
+          <declname>out_profile_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_enrollment_config" kindref="compound">EnrollmentConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Enroll a new speaker from multiple audio samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enroll voice.</para>
+<para>Builds an average feature vector over all provided samples and stores a voice profile keyed by the generated <computeroutput>out_profile_id</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the person being enrolled. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>audio_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>At least <ref refid="structthemis_1_1voice_1_1_enrollment_config_1afe3c0a5d339b5bd536fabe240b8c7e8b" kindref="member">EnrollmentConfig::min_samples</ref> raw PCM buffers. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_profile_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Set to the new profile ID on success. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Enrollment parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false if too few samples, quality too low, or a profile already exists for <computeroutput>user_id</computeroutput>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_profile_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the out profile. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="200" column="10" bodyfile="src/voice/voice_authenticator.cpp" bodystart="54" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a84538ab024de9682efbf5abc50081e78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_verification_result" kindref="compound">VerificationResult</ref></type>
+        <definition>VerificationResult themis::voice::VoiceBiometricAuthenticator::verify_speaker</definition>
+        <argsstring>(const VoiceProfileID &amp;profile_id, const std::vector&lt; uint8_t &gt; &amp;audio_sample)</argsstring>
+        <name>verify_speaker</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::verify_speaker</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref> &amp;</type>
+          <declname>profile_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio_sample</declname>
+        </param>
+        <briefdescription>
+<para>Verify that <computeroutput>audio_sample</computeroutput> matches the given profile (1:1). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> Verification (1:1) ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>profile_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Previously enrolled profile identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>audio_sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw PCM probe audio. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1voice_1_1_verification_result" kindref="compound">VerificationResult</ref> with verified==true when match_score ≥ threshold.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the profile. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="217" column="24" bodyfile="src/voice/voice_authenticator.cpp" bodystart="161" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a8b4abaaab6d6c2910d46e95c7b7d7074" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_identification_result" kindref="compound">IdentificationResult</ref></type>
+        <definition>IdentificationResult themis::voice::VoiceBiometricAuthenticator::identify_speaker</definition>
+        <argsstring>(const std::vector&lt; VoiceProfileID &gt; &amp;candidate_profiles, const std::vector&lt; uint8_t &gt; &amp;audio_sample)</argsstring>
+        <name>identify_speaker</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::identify_speaker</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref> &gt; &amp;</type>
+          <declname>candidate_profiles</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio_sample</declname>
+        </param>
+        <briefdescription>
+<para>Search for the speaker among a set of candidate profiles (1:N). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> Identification (1:N) ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>candidate_profiles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Profiles to compare against. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>audio_sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw PCM probe audio. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1voice_1_1_identification_result" kindref="compound">IdentificationResult</ref> with all matches above the identification threshold, sorted by score descending.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">candidate_profiles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="229" column="26" bodyfile="src/voice/voice_authenticator.cpp" bodystart="205" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1af7eaeb5ec9a0c9fad4ae8af5b38b4ef4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_liveness_score" kindref="compound">LivenessScore</ref></type>
+        <definition>LivenessScore themis::voice::VoiceBiometricAuthenticator::detect_liveness</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio_sample)</argsstring>
+        <name>detect_liveness</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::detect_liveness</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio_sample</declname>
+        </param>
+        <briefdescription>
+<para>Detect liveness: distinguish live speech from replay/synthesis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect liveness.</para>
+<para>Uses fail-closed heuristics for clipped, low-variability, and replay-like PCM patterns before combining crest factor and spectral flatness signals. A future neural anti-spoofing model can replace this method without API changes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audio_sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw PCM audio. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1voice_1_1_liveness_score" kindref="compound">LivenessScore</ref> with is_live==true when the sample appears genuine.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="244" column="19" bodyfile="src/voice/voice_authenticator.cpp" bodystart="269" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1aba803f97105f71c7020025a147a38941" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_auth_result" kindref="compound">VoiceAuthResult</ref></type>
+        <definition>VoiceAuthResult themis::voice::VoiceBiometricAuthenticator::authenticate</definition>
+        <argsstring>(const std::string &amp;user_id, const std::vector&lt; uint8_t &gt; &amp;audio_sample)</argsstring>
+        <name>authenticate</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::authenticate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio_sample</declname>
+        </param>
+        <briefdescription>
+<para>Full biometric authentication: liveness check + 1:1 verification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Authenticate.</para>
+<para>Looks up the profile associated with <computeroutput>user_id</computeroutput>, runs liveness detection, then verifies the speaker. Returns authenticated==true only if both checks pass.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User claiming identity. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>audio_sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw PCM probe audio. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1voice_1_1_voice_auth_result" kindref="compound">VoiceAuthResult</ref> with authenticated==true on full success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Authentication result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="257" column="21" bodyfile="src/voice/voice_authenticator.cpp" bodystart="458" bodyend="546"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1ae8e184e728655a5d67849b4f109757da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceBiometricAuthenticator::delete_profile</definition>
+        <argsstring>(const VoiceProfileID &amp;profile_id)</argsstring>
+        <name>delete_profile</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::delete_profile</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref> &amp;</type>
+          <declname>profile_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete a voice profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete profile.</para>
+<para><simplesect kind="return"><para>true if the profile existed and was removed; false otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the profile. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="269" column="10" bodyfile="src/voice/voice_authenticator.cpp" bodystart="557" bodyend="573"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1aa17384bd0a15ee20e5082bf8c99095cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceBiometricAuthenticator::has_profile</definition>
+        <argsstring>(const VoiceProfileID &amp;profile_id) const</argsstring>
+        <name>has_profile</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::has_profile</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref> &amp;</type>
+          <declname>profile_id</declname>
+        </param>
+        <briefdescription>
+<para>Return true if the given profile ID exists. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="272" column="10" bodyfile="src/voice/voice_authenticator.cpp" bodystart="575" bodyend="585"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a65a8926c5bdec453df638d8a8c7e00de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref> &gt;</type>
+        <definition>std::vector&lt; VoiceProfileID &gt; themis::voice::VoiceBiometricAuthenticator::list_profiles</definition>
+        <argsstring>() const</argsstring>
+        <name>list_profiles</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::list_profiles</qualifiedname>
+        <briefdescription>
+<para>List all registered profile IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="275" column="17" bodyfile="src/voice/voice_authenticator.cpp" bodystart="587" bodyend="601"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a1c370c6ee5081ad55fcb00a27aa41b71" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::voice::VoiceBiometricAuthenticator::get_user_id</definition>
+        <argsstring>(const VoiceProfileID &amp;profile_id) const</argsstring>
+        <name>get_user_id</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::get_user_id</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref> &amp;</type>
+          <declname>profile_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the user_id associated with a profile, if it exists. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="278" column="19" bodyfile="src/voice/voice_authenticator.cpp" bodystart="603" bodyend="617"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a92ec9b098be2bb055f7b7f89ba627547" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceBiometricAuthenticator::set_config</definition>
+        <argsstring>(const VoiceAuthConfig &amp;config)</argsstring>
+        <name>set_config</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::set_config</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_voice_auth_config" kindref="compound">VoiceAuthConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update runtime configuration (thread-safe). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="285" column="10" bodyfile="src/voice/voice_authenticator.cpp" bodystart="628" bodyend="631"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a749078d45751e701182c56664ea5225d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_auth_config" kindref="compound">VoiceAuthConfig</ref></type>
+        <definition>VoiceAuthConfig themis::voice::VoiceBiometricAuthenticator::get_config</definition>
+        <argsstring>() const</argsstring>
+        <name>get_config</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::get_config</qualifiedname>
+        <briefdescription>
+<para>Return a copy of the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="288" column="21" bodyfile="src/voice/voice_authenticator.cpp" bodystart="645" bodyend="653"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1aa204a4dfa7dea35b3452de3a827787f0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::VoiceBiometricAuthenticator::get_statistics</definition>
+        <argsstring>() const</argsstring>
+        <name>get_statistics</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::get_statistics</qualifiedname>
+        <briefdescription>
+<para>Return JSON statistics (profiles enrolled, verifications, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="291" column="10" bodyfile="src/voice/voice_authenticator.cpp" bodystart="655" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a490c1d3f887312b53647939abbc35d49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceBiometricAuthenticator::setAuthAuditCallback</definition>
+        <argsstring>(std::function&lt; void(const std::string &amp;, const VoiceAuthResult &amp;)&gt; callback)</argsstring>
+        <name>setAuthAuditCallback</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::setAuthAuditCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const std::string &amp;, const <ref refid="structthemis_1_1voice_1_1_voice_auth_result" kindref="compound">VoiceAuthResult</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register an optional callback for every <ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1aba803f97105f71c7020025a147a38941" kindref="member">authenticate()</ref> outcome. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callback is invoked for both successful and failed authentication attempts and receives the claimed <computeroutput>user_id</computeroutput> plus the resulting decision. The callback is executed after internal counters are updated and outside the internal mutex.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback(claimed_user_id, result). Pass nullptr to clear. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="303" column="10" bodyfile="src/voice/voice_authenticator.cpp" bodystart="633" bodyend="643"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1aa7931866e7f9ef52f664bd0d891c1ffa" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::voice::VoiceBiometricAuthenticator::extractFeatures</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio) const</argsstring>
+        <name>extractFeatures</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::extractFeatures</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="332" column="17" bodyfile="src/voice/voice_authenticator.cpp" bodystart="706" bodyend="841"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1aa87c9e90bdc7314d818a4281547f4a1d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::voice::VoiceBiometricAuthenticator::pcmToFloat</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;raw) const</argsstring>
+        <name>pcmToFloat</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::pcmToFloat</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>raw</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Out. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="333" column="17" bodyfile="src/voice/voice_authenticator.cpp" bodystart="843" bodyend="861"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a1ccf3071343e2e8d83d809baeb8d0b61" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceBiometricAuthenticator::l2Normalize</definition>
+        <argsstring>(std::vector&lt; float &gt; &amp;vec) const</argsstring>
+        <name>l2Normalize</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::l2Normalize</qualifiedname>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="334" column="24" bodyfile="src/voice/voice_authenticator.cpp" bodystart="863" bodyend="875"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1ad74480991043a09e54d8aaf1eea074ba" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::voice::VoiceBiometricAuthenticator::cosineSimilarity</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, const std::vector&lt; float &gt; &amp;b) const</argsstring>
+        <name>cosineSimilarity</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::cosineSimilarity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="337" column="11" bodyfile="src/voice/voice_authenticator.cpp" bodystart="877" bodyend="898"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a03fe7489abb8e116b6b8f161eabd7352" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::voice::VoiceBiometricAuthenticator::computeAudioQuality</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;samples) const</argsstring>
+        <name>computeAudioQuality</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::computeAudioQuality</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="339" column="11" bodyfile="src/voice/voice_authenticator.cpp" bodystart="900" bodyend="929"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a743606ba0faa589afddb5b119571163c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceBiometricAuthenticator::nowMs</definition>
+        <argsstring>() const</argsstring>
+        <name>nowMs</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::nowMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="342" column="17" bodyfile="src/voice/voice_authenticator.cpp" bodystart="935" bodyend="939"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1acdcd52519b7a1160893f1b2a001cde27" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceBiometricAuthenticator::generateProfileId</definition>
+        <argsstring>(const std::string &amp;user_id) const</argsstring>
+        <name>generateProfileId</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::generateProfileId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="343" column="17" bodyfile="src/voice/voice_authenticator.cpp" bodystart="941" bodyend="950"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a6a4aa701cfea5294a35afd1d8f7669c6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceBiometricAuthenticator::emitAuthAuditEvent</definition>
+        <argsstring>(const std::string &amp;claimed_user_id, const VoiceAuthResult &amp;result)</argsstring>
+        <name>emitAuthAuditEvent</name>
+        <qualifiedname>themis::voice::VoiceBiometricAuthenticator::emitAuthAuditEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>claimed_user_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_voice_auth_result" kindref="compound">VoiceAuthResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Emit Auth Audit Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">claimed_user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the claimed user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="344" column="17" bodyfile="src/voice/voice_authenticator.cpp" bodystart="677" bodyend="700"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Voice biometric authentication: enrollment, verification, identification. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe. All public methods acquire an internal mutex.</para>
+<sect1 id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1autotoc_md13_1s1"><sect2 id="classthemis_1_1voice_1_1_voice_biometric_authenticator_1autotoc_md13">
+<title>Feature extraction</title><para>Each audio sample is converted to 16-bit PCM floats, split into 8 equal sub-bands, and the following per-band statistics are computed:<itemizedlist>
+<listitem><para>RMS energy (8 values)</para>
+</listitem><listitem><para>Zero-crossing rate (8 values) Plus four global spectral-moment features (centroid, spread, skewness, kurtosis) and four temporal features (global RMS, crest factor, peak energy, spectral flatness), totalling 24 base features. Eight delta features (consecutive sub-band RMS differences) are appended to reach 32 dimensions.</para>
+</listitem></itemizedlist>
+</para>
+<para>Profiles are stored as the L2-normalised average over all enrollment samples. Verification uses cosine similarity between the normalised probe vector and the stored profile vector. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/voice/voice_auth.h" line="168" column="1" bodyfile="include/voice/voice_auth.h" bodystart="168" bodyend="347"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a41dfc87bc532efebb85859b9f8b196ee" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>auth_audit_callback_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1aba803f97105f71c7020025a147a38941" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>authenticate</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a03fe7489abb8e116b6b8f161eabd7352" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>computeAudioQuality</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a7483e2e3c5ad01323bbe4da8a7a45383" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1ad74480991043a09e54d8aaf1eea074ba" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>cosineSimilarity</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1ae8e184e728655a5d67849b4f109757da" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>delete_profile</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1af7eaeb5ec9a0c9fad4ae8af5b38b4ef4" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>detect_liveness</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a6a4aa701cfea5294a35afd1d8f7669c6" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>emitAuthAuditEvent</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1aafa7ba7b0fd16b824e6e4e954a0cb667" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>enroll_voice</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1aa7931866e7f9ef52f664bd0d891c1ffa" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>extractFeatures</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1acdcd52519b7a1160893f1b2a001cde27" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>generateProfileId</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a749078d45751e701182c56664ea5225d" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>get_config</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1aa204a4dfa7dea35b3452de3a827787f0" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>get_statistics</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a1c370c6ee5081ad55fcb00a27aa41b71" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>get_user_id</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1aa17384bd0a15ee20e5082bf8c99095cf" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>has_profile</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a8b4abaaab6d6c2910d46e95c7b7d7074" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>identify_speaker</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a1ccf3071343e2e8d83d809baeb8d0b61" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>l2Normalize</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a65a8926c5bdec453df638d8a8c7e00de" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>list_profiles</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1acbce717c6dd78f48a4ea29b0691ebe0f" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a743606ba0faa589afddb5b119571163c" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>nowMs</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a1dccb51b314f135ccf0632d3bfde0664" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a21e5e47bd5f0b378de8aa175c3880568" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1aa87c9e90bdc7314d818a4281547f4a1d" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>pcmToFloat</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1af4c6bca1e8d2fa3597f58932501df082" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>profiles_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a92ec9b098be2bb055f7b7f89ba627547" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>set_config</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a490c1d3f887312b53647939abbc35d49" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>setAuthAuditCallback</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1ae4e6e2225700bdd73dcf99f47f4245b5" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>successful_authentications_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1ab248d979a98bdd4bb31f85afbd7bc800" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>total_auth_audit_events_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a2d00a7096164f687b96fccdadcc89f00" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>total_enrollments_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a76b43b01ced2ff201bf9f9b8870d6cbd" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>total_identifications_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1acb956bc688d5c4541608287cd5ae09b3" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>total_verifications_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a7eb006c98da4e5c285a09478a57bf55c" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>user_to_profile_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a84538ab024de9682efbf5abc50081e78" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>verify_speaker</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a51862d05669648d6a6a1c68c98ef5b73" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>VoiceBiometricAuthenticator</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1ab5c253bc6029ec8f6e20c53d81688936" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>VoiceBiometricAuthenticator</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a17c0c6efccc96afdd1abfdd43ec3b6c5" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>VoiceBiometricAuthenticator</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a76ff087765eb6ea6a8a176df1de305df" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBiometricAuthenticator</scope><name>~VoiceBiometricAuthenticator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

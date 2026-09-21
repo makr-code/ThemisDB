@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1wire_1_1_v2_connection_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::wire::V2ConnectionConfig</compoundname>
+    <includes refid="wire__protocol__v2_8hpp" local="no">wire_protocol_v2.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_connection_config_1a69ae31c6c3a58200157523073ec305ea" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::wire::V2ConnectionConfig::max_concurrent_streams</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_streams</name>
+        <qualifiedname>themis::wire::V2ConnectionConfig::max_concurrent_streams</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="165" column="14" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_connection_config_1af1e595877379d3feec6cba7b22f940b8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::wire::V2ConnectionConfig::initial_window_size</definition>
+        <argsstring></argsstring>
+        <name>initial_window_size</name>
+        <qualifiedname>themis::wire::V2ConnectionConfig::initial_window_size</qualifiedname>
+        <initializer>= static_cast&lt;uint32_t&gt;(<ref refid="namespacethemis_1_1wire_1aafbbb9af3441c350520973d6002377df" kindref="member">V2_DEFAULT_WINDOW</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="166" column="14" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_connection_config_1a5eda52d8b8fde6bbf1dcc55fe9f32bd7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::wire::V2ConnectionConfig::max_frame_size</definition>
+        <argsstring></argsstring>
+        <name>max_frame_size</name>
+        <qualifiedname>themis::wire::V2ConnectionConfig::max_frame_size</qualifiedname>
+        <initializer>= static_cast&lt;uint32_t&gt;(<ref refid="namespacethemis_1_1wire_1a689418cf57a0f397d47b549b8a12e838" kindref="member">V2_MAX_PAYLOAD</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="167" column="14" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_connection_config_1a9e1fde4ca05132b3ea7af9cd3af3033c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::wire::V2ConnectionConfig::enable_server_push</definition>
+        <argsstring></argsstring>
+        <name>enable_server_push</name>
+        <qualifiedname>themis::wire::V2ConnectionConfig::enable_server_push</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="168" column="14" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_connection_config_1a57fd6983fbf3e950822753fe3f3a1d68" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::wire::V2ConnectionConfig::enable_flow_control</definition>
+        <argsstring></argsstring>
+        <name>enable_flow_control</name>
+        <qualifiedname>themis::wire::V2ConnectionConfig::enable_flow_control</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="169" column="14" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_connection_config_1a11cb2c98aea39ad7610f38c443403ea2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::wire::V2ConnectionConfig::enable_lz4_compression</definition>
+        <argsstring></argsstring>
+        <name>enable_lz4_compression</name>
+        <qualifiedname>themis::wire::V2ConnectionConfig::enable_lz4_compression</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="170" column="14" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_connection_config_1ae745eac4d89f8264a880dd6f196cc8b3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::wire::V2ConnectionConfig::enable_zstd_compression</definition>
+        <argsstring></argsstring>
+        <name>enable_zstd_compression</name>
+        <qualifiedname>themis::wire::V2ConnectionConfig::enable_zstd_compression</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Zstd overrides LZ4 when both enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="171" column="14" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_connection_config_1a57701ff3dbf3a2ecbbf82b19ccdeb4a1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::wire::V2ConnectionConfig::zstd_compression_level</definition>
+        <argsstring></argsstring>
+        <name>zstd_compression_level</name>
+        <qualifiedname>themis::wire::V2ConnectionConfig::zstd_compression_level</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Zstd compression level (1–22). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="172" column="14" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_connection_config_1a259d770196680ac50959066cb2f0fd33" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::wire::V2ConnectionConfig::min_compression_payload_size</definition>
+        <argsstring></argsstring>
+        <name>min_compression_payload_size</name>
+        <qualifiedname>themis::wire::V2ConnectionConfig::min_compression_payload_size</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Skip compression for smaller payloads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="173" column="14" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_connection_config_1ae5238af4300addfa0b7242070db0131b" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::wire::V2ConnectionConfig::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::wire::V2ConnectionConfig::port</qualifiedname>
+        <initializer>= 7890</initializer>
+        <briefdescription>
+<para>Default V2 protocol port. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="174" column="14" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1wire_1_1_v2_connection_config_1aaf2df5dd2b5e29c6b7a351bf200986eb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::wire::V2ConnectionConfig::num_io_threads</definition>
+        <argsstring></argsstring>
+        <name>num_io_threads</name>
+        <qualifiedname>themis::wire::V2ConnectionConfig::num_io_threads</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="175" column="14" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="175" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/network/wire_protocol_v2.hpp" line="164" column="1" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="164" bodyend="176"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1wire_1_1_v2_connection_config_1a57fd6983fbf3e950822753fe3f3a1d68" prot="public" virt="non-virtual"><scope>themis::wire::V2ConnectionConfig</scope><name>enable_flow_control</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_connection_config_1a11cb2c98aea39ad7610f38c443403ea2" prot="public" virt="non-virtual"><scope>themis::wire::V2ConnectionConfig</scope><name>enable_lz4_compression</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_connection_config_1a9e1fde4ca05132b3ea7af9cd3af3033c" prot="public" virt="non-virtual"><scope>themis::wire::V2ConnectionConfig</scope><name>enable_server_push</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_connection_config_1ae745eac4d89f8264a880dd6f196cc8b3" prot="public" virt="non-virtual"><scope>themis::wire::V2ConnectionConfig</scope><name>enable_zstd_compression</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_connection_config_1af1e595877379d3feec6cba7b22f940b8" prot="public" virt="non-virtual"><scope>themis::wire::V2ConnectionConfig</scope><name>initial_window_size</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_connection_config_1a69ae31c6c3a58200157523073ec305ea" prot="public" virt="non-virtual"><scope>themis::wire::V2ConnectionConfig</scope><name>max_concurrent_streams</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_connection_config_1a5eda52d8b8fde6bbf1dcc55fe9f32bd7" prot="public" virt="non-virtual"><scope>themis::wire::V2ConnectionConfig</scope><name>max_frame_size</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_connection_config_1a259d770196680ac50959066cb2f0fd33" prot="public" virt="non-virtual"><scope>themis::wire::V2ConnectionConfig</scope><name>min_compression_payload_size</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_connection_config_1aaf2df5dd2b5e29c6b7a351bf200986eb" prot="public" virt="non-virtual"><scope>themis::wire::V2ConnectionConfig</scope><name>num_io_threads</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_connection_config_1ae5238af4300addfa0b7242070db0131b" prot="public" virt="non-virtual"><scope>themis::wire::V2ConnectionConfig</scope><name>port</name></member>
+      <member refid="structthemis_1_1wire_1_1_v2_connection_config_1a57701ff3dbf3a2ecbbf82b19ccdeb4a1" prot="public" virt="non-virtual"><scope>themis::wire::V2ConnectionConfig</scope><name>zstd_compression_level</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

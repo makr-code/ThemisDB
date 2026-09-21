@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_0a305c063173bfbd162979374ff696a4" kind="dir">
+    <compoundname>include/training</compoundname>
+    <innerfile refid="ada__lora__adapter_8h">ada_lora_adapter.h</innerfile>
+    <innerfile refid="adalora__tt__bridge_8h">adalora_tt_bridge.h</innerfile>
+    <innerfile refid="adapter__serving_8h">adapter_serving.h</innerfile>
+    <innerfile refid="auto__labeler_8h">auto_labeler.h</innerfile>
+    <innerfile refid="database__domain__auto__labeler_8h">database_domain_auto_labeler.h</innerfile>
+    <innerfile refid="incremental__lora__trainer_8h">incremental_lora_trainer.h</innerfile>
+    <innerfile refid="knowledge__graph__enricher_8h">knowledge_graph_enricher.h</innerfile>
+    <innerfile refid="lora__adapter_8h">lora_adapter.h</innerfile>
+    <innerfile refid="lora__adapter__merger_8h">lora_adapter_merger.h</innerfile>
+    <innerfile refid="lora__checkpoint__manager_8h">lora_checkpoint_manager.h</innerfile>
+    <innerfile refid="lora__data__selection_8h">lora_data_selection.h</innerfile>
+    <innerfile refid="modality__parser_8h">modality_parser.h</innerfile>
+    <innerfile refid="multi__task__lora_8h">multi_task_lora.h</innerfile>
+    <innerfile refid="provenance__tracker_8h">provenance_tracker.h</innerfile>
+    <innerfile refid="training__error__codes_8h">training_error_codes.h</innerfile>
+    <innerfile refid="training__error__diagnostics_8h">training_error_diagnostics.h</innerfile>
+    <innerfile refid="training__exceptions_8h">training_exceptions.h</innerfile>
+    <innerfile refid="training__failsafe_8h">training_failsafe.h</innerfile>
+    <innerfile refid="training__incident__emitter_8h">training_incident_emitter.h</innerfile>
+    <innerfile refid="training__interfaces_8h">training_interfaces.h</innerfile>
+    <innerfile refid="training__pipeline_8h">training_pipeline.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/"/>
+  </compounddef>
+</doxygen>

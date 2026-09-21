@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_scoped_e_v_p_key" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ScopedEVPKey</compoundname>
+    <includes refid="raii__wrappers_8h" local="no">raii_wrappers.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_scoped_e_v_p_key_1aa1c3ac13c4421d878389294a5cfeec7e" prot="private" static="no" mutable="no">
+        <type><ref refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" kindref="member">EVP_PKEY</ref> *</type>
+        <definition>EVP_PKEY* themis::llm::ScopedEVPKey::pkey_</definition>
+        <argsstring></argsstring>
+        <name>pkey_</name>
+        <qualifiedname>themis::llm::ScopedEVPKey::pkey_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="260" column="14" bodyfile="include/llm/raii_wrappers.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a3e7ae2b7b31a68899b782f4f02654259" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedEVPKey::ScopedEVPKey</definition>
+        <argsstring>(EVP_PKEY *pkey=nullptr) noexcept</argsstring>
+        <name>ScopedEVPKey</name>
+        <qualifiedname>themis::llm::ScopedEVPKey::ScopedEVPKey</qualifiedname>
+        <param>
+          <type><ref refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" kindref="member">EVP_PKEY</ref> *</type>
+          <declname>pkey</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct from EVP_PKEY* (takes ownership). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="215" column="14" bodyfile="include/llm/raii_wrappers.h" bodystart="215" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a8645bf486d8deac3368a5b416d28c6af" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedEVPKey::~ScopedEVPKey</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ScopedEVPKey</name>
+        <qualifiedname>themis::llm::ScopedEVPKey::~ScopedEVPKey</qualifiedname>
+        <briefdescription>
+<para>Destructor: frees <ref refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" kindref="member">EVP_PKEY</ref> if not null. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="218" column="5" bodyfile="include/llm/raii_wrappers.h" bodystart="218" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a9a541a86f4e98bc6b24a9cbf8be92e8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedEVPKey::ScopedEVPKey</definition>
+        <argsstring>(const ScopedEVPKey &amp;)=delete</argsstring>
+        <name>ScopedEVPKey</name>
+        <qualifiedname>themis::llm::ScopedEVPKey::ScopedEVPKey</qualifiedname>
+        <param>
+          <type>const ScopedEVPKey &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="226" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a5439cb231d275ecfafd5f10bc3a03460" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a3e7ae2b7b31a68899b782f4f02654259" kindref="member">ScopedEVPKey</ref> &amp;</type>
+        <definition>ScopedEVPKey &amp; themis::llm::ScopedEVPKey::operator=</definition>
+        <argsstring>(const ScopedEVPKey &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ScopedEVPKey::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a3e7ae2b7b31a68899b782f4f02654259" kindref="member">ScopedEVPKey</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="227" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a50c08b6cc7bb6a35c549c6c6edfafd8f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedEVPKey::ScopedEVPKey</definition>
+        <argsstring>(ScopedEVPKey &amp;&amp;other) noexcept</argsstring>
+        <name>ScopedEVPKey</name>
+        <qualifiedname>themis::llm::ScopedEVPKey::ScopedEVPKey</qualifiedname>
+        <param>
+          <type>ScopedEVPKey &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="230" column="5" bodyfile="include/llm/raii_wrappers.h" bodystart="230" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_key_1ab3f14869124b76bed3e080288474e51f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a3e7ae2b7b31a68899b782f4f02654259" kindref="member">ScopedEVPKey</ref> &amp;</type>
+        <definition>ScopedEVPKey &amp; themis::llm::ScopedEVPKey::operator=</definition>
+        <argsstring>(ScopedEVPKey &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ScopedEVPKey::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a3e7ae2b7b31a68899b782f4f02654259" kindref="member">ScopedEVPKey</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move assignment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="233" column="18" bodyfile="include/llm/raii_wrappers.h" bodystart="233" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_key_1afca8bc428192535024e5f3405b7fbd62" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" kindref="member">EVP_PKEY</ref> *</type>
+        <definition>EVP_PKEY * themis::llm::ScopedEVPKey::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::llm::ScopedEVPKey::get</qualifiedname>
+        <briefdescription>
+<para>Get the underlying EVP_PKEY*. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="239" column="14" bodyfile="include/llm/raii_wrappers.h" bodystart="239" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a9dcc053c8599d4d4ec2e208f5e5d577c" prot="public" static="no" const="yes" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedEVPKey::operator bool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::llm::ScopedEVPKey::operator bool</qualifiedname>
+        <briefdescription>
+<para>Explicit conversion to bool. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="242" column="14" bodyfile="include/llm/raii_wrappers.h" bodystart="242" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a195cebf196720657d7bda97697add620" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" kindref="member">EVP_PKEY</ref> *</type>
+        <definition>EVP_PKEY * themis::llm::ScopedEVPKey::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::llm::ScopedEVPKey::release</qualifiedname>
+        <briefdescription>
+<para>Release ownership without freeing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="245" column="14" bodyfile="include/llm/raii_wrappers.h" bodystart="245" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a11ec3cbf791b286faefb7cd788c9334d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ScopedEVPKey::reset</definition>
+        <argsstring>(EVP_PKEY *pkey=nullptr) noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::llm::ScopedEVPKey::reset</qualifiedname>
+        <param>
+          <type><ref refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" kindref="member">EVP_PKEY</ref> *</type>
+          <declname>pkey</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Free and reset to nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="252" column="10" bodyfile="include/llm/raii_wrappers.h" bodystart="252" bodyend="257"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper for OpenSSL <ref refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" kindref="member">EVP_PKEY</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Automatically frees the <ref refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" kindref="member">EVP_PKEY</ref> on destruction via EVP_PKEY_free. Supports move semantics.</para>
+<para>Exception-safe: destructor is noexcept.</para>
+<para>Example: <programlisting><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a3e7ae2b7b31a68899b782f4f02654259" kindref="member">ScopedEVPKey</ref><sp/>key(PEM_read_bio_PrivateKey(bio,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!key)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>read<sp/>key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>EVP_PKEY_free()<sp/>automatically<sp/>called<sp/>here</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/llm/raii_wrappers.h" line="212" column="1" bodyfile="include/llm/raii_wrappers.h" bodystart="212" bodyend="261"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1afca8bc428192535024e5f3405b7fbd62" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPKey</scope><name>get</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a9dcc053c8599d4d4ec2e208f5e5d577c" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPKey</scope><name>operator bool</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a5439cb231d275ecfafd5f10bc3a03460" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPKey</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1ab3f14869124b76bed3e080288474e51f" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPKey</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1aa1c3ac13c4421d878389294a5cfeec7e" prot="private" virt="non-virtual"><scope>themis::llm::ScopedEVPKey</scope><name>pkey_</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a195cebf196720657d7bda97697add620" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPKey</scope><name>release</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a11ec3cbf791b286faefb7cd788c9334d" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPKey</scope><name>reset</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a3e7ae2b7b31a68899b782f4f02654259" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPKey</scope><name>ScopedEVPKey</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a9a541a86f4e98bc6b24a9cbf8be92e8c" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPKey</scope><name>ScopedEVPKey</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a50c08b6cc7bb6a35c549c6c6edfafd8f" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPKey</scope><name>ScopedEVPKey</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_key_1a8645bf486d8deac3368a5b416d28c6af" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPKey</scope><name>~ScopedEVPKey</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

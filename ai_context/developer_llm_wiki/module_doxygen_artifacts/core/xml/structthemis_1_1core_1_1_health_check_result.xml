@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1_health_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::core::HealthCheckResult</compoundname>
+    <includes refid="health__probe_8h" local="no">health_probe.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1_health_check_result_1ac6b54c94e7171fb4ca2d2b43253a29cd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::HealthCheckResult::component_name</definition>
+        <argsstring></argsstring>
+        <name>component_name</name>
+        <qualifiedname>themis::core::HealthCheckResult::component_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/health_probe.h" line="38" column="18" bodyfile="include/core/health_probe.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1_health_check_result_1acd3af23e097c3ae42d4263b4fff559e4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2e" kindref="member">HealthStatus</ref></type>
+        <definition>HealthStatus themis::core::HealthCheckResult::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::core::HealthCheckResult::status</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2ea696b031073e74bf2cb98e5ef201d4aa3" kindref="member">HealthStatus::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/health_probe.h" line="39" column="18" bodyfile="include/core/health_probe.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1_health_check_result_1ac39b908870728266976925d76a460c13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::HealthCheckResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::core::HealthCheckResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/health_probe.h" line="40" column="18" bodyfile="include/core/health_probe.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1_health_check_result_1a681734919f1ee4506b4c0c8a8f1949f2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::core::HealthCheckResult::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::core::HealthCheckResult::latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/health_probe.h" line="41" column="18" bodyfile="include/core/health_probe.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1_health_check_result_1a9b58c54058b88db0d3fd25357bf29102" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::core::HealthCheckResult::checked_at</definition>
+        <argsstring></argsstring>
+        <name>checked_at</name>
+        <qualifiedname>themis::core::HealthCheckResult::checked_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/health_probe.h" line="42" column="43" bodyfile="include/core/health_probe.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1_health_check_result_1a262c0e7955f8245f1992e503e216ea0e" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::core::HealthCheckResult::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::core::HealthCheckResult::details</qualifiedname>
+        <briefdescription>
+<para>Arbitrary key-value diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/health_probe.h" line="43" column="14" bodyfile="include/core/health_probe.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/health_probe.h" line="37" column="1" bodyfile="include/core/health_probe.h" bodystart="37" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1_health_check_result_1a9b58c54058b88db0d3fd25357bf29102" prot="public" virt="non-virtual"><scope>themis::core::HealthCheckResult</scope><name>checked_at</name></member>
+      <member refid="structthemis_1_1core_1_1_health_check_result_1ac6b54c94e7171fb4ca2d2b43253a29cd" prot="public" virt="non-virtual"><scope>themis::core::HealthCheckResult</scope><name>component_name</name></member>
+      <member refid="structthemis_1_1core_1_1_health_check_result_1a262c0e7955f8245f1992e503e216ea0e" prot="public" virt="non-virtual"><scope>themis::core::HealthCheckResult</scope><name>details</name></member>
+      <member refid="structthemis_1_1core_1_1_health_check_result_1a681734919f1ee4506b4c0c8a8f1949f2" prot="public" virt="non-virtual"><scope>themis::core::HealthCheckResult</scope><name>latency_ms</name></member>
+      <member refid="structthemis_1_1core_1_1_health_check_result_1ac39b908870728266976925d76a460c13" prot="public" virt="non-virtual"><scope>themis::core::HealthCheckResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1core_1_1_health_check_result_1acd3af23e097c3ae42d4263b4fff559e4" prot="public" virt="non-virtual"><scope>themis::core::HealthCheckResult</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

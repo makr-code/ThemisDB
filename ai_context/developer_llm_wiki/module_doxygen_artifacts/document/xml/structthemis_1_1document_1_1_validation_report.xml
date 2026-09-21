@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1document_1_1_validation_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::document::ValidationReport</compoundname>
+    <includes refid="document__schema__evolution_8h" local="no">document_schema_evolution.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_validation_report_1ad70b5b68be60199cd7518c2d67b132d7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref></type>
+        <definition>DocumentId themis::document::ValidationReport::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::document::ValidationReport::document_id</qualifiedname>
+        <briefdescription>
+<para>Document that was validated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="102" column="32" bodyfile="include/document/document_schema_evolution.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_validation_report_1a337659286f55915b3f34d63b6865d342" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1document_1a6fc149b60d2235ab81213ad5634d7d9b" kindref="member">SchemaVersion</ref></type>
+        <definition>SchemaVersion themis::document::ValidationReport::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::document::ValidationReport::version</qualifiedname>
+        <briefdescription>
+<para>Schema version used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="103" column="32" bodyfile="include/document/document_schema_evolution.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_validation_report_1a4513ffb268debdf20ccd3cde6d3a0d7f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1document_1_1_field_violation" kindref="compound">FieldViolation</ref> &gt;</type>
+        <definition>std::vector&lt;FieldViolation&gt; themis::document::ValidationReport::violations</definition>
+        <argsstring></argsstring>
+        <name>violations</name>
+        <qualifiedname>themis::document::ValidationReport::violations</qualifiedname>
+        <briefdescription>
+<para>Empty ⟹ valid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="104" column="17" bodyfile="include/document/document_schema_evolution.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1document_1_1_validation_report_1a1d62c12e2fb7cfea455ca72b55451344" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::document::ValidationReport::isValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::document::ValidationReport::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="106" column="10" bodyfile="include/document/document_schema_evolution.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/document_schema_evolution.h" line="101" column="1" bodyfile="include/document/document_schema_evolution.h" bodystart="101" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1document_1_1_validation_report_1ad70b5b68be60199cd7518c2d67b132d7" prot="public" virt="non-virtual"><scope>themis::document::ValidationReport</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1document_1_1_validation_report_1a1d62c12e2fb7cfea455ca72b55451344" prot="public" virt="non-virtual"><scope>themis::document::ValidationReport</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1document_1_1_validation_report_1a337659286f55915b3f34d63b6865d342" prot="public" virt="non-virtual"><scope>themis::document::ValidationReport</scope><name>version</name></member>
+      <member refid="structthemis_1_1document_1_1_validation_report_1a4513ffb268debdf20ccd3cde6d3a0d7f" prot="public" virt="non-virtual"><scope>themis::document::ValidationReport</scope><name>violations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

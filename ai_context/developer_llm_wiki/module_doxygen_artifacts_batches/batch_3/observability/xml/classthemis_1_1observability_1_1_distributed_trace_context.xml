@@ -1,0 +1,443 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_distributed_trace_context" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::DistributedTraceContext</compoundname>
+    <includes refid="distributed__tracing__sdk_8h" local="no">distributed_tracing_sdk.h</includes>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1observability_1_1_distributed_trace_context_1a98b19911ae2c5e9e50bdbf5de5480fab" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class DistributedTracingSDK</definition>
+        <argsstring></argsstring>
+        <name>DistributedTracingSDK</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::DistributedTracingSDK</qualifiedname>
+        <param>
+          <type>DistributedTracingSDK</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="91" column="18" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_context_1aa3a01eeb377d2bb2d9fa0b9326dc4dc4" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DistributedTraceContext::trace_id_</definition>
+        <argsstring></argsstring>
+        <name>trace_id_</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::trace_id_</qualifiedname>
+        <briefdescription>
+<para>128-bit trace ID as hex string </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="193" column="17" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_context_1abf2ce6d31cf03e7f203dd232dcdca315" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DistributedTraceContext::parent_span_id_</definition>
+        <argsstring></argsstring>
+        <name>parent_span_id_</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::parent_span_id_</qualifiedname>
+        <briefdescription>
+<para>Parent span ID, empty if root. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="194" column="17" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_context_1a46c8921cfb4ac7ef69a0bfdd35daf617" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DistributedTraceContext::trace_state_</definition>
+        <argsstring></argsstring>
+        <name>trace_state_</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::trace_state_</qualifiedname>
+        <briefdescription>
+<para>W3C tracestate value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="195" column="17" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_context_1a304123fc0982a048381e485b982d9a70" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::DistributedTraceContext::trace_sampled_</definition>
+        <argsstring></argsstring>
+        <name>trace_sampled_</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::trace_sampled_</qualifiedname>
+        <briefdescription>
+<para>Trace sampling flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="196" column="10" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_context_1adde8d3471a0234263c5c9b9c11707982" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_baggage_item" kindref="compound">BaggageItem</ref> &gt;</type>
+        <definition>std::vector&lt;BaggageItem&gt; themis::observability::DistributedTraceContext::baggage_</definition>
+        <argsstring></argsstring>
+        <name>baggage_</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::baggage_</qualifiedname>
+        <briefdescription>
+<para>Baggage items for cross-service metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="197" column="17" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_trace_context_1aa73a0e69b24fbd4c4dd5e8dbf4d97c89" prot="protected" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::DistributedTraceContext::created_at_</definition>
+        <argsstring></argsstring>
+        <name>created_at_</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::created_at_</qualifiedname>
+        <briefdescription>
+<para>Context creation time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="198" column="43" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_context_1a45a228a9858eb2ae932cd8356937cdee" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_distributed_trace_context" kindref="compound">DistributedTraceContext</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; DistributedTraceContext &gt; themis::observability::DistributedTraceContext::createRoot</definition>
+        <argsstring>()</argsstring>
+        <name>createRoot</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::createRoot</qualifiedname>
+        <briefdescription>
+<para>Create an empty/root trace context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Root.</para>
+<para><simplesect kind="return"><para>A new <ref refid="classthemis_1_1observability_1_1_distributed_trace_context" kindref="compound">DistributedTraceContext</ref> with a fresh trace ID.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: gen(), generateHex(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="97" column="28" bodyfile="src/observability/distributed_tracing_sdk.cpp" bodystart="137" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_context_1a5a2d114140f975bc578abbadfba11eaf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_distributed_trace_context" kindref="compound">DistributedTraceContext</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; DistributedTraceContext &gt; themis::observability::DistributedTraceContext::fromHttpHeaders</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;headers, TraceContextFormat format)</argsstring>
+        <name>fromHttpHeaders</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::fromHttpHeaders</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5d" kindref="member">TraceContextFormat</ref></type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+<para>Extract trace context from HTTP headers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parses the supplied HTTP headers to extract trace context information in the specified format. Supports W3C Trace Context, Jaeger Baggage, B3 Single, and B3 Multi formats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>headers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HTTP headers (map of header name -&gt; value). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Propagation format to use for extraction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new <ref refid="classthemis_1_1observability_1_1_distributed_trace_context" kindref="compound">DistributedTraceContext</ref>, or nullptr if headers are malformed.</para>
+</simplesect>
+<simplesect kind="note"><para>If headers do not contain valid trace context, a new root context is created with a fresh trace ID. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="113" column="28" bodyfile="src/observability/distributed_tracing_sdk.cpp" bodystart="148" bodyend="259"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_context_1ab80654bdc56ada19481e8ab09e54b581" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt; std::string, std::string &gt; themis::observability::DistributedTraceContext::toHttpHeaders</definition>
+        <argsstring>(TraceContextFormat format) const</argsstring>
+        <name>toHttpHeaders</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::toHttpHeaders</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5d" kindref="member">TraceContextFormat</ref></type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+<para>Convert trace context to HTTP headers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Serializes the trace context into HTTP headers suitable for sending to a downstream service.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Propagation format to use for serialization. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Map of header name -&gt; value ready for HTTP transmission.</para>
+</simplesect>
+<simplesect kind="note"><para>The format of headers depends on <computeroutput>format:</computeroutput> <itemizedlist>
+<listitem><para>W3C_TRACE_CONTEXT: &quot;traceparent&quot; and &quot;tracestate&quot; headers</para>
+</listitem><listitem><para>JAEGER_BAGGAGE: &quot;uber-trace-id&quot; and &quot;jaeger-baggage&quot; headers</para>
+</listitem><listitem><para>B3_SINGLE: single &quot;b3&quot; header</para>
+</listitem><listitem><para>B3_MULTI: &quot;x-b3-traceid&quot;, &quot;x-b3-spanid&quot;, &quot;x-b3-sampled&quot;, etc. </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="132" column="14" bodyfile="src/observability/distributed_tracing_sdk.cpp" bodystart="261" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_context_1af93d3673c743c10d6517080ffbf55f7c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::observability::DistributedTraceContext::traceId</definition>
+        <argsstring>() const</argsstring>
+        <name>traceId</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::traceId</qualifiedname>
+        <briefdescription>
+<para>Get the trace ID as a hex string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>32-character hex string (128-bit trace ID). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="138" column="23" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_context_1a051d11275135ec690cdfbc9a9bde5551" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::observability::DistributedTraceContext::parentSpanId</definition>
+        <argsstring>() const</argsstring>
+        <name>parentSpanId</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::parentSpanId</qualifiedname>
+        <briefdescription>
+<para>Get the parent span ID as a hex string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>16-character hex string (64-bit span ID), or empty if root context. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="144" column="23" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_context_1af2c5a2b29220caa515b6010ccfb55651" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::observability::DistributedTraceContext::traceState</definition>
+        <argsstring>() const</argsstring>
+        <name>traceState</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::traceState</qualifiedname>
+        <briefdescription>
+<para>Get the trace state (W3C Trace Context tracestate value). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Comma-separated list of vendor-specific trace state key-value pairs. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="150" column="23" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_context_1a472e5990a58e7f1c40ceb9a11d3551f3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::DistributedTraceContext::isTraceSampled</definition>
+        <argsstring>() const</argsstring>
+        <name>isTraceSampled</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::isTraceSampled</qualifiedname>
+        <briefdescription>
+<para>Get whether this trace is sampled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if the trace should be sampled, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="156" column="10" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="156" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_context_1a419e923643a9202f4afd7dd70d40ebaa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1observability_1_1_baggage_item" kindref="compound">BaggageItem</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; BaggageItem &gt; &amp; themis::observability::DistributedTraceContext::baggage</definition>
+        <argsstring>() const</argsstring>
+        <name>baggage</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::baggage</qualifiedname>
+        <briefdescription>
+<para>Get baggage items associated with this trace context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Immutable vector of baggage items. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="162" column="23" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="162" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_context_1a8f149429f2b0920038ae2fb97e4fbc5b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_distributed_trace_context" kindref="compound">DistributedTraceContext</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; DistributedTraceContext &gt; themis::observability::DistributedTraceContext::withBaggage</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value) const</argsstring>
+        <name>withBaggage</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::withBaggage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Add a baggage item to the trace context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Creates a new <ref refid="classthemis_1_1observability_1_1_distributed_trace_context" kindref="compound">DistributedTraceContext</ref> with an additional baggage item. The original context is unmodified.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Baggage key (required, non-empty). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Baggage value (can be empty). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>New <ref refid="classthemis_1_1observability_1_1_distributed_trace_context" kindref="compound">DistributedTraceContext</ref> with the added baggage item.</para>
+</simplesect>
+<simplesect kind="note"><para>Maximum of 128 baggage items are allowed per context. If limit is exceeded, the oldest inherited baggage item is dropped. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="177" column="21" bodyfile="src/observability/distributed_tracing_sdk.cpp" bodystart="317" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_context_1a5accbfee3266e3635a5480417e9e6908" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::DistributedTraceContext::createdAt</definition>
+        <argsstring>() const</argsstring>
+        <name>createdAt</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::createdAt</qualifiedname>
+        <briefdescription>
+<para>Get the timestamp when this context was created. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Wall-clock timestamp of context creation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="185" column="43" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="185" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_trace_context_1a42f78b232cba75e4f3a310a05a544b60" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::observability::DistributedTraceContext::~DistributedTraceContext</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DistributedTraceContext</name>
+        <qualifiedname>themis::observability::DistributedTraceContext::~DistributedTraceContext</qualifiedname>
+        <briefdescription>
+<para>Virtual destructor for safe polymorphic deletion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_tracing_sdk.h" line="190" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Distributed trace context snapshot for cross-service propagation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A <ref refid="classthemis_1_1observability_1_1_distributed_trace_context" kindref="compound">DistributedTraceContext</ref> captures the essential information needed to propagate a trace across service boundaries. It includes the trace ID, span ID, baggage items, and trace flags. The context is immutable after creation and safe to pass across service boundaries.</para>
+<sect1 id="classthemis_1_1observability_1_1_distributed_trace_context_1autotoc_md3_1s1"><sect2 id="classthemis_1_1observability_1_1_distributed_trace_context_1autotoc_md3">
+<title>Usage Pattern</title><para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Service<sp/>A:<sp/>Create<sp/>a<sp/>span<sp/>and<sp/>extract<sp/>its<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>tracer.startSpan(</highlight><highlight class="stringliteral">&quot;upstream-request&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>tracer.extractDistributedContext(span.get());</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Serialize<sp/>the<sp/>context<sp/>into<sp/>HTTP<sp/>headers</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>headers<sp/>=<sp/>ctx.toHttpHeaders(<ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5daae8ff6eda9aad5462befff3fab67b29b" kindref="member">TraceContextFormat::W3C_TRACE_CONTEXT</ref>);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Send<sp/>HTTP<sp/>request<sp/>with<sp/>propagated<sp/>headers<sp/>to<sp/>Service<sp/>B</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">http_client.post(</highlight><highlight class="stringliteral">&quot;/api/downstream&quot;</highlight><highlight class="normal">,<sp/>headers,<sp/>body);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Service<sp/>B:<sp/>Receive<sp/>the<sp/>context<sp/>and<sp/>create<sp/>a<sp/>child<sp/>span</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>headers_received<sp/>=<sp/>request.headers();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parent_ctx<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a5a2d114140f975bc578abbadfba11eaf" kindref="member">DistributedTraceContext::fromHttpHeaders</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>headers_received,<sp/><ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5daae8ff6eda9aad5462befff3fab67b29b" kindref="member">TraceContextFormat::W3C_TRACE_CONTEXT</ref>);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>child_span<sp/>=<sp/>tracer.startChildSpan(</highlight><highlight class="stringliteral">&quot;downstream-handler&quot;</highlight><highlight class="normal">,<sp/>parent_ctx);</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/observability/distributed_tracing_sdk.h" line="90" column="1" bodyfile="include/observability/distributed_tracing_sdk.h" bodystart="90" bodyend="199"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1a419e923643a9202f4afd7dd70d40ebaa" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceContext</scope><name>baggage</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1adde8d3471a0234263c5c9b9c11707982" prot="protected" virt="non-virtual"><scope>themis::observability::DistributedTraceContext</scope><name>baggage_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1aa73a0e69b24fbd4c4dd5e8dbf4d97c89" prot="protected" virt="non-virtual"><scope>themis::observability::DistributedTraceContext</scope><name>created_at_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1a5accbfee3266e3635a5480417e9e6908" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceContext</scope><name>createdAt</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1a45a228a9858eb2ae932cd8356937cdee" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceContext</scope><name>createRoot</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1a98b19911ae2c5e9e50bdbf5de5480fab" prot="private" virt="non-virtual"><scope>themis::observability::DistributedTraceContext</scope><name>DistributedTracingSDK</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1a5a2d114140f975bc578abbadfba11eaf" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceContext</scope><name>fromHttpHeaders</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1a472e5990a58e7f1c40ceb9a11d3551f3" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceContext</scope><name>isTraceSampled</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1abf2ce6d31cf03e7f203dd232dcdca315" prot="protected" virt="non-virtual"><scope>themis::observability::DistributedTraceContext</scope><name>parent_span_id_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1a051d11275135ec690cdfbc9a9bde5551" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceContext</scope><name>parentSpanId</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1ab80654bdc56ada19481e8ab09e54b581" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceContext</scope><name>toHttpHeaders</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1aa3a01eeb377d2bb2d9fa0b9326dc4dc4" prot="protected" virt="non-virtual"><scope>themis::observability::DistributedTraceContext</scope><name>trace_id_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1a304123fc0982a048381e485b982d9a70" prot="protected" virt="non-virtual"><scope>themis::observability::DistributedTraceContext</scope><name>trace_sampled_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1a46c8921cfb4ac7ef69a0bfdd35daf617" prot="protected" virt="non-virtual"><scope>themis::observability::DistributedTraceContext</scope><name>trace_state_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1af93d3673c743c10d6517080ffbf55f7c" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceContext</scope><name>traceId</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1af2c5a2b29220caa515b6010ccfb55651" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceContext</scope><name>traceState</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1a8f149429f2b0920038ae2fb97e4fbc5b" prot="public" virt="non-virtual"><scope>themis::observability::DistributedTraceContext</scope><name>withBaggage</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_trace_context_1a42f78b232cba75e4f3a310a05a544b60" prot="public" virt="virtual"><scope>themis::observability::DistributedTraceContext</scope><name>~DistributedTraceContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

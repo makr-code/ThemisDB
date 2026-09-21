@@ -1,0 +1,387 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_geo_replica_placement_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::GeoReplicaPlacementManager</compoundname>
+    <includes refid="geo__placement_8h" local="no">geo_placement.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a152cd7dc4cd59376b5cbc2ab13908580" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::GeoReplicaPlacementManager::GeoReplicaPlacementManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>GeoReplicaPlacementManager</name>
+        <qualifiedname>themisdb::replication::GeoReplicaPlacementManager::GeoReplicaPlacementManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="161" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a204c977431e24b3191f197d437bc28bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::GeoReplicaPlacementManager::~GeoReplicaPlacementManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GeoReplicaPlacementManager</name>
+        <qualifiedname>themisdb::replication::GeoReplicaPlacementManager::~GeoReplicaPlacementManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="162" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a444d0cf426d40deb74742413574da32f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::GeoReplicaPlacementManager::GeoReplicaPlacementManager</definition>
+        <argsstring>(const GeoReplicaPlacementManager &amp;)=delete</argsstring>
+        <name>GeoReplicaPlacementManager</name>
+        <qualifiedname>themisdb::replication::GeoReplicaPlacementManager::GeoReplicaPlacementManager</qualifiedname>
+        <param>
+          <type>const GeoReplicaPlacementManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="165" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a390ccdca1d6295f93da9067afd454b38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a152cd7dc4cd59376b5cbc2ab13908580" kindref="member">GeoReplicaPlacementManager</ref> &amp;</type>
+        <definition>GeoReplicaPlacementManager &amp; themisdb::replication::GeoReplicaPlacementManager::operator=</definition>
+        <argsstring>(const GeoReplicaPlacementManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::GeoReplicaPlacementManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a152cd7dc4cd59376b5cbc2ab13908580" kindref="member">GeoReplicaPlacementManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="166" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a50dbdf0814b934fcebfc3b32fe6bbdbc" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::GeoReplicaPlacementManager::GeoReplicaPlacementManager</definition>
+        <argsstring>(GeoReplicaPlacementManager &amp;&amp;) noexcept=default</argsstring>
+        <name>GeoReplicaPlacementManager</name>
+        <qualifiedname>themisdb::replication::GeoReplicaPlacementManager::GeoReplicaPlacementManager</qualifiedname>
+        <param>
+          <type>GeoReplicaPlacementManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="167" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1aeb2385b833b3f12fe5a3c6e7b54deea3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a152cd7dc4cd59376b5cbc2ab13908580" kindref="member">GeoReplicaPlacementManager</ref> &amp;</type>
+        <definition>GeoReplicaPlacementManager &amp; themisdb::replication::GeoReplicaPlacementManager::operator=</definition>
+        <argsstring>(GeoReplicaPlacementManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::GeoReplicaPlacementManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a152cd7dc4cd59376b5cbc2ab13908580" kindref="member">GeoReplicaPlacementManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="168" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1afa015959b8589efbde17cad09b099553" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ReplicaInfo &gt; themisdb::replication::GeoReplicaPlacementManager::selectLeaderCandidate</definition>
+        <argsstring>(const std::vector&lt; ReplicaInfo &gt; &amp;replicas, const PlacementConstraints &amp;constraints) const</argsstring>
+        <name>selectLeaderCandidate</name>
+        <qualifiedname>themisdb::replication::GeoReplicaPlacementManager::selectLeaderCandidate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt; &amp;</type>
+          <declname>replicas</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>Select the best leader candidate from a list of replicas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ranking order (highest priority first):<orderedlist>
+<listitem><para>Candidate is in a preferred DC (ordered by preference list index).</para>
+</listitem><listitem><para>Candidate has the highest priority (<ref refid="structthemisdb_1_1replication_1_1_replica_info_1ae07d1da3fd37a2e9a29a4841d49c21d4" kindref="member">ReplicaInfo::priority</ref>).</para>
+</listitem><listitem><para>Candidate has the lowest replication lag (last_applied_sequence desc).</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replicas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current replica topology snapshot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Placement constraints to apply. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The best eligible candidate, or std::nullopt when no candidate satisfies all constraints. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="187" column="19" bodyfile="src/replication/geo_placement.cpp" bodystart="99" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a827d37182db584ef939c6ffa7d0e2d91" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ReplicaInfo &gt; themisdb::replication::GeoReplicaPlacementManager::selectFailoverCandidate</definition>
+        <argsstring>(const std::vector&lt; ReplicaInfo &gt; &amp;replicas, const PlacementConstraints &amp;constraints, const std::string &amp;failed_node_id) const</argsstring>
+        <name>selectFailoverCandidate</name>
+        <qualifiedname>themisdb::replication::GeoReplicaPlacementManager::selectFailoverCandidate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt; &amp;</type>
+          <declname>replicas</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failed_node_id</declname>
+        </param>
+        <briefdescription>
+<para>Select the best failover candidate excluding a failed node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Identical ranking logic as <ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1afa015959b8589efbde17cad09b099553" kindref="member">selectLeaderCandidate()</ref> but additionally skips the node identified by <computeroutput>failed_node_id</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replicas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current replica topology snapshot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Placement constraints to apply. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>failed_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node ID of the failed leader to exclude. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The best eligible candidate, or std::nullopt when no candidate satisfies all constraints. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="203" column="19" bodyfile="src/replication/geo_placement.cpp" bodystart="163" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a86e45a53e9b5620515f98c4c55bd097e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_placement_validation_result" kindref="compound">PlacementValidationResult</ref></type>
+        <definition>PlacementValidationResult themisdb::replication::GeoReplicaPlacementManager::validatePlacement</definition>
+        <argsstring>(const std::vector&lt; ReplicaInfo &gt; &amp;replicas, const PlacementConstraints &amp;constraints) const</argsstring>
+        <name>validatePlacement</name>
+        <qualifiedname>themisdb::replication::GeoReplicaPlacementManager::validatePlacement</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt; &amp;</type>
+          <declname>replicas</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>Validate whether the current topology satisfies the constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks performed:<orderedlist>
+<listitem><para>Every required DC has at least one healthy replica.</para>
+</listitem><listitem><para>Every DC meets min_copies_per_dc healthy replica count.</para>
+</listitem><listitem><para>No forbidden DC hosts a healthy replica (recommendation only — not a hard violation since placement is advisory).</para>
+</listitem><listitem><para>At least one eligible candidate exists for leader election.</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replicas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current topology snapshot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constraints to evaluate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemisdb_1_1replication_1_1_placement_validation_result" kindref="compound">PlacementValidationResult</ref> with violations and recommendations. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="226" column="31" bodyfile="src/replication/geo_placement.cpp" bodystart="184" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a64553f825f04acc995d75837fd937581" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, uint32_t &gt;</type>
+        <definition>std::unordered_map&lt; std::string, uint32_t &gt; themisdb::replication::GeoReplicaPlacementManager::healthyCountPerDC</definition>
+        <argsstring>(const std::vector&lt; ReplicaInfo &gt; &amp;replicas) const</argsstring>
+        <name>healthyCountPerDC</name>
+        <qualifiedname>themisdb::replication::GeoReplicaPlacementManager::healthyCountPerDC</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt; &amp;</type>
+          <declname>replicas</declname>
+        </param>
+        <briefdescription>
+<para>Return a per-DC count of healthy replicas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replicas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current topology snapshot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Map of datacenter ID → healthy replica count. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="240" column="24" bodyfile="src/replication/geo_placement.cpp" bodystart="244" bodyend="255"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a389712e60cc8d3539520810cc0ac2954" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::GeoReplicaPlacementManager::isEligible</definition>
+        <argsstring>(const ReplicaInfo &amp;candidate, const PlacementConstraints &amp;constraints) const</argsstring>
+        <name>isEligible</name>
+        <qualifiedname>themisdb::replication::GeoReplicaPlacementManager::isEligible</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &amp;</type>
+          <declname>candidate</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the candidate is eligible under the given constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="245" column="10" bodyfile="src/replication/geo_placement.cpp" bodystart="44" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1aa84a57ef4a34bf750a4f88458bc96455" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::replication::GeoReplicaPlacementManager::dcPreferenceScore</definition>
+        <argsstring>(const std::string &amp;datacenter, const PlacementConstraints &amp;constraints) const</argsstring>
+        <name>dcPreferenceScore</name>
+        <qualifiedname>themisdb::replication::GeoReplicaPlacementManager::dcPreferenceScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>datacenter</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Rank score for a candidate given its DC&apos;s position in the preference list. Lower index → higher score. DC not in list → lowest score. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/geo_placement.h" line="252" column="9" bodyfile="src/replication/geo_placement.cpp" bodystart="81" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Geographic replica placement policy manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Evaluates <ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref> against a live replica topology to:<itemizedlist>
+<listitem><para>Select the best leader candidate for initial election.</para>
+</listitem><listitem><para>Select the best failover candidate when the current leader fails.</para>
+</listitem><listitem><para>Validate whether the current topology satisfies a given constraint set.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para>All public methods are stateless with respect to internal mutable state (the topology snapshot is provided by the caller on each call). The class is safe to call from multiple threads concurrently.</para>
+<para><heading level="3">Usage example</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a152cd7dc4cd59376b5cbc2ab13908580" kindref="member">GeoReplicaPlacementManager</ref><sp/>placement;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">PlacementConstraints<sp/>constraints;</highlight></codeline>
+<codeline><highlight class="normal">constraints.preferred_datacenters<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;eu-west-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eu-central-1&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">constraints.forbidden_datacenters<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;ap-southeast-1&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">constraints.min_copies_per_dc<sp/>=<sp/>1;</highlight></codeline>
+<codeline><highlight class="normal">constraints.require_voter<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>leader<sp/>=<sp/>placement.selectLeaderCandidate(replicas,<sp/>constraints);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(leader)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Elect:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>leader-&gt;node_id<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>validation<sp/>=<sp/>placement.validatePlacement(replicas,<sp/>constraints);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!validation.is_valid)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>validation.violations)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Violation:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>v<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/replication/geo_placement.h" line="159" column="1" bodyfile="include/replication/geo_placement.h" bodystart="159" bodyend="254"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1aa84a57ef4a34bf750a4f88458bc96455" prot="private" virt="non-virtual"><scope>themisdb::replication::GeoReplicaPlacementManager</scope><name>dcPreferenceScore</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a152cd7dc4cd59376b5cbc2ab13908580" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicaPlacementManager</scope><name>GeoReplicaPlacementManager</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a444d0cf426d40deb74742413574da32f" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicaPlacementManager</scope><name>GeoReplicaPlacementManager</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a50dbdf0814b934fcebfc3b32fe6bbdbc" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicaPlacementManager</scope><name>GeoReplicaPlacementManager</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a64553f825f04acc995d75837fd937581" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicaPlacementManager</scope><name>healthyCountPerDC</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a389712e60cc8d3539520810cc0ac2954" prot="private" virt="non-virtual"><scope>themisdb::replication::GeoReplicaPlacementManager</scope><name>isEligible</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a390ccdca1d6295f93da9067afd454b38" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicaPlacementManager</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1aeb2385b833b3f12fe5a3c6e7b54deea3" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicaPlacementManager</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a827d37182db584ef939c6ffa7d0e2d91" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicaPlacementManager</scope><name>selectFailoverCandidate</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1afa015959b8589efbde17cad09b099553" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicaPlacementManager</scope><name>selectLeaderCandidate</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a86e45a53e9b5620515f98c4c55bd097e" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicaPlacementManager</scope><name>validatePlacement</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a204c977431e24b3191f197d437bc28bd" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicaPlacementManager</scope><name>~GeoReplicaPlacementManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

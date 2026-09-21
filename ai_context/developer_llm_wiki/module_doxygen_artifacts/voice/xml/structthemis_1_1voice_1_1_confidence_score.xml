@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_confidence_score" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::ConfidenceScore</compoundname>
+    <includes refid="audio__preprocessing_8h" local="no">audio_preprocessing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_confidence_score_1a0a7cc30728c35b80ea10cdd7efa61408" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::ConfidenceScore::overall</definition>
+        <argsstring></argsstring>
+        <name>overall</name>
+        <qualifiedname>themis::voice::ConfidenceScore::overall</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Overall confidence [0.0, 1.0]. Geometric mean of acoustic and language_model confidences. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="243" column="11" bodyfile="include/voice/audio_preprocessing.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_confidence_score_1a223431c61533e80c9f4ff224c9de921e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::ConfidenceScore::acoustic</definition>
+        <argsstring></argsstring>
+        <name>acoustic</name>
+        <qualifiedname>themis::voice::ConfidenceScore::acoustic</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Acoustic model confidence [0.0, 1.0]. Reflects how well the audio matches known phonemes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="247" column="11" bodyfile="include/voice/audio_preprocessing.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_confidence_score_1a75f3bbc8efa762efdb160cc8ee432beb" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::ConfidenceScore::language_model</definition>
+        <argsstring></argsstring>
+        <name>language_model</name>
+        <qualifiedname>themis::voice::ConfidenceScore::language_model</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Language model confidence [0.0, 1.0]. Reflects how well the transcript matches expected language patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="251" column="11" bodyfile="include/voice/audio_preprocessing.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_confidence_score_1aed0ce20151b5de385068b6c663ea4d30" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ConfidenceScore::quality_level</definition>
+        <argsstring></argsstring>
+        <name>quality_level</name>
+        <qualifiedname>themis::voice::ConfidenceScore::quality_level</qualifiedname>
+        <briefdescription>
+<para>Categorical quality level. Values: &quot;high&quot; (&gt;0.8), &quot;medium&quot; (0.5-0.8), &quot;low&quot; (&lt;0.5). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="255" column="17" bodyfile="include/voice/audio_preprocessing.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Confidence estimate for STT result quality. Combines acoustic and language-model confidence. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/audio_preprocessing.h" line="240" column="1" bodyfile="include/voice/audio_preprocessing.h" bodystart="240" bodyend="256"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_confidence_score_1a223431c61533e80c9f4ff224c9de921e" prot="public" virt="non-virtual"><scope>themis::voice::ConfidenceScore</scope><name>acoustic</name></member>
+      <member refid="structthemis_1_1voice_1_1_confidence_score_1a75f3bbc8efa762efdb160cc8ee432beb" prot="public" virt="non-virtual"><scope>themis::voice::ConfidenceScore</scope><name>language_model</name></member>
+      <member refid="structthemis_1_1voice_1_1_confidence_score_1a0a7cc30728c35b80ea10cdd7efa61408" prot="public" virt="non-virtual"><scope>themis::voice::ConfidenceScore</scope><name>overall</name></member>
+      <member refid="structthemis_1_1voice_1_1_confidence_score_1aed0ce20151b5de385068b6c663ea4d30" prot="public" virt="non-virtual"><scope>themis::voice::ConfidenceScore</scope><name>quality_level</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

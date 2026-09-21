@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_verify_adapter_stmt" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::VerifyAdapterStmt</compoundname>
+    <includes refid="aql__train__parser_8h" local="no">aql_train_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_verify_adapter_stmt_1a3bc88f6e422c9bd1590e6075fc05b642" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VerifyAdapterStmt::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::VerifyAdapterStmt::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="219" column="17" bodyfile="include/llm/aql_train_parser.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_verify_adapter_stmt_1a4f8270d3818bfd6988f66ce1e251ccdd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VerifyAdapterStmt::check_signature</definition>
+        <argsstring></argsstring>
+        <name>check_signature</name>
+        <qualifiedname>themis::llm::VerifyAdapterStmt::check_signature</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="220" column="10" bodyfile="include/llm/aql_train_parser.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_verify_adapter_stmt_1a9e1f136a70f03415b20a499031c7b272" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VerifyAdapterStmt::check_manifest</definition>
+        <argsstring></argsstring>
+        <name>check_manifest</name>
+        <qualifiedname>themis::llm::VerifyAdapterStmt::check_manifest</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="221" column="10" bodyfile="include/llm/aql_train_parser.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_verify_adapter_stmt_1adb1e51850f9da1dcadb13869fbf80a07" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VerifyAdapterStmt::check_safetensors_match</definition>
+        <argsstring></argsstring>
+        <name>check_safetensors_match</name>
+        <qualifiedname>themis::llm::VerifyAdapterStmt::check_safetensors_match</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="222" column="10" bodyfile="include/llm/aql_train_parser.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_verify_adapter_stmt_1aa5e18804ca2de87f3399e420f9cd79ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::VerifyAdapterStmt::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::VerifyAdapterStmt::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="228" column="20" bodyfile="src/llm/aql_train_parser.cpp" bodystart="579" bodyend="586"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_verify_adapter_stmt_1a1b2f68e7db8f7bbcd256fbbb15a01530" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_verify_adapter_stmt" kindref="compound">VerifyAdapterStmt</ref></type>
+        <definition>VerifyAdapterStmt themis::llm::VerifyAdapterStmt::fromJSON</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::VerifyAdapterStmt::fromJSON</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: contains(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="234" column="30" bodyfile="src/llm/aql_train_parser.cpp" bodystart="595" bodyend="615"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/aql_train_parser.h" line="218" column="1" bodyfile="include/llm/aql_train_parser.h" bodystart="218" bodyend="235"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_verify_adapter_stmt_1a3bc88f6e422c9bd1590e6075fc05b642" prot="public" virt="non-virtual"><scope>themis::llm::VerifyAdapterStmt</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_verify_adapter_stmt_1a9e1f136a70f03415b20a499031c7b272" prot="public" virt="non-virtual"><scope>themis::llm::VerifyAdapterStmt</scope><name>check_manifest</name></member>
+      <member refid="structthemis_1_1llm_1_1_verify_adapter_stmt_1adb1e51850f9da1dcadb13869fbf80a07" prot="public" virt="non-virtual"><scope>themis::llm::VerifyAdapterStmt</scope><name>check_safetensors_match</name></member>
+      <member refid="structthemis_1_1llm_1_1_verify_adapter_stmt_1a4f8270d3818bfd6988f66ce1e251ccdd" prot="public" virt="non-virtual"><scope>themis::llm::VerifyAdapterStmt</scope><name>check_signature</name></member>
+      <member refid="structthemis_1_1llm_1_1_verify_adapter_stmt_1a1b2f68e7db8f7bbcd256fbbb15a01530" prot="public" virt="non-virtual"><scope>themis::llm::VerifyAdapterStmt</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_verify_adapter_stmt_1aa5e18804ca2de87f3399e420f9cd79ed" prot="public" virt="non-virtual"><scope>themis::llm::VerifyAdapterStmt</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

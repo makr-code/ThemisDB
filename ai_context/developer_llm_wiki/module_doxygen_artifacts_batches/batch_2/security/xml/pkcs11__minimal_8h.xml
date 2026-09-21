@@ -1,0 +1,1053 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="pkcs11__minimal_8h" kind="file" language="C++">
+    <compoundname>pkcs11_minimal.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">cstddef</includes>
+    <includedby refid="pkcs11__wrapper_8h" local="yes">include/security/pkcs11_wrapper.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/security/pkcs11_minimal.h</label>
+        <link refid="pkcs11__minimal_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/security/pkcs11_minimal.h</label>
+        <link refid="pkcs11__minimal_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/security/pkcs11_wrapper.h</label>
+        <link refid="pkcs11__wrapper_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/security/test_pkcs11_wrapper.cpp</label>
+        <link refid="test__pkcs11__wrapper_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="struct_c_k___m_e_c_h_a_n_i_s_m" prot="public">CK_MECHANISM</innerclass>
+    <innerclass refid="struct_c_k___a_t_t_r_i_b_u_t_e" prot="public">CK_ATTRIBUTE</innerclass>
+    <innerclass refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s" prot="public">CK_RSA_PKCS_OAEP_PARAMS</innerclass>
+    <innerclass refid="struct_c_k___t_o_k_e_n___i_n_f_o" prot="public">CK_TOKEN_INFO</innerclass>
+    <innerclass refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t" prot="public">CK_FUNCTION_LIST</innerclass>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a76edf786ed8cccb1b3d2cf9e9f0800cd" prot="public" static="no">
+        <name>CK_TRUE</name>
+        <initializer>((<ref refid="pkcs11__minimal_8h_1aea9a95d849a1efb0db7e7a923174ec43" kindref="member">CK_BBOOL</ref>)1)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="76" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a1df8841072c48f0b511ccad3bbb25812" prot="public" static="no">
+        <name>CK_FALSE</name>
+        <initializer>((<ref refid="pkcs11__minimal_8h_1aea9a95d849a1efb0db7e7a923174ec43" kindref="member">CK_BBOOL</ref>)0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="77" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a08a8e0f2109de3ff3bfe26f220447a2e" prot="public" static="no">
+        <name>CKM_RSA_PKCS</name>
+        <initializer>0x00000001U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="95" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a69da8859ad1e6b4f424d071b42ea4a0c" prot="public" static="no">
+        <name>CKM_RSA_PKCS_OAEP</name>
+        <initializer>0x00000009U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="96" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1ae24525658e8df0829c24236ee7614d1f" prot="public" static="no">
+        <name>CKM_SHA256_RSA_PKCS</name>
+        <initializer>0x00000040U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="97" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1ab4a7299a144f0ef52cee06893cc60483" prot="public" static="no">
+        <name>CKM_ECDSA</name>
+        <initializer>0x00001041U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="98" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a3afa7970e62cb983de2f2b46af9ac43f" prot="public" static="no">
+        <name>CKM_RSA_PKCS_KEY_PAIR_GEN</name>
+        <initializer>0x00000000U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="99" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1af1818a1c453a84f01f2e868307ca8fed" prot="public" static="no">
+        <name>CKM_SHA_1</name>
+        <initializer>0x00000220U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="100" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a4d11f88ae3bea2f748f275c03b54a648" prot="public" static="no">
+        <name>CKM_SHA256</name>
+        <initializer>0x00000250U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="101" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1ac4d8d058aea52b5692b59b9263043042" prot="public" static="no">
+        <name>CKG_MGF1_SHA1</name>
+        <initializer>0x00000001U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="105" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a07d0a015cc64e5eada525c2c65fd548f" prot="public" static="no">
+        <name>CKG_MGF1_SHA256</name>
+        <initializer>0x00000002U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="106" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a562cafdb3b3422dda2b85a59b05d84b2" prot="public" static="no">
+        <name>CKG_MGF1_SHA384</name>
+        <initializer>0x00000003U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="107" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a1ffcb037f689c04caaf5f0ef9b35cbdd" prot="public" static="no">
+        <name>CKG_MGF1_SHA512</name>
+        <initializer>0x00000004U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="108" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a6907d28cda3acc11412e5eee7c1f7459" prot="public" static="no">
+        <name>CKZ_DATA_SPECIFIED</name>
+        <initializer>0x00000001U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="112" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a8aa610efb7f7dd562bce4576250753a8" prot="public" static="no">
+        <name>CKO_PRIVATE_KEY</name>
+        <initializer>0x00000003U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="124" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a105a73f3224e9745296afdf322c0d3d1" prot="public" static="no">
+        <name>CKO_PUBLIC_KEY</name>
+        <initializer>0x00000002U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="125" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a457c8513d35d53d7a2abe79f28c17a92" prot="public" static="no">
+        <name>CKO_CERTIFICATE</name>
+        <initializer>0x00000001U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="126" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a224cf68f2f62fbf662f5f04bd8e1fcf8" prot="public" static="no">
+        <name>CKC_X_509</name>
+        <initializer>0x00000000U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="129" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1af867d3ae9286fe0f8cab4995bb6af337" prot="public" static="no">
+        <name>CKA_CLASS</name>
+        <initializer>0x00000000U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="132" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1acf009a991c04b5c4305cc76356225aa7" prot="public" static="no">
+        <name>CKA_LABEL</name>
+        <initializer>0x00000003U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="133" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a799f3b28e5c856ef4229d12257818841" prot="public" static="no">
+        <name>CKA_VALUE</name>
+        <initializer>0x00000011U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="134" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a05c1c460160443a739c6e0ce47ae3fc8" prot="public" static="no">
+        <name>CKA_TOKEN</name>
+        <initializer>0x00000001U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="135" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a5244a0b0719c79614044460bdcf34d11" prot="public" static="no">
+        <name>CKA_PRIVATE</name>
+        <initializer>0x00000002U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="136" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a5fe5fb4a38ca6781c50e4cba8a2af0d6" prot="public" static="no">
+        <name>CKA_SENSITIVE</name>
+        <initializer>0x00000103U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="137" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a6ffd14ad7386d9aa7178e841a964a87e" prot="public" static="no">
+        <name>CKA_SIGN</name>
+        <initializer>0x00000108U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="138" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a84c89cd9def639cb4a58145063b7bd42" prot="public" static="no">
+        <name>CKA_VERIFY</name>
+        <initializer>0x0000010AU</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="139" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1acf37955a2a229d208289962c6f1183b8" prot="public" static="no">
+        <name>CKA_EXTRACTABLE</name>
+        <initializer>0x00000162U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="140" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1ace277af7e7da877d65a25411a22a6b39" prot="public" static="no">
+        <name>CKA_MODULUS_BITS</name>
+        <initializer>0x00000121U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="141" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a3560a0897e67ea3584c5e5d6b49997a9" prot="public" static="no">
+        <name>CKA_PUBLIC_EXPONENT</name>
+        <initializer>0x00000122U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="142" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1ac7d2a83448425bf632b01520ab49ef38" prot="public" static="no">
+        <name>CKA_CERTIFICATE_TYPE</name>
+        <initializer>0x00000080U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="143" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1ab31ba85d49b381d1eac204796296eafa" prot="public" static="no">
+        <name>CKR_OK</name>
+        <initializer>0x00000000U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="146" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a0627989c27e21034dd30181ec66d55ed" prot="public" static="no">
+        <name>CKR_GENERAL_ERROR</name>
+        <initializer>0x00000005U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="147" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a4c227fa25e202ce284cafa40df74c26d" prot="public" static="no">
+        <name>CKR_ARGUMENTS_BAD</name>
+        <initializer>0x00000007U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="148" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a24d46b4f07c538b26b493182193adfce" prot="public" static="no">
+        <name>CKR_DEVICE_ERROR</name>
+        <initializer>0x00000030U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="149" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a61d25edee3d3788b14df10698e804366" prot="public" static="no">
+        <name>CKR_PIN_INCORRECT</name>
+        <initializer>0x000000A0U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="150" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a4027a099409c7d9bbc650c766e605903" prot="public" static="no">
+        <name>CKR_SIGNATURE_INVALID</name>
+        <initializer>0x000000C0U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="151" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1aa9cd64ba03077e1ade9f6a27633a038b" prot="public" static="no">
+        <name>CKR_USER_ALREADY_LOGGED_IN</name>
+        <initializer>0x00000100U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="152" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1ac06517dfda93d4636ff63eb000125ad4" prot="public" static="no">
+        <name>CKR_USER_NOT_LOGGED_IN</name>
+        <initializer>0x00000101U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="153" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a910c33108d07cc3aee7c22d65b83d2ee" prot="public" static="no">
+        <name>CKF_SERIAL_SESSION</name>
+        <initializer>0x00000004U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="156" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1ae3feb76e24f914d123190ebb61f1b814" prot="public" static="no">
+        <name>CKF_TOKEN_PRESENT</name>
+        <initializer>0x00000001U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="159" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a0fbceff3a65cca3090ebe8b1e66e0cb5" prot="public" static="no">
+        <name>CKF_LOGIN_REQUIRED</name>
+        <initializer>0x00000004U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="160" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a3ed4ca1b31e557c976d34e638ec733ae" prot="public" static="no">
+        <name>CK_TRUE</name>
+        <initializer>((<ref refid="pkcs11__minimal_8h_1aea9a95d849a1efb0db7e7a923174ec43" kindref="member">CK_BBOOL</ref>)1)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="163" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a58ba8f86fb6ada3fd72764143895d340" prot="public" static="no">
+        <name>CK_FALSE</name>
+        <initializer>((<ref refid="pkcs11__minimal_8h_1aea9a95d849a1efb0db7e7a923174ec43" kindref="member">CK_BBOOL</ref>)0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="164" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pkcs11__minimal_8h_1a500f51010fbd16496f3e62add2aff700" prot="public" static="no">
+        <name>CKU_USER</name>
+        <initializer>1U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="167" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" prot="public" static="no">
+        <type>uint32_t</type>
+        <definition>typedef uint32_t CK_RV</definition>
+        <argsstring></argsstring>
+        <name>CK_RV</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="65" column="18" bodyfile="include/security/pkcs11_minimal.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1ac24d1e7fc4d61629ed309029417225b6" prot="public" static="no">
+        <type>uint32_t</type>
+        <definition>typedef uint32_t CK_SLOT_ID</definition>
+        <argsstring></argsstring>
+        <name>CK_SLOT_ID</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="66" column="18" bodyfile="include/security/pkcs11_minimal.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" prot="public" static="no">
+        <type>uint32_t</type>
+        <definition>typedef uint32_t CK_SESSION_HANDLE</definition>
+        <argsstring></argsstring>
+        <name>CK_SESSION_HANDLE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="67" column="18" bodyfile="include/security/pkcs11_minimal.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" prot="public" static="no">
+        <type>uint32_t</type>
+        <definition>typedef uint32_t CK_OBJECT_HANDLE</definition>
+        <argsstring></argsstring>
+        <name>CK_OBJECT_HANDLE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="68" column="18" bodyfile="include/security/pkcs11_minimal.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" prot="public" static="no">
+        <type>uint32_t</type>
+        <definition>typedef uint32_t CK_ULONG</definition>
+        <argsstring></argsstring>
+        <name>CK_ULONG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="69" column="18" bodyfile="include/security/pkcs11_minimal.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1a38fa56c552c41b43e5a1fa02016e8195" prot="public" static="no">
+        <type>uint8_t</type>
+        <definition>typedef uint8_t CK_BYTE</definition>
+        <argsstring></argsstring>
+        <name>CK_BYTE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="71" column="17" bodyfile="include/security/pkcs11_minimal.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1aea9a95d849a1efb0db7e7a923174ec43" prot="public" static="no">
+        <type>uint8_t</type>
+        <definition>typedef uint8_t CK_BBOOL</definition>
+        <argsstring></argsstring>
+        <name>CK_BBOOL</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="72" column="17" bodyfile="include/security/pkcs11_minimal.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1a7bc6919a7c3c372056fa7e18343a0b37" prot="public" static="no">
+        <type><ref refid="pkcs11__minimal_8h_1a38fa56c552c41b43e5a1fa02016e8195" kindref="member">CK_BYTE</ref> *</type>
+        <definition>typedef CK_BYTE* CK_BYTE_PTR</definition>
+        <argsstring></argsstring>
+        <name>CK_BYTE_PTR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="73" column="17" bodyfile="include/security/pkcs11_minimal.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1a31a474b28635b88ff137b7e8ef579694" prot="public" static="no">
+        <type>uint32_t</type>
+        <definition>typedef uint32_t CK_OBJECT_CLASS</definition>
+        <argsstring></argsstring>
+        <name>CK_OBJECT_CLASS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="79" column="18" bodyfile="include/security/pkcs11_minimal.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1a719b6f6d013453fa42f14d768e367b01" prot="public" static="no">
+        <type>uint32_t</type>
+        <definition>typedef uint32_t CK_CERTIFICATE_TYPE</definition>
+        <argsstring></argsstring>
+        <name>CK_CERTIFICATE_TYPE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="80" column="18" bodyfile="include/security/pkcs11_minimal.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1ade52a911cf456ba325529aabdda9472c" prot="public" static="no">
+        <type>struct CK_MECHANISM</type>
+        <definition>typedef struct CK_MECHANISM CK_MECHANISM</definition>
+        <argsstring></argsstring>
+        <name>CK_MECHANISM</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="86" column="14"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1a572d25b0172525f5290fbfff57174c2e" prot="public" static="no">
+        <type>struct CK_ATTRIBUTE</type>
+        <definition>typedef struct CK_ATTRIBUTE CK_ATTRIBUTE</definition>
+        <argsstring></argsstring>
+        <name>CK_ATTRIBUTE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="92" column="14"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1a13aa58274109327ae0734d9348900769" prot="public" static="no">
+        <type>uint32_t</type>
+        <definition>typedef uint32_t CK_RSA_PKCS_MGF_TYPE</definition>
+        <argsstring></argsstring>
+        <name>CK_RSA_PKCS_MGF_TYPE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="104" column="18" bodyfile="include/security/pkcs11_minimal.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1afebc6fbe690821a6a16b8697e736c46b" prot="public" static="no">
+        <type>uint32_t</type>
+        <definition>typedef uint32_t CK_RSA_PKCS_OAEP_SOURCE_TYPE</definition>
+        <argsstring></argsstring>
+        <name>CK_RSA_PKCS_OAEP_SOURCE_TYPE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="111" column="18" bodyfile="include/security/pkcs11_minimal.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1afcfee8bc918bb3ec43726d0c633d46aa" prot="public" static="no">
+        <type>struct CK_RSA_PKCS_OAEP_PARAMS</type>
+        <definition>typedef struct CK_RSA_PKCS_OAEP_PARAMS CK_RSA_PKCS_OAEP_PARAMS</definition>
+        <argsstring></argsstring>
+        <name>CK_RSA_PKCS_OAEP_PARAMS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="121" column="25"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1a4c4cd82bde0560ccd3ddfee8721ba733" prot="public" static="no">
+        <type>struct CK_TOKEN_INFO</type>
+        <definition>typedef struct CK_TOKEN_INFO CK_TOKEN_INFO</definition>
+        <argsstring></argsstring>
+        <name>CK_TOKEN_INFO</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="191" column="15"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1a0760ff61669ca0315433857750bd6704" prot="public" static="no">
+        <type><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o" kindref="compound">CK_TOKEN_INFO</ref> *</type>
+        <definition>typedef CK_TOKEN_INFO* CK_TOKEN_INFO_PTR</definition>
+        <argsstring></argsstring>
+        <name>CK_TOKEN_INFO_PTR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="192" column="23" bodyfile="include/security/pkcs11_minimal.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1ae734db1d4751b8cabb63cbd9c0bb39cd" prot="public" static="no">
+        <type><ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t" kindref="compound">CK_FUNCTION_LIST</ref> *</type>
+        <definition>typedef CK_FUNCTION_LIST* CK_FUNCTION_LIST_PTR</definition>
+        <argsstring></argsstring>
+        <name>CK_FUNCTION_LIST_PTR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="196" column="26" bodyfile="include/security/pkcs11_minimal.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="pkcs11__minimal_8h_1a9d76c2b7a46caa21131d9093f29f08ac" prot="public" static="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>typedef CK_RV(* CK_C_GetFunctionList) (CK_FUNCTION_LIST_PTR *)</definition>
+        <argsstring>)(CK_FUNCTION_LIST_PTR *)</argsstring>
+        <name>CK_C_GetFunctionList</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="198" column="9" bodyfile="include/security/pkcs11_minimal.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PKCS#11<sp/>Minimal<sp/>Header<sp/>-<sp/>DEVELOPMENT/TESTING<sp/>ONLY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>⚠️<sp/><sp/>WARNING:<sp/>This<sp/>is<sp/>a<sp/>MINIMAL<sp/>subset<sp/>of<sp/>PKCS#11<sp/>types/constants.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>It<sp/>is<sp/>NOT<sp/>suitable<sp/>for<sp/>production<sp/>use<sp/>with<sp/>real<sp/>HSM<sp/>devices.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PURPOSE:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Allow<sp/>compilation<sp/>without<sp/>vendor-specific<sp/>PKCS#11<sp/>headers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Support<sp/>development<sp/>and<sp/>testing<sp/>with<sp/>SoftHSM2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Provide<sp/>basic<sp/>type<sp/>definitions<sp/>for<sp/>PKCS#11<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIMITATIONS:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Missing<sp/>many<sp/>PKCS#11<sp/>functions<sp/>and<sp/>constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>No<sp/>vendor-specific<sp/>extensions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>May<sp/>be<sp/>incompatible<sp/>with<sp/>some<sp/>HSM<sp/>devices</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Not<sp/>guaranteed<sp/>to<sp/>match<sp/>vendor<sp/>header<sp/>definitions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PRODUCTION<sp/>REQUIREMENTS:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>For<sp/>production<sp/>HSM<sp/>deployments,<sp/>you<sp/>MUST:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>Use<sp/>vendor-provided<sp/>PKCS#11<sp/>headers<sp/>(cryptoki.h,<sp/>pkcs11.h)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>Install<sp/>HSM<sp/>vendor<sp/>SDK:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>Thales<sp/>Luna:<sp/>Luna<sp/>HSM<sp/>Client<sp/>SDK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>AWS<sp/>CloudHSM:<sp/>CloudHSM<sp/>Client<sp/>SDK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>Utimaco:<sp/>CryptoServer<sp/>SDK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>nCipher:<sp/>nShield<sp/>SDK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>3.<sp/>Link<sp/>against<sp/>vendor<sp/>PKCS#11<sp/>library</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>4.<sp/>Replace<sp/>this<sp/>header<sp/>with<sp/>vendor<sp/>header<sp/>in<sp/>production<sp/>builds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>COMPILE-TIME<sp/>VALIDATION:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>The<sp/>build<sp/>system<sp/>should<sp/>detect<sp/>and<sp/>warn<sp/>about<sp/>minimal<sp/>header<sp/>usage.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Set<sp/>THEMIS_USE_VENDOR_PKCS11=ON<sp/>to<sp/>use<sp/>vendor<sp/>headers<sp/>instead.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MIGRATION<sp/>PATH:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>Install<sp/>HSM<sp/>vendor<sp/>SDK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>Set<sp/>PKCS11_INCLUDE_DIR<sp/>to<sp/>vendor<sp/>header<sp/>location</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>3.<sp/>Build<sp/>with<sp/>-DTHEMIS_USE_VENDOR_PKCS11=ON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>4.<sp/>Verify<sp/>against<sp/>vendor<sp/>header<sp/>definitions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>See:<sp/>docs/security/PKCS11_INTEGRATION.md</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>PKCS#11<sp/>type/constant<sp/>declarations<sp/>to<sp/>avoid<sp/>external<sp/>header<sp/>dependency.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>NOT<sp/>a<sp/>full<sp/>PKCS#11<sp/>header;<sp/>only<sp/>what<sp/>we<sp/>need<sp/>for<sp/>basic<sp/>sign/verify.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>For<sp/>production<sp/>replace<sp/>with<sp/>the<sp/>vendor&apos;s<sp/>official<sp/>pkcs11.h.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>return<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="pkcs11__minimal_8h_1ac24d1e7fc4d61629ed309029417225b6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="pkcs11__minimal_8h_1ac24d1e7fc4d61629ed309029417225b6" kindref="member">CK_SLOT_ID</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>slot<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>;<sp/></highlight><highlight class="comment">//<sp/>session<sp/>handle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>object<sp/>handle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>unsigned<sp/>long<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="pkcs11__minimal_8h_1a38fa56c552c41b43e5a1fa02016e8195" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="pkcs11__minimal_8h_1a38fa56c552c41b43e5a1fa02016e8195" kindref="member">CK_BYTE</ref>;</highlight></codeline>
+<codeline lineno="72" refid="pkcs11__minimal_8h_1aea9a95d849a1efb0db7e7a923174ec43" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="pkcs11__minimal_8h_1aea9a95d849a1efb0db7e7a923174ec43" kindref="member">CK_BBOOL</ref>;</highlight></codeline>
+<codeline lineno="73" refid="pkcs11__minimal_8h_1a7bc6919a7c3c372056fa7e18343a0b37" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/><ref refid="pkcs11__minimal_8h_1a38fa56c552c41b43e5a1fa02016e8195" kindref="member">CK_BYTE</ref>*<sp/><ref refid="pkcs11__minimal_8h_1a7bc6919a7c3c372056fa7e18343a0b37" kindref="member">CK_BYTE_PTR</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Boolean<sp/>constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="pkcs11__minimal_8h_1a76edf786ed8cccb1b3d2cf9e9f0800cd" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CK_TRUE<sp/><sp/>((CK_BBOOL)1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="pkcs11__minimal_8h_1a1df8841072c48f0b511ccad3bbb25812" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CK_FALSE<sp/>((CK_BBOOL)0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="pkcs11__minimal_8h_1a31a474b28635b88ff137b7e8ef579694" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="pkcs11__minimal_8h_1a31a474b28635b88ff137b7e8ef579694" kindref="member">CK_OBJECT_CLASS</ref>;</highlight></codeline>
+<codeline lineno="80" refid="pkcs11__minimal_8h_1a719b6f6d013453fa42f14d768e367b01" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="pkcs11__minimal_8h_1a719b6f6d013453fa42f14d768e367b01" kindref="member">CK_CERTIFICATE_TYPE</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="struct_c_k___m_e_c_h_a_n_i_s_m" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_c_k___m_e_c_h_a_n_i_s_m" kindref="compound">CK_MECHANISM</ref><sp/>{</highlight></codeline>
+<codeline lineno="83" refid="struct_c_k___m_e_c_h_a_n_i_s_m_1a73f4e7a0abd8c32bfeae8d6d45e81776" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="struct_c_k___m_e_c_h_a_n_i_s_m_1a73f4e7a0abd8c32bfeae8d6d45e81776" kindref="member">mechanism</ref><sp/>=<sp/>0;<sp/></highlight><highlight class="comment">//<sp/>Mechanism<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="struct_c_k___m_e_c_h_a_n_i_s_m_1ab96975be68e15b1e940e12273e33f35f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><ref refid="struct_c_k___m_e_c_h_a_n_i_s_m_1ab96975be68e15b1e940e12273e33f35f" kindref="member">pParameter</ref>;</highlight></codeline>
+<codeline lineno="85" refid="struct_c_k___m_e_c_h_a_n_i_s_m_1ab6ac70439065e043c02755db73d439cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="struct_c_k___m_e_c_h_a_n_i_s_m_1ab6ac70439065e043c02755db73d439cb" kindref="member">ulParameterLen</ref>;</highlight></codeline>
+<codeline lineno="86" refid="pkcs11__minimal_8h_1ade52a911cf456ba325529aabdda9472c" refkind="member"><highlight class="normal">}<sp/><ref refid="struct_c_k___m_e_c_h_a_n_i_s_m" kindref="compound">CK_MECHANISM</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="struct_c_k___a_t_t_r_i_b_u_t_e" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_c_k___a_t_t_r_i_b_u_t_e" kindref="compound">CK_ATTRIBUTE</ref><sp/>{</highlight></codeline>
+<codeline lineno="89" refid="struct_c_k___a_t_t_r_i_b_u_t_e_1af67596df6ec9351d7e43c593fd2de6c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="struct_c_k___a_t_t_r_i_b_u_t_e_1af67596df6ec9351d7e43c593fd2de6c5" kindref="member">type</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attribute<sp/>type<sp/>(e.g.<sp/>CKA_CLASS)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="struct_c_k___a_t_t_r_i_b_u_t_e_1a8948975d5fe2f841e4ba3410a6e6530e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><ref refid="struct_c_k___a_t_t_r_i_b_u_t_e_1a8948975d5fe2f841e4ba3410a6e6530e" kindref="member">pValue</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pointer<sp/>to<sp/>value<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="struct_c_k___a_t_t_r_i_b_u_t_e_1afefc84bc47bf1604efe9b41575bf24e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="struct_c_k___a_t_t_r_i_b_u_t_e_1afefc84bc47bf1604efe9b41575bf24e1" kindref="member">ulValueLen</ref>;<sp/></highlight><highlight class="comment">//<sp/>Value<sp/>length<sp/>(in/out)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="pkcs11__minimal_8h_1a572d25b0172525f5290fbfff57174c2e" refkind="member"><highlight class="normal">}<sp/><ref refid="struct_c_k___a_t_t_r_i_b_u_t_e" kindref="compound">CK_ATTRIBUTE</ref>;<sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mechanism<sp/>constants<sp/>(subset)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="pkcs11__minimal_8h_1a08a8e0f2109de3ff3bfe26f220447a2e" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKM_RSA_PKCS<sp/>0x00000001U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="pkcs11__minimal_8h_1a69da8859ad1e6b4f424d071b42ea4a0c" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKM_RSA_PKCS_OAEP<sp/>0x00000009U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="pkcs11__minimal_8h_1ae24525658e8df0829c24236ee7614d1f" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKM_SHA256_RSA_PKCS<sp/>0x00000040U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="pkcs11__minimal_8h_1ab4a7299a144f0ef52cee06893cc60483" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKM_ECDSA<sp/>0x00001041U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="pkcs11__minimal_8h_1a3afa7970e62cb983de2f2b46af9ac43f" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKM_RSA_PKCS_KEY_PAIR_GEN<sp/>0x00000000U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="pkcs11__minimal_8h_1af1818a1c453a84f01f2e868307ca8fed" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKM_SHA_1<sp/>0x00000220U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="pkcs11__minimal_8h_1a4d11f88ae3bea2f748f275c03b54a648" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKM_SHA256<sp/>0x00000250U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MGF<sp/>(Mask<sp/>Generation<sp/>Function)<sp/>types<sp/>for<sp/>RSA-OAEP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="pkcs11__minimal_8h_1a13aa58274109327ae0734d9348900769" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="pkcs11__minimal_8h_1a13aa58274109327ae0734d9348900769" kindref="member">CK_RSA_PKCS_MGF_TYPE</ref>;</highlight></codeline>
+<codeline lineno="105" refid="pkcs11__minimal_8h_1ac4d8d058aea52b5692b59b9263043042" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKG_MGF1_SHA1<sp/><sp/><sp/>0x00000001U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="pkcs11__minimal_8h_1a07d0a015cc64e5eada525c2c65fd548f" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKG_MGF1_SHA256<sp/>0x00000002U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="pkcs11__minimal_8h_1a562cafdb3b3422dda2b85a59b05d84b2" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKG_MGF1_SHA384<sp/>0x00000003U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="pkcs11__minimal_8h_1a1ffcb037f689c04caaf5f0ef9b35cbdd" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKG_MGF1_SHA512<sp/>0x00000004U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OAEP<sp/>source<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="pkcs11__minimal_8h_1afebc6fbe690821a6a16b8697e736c46b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="pkcs11__minimal_8h_1afebc6fbe690821a6a16b8697e736c46b" kindref="member">CK_RSA_PKCS_OAEP_SOURCE_TYPE</ref>;</highlight></codeline>
+<codeline lineno="112" refid="pkcs11__minimal_8h_1a6907d28cda3acc11412e5eee7c1f7459" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKZ_DATA_SPECIFIED<sp/>0x00000001U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RSA-OAEP<sp/>mechanism<sp/>parameters<sp/>(PKCS#11<sp/>v2.20<sp/>§12.1.7)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s" kindref="compound">CK_RSA_PKCS_OAEP_PARAMS</ref><sp/>{</highlight></codeline>
+<codeline lineno="116" refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1a50f3f7245751552d3b572875bd7c04f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1a50f3f7245751552d3b572875bd7c04f3" kindref="member">hashAlg</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hash<sp/>algorithm<sp/>(e.g.<sp/>CKM_SHA256)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1ad315447d7714ea28f1a920a4b65c0c22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1a13aa58274109327ae0734d9348900769" kindref="member">CK_RSA_PKCS_MGF_TYPE</ref><sp/><sp/><sp/><ref refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1ad315447d7714ea28f1a920a4b65c0c22" kindref="member">mgf</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mask<sp/>generation<sp/>function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1a9e3d19a611b80dd8e9c20d94428d90eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1afebc6fbe690821a6a16b8697e736c46b" kindref="member">CK_RSA_PKCS_OAEP_SOURCE_TYPE</ref><sp/><ref refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1a9e3d19a611b80dd8e9c20d94428d90eb" kindref="member">source</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Source<sp/>of<sp/>encoding<sp/>parameter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1a24f6c02ef0cc7e933ff5dab17a5f62d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1a24f6c02ef0cc7e933ff5dab17a5f62d8" kindref="member">pSourceData</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Encoding<sp/>parameter<sp/>(NULL<sp/>for<sp/>CKZ_DATA_SPECIFIED<sp/>with<sp/>no<sp/>label)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1ad292b329d2fa340bb1523547addcd9ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1ad292b329d2fa340bb1523547addcd9ec" kindref="member">ulSourceDataLen</ref>;<sp/></highlight><highlight class="comment">//<sp/>Length<sp/>of<sp/>encoding<sp/>parameter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="pkcs11__minimal_8h_1afcfee8bc918bb3ec43726d0c633d46aa" refkind="member"><highlight class="normal">}<sp/><ref refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s" kindref="compound">CK_RSA_PKCS_OAEP_PARAMS</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Object<sp/>classes<sp/>(subset)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="pkcs11__minimal_8h_1a8aa610efb7f7dd562bce4576250753a8" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKO_PRIVATE_KEY<sp/>0x00000003U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="pkcs11__minimal_8h_1a105a73f3224e9745296afdf322c0d3d1" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKO_PUBLIC_KEY<sp/><sp/>0x00000002U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="pkcs11__minimal_8h_1a457c8513d35d53d7a2abe79f28c17a92" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKO_CERTIFICATE<sp/>0x00000001U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Certificate<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="pkcs11__minimal_8h_1a224cf68f2f62fbf662f5f04bd8e1fcf8" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKC_X_509<sp/>0x00000000U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Attribute<sp/>types<sp/>(subset)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="pkcs11__minimal_8h_1af867d3ae9286fe0f8cab4995bb6af337" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKA_CLASS<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="pkcs11__minimal_8h_1acf009a991c04b5c4305cc76356225aa7" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKA_LABEL<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000003U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="pkcs11__minimal_8h_1a799f3b28e5c856ef4229d12257818841" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKA_VALUE<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000011U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="pkcs11__minimal_8h_1a05c1c460160443a739c6e0ce47ae3fc8" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKA_TOKEN<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000001U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="pkcs11__minimal_8h_1a5244a0b0719c79614044460bdcf34d11" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKA_PRIVATE<sp/><sp/><sp/><sp/><sp/>0x00000002U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="pkcs11__minimal_8h_1a5fe5fb4a38ca6781c50e4cba8a2af0d6" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKA_SENSITIVE<sp/><sp/><sp/>0x00000103U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="pkcs11__minimal_8h_1a6ffd14ad7386d9aa7178e841a964a87e" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKA_SIGN<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000108U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="pkcs11__minimal_8h_1a84c89cd9def639cb4a58145063b7bd42" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKA_VERIFY<sp/><sp/><sp/><sp/><sp/><sp/>0x0000010AU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="pkcs11__minimal_8h_1acf37955a2a229d208289962c6f1183b8" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKA_EXTRACTABLE<sp/>0x00000162U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="pkcs11__minimal_8h_1ace277af7e7da877d65a25411a22a6b39" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKA_MODULUS_BITS<sp/>0x00000121U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="pkcs11__minimal_8h_1a3560a0897e67ea3584c5e5d6b49997a9" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKA_PUBLIC_EXPONENT<sp/>0x00000122U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="pkcs11__minimal_8h_1ac7d2a83448425bf632b01520ab49ef38" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKA_CERTIFICATE_TYPE<sp/>0x00000080U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Return<sp/>values<sp/>(subset)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="pkcs11__minimal_8h_1ab31ba85d49b381d1eac204796296eafa" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKR_OK<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="pkcs11__minimal_8h_1a0627989c27e21034dd30181ec66d55ed" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKR_GENERAL_ERROR<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000005U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="pkcs11__minimal_8h_1a4c227fa25e202ce284cafa40df74c26d" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKR_ARGUMENTS_BAD<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000007U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="pkcs11__minimal_8h_1a24d46b4f07c538b26b493182193adfce" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKR_DEVICE_ERROR<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000030U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="pkcs11__minimal_8h_1a61d25edee3d3788b14df10698e804366" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKR_PIN_INCORRECT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x000000A0U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="pkcs11__minimal_8h_1a4027a099409c7d9bbc650c766e605903" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKR_SIGNATURE_INVALID<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x000000C0U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="pkcs11__minimal_8h_1aa9cd64ba03077e1ade9f6a27633a038b" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKR_USER_ALREADY_LOGGED_IN<sp/><sp/>0x00000100U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="pkcs11__minimal_8h_1ac06517dfda93d4636ff63eb000125ad4" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKR_USER_NOT_LOGGED_IN<sp/><sp/><sp/><sp/><sp/><sp/>0x00000101U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Session<sp/>flags<sp/>(subset)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="pkcs11__minimal_8h_1a910c33108d07cc3aee7c22d65b83d2ee" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKF_SERIAL_SESSION<sp/>0x00000004U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Token/slot<sp/>flags<sp/>(subset)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="pkcs11__minimal_8h_1ae3feb76e24f914d123190ebb61f1b814" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKF_TOKEN_PRESENT<sp/><sp/>0x00000001U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="pkcs11__minimal_8h_1a0fbceff3a65cca3090ebe8b1e66e0cb5" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKF_LOGIN_REQUIRED<sp/>0x00000004U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Boolean<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CK_TRUE<sp/><sp/>((CK_BBOOL)1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CK_FALSE<sp/>((CK_BBOOL)0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>User<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="pkcs11__minimal_8h_1a500f51010fbd16496f3e62add2aff700" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CKU_USER<sp/>1U</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Token<sp/>information<sp/>structure<sp/>(minimal<sp/>subset<sp/>-<sp/>label-based<sp/>slot<sp/>selection)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NOTE:<sp/>Field<sp/>sizes<sp/>follow<sp/>PKCS#11<sp/>v2.20<sp/>§9.2.<sp/>Labels<sp/>are<sp/>blank-padded<sp/>UTF-8,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>NOT<sp/>null-terminated.<sp/>Use<sp/>the<sp/>full<sp/>32<sp/>bytes<sp/>for<sp/>comparison.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="struct_c_k___t_o_k_e_n___i_n_f_o" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o" kindref="compound">CK_TOKEN_INFO</ref><sp/>{</highlight></codeline>
+<codeline lineno="173" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a46dcc6bdad448170e34345f7a6a927dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a46dcc6bdad448170e34345f7a6a927dd" kindref="member">label</ref>[32];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Blank-padded<sp/>token<sp/>label<sp/>(UTF-8,<sp/>no<sp/>null<sp/>terminator)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a0b2f9a86b8e44ed760b2a98c9f76b098" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a0b2f9a86b8e44ed760b2a98c9f76b098" kindref="member">manufacturerID</ref>[32];<sp/><sp/></highlight><highlight class="comment">//<sp/>Blank-padded<sp/>manufacturer<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1af48529f34014bee8a6d6b1c61019b034" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1af48529f34014bee8a6d6b1c61019b034" kindref="member">model</ref>[16];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Blank-padded<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1acb8e47e46fb7fe44715c094b8c8203ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1acb8e47e46fb7fe44715c094b8c8203ef" kindref="member">serialNumber</ref>[16];<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Blank-padded<sp/>serial<sp/>number</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a3c17a7780bc85c5ff279d8f5f3c6ea93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a3c17a7780bc85c5ff279d8f5f3c6ea93" kindref="member">flags</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bit<sp/>flags<sp/>(CKF_TOKEN_PRESENT,<sp/>CKF_LOGIN_REQUIRED,<sp/>…)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1ad7a6ec88e7857ec6eeb0d0cebb3e05d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref><sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1ad7a6ec88e7857ec6eeb0d0cebb3e05d4" kindref="member">ulMaxSessionCount</ref>;</highlight></codeline>
+<codeline lineno="179" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a3f40583f6aa0e3aba1ac591b34b6fafd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref><sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a3f40583f6aa0e3aba1ac591b34b6fafd" kindref="member">ulSessionCount</ref>;</highlight></codeline>
+<codeline lineno="180" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a3cc3adab228a5db230028a37a77d2db2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref><sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a3cc3adab228a5db230028a37a77d2db2" kindref="member">ulMaxRwSessionCount</ref>;</highlight></codeline>
+<codeline lineno="181" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a752bc366b6d7bf2b56b1e4bd22d4b647" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref><sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a752bc366b6d7bf2b56b1e4bd22d4b647" kindref="member">ulRwSessionCount</ref>;</highlight></codeline>
+<codeline lineno="182" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a1f29203a601da021aec840cf41f6e88f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref><sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a1f29203a601da021aec840cf41f6e88f" kindref="member">ulMaxPinLen</ref>;</highlight></codeline>
+<codeline lineno="183" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a257a8ad60444cccd096244845bf5cd5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref><sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a257a8ad60444cccd096244845bf5cd5c" kindref="member">ulMinPinLen</ref>;</highlight></codeline>
+<codeline lineno="184" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a0aa3a573f644deb017cf90248815d9a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref><sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a0aa3a573f644deb017cf90248815d9a1" kindref="member">ulTotalPublicMemory</ref>;</highlight></codeline>
+<codeline lineno="185" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1afa0e875af02a7e9402ac3d78d517a7f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref><sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1afa0e875af02a7e9402ac3d78d517a7f5" kindref="member">ulFreePublicMemory</ref>;</highlight></codeline>
+<codeline lineno="186" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a042bdb8180b0229b4b93a0198c96da6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref><sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a042bdb8180b0229b4b93a0198c96da6e" kindref="member">ulTotalPrivateMemory</ref>;</highlight></codeline>
+<codeline lineno="187" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1adad9cc7cf84f4499afbf4c9ca2782753" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref><sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1adad9cc7cf84f4499afbf4c9ca2782753" kindref="member">ulFreePrivateMemory</ref>;</highlight></codeline>
+<codeline lineno="188" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1abc6db5dbf80fa8f73f1c05fc09c9331e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{<sp/>uint8_t<sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1aabeb51c30197d2f14f186463700c84ce" kindref="member">major</ref>;<sp/>uint8_t<sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a63173c338fafafe1f909cb688f94dca1" kindref="member">minor</ref>;<sp/>}<sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1abc6db5dbf80fa8f73f1c05fc09c9331e" kindref="member">hardwareVersion</ref>;</highlight></codeline>
+<codeline lineno="189" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a254515b26dbe2896f35166ae3be92f70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{<sp/>uint8_t<sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1aabeb51c30197d2f14f186463700c84ce" kindref="member">major</ref>;<sp/>uint8_t<sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a63173c338fafafe1f909cb688f94dca1" kindref="member">minor</ref>;<sp/>}<sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1a254515b26dbe2896f35166ae3be92f70" kindref="member">firmwareVersion</ref>;</highlight></codeline>
+<codeline lineno="190" refid="struct_c_k___t_o_k_e_n___i_n_f_o_1aad4ab8e2d88138334396dd7c355cf027" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o_1aad4ab8e2d88138334396dd7c355cf027" kindref="member">utcTime</ref>[16];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>UTC<sp/>time<sp/>as<sp/>&quot;YYYYMMDDhhmmssxx&quot;<sp/>(not<sp/>null-terminated)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="pkcs11__minimal_8h_1a4c4cd82bde0560ccd3ddfee8721ba733" refkind="member"><highlight class="normal">}<sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o" kindref="compound">CK_TOKEN_INFO</ref>;</highlight></codeline>
+<codeline lineno="192" refid="pkcs11__minimal_8h_1a0760ff61669ca0315433857750bd6704" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o" kindref="compound">CK_TOKEN_INFO</ref>*<sp/><ref refid="pkcs11__minimal_8h_1a0760ff61669ca0315433857750bd6704" kindref="member">CK_TOKEN_INFO_PTR</ref>;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Function<sp/>list<sp/>forward<sp/>declaration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t" kindref="compound">CK_FUNCTION_LIST</ref>;</highlight></codeline>
+<codeline lineno="196" refid="pkcs11__minimal_8h_1ae734db1d4751b8cabb63cbd9c0bb39cd" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/><ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t" kindref="compound">CK_FUNCTION_LIST</ref>*<sp/><ref refid="pkcs11__minimal_8h_1ae734db1d4751b8cabb63cbd9c0bb39cd" kindref="member">CK_FUNCTION_LIST_PTR</ref>;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="pkcs11__minimal_8h_1a9d76c2b7a46caa21131d9093f29f08ac" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="pkcs11__minimal_8h_1a9d76c2b7a46caa21131d9093f29f08ac" kindref="member">CK_C_GetFunctionList</ref>)(<ref refid="pkcs11__minimal_8h_1ae734db1d4751b8cabb63cbd9c0bb39cd" kindref="member">CK_FUNCTION_LIST_PTR</ref>*);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Function<sp/>list<sp/>structure<sp/>(subset<sp/>of<sp/>pointers)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t" kindref="compound">CK_FUNCTION_LIST</ref><sp/>{</highlight></codeline>
+<codeline lineno="202" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a99c6e47ba1fd259580491dc98d4982f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a99c6e47ba1fd259580491dc98d4982f9" kindref="member">C_Initialize</ref>)(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
+<codeline lineno="203" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1aee1baf3ca8dc6563f4ebc6df14a519d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1aee1baf3ca8dc6563f4ebc6df14a519d1" kindref="member">C_Finalize</ref>)(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
+<codeline lineno="204" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ac639b0ed6a8938499d1d2baf09741c01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ac639b0ed6a8938499d1d2baf09741c01" kindref="member">C_GetSlotList</ref>)(uint8_t,<sp/><ref refid="pkcs11__minimal_8h_1ac24d1e7fc4d61629ed309029417225b6" kindref="member">CK_SLOT_ID</ref>*,<sp/>uint32_t*);</highlight></codeline>
+<codeline lineno="205" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a572d258b824d42b10e65b39453d4b36d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a572d258b824d42b10e65b39453d4b36d" kindref="member">C_GetTokenInfo</ref>)(<ref refid="pkcs11__minimal_8h_1ac24d1e7fc4d61629ed309029417225b6" kindref="member">CK_SLOT_ID</ref>,<sp/><ref refid="struct_c_k___t_o_k_e_n___i_n_f_o" kindref="compound">CK_TOKEN_INFO</ref>*);</highlight></codeline>
+<codeline lineno="206" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a65f48a3b7f2c8cd71279d4b5863d20da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a65f48a3b7f2c8cd71279d4b5863d20da" kindref="member">C_OpenSession</ref>)(<ref refid="pkcs11__minimal_8h_1ac24d1e7fc4d61629ed309029417225b6" kindref="member">CK_SLOT_ID</ref>,<sp/>uint32_t,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*,<sp/><ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>*);</highlight></codeline>
+<codeline lineno="207" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a624183f10604c8cf82047d560cd38e38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a624183f10604c8cf82047d560cd38e38" kindref="member">C_CloseSession</ref>)(<ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>);</highlight></codeline>
+<codeline lineno="208" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a50994af0360a566ad498e2b5f6f69164" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a50994af0360a566ad498e2b5f6f69164" kindref="member">C_Login</ref>)(<ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>,<sp/>uint32_t,<sp/><ref refid="pkcs11__minimal_8h_1a7bc6919a7c3c372056fa7e18343a0b37" kindref="member">CK_BYTE_PTR</ref>,<sp/>uint32_t);</highlight></codeline>
+<codeline lineno="209" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1aa5fb21b3c441e84d356399c35fd87316" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1aa5fb21b3c441e84d356399c35fd87316" kindref="member">C_Logout</ref>)(<ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>);</highlight></codeline>
+<codeline lineno="210" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ae211a53ffc06c5c75a9cb7c809fdf56e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ae211a53ffc06c5c75a9cb7c809fdf56e" kindref="member">C_FindObjectsInit</ref>)(<ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>,<sp/><ref refid="struct_c_k___a_t_t_r_i_b_u_t_e" kindref="compound">CK_ATTRIBUTE</ref>*,<sp/>uint32_t);</highlight></codeline>
+<codeline lineno="211" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a0644124beaaf0574f4ca52e00a03f65e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a0644124beaaf0574f4ca52e00a03f65e" kindref="member">C_FindObjects</ref>)(<ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>,<sp/><ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref>*,<sp/>uint32_t,<sp/>uint32_t*);</highlight></codeline>
+<codeline lineno="212" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a011e8462f7392d96abf3fbe80266ea16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a011e8462f7392d96abf3fbe80266ea16" kindref="member">C_FindObjectsFinal</ref>)(<ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>);</highlight></codeline>
+<codeline lineno="213" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a52bb0f8d2b04fad40ec83f4f007ac621" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a52bb0f8d2b04fad40ec83f4f007ac621" kindref="member">C_SignInit</ref>)(<ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>,<sp/><ref refid="struct_c_k___m_e_c_h_a_n_i_s_m" kindref="compound">CK_MECHANISM</ref>*,<sp/><ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref>);</highlight></codeline>
+<codeline lineno="214" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ac65b0d98f670b009d03ff343e434ea18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ac65b0d98f670b009d03ff343e434ea18" kindref="member">C_Sign</ref>)(<ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>,<sp/><ref refid="pkcs11__minimal_8h_1a7bc6919a7c3c372056fa7e18343a0b37" kindref="member">CK_BYTE_PTR</ref>,<sp/>uint32_t,<sp/><ref refid="pkcs11__minimal_8h_1a7bc6919a7c3c372056fa7e18343a0b37" kindref="member">CK_BYTE_PTR</ref>,<sp/>uint32_t*);</highlight></codeline>
+<codeline lineno="215" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a86a2e7430b5a60fd8e2023ade8bc60f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a86a2e7430b5a60fd8e2023ade8bc60f8" kindref="member">C_VerifyInit</ref>)(<ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>,<sp/><ref refid="struct_c_k___m_e_c_h_a_n_i_s_m" kindref="compound">CK_MECHANISM</ref>*,<sp/><ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref>);</highlight></codeline>
+<codeline lineno="216" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a94bd69d3b31d31f63d79b15f340ee501" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a94bd69d3b31d31f63d79b15f340ee501" kindref="member">C_Verify</ref>)(<ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>,<sp/><ref refid="pkcs11__minimal_8h_1a7bc6919a7c3c372056fa7e18343a0b37" kindref="member">CK_BYTE_PTR</ref>,<sp/>uint32_t,<sp/><ref refid="pkcs11__minimal_8h_1a7bc6919a7c3c372056fa7e18343a0b37" kindref="member">CK_BYTE_PTR</ref>,<sp/>uint32_t);</highlight></codeline>
+<codeline lineno="217" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a5b7327cb8809fe5ecfb19d11f00742c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a5b7327cb8809fe5ecfb19d11f00742c8" kindref="member">C_EncryptInit</ref>)(<ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>,<sp/><ref refid="struct_c_k___m_e_c_h_a_n_i_s_m" kindref="compound">CK_MECHANISM</ref>*,<sp/><ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref>);</highlight></codeline>
+<codeline lineno="218" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ab2530507553ee34c3c8a6d5e3927604e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ab2530507553ee34c3c8a6d5e3927604e" kindref="member">C_Encrypt</ref>)(<ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>,<sp/><ref refid="pkcs11__minimal_8h_1a7bc6919a7c3c372056fa7e18343a0b37" kindref="member">CK_BYTE_PTR</ref>,<sp/><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref>,<sp/><ref refid="pkcs11__minimal_8h_1a7bc6919a7c3c372056fa7e18343a0b37" kindref="member">CK_BYTE_PTR</ref>,<sp/><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref>*);</highlight></codeline>
+<codeline lineno="219" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1aae402fa56141b58159f996cc6bc1526d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1aae402fa56141b58159f996cc6bc1526d" kindref="member">C_DecryptInit</ref>)(<ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>,<sp/><ref refid="struct_c_k___m_e_c_h_a_n_i_s_m" kindref="compound">CK_MECHANISM</ref>*,<sp/><ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref>);</highlight></codeline>
+<codeline lineno="220" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ac9ce05b0e46e7b4345b6cb66a6e880d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ac9ce05b0e46e7b4345b6cb66a6e880d4" kindref="member">C_Decrypt</ref>)(<ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>,<sp/><ref refid="pkcs11__minimal_8h_1a7bc6919a7c3c372056fa7e18343a0b37" kindref="member">CK_BYTE_PTR</ref>,<sp/><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref>,<sp/><ref refid="pkcs11__minimal_8h_1a7bc6919a7c3c372056fa7e18343a0b37" kindref="member">CK_BYTE_PTR</ref>,<sp/><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref>*);</highlight></codeline>
+<codeline lineno="221" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a6f6486a24fee7113184254e3bb9f7077" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a6f6486a24fee7113184254e3bb9f7077" kindref="member">C_GetAttributeValue</ref>)(<ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>,<sp/><ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref>,<sp/><ref refid="struct_c_k___a_t_t_r_i_b_u_t_e" kindref="compound">CK_ATTRIBUTE</ref>*,<sp/>uint32_t);</highlight></codeline>
+<codeline lineno="222" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a2ee7e312b6d90309d0390eb45631a222" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a2ee7e312b6d90309d0390eb45631a222" kindref="member">C_GenerateKeyPair</ref>)(<ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>,<sp/><ref refid="struct_c_k___m_e_c_h_a_n_i_s_m" kindref="compound">CK_MECHANISM</ref>*,<sp/><ref refid="struct_c_k___a_t_t_r_i_b_u_t_e" kindref="compound">CK_ATTRIBUTE</ref>*,<sp/>uint32_t,<sp/><ref refid="struct_c_k___a_t_t_r_i_b_u_t_e" kindref="compound">CK_ATTRIBUTE</ref>*,<sp/>uint32_t,<sp/><ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref>*,<sp/><ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref>*);</highlight></codeline>
+<codeline lineno="223" refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a367aba8463b108c2a741303ffeca1770" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref><sp/>(*<ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a367aba8463b108c2a741303ffeca1770" kindref="member">C_CreateObject</ref>)(<ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref>,<sp/><ref refid="struct_c_k___a_t_t_r_i_b_u_t_e" kindref="compound">CK_ATTRIBUTE</ref>*,<sp/>uint32_t,<sp/><ref refid="pkcs11__minimal_8h_1a4520eb639ae4b705b4faef5b8ff8cac7" kindref="member">CK_OBJECT_HANDLE</ref>*);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>extern<sp/>&quot;C&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compile-Time<sp/>Validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verify<sp/>critical<sp/>PKCS#11<sp/>constants<sp/>at<sp/>compile<sp/>time<sp/>to<sp/>catch<sp/>header<sp/>mismatches</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_HSM_REAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>These<sp/>static<sp/>assertions<sp/>will<sp/>fail<sp/>if<sp/>vendor<sp/>headers<sp/>define<sp/>different<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>a<sp/>safety<sp/>check<sp/>to<sp/>detect<sp/>incompatibilities<sp/>early</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(<ref refid="pkcs11__minimal_8h_1ab31ba85d49b381d1eac204796296eafa" kindref="member">CKR_OK</ref><sp/>==<sp/>0x00000000U,<sp/></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;PKCS#11<sp/>CKR_OK<sp/>mismatch<sp/>-<sp/>vendor<sp/>header<sp/>may<sp/>be<sp/>incompatible&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(<ref refid="pkcs11__minimal_8h_1a0627989c27e21034dd30181ec66d55ed" kindref="member">CKR_GENERAL_ERROR</ref><sp/>==<sp/>0x00000005U,</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;PKCS#11<sp/>CKR_GENERAL_ERROR<sp/>mismatch<sp/>-<sp/>vendor<sp/>header<sp/>may<sp/>be<sp/>incompatible&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(<ref refid="pkcs11__minimal_8h_1a08a8e0f2109de3ff3bfe26f220447a2e" kindref="member">CKM_RSA_PKCS</ref><sp/>==<sp/>0x00000001U,</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;PKCS#11<sp/>CKM_RSA_PKCS<sp/>mismatch<sp/>-<sp/>vendor<sp/>header<sp/>may<sp/>be<sp/>incompatible&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(<ref refid="pkcs11__minimal_8h_1a8aa610efb7f7dd562bce4576250753a8" kindref="member">CKO_PRIVATE_KEY</ref><sp/>==<sp/>0x00000003U,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;PKCS#11<sp/>CKO_PRIVATE_KEY<sp/>mismatch<sp/>-<sp/>vendor<sp/>header<sp/>may<sp/>be<sp/>incompatible&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warning:<sp/>Using<sp/>minimal<sp/>PKCS#11<sp/>header<sp/>in<sp/>production<sp/>build</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifndef<sp/>THEMIS_USE_VENDOR_PKCS11</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#ifdef<sp/>_MSC_VER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#pragma<sp/>message(&quot;Warning:<sp/>Using<sp/>pkcs11_minimal.h<sp/>with<sp/>real<sp/>HSM<sp/>support.<sp/>Consider<sp/>using<sp/>vendor<sp/>PKCS#11<sp/>headers<sp/>for<sp/>production.&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#warning<sp/>&quot;Using<sp/>pkcs11_minimal.h<sp/>with<sp/>real<sp/>HSM<sp/>support.<sp/>Consider<sp/>using<sp/>vendor<sp/>PKCS#11<sp/>headers<sp/>for<sp/>production.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/pkcs11_minimal.h"/>
+  </compounddef>
+</doxygen>

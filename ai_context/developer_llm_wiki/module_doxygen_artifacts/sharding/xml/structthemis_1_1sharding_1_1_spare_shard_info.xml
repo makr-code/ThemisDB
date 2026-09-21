@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_spare_shard_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::SpareShardInfo</compoundname>
+    <includes refid="hot__spare__manager_8h" local="no">hot_spare_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_spare_shard_info_1a67d12b73bec9937100f92bc641fb7e3b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SpareShardInfo::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::SpareShardInfo::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="115" column="17" bodyfile="include/sharding/hot_spare_manager.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_spare_shard_info_1ad0594fb0124e8a88ed2f2636446b4ad1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a6cf8549bfbf3b3ac05162afcbf390e9a" kindref="member">SpareState</ref></type>
+        <definition>SpareState themis::sharding::SpareShardInfo::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::sharding::SpareShardInfo::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="116" column="16" bodyfile="include/sharding/hot_spare_manager.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_spare_shard_info_1ac4abc845b8fa9d2474b7107be9c70949" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::SpareShardInfo::state_changed</definition>
+        <argsstring></argsstring>
+        <name>state_changed</name>
+        <qualifiedname>themis::sharding::SpareShardInfo::state_changed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="117" column="43" bodyfile="include/sharding/hot_spare_manager.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_spare_shard_info_1ab63f2b4163c9c9e5b1ed6b373c3cb4f4" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::sharding::SpareShardInfo::source_shard_id</definition>
+        <argsstring></argsstring>
+        <name>source_shard_id</name>
+        <qualifiedname>themis::sharding::SpareShardInfo::source_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="120" column="19" bodyfile="include/sharding/hot_spare_manager.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_spare_shard_info_1a5beeeca930cbc0357daa00dae03ce16f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SpareShardInfo::bytes_rebuilt</definition>
+        <argsstring></argsstring>
+        <name>bytes_rebuilt</name>
+        <qualifiedname>themis::sharding::SpareShardInfo::bytes_rebuilt</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="121" column="14" bodyfile="include/sharding/hot_spare_manager.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_spare_shard_info_1a6f49d44b182fe9e6ec852d79b225f501" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SpareShardInfo::total_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_bytes</name>
+        <qualifiedname>themis::sharding::SpareShardInfo::total_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="122" column="14" bodyfile="include/sharding/hot_spare_manager.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_spare_shard_info_1ab29d2934953e6cbf1a08e8ed54bad02d" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::SpareShardInfo::rebuild_started</definition>
+        <argsstring></argsstring>
+        <name>rebuild_started</name>
+        <qualifiedname>themis::sharding::SpareShardInfo::rebuild_started</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="123" column="43" bodyfile="include/sharding/hot_spare_manager.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_spare_shard_info_1abe74a0deba492bbf678060dd483fe835" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::SpareShardInfo::consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures</name>
+        <qualifiedname>themis::sharding::SpareShardInfo::consecutive_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="126" column="14" bodyfile="include/sharding/hot_spare_manager.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_spare_shard_info_1a519883ecc63511f40fd556e9a3665512" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::SpareShardInfo::last_health_check</definition>
+        <argsstring></argsstring>
+        <name>last_health_check</name>
+        <qualifiedname>themis::sharding::SpareShardInfo::last_health_check</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="127" column="43" bodyfile="include/sharding/hot_spare_manager.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_spare_shard_info_1aecfe8713e5d19737879f964a1e6c994a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::SpareShardInfo::getProgressPercentage</definition>
+        <argsstring>() const</argsstring>
+        <name>getProgressPercentage</name>
+        <qualifiedname>themis::sharding::SpareShardInfo::getProgressPercentage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="130" column="12" bodyfile="include/sharding/hot_spare_manager.h" bodystart="130" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_spare_shard_info_1a65a5bac951a64406f3b7a86f42c99398" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::sharding::SpareShardInfo::getEstimatedTimeRemaining</definition>
+        <argsstring>() const</argsstring>
+        <name>getEstimatedTimeRemaining</name>
+        <qualifiedname>themis::sharding::SpareShardInfo::getEstimatedTimeRemaining</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="137" column="26" bodyfile="include/sharding/hot_spare_manager.h" bodystart="137" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_spare_shard_info_1a8db5aa0735e9f3b957ed9cc0bfccd6aa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::SpareShardInfo::getRebuildThroughputMBps</definition>
+        <argsstring>() const</argsstring>
+        <name>getRebuildThroughputMBps</name>
+        <qualifiedname>themis::sharding::SpareShardInfo::getRebuildThroughputMBps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="158" column="12" bodyfile="include/sharding/hot_spare_manager.h" bodystart="158" bodyend="171"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Spare Shard Info </para>
+    </detaileddescription>
+    <location file="include/sharding/hot_spare_manager.h" line="114" column="1" bodyfile="include/sharding/hot_spare_manager.h" bodystart="114" bodyend="172"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_spare_shard_info_1a5beeeca930cbc0357daa00dae03ce16f" prot="public" virt="non-virtual"><scope>themis::sharding::SpareShardInfo</scope><name>bytes_rebuilt</name></member>
+      <member refid="structthemis_1_1sharding_1_1_spare_shard_info_1abe74a0deba492bbf678060dd483fe835" prot="public" virt="non-virtual"><scope>themis::sharding::SpareShardInfo</scope><name>consecutive_failures</name></member>
+      <member refid="structthemis_1_1sharding_1_1_spare_shard_info_1a65a5bac951a64406f3b7a86f42c99398" prot="public" virt="non-virtual"><scope>themis::sharding::SpareShardInfo</scope><name>getEstimatedTimeRemaining</name></member>
+      <member refid="structthemis_1_1sharding_1_1_spare_shard_info_1aecfe8713e5d19737879f964a1e6c994a" prot="public" virt="non-virtual"><scope>themis::sharding::SpareShardInfo</scope><name>getProgressPercentage</name></member>
+      <member refid="structthemis_1_1sharding_1_1_spare_shard_info_1a8db5aa0735e9f3b957ed9cc0bfccd6aa" prot="public" virt="non-virtual"><scope>themis::sharding::SpareShardInfo</scope><name>getRebuildThroughputMBps</name></member>
+      <member refid="structthemis_1_1sharding_1_1_spare_shard_info_1a519883ecc63511f40fd556e9a3665512" prot="public" virt="non-virtual"><scope>themis::sharding::SpareShardInfo</scope><name>last_health_check</name></member>
+      <member refid="structthemis_1_1sharding_1_1_spare_shard_info_1ab29d2934953e6cbf1a08e8ed54bad02d" prot="public" virt="non-virtual"><scope>themis::sharding::SpareShardInfo</scope><name>rebuild_started</name></member>
+      <member refid="structthemis_1_1sharding_1_1_spare_shard_info_1a67d12b73bec9937100f92bc641fb7e3b" prot="public" virt="non-virtual"><scope>themis::sharding::SpareShardInfo</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_spare_shard_info_1ab63f2b4163c9c9e5b1ed6b373c3cb4f4" prot="public" virt="non-virtual"><scope>themis::sharding::SpareShardInfo</scope><name>source_shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_spare_shard_info_1ad0594fb0124e8a88ed2f2636446b4ad1" prot="public" virt="non-virtual"><scope>themis::sharding::SpareShardInfo</scope><name>state</name></member>
+      <member refid="structthemis_1_1sharding_1_1_spare_shard_info_1ac4abc845b8fa9d2474b7107be9c70949" prot="public" virt="non-virtual"><scope>themis::sharding::SpareShardInfo</scope><name>state_changed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_spare_shard_info_1a6f49d44b182fe9e6ec852d79b225f501" prot="public" virt="non-virtual"><scope>themis::sharding::SpareShardInfo</scope><name>total_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

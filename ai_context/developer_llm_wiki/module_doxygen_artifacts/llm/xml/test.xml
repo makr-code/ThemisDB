@@ -1,0 +1,608 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__llm__governance__pipeline__e2e__focused_8cpp_1afae423a6cb99f20b1a9540bd0662eace" kindref="member">TEST</ref>  (GovernancePipelineE2ETest, GOV01a_StrengGeheimBlockedWithAuditEntry)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000045"/>GOV-01a: PolicyEngine::evaluate() for streng-geheim → audit entry is recorded and the decision blocks downstream processing.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__governance__pipeline__e2e__focused_8cpp_1a5ccb7e1ec42c0b8d313282a6c861584f" kindref="member">TEST</ref>  (GovernancePipelineE2ETest, GOV01b_StrengGeheimInferenceDenied)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000046"/>GOV-01b: checkInferencePermission for streng-geheim → allowed=false.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__governance__pipeline__e2e__focused_8cpp_1a0ccfa6c4854cf708bf6b09385f1dbe57" kindref="member">TEST</ref>  (GovernancePipelineE2ETest, GOV01c_OffenClassificationPermitted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000047"/>GOV-01c: Same pipeline with &quot;offen&quot; classification → permitted. This validates the test is not trivially blocking everything.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__governance__pipeline__e2e__focused_8cpp_1ab078996ee07f8760d0e19e0cd29f1fbb" kindref="member">TEST</ref>  (GovernancePipelineE2ETest, GOV02_DeniedPermissionPreventesInferenceCall)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000048"/>GOV-02: When the governance gate returns DENY, the inference stub must receive zero calls. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__governance__pipeline__e2e__focused_8cpp_1a08bd913d5de81e327b16b57be735b15b" kindref="member">TEST</ref>  (GovernancePipelineE2ETest, GOV02b_PermittedRequestInvokesInference)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000049"/>GOV-02b: Control — when permission IS granted, inference IS invoked. Ensures the guard pattern does not accidentally block all requests.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__governance__pipeline__e2e__focused_8cpp_1a7a1f0a4821911a1cf4c707d4dc094b94" kindref="member">TEST</ref>  (GovernancePipelineE2ETest, GOV03a_NegativeTestSensitiveFieldUnmaskedWithoutMasker)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000050"/>GOV-03a: Without DataMasker, sensitive field &quot;email&quot; is NOT masked. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__governance__pipeline__e2e__focused_8cpp_1a1599f989c0fd4947ad2bcbf8e124787d" kindref="member">TEST</ref>  (GovernancePipelineE2ETest, GOV03b_PositiveTestSensitiveFieldMaskedWithMasker)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000051"/>GOV-03b: WITH DataMasker configured for REDACT strategy, the email field is replaced with &quot;[REDACTED]&quot;. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__governance__pipeline__e2e__focused_8cpp_1aa0bbc4d2f9d27db730ec79fc1b2759ce" kindref="member">TEST</ref>  (GovernancePipelineE2ETest, GOV03c_DisabledPolicyIsPassThrough)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000052"/>GOV-03c: DataMasker with disabled policy is a pass-through (no-op). </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1ab29a9b36efbfc123d34b696e7b969b76" kindref="member">TEST</ref>  (<ref refid="class_s_h_d_hardening_test" kindref="compound">SHDHardeningTest</ref>, SHDH01_ShutdownWithNoRequests_CompletesCleanly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000071"/>SHD-H-01: shutdown() with no inflight requests completes immediately.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1a212440fd959dd8200a97824885bb414f" kindref="member">TEST</ref>  (<ref refid="class_s_h_d_hardening_test" kindref="compound">SHDHardeningTest</ref>, SHDH02_ShutdownAfterCompletedRequests_Clean)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000072"/>SHD-H-02: shutdown() after completed requests does not hang or assert.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1ae378aa8f5a82601e90b8ceeb1cd7ad6e" kindref="member">TEST</ref>  (<ref refid="class_s_h_d_hardening_test" kindref="compound">SHDHardeningTest</ref>, SHDH03_ShutdownIdempotent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000073"/>SHD-H-03: shutdown() is idempotent — calling it twice does not throw.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1a3e453fb849ce011f861b3cf4f3856597" kindref="member">TEST</ref>  (<ref refid="class_s_h_d_hardening_test" kindref="compound">SHDHardeningTest</ref>, SHDH04_SchedulerStop_CleanTeardown)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000074"/>SHD-H-04: ContinuousBatchScheduler stop() flushes pending requests without leaving zombie threads. (Validates clean teardown path.)  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a3c75414f05bddec87c9378235efd842c" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS01_ModelLoadFailure_ThrowsRuntimeError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000088"/>EXS-01: Model load failure throws std::runtime_error, not UB or crash. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a1f60b6d9fbf87be65bc111c1582f5982" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS02_NullPlugin_RequestResolvesAsFailure)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000089"/>EXS-02: Inference request with null plugin returns failure cleanly. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1acc2513fef95be5dcc674da177685cf34" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS03_RAIIWrapper_ReleasesOnScopeExit)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000090"/>EXS-03: RAII wrapper releases model resource on scope exit. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a10ec1e0f9e0d4ad9f4e323318c167ea8" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS04_RAIIWrapper_ReleasesOnException)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000091"/>EXS-04: RAII wrapper releases resource even when an exception is thrown mid-inference.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a0b88f8d28a4756e245e83d2110e3303a" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS05_DoubleUnload_Idempotent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000092"/>EXS-05: Double-unload is idempotent — no double-free or crash. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a39c4d4ef916bcb69e71b982053cee4f0" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS06_ExceptionInCallback_SchedulerStateOK)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000093"/>EXS-06: Exception in callback does not corrupt scheduler state. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a2690aba60a4ab7a12fe04cef5e0c87e0" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS08_ConcurrentException_IsolatedToOneThread)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000095"/>EXS-08: Concurrent exception in one thread does not affect other threads&apos; inference state. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a6c0abc14d1c9cce52999e6cee73473dd" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS10_MoveHandle_SourceInvalidated)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000097"/>EXS-10: Move of model handle transfers ownership; source is invalidated.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1aa3dad9dacdf566dff43864231b9807b0" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS11_ExceptionDuringRegistration_PluginNotAdded)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000098"/>EXS-11: Exception during plugin registration is caught; plugin not registered. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a296de1b743aa35c38cb31864053f6b81" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS12_BatchScheduleException_DoesNotLoseQueue)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000099"/>EXS-12: Exception during batch scheduling does not lose already-queued requests. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a958c715fd81581612464f08ab88b582e" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS14_PromptPolicy_ConcurrentEval_Safe)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000101"/>EXS-14: PromptPolicy::evaluate is exception-safe under concurrent modification (no crash or data race).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a1a49bb2d0e35de16971391d244c51611" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS15_EngineRestartAfterException_CorrectState)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000102"/>EXS-15: Inference engine restart after exception produces correct state. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1ac96730d3d35926eeb236ecae6dd481ca" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS16_LoadUnloadCycles_NoAllocationGrowth)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000103"/>EXS-16: Memory usage does not grow after 10 load/unload cycles (simulated RAII guard). </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a7a62a05fd689bd58f579d6f85123d7e5" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS17_PluginManager_UnknownModel_ReturnsNullopt)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000104"/>EXS-17: Plugin manager returns std::nullopt on unknown model, no exception thrown.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1ad04785ddaa254fe68927b28c1beee32f" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS18_ErrorEnvelope_PropagatesCode)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000105"/>EXS-18: Error envelope propagates error code through exception-safe path. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a574e6f46ae70684371d54c09a56adcda" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS19_StrongExceptionGuarantee_StateUnchanged)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000106"/>EXS-19: Strong exception guarantee — state unchanged if operation throws (simulated). </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a7c5c89ca89a4c611013c425f5a8fba3e" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS20_BasicExceptionGuarantee_NoResourceLeak)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000107"/>EXS-20: Basic exception guarantee — no resource leak on partial completion (simulated). </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a82fcec4c4a36437547bc8f51092d061c" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS22_StreamAbort_ReleasesPartialBuffer)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000109"/>EXS-22: Stream abort releases partial response buffer (no leak). </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1aef67c67be0509741360bd2a7e405de18" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS23_RetryOnTransient_SucceedsOnThirdAttempt)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000110"/>EXS-23: Retry-on-transient wraps inference in exception-safe retry loop — succeeds on 3rd attempt.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a17daf8496cf211923717af2dade3006d" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS24_ShutdownUnderException_CompletesWithinTimeout)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000111"/>EXS-24: Shutdown-under-exception completes without hang (timeout ≤ 50ms). </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a294754b25e88746376b85a27b1d3b97b" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS25_StreamingHandlerException_ReaderContinues)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000112"/>EXS-25: Exception in streaming handler does not terminate reader thread. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a0d9d7d1f9fa51f3b246c10f7e1ebb828" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS26_MultiPlugin_LoadUnload_NoExceptionLeakage)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000113"/>EXS-26: Multiple plugins can be loaded/unloaded without exception leakage (3 distinct plugins registered and unregistered).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a40458894199f3e4380a37fa762d89ddf" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS27_QuotaRefillException_CounterAtPreviousValue)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000114"/>EXS-27: Exception during quota refill leaves counter at previous valid value. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1aadb53ef30ba9b5a9dd405619d713039f" kindref="member">TEST</ref>  (EXSHardeningTest_Standalone, EXS28_ExceptionSafetyGate_ScoreIs1_0)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000115"/>EXS-28: Exception safety gate — yields 1.0 when all EXS invariants hold. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__rag__injection__guard__focused_8cpp_1a9275a5e06f21d196cbf46c6ce0439dc9" kindref="member">TEST</ref>  (RagInjectionGuardTest, RIG01a_DirectOverridePayloadDetectedHigh)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000140"/>RIG-01a: Classic &quot;Ignore previous instructions&quot; in RAG chunk → detector finds HIGH/CRITICAL finding.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__rag__injection__guard__focused_8cpp_1aa0fe75d15b592ddb88a55027ab2ce63a" kindref="member">TEST</ref>  (RagInjectionGuardTest, RIG01b_GuardBlocksContextWithPayload)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000141"/>RIG-01b: Guard gate rejects assembled RAG context with injection payload.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__rag__injection__guard__focused_8cpp_1a449bea953353d9620ae5e4e6d22853e9" kindref="member">TEST</ref>  (RagInjectionGuardTest, RIG01c_CleanContextPassesGuard)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000142"/>RIG-01c: Clean RAG context (no payload) passes the guard gate.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__rag__injection__guard__focused_8cpp_1ab9bbad47ff75f7c8d18987ed3ac85620" kindref="member">TEST</ref>  (RagInjectionGuardTest, RIG02a_UnicodeDirectionOverrideDocumented)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000143"/>RIG-02a: Unicode direction-override attack. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__rag__injection__guard__focused_8cpp_1acd4d5e105a0bc56c68d8ec5ae1a62c35" kindref="member">TEST</ref>  (RagInjectionGuardTest, RIG02b_HomoglyphAttackDocumented)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000144"/>RIG-02b: Basic homoglyph substitution — Latin &apos;a&apos; replaced with Cyrillic &apos;а&apos; (U+0430) in the word &quot;admin&quot;. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__rag__injection__guard__focused_8cpp_1add9b693b768719641b7920fa34a827bd" kindref="member">TEST</ref>  (RagInjectionGuardTest, RIG03a_MaliciousRagChunkBlocksAccumulatedContext)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000145"/>RIG-03a: Harmless turns followed by malicious RAG chunk → accumulated context blocked before forwarding.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__rag__injection__guard__focused_8cpp_1a6a93170b645fd8e811e12deb66ff2b7d" kindref="member">TEST</ref>  (RagInjectionGuardTest, RIG03b_GradualAccumulationBlocked)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000146"/>RIG-03b: Gradual accumulation — forbidden instruction spread across multiple RAG chunks. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__rag__injection__guard__focused_8cpp_1a67a78261c2147c58f207da63d3730d45" kindref="member">TEST</ref>  (RagInjectionGuardTest, RIG03c_CleanMultiTurnNotBlocked)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000147"/>RIG-03c: Clean multi-turn context is not over-blocked.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__token__quota__concurrency__focused_8cpp_1ab8ac4a47df18914eff6e7c64eb74beea" kindref="member">TEST</ref>  (TokenQuotaConcurrencyTest, TQC01a_SequentialRequestsExhaustQuota)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000148"/>TQC-01a: 10 sequential requests of 100 tokens each against a 500-token quota. First 5 must be admitted; requests 6-10 must be denied. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__token__quota__concurrency__focused_8cpp_1a291c72c2a0597b2491e15b56cd50ac71" kindref="member">TEST</ref>  (TokenQuotaConcurrencyTest, TQC01b_ConcurrentRequestsNeverExceedQuota)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000149"/>TQC-01b: N concurrent threads each attempt to consume tokens that together exceed the quota. After all threads complete:<itemizedlist>
+<listitem><para>Total tokens consumed must NOT exceed the quota.</para>
+</listitem><listitem><para>At least one request must have been denied.</para>
+</listitem><listitem><para>No negative balance. </para>
+</listitem></itemizedlist>
+</para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__token__quota__concurrency__focused_8cpp_1a497f14189cde0142b83a1d7eebfb91b1" kindref="member">TEST</ref>  (TokenQuotaConcurrencyTest, TQC02a_ExactBoundaryNoNegativeBalance)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000150"/>TQC-02a: Two threads each attempt to consume exactly the remaining quota simultaneously. Only ONE must succeed; the other must be denied; the balance must never go negative.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__token__quota__concurrency__focused_8cpp_1a4928d04410a2c29b1c922d638bae4a88" kindref="member">TEST</ref>  (TokenQuotaConcurrencyTest, TQC02b_ZeroRemainingQuotaAllDenied)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000151"/>TQC-02b: Multiple threads targeting quota = 0 (fully exhausted).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__token__quota__concurrency__focused_8cpp_1a204cb651e23137f9f6534bc6d1833271" kindref="member">TEST</ref>  (TokenQuotaConcurrencyTest, TQC02c_ZeroTokenRequestDeniedAtExhaustedQuota)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000152"/>TQC-02c: Check returns denied even for a 0-token request when quota is fully consumed (edge case: zero-sized request).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1a00a90e78da01c0830c1083ac542a4254" kindref="member">TEST_F</ref>  (<ref refid="class_c_b_s_hardening_test" kindref="compound">CBSHardeningTest</ref>, CBSH01_BelowQueueLimit_AcceptsRequest)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000053"/>CBS-H-01: Submit below queue limit succeeds (non-empty request ID).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1a1f8004cfaff1448f2f8c446233d153e6" kindref="member">TEST_F</ref>  (<ref refid="class_c_b_s_hardening_test" kindref="compound">CBSHardeningTest</ref>, CBSH02_QueueFull_RejectsRequest)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000054"/>CBS-H-02: Queue full rejects with empty string (backpressure signal). </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1a1dc6c78043d38cbd57197dbd4f98f866" kindref="member">TEST_F</ref>  (<ref refid="class_c_b_s_hardening_test" kindref="compound">CBSHardeningTest</ref>, CBSH03_Rejection_IncrementsRejectedCount)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000055"/>CBS-H-03: Rejection increments rejected_requests stat.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1af6233f3620992bbc62420ea9f00489af" kindref="member">TEST_F</ref>  (<ref refid="class_c_b_s_hardening_test" kindref="compound">CBSHardeningTest</ref>, CBSH04_AcceptedRequests_TrackedInStats)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000056"/>CBS-H-04: Accepted requests are tracked in total_requests stat.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1ada5be1d3186509440c654e1fccff908a" kindref="member">TEST_F</ref>  (<ref refid="class_c_b_s_hardening_test" kindref="compound">CBSHardeningTest</ref>, CBSH05_CancelPending_ReturnsTrue)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000057"/>CBS-H-05: cancelRequest returns true for a pending request.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1acfeb2fd6815d6c9f9d6c20f133eafe84" kindref="member">TEST_F</ref>  (<ref refid="class_c_b_s_hardening_test" kindref="compound">CBSHardeningTest</ref>, CBSH06_CancelUnknown_ReturnsFalse)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000058"/>CBS-H-06: cancelRequest for unknown ID returns false.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1a4b90ab7047f69491c6a88e6c63744d82" kindref="member">TEST_F</ref>  (<ref refid="class_c_b_s_hardening_test" kindref="compound">CBSHardeningTest</ref>, CBSH07_StopIdempotent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000059"/>CBS-H-07: stop() is idempotent — calling it twice does not throw.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1ae45f9a5656940ed891621411459d926c" kindref="member">TEST_F</ref>  (<ref refid="class_c_b_s_hardening_test" kindref="compound">CBSHardeningTest</ref>, CBSH08_HighPriority_AcceptedInSaturatedQueue)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000060"/>CBS-H-08: High-priority request is accepted even when lower-priority ones are filling the queue. (Validates priority field is forwarded.)  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1a2b799a348c326d68d5bd2ab1b5ee4d8d" kindref="member">TEST_F</ref>  (<ref refid="class_t_q_m_hardening_test" kindref="compound">TQMHardeningTest</ref>, TQMH01_WithinQuota_Allowed)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000061"/>TQM-H-01: check() allows request when tokens are within quota.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1ae508bd7597d4f14b9194f5206853a2ac" kindref="member">TEST_F</ref>  (<ref refid="class_t_q_m_hardening_test" kindref="compound">TQMHardeningTest</ref>, TQMH02_ExceededQuota_Denied)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000062"/>TQM-H-02: check() denies request when quota is exhausted.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1a02c0e91271f5bed6bec5283a1551b5ca" kindref="member">TEST_F</ref>  (<ref refid="class_t_q_m_hardening_test" kindref="compound">TQMHardeningTest</ref>, TQMH03_NoQuotaSet_UnlimitedAccess)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000063"/>TQM-H-03: No quota set means all requests pass.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1acc25309bc68a0e9719302a2493191ca1" kindref="member">TEST_F</ref>  (<ref refid="class_t_q_m_hardening_test" kindref="compound">TQMHardeningTest</ref>, TQMH04_Consume_ReflectedInUsage)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000064"/>TQM-H-04: consume() is reflected in tokensConsumed().  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1a7b4ff0c8c0c08584d30931c52a2b0b22" kindref="member">TEST_F</ref>  (<ref refid="class_p_c_l_hardening_test" kindref="compound">PCLHardeningTest</ref>, PCLH01_ConcurrentBlockedRequests_IndependentFlags)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000065"/>PCL-H-01: Concurrent blocked requests do not corrupt each other&apos;s metadata — each carries its own blocked flag.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1ab7957781420bcbd9054357ed51011fd4" kindref="member">TEST_F</ref>  (<ref refid="class_p_c_l_hardening_test" kindref="compound">PCLHardeningTest</ref>, PCLH02_ConcurrentRedactPolicy_NoPromptCrossContamination)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000066"/>PCL-H-02: Redact policy is applied independently to each concurrent request — no cross-request contamination of sanitised prompt.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1a09fc45c28f36148ff774ff9354f4d889" kindref="member">TEST_F</ref>  (<ref refid="class_p_c_l_hardening_test" kindref="compound">PCLHardeningTest</ref>, PCLH03_PolicyHotSwap_NoRaceOrCrash)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000067"/>PCL-H-03: Replacing the policy while requests are in-flight is safe — in-flight requests see the policy that was active at submit time or the new policy; crucially, no crash or data corruption occurs.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1a450bd760f0455889051b81fb7f86f6c3" kindref="member">TEST_F</ref>  (<ref refid="class_p_c_l_hardening_test" kindref="compound">PCLHardeningTest</ref>, PCLH04_ClearPolicy_AllowsAllRequests)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000068"/>PCL-H-04: Clearing the policy (nullptr) allows all subsequent requests even when a blocking policy was previously active.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1ac222907e62a40daafffa721c86a099d4" kindref="member">TEST_F</ref>  (<ref refid="class_p_c_l_hardening_test" kindref="compound">PCLHardeningTest</ref>, PCLH05_PolicyRuleCount_AccurateLifecycle)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000069"/>PCL-H-05: Rule count reflects addBlockRule / addRedactRule / removeRule.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__hardening__phase4_8cpp_1a5ad14271db62c96bc68dbeb8e1301876" kindref="member">TEST_F</ref>  (<ref refid="class_p_c_l_hardening_test" kindref="compound">PCLHardeningTest</ref>, PCLH06_InvalidRegex_ThrowsAtConfig)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000070"/>PCL-H-06: Invalid regex in addBlockRule throws std::invalid_argument at configuration time, not silently at request time.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a42310ac2b831883067e54a3d754fd264" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM01_ModelLoadCycle_NoNetGrowth)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000116"/>MEM-01: Model loading cycle (10 iterations) shows no net allocation growth (simulated RAII guard).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a8d3a61b2e19ec08513ddb73e50da02bd" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM02_InferenceRequest_100Cycles_NoGrowth)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000117"/>MEM-02: Inference request (100 cycles) shows no net allocation growth.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a2d97d78b4bcf47933736b6d200df48d7" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM03_ResponseCacheEviction_FreesAllEntries)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000118"/>MEM-03: Response cache eviction correctly frees all entries. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1ad9a2be9b29e7b17dae7abfba6844b80d" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM04_TokenizerResource_FreedOnScopeExit)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000119"/>MEM-04: Tokenizer resource freed on scope exit (RAII pattern).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1aef0e94e355e7a4b082b0e8f35cef93bf" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM05_GrammarCacheCapacityLimit_OldEntriesFreed)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000120"/>MEM-05: Grammar cache capacity limit enforced; old entries freed. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a664f19967c383aceafb351b7def5cb7e" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM06_LoRAAdapterUnload_FreesWeights)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000121"/>MEM-06: LoRA adapter unload frees adapter weights (simulated size check).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a6accc0129a67a3bbb822495f4b4dfd11" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM07_KVCacheRelease_OnSessionEnd)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000122"/>MEM-07: KV-cache release triggered on session end.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1ac9a7258f0bfd721cdf8e8d5c3b021981" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM08_BatchSchedulerQueue_ClearedOnShutdown)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000123"/>MEM-08: Batch scheduler queue cleared on shutdown (no dangling pointers — simulated via RAII entries).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a3212e6a9c4040b77034c8f6535b61e69" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM09_CancelledRequest_BufferReleasedImmediately)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000124"/>MEM-09: Cancelled request buffer released immediately.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1aa2fd335beb5735b073eacb6fe8f84e78" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM10_PluginManager_CleanupReleasesAllPlugins)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000125"/>MEM-10: Plugin manager cleanup releases all registered plugins on destroy. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a49ea6acdb276d17bc4f5861e9ec96bab" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM11_VRAMAccounting_DecrementsOnUnload)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000126"/>MEM-11: VRAM accounting decrements on model unload (simulated counter).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1ada764627f3f569e4024991d7183440a1" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM12_StreamReader_ReleasesBufferAfterAbort)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000127"/>MEM-12: Stream reader releases buffer after abort signal.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1abf3fc3b7e757e14716373115f8c9ac0f" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM13_ConcurrentModelLoads_NoAllocationGrowth)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000128"/>MEM-13: Concurrent model loads produce no cumulative allocation growth (simulated counters, 4 threads × 5 cycles).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a5b2f0337b0e2abea5019ab3c69e6935f" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM14_QuotaManagerReset_FreesSlidingWindowState)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000129"/>MEM-14: Quota manager reset frees sliding-window state. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1add176e2880edf59066acc610e15d9f48" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM15_1000CycleStress_WithinBudget)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000130"/>MEM-15: 1 000-cycle inference stress — memory stays ≤ initial + 50 KB simulated budget. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a36893ff5adf1642601dcc6290c963f52" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM16_TransformationPipeline_ReleasesIntermediates)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000131"/>MEM-16: Response transformation pipeline releases intermediate buffers. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a67cb40720dd3c9539b9c35271acb0ed9" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM17_FailedDownload_NoPartialBufferLeak)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000132"/>MEM-17: Failed model download does not leak partial download buffer.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a71598d75ec1b7900303498e94c886673" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM18_PolicyCacheClear_SizeBecomesZero)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000133"/>MEM-18: Policy cache clear releases all entries (size → 0). </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1add984a7d41b9d94d3cc2d14be259db21" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM19_LoraCertStore_PrunesExpiredCerts)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000134"/>MEM-19: LoRA certificate store prunes expired certs and releases memory. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a2ab13a063c9b1c78412ca4bc30f18b46" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM20_ModelMetadataCache_RespectsMaxEntries)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000135"/>MEM-20: Model metadata cache respects max_entries and frees oldest. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a276604b87ccf20ebb9bacf933ec4b102" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM21_SharedModelRefCount_ReachesZeroOnLastRelease)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000136"/>MEM-21: Atomic reference count for shared model state reaches 0 on last release.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a954cff1dd28155719eb6b9e9a3ef26f4" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM22_ClientPool_FreesConnectionsOnDestroy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000137"/>MEM-22: LLM client pooled connections freed on pool destruction. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a25bb9a2a9e61d19f53f21ebd5c98fb06" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM23_EmbeddingCacheEviction_TriggersValueDeleter)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000138"/>MEM-23: Embedding cache eviction triggers value_deleter. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__phase5__hardening_8cpp_1a4a5d3bdbb3250000878b39cd9cf77b10" kindref="member">TEST_F</ref>  (<ref refid="class_m_e_m_hardening_test" kindref="compound">MEMHardeningTest</ref>, MEM24_MemoryGate_ScoreIs1_0)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000139"/>MEM-24: Memory gate — yields 1.0 when all MEM invariants hold. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__wiki__index__store__phase__b_8cpp_1a3b5705c3981bcdea974cd5a04953f6bd" kindref="member">TEST_F</ref>  (<ref refid="class_wiki_index_store_phase_b" kindref="compound">WikiIndexStorePhaseB</ref>, WIS_B_01_IsReadyAfterConstruction)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000230"/>WIS-B-01 — <computeroutput>WikiIndexStore::isReady()</computeroutput> returns true after the constructor has initialised both the fulltext and vector indexes.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__wiki__index__store__phase__b_8cpp_1ae8fb7d423a8aaa0dec1c39ccd3f04eb9" kindref="member">TEST_F</ref>  (<ref refid="class_wiki_index_store_phase_b" kindref="compound">WikiIndexStorePhaseB</ref>, WIS_B_02_EmptyStoreReturnsEmpty)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000231"/>WIS-B-02 — Querying an empty WikiIndexStore returns an empty vector.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__wiki__index__store__phase__b_8cpp_1a9db200c70fe16c1db5e043d027d52e15" kindref="member">TEST_F</ref>  (<ref refid="class_wiki_index_store_phase_b" kindref="compound">WikiIndexStorePhaseB</ref>, WIS_B_03_WriteChunkBM25Query)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000232"/>WIS-B-03 — <computeroutput>writeChunk()</computeroutput> stores a chunk and BM25 fulltext scanning returns it for a query containing a distinctive term present in the chunk text.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__wiki__index__store__phase__b_8cpp_1a0248dbba610947fe75eb82694bbd04c2" kindref="member">TEST_F</ref>  (<ref refid="class_wiki_index_store_phase_b" kindref="compound">WikiIndexStorePhaseB</ref>, WIS_B_04_PreEmbeddedChunkKNNQuery)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000233"/>WIS-B-04 — A chunk with a pre-populated embedding is stored as-is and returned by a KNN query whose embedding is close to the stored one.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__wiki__index__store__phase__b_8cpp_1adf544db6ef5b4cfe72e8518d066bcc42" kindref="member">TEST_F</ref>  (<ref refid="class_wiki_index_store_phase_b" kindref="compound">WikiIndexStorePhaseB</ref>, WIS_B_05_WriteBatchHybridQuery)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000234"/>WIS-B-05 — <computeroutput>writeBatch()</computeroutput> embeds chunks lacking embeddings and stores all of them; a subsequent hybrid query (BM25 + KNN) finds them all.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__wiki__index__store__phase__b_8cpp_1a20aa5975c6a2e86a607ba266a5b6e04d" kindref="member">TEST_F</ref>  (<ref refid="class_wiki_index_store_phase_b" kindref="compound">WikiIndexStorePhaseB</ref>, WIS_B_06_TopKLimitsResults)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000235"/>WIS-B-06 — <computeroutput>query()</computeroutput> respects the <computeroutput>top_k</computeroutput> parameter: no more than <computeroutput>top_k</computeroutput> results are returned even when more matching chunks exist.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__wiki__index__store__phase__b_8cpp_1aaebfe5afa0451c27c910e2b322b30f29" kindref="member">TEST_F</ref>  (<ref refid="class_wiki_index_store_phase_b" kindref="compound">WikiIndexStorePhaseB</ref>, WIS_B_07_MinScoreFiltersAll)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000236"/>WIS-B-07 — When <computeroutput>min_score</computeroutput> is set to 1.0f (above all attainable RRF scores), the result vector is empty.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__wiki__index__store__phase__b_8cpp_1af2baea453ae72f5d434c99e93d47150b" kindref="member">TEST_F</ref>  (<ref refid="class_wiki_index_store_phase_b" kindref="compound">WikiIndexStorePhaseB</ref>, WIS_B_08_PreEmbeddedNoReEmbed)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000237"/>WIS-B-08 — A chunk whose <computeroutput>embedding</computeroutput> field is already populated is written as-is; <computeroutput>EmbeddedLLM::embed()</computeroutput> must not be invoked for it.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__wiki__index__store__phase__b_8cpp_1a2b88eae21b31dd1a642dc4652157163c" kindref="member">TEST_F</ref>  (<ref refid="class_wiki_index_store_phase_b" kindref="compound">WikiIndexStorePhaseB</ref>, WIS_B_09_ConcurrentReaders)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000238"/>WIS-B-09 — Multiple concurrent <computeroutput>query()</computeroutput> calls complete without crash, data corruption, or assertion failure. Validates that <computeroutput>shared_mutex</computeroutput> allows concurrent readers.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__wiki__index__store__phase__b_8cpp_1a13c27c5c50c0c6bdd706cdda55f5cc88" kindref="member">TEST_F</ref>  (<ref refid="class_wiki_index_store_phase_b" kindref="compound">WikiIndexStorePhaseB</ref>, WIS_B_10_ConcurrentWriterAndReaders)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000239"/>WIS-B-10 — A writer thread calling <computeroutput>writeChunk()</computeroutput> concurrently with multiple reader threads calling <computeroutput>query()</computeroutput> must not produce crashes, deadlocks, or thrown exceptions. Validates the exclusive/shared locking contract.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__wiki__index__store__phase__b_8cpp_1ae0d1b25cd95a8293802196b29f22e090" kindref="member">TEST_F</ref>  (<ref refid="class_wiki_index_store_phase_b" kindref="compound">WikiIndexStorePhaseB</ref>, WIS_B_11_ResultsDescendingOrder)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000240"/>WIS-B-11 — When multiple chunks are returned, their <computeroutput>score</computeroutput> fields are in non-ascending (descending) order.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__wiki__index__store__phase__b_8cpp_1af446d3a9dcd657f25828955ee69dcd3d" kindref="member">TEST_F</ref>  (<ref refid="class_wiki_index_store_phase_b" kindref="compound">WikiIndexStorePhaseB</ref>, WIS_B_12_BM25OnlyMode)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000241"/>WIS-B-12 — With <computeroutput>enable_vector=false</computeroutput>, only BM25 results are returned. A chunk containing a distinctive token is found via fulltext scan alone.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__wiki__index__store__phase__b_8cpp_1a6df9884e3bfb198d9cdbb62058c8f539" kindref="member">TEST_F</ref>  (<ref refid="class_wiki_index_store_phase_b" kindref="compound">WikiIndexStorePhaseB</ref>, WIS_B_13_VectorOnlyMode)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000242"/>WIS-B-13 — With <computeroutput>enable_bm25=false</computeroutput>, only KNN results are returned. A pre-embedded chunk is found via vector similarity alone.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__wiki__index__store__phase__b_8cpp_1affdb6b559f895bda851e98b9e7b9c2eb" kindref="member">TEST_F</ref>  (<ref refid="class_wiki_index_store_phase_b" kindref="compound">WikiIndexStorePhaseB</ref>, WIS_B_14_FlushNoOp)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000243"/>WIS-B-14 — <computeroutput>flush()</computeroutput> completes without throwing an exception, on both an empty store and after writing data.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__wiki__index__store__phase__b_8cpp_1a754a25bf118db4d76f6d141823e90256" kindref="member">TEST_F</ref>  (<ref refid="class_wiki_index_store_phase_b" kindref="compound">WikiIndexStorePhaseB</ref>, WIS_B_15_QueryEmbeddingCache)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000244"/>WIS-B-15 — The same query text repeated across two <computeroutput>query()</computeroutput> calls only invokes <computeroutput>EmbeddedLLM::embed()</computeroutput> once; the second call uses the cached embedding.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__wiki__index__store__phase__b_8cpp_1ab32ea84e383449c8775f34a41b35fe80" kindref="member">TEST_F</ref>  (<ref refid="class_wiki_index_store_phase_b" kindref="compound">WikiIndexStorePhaseB</ref>, WIS_B_16_MultipleDocIds)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000245"/>WIS-B-16 — Chunks from distinct doc_ids stored via <computeroutput>writeBatch()</computeroutput> are all retrievable. The store does not conflate or lose chunks from different source documents.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1attention_1_1test_1ad5bd8f31c4bb6af77dcca29028bfd33a" kindref="member">themis::llm::attention::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref>, BackendNameIdentification)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/><ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref> name identification </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1attention_1_1test_1aceaccaf396f973b13211d78a1791870b" kindref="member">themis::llm::attention::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref>, InitializationSuccess)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>Initialization and memory allocation </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1attention_1_1test_1af6fd3040523cd29471a4437a31fa9647" kindref="member">themis::llm::attention::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref>, MemoryReset)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>Memory reset functionality </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1attention_1_1test_1a223682ccec527fda847d32d938d17179" kindref="member">themis::llm::attention::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref>, BackwardPassStub)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>Backward pass implementation </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1attention_1_1test_1a3474e0f600bced8f37c1546ac9e76dcf" kindref="member">themis::llm::attention::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref>, CheckpointRestore)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>Checkpoint/restore compressive memory </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1attention_1_1test_1a303de47acfcec990666c9304e6d7b561" kindref="member">themis::llm::attention::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref>, ForwardPassBasic)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>Forward pass with valid tensors </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1attention_1_1test_1a166f849ba78e29b13ffecf6d5885d151" kindref="member">themis::llm::attention::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref>, MemoryStatistics)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>Memory statistics reporting </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1attention_1_1test_1a7afc805521f20ac22de51aa36b28684c" kindref="member">themis::llm::attention::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref>, P2GATE02NumericConsistency)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>P2-GATE-02: Numeric Consistency CPU vs CUDA </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1attention_1_1test_1a7712261d810443db0630edb775e77bef" kindref="member">themis::llm::attention::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref>, P2GATE04VRAMFootprint)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>P2-GATE-04: VRAM Footprint Efficiency </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1attention_1_1test_1a774259ab0478b26dadaccc19c23b286f" kindref="member">themis::llm::attention::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref>, LongSequenceHandling)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>Forward pass with large sequence lengths </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1attention_1_1test_1aa3e5d297c3c5a2a3b0f000ea98147288" kindref="member">themis::llm::attention::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref>, InvalidTensorHandling)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>Invalid tensor handling </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1attention_1_1test_1a3c0e223e44e4de66773f92859e3b0f08" kindref="member">themis::llm::attention::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref>, MemoryAccumulation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>Memory update accumulation </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a447edb5b99863c777039d57c92341663" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, EmbedCallbackStdExceptionIsCaught)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>EmbedCallbackStdExceptionIsCaught  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1af4ee582882ba954cbb4110d28f5cbd55" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, EmbedCallbackNonStdExceptionIsCaught)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/>EmbedCallbackNonStdExceptionIsCaught  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1af9f91772c6294077dccce37064681ca5" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, EmbedCallbackExceptionFallsBackToCache)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/>EmbedCallbackExceptionFallsBackToCache  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a77661dbbe1124d89694a1f6e862d1e2f" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, GenerateCallbackStdExceptionIsCaught)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000023"/>GenerateCallbackStdExceptionIsCaught  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a60ad194cbc22b00e01511888ec673c80" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, GenerateCallbackNonStdExceptionIsCaught)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000024"/>GenerateCallbackNonStdExceptionIsCaught  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a4097b8da7278ac129258bc5a53ab95f7" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, StreamCallbackExceptionIsSwallowed)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000025"/>StreamCallbackExceptionIsSwallowed  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a5376ea70bf3f4643602ebe1842af11e5" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, EmbeddedLLMDestructorCalledAfterCallbackException)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000026"/>EmbeddedLLMDestructorCalledAfterCallbackException  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a7c91c53a224a93383a0b3d1571f18e86" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, EmbeddedLLMDestructorOnDefaultConstruct)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000027"/>EmbeddedLLMDestructorOnDefaultConstruct  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a96bb740eaccaebfb841292bc215b50d3" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, GGUFLoaderDestructorIsNoexcept)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000028"/>GGUFLoaderDestructorIsNoexcept  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a347ee401f98b2d4eb23adb5fc3679a98" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, KVCacheBufferDestructorIsNoexcept)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000029"/>KVCacheBufferDestructorIsNoexcept  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1aee4b9cfa98b432acd6be73b204143750" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, KVCacheBufferDestructorSwallowsFlushException)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000030"/>KVCacheBufferDestructorSwallowsFlushException  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a26ff27cdcfc2117317dfae70f2430c7e" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, KVCacheBufferDestructorSwallowsNonStdException)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000031"/>KVCacheBufferDestructorSwallowsNonStdException  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1ac841e71279b24f16cf6b51906955d712" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, GGUFLoaderParseFileTwiceDoesNotCrash)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000032"/>GGUFLoaderParseFileTwiceDoesNotCrash  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1acb34222228dc2edb98ce5c00370bddd7" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, GGUFLoaderDestructorAfterFailedParse)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000033"/>GGUFLoaderDestructorAfterFailedParse  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a6f8ef7188802e4eb067aff9fa671ce26" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, GGUFLoaderDefaultConstructDestructCycle)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000034"/>GGUFLoaderDefaultConstructDestructCycle  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a19bbb8c01d19e26c6c47490735821d18" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, EmptyLLMEmbedReturnsValue)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000035"/>EmptyLLMEmbedReturnsValue  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a2edc389ece90e30b0928b282d51f5115" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, EmptyLLMGenerateDoesNotCrash)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000036"/>EmptyLLMGenerateDoesNotCrash  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a5de82ba217b468c334015ee29b15aaf7" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, EmptyLLMIsReadyDoesNotCrash)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000037"/>EmptyLLMIsReadyDoesNotCrash  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a8e52bf9e8193b9aa6b45748789dc62db" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, EmptyLLMClearCacheIsIdempotent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000038"/>EmptyLLMClearCacheIsIdempotent  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1af94122ecf040560f913a11335aa3d665" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, BatchEmbedDelegatesToSingleEmbed)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000039"/>BatchEmbedDelegatesToSingleEmbed  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1ac62a3d83dc191614d86770e466332668" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, BatchEmbedCallbackExceptionDoesNotCorruptOtherResults)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000040"/>BatchEmbedCallbackExceptionDoesNotCorruptOtherResults  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1abeb209bd08199cb9920b183cfd7885f6" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, BatchEmbedEmptyInputReturnsEmpty)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000041"/>BatchEmbedEmptyInputReturnsEmpty  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a7648b3768d49a41eb2060fdf65f51ab4" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, ManagerGetAfterInitDoesNotThrow)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000042"/>ManagerGetAfterInitDoesNotThrow  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a99dde92bf61ddccada49c8e3fffdb755" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, ConcurrentEmbedCallsDoNotCorruptState)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000043"/>ConcurrentEmbedCallsDoNotCorruptState  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a2f1ad387331c0447b5463125e94431f4" kindref="member">themis::llm::TEST</ref>  (LLMExceptionSafety, ConcurrentClearCacheDoesNotCrash)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000044"/>ConcurrentClearCacheDoesNotCrash  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a124b7a8eedae2fbaee729bf1ea45f871" kindref="member">themis::llm::TEST</ref>  (LLMMemoryLifecycle, ModelLoadUseCycleDoesNotCrash)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000075"/>ModelLoadUseCycleDoesNotCrash  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a60379e6d3d25ff81f8e632998a12d9df" kindref="member">themis::llm::TEST</ref>  (LLMMemoryLifecycle, ModelLoadUseCycleViaUniquePtr)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000076"/>ModelLoadUseCycleViaUniquePtr  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a80b4c75932f458cc1ba5993c8d9a51c9" kindref="member">themis::llm::TEST</ref>  (LLMMemoryLifecycle, ModelLoadUseCycleGenerateNoBackend)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000077"/>ModelLoadUseCycleGenerateNoBackend  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a5632e49418533b57bc1137e4bc795215" kindref="member">themis::llm::TEST</ref>  (LLMMemoryLifecycle, RepeatedConstructDestructIsStable)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000078"/>RepeatedConstructDestructIsStable  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1ae7a7b92b668c685510c222d1a29bbb73" kindref="member">themis::llm::TEST</ref>  (LLMMemoryLifecycle, RepeatedEmbedCachePopulateAndClear)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000079"/>RepeatedEmbedCachePopulateAndClear  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a426db69fb8f0e5aebf3c4a0c40110855" kindref="member">themis::llm::TEST</ref>  (LLMMemoryLifecycle, EmbeddingCacheReleasedOnDestruction)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000080"/>EmbeddingCacheReleasedOnDestruction  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a1ed3de4852816ac645170464937a314c" kindref="member">themis::llm::TEST</ref>  (LLMMemoryLifecycle, ClearCacheReducesMemory)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000081"/>ClearCacheReducesMemory  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1aa818009aa1375831fce52252cbfc98c6" kindref="member">themis::llm::TEST</ref>  (LLMMemoryLifecycle, KVCacheBufferLargeBatchFlushedAndCleared)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000082"/>KVCacheBufferLargeBatchFlushedAndCleared  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1acdec4069b2fbe7d0405df14d013115e2" kindref="member">themis::llm::TEST</ref>  (LLMMemoryLifecycle, KVCacheBufferDestructorCleansUp)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000083"/>KVCacheBufferDestructorCleansUp  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a4f7c060f213354560bc7bc8dbbdaf67f" kindref="member">themis::llm::TEST</ref>  (LLMMemoryLifecycle, KVCacheBufferPoolAcquireReleaseStable)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000084"/>KVCacheBufferPoolAcquireReleaseStable  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a13e834e181f9b741f95d75064a49af8a" kindref="member">themis::llm::TEST</ref>  (LLMMemoryLifecycle, GrammarCacheConstructDestructCycle)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000085"/>GrammarCacheConstructDestructCycle  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a209f218b58a738cd4d1ce4425882242f" kindref="member">themis::llm::TEST</ref>  (LLMMemoryLifecycle, GrammarCacheEvictsOnFull)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000086"/>GrammarCacheEvictsOnFull  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a3919080d38a42178eaf316376ed6901a" kindref="member">themis::llm::TEST</ref>  (LLMMemoryLifecycle, GrammarCacheRepeatedInsertSameName)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000087"/>GrammarCacheRepeatedInsertSameName  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1test_1a0b304cbbe9b9715a9a2b84f53999306a" kindref="member">themis::llm::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref>, RoundTripAccuracyRandomData)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000220"/>NVFP4 Quantization: Round-trip accuracy with random data </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1test_1aef2ad87a9dfdfaf32e07d73aef353c13" kindref="member">themis::llm::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref>, NVFP4VsFP16AccuracyDelta)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000221"/>NVFP4 vs FP16 accuracy comparison </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1test_1a5aebd9741a91cc1ec13ff3d45f812136" kindref="member">themis::llm::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref>, INT8QuantizationAccuracy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000222"/>INT8 quantization: Per-channel quantization accuracy </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1test_1ac2020aea4b925f0ce5e47adce342bc00" kindref="member">themis::llm::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref>, CompressionFactorVerification)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000223"/>Compression factor verification </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1test_1ac7a4942b1fbedf82f3e34b38f919063b" kindref="member">themis::llm::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref>, ExpectedAccuracyTargets)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000224"/>Expected accuracy values match phase gates </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1test_1aca39a326cfea8a42698c528b273ec84a" kindref="member">themis::llm::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref>, NVFP4EdgeCases)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000225"/>NVFP4 quantization with zero and extreme values </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1test_1a8de74c93fa5ab5bf6f0564d66504754e" kindref="member">themis::llm::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref>, BatchQuantizationPerformance)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000226"/>Batch quantization with multiple sequences </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1test_1af41ac8c274a88af2d9047c86c241363b" kindref="member">themis::llm::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref>, NumericStabilityMultipleCycles)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000227"/>NVFP4 quantization numeric stability </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1test_1a829c1db54bfa1cf5ed98746e6ac8311b" kindref="member">themis::llm::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref>, EmptyDataHandling)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000228"/>Empty data handling </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1_1test_1ae76e06e424b624df3ccc9fa81836854e" kindref="member">themis::llm::test::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref>, MemoryFootprintGateP2GATE04)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000229"/>Memory footprint validation for P2-GATE-04 </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a30557ac2f9fe8d8c46943892b914a0d6" kindref="member">themis::llm::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1_move_semantics_safety_test" kindref="compound">MoveSemanticsSafetyTest</ref>, MultiLoRAManagerMoveConstructor)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000207"/>MoveSemanticsSafetyTest::MultiLoRAManagerMoveConstructor  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1af1eb7bc581244a20ab15abda454eb33c" kindref="member">themis::llm::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1_move_semantics_safety_test" kindref="compound">MoveSemanticsSafetyTest</ref>, MultiLoRAManagerMoveAssignment)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000208"/>MoveSemanticsSafetyTest::MultiLoRAManagerMoveAssignment  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1ab2ca09ec7c7527e13d3b83d647d32ad8" kindref="member">themis::llm::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1_move_semantics_safety_test" kindref="compound">MoveSemanticsSafetyTest</ref>, MultiLoRAManagerSelfAssignment)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000209"/>MoveSemanticsSafetyTest::MultiLoRAManagerSelfAssignment  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a599fe19b17391d3420d23ed3f8b44715" kindref="member">themis::llm::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1_move_semantics_safety_test" kindref="compound">MoveSemanticsSafetyTest</ref>, MultiLoRAManagerMovedFromStateValid)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000210"/>MoveSemanticsSafetyTest::MultiLoRAManagerMovedFromStateValid  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1ae969ca760e77ead19a50c2f99fbca373" kindref="member">themis::llm::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1_move_semantics_safety_test" kindref="compound">MoveSemanticsSafetyTest</ref>, ContinuousBatchSchedulerMoveConstructor)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000211"/>MoveSemanticsSafetyTest::ContinuousBatchSchedulerMoveConstructor  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a8afd9a4dc69d396aedd4f59cc032e8c7" kindref="member">themis::llm::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1_move_semantics_safety_test" kindref="compound">MoveSemanticsSafetyTest</ref>, ContinuousBatchSchedulerMoveAssignment)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000212"/>MoveSemanticsSafetyTest::ContinuousBatchSchedulerMoveAssignment  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1ad2f687dc66b852b956a96ef6a4b67ee8" kindref="member">themis::llm::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1_move_semantics_safety_test" kindref="compound">MoveSemanticsSafetyTest</ref>, EthicalGuidelinesManagerMoveConstructor)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000213"/>MoveSemanticsSafetyTest::EthicalGuidelinesManagerMoveConstructor  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a53d31d9a7aeb0205fd8cde93a5b592b1" kindref="member">themis::llm::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1_move_semantics_safety_test" kindref="compound">MoveSemanticsSafetyTest</ref>, StdVectorOfMovableResources)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000214"/>MoveSemanticsSafetyTest::StdVectorOfMovableResources  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1af2ebc00c57701fa2a542ad05657de159" kindref="member">themis::llm::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1_move_semantics_safety_test" kindref="compound">MoveSemanticsSafetyTest</ref>, UniquePtr_MoveSemantics)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000215"/>MoveSemanticsSafetyTest::UniquePtr_MoveSemantics  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a1c9faf19870fbc0c0f9fd4d038168a5e" kindref="member">themis::llm::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1_move_semantics_safety_test" kindref="compound">MoveSemanticsSafetyTest</ref>, ManyMoves_NoLeaks)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000216"/>MoveSemanticsSafetyTest::ManyMoves_NoLeaks  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1a018ce8ab6a425405072080b6ef38e6f0" kindref="member">themis::llm::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1_move_semantics_safety_test" kindref="compound">MoveSemanticsSafetyTest</ref>, ChainedMoves_NoUseAfterFree)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000217"/>MoveSemanticsSafetyTest::ChainedMoves_NoUseAfterFree  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1abe76ad68c4cdc7951ea7035c6e71a927" kindref="member">themis::llm::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1_move_semantics_safety_test" kindref="compound">MoveSemanticsSafetyTest</ref>, RuleOfFive_Destructor)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000218"/>MoveSemanticsSafetyTest::RuleOfFive_Destructor  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1llm_1aad4b2b731558903b7f494efba63528ad" kindref="member">themis::llm::TEST_F</ref>  (<ref refid="classthemis_1_1llm_1_1_move_semantics_safety_test" kindref="compound">MoveSemanticsSafetyTest</ref>, RuleOfFive_CopyDeleted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000219"/>MoveSemanticsSafetyTest::RuleOfFive_CopyDeleted  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1aebb45ac7acd0cefd8e9b2e78a5689d47" kindref="member">themis::plugins::llm_wiki::test::TEST_F</ref>  (<ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref>, LwpInt01a_InitializeSucceeds)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000182"/>LWP-INT-01a: initialize() returns Ok on first call.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a9822b01e7484919b54c45136f9b84666" kindref="member">themis::plugins::llm_wiki::test::TEST_F</ref>  (<ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref>, LwpInt01b_DoubleInitializeReturnsError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000183"/>LWP-INT-01b: Double-initialize returns Error (guarded lifecycle).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a8c5f0bce208dded5ef7924dc7f258d55" kindref="member">themis::plugins::llm_wiki::test::TEST_F</ref>  (<ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref>, LwpInt01c_IngestBeforeInitReturnsEmpty)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000184"/>LWP-INT-01c: ingest before initialize returns empty result.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1ac797e58084d3c933d104ffeb47d01325" kindref="member">themis::plugins::llm_wiki::test::TEST_F</ref>  (<ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref>, LwpInt01d_FullLifecycleSmoke)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000185"/>LWP-INT-01d: Full lifecycle — init → ingest → query → non-empty result.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a813764cee85e06e91384a4dd94bba9d7" kindref="member">themis::plugins::llm_wiki::test::TEST_F</ref>  (<ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref>, LwpInt02a_IngestThenQueryReachesChunks)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000186"/>LWP-INT-02a: Ingest produces indexed chunks reachable via query.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a422dc90b1683539a6bdbc62bd2170220" kindref="member">themis::plugins::llm_wiki::test::TEST_F</ref>  (<ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref>, LwpInt02b_ResultsOrderedByScore)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000187"/>LWP-INT-02b: Query results are ordered descending by score.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a9a9a4c762cd4a85aa796a4b772cd60d3" kindref="member">themis::plugins::llm_wiki::test::TEST_F</ref>  (<ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref>, LwpInt02c_MinScoreFiltersResults)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000188"/>LWP-INT-02c: min_score filter excludes low-scoring chunks.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a6f5d03fd831bd2f315f8f5cd5d44b7d0" kindref="member">themis::plugins::llm_wiki::test::TEST_F</ref>  (<ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref>, LwpInt02d_SkipExistingAvoidsDuplicates)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000189"/>LWP-INT-02d: skip_existing=true avoids re-indexing already-present chunks.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1abfa296bee1e87e0a8c6172b64d52dae9" kindref="member">themis::plugins::llm_wiki::test::TEST_F</ref>  (<ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref>, LwpInt03a_ConcurrentQuerySafety)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000190"/>LWP-INT-03a: 8 concurrent threads querying shared index produce consistent results.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a6201dbeee687a588251d0d8a8b7b1da5" kindref="member">themis::plugins::llm_wiki::test::TEST_F</ref>  (<ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref>, LwpInt03b_ConcurrentIngestAndQuerySafe)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000191"/>LWP-INT-03b: Concurrent ingest + query do not corrupt the index.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1aa82a739a79ff557e08fa3903b65e65cd" kindref="member">themis::plugins::llm_wiki::test::TEST_F</ref>  (<ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_community_test" kindref="compound">LLMWikiPhaseBCommunityTest</ref>, LwpInt04a_CommunityBuildBlocksWikipediaDump)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000192"/>LWP-INT-04a: Community (non-enterprise) build returns PermissionDenied for wiki dump.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a2f14202e7026d477ef08f7fb3a9c63fd" kindref="member">themis::plugins::llm_wiki::test::TEST_F</ref>  (<ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref>, LwpInt04b_EnterpriseBuildAllowsWikipediaDump)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000193"/>LWP-INT-04b: Enterprise build allows Wikipedia dump ingestion.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1afe79c93b5ee294363068e8a8e2ddbe0f" kindref="member">themis::plugins::llm_wiki::test::TEST_F</ref>  (<ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref>, LwpInt04c_WikipediaDumpBeforeInitFails)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000194"/>LWP-INT-04c: Wikipedia dump ingestion before initialize returns NotInitialized.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1afaae78c4e5acedeb6785913a6567ceaf" kindref="member">themis::plugins::llm_wiki::test::TEST_F</ref>  (<ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref>, LwpInt05a_ShellInjectionQueryFlagged)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000195"/>LWP-INT-05a: Query containing shell injection pattern is flagged.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1a1c7b1890190c7c665900d8cff655a6b0" kindref="member">themis::plugins::llm_wiki::test::TEST_F</ref>  (<ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref>, LwpInt05b_SQLInjectionQueryFlagged)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000196"/>LWP-INT-05b: SQL injection pattern is flagged.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1plugins_1_1llm__wiki_1_1test_1ab994b9c5bba50fdb844fa7af2b1194bb" kindref="member">themis::plugins::llm_wiki::test::TEST_F</ref>  (<ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_l_l_m_wiki_phase_b_integration_test" kindref="compound">LLMWikiPhaseBIntegrationTest</ref>, LwpInt05c_BenignQueryNotFlagged)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000197"/>LWP-INT-05c: Benign query is not flagged. </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

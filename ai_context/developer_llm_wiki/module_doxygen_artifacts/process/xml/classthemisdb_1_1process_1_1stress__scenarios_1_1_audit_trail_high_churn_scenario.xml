@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1process_1_1stress__scenarios_1_1_audit_trail_high_churn_scenario" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::process::stress_scenarios::AuditTrailHighChurnScenario</compoundname>
+    <includes refid="process__federation__stress__scenarios_8h" local="no">process_federation_stress_scenarios.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_audit_trail_high_churn_scenario_1a2b7ce2514629fca9b4fd44251a87d1df" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::AuditTrailHighChurnScenario::Name</definition>
+        <argsstring>()</argsstring>
+        <name>Name</name>
+        <qualifiedname>themisdb::process::stress_scenarios::AuditTrailHighChurnScenario::Name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="224" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_audit_trail_high_churn_scenario_1a4bd7f82416d3d85c99e7450a51d736a1" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::AuditTrailHighChurnScenario::Description</definition>
+        <argsstring>()</argsstring>
+        <name>Description</name>
+        <qualifiedname>themisdb::process::stress_scenarios::AuditTrailHighChurnScenario::Description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="225" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="225" bodyend="227"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Incremental Evolution Scenario 5: Audit Trail Under High Churn. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests incremental evolution tracking with 500+ entries per second.</para>
+<para><bold>Setup:</bold><itemizedlist>
+<listitem><para>5-node cluster</para>
+</listitem><listitem><para>10,000+ model mutations (audit trail entries)</para>
+</listitem><listitem><para>Concurrent reads and writes to audit trail</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Execution:</bold><itemizedlist>
+<listitem><para>Append 10,000 entries at high rate (500+/sec)</para>
+</listitem><listitem><para>Concurrently read random entries</para>
+</listitem><listitem><para>Verify CRC32 checksums for all entries</para>
+</listitem><listitem><para>Compute snapshot index</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Verification:</bold><itemizedlist>
+<listitem><para>All entries persisted and retrievable</para>
+</listitem><listitem><para>CRC32 chain valid for all entries</para>
+</listitem><listitem><para>Snapshot index correctly maps time ranges</para>
+</listitem><listitem><para>No gaps or duplicates in entry sequence</para>
+</listitem><listitem><para>Concurrent reads do not block writes</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Expected P95:</bold> &lt;10ms per append, &lt;1ms per read </para>
+    </detaileddescription>
+    <location file="include/process/process_federation_stress_scenarios.h" line="222" column="1" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="222" bodyend="228"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_audit_trail_high_churn_scenario_1a4bd7f82416d3d85c99e7450a51d736a1" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::AuditTrailHighChurnScenario</scope><name>Description</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_audit_trail_high_churn_scenario_1a2b7ce2514629fca9b4fd44251a87d1df" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::AuditTrailHighChurnScenario</scope><name>Name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

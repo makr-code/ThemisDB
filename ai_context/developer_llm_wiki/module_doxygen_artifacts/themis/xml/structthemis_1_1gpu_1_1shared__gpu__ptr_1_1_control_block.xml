@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1shared__gpu__ptr_1_1_control_block" kind="struct" language="C++" prot="private">
+    <compoundname>themis::gpu::shared_gpu_ptr::ControlBlock</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1shared__gpu__ptr_1_1_control_block_1aaa1e261bcce5d7e14f71b77b900e8ebe" prot="public" static="no" mutable="no">
+        <type>T *</type>
+        <definition>T* themis::gpu::shared_gpu_ptr&lt; T &gt;::ControlBlock::ptr</definition>
+        <argsstring></argsstring>
+        <name>ptr</name>
+        <qualifiedname>themis::gpu::shared_gpu_ptr::ControlBlock::ptr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="398" column="7" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1shared__gpu__ptr_1_1_control_block_1a5b124cc01b1bb667565946c2a33bf975" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::gpu::shared_gpu_ptr&lt; T &gt;::ControlBlock::refcount</definition>
+        <argsstring></argsstring>
+        <name>refcount</name>
+        <qualifiedname>themis::gpu::shared_gpu_ptr::ControlBlock::refcount</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="399" column="17" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="399" bodyend="399"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1shared__gpu__ptr_1_1_control_block_1a96fe3dd19d0680549ec98a15699047a5" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::shared_gpu_ptr&lt; T &gt;::ControlBlock::ControlBlock</definition>
+        <argsstring>(T *p)</argsstring>
+        <name>ControlBlock</name>
+        <qualifiedname>themis::gpu::shared_gpu_ptr::ControlBlock::ControlBlock</qualifiedname>
+        <param>
+          <type>T *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="401" column="14" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="401" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1shared__gpu__ptr_1_1_control_block_1a4a3fba2a27eac918e2702743022e15d9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::shared_gpu_ptr&lt; T &gt;::ControlBlock::~ControlBlock</definition>
+        <argsstring>()</argsstring>
+        <name>~ControlBlock</name>
+        <qualifiedname>themis::gpu::shared_gpu_ptr::ControlBlock::~ControlBlock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/gpu_memory.h" line="403" column="5" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="403" bodyend="415"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/gpu_memory.h" line="397" column="3" bodyfile="include/themis/gpu/gpu_memory.h" bodystart="397" bodyend="416"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1shared__gpu__ptr_1_1_control_block_1a96fe3dd19d0680549ec98a15699047a5" prot="public" virt="non-virtual"><scope>themis::gpu::shared_gpu_ptr::ControlBlock</scope><name>ControlBlock</name></member>
+      <member refid="structthemis_1_1gpu_1_1shared__gpu__ptr_1_1_control_block_1aaa1e261bcce5d7e14f71b77b900e8ebe" prot="public" virt="non-virtual"><scope>themis::gpu::shared_gpu_ptr::ControlBlock</scope><name>ptr</name></member>
+      <member refid="structthemis_1_1gpu_1_1shared__gpu__ptr_1_1_control_block_1a5b124cc01b1bb667565946c2a33bf975" prot="public" virt="non-virtual"><scope>themis::gpu::shared_gpu_ptr::ControlBlock</scope><name>refcount</name></member>
+      <member refid="structthemis_1_1gpu_1_1shared__gpu__ptr_1_1_control_block_1a4a3fba2a27eac918e2702743022e15d9" prot="public" virt="non-virtual"><scope>themis::gpu::shared_gpu_ptr::ControlBlock</scope><name>~ControlBlock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

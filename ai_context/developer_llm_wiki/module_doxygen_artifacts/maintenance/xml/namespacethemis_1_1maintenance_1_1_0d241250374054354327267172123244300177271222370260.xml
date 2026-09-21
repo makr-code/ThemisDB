@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1maintenance_1_1_0d241250374054354327267172123244300177271222370260" kind="namespace" language="C++">
+    <compoundname>themis::maintenance::@241250374054354327267172123244300177271222370260</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/maintenance/database_maintenance_orchestrator.cpp" line="41" column="1"/>
+  </compounddef>
+</doxygen>

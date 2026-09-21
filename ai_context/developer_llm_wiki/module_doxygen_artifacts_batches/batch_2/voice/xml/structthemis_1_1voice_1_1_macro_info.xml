@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_macro_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::MacroInfo</compoundname>
+    <includes refid="voice__macro_8h" local="no">voice_macro.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_info_1ac501517e3996d5e01aff24b2db15b0bb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref></type>
+        <definition>MacroID themis::voice::MacroInfo::macro_id</definition>
+        <argsstring></argsstring>
+        <name>macro_id</name>
+        <qualifiedname>themis::voice::MacroInfo::macro_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="129" column="13" bodyfile="include/voice/voice_macro.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_info_1aa4b824ef3db2745150ef73a30d49a93e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::MacroInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::voice::MacroInfo::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable label. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="130" column="17" bodyfile="include/voice/voice_macro.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_info_1ac90641c70afe19bb0f79cabbb819eee5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::MacroInfo::trigger_phrase</definition>
+        <argsstring></argsstring>
+        <name>trigger_phrase</name>
+        <qualifiedname>themis::voice::MacroInfo::trigger_phrase</qualifiedname>
+        <briefdescription>
+<para>Voice phrase that activates the macro. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="131" column="17" bodyfile="include/voice/voice_macro.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_info_1aba20cb1de9c24f1b79bf7d1f8f2fc230" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::MacroInfo::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::voice::MacroInfo::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="132" column="17" bodyfile="include/voice/voice_macro.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_info_1a1440ba16fa4e77b57eaf7a52918db97d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::MacroInfo::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>themis::voice::MacroInfo::tags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="133" column="17" bodyfile="include/voice/voice_macro.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_info_1a3f07080e51ed8c6cbb2053b72e11d96e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_macro_step" kindref="compound">MacroStep</ref> &gt;</type>
+        <definition>std::vector&lt;MacroStep&gt; themis::voice::MacroInfo::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>themis::voice::MacroInfo::steps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="134" column="17" bodyfile="include/voice/voice_macro.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_info_1ab4cc7d59fd414b8e99150948dc6ff27f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_macro_options" kindref="compound">MacroOptions</ref></type>
+        <definition>MacroOptions themis::voice::MacroInfo::options</definition>
+        <argsstring></argsstring>
+        <name>options</name>
+        <qualifiedname>themis::voice::MacroInfo::options</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="135" column="18" bodyfile="include/voice/voice_macro.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_info_1a20967f95f616181097bf56353604afc9" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::MacroInfo::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::voice::MacroInfo::created_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="136" column="13" bodyfile="include/voice/voice_macro.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_info_1aaa2bda472ffdc3be160dd10395eb4ad1" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::MacroInfo::last_used</definition>
+        <argsstring></argsstring>
+        <name>last_used</name>
+        <qualifiedname>themis::voice::MacroInfo::last_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="137" column="13" bodyfile="include/voice/voice_macro.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_info_1a6551365c1bb62852b9245a5a2353f038" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::MacroInfo::use_count</definition>
+        <argsstring></argsstring>
+        <name>use_count</name>
+        <qualifiedname>themis::voice::MacroInfo::use_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="138" column="9" bodyfile="include/voice/voice_macro.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_macro_info_1a9686ecf61b2fd687e006ccc6a50a7b8d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::MacroInfo::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::voice::MacroInfo::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_macro.h" line="139" column="10" bodyfile="include/voice/voice_macro.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Persistent metadata for a user-defined macro. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::voice::MacroInfo</label>
+        <link refid="structthemis_1_1voice_1_1_macro_info"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>options</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::voice::MacroOptions</label>
+        <link refid="structthemis_1_1voice_1_1_macro_options"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/voice/voice_macro.h" line="128" column="1" bodyfile="include/voice/voice_macro.h" bodystart="128" bodyend="140"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_macro_info_1a20967f95f616181097bf56353604afc9" prot="public" virt="non-virtual"><scope>themis::voice::MacroInfo</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1voice_1_1_macro_info_1aba20cb1de9c24f1b79bf7d1f8f2fc230" prot="public" virt="non-virtual"><scope>themis::voice::MacroInfo</scope><name>description</name></member>
+      <member refid="structthemis_1_1voice_1_1_macro_info_1a9686ecf61b2fd687e006ccc6a50a7b8d" prot="public" virt="non-virtual"><scope>themis::voice::MacroInfo</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1voice_1_1_macro_info_1aaa2bda472ffdc3be160dd10395eb4ad1" prot="public" virt="non-virtual"><scope>themis::voice::MacroInfo</scope><name>last_used</name></member>
+      <member refid="structthemis_1_1voice_1_1_macro_info_1ac501517e3996d5e01aff24b2db15b0bb" prot="public" virt="non-virtual"><scope>themis::voice::MacroInfo</scope><name>macro_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_macro_info_1aa4b824ef3db2745150ef73a30d49a93e" prot="public" virt="non-virtual"><scope>themis::voice::MacroInfo</scope><name>name</name></member>
+      <member refid="structthemis_1_1voice_1_1_macro_info_1ab4cc7d59fd414b8e99150948dc6ff27f" prot="public" virt="non-virtual"><scope>themis::voice::MacroInfo</scope><name>options</name></member>
+      <member refid="structthemis_1_1voice_1_1_macro_info_1a3f07080e51ed8c6cbb2053b72e11d96e" prot="public" virt="non-virtual"><scope>themis::voice::MacroInfo</scope><name>steps</name></member>
+      <member refid="structthemis_1_1voice_1_1_macro_info_1a1440ba16fa4e77b57eaf7a52918db97d" prot="public" virt="non-virtual"><scope>themis::voice::MacroInfo</scope><name>tags</name></member>
+      <member refid="structthemis_1_1voice_1_1_macro_info_1ac90641c70afe19bb0f79cabbb819eee5" prot="public" virt="non-virtual"><scope>themis::voice::MacroInfo</scope><name>trigger_phrase</name></member>
+      <member refid="structthemis_1_1voice_1_1_macro_info_1a6551365c1bb62852b9245a5a2353f038" prot="public" virt="non-virtual"><scope>themis::voice::MacroInfo</scope><name>use_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

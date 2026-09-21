@@ -1,0 +1,539 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_distributed_hybrid_search" kind="class" language="C++" prot="public">
+    <compoundname>themis::DistributedHybridSearch</compoundname>
+    <includes refid="distributed__hybrid__search_8h" local="no">distributed_hybrid_search.h</includes>
+    <innerclass refid="structthemis_1_1_distributed_hybrid_search_1_1_config" prot="public">themis::DistributedHybridSearch::Config</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result" prot="public">themis::DistributedHybridSearch::ShardSearchResult</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats" prot="public">themis::DistributedHybridSearch::SearchStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_distributed_hybrid_search_1a6cc0802864ba4afd601edd6a084adfeb" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref> *</type>
+        <definition>HybridSearch* themis::DistributedHybridSearch::local_search_</definition>
+        <argsstring></argsstring>
+        <name>local_search_</name>
+        <qualifiedname>themis::DistributedHybridSearch::local_search_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="260" column="18" bodyfile="include/search/distributed_hybrid_search.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_hybrid_search_1a288992b3afe57b7716271bc2f6d7ee75" prot="private" static="no" mutable="no">
+        <type>themis::sharding::URNResolver *</type>
+        <definition>themis::sharding::URNResolver* themis::DistributedHybridSearch::resolver_</definition>
+        <argsstring></argsstring>
+        <name>resolver_</name>
+        <qualifiedname>themis::DistributedHybridSearch::resolver_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="261" column="35" bodyfile="include/search/distributed_hybrid_search.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_hybrid_search_1a64717d9aab11f86383d959ed9a2d5fa1" prot="private" static="no" mutable="no">
+        <type>themis::sharding::RemoteExecutor *</type>
+        <definition>themis::sharding::RemoteExecutor* themis::DistributedHybridSearch::executor_</definition>
+        <argsstring></argsstring>
+        <name>executor_</name>
+        <qualifiedname>themis::DistributedHybridSearch::executor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="262" column="38" bodyfile="include/search/distributed_hybrid_search.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_hybrid_search_1aac49ffc459ba77ad89bd0122cf3d3034" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::DistributedHybridSearch::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::DistributedHybridSearch::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="263" column="12" bodyfile="include/search/distributed_hybrid_search.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_hybrid_search_1ac4b21023b03a3f67270723386c07ff7c" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::DistributedHybridSearch::total_searches_</definition>
+        <argsstring></argsstring>
+        <name>total_searches_</name>
+        <qualifiedname>themis::DistributedHybridSearch::total_searches_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="266" column="25" bodyfile="include/search/distributed_hybrid_search.h" bodystart="266" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_hybrid_search_1a456a017396b06c18f94f8426108e927e" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::DistributedHybridSearch::total_shards_queried_</definition>
+        <argsstring></argsstring>
+        <name>total_shards_queried_</name>
+        <qualifiedname>themis::DistributedHybridSearch::total_shards_queried_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="267" column="25" bodyfile="include/search/distributed_hybrid_search.h" bodystart="267" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_hybrid_search_1ae0408201e16e2ba335e23b70b0257124" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::DistributedHybridSearch::total_shard_failures_</definition>
+        <argsstring></argsstring>
+        <name>total_shard_failures_</name>
+        <qualifiedname>themis::DistributedHybridSearch::total_shard_failures_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="268" column="25" bodyfile="include/search/distributed_hybrid_search.h" bodystart="268" bodyend="268"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_distributed_hybrid_search_1ab144dd0d66942164bc4a7fde895c632d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::DistributedHybridSearch::DistributedHybridSearch</definition>
+        <argsstring>(HybridSearch *local_search, themis::sharding::URNResolver *resolver, themis::sharding::RemoteExecutor *executor)</argsstring>
+        <name>DistributedHybridSearch</name>
+        <qualifiedname>themis::DistributedHybridSearch::DistributedHybridSearch</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref> *</type>
+          <declname>local_search</declname>
+        </param>
+        <param>
+          <type>themis::sharding::URNResolver *</type>
+          <declname>resolver</declname>
+        </param>
+        <param>
+          <type>themis::sharding::RemoteExecutor *</type>
+          <declname>executor</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1_distributed_hybrid_search" kindref="compound">DistributedHybridSearch</ref> engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>local_search</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local <ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref> instance for this node. May be null; the local shard will then return no results. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>URN/shard resolver used to enumerate healthy shards. May be null; only the local shard will be queried. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>executor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RemoteExecutor configured with mTLS credentials for inter-node communication. May be null; in that case only local search is executed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid configuration values. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="157" column="14" bodyfile="src/search/distributed_hybrid_search.cpp" bodystart="26" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_hybrid_search_1a1a89b38dabbc1b7fc754820b0e8e2400" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::DistributedHybridSearch::DistributedHybridSearch</definition>
+        <argsstring>(HybridSearch *local_search, themis::sharding::URNResolver *resolver, themis::sharding::RemoteExecutor *executor, const Config &amp;config)</argsstring>
+        <name>DistributedHybridSearch</name>
+        <qualifiedname>themis::DistributedHybridSearch::DistributedHybridSearch</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref> *</type>
+          <declname>local_search</declname>
+        </param>
+        <param>
+          <type>themis::sharding::URNResolver *</type>
+          <declname>resolver</declname>
+        </param>
+        <param>
+          <type>themis::sharding::RemoteExecutor *</type>
+          <declname>executor</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_distributed_hybrid_search_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1_distributed_hybrid_search" kindref="compound">DistributedHybridSearch</ref> engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>local_search</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local <ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref> instance for this node. May be null; the local shard will then return no results. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>URN/shard resolver used to enumerate healthy shards. May be null; only the local shard will be queried. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>executor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RemoteExecutor configured with mTLS credentials for inter-node communication. May be null; in that case only local search is executed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Engine configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid configuration values. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="177" column="5" bodyfile="src/search/distributed_hybrid_search.cpp" bodystart="32" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_hybrid_search_1aefb074cc0631bf1dd03b849a07f1adf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">HybridSearch::Result</ref> &gt;</type>
+        <definition>std::vector&lt; HybridSearch::Result &gt; themis::DistributedHybridSearch::search</definition>
+        <argsstring>(const std::string &amp;text_query, const std::vector&lt; float &gt; &amp;vector_query={}, SearchStats *stats=nullptr)</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::DistributedHybridSearch::search</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text_query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector_query</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats" kindref="compound">SearchStats</ref> *</type>
+          <declname>stats</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Execute distributed hybrid search across all healthy shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Search.</para>
+<para>Runs the local <computeroutput><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref></computeroutput> and dispatches the same query to every healthy remote shard in parallel. Results are merged via cross-shard RRF and the top-k globally ranked results are returned.</para>
+<para>Never throws; all errors from individual shards are caught internally.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full-text query string (empty to skip BM25). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vector_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional semantic query vector (empty to skip ANN). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional output: per-shard diagnostics. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Globally merged top-k results, sorted by hybrid score.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vector_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::chrono::steady_clock::now(), data(), size(), count(), THEMIS_DEBUG(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="202" column="17" bodyfile="src/search/distributed_hybrid_search.cpp" bodystart="77" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_hybrid_search_1ae34f91464f77b2f1c840d5c2a5da597f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">HybridSearch::Result</ref> &gt;</type>
+        <definition>std::vector&lt; HybridSearch::Result &gt; themis::DistributedHybridSearch::mergeShardResults</definition>
+        <argsstring>(const std::vector&lt; ShardSearchResult &gt; &amp;shard_results, SearchStats *stats=nullptr) const</argsstring>
+        <name>mergeShardResults</name>
+        <qualifiedname>themis::DistributedHybridSearch::mergeShardResults</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result" kindref="compound">ShardSearchResult</ref> &gt; &amp;</type>
+          <declname>shard_results</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats" kindref="compound">SearchStats</ref> *</type>
+          <declname>stats</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Merge per-shard result lists via Reciprocal Rank Fusion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Phase 2: Enhanced merge with degradation flag tracking (merge_underflow, high_overlap_variance). Applies a two-level RRF: within each shard results are already ranked; across shards each result contributes <computeroutput>1 / (rrf_k + rank_in_shard)</computeroutput> to the global score. Results that appear in multiple shards accumulate contributions from each shard.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-shard result collections (failed shards are skipped when <computeroutput>skip_failed_shards</computeroutput> is true). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional output: merge-specific degradation flags (merge_underflow, high_overlap_variance). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Merged results sorted by hybrid score descending, capped at k. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>&lt; Track high-overlap variance</para>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="227" column="17" bodyfile="src/search/distributed_hybrid_search.cpp" bodystart="259" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_hybrid_search_1a245f465b1b7314d79eb9a0390082f1b7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_distributed_hybrid_search_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::DistributedHybridSearch::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::DistributedHybridSearch::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="236" column="18" bodyfile="include/search/distributed_hybrid_search.h" bodystart="236" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_hybrid_search_1a78a558bea48ef1841265b6a51074f5e2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::DistributedHybridSearch::setConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::DistributedHybridSearch::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_distributed_hybrid_search_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="237" column="10" bodyfile="include/search/distributed_hybrid_search.h" bodystart="237" bodyend="237"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_distributed_hybrid_search_1a366314bf13fbff8fb7d3c56e688a8bb2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">HybridSearch::Result</ref> &gt;</type>
+        <definition>std::vector&lt; HybridSearch::Result &gt; themis::DistributedHybridSearch::parseShardResponse</definition>
+        <argsstring>(const nlohmann::json &amp;data)</argsstring>
+        <name>parseShardResponse</name>
+        <qualifiedname>themis::DistributedHybridSearch::parseShardResponse</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Parse a JSON result array from a shard HTTP response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse Shard Response.</para>
+<para>Exposed as public static so it can be unit-tested directly. Tolerates missing fields by using zero/empty defaults.</para>
+<para>Accepted formats:<itemizedlist>
+<listitem><para>Direct JSON array: <computeroutput>[{"document_id": "...", ...}, ...]</computeroutput></para>
+</listitem><listitem><para>Wrapped: <computeroutput>{"results": [{...}, ...]}</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+<para>Entries with empty <computeroutput>document_id</computeroutput> are silently dropped.</para>
+<para><simplesect kind="note"><para>This method is <computeroutput>public</computeroutput> primarily to enable direct unit testing of the JSON deserialization logic without requiring network infrastructure. It is a stateless utility with no side effects.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_array(), is_object(), contains(), THEMIS_WARN(), reserve(), size(), is_string(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="255" column="24" bodyfile="src/search/distributed_hybrid_search.cpp" bodystart="449" bodyend="500"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_distributed_hybrid_search_1a67ccf19d000e7a4de6de2cef178d86b0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result" kindref="compound">ShardSearchResult</ref></type>
+        <definition>DistributedHybridSearch::ShardSearchResult themis::DistributedHybridSearch::searchRemoteShard</definition>
+        <argsstring>(const themis::sharding::ShardInfo &amp;shard, const std::string &amp;text_query, const std::vector&lt; float &gt; &amp;vector_query, size_t k)</argsstring>
+        <name>searchRemoteShard</name>
+        <qualifiedname>themis::DistributedHybridSearch::searchRemoteShard</qualifiedname>
+        <param>
+          <type>const themis::sharding::ShardInfo &amp;</type>
+          <declname>shard</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text_query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector_query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Query a single remote shard via HTTP POST (mTLS). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/distributed_hybrid_search.h" line="273" column="23" bodyfile="src/search/distributed_hybrid_search.cpp" bodystart="380" bodyend="437"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Distributed hybrid search across multiple database shards. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_distributed_hybrid_search" kindref="compound">DistributedHybridSearch</ref> extends the local <ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref> engine to operate across a cluster of ThemisDB shards. On each <computeroutput><ref refid="namespacethemis_1_1search" kindref="compound">search()</ref></computeroutput> call it:</para>
+<para><orderedlist>
+<listitem><para>Runs a local <computeroutput><ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref></computeroutput> on this node.</para>
+</listitem><listitem><para>Dispatches the same query in parallel to every healthy remote shard via <computeroutput>RemoteExecutor::post()</computeroutput> (REST, mTLS-secured).</para>
+</listitem><listitem><para>Merges all per-shard result lists into a single global ranking using cross-shard Reciprocal Rank Fusion (RRF).</para>
+</listitem><listitem><para>Returns the top-k globally merged results.</para>
+</listitem></orderedlist>
+</para>
+<para><heading level="3">Fault tolerance</heading>
+</para>
+<para>When <computeroutput><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1adbf8a097320c2cd5eb9f929531fe7edb" kindref="member">Config::skip_failed_shards</ref></computeroutput> is true (the default), shards that time out, return HTTP errors, or are unreachable are silently skipped; the merged result is still returned from the surviving shards. Callers can inspect <computeroutput><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a90365a29ddf7da2f0a10e8bbee9758b2" kindref="member">SearchStats::shards_failed</ref></computeroutput> to detect degraded results.</para>
+<para><heading level="3">mTLS</heading>
+</para>
+<para>All inter-node traffic is routed through the injected <computeroutput>RemoteExecutor</computeroutput>, which was constructed with mTLS credentials. No additional TLS configuration is required here.</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para>A single <computeroutput><ref refid="classthemis_1_1_distributed_hybrid_search" kindref="compound">DistributedHybridSearch</ref></computeroutput> instance is NOT thread-safe. Concurrent <computeroutput><ref refid="namespacethemis_1_1search" kindref="compound">search()</ref></computeroutput> calls must be serialised externally, or separate instances should be used per thread.</para>
+<para><heading level="3">API path</heading>
+</para>
+<para>Remote shards are queried via HTTP POST to <computeroutput><ref refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1ad5b53116edc353378fff6ba2dcbc1e6a" kindref="member">Config::search_endpoint</ref></computeroutput> (default: <computeroutput>/api/v1/search/hybrid</computeroutput>). The request body is a JSON object: <programlisting filename=".json"><codeline><highlight class="normal">{<sp/>&quot;query&quot;:<sp/>&quot;&lt;text&gt;&quot;,<sp/>&quot;k&quot;:<sp/>&lt;int&gt;,<sp/>&quot;vector_query&quot;:<sp/>[&lt;float&gt;,<sp/>...]<sp/>}</highlight></codeline>
+</programlisting> The response must be a JSON array of result objects, each with fields <computeroutput>document_id</computeroutput>, <computeroutput>bm25_score</computeroutput>, <computeroutput>vector_score</computeroutput>, <computeroutput>hybrid_score</computeroutput>, <computeroutput>bm25_rank</computeroutput>, <computeroutput>vector_rank</computeroutput>, and optionally <computeroutput>content</computeroutput>.</para>
+<para><simplesect kind="since"><para>v2.3.0 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/search/distributed_hybrid_search.h" line="71" column="1" bodyfile="include/search/distributed_hybrid_search.h" bodystart="71" bodyend="279"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_distributed_hybrid_search_1aac49ffc459ba77ad89bd0122cf3d3034" prot="private" virt="non-virtual"><scope>themis::DistributedHybridSearch</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_distributed_hybrid_search_1ab144dd0d66942164bc4a7fde895c632d" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch</scope><name>DistributedHybridSearch</name></member>
+      <member refid="classthemis_1_1_distributed_hybrid_search_1a1a89b38dabbc1b7fc754820b0e8e2400" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch</scope><name>DistributedHybridSearch</name></member>
+      <member refid="classthemis_1_1_distributed_hybrid_search_1a64717d9aab11f86383d959ed9a2d5fa1" prot="private" virt="non-virtual"><scope>themis::DistributedHybridSearch</scope><name>executor_</name></member>
+      <member refid="classthemis_1_1_distributed_hybrid_search_1a245f465b1b7314d79eb9a0390082f1b7" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_distributed_hybrid_search_1a6cc0802864ba4afd601edd6a084adfeb" prot="private" virt="non-virtual"><scope>themis::DistributedHybridSearch</scope><name>local_search_</name></member>
+      <member refid="classthemis_1_1_distributed_hybrid_search_1ae34f91464f77b2f1c840d5c2a5da597f" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch</scope><name>mergeShardResults</name></member>
+      <member refid="classthemis_1_1_distributed_hybrid_search_1a366314bf13fbff8fb7d3c56e688a8bb2" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch</scope><name>parseShardResponse</name></member>
+      <member refid="classthemis_1_1_distributed_hybrid_search_1a288992b3afe57b7716271bc2f6d7ee75" prot="private" virt="non-virtual"><scope>themis::DistributedHybridSearch</scope><name>resolver_</name></member>
+      <member refid="classthemis_1_1_distributed_hybrid_search_1aefb074cc0631bf1dd03b849a07f1adf5" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch</scope><name>search</name></member>
+      <member refid="classthemis_1_1_distributed_hybrid_search_1a67ccf19d000e7a4de6de2cef178d86b0" prot="private" virt="non-virtual"><scope>themis::DistributedHybridSearch</scope><name>searchRemoteShard</name></member>
+      <member refid="classthemis_1_1_distributed_hybrid_search_1a78a558bea48ef1841265b6a51074f5e2" prot="public" virt="non-virtual"><scope>themis::DistributedHybridSearch</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1_distributed_hybrid_search_1ac4b21023b03a3f67270723386c07ff7c" prot="private" virt="non-virtual"><scope>themis::DistributedHybridSearch</scope><name>total_searches_</name></member>
+      <member refid="classthemis_1_1_distributed_hybrid_search_1ae0408201e16e2ba335e23b70b0257124" prot="private" virt="non-virtual"><scope>themis::DistributedHybridSearch</scope><name>total_shard_failures_</name></member>
+      <member refid="classthemis_1_1_distributed_hybrid_search_1a456a017396b06c18f94f8426108e927e" prot="private" virt="non-virtual"><scope>themis::DistributedHybridSearch</scope><name>total_shards_queried_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

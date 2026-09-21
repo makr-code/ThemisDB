@@ -1,0 +1,297 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_flaky_ann_index" kind="class" language="C++" prot="public">
+    <compoundname>FlakyAnnIndex</compoundname>
+    <basecompoundref refid="classthemis_1_1index_1_1_i_ann_index" prot="public" virt="non-virtual">themis::index::IAnnIndex</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_flaky_ann_index_1adbf60f13be273ecc08df075fabe62ffd" prot="private" static="no" mutable="yes">
+        <type>int</type>
+        <definition>int FlakyAnnIndex::remaining_failures_</definition>
+        <argsstring></argsstring>
+        <name>remaining_failures_</name>
+        <qualifiedname>FlakyAnnIndex::remaining_failures_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor.cpp" line="105" column="17" bodyfile="tests/index/test_ann_frontdoor.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_flaky_ann_index_1a2c8618ebe494b7cfdc274e6a06084fcb" prot="private" static="no" mutable="yes">
+        <type>int</type>
+        <definition>int FlakyAnnIndex::calls_</definition>
+        <argsstring></argsstring>
+        <name>calls_</name>
+        <qualifiedname>FlakyAnnIndex::calls_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor.cpp" line="106" column="17" bodyfile="tests/index/test_ann_frontdoor.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_flaky_ann_index_1a284bd7b3a9e946b41533a2ca15e7bcf1" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_stub_ann_index_1_1_entry" kindref="compound">StubAnnIndex::Entry</ref> &gt;</type>
+        <definition>std::vector&lt;StubAnnIndex::Entry&gt; FlakyAnnIndex::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>FlakyAnnIndex::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor.cpp" line="107" column="17" bodyfile="tests/index/test_ann_frontdoor.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_flaky_ann_index_1a1e3cbd45a72943b17eb6089222e28a95" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>FlakyAnnIndex::FlakyAnnIndex</definition>
+        <argsstring>(int fail_count_before_success, std::vector&lt; StubAnnIndex::Entry &gt; data)</argsstring>
+        <name>FlakyAnnIndex</name>
+        <qualifiedname>FlakyAnnIndex::FlakyAnnIndex</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fail_count_before_success</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_stub_ann_index_1_1_entry" kindref="compound">StubAnnIndex::Entry</ref> &gt;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor.cpp" line="70" column="5" bodyfile="tests/index/test_ann_frontdoor.cpp" bodystart="70" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_flaky_ann_index_1abae3ff36188bc575dad8b7253b84d8c4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool FlakyAnnIndex::build</definition>
+        <argsstring>(const float *, const int64_t *, size_t, size_t) override</argsstring>
+        <name>build</name>
+        <qualifiedname>FlakyAnnIndex::build</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a08ee17d6a1ff89a68b672568bf2f29c2">build</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>const int64_t *</type>
+          <declname>ids</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>Build. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor.cpp" line="75" column="10" bodyfile="tests/index/test_ann_frontdoor.cpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_flaky_ann_index_1a21cbae83864159c816b248f148928e97" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool FlakyAnnIndex::add</definition>
+        <argsstring>(int64_t, const float *, size_t) override</argsstring>
+        <name>add</name>
+        <qualifiedname>FlakyAnnIndex::add</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a4cfa5afd89bd1ab7baf49fb694574c8f">add</reimplements>
+        <param>
+          <type>int64_t</type>
+        </param>
+        <param>
+          <type>const float *</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor.cpp" line="79" column="11" bodyfile="tests/index/test_ann_frontdoor.cpp" bodystart="79" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_flaky_ann_index_1ae6fed4484d94e159075d7108ac1d3f16" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_ann_search_result" kindref="compound">AnnSearchResult</ref> &gt;</type>
+        <definition>std::vector&lt; AnnSearchResult &gt; FlakyAnnIndex::search</definition>
+        <argsstring>(const float *, size_t, int k) const override</argsstring>
+        <name>search</name>
+        <qualifiedname>FlakyAnnIndex::search</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a66af8daad73bd7ff73dea815e4ad85f7">search</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor.cpp" line="83" column="17" bodyfile="tests/index/test_ann_frontdoor.cpp" bodystart="83" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="class_flaky_ann_index_1ae96b80b81f013e807d6250c219386426" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t FlakyAnnIndex::size</definition>
+        <argsstring>() const override</argsstring>
+        <name>size</name>
+        <qualifiedname>FlakyAnnIndex::size</qualifiedname>
+        <reimplements refid="classthemis_1_1index_1_1_i_ann_index_1a1dcbf3570258251ecde3b3fbc91ee7b4">size</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor.cpp" line="101" column="18" bodyfile="tests/index/test_ann_frontdoor.cpp" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="class_flaky_ann_index_1a59552ba00fa62e6b586c94d18ef67718" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int FlakyAnnIndex::calls</definition>
+        <argsstring>() const</argsstring>
+        <name>calls</name>
+        <qualifiedname>FlakyAnnIndex::calls</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor.cpp" line="102" column="10" bodyfile="tests/index/test_ann_frontdoor.cpp" bodystart="102" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FlakyAnnIndex</label>
+        <link refid="class_flaky_ann_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::index::IAnnIndex</label>
+        <link refid="classthemis_1_1index_1_1_i_ann_index"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FlakyAnnIndex</label>
+        <link refid="class_flaky_ann_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::index::IAnnIndex</label>
+        <link refid="classthemis_1_1index_1_1_i_ann_index"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/index/test_ann_frontdoor.cpp" line="68" column="1" bodyfile="tests/index/test_ann_frontdoor.cpp" bodystart="68" bodyend="108"/>
+    <listofallmembers>
+      <member refid="class_flaky_ann_index_1a21cbae83864159c816b248f148928e97" prot="public" virt="virtual"><scope>FlakyAnnIndex</scope><name>add</name></member>
+      <member refid="class_flaky_ann_index_1abae3ff36188bc575dad8b7253b84d8c4" prot="public" virt="virtual"><scope>FlakyAnnIndex</scope><name>build</name></member>
+      <member refid="class_flaky_ann_index_1a59552ba00fa62e6b586c94d18ef67718" prot="public" virt="non-virtual"><scope>FlakyAnnIndex</scope><name>calls</name></member>
+      <member refid="class_flaky_ann_index_1a2c8618ebe494b7cfdc274e6a06084fcb" prot="private" virt="non-virtual"><scope>FlakyAnnIndex</scope><name>calls_</name></member>
+      <member refid="class_flaky_ann_index_1a284bd7b3a9e946b41533a2ca15e7bcf1" prot="private" virt="non-virtual"><scope>FlakyAnnIndex</scope><name>data_</name></member>
+      <member refid="class_flaky_ann_index_1a1e3cbd45a72943b17eb6089222e28a95" prot="public" virt="non-virtual"><scope>FlakyAnnIndex</scope><name>FlakyAnnIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_i_ann_index_1a4e2c38210a05670457d233117d0b668d" prot="public" virt="virtual"><scope>FlakyAnnIndex</scope><name>load</name></member>
+      <member refid="class_flaky_ann_index_1adbf60f13be273ecc08df075fabe62ffd" prot="private" virt="non-virtual"><scope>FlakyAnnIndex</scope><name>remaining_failures_</name></member>
+      <member refid="classthemis_1_1index_1_1_i_ann_index_1a3414fa6ccd0f02eafa7e71cf8670898f" prot="public" virt="virtual"><scope>FlakyAnnIndex</scope><name>save</name></member>
+      <member refid="class_flaky_ann_index_1ae6fed4484d94e159075d7108ac1d3f16" prot="public" virt="virtual"><scope>FlakyAnnIndex</scope><name>search</name></member>
+      <member refid="class_flaky_ann_index_1ae96b80b81f013e807d6250c219386426" prot="public" virt="virtual"><scope>FlakyAnnIndex</scope><name>size</name></member>
+      <member refid="classthemis_1_1index_1_1_i_ann_index_1a6be55350cefa2fb417b5c25f3a37d320" prot="public" virt="virtual"><scope>FlakyAnnIndex</scope><name>~IAnnIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

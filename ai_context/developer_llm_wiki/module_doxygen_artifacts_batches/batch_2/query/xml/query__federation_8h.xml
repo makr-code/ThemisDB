@@ -1,0 +1,474 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="query__federation_8h" kind="file" language="C++">
+    <compoundname>query_federation.h</compoundname>
+    <includes local="yes">sharding/shard_router.h</includes>
+    <includes local="yes">sharding/urn_resolver.h</includes>
+    <includes local="yes">sharding/sharding_manager.h</includes>
+    <includes local="yes">sharding/adaptive_shard_router.h</includes>
+    <includes refid="query__optimizer_8h" local="yes">query/query_optimizer.h</includes>
+    <includes local="yes">distributed_knowledge/federated_rag_merger.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="query__federation_8cpp" local="yes">src/query/query_federation.cpp</includedby>
+    <includedby refid="test__query__federation_8cpp" local="yes">tests/query/test_query_federation.cpp</includedby>
+    <includedby refid="test__query__federation__routing_8cpp" local="yes">tests/query/test_query_federation_routing.cpp</includedby>
+    <includedby refid="test__query__federation__scope__safety_8cpp" local="yes">tests/query/test_query_federation_scope_safety.cpp</includedby>
+    <incdepgraph>
+      <node id="25">
+        <label>query/adaptive_optimizer.h</label>
+        <link refid="adaptive__optimizer_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>query/optimizer_cost_model.h</label>
+        <link refid="optimizer__cost__model_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>query/query_engine.h</label>
+        <link refid="query__engine_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/query/query_federation.h</label>
+        <link refid="query__federation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>query/query_optimizer.h</label>
+        <link refid="query__optimizer_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>atomic</label>
+      </node>
+      <node id="19">
+        <label>chrono</label>
+      </node>
+      <node id="28">
+        <label>cstddef</label>
+      </node>
+      <node id="29">
+        <label>cstdint</label>
+      </node>
+      <node id="30">
+        <label>distributed_knowledge/federated_rag_merger.h</label>
+      </node>
+      <node id="15">
+        <label>functional</label>
+      </node>
+      <node id="11">
+        <label>map</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="20">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="16">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>sharding/adaptive_shard_router.h</label>
+      </node>
+      <node id="2">
+        <label>sharding/shard_router.h</label>
+      </node>
+      <node id="4">
+        <label>sharding/sharding_manager.h</label>
+      </node>
+      <node id="3">
+        <label>sharding/urn_resolver.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>string_view</label>
+      </node>
+      <node id="23">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+      <node id="24">
+        <label>themis/base/interfaces/query_interface.h</label>
+      </node>
+      <node id="22">
+        <label>themis/base/interfaces/storage_interface.h</label>
+      </node>
+      <node id="27">
+        <label>thread</label>
+      </node>
+      <node id="17">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>utility</label>
+      </node>
+      <node id="21">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/query_federation.h</label>
+        <link refid="query__federation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/query/query_federation.cpp</label>
+        <link refid="query__federation_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/query/test_query_federation.cpp</label>
+        <link refid="test__query__federation_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/query/test_query_federation_routing.cpp</label>
+        <link refid="test__query__federation__routing_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/query/test_query_federation_scope_safety.cpp</label>
+        <link refid="test__query__federation__scope__safety_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1query_1_1_query_federation" prot="public">themis::query::QueryFederation</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_federation_1_1_config" prot="public">themis::query::QueryFederation::Config</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan" prot="public">themis::query::QueryFederation::ExecutionPlan</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata" prot="public">themis::query::QueryFederation::QueryMetadata</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate" prot="public">themis::query::QueryFederation::QueryMetadata::ShardKeyPredicate</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/shard_router.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/urn_resolver.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/sharding_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/adaptive_shard_router.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__optimizer_8h" kindref="compound">query/query_optimizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;distributed_knowledge/federated_rag_merger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1query_1_1_query_federation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_query_federation_1a93fda616626e390ba0eaca2771bd3745" kindref="member">QueryFederation</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1query_1_1_query_federation_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_query_federation_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optimization<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1query_1_1_query_federation_1_1_config_1aae6f650b1a3df93c97870418643d4602" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_config_1aae6f650b1a3df93c97870418643d4602" kindref="member">enable_pushdown</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Push<sp/>filters<sp/>to<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a3a0d60f16eb4f6327b826f0a2c99901f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a3a0d60f16eb4f6327b826f0a2c99901f" kindref="member">enable_parallel_execution</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Execute<sp/>queries<sp/>in<sp/>parallel</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a28d19230b6c44a1d6ad00015baa28234" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a28d19230b6c44a1d6ad00015baa28234" kindref="member">enable_result_streaming</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Stream<sp/>results<sp/>as<sp/>they<sp/>arrive</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a84a211242b0c966c14231fc64694b8c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a84a211242b0c966c14231fc64694b8c3" kindref="member">max_parallel_shards</ref><sp/>=<sp/>10;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>concurrent<sp/>shard<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1query_1_1_query_federation_1_1_config_1ab5f84a2507c6a2d7e5ff8153364d45ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_config_1ab5f84a2507c6a2d7e5ff8153364d45ed" kindref="member">max_result_size_bytes</ref><sp/>=<sp/>100<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/></highlight><highlight class="comment">//<sp/>100MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a1b337e57cad524e7951f1cbcf0984abe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a1b337e57cad524e7951f1cbcf0984abe" kindref="member">query_timeout_ms</ref><sp/>=<sp/>60000;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>60<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Join<sp/>optimization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a01908edac9492e5bf63088f1f95adf80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a01908edac9492e5bf63088f1f95adf80" kindref="member">enable_broadcast_join</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Broadcast<sp/>small<sp/>tables</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1query_1_1_query_federation_1_1_config_1ad697fcf1502a0839bbb97e72cf13ceaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_config_1ad697fcf1502a0839bbb97e72cf13ceaf" kindref="member">broadcast_threshold_bytes</ref><sp/>=<sp/>10<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/></highlight><highlight class="comment">//<sp/>10MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Caching</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a961da03ee5225bcff8b72f7aad4992f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a961da03ee5225bcff8b72f7aad4992f6" kindref="member">enable_result_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>federated<sp/>query<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a663074cb69a932df0ddc4efc29d277b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_config_1a663074cb69a932df0ddc4efc29d277b7" kindref="member">cache_ttl_seconds</ref><sp/>=<sp/>300;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>minutes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan" kindref="compound">ExecutionPlan</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6" kindref="member">Strategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6a9bac194ce9ab1aff4edc121e77d0f28c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6a9bac194ce9ab1aff4edc121e77d0f28c" kindref="member">SCATTER_GATHER</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Send<sp/>same<sp/>query<sp/>to<sp/>all<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6acdb986c441aea0feb2ba4297521982d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6acdb986c441aea0feb2ba4297521982d9" kindref="member">PARTITION_PRUNING</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Send<sp/>query<sp/>only<sp/>to<sp/>relevant<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6a54fafd6b4597a357bf581a0b70b3a4d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6a54fafd6b4597a357bf581a0b70b3a4d4" kindref="member">BROADCAST_JOIN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Broadcast<sp/>small<sp/>table<sp/>to<sp/>all<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6ad69a12752371d1d651bc5a79eccadb73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6ad69a12752371d1d651bc5a79eccadb73" kindref="member">SHUFFLE_JOIN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Redistribute<sp/>data<sp/>for<sp/>join</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6a91b1882ce945244ff50b5f1f3558c59b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6a91b1882ce945244ff50b5f1f3558c59b" kindref="member">MAP_REDUCE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Map<sp/>phase<sp/>on<sp/>shards,<sp/>reduce<sp/>locally</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a77dc513f3824402ae9c4011b64729414" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6" kindref="member">Strategy</ref><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a77dc513f3824402ae9c4011b64729414" kindref="member">strategy</ref>;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a4eed6537f3c354d23ae0fe8e4fa44a90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a4eed6537f3c354d23ae0fe8e4fa44a90" kindref="member">target_shards</ref>;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a97052f44f9312a7285966655912fbeac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a97052f44f9312a7285966655912fbeac" kindref="member">sub_queries</ref>;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a313472f3d01a7c1b6c8ae6865dbe9722" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a313472f3d01a7c1b6c8ae6865dbe9722" kindref="member">merge_operation</ref>;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a4d203de03151ed69db04c27658f6bde8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a4d203de03151ed69db04c27658f6bde8" kindref="member">estimated_cost</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1query_1_1_query_federation_1a93fda616626e390ba0eaca2771bd3745" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a93fda616626e390ba0eaca2771bd3745" kindref="member">QueryFederation</ref>(std::shared_ptr&lt;sharding::ShardRouter&gt;<sp/>shard_router);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1query_1_1_query_federation_1aff32bc21a913193571fddaf04b2da2d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_federation_1aff32bc21a913193571fddaf04b2da2d4" kindref="member">QueryFederation</ref>(</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::ShardRouter&gt;<sp/>shard_router,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1query_1_1_query_federation_1a76981e55d93914e7cfc6797b62dc8a9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a76981e55d93914e7cfc6797b62dc8a9d" kindref="member">QueryFederation</ref>(</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::ShardRouter&gt;<sp/>shard_router,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sharding::ShardingManager&amp;<sp/>sharding_manager</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1query_1_1_query_federation_1a738035faa174dbad4c3a7ef2b7daa063" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a738035faa174dbad4c3a7ef2b7daa063" kindref="member">QueryFederation</ref>(</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::ShardRouter&gt;<sp/>shard_router,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sharding::ShardingManager&amp;<sp/>sharding_manager,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a56ac820632bc1b9957379f117985f999" kindref="member">setRAGMerger</ref>(</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;distributed_knowledge::FederatedRAGMerger&gt;<sp/>merger);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_query_federation_1ae0b0ac2102f0605c9d23647e5186b3f5" kindref="member">setShardRouter</ref>(</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::AdaptiveShardRouter&gt;<sp/>router);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>distributed_knowledge::MergedRAGContext<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a8d0a05397d62fc87d05558f4464171e4" kindref="member">mergeRAGResults</ref>(</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;distributed_knowledge::ShardRetrievalResult&gt;&amp;<sp/>shard_results</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>distributed_knowledge::MergedRAGContext<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a6ff104c47d97ebce4479bbd3dcbeb31a" kindref="member">executeFederatedRAGQuery</ref>(</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>distributed_knowledge::AdapterDomainType<sp/>domain<sp/>=</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>distributed_knowledge::AdapterDomainType::GENERAL</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a1ece4c38f674a21d6dd90b06e7e12b83" kindref="member">execute</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan" kindref="compound">ExecutionPlan</ref><sp/><ref refid="classthemis_1_1query_1_1_query_federation_1abab431bfd1123df3a85e37b63b001bd0" kindref="member">createExecutionPlan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1ac8f2ae91859a339dc720901f7e6ffb46" kindref="member">executeJoin</ref>(</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>left_collection,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>right_collection,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>join_condition</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a64c69392375144fb48db2984e1d24ac0" kindref="member">executeAggregation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a1d1ca12f810c4715e5066e39e4dab363" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1query_1_1_query_federation_1a9c0ca592a154ee9915b502f87922bbda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::ShardRouter&gt;<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a9c0ca592a154ee9915b502f87922bbda" kindref="member">shard_router_</ref>;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-owning<sp/>pointer;<sp/>nullptr<sp/>when<sp/>no<sp/>ShardingManager<sp/>was<sp/>injected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1query_1_1_query_federation_1a3d594d473b1466f895a8511548000c72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>sharding::ShardingManager*<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a3d594d473b1466f895a8511548000c72" kindref="member">sharding_manager_</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1query_1_1_query_federation_1a46f4c9015463d1cc46b9f40c8fde8e68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_config" kindref="compound">Config</ref><sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a46f4c9015463d1cc46b9f40c8fde8e68" kindref="member">config_</ref>;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1query_1_1_query_federation_1a61fad084814e84aeb0ccb2587ac65a9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a61fad084814e84aeb0ccb2587ac65a9e" kindref="member">total_queries_</ref>{0};</highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1query_1_1_query_federation_1aeb4288d1ce45bd5b8138d99d52a8ea5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1aeb4288d1ce45bd5b8138d99d52a8ea5e" kindref="member">scatter_gather_queries_</ref>{0};</highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1query_1_1_query_federation_1a50a211c6145a7656aedd3ff452f7e05d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a50a211c6145a7656aedd3ff452f7e05d" kindref="member">partition_pruned_queries_</ref>{0};</highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1query_1_1_query_federation_1ad056e062f145e75fa187187df4824349" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1ad056e062f145e75fa187187df4824349" kindref="member">broadcast_joins_</ref>{0};</highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1query_1_1_query_federation_1a0828270d5817ff17b14b304262719d95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a0828270d5817ff17b14b304262719d95" kindref="member">shuffle_joins_</ref>{0};</highlight></codeline>
+<codeline lineno="164" refid="classthemis_1_1query_1_1_query_federation_1a37f170c885800d833c8d7914db04a7c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a37f170c885800d833c8d7914db04a7c7" kindref="member">routing_mutex_</ref>;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>DK-4:<sp/>Federated<sp/>RAG<sp/>merge<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="classthemis_1_1query_1_1_query_federation_1a8aadd5003bf3f0c9622701ac9c27130d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;distributed_knowledge::FederatedRAGMerger&gt;<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a8aadd5003bf3f0c9622701ac9c27130d" kindref="member">rag_merger_</ref>;</highlight></codeline>
+<codeline lineno="168" refid="classthemis_1_1query_1_1_query_federation_1a04bc66ef97a1375b0e91cda2169bc0e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::AdaptiveShardRouter&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a04bc66ef97a1375b0e91cda2169bc0e2" kindref="member">adaptive_router_</ref>;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata" kindref="compound">QueryMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Shard-key<sp/>predicate<sp/>──────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Populated<sp/>by<sp/>analyzeQuery()<sp/>when<sp/>it<sp/>detects<sp/>a<sp/>_key<sp/>==<sp/>&lt;value&gt;<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>_key<sp/>&gt;=<sp/>&lt;min&gt;<sp/>AND<sp/>_key<sp/>&lt;=<sp/>&lt;max&gt;<sp/>predicate,<sp/>enabling<sp/>partition<sp/>pruning.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate" kindref="compound">ShardKeyPredicate</ref><sp/>{</highlight></codeline>
+<codeline lineno="175" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1ab75287241688a337de8cf19f5e77ce38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1ab75287241688a337de8cf19f5e77ce38" kindref="member">Kind</ref><sp/>{<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1ab75287241688a337de8cf19f5e77ce38aaebdbcb765394d25d6a604589a890f82" kindref="member">POINT</ref>,<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1ab75287241688a337de8cf19f5e77ce38a01036ddcc971d02f6c32c3da31a119f2" kindref="member">RANGE</ref><sp/>};</highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1a02d8ccc05cb2f2f1042c07a7a3973715" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1ab75287241688a337de8cf19f5e77ce38" kindref="member">Kind</ref><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1a02d8ccc05cb2f2f1042c07a7a3973715" kindref="member">kind</ref>;</highlight></codeline>
+<codeline lineno="177" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1a898899da056c25cbc1ce21be2ba3d2cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1a898899da056c25cbc1ce21be2ba3d2cc" kindref="member">collection</ref>;</highlight></codeline>
+<codeline lineno="178" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1ac0e3d94c54697994bff307aa33c84532" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1ac0e3d94c54697994bff307aa33c84532" kindref="member">key_value</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>used<sp/>when<sp/>kind<sp/>==<sp/>POINT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1a8d16874104b17eb88ba067ab7b7799b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1a8d16874104b17eb88ba067ab7b7799b1" kindref="member">key_min</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>used<sp/>when<sp/>kind<sp/>==<sp/>RANGE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1a0190a90b26a56bccf9cd46879ae97b5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1_1_shard_key_predicate_1a0190a90b26a56bccf9cd46879ae97b5d" kindref="member">key_max</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>used<sp/>when<sp/>kind<sp/>==<sp/>RANGE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1aa1011539907427b90553198aeaf3d2fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1aa1011539907427b90553198aeaf3d2fc" kindref="member">tables</ref>;</highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a4d84d39bdd0744cda694593967a9340b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a4d84d39bdd0744cda694593967a9340b" kindref="member">predicates</ref>;</highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a566463282c931b5d082410ec04a22fd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a566463282c931b5d082410ec04a22fd5" kindref="member">projections</ref>;</highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1ad6a70e8e3107c0ac970ec2070188d718" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1ad6a70e8e3107c0ac970ec2070188d718" kindref="member">aggregations</ref>;</highlight></codeline>
+<codeline lineno="187" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a70dedef73f51f13a990dd819375233b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a70dedef73f51f13a990dd819375233b6" kindref="member">joins</ref>;</highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a3f7f10226f94e2a41e36bfb5fc0e8d4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a3f7f10226f94e2a41e36bfb5fc0e8d4b" kindref="member">order_by</ref>;</highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1afb2977f146fad032e52fd39df304c86f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1afb2977f146fad032e52fd39df304c86f" kindref="member">limit</ref>;</highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a4fdedc296a9fa5c3b0e25365f08847fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a4fdedc296a9fa5c3b0e25365f08847fc" kindref="member">offset</ref>;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shard-key<sp/>routing<sp/>hint<sp/>(nullopt<sp/>→<sp/>no<sp/>routing<sp/>hint,<sp/>use<sp/>scatter-gather)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a80f014513a79ab0e15ecb03b7b5969b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;ShardKeyPredicate&gt;<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a80f014513a79ab0e15ecb03b7b5969b0" kindref="member">shard_key_predicate</ref>;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extended<sp/>for<sp/>adaptive<sp/>capability-based<sp/>routing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a53d6ace15f22c8c76bf15196e08b2b64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a53d6ace15f22c8c76bf15196e08b2b64" kindref="member">query_text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Original<sp/>query<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1aec97f748c147be9abfb0c158081496bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1aec97f748c147be9abfb0c158081496bf" kindref="member">embeddings</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>embeddings<sp/>for<sp/>semantic<sp/>matching</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shard-key<sp/>routing<sp/>fields<sp/>(populated<sp/>by<sp/>analyzeQuery)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>when<sp/>the<sp/>query<sp/>contains<sp/>an<sp/>equality<sp/>predicate<sp/>on<sp/>_key:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>FILTER<sp/>doc._key<sp/>==<sp/>&quot;&lt;value&gt;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a082ab346eb623dcd993747ae81da4b08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1a082ab346eb623dcd993747ae81da4b08" kindref="member">point_lookup_key</ref>;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>when<sp/>the<sp/>query<sp/>contains<sp/>a<sp/>range<sp/>predicate<sp/>on<sp/>_key:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>FILTER<sp/>doc._key<sp/>&gt;=<sp/>&quot;&lt;min&gt;&quot;<sp/>AND<sp/>doc._key<sp/>&lt;=<sp/>&quot;&lt;max&gt;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1afaf8b5175bdb3962bfb83e7619604768" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata_1afaf8b5175bdb3962bfb83e7619604768" kindref="member">key_range</ref>;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata" kindref="compound">QueryMetadata</ref><sp/><ref refid="classthemis_1_1query_1_1_query_federation_1adabaa497a9f815cb12bd7939b32773df" kindref="member">analyzeQuery</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1ab3853825f6ab1967538f95594f1126db" kindref="member">determineRelevantShards</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata" kindref="compound">QueryMetadata</ref>&amp;<sp/>metadata);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a4cd7bca59a8e4bfe405aa02dd67c614d" kindref="member">rewriteQueryForShard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a623bfa2778354a1deac243924535e2f0" kindref="member">mergeResults</ref>(</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;sharding::ShardResult&gt;&amp;<sp/>results,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata" kindref="compound">QueryMetadata</ref>&amp;<sp/>metadata</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a13c0e899aa1067cf60a8586a396a3742" kindref="member">applyGlobalOperations</ref>(</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>merged,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata" kindref="compound">QueryMetadata</ref>&amp;<sp/>metadata</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1query_1_1_query_federation_1a32542a9979546919706568d3dfb665a9" kindref="member">estimateCollectionSize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::query</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/query_federation.h"/>
+  </compounddef>
+</doxygen>

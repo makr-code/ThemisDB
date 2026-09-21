@@ -1,0 +1,310 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1inrg" kind="namespace" language="C++">
+    <compoundname>themis::bench::inrg</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1inrg_1_1_ingest_row" prot="public">themis::bench::inrg::IngestRow</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1inrg_1_1_mock_wal" prot="public">themis::bench::inrg::MockWal</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1inrg_1_1_ingest_buffer" prot="public">themis::bench::inrg::IngestBuffer</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1inrg_1_1_ingest_quota" prot="public">themis::bench::inrg::IngestQuota</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1inrg_1aa48a317d8271634f09e9756cb692bd71" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::inrg::kIngestionCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kIngestionCanonicalSeed</name>
+        <qualifiedname>themis::bench::inrg::kIngestionCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="70" column="27" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1inrg_1a7781402a3a6b96104e6d6e171927689e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::inrg::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::inrg::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="71" column="27" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1inrg_1a7198f61a3591afeba93c02ae58e49629" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::inrg::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::inrg::kWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="72" column="27" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1inrg_1abe0c2628724516ab20a1fcdf9a0ec674" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::bench::inrg::kWalSize</definition>
+        <argsstring></argsstring>
+        <name>kWalSize</name>
+        <qualifiedname>themis::bench::inrg::kWalSize</qualifiedname>
+        <initializer>= 1 &lt;&lt; 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="96" column="30" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1inrg_1ab89bb452079ceea6216794dd1c595b4f" prot="public" static="yes" mutable="no">
+        <type><ref refid="structthemis_1_1bench_1_1inrg_1_1_mock_wal" kindref="compound">MockWal</ref></type>
+        <definition>MockWal themis::bench::inrg::g_wal</definition>
+        <argsstring></argsstring>
+        <name>g_wal</name>
+        <qualifiedname>themis::bench::inrg::g_wal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="108" column="16" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1inrg_1ab495e30a166fc2b2fe014db288bf1968" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1bench_1_1inrg_1_1_ingest_row" kindref="compound">IngestRow</ref></type>
+        <definition>static IngestRow themis::bench::inrg::makeRow</definition>
+        <argsstring>(std::uint64_t key) noexcept</argsstring>
+        <name>makeRow</name>
+        <qualifiedname>themis::bench::inrg::makeRow</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="84" column="18" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="84" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1inrg_1af8baabd23aee9e6e124c1c1cb9fb67f2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::bench::inrg::commitBatch</definition>
+        <argsstring>(const std::vector&lt; IngestRow &gt; &amp;rows)</argsstring>
+        <name>commitBatch</name>
+        <qualifiedname>themis::bench::inrg::commitBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1bench_1_1inrg_1_1_ingest_row" kindref="compound">IngestRow</ref> &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="114" column="20" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="114" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1inrg_1a8a8a9a590e3b3c2072b59a581d0cb593" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::inrg::validateIngestRow</definition>
+        <argsstring>(const IngestRow &amp;r) noexcept</argsstring>
+        <name>validateIngestRow</name>
+        <qualifiedname>themis::bench::inrg::validateIngestRow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1bench_1_1inrg_1_1_ingest_row" kindref="compound">IngestRow</ref> &amp;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="125" column="13" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="125" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1inrg_1a86d54937c8c2363f4c46765e0ba1492e" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564" kindref="member">IngestionErrorCode</ref></type>
+        <definition>static IngestionErrorCode themis::bench::inrg::sendBackPressureSignal</definition>
+        <argsstring>(IngestBuffer &amp;buf) noexcept</argsstring>
+        <name>sendBackPressureSignal</name>
+        <qualifiedname>themis::bench::inrg::sendBackPressureSignal</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1bench_1_1inrg_1_1_ingest_buffer" kindref="compound">IngestBuffer</ref> &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="150" column="27" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="150" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1inrg_1ae5c249b340dbcee9c113b69de6091417" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::inrg::BM_INRG01_SingleWriteThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_INRG01_SingleWriteThroughput</name>
+        <qualifiedname>themis::bench::inrg::BM_INRG01_SingleWriteThroughput</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>INRG-01: <ref refid="structthemis_1_1bench_1_1inrg_1_1_mock_wal_1aacb84e76a5268af01df0c98cb24a030b" kindref="member">MockWal::write()</ref> — single in-memory WAL row write. GATE-INRG-01: ≥ 500k writes/s. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="181" column="13" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="181" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1inrg_1a8aa49a88b67ee3c5ecb9a79b007ac677" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::inrg::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::inrg::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="195" column="5" declfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" declline="195" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1inrg_1ab1ee0ff005fc9eec0aeb859af4015719" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::inrg::BM_INRG02_BatchCommit</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_INRG02_BatchCommit</name>
+        <qualifiedname>themis::bench::inrg::BM_INRG02_BatchCommit</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>INRG-02: commitBatch() for 100 rows. <ref refid="namespacethemis_1_1bench_1_1inrg_1afd924a06a9f9b4df8969d405d4528da0" kindref="member">UseRealTime()</ref> because this involves heap allocation. GATE-INRG-02: p99 ≤ 5 ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="207" column="13" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="207" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1inrg_1afd924a06a9f9b4df8969d405d4528da0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::inrg::UseRealTime</definition>
+        <argsstring>() -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>UseRealTime</name>
+        <qualifiedname>themis::bench::inrg::UseRealTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="223" column="5" declfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" declline="223" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1inrg_1a85af737527fce0a562ca13503db5b708" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::inrg::BM_INRG03_SchemaValidation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_INRG03_SchemaValidation</name>
+        <qualifiedname>themis::bench::inrg::BM_INRG03_SchemaValidation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>INRG-03: validateIngestRow() per-row schema check. GATE-INRG-03: p99 ≤ 100 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="235" column="13" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="235" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1inrg_1aeff98608a95e3f03eb1d4d509ea9c958" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::inrg::BM_INRG04_BufferOccupancyCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_INRG04_BufferOccupancyCheck</name>
+        <qualifiedname>themis::bench::inrg::BM_INRG04_BufferOccupancyCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>INRG-04: <ref refid="structthemis_1_1bench_1_1inrg_1_1_ingest_buffer_1afd7ef17b51c149f295638b6f28d2f668" kindref="member">IngestBuffer::isFull()</ref> — atomic load + compare. GATE-INRG-04: p99 ≤ 10 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="257" column="13" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="257" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1inrg_1af70310996148ba07e5dd5d17ab235f20" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::inrg::BM_INRG05_BackPressureSignal</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_INRG05_BackPressureSignal</name>
+        <qualifiedname>themis::bench::inrg::BM_INRG05_BackPressureSignal</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>INRG-05: sendBackPressureSignal() — immediate signal generation. GATE-INRG-05: p99 ≤ 50 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="281" column="13" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="281" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1inrg_1a4b7036bb9cd252e785908b17b5f859e5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::inrg::BM_INRG06_QuotaCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_INRG06_QuotaCheck</name>
+        <qualifiedname>themis::bench::inrg::BM_INRG06_QuotaCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>INRG-06: <ref refid="structthemis_1_1bench_1_1inrg_1_1_ingest_quota_1ac336271cfd9c81b57dbc698f573ffe20" kindref="member">IngestQuota::check()</ref> — atomic load + compare. GATE-INRG-06: p99 ≤ 50 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="305" column="13" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="305" bodyend="315"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="64" column="1"/>
+  </compounddef>
+</doxygen>

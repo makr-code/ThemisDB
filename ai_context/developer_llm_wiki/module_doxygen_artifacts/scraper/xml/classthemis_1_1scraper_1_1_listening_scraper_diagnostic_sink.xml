@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::scraper::ListeningScraperDiagnosticSink</compoundname>
+    <basecompoundref refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink" prot="public" virt="non-virtual">themis::scraper::IScraperDiagnosticSink</basecompoundref>
+    <includes refid="scraper__diagnostics_8h" local="no">scraper_diagnostics.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1ada241e11210aa70e7928eff868e501f6" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kindref="compound">ScraperDiagnosticEvent</ref> &amp;)&gt;</type>
+        <definition>using themis::scraper::ListeningScraperDiagnosticSink::Listener = std::function&lt;void(const ScraperDiagnosticEvent&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>Listener</name>
+        <qualifiedname>themis::scraper::ListeningScraperDiagnosticSink::Listener</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="166" column="5" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1a0cf6bad5fa71252edc1aff3fc0172318" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::scraper::ListeningScraperDiagnosticSink::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::scraper::ListeningScraperDiagnosticSink::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="214" column="24" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1ab36fdf1d980701008da90ca940d109c5" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kindref="compound">ScraperDiagnosticEvent</ref> &gt;</type>
+        <definition>std::vector&lt;ScraperDiagnosticEvent&gt; themis::scraper::ListeningScraperDiagnosticSink::events_</definition>
+        <argsstring></argsstring>
+        <name>events_</name>
+        <qualifiedname>themis::scraper::ListeningScraperDiagnosticSink::events_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="215" column="17" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1a9143269be399cd62cb315798b8738f23" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1ada241e11210aa70e7928eff868e501f6" kindref="member">Listener</ref> &gt;</type>
+        <definition>std::vector&lt;Listener&gt; themis::scraper::ListeningScraperDiagnosticSink::listeners_</definition>
+        <argsstring></argsstring>
+        <name>listeners_</name>
+        <qualifiedname>themis::scraper::ListeningScraperDiagnosticSink::listeners_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="216" column="17" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1afa7cf6d410e6ff35ba7e6a2d07035fb9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ListeningScraperDiagnosticSink::addListener</definition>
+        <argsstring>(Listener fn)</argsstring>
+        <name>addListener</name>
+        <qualifiedname>themis::scraper::ListeningScraperDiagnosticSink::addListener</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1ada241e11210aa70e7928eff868e501f6" kindref="member">Listener</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register a listener called for each emitted event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Listeners are called outside the internal mutex, so they may safely call back into the sink (e.g., <computeroutput><ref refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1af57e1ffc1d577aa5e59fca34b2c14b0d" kindref="member">snapshot()</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1ac8cf1b8775e9a76908763ebb473d1fc8" kindref="member">size()</ref></computeroutput>). Keep them short to minimise emit latency. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="175" column="10" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="175" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1a281edc5121cfa721f21d6fa0a63dab4a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ListeningScraperDiagnosticSink::emit</definition>
+        <argsstring>(const ScraperDiagnosticEvent &amp;event) noexcept override</argsstring>
+        <name>emit</name>
+        <qualifiedname>themis::scraper::ListeningScraperDiagnosticSink::emit</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink_1ac5b62cc62388f5f68eb8ca453215b3a5">emit</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kindref="compound">ScraperDiagnosticEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Emit a diagnostic event to the sink. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The structured event. <computeroutput>event.message</computeroutput> must be non-empty.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implementations MUST NOT throw. Any internal error during emit should be swallowed and counted (not propagated to the scraper pipeline). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="180" column="10" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="180" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1af57e1ffc1d577aa5e59fca34b2c14b0d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kindref="compound">ScraperDiagnosticEvent</ref> &gt;</type>
+        <definition>std::vector&lt; ScraperDiagnosticEvent &gt; themis::scraper::ListeningScraperDiagnosticSink::snapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::scraper::ListeningScraperDiagnosticSink::snapshot</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of all recorded events (thread-safe copy). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="196" column="17" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="196" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1ac8cf1b8775e9a76908763ebb473d1fc8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::scraper::ListeningScraperDiagnosticSink::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::scraper::ListeningScraperDiagnosticSink::size</qualifiedname>
+        <briefdescription>
+<para>Number of events recorded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="202" column="17" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="202" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1a910f82bd600e38e989423445d27c4433" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ListeningScraperDiagnosticSink::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::scraper::ListeningScraperDiagnosticSink::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all recorded events (registered listeners are preserved). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="208" column="10" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="208" bodyend="211"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe diagnostic sink that records events and notifies listeners. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Suitable for integration tests and metrics bridge adapters. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::scraper::IScraperDiagnosticSink</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink"/>
+      </node>
+      <node id="1">
+        <label>themis::scraper::ListeningScraperDiagnosticSink</label>
+        <link refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::scraper::IScraperDiagnosticSink</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink"/>
+      </node>
+      <node id="1">
+        <label>themis::scraper::ListeningScraperDiagnosticSink</label>
+        <link refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/scraper/scraper_diagnostics.h" line="164" column="1" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="164" bodyend="217"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1afa7cf6d410e6ff35ba7e6a2d07035fb9" prot="public" virt="non-virtual"><scope>themis::scraper::ListeningScraperDiagnosticSink</scope><name>addListener</name></member>
+      <member refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1a910f82bd600e38e989423445d27c4433" prot="public" virt="non-virtual"><scope>themis::scraper::ListeningScraperDiagnosticSink</scope><name>clear</name></member>
+      <member refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1a281edc5121cfa721f21d6fa0a63dab4a" prot="public" virt="virtual"><scope>themis::scraper::ListeningScraperDiagnosticSink</scope><name>emit</name></member>
+      <member refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1ab36fdf1d980701008da90ca940d109c5" prot="private" virt="non-virtual"><scope>themis::scraper::ListeningScraperDiagnosticSink</scope><name>events_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1ada241e11210aa70e7928eff868e501f6" prot="public" virt="non-virtual"><scope>themis::scraper::ListeningScraperDiagnosticSink</scope><name>Listener</name></member>
+      <member refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1a9143269be399cd62cb315798b8738f23" prot="private" virt="non-virtual"><scope>themis::scraper::ListeningScraperDiagnosticSink</scope><name>listeners_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1a0cf6bad5fa71252edc1aff3fc0172318" prot="private" virt="non-virtual"><scope>themis::scraper::ListeningScraperDiagnosticSink</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1ac8cf1b8775e9a76908763ebb473d1fc8" prot="public" virt="non-virtual"><scope>themis::scraper::ListeningScraperDiagnosticSink</scope><name>size</name></member>
+      <member refid="classthemis_1_1scraper_1_1_listening_scraper_diagnostic_sink_1af57e1ffc1d577aa5e59fca34b2c14b0d" prot="public" virt="non-virtual"><scope>themis::scraper::ListeningScraperDiagnosticSink</scope><name>snapshot</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_diagnostic_sink_1af3d4cd9f02b6a62838a5f3e3f2dbec3e" prot="public" virt="virtual"><scope>themis::scraper::ListeningScraperDiagnosticSink</scope><name>~IScraperDiagnosticSink</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_s_t_t_engine_stress" kind="class" language="C++" prot="public">
+    <compoundname>StubSTTEngineStress</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_s_t_t_engine_stress_1a93c7d30a73eb65234d60c3a716f8b467" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubSTTEngineStress::ops_</definition>
+        <argsstring></argsstring>
+        <name>ops_</name>
+        <qualifiedname>StubSTTEngineStress::ops_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_highcardinality_stress.cpp" line="45" column="17" bodyfile="tests/voice/test_voice_highcardinality_stress.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_s_t_t_engine_stress_1a970f87684878823f7ae9711075bdb9cf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string StubSTTEngineStress::transcribe</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio)</argsstring>
+        <name>transcribe</name>
+        <qualifiedname>StubSTTEngineStress::transcribe</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_highcardinality_stress.cpp" line="39" column="17" bodyfile="tests/voice/test_voice_highcardinality_stress.cpp" bodystart="39" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_s_t_t_engine_stress_1abf0ef6c2f0fce13ab8f51e7a3f491692" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubSTTEngineStress::ops</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ops</name>
+        <qualifiedname>StubSTTEngineStress::ops</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_highcardinality_stress.cpp" line="43" column="14" bodyfile="tests/voice/test_voice_highcardinality_stress.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_highcardinality_stress.cpp" line="37" column="1" bodyfile="tests/voice/test_voice_highcardinality_stress.cpp" bodystart="37" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_stub_s_t_t_engine_stress_1abf0ef6c2f0fce13ab8f51e7a3f491692" prot="public" virt="non-virtual"><scope>StubSTTEngineStress</scope><name>ops</name></member>
+      <member refid="class_stub_s_t_t_engine_stress_1a93c7d30a73eb65234d60c3a716f8b467" prot="private" virt="non-virtual"><scope>StubSTTEngineStress</scope><name>ops_</name></member>
+      <member refid="class_stub_s_t_t_engine_stress_1a970f87684878823f7ae9711075bdb9cf" prot="public" virt="non-virtual"><scope>StubSTTEngineStress</scope><name>transcribe</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

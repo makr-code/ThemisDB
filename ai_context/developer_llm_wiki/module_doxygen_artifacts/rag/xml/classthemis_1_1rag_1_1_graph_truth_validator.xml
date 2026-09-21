@@ -1,0 +1,331 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_graph_truth_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::GraphTruthValidator</compoundname>
+    <includes refid="graph__truth__validator_8h" local="no">graph_truth_validator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_graph_truth_validator_1a0afc8c880d6602a643aff4e27557f74b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever" kindref="compound">OntologyAwareRetriever</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;OntologyAwareRetriever&gt; themis::rag::GraphTruthValidator::ontology_retriever_</definition>
+        <argsstring></argsstring>
+        <name>ontology_retriever_</name>
+        <qualifiedname>themis::rag::GraphTruthValidator::ontology_retriever_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/graph_truth_validator.h" line="97" column="21" bodyfile="include/rag/graph_truth_validator.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_graph_truth_validator_1acadd1633e49d97a6688ee010ce0c9c1f" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" kindref="compound">kg::KnowledgeGraphRetriever</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;kg::KnowledgeGraphRetriever&gt; themis::rag::GraphTruthValidator::kg_retriever_</definition>
+        <argsstring></argsstring>
+        <name>kg_retriever_</name>
+        <qualifiedname>themis::rag::GraphTruthValidator::kg_retriever_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/graph_truth_validator.h" line="98" column="21" bodyfile="include/rag/graph_truth_validator.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_graph_truth_validator_1ae572cc74420c174f5ae0fd900744a565" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::GraphTruthValidator::GraphTruthValidator</definition>
+        <argsstring>()=default</argsstring>
+        <name>GraphTruthValidator</name>
+        <qualifiedname>themis::rag::GraphTruthValidator::GraphTruthValidator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/graph_truth_validator.h" line="70" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_graph_truth_validator_1a4a33f0a9f1df2576a669b8328e2caa7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::GraphTruthValidator::~GraphTruthValidator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GraphTruthValidator</name>
+        <qualifiedname>themis::rag::GraphTruthValidator::~GraphTruthValidator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/graph_truth_validator.h" line="71" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_graph_truth_validator_1ae267a1e8e958d4d82c0d2d86cec56459" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::GraphTruthValidator::setOntologyRetriever</definition>
+        <argsstring>(std::shared_ptr&lt; OntologyAwareRetriever &gt; retriever)</argsstring>
+        <name>setOntologyRetriever</name>
+        <qualifiedname>themis::rag::GraphTruthValidator::setOntologyRetriever</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever" kindref="compound">OntologyAwareRetriever</ref> &gt;</type>
+          <declname>retriever</declname>
+        </param>
+        <briefdescription>
+<para>Set Ontology Retriever. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">retriever</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/graph_truth_validator.h" line="73" column="10" bodyfile="src/rag/graph_truth_validator.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_graph_truth_validator_1a7739bc6577fdac7fbddf26ab89ead3da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::GraphTruthValidator::setKnowledgeGraphRetriever</definition>
+        <argsstring>(std::shared_ptr&lt; kg::KnowledgeGraphRetriever &gt; retriever)</argsstring>
+        <name>setKnowledgeGraphRetriever</name>
+        <qualifiedname>themis::rag::GraphTruthValidator::setKnowledgeGraphRetriever</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" kindref="compound">kg::KnowledgeGraphRetriever</ref> &gt;</type>
+          <declname>retriever</declname>
+        </param>
+        <briefdescription>
+<para>Set Knowledge Graph Retriever. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">retriever</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/graph_truth_validator.h" line="74" column="10" bodyfile="src/rag/graph_truth_validator.cpp" bodystart="34" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_graph_truth_validator_1adcc76fc10605417bfa781a08450a1ba0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_graph_truth_validation_result" kindref="compound">GraphTruthValidationResult</ref></type>
+        <definition>GraphTruthValidationResult themis::rag::GraphTruthValidator::validate</definition>
+        <argsstring>(const std::string &amp;query, const tensor::TensorLayerSummary &amp;tensor_summary, const GraphTruthValidatorConfig &amp;config={}, const std::string &amp;correlation_id={}) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::rag::GraphTruthValidator::validate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const tensor::TensorLayerSummary &amp;</type>
+          <declname>tensor_summary</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_graph_truth_validator_config" kindref="compound">GraphTruthValidatorConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>correlation_id</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/graph_truth_validator.h" line="76" column="33" bodyfile="src/rag/graph_truth_validator.cpp" bodystart="39" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_graph_truth_validator_1abe16f3e0ffb132a694314507bb38c05b" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; judge::RetrievedDocument &gt; themis::rag::GraphTruthValidator::makeCandidateDocuments</definition>
+        <argsstring>(const tensor::TensorLayerSummary &amp;tensor_summary, std::size_t max_candidates)</argsstring>
+        <name>makeCandidateDocuments</name>
+        <qualifiedname>themis::rag::GraphTruthValidator::makeCandidateDocuments</qualifiedname>
+        <param>
+          <type>const tensor::TensorLayerSummary &amp;</type>
+          <declname>tensor_summary</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_candidates</declname>
+        </param>
+        <briefdescription>
+<para>Make Candidate Documents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_summary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), reserve(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/graph_truth_validator.h" line="83" column="25" bodyfile="src/rag/graph_truth_validator.cpp" bodystart="114" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_graph_truth_validator_1a669a2c2f9f7cdd7bc780a3417720a79e" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_graph_truth_validation_result" kindref="compound">GraphTruthValidationResult</ref></type>
+        <definition>GraphTruthValidationResult themis::rag::GraphTruthValidator::buildFromOntologyResult</definition>
+        <argsstring>(const tensor::TensorLayerSummary &amp;tensor_summary, const OntologyRetrievalResult &amp;ontology_result, const GraphTruthValidatorConfig &amp;config)</argsstring>
+        <name>buildFromOntologyResult</name>
+        <qualifiedname>themis::rag::GraphTruthValidator::buildFromOntologyResult</qualifiedname>
+        <param>
+          <type>const tensor::TensorLayerSummary &amp;</type>
+          <declname>tensor_summary</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_ontology_retrieval_result" kindref="compound">OntologyRetrievalResult</ref> &amp;</type>
+          <declname>ontology_result</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_graph_truth_validator_config" kindref="compound">GraphTruthValidatorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Build From Ontology Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_summary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ontology_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: emplace(), reserve(), size(), contains(), push_back(), find(), std::string(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/graph_truth_validator.h" line="87" column="40" bodyfile="src/rag/graph_truth_validator.cpp" bodystart="142" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_graph_truth_validator_1ad121264e91eec7c773953e95ffec6997" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_graph_truth_validation_result" kindref="compound">GraphTruthValidationResult</ref></type>
+        <definition>GraphTruthValidationResult themis::rag::GraphTruthValidator::buildFromKgResult</definition>
+        <argsstring>(const tensor::TensorLayerSummary &amp;tensor_summary, const kg::KGRetrievalResult &amp;kg_result, const GraphTruthValidatorConfig &amp;config)</argsstring>
+        <name>buildFromKgResult</name>
+        <qualifiedname>themis::rag::GraphTruthValidator::buildFromKgResult</qualifiedname>
+        <param>
+          <type>const tensor::TensorLayerSummary &amp;</type>
+          <declname>tensor_summary</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result" kindref="compound">kg::KGRetrievalResult</ref> &amp;</type>
+          <declname>kg_result</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_graph_truth_validator_config" kindref="compound">GraphTruthValidatorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Build From Kg Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_summary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kg_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: emplace(), reserve(), size(), contains(), push_back(), find(), std::string(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/graph_truth_validator.h" line="92" column="40" bodyfile="src/rag/graph_truth_validator.cpp" bodystart="189" bodyend="226"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Explicit graph-truth validation stage above ANN and Tensor layers. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Consumes tensor-layer summaries, projects them into temporary retrieved documents, and validates them using either <ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever" kindref="compound">OntologyAwareRetriever</ref> or KnowledgeGraphRetriever. </para>
+    </detaileddescription>
+    <location file="include/rag/graph_truth_validator.h" line="68" column="1" bodyfile="include/rag/graph_truth_validator.h" bodystart="68" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_graph_truth_validator_1ad121264e91eec7c773953e95ffec6997" prot="private" virt="non-virtual"><scope>themis::rag::GraphTruthValidator</scope><name>buildFromKgResult</name></member>
+      <member refid="classthemis_1_1rag_1_1_graph_truth_validator_1a669a2c2f9f7cdd7bc780a3417720a79e" prot="private" virt="non-virtual"><scope>themis::rag::GraphTruthValidator</scope><name>buildFromOntologyResult</name></member>
+      <member refid="classthemis_1_1rag_1_1_graph_truth_validator_1ae572cc74420c174f5ae0fd900744a565" prot="public" virt="non-virtual"><scope>themis::rag::GraphTruthValidator</scope><name>GraphTruthValidator</name></member>
+      <member refid="classthemis_1_1rag_1_1_graph_truth_validator_1acadd1633e49d97a6688ee010ce0c9c1f" prot="private" virt="non-virtual"><scope>themis::rag::GraphTruthValidator</scope><name>kg_retriever_</name></member>
+      <member refid="classthemis_1_1rag_1_1_graph_truth_validator_1abe16f3e0ffb132a694314507bb38c05b" prot="private" virt="non-virtual"><scope>themis::rag::GraphTruthValidator</scope><name>makeCandidateDocuments</name></member>
+      <member refid="classthemis_1_1rag_1_1_graph_truth_validator_1a0afc8c880d6602a643aff4e27557f74b" prot="private" virt="non-virtual"><scope>themis::rag::GraphTruthValidator</scope><name>ontology_retriever_</name></member>
+      <member refid="classthemis_1_1rag_1_1_graph_truth_validator_1a7739bc6577fdac7fbddf26ab89ead3da" prot="public" virt="non-virtual"><scope>themis::rag::GraphTruthValidator</scope><name>setKnowledgeGraphRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1_graph_truth_validator_1ae267a1e8e958d4d82c0d2d86cec56459" prot="public" virt="non-virtual"><scope>themis::rag::GraphTruthValidator</scope><name>setOntologyRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1_graph_truth_validator_1adcc76fc10605417bfa781a08450a1ba0" prot="public" virt="non-virtual"><scope>themis::rag::GraphTruthValidator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1rag_1_1_graph_truth_validator_1a4a33f0a9f1df2576a669b8328e2caa7b" prot="public" virt="non-virtual"><scope>themis::rag::GraphTruthValidator</scope><name>~GraphTruthValidator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

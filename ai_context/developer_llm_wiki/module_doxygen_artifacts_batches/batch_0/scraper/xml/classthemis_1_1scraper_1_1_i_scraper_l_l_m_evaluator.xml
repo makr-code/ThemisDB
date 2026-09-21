@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_i_scraper_l_l_m_evaluator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::scraper::IScraperLLMEvaluator</compoundname>
+    <derivedcompoundref refid="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator" prot="public" virt="non-virtual">themis::scraper::InMemoryLLMEvaluator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1scraper_1_1_scraper_l_l_m_evaluator" prot="public" virt="non-virtual">themis::scraper::ScraperLLMEvaluator</derivedcompoundref>
+    <includes refid="scraper__llm__evaluator_8h" local="no">scraper_llm_evaluator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_l_l_m_evaluator_1a8801be0e4de89add96c5d7fbe7ed993b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::scraper::IScraperLLMEvaluator::~IScraperLLMEvaluator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IScraperLLMEvaluator</name>
+        <qualifiedname>themis::scraper::IScraperLLMEvaluator::~IScraperLLMEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_llm_evaluator.h" line="56" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_i_scraper_l_l_m_evaluator_1ac62f5cfd3a6c044a24d8d54463ca1511" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+        <definition>virtual EvaluationResult themis::scraper::IScraperLLMEvaluator::evaluate</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;url, const GapContext &amp;gap, double threshold) const =0</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::scraper::IScraperLLMEvaluator::evaluate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator_1aacb1c68a93323e0ec450b944ad840677">evaluate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1scraper_1_1_scraper_l_l_m_evaluator_1acb27a0298c50e1a7eda8d24297b24ac1">evaluate</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_gap_context" kindref="compound">GapContext</ref> &amp;</type>
+          <declname>gap</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate a document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plain text extracted from the scraped page. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source URL (for logging / metadata). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gap context to evaluate against. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum quality_score to pass; set below_threshold when score falls short. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1scraper_1_1_evaluation_result" kindref="compound">EvaluationResult</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_llm_evaluator.h" line="67" column="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Scores a scraped document against the gap context. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>LLM path: calls LLMPluginManager::instance().generate() when THEMIS_ENABLE_LLM is defined and a model is available. Fallback: heuristic keyword-frequency scoring (always available). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::scraper::IScraperLLMEvaluator</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_l_l_m_evaluator"/>
+      </node>
+      <node id="2">
+        <label>themis::scraper::InMemoryLLMEvaluator</label>
+        <link refid="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::scraper::ScraperLLMEvaluator</label>
+        <link refid="classthemis_1_1scraper_1_1_scraper_l_l_m_evaluator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/scraper/scraper_llm_evaluator.h" line="54" column="1" bodyfile="include/scraper/scraper_llm_evaluator.h" bodystart="54" bodyend="72"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_l_l_m_evaluator_1ac62f5cfd3a6c044a24d8d54463ca1511" prot="public" virt="pure-virtual"><scope>themis::scraper::IScraperLLMEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_l_l_m_evaluator_1a8801be0e4de89add96c5d7fbe7ed993b" prot="public" virt="virtual"><scope>themis::scraper::IScraperLLMEvaluator</scope><name>~IScraperLLMEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

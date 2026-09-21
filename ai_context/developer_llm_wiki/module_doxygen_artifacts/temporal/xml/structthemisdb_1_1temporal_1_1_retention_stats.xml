@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_retention_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::RetentionStats</compoundname>
+    <includes refid="retention__manager_8h" local="no">retention_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_stats_1ae6dda4c7f8982d917ec51e2fac556429" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::RetentionStats::versions_examined</definition>
+        <argsstring></argsstring>
+        <name>versions_examined</name>
+        <qualifiedname>themisdb::temporal::RetentionStats::versions_examined</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="156" column="12" bodyfile="include/temporal/retention_manager.h" bodystart="156" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_stats_1abcebb0f61c891b947bdebbd0cd7f0446" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::RetentionStats::versions_deleted</definition>
+        <argsstring></argsstring>
+        <name>versions_deleted</name>
+        <qualifiedname>themisdb::temporal::RetentionStats::versions_deleted</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="157" column="12" bodyfile="include/temporal/retention_manager.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_stats_1a11fd8fa2c5950a5fc0f9ff1e3db17b04" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::RetentionStats::versions_archived</definition>
+        <argsstring></argsstring>
+        <name>versions_archived</name>
+        <qualifiedname>themisdb::temporal::RetentionStats::versions_archived</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="158" column="12" bodyfile="include/temporal/retention_manager.h" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_stats_1a989cc8dec22f264da298870be50154a4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::RetentionStats::space_freed_bytes</definition>
+        <argsstring></argsstring>
+        <name>space_freed_bytes</name>
+        <qualifiedname>themisdb::temporal::RetentionStats::space_freed_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Estimated bytes freed by deletions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="159" column="14" bodyfile="include/temporal/retention_manager.h" bodystart="159" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_stats_1a84d7070c0127124457991ba96884da37" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::temporal::RetentionStats::execution_time</definition>
+        <argsstring></argsstring>
+        <name>execution_time</name>
+        <qualifiedname>themisdb::temporal::RetentionStats::execution_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="160" column="31" bodyfile="include/temporal/retention_manager.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_stats_1adcf865e9f7ede4aeb37a8b75830e6c6d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::temporal::RetentionStats::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themisdb::temporal::RetentionStats::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="161" column="17" bodyfile="include/temporal/retention_manager.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_retention_stats_1a0cf6c56a90366eee76142331273dae07" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::RetentionStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::temporal::RetentionStats::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="163" column="20" bodyfile="include/temporal/retention_manager.h" bodystart="163" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Statistics produced by a single retention enforcement run. </para>
+    </detaileddescription>
+    <location file="include/temporal/retention_manager.h" line="155" column="1" bodyfile="include/temporal/retention_manager.h" bodystart="155" bodyend="171"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_stats_1adcf865e9f7ede4aeb37a8b75830e6c6d" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionStats</scope><name>errors</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_stats_1a84d7070c0127124457991ba96884da37" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionStats</scope><name>execution_time</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_stats_1a989cc8dec22f264da298870be50154a4" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionStats</scope><name>space_freed_bytes</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_stats_1a0cf6c56a90366eee76142331273dae07" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionStats</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_stats_1a11fd8fa2c5950a5fc0f9ff1e3db17b04" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionStats</scope><name>versions_archived</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_stats_1abcebb0f61c891b947bdebbd0cd7f0446" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionStats</scope><name>versions_deleted</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_stats_1ae6dda4c7f8982d917ec51e2fac556429" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionStats</scope><name>versions_examined</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

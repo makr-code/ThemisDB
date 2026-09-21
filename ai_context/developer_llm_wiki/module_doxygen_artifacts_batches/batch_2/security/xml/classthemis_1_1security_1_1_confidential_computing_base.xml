@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_confidential_computing_base" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::security::ConfidentialComputingBase</compoundname>
+    <basecompoundref refid="classthemis_1_1security_1_1_confidential_computing" prot="public" virt="non-virtual">themis::security::ConfidentialComputing</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1security_1_1_sev_confidential_computing" prot="public" virt="non-virtual">themis::security::SevConfidentialComputing</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1security_1_1_software_confidential_computing" prot="public" virt="non-virtual">themis::security::SoftwareConfidentialComputing</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1security_1_1_tdx_confidential_computing" prot="public" virt="non-virtual">themis::security::TdxConfidentialComputing</derivedcompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_confidential_computing_base_1a1ef31924e9dd75affbf11b5d35814196" prot="protected" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824d" kindref="member">TeeType</ref></type>
+        <definition>TeeType themis::security::ConfidentialComputingBase::tee_type_</definition>
+        <argsstring></argsstring>
+        <name>tee_type_</name>
+        <qualifiedname>themis::security::ConfidentialComputingBase::tee_type_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/confidential_computing.cpp" line="416" column="13" bodyfile="src/security/confidential_computing.cpp" bodystart="416" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_confidential_computing_base_1acd419f5d72298c39e766f2a1d75a5b64" prot="protected" static="no" mutable="no">
+        <type>std::array&lt; uint8_t, 32 &gt;</type>
+        <definition>std::array&lt;uint8_t, 32&gt; themis::security::ConfidentialComputingBase::sealing_key_</definition>
+        <argsstring></argsstring>
+        <name>sealing_key_</name>
+        <qualifiedname>themis::security::ConfidentialComputingBase::sealing_key_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/confidential_computing.cpp" line="417" column="16" bodyfile="src/security/confidential_computing.cpp" bodystart="417" bodyend="417"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_confidential_computing_base_1ae5481300108bf9a188ea5727eb42ee1e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::ConfidentialComputingBase::ConfidentialComputingBase</definition>
+        <argsstring>(TeeType tee_type)</argsstring>
+        <name>ConfidentialComputingBase</name>
+        <qualifiedname>themis::security::ConfidentialComputingBase::ConfidentialComputingBase</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824d" kindref="member">TeeType</ref></type>
+          <declname>tee_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/confidential_computing.cpp" line="374" column="14" bodyfile="src/security/confidential_computing.cpp" bodystart="374" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_confidential_computing_base_1a71bd9dd223e8851d5c004c688e000ecc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1security_1_1_sealed_blob" kindref="compound">SealedBlob</ref></type>
+        <definition>SealedBlob themis::security::ConfidentialComputingBase::seal</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;plaintext) const override</argsstring>
+        <name>seal</name>
+        <qualifiedname>themis::security::ConfidentialComputingBase::seal</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_confidential_computing_1acc5d0ccdbc18e9926dc2f335f3b2c910">seal</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>plaintext</declname>
+        </param>
+        <briefdescription>
+<para>Seal (encrypt-and-bind) data to the current TEE measurement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plaintext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data to protect. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1_sealed_blob" kindref="compound">SealedBlob</ref> that can only be unsealed by the same (or compatible) TEE measurement. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on encryption failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/confidential_computing.cpp" line="380" column="16" bodyfile="src/security/confidential_computing.cpp" bodystart="380" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_confidential_computing_base_1ae5196cde26eb27a6343d74aa9501d95a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::ConfidentialComputingBase::unseal</definition>
+        <argsstring>(const SealedBlob &amp;blob) const override</argsstring>
+        <name>unseal</name>
+        <qualifiedname>themis::security::ConfidentialComputingBase::unseal</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_confidential_computing_1a83cdfbc3e0b56e09062d2bd9df611873">unseal</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_sealed_blob" kindref="compound">SealedBlob</ref> &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Unseal a previously sealed blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob produced by <ref refid="classthemis_1_1security_1_1_confidential_computing_base_1a71bd9dd223e8851d5c004c688e000ecc" kindref="member">seal()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recovered plaintext. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if authentication or measurement check fails. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/confidential_computing.cpp" line="391" column="17" bodyfile="src/security/confidential_computing.cpp" bodystart="391" bodyend="407"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_confidential_computing_base_1ace1e513c17290ed0e03e482269cba121" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::security::ConfidentialComputingBase::currentMeasurement</definition>
+        <argsstring>() const =0</argsstring>
+        <name>currentMeasurement</name>
+        <qualifiedname>themis::security::ConfidentialComputingBase::currentMeasurement</qualifiedname>
+        <reimplementedby refid="classthemis_1_1security_1_1_sev_confidential_computing_1a644945a94050203e88dd44c9bd8cafbf">currentMeasurement</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_software_confidential_computing_1ac1db72bf512d2dd4e8381abd8912bd54">currentMeasurement</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_tdx_confidential_computing_1a7d99271ab9bd5a817d75d7d137d023af">currentMeasurement</reimplementedby>
+        <briefdescription>
+<para>Subclasses override to return the current TEE measurement digest (used for measurement binding in seal/unseal). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/confidential_computing.cpp" line="414" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::security::ConfidentialComputing</label>
+        <link refid="classthemis_1_1security_1_1_confidential_computing"/>
+      </node>
+      <node id="1">
+        <label>themis::security::ConfidentialComputingBase</label>
+        <link refid="classthemis_1_1security_1_1_confidential_computing_base"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::security::SevConfidentialComputing</label>
+        <link refid="classthemis_1_1security_1_1_sev_confidential_computing"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::security::SoftwareConfidentialComputing</label>
+        <link refid="classthemis_1_1security_1_1_software_confidential_computing"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::security::TdxConfidentialComputing</label>
+        <link refid="classthemis_1_1security_1_1_tdx_confidential_computing"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::security::ConfidentialComputing</label>
+        <link refid="classthemis_1_1security_1_1_confidential_computing"/>
+      </node>
+      <node id="1">
+        <label>themis::security::ConfidentialComputingBase</label>
+        <link refid="classthemis_1_1security_1_1_confidential_computing_base"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/security/confidential_computing.cpp" line="367" column="1" bodyfile="src/security/confidential_computing.cpp" bodystart="367" bodyend="418"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_1a65f3f4b0a9f3e17514ec8a01933f636d" prot="public" virt="non-virtual"><scope>themis::security::ConfidentialComputingBase</scope><name>ConfidentialComputing</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_1a02f30cc033edaa202dfc41ca83f559ae" prot="public" virt="non-virtual"><scope>themis::security::ConfidentialComputingBase</scope><name>ConfidentialComputing</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_1a03f61787562dcd3bc27239d8ea08a75e" prot="protected" virt="non-virtual"><scope>themis::security::ConfidentialComputingBase</scope><name>ConfidentialComputing</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_base_1ae5481300108bf9a188ea5727eb42ee1e" prot="public" virt="non-virtual"><scope>themis::security::ConfidentialComputingBase</scope><name>ConfidentialComputingBase</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_1a38971f360137ae080acf86e3da9569dd" prot="public" virt="non-virtual"><scope>themis::security::ConfidentialComputingBase</scope><name>create</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_base_1ace1e513c17290ed0e03e482269cba121" prot="protected" virt="pure-virtual"><scope>themis::security::ConfidentialComputingBase</scope><name>currentMeasurement</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_1afe609384936135d248f13659f791ec9d" prot="public" virt="pure-virtual"><scope>themis::security::ConfidentialComputingBase</scope><name>detect</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_1a769e75f7006943d41d8902b4b05f302f" prot="public" virt="pure-virtual"><scope>themis::security::ConfidentialComputingBase</scope><name>getAttestationReport</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_1a023f2b47e5ef047cb157575137371d05" prot="public" virt="pure-virtual"><scope>themis::security::ConfidentialComputingBase</scope><name>name</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_1ac37a71a61891eb486630582ec26485bd" prot="public" virt="non-virtual"><scope>themis::security::ConfidentialComputingBase</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_1ad1b4cc31aad4758a90af446db3d85e8f" prot="public" virt="non-virtual"><scope>themis::security::ConfidentialComputingBase</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_base_1a71bd9dd223e8851d5c004c688e000ecc" prot="public" virt="virtual"><scope>themis::security::ConfidentialComputingBase</scope><name>seal</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_base_1acd419f5d72298c39e766f2a1d75a5b64" prot="protected" virt="non-virtual"><scope>themis::security::ConfidentialComputingBase</scope><name>sealing_key_</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_base_1a1ef31924e9dd75affbf11b5d35814196" prot="protected" virt="non-virtual"><scope>themis::security::ConfidentialComputingBase</scope><name>tee_type_</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_base_1ae5196cde26eb27a6343d74aa9501d95a" prot="public" virt="virtual"><scope>themis::security::ConfidentialComputingBase</scope><name>unseal</name></member>
+      <member refid="classthemis_1_1security_1_1_confidential_computing_1ae7464cdc2ea4f517690aa9f5ff4149d8" prot="public" virt="virtual"><scope>themis::security::ConfidentialComputingBase</scope><name>~ConfidentialComputing</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

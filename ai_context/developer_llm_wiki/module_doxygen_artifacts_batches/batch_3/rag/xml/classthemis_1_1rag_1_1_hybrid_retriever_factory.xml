@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_hybrid_retriever_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::HybridRetrieverFactory</compoundname>
+    <includes refid="hybrid__retriever_8h" local="no">hybrid_retriever.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_factory_1af2ea971964cb1af2de6cff32423dbdcd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref></type>
+        <definition>HybridRetriever themis::rag::HybridRetrieverFactory::createBalanced</definition>
+        <argsstring>(size_t top_k=10)</argsstring>
+        <name>createBalanced</name>
+        <qualifiedname>themis::rag::HybridRetrieverFactory::createBalanced</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Balanced RRF retriever: equal BM25 and vector weights (0.5/0.5). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Balanced.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of documents to return.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: HybridRetriever(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="232" column="28" bodyfile="src/rag/hybrid_retriever.cpp" bodystart="386" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_factory_1a484e8a8355408c9634892fa6c9da5cdd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref></type>
+        <definition>HybridRetriever themis::rag::HybridRetrieverFactory::createSemanticFocused</definition>
+        <argsstring>(size_t top_k=10)</argsstring>
+        <name>createSemanticFocused</name>
+        <qualifiedname>themis::rag::HybridRetrieverFactory::createSemanticFocused</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Semantic-focused retriever: higher vector weight (0.3 BM25 / 0.7 vector). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Semantic Focused.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of documents to return.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: HybridRetriever(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="238" column="28" bodyfile="src/rag/hybrid_retriever.cpp" bodystart="402" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_factory_1a159ed463fef1014f718b276f64df5d79" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref></type>
+        <definition>HybridRetriever themis::rag::HybridRetrieverFactory::createKeywordFocused</definition>
+        <argsstring>(size_t top_k=10)</argsstring>
+        <name>createKeywordFocused</name>
+        <qualifiedname>themis::rag::HybridRetrieverFactory::createKeywordFocused</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Keyword-focused retriever: higher BM25 weight (0.7 BM25 / 0.3 vector). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Keyword Focused.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of documents to return.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: HybridRetriever(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="244" column="28" bodyfile="src/rag/hybrid_retriever.cpp" bodystart="418" bodyend="426"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory helpers for common <ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref> configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/hybrid_retriever.h" line="226" column="1" bodyfile="include/rag/hybrid_retriever.h" bodystart="226" bodyend="245"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_factory_1af2ea971964cb1af2de6cff32423dbdcd" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetrieverFactory</scope><name>createBalanced</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_factory_1a159ed463fef1014f718b276f64df5d79" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetrieverFactory</scope><name>createKeywordFocused</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_factory_1a484e8a8355408c9634892fa6c9da5cdd" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetrieverFactory</scope><name>createSemanticFocused</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_materialized_view_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::MaterializedView::Config</compoundname>
+    <includes refid="materialized__view_8h" local="no">materialized_view.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_view_1_1_config_1a3e73ccc50e8d78450097cf1bf70e2a19" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::MaterializedView::Config::max_rows</definition>
+        <argsstring></argsstring>
+        <name>max_rows</name>
+        <qualifiedname>themis::query::MaterializedView::Config::max_rows</qualifiedname>
+        <initializer>= 1&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="90" column="16" bodyfile="include/query/materialized_view.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_materialized_view_1_1_config_1ab66521e6d45b2498c1decae697fd51e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::MaterializedView::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::query::MaterializedView::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="92" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/materialized_view.h" line="89" column="5" bodyfile="include/query/materialized_view.h" bodystart="89" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_materialized_view_1_1_config_1ab66521e6d45b2498c1decae697fd51e2" prot="public" virt="non-virtual"><scope>themis::query::MaterializedView::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_view_1_1_config_1a3e73ccc50e8d78450097cf1bf70e2a19" prot="public" virt="non-virtual"><scope>themis::query::MaterializedView::Config</scope><name>max_rows</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

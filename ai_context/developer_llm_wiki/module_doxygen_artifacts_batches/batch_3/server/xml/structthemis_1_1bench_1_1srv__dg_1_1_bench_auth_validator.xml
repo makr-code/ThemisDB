@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::srv_dg::BenchAuthValidator</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims" prot="public">themis::bench::srv_dg::BenchAuthValidator::TokenClaims</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1a7822e5abc35ac075dec9e8e1a5e740c4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims" kindref="compound">TokenClaims</ref></type>
+        <definition>TokenClaims themis::bench::srv_dg::BenchAuthValidator::validate</definition>
+        <argsstring>(const std::string &amp;token) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::bench::srv_dg::BenchAuthValidator::validate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="112" column="17" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="112" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="104" column="1" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="104" bodyend="125"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1a7822e5abc35ac075dec9e8e1a5e740c4" prot="public" virt="non-virtual"><scope>themis::bench::srv_dg::BenchAuthValidator</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_fingerprint_insert_fixture" kind="class" language="C++" prot="public">
+    <compoundname>FingerprintInsertFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_fingerprint_insert_fixture_1a9f5c84168eef631314628aef7feeb3e4" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; TensorFingerprintGraph &gt;</type>
+        <definition>std::unique_ptr&lt;TensorFingerprintGraph&gt; FingerprintInsertFixture::graph_</definition>
+        <argsstring></argsstring>
+        <name>graph_</name>
+        <qualifiedname>FingerprintInsertFixture::graph_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="106" column="21" bodyfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_fingerprint_insert_fixture_1a9565906dd8c951c90cef1dc65dc24834" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; TTTrain &gt;</type>
+        <definition>std::vector&lt;TTTrain&gt; FingerprintInsertFixture::trains_</definition>
+        <argsstring></argsstring>
+        <name>trains_</name>
+        <qualifiedname>FingerprintInsertFixture::trains_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="107" column="36" bodyfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_fingerprint_insert_fixture_1a5d86d033f48a8b28ccec91e272675cf4" prot="protected" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t FingerprintInsertFixture::counter_</definition>
+        <argsstring></argsstring>
+        <name>counter_</name>
+        <qualifiedname>FingerprintInsertFixture::counter_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="108" column="45" bodyfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_fingerprint_insert_fixture_1a430fdadbf0128c0354a2d3e0d2d6e9ae" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t FingerprintInsertFixture::kBatchSize</definition>
+        <argsstring></argsstring>
+        <name>kBatchSize</name>
+        <qualifiedname>FingerprintInsertFixture::kBatchSize</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="109" column="45" bodyfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_fingerprint_insert_fixture_1a475c69881b1dab1c70e94a8c9625c8ec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FingerprintInsertFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>FingerprintInsertFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="77" column="10" bodyfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" bodystart="77" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="class_fingerprint_insert_fixture_1a2720e39d03767b7b19a7ebc263b3e01e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FingerprintInsertFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>FingerprintInsertFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="100" column="10" bodyfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" bodystart="100" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FingerprintInsertFixture</label>
+        <link refid="class_fingerprint_insert_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FingerprintInsertFixture</label>
+        <link refid="class_fingerprint_insert_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="75" column="1" bodyfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" bodystart="75" bodyend="110"/>
+    <listofallmembers>
+      <member refid="class_fingerprint_insert_fixture_1a5d86d033f48a8b28ccec91e272675cf4" prot="protected" virt="non-virtual"><scope>FingerprintInsertFixture</scope><name>counter_</name></member>
+      <member refid="class_fingerprint_insert_fixture_1a9f5c84168eef631314628aef7feeb3e4" prot="protected" virt="non-virtual"><scope>FingerprintInsertFixture</scope><name>graph_</name></member>
+      <member refid="class_fingerprint_insert_fixture_1a430fdadbf0128c0354a2d3e0d2d6e9ae" prot="protected" virt="non-virtual"><scope>FingerprintInsertFixture</scope><name>kBatchSize</name></member>
+      <member refid="class_fingerprint_insert_fixture_1a475c69881b1dab1c70e94a8c9625c8ec" prot="public" virt="non-virtual"><scope>FingerprintInsertFixture</scope><name>SetUp</name></member>
+      <member refid="class_fingerprint_insert_fixture_1a2720e39d03767b7b19a7ebc263b3e01e" prot="public" virt="non-virtual"><scope>FingerprintInsertFixture</scope><name>TearDown</name></member>
+      <member refid="class_fingerprint_insert_fixture_1a9565906dd8c951c90cef1dc65dc24834" prot="protected" virt="non-virtual"><scope>FingerprintInsertFixture</scope><name>trains_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

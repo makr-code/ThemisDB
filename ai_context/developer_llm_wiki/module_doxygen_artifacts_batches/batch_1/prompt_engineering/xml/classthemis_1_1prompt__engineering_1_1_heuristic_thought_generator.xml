@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_heuristic_thought_generator" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::HeuristicThoughtGenerator</compoundname>
+    <basecompoundref refid="classthemis_1_1prompt__engineering_1_1_i_to_t_thought_generator" prot="public" virt="non-virtual">themis::prompt_engineering::IToTThoughtGenerator</basecompoundref>
+    <includes refid="tree__of__thoughts_8h" local="no">tree_of_thoughts.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_heuristic_thought_generator_1af3b2bc50e67e7c1a48d6d907b7fab818" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::prompt_engineering::HeuristicThoughtGenerator::generate</definition>
+        <argsstring>(const std::string &amp;problem, const std::vector&lt; std::string &gt; &amp;path, size_t k) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::prompt_engineering::HeuristicThoughtGenerator::generate</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_to_t_thought_generator_1aec9be6ac7bc2373e0e72fbd16bd78c64">generate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>problem</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Generate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">problem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="147" column="17" bodyfile="src/prompt_engineering/tree_of_thoughts.cpp" bodystart="33" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Heuristic thought generator that appends numbered reasoning steps. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Produces deterministic outputs useful for testing without an LLM. Each generated thought has the form: &quot;Consider approach &lt;depth&gt;.&lt;i&gt;: &lt;problem excerpt&gt;&quot; </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::prompt_engineering::HeuristicThoughtGenerator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_heuristic_thought_generator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::IToTThoughtGenerator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_to_t_thought_generator"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::prompt_engineering::HeuristicThoughtGenerator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_heuristic_thought_generator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::IToTThoughtGenerator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_to_t_thought_generator"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/tree_of_thoughts.h" line="145" column="1" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="145" bodyend="151"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_heuristic_thought_generator_1af3b2bc50e67e7c1a48d6d907b7fab818" prot="public" virt="virtual"><scope>themis::prompt_engineering::HeuristicThoughtGenerator</scope><name>generate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_to_t_thought_generator_1a06e3399bb0d5b01bec1dac3dc8977c92" prot="public" virt="virtual"><scope>themis::prompt_engineering::HeuristicThoughtGenerator</scope><name>~IToTThoughtGenerator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="infini__attention__cpu_8h" kind="file" language="C++">
+    <compoundname>infini_attention_cpu.h</compoundname>
+    <includes refid="eigen__stub_8h" local="yes">llm/eigen_stub.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="attention_2infini__attention__cpu_8cpp" local="yes">src/llm/attention/infini_attention_cpu.cpp</includedby>
+    <includedby refid="infini__attention__cpu_8cpp" local="yes">src/llm/infini_attention_cpu.cpp</includedby>
+    <includedby refid="test__ssm__plugin__interface_8cpp" local="yes">tests/llm/test_ssm_plugin_interface.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>llm/eigen_stub.h</label>
+        <link refid="eigen__stub_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/infini_attention_cpu.h</label>
+        <link refid="infini__attention__cpu_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>algorithm</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>random</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/infini_attention_cpu.h</label>
+        <link refid="infini__attention__cpu_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/attention/infini_attention_cpu.cpp</label>
+        <link refid="attention_2infini__attention__cpu_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/llm/infini_attention_cpu.cpp</label>
+        <link refid="infini__attention__cpu_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/llm/test_ssm_plugin_interface.cpp</label>
+        <link refid="test__ssm__plugin__interface_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u" prot="public">themis::llm::attention::InfiniAttentionCPU</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config" prot="public">themis::llm::attention::InfiniAttentionCPU::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats" prot="public">themis::llm::attention::InfiniAttentionCPU::MemStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1attention">themis::llm::attention</innernamespace>
+    <briefdescription>
+<para>Infini-attention CPU fallback implementation (Phase 1 PoC). </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0-alpha </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: EXPERIMENTAL </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Phase 1 PoC </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="eigen__stub_8h" kindref="compound">llm/eigen_stub.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="namespacethemis_1_1llm_1_1attention" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1attention" kindref="compound">themis::llm::attention</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1addb7fd991c783dc509326bd21b3defe4" kindref="member">InfiniAttentionCPU</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21" refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="22" refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1acaa3ddc0ab6fa312af4ca6c8fb5db8d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1acaa3ddc0ab6fa312af4ca6c8fb5db8d0" kindref="member">hidden_dim</ref><sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1a49c958834c8cc079f01566bc6cf0125d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1a49c958834c8cc079f01566bc6cf0125d" kindref="member">seq_len</ref><sp/>=<sp/>2048;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1a2cdcff64215984ab0094495d16373020" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1a2cdcff64215984ab0094495d16373020" kindref="member">memory_size</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1a37250a12b8bee0e074a7b8b074d7ed93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1a37250a12b8bee0e074a7b8b074d7ed93" kindref="member">epsilon</ref><sp/>=<sp/>1e-6f;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1a43e58faab894374e8ab4943eb430f6e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1a43e58faab894374e8ab4943eb430f6e9" kindref="member">use_fp64</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1addb7fd991c783dc509326bd21b3defe4" kindref="member">InfiniAttentionCPU</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a4c16fb2ccf1847fd44878bbdffbe6450" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a4c16fb2ccf1847fd44878bbdffbe6450" kindref="member">~InfiniAttentionCPU</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1ad11c9cb413bcedd5e4c901a694d01600" kindref="member">initialize</ref>();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a8d68c5148f708abf7c1acd0f5bf6bb45" kindref="member">forward</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>Q,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>K,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>V,<sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>output);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1aa4603738bff509d6a137f9dadb13ee70" kindref="member">forward64</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>Q,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>K,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>V,<sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>output);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a72af69f42504e0e74026ead6a1156573" kindref="member">getMemorySnapshot</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1afdab7110186645c1b004201942ab6633" kindref="member">restoreMemory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>snapshot);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a7827e4ddebd47da271ee467cbf4b82e8" kindref="member">resetMemory</ref>();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats" kindref="compound">MemStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats_1a8b1c05c8a041e36dc358a58dac25f90a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats_1a8b1c05c8a041e36dc358a58dac25f90a" kindref="member">memory_matrix_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats_1a2de2b3ccd2a42c5c83c335cf47fd0c6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats_1a2de2b3ccd2a42c5c83c335cf47fd0c6f" kindref="member">temp_buffer_bytes</ref>;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats_1aecdc24bdd5036970936f774b269110f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats_1aecdc24bdd5036970936f774b269110f8" kindref="member">total_bytes</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats" kindref="compound">MemStats</ref><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a140def0165756f3d0c697cc47bc78447" kindref="member">getMemoryStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref><sp/>memory_matrix_;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref><sp/>memory_matrix_fp64_;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>norm_vector_;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>norm_vector_fp64_;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref><sp/>temp_kv_product_;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref><sp/>temp_kv_product_fp64_;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initialized_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>computeAttentionFP32(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>Q,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>K,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>V,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>output);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>computeAttentionFP64(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>Q,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>K,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>V,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>output);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateMemory(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>K,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>V);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateMemoryFP64(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>K,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>V);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm::attention</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>inline<sp/>implementation<sp/>to<sp/>satisfy<sp/>focused<sp/>tests<sp/>(Phase<sp/>1<sp/>stub)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1attention" kindref="compound">themis::llm::attention</ref><sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1addb7fd991c783dc509326bd21b3defe4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1addb7fd991c783dc509326bd21b3defe4" kindref="member">InfiniAttentionCPU::InfiniAttentionCPU</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config" kindref="compound">Config</ref>&amp;<sp/>cfg)</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>config_(cfg)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>memory_matrix_.resize(config_.hidden_dim,<sp/>config_.memory_size);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>memory_matrix_.setZero();</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>temp_kv_product_.resize(config_.seq_len,<sp/>config_.hidden_dim);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>temp_kv_product_.setZero();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1ad11c9cb413bcedd5e4c901a694d01600" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1ad11c9cb413bcedd5e4c901a694d01600" kindref="member">InfiniAttentionCPU::initialize</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>initialized_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a8d68c5148f708abf7c1acd0f5bf6bb45" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a8d68c5148f708abf7c1acd0f5bf6bb45" kindref="member">InfiniAttentionCPU::forward</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>Q,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>K,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>V,<sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>output)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!initialized_)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simple<sp/>reference<sp/>implementation:<sp/>output<sp/>=<sp/>Q<sp/>+<sp/>V<sp/>(element-wise<sp/>by<sp/>min<sp/>dims)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>std::min(Q.<ref refid="class_eigen_1_1_matrix_xf_1a8719d1926cf3d60b74eb3dc0c3674db4" kindref="member">rows</ref>(),<sp/>output.<ref refid="class_eigen_1_1_matrix_xf_1a8719d1926cf3d60b74eb3dc0c3674db4" kindref="member">rows</ref>());</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>c<sp/>=<sp/>std::min(Q.<ref refid="class_eigen_1_1_matrix_xf_1a0f85496a60a48d96209df56ccb33b5d9" kindref="member">cols</ref>(),<sp/>output.<ref refid="class_eigen_1_1_matrix_xf_1a0f85496a60a48d96209df56ccb33b5d9" kindref="member">cols</ref>());</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>r;<sp/>++i)</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>c;<sp/>++j)</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output(i,<sp/>j)<sp/>=<sp/>Q(i,<sp/>j)<sp/>+<sp/>V(i,<sp/>j);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215" refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1aa4603738bff509d6a137f9dadb13ee70" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1aa4603738bff509d6a137f9dadb13ee70" kindref="member">InfiniAttentionCPU::forward64</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>Q,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>K,</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>V,<sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>output)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!initialized_)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>std::min(Q.<ref refid="class_eigen_1_1_matrix_xd_1aafd2474c13b94f604330818fb516a54b" kindref="member">rows</ref>(),<sp/>output.<ref refid="class_eigen_1_1_matrix_xd_1aafd2474c13b94f604330818fb516a54b" kindref="member">rows</ref>());</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>c<sp/>=<sp/>std::min(Q.<ref refid="class_eigen_1_1_matrix_xd_1a41269380adda0c3ae3aa979f653c7883" kindref="member">cols</ref>(),<sp/>output.<ref refid="class_eigen_1_1_matrix_xd_1a41269380adda0c3ae3aa979f653c7883" kindref="member">cols</ref>());</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>r;<sp/>++i)</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>c;<sp/>++j)</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output(i,<sp/>j)<sp/>=<sp/>Q(i,<sp/>j)<sp/>+<sp/>V(i,<sp/>j);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a72af69f42504e0e74026ead6a1156573" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a72af69f42504e0e74026ead6a1156573" kindref="member">InfiniAttentionCPU::getMemorySnapshot</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>out(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(config_.hidden_dim)<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(config_.memory_size));</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>flatten<sp/>memory_matrix_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>config_.hidden_dim;<sp/>++i)</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>config_.memory_size;<sp/>++j)</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out[i<sp/>*<sp/>config_.memory_size<sp/>+<sp/>j]<sp/>=<sp/>memory_matrix_(i,<sp/>j);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243" refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1afdab7110186645c1b004201942ab6633" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1afdab7110186645c1b004201942ab6633" kindref="member">InfiniAttentionCPU::restoreMemory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>snapshot)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(snapshot.size()<sp/>!=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(config_.hidden_dim)<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(config_.memory_size))<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>config_.hidden_dim;<sp/>++i)</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>config_.memory_size;<sp/>++j)</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>memory_matrix_(i,<sp/>j)<sp/>=<sp/>snapshot[i<sp/>*<sp/>config_.memory_size<sp/>+<sp/>j];</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257" refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a7827e4ddebd47da271ee467cbf4b82e8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a7827e4ddebd47da271ee467cbf4b82e8" kindref="member">InfiniAttentionCPU::resetMemory</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>memory_matrix_.setZero();</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261" refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a140def0165756f3d0c697cc47bc78447" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats" kindref="compound">InfiniAttentionCPU::MemStats</ref><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a140def0165756f3d0c697cc47bc78447" kindref="member">InfiniAttentionCPU::getMemoryStats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats" kindref="compound">MemStats</ref><sp/>s{};</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats_1a8b1c05c8a041e36dc358a58dac25f90a" kindref="member">memory_matrix_bytes</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(config_.hidden_dim)<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(config_.memory_size)<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(float);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats_1a2de2b3ccd2a42c5c83c335cf47fd0c6f" kindref="member">temp_buffer_bytes</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(temp_kv_product_.rows())<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(temp_kv_product_.cols())<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(float);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats_1aecdc24bdd5036970936f774b269110f8" kindref="member">total_bytes</ref><sp/>=<sp/>s.<ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats_1a8b1c05c8a041e36dc358a58dac25f90a" kindref="member">memory_matrix_bytes</ref><sp/>+<sp/>s.<ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_mem_stats_1a2de2b3ccd2a42c5c83c335cf47fd0c6f" kindref="member">temp_buffer_bytes</ref>;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>InfiniAttentionCPU::computeAttentionFP32(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>Q,</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>K,</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>V,</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>output)<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1a8d68c5148f708abf7c1acd0f5bf6bb45" kindref="member">forward</ref>(Q,<sp/>K,<sp/>V,<sp/>output);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>InfiniAttentionCPU::computeAttentionFP64(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>Q,</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>K,</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>V,</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>output)<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1aa4603738bff509d6a137f9dadb13ee70" kindref="member">forward64</ref>(Q,<sp/>K,<sp/>V,<sp/>output);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>InfiniAttentionCPU::updateMemory(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>K,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xf" kindref="compound">Eigen::MatrixXf</ref>&amp;<sp/>V)<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No-op<sp/>minimal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>InfiniAttentionCPU::updateMemoryFP64(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>K,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_eigen_1_1_matrix_xd" kindref="compound">Eigen::MatrixXd</ref>&amp;<sp/>V)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No-op<sp/>minimal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm::attention</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/infini_attention_cpu.h"/>
+  </compounddef>
+</doxygen>

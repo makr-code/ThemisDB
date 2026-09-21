@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1nrg" kind="namespace" language="C++">
+    <compoundname>themis::bench::nrg</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1nrg_1a823694b7a8ff1da7757cbeb179e04aa9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::nrg::kNetworkCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kNetworkCanonicalSeed</name>
+        <qualifiedname>themis::bench::nrg::kNetworkCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_release_gates.cpp" line="59" column="32" bodyfile="benchmarks/network/bench_network_release_gates.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1nrg_1a2282ffa2497a97374296d3af0931b438" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::nrg::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::nrg::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_release_gates.cpp" line="60" column="32" bodyfile="benchmarks/network/bench_network_release_gates.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1nrg_1a4ff674373a5bb7a6dc97b1b3e26579c5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::nrg::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::nrg::kWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_release_gates.cpp" line="61" column="32" bodyfile="benchmarks/network/bench_network_release_gates.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg_1a2bddb697e985c3904394d3b80dbd2395" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const BenchSessionMap &amp;</type>
+        <definition>static const BenchSessionMap &amp; themis::bench::nrg::sessionMap</definition>
+        <argsstring>()</argsstring>
+        <name>sessionMap</name>
+        <qualifiedname>themis::bench::nrg::sessionMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_release_gates.cpp" line="184" column="30" bodyfile="benchmarks/network/bench_network_release_gates.cpp" bodystart="184" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg_1a8612ba8e3cdf7ee01f944ea086660caa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::nrg::BM_NRG01_TcpFrameDispatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NRG01_TcpFrameDispatch</name>
+        <qualifiedname>themis::bench::nrg::BM_NRG01_TcpFrameDispatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>NRG-01: Validate magic + dispatch to no-op handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 200 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_release_gates.cpp" line="198" column="13" bodyfile="benchmarks/network/bench_network_release_gates.cpp" bodystart="198" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg_1a45cba7577af65e1543328ac0f293b971" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::nrg::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::nrg::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_release_gates.cpp" line="209" column="5" declfile="benchmarks/network/bench_network_release_gates.cpp" declline="209" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg_1ac7e9344bf3fb6827c5e7849eae415255" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::nrg::BM_NRG02_AuthCheckHotPath</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NRG02_AuthCheckHotPath</name>
+        <qualifiedname>themis::bench::nrg::BM_NRG02_AuthCheckHotPath</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>NRG-02: Session-token lookup in warm in-memory map (1 k entries). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_release_gates.cpp" line="221" column="13" bodyfile="benchmarks/network/bench_network_release_gates.cpp" bodystart="221" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg_1af2cf88d6cbd0fa1565529ac9ee4371aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::nrg::BM_NRG03_RateLimitCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NRG03_RateLimitCheck</name>
+        <qualifiedname>themis::bench::nrg::BM_NRG03_RateLimitCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>NRG-03: Atomic-counter token-bucket check (single-thread). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 50 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_release_gates.cpp" line="247" column="13" bodyfile="benchmarks/network/bench_network_release_gates.cpp" bodystart="247" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg_1a7d1f8ad1ac88be1115f6fe6fdf1591dd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::nrg::BM_NRG04_WebSocketFrameDispatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NRG04_WebSocketFrameDispatch</name>
+        <qualifiedname>themis::bench::nrg::BM_NRG04_WebSocketFrameDispatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>NRG-04: Parse WS FIN/opcode and dispatch to no-op handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 300 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_release_gates.cpp" line="270" column="13" bodyfile="benchmarks/network/bench_network_release_gates.cpp" bodystart="270" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg_1ab04c3b29cd1f9df98bb4c188b87b4333" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::nrg::BM_NRG05_ConnectionAccept</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NRG05_ConnectionAccept</name>
+        <qualifiedname>themis::bench::nrg::BM_NRG05_ConnectionAccept</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>NRG-05: Atomic increment + connection-count limit check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 1 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_release_gates.cpp" line="293" column="13" bodyfile="benchmarks/network/bench_network_release_gates.cpp" bodystart="293" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg_1a0817597c280c06a191118cf78badb820" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::nrg::UseRealTime</definition>
+        <argsstring>() -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>UseRealTime</name>
+        <qualifiedname>themis::bench::nrg::UseRealTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_release_gates.cpp" line="310" column="5" declfile="benchmarks/network/bench_network_release_gates.cpp" declline="310" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1nrg_1a9dd1b92153ea97690ccf466c56e92565" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::nrg::BM_NRG06_FrameSerialization</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_NRG06_FrameSerialization</name>
+        <qualifiedname>themis::bench::nrg::BM_NRG06_FrameSerialization</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>NRG-06: Serialize a 64-byte payload frame to flat byte buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_release_gates.cpp" line="323" column="13" bodyfile="benchmarks/network/bench_network_release_gates.cpp" bodystart="323" bodyend="334"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/network/bench_network_release_gates.cpp" line="50" column="1"/>
+  </compounddef>
+</doxygen>

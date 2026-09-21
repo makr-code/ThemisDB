@@ -1,0 +1,297 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_in_memory_fan_in" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::InMemoryFanIn</compoundname>
+    <basecompoundref refid="classthemis_1_1cdc_1_1_i_c_d_c_fan_in" prot="public" virt="non-virtual">themis::cdc::ICDCFanIn</basecompoundref>
+    <includes refid="icdc__fan__in_8h" local="no">icdc_fan_in.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_fan_in_1ac48568b5724a8d9e0fecfcac9ba09c33" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cdc::InMemoryFanIn::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::cdc::InMemoryFanIn::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_fan_in.h" line="248" column="53" bodyfile="include/cdc/icdc_fan_in.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_fan_in_1a560c26fab158398aa4779b2e0305a968" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1cdc_1a5af31e7761367151e1668596b4d17d0f" kindref="member">CollectionId</ref>, <ref refid="class_changefeed" kindref="compound">Changefeed</ref> * &gt;</type>
+        <definition>std::unordered_map&lt;CollectionId, Changefeed*&gt; themis::cdc::InMemoryFanIn::sources_</definition>
+        <argsstring></argsstring>
+        <name>sources_</name>
+        <qualifiedname>themis::cdc::InMemoryFanIn::sources_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_fan_in.h" line="249" column="25" bodyfile="include/cdc/icdc_fan_in.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_fan_in_1ad5be82a5074aeda4f394237b859d354e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_i_fan_in_merge_policy" kindref="compound">IFanInMergePolicy</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;IFanInMergePolicy&gt; themis::cdc::InMemoryFanIn::policy_</definition>
+        <argsstring></argsstring>
+        <name>policy_</name>
+        <qualifiedname>themis::cdc::InMemoryFanIn::policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_fan_in.h" line="250" column="34" bodyfile="include/cdc/icdc_fan_in.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_fan_in_1aabf40b15882c9fe148a71eb185ea8081" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::InMemoryFanIn::InMemoryFanIn</definition>
+        <argsstring>()</argsstring>
+        <name>InMemoryFanIn</name>
+        <qualifiedname>themis::cdc::InMemoryFanIn::InMemoryFanIn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_fan_in.h" line="128" column="5" bodyfile="include/cdc/icdc_fan_in.h" bodystart="128" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_fan_in_1a54d5eda579f264307632bd26c189b8cb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::InMemoryFanIn::addSource</definition>
+        <argsstring>(const CollectionId &amp;id, Changefeed *feed) override</argsstring>
+        <name>addSource</name>
+        <qualifiedname>themis::cdc::InMemoryFanIn::addSource</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_fan_in_1a615b80be9e75ff5d3978d0e37cdb6bc8">addSource</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1cdc_1a5af31e7761367151e1668596b4d17d0f" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="class_changefeed" kindref="compound">Changefeed</ref> *</type>
+          <declname>feed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_fan_in.h" line="133" column="10" bodyfile="include/cdc/icdc_fan_in.h" bodystart="133" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_fan_in_1a0273cdb8a6931a62d9615c0e8a578fb4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::InMemoryFanIn::removeSource</definition>
+        <argsstring>(const CollectionId &amp;id) override</argsstring>
+        <name>removeSource</name>
+        <qualifiedname>themis::cdc::InMemoryFanIn::removeSource</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_fan_in_1adac624247b627a3ce84b2965beaff43e">removeSource</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1cdc_1a5af31e7761367151e1668596b4d17d0f" kindref="member">CollectionId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_fan_in.h" line="147" column="10" bodyfile="include/cdc/icdc_fan_in.h" bodystart="147" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_fan_in_1a7a2df854097fa87f042c7b29cf490c40" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cdc_1_1_fan_in_event" kindref="compound">FanInEvent</ref> &gt;</type>
+        <definition>std::vector&lt; FanInEvent &gt; themis::cdc::InMemoryFanIn::listEvents</definition>
+        <argsstring>(uint64_t from_sequence=0, std::size_t limit=0, const std::vector&lt; CollectionId &gt; &amp;collections={}) const override</argsstring>
+        <name>listEvents</name>
+        <qualifiedname>themis::cdc::InMemoryFanIn::listEvents</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_fan_in_1a34bf5d2c9cc485b018dbe449509a27b4">listEvents</reimplements>
+        <param>
+          <type>uint64_t</type>
+          <declname>from_sequence</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>limit</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1cdc_1a5af31e7761367151e1668596b4d17d0f" kindref="member">CollectionId</ref> &gt; &amp;</type>
+          <declname>collections</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_fan_in.h" line="157" column="17" bodyfile="include/cdc/icdc_fan_in.h" bodystart="157" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_fan_in_1a029dcaa0d1d2ef35b18405c899c0e7fb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cdc::InMemoryFanIn::setMergePolicy</definition>
+        <argsstring>(std::unique_ptr&lt; IFanInMergePolicy &gt; policy) override</argsstring>
+        <name>setMergePolicy</name>
+        <qualifiedname>themis::cdc::InMemoryFanIn::setMergePolicy</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_fan_in_1ab05277000aeb044b09ed478179da4f2e">setMergePolicy</reimplements>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_i_fan_in_merge_policy" kindref="compound">IFanInMergePolicy</ref> &gt;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set Merge Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_fan_in.h" line="221" column="10" bodyfile="include/cdc/icdc_fan_in.h" bodystart="221" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_fan_in_1a9b27d11169e3b6c1fd077bb3cc7dbf51" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1cdc_1a5af31e7761367151e1668596b4d17d0f" kindref="member">CollectionId</ref> &gt;</type>
+        <definition>std::vector&lt; CollectionId &gt; themis::cdc::InMemoryFanIn::sourceIds</definition>
+        <argsstring>() const override</argsstring>
+        <name>sourceIds</name>
+        <qualifiedname>themis::cdc::InMemoryFanIn::sourceIds</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_fan_in_1ae7f9ef16bcaa073e6e23db6274e62c0a">sourceIds</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_fan_in.h" line="231" column="17" bodyfile="include/cdc/icdc_fan_in.h" bodystart="231" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::cdc::ICDCFanIn</label>
+        <link refid="classthemis_1_1cdc_1_1_i_c_d_c_fan_in"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::InMemoryFanIn</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_fan_in"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::cdc::ICDCFanIn</label>
+        <link refid="classthemis_1_1cdc_1_1_i_c_d_c_fan_in"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::InMemoryFanIn</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_fan_in"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/icdc_fan_in.h" line="126" column="1" bodyfile="include/cdc/icdc_fan_in.h" bodystart="126" bodyend="251"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_fan_in_1a54d5eda579f264307632bd26c189b8cb" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFanIn</scope><name>addSource</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_fan_in_1aabf40b15882c9fe148a71eb185ea8081" prot="public" virt="non-virtual"><scope>themis::cdc::InMemoryFanIn</scope><name>InMemoryFanIn</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_fan_in_1a7a2df854097fa87f042c7b29cf490c40" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFanIn</scope><name>listEvents</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_fan_in_1ac48568b5724a8d9e0fecfcac9ba09c33" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryFanIn</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_fan_in_1ad5be82a5074aeda4f394237b859d354e" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryFanIn</scope><name>policy_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_fan_in_1a0273cdb8a6931a62d9615c0e8a578fb4" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFanIn</scope><name>removeSource</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_fan_in_1a029dcaa0d1d2ef35b18405c899c0e7fb" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFanIn</scope><name>setMergePolicy</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_fan_in_1a9b27d11169e3b6c1fd077bb3cc7dbf51" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFanIn</scope><name>sourceIds</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_fan_in_1a560c26fab158398aa4779b2e0305a968" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryFanIn</scope><name>sources_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_fan_in_1a704a97d47550a1ced75f1e207b71e49b" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFanIn</scope><name>~ICDCFanIn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

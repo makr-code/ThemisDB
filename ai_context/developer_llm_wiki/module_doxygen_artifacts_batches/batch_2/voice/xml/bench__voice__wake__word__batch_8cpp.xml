@@ -1,0 +1,590 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__voice__wake__word__batch_8cpp" kind="file" language="C++">
+    <compoundname>bench_voice_wake_word_batch.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="wake__word__detector_8h" local="yes">voice/wake_word_detector.h</includes>
+    <includes refid="voice__batch__processor_8h" local="yes">voice/voice_batch_processor.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">numeric</includes>
+    <includes local="no">random</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/voice/bench_voice_wake_word_batch.cpp</label>
+        <link refid="bench__voice__wake__word__batch_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>voice/audio_preprocessing.h</label>
+        <link refid="audio__preprocessing_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>voice/voice_batch_processor.h</label>
+        <link refid="voice__batch__processor_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>voice/wake_word_detector.h</label>
+        <link refid="wake__word__detector_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>algorithm</label>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="18">
+        <label>cmath</label>
+      </node>
+      <node id="16">
+        <label>content/stt_processor.h</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>future</label>
+      </node>
+      <node id="11">
+        <label>map</label>
+      </node>
+      <node id="14">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="19">
+        <label>numeric</label>
+      </node>
+      <node id="20">
+        <label>random</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_wake_word_bench_fixture" prot="public">WakeWordBenchFixture</innerclass>
+    <innerclass refid="class_batch_processor_scaling_fixture" prot="public">BatchProcessorScalingFixture</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__voice__wake__word__batch_8cpp_1acfcc098851d1a65448cfcff40a258322" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int16_t &gt;</type>
+        <definition>static std::vector&lt; int16_t &gt; makeSyntheticPCM</definition>
+        <argsstring>(int duration_ms, int sample_rate=16000, bool add_energy=true)</argsstring>
+        <name>makeSyntheticPCM</name>
+        <param>
+          <type>int</type>
+          <declname>duration_ms</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>sample_rate</declname>
+          <defval>16000</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>add_energy</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Generate a synthetic 16-kHz PCM audio buffer (silence + 50 ms burst). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="33" column="20" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="33" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__voice__wake__word__batch_8cpp_1a3c2486d7d8af9b3a204abdbb7a428914" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; pcmToBytes</definition>
+        <argsstring>(const std::vector&lt; int16_t &gt; &amp;pcm)</argsstring>
+        <name>pcmToBytes</name>
+        <param>
+          <type>const std::vector&lt; int16_t &gt; &amp;</type>
+          <declname>pcm</declname>
+        </param>
+        <briefdescription>
+<para>Convert int16 samples to raw bytes for <ref refid="structthemis_1_1voice_1_1_batch_audio_item" kindref="compound">BatchAudioItem</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="54" column="20" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="54" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__voice__wake__word__batch_8cpp_1a61e60c62c17c59dd03f3ba43cc0b39b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(WakeWordBenchFixture, ProcessChunk_Silent_100ms)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_wake_word_bench_fixture" kindref="compound">WakeWordBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>ProcessChunk_Silent_100ms</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="92" column="1" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="92" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__voice__wake__word__batch_8cpp_1a830fb7d5513ba8d4048c134bd5ca697c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(WakeWordBenchFixture, ProcessChunk_Energy_100ms)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_wake_word_bench_fixture" kindref="compound">WakeWordBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>ProcessChunk_Energy_100ms</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="104" column="1" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="104" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__voice__wake__word__batch_8cpp_1aec06035cbfabc44ff19d59c61f689dc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(WakeWordBenchFixture, RollingBuffer_1500ms)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_wake_word_bench_fixture" kindref="compound">WakeWordBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>RollingBuffer_1500ms</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="116" column="1" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="116" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__voice__wake__word__batch_8cpp_1ab40d3d191a1ea41302393af51b296e8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(WakeWordBenchFixture, ChunkThroughput)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_wake_word_bench_fixture" kindref="compound">WakeWordBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>ChunkThroughput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="135" column="1" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="135" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__voice__wake__word__batch_8cpp_1acd3c04dec3909af96386d330604ea0fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(BatchProcessorScalingFixture, SingleItem)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_batch_processor_scaling_fixture" kindref="compound">BatchProcessorScalingFixture</ref></type>
+        </param>
+        <param>
+          <type>SingleItem</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="162" column="1" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="162" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__voice__wake__word__batch_8cpp_1a52426869bfa8f41534c4d4dfed4922c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(BatchProcessorScalingFixture, BatchThroughput_ThreadScaling)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_batch_processor_scaling_fixture" kindref="compound">BatchProcessorScalingFixture</ref></type>
+        </param>
+        <param>
+          <type>BatchThroughput_ThreadScaling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="188" column="1" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="188" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__voice__wake__word__batch_8cpp_1ae11b48287468388d419308844e11c47e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(1) -&gt; Arg(2) -&gt;Arg(4) -&gt;Arg(8) -&gt;Arg(16) -&gt;UseRealTime() -&gt;Unit(benchmark::kMillisecond)</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="220" column="5" declfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" declline="220" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__voice__wake__word__batch_8cpp_1af9c82ebb2c68178269ccd6669c04822a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(BatchProcessorScalingFixture, LoadTestHelper)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_batch_processor_scaling_fixture" kindref="compound">BatchProcessorScalingFixture</ref></type>
+        </param>
+        <param>
+          <type>LoadTestHelper</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp" line="226" column="1" bodyfile="benchmarks/voice/bench_voice_wake_word_batch.cpp" bodystart="226" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Performance benchmarks for wake-word detection latency and <ref refid="classthemis_1_1voice_1_1_voice_batch_processor" kindref="compound">VoiceBatchProcessor</ref> linear thread-scaling. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates: VOICE-PHASE5-01: Wake word latency target &lt; 200 ms end-to-end on embedded VOICE-PHASE5-02: Batch processor linear throughput scaling to 16 threads</para>
+<para>Scenarios:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1voice_1_1_wake_word_detector" kindref="compound">WakeWordDetector</ref>: processAudioChunk() latency (single call)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1voice_1_1_wake_word_detector" kindref="compound">WakeWordDetector</ref>: detection throughput over a rolling 1500 ms buffer</para>
+</listitem><listitem><para><ref refid="classthemis_1_1voice_1_1_voice_batch_processor" kindref="compound">VoiceBatchProcessor</ref>: single-item processing time</para>
+</listitem><listitem><para><ref refid="classthemis_1_1voice_1_1_voice_batch_processor" kindref="compound">VoiceBatchProcessor</ref>: batch throughput scaling (1..16 threads via config)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1voice_1_1_voice_batch_processor" kindref="compound">VoiceBatchProcessor</ref>: runLoadTest() overhead </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wake__word__detector_8h" kindref="compound">voice/wake_word_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="voice__batch__processor_8h" kindref="compound">voice/voice_batch_processor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">themis::voice</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>helpers<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;int16_t&gt;<sp/>makeSyntheticPCM(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>duration_ms,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sample_rate<sp/>=<sp/>16000,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>add_energy<sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n_samples<sp/>=<sp/>(sample_rate<sp/>*<sp/>duration_ms)<sp/>/<sp/>1000;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int16_t&gt;<sp/>pcm(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n_samples),<sp/>0);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(add_energy)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>a<sp/>small<sp/>energy<sp/>burst<sp/>in<sp/>the<sp/>last<sp/>50<sp/>ms<sp/>to<sp/>pass<sp/>the<sp/>VAD<sp/>gate.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(42);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;int16_t&gt;<sp/>dist(</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(-800),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(800));</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>burst_start<sp/>=<sp/>std::max(0,<sp/>n_samples<sp/>-<sp/>(sample_rate<sp/>*<sp/>50<sp/>/<sp/>1000));</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>burst_start;<sp/>i<sp/>&lt;<sp/>n_samples;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pcm[</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)]<sp/>=<sp/>dist(rng);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pcm;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>pcmToBytes(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int16_t&gt;&amp;<sp/>pcm)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>out(pcm.size()<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(int16_t));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>std::memcpy(out.data(),<sp/>pcm.data(),<sp/>out.size());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>WakeWordDetector<sp/>fixtures<sp/>───────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="class_wake_word_bench_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_wake_word_bench_fixture" kindref="compound">WakeWordBenchFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_wake_word_bench_fixture_1a947fd5cb5e7d79b45cbdbaf936f964e8" kindref="member">SetUp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*s*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_config" kindref="compound">WakeWordConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1voice_1_1_wake_word_config_1ae77de216d1862fe9fae7d5e889ffc3f4" kindref="member">sensitivity</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.5f;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1voice_1_1_wake_word_config_1aaed7496285d07427cbd2518cfd7f9db0" kindref="member">buffer_length_ms</ref><sp/><sp/>=<sp/>1500;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1voice_1_1_wake_word_config_1af89f234b3a20c62e5f8ccd4f7c75dd9a" kindref="member">continuous_listen</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1voice_1_1_wake_word_config_1a73eb5508ff37b78199eb0e73af152a06" kindref="member">cooldown_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1voice_1_1_wake_word_config_1a89863f51c7331a55c442274fe3c87944" kindref="member">sample_rate</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>16000;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wake_word_bench_fixture_1afd33c32ca30871828c4504314c48f8fc" kindref="member">detector</ref><sp/>=<sp/>std::make_unique&lt;WakeWordDetector&gt;(cfg);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wake_word_bench_fixture_1afd33c32ca30871828c4504314c48f8fc" kindref="member">detector</ref>-&gt;addWakeWord(</highlight><highlight class="stringliteral">&quot;hey_themis&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;hey<sp/>themis&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wake_word_bench_fixture_1afd33c32ca30871828c4504314c48f8fc" kindref="member">detector</ref>-&gt;addWakeWord(</highlight><highlight class="stringliteral">&quot;themis&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;themis&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-bake<sp/>a<sp/>100<sp/>ms<sp/>chunk<sp/>with<sp/>energy<sp/>(VAD-triggering).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wake_word_bench_fixture_1a4e8d9f013e47ede0850c7ed03ebd2182" kindref="member">chunk_100ms_energy</ref><sp/>=<sp/>pcmToBytes(makeSyntheticPCM(100,<sp/>16000,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wake_word_bench_fixture_1a5b18ea75bdd68aaf57f43f58931ec11b" kindref="member">chunk_100ms_silent</ref><sp/>=<sp/>pcmToBytes(makeSyntheticPCM(100,<sp/>16000,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_wake_word_bench_fixture_1ab45084aa34fb6e874e53aa5f9323faac" kindref="member">TearDown</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*s*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wake_word_bench_fixture_1afd33c32ca30871828c4504314c48f8fc" kindref="member">detector</ref>.reset();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;WakeWordDetector&gt;<sp/><ref refid="class_wake_word_bench_fixture_1afd33c32ca30871828c4504314c48f8fc" kindref="member">detector</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wake_word_bench_fixture_1a4e8d9f013e47ede0850c7ed03ebd2182" kindref="member">chunk_100ms_energy</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_wake_word_bench_fixture_1a5b18ea75bdd68aaf57f43f58931ec11b" kindref="member">chunk_100ms_silent</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>1.<sp/>processAudioChunk()<sp/>latency<sp/>—<sp/>silent<sp/>(fast<sp/>VAD<sp/>reject)<sp/>───────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="bench__voice__wake__word__batch_8cpp_1a61e60c62c17c59dd03f3ba43cc0b39b6" kindref="member">BENCHMARK_F</ref>(<ref refid="class_wake_word_bench_fixture" kindref="compound">WakeWordBenchFixture</ref>,<sp/>ProcessChunk_Silent_100ms)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector-&gt;processAudioChunk(chunk_100ms_silent);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.detected);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;100<sp/>ms<sp/>silent<sp/>chunk;<sp/>VAD<sp/>fast-reject<sp/>path&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>2.<sp/>processAudioChunk()<sp/>latency<sp/>—<sp/>energy<sp/>present<sp/>────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="bench__voice__wake__word__batch_8cpp_1a61e60c62c17c59dd03f3ba43cc0b39b6" kindref="member">BENCHMARK_F</ref>(<ref refid="class_wake_word_bench_fixture" kindref="compound">WakeWordBenchFixture</ref>,<sp/>ProcessChunk_Energy_100ms)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector-&gt;processAudioChunk(chunk_100ms_energy);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.detected);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;100<sp/>ms<sp/>chunk<sp/>with<sp/>energy;<sp/>full<sp/>scoring<sp/>path&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>3.<sp/>Rolling<sp/>buffer<sp/>(15<sp/>×<sp/>100<sp/>ms)<sp/>—<sp/>simulates<sp/>embedded<sp/>real-time<sp/>loop<sp/>─────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="bench__voice__wake__word__batch_8cpp_1a61e60c62c17c59dd03f3ba43cc0b39b6" kindref="member">BENCHMARK_F</ref>(<ref refid="class_wake_word_bench_fixture" kindref="compound">WakeWordBenchFixture</ref>,<sp/>RollingBuffer_1500ms)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>15<sp/>×<sp/>100<sp/>ms<sp/>=<sp/>1500<sp/>ms<sp/>total<sp/>—<sp/>one<sp/>full<sp/>detection<sp/>window.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kChunks<sp/>=<sp/>15;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_wake_word_detection_result" kindref="compound">WakeWordDetectionResult</ref><sp/>last{};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kChunks;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>chunk<sp/>=<sp/>(i<sp/>==<sp/>kChunks<sp/>-<sp/>1)<sp/>?<sp/>chunk_100ms_energy<sp/>:<sp/>chunk_100ms_silent;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last<sp/>=<sp/>detector-&gt;processAudioChunk(chunk);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(last.<ref refid="structthemis_1_1voice_1_1_wake_word_detection_result_1a885a2d2f70c0e5d4fb938a7e783766b5" kindref="member">detected</ref>);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>kChunks);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;15×100<sp/>ms<sp/>rolling<sp/>buffer<sp/>(full<sp/>detection<sp/>window)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>4.<sp/>Throughput<sp/>—<sp/>chunks/second<sp/>───────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="bench__voice__wake__word__batch_8cpp_1a61e60c62c17c59dd03f3ba43cc0b39b6" kindref="member">BENCHMARK_F</ref>(<ref refid="class_wake_word_bench_fixture" kindref="compound">WakeWordBenchFixture</ref>,<sp/>ChunkThroughput)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kBatch<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kBatch;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector-&gt;processAudioChunk(chunk_100ms_energy);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>kBatch);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;100×100<sp/>ms<sp/>chunk<sp/>throughput&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>VoiceBatchProcessor<sp/>fixtures<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="class_batch_processor_scaling_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_batch_processor_scaling_fixture" kindref="compound">BatchProcessorScalingFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_batch_processor_scaling_fixture_1ac394284bd7a165af58e03ff70eae6339" kindref="member">SetUp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*s*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_batch_processor_scaling_fixture_1a0cd1fa308c1498fefe7971c638d62eb9" kindref="member">audio_bytes</ref><sp/>=<sp/>pcmToBytes(makeSyntheticPCM(500,<sp/>16000,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="class_batch_processor_scaling_fixture_1a0cd1fa308c1498fefe7971c638d62eb9" kindref="member">audio_bytes</ref>;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>5.<sp/>Single-item<sp/>processing<sp/>time<sp/>──────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="bench__voice__wake__word__batch_8cpp_1a61e60c62c17c59dd03f3ba43cc0b39b6" kindref="member">BENCHMARK_F</ref>(<ref refid="class_batch_processor_scaling_fixture" kindref="compound">BatchProcessorScalingFixture</ref>,<sp/>SingleItem)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_batch_processor_config" kindref="compound">BatchProcessorConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1voice_1_1_batch_processor_config_1ae3bd44bb74a76f075e3f59340911c9a8" kindref="member">max_concurrent_jobs</ref><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1voice_1_1_batch_processor_config_1a561dd45e0832c8cd5b88b7ecf569ac6f" kindref="member">default_batch_size</ref><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1voice_1_1_batch_processor_config_1a9a467cda4b7a7599863a57c39da63c39" kindref="member">compute_quality_metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_batch_processor" kindref="compound">VoiceBatchProcessor</ref><sp/>processor(cfg);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_batch_audio_item" kindref="compound">BatchAudioItem</ref><sp/>item;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>item.<ref refid="structthemis_1_1voice_1_1_batch_audio_item_1a6d6b45a91956d992406336c28543e11c" kindref="member">item_id</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_item&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>item.<ref refid="structthemis_1_1voice_1_1_batch_audio_item_1a039f8592f344199f70278f72edf09222" kindref="member">audio_data</ref><sp/>=<sp/>audio_bytes;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>item.<ref refid="structthemis_1_1voice_1_1_batch_audio_item_1a5616f60c3e6011b78f83056f609c2a6e" kindref="member">sample_rate</ref><sp/>=<sp/>16000;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>processor.processItem(item);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.success);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;Single<sp/>BatchAudioItem<sp/>processing<sp/>time&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>6.<sp/>Batch<sp/>throughput<sp/>scaling:<sp/>1..16<sp/>threads<sp/>──────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Expects<sp/>near-linear<sp/>throughput<sp/>growth<sp/>with<sp/>thread<sp/>count.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Accept<sp/>≥<sp/>0.7x<sp/>linear<sp/>efficiency<sp/>(superscalar<sp/>effects<sp/>vary<sp/>by<sp/>hardware).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="bench__voice__wake__word__batch_8cpp_1a61e60c62c17c59dd03f3ba43cc0b39b6" kindref="member">BENCHMARK_F</ref>(<ref refid="class_batch_processor_scaling_fixture" kindref="compound">BatchProcessorScalingFixture</ref>,<sp/>BatchThroughput_ThreadScaling)(</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kItems<sp/><sp/><sp/>=<sp/>kThreads<sp/>*<sp/>8;<sp/><sp/></highlight><highlight class="comment">//<sp/>Keep<sp/>CPU<sp/>busy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_batch_processor_config" kindref="compound">BatchProcessorConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1voice_1_1_batch_processor_config_1ae3bd44bb74a76f075e3f59340911c9a8" kindref="member">max_concurrent_jobs</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kThreads);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1voice_1_1_batch_processor_config_1a561dd45e0832c8cd5b88b7ecf569ac6f" kindref="member">default_batch_size</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kThreads);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1voice_1_1_batch_processor_config_1a9a467cda4b7a7599863a57c39da63c39" kindref="member">compute_quality_metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>raw<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_batch_processor" kindref="compound">VoiceBatchProcessor</ref><sp/>processor(cfg);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BatchAudioItem&gt;<sp/>items;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>items.reserve(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kItems));</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kItems;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_batch_audio_item" kindref="compound">BatchAudioItem</ref><sp/>it;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>it.<ref refid="structthemis_1_1voice_1_1_batch_audio_item_1a6d6b45a91956d992406336c28543e11c" kindref="member">item_id</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;item_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>it.<ref refid="structthemis_1_1voice_1_1_batch_audio_item_1a039f8592f344199f70278f72edf09222" kindref="member">audio_data</ref><sp/><sp/>=<sp/>audio_bytes;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>it.<ref refid="structthemis_1_1voice_1_1_batch_audio_item_1a5616f60c3e6011b78f83056f609c2a6e" kindref="member">sample_rate</ref><sp/>=<sp/>16000;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>items.push_back(std::move(it));</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>processor.processBatchSync(items);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(results.size());</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>kItems);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(std::to_string(kThreads)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;-thread<sp/>batch,<sp/>&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(kItems)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>items&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_batch_processor_scaling_fixture" kindref="compound">BatchProcessorScalingFixture</ref>,<sp/>BatchThroughput_ThreadScaling)</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(1)-&gt;Arg(2)-&gt;Arg(4)-&gt;Arg(8)-&gt;Arg(16)</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime()</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>7.<sp/>runLoadTest()<sp/>overhead<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="bench__voice__wake__word__batch_8cpp_1a61e60c62c17c59dd03f3ba43cc0b39b6" kindref="member">BENCHMARK_F</ref>(<ref refid="class_batch_processor_scaling_fixture" kindref="compound">BatchProcessorScalingFixture</ref>,<sp/>LoadTestHelper)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kConcurrent<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_batch_processor_config" kindref="compound">BatchProcessorConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1voice_1_1_batch_processor_config_1ae3bd44bb74a76f075e3f59340911c9a8" kindref="member">max_concurrent_jobs</ref><sp/>=<sp/>kConcurrent;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1voice_1_1_batch_processor_config_1a9a467cda4b7a7599863a57c39da63c39" kindref="member">compute_quality_metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_batch_processor" kindref="compound">VoiceBatchProcessor</ref><sp/>processor(cfg);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_batch_audio_item" kindref="compound">BatchAudioItem</ref><sp/>tmpl;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>tmpl.<ref refid="structthemis_1_1voice_1_1_batch_audio_item_1a6d6b45a91956d992406336c28543e11c" kindref="member">item_id</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;template&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>tmpl.<ref refid="structthemis_1_1voice_1_1_batch_audio_item_1a039f8592f344199f70278f72edf09222" kindref="member">audio_data</ref><sp/><sp/>=<sp/>audio_bytes;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>tmpl.<ref refid="structthemis_1_1voice_1_1_batch_audio_item_1a5616f60c3e6011b78f83056f609c2a6e" kindref="member">sample_rate</ref><sp/>=<sp/>16000;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>summary<sp/>=<sp/>processor.runLoadTest(kConcurrent,<sp/>tmpl);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(summary.completed_items);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;runLoadTest<sp/>concurrent=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(kConcurrent));</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_batch_processor_scaling_fixture" kindref="compound">BatchProcessorScalingFixture</ref>,<sp/>LoadTestHelper)</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(1)-&gt;Arg(4)-&gt;Arg(8)-&gt;Arg(16)</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime()</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/voice/bench_voice_wake_word_batch.cpp"/>
+  </compounddef>
+</doxygen>

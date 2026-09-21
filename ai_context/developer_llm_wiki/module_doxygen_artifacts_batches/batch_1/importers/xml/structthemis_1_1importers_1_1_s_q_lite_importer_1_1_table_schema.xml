@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_s_q_lite_importer_1_1_table_schema" kind="struct" language="C++" prot="private">
+    <compoundname>themis::importers::SQLiteImporter::TableSchema</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_s_q_lite_importer_1_1_table_schema_1a9dfda2a80cd9d7915dfcda113e841184" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SQLiteImporter::TableSchema::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::importers::SQLiteImporter::TableSchema::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/sqlite_importer.h" line="46" column="21" bodyfile="include/importers/sqlite_importer.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_s_q_lite_importer_1_1_table_schema_1acfea5249644d91545b2f5d722dadf446" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::SQLiteImporter::TableSchema::columns</definition>
+        <argsstring></argsstring>
+        <name>columns</name>
+        <qualifiedname>themis::importers::SQLiteImporter::TableSchema::columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/sqlite_importer.h" line="47" column="21" bodyfile="include/importers/sqlite_importer.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_s_q_lite_importer_1_1_table_schema_1a5840689665f5335a44e36ba066008fc9" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::importers::SQLiteImporter::TableSchema::column_types</definition>
+        <argsstring></argsstring>
+        <name>column_types</name>
+        <qualifiedname>themis::importers::SQLiteImporter::TableSchema::column_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/sqlite_importer.h" line="48" column="18" bodyfile="include/importers/sqlite_importer.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_s_q_lite_importer_1_1_table_schema_1a21610428cfac16bcebd3b47756e2f0fa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::SQLiteImporter::TableSchema::primary_keys</definition>
+        <argsstring></argsstring>
+        <name>primary_keys</name>
+        <qualifiedname>themis::importers::SQLiteImporter::TableSchema::primary_keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/sqlite_importer.h" line="49" column="21" bodyfile="include/importers/sqlite_importer.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/sqlite_importer.h" line="45" column="5" bodyfile="include/importers/sqlite_importer.h" bodystart="45" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_s_q_lite_importer_1_1_table_schema_1a5840689665f5335a44e36ba066008fc9" prot="public" virt="non-virtual"><scope>themis::importers::SQLiteImporter::TableSchema</scope><name>column_types</name></member>
+      <member refid="structthemis_1_1importers_1_1_s_q_lite_importer_1_1_table_schema_1acfea5249644d91545b2f5d722dadf446" prot="public" virt="non-virtual"><scope>themis::importers::SQLiteImporter::TableSchema</scope><name>columns</name></member>
+      <member refid="structthemis_1_1importers_1_1_s_q_lite_importer_1_1_table_schema_1a9dfda2a80cd9d7915dfcda113e841184" prot="public" virt="non-virtual"><scope>themis::importers::SQLiteImporter::TableSchema</scope><name>name</name></member>
+      <member refid="structthemis_1_1importers_1_1_s_q_lite_importer_1_1_table_schema_1a21610428cfac16bcebd3b47756e2f0fa" prot="public" virt="non-virtual"><scope>themis::importers::SQLiteImporter::TableSchema</scope><name>primary_keys</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

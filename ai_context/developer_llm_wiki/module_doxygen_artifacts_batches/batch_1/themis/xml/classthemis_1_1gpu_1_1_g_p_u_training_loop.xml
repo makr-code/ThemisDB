@@ -1,0 +1,363 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_training_loop" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUTrainingLoop</compoundname>
+    <includes refid="training__loop_8h" local="no">training_loop.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_config" prot="public">themis::gpu::GPUTrainingLoop::Config</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_step_record" prot="public">themis::gpu::GPUTrainingLoop::StepRecord</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats" prot="public">themis::gpu::GPUTrainingLoop::EpochStats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a3c868228d328fa4bab4ce9caece2df78" prot="public" static="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>using themis::gpu::GPUTrainingLoop::Batch = std::vector&lt;std::vector&lt;float&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>Batch</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::Batch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="45" column="5" bodyfile="include/themis/gpu/training_loop.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1acc89f331cd89dbda5431f9c84c96a1e5" prot="public" static="no">
+        <type>std::function&lt; double(const <ref refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a3c868228d328fa4bab4ce9caece2df78" kindref="member">Batch</ref> &amp;)&gt;</type>
+        <definition>using themis::gpu::GPUTrainingLoop::LossFn = std::function&lt;double(const Batch&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LossFn</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::LossFn</qualifiedname>
+        <briefdescription>
+<para>Forward + backward pass returning the scalar loss for this batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="47" column="5" bodyfile="include/themis/gpu/training_loop.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a190d79d6ac4a93c28f4d897bfc8333bc" prot="public" static="no">
+        <type>std::function&lt; void(size_t step, double loss)&gt;</type>
+        <definition>using themis::gpu::GPUTrainingLoop::CheckpointFn = std::function&lt;void(size_t step, double loss)&gt;</definition>
+        <argsstring></argsstring>
+        <name>CheckpointFn</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::CheckpointFn</qualifiedname>
+        <briefdescription>
+<para>Called every checkpoint_interval steps with (step, loss). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="49" column="5" bodyfile="include/themis/gpu/training_loop.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1aab4fd19b9ff3ecd4cf629f4c1e1e1d06" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::gpu::GPUTrainingLoop::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="123" column="29" bodyfile="include/themis/gpu/training_loop.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a2a153aca0a28544b16eecf15fd716c39" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPUTrainingLoop::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="124" column="29" bodyfile="include/themis/gpu/training_loop.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1aee0dad41e9b2872bab27fb2614304f3d" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTrainingLoop::step_</definition>
+        <argsstring></argsstring>
+        <name>step_</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::step_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="125" column="29" bodyfile="include/themis/gpu/training_loop.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a5588709af068c948c55a819ab077f1f8" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::gpu::GPUTrainingLoop::last_loss_</definition>
+        <argsstring></argsstring>
+        <name>last_loss_</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::last_loss_</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="126" column="29" bodyfile="include/themis/gpu/training_loop.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1af99dd6dc76c2a72f77a25c9364a45d2d" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUTrainingLoop::stopped_</definition>
+        <argsstring></argsstring>
+        <name>stopped_</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::stopped_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="127" column="29" bodyfile="include/themis/gpu/training_loop.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a72b6954c10fa224b26e03c2189a682a3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_step_record" kindref="compound">StepRecord</ref> &gt;</type>
+        <definition>std::vector&lt;StepRecord&gt; themis::gpu::GPUTrainingLoop::history_</definition>
+        <argsstring></argsstring>
+        <name>history_</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="128" column="17" bodyfile="include/themis/gpu/training_loop.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a4d02eb9d845ea5e61c642cdcafba6424" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats" kindref="compound">EpochStats</ref></type>
+        <definition>EpochStats themis::gpu::GPUTrainingLoop::last_epoch_</definition>
+        <argsstring></argsstring>
+        <name>last_epoch_</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::last_epoch_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="129" column="29" bodyfile="include/themis/gpu/training_loop.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1ac5176fd100f7ab67780b12a9ebc41031" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTrainingLoop::epoch_num_</definition>
+        <argsstring></argsstring>
+        <name>epoch_num_</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::epoch_num_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="130" column="29" bodyfile="include/themis/gpu/training_loop.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a84929b60bbb12cc1ba9fc355ffdaf227" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUTrainingLoop::GPUTrainingLoop</definition>
+        <argsstring>()</argsstring>
+        <name>GPUTrainingLoop</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::GPUTrainingLoop</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="88" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1af3802dfb79eb7d302ae8d6abe0228edb" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUTrainingLoop::GPUTrainingLoop</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>GPUTrainingLoop</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::GPUTrainingLoop</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="89" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a98974b5e8f5601bbfc5d043377b9c47a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats" kindref="compound">EpochStats</ref></type>
+        <definition>EpochStats themis::gpu::GPUTrainingLoop::run</definition>
+        <argsstring>(const std::vector&lt; Batch &gt; &amp;batches, LossFn loss_fn, CheckpointFn checkpoint=nullptr)</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::run</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a3c868228d328fa4bab4ce9caece2df78" kindref="member">Batch</ref> &gt; &amp;</type>
+          <declname>batches</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1acc89f331cd89dbda5431f9c84c96a1e5" kindref="member">LossFn</ref></type>
+          <declname>loss_fn</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a190d79d6ac4a93c28f4d897bfc8333bc" kindref="member">CheckpointFn</ref></type>
+          <declname>checkpoint</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Run one epoch over <computeroutput>batches</computeroutput> using <computeroutput>loss_fn</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Iterates batches in order (or shuffled when <ref refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_config_1ab75ea933dc71b2d0053db0c214b4f9d2" kindref="member">Config::shuffle_batches</ref> is true), calls <computeroutput>loss_fn</computeroutput> for each batch, tracks loss history, fires <computeroutput>checkpoint</computeroutput> at every <computeroutput>checkpoint_interval</computeroutput> steps, and stops early when <ref refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_config_1a73e7dd9d1a9224d86ff1829485e180c7" kindref="member">Config::early_stop_loss</ref> is configured and the loss crosses the threshold.</para>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats" kindref="compound">EpochStats</ref> summarising the completed epoch. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="106" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1ab418e120eb6b8dd24a92c81fd5589f31" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTrainingLoop::currentStep</definition>
+        <argsstring>() const</argsstring>
+        <name>currentStep</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::currentStep</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="113" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a30c5e357b6a872632870be13c8de368a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::gpu::GPUTrainingLoop::lastLoss</definition>
+        <argsstring>() const</argsstring>
+        <name>lastLoss</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::lastLoss</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="114" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a81f2875cbc5ef34af77d2d11b6c4a3a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_step_record" kindref="compound">StepRecord</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; StepRecord &gt; &amp; themis::gpu::GPUTrainingLoop::history</definition>
+        <argsstring>() const</argsstring>
+        <name>history</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::history</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="115" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a14a0c5eb52d3265755e8173537c2f3e7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_epoch_stats" kindref="compound">EpochStats</ref></type>
+        <definition>EpochStats themis::gpu::GPUTrainingLoop::lastEpochStats</definition>
+        <argsstring>() const</argsstring>
+        <name>lastEpochStats</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::lastEpochStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="116" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a2d7f4cc7fbbbb34fcb22d48e9d969267" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUTrainingLoop::isStopped</definition>
+        <argsstring>() const</argsstring>
+        <name>isStopped</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::isStopped</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="117" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_training_loop_1acf07d1f961b3a34c48b623957703f093" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUTrainingLoop::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::reset</qualifiedname>
+        <briefdescription>
+<para>Reset step counter, loss history, and stopped flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="120" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>GPU training loop coordinator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Orchestrates the training lifecycle for GPU-backed ML workloads:<itemizedlist>
+<listitem><para>Mini-batch iteration</para>
+</listitem><listitem><para>Forward / backward pass via a caller-supplied <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1acc89f331cd89dbda5431f9c84c96a1e5" kindref="member">LossFn</ref></computeroutput></para>
+</listitem><listitem><para>Loss tracking, step counting, early stopping</para>
+</listitem><listitem><para>Periodic checkpoint callbacks</para>
+</listitem><listitem><para>Per-epoch statistics</para>
+</listitem></itemizedlist>
+</para>
+<para>Like <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher" kindref="compound">GPULauncher</ref></computeroutput>, the actual GPU computation is supplied as a <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1acc89f331cd89dbda5431f9c84c96a1e5" kindref="member">LossFn</ref></computeroutput> callback so the coordinator is testable without real hardware. When THEMIS_ENABLE_CUDA / THEMIS_ENABLE_HIP are defined the <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1acc89f331cd89dbda5431f9c84c96a1e5" kindref="member">LossFn</ref></computeroutput> body would invoke a CUDA/ROCm kernel and return the device-side loss value.</para>
+<para>Thread safety: public methods are protected by an internal mutex. </para>
+    </detaileddescription>
+    <location file="include/themis/gpu/training_loop.h" line="40" column="1" bodyfile="include/themis/gpu/training_loop.h" bodystart="40" bodyend="131"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a3c868228d328fa4bab4ce9caece2df78" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>Batch</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a190d79d6ac4a93c28f4d897bfc8333bc" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>CheckpointFn</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1aab4fd19b9ff3ecd4cf629f4c1e1e1d06" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>config_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1ab418e120eb6b8dd24a92c81fd5589f31" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>currentStep</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1ac5176fd100f7ab67780b12a9ebc41031" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>epoch_num_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a84929b60bbb12cc1ba9fc355ffdaf227" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>GPUTrainingLoop</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1af3802dfb79eb7d302ae8d6abe0228edb" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>GPUTrainingLoop</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a81f2875cbc5ef34af77d2d11b6c4a3a4" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>history</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a72b6954c10fa224b26e03c2189a682a3" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>history_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a2d7f4cc7fbbbb34fcb22d48e9d969267" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>isStopped</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a4d02eb9d845ea5e61c642cdcafba6424" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>last_epoch_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a5588709af068c948c55a819ab077f1f8" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>last_loss_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a14a0c5eb52d3265755e8173537c2f3e7" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>lastEpochStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a30c5e357b6a872632870be13c8de368a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>lastLoss</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1acc89f331cd89dbda5431f9c84c96a1e5" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>LossFn</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a2a153aca0a28544b16eecf15fd716c39" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1acf07d1f961b3a34c48b623957703f093" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>reset</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1a98974b5e8f5601bbfc5d043377b9c47a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>run</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1aee0dad41e9b2872bab27fb2614304f3d" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>step_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1af99dd6dc76c2a72f77a25c9364a45d2d" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop</scope><name>stopped_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1tests_1_1_rate_limiting_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::tests::RateLimitingTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1tests_1_1_rate_limiting_test_1afa71b183049638d0af303b1296d05ff3" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_auth_rate_limiter" kindref="compound">AuthRateLimiter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AuthRateLimiter&gt; themis::auth::tests::RateLimitingTest::limiter_</definition>
+        <argsstring></argsstring>
+        <name>limiter_</name>
+        <qualifiedname>themis::auth::tests::RateLimitingTest::limiter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_wavec_rate_limiting.cpp" line="54" column="21" bodyfile="tests/auth/test_auth_wavec_rate_limiting.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1tests_1_1_rate_limiting_test_1af8bc78667ba5509f18b3738c687184f4" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::auth::tests::RateLimitingTest::kTestIP</definition>
+        <argsstring></argsstring>
+        <name>kTestIP</name>
+        <qualifiedname>themis::auth::tests::RateLimitingTest::kTestIP</qualifiedname>
+        <initializer>= &quot;192.0.2.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_wavec_rate_limiting.cpp" line="56" column="33" bodyfile="tests/auth/test_auth_wavec_rate_limiting.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1tests_1_1_rate_limiting_test_1a9a34a7fe410b7c164b6945179a9d9318" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::auth::tests::RateLimitingTest::kUserA</definition>
+        <argsstring></argsstring>
+        <name>kUserA</name>
+        <qualifiedname>themis::auth::tests::RateLimitingTest::kUserA</qualifiedname>
+        <initializer>= &quot;user_alice&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_wavec_rate_limiting.cpp" line="57" column="33" bodyfile="tests/auth/test_auth_wavec_rate_limiting.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1tests_1_1_rate_limiting_test_1affcc4f2a41c24de80e1c1c816006e8c9" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::auth::tests::RateLimitingTest::kUserB</definition>
+        <argsstring></argsstring>
+        <name>kUserB</name>
+        <qualifiedname>themis::auth::tests::RateLimitingTest::kUserB</qualifiedname>
+        <initializer>= &quot;user_bob&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_wavec_rate_limiting.cpp" line="58" column="33" bodyfile="tests/auth/test_auth_wavec_rate_limiting.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_rate_limiting_test_1a3eba2013c8ca15f4094e51892fc47d6e" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref></type>
+        <definition>static AuthRateLimitConfig themis::auth::tests::RateLimitingTest::makeTightConfig</definition>
+        <argsstring>(size_t max_per_user=3, uint32_t=200)</argsstring>
+        <name>makeTightConfig</name>
+        <qualifiedname>themis::auth::tests::RateLimitingTest::makeTightConfig</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_per_user</declname>
+          <defval>3</defval>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <defval>200</defval>
+        </param>
+        <briefdescription>
+<para>Build an <ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref> with tight limits suitable for deterministic unit tests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_per_user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum auth attempts per user per window. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rate-limit window in milliseconds. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_wavec_rate_limiting.cpp" line="39" column="32" bodyfile="tests/auth/test_auth_wavec_rate_limiting.cpp" bodystart="39" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_rate_limiting_test_1a218d4a594cb0906d631663da9144dba3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::tests::RateLimitingTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::auth::tests::RateLimitingTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_wavec_rate_limiting.cpp" line="50" column="10" bodyfile="tests/auth/test_auth_wavec_rate_limiting.cpp" bodystart="50" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::RateLimitingTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_rate_limiting_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::RateLimitingTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_rate_limiting_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_auth_wavec_rate_limiting.cpp" line="30" column="1" bodyfile="tests/auth/test_auth_wavec_rate_limiting.cpp" bodystart="30" bodyend="59"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_rate_limiting_test_1af8bc78667ba5509f18b3738c687184f4" prot="protected" virt="non-virtual"><scope>themis::auth::tests::RateLimitingTest</scope><name>kTestIP</name></member>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_rate_limiting_test_1a9a34a7fe410b7c164b6945179a9d9318" prot="protected" virt="non-virtual"><scope>themis::auth::tests::RateLimitingTest</scope><name>kUserA</name></member>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_rate_limiting_test_1affcc4f2a41c24de80e1c1c816006e8c9" prot="protected" virt="non-virtual"><scope>themis::auth::tests::RateLimitingTest</scope><name>kUserB</name></member>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_rate_limiting_test_1afa71b183049638d0af303b1296d05ff3" prot="protected" virt="non-virtual"><scope>themis::auth::tests::RateLimitingTest</scope><name>limiter_</name></member>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_rate_limiting_test_1a3eba2013c8ca15f4094e51892fc47d6e" prot="protected" virt="non-virtual"><scope>themis::auth::tests::RateLimitingTest</scope><name>makeTightConfig</name></member>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_rate_limiting_test_1a218d4a594cb0906d631663da9144dba3" prot="protected" virt="non-virtual"><scope>themis::auth::tests::RateLimitingTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

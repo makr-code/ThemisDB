@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_export_api_handler_1_1_export_job" kind="struct" language="C++" prot="private">
+    <compoundname>themis::server::ExportApiHandler::ExportJob</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1abeac69db88192328c7e3dda59538663c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ExportApiHandler::ExportJob::export_id</definition>
+        <argsstring></argsstring>
+        <name>export_id</name>
+        <qualifiedname>themis::server::ExportApiHandler::ExportJob::export_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="76" column="21" bodyfile="include/server/export_api_handler.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1afc73879c75c04b9c7f76feac1ed85c73" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ExportApiHandler::ExportJob::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::server::ExportApiHandler::ExportJob::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="77" column="21" bodyfile="include/server/export_api_handler.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1a5888d40ea2e33ea45f4e9ead4c8d95d8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::ExportApiHandler::ExportJob::progress</definition>
+        <argsstring></argsstring>
+        <name>progress</name>
+        <qualifiedname>themis::server::ExportApiHandler::ExportJob::progress</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="78" column="16" bodyfile="include/server/export_api_handler.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1adc8c160c80df448ffbdef707fd861971" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::ExportApiHandler::ExportJob::records_processed</definition>
+        <argsstring></argsstring>
+        <name>records_processed</name>
+        <qualifiedname>themis::server::ExportApiHandler::ExportJob::records_processed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="79" column="16" bodyfile="include/server/export_api_handler.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1ad26c718d5d46a1e4bd59e2d038e06e4f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::ExportApiHandler::ExportJob::records_total</definition>
+        <argsstring></argsstring>
+        <name>records_total</name>
+        <qualifiedname>themis::server::ExportApiHandler::ExportJob::records_total</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="80" column="16" bodyfile="include/server/export_api_handler.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1a88770bd29b7a6b0987d35e378231a1f4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ExportApiHandler::ExportJob::output_path</definition>
+        <argsstring></argsstring>
+        <name>output_path</name>
+        <qualifiedname>themis::server::ExportApiHandler::ExportJob::output_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="81" column="21" bodyfile="include/server/export_api_handler.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1a693e6c0e80eb4396d229f43c09bf4321" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::server::ExportApiHandler::ExportJob::started_at</definition>
+        <argsstring></argsstring>
+        <name>started_at</name>
+        <qualifiedname>themis::server::ExportApiHandler::ExportJob::started_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="82" column="47" bodyfile="include/server/export_api_handler.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1a4678fd48c170871c2db14e723d374792" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::server::ExportApiHandler::ExportJob::completed_at</definition>
+        <argsstring></argsstring>
+        <name>completed_at</name>
+        <qualifiedname>themis::server::ExportApiHandler::ExportJob::completed_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="83" column="47" bodyfile="include/server/export_api_handler.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1ad3e817615641b125a3583079da0bd5ca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ExportApiHandler::ExportJob::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::server::ExportApiHandler::ExportJob::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="84" column="21" bodyfile="include/server/export_api_handler.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/export_api_handler.h" line="75" column="5" bodyfile="include/server/export_api_handler.h" bodystart="75" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1a4678fd48c170871c2db14e723d374792" prot="public" virt="non-virtual"><scope>themis::server::ExportApiHandler::ExportJob</scope><name>completed_at</name></member>
+      <member refid="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1ad3e817615641b125a3583079da0bd5ca" prot="public" virt="non-virtual"><scope>themis::server::ExportApiHandler::ExportJob</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1abeac69db88192328c7e3dda59538663c" prot="public" virt="non-virtual"><scope>themis::server::ExportApiHandler::ExportJob</scope><name>export_id</name></member>
+      <member refid="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1a88770bd29b7a6b0987d35e378231a1f4" prot="public" virt="non-virtual"><scope>themis::server::ExportApiHandler::ExportJob</scope><name>output_path</name></member>
+      <member refid="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1a5888d40ea2e33ea45f4e9ead4c8d95d8" prot="public" virt="non-virtual"><scope>themis::server::ExportApiHandler::ExportJob</scope><name>progress</name></member>
+      <member refid="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1adc8c160c80df448ffbdef707fd861971" prot="public" virt="non-virtual"><scope>themis::server::ExportApiHandler::ExportJob</scope><name>records_processed</name></member>
+      <member refid="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1ad26c718d5d46a1e4bd59e2d038e06e4f" prot="public" virt="non-virtual"><scope>themis::server::ExportApiHandler::ExportJob</scope><name>records_total</name></member>
+      <member refid="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1a693e6c0e80eb4396d229f43c09bf4321" prot="public" virt="non-virtual"><scope>themis::server::ExportApiHandler::ExportJob</scope><name>started_at</name></member>
+      <member refid="structthemis_1_1server_1_1_export_api_handler_1_1_export_job_1afc73879c75c04b9c7f76feac1ed85c73" prot="public" virt="non-virtual"><scope>themis::server::ExportApiHandler::ExportJob</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

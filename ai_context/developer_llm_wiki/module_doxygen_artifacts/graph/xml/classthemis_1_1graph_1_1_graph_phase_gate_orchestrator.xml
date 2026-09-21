@@ -1,0 +1,937 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::GraphPhaseGateOrchestrator</compoundname>
+    <includes refid="graph__phase__gate__orchestrator_8h" local="no">graph_phase_gate_orchestrator.h</includes>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1_1_phase_node" prot="private">themis::graph::GraphPhaseGateOrchestrator::PhaseNode</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a932c92c336404ef45ffb7291793c4480" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::graph::GraphPhaseGateOrchestrator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="278" column="56" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1afce831de98473db315833507a7ffa607" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, PhaseNode &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PhaseNode&gt; themis::graph::GraphPhaseGateOrchestrator::phases_</definition>
+        <argsstring></argsstring>
+        <name>phases_</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::phases_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="279" column="32" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aa23ded852fdcf4ed19f439229885a970" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphPhaseGateOrchestrator::GraphPhaseGateOrchestrator</definition>
+        <argsstring>()=default</argsstring>
+        <name>GraphPhaseGateOrchestrator</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::GraphPhaseGateOrchestrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="89" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1ae043c40faed4993f4893c1a8f2a0a338" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphPhaseGateOrchestrator::~GraphPhaseGateOrchestrator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GraphPhaseGateOrchestrator</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::~GraphPhaseGateOrchestrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="90" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1add0bccee5b212689213878f3819113c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphPhaseGateOrchestrator::GraphPhaseGateOrchestrator</definition>
+        <argsstring>(const GraphPhaseGateOrchestrator &amp;)=delete</argsstring>
+        <name>GraphPhaseGateOrchestrator</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::GraphPhaseGateOrchestrator</qualifiedname>
+        <param>
+          <type>const GraphPhaseGateOrchestrator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="95" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af7c0a412956e15f6532972b9676a8b09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aa23ded852fdcf4ed19f439229885a970" kindref="member">GraphPhaseGateOrchestrator</ref> &amp;</type>
+        <definition>GraphPhaseGateOrchestrator &amp; themis::graph::GraphPhaseGateOrchestrator::operator=</definition>
+        <argsstring>(const GraphPhaseGateOrchestrator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aa23ded852fdcf4ed19f439229885a970" kindref="member">GraphPhaseGateOrchestrator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="96" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a539958c9c199a5e0b07ead2a8976640d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphPhaseGateOrchestrator::GraphPhaseGateOrchestrator</definition>
+        <argsstring>(GraphPhaseGateOrchestrator &amp;&amp;other) noexcept</argsstring>
+        <name>GraphPhaseGateOrchestrator</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::GraphPhaseGateOrchestrator</qualifiedname>
+        <param>
+          <type>GraphPhaseGateOrchestrator &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="97" column="5" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="29" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aedce779aa5e99d94879b53a58c46eea2" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aa23ded852fdcf4ed19f439229885a970" kindref="member">GraphPhaseGateOrchestrator</ref> &amp;</type>
+        <definition>GraphPhaseGateOrchestrator &amp; themis::graph::GraphPhaseGateOrchestrator::operator=</definition>
+        <argsstring>(GraphPhaseGateOrchestrator &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aa23ded852fdcf4ed19f439229885a970" kindref="member">GraphPhaseGateOrchestrator</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>This lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">defer_lock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="98" column="32" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="38" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphPhaseGateOrchestrator::registerPhase</definition>
+        <argsstring>(const std::string &amp;phase_name, const std::vector&lt; std::string &gt; &amp;prerequisites)</argsstring>
+        <name>registerPhase</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::registerPhase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phase_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>prerequisites</declname>
+        </param>
+        <briefdescription>
+<para>Register Phase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phase_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the phase. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prerequisites</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="110" column="10" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="69" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af4d8e1d49bb15dbabb981af5d86c6346" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphPhaseGateOrchestrator::setGateCriteria</definition>
+        <argsstring>(const std::string &amp;phase_name, const std::vector&lt; GateCriterion &gt; &amp;criteria)</argsstring>
+        <name>setGateCriteria</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::setGateCriteria</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phase_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1graph_1_1_gate_criterion" kindref="compound">GateCriterion</ref> &gt; &amp;</type>
+          <declname>criteria</declname>
+        </param>
+        <briefdescription>
+<para>Set Gate Criteria. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phase_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the phase. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">criteria</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="119" column="10" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="132" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a05e155130a91d901492605ee0f8bac74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphPhaseGateOrchestrator::attachMetric</definition>
+        <argsstring>(const std::string &amp;phase_name, const std::string &amp;metric_key, float value)</argsstring>
+        <name>attachMetric</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::attachMetric</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phase_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_key</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Attach Metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phase_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the phase. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metric_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="133" column="10" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="163" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1ae03d2e3ec044705a8851076ba44ee95c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; float &gt;</type>
+        <definition>std::optional&lt; float &gt; themis::graph::GraphPhaseGateOrchestrator::getMetric</definition>
+        <argsstring>(const std::string &amp;phase_name, const std::string &amp;metric_key) const</argsstring>
+        <name>getMetric</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::getMetric</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phase_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_key</declname>
+        </param>
+        <briefdescription>
+<para>Get Metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phase_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the phase. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metric_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="144" column="19" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="187" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a426f1c109eb818d608ef3e63bfcf19f2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10f" kindref="member">GateStatus</ref></type>
+        <definition>GateStatus themis::graph::GraphPhaseGateOrchestrator::gateStatus</definition>
+        <argsstring>(const std::string &amp;phase_name) const</argsstring>
+        <name>gateStatus</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::gateStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phase_name</declname>
+        </param>
+        <briefdescription>
+<para>Gate Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phase_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the phase. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="157" column="16" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="216" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a292fba26ab1f952a974463ad65fd171b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_phase_gap_report" kindref="compound">PhaseGapReport</ref></type>
+        <definition>PhaseGapReport themis::graph::GraphPhaseGateOrchestrator::gaps</definition>
+        <argsstring>(const std::string &amp;phase_name) const</argsstring>
+        <name>gaps</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::gaps</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phase_name</declname>
+        </param>
+        <briefdescription>
+<para>Gaps. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phase_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the phase. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="165" column="20" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="237" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aaef474a5b06e68ae21f395d56eac324e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_phase_gap_report" kindref="compound">PhaseGapReport</ref> &gt;</type>
+        <definition>std::vector&lt; PhaseGapReport &gt; themis::graph::GraphPhaseGateOrchestrator::allGaps</definition>
+        <argsstring>() const</argsstring>
+        <name>allGaps</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::allGaps</qualifiedname>
+        <briefdescription>
+<para>All Gaps. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="172" column="17" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="261" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a54cfae286a731b83327f1c5d8bc54ecd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::graph::GraphPhaseGateOrchestrator::phaseNames</definition>
+        <argsstring>() const</argsstring>
+        <name>phaseNames</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::phaseNames</qualifiedname>
+        <briefdescription>
+<para>Phase Names. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="183" column="17" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="284" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a6e91df9fb8f102ebced83938574586c8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::GraphPhaseGateOrchestrator::phaseCount</definition>
+        <argsstring>() const</argsstring>
+        <name>phaseCount</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::phaseCount</qualifiedname>
+        <briefdescription>
+<para>Phase Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="190" column="17" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="306" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a2ae34d9fa0e0068ce1af43b72d7ff441" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphPhaseGateOrchestrator::hasPhase</definition>
+        <argsstring>(const std::string &amp;phase_name) const</argsstring>
+        <name>hasPhase</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::hasPhase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phase_name</declname>
+        </param>
+        <briefdescription>
+<para>Has Phase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phase_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the phase. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="198" column="10" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="321" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a6f82721a2729e6253bb606abef685788" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::graph::GraphPhaseGateOrchestrator::prerequisites</definition>
+        <argsstring>(const std::string &amp;phase_name) const</argsstring>
+        <name>prerequisites</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::prerequisites</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phase_name</declname>
+        </param>
+        <briefdescription>
+<para>Prerequisites. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phase_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the phase. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="206" column="17" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="336" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1acc4acb2bfb42c3f9085151762f075250" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::graph::GraphPhaseGateOrchestrator::topologicalOrder</definition>
+        <argsstring>() const</argsstring>
+        <name>topologicalOrder</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::topologicalOrder</qualifiedname>
+        <briefdescription>
+<para>Topological Order. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="213" column="17" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="357" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a5c49012322dfd557075a7b4e50a03cc3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::GraphPhaseGateOrchestrator::passedPhaseCount</definition>
+        <argsstring>() const</argsstring>
+        <name>passedPhaseCount</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::passedPhaseCount</qualifiedname>
+        <briefdescription>
+<para>Passed Phase Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="220" column="17" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="425" bodyend="442"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af13b733477173457034bd09c53a19244" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::graph::GraphPhaseGateOrchestrator::completionRatio</definition>
+        <argsstring>() const</argsstring>
+        <name>completionRatio</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::completionRatio</qualifiedname>
+        <briefdescription>
+<para>Completion Ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="227" column="11" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="448" bodyend="469"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a06ae168bcbdb76af1d488803c3083926" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphPhaseGateOrchestrator::hasCycleDFS</definition>
+        <argsstring>(const std::string &amp;start, std::unordered_set&lt; std::string &gt; &amp;visited, std::unordered_set&lt; std::string &gt; &amp;rec_stack) const</argsstring>
+        <name>hasCycleDFS</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::hasCycleDFS</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>visited</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>rec_stack</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> Helpers (called under the mutex) --------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">visited</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">rec_stack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="248" column="10" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="475" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a4d8eea90885aa88e296097acc9df679a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10f" kindref="member">GateStatus</ref></type>
+        <definition>GateStatus themis::graph::GraphPhaseGateOrchestrator::evaluateGate</definition>
+        <argsstring>(const std::string &amp;phase_name, std::unordered_set&lt; std::string &gt; &amp;visiting) const</argsstring>
+        <name>evaluateGate</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::evaluateGate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phase_name</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>visiting</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Gate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phase_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the phase. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">visiting</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="258" column="16" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="500" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af70a0e4779529b2e5c3599018a3d976c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_phase_gap_report" kindref="compound">PhaseGapReport</ref></type>
+        <definition>PhaseGapReport themis::graph::GraphPhaseGateOrchestrator::computeGaps</definition>
+        <argsstring>(const std::string &amp;phase_name) const</argsstring>
+        <name>computeGaps</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::computeGaps</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phase_name</declname>
+        </param>
+        <briefdescription>
+<para>Compute Gaps. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phase_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the phase. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="266" column="20" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="543" bodyend="616"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a70135f9af71757170e43933fc38a6540" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphPhaseGateOrchestrator::transferFrom</definition>
+        <argsstring>(GraphPhaseGateOrchestrator &amp;other) noexcept</argsstring>
+        <name>transferFrom</name>
+        <qualifiedname>themis::graph::GraphPhaseGateOrchestrator::transferFrom</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aa23ded852fdcf4ed19f439229885a970" kindref="member">GraphPhaseGateOrchestrator</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Transfer From. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="273" column="10" bodyfile="src/graph/graph_phase_gate_orchestrator.cpp" bodystart="22" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_phase_gate_orchestrator.h" line="87" column="1" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="87" bodyend="280"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aaef474a5b06e68ae21f395d56eac324e" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>allGaps</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a05e155130a91d901492605ee0f8bac74" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>attachMetric</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af13b733477173457034bd09c53a19244" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>completionRatio</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af70a0e4779529b2e5c3599018a3d976c" prot="private" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>computeGaps</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a4d8eea90885aa88e296097acc9df679a" prot="private" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>evaluateGate</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a292fba26ab1f952a974463ad65fd171b" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>gaps</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a426f1c109eb818d608ef3e63bfcf19f2" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>gateStatus</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1ae03d2e3ec044705a8851076ba44ee95c" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>getMetric</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aa23ded852fdcf4ed19f439229885a970" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>GraphPhaseGateOrchestrator</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1add0bccee5b212689213878f3819113c3" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>GraphPhaseGateOrchestrator</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a539958c9c199a5e0b07ead2a8976640d" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>GraphPhaseGateOrchestrator</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a06ae168bcbdb76af1d488803c3083926" prot="private" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>hasCycleDFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a2ae34d9fa0e0068ce1af43b72d7ff441" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>hasPhase</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a932c92c336404ef45ffb7291793c4480" prot="private" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af7c0a412956e15f6532972b9676a8b09" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aedce779aa5e99d94879b53a58c46eea2" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a5c49012322dfd557075a7b4e50a03cc3" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>passedPhaseCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a6e91df9fb8f102ebced83938574586c8" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>phaseCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a54cfae286a731b83327f1c5d8bc54ecd" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>phaseNames</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1afce831de98473db315833507a7ffa607" prot="private" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>phases_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a6f82721a2729e6253bb606abef685788" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>prerequisites</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>registerPhase</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af4d8e1d49bb15dbabb981af5d86c6346" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>setGateCriteria</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1acc4acb2bfb42c3f9085151762f075250" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>topologicalOrder</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a70135f9af71757170e43933fc38a6540" prot="private" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>transferFrom</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1ae043c40faed4993f4893c1a8f2a0a338" prot="public" virt="non-virtual"><scope>themis::graph::GraphPhaseGateOrchestrator</scope><name>~GraphPhaseGateOrchestrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_result_iterator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::query::ResultIterator</compoundname>
+    <derivedcompoundref refid="classthemis_1_1query_1_1_result_stream" prot="public" virt="non-virtual">themis::query::ResultStream&lt; T &gt;</derivedcompoundref>
+    <includes refid="result__stream_8h" local="no">result_stream.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_iterator_1afc31e0fe932d419009198fd3b26542c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::query::ResultIterator&lt; T &gt;::~ResultIterator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ResultIterator</name>
+        <qualifiedname>themis::query::ResultIterator::~ResultIterator</qualifiedname>
+        <briefdescription>
+<para>Result Iterator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="60" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_iterator_1ad5e603659cce3d7487da46aecec8a105" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::query::ResultIterator&lt; T &gt;::hasNext</definition>
+        <argsstring>() const =0</argsstring>
+        <name>hasNext</name>
+        <qualifiedname>themis::query::ResultIterator::hasNext</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_result_stream_1a2ab33f9a8ea39699412e846d4a573aee">hasNext</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="62" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_iterator_1a7f01209f2e7692709aa4b138a347261c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; T &gt;</type>
+        <definition>virtual Result&lt; T &gt; themis::query::ResultIterator&lt; T &gt;::next</definition>
+        <argsstring>()=0</argsstring>
+        <name>next</name>
+        <qualifiedname>themis::query::ResultIterator::next</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_result_stream_1aaa9ac42c181de4c0310a6446e86e95af">next</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="64" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_iterator_1a042fdd96b10f190408aadc01f76b80c2" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1query_1_1_result_batch" kindref="compound">ResultBatch</ref>&lt; T &gt; &gt;</type>
+        <definition>virtual Result&lt; ResultBatch&lt; T &gt; &gt; themis::query::ResultIterator&lt; T &gt;::nextBatch</definition>
+        <argsstring>(size_t batch_size)=0</argsstring>
+        <name>nextBatch</name>
+        <qualifiedname>themis::query::ResultIterator::nextBatch</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_result_stream_1a393569e588f1ef1d4c53b1ed3f464ded">nextBatch</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="66" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_iterator_1a670ae9120f750411d313faf935f16e32" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::query::ResultIterator&lt; T &gt;::reset</definition>
+        <argsstring>()=0</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::query::ResultIterator::reset</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_result_stream_1a9f9779c52b676f0325f255a026fe2ac5">reset</reimplementedby>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="71" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_iterator_1a450e547c7f7e8569da9cf2eb361bf637" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::query::ResultIterator&lt; T &gt;::position</definition>
+        <argsstring>() const =0</argsstring>
+        <name>position</name>
+        <qualifiedname>themis::query::ResultIterator::position</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_result_stream_1a466298a26a49861df27e040ff69ad6c4">position</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="73" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_result_iterator_1a8126069c233b90561a9d2a20595b86f9" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::query::ResultIterator&lt; T &gt;::skip</definition>
+        <argsstring>(size_t count)=0</argsstring>
+        <name>skip</name>
+        <qualifiedname>themis::query::ResultIterator::skip</qualifiedname>
+        <reimplementedby refid="classthemis_1_1query_1_1_result_stream_1a00a3aebfad719a3cecd30360ef9c3fcf">skip</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="75" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::query::ResultIterator&lt; T &gt;</label>
+        <link refid="classthemis_1_1query_1_1_result_iterator"/>
+      </node>
+      <node id="2">
+        <label>themis::query::ResultStream&lt; T &gt;</label>
+        <link refid="classthemis_1_1query_1_1_result_stream"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/query/result_stream.h" line="54" column="1" bodyfile="include/query/result_stream.h" bodystart="54" bodyend="76"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_result_iterator_1ad5e603659cce3d7487da46aecec8a105" prot="public" virt="pure-virtual"><scope>themis::query::ResultIterator</scope><name>hasNext</name></member>
+      <member refid="classthemis_1_1query_1_1_result_iterator_1a7f01209f2e7692709aa4b138a347261c" prot="public" virt="pure-virtual"><scope>themis::query::ResultIterator</scope><name>next</name></member>
+      <member refid="classthemis_1_1query_1_1_result_iterator_1a042fdd96b10f190408aadc01f76b80c2" prot="public" virt="pure-virtual"><scope>themis::query::ResultIterator</scope><name>nextBatch</name></member>
+      <member refid="classthemis_1_1query_1_1_result_iterator_1a450e547c7f7e8569da9cf2eb361bf637" prot="public" virt="pure-virtual"><scope>themis::query::ResultIterator</scope><name>position</name></member>
+      <member refid="classthemis_1_1query_1_1_result_iterator_1a670ae9120f750411d313faf935f16e32" prot="public" virt="pure-virtual"><scope>themis::query::ResultIterator</scope><name>reset</name></member>
+      <member refid="classthemis_1_1query_1_1_result_iterator_1a8126069c233b90561a9d2a20595b86f9" prot="public" virt="pure-virtual"><scope>themis::query::ResultIterator</scope><name>skip</name></member>
+      <member refid="classthemis_1_1query_1_1_result_iterator_1afc31e0fe932d419009198fd3b26542c1" prot="public" virt="virtual"><scope>themis::query::ResultIterator</scope><name>~ResultIterator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_emotion_timeline" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::EmotionTimeline</compoundname>
+    <includes refid="emotion__analyzer_8h" local="no">emotion_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_timeline_1ab1e261d2f148850093e09f50798aea06" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_timed_emotion" kindref="compound">TimedEmotion</ref> &gt;</type>
+        <definition>std::vector&lt;TimedEmotion&gt; themis::voice::EmotionTimeline::timeline</definition>
+        <argsstring></argsstring>
+        <name>timeline</name>
+        <qualifiedname>themis::voice::EmotionTimeline::timeline</qualifiedname>
+        <briefdescription>
+<para>One entry per analysed segment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="124" column="17" bodyfile="include/voice/emotion_analyzer.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_timeline_1aa91e64dd5a4ddd18a6cc349f80da244c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_emotion_statistics" kindref="compound">EmotionStatistics</ref></type>
+        <definition>EmotionStatistics themis::voice::EmotionTimeline::statistics</definition>
+        <argsstring></argsstring>
+        <name>statistics</name>
+        <qualifiedname>themis::voice::EmotionTimeline::statistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="125" column="31" bodyfile="include/voice/emotion_analyzer.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_timeline_1a8a5fc12a16df0d946c84f5c3ac609a2f" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::EmotionTimeline::total_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>total_duration_ms</name>
+        <qualifiedname>themis::voice::EmotionTimeline::total_duration_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Combined duration of all segments. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="126" column="13" bodyfile="include/voice/emotion_analyzer.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Chronological emotion timeline for a multi-segment conversation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::voice::EmotionStatistics</label>
+        <link refid="structthemis_1_1voice_1_1_emotion_statistics"/>
+      </node>
+      <node id="1">
+        <label>themis::voice::EmotionTimeline</label>
+        <link refid="structthemis_1_1voice_1_1_emotion_timeline"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>statistics</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/voice/emotion_analyzer.h" line="123" column="1" bodyfile="include/voice/emotion_analyzer.h" bodystart="123" bodyend="127"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_emotion_timeline_1aa91e64dd5a4ddd18a6cc349f80da244c" prot="public" virt="non-virtual"><scope>themis::voice::EmotionTimeline</scope><name>statistics</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_timeline_1ab1e261d2f148850093e09f50798aea06" prot="public" virt="non-virtual"><scope>themis::voice::EmotionTimeline</scope><name>timeline</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_timeline_1a8a5fc12a16df0d946c84f5c3ac609a2f" prot="public" virt="non-virtual"><scope>themis::voice::EmotionTimeline</scope><name>total_duration_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

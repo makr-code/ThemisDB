@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_shared_worker_pool_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SharedWorkerPool::Config</compoundname>
+    <includes refid="shared__worker__pool_8h" local="no">shared_worker_pool.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shared_worker_pool_1_1_config_1aa13c1fa3362905350e5c4b2e75e37eda" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SharedWorkerPool::Config::num_threads</definition>
+        <argsstring></argsstring>
+        <name>num_threads</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::Config::num_threads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="33" column="16" bodyfile="include/llm/shared_worker_pool.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shared_worker_pool_1_1_config_1a7dd12fd9e9ec1945b9cea5ade7063842" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SharedWorkerPool::Config::max_queue_size</definition>
+        <argsstring></argsstring>
+        <name>max_queue_size</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::Config::max_queue_size</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="34" column="16" bodyfile="include/llm/shared_worker_pool.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/shared_worker_pool.h" line="32" column="5" bodyfile="include/llm/shared_worker_pool.h" bodystart="32" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_shared_worker_pool_1_1_config_1a7dd12fd9e9ec1945b9cea5ade7063842" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool::Config</scope><name>max_queue_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_shared_worker_pool_1_1_config_1aa13c1fa3362905350e5c4b2e75e37eda" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool::Config</scope><name>num_threads</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

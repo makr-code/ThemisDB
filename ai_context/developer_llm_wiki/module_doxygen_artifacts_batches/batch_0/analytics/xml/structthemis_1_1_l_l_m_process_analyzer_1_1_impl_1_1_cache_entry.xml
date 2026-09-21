@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1_1_cache_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LLMProcessAnalyzer::Impl::CacheEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1_1_cache_entry_1ad21822ff558d35ca2510fd671bbf59e4" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::LLMProcessAnalyzer::Impl::CacheEntry::response</definition>
+        <argsstring></argsstring>
+        <name>response</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::Impl::CacheEntry::response</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/llm_process_analyzer.cpp" line="192" column="24" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1_1_cache_entry_1a1235d278abc2450d1e32af1925bdb53b" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::LLMProcessAnalyzer::Impl::CacheEntry::expiry</definition>
+        <argsstring></argsstring>
+        <name>expiry</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::Impl::CacheEntry::expiry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/llm_process_analyzer.cpp" line="193" column="47" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="193" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/analytics/llm_process_analyzer.cpp" line="191" column="5" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="191" bodyend="194"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1_1_cache_entry_1a1235d278abc2450d1e32af1925bdb53b" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer::Impl::CacheEntry</scope><name>expiry</name></member>
+      <member refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1_1_cache_entry_1ad21822ff558d35ca2510fd671bbf59e4" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer::Impl::CacheEntry</scope><name>response</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

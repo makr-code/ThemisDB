@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_expected_cycles_1_1_tolerances" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::ExpectedCycles::Tolerances</compoundname>
+    <includes refid="expected__cycles_8h" local="no">expected_cycles.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1_1_tolerances_1a15017b6a1d19d91c5fcecd42b1a01ca6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::ExpectedCycles::Tolerances::NORMAL_VARIANCE</definition>
+        <argsstring></argsstring>
+        <name>NORMAL_VARIANCE</name>
+        <qualifiedname>themis::performance::ExpectedCycles::Tolerances::NORMAL_VARIANCE</qualifiedname>
+        <initializer>= 0.15</initializer>
+        <briefdescription>
+<para>Normal variance: ±15% (expected under normal conditions). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="143" column="33" bodyfile="include/performance/expected_cycles.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1_1_tolerances_1af14ca2c1d35ab7b258eba8f988b85d9b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::ExpectedCycles::Tolerances::WARNING_THRESHOLD</definition>
+        <argsstring></argsstring>
+        <name>WARNING_THRESHOLD</name>
+        <qualifiedname>themis::performance::ExpectedCycles::Tolerances::WARNING_THRESHOLD</qualifiedname>
+        <initializer>= 0.30</initializer>
+        <briefdescription>
+<para>Warning threshold: ±30% (investigate if exceeded). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="146" column="33" bodyfile="include/performance/expected_cycles.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1_1_tolerances_1a43f05351c0e6a6ec80fda183195a8387" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::ExpectedCycles::Tolerances::CRITICAL_THRESHOLD</definition>
+        <argsstring></argsstring>
+        <name>CRITICAL_THRESHOLD</name>
+        <qualifiedname>themis::performance::ExpectedCycles::Tolerances::CRITICAL_THRESHOLD</qualifiedname>
+        <initializer>= 0.50</initializer>
+        <briefdescription>
+<para>Critical threshold: ±50% (serious performance issue). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="149" column="33" bodyfile="include/performance/expected_cycles.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tolerance levels for deviation from expected values. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Use these thresholds for monitoring and alerting. </para>
+    </detaileddescription>
+    <location file="include/performance/expected_cycles.h" line="141" column="5" bodyfile="include/performance/expected_cycles.h" bodystart="141" bodyend="150"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1_1_tolerances_1a43f05351c0e6a6ec80fda183195a8387" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles::Tolerances</scope><name>CRITICAL_THRESHOLD</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1_1_tolerances_1a15017b6a1d19d91c5fcecd42b1a01ca6" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles::Tolerances</scope><name>NORMAL_VARIANCE</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1_1_tolerances_1af14ca2c1d35ab7b258eba8f988b85d9b" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles::Tolerances</scope><name>WARNING_THRESHOLD</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

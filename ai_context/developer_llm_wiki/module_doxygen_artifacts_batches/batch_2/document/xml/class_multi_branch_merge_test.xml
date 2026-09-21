@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_multi_branch_merge_test" kind="class" language="C++" prot="public">
+    <compoundname>MultiBranchMergeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_multi_branch_merge_test_1a0c70fef791e111d2869e341a51dbc226" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* MultiBranchMergeTest::kCollection</definition>
+        <argsstring></argsstring>
+        <name>kCollection</name>
+        <qualifiedname>MultiBranchMergeTest::kCollection</qualifiedname>
+        <initializer>= &quot;mbm-collection&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_conflict_diagnostics_focused.cpp" line="118" column="33" bodyfile="tests/document/test_document_conflict_diagnostics_focused.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_multi_branch_merge_test_1aa0d471ffeecde85b5b656943fddaa86f" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_in_memory_document_store" kindref="compound">InMemoryDocumentStore</ref></type>
+        <definition>InMemoryDocumentStore MultiBranchMergeTest::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>MultiBranchMergeTest::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_conflict_diagnostics_focused.cpp" line="125" column="52" bodyfile="tests/document/test_document_conflict_diagnostics_focused.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_branch_merge_test_1a2eda89c02fcd4261c2295854fd056a03" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1document_1_1_in_memory_document_diff_merge" kindref="compound">InMemoryDocumentDiffMerge</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;InMemoryDocumentDiffMerge&gt; MultiBranchMergeTest::merge_</definition>
+        <argsstring></argsstring>
+        <name>merge_</name>
+        <qualifiedname>MultiBranchMergeTest::merge_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_conflict_diagnostics_focused.cpp" line="126" column="25" bodyfile="tests/document/test_document_conflict_diagnostics_focused.cpp" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_multi_branch_merge_test_1a85d28d12752b7b7e5c11918f65413b77" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MultiBranchMergeTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MultiBranchMergeTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_conflict_diagnostics_focused.cpp" line="120" column="10" bodyfile="tests/document/test_document_conflict_diagnostics_focused.cpp" bodystart="120" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixture for multi-branch merge permutation tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Sets up an <ref refid="classthemis_1_1document_1_1_in_memory_document_store" kindref="compound">InMemoryDocumentStore</ref> and <ref refid="classthemis_1_1document_1_1_in_memory_document_diff_merge" kindref="compound">InMemoryDocumentDiffMerge</ref>. Each test creates a base document plus two divergent branches (ours / theirs) in the same collection, then exercises the merge() API exhaustively. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MultiBranchMergeTest</label>
+        <link refid="class_multi_branch_merge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MultiBranchMergeTest</label>
+        <link refid="class_multi_branch_merge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>store_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::document::IDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_i_document_store"/>
+      </node>
+      <node id="3">
+        <label>themis::document::InMemoryDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_store"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/document/test_document_conflict_diagnostics_focused.cpp" line="116" column="1" bodyfile="tests/document/test_document_conflict_diagnostics_focused.cpp" bodystart="116" bodyend="127"/>
+    <listofallmembers>
+      <member refid="class_multi_branch_merge_test_1a0c70fef791e111d2869e341a51dbc226" prot="protected" virt="non-virtual"><scope>MultiBranchMergeTest</scope><name>kCollection</name></member>
+      <member refid="class_multi_branch_merge_test_1a2eda89c02fcd4261c2295854fd056a03" prot="protected" virt="non-virtual"><scope>MultiBranchMergeTest</scope><name>merge_</name></member>
+      <member refid="class_multi_branch_merge_test_1a85d28d12752b7b7e5c11918f65413b77" prot="protected" virt="non-virtual"><scope>MultiBranchMergeTest</scope><name>SetUp</name></member>
+      <member refid="class_multi_branch_merge_test_1aa0d471ffeecde85b5b656943fddaa86f" prot="protected" virt="non-virtual"><scope>MultiBranchMergeTest</scope><name>store_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

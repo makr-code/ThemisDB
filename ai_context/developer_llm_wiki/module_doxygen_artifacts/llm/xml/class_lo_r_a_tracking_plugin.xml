@@ -1,0 +1,420 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_lo_r_a_tracking_plugin" kind="class" language="C++" prot="public">
+    <compoundname>LoRATrackingPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin" prot="public" virt="non-virtual">themis::llm::ILLMPlugin</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_lo_r_a_tracking_plugin_1a6e42c1bb919e83212a20c00e0e2c483f" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string LoRATrackingPlugin::model_id_</definition>
+        <argsstring></argsstring>
+        <name>model_id_</name>
+        <qualifiedname>LoRATrackingPlugin::model_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="98" column="30" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_lo_r_a_tracking_plugin_1a0b11699ce202157aa386a77246f051fc" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex LoRATrackingPlugin::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>LoRATrackingPlugin::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="99" column="30" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_lo_r_a_tracking_plugin_1a9b7a302794e4b45b5f3e35d7fd48604a" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; LoRATrackingPlugin::loaded_loras_</definition>
+        <argsstring></argsstring>
+        <name>loaded_loras_</name>
+        <qualifiedname>LoRATrackingPlugin::loaded_loras_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="100" column="24" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_lo_r_a_tracking_plugin_1a2a236c75a3c4d6bdec5eceefaf1ed34d" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>LoRATrackingPlugin::LoRATrackingPlugin</definition>
+        <argsstring>(const std::string &amp;model_id=&quot;mock-model&quot;)</argsstring>
+        <name>LoRATrackingPlugin</name>
+        <qualifiedname>LoRATrackingPlugin::LoRATrackingPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+          <defval>&quot;mock-model&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="33" column="14" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="33" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_tracking_plugin_1a5ecd616fdeb6bac15111c4be3bd0bd95" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool LoRATrackingPlugin::loadModel</definition>
+        <argsstring>(const std::string &amp;, const json &amp;) override</argsstring>
+        <name>loadModel</name>
+        <qualifiedname>LoRATrackingPlugin::loadModel</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab2f6318ca437d31318a0beca0c5d4742">loadModel</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="37" column="10" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_tracking_plugin_1aaad65c5727638136bd3dacf5cce98f8f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void LoRATrackingPlugin::unloadModel</definition>
+        <argsstring>() override</argsstring>
+        <name>unloadModel</name>
+        <qualifiedname>LoRATrackingPlugin::unloadModel</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a20a8a402b6aca0e9a79b87e5a6c2fd20">unloadModel</reimplements>
+        <briefdescription>
+<para>Unload Model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="38" column="10" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_tracking_plugin_1a546bb3bab5fe020b9a91f14305fa8a85" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool LoRATrackingPlugin::isModelLoaded</definition>
+        <argsstring>() const override</argsstring>
+        <name>isModelLoaded</name>
+        <qualifiedname>LoRATrackingPlugin::isModelLoaded</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a016365da7a906c3a2c6c81a440591698">isModelLoaded</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="39" column="10" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_tracking_plugin_1ae734cb2feb07f0735ae62ef1049f2fd2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_model_info" kindref="compound">ModelInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ModelInfo &gt; LoRATrackingPlugin::getModelInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getModelInfo</name>
+        <qualifiedname>LoRATrackingPlugin::getModelInfo</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a3bfc697aeb24baf7fc2fdf4d697d389c">getModelInfo</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="40" column="19" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="40" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_tracking_plugin_1abe2eda4130859c8b45b96445efc129df" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse LoRATrackingPlugin::generate</definition>
+        <argsstring>(const InferenceRequest &amp;request) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>LoRATrackingPlugin::generate</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a0554007ed2a748e84472f01a30369a1d">generate</reimplements>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="48" column="23" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="48" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_tracking_plugin_1a88e2cbcdb57764555ba3c0faa595b890" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse LoRATrackingPlugin::generateRAG</definition>
+        <argsstring>(const RAGContext &amp;, const InferenceRequest &amp;req) override</argsstring>
+        <name>generateRAG</name>
+        <qualifiedname>LoRATrackingPlugin::generateRAG</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a6166ce75f4c3572cab7b4b1c487dfc94">generateRAG</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_r_a_g_context" kindref="compound">RAGContext</ref> &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="56" column="23" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_tracking_plugin_1a63814bfd403e0908dad7283cdabbf7e1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; LoRATrackingPlugin::embed</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>embed</name>
+        <qualifiedname>LoRATrackingPlugin::embed</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a14195e7bc658ae90b32b7374169ee239">embed</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="60" column="17" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_tracking_plugin_1a724a6cfe7801289a4f24d17709830d3f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities" kindref="compound">LLMCapabilities</ref></type>
+        <definition>LLMCapabilities LoRATrackingPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>LoRATrackingPlugin::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a66a14a28b9ddc624c8886eaaaf6abbfa">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="61" column="22" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_tracking_plugin_1a729413381833ee505b9f8470d191b6f0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json LoRATrackingPlugin::getMemoryStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>LoRATrackingPlugin::getMemoryStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1afbc46d4815c236a390d9f17789bb9a99">getMemoryStats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="62" column="22" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_tracking_plugin_1a1695260d59d160be91eb17127dc54809" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json LoRATrackingPlugin::getPerformanceStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getPerformanceStats</name>
+        <qualifiedname>LoRATrackingPlugin::getPerformanceStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a8817d5900eff52785e71a314d39f0b47">getPerformanceStats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="63" column="22" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_tracking_plugin_1afb051fd10cd0d3292995d382d26da747" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; LoRATrackingPlugin::exportLoRA</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>exportLoRA</name>
+        <qualifiedname>LoRATrackingPlugin::exportLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5bceecb2024467d70f4e67c951111d9a">exportLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="64" column="17" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_tracking_plugin_1a632a86b63c7ee4f015f5b95f7ccd9e01" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool LoRATrackingPlugin::importLoRA</definition>
+        <argsstring>(const std::string &amp;, const std::vector&lt; uint8_t &gt; &amp;) override</argsstring>
+        <name>importLoRA</name>
+        <qualifiedname>LoRATrackingPlugin::importLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aca1ef263bd70ffc0d1c04c92a1cd00fc">importLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="65" column="10" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_tracking_plugin_1ad04a5da7db1ccf9c73864397dac40a6c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool LoRATrackingPlugin::loadLoRA</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;, float) override</argsstring>
+        <name>loadLoRA</name>
+        <qualifiedname>LoRATrackingPlugin::loadLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a2c33ddf52b0dc03bc395d8346c805e6b">loadLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>float</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="67" column="10" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="67" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_tracking_plugin_1a49c221dad52d245aeecd7740d1866378" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool LoRATrackingPlugin::unloadLoRA</definition>
+        <argsstring>(const std::string &amp;id) override</argsstring>
+        <name>unloadLoRA</name>
+        <qualifiedname>LoRATrackingPlugin::unloadLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab72da450bc0dc2904fe7eff875d71667">unloadLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="74" column="10" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="74" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_tracking_plugin_1a43fe11235b7bcdc67ed8206c6058f3e0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_lo_r_a_info" kindref="compound">LoRAInfo</ref> &gt;</type>
+        <definition>std::vector&lt; LoRAInfo &gt; LoRATrackingPlugin::listLoRAs</definition>
+        <argsstring>() const override</argsstring>
+        <name>listLoRAs</name>
+        <qualifiedname>LoRATrackingPlugin::listLoRAs</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa4a9a794e561f78c5ed77d2d59343d12">listLoRAs</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="78" column="17" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="78" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_tracking_plugin_1a7e5a69c19cf186ae0a8f3c61d470718a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool LoRATrackingPlugin::isLoRALoaded</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>isLoRALoaded</name>
+        <qualifiedname>LoRATrackingPlugin::isLoRALoaded</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="92" column="10" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="92" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal mock plugin that tracks which LoRA adapters it has loaded. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LoRATrackingPlugin</label>
+        <link refid="class_lo_r_a_tracking_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LoRATrackingPlugin</label>
+        <link refid="class_lo_r_a_tracking_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_lora_hot_loading.cpp" line="31" column="1" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="31" bodyend="101"/>
+    <listofallmembers>
+      <member refid="class_lo_r_a_tracking_plugin_1a63814bfd403e0908dad7283cdabbf7e1" prot="public" virt="virtual"><scope>LoRATrackingPlugin</scope><name>embed</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1afb051fd10cd0d3292995d382d26da747" prot="public" virt="virtual"><scope>LoRATrackingPlugin</scope><name>exportLoRA</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1abe2eda4130859c8b45b96445efc129df" prot="public" virt="virtual"><scope>LoRATrackingPlugin</scope><name>generate</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa5297bc971b879d93360f913a76e9469" prot="public" virt="virtual"><scope>LoRATrackingPlugin</scope><name>generateDraftTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a113e6f344509f115a632b0ee1614b6c2" prot="public" virt="non-virtual"><scope>LoRATrackingPlugin</scope><name>GenerateDraftTokensFn</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1a88e2cbcdb57764555ba3c0faa595b890" prot="public" virt="virtual"><scope>LoRATrackingPlugin</scope><name>generateRAG</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1a724a6cfe7801289a4f24d17709830d3f" prot="public" virt="virtual"><scope>LoRATrackingPlugin</scope><name>getCapabilities</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1a729413381833ee505b9f8470d191b6f0" prot="public" virt="virtual"><scope>LoRATrackingPlugin</scope><name>getMemoryStats</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1ae734cb2feb07f0735ae62ef1049f2fd2" prot="public" virt="virtual"><scope>LoRATrackingPlugin</scope><name>getModelInfo</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1a1695260d59d160be91eb17127dc54809" prot="public" virt="virtual"><scope>LoRATrackingPlugin</scope><name>getPerformanceStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" prot="public" virt="non-virtual"><scope>LoRATrackingPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ae20ccb33c21564f563810ed78f50c6cf" prot="public" virt="non-virtual"><scope>LoRATrackingPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a617f63576be5c553550530c3a72c5f53" prot="protected" virt="non-virtual"><scope>LoRATrackingPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1a632a86b63c7ee4f015f5b95f7ccd9e01" prot="public" virt="virtual"><scope>LoRATrackingPlugin</scope><name>importLoRA</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1a7e5a69c19cf186ae0a8f3c61d470718a" prot="public" virt="non-virtual"><scope>LoRATrackingPlugin</scope><name>isLoRALoaded</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1a546bb3bab5fe020b9a91f14305fa8a85" prot="public" virt="virtual"><scope>LoRATrackingPlugin</scope><name>isModelLoaded</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1a43fe11235b7bcdc67ed8206c6058f3e0" prot="public" virt="virtual"><scope>LoRATrackingPlugin</scope><name>listLoRAs</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1a9b7a302794e4b45b5f3e35d7fd48604a" prot="private" virt="non-virtual"><scope>LoRATrackingPlugin</scope><name>loaded_loras_</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1ad04a5da7db1ccf9c73864397dac40a6c" prot="public" virt="virtual"><scope>LoRATrackingPlugin</scope><name>loadLoRA</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1a5ecd616fdeb6bac15111c4be3bd0bd95" prot="public" virt="virtual"><scope>LoRATrackingPlugin</scope><name>loadModel</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1a2a236c75a3c4d6bdec5eceefaf1ed34d" prot="public" virt="non-virtual"><scope>LoRATrackingPlugin</scope><name>LoRATrackingPlugin</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1a6e42c1bb919e83212a20c00e0e2c483f" prot="private" virt="non-virtual"><scope>LoRATrackingPlugin</scope><name>model_id_</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1a0b11699ce202157aa386a77246f051fc" prot="private" virt="non-virtual"><scope>LoRATrackingPlugin</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a06828a4415efeab05bd0d69c7d54828c" prot="public" virt="non-virtual"><scope>LoRATrackingPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a379dc1e0152b9197835c0a05f95d234c" prot="public" virt="non-virtual"><scope>LoRATrackingPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" prot="public" virt="non-virtual"><scope>LoRATrackingPlugin</scope><name>setDefaultGenerateDraftTokensFn</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1a49c221dad52d245aeecd7740d1866378" prot="public" virt="virtual"><scope>LoRATrackingPlugin</scope><name>unloadLoRA</name></member>
+      <member refid="class_lo_r_a_tracking_plugin_1aaad65c5727638136bd3dacf5cce98f8f" prot="public" virt="virtual"><scope>LoRATrackingPlugin</scope><name>unloadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a9c52c9bc3ec16061fceacc8963da3176" prot="public" virt="virtual"><scope>LoRATrackingPlugin</scope><name>~ILLMPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,541 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__voice__wave__a8__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_voice_wave_a8_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="voice__anti__spoof__engine_8h" local="yes">voice/voice_anti_spoof_engine.h</includes>
+    <includes refid="voice__audit__logger_8h" local="yes">voice/voice_audit_logger.h</includes>
+    <includes refid="voice__liveness__detector_8h" local="yes">voice/voice_liveness_detector.h</includes>
+    <includes refid="voice__session__manager_8h" local="yes">voice/voice_session_manager.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>voice/voice_anti_spoof_engine.h</label>
+        <link refid="voice__anti__spoof__engine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>voice/voice_audit_logger.h</label>
+        <link refid="voice__audit__logger_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>voice/voice_liveness_detector.h</label>
+        <link refid="voice__liveness__detector_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>voice/voice_session_manager.h</label>
+        <link refid="voice__session__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/voice/test_voice_wave_a8_hardening_focused.cpp</label>
+        <link refid="test__voice__wave__a8__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>atomic</label>
+      </node>
+      <node id="18">
+        <label>chrono</label>
+      </node>
+      <node id="20">
+        <label>cmath</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="14">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>set</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="21">
+        <label>thread</label>
+      </node>
+      <node id="17">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__voice__wave__a8__hardening__focused_8cpp_1a79218e1b3c9d7fcd6917fa3af71a2863" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VoiceLivenessDetectorHardening, ValidChallengeTranscriptPasses)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VoiceLivenessDetectorHardening</type>
+        </param>
+        <param>
+          <type>ValidChallengeTranscriptPasses</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a8_hardening_focused.cpp" line="54" column="1" bodyfile="tests/voice/test_voice_wave_a8_hardening_focused.cpp" bodystart="54" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__wave__a8__hardening__focused_8cpp_1a301675c807f1e0ed0e2e99aca35ab40e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VoiceLivenessDetectorHardening, StaleChallengeRejectedAndCleanedUp)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VoiceLivenessDetectorHardening</type>
+        </param>
+        <param>
+          <type>StaleChallengeRejectedAndCleanedUp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a8_hardening_focused.cpp" line="69" column="1" bodyfile="tests/voice/test_voice_wave_a8_hardening_focused.cpp" bodystart="69" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__wave__a8__hardening__focused_8cpp_1a54bc74462d73f6b9b9d2e5450107cd27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VoiceLivenessDetectorHardening, ReplayAttemptIsRejectedAfterSuccessfulVerification)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VoiceLivenessDetectorHardening</type>
+        </param>
+        <param>
+          <type>ReplayAttemptIsRejectedAfterSuccessfulVerification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a8_hardening_focused.cpp" line="85" column="1" bodyfile="tests/voice/test_voice_wave_a8_hardening_focused.cpp" bodystart="85" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__wave__a8__hardening__focused_8cpp_1afbc320145f69d713c85b20a9cba999f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VoiceAntiSpoofEngineHardening, LivePcmBaselinePasses)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VoiceAntiSpoofEngineHardening</type>
+        </param>
+        <param>
+          <type>LivePcmBaselinePasses</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a8_hardening_focused.cpp" line="98" column="1" bodyfile="tests/voice/test_voice_wave_a8_hardening_focused.cpp" bodystart="98" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__wave__a8__hardening__focused_8cpp_1a94f54bc476619e548ab9c0774abc714b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VoiceAntiSpoofEngineHardening, ReplayLikeAudioIsFlaggedAsSpoofed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VoiceAntiSpoofEngineHardening</type>
+        </param>
+        <param>
+          <type>ReplayLikeAudioIsFlaggedAsSpoofed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a8_hardening_focused.cpp" line="113" column="1" bodyfile="tests/voice/test_voice_wave_a8_hardening_focused.cpp" bodystart="113" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__wave__a8__hardening__focused_8cpp_1a1d09a9ca0ce3caef27396da8423210d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VoiceAntiSpoofEngineHardening, SpeakerMismatchIsFlagged)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VoiceAntiSpoofEngineHardening</type>
+        </param>
+        <param>
+          <type>SpeakerMismatchIsFlagged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a8_hardening_focused.cpp" line="123" column="1" bodyfile="tests/voice/test_voice_wave_a8_hardening_focused.cpp" bodystart="123" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__wave__a8__hardening__focused_8cpp_1a8112315d6e2f56846f7827d72000683e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VoiceAuditLoggerHardening, CallbackCanInspectLogWithoutDeadlock)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VoiceAuditLoggerHardening</type>
+        </param>
+        <param>
+          <type>CallbackCanInspectLogWithoutDeadlock</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a8_hardening_focused.cpp" line="138" column="1" bodyfile="tests/voice/test_voice_wave_a8_hardening_focused.cpp" bodystart="138" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__wave__a8__hardening__focused_8cpp_1aad288e1bd6cc3eb3f0e1b732ea6ffd9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VoiceSessionManagerHardening, TerminatedSessionsAreRemovedFailClosed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VoiceSessionManagerHardening</type>
+        </param>
+        <param>
+          <type>TerminatedSessionsAreRemovedFailClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a8_hardening_focused.cpp" line="152" column="1" bodyfile="tests/voice/test_voice_wave_a8_hardening_focused.cpp" bodystart="152" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__wave__a8__hardening__focused_8cpp_1a7ff0b5f4eb8d5282ef5aa91841923280" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VoiceSessionManagerHardening, MultiSessionTeardownLeavesNoActiveSessionsForUser)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VoiceSessionManagerHardening</type>
+        </param>
+        <param>
+          <type>MultiSessionTeardownLeavesNoActiveSessionsForUser</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a8_hardening_focused.cpp" line="164" column="1" bodyfile="tests/voice/test_voice_wave_a8_hardening_focused.cpp" bodystart="164" bodyend="189"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="voice__anti__spoof__engine_8h" kindref="compound">voice/voice_anti_spoof_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="voice__audit__logger_8h" kindref="compound">voice/voice_audit_logger.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="voice__liveness__detector_8h" kindref="compound">voice/voice_liveness_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="voice__session__manager_8h" kindref="compound">voice/voice_session_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">themis::voice</ref>;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal">std::string<sp/>makePcmSine(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>duration_ms,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>amplitude<sp/>=<sp/>0.35f,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>frequency_hz<sp/>=<sp/>220.0f)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sample_rate<sp/>=<sp/>16000;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sample_count<sp/>=<sp/>(sample_rate<sp/>*<sp/>duration_ms)<sp/>/<sp/>1000;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>pcm<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>pcm.reserve(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(sample_count)<sp/>*<sp/>2);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>sample_count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>sample<sp/>=<sp/>amplitude<sp/>*<sp/>std::sin(</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2.0f<sp/>*<sp/>3.1415926535f<sp/>*<sp/>frequency_hz<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>/<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(sample_rate));</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>quantized<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(sample<sp/>*<sp/>32767.0f);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pcm.push_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(quantized<sp/>&amp;<sp/>0xFF));</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pcm.push_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((quantized<sp/>&gt;&gt;<sp/>8)<sp/>&amp;<sp/>0xFF));</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pcm;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">std::string<sp/>makeReplayLikePcm(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>repeated_frames<sp/>=<sp/>80)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>frame<sp/>=<sp/>makePcmSine(20,<sp/>0.35f,<sp/>220.0f);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>pcm<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>pcm.reserve(frame.size()<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(repeated_frames));</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>repeated_frames;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pcm.append(frame);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pcm;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">std::string<sp/>makeSplicedPcm()<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>pcm<sp/>=<sp/>makePcmSine(400,<sp/>0.35f,<sp/>220.0f);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>pcm.append(makePcmSine(400,<sp/>0.80f,<sp/>510.0f));</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>pcm.append(makePcmSine(400,<sp/>0.15f,<sp/>110.0f));</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pcm;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__voice__wave__a8__hardening__focused_8cpp_1a79218e1b3c9d7fcd6917fa3af71a2863" kindref="member">TEST</ref>(VoiceLivenessDetectorHardening,<sp/>ValidChallengeTranscriptPasses)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector" kindref="compound">VoiceLivenessDetector</ref><sp/>detector;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>challenge<sp/>=<sp/>detector.<ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a1f9d4b1f2502053a52c9ddc3c9099db8" kindref="member">issueChallenge</ref>(</highlight><highlight class="stringliteral">&quot;user-a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(challenge.has_value());</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector.<ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a225453883a4972dee8638dd7a803e262" kindref="member">verifyResponse</ref>(</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;user-a&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*challenge,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;transcript:&quot;</highlight><highlight class="normal"><sp/>+<sp/>challenge-&gt;text);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.passed);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.reason,<sp/></highlight><highlight class="stringliteral">&quot;Liveness<sp/>verified&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(detector.<ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a5215b4019594a1ddd461d419adbe69d6" kindref="member">isReplayedChallenge</ref>(challenge-&gt;id));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__voice__wave__a8__hardening__focused_8cpp_1a79218e1b3c9d7fcd6917fa3af71a2863" kindref="member">TEST</ref>(VoiceLivenessDetectorHardening,<sp/>StaleChallengeRejectedAndCleanedUp)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config" kindref="compound">VoiceLivenessDetector::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config_1a8110765b582548571f5ab50df8e5d3e9" kindref="member">challenge_timeout_ms</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector" kindref="compound">VoiceLivenessDetector</ref><sp/>detector(config);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>challenge<sp/>=<sp/>detector.<ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a1f9d4b1f2502053a52c9ddc3c9099db8" kindref="member">issueChallenge</ref>(</highlight><highlight class="stringliteral">&quot;user-b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(challenge.has_value());</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(10));</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector.<ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a225453883a4972dee8638dd7a803e262" kindref="member">verifyResponse</ref>(</highlight><highlight class="stringliteral">&quot;user-b&quot;</highlight><highlight class="normal">,<sp/>*challenge,<sp/></highlight><highlight class="stringliteral">&quot;transcript:&quot;</highlight><highlight class="normal"><sp/>+<sp/>challenge-&gt;text);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.passed);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.reason,<sp/></highlight><highlight class="stringliteral">&quot;Challenge<sp/>expired<sp/>(stale)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(detector.<ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1aa58e4627e0a17714ed3b322479a1ea9f" kindref="member">getActiveChallengeCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__voice__wave__a8__hardening__focused_8cpp_1a79218e1b3c9d7fcd6917fa3af71a2863" kindref="member">TEST</ref>(VoiceLivenessDetectorHardening,<sp/>ReplayAttemptIsRejectedAfterSuccessfulVerification)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector" kindref="compound">VoiceLivenessDetector</ref><sp/>detector;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>challenge<sp/>=<sp/>detector.<ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a1f9d4b1f2502053a52c9ddc3c9099db8" kindref="member">issueChallenge</ref>(</highlight><highlight class="stringliteral">&quot;user-c&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(challenge.has_value());</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>first<sp/>=<sp/>detector.<ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a225453883a4972dee8638dd7a803e262" kindref="member">verifyResponse</ref>(</highlight><highlight class="stringliteral">&quot;user-c&quot;</highlight><highlight class="normal">,<sp/>*challenge,<sp/>challenge-&gt;text);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(first.passed);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replay<sp/>=<sp/>detector.<ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a225453883a4972dee8638dd7a803e262" kindref="member">verifyResponse</ref>(</highlight><highlight class="stringliteral">&quot;user-c&quot;</highlight><highlight class="normal">,<sp/>*challenge,<sp/>challenge-&gt;text);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(replay.passed);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(replay.reason,<sp/></highlight><highlight class="stringliteral">&quot;Replay<sp/>attack<sp/>detected<sp/>(challenge<sp/>already<sp/>consumed)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__voice__wave__a8__hardening__focused_8cpp_1a79218e1b3c9d7fcd6917fa3af71a2863" kindref="member">TEST</ref>(VoiceAntiSpoofEngineHardening,<sp/>LivePcmBaselinePasses)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config" kindref="compound">VoiceAntiSpoofEngine::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1a2ef19678e0c037a291dfebac3e60d666" kindref="member">freshness_threshold</ref><sp/>=<sp/>0.45;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1abaacb0da8e3cec8c2beb5decb1be9a4f" kindref="member">speaker_match_threshold</ref><sp/>=<sp/>0.70;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1aeacf8f05399e2fce3b94280f7bf23f25" kindref="member">noise_consistency_threshold</ref><sp/>=<sp/>0.45;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine" kindref="compound">VoiceAntiSpoofEngine</ref><sp/>engine(config);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>baseline<sp/>=<sp/>makePcmSine(800,<sp/>0.35f,<sp/>220.0f);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>analysis<sp/>=<sp/>engine.analyzeSpoofRisk(baseline,<sp/>baseline);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(analysis.is_likely_spoofed);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(analysis.audio_freshness_score,<sp/>config.<ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1a2ef19678e0c037a291dfebac3e60d666" kindref="member">freshness_threshold</ref>);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(analysis.speaker_match_score,<sp/>config.<ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1abaacb0da8e3cec8c2beb5decb1be9a4f" kindref="member">speaker_match_threshold</ref>);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__voice__wave__a8__hardening__focused_8cpp_1a79218e1b3c9d7fcd6917fa3af71a2863" kindref="member">TEST</ref>(VoiceAntiSpoofEngineHardening,<sp/>ReplayLikeAudioIsFlaggedAsSpoofed)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine" kindref="compound">VoiceAntiSpoofEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>baseline<sp/>=<sp/>makePcmSine(1200,<sp/>0.35f,<sp/>220.0f);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>analysis<sp/>=<sp/>engine.<ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a4848c37309dcbd443dfd9c4a44f2a924" kindref="member">analyzeSpoofRisk</ref>(makeReplayLikePcm(),<sp/>baseline);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(analysis.is_likely_spoofed);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(analysis.audio_freshness_score,<sp/>0.70);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(analysis.reason.find(</highlight><highlight class="stringliteral">&quot;freshness&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="test__voice__wave__a8__hardening__focused_8cpp_1a79218e1b3c9d7fcd6917fa3af71a2863" kindref="member">TEST</ref>(VoiceAntiSpoofEngineHardening,<sp/>SpeakerMismatchIsFlagged)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config" kindref="compound">VoiceAntiSpoofEngine::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1a2ef19678e0c037a291dfebac3e60d666" kindref="member">freshness_threshold</ref><sp/>=<sp/>0.40;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1abaacb0da8e3cec8c2beb5decb1be9a4f" kindref="member">speaker_match_threshold</ref><sp/>=<sp/>0.85;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1aeacf8f05399e2fce3b94280f7bf23f25" kindref="member">noise_consistency_threshold</ref><sp/>=<sp/>0.40;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine" kindref="compound">VoiceAntiSpoofEngine</ref><sp/>engine(config);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>audio<sp/>=<sp/>makeSplicedPcm();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>baseline<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;-1.0,1.0,-1.0,1.0,-1.0,1.0,-1.0,1.0,-1.0,1.0,-1.0,1.0,-1.0,1.0,-1.0,1.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>analysis<sp/>=<sp/>engine.<ref refid="classthemis_1_1voice_1_1_voice_anti_spoof_engine_1a4848c37309dcbd443dfd9c4a44f2a924" kindref="member">analyzeSpoofRisk</ref>(audio,<sp/>baseline);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(analysis.is_likely_spoofed);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(analysis.speaker_match_score,<sp/>config.<ref refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1abaacb0da8e3cec8c2beb5decb1be9a4f" kindref="member">speaker_match_threshold</ref>);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="test__voice__wave__a8__hardening__focused_8cpp_1a79218e1b3c9d7fcd6917fa3af71a2863" kindref="member">TEST</ref>(VoiceAuditLoggerHardening,<sp/>CallbackCanInspectLogWithoutDeadlock)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_audit_logger" kindref="compound">VoiceAuditLogger</ref><sp/>logger;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>observed_count{0};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.<ref refid="classthemis_1_1voice_1_1_voice_audit_logger_1ac0ff2327a7240ae33d59ccf9dbbbdd1d" kindref="member">setEventCallback</ref>([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>observed_count.store(logger.<ref refid="classthemis_1_1voice_1_1_voice_audit_logger_1adbf363a1113ef7a59f12fa63da68cc90" kindref="member">getEventCount</ref>(),<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.<ref refid="classthemis_1_1voice_1_1_voice_audit_logger_1a5ade899f1cd6ec31cad4567c1c1a5e53" kindref="member">logAuthenticationAttempt</ref>(</highlight><highlight class="stringliteral">&quot;audit-user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;liveness&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">,<sp/>12,<sp/></highlight><highlight class="stringliteral">&quot;sess-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(logger.<ref refid="classthemis_1_1voice_1_1_voice_audit_logger_1adbf363a1113ef7a59f12fa63da68cc90" kindref="member">getEventCount</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(observed_count.load(std::memory_order_relaxed),<sp/>1u);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__voice__wave__a8__hardening__focused_8cpp_1a79218e1b3c9d7fcd6917fa3af71a2863" kindref="member">TEST</ref>(VoiceSessionManagerHardening,<sp/>TerminatedSessionsAreRemovedFailClosed)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager" kindref="compound">VoiceSessionManager</ref><sp/>manager;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session<sp/>=<sp/>manager.<ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a7c709b5b1200ac250257ee16b30501e8" kindref="member">createSession</ref>(</highlight><highlight class="stringliteral">&quot;teardown-user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;device-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(session.session_id.empty());</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="classthemis_1_1voice_1_1_voice_session_manager_1ae2a9e5c0dd948bfdd37ea7ad92e00478" kindref="member">terminateSession</ref>(session.session_id));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager.<ref refid="classthemis_1_1voice_1_1_voice_session_manager_1ab70bd1132cb5971cb843cbea31c708ea" kindref="member">getSession</ref>(session.session_id).has_value());</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a8ca46db7a5d76367a600800eb37da2f7" kindref="member">isDoubleCloseAttempt</ref>(session.session_id));</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a729b993395a2b7492a196962e51c0fb7" kindref="member">isUseAfterFreeAttempt</ref>(session.session_id));</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(manager.<ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a241ec1d68c48159b62c7e0a00237b5ac" kindref="member">getStateChangeTimestamp</ref>(session.session_id),<sp/>0);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="test__voice__wave__a8__hardening__focused_8cpp_1a79218e1b3c9d7fcd6917fa3af71a2863" kindref="member">TEST</ref>(VoiceSessionManagerHardening,<sp/>MultiSessionTeardownLeavesNoActiveSessionsForUser)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager" kindref="compound">VoiceSessionManager</ref><sp/>manager;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>session_ids<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session<sp/>=<sp/>manager.<ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a7c709b5b1200ac250257ee16b30501e8" kindref="member">createSession</ref>(</highlight><highlight class="stringliteral">&quot;shared-user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;device-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_FALSE(session.session_id.empty());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>session_ids.push_back(session.session_id);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>workers<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>session_id<sp/>:<sp/>session_ids)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>workers.emplace_back([&amp;manager,<sp/>session_id]()<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="classthemis_1_1voice_1_1_voice_session_manager_1ae2a9e5c0dd948bfdd37ea7ad92e00478" kindref="member">terminateSession</ref>(session_id));</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>worker<sp/>:<sp/>workers)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>worker.join();</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a559781abd8b8258f5e6a48b71c2bb3a7" kindref="member">getSessionsForUser</ref>(</highlight><highlight class="stringliteral">&quot;shared-user&quot;</highlight><highlight class="normal">).empty());</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>session_id<sp/>:<sp/>session_ids)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager.<ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a1b50dbb2058d6249e21064fb66d0effb" kindref="member">sessionIdExists</ref>(session_id));</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/voice/test_voice_wave_a8_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

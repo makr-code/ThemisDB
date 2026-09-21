@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_config_1_1_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUConfig::ValidationResult</compoundname>
+    <includes refid="config_8h" local="no">config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_config_1_1_validation_result_1afcb5fb7ae6f07131e0546bd3a2bb0c3d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUConfig::ValidationResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::gpu::GPUConfig::ValidationResult::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="90" column="34" bodyfile="include/themis/gpu/config.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_config_1_1_validation_result_1aa5d563833960f1bceacecd7be8b36beb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::gpu::GPUConfig::ValidationResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::gpu::GPUConfig::ValidationResult::errors</qualifiedname>
+        <briefdescription>
+<para>Non-empty when !ok. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="91" column="21" bodyfile="include/themis/gpu/config.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_config_1_1_validation_result_1af20d1c1ce05a9c37216c803d8190e127" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::gpu::GPUConfig::ValidationResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::gpu::GPUConfig::ValidationResult::warnings</qualifiedname>
+        <briefdescription>
+<para>Non-fatal issues. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="92" column="21" bodyfile="include/themis/gpu/config.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/config.h" line="89" column="5" bodyfile="include/themis/gpu/config.h" bodystart="89" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1_1_validation_result_1aa5d563833960f1bceacecd7be8b36beb" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig::ValidationResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1_1_validation_result_1afcb5fb7ae6f07131e0546bd3a2bb0c3d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig::ValidationResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1_1_validation_result_1af20d1c1ce05a9c37216c803d8190e127" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig::ValidationResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_45a378a94fad06ed07bc9f08148cfbfb" kind="dir">
+    <compoundname>benchmarks/chimera</compoundname>
+    <innerfile refid="bench__chimera__adapter_8cpp">bench_chimera_adapter.cpp</innerfile>
+    <innerfile refid="bench__chimera__dedicated__gates_8cpp">bench_chimera_dedicated_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/chimera/"/>
+  </compounddef>
+</doxygen>

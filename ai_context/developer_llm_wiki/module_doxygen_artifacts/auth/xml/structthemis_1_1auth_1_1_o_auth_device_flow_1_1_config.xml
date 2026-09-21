@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::OAuthDeviceFlow::Config</compoundname>
+    <includes refid="oauth__device__flow_8h" local="no">oauth_device_flow.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config_1a277f0f2a283c2ffe3e780c3b67d71a16" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthDeviceFlow::Config::device_authorization_endpoint</definition>
+        <argsstring></argsstring>
+        <name>device_authorization_endpoint</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::Config::device_authorization_endpoint</qualifiedname>
+        <briefdescription>
+<para>RFC 8628 device auth endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="57" column="21" bodyfile="include/auth/oauth_device_flow.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config_1a791981f4946552c4cfbbf7f1cb556ec9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthDeviceFlow::Config::token_endpoint</definition>
+        <argsstring></argsstring>
+        <name>token_endpoint</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::Config::token_endpoint</qualifiedname>
+        <briefdescription>
+<para>OAuth token endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="58" column="21" bodyfile="include/auth/oauth_device_flow.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config_1a09a3c065d80b066298e8f1e6c795e043" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthDeviceFlow::Config::client_id</definition>
+        <argsstring></argsstring>
+        <name>client_id</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::Config::client_id</qualifiedname>
+        <briefdescription>
+<para>Registered OAuth client ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="59" column="21" bodyfile="include/auth/oauth_device_flow.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config_1a4d50546b368ae59c61f805fbb3173d79" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthDeviceFlow::Config::client_secret</definition>
+        <argsstring></argsstring>
+        <name>client_secret</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::Config::client_secret</qualifiedname>
+        <briefdescription>
+<para>Client secret (empty for public clients). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="60" column="21" bodyfile="include/auth/oauth_device_flow.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config_1a6135efc6ef2e21a0cda3d058cee3d236" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::OAuthDeviceFlow::Config::scopes</definition>
+        <argsstring></argsstring>
+        <name>scopes</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::Config::scopes</qualifiedname>
+        <briefdescription>
+<para>Requested scopes (e.g., {&quot;openid&quot;,&quot;email&quot;}). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="61" column="21" bodyfile="include/auth/oauth_device_flow.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config_1ae020cd6a8713d76e98cfde37217959a4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthDeviceFlow::Config::jwks_url</definition>
+        <argsstring></argsstring>
+        <name>jwks_url</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::Config::jwks_url</qualifiedname>
+        <briefdescription>
+<para>JWKS URL for id_token validation (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="62" column="21" bodyfile="include/auth/oauth_device_flow.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config_1a78d3214deabad5a5b26d241e36acfcf6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::OAuthDeviceFlow::Config::http_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>http_timeout_seconds</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::Config::http_timeout_seconds</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+<para>HTTP request timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="63" column="13" bodyfile="include/auth/oauth_device_flow.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config_1a5cfe2e79660b2f1fe573927bfda211b9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::OAuthDeviceFlow::Config::max_poll_interval_seconds</definition>
+        <argsstring></argsstring>
+        <name>max_poll_interval_seconds</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::Config::max_poll_interval_seconds</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Cap on poll interval after slow_down. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="64" column="13" bodyfile="include/auth/oauth_device_flow.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/oauth_device_flow.h" line="56" column="5" bodyfile="include/auth/oauth_device_flow.h" bodystart="56" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config_1a09a3c065d80b066298e8f1e6c795e043" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::Config</scope><name>client_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config_1a4d50546b368ae59c61f805fbb3173d79" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::Config</scope><name>client_secret</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config_1a277f0f2a283c2ffe3e780c3b67d71a16" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::Config</scope><name>device_authorization_endpoint</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config_1a78d3214deabad5a5b26d241e36acfcf6" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::Config</scope><name>http_timeout_seconds</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config_1ae020cd6a8713d76e98cfde37217959a4" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::Config</scope><name>jwks_url</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config_1a5cfe2e79660b2f1fe573927bfda211b9" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::Config</scope><name>max_poll_interval_seconds</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config_1a6135efc6ef2e21a0cda3d058cee3d236" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::Config</scope><name>scopes</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_config_1a791981f4946552c4cfbbf7f1cb556ec9" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::Config</scope><name>token_endpoint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

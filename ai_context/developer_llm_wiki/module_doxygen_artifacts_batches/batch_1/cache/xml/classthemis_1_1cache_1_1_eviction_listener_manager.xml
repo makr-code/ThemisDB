@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_eviction_listener_manager" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cache::EvictionListenerManager</compoundname>
+    <derivedcompoundref refid="classthemis_1_1cache_1_1_eviction_listener_manager_impl" prot="public" virt="non-virtual">themis::cache::EvictionListenerManagerImpl</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1cache_1_1_test_eviction_listener_manager" prot="public" virt="non-virtual">themis::cache::TestEvictionListenerManager</derivedcompoundref>
+    <includes refid="eviction__listener_8h" local="no">eviction_listener.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_listener_manager_1ad709fff3c7bae42a87cd6d35d0b89b45" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cache::EvictionListenerManager::~EvictionListenerManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EvictionListenerManager</name>
+        <qualifiedname>themis::cache::EvictionListenerManager::~EvictionListenerManager</qualifiedname>
+        <briefdescription>
+<para>Eviction Listener Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction_listener.h" line="89" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_listener_manager_1a645bbf68fe557c8576c851c35ba9963a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::cache::EvictionListenerManager::registerListener</definition>
+        <argsstring>(std::shared_ptr&lt; IEvictionListener &gt; listener)=0</argsstring>
+        <name>registerListener</name>
+        <qualifiedname>themis::cache::EvictionListenerManager::registerListener</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cache_1_1_eviction_listener_manager_impl_1acea8e199335afc60bf6d851b7d1a890b">registerListener</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_test_eviction_listener_manager_1a707f66a46f2e56e0038acf732f4a8599">registerListener</reimplementedby>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1cache_1_1_i_eviction_listener" kindref="compound">IEvictionListener</ref> &gt;</type>
+          <declname>listener</declname>
+        </param>
+        <briefdescription>
+<para>Register Listener. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction_listener.h" line="96" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_listener_manager_1a8a78adf18f54cd06949030562915eb76" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::EvictionListenerManager::unregisterListener</definition>
+        <argsstring>(uint64_t handle)=0</argsstring>
+        <name>unregisterListener</name>
+        <qualifiedname>themis::cache::EvictionListenerManager::unregisterListener</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cache_1_1_eviction_listener_manager_impl_1a7e3aff22ec4cb5176309c96c67d9ab7d">unregisterListener</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_test_eviction_listener_manager_1a746e2ffa9009092216341bf6d55ae116">unregisterListener</reimplementedby>
+        <param>
+          <type>uint64_t</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Listener. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction_listener.h" line="102" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_listener_manager_1a99b3eb78fecd2c97710bb5611b06131d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::EvictionListenerManager::emitEvictionEvent</definition>
+        <argsstring>(const CacheEvictionEvent &amp;event)=0</argsstring>
+        <name>emitEvictionEvent</name>
+        <qualifiedname>themis::cache::EvictionListenerManager::emitEvictionEvent</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cache_1_1_eviction_listener_manager_impl_1a5088a76a6e8df75a5afcf82e40098f5d">emitEvictionEvent</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_test_eviction_listener_manager_1a61bac6904ef1afa108eaf1774cf315dd">emitEvictionEvent</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_cache_eviction_event" kindref="compound">CacheEvictionEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Emit Eviction Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction_listener.h" line="108" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_listener_manager_1a59166dd538f6fb21cc86063321767a3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::EvictionListenerManager::emitCapacityPressure</definition>
+        <argsstring>(TierLevel from_tier, uint32_t current_capacity_percent, std::size_t recommended_eviction_count)=0</argsstring>
+        <name>emitCapacityPressure</name>
+        <qualifiedname>themis::cache::EvictionListenerManager::emitCapacityPressure</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cache_1_1_eviction_listener_manager_impl_1aece00b70b3136eca622f04cda3037f53">emitCapacityPressure</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_test_eviction_listener_manager_1a2e7d3c1a172b929c7e0d35c8b748a7ea">emitCapacityPressure</reimplementedby>
+        <param>
+          <type><ref refid="namespacethemis_1_1cache_1abe2c67d7127a32edaea2089841eafd0d" kindref="member">TierLevel</ref></type>
+          <declname>from_tier</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>current_capacity_percent</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>recommended_eviction_count</declname>
+        </param>
+        <briefdescription>
+<para>Emit Capacity Pressure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_capacity_percent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">recommended_eviction_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction_listener.h" line="116" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_listener_manager_1a2650176eed83373d1f201b9f1e7722c7" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t themis::cache::EvictionListenerManager::getListenerCount</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>getListenerCount</name>
+        <qualifiedname>themis::cache::EvictionListenerManager::getListenerCount</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cache_1_1_eviction_listener_manager_impl_1af58e9fe96f03421c803d8d73c60a2356">getListenerCount</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_test_eviction_listener_manager_1aacecd86b9178b74b28485bc6f8068f0a">getListenerCount</reimplementedby>
+        <briefdescription>
+<para>Get Listener Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/eviction_listener.h" line="125" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::cache::EvictionListenerManager</label>
+        <link refid="classthemis_1_1cache_1_1_eviction_listener_manager"/>
+      </node>
+      <node id="2">
+        <label>themis::cache::EvictionListenerManagerImpl</label>
+        <link refid="classthemis_1_1cache_1_1_eviction_listener_manager_impl"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::cache::TestEvictionListenerManager</label>
+        <link refid="classthemis_1_1cache_1_1_test_eviction_listener_manager"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/cache/eviction_listener.h" line="83" column="1" bodyfile="include/cache/eviction_listener.h" bodystart="83" bodyend="126"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_eviction_listener_manager_1a59166dd538f6fb21cc86063321767a3d" prot="public" virt="pure-virtual"><scope>themis::cache::EvictionListenerManager</scope><name>emitCapacityPressure</name></member>
+      <member refid="classthemis_1_1cache_1_1_eviction_listener_manager_1a99b3eb78fecd2c97710bb5611b06131d" prot="public" virt="pure-virtual"><scope>themis::cache::EvictionListenerManager</scope><name>emitEvictionEvent</name></member>
+      <member refid="classthemis_1_1cache_1_1_eviction_listener_manager_1a2650176eed83373d1f201b9f1e7722c7" prot="public" virt="pure-virtual"><scope>themis::cache::EvictionListenerManager</scope><name>getListenerCount</name></member>
+      <member refid="classthemis_1_1cache_1_1_eviction_listener_manager_1a645bbf68fe557c8576c851c35ba9963a" prot="public" virt="pure-virtual"><scope>themis::cache::EvictionListenerManager</scope><name>registerListener</name></member>
+      <member refid="classthemis_1_1cache_1_1_eviction_listener_manager_1a8a78adf18f54cd06949030562915eb76" prot="public" virt="pure-virtual"><scope>themis::cache::EvictionListenerManager</scope><name>unregisterListener</name></member>
+      <member refid="classthemis_1_1cache_1_1_eviction_listener_manager_1ad709fff3c7bae42a87cd6d35d0b89b45" prot="public" virt="virtual"><scope>themis::cache::EvictionListenerManager</scope><name>~EvictionListenerManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

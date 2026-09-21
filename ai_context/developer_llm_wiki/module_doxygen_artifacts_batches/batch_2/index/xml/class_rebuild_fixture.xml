@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_rebuild_fixture" kind="class" language="C++" prot="public">
+    <compoundname>RebuildFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_rebuild_fixture_1aab0d1e407b6530887a8f413c764971cf" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string RebuildFixture::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>RebuildFixture::db_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/index/bench_index_rebuild.cpp" line="95" column="17" bodyfile="benchmarks/index/bench_index_rebuild.cpp" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_rebuild_fixture_1ad9b718d82598eeadf602b0acbb894c92" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; RebuildFixture::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>RebuildFixture::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/index/bench_index_rebuild.cpp" line="96" column="21" bodyfile="benchmarks/index/bench_index_rebuild.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_rebuild_fixture_1a0d23112345e6072b171abcd26d14c68a" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_secondary_index_manager" kindref="compound">themis::SecondaryIndexManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::SecondaryIndexManager&gt; RebuildFixture::secondary_</definition>
+        <argsstring></argsstring>
+        <name>secondary_</name>
+        <qualifiedname>RebuildFixture::secondary_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/index/bench_index_rebuild.cpp" line="97" column="21" bodyfile="benchmarks/index/bench_index_rebuild.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_rebuild_fixture_1aeace763d55d8d87bc747d4e3b1a15a69" prot="protected" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool RebuildFixture::setup_done_</definition>
+        <argsstring></argsstring>
+        <name>setup_done_</name>
+        <qualifiedname>RebuildFixture::setup_done_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/index/bench_index_rebuild.cpp" line="98" column="24" bodyfile="benchmarks/index/bench_index_rebuild.cpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_rebuild_fixture_1ac5913e0c259a99eeded734295086a757" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RebuildFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>RebuildFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/index/bench_index_rebuild.cpp" line="36" column="10" bodyfile="benchmarks/index/bench_index_rebuild.cpp" bodystart="36" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="class_rebuild_fixture_1a8c501e5e38d31d5dae744f9e78e3ef6e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RebuildFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>RebuildFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/index/bench_index_rebuild.cpp" line="86" column="10" bodyfile="benchmarks/index/bench_index_rebuild.cpp" bodystart="86" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RebuildFixture</label>
+        <link refid="class_rebuild_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RebuildFixture</label>
+        <link refid="class_rebuild_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/index/bench_index_rebuild.cpp" line="34" column="1" bodyfile="benchmarks/index/bench_index_rebuild.cpp" bodystart="34" bodyend="99"/>
+    <listofallmembers>
+      <member refid="class_rebuild_fixture_1ad9b718d82598eeadf602b0acbb894c92" prot="protected" virt="non-virtual"><scope>RebuildFixture</scope><name>db_</name></member>
+      <member refid="class_rebuild_fixture_1aab0d1e407b6530887a8f413c764971cf" prot="protected" virt="non-virtual"><scope>RebuildFixture</scope><name>db_path_</name></member>
+      <member refid="class_rebuild_fixture_1a0d23112345e6072b171abcd26d14c68a" prot="protected" virt="non-virtual"><scope>RebuildFixture</scope><name>secondary_</name></member>
+      <member refid="class_rebuild_fixture_1ac5913e0c259a99eeded734295086a757" prot="public" virt="non-virtual"><scope>RebuildFixture</scope><name>SetUp</name></member>
+      <member refid="class_rebuild_fixture_1aeace763d55d8d87bc747d4e3b1a15a69" prot="protected" virt="non-virtual"><scope>RebuildFixture</scope><name>setup_done_</name></member>
+      <member refid="class_rebuild_fixture_1a8c501e5e38d31d5dae744f9e78e3ef6e" prot="public" virt="non-virtual"><scope>RebuildFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

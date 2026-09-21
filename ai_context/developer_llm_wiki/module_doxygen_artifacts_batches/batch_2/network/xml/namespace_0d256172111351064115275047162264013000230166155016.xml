@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d256172111351064115275047162264013000230166155016" kind="namespace" language="C++">
+    <compoundname>@256172111351064115275047162264013000230166155016</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespace_0d256172111351064115275047162264013000230166155016_1aa4c97f318b7afaad21fe706ecf2e8c0f" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>StubConnState</name>
+        <qualifiedname>@256172111351064115275047162264013000230166155016::StubConnState</qualifiedname>
+        <enumvalue id="namespace_0d256172111351064115275047162264013000230166155016_1aa4c97f318b7afaad21fe706ecf2e8c0fa196fbd61a4d3b07274d2999a86e089e7" prot="public">
+          <name>ACCEPTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d256172111351064115275047162264013000230166155016_1aa4c97f318b7afaad21fe706ecf2e8c0fa8f62a15be91745994dc59fb41d396e5a" prot="public">
+          <name>SERVING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d256172111351064115275047162264013000230166155016_1aa4c97f318b7afaad21fe706ecf2e8c0fa6a83fb962e26a218fee9b429eb62dbc6" prot="public">
+          <name>DRAINING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d256172111351064115275047162264013000230166155016_1aa4c97f318b7afaad21fe706ecf2e8c0fa110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_highcardinality_stress.cpp" line="73" column="1" bodyfile="tests/network/test_network_highcardinality_stress.cpp" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_0d256172111351064115275047162264013000230166155016_1acb88bb9e8ff9a2417535ffc572ab488b" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>CBState</name>
+        <qualifiedname>@256172111351064115275047162264013000230166155016::CBState</qualifiedname>
+        <enumvalue id="namespace_0d256172111351064115275047162264013000230166155016_1acb88bb9e8ff9a2417535ffc572ab488ba110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d256172111351064115275047162264013000230166155016_1acb88bb9e8ff9a2417535ffc572ab488baa38bd5138bf35514df41a1795ebbf5c3" prot="public">
+          <name>OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d256172111351064115275047162264013000230166155016_1acb88bb9e8ff9a2417535ffc572ab488ba5c1c0fca237f238d3c656d55a4db3ca4" prot="public">
+          <name>HALF_OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_highcardinality_stress.cpp" line="135" column="1" bodyfile="tests/network/test_network_highcardinality_stress.cpp" bodystart="135" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/network/test_network_highcardinality_stress.cpp" line="68" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_conflict_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::ConflictMetadata</compoundname>
+    <includes refid="conflict__resolver_8h" local="no">conflict_resolver.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_conflict_metadata_1a5bdf65461e5fe4b1d620ce5e4623c1c5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1abac4e9f4b3e1b016177fc34f8ec992c4" kindref="member">ConflictReasonType</ref></type>
+        <definition>ConflictReasonType themis::importers::ConflictMetadata::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::importers::ConflictMetadata::reason</qualifiedname>
+        <briefdescription>
+<para>Why conflict occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/conflict_resolver.h" line="35" column="24" bodyfile="include/importers/conflict_resolver.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_conflict_metadata_1a72e240c4c62328af21b335d15a35400a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::ConflictMetadata::affected_fields</definition>
+        <argsstring></argsstring>
+        <name>affected_fields</name>
+        <qualifiedname>themis::importers::ConflictMetadata::affected_fields</qualifiedname>
+        <briefdescription>
+<para>Fields involved in conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/conflict_resolver.h" line="36" column="17" bodyfile="include/importers/conflict_resolver.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_conflict_metadata_1ac5bff7258619776e7b791f4bf9ee6933" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ConflictMetadata::resolution_strategy</definition>
+        <argsstring></argsstring>
+        <name>resolution_strategy</name>
+        <qualifiedname>themis::importers::ConflictMetadata::resolution_strategy</qualifiedname>
+        <briefdescription>
+<para>e.g., &quot;CRDT_LWW&quot;, &quot;MERGE&quot;, &quot;SKIP&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/conflict_resolver.h" line="37" column="17" bodyfile="include/importers/conflict_resolver.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_conflict_metadata_1aa8eb649b5e1ba9e94ae2584911b62876" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::ConflictMetadata::timestamp_used</definition>
+        <argsstring></argsstring>
+        <name>timestamp_used</name>
+        <qualifiedname>themis::importers::ConflictMetadata::timestamp_used</qualifiedname>
+        <briefdescription>
+<para>Timestamp used for tiebreaker (0 if not used). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/conflict_resolver.h" line="38" column="14" bodyfile="include/importers/conflict_resolver.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/conflict_resolver.h" line="34" column="1" bodyfile="include/importers/conflict_resolver.h" bodystart="34" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_conflict_metadata_1a72e240c4c62328af21b335d15a35400a" prot="public" virt="non-virtual"><scope>themis::importers::ConflictMetadata</scope><name>affected_fields</name></member>
+      <member refid="structthemis_1_1importers_1_1_conflict_metadata_1a5bdf65461e5fe4b1d620ce5e4623c1c5" prot="public" virt="non-virtual"><scope>themis::importers::ConflictMetadata</scope><name>reason</name></member>
+      <member refid="structthemis_1_1importers_1_1_conflict_metadata_1ac5bff7258619776e7b791f4bf9ee6933" prot="public" virt="non-virtual"><scope>themis::importers::ConflictMetadata</scope><name>resolution_strategy</name></member>
+      <member refid="structthemis_1_1importers_1_1_conflict_metadata_1aa8eb649b5e1ba9e94ae2584911b62876" prot="public" virt="non-virtual"><scope>themis::importers::ConflictMetadata</scope><name>timestamp_used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

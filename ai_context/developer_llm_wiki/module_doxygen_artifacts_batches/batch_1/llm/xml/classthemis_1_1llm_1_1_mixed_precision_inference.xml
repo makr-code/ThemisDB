@@ -1,0 +1,507 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_mixed_precision_inference" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::MixedPrecisionInference</compoundname>
+    <includes refid="mixed__precision__inference_8h" local="no">mixed_precision_inference.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_mixed_precision_inference_1_1_precision_info" prot="public">themis::llm::MixedPrecisionInference::PrecisionInfo</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_mixed_precision_inference_1_1_layer_precision_config" prot="public">themis::llm::MixedPrecisionInference::LayerPrecisionConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_mixed_precision_inference_1_1_impl" prot="public">themis::llm::MixedPrecisionInference::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_mixed_precision_inference_1a67b296c1d2528bedb2f2936a5ace0f73" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_mixed_precision_inference_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::MixedPrecisionInference::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="143" column="21" bodyfile="include/llm/mixed_precision_inference.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mixed_precision_inference_1a4afb62e057e46c01064c89830be6f760" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MixedPrecisionInference::MixedPrecisionInference</definition>
+        <argsstring>()</argsstring>
+        <name>MixedPrecisionInference</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::MixedPrecisionInference</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="62" column="5" bodyfile="src/llm/mixed_precision_inference.cpp" bodystart="29" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mixed_precision_inference_1a163284e170f292795bc77e0c95b3a84a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MixedPrecisionInference::~MixedPrecisionInference</definition>
+        <argsstring>()</argsstring>
+        <name>~MixedPrecisionInference</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::~MixedPrecisionInference</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="63" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mixed_precision_inference_1ae517f15d4e3d999017f3b823beb9d2a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1a134469ae4b8500a262610408766e56a1" kindref="member">PrecisionMode</ref></type>
+        <definition>PrecisionMode themis::llm::MixedPrecisionInference::selectOptimalPrecision</definition>
+        <argsstring>(size_t available_vram, size_t model_size, float tolerance=0.01f)</argsstring>
+        <name>selectOptimalPrecision</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::selectOptimalPrecision</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>available_vram</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>model_size</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>tolerance</declname>
+          <defval>0.01f</defval>
+        </param>
+        <briefdescription>
+<para>Select Optimal Precision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">available_vram</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tolerance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_mixed_precision_inference_1abfca2995bc60cce58d7a03a846d5146e" kindref="member">calculateModelSize()</ref>, <ref refid="classthemis_1_1llm_1_1_mixed_precision_inference_1aa6c9a7e2e4ad9e0f7622164aa646c951" kindref="member">calculateExpectedAccuracy()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="65" column="19" bodyfile="src/llm/mixed_precision_inference.cpp" bodystart="42" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mixed_precision_inference_1a75f877db3379989a5fa8b6ca9c11be5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_mixed_precision_inference_1_1_layer_precision_config" kindref="compound">LayerPrecisionConfig</ref> &gt;</type>
+        <definition>std::vector&lt; MixedPrecisionInference::LayerPrecisionConfig &gt; themis::llm::MixedPrecisionInference::getTuningSchedule</definition>
+        <argsstring>(const ModelArchitecture &amp;arch, size_t available_vram)</argsstring>
+        <name>getTuningSchedule</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::getTuningSchedule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_model_architecture" kindref="compound">ModelArchitecture</ref> &amp;</type>
+          <declname>arch</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>available_vram</declname>
+        </param>
+        <briefdescription>
+<para>Get Tuning Schedule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">available_vram</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="77" column="17" bodyfile="src/llm/mixed_precision_inference.cpp" bodystart="69" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mixed_precision_inference_1abfca2995bc60cce58d7a03a846d5146e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MixedPrecisionInference::calculateModelSize</definition>
+        <argsstring>(size_t num_parameters, PrecisionMode precision)</argsstring>
+        <name>calculateModelSize</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::calculateModelSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_parameters</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a134469ae4b8500a262610408766e56a1" kindref="member">PrecisionMode</ref></type>
+          <declname>precision</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Model Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">precision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">precision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_mixed_precision_inference_1a099698666c5d53a3242a06313e0c1375" kindref="member">getPrecisionInfo()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="88" column="19" bodyfile="src/llm/mixed_precision_inference.cpp" bodystart="125" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mixed_precision_inference_1a099698666c5d53a3242a06313e0c1375" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_mixed_precision_inference_1_1_precision_info" kindref="compound">PrecisionInfo</ref></type>
+        <definition>MixedPrecisionInference::PrecisionInfo themis::llm::MixedPrecisionInference::getPrecisionInfo</definition>
+        <argsstring>(PrecisionMode precision)</argsstring>
+        <name>getPrecisionInfo</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::getPrecisionInfo</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a134469ae4b8500a262610408766e56a1" kindref="member">PrecisionMode</ref></type>
+          <declname>precision</declname>
+        </param>
+        <briefdescription>
+<para>Get Precision Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">precision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="98" column="26" bodyfile="src/llm/mixed_precision_inference.cpp" bodystart="142" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mixed_precision_inference_1a2e53c4b7c7466294a737cc334741cc14" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_mixed_precision_inference_1_1_precision_info" kindref="compound">PrecisionInfo</ref> &gt;</type>
+        <definition>std::vector&lt; MixedPrecisionInference::PrecisionInfo &gt; themis::llm::MixedPrecisionInference::getAllPrecisions</definition>
+        <argsstring>()</argsstring>
+        <name>getAllPrecisions</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::getAllPrecisions</qualifiedname>
+        <briefdescription>
+<para>Get All Precisions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="104" column="24" bodyfile="src/llm/mixed_precision_inference.cpp" bodystart="201" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mixed_precision_inference_1aa6c9a7e2e4ad9e0f7622164aa646c951" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::MixedPrecisionInference::calculateExpectedAccuracy</definition>
+        <argsstring>(PrecisionMode precision)</argsstring>
+        <name>calculateExpectedAccuracy</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::calculateExpectedAccuracy</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a134469ae4b8500a262610408766e56a1" kindref="member">PrecisionMode</ref></type>
+          <declname>precision</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Expected Accuracy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">precision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">precision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_mixed_precision_inference_1a099698666c5d53a3242a06313e0c1375" kindref="member">getPrecisionInfo()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="111" column="18" bodyfile="src/llm/mixed_precision_inference.cpp" bodystart="218" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mixed_precision_inference_1a55e78a05b7245413ea55b57ad7894e4d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::MixedPrecisionInference::calculateMemoryReduction</definition>
+        <argsstring>(PrecisionMode precision)</argsstring>
+        <name>calculateMemoryReduction</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::calculateMemoryReduction</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a134469ae4b8500a262610408766e56a1" kindref="member">PrecisionMode</ref></type>
+          <declname>precision</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Memory Reduction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">precision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">precision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_mixed_precision_inference_1a099698666c5d53a3242a06313e0c1375" kindref="member">getPrecisionInfo()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="118" column="18" bodyfile="src/llm/mixed_precision_inference.cpp" bodystart="228" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mixed_precision_inference_1ad3fe9de5a818349ada89d370b8f8b213" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1a134469ae4b8500a262610408766e56a1" kindref="member">PrecisionMode</ref></type>
+        <definition>PrecisionMode themis::llm::MixedPrecisionInference::fromString</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>fromString</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::fromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>From String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements fromString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="125" column="26" bodyfile="src/llm/mixed_precision_inference.cpp" bodystart="239" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mixed_precision_inference_1a00aa43c83eeadc28b883ae001421075d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MixedPrecisionInference::toString</definition>
+        <argsstring>(PrecisionMode precision)</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::toString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a134469ae4b8500a262610408766e56a1" kindref="member">PrecisionMode</ref></type>
+          <declname>precision</declname>
+        </param>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">precision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">precision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements toString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="132" column="24" bodyfile="src/llm/mixed_precision_inference.cpp" bodystart="271" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mixed_precision_inference_1a3604a6a9a37ee401ae920471f66d84d0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::MixedPrecisionInference::isSupported</definition>
+        <argsstring>(PrecisionMode precision)</argsstring>
+        <name>isSupported</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::isSupported</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a134469ae4b8500a262610408766e56a1" kindref="member">PrecisionMode</ref></type>
+          <declname>precision</declname>
+        </param>
+        <briefdescription>
+<para>Is Supported. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">precision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">precision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: defined(), cudaGetDevice(), cudaDeviceGetAttribute(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="139" column="17" bodyfile="src/llm/mixed_precision_inference.cpp" bodystart="290" bodyend="338"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/mixed_precision_inference.h" line="46" column="1" bodyfile="include/llm/mixed_precision_inference.h" bodystart="46" bodyend="144"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_mixed_precision_inference_1aa6c9a7e2e4ad9e0f7622164aa646c951" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference</scope><name>calculateExpectedAccuracy</name></member>
+      <member refid="classthemis_1_1llm_1_1_mixed_precision_inference_1a55e78a05b7245413ea55b57ad7894e4d" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference</scope><name>calculateMemoryReduction</name></member>
+      <member refid="classthemis_1_1llm_1_1_mixed_precision_inference_1abfca2995bc60cce58d7a03a846d5146e" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference</scope><name>calculateModelSize</name></member>
+      <member refid="classthemis_1_1llm_1_1_mixed_precision_inference_1ad3fe9de5a818349ada89d370b8f8b213" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference</scope><name>fromString</name></member>
+      <member refid="classthemis_1_1llm_1_1_mixed_precision_inference_1a2e53c4b7c7466294a737cc334741cc14" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference</scope><name>getAllPrecisions</name></member>
+      <member refid="classthemis_1_1llm_1_1_mixed_precision_inference_1a099698666c5d53a3242a06313e0c1375" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference</scope><name>getPrecisionInfo</name></member>
+      <member refid="classthemis_1_1llm_1_1_mixed_precision_inference_1a75f877db3379989a5fa8b6ca9c11be5f" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference</scope><name>getTuningSchedule</name></member>
+      <member refid="classthemis_1_1llm_1_1_mixed_precision_inference_1a67b296c1d2528bedb2f2936a5ace0f73" prot="private" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1_mixed_precision_inference_1a3604a6a9a37ee401ae920471f66d84d0" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference</scope><name>isSupported</name></member>
+      <member refid="classthemis_1_1llm_1_1_mixed_precision_inference_1a4afb62e057e46c01064c89830be6f760" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference</scope><name>MixedPrecisionInference</name></member>
+      <member refid="classthemis_1_1llm_1_1_mixed_precision_inference_1ae517f15d4e3d999017f3b823beb9d2a7" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference</scope><name>selectOptimalPrecision</name></member>
+      <member refid="classthemis_1_1llm_1_1_mixed_precision_inference_1a00aa43c83eeadc28b883ae001421075d" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference</scope><name>toString</name></member>
+      <member refid="classthemis_1_1llm_1_1_mixed_precision_inference_1a163284e170f292795bc77e0c95b3a84a" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference</scope><name>~MixedPrecisionInference</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

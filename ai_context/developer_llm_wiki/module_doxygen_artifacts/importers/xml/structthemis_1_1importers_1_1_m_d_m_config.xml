@@ -1,0 +1,326 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_m_d_m_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::MDMConfig</compoundname>
+    <includes refid="mdm__engine_8h" local="no">mdm_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_config_1aabda53c964b12ffb8aa1f31657fe056f" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1importers_1_1_hybrid_entity_matcher_1a496bcdb146c483b08b93630b4345f40d" kindref="member">HybridEntityMatcher::MatchStrategy</ref></type>
+        <definition>HybridEntityMatcher::MatchStrategy themis::importers::MDMConfig::match_strategy</definition>
+        <argsstring></argsstring>
+        <name>match_strategy</name>
+        <qualifiedname>themis::importers::MDMConfig::match_strategy</qualifiedname>
+        <initializer>                                              =
+<ref refid="classthemis_1_1importers_1_1_hybrid_entity_matcher_1a496bcdb146c483b08b93630b4345f40da8aabf87604bc12fadb954886f5b164c1" kindref="member">HybridEntityMatcher::MatchStrategy::DETERMINISTIC_FIRST</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="31" column="40" bodyfile="include/importers/mdm_engine.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_config_1ab0ea93dd70ddec8353b1f3c40666ed3c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::MDMConfig::deterministic_threshold</definition>
+        <argsstring></argsstring>
+        <name>deterministic_threshold</name>
+        <qualifiedname>themis::importers::MDMConfig::deterministic_threshold</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Minimum score for deterministic match acceptance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="33" column="12" bodyfile="include/importers/mdm_engine.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_config_1aee668b9e2f59c69a52f8f24ada8d8afd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::MDMConfig::semantic_threshold</definition>
+        <argsstring></argsstring>
+        <name>semantic_threshold</name>
+        <qualifiedname>themis::importers::MDMConfig::semantic_threshold</qualifiedname>
+        <initializer>= 0.85</initializer>
+        <briefdescription>
+<para>Minimum semantic score to accept a match. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="34" column="12" bodyfile="include/importers/mdm_engine.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_config_1a2719c3c0e623d181a316b57a8039de8f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_semantic_match_config" kindref="compound">SemanticMatchConfig</ref></type>
+        <definition>SemanticMatchConfig themis::importers::MDMConfig::semantic_config</definition>
+        <argsstring></argsstring>
+        <name>semantic_config</name>
+        <qualifiedname>themis::importers::MDMConfig::semantic_config</qualifiedname>
+        <briefdescription>
+<para>Detailed semantic matching settings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="36" column="25" bodyfile="include/importers/mdm_engine.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_config_1a047b7e226cd9bf45f37c9fe44e82c6a5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::MDMConfig::primary_key_fields</definition>
+        <argsstring></argsstring>
+        <name>primary_key_fields</name>
+        <qualifiedname>themis::importers::MDMConfig::primary_key_fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="38" column="17" bodyfile="include/importers/mdm_engine.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_config_1a230e109c1f9eb4490080d80c958b8716" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::MDMConfig::unique_fields</definition>
+        <argsstring></argsstring>
+        <name>unique_fields</name>
+        <qualifiedname>themis::importers::MDMConfig::unique_fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="40" column="17" bodyfile="include/importers/mdm_engine.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_config_1a9ab54721b47cae20f8f4e0d0809f34d6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a077175b814b1a5d70c62bee6dd370765" kindref="member">LinkType</ref></type>
+        <definition>LinkType themis::importers::MDMConfig::preferred_link_type</definition>
+        <argsstring></argsstring>
+        <name>preferred_link_type</name>
+        <qualifiedname>themis::importers::MDMConfig::preferred_link_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1importers_1a077175b814b1a5d70c62bee6dd370765aee5bb5d2a3828853873c9a0c5f3ae8ad" kindref="member">LinkType::SAME_AS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="45" column="14" bodyfile="include/importers/mdm_engine.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_config_1afc63572605c3302551d98559fe320661" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::MDMConfig::create_reverse_links</definition>
+        <argsstring></argsstring>
+        <name>create_reverse_links</name>
+        <qualifiedname>themis::importers::MDMConfig::create_reverse_links</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Also store target→source links. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="46" column="14" bodyfile="include/importers/mdm_engine.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_config_1ad8491eb436fd4c8a898d723eff53c88d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a8aeb2d04c24dbc43d3714abe6b45c7b1" kindref="member">ResolutionPolicy</ref></type>
+        <definition>ResolutionPolicy themis::importers::MDMConfig::resolution_policy</definition>
+        <argsstring></argsstring>
+        <name>resolution_policy</name>
+        <qualifiedname>themis::importers::MDMConfig::resolution_policy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1importers_1a8aeb2d04c24dbc43d3714abe6b45c7b1a299ea37020054d78edcfd069574c08a4" kindref="member">ResolutionPolicy::RICHEST_MERGE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="51" column="22" bodyfile="include/importers/mdm_engine.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_config_1ab01dd13cf2505559da435fe00a23d627" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::MDMConfig::auto_resolve_conflicts</definition>
+        <argsstring></argsstring>
+        <name>auto_resolve_conflicts</name>
+        <qualifiedname>themis::importers::MDMConfig::auto_resolve_conflicts</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>false = queue for manual review </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="52" column="22" bodyfile="include/importers/mdm_engine.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_config_1ad2d3b526c15a7bb0b19b7e7ae4a3d5c5" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemis_1_1importers_1a22df2595651be18209751b05c3a61aae" kindref="member">FieldRule</ref> &gt;</type>
+        <definition>std::map&lt;std::string, FieldRule&gt; themis::importers::MDMConfig::field_rules</definition>
+        <argsstring></argsstring>
+        <name>field_rules</name>
+        <qualifiedname>themis::importers::MDMConfig::field_rules</qualifiedname>
+        <briefdescription>
+<para>Per-field resolution rules. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="54" column="14" bodyfile="include/importers/mdm_engine.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_config_1af6597ae7a833486b6fa8bef3d56dd5dd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::MDMConfig::protected_fields</definition>
+        <argsstring></argsstring>
+        <name>protected_fields</name>
+        <qualifiedname>themis::importers::MDMConfig::protected_fields</qualifiedname>
+        <briefdescription>
+<para>Fields never to overwrite. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="55" column="25" bodyfile="include/importers/mdm_engine.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_config_1a7e42f862c8afa879d1e20d590fe4de04" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::MDMConfig::parallelize_matching</definition>
+        <argsstring></argsstring>
+        <name>parallelize_matching</name>
+        <qualifiedname>themis::importers::MDMConfig::parallelize_matching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="60" column="12" bodyfile="include/importers/mdm_engine.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_config_1afe0c52c98a24217708cadd855eace0d1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::MDMConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::importers::MDMConfig::batch_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="61" column="12" bodyfile="include/importers/mdm_engine.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_config_1a82504c4cbaa155d2f8d5cb31ad2c569e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::MDMConfig::log_all_decisions</definition>
+        <argsstring></argsstring>
+        <name>log_all_decisions</name>
+        <qualifiedname>themis::importers::MDMConfig::log_all_decisions</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="66" column="17" bodyfile="include/importers/mdm_engine.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_config_1a5d8afa3bc794d3092c1aaaa4e6331cf5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MDMConfig::audit_collection</definition>
+        <argsstring></argsstring>
+        <name>audit_collection</name>
+        <qualifiedname>themis::importers::MDMConfig::audit_collection</qualifiedname>
+        <initializer>= &quot;mdm_audit_trail&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="67" column="17" bodyfile="include/importers/mdm_engine.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_config_1ac6824aef34bd2f94088e3c18c3502592" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MDMConfig::initiated_by</definition>
+        <argsstring></argsstring>
+        <name>initiated_by</name>
+        <qualifiedname>themis::importers::MDMConfig::initiated_by</qualifiedname>
+        <initializer>= &quot;importer_v2.2&quot;</initializer>
+        <briefdescription>
+<para>Tag written to audit events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="68" column="17" bodyfile="include/importers/mdm_engine.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_m_d_m_config_1a5f31d98a53246aa932a0b86f35b0a13d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::MDMConfig::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::MDMConfig::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_engine.h" line="74" column="10" bodyfile="src/importers/mdm_engine.cpp" bodystart="25" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::importers::MDMConfig</label>
+        <link refid="structthemis_1_1importers_1_1_m_d_m_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>semantic_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::SemanticMatchConfig</label>
+        <link refid="structthemis_1_1importers_1_1_semantic_match_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/mdm_engine.h" line="27" column="1" bodyfile="include/importers/mdm_engine.h" bodystart="27" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1a5d8afa3bc794d3092c1aaaa4e6331cf5" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>audit_collection</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1ab01dd13cf2505559da435fe00a23d627" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>auto_resolve_conflicts</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1afe0c52c98a24217708cadd855eace0d1" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1afc63572605c3302551d98559fe320661" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>create_reverse_links</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1ab0ea93dd70ddec8353b1f3c40666ed3c" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>deterministic_threshold</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1ad2d3b526c15a7bb0b19b7e7ae4a3d5c5" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>field_rules</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1ac6824aef34bd2f94088e3c18c3502592" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>initiated_by</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1a82504c4cbaa155d2f8d5cb31ad2c569e" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>log_all_decisions</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1aabda53c964b12ffb8aa1f31657fe056f" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>match_strategy</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1a7e42f862c8afa879d1e20d590fe4de04" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>parallelize_matching</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1a9ab54721b47cae20f8f4e0d0809f34d6" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>preferred_link_type</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1a047b7e226cd9bf45f37c9fe44e82c6a5" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>primary_key_fields</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1af6597ae7a833486b6fa8bef3d56dd5dd" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>protected_fields</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1ad8491eb436fd4c8a898d723eff53c88d" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>resolution_policy</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1a2719c3c0e623d181a316b57a8039de8f" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>semantic_config</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1aee668b9e2f59c69a52f8f24ada8d8afd" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>semantic_threshold</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1a5f31d98a53246aa932a0b86f35b0a13d" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_config_1a230e109c1f9eb4490080d80c958b8716" prot="public" virt="non-virtual"><scope>themis::importers::MDMConfig</scope><name>unique_fields</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

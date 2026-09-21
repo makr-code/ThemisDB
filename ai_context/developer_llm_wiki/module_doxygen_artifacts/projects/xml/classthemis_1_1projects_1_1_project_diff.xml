@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1projects_1_1_project_diff" kind="class" language="C++" prot="public">
+    <compoundname>themis::projects::ProjectDiff</compoundname>
+    <includes refid="project__diff_8h" local="no">project_diff.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_project_diff_1a87a14d6b19ee486c1f13fad89db506b9" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::projects::ProjectDiff::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::projects::ProjectDiff::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="134" column="21" bodyfile="include/projects/project_diff.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_project_diff_1aff1b5346688ef49b356c3700d583fc4e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1projects_1_1_project_metrics" kindref="compound">ProjectMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ProjectMetrics&gt; themis::projects::ProjectDiff::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::projects::ProjectDiff::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="135" column="21" bodyfile="include/projects/project_diff.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_project_diff_1a1306ba898aece5e2faa5ec9bc2b42c1c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::projects::ProjectDiff::metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>metrics_mutex_</name>
+        <qualifiedname>themis::projects::ProjectDiff::metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="136" column="24" bodyfile="include/projects/project_diff.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_diff_1aaa05f0452ff30ebcb4b74f3089a6dd4d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::projects::ProjectDiff::ProjectDiff</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage)</argsstring>
+        <name>ProjectDiff</name>
+        <qualifiedname>themis::projects::ProjectDiff::ProjectDiff</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="101" column="14" bodyfile="src/projects/project_diff.cpp" bodystart="81" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_diff_1af0907843be181b03ea73e52f40898345" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_delta_set" kindref="compound">DeltaSet</ref></type>
+        <definition>DeltaSet themis::projects::ProjectDiff::diff</definition>
+        <argsstring>(const SnapshotId &amp;from_snap, const SnapshotId &amp;to_snap) const</argsstring>
+        <name>diff</name>
+        <qualifiedname>themis::projects::ProjectDiff::diff</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref> &amp;</type>
+          <declname>from_snap</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref> &amp;</type>
+          <declname>to_snap</declname>
+        </param>
+        <briefdescription>
+<para>Compute the delta between two existing snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from_snap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Baseline snapshot identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_snap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target snapshot identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Structured field-level <ref refid="structthemis_1_1projects_1_1_delta_set" kindref="compound">DeltaSet</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="110" column="14" bodyfile="src/projects/project_diff.cpp" bodystart="132" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_diff_1a80c9858bc122012a6f5d239443894e3f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_delta_set" kindref="compound">DeltaSet</ref></type>
+        <definition>DeltaSet themis::projects::ProjectDiff::diffDocuments</definition>
+        <argsstring>(const json &amp;from, const json &amp;to) const</argsstring>
+        <name>diffDocuments</name>
+        <qualifiedname>themis::projects::ProjectDiff::diffDocuments</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref> &amp;</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref> &amp;</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Compute the delta between two arbitrary JSON documents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful for one-off comparisons without creating persistent snapshots. Both <computeroutput>from</computeroutput> and <computeroutput>to</computeroutput> are treated as JSON objects; nested fields are compared recursively. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="122" column="14" bodyfile="src/projects/project_diff.cpp" bodystart="126" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_diff_1aa9660d24e77069b8ef759361d4650e7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::projects::ProjectDiff::setMetrics</definition>
+        <argsstring>(std::shared_ptr&lt; ProjectMetrics &gt; metrics)</argsstring>
+        <name>setMetrics</name>
+        <qualifiedname>themis::projects::ProjectDiff::setMetrics</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1projects_1_1_project_metrics" kindref="compound">ProjectMetrics</ref> &gt;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Inject a metrics sink. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Metrics.</para>
+<para>When set, every <computeroutput><ref refid="classthemis_1_1projects_1_1_project_diff_1af0907843be181b03ea73e52f40898345" kindref="member">diff()</ref></computeroutput> call records its wall-clock latency via <computeroutput><ref refid="classthemis_1_1projects_1_1_project_metrics_1ac4ce2727c8f05aa6d4e0057adac7037b" kindref="member">ProjectMetrics::recordDiff()</ref></computeroutput>. Pass <computeroutput>nullptr</computeroutput> to disable. Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="131" column="10" bodyfile="src/projects/project_diff.cpp" bodystart="89" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_diff_1a34be139995e6a2d3054eb5ba0a25283d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::projects::ProjectDiff::diffRecursive</definition>
+        <argsstring>(const std::string &amp;path, const json &amp;from, const json &amp;to, std::vector&lt; DeltaEntry &gt; &amp;out) const</argsstring>
+        <name>diffRecursive</name>
+        <qualifiedname>themis::projects::ProjectDiff::diffRecursive</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref> &amp;</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref> &amp;</type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1projects_1_1_delta_entry" kindref="compound">DeltaEntry</ref> &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Recursively compare two JSON values, accumulating <ref refid="structthemis_1_1projects_1_1_delta_entry" kindref="compound">DeltaEntry</ref> records. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="139" column="10" bodyfile="src/projects/project_diff.cpp" bodystart="94" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Computes structured, field-level diffs between project snapshots. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All diff operations return a <computeroutput><ref refid="structthemis_1_1projects_1_1_delta_set" kindref="compound">DeltaSet</ref></computeroutput> — never a raw text diff. The comparison is performed at document-metadata level: each <computeroutput><ref refid="structthemis_1_1projects_1_1_document_meta" kindref="compound">DocumentMeta</ref></computeroutput> field is compared independently, and missing documents appear as ADDED / REMOVED top-level entries.</para>
+<para><simplesect kind="note"><para><computeroutput><ref refid="classthemis_1_1projects_1_1_project_diff" kindref="compound">ProjectDiff</ref></computeroutput> is stateless and all methods are thread-safe. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/projects/project_diff.h" line="99" column="1" bodyfile="include/projects/project_diff.h" bodystart="99" bodyend="145"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1projects_1_1_project_diff_1af0907843be181b03ea73e52f40898345" prot="public" virt="non-virtual"><scope>themis::projects::ProjectDiff</scope><name>diff</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_diff_1a80c9858bc122012a6f5d239443894e3f" prot="public" virt="non-virtual"><scope>themis::projects::ProjectDiff</scope><name>diffDocuments</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_diff_1a34be139995e6a2d3054eb5ba0a25283d" prot="private" virt="non-virtual"><scope>themis::projects::ProjectDiff</scope><name>diffRecursive</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_diff_1aff1b5346688ef49b356c3700d583fc4e" prot="private" virt="non-virtual"><scope>themis::projects::ProjectDiff</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_diff_1a1306ba898aece5e2faa5ec9bc2b42c1c" prot="private" virt="non-virtual"><scope>themis::projects::ProjectDiff</scope><name>metrics_mutex_</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_diff_1aaa05f0452ff30ebcb4b74f3089a6dd4d" prot="public" virt="non-virtual"><scope>themis::projects::ProjectDiff</scope><name>ProjectDiff</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_diff_1aa9660d24e77069b8ef759361d4650e7e" prot="public" virt="non-virtual"><scope>themis::projects::ProjectDiff</scope><name>setMetrics</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_diff_1a87a14d6b19ee486c1f13fad89db506b9" prot="private" virt="non-virtual"><scope>themis::projects::ProjectDiff</scope><name>storage_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

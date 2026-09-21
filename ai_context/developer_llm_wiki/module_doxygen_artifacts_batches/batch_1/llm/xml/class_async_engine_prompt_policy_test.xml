@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_async_engine_prompt_policy_test" kind="class" language="C++" prot="public">
+    <compoundname>AsyncEnginePromptPolicyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_async_engine_prompt_policy_test_1a4301fd53a006b3a6d7b2c4d5e9865edf" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_security_test_plugin" kindref="compound">SecurityTestPlugin</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SecurityTestPlugin&gt; AsyncEnginePromptPolicyTest::plugin_</definition>
+        <argsstring></argsstring>
+        <name>plugin_</name>
+        <qualifiedname>AsyncEnginePromptPolicyTest::plugin_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_security_audit.cpp" line="142" column="21" bodyfile="tests/llm/test_llm_security_audit.cpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_async_engine_prompt_policy_test_1ab0cf4319cc5d5ea52ac0551e200eb71f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_async_inference_engine" kindref="compound">AsyncInferenceEngine</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AsyncInferenceEngine&gt; AsyncEnginePromptPolicyTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>AsyncEnginePromptPolicyTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_security_audit.cpp" line="143" column="21" bodyfile="tests/llm/test_llm_security_audit.cpp" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_async_engine_prompt_policy_test_1a0548f55fcb7b3fd840a25436de6ebb4a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AsyncEnginePromptPolicyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AsyncEnginePromptPolicyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_security_audit.cpp" line="130" column="10" bodyfile="tests/llm/test_llm_security_audit.cpp" bodystart="130" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="class_async_engine_prompt_policy_test_1a1c37c6618324b7df59da254aedaba9c5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AsyncEnginePromptPolicyTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AsyncEnginePromptPolicyTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_security_audit.cpp" line="138" column="10" bodyfile="tests/llm/test_llm_security_audit.cpp" bodystart="138" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AsyncEnginePromptPolicyTest</label>
+        <link refid="class_async_engine_prompt_policy_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AsyncEnginePromptPolicyTest</label>
+        <link refid="class_async_engine_prompt_policy_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_security_audit.cpp" line="128" column="1" bodyfile="tests/llm/test_llm_security_audit.cpp" bodystart="128" bodyend="144"/>
+    <listofallmembers>
+      <member refid="class_async_engine_prompt_policy_test_1ab0cf4319cc5d5ea52ac0551e200eb71f" prot="protected" virt="non-virtual"><scope>AsyncEnginePromptPolicyTest</scope><name>engine_</name></member>
+      <member refid="class_async_engine_prompt_policy_test_1a4301fd53a006b3a6d7b2c4d5e9865edf" prot="protected" virt="non-virtual"><scope>AsyncEnginePromptPolicyTest</scope><name>plugin_</name></member>
+      <member refid="class_async_engine_prompt_policy_test_1a0548f55fcb7b3fd840a25436de6ebb4a" prot="protected" virt="non-virtual"><scope>AsyncEnginePromptPolicyTest</scope><name>SetUp</name></member>
+      <member refid="class_async_engine_prompt_policy_test_1a1c37c6618324b7df59da254aedaba9c5" prot="protected" virt="non-virtual"><scope>AsyncEnginePromptPolicyTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

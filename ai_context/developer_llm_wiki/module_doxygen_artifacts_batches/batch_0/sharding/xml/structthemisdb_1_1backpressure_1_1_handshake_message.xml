@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1backpressure_1_1_handshake_message" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::backpressure::HandshakeMessage</compoundname>
+    <includes refid="backpressure__protocol_8h" local="no">backpressure_protocol.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_handshake_message_1a15fdd5dcaa5565744d384cbe1125b51a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771da" kindref="member">HandshakeOpcode</ref></type>
+        <definition>HandshakeOpcode themisdb::backpressure::HandshakeMessage::opcode</definition>
+        <argsstring></argsstring>
+        <name>opcode</name>
+        <qualifiedname>themisdb::backpressure::HandshakeMessage::opcode</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1backpressure_1a8ec451e696e59f55c3ca1be8fb7771daabb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">HandshakeOpcode::ERROR</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="335" column="21" bodyfile="include/sharding/backpressure_protocol.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_handshake_message_1a057ee84343b536719b7d1f1f03f439c8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::HandshakeMessage::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themisdb::backpressure::HandshakeMessage::session_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="336" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_handshake_message_1a5e7759150be9336fe27bacefba7f6cd4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::backpressure::HandshakeMessage::sequence_number</definition>
+        <argsstring></argsstring>
+        <name>sequence_number</name>
+        <qualifiedname>themisdb::backpressure::HandshakeMessage::sequence_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="337" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_handshake_message_1afd0c4befe22aeba735e98e6166522f60" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::HandshakeMessage::flags</definition>
+        <argsstring></argsstring>
+        <name>flags</name>
+        <qualifiedname>themisdb::backpressure::HandshakeMessage::flags</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="338" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="338" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_handshake_message_1a7ecc47a50a6d7f0683bc86334f07cbe3" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1backpressure_1_1_system_load_metrics" kindref="compound">SystemLoadMetrics</ref> &gt;</type>
+        <definition>std::optional&lt;SystemLoadMetrics&gt; themisdb::backpressure::HandshakeMessage::load_metrics</definition>
+        <argsstring></argsstring>
+        <name>load_metrics</name>
+        <qualifiedname>themisdb::backpressure::HandshakeMessage::load_metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="341" column="19" bodyfile="include/sharding/backpressure_protocol.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_handshake_message_1a6404971ee4c1d9e47cf9e5a26e4c40b0" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemisdb_1_1backpressure_1a3f28bd43c127c787264ce778078022a9" kindref="member">SyncStrategy</ref> &gt;</type>
+        <definition>std::optional&lt;SyncStrategy&gt; themisdb::backpressure::HandshakeMessage::suggested_strategy</definition>
+        <argsstring></argsstring>
+        <name>suggested_strategy</name>
+        <qualifiedname>themisdb::backpressure::HandshakeMessage::suggested_strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="342" column="19" bodyfile="include/sharding/backpressure_protocol.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_handshake_message_1a239aeba38447124cd3de48cc0a561359" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; uint64_t &gt;</type>
+        <definition>std::optional&lt;uint64_t&gt; themisdb::backpressure::HandshakeMessage::throttle_rate</definition>
+        <argsstring></argsstring>
+        <name>throttle_rate</name>
+        <qualifiedname>themisdb::backpressure::HandshakeMessage::throttle_rate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="343" column="19" bodyfile="include/sharding/backpressure_protocol.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_handshake_message_1aef02723df85664b7d7db530fca0499c8" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::chrono::milliseconds &gt;</type>
+        <definition>std::optional&lt;std::chrono::milliseconds&gt; themisdb::backpressure::HandshakeMessage::defer_duration</definition>
+        <argsstring></argsstring>
+        <name>defer_duration</name>
+        <qualifiedname>themisdb::backpressure::HandshakeMessage::defer_duration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="344" column="19" bodyfile="include/sharding/backpressure_protocol.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_handshake_message_1a39b67890b59fb62239919b9e36283a3f" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1backpressure_1_1_deferred_operation" kindref="compound">DeferredOperation</ref> &gt;</type>
+        <definition>std::optional&lt;DeferredOperation&gt; themisdb::backpressure::HandshakeMessage::deferred_op</definition>
+        <argsstring></argsstring>
+        <name>deferred_op</name>
+        <qualifiedname>themisdb::backpressure::HandshakeMessage::deferred_op</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="345" column="19" bodyfile="include/sharding/backpressure_protocol.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_handshake_message_1ad9a5e1488ddd1e5366a3351e2869d3ac" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themisdb::backpressure::HandshakeMessage::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themisdb::backpressure::HandshakeMessage::payload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="348" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_handshake_message_1a391e1adff97435a27a5d6041859141a0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::HandshakeMessage::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themisdb::backpressure::HandshakeMessage::checksum</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="349" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1backpressure_1_1_handshake_message_1a5ab4b0d9400700d2e042e4648b9e7071" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::backpressure::HandshakeMessage::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themisdb::backpressure::HandshakeMessage::serialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="351" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1backpressure_1_1_handshake_message_1a433beb5ce02aec2ad4841046cdcc1197" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1backpressure_1_1_handshake_message" kindref="compound">HandshakeMessage</ref> &gt;</type>
+        <definition>static std::optional&lt; HandshakeMessage &gt; themisdb::backpressure::HandshakeMessage::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themisdb::backpressure::HandshakeMessage::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="352" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Handshake protocol message </para>
+    </detaileddescription>
+    <location file="include/sharding/backpressure_protocol.h" line="334" column="1" bodyfile="include/sharding/backpressure_protocol.h" bodystart="334" bodyend="353"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1backpressure_1_1_handshake_message_1a391e1adff97435a27a5d6041859141a0" prot="public" virt="non-virtual"><scope>themisdb::backpressure::HandshakeMessage</scope><name>checksum</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_handshake_message_1aef02723df85664b7d7db530fca0499c8" prot="public" virt="non-virtual"><scope>themisdb::backpressure::HandshakeMessage</scope><name>defer_duration</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_handshake_message_1a39b67890b59fb62239919b9e36283a3f" prot="public" virt="non-virtual"><scope>themisdb::backpressure::HandshakeMessage</scope><name>deferred_op</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_handshake_message_1a433beb5ce02aec2ad4841046cdcc1197" prot="public" virt="non-virtual"><scope>themisdb::backpressure::HandshakeMessage</scope><name>deserialize</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_handshake_message_1afd0c4befe22aeba735e98e6166522f60" prot="public" virt="non-virtual"><scope>themisdb::backpressure::HandshakeMessage</scope><name>flags</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_handshake_message_1a7ecc47a50a6d7f0683bc86334f07cbe3" prot="public" virt="non-virtual"><scope>themisdb::backpressure::HandshakeMessage</scope><name>load_metrics</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_handshake_message_1a15fdd5dcaa5565744d384cbe1125b51a" prot="public" virt="non-virtual"><scope>themisdb::backpressure::HandshakeMessage</scope><name>opcode</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_handshake_message_1ad9a5e1488ddd1e5366a3351e2869d3ac" prot="public" virt="non-virtual"><scope>themisdb::backpressure::HandshakeMessage</scope><name>payload</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_handshake_message_1a5e7759150be9336fe27bacefba7f6cd4" prot="public" virt="non-virtual"><scope>themisdb::backpressure::HandshakeMessage</scope><name>sequence_number</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_handshake_message_1a5ab4b0d9400700d2e042e4648b9e7071" prot="public" virt="non-virtual"><scope>themisdb::backpressure::HandshakeMessage</scope><name>serialize</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_handshake_message_1a057ee84343b536719b7d1f1f03f439c8" prot="public" virt="non-virtual"><scope>themisdb::backpressure::HandshakeMessage</scope><name>session_id</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_handshake_message_1a6404971ee4c1d9e47cf9e5a26e4c40b0" prot="public" virt="non-virtual"><scope>themisdb::backpressure::HandshakeMessage</scope><name>suggested_strategy</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_handshake_message_1a239aeba38447124cd3de48cc0a561359" prot="public" virt="non-virtual"><scope>themisdb::backpressure::HandshakeMessage</scope><name>throttle_rate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

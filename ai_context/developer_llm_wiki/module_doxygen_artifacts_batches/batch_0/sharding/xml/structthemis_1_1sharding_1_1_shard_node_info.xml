@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_node_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardNodeInfo</compoundname>
+    <includes refid="sharding__manager_8h" local="no">sharding_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_node_info_1a2a8731fc58522242c3c2590f4e3981cf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::ShardNodeInfo::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::sharding::ShardNodeInfo::node_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="30" column="14" bodyfile="include/sharding/sharding_manager.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_node_info_1a630a90966e891a56a8189cbf37231179" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardNodeInfo::node_address</definition>
+        <argsstring></argsstring>
+        <name>node_address</name>
+        <qualifiedname>themis::sharding::ShardNodeInfo::node_address</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="31" column="17" bodyfile="include/sharding/sharding_manager.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_node_info_1a9c57661ff1fe4ab58916b70a0c22bb62" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardNodeInfo::node_role</definition>
+        <argsstring></argsstring>
+        <name>node_role</name>
+        <qualifiedname>themis::sharding::ShardNodeInfo::node_role</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="32" column="17" bodyfile="include/sharding/sharding_manager.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_node_info_1a80b130436d334f30686ff7e8c4c216a2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardNodeInfo::is_healthy</definition>
+        <argsstring></argsstring>
+        <name>is_healthy</name>
+        <qualifiedname>themis::sharding::ShardNodeInfo::is_healthy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="33" column="10" bodyfile="include/sharding/sharding_manager.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/sharding_manager.h" line="29" column="1" bodyfile="include/sharding/sharding_manager.h" bodystart="29" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_node_info_1a80b130436d334f30686ff7e8c4c216a2" prot="public" virt="non-virtual"><scope>themis::sharding::ShardNodeInfo</scope><name>is_healthy</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_node_info_1a630a90966e891a56a8189cbf37231179" prot="public" virt="non-virtual"><scope>themis::sharding::ShardNodeInfo</scope><name>node_address</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_node_info_1a2a8731fc58522242c3c2590f4e3981cf" prot="public" virt="non-virtual"><scope>themis::sharding::ShardNodeInfo</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_node_info_1a9c57661ff1fe4ab58916b70a0c22bb62" prot="public" virt="non-virtual"><scope>themis::sharding::ShardNodeInfo</scope><name>node_role</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

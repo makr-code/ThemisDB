@@ -1,0 +1,391 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespaceanalytics__test_1_1automl__forecasting__tests" kind="namespace" language="C++">
+    <compoundname>analytics_test::automl_forecasting_tests</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1a4f96af570bd7101812dd32e24f3c483a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_01_valid_training_data)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_01_valid_training_data</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-01: Valid Training Data Expected: Status::OK() </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="251" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="251" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1afa8f63d73058d30243538c2fe8225885" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_02_insufficient_samples)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_02_insufficient_samples</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-02: Insufficient Samples Expected: Status::Error() </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="261" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="261" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1a1854aff1340ca74120e3e5d8d371ad77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_03_nan_detection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_03_nan_detection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-03: NaN Values Detection Expected: Detected and rejected </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="271" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="271" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1ad0f97e3c7214e8e24ed677c876a8b3e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_04_monthly_seasonality)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_04_monthly_seasonality</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-04: Monthly Seasonality Expected: period=30-31 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="281" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="281" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1a2552d188f34276950c86fe213868615f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_05_weekly_seasonality)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_05_weekly_seasonality</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-05: Weekly Seasonality Expected: period=7 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="291" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="291" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1a21f8c162f2e48b2ad927318d845de19d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_06_acyclic_series)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_06_acyclic_series</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-06: Acyclic Series Expected: period=0 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="301" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="301" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1a8c5e9703d15dc05dd37f9810e556cba9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_07_exp_smoothing)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_07_exp_smoothing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-07: Simple Exponential Smoothing Expected: convergence </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="311" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="311" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1a4b6ba2898367b7ce441ce0117b799a07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_08_holt_winters_trend)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_08_holt_winters_trend</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-08: Holt-Winters with Trend Expected: captures trend </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="321" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="321" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1a6e0ddd131c750898ff77824a02ac96ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_09_seasonal_component)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_09_seasonal_component</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-09: Seasonal Component Expected: captures seasonality </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="331" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="331" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1ae4c07da53593de1d67002330d3ee2693" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_10_parameter_validation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_10_parameter_validation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-10: Parameter Validation Expected: rejects invalid α,β,γ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="341" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="341" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1a945d1af3b9b58576e9c03a73e56a2c87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_11_single_feature_set)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_11_single_feature_set</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-11: Single Feature Set Expected: returns valid <ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177" kindref="member">ModelAlgorithm</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="351" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="351" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1a33cf75dd5aa576154b465ae482e86d23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_12_large_feature_space)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_12_large_feature_space</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-12: Large Feature Space Expected: completes within budget </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="361" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="361" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1a0d327b23224bcf8799f8019ca3f45c29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_13_empty_feature_set)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_13_empty_feature_set</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-13: Empty Feature Set Expected: Status::Error() </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="371" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="371" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1a01a807cc8c28cbb9b532a75ced234423" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_14_algorithm_comparison)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_14_algorithm_comparison</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-14: Algorithm Comparison Expected: best algorithm selected </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="381" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="381" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1abdb556023cd2319a64b6a199f16bdb14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_15_voting_ensemble)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_15_voting_ensemble</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-15: Voting Ensemble Expected: returns VOTING </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="391" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="391" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1a5f85e3bd72e399d6ffd684e866b1eba0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_16_stacking_ensemble)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_16_stacking_ensemble</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-16: Stacking Ensemble Expected: returns STACKING </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="401" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="401" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1aadf037e479f1ff9b3da919ac9f13f67e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_17_diversity_analysis)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_17_diversity_analysis</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-17: Diversity Analysis Expected: selects appropriate method </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="411" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="411" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1automl__forecasting__tests_1a9da29574677de15d49faac26fd26eda0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::automl_forecasting_tests::TEST</definition>
+        <argsstring>(AutoMLForecasting, AF_18_single_model_ensemble)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::automl_forecasting_tests::TEST</qualifiedname>
+        <param>
+          <type>AutoMLForecasting</type>
+        </param>
+        <param>
+          <type>AF_18_single_model_ensemble</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>AF-18: Single Model Ensemble Expected: returns NONE or VOTING </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="421" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="421" bodyend="425"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_gap_closure.cpp" line="245" column="1"/>
+  </compounddef>
+</doxygen>

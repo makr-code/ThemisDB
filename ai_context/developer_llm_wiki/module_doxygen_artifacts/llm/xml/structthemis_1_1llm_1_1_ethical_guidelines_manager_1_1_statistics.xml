@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::EthicalGuidelinesManager::Statistics</compoundname>
+    <includes refid="ethical__guidelines__manager_8h" local="no">ethical_guidelines_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_statistics_1ad28a950e393059f063ec4bd1ce0c6c09" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::EthicalGuidelinesManager::Statistics::total_detections</definition>
+        <argsstring></argsstring>
+        <name>total_detections</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::Statistics::total_detections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="176" column="18" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_statistics_1ac212aa27bd0c4d902624bd88573d4778" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::EthicalGuidelinesManager::Statistics::ethical_contexts_found</definition>
+        <argsstring></argsstring>
+        <name>ethical_contexts_found</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::Statistics::ethical_contexts_found</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="177" column="18" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_statistics_1ab7094b1113b2b5a46398bf6c10566e39" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::EthicalGuidelinesManager::Statistics::prompts_augmented</definition>
+        <argsstring></argsstring>
+        <name>prompts_augmented</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::Statistics::prompts_augmented</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="178" column="18" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_statistics_1a6813c09f0eaf59eb0f725c1c289a95bd" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint64_t&gt; themis::llm::EthicalGuidelinesManager::Statistics::domain_counts</definition>
+        <argsstring></argsstring>
+        <name>domain_counts</name>
+        <qualifiedname>themis::llm::EthicalGuidelinesManager::Statistics::domain_counts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethical_guidelines_manager.h" line="179" column="28" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ethical_guidelines_manager.h" line="175" column="5" bodyfile="include/llm/ethical_guidelines_manager.h" bodystart="175" bodyend="180"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_statistics_1a6813c09f0eaf59eb0f725c1c289a95bd" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager::Statistics</scope><name>domain_counts</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_statistics_1ac212aa27bd0c4d902624bd88573d4778" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager::Statistics</scope><name>ethical_contexts_found</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_statistics_1ab7094b1113b2b5a46398bf6c10566e39" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager::Statistics</scope><name>prompts_augmented</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethical_guidelines_manager_1_1_statistics_1ad28a950e393059f063ec4bd1ce0c6c09" prot="public" virt="non-virtual"><scope>themis::llm::EthicalGuidelinesManager::Statistics</scope><name>total_detections</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::test::GraphErrorTaxonomyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test_1a3a58d72b787dda0524208c904ce01477" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::graph::test::GraphErrorTaxonomyTest::PHASE1_DATE</definition>
+        <argsstring></argsstring>
+        <name>PHASE1_DATE</name>
+        <qualifiedname>themis::graph::test::GraphErrorTaxonomyTest::PHASE1_DATE</qualifiedname>
+        <initializer>= &quot;2026-08-01&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_error_taxonomy_phase1.cpp" line="27" column="39" bodyfile="tests/graph/test_graph_error_taxonomy_phase1.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::graph::test::GraphErrorTaxonomyTest</label>
+        <link refid="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::graph::test::GraphErrorTaxonomyTest</label>
+        <link refid="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_graph_error_taxonomy_phase1.cpp" line="24" column="1" bodyfile="tests/graph/test_graph_error_taxonomy_phase1.cpp" bodystart="24" bodyend="28"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1test_1_1_graph_error_taxonomy_test_1a3a58d72b787dda0524208c904ce01477" prot="protected" virt="non-virtual"><scope>themis::graph::test::GraphErrorTaxonomyTest</scope><name>PHASE1_DATE</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

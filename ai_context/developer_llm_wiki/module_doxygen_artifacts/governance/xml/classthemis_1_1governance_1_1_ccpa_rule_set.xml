@@ -1,0 +1,568 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_ccpa_rule_set" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::CcpaRuleSet</compoundname>
+    <includes refid="ccpa__rules_8h" local="no">ccpa_rules.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_ccpa_rule_set_1a2f5c67329aeb4819d2f31231c49cad39" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_i_compliance_rule" kindref="compound">IComplianceRule</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;IComplianceRule&gt; &gt; themis::governance::CcpaRuleSet::rules_</definition>
+        <argsstring></argsstring>
+        <name>rules_</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::rules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="221" column="17" bodyfile="include/governance/ccpa_rules.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_ccpa_rule_set_1a06b0db86fece0eae455863f82a830e0d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::CcpaRuleSet::opt_out_mutex_</definition>
+        <argsstring></argsstring>
+        <name>opt_out_mutex_</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::opt_out_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="223" column="24" bodyfile="include/governance/ccpa_rules.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_ccpa_rule_set_1a80addb1c6589e3caf90d1fc4fcb35af7" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::governance::CcpaRuleSet::opt_out_subjects_</definition>
+        <argsstring></argsstring>
+        <name>opt_out_subjects_</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::opt_out_subjects_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="224" column="24" bodyfile="include/governance/ccpa_rules.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_ccpa_rule_set_1a797bd3bc763342a48c6a3ddd2b7d043d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::CcpaRuleSet::requests_mutex_</definition>
+        <argsstring></argsstring>
+        <name>requests_mutex_</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::requests_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="226" column="24" bodyfile="include/governance/ccpa_rules.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_ccpa_rule_set_1a9e0acf1e52bf3ead70fa6d41f91caaf8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_data_subject_request" kindref="compound">DataSubjectRequest</ref> &gt;</type>
+        <definition>std::vector&lt;DataSubjectRequest&gt; themis::governance::CcpaRuleSet::requests_</definition>
+        <argsstring></argsstring>
+        <name>requests_</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::requests_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="227" column="17" bodyfile="include/governance/ccpa_rules.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_rule_set_1acef79824c15bf0cf6b43c4423d59cb19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::CcpaRuleSet::CcpaRuleSet</definition>
+        <argsstring>()</argsstring>
+        <name>CcpaRuleSet</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::CcpaRuleSet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="140" column="5" bodyfile="src/governance/ccpa_rules.cpp" bodystart="115" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_rule_set_1a9287b2da7490ab4ff3213bd2e1affcc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::CcpaRuleSet::addOptOut</definition>
+        <argsstring>(const std::string &amp;subject_id)</argsstring>
+        <name>addOptOut</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::addOptOut</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_id</declname>
+        </param>
+        <briefdescription>
+<para>Add Opt Out. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subject.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subject.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), insert(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="147" column="10" bodyfile="src/governance/ccpa_rules.cpp" bodystart="129" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_rule_set_1a5e2f043f6e31d3ebc77012332a42ebe9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::CcpaRuleSet::removeOptOut</definition>
+        <argsstring>(const std::string &amp;subject_id)</argsstring>
+        <name>removeOptOut</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::removeOptOut</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Opt Out. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subject.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subject.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="153" column="10" bodyfile="src/governance/ccpa_rules.cpp" bodystart="143" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_rule_set_1a304f7bdf4e311a366d41efbdd248890e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::CcpaRuleSet::isOptedOut</definition>
+        <argsstring>(const std::string &amp;subject_id) const</argsstring>
+        <name>isOptedOut</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::isOptedOut</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_id</declname>
+        </param>
+        <briefdescription>
+<para>Is Opted Out. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subject. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">opt_out_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="160" column="10" bodyfile="src/governance/ccpa_rules.cpp" bodystart="149" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_rule_set_1a4631dd57ac6045b5b13221f92e9ba4f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::CcpaRuleSet::setOptOutRegistry</definition>
+        <argsstring>(const std::unordered_set&lt; std::string &gt; &amp;subjects)</argsstring>
+        <name>setOptOutRegistry</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::setOptOutRegistry</qualifiedname>
+        <param>
+          <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>subjects</declname>
+        </param>
+        <briefdescription>
+<para>Set Opt Out Registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subjects</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">subjects</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_INFO(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="166" column="10" bodyfile="src/governance/ccpa_rules.cpp" bodystart="167" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_rule_set_1a133e81e2821989cb8a397973e77488d6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::governance::CcpaRuleSet::optOutCount</definition>
+        <argsstring>() const</argsstring>
+        <name>optOutCount</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::optOutCount</qualifiedname>
+        <briefdescription>
+<para>Opt Out Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">opt_out_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="172" column="12" bodyfile="src/governance/ccpa_rules.cpp" bodystart="173" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_rule_set_1aa712b1726352b33d56621fea69d665fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_ccpa_rule_eval_result" kindref="compound">CcpaRuleEvalResult</ref> &gt;</type>
+        <definition>std::vector&lt; CcpaRuleEvalResult &gt; themis::governance::CcpaRuleSet::evaluateRule</definition>
+        <argsstring>(const PolicyRule &amp;rule) const</argsstring>
+        <name>evaluateRule</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::evaluateRule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="180" column="17" bodyfile="src/governance/ccpa_rules.cpp" bodystart="183" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_rule_set_1af653efa5ebc56065290be0015e865502" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::CcpaRuleSet::isRuleCompliant</definition>
+        <argsstring>(const PolicyRule &amp;rule) const</argsstring>
+        <name>isRuleCompliant</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::isRuleCompliant</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Is Rule Compliant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="187" column="10" bodyfile="src/governance/ccpa_rules.cpp" bodystart="206" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_rule_set_1abc8d8537839bf2a5c1de4b6632fc9cd3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::CcpaRuleSet::detectHipaaConflicts</definition>
+        <argsstring>(const PolicyRule &amp;rule) const</argsstring>
+        <name>detectHipaaConflicts</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::detectHipaaConflicts</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Detect Hipaa Conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="194" column="17" bodyfile="src/governance/ccpa_rules.cpp" bodystart="215" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_rule_set_1a89f6c8f7d985db74ebdf9d6e71f65dc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::CcpaRuleSet::recordRequest</definition>
+        <argsstring>(const DataSubjectRequest &amp;request)</argsstring>
+        <name>recordRequest</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::recordRequest</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_data_subject_request" kindref="compound">DataSubjectRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Record Request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="201" column="10" bodyfile="src/governance/ccpa_rules.cpp" bodystart="253" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_rule_set_1a95e6d83930eec821f509c13361d53e5d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_data_subject_request" kindref="compound">DataSubjectRequest</ref> &gt;</type>
+        <definition>std::vector&lt; DataSubjectRequest &gt; themis::governance::CcpaRuleSet::getRequestsForSubject</definition>
+        <argsstring>(const std::string &amp;subject_id) const</argsstring>
+        <name>getRequestsForSubject</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::getRequestsForSubject</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Requests For Subject. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subject. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">requests_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="208" column="17" bodyfile="src/governance/ccpa_rules.cpp" bodystart="259" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_rule_set_1a19f00464a50f743503ccdb15c6339d5e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_data_subject_request" kindref="compound">DataSubjectRequest</ref> &gt;</type>
+        <definition>std::vector&lt; DataSubjectRequest &gt; themis::governance::CcpaRuleSet::getRequestsByType</definition>
+        <argsstring>(const std::string &amp;request_type, int64_t start_time=0, int64_t end_time=INT64_MAX) const</argsstring>
+        <name>getRequestsByType</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::getRequestsByType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_type</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>start_time</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end_time</declname>
+          <defval>INT64_MAX</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">requests_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="210" column="17" bodyfile="src/governance/ccpa_rules.cpp" bodystart="276" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_rule_set_1ac8e9362232238a0813b2e27602bdfc74" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::governance::CcpaRuleSet::countOptOutRequests</definition>
+        <argsstring>(int64_t start_time=0, int64_t end_time=INT64_MAX) const</argsstring>
+        <name>countOptOutRequests</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::countOptOutRequests</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>start_time</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end_time</declname>
+          <defval>INT64_MAX</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">requests_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="216" column="9" bodyfile="src/governance/ccpa_rules.cpp" bodystart="294" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_ccpa_rule_set_1a8f80405ad9f577a19028f3f211f506e5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_i_compliance_rule" kindref="compound">IComplianceRule</ref> &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::shared_ptr&lt; IComplianceRule &gt; &gt; &amp; themis::governance::CcpaRuleSet::rules</definition>
+        <argsstring>() const</argsstring>
+        <name>rules</name>
+        <qualifiedname>themis::governance::CcpaRuleSet::rules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="218" column="23" bodyfile="include/governance/ccpa_rules.h" bodystart="218" bodyend="218"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/ccpa_rules.h" line="138" column="1" bodyfile="include/governance/ccpa_rules.h" bodystart="138" bodyend="228"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1a9287b2da7490ab4ff3213bd2e1affcc7" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>addOptOut</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1acef79824c15bf0cf6b43c4423d59cb19" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>CcpaRuleSet</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1ac8e9362232238a0813b2e27602bdfc74" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>countOptOutRequests</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1abc8d8537839bf2a5c1de4b6632fc9cd3" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>detectHipaaConflicts</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1aa712b1726352b33d56621fea69d665fc" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>evaluateRule</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1a19f00464a50f743503ccdb15c6339d5e" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>getRequestsByType</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1a95e6d83930eec821f509c13361d53e5d" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>getRequestsForSubject</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1a304f7bdf4e311a366d41efbdd248890e" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>isOptedOut</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1af653efa5ebc56065290be0015e865502" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>isRuleCompliant</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1a06b0db86fece0eae455863f82a830e0d" prot="private" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>opt_out_mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1a80addb1c6589e3caf90d1fc4fcb35af7" prot="private" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>opt_out_subjects_</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1a133e81e2821989cb8a397973e77488d6" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>optOutCount</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1a89f6c8f7d985db74ebdf9d6e71f65dc6" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>recordRequest</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1a5e2f043f6e31d3ebc77012332a42ebe9" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>removeOptOut</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1a9e0acf1e52bf3ead70fa6d41f91caaf8" prot="private" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>requests_</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1a797bd3bc763342a48c6a3ddd2b7d043d" prot="private" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>requests_mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1a8f80405ad9f577a19028f3f211f506e5" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>rules</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1a2f5c67329aeb4819d2f31231c49cad39" prot="private" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>rules_</name></member>
+      <member refid="classthemis_1_1governance_1_1_ccpa_rule_set_1a4631dd57ac6045b5b13221f92e9ba4f3" prot="public" virt="non-virtual"><scope>themis::governance::CcpaRuleSet</scope><name>setOptOutRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

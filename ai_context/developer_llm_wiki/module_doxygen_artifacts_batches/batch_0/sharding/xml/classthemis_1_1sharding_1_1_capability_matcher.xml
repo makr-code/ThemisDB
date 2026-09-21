@@ -1,0 +1,957 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_capability_matcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::CapabilityMatcher</compoundname>
+    <includes refid="capability__matcher_8h" local="no">capability_matcher.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config" prot="public">themis::sharding::CapabilityMatcher::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context" prot="public">themis::sharding::CapabilityMatcher::QueryContext</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_capability_matcher_1a84e0eefe79ddd45e04e01be8bc47f1e3" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::CapabilityMatcher::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="140" column="12" bodyfile="include/sharding/capability_matcher.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_capability_matcher_1a13eea662ead756cc2444e63e71227225" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::sharding::CapabilityMatcher::idf_cache_</definition>
+        <argsstring></argsstring>
+        <name>idf_cache_</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::idf_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="143" column="14" bodyfile="include/sharding/capability_matcher.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_capability_matcher_1a84885e6fe4673747cb002da04afcd581" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::CapabilityMatcher::total_shards_</definition>
+        <argsstring></argsstring>
+        <name>total_shards_</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::total_shards_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="144" column="12" bodyfile="include/sharding/capability_matcher.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_capability_matcher_1a71338b73037287baa1140e89fe6a4578" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::CapabilityMatcher::total_matches_</definition>
+        <argsstring></argsstring>
+        <name>total_matches_</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::total_matches_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="147" column="25" bodyfile="include/sharding/capability_matcher.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_capability_matcher_1a3f8d7e8386537322c6bda5665d0df1ce" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::CapabilityMatcher::keyword_matches_</definition>
+        <argsstring></argsstring>
+        <name>keyword_matches_</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::keyword_matches_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="148" column="25" bodyfile="include/sharding/capability_matcher.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_capability_matcher_1a4c031a610295cf8b1bffb442da6204a6" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::CapabilityMatcher::semantic_matches_</definition>
+        <argsstring></argsstring>
+        <name>semantic_matches_</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::semantic_matches_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="149" column="25" bodyfile="include/sharding/capability_matcher.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_capability_matcher_1a78461e159d9e6cbbaee81650c0f05f8a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::CapabilityMatcher::CapabilityMatcher</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>CapabilityMatcher</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::CapabilityMatcher</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct capability matcher <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="89" column="14" bodyfile="src/sharding/capability_matcher.cpp" bodystart="37" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_capability_matcher_1ab580f97ad7831d417c8f185249b02195" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::CapabilityMatcher::CapabilityMatcher</definition>
+        <argsstring>()</argsstring>
+        <name>CapabilityMatcher</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::CapabilityMatcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="90" column="5" bodyfile="src/sharding/capability_matcher.cpp" bodystart="44" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_capability_matcher_1aea0b0255c07c15bdbb9cf7660d58f40d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_capability_match_result" kindref="compound">CapabilityMatchResult</ref> &gt;</type>
+        <definition>std::vector&lt; CapabilityMatchResult &gt; themis::sharding::CapabilityMatcher::match</definition>
+        <argsstring>(const QueryContext &amp;query, const std::vector&lt; ShardInfo &gt; &amp;shards)</argsstring>
+        <name>match</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::match</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context" kindref="compound">QueryContext</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &gt; &amp;</type>
+          <declname>shards</declname>
+        </param>
+        <briefdescription>
+<para>Match. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Match query against shard capabilities</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query context with text and optional metadata </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of shards with their capabilities </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ranked list of match results sorted by score (descending)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), <ref refid="classthemis_1_1sharding_1_1_capability_matcher_1ae7d2121eebd087aafc8e8346a8e40bd8" kindref="member">buildIDF()</ref>, <ref refid="classthemis_1_1sharding_1_1_capability_matcher_1aa6c1ef4d6f9948f595551eb8c614a433" kindref="member">matchShard()</ref>, push_back(), std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="99" column="17" bodyfile="src/sharding/capability_matcher.cpp" bodystart="56" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_capability_matcher_1aa6c1ef4d6f9948f595551eb8c614a433" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_capability_match_result" kindref="compound">CapabilityMatchResult</ref></type>
+        <definition>CapabilityMatchResult themis::sharding::CapabilityMatcher::matchShard</definition>
+        <argsstring>(const QueryContext &amp;query, const ShardInfo &amp;shard)</argsstring>
+        <name>matchShard</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::matchShard</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_query_context" kindref="compound">QueryContext</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &amp;</type>
+          <declname>shard</declname>
+        </param>
+        <briefdescription>
+<para>Match Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Match query against single shard</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard info with capabilities </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Match result with detailed scoring</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isEmpty(), empty(), getAllKeywords(), calculateKeywordScore(), calculateSemanticScore(), calculateDomainScore(), calculateOrganizationScore(), calculateRegionScore(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="111" column="27" bodyfile="src/sharding/capability_matcher.cpp" bodystart="99" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_capability_matcher_1ab8729d9fa58b8ae308a04986d20d1114" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::CapabilityMatcher::extractKeywords</definition>
+        <argsstring>(const std::string &amp;query_text)</argsstring>
+        <name>extractKeywords</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::extractKeywords</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <briefdescription>
+<para>Extract Keywords. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract keywords from query text Simple tokenization and stopword removal</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of keywords</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: stream(), normalize(), erase(), std::remove_if(), begin(), end(), std::ispunct(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="123" column="17" bodyfile="src/sharding/capability_matcher.cpp" bodystart="175" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_capability_matcher_1ae7d2121eebd087aafc8e8346a8e40bd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::CapabilityMatcher::buildIDF</definition>
+        <argsstring>(const std::vector&lt; ShardInfo &gt; &amp;shards)</argsstring>
+        <name>buildIDF</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::buildIDF</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &gt; &amp;</type>
+          <declname>shards</declname>
+        </param>
+        <briefdescription>
+<para>Build IDF. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build IDF (Inverse Document Frequency) map from shard capabilities Used for TF-IDF scoring</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of shards with capabilities</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: clear(), size(), isEmpty(), empty(), getAllKeywords(), normalize(), std::log(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="131" column="10" bodyfile="src/sharding/capability_matcher.cpp" bodystart="206" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_capability_matcher_1a895a5fce5c5162e8c27c14074a412713" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::CapabilityMatcher::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get statistics about matching performance <simplesect kind="return"><para>JSON with match counts, avg scores, etc. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="137" column="20" bodyfile="src/sharding/capability_matcher.cpp" bodystart="240" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_capability_matcher_1a8247017a8cbfb770786c9d8ef6ffc06a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::calculateKeywordScore</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;query_keywords, const std::set&lt; std::string &gt; &amp;shard_keywords, std::vector&lt; std::string &gt; &amp;matched_keywords)</argsstring>
+        <name>calculateKeywordScore</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::calculateKeywordScore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>query_keywords</declname>
+        </param>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+          <declname>shard_keywords</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>matched_keywords</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Keyword Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate keyword-based score using TF-IDF <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_keywords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_keywords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard keywords </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Keyword score [0.0, 1.0]</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_keywords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_keywords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">matched_keywords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), insert(), normalize(), jaccardSimilarity(), calculateTF(), getIDF(), shard_kw_vec(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="157" column="12" bodyfile="src/sharding/capability_matcher.cpp" bodystart="258" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_capability_matcher_1aad6854646f584e58d7182c9eca21bfb2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::calculateSemanticScore</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query_embedding, const std::vector&lt; float &gt; &amp;shard_embedding)</argsstring>
+        <name>calculateSemanticScore</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::calculateSemanticScore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_embedding</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>shard_embedding</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Semantic Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate semantic similarity using cosine distance <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query embedding vector </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard embedding vector </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Cosine similarity [0.0, 1.0]</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::sqrt(), std::max(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="169" column="12" bodyfile="src/sharding/capability_matcher.cpp" bodystart="336" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_capability_matcher_1a4c153b7cbf86f1fda87e21b3074d5c3f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::calculateDomainScore</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;query_domains, const std::vector&lt; std::string &gt; &amp;shard_domains, std::vector&lt; std::string &gt; &amp;matched_domains)</argsstring>
+        <name>calculateDomainScore</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::calculateDomainScore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>query_domains</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shard_domains</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>matched_domains</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Domain Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate domain match score <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_domains</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query domains </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_domains</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard domains </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>matched_domains</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output: matched domains </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Domain score [0.0, 1.0]</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_domains</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_domains</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">matched_domains</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: insert(), normalize(), find(), end(), push_back(), jaccardSimilarity(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="181" column="12" bodyfile="src/sharding/capability_matcher.cpp" bodystart="381" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_capability_matcher_1afaf48324f1715663722fb7df1e4646d1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::calculateOrganizationScore</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;query_orgs, const std::vector&lt; std::string &gt; &amp;shard_orgs, std::vector&lt; std::string &gt; &amp;matched_orgs)</argsstring>
+        <name>calculateOrganizationScore</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::calculateOrganizationScore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>query_orgs</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shard_orgs</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>matched_orgs</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Organization Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate organization match score</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_orgs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_orgs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">matched_orgs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: insert(), normalize(), find(), end(), push_back(), jaccardSimilarity(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="190" column="12" bodyfile="src/sharding/capability_matcher.cpp" bodystart="416" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_capability_matcher_1a6132f6188df7697ae05de221ba47957e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::calculateRegionScore</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;query_regions, const std::vector&lt; std::string &gt; &amp;shard_regions, std::vector&lt; std::string &gt; &amp;matched_regions)</argsstring>
+        <name>calculateRegionScore</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::calculateRegionScore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>query_regions</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shard_regions</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>matched_regions</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Region Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate region match score</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_regions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_regions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">matched_regions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: insert(), normalize(), find(), end(), push_back(), jaccardSimilarity(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="199" column="12" bodyfile="src/sharding/capability_matcher.cpp" bodystart="451" bodyend="476"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_capability_matcher_1a56c6a54c1832d4fd8fd887172d197d29" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::calculateDataTypeScore</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;query_types, const std::vector&lt; std::string &gt; &amp;shard_types, std::vector&lt; std::string &gt; &amp;matched_types)</argsstring>
+        <name>calculateDataTypeScore</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::calculateDataTypeScore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>query_types</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shard_types</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>matched_types</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Data Type Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate data type match score</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_types</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_types</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">matched_types</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: insert(), normalize(), find(), end(), push_back(), jaccardSimilarity(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="208" column="12" bodyfile="src/sharding/capability_matcher.cpp" bodystart="486" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_capability_matcher_1a8f236e6630a88a6d6958e5bfb951eccf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::calculateTF</definition>
+        <argsstring>(const std::string &amp;term, const std::vector&lt; std::string &gt; &amp;keywords)</argsstring>
+        <name>calculateTF</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::calculateTF</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>term</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>keywords</declname>
+        </param>
+        <briefdescription>
+<para>Calculate TF. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate TF (Term Frequency) for a term in keywords <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Term to count </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keywords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of keywords </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Term frequency</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keywords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalize(), empty(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="220" column="12" bodyfile="src/sharding/capability_matcher.cpp" bodystart="520" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_capability_matcher_1aaa21e37c830c47df34a7beef57507b16" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::getIDF</definition>
+        <argsstring>(const std::string &amp;term) const</argsstring>
+        <name>getIDF</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::getIDF</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>term</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get IDF (Inverse Document Frequency) for a term <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Term to lookup </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>IDF value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="227" column="12" bodyfile="src/sharding/capability_matcher.cpp" bodystart="538" bodyend="546"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_capability_matcher_1a6a0960547453f121bfbf4769201c9306" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CapabilityMatcher::normalize</definition>
+        <argsstring>(const std::string &amp;str) const</argsstring>
+        <name>normalize</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::normalize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Normalize string for matching (lowercase, trim) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Normalized string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="234" column="17" bodyfile="src/sharding/capability_matcher.cpp" bodystart="548" bodyend="558"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_capability_matcher_1a5e256a23cf621217c679e93d08620fcd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::jaccardSimilarity</definition>
+        <argsstring>(const std::set&lt; std::string &gt; &amp;set1, const std::set&lt; std::string &gt; &amp;set2) const</argsstring>
+        <name>jaccardSimilarity</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::jaccardSimilarity</qualifiedname>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+          <declname>set1</declname>
+        </param>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+          <declname>set2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate Jaccard similarity between two sets <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>set1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First set </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>set2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second set </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Jaccard similarity [0.0, 1.0] </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="242" column="12" bodyfile="src/sharding/capability_matcher.cpp" bodystart="560" bodyend="590"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Capability Matcher - Semantic matching engine for shard selection</para>
+<para>Analyzes queries and matches them against shard capabilities using:<orderedlist>
+<listitem><para>Keyword-based matching (TF-IDF style)</para>
+</listitem><listitem><para>Semantic similarity via embeddings (cosine distance)</para>
+</listitem><listitem><para>Domain/organization/region/data-type specific scoring</para>
+</listitem></orderedlist>
+</para>
+<para>Returns ranked list of shards with relevance scores. </para>
+    </detaileddescription>
+    <location file="include/sharding/capability_matcher.h" line="36" column="1" bodyfile="include/sharding/capability_matcher.h" bodystart="36" bodyend="246"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1ae7d2121eebd087aafc8e8346a8e40bd8" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>buildIDF</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1a56c6a54c1832d4fd8fd887172d197d29" prot="private" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>calculateDataTypeScore</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1a4c153b7cbf86f1fda87e21b3074d5c3f" prot="private" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>calculateDomainScore</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1a8247017a8cbfb770786c9d8ef6ffc06a" prot="private" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>calculateKeywordScore</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1afaf48324f1715663722fb7df1e4646d1" prot="private" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>calculateOrganizationScore</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1a6132f6188df7697ae05de221ba47957e" prot="private" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>calculateRegionScore</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1aad6854646f584e58d7182c9eca21bfb2" prot="private" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>calculateSemanticScore</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1a8f236e6630a88a6d6958e5bfb951eccf" prot="private" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>calculateTF</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1a78461e159d9e6cbbaee81650c0f05f8a" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>CapabilityMatcher</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1ab580f97ad7831d417c8f185249b02195" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>CapabilityMatcher</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1a84e0eefe79ddd45e04e01be8bc47f1e3" prot="private" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1ab8729d9fa58b8ae308a04986d20d1114" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>extractKeywords</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1aaa21e37c830c47df34a7beef57507b16" prot="private" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>getIDF</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1a895a5fce5c5162e8c27c14074a412713" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1a13eea662ead756cc2444e63e71227225" prot="private" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>idf_cache_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1a5e256a23cf621217c679e93d08620fcd" prot="private" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>jaccardSimilarity</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1a3f8d7e8386537322c6bda5665d0df1ce" prot="private" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>keyword_matches_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1aea0b0255c07c15bdbb9cf7660d58f40d" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>match</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1aa6c1ef4d6f9948f595551eb8c614a433" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>matchShard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1a6a0960547453f121bfbf4769201c9306" prot="private" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>normalize</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1a4c031a610295cf8b1bffb442da6204a6" prot="private" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>semantic_matches_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1a71338b73037287baa1140e89fe6a4578" prot="private" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>total_matches_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_capability_matcher_1a84885e6fe4673747cb002da04afcd581" prot="private" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher</scope><name>total_shards_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

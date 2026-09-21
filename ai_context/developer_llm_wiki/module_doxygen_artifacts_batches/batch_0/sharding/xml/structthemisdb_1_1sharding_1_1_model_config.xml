@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_model_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ModelConfig</compoundname>
+    <includes refid="inference__engine__enhanced_8h" local="no">inference_engine_enhanced.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_model_config_1a74382971dc3498a7b346633f3bd80b4c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ModelConfig::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="76" column="17" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_model_config_1a5d5df48dd571900164e55b5741e9b0c7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ModelConfig::model_path</definition>
+        <argsstring></argsstring>
+        <name>model_path</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::model_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="77" column="17" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_model_config_1abfd38a907d0c8b52d68c82a4295ab707" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ModelConfig::model_type</definition>
+        <argsstring></argsstring>
+        <name>model_type</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::model_type</qualifiedname>
+        <initializer>= &quot;llama&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="78" column="17" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_model_config_1a4f724f9982e35ee31eca3f712e74735a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ModelConfig::quantization</definition>
+        <argsstring></argsstring>
+        <name>quantization</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::quantization</qualifiedname>
+        <initializer>= &quot;Q4_K_M&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="81" column="17" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_model_config_1acc6903263deba05873ebe4f0db163aa5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::ModelConfig::max_context_length</definition>
+        <argsstring></argsstring>
+        <name>max_context_length</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::max_context_length</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="84" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_model_config_1a98d211e79b493f6e7175752c96488112" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::ModelConfig::max_generated_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_generated_tokens</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::max_generated_tokens</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="85" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_model_config_1ae0d8899f1c2e2a3c024901ffee995c14" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ModelConfig::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::temperature</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="86" column="12" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_model_config_1a46f0b2535c63c8987563b1af360532a2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ModelConfig::top_p</definition>
+        <argsstring></argsstring>
+        <name>top_p</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::top_p</qualifiedname>
+        <initializer>= 0.9</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="87" column="12" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_model_config_1a99285e75447793c1f2bf9c87c35a8b0c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ModelConfig::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::top_k</qualifiedname>
+        <initializer>= 40.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="88" column="12" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_model_config_1a97a8608b11cccef51e52a3dc561b1516" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ModelConfig::repeat_penalty</definition>
+        <argsstring></argsstring>
+        <name>repeat_penalty</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::repeat_penalty</qualifiedname>
+        <initializer>= 1.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="89" column="12" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_model_config_1a70b47b3e78d1acd5f4342b644669ba90" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ModelConfig::use_gpu</definition>
+        <argsstring></argsstring>
+        <name>use_gpu</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::use_gpu</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="92" column="10" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_model_config_1a88e034ab169cd2ce36e3d68d0860121d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::sharding::ModelConfig::gpu_device</definition>
+        <argsstring></argsstring>
+        <name>gpu_device</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::gpu_device</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="93" column="9" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_model_config_1a0cb79fa2d6d045e64ea169233ccf6102" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::ModelConfig::max_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_memory_bytes</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::max_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="94" column="12" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_model_config_1a1361e2e19e4ae3978ed44723f2419040" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ModelConfig::enable_lora</definition>
+        <argsstring></argsstring>
+        <name>enable_lora</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::enable_lora</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="97" column="10" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_model_config_1adcf50d03dd85b7b17e2d6b53d084e75e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ModelConfig::default_lora_path</definition>
+        <argsstring></argsstring>
+        <name>default_lora_path</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::default_lora_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="98" column="17" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_model_config_1a546dd7adab81bcc7dce75edf098c401d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::ModelConfig::num_threads</definition>
+        <argsstring></argsstring>
+        <name>num_threads</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::num_threads</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="101" column="14" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_model_config_1a67560ba534d0c7cd9a5ca92689341c92" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ModelConfig::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="103" column="10" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="103" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_model_config_1a3d4c2429ecad2ff6c4fca33b36ea2f47" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::ModelConfig::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::sharding::ModelConfig::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/inference_engine_enhanced.h" line="107" column="20" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="107" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Model loading configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/inference_engine_enhanced.h" line="75" column="1" bodyfile="include/sharding/inference_engine_enhanced.h" bodystart="75" bodyend="126"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1adcf50d03dd85b7b17e2d6b53d084e75e" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>default_lora_path</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1a1361e2e19e4ae3978ed44723f2419040" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>enable_lora</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1a88e034ab169cd2ce36e3d68d0860121d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>gpu_device</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1a67560ba534d0c7cd9a5ca92689341c92" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>isValid</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1acc6903263deba05873ebe4f0db163aa5" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>max_context_length</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1a98d211e79b493f6e7175752c96488112" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>max_generated_tokens</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1a0cb79fa2d6d045e64ea169233ccf6102" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>max_memory_bytes</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1a74382971dc3498a7b346633f3bd80b4c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>model_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1a5d5df48dd571900164e55b5741e9b0c7" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>model_path</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1abfd38a907d0c8b52d68c82a4295ab707" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>model_type</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1a546dd7adab81bcc7dce75edf098c401d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>num_threads</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1a4f724f9982e35ee31eca3f712e74735a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>quantization</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1a97a8608b11cccef51e52a3dc561b1516" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>repeat_penalty</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1ae0d8899f1c2e2a3c024901ffee995c14" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>temperature</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1a3d4c2429ecad2ff6c4fca33b36ea2f47" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1a99285e75447793c1f2bf9c87c35a8b0c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>top_k</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1a46f0b2535c63c8987563b1af360532a2" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>top_p</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_model_config_1a70b47b3e78d1acd5f4342b644669ba90" prot="public" virt="non-virtual"><scope>themisdb::sharding::ModelConfig</scope><name>use_gpu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_phone_call_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::PhoneCallMetadata</compoundname>
+    <includes refid="voice__assistant_8h" local="no">voice_assistant.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_phone_call_metadata_1a2abbe991806146f00bb6745a2122122c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::PhoneCallMetadata::call_id</definition>
+        <argsstring></argsstring>
+        <name>call_id</name>
+        <qualifiedname>themis::voice::PhoneCallMetadata::call_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="51" column="17" bodyfile="include/voice/voice_assistant.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_phone_call_metadata_1a2a5eca9521fc982d75c539ab1200164f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::PhoneCallMetadata::caller_number</definition>
+        <argsstring></argsstring>
+        <name>caller_number</name>
+        <qualifiedname>themis::voice::PhoneCallMetadata::caller_number</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="52" column="17" bodyfile="include/voice/voice_assistant.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_phone_call_metadata_1ad30c9d5585e01d1168f01c181281c8eb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::PhoneCallMetadata::callee_number</definition>
+        <argsstring></argsstring>
+        <name>callee_number</name>
+        <qualifiedname>themis::voice::PhoneCallMetadata::callee_number</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="53" column="17" bodyfile="include/voice/voice_assistant.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_phone_call_metadata_1af1830ff8f7049b91f52aa0fa861891fe" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::PhoneCallMetadata::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::voice::PhoneCallMetadata::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="54" column="13" bodyfile="include/voice/voice_assistant.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_phone_call_metadata_1a7a704e0677f2ff851972af28c2fa7b55" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::PhoneCallMetadata::end_time</definition>
+        <argsstring></argsstring>
+        <name>end_time</name>
+        <qualifiedname>themis::voice::PhoneCallMetadata::end_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="55" column="13" bodyfile="include/voice/voice_assistant.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_phone_call_metadata_1a0f4c56e0d451b779ddf665582222cee3" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::PhoneCallMetadata::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::voice::PhoneCallMetadata::duration_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="56" column="13" bodyfile="include/voice/voice_assistant.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_phone_call_metadata_1a71eaaed46c047f2785dae60e7c1a638e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::PhoneCallMetadata::call_type</definition>
+        <argsstring></argsstring>
+        <name>call_type</name>
+        <qualifiedname>themis::voice::PhoneCallMetadata::call_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="57" column="17" bodyfile="include/voice/voice_assistant.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_phone_call_metadata_1a913f30a2028f48a902d9ec23544d79cd" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::PhoneCallMetadata::custom_fields</definition>
+        <argsstring></argsstring>
+        <name>custom_fields</name>
+        <qualifiedname>themis::voice::PhoneCallMetadata::custom_fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="58" column="10" bodyfile="include/voice/voice_assistant.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phone call metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_assistant.h" line="50" column="1" bodyfile="include/voice/voice_assistant.h" bodystart="50" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_phone_call_metadata_1a2abbe991806146f00bb6745a2122122c" prot="public" virt="non-virtual"><scope>themis::voice::PhoneCallMetadata</scope><name>call_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_phone_call_metadata_1a71eaaed46c047f2785dae60e7c1a638e" prot="public" virt="non-virtual"><scope>themis::voice::PhoneCallMetadata</scope><name>call_type</name></member>
+      <member refid="structthemis_1_1voice_1_1_phone_call_metadata_1ad30c9d5585e01d1168f01c181281c8eb" prot="public" virt="non-virtual"><scope>themis::voice::PhoneCallMetadata</scope><name>callee_number</name></member>
+      <member refid="structthemis_1_1voice_1_1_phone_call_metadata_1a2a5eca9521fc982d75c539ab1200164f" prot="public" virt="non-virtual"><scope>themis::voice::PhoneCallMetadata</scope><name>caller_number</name></member>
+      <member refid="structthemis_1_1voice_1_1_phone_call_metadata_1a913f30a2028f48a902d9ec23544d79cd" prot="public" virt="non-virtual"><scope>themis::voice::PhoneCallMetadata</scope><name>custom_fields</name></member>
+      <member refid="structthemis_1_1voice_1_1_phone_call_metadata_1a0f4c56e0d451b779ddf665582222cee3" prot="public" virt="non-virtual"><scope>themis::voice::PhoneCallMetadata</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_phone_call_metadata_1a7a704e0677f2ff851972af28c2fa7b55" prot="public" virt="non-virtual"><scope>themis::voice::PhoneCallMetadata</scope><name>end_time</name></member>
+      <member refid="structthemis_1_1voice_1_1_phone_call_metadata_1af1830ff8f7049b91f52aa0fa861891fe" prot="public" virt="non-virtual"><scope>themis::voice::PhoneCallMetadata</scope><name>start_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

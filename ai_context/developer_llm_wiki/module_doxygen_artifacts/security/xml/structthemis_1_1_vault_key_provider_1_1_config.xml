@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_vault_key_provider_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::VaultKeyProvider::Config</compoundname>
+    <includes refid="vault__key__provider_8h" local="no">vault_key_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_config_1a98d699d29b6f69c82cb0afaea75cd8d5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VaultKeyProvider::Config::vault_addr</definition>
+        <argsstring></argsstring>
+        <name>vault_addr</name>
+        <qualifiedname>themis::VaultKeyProvider::Config::vault_addr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="26" column="21" bodyfile="include/security/vault_key_provider.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_config_1a79937b968615e0ad629cd91f9bdfbc63" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VaultKeyProvider::Config::vault_token</definition>
+        <argsstring></argsstring>
+        <name>vault_token</name>
+        <qualifiedname>themis::VaultKeyProvider::Config::vault_token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="27" column="21" bodyfile="include/security/vault_key_provider.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_config_1acab93e6fca228afbf743e0abb0ccfbc3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VaultKeyProvider::Config::kv_mount_path</definition>
+        <argsstring></argsstring>
+        <name>kv_mount_path</name>
+        <qualifiedname>themis::VaultKeyProvider::Config::kv_mount_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="28" column="21" bodyfile="include/security/vault_key_provider.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_config_1a101c9782331060b9f784ed0f3f5d7993" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VaultKeyProvider::Config::transit_mount</definition>
+        <argsstring></argsstring>
+        <name>transit_mount</name>
+        <qualifiedname>themis::VaultKeyProvider::Config::transit_mount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="29" column="21" bodyfile="include/security/vault_key_provider.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_config_1aa13f3ce3e8f4166646db7b9e123fe917" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VaultKeyProvider::Config::kv_version</definition>
+        <argsstring></argsstring>
+        <name>kv_version</name>
+        <qualifiedname>themis::VaultKeyProvider::Config::kv_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="30" column="21" bodyfile="include/security/vault_key_provider.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_config_1a1d54b88615958eec4f4dfaa9aa152aeb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::VaultKeyProvider::Config::cache_ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>cache_ttl_seconds</name>
+        <qualifiedname>themis::VaultKeyProvider::Config::cache_ttl_seconds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="31" column="13" bodyfile="include/security/vault_key_provider.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_config_1ae85dc41a02cfabd16a99b87c83a18550" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::VaultKeyProvider::Config::cache_capacity</definition>
+        <argsstring></argsstring>
+        <name>cache_capacity</name>
+        <qualifiedname>themis::VaultKeyProvider::Config::cache_capacity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="32" column="13" bodyfile="include/security/vault_key_provider.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_config_1a681744665f24f30d0041a726485706c2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::VaultKeyProvider::Config::request_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>request_timeout_ms</name>
+        <qualifiedname>themis::VaultKeyProvider::Config::request_timeout_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="33" column="13" bodyfile="include/security/vault_key_provider.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_config_1a5d88c1abf2f912335d79b27da8302eb5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::VaultKeyProvider::Config::verify_ssl</definition>
+        <argsstring></argsstring>
+        <name>verify_ssl</name>
+        <qualifiedname>themis::VaultKeyProvider::Config::verify_ssl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="34" column="14" bodyfile="include/security/vault_key_provider.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_config_1a71ff0178b3802dcf01439115017e4977" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::VaultKeyProvider::Config::transit_max_retries</definition>
+        <argsstring></argsstring>
+        <name>transit_max_retries</name>
+        <qualifiedname>themis::VaultKeyProvider::Config::transit_max_retries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="35" column="13" bodyfile="include/security/vault_key_provider.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_config_1a3ffd23bf2b67bb41997a08d01e95e3f3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::VaultKeyProvider::Config::transit_backoff_ms</definition>
+        <argsstring></argsstring>
+        <name>transit_backoff_ms</name>
+        <qualifiedname>themis::VaultKeyProvider::Config::transit_backoff_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="36" column="13" bodyfile="include/security/vault_key_provider.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_vault_key_provider_1_1_config_1a5ee1d567068e196ed963db725f7a1939" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::VaultKeyProvider::Config::Config</definition>
+        <argsstring>()</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::VaultKeyProvider::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_key_provider.h" line="38" column="9" bodyfile="include/security/vault_key_provider.h" bodystart="38" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/vault_key_provider.h" line="25" column="5" bodyfile="include/security/vault_key_provider.h" bodystart="25" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_config_1ae85dc41a02cfabd16a99b87c83a18550" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Config</scope><name>cache_capacity</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_config_1a1d54b88615958eec4f4dfaa9aa152aeb" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Config</scope><name>cache_ttl_seconds</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_config_1a5ee1d567068e196ed963db725f7a1939" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_config_1acab93e6fca228afbf743e0abb0ccfbc3" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Config</scope><name>kv_mount_path</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_config_1aa13f3ce3e8f4166646db7b9e123fe917" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Config</scope><name>kv_version</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_config_1a681744665f24f30d0041a726485706c2" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Config</scope><name>request_timeout_ms</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_config_1a3ffd23bf2b67bb41997a08d01e95e3f3" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Config</scope><name>transit_backoff_ms</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_config_1a71ff0178b3802dcf01439115017e4977" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Config</scope><name>transit_max_retries</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_config_1a101c9782331060b9f784ed0f3f5d7993" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Config</scope><name>transit_mount</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_config_1a98d699d29b6f69c82cb0afaea75cd8d5" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Config</scope><name>vault_addr</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_config_1a79937b968615e0ad629cd91f9bdfbc63" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Config</scope><name>vault_token</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_config_1a5d88c1abf2f912335d79b27da8302eb5" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Config</scope><name>verify_ssl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

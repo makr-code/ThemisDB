@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_network_span" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::NetworkSpan</compoundname>
+    <includes refid="network__observability_8h" local="no">network_observability.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_network_span_1ad99b2b2090da5bec9a4df6230edfc321" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::network::NetworkSpan::start_</definition>
+        <argsstring></argsstring>
+        <name>start_</name>
+        <qualifiedname>themis::network::NetworkSpan::start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="399" column="43" bodyfile="include/network/network_observability.h" bodystart="399" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_network_span_1a6b622aca80877e840ffe7429e5c676c6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1network_1_1_network_span_event" kindref="compound">NetworkSpanEvent</ref></type>
+        <definition>NetworkSpanEvent themis::network::NetworkSpan::event_</definition>
+        <argsstring></argsstring>
+        <name>event_</name>
+        <qualifiedname>themis::network::NetworkSpan::event_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="400" column="44" bodyfile="include/network/network_observability.h" bodystart="400" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_network_span_1aa6ea00f52b8d6e70dc319fa2a0f36dd2" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::NetworkSpan::emitted_</definition>
+        <argsstring></argsstring>
+        <name>emitted_</name>
+        <qualifiedname>themis::network::NetworkSpan::emitted_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="401" column="44" bodyfile="include/network/network_observability.h" bodystart="401" bodyend="401"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_span_1ad169421f76ba13d327dc34a84dfccf48" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::NetworkSpan::NetworkSpan</definition>
+        <argsstring>(NetworkSpanKind kind) noexcept</argsstring>
+        <name>NetworkSpan</name>
+        <qualifiedname>themis::network::NetworkSpan::NetworkSpan</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655f" kindref="member">NetworkSpanKind</ref></type>
+          <declname>kind</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="331" column="14" bodyfile="include/network/network_observability.h" bodystart="331" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_span_1af3d26222678d5e773b1080cb8387d9aa" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::NetworkSpan::~NetworkSpan</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~NetworkSpan</name>
+        <qualifiedname>themis::network::NetworkSpan::~NetworkSpan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="338" column="5" bodyfile="include/network/network_observability.h" bodystart="338" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_span_1a568835eb7a4f12f62ce5973f992bcf84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::NetworkSpan::NetworkSpan</definition>
+        <argsstring>(const NetworkSpan &amp;)=delete</argsstring>
+        <name>NetworkSpan</name>
+        <qualifiedname>themis::network::NetworkSpan::NetworkSpan</qualifiedname>
+        <param>
+          <type>const NetworkSpan &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="341" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_span_1ad2d85f3be7bf758c21d45050b2a8f6cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_network_span_1ad169421f76ba13d327dc34a84dfccf48" kindref="member">NetworkSpan</ref> &amp;</type>
+        <definition>NetworkSpan &amp; themis::network::NetworkSpan::operator=</definition>
+        <argsstring>(const NetworkSpan &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::NetworkSpan::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1network_1_1_network_span_1ad169421f76ba13d327dc34a84dfccf48" kindref="member">NetworkSpan</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="342" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_span_1a88bc3257e76d26343b547d44c3909f73" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_network_span_1ad169421f76ba13d327dc34a84dfccf48" kindref="member">NetworkSpan</ref> &amp;</type>
+        <definition>NetworkSpan &amp; themis::network::NetworkSpan::setConnectionId</definition>
+        <argsstring>(uint64_t id) noexcept</argsstring>
+        <name>setConnectionId</name>
+        <qualifiedname>themis::network::NetworkSpan::setConnectionId</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="344" column="17" bodyfile="include/network/network_observability.h" bodystart="344" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_span_1ac3ad75ac3ed637af1a4fecbebf5cdb77" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_network_span_1ad169421f76ba13d327dc34a84dfccf48" kindref="member">NetworkSpan</ref> &amp;</type>
+        <definition>NetworkSpan &amp; themis::network::NetworkSpan::setSessionId</definition>
+        <argsstring>(uint32_t id) noexcept</argsstring>
+        <name>setSessionId</name>
+        <qualifiedname>themis::network::NetworkSpan::setSessionId</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="349" column="17" bodyfile="include/network/network_observability.h" bodystart="349" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_span_1a86e6c5c19427f1c7e559fb7315f9440f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_network_span_1ad169421f76ba13d327dc34a84dfccf48" kindref="member">NetworkSpan</ref> &amp;</type>
+        <definition>NetworkSpan &amp; themis::network::NetworkSpan::setOpcode</definition>
+        <argsstring>(uint16_t opcode) noexcept</argsstring>
+        <name>setOpcode</name>
+        <qualifiedname>themis::network::NetworkSpan::setOpcode</qualifiedname>
+        <param>
+          <type>uint16_t</type>
+          <declname>opcode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="354" column="17" bodyfile="include/network/network_observability.h" bodystart="354" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_span_1afb920f458b6ade2991c1edfb4844b2a3" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_network_span_1ad169421f76ba13d327dc34a84dfccf48" kindref="member">NetworkSpan</ref> &amp;</type>
+        <definition>NetworkSpan &amp; themis::network::NetworkSpan::setTransportTag</definition>
+        <argsstring>(uint16_t tag) noexcept</argsstring>
+        <name>setTransportTag</name>
+        <qualifiedname>themis::network::NetworkSpan::setTransportTag</qualifiedname>
+        <param>
+          <type>uint16_t</type>
+          <declname>tag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="359" column="17" bodyfile="include/network/network_observability.h" bodystart="359" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_span_1a93e80064d039d4870884854d8f2d0297" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_network_span_1ad169421f76ba13d327dc34a84dfccf48" kindref="member">NetworkSpan</ref> &amp;</type>
+        <definition>NetworkSpan &amp; themis::network::NetworkSpan::setPayloadBytes</definition>
+        <argsstring>(uint64_t bytes) noexcept</argsstring>
+        <name>setPayloadBytes</name>
+        <qualifiedname>themis::network::NetworkSpan::setPayloadBytes</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="364" column="17" bodyfile="include/network/network_observability.h" bodystart="364" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_span_1aa04980cabab6f6033f4804a92805ac31" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_network_span_1ad169421f76ba13d327dc34a84dfccf48" kindref="member">NetworkSpan</ref> &amp;</type>
+        <definition>NetworkSpan &amp; themis::network::NetworkSpan::setResultCode</definition>
+        <argsstring>(NetworkResultCode code) noexcept</argsstring>
+        <name>setResultCode</name>
+        <qualifiedname>themis::network::NetworkSpan::setResultCode</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2" kindref="member">NetworkResultCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="369" column="17" bodyfile="include/network/network_observability.h" bodystart="369" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_span_1a850f92bbbf96cdb85959abd35711577e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_network_span_1ad169421f76ba13d327dc34a84dfccf48" kindref="member">NetworkSpan</ref> &amp;</type>
+        <definition>NetworkSpan &amp; themis::network::NetworkSpan::setLabel</definition>
+        <argsstring>(std::string_view label) noexcept</argsstring>
+        <name>setLabel</name>
+        <qualifiedname>themis::network::NetworkSpan::setLabel</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>label</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="374" column="17" bodyfile="include/network/network_observability.h" bodystart="374" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_span_1ac21692f99987e4637f36908b7233cede" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_network_span_1ad169421f76ba13d327dc34a84dfccf48" kindref="member">NetworkSpan</ref> &amp;</type>
+        <definition>NetworkSpan &amp; themis::network::NetworkSpan::setErrorDetail</definition>
+        <argsstring>(std::string_view detail) noexcept</argsstring>
+        <name>setErrorDetail</name>
+        <qualifiedname>themis::network::NetworkSpan::setErrorDetail</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="379" column="17" bodyfile="include/network/network_observability.h" bodystart="379" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_span_1a82fb7cd062db48701edd321651a7e85c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::NetworkSpan::emit</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>emit</name>
+        <qualifiedname>themis::network::NetworkSpan::emit</qualifiedname>
+        <briefdescription>
+<para>Manually emit the span before scope exit (idempotent). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="385" column="10" bodyfile="include/network/network_observability.h" bodystart="385" bodyend="396"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII helper that auto-times and auto-emits a <computeroutput><ref refid="structthemis_1_1network_1_1_network_span_event" kindref="compound">NetworkSpanEvent</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Constructs a <computeroutput><ref refid="structthemis_1_1network_1_1_network_span_event" kindref="compound">NetworkSpanEvent</ref></computeroutput> on the stack, starts a steady_clock timer on construction, and calls <computeroutput><ref refid="classthemis_1_1network_1_1_network_observability_registry_1a257d9390b933e09738eb76662b3f44ba" kindref="member">NetworkObservabilityRegistry::instance()</ref></computeroutput>.<ref refid="classthemis_1_1network_1_1_network_span_1a82fb7cd062db48701edd321651a7e85c" kindref="member">emit()</ref> on destruction. Callers set fields via fluent setters before the span goes out of scope.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_network_span_1ad169421f76ba13d327dc34a84dfccf48" kindref="member">NetworkSpan</ref><sp/>span(<ref refid="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655fa022afa1f4831e3e7cf99d54ba3ac38bd" kindref="member">NetworkSpanKind::AUTH_CHECK</ref>);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>span.setConnectionId(conn_id).setResultCode(<ref refid="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkResultCode::OK</ref>);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...<sp/>perform<sp/>auth<sp/>check<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>auto-emits<sp/>on<sp/>scope<sp/>exit</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/network/network_observability.h" line="329" column="1" bodyfile="include/network/network_observability.h" bodystart="329" bodyend="402"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_network_span_1a82fb7cd062db48701edd321651a7e85c" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpan</scope><name>emit</name></member>
+      <member refid="classthemis_1_1network_1_1_network_span_1aa6ea00f52b8d6e70dc319fa2a0f36dd2" prot="private" virt="non-virtual"><scope>themis::network::NetworkSpan</scope><name>emitted_</name></member>
+      <member refid="classthemis_1_1network_1_1_network_span_1a6b622aca80877e840ffe7429e5c676c6" prot="private" virt="non-virtual"><scope>themis::network::NetworkSpan</scope><name>event_</name></member>
+      <member refid="classthemis_1_1network_1_1_network_span_1ad169421f76ba13d327dc34a84dfccf48" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpan</scope><name>NetworkSpan</name></member>
+      <member refid="classthemis_1_1network_1_1_network_span_1a568835eb7a4f12f62ce5973f992bcf84" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpan</scope><name>NetworkSpan</name></member>
+      <member refid="classthemis_1_1network_1_1_network_span_1ad2d85f3be7bf758c21d45050b2a8f6cc" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpan</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_network_span_1a88bc3257e76d26343b547d44c3909f73" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpan</scope><name>setConnectionId</name></member>
+      <member refid="classthemis_1_1network_1_1_network_span_1ac21692f99987e4637f36908b7233cede" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpan</scope><name>setErrorDetail</name></member>
+      <member refid="classthemis_1_1network_1_1_network_span_1a850f92bbbf96cdb85959abd35711577e" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpan</scope><name>setLabel</name></member>
+      <member refid="classthemis_1_1network_1_1_network_span_1a86e6c5c19427f1c7e559fb7315f9440f" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpan</scope><name>setOpcode</name></member>
+      <member refid="classthemis_1_1network_1_1_network_span_1a93e80064d039d4870884854d8f2d0297" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpan</scope><name>setPayloadBytes</name></member>
+      <member refid="classthemis_1_1network_1_1_network_span_1aa04980cabab6f6033f4804a92805ac31" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpan</scope><name>setResultCode</name></member>
+      <member refid="classthemis_1_1network_1_1_network_span_1ac3ad75ac3ed637af1a4fecbebf5cdb77" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpan</scope><name>setSessionId</name></member>
+      <member refid="classthemis_1_1network_1_1_network_span_1afb920f458b6ade2991c1edfb4844b2a3" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpan</scope><name>setTransportTag</name></member>
+      <member refid="classthemis_1_1network_1_1_network_span_1ad99b2b2090da5bec9a4df6230edfc321" prot="private" virt="non-virtual"><scope>themis::network::NetworkSpan</scope><name>start_</name></member>
+      <member refid="classthemis_1_1network_1_1_network_span_1af3d26222678d5e773b1080cb8387d9aa" prot="public" virt="non-virtual"><scope>themis::network::NetworkSpan</scope><name>~NetworkSpan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

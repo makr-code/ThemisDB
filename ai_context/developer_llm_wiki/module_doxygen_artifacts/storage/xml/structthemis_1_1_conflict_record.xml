@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_conflict_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ConflictRecord</compoundname>
+    <includes refid="history__manager_8h" local="no">history_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_conflict_record_1a904796a7facee5ba0a87afd56bef56c1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ConflictRecord::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::ConflictRecord::version</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+<para>Format version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="67" column="17" bodyfile="include/storage/history_manager.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_conflict_record_1acdf562fc2d3f340a2386b73daf5ebd81" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ConflictRecord::conflict_id</definition>
+        <argsstring></argsstring>
+        <name>conflict_id</name>
+        <qualifiedname>themis::ConflictRecord::conflict_id</qualifiedname>
+        <briefdescription>
+<para>Unique ID (HLC timestamp string). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="68" column="17" bodyfile="include/storage/history_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_conflict_record_1a7a3ec878d4c09be505a52c54bdb18039" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ConflictRecord::base_key</definition>
+        <argsstring></argsstring>
+        <name>base_key</name>
+        <qualifiedname>themis::ConflictRecord::base_key</qualifiedname>
+        <briefdescription>
+<para>The conflicting live key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="69" column="17" bodyfile="include/storage/history_manager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_conflict_record_1a2f4902f730a864b2f5ff377961c2f11b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::ConflictRecord::detected_at</definition>
+        <argsstring></argsstring>
+        <name>detected_at</name>
+        <qualifiedname>themis::ConflictRecord::detected_at</qualifiedname>
+        <briefdescription>
+<para>When the conflict was detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="70" column="18" bodyfile="include/storage/history_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_conflict_record_1a6dae4010e3cb7bcc2c8a961db046b8a2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::ConflictRecord::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>themis::ConflictRecord::txn_id</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Transaction that encountered the conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="71" column="14" bodyfile="include/storage/history_manager.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_conflict_record_1a86841e92a8bf7d5c38f568251b7cb917" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::ConflictRecord::base_value</definition>
+        <argsstring></argsstring>
+        <name>base_value</name>
+        <qualifiedname>themis::ConflictRecord::base_value</qualifiedname>
+        <briefdescription>
+<para><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> at transaction start (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="72" column="17" bodyfile="include/storage/history_manager.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_conflict_record_1a72810329f5363cefee69b0ae7fe882f5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::ConflictRecord::ours_value</definition>
+        <argsstring></argsstring>
+        <name>ours_value</name>
+        <qualifiedname>themis::ConflictRecord::ours_value</qualifiedname>
+        <briefdescription>
+<para><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> we tried to write (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="73" column="17" bodyfile="include/storage/history_manager.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_conflict_record_1a79d789b20c543430c4a4e2d023b1002e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::ConflictRecord::theirs_value</definition>
+        <argsstring></argsstring>
+        <name>theirs_value</name>
+        <qualifiedname>themis::ConflictRecord::theirs_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> committed by conflicting transaction (may be empty) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="74" column="17" bodyfile="include/storage/history_manager.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_conflict_record_1af729f24224d993385f03ac607874160f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ConflictRecord::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::ConflictRecord::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Conflict type classification. Values: &quot;busy&quot; (write-write / lock contention), &quot;timeout&quot; (lock timeout), &quot;try_again&quot; (transient, caller should retry), &quot;commit_error&quot; (other failure). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="78" column="17" bodyfile="include/storage/history_manager.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Artifact capturing a write-write conflict. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Persisted in the conflict keyspace when a transaction commit fails due to an MVCC conflict. Serialised as JSON with format version 1.</para>
+<para>base – value at transaction start (snapshot read before writing) ours – value this transaction tried to write theirs – value already committed by the conflicting transaction </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ConflictRecord</label>
+        <link refid="structthemis_1_1_conflict_record"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>detected_at</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::HLCTimestamp</label>
+        <link refid="structthemis_1_1_h_l_c_timestamp"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/history_manager.h" line="66" column="1" bodyfile="include/storage/history_manager.h" bodystart="66" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_conflict_record_1a7a3ec878d4c09be505a52c54bdb18039" prot="public" virt="non-virtual"><scope>themis::ConflictRecord</scope><name>base_key</name></member>
+      <member refid="structthemis_1_1_conflict_record_1a86841e92a8bf7d5c38f568251b7cb917" prot="public" virt="non-virtual"><scope>themis::ConflictRecord</scope><name>base_value</name></member>
+      <member refid="structthemis_1_1_conflict_record_1acdf562fc2d3f340a2386b73daf5ebd81" prot="public" virt="non-virtual"><scope>themis::ConflictRecord</scope><name>conflict_id</name></member>
+      <member refid="structthemis_1_1_conflict_record_1a2f4902f730a864b2f5ff377961c2f11b" prot="public" virt="non-virtual"><scope>themis::ConflictRecord</scope><name>detected_at</name></member>
+      <member refid="structthemis_1_1_conflict_record_1a72810329f5363cefee69b0ae7fe882f5" prot="public" virt="non-virtual"><scope>themis::ConflictRecord</scope><name>ours_value</name></member>
+      <member refid="structthemis_1_1_conflict_record_1a79d789b20c543430c4a4e2d023b1002e" prot="public" virt="non-virtual"><scope>themis::ConflictRecord</scope><name>theirs_value</name></member>
+      <member refid="structthemis_1_1_conflict_record_1a6dae4010e3cb7bcc2c8a961db046b8a2" prot="public" virt="non-virtual"><scope>themis::ConflictRecord</scope><name>txn_id</name></member>
+      <member refid="structthemis_1_1_conflict_record_1af729f24224d993385f03ac607874160f" prot="public" virt="non-virtual"><scope>themis::ConflictRecord</scope><name>type</name></member>
+      <member refid="structthemis_1_1_conflict_record_1a904796a7facee5ba0a87afd56bef56c1" prot="public" virt="non-virtual"><scope>themis::ConflictRecord</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

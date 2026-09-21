@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_interval_join_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::IntervalJoin::Config</compoundname>
+    <includes refid="streaming__join_8h" local="no">streaming_join.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_interval_join_1_1_config_1a73c564c6573e26ae6ddfa203671286e0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::IntervalJoin::Config::join_keys</definition>
+        <argsstring></argsstring>
+        <name>join_keys</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::Config::join_keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="190" column="21" bodyfile="include/analytics/streaming_join.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_interval_join_1_1_config_1aaf8463c5b4ef5ec820674434a53a7a44" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::IntervalJoin::Config::time_column</definition>
+        <argsstring></argsstring>
+        <name>time_column</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::Config::time_column</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="192" column="21" bodyfile="include/analytics/streaming_join.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_interval_join_1_1_config_1a2d73f2cc729c9f9543151908943479fa" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::IntervalJoin::Config::before_ms</definition>
+        <argsstring></argsstring>
+        <name>before_ms</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::Config::before_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="194" column="17" bodyfile="include/analytics/streaming_join.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_interval_join_1_1_config_1ad83c85c0350e09551cbd72ecac2638aa" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::IntervalJoin::Config::after_ms</definition>
+        <argsstring></argsstring>
+        <name>after_ms</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::Config::after_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="196" column="17" bodyfile="include/analytics/streaming_join.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_interval_join_1_1_config_1abd82eed3864a4e8d809c44ac72764339" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1ab5ef9b2994c0d26747607283a023754c" kindref="member">JoinType</ref></type>
+        <definition>JoinType themisdb::analytics::IntervalJoin::Config::join_type</definition>
+        <argsstring></argsstring>
+        <name>join_type</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::Config::join_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1ab5ef9b2994c0d26747607283a023754caa1684698ac3d8ffda353d0458c30b1e7" kindref="member">JoinType::Inner</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="198" column="18" bodyfile="include/analytics/streaming_join.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_interval_join_1_1_config_1aa1ef5da287db5e8706f18993d6eaf219" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::IntervalJoin::Config::slack_ms</definition>
+        <argsstring></argsstring>
+        <name>slack_ms</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::Config::slack_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="200" column="17" bodyfile="include/analytics/streaming_join.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_interval_join_1_1_config_1a8a6c598d6a47aea795d769b47e8334e4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::IntervalJoin::Config::build_select</definition>
+        <argsstring></argsstring>
+        <name>build_select</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::Config::build_select</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="202" column="21" bodyfile="include/analytics/streaming_join.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_interval_join_1_1_config_1af4b0e17a8c7ff456c259287abe8e36a9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::IntervalJoin::Config::probe_select</definition>
+        <argsstring></argsstring>
+        <name>probe_select</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::Config::probe_select</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="204" column="21" bodyfile="include/analytics/streaming_join.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/streaming_join.h" line="189" column="5" bodyfile="include/analytics/streaming_join.h" bodystart="189" bodyend="205"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_config_1ad83c85c0350e09551cbd72ecac2638aa" prot="public" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin::Config</scope><name>after_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_config_1a2d73f2cc729c9f9543151908943479fa" prot="public" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin::Config</scope><name>before_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_config_1a8a6c598d6a47aea795d769b47e8334e4" prot="public" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin::Config</scope><name>build_select</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_config_1a73c564c6573e26ae6ddfa203671286e0" prot="public" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin::Config</scope><name>join_keys</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_config_1abd82eed3864a4e8d809c44ac72764339" prot="public" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin::Config</scope><name>join_type</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_config_1af4b0e17a8c7ff456c259287abe8e36a9" prot="public" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin::Config</scope><name>probe_select</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_config_1aa1ef5da287db5e8706f18993d6eaf219" prot="public" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin::Config</scope><name>slack_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_config_1aaf8463c5b4ef5ec820674434a53a7a44" prot="public" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin::Config</scope><name>time_column</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

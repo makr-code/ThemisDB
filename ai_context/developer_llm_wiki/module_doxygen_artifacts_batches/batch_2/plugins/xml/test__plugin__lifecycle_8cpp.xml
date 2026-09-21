@@ -1,0 +1,601 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__plugin__lifecycle_8cpp" kind="file" language="C++">
+    <compoundname>test_plugin_lifecycle.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/plugins/test_plugin_lifecycle.cpp</label>
+        <link refid="test__plugin__lifecycle_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_plugin_manager" prot="public">PluginManager</innerclass>
+    <innerclass refid="struct_plugin_manager_1_1_plugin_info" prot="public">PluginManager::PluginInfo</innerclass>
+    <innerclass refid="struct_plugin_manager_1_1_plugin_metadata" prot="public">PluginManager::PluginMetadata</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__plugin__lifecycle_8cpp_1a64bfd194ce1c06db22451cfe59afcdfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginLifecycleTest, BasicLoading)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginLifecycleTest</type>
+        </param>
+        <param>
+          <type>BasicLoading</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="192" column="1" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="192" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__lifecycle_8cpp_1a5844f35183819cbe8ca4cad1b0055abb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginLifecycleTest, BasicUnloading)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginLifecycleTest</type>
+        </param>
+        <param>
+          <type>BasicUnloading</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="205" column="1" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="205" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__lifecycle_8cpp_1a9df7fc8900a186a5372966a1c5514bc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginLifecycleTest, HotReload)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginLifecycleTest</type>
+        </param>
+        <param>
+          <type>HotReload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="219" column="1" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="219" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__lifecycle_8cpp_1a324e3cc1808a781794269c4c6b2179d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginLifecycleTest, DependencyResolution)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginLifecycleTest</type>
+        </param>
+        <param>
+          <type>DependencyResolution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="233" column="1" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="233" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__lifecycle_8cpp_1adc8ffae767d6ae68cddba3fea4054f8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginLifecycleTest, CircularDependencyDetection)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginLifecycleTest</type>
+        </param>
+        <param>
+          <type>CircularDependencyDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="260" column="1" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="260" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__lifecycle_8cpp_1a5bce3afddb5e278c5486b804cd1358cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginLifecycleTest, VersionCompatibility)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginLifecycleTest</type>
+        </param>
+        <param>
+          <type>VersionCompatibility</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="288" column="1" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="288" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__lifecycle_8cpp_1a4c3aabf35108a56fec95d42032eaf54a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginLifecycleTest, StatePersistence)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginLifecycleTest</type>
+        </param>
+        <param>
+          <type>StatePersistence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="307" column="1" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="307" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__lifecycle_8cpp_1ac6880b2cd66c29cee4f198f9af12bf50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginLifecycleTest, ErrorHandling)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginLifecycleTest</type>
+        </param>
+        <param>
+          <type>ErrorHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="327" column="1" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="327" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__lifecycle_8cpp_1a6d0bb38d5e1fe87f5163226a1bae56be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginLifecycleTest, LoadOrderTracking)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginLifecycleTest</type>
+        </param>
+        <param>
+          <type>LoadOrderTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="346" column="1" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="346" bodyend="365"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Test:<sp/>Plugin<sp/>Lifecycle<sp/>Management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>plugin<sp/>loading,<sp/>unloading,<sp/>hot<sp/>reload,<sp/>and<sp/>dependency<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>plugin<sp/>system</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12" refid="class_plugin_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24" kindref="member">PluginState</ref><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24a795b8a51556d0b2cf4fbc11a896f6269" kindref="member">UNLOADED</ref>,</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24af9f6955ebca09a484157c05f80acd65e" kindref="member">LOADING</ref>,</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24ab638272ceeff54912f043465e9a28c9b" kindref="member">LOADED</ref>,</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24a43491564ebcfd38568918efbd6e840fd" kindref="member">RUNNING</ref>,</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24af6cdb3c6710b50ec65ee07f740847e10" kindref="member">STOPPING</ref>,</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24ab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="23" refid="struct_plugin_manager_1_1_plugin_info" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_plugin_manager_1_1_plugin_info" kindref="compound">PluginInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_plugin_manager_1_1_plugin_info_1a30f50b0cd168428f9b3452fa8c1cb11e" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_plugin_manager_1_1_plugin_info_1a7b49906e1e1e898bc74f2a86101537ca" kindref="member">version</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="struct_plugin_manager_1_1_plugin_info_1ad9d2ebc4b6788957af2a4889abb03b84" kindref="member">dependencies</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24" kindref="member">PluginState</ref><sp/><ref refid="struct_plugin_manager_1_1_plugin_info_1afd9cc7eac0bf2e2f1e549138be14dee9" kindref="member">state</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="struct_plugin_manager_1_1_plugin_info_1a42d310dcb9c8927220e936cb01bb8986" kindref="member">handle</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="struct_plugin_manager_1_1_plugin_metadata" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_plugin_manager_1_1_plugin_metadata" kindref="compound">PluginMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata_1a316dc90289924c4e1276bd8ff6edf30c" kindref="member">name</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata_1af2ec490b54d3b8d77ed1b9122dbb8c14" kindref="member">version</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata_1a39b7c8649b5a9368d2dce7f11ebf5c0f" kindref="member">api_version</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata_1a120765fd359a060bb488085a864f59f5" kindref="member">dependencies</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_plugin_manager_1a8ed30116569ac98faba1eb9b93cf1e74" kindref="member">load_plugin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata" kindref="compound">PluginMetadata</ref>&amp;<sp/>metadata)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(plugins_.find(name)<sp/>!=<sp/>plugins_.end()<sp/>&amp;&amp;<sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>plugins_[name].state<sp/>!=<sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24a795b8a51556d0b2cf4fbc11a896f6269" kindref="member">PluginState::UNLOADED</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Already<sp/>loaded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>dependencies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>dep<sp/>:<sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a120765fd359a060bb488085a864f59f5" kindref="member">dependencies</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(plugins_.find(dep)<sp/>==<sp/>plugins_.end()<sp/>||<sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>plugins_[dep].state<sp/>!=<sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24ab638272ceeff54912f043465e9a28c9b" kindref="member">PluginState::LOADED</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Missing<sp/>dependency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>for<sp/>circular<sp/>dependencies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(has_circular_dependency(name,<sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a120765fd359a060bb488085a864f59f5" kindref="member">dependencies</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>API<sp/>version<sp/>compatibility</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!is_api_compatible(metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a39b7c8649b5a9368d2dce7f11ebf5c0f" kindref="member">api_version</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_plugin_manager_1_1_plugin_info" kindref="compound">PluginInfo</ref><sp/>info;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="struct_plugin_manager_1_1_plugin_info_1a30f50b0cd168428f9b3452fa8c1cb11e" kindref="member">name</ref><sp/>=<sp/>name;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.version<sp/>=<sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1af2ec490b54d3b8d77ed1b9122dbb8c14" kindref="member">version</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.dependencies<sp/>=<sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a120765fd359a060bb488085a864f59f5" kindref="member">dependencies</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.state<sp/>=<sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24ab638272ceeff54912f043465e9a28c9b" kindref="member">PluginState::LOADED</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.handle<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0x1000);<sp/><sp/></highlight><highlight class="comment">//<sp/>Mock<sp/>handle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>plugins_[name]<sp/>=<sp/>info;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>load_order_.push_back(name);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_plugin_manager_1a14899bc1a55c2a9783b09b56e595df19" kindref="member">unload_plugin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>plugins_.find(name);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/>plugins_.end())<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>other<sp/>plugins<sp/>depend<sp/>on<sp/>this<sp/>one</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[plugin_name,<sp/>plugin_info]<sp/>:<sp/>plugins_)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(plugin_name<sp/>!=<sp/>name)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>dep<sp/>:<sp/>plugin_info.dependencies)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(dep<sp/>==<sp/>name<sp/>&amp;&amp;<sp/>plugin_info.state<sp/>!=<sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24a795b8a51556d0b2cf4fbc11a896f6269" kindref="member">PluginState::UNLOADED</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Cannot<sp/>unload,<sp/>dependency<sp/>exists</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>it-&gt;second.state<sp/>=<sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24a795b8a51556d0b2cf4fbc11a896f6269" kindref="member">PluginState::UNLOADED</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>it-&gt;second.handle<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remove<sp/>from<sp/>load<sp/>order</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>load_order_.erase(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::remove(load_order_.begin(),<sp/>load_order_.end(),<sp/>name),</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>load_order_.end()</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_plugin_manager_1a2dabddb5e456f39ffeaef0f8e6b8a328" kindref="member">hot_reload_plugin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>plugins_.find(name);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/>plugins_.end())<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Save<sp/>dependencies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>deps<sp/>=<sp/>it-&gt;second.dependencies;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>version<sp/>=<sp/>it-&gt;second.version;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>it-&gt;second.state<sp/>=<sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24af6cdb3c6710b50ec65ee07f740847e10" kindref="member">PluginState::STOPPING</ref>;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>it-&gt;second.handle<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>it-&gt;second.state<sp/>=<sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24af9f6955ebca09a484157c05f80acd65e" kindref="member">PluginState::LOADING</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>it-&gt;second.handle<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0x2000);<sp/><sp/></highlight><highlight class="comment">//<sp/>New<sp/>handle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>it-&gt;second.state<sp/>=<sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24ab638272ceeff54912f043465e9a28c9b" kindref="member">PluginState::LOADED</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24" kindref="member">PluginState</ref><sp/><ref refid="class_plugin_manager_1ab027a2784e9ee0b2fe1a20732e2734d8" kindref="member">get_plugin_state</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>plugins_.find(name);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/>plugins_.end())<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24a795b8a51556d0b2cf4fbc11a896f6269" kindref="member">PluginState::UNLOADED</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>it-&gt;second.state;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_plugin_manager_1ab39e6430b04b70b59b740320cfcf3616" kindref="member">get_load_order</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>load_order_;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_plugin_manager_1a9d8525a5adaea016b45cfa856248d0d4" kindref="member">save_plugin_state</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>state_data)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>plugin_states_[name]<sp/>=<sp/>state_data;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_plugin_manager_1a3b001f792fd7e95a672269c513929ebf" kindref="member">load_plugin_state</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>plugin_states_.find(name);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/>plugin_states_.end())<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>it-&gt;second;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>PluginInfo&gt;<sp/>plugins_;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>load_order_;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>plugin_states_;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>current_api_version_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_circular_dependency(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>deps)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>dep<sp/>:<sp/>deps)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(dep<sp/>==<sp/>name)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Direct<sp/>circular<sp/>dependency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>plugins_.find(dep);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>!=<sp/>plugins_.end())<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>transitive_dep<sp/>:<sp/>it-&gt;second.dependencies)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(transitive_dep<sp/>==<sp/>name)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Transitive<sp/>circular<sp/>dependency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_api_compatible(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>plugin_api_version)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simple<sp/>version<sp/>check:<sp/>major<sp/>version<sp/>must<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dot1<sp/>=<sp/>current_api_version_.find(</highlight><highlight class="charliteral">&apos;.&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dot2<sp/>=<sp/>plugin_api_version.find(</highlight><highlight class="charliteral">&apos;.&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(dot1<sp/>==<sp/>std::string::npos<sp/>||<sp/>dot2<sp/>==<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>current_major<sp/>=<sp/>current_api_version_.substr(0,<sp/>dot1);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>plugin_major<sp/>=<sp/>plugin_api_version.substr(0,<sp/>dot2);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_major<sp/>==<sp/>plugin_major;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Basic<sp/>plugin<sp/>loading</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__plugin__lifecycle_8cpp_1a64bfd194ce1c06db22451cfe59afcdfc" kindref="member">TEST</ref>(PluginLifecycleTest,<sp/>BasicLoading)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref><sp/>manager;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata" kindref="compound">PluginManager::PluginMetadata</ref><sp/>metadata;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a316dc90289924c4e1276bd8ff6edf30c" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1af2ec490b54d3b8d77ed1b9122dbb8c14" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a39b7c8649b5a9368d2dce7f11ebf5c0f" kindref="member">api_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="class_plugin_manager_1a8ed30116569ac98faba1eb9b93cf1e74" kindref="member">load_plugin</ref>(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>metadata));</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.<ref refid="class_plugin_manager_1ab027a2784e9ee0b2fe1a20732e2734d8" kindref="member">get_plugin_state</ref>(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">),<sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24ab638272ceeff54912f043465e9a28c9b" kindref="member">PluginManager::PluginState::LOADED</ref>);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Plugin<sp/>unloading</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__plugin__lifecycle_8cpp_1a64bfd194ce1c06db22451cfe59afcdfc" kindref="member">TEST</ref>(PluginLifecycleTest,<sp/>BasicUnloading)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref><sp/>manager;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata" kindref="compound">PluginManager::PluginMetadata</ref><sp/>metadata;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a316dc90289924c4e1276bd8ff6edf30c" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1af2ec490b54d3b8d77ed1b9122dbb8c14" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a39b7c8649b5a9368d2dce7f11ebf5c0f" kindref="member">api_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="class_plugin_manager_1a8ed30116569ac98faba1eb9b93cf1e74" kindref="member">load_plugin</ref>(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>metadata));</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="class_plugin_manager_1a14899bc1a55c2a9783b09b56e595df19" kindref="member">unload_plugin</ref>(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.<ref refid="class_plugin_manager_1ab027a2784e9ee0b2fe1a20732e2734d8" kindref="member">get_plugin_state</ref>(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">),<sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24a795b8a51556d0b2cf4fbc11a896f6269" kindref="member">PluginManager::PluginState::UNLOADED</ref>);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Hot<sp/>reload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><ref refid="test__plugin__lifecycle_8cpp_1a64bfd194ce1c06db22451cfe59afcdfc" kindref="member">TEST</ref>(PluginLifecycleTest,<sp/>HotReload)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref><sp/>manager;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata" kindref="compound">PluginManager::PluginMetadata</ref><sp/>metadata;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a316dc90289924c4e1276bd8ff6edf30c" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1af2ec490b54d3b8d77ed1b9122dbb8c14" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a39b7c8649b5a9368d2dce7f11ebf5c0f" kindref="member">api_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="class_plugin_manager_1a8ed30116569ac98faba1eb9b93cf1e74" kindref="member">load_plugin</ref>(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>metadata));</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="class_plugin_manager_1a2dabddb5e456f39ffeaef0f8e6b8a328" kindref="member">hot_reload_plugin</ref>(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.<ref refid="class_plugin_manager_1ab027a2784e9ee0b2fe1a20732e2734d8" kindref="member">get_plugin_state</ref>(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">),<sp/><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24ab638272ceeff54912f043465e9a28c9b" kindref="member">PluginManager::PluginState::LOADED</ref>);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Dependency<sp/>resolution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="test__plugin__lifecycle_8cpp_1a64bfd194ce1c06db22451cfe59afcdfc" kindref="member">TEST</ref>(PluginLifecycleTest,<sp/>DependencyResolution)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref><sp/>manager;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>base<sp/>plugin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata" kindref="compound">PluginManager::PluginMetadata</ref><sp/>base_metadata;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>base_metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a316dc90289924c4e1276bd8ff6edf30c" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;base_plugin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>base_metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1af2ec490b54d3b8d77ed1b9122dbb8c14" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>base_metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a39b7c8649b5a9368d2dce7f11ebf5c0f" kindref="member">api_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="class_plugin_manager_1a8ed30116569ac98faba1eb9b93cf1e74" kindref="member">load_plugin</ref>(</highlight><highlight class="stringliteral">&quot;base_plugin&quot;</highlight><highlight class="normal">,<sp/>base_metadata));</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>dependent<sp/>plugin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata" kindref="compound">PluginManager::PluginMetadata</ref><sp/>dep_metadata;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>dep_metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a316dc90289924c4e1276bd8ff6edf30c" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dependent_plugin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>dep_metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1af2ec490b54d3b8d77ed1b9122dbb8c14" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>dep_metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a39b7c8649b5a9368d2dce7f11ebf5c0f" kindref="member">api_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>dep_metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a120765fd359a060bb488085a864f59f5" kindref="member">dependencies</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;base_plugin&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="class_plugin_manager_1a8ed30116569ac98faba1eb9b93cf1e74" kindref="member">load_plugin</ref>(</highlight><highlight class="stringliteral">&quot;dependent_plugin&quot;</highlight><highlight class="normal">,<sp/>dep_metadata));</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>be<sp/>able<sp/>to<sp/>unload<sp/>base<sp/>while<sp/>dependent<sp/>is<sp/>loaded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager.<ref refid="class_plugin_manager_1a14899bc1a55c2a9783b09b56e595df19" kindref="member">unload_plugin</ref>(</highlight><highlight class="stringliteral">&quot;base_plugin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unload<sp/>dependent<sp/>first,<sp/>then<sp/>base<sp/>should<sp/>work</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="class_plugin_manager_1a14899bc1a55c2a9783b09b56e595df19" kindref="member">unload_plugin</ref>(</highlight><highlight class="stringliteral">&quot;dependent_plugin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="class_plugin_manager_1a14899bc1a55c2a9783b09b56e595df19" kindref="member">unload_plugin</ref>(</highlight><highlight class="stringliteral">&quot;base_plugin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Circular<sp/>dependency<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><ref refid="test__plugin__lifecycle_8cpp_1a64bfd194ce1c06db22451cfe59afcdfc" kindref="member">TEST</ref>(PluginLifecycleTest,<sp/>CircularDependencyDetection)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref><sp/>manager;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>plugin<sp/>A</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata" kindref="compound">PluginManager::PluginMetadata</ref><sp/>metadata_a;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata_a.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a316dc90289924c4e1276bd8ff6edf30c" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;plugin_a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata_a.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1af2ec490b54d3b8d77ed1b9122dbb8c14" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata_a.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a39b7c8649b5a9368d2dce7f11ebf5c0f" kindref="member">api_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="class_plugin_manager_1a8ed30116569ac98faba1eb9b93cf1e74" kindref="member">load_plugin</ref>(</highlight><highlight class="stringliteral">&quot;plugin_a&quot;</highlight><highlight class="normal">,<sp/>metadata_a));</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>load<sp/>plugin<sp/>B<sp/>that<sp/>depends<sp/>on<sp/>A<sp/>and<sp/>A<sp/>depends<sp/>on<sp/>B<sp/>(circular)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata" kindref="compound">PluginManager::PluginMetadata</ref><sp/>metadata_b;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata_b.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a316dc90289924c4e1276bd8ff6edf30c" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;plugin_b&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata_b.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1af2ec490b54d3b8d77ed1b9122dbb8c14" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata_b.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a39b7c8649b5a9368d2dce7f11ebf5c0f" kindref="member">api_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata_b.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a120765fd359a060bb488085a864f59f5" kindref="member">dependencies</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;plugin_a&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="class_plugin_manager_1a8ed30116569ac98faba1eb9b93cf1e74" kindref="member">load_plugin</ref>(</highlight><highlight class="stringliteral">&quot;plugin_b&quot;</highlight><highlight class="normal">,<sp/>metadata_b));</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>try<sp/>to<sp/>add<sp/>circular<sp/>dependency<sp/>(should<sp/>fail<sp/>in<sp/>real<sp/>scenario)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata" kindref="compound">PluginManager::PluginMetadata</ref><sp/>metadata_c;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata_c.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a316dc90289924c4e1276bd8ff6edf30c" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;plugin_c&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata_c.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1af2ec490b54d3b8d77ed1b9122dbb8c14" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata_c.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a39b7c8649b5a9368d2dce7f11ebf5c0f" kindref="member">api_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata_c.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a120765fd359a060bb488085a864f59f5" kindref="member">dependencies</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;plugin_c&quot;</highlight><highlight class="normal">};<sp/><sp/></highlight><highlight class="comment">//<sp/>Self-dependency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager.<ref refid="class_plugin_manager_1a8ed30116569ac98faba1eb9b93cf1e74" kindref="member">load_plugin</ref>(</highlight><highlight class="stringliteral">&quot;plugin_c&quot;</highlight><highlight class="normal">,<sp/>metadata_c));</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Version<sp/>compatibility</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><ref refid="test__plugin__lifecycle_8cpp_1a64bfd194ce1c06db22451cfe59afcdfc" kindref="member">TEST</ref>(PluginLifecycleTest,<sp/>VersionCompatibility)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref><sp/>manager;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compatible<sp/>version<sp/>(same<sp/>major)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata" kindref="compound">PluginManager::PluginMetadata</ref><sp/>compatible;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>compatible.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a316dc90289924c4e1276bd8ff6edf30c" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;compatible_plugin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>compatible.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1af2ec490b54d3b8d77ed1b9122dbb8c14" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>compatible.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a39b7c8649b5a9368d2dce7f11ebf5c0f" kindref="member">api_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="class_plugin_manager_1a8ed30116569ac98faba1eb9b93cf1e74" kindref="member">load_plugin</ref>(</highlight><highlight class="stringliteral">&quot;compatible_plugin&quot;</highlight><highlight class="normal">,<sp/>compatible));</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Incompatible<sp/>version<sp/>(different<sp/>major)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata" kindref="compound">PluginManager::PluginMetadata</ref><sp/>incompatible;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>incompatible.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a316dc90289924c4e1276bd8ff6edf30c" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;incompatible_plugin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>incompatible.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1af2ec490b54d3b8d77ed1b9122dbb8c14" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>incompatible.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a39b7c8649b5a9368d2dce7f11ebf5c0f" kindref="member">api_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager.<ref refid="class_plugin_manager_1a8ed30116569ac98faba1eb9b93cf1e74" kindref="member">load_plugin</ref>(</highlight><highlight class="stringliteral">&quot;incompatible_plugin&quot;</highlight><highlight class="normal">,<sp/>incompatible));</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Plugin<sp/>state<sp/>persistence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><ref refid="test__plugin__lifecycle_8cpp_1a64bfd194ce1c06db22451cfe59afcdfc" kindref="member">TEST</ref>(PluginLifecycleTest,<sp/>StatePersistence)<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref><sp/>manager;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata" kindref="compound">PluginManager::PluginMetadata</ref><sp/>metadata;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a316dc90289924c4e1276bd8ff6edf30c" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;stateful_plugin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1af2ec490b54d3b8d77ed1b9122dbb8c14" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a39b7c8649b5a9368d2dce7f11ebf5c0f" kindref="member">api_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="class_plugin_manager_1a8ed30116569ac98faba1eb9b93cf1e74" kindref="member">load_plugin</ref>(</highlight><highlight class="stringliteral">&quot;stateful_plugin&quot;</highlight><highlight class="normal">,<sp/>metadata));</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Save<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>state_data<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;plugin_state_data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.<ref refid="class_plugin_manager_1a9d8525a5adaea016b45cfa856248d0d4" kindref="member">save_plugin_state</ref>(</highlight><highlight class="stringliteral">&quot;stateful_plugin&quot;</highlight><highlight class="normal">,<sp/>state_data));</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>loaded_state<sp/>=<sp/>manager.<ref refid="class_plugin_manager_1a3b001f792fd7e95a672269c513929ebf" kindref="member">load_plugin_state</ref>(</highlight><highlight class="stringliteral">&quot;stateful_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded_state,<sp/>state_data);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Error<sp/>handling<sp/>during<sp/>lifecycle<sp/>events</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><ref refid="test__plugin__lifecycle_8cpp_1a64bfd194ce1c06db22451cfe59afcdfc" kindref="member">TEST</ref>(PluginLifecycleTest,<sp/>ErrorHandling)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref><sp/>manager;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>unload<sp/>non-existent<sp/>plugin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager.<ref refid="class_plugin_manager_1a14899bc1a55c2a9783b09b56e595df19" kindref="member">unload_plugin</ref>(</highlight><highlight class="stringliteral">&quot;non_existent&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>hot<sp/>reload<sp/>non-existent<sp/>plugin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager.<ref refid="class_plugin_manager_1a2dabddb5e456f39ffeaef0f8e6b8a328" kindref="member">hot_reload_plugin</ref>(</highlight><highlight class="stringliteral">&quot;non_existent&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>load<sp/>plugin<sp/>with<sp/>missing<sp/>dependency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata" kindref="compound">PluginManager::PluginMetadata</ref><sp/>metadata;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a316dc90289924c4e1276bd8ff6edf30c" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;plugin_with_missing_dep&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1af2ec490b54d3b8d77ed1b9122dbb8c14" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a39b7c8649b5a9368d2dce7f11ebf5c0f" kindref="member">api_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a120765fd359a060bb488085a864f59f5" kindref="member">dependencies</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;missing_plugin&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager.<ref refid="class_plugin_manager_1a8ed30116569ac98faba1eb9b93cf1e74" kindref="member">load_plugin</ref>(</highlight><highlight class="stringliteral">&quot;plugin_with_missing_dep&quot;</highlight><highlight class="normal">,<sp/>metadata));</highlight></codeline>
+<codeline lineno="343"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Load<sp/>order<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><ref refid="test__plugin__lifecycle_8cpp_1a64bfd194ce1c06db22451cfe59afcdfc" kindref="member">TEST</ref>(PluginLifecycleTest,<sp/>LoadOrderTracking)<sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref><sp/>manager;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata" kindref="compound">PluginManager::PluginMetadata</ref><sp/>metadata1;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata1.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a316dc90289924c4e1276bd8ff6edf30c" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;plugin1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata1.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1af2ec490b54d3b8d77ed1b9122dbb8c14" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata1.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a39b7c8649b5a9368d2dce7f11ebf5c0f" kindref="member">api_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.<ref refid="class_plugin_manager_1a8ed30116569ac98faba1eb9b93cf1e74" kindref="member">load_plugin</ref>(</highlight><highlight class="stringliteral">&quot;plugin1&quot;</highlight><highlight class="normal">,<sp/>metadata1);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_plugin_manager_1_1_plugin_metadata" kindref="compound">PluginManager::PluginMetadata</ref><sp/>metadata2;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata2.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a316dc90289924c4e1276bd8ff6edf30c" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;plugin2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata2.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1af2ec490b54d3b8d77ed1b9122dbb8c14" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata2.<ref refid="struct_plugin_manager_1_1_plugin_metadata_1a39b7c8649b5a9368d2dce7f11ebf5c0f" kindref="member">api_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.<ref refid="class_plugin_manager_1a8ed30116569ac98faba1eb9b93cf1e74" kindref="member">load_plugin</ref>(</highlight><highlight class="stringliteral">&quot;plugin2&quot;</highlight><highlight class="normal">,<sp/>metadata2);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>load_order<sp/>=<sp/>manager.<ref refid="class_plugin_manager_1ab39e6430b04b70b59b740320cfcf3616" kindref="member">get_load_order</ref>();</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(load_order.size(),<sp/>2);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(load_order[0],<sp/></highlight><highlight class="stringliteral">&quot;plugin1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(load_order[1],<sp/></highlight><highlight class="stringliteral">&quot;plugin2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Disabled<sp/>custom<sp/>main<sp/>to<sp/>avoid<sp/>multiple<sp/>definition;<sp/>rely<sp/>on<sp/>gtest_main.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="tests/plugins/test_plugin_lifecycle.cpp"/>
+  </compounddef>
+</doxygen>

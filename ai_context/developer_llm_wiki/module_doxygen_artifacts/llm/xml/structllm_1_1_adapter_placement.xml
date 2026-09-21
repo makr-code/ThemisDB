@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structllm_1_1_adapter_placement" kind="struct" language="C++" prot="public">
+    <compoundname>llm::AdapterPlacement</compoundname>
+    <includes refid="adapter__deployment__manager_8h" local="no">adapter_deployment_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structllm_1_1_adapter_placement_1a73fb9d775439fd047e646ca50f59773c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::AdapterPlacement::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>llm::AdapterPlacement::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="45" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_adapter_placement_1a69ba59d08570e95c8783caf17727a4d7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::AdapterPlacement::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>llm::AdapterPlacement::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="46" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_adapter_placement_1aeeebb178110b43d90a80a24513781350" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacellm_1ad8ca0df4b5395bd8ff0df69c92798395" kindref="member">DeploymentStrategy</ref></type>
+        <definition>DeploymentStrategy llm::AdapterPlacement::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>llm::AdapterPlacement::strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="47" column="24" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_adapter_placement_1a758792f2050d93578b70873b97d401a8" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float llm::AdapterPlacement::affinity_score</definition>
+        <argsstring></argsstring>
+        <name>affinity_score</name>
+        <qualifiedname>llm::AdapterPlacement::affinity_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="48" column="11" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_adapter_placement_1ae4f8aa52b9ca801c67cd4d89acedf190" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t llm::AdapterPlacement::estimated_requests_per_sec</definition>
+        <argsstring></argsstring>
+        <name>estimated_requests_per_sec</name>
+        <qualifiedname>llm::AdapterPlacement::estimated_requests_per_sec</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="49" column="12" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_adapter_placement_1a00a52e9bc401ca42a2441ef3fa25cf40" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t llm::AdapterPlacement::adapter_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>adapter_size_bytes</name>
+        <qualifiedname>llm::AdapterPlacement::adapter_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="50" column="12" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_adapter_placement_1a60c1798fd71b55ecdf2c5f6dfdf81615" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::AdapterPlacement::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>llm::AdapterPlacement::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="51" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structllm_1_1_adapter_placement_1a5005486629067c17f633d5679b06cadd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual llm::AdapterPlacement::~AdapterPlacement</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AdapterPlacement</name>
+        <qualifiedname>llm::AdapterPlacement::~AdapterPlacement</qualifiedname>
+        <briefdescription>
+<para>Adapter Placement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="44" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_deployment_manager.h" line="39" column="1" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="39" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structllm_1_1_adapter_placement_1a73fb9d775439fd047e646ca50f59773c" prot="public" virt="non-virtual"><scope>llm::AdapterPlacement</scope><name>adapter_id</name></member>
+      <member refid="structllm_1_1_adapter_placement_1a00a52e9bc401ca42a2441ef3fa25cf40" prot="public" virt="non-virtual"><scope>llm::AdapterPlacement</scope><name>adapter_size_bytes</name></member>
+      <member refid="structllm_1_1_adapter_placement_1a758792f2050d93578b70873b97d401a8" prot="public" virt="non-virtual"><scope>llm::AdapterPlacement</scope><name>affinity_score</name></member>
+      <member refid="structllm_1_1_adapter_placement_1ae4f8aa52b9ca801c67cd4d89acedf190" prot="public" virt="non-virtual"><scope>llm::AdapterPlacement</scope><name>estimated_requests_per_sec</name></member>
+      <member refid="structllm_1_1_adapter_placement_1a60c1798fd71b55ecdf2c5f6dfdf81615" prot="public" virt="non-virtual"><scope>llm::AdapterPlacement</scope><name>reason</name></member>
+      <member refid="structllm_1_1_adapter_placement_1a69ba59d08570e95c8783caf17727a4d7" prot="public" virt="non-virtual"><scope>llm::AdapterPlacement</scope><name>shard_id</name></member>
+      <member refid="structllm_1_1_adapter_placement_1aeeebb178110b43d90a80a24513781350" prot="public" virt="non-virtual"><scope>llm::AdapterPlacement</scope><name>strategy</name></member>
+      <member refid="structllm_1_1_adapter_placement_1a5005486629067c17f633d5679b06cadd" prot="public" virt="virtual"><scope>llm::AdapterPlacement</scope><name>~AdapterPlacement</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ActiveVRAMAllocator::AllocationHandle</compoundname>
+    <includes refid="active__vram__allocator_8h" local="no">active_vram_allocator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1aab3f0c23066f192f7960fec6fe686e08" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::ActiveVRAMAllocator::AllocationHandle::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::AllocationHandle::id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="57" column="18" bodyfile="include/llm/active_vram_allocator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1af286d2dae3fa08023355f6b798260a58" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ActiveVRAMAllocator::AllocationHandle::owner_id</definition>
+        <argsstring></argsstring>
+        <name>owner_id</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::AllocationHandle::owner_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="59" column="21" bodyfile="include/llm/active_vram_allocator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a4283a8052edc5b47171357b0b3afc38a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ActiveVRAMAllocator::AllocationHandle::requested_bytes</definition>
+        <argsstring></argsstring>
+        <name>requested_bytes</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::AllocationHandle::requested_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="61" column="16" bodyfile="include/llm/active_vram_allocator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a9ea52a32b1495fdd59032d667f55e0b5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ActiveVRAMAllocator::AllocationHandle::allocated_bytes</definition>
+        <argsstring></argsstring>
+        <name>allocated_bytes</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::AllocationHandle::allocated_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="63" column="16" bodyfile="include/llm/active_vram_allocator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a533a728631e4ac256ffe65aeb700e647" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::ActiveVRAMAllocator::AllocationHandle::gpu_ptr</definition>
+        <argsstring></argsstring>
+        <name>gpu_ptr</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::AllocationHandle::gpu_ptr</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="65" column="14" bodyfile="include/llm/active_vram_allocator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a103a9b177083d0e0d015a73dde1782ce" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::ActiveVRAMAllocator::AllocationHandle::cpu_ptr</definition>
+        <argsstring></argsstring>
+        <name>cpu_ptr</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::AllocationHandle::cpu_ptr</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="67" column="14" bodyfile="include/llm/active_vram_allocator.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a46a80e0bc441964168b77e126905db55" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ActiveVRAMAllocator::AllocationHandle::is_spilled</definition>
+        <argsstring></argsstring>
+        <name>is_spilled</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::AllocationHandle::is_spilled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="69" column="14" bodyfile="include/llm/active_vram_allocator.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a23e760da9edbb4d19c46a33736f95b47" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ActiveVRAMAllocator::AllocationHandle::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::AllocationHandle::valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="71" column="14" bodyfile="include/llm/active_vram_allocator.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1adb1c83209a5f3de866e5055423971832" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ActiveVRAMAllocator::AllocationHandle::is_external</definition>
+        <argsstring></argsstring>
+        <name>is_external</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::AllocationHandle::is_external</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="73" column="14" bodyfile="include/llm/active_vram_allocator.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1af2b9e563352467d4def7a24b66b23c7d" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::ActiveVRAMAllocator::AllocationHandle::allocated_at_ms</definition>
+        <argsstring></argsstring>
+        <name>allocated_at_ms</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::AllocationHandle::allocated_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="75" column="17" bodyfile="include/llm/active_vram_allocator.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a3b4fd8505e49f6a511d9ec0501b921f0" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::ActiveVRAMAllocator::AllocationHandle::last_used_at_ms</definition>
+        <argsstring></argsstring>
+        <name>last_used_at_ms</name>
+        <qualifiedname>themis::llm::ActiveVRAMAllocator::AllocationHandle::last_used_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/active_vram_allocator.h" line="77" column="17" bodyfile="include/llm/active_vram_allocator.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/active_vram_allocator.h" line="56" column="5" bodyfile="include/llm/active_vram_allocator.h" bodystart="56" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1af2b9e563352467d4def7a24b66b23c7d" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::AllocationHandle</scope><name>allocated_at_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a9ea52a32b1495fdd59032d667f55e0b5" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::AllocationHandle</scope><name>allocated_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a103a9b177083d0e0d015a73dde1782ce" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::AllocationHandle</scope><name>cpu_ptr</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a533a728631e4ac256ffe65aeb700e647" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::AllocationHandle</scope><name>gpu_ptr</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1aab3f0c23066f192f7960fec6fe686e08" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::AllocationHandle</scope><name>id</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1adb1c83209a5f3de866e5055423971832" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::AllocationHandle</scope><name>is_external</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a46a80e0bc441964168b77e126905db55" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::AllocationHandle</scope><name>is_spilled</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a3b4fd8505e49f6a511d9ec0501b921f0" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::AllocationHandle</scope><name>last_used_at_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1af286d2dae3fa08023355f6b798260a58" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::AllocationHandle</scope><name>owner_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a4283a8052edc5b47171357b0b3afc38a" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::AllocationHandle</scope><name>requested_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle_1a23e760da9edbb4d19c46a33736f95b47" prot="public" virt="non-virtual"><scope>themis::llm::ActiveVRAMAllocator::AllocationHandle</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

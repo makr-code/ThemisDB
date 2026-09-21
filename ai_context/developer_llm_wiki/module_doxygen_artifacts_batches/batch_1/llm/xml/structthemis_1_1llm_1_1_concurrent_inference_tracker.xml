@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_concurrent_inference_tracker" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ConcurrentInferenceTracker</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_concurrent_inference_tracker_1a267d4df7f45252436e59ed53d90b5e09" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::ConcurrentInferenceTracker::active_inferences</definition>
+        <argsstring></argsstring>
+        <name>active_inferences</name>
+        <qualifiedname>themis::llm::ConcurrentInferenceTracker::active_inferences</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/llm_plugin_manager.cpp" line="1463" column="17" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="1463" bodyend="1463"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_concurrent_inference_tracker_1a56f20ff2bdfc72b0edf01463d3a8a429" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ConcurrentInferenceTracker::max_concurrent</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent</name>
+        <qualifiedname>themis::llm::ConcurrentInferenceTracker::max_concurrent</qualifiedname>
+        <initializer>{256}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/llm_plugin_manager.cpp" line="1464" column="12" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="1464" bodyend="1464"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_concurrent_inference_tracker_1afd8ba924c9a95f30c4686fe7b39b7224" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::ConcurrentInferenceTracker::lock</definition>
+        <argsstring></argsstring>
+        <name>lock</name>
+        <qualifiedname>themis::llm::ConcurrentInferenceTracker::lock</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/llm_plugin_manager.cpp" line="1465" column="16" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="1465" bodyend="1465"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_concurrent_inference_tracker_1a27d9e768c563e987329de40b793e8c39" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ConcurrentInferenceTracker::ConcurrentInferenceTracker</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>ConcurrentInferenceTracker</name>
+        <qualifiedname>themis::llm::ConcurrentInferenceTracker::ConcurrentInferenceTracker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/llm_plugin_manager.cpp" line="1467" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_concurrent_inference_tracker_1a24b811482737c054e9697fa3b08fd571" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ConcurrentInferenceTracker::AcquireSlot</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>AcquireSlot</name>
+        <qualifiedname>themis::llm::ConcurrentInferenceTracker::AcquireSlot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>G. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/llm_plugin_manager.cpp" line="1469" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="1469" bodyend="1481"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_concurrent_inference_tracker_1a31b6213ce6a9e345d718864b0910bb9f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ConcurrentInferenceTracker::ReleaseSlot</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>ReleaseSlot</name>
+        <qualifiedname>themis::llm::ConcurrentInferenceTracker::ReleaseSlot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>G. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/llm_plugin_manager.cpp" line="1483" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="1483" bodyend="1493"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_concurrent_inference_tracker_1a7eaac9d3da52d2790467f309c49ca699" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ConcurrentInferenceTracker::GetActiveCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>GetActiveCount</name>
+        <qualifiedname>themis::llm::ConcurrentInferenceTracker::GetActiveCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/llm_plugin_manager.cpp" line="1495" column="12" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="1495" bodyend="1497"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/llm_plugin_manager.cpp" line="1460" column="1" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="1460" bodyend="1498"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_concurrent_inference_tracker_1a24b811482737c054e9697fa3b08fd571" prot="public" virt="non-virtual"><scope>themis::llm::ConcurrentInferenceTracker</scope><name>AcquireSlot</name></member>
+      <member refid="structthemis_1_1llm_1_1_concurrent_inference_tracker_1a267d4df7f45252436e59ed53d90b5e09" prot="public" virt="non-virtual"><scope>themis::llm::ConcurrentInferenceTracker</scope><name>active_inferences</name></member>
+      <member refid="structthemis_1_1llm_1_1_concurrent_inference_tracker_1a27d9e768c563e987329de40b793e8c39" prot="public" virt="non-virtual"><scope>themis::llm::ConcurrentInferenceTracker</scope><name>ConcurrentInferenceTracker</name></member>
+      <member refid="structthemis_1_1llm_1_1_concurrent_inference_tracker_1a7eaac9d3da52d2790467f309c49ca699" prot="public" virt="non-virtual"><scope>themis::llm::ConcurrentInferenceTracker</scope><name>GetActiveCount</name></member>
+      <member refid="structthemis_1_1llm_1_1_concurrent_inference_tracker_1afd8ba924c9a95f30c4686fe7b39b7224" prot="public" virt="non-virtual"><scope>themis::llm::ConcurrentInferenceTracker</scope><name>lock</name></member>
+      <member refid="structthemis_1_1llm_1_1_concurrent_inference_tracker_1a56f20ff2bdfc72b0edf01463d3a8a429" prot="public" virt="non-virtual"><scope>themis::llm::ConcurrentInferenceTracker</scope><name>max_concurrent</name></member>
+      <member refid="structthemis_1_1llm_1_1_concurrent_inference_tracker_1a31b6213ce6a9e345d718864b0910bb9f" prot="public" virt="non-virtual"><scope>themis::llm::ConcurrentInferenceTracker</scope><name>ReleaseSlot</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

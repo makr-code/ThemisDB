@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::LLMAQLHandler::Config</compoundname>
+    <includes refid="llm__aql__handler_8h" local="no">llm_aql_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1a2f52ebb4ba9d164c59e6491826f2c253" prot="public" static="no" mutable="no">
+        <type>sharding::CircuitBreaker::Config</type>
+        <definition>sharding::CircuitBreaker::Config themis::aql::LLMAQLHandler::Config::infer_circuit_breaker</definition>
+        <argsstring></argsstring>
+        <name>infer_circuit_breaker</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::Config::infer_circuit_breaker</qualifiedname>
+        <initializer>{
+            .failure_threshold = 5,
+            .timeout           = std::chrono::seconds(60),
+            .success_threshold = 2,
+            .failure_window    = std::chrono::seconds(120)
+        }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="119" column="42" bodyfile="include/aql/llm_aql_handler.h" bodystart="119" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1ab8ae2f7fd8cc6c1bb74a2e06253255a4" prot="public" static="no" mutable="no">
+        <type>sharding::CircuitBreaker::Config</type>
+        <definition>sharding::CircuitBreaker::Config themis::aql::LLMAQLHandler::Config::rag_circuit_breaker</definition>
+        <argsstring></argsstring>
+        <name>rag_circuit_breaker</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::Config::rag_circuit_breaker</qualifiedname>
+        <initializer>{
+            .failure_threshold = 5,
+            .timeout           = std::chrono::seconds(60),
+            .success_threshold = 2,
+            .failure_window    = std::chrono::seconds(120)
+        }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="126" column="42" bodyfile="include/aql/llm_aql_handler.h" bodystart="126" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1af0f43789ca42f751470da8e2ee91eb07" prot="public" static="no" mutable="no">
+        <type>sharding::CircuitBreaker::Config</type>
+        <definition>sharding::CircuitBreaker::Config themis::aql::LLMAQLHandler::Config::embed_circuit_breaker</definition>
+        <argsstring></argsstring>
+        <name>embed_circuit_breaker</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::Config::embed_circuit_breaker</qualifiedname>
+        <initializer>{
+            .failure_threshold = 5,
+            .timeout           = std::chrono::seconds(60),
+            .success_threshold = 2,
+            .failure_window    = std::chrono::seconds(120)
+        }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="133" column="42" bodyfile="include/aql/llm_aql_handler.h" bodystart="133" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1aec79e405eb1323ea87c3362f0cd75be8" prot="public" static="no" mutable="no">
+        <type>sharding::CircuitBreaker::Config</type>
+        <definition>sharding::CircuitBreaker::Config themis::aql::LLMAQLHandler::Config::finetune_circuit_breaker</definition>
+        <argsstring></argsstring>
+        <name>finetune_circuit_breaker</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::Config::finetune_circuit_breaker</qualifiedname>
+        <initializer>{
+            .failure_threshold = 5,
+            .timeout           = std::chrono::seconds(60),
+            .success_threshold = 2,
+            .failure_window    = std::chrono::seconds(120)
+        }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="140" column="42" bodyfile="include/aql/llm_aql_handler.h" bodystart="140" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1a32c7eff47429ed060e9a5904047d62a7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::LLMAQLHandler::Config::enable_c1_cai_safety_gate</definition>
+        <argsstring></argsstring>
+        <name>enable_c1_cai_safety_gate</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::Config::enable_c1_cai_safety_gate</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="147" column="14" bodyfile="include/aql/llm_aql_handler.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1a081bd64812b4b08ec71bc1262efb9099" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::aql::LLMAQLHandler::Config::c1_min_safety_score</definition>
+        <argsstring></argsstring>
+        <name>c1_min_safety_score</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::Config::c1_min_safety_score</qualifiedname>
+        <initializer>= 0.80</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="148" column="16" bodyfile="include/aql/llm_aql_handler.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1a07d0790a5488d24f6e7d5e5d773359b7" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1aba4169df2026459d85d4928ab5745d34" kindref="member">CAISafetyEvalFn</ref></type>
+        <definition>CAISafetyEvalFn themis::aql::LLMAQLHandler::Config::c1_cai_eval_fn</definition>
+        <argsstring></argsstring>
+        <name>c1_cai_eval_fn</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::Config::c1_cai_eval_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="149" column="25" bodyfile="include/aql/llm_aql_handler.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1a85d04f7cecc9fa598d17d8c78aeec9df" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::LLMAQLHandler::Config::enable_c2_federated_telemetry</definition>
+        <argsstring></argsstring>
+        <name>enable_c2_federated_telemetry</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::Config::enable_c2_federated_telemetry</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="151" column="14" bodyfile="include/aql/llm_aql_handler.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1a193e67620c5d700cb9e5f3d3b29d22a0" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1a6d831ffde21236d8cf892659f20212cf" kindref="member">FederatedTelemetryFn</ref></type>
+        <definition>FederatedTelemetryFn themis::aql::LLMAQLHandler::Config::c2_federated_telemetry_fn</definition>
+        <argsstring></argsstring>
+        <name>c2_federated_telemetry_fn</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::Config::c2_federated_telemetry_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="152" column="30" bodyfile="include/aql/llm_aql_handler.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1a42ebec39ff16a40e83f670d6421c968b" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; query::AQLParserService &gt;</type>
+        <definition>std::shared_ptr&lt;query::AQLParserService&gt; themis::aql::LLMAQLHandler::Config::parser_service</definition>
+        <argsstring></argsstring>
+        <name>parser_service</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::Config::parser_service</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="154" column="25" bodyfile="include/aql/llm_aql_handler.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1afe99b6d6028c03d966243c1f91a88c17" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config" kindref="compound">LLMValidationPipelineConfig</ref></type>
+        <definition>LLMValidationPipelineConfig themis::aql::LLMAQLHandler::Config::validation_config</definition>
+        <argsstring></argsstring>
+        <name>validation_config</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::Config::validation_config</qualifiedname>
+        <initializer>{
+            .max_retries = 1,
+            .timeout_ms = 5000,
+            .reject_on_error = false,
+            .log_level = &quot;warn&quot;
+        }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="156" column="37" bodyfile="include/aql/llm_aql_handler.h" bodystart="156" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1acecb44d62829bed9f2ad5c67a73fc433" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; llm::LLMClient &gt;</type>
+        <definition>std::shared_ptr&lt;llm::LLMClient&gt; themis::aql::LLMAQLHandler::Config::llm_client</definition>
+        <argsstring></argsstring>
+        <name>llm_client</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::Config::llm_client</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="163" column="25" bodyfile="include/aql/llm_aql_handler.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::aql::LLMAQLHandler::Config</label>
+        <link refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>validation_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::aql::LLMValidationPipelineConfig</label>
+        <link refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/aql/llm_aql_handler.h" line="118" column="5" bodyfile="include/aql/llm_aql_handler.h" bodystart="118" bodyend="164"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1a07d0790a5488d24f6e7d5e5d773359b7" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::Config</scope><name>c1_cai_eval_fn</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1a081bd64812b4b08ec71bc1262efb9099" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::Config</scope><name>c1_min_safety_score</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1a193e67620c5d700cb9e5f3d3b29d22a0" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::Config</scope><name>c2_federated_telemetry_fn</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1af0f43789ca42f751470da8e2ee91eb07" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::Config</scope><name>embed_circuit_breaker</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1a32c7eff47429ed060e9a5904047d62a7" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::Config</scope><name>enable_c1_cai_safety_gate</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1a85d04f7cecc9fa598d17d8c78aeec9df" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::Config</scope><name>enable_c2_federated_telemetry</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1aec79e405eb1323ea87c3362f0cd75be8" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::Config</scope><name>finetune_circuit_breaker</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1a2f52ebb4ba9d164c59e6491826f2c253" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::Config</scope><name>infer_circuit_breaker</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1acecb44d62829bed9f2ad5c67a73fc433" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::Config</scope><name>llm_client</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1a42ebec39ff16a40e83f670d6421c968b" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::Config</scope><name>parser_service</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1ab8ae2f7fd8cc6c1bb74a2e06253255a4" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::Config</scope><name>rag_circuit_breaker</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_config_1afe99b6d6028c03d966243c1f91a88c17" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::Config</scope><name>validation_config</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

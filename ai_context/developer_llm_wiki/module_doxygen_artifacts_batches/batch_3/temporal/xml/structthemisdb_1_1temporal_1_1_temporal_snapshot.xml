@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_temporal_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TemporalSnapshot</compoundname>
+    <includes refid="temporal__conflict__resolver_8h" local="no">temporal_conflict_resolver.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_snapshot_1a32c335602dbb3e038fde4ed2449b90e4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalSnapshot::snapshot_id</definition>
+        <argsstring></argsstring>
+        <name>snapshot_id</name>
+        <qualifiedname>themisdb::temporal::TemporalSnapshot::snapshot_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="53" column="17" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_snapshot_1a56bf78e3782dc2484c9a20d8c5549268" prot="public" static="no" mutable="no">
+        <type>replication::HybridLogicalClock::Timestamp</type>
+        <definition>replication::HybridLogicalClock::Timestamp themisdb::temporal::TemporalSnapshot::hlc</definition>
+        <argsstring></argsstring>
+        <name>hlc</name>
+        <qualifiedname>themisdb::temporal::TemporalSnapshot::hlc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="54" column="48" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_snapshot_1ad04e79df97ccf49cbc7b71c91ce55df0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalSnapshot::source_node_id</definition>
+        <argsstring></argsstring>
+        <name>source_node_id</name>
+        <qualifiedname>themisdb::temporal::TemporalSnapshot::source_node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="55" column="17" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_snapshot_1a53a94cdef14479aab605728296185305" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::TemporalSnapshot::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themisdb::temporal::TemporalSnapshot::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="56" column="20" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_snapshot_1a098038f867782c4d7846480240402318" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalSnapshot::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themisdb::temporal::TemporalSnapshot::checksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="57" column="17" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_temporal_snapshot_1a9f3da233f7c8b26bcedf88e66deee908" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::TemporalSnapshot::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::temporal::TemporalSnapshot::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="59" column="20" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="31" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_temporal_snapshot_1adc11dcdd7a791cc0c5534e396b071d4c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; TemporalSnapshot &gt; themisdb::temporal::TemporalSnapshot::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themisdb::temporal::TemporalSnapshot::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: at(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="60" column="26" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="51" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Temporal Snapshot with HLC versioning </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_conflict_resolver.h" line="52" column="1" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="52" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_1a098038f867782c4d7846480240402318" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalSnapshot</scope><name>checksum</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_1a53a94cdef14479aab605728296185305" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalSnapshot</scope><name>data</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_1adc11dcdd7a791cc0c5534e396b071d4c" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalSnapshot</scope><name>fromJson</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_1a56bf78e3782dc2484c9a20d8c5549268" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalSnapshot</scope><name>hlc</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_1a32c335602dbb3e038fde4ed2449b90e4" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalSnapshot</scope><name>snapshot_id</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_1ad04e79df97ccf49cbc7b71c91ce55df0" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalSnapshot</scope><name>source_node_id</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_1a9f3da233f7c8b26bcedf88e66deee908" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalSnapshot</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

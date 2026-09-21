@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_scraper_record_builder" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::ScraperRecordBuilder</compoundname>
+    <includes refid="scraper__metadata__writer_8h" local="no">scraper_metadata_writer.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_record_builder_1a918a6c214852c222dca49fceb2adfa42" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char * themis::scraper::ScraperRecordBuilder::kPluginVersion</definition>
+        <argsstring></argsstring>
+        <name>kPluginVersion</name>
+        <qualifiedname>themis::scraper::ScraperRecordBuilder::kPluginVersion</qualifiedname>
+        <initializer>= &quot;1.0.0&quot;</initializer>
+        <briefdescription>
+<para>Semver injected at plugin initialisation; default &quot;1.0.0&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="214" column="23" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1scraper_1_1_scraper_record_builder_1a821de51ac87e48bc0ab095d584f6bd62" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_scraper_relational_record" kindref="compound">ScraperRelationalRecord</ref></type>
+        <definition>ScraperRelationalRecord themis::scraper::ScraperRecordBuilder::buildRelational</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;title, const std::string &amp;text, const std::string &amp;source_name, const std::string &amp;gov_source_id, const EvaluationResult &amp;eval, const GapContext &amp;gap, const std::string &amp;plugin_version=&quot;&quot;)</argsstring>
+        <name>buildRelational</name>
+        <qualifiedname>themis::scraper::ScraperRecordBuilder::buildRelational</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>title</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>gov_source_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &amp;</type>
+          <declname>eval</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_gap_context" kindref="compound">GapContext</ref> &amp;</type>
+          <declname>gap</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_version</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="216" column="36" bodyfile="src/scraper/scraper_metadata_writer.cpp" bodystart="92" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1scraper_1_1_scraper_record_builder_1a258885691641b540419e65683ab3dcd7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_scraper_graph_node" kindref="compound">ScraperGraphNode</ref></type>
+        <definition>ScraperGraphNode themis::scraper::ScraperRecordBuilder::buildNode</definition>
+        <argsstring>(const ScraperRelationalRecord &amp;rel)</argsstring>
+        <name>buildNode</name>
+        <qualifiedname>themis::scraper::ScraperRecordBuilder::buildNode</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_scraper_relational_record" kindref="compound">ScraperRelationalRecord</ref> &amp;</type>
+          <declname>rel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="226" column="29" bodyfile="src/scraper/scraper_metadata_writer.cpp" bodystart="121" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1scraper_1_1_scraper_record_builder_1a9f9d97dc3897361917a217b528b7d83b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_scraper_graph_edge" kindref="compound">ScraperGraphEdge</ref> &gt;</type>
+        <definition>std::vector&lt; ScraperGraphEdge &gt; themis::scraper::ScraperRecordBuilder::buildEdges</definition>
+        <argsstring>(const ScraperRelationalRecord &amp;rel, const EvaluationResult &amp;eval)</argsstring>
+        <name>buildEdges</name>
+        <qualifiedname>themis::scraper::ScraperRecordBuilder::buildEdges</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_scraper_relational_record" kindref="compound">ScraperRelationalRecord</ref> &amp;</type>
+          <declname>rel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &amp;</type>
+          <declname>eval</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="228" column="24" bodyfile="src/scraper/scraper_metadata_writer.cpp" bodystart="146" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1scraper_1_1_scraper_record_builder_1ac6392c1a94951b3af90289b3a62c0ca5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_scraper_vector_record" kindref="compound">ScraperVectorRecord</ref></type>
+        <definition>ScraperVectorRecord themis::scraper::ScraperRecordBuilder::buildVector</definition>
+        <argsstring>(const ScraperRelationalRecord &amp;rel)</argsstring>
+        <name>buildVector</name>
+        <qualifiedname>themis::scraper::ScraperRecordBuilder::buildVector</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_scraper_relational_record" kindref="compound">ScraperRelationalRecord</ref> &amp;</type>
+          <declname>rel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="232" column="32" bodyfile="src/scraper/scraper_metadata_writer.cpp" bodystart="186" bodyend="201"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="structthemis_1_1scraper_1_1_scraper_record_builder_1ae5f6280c12561ac904e8d8613b84c948" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperRecordBuilder::computeDocId</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;text)</argsstring>
+        <name>computeDocId</name>
+        <qualifiedname>themis::scraper::ScraperRecordBuilder::computeDocId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="235" column="24" bodyfile="src/scraper/scraper_metadata_writer.cpp" bodystart="81" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1scraper_1_1_scraper_record_builder_1a8bb3b3be1791b2e26918e1ce2b6c94d5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperRecordBuilder::currentIso8601</definition>
+        <argsstring>()</argsstring>
+        <name>currentIso8601</name>
+        <qualifiedname>themis::scraper::ScraperRecordBuilder::currentIso8601</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="237" column="24" bodyfile="src/scraper/scraper_metadata_writer.cpp" bodystart="88" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Build the relational, graph, and vector records from a document. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All builder methods unconditionally set the three provenance fields (<computeroutput>is_scraper_ingested</computeroutput>, <computeroutput>ingestion_source_type</computeroutput>, <computeroutput>ingestion_plugin_version</computeroutput>) on every record they produce. These fields MUST NOT be cleared or overridden by the caller — they are the authoritative ingestion trail. </para>
+    </detaileddescription>
+    <location file="include/scraper/scraper_metadata_writer.h" line="212" column="1" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="212" bodyend="238"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_scraper_record_builder_1a9f9d97dc3897361917a217b528b7d83b" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRecordBuilder</scope><name>buildEdges</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_record_builder_1a258885691641b540419e65683ab3dcd7" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRecordBuilder</scope><name>buildNode</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_record_builder_1a821de51ac87e48bc0ab095d584f6bd62" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRecordBuilder</scope><name>buildRelational</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_record_builder_1ac6392c1a94951b3af90289b3a62c0ca5" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRecordBuilder</scope><name>buildVector</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_record_builder_1ae5f6280c12561ac904e8d8613b84c948" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperRecordBuilder</scope><name>computeDocId</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_record_builder_1a8bb3b3be1791b2e26918e1ce2b6c94d5" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperRecordBuilder</scope><name>currentIso8601</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_record_builder_1a918a6c214852c222dca49fceb2adfa42" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRecordBuilder</scope><name>kPluginVersion</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

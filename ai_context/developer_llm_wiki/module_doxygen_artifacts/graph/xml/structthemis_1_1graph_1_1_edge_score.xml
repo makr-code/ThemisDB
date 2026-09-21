@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_edge_score" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::EdgeScore</compoundname>
+    <includes refid="scheduled__edge__refresh_8h" local="no">scheduled_edge_refresh.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_edge_score_1a9e782f6b26fdf12f01c651111c0844e5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::EdgeScore::edge_id</definition>
+        <argsstring></argsstring>
+        <name>edge_id</name>
+        <qualifiedname>themis::graph::EdgeScore::edge_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="84" column="17" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_edge_score_1a8a9593522611644d4e1a6688b64645aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::EdgeScore::from_vertex</definition>
+        <argsstring></argsstring>
+        <name>from_vertex</name>
+        <qualifiedname>themis::graph::EdgeScore::from_vertex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="85" column="17" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_edge_score_1ac6640f2aa6541d10290479bb32a65afe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::EdgeScore::to_vertex</definition>
+        <argsstring></argsstring>
+        <name>to_vertex</name>
+        <qualifiedname>themis::graph::EdgeScore::to_vertex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="86" column="17" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_edge_score_1a390030ec98e19eea4d999c88246e08cf" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::graph::EdgeScore::similarity</definition>
+        <argsstring></argsstring>
+        <name>similarity</name>
+        <qualifiedname>themis::graph::EdgeScore::similarity</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="88" column="11" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_edge_score_1ac14aa44699a922e23b94d8dc032e179d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::graph::EdgeScore::temporal_factor</definition>
+        <argsstring></argsstring>
+        <name>temporal_factor</name>
+        <qualifiedname>themis::graph::EdgeScore::temporal_factor</qualifiedname>
+        <initializer>{1.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="90" column="11" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_edge_score_1a28b0336e98960657fc0bc5829dbe7f3a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::graph::EdgeScore::centrality_weight</definition>
+        <argsstring></argsstring>
+        <name>centrality_weight</name>
+        <qualifiedname>themis::graph::EdgeScore::centrality_weight</qualifiedname>
+        <initializer>{1.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="92" column="11" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_edge_score_1a43a02317599ba7c3f58289fdee878af7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::graph::EdgeScore::relevance</definition>
+        <argsstring></argsstring>
+        <name>relevance</name>
+        <qualifiedname>themis::graph::EdgeScore::relevance</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="94" column="11" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_edge_score_1ab94f124e176d5cd274ebd5fc82166d90" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::EdgeScore::is_removal_candidate</definition>
+        <argsstring></argsstring>
+        <name>is_removal_candidate</name>
+        <qualifiedname>themis::graph::EdgeScore::is_removal_candidate</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="96" column="10" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/scheduled_edge_refresh.h" line="83" column="1" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="83" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_edge_score_1a28b0336e98960657fc0bc5829dbe7f3a" prot="public" virt="non-virtual"><scope>themis::graph::EdgeScore</scope><name>centrality_weight</name></member>
+      <member refid="structthemis_1_1graph_1_1_edge_score_1a9e782f6b26fdf12f01c651111c0844e5" prot="public" virt="non-virtual"><scope>themis::graph::EdgeScore</scope><name>edge_id</name></member>
+      <member refid="structthemis_1_1graph_1_1_edge_score_1a8a9593522611644d4e1a6688b64645aa" prot="public" virt="non-virtual"><scope>themis::graph::EdgeScore</scope><name>from_vertex</name></member>
+      <member refid="structthemis_1_1graph_1_1_edge_score_1ab94f124e176d5cd274ebd5fc82166d90" prot="public" virt="non-virtual"><scope>themis::graph::EdgeScore</scope><name>is_removal_candidate</name></member>
+      <member refid="structthemis_1_1graph_1_1_edge_score_1a43a02317599ba7c3f58289fdee878af7" prot="public" virt="non-virtual"><scope>themis::graph::EdgeScore</scope><name>relevance</name></member>
+      <member refid="structthemis_1_1graph_1_1_edge_score_1a390030ec98e19eea4d999c88246e08cf" prot="public" virt="non-virtual"><scope>themis::graph::EdgeScore</scope><name>similarity</name></member>
+      <member refid="structthemis_1_1graph_1_1_edge_score_1ac14aa44699a922e23b94d8dc032e179d" prot="public" virt="non-virtual"><scope>themis::graph::EdgeScore</scope><name>temporal_factor</name></member>
+      <member refid="structthemis_1_1graph_1_1_edge_score_1ac6640f2aa6541d10290479bb32a65afe" prot="public" virt="non-virtual"><scope>themis::graph::EdgeScore</scope><name>to_vertex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

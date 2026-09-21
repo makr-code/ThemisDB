@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_loader" kind="class" language="C++" prot="public">
+    <compoundname>StubLoader</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_loader_1a367868c591c7ca13040dfc9b7163d061" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubLoader::ops_</definition>
+        <argsstring></argsstring>
+        <name>ops_</name>
+        <qualifiedname>StubLoader::ops_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="53" column="17" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_loader_1a3be1c673ecfd887d0a4c0f79813c6ec8" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="struct_load_result" kindref="compound">LoadResult</ref></type>
+        <definition>LoadResult StubLoader::load</definition>
+        <argsstring>(const std::string &amp;module_name) noexcept</argsstring>
+        <name>load</name>
+        <qualifiedname>StubLoader::load</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="47" column="16" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="47" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_loader_1a90a70a0c28ec89643f590d8413304ce9" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubLoader::totalOps</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalOps</name>
+        <qualifiedname>StubLoader::totalOps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="51" column="14" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="51" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="45" column="1" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="45" bodyend="54"/>
+    <listofallmembers>
+      <member refid="class_stub_loader_1a3be1c673ecfd887d0a4c0f79813c6ec8" prot="public" virt="non-virtual"><scope>StubLoader</scope><name>load</name></member>
+      <member refid="class_stub_loader_1a367868c591c7ca13040dfc9b7163d061" prot="private" virt="non-virtual"><scope>StubLoader</scope><name>ops_</name></member>
+      <member refid="class_stub_loader_1a90a70a0c28ec89643f590d8413304ce9" prot="public" virt="non-virtual"><scope>StubLoader</scope><name>totalOps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

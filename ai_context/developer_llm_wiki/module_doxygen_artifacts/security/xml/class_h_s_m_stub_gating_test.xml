@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_h_s_m_stub_gating_test" kind="class" language="C++" prot="public">
+    <compoundname>HSMStubGatingTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_h_s_m_stub_gating_test_1a4dc8050a37edfa032b48c34b23360caa" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HSMStubGatingTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HSMStubGatingTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_stub_gating.cpp" line="18" column="10" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="18" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_h_s_m_stub_gating_test_1a723281dab4b99e6b22b31fae518bc4de" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HSMStubGatingTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HSMStubGatingTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_stub_gating.cpp" line="35" column="10" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_h_s_m_stub_gating_test_1a0e0e2a9c8cee0a8e3cdf08af02ce4239" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HSMStubGatingTest::setEnv</definition>
+        <argsstring>(const char *name, const char *value)</argsstring>
+        <name>setEnv</name>
+        <qualifiedname>HSMStubGatingTest::setEnv</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_stub_gating.cpp" line="40" column="10" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="40" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>HSM Stub Gating Tests</para>
+<para>Tests that the HSM stub provider properly enforces security gating:<itemizedlist>
+<listitem><para>Requires explicit opt-in via THEMIS_ALLOW_HSM_STUB</para>
+</listitem><listitem><para>Fails in production mode without opt-in</para>
+</listitem><listitem><para>Detects production environment indicators </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HSMStubGatingTest</label>
+        <link refid="class_h_s_m_stub_gating_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HSMStubGatingTest</label>
+        <link refid="class_h_s_m_stub_gating_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_hsm_stub_gating.cpp" line="16" column="1" bodyfile="tests/security/test_hsm_stub_gating.cpp" bodystart="16" bodyend="47"/>
+    <listofallmembers>
+      <member refid="class_h_s_m_stub_gating_test_1a0e0e2a9c8cee0a8e3cdf08af02ce4239" prot="protected" virt="non-virtual"><scope>HSMStubGatingTest</scope><name>setEnv</name></member>
+      <member refid="class_h_s_m_stub_gating_test_1a4dc8050a37edfa032b48c34b23360caa" prot="protected" virt="non-virtual"><scope>HSMStubGatingTest</scope><name>SetUp</name></member>
+      <member refid="class_h_s_m_stub_gating_test_1a723281dab4b99e6b22b31fae518bc4de" prot="protected" virt="non-virtual"><scope>HSMStubGatingTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

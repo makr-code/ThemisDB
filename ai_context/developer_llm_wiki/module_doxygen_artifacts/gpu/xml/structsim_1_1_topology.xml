@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structsim_1_1_topology" kind="struct" language="C++" prot="public">
+    <compoundname>sim::Topology</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsim_1_1_topology_1a2a85ff7aedf4a702f0ee2e8afed73e70" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sim::Topology::num_gpus</definition>
+        <argsstring></argsstring>
+        <name>num_gpus</name>
+        <qualifiedname>sim::Topology::num_gpus</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="154" column="9" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_topology_1ab9aefad4bd38282c9116214164cfb33f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sim::Topology::has_nvlink</definition>
+        <argsstring></argsstring>
+        <name>has_nvlink</name>
+        <qualifiedname>sim::Topology::has_nvlink</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="155" column="10" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_topology_1af5021fcea7e90e725a651abeb2a5129e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; sim::Topology::bw</definition>
+        <argsstring></argsstring>
+        <name>bw</name>
+        <qualifiedname>sim::Topology::bw</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="156" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_topology_1a6141d51447f524a5f8acab9a7aaf75cf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structsim_1_1_topology_link" kindref="compound">TopologyLink</ref> &gt;</type>
+        <definition>std::vector&lt;TopologyLink&gt; sim::Topology::links</definition>
+        <argsstring></argsstring>
+        <name>links</name>
+        <qualifiedname>sim::Topology::links</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="157" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structsim_1_1_topology_1a03f160e6867887e84ebf82252963d4e3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void sim::Topology::addNVLink</definition>
+        <argsstring>(int s, int d, float gbps)</argsstring>
+        <name>addNVLink</name>
+        <qualifiedname>sim::Topology::addNVLink</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>d</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>gbps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="159" column="10" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="159" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="structsim_1_1_topology_1a1947413c17bb9bd83a5ad76d6e62979d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float sim::Topology::bandwidthBetween</definition>
+        <argsstring>(int a, int b) const</argsstring>
+        <name>bandwidthBetween</name>
+        <qualifiedname>sim::Topology::bandwidthBetween</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="171" column="11" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="171" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="structsim_1_1_topology_1a3267095f1ec1a95df9933fadfb2b21cb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float sim::Topology::totalOutgoing</definition>
+        <argsstring>(int dev) const</argsstring>
+        <name>totalOutgoing</name>
+        <qualifiedname>sim::Topology::totalOutgoing</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>dev</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="178" column="11" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="178" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="153" column="1" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="153" bodyend="187"/>
+    <listofallmembers>
+      <member refid="structsim_1_1_topology_1a03f160e6867887e84ebf82252963d4e3" prot="public" virt="non-virtual"><scope>sim::Topology</scope><name>addNVLink</name></member>
+      <member refid="structsim_1_1_topology_1a1947413c17bb9bd83a5ad76d6e62979d" prot="public" virt="non-virtual"><scope>sim::Topology</scope><name>bandwidthBetween</name></member>
+      <member refid="structsim_1_1_topology_1af5021fcea7e90e725a651abeb2a5129e" prot="public" virt="non-virtual"><scope>sim::Topology</scope><name>bw</name></member>
+      <member refid="structsim_1_1_topology_1ab9aefad4bd38282c9116214164cfb33f" prot="public" virt="non-virtual"><scope>sim::Topology</scope><name>has_nvlink</name></member>
+      <member refid="structsim_1_1_topology_1a6141d51447f524a5f8acab9a7aaf75cf" prot="public" virt="non-virtual"><scope>sim::Topology</scope><name>links</name></member>
+      <member refid="structsim_1_1_topology_1a2a85ff7aedf4a702f0ee2e8afed73e70" prot="public" virt="non-virtual"><scope>sim::Topology</scope><name>num_gpus</name></member>
+      <member refid="structsim_1_1_topology_1a3267095f1ec1a95df9933fadfb2b21cb" prot="public" virt="non-virtual"><scope>sim::Topology</scope><name>totalOutgoing</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

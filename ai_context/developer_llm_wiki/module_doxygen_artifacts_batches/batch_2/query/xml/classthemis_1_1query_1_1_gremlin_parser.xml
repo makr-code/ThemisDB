@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_gremlin_parser" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::GremlinParser</compoundname>
+    <includes refid="gremlin__parser_8h" local="no">gremlin_parser.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_gremlin_parser_1_1_token" prot="public">themis::query::GremlinParser::Token</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_gremlin_parser_1_1_lexer" prot="public">themis::query::GremlinParser::Lexer</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser" prot="public">themis::query::GremlinParser::Parser</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_gremlin_parser_1a2128b37e6ea77cf0c2ec407d33104132" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::GremlinParser::GremlinParser</definition>
+        <argsstring>()=default</argsstring>
+        <name>GremlinParser</name>
+        <qualifiedname>themis::query::GremlinParser::GremlinParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/gremlin_parser.h" line="135" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_gremlin_parser_1ac45869ecc5f75d2be78ae75342e64ac0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1query_1_1_gremlin_a_s_t_node" kindref="compound">GremlinASTNode</ref> &gt;</type>
+        <definition>Result&lt; GremlinASTNode &gt; themis::query::GremlinParser::parse</definition>
+        <argsstring>(const std::string &amp;gremlin)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::query::GremlinParser::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>gremlin</declname>
+        </param>
+        <briefdescription>
+<para>Parse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gremlin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gremlin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), lexer(), tokenize(), parser(), Ok(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/gremlin_parser.h" line="142" column="12" bodyfile="src/query/gremlin_parser.cpp" bodystart="673" bodyend="687"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/gremlin_parser.h" line="133" column="1" bodyfile="include/query/gremlin_parser.h" bodystart="133" bodyend="148"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_gremlin_parser_1a2128b37e6ea77cf0c2ec407d33104132" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser</scope><name>GremlinParser</name></member>
+      <member refid="classthemis_1_1query_1_1_gremlin_parser_1ac45869ecc5f75d2be78ae75342e64ac0" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser</scope><name>parse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

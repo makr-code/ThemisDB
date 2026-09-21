@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_426d2e9c316e9b0185f05091ed7abd0d" kind="dir">
+    <compoundname>src/importers</compoundname>
+    <innerfile refid="adaptive__import_8cpp">adaptive_import.cpp</innerfile>
+    <innerfile refid="audit__trail_8cpp">audit_trail.cpp</innerfile>
+    <innerfile refid="blockchain__integrity_8cpp">blockchain_integrity.cpp</innerfile>
+    <innerfile refid="canonical__resolver_8cpp">canonical_resolver.cpp</innerfile>
+    <innerfile refid="column__importance_8cpp">column_importance.cpp</innerfile>
+    <innerfile refid="conflict__resolver_8cpp">conflict_resolver.cpp</innerfile>
+    <innerfile refid="crdt__importer_8cpp">crdt_importer.cpp</innerfile>
+    <innerfile refid="data__quality_8cpp">data_quality.cpp</innerfile>
+    <innerfile refid="debezium__cdc__importer_8cpp">debezium_cdc_importer.cpp</innerfile>
+    <innerfile refid="deterministic__matcher_8cpp">deterministic_matcher.cpp</innerfile>
+    <innerfile refid="diagnostics_8cpp">diagnostics.cpp</innerfile>
+    <innerfile refid="elasticsearch__importer_8cpp">elasticsearch_importer.cpp</innerfile>
+    <innerfile refid="entity__linker_8cpp">entity_linker.cpp</innerfile>
+    <innerfile refid="federated__learning_8cpp">federated_learning.cpp</innerfile>
+    <innerfile refid="flatfile__importer_8cpp">flatfile_importer.cpp</innerfile>
+    <innerfile refid="graphql__federation_8cpp">graphql_federation.cpp</innerfile>
+    <innerfile refid="gui__import__wizard_8cpp">gui_import_wizard.cpp</innerfile>
+    <innerfile refid="huggingface__ingest__plugin_8cpp">huggingface_ingest_plugin.cpp</innerfile>
+    <innerfile refid="huggingface__ingestion__plugin_8cpp">huggingface_ingestion_plugin.cpp</innerfile>
+    <innerfile refid="kafka__importer_8cpp">kafka_importer.cpp</innerfile>
+    <innerfile refid="mdm__audit__trail_8cpp">mdm_audit_trail.cpp</innerfile>
+    <innerfile refid="mdm__engine_8cpp">mdm_engine.cpp</innerfile>
+    <innerfile refid="mdm__metrics_8cpp">mdm_metrics.cpp</innerfile>
+    <innerfile refid="mongo__importer_8cpp">mongo_importer.cpp</innerfile>
+    <innerfile refid="mysql__importer_8cpp">mysql_importer.cpp</innerfile>
+    <innerfile refid="oracle__importer_8cpp">oracle_importer.cpp</innerfile>
+    <innerfile refid="polyglot__mapper_8cpp">polyglot_mapper.cpp</innerfile>
+    <innerfile refid="postgres__cdc_8cpp">postgres_cdc.cpp</innerfile>
+    <innerfile refid="postgres__importer_8cpp">postgres_importer.cpp</innerfile>
+    <innerfile refid="postgres__importer__mdm_8cpp">postgres_importer_mdm.cpp</innerfile>
+    <innerfile refid="redis__importer_8cpp">redis_importer.cpp</innerfile>
+    <innerfile refid="s3__importer_8cpp">s3_importer.cpp</innerfile>
+    <innerfile refid="schema__inference_8cpp">schema_inference.cpp</innerfile>
+    <innerfile refid="schema__validator_8cpp">schema_validator.cpp</innerfile>
+    <innerfile refid="semantic__matcher_8cpp">semantic_matcher.cpp</innerfile>
+    <innerfile refid="sqlite__importer_8cpp">sqlite_importer.cpp</innerfile>
+    <innerfile refid="temporal__support_8cpp">temporal_support.cpp</innerfile>
+    <innerfile refid="wikipedia__checkpoint_8cpp">wikipedia_checkpoint.cpp</innerfile>
+    <innerfile refid="wikipedia__dump__reader_8cpp">wikipedia_dump_reader.cpp</innerfile>
+    <innerfile refid="wikipedia__pipeline_8cpp">wikipedia_pipeline.cpp</innerfile>
+    <innerfile refid="wikipedia__plugin_8cpp">wikipedia_plugin.cpp</innerfile>
+    <innerfile refid="wikipedia__project__graph_8cpp">wikipedia_project_graph.cpp</innerfile>
+    <innerfile refid="wikipedia__project__process_8cpp">wikipedia_project_process.cpp</innerfile>
+    <innerfile refid="wikipedia__project__timeseries_8cpp">wikipedia_project_timeseries.cpp</innerfile>
+    <innerfile refid="wikipedia__project__vector_8cpp">wikipedia_project_vector.cpp</innerfile>
+    <innerfile refid="wikipedia__transform_8cpp">wikipedia_transform.cpp</innerfile>
+    <innerfile refid="wikipedia__validator_8cpp">wikipedia_validator.cpp</innerfile>
+    <innerfile refid="wikipedia__xml__parser_8cpp">wikipedia_xml_parser.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/importers/"/>
+  </compounddef>
+</doxygen>

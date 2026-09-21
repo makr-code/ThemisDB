@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_engine_1_1_c_t_e_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryEngine::CTESpec</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_c_t_e_spec_1aed8e4476d8cc7502eddea3f27b72ab77" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryEngine::CTESpec::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::QueryEngine::CTESpec::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="559" column="21" bodyfile="include/query/query_engine.h" bodystart="559" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_c_t_e_spec_1acf26a4bb3b4626294dcc1b5491f1fe91" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query" kindref="compound">query::Query</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;query::Query&gt; themis::query::QueryEngine::CTESpec::subquery</definition>
+        <argsstring></argsstring>
+        <name>subquery</name>
+        <qualifiedname>themis::query::QueryEngine::CTESpec::subquery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="560" column="25" bodyfile="include/query/query_engine.h" bodystart="560" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_c_t_e_spec_1a5264cc8d8386540749f6dd20fb76a555" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryEngine::CTESpec::should_materialize</definition>
+        <argsstring></argsstring>
+        <name>should_materialize</name>
+        <qualifiedname>themis::query::QueryEngine::CTESpec::should_materialize</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="561" column="14" bodyfile="include/query/query_engine.h" bodystart="561" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="558" column="5" bodyfile="include/query/query_engine.h" bodystart="558" bodyend="562"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_c_t_e_spec_1aed8e4476d8cc7502eddea3f27b72ab77" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::CTESpec</scope><name>name</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_c_t_e_spec_1a5264cc8d8386540749f6dd20fb76a555" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::CTESpec</scope><name>should_materialize</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_c_t_e_spec_1acf26a4bb3b4626294dcc1b5491f1fe91" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::CTESpec</scope><name>subquery</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

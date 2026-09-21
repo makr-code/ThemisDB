@@ -1,0 +1,635 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_tensor_workflow_observability" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorWorkflowObservability</compoundname>
+    <includes refid="tensor__workflow__observability_8h" local="no">tensor_workflow_observability.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TrainingState</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::TrainingState</qualifiedname>
+        <enumvalue id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332a7b2f31b90fe1c2cc33a52233c1925df3" prot="public">
+          <name>Queued</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332a5bda814c4aedb126839228f1a3d92f09" prot="public">
+          <name>Running</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332a505a83f220c02df2f85c3810cd9ceb38" prot="public">
+          <name>Success</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332ad7c8c85bf79bbe1b7188497c32c3b0ca" prot="public">
+          <name>Failed</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332a6327b4e59f58137083214a1fec358855" prot="public">
+          <name>Retry</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332aa149e85a44aeec9140e92733d9ed694e" prot="public">
+          <name>Cancelled</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="42" column="5" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="42" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a0e6696a35036fd8966b8b71726ac73d0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::tensor::TensorWorkflowObservability::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="64" column="24" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a00c0283904e3d34291e7cbdb94e42b93" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorWorkflowObservability::persistence_total_</definition>
+        <argsstring></argsstring>
+        <name>persistence_total_</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::persistence_total_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="66" column="17" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acdca2711b9b7654341a5df35120e2641" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorWorkflowObservability::persistence_errors_</definition>
+        <argsstring></argsstring>
+        <name>persistence_errors_</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::persistence_errors_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="67" column="17" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a740a886c1f660d411488990d40354f05" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::tensor::TensorWorkflowObservability::persistence_latency_ms_</definition>
+        <argsstring></argsstring>
+        <name>persistence_latency_ms_</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::persistence_latency_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="68" column="17" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1aaa696fcab02e9fe32eaa9b3d9fb0e774" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorWorkflowObservability::training_queued_</definition>
+        <argsstring></argsstring>
+        <name>training_queued_</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::training_queued_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="70" column="17" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a22c51c15cda20b398995f89a8a6e8737" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorWorkflowObservability::training_running_</definition>
+        <argsstring></argsstring>
+        <name>training_running_</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::training_running_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="71" column="17" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a717c3b4348077ac090e6b2e6c4166af8" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorWorkflowObservability::training_success_</definition>
+        <argsstring></argsstring>
+        <name>training_success_</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::training_success_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="72" column="17" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a7f9724b0901e693457d3d092354dafe0" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorWorkflowObservability::training_failed_</definition>
+        <argsstring></argsstring>
+        <name>training_failed_</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::training_failed_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="73" column="17" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a0ba301cdc6fc6aacda8a4c74652ae396" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorWorkflowObservability::training_retry_</definition>
+        <argsstring></argsstring>
+        <name>training_retry_</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::training_retry_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="74" column="17" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a788f7574ab2acb97bae295c5b90c810b" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorWorkflowObservability::training_cancelled_</definition>
+        <argsstring></argsstring>
+        <name>training_cancelled_</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::training_cancelled_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="75" column="17" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a3c862ef6db66e40f197c033405b57504" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::tensor::TensorWorkflowObservability::training_latency_ms_</definition>
+        <argsstring></argsstring>
+        <name>training_latency_ms_</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::training_latency_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="76" column="17" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acfac29fbceb29d83fb6665b12d55ebf0" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorWorkflowObservability::gpu_used_</definition>
+        <argsstring></argsstring>
+        <name>gpu_used_</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::gpu_used_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="78" column="17" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a4d7b68412539f0aa1d3a8452ddc94aa8" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorWorkflowObservability::gpu_fallback_</definition>
+        <argsstring></argsstring>
+        <name>gpu_fallback_</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::gpu_fallback_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="79" column="17" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a7a51b2501f6d851777e6eae642f17ece" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorWorkflowObservability::gpu_errors_</definition>
+        <argsstring></argsstring>
+        <name>gpu_errors_</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::gpu_errors_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="80" column="17" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a2560be1f501cdf254c5f952d74553695" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::tensor::TensorWorkflowObservability::compression_latency_ms_</definition>
+        <argsstring></argsstring>
+        <name>compression_latency_ms_</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::compression_latency_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="82" column="17" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1afe3cb440fbe9317dfb5f7c1566370128" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::tensor::TensorWorkflowObservability::routing_latency_ms_</definition>
+        <argsstring></argsstring>
+        <name>routing_latency_ms_</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::routing_latency_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="83" column="17" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1aaefb89fd4fa52568a77a63efd4941669" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorWorkflowObservability::recordPersistenceOp</definition>
+        <argsstring>(double latency_ms, bool success)</argsstring>
+        <name>recordPersistenceOp</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::recordPersistenceOp</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Record Persistence Op. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="51" column="10" bodyfile="src/tensor/tensor_workflow_observability.cpp" bodystart="23" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1af21a7d0ba7f60b2874d1873f1d8648fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorWorkflowObservability::recordTrainingTransition</definition>
+        <argsstring>(TrainingState state)</argsstring>
+        <name>recordTrainingTransition</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::recordTrainingTransition</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332" kindref="member">TrainingState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Record Training Transition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="52" column="10" bodyfile="src/tensor/tensor_workflow_observability.cpp" bodystart="37" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a05fca979a9a81284cfa87047862044da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorWorkflowObservability::recordTrainingLatency</definition>
+        <argsstring>(double latency_ms)</argsstring>
+        <name>recordTrainingLatency</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::recordTrainingLatency</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Training Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="53" column="10" bodyfile="src/tensor/tensor_workflow_observability.cpp" bodystart="66" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1accb8be2cd8221a6019598c6f68c0bf81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorWorkflowObservability::recordGpuDispatch</definition>
+        <argsstring>(bool used_gpu, bool used_fallback, bool error)</argsstring>
+        <name>recordGpuDispatch</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::recordGpuDispatch</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>used_gpu</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>used_fallback</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Record Gpu Dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">used_gpu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">used_fallback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="54" column="10" bodyfile="src/tensor/tensor_workflow_observability.cpp" bodystart="78" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a85e51f925c8cfe68dd2133ddd4345bbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorWorkflowObservability::recordCompressionLatency</definition>
+        <argsstring>(double latency_ms)</argsstring>
+        <name>recordCompressionLatency</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::recordCompressionLatency</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Compression Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="55" column="10" bodyfile="src/tensor/tensor_workflow_observability.cpp" bodystart="96" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a4dea8fd74c9710eec6ebc1f6ec4b258e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorWorkflowObservability::recordRoutingLatency</definition>
+        <argsstring>(double latency_ms)</argsstring>
+        <name>recordRoutingLatency</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::recordRoutingLatency</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Routing Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="56" column="10" bodyfile="src/tensor/tensor_workflow_observability.cpp" bodystart="106" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a6c2abd1229a5eac83508449f3e986088" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::TensorWorkflowObservability::exportPrometheusText</definition>
+        <argsstring>() const</argsstring>
+        <name>exportPrometheusText</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::exportPrometheusText</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="58" column="18" bodyfile="src/tensor/tensor_workflow_observability.cpp" bodystart="111" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a5862e50a7e6b502c4ca2f2d9e5e0513b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary" kindref="compound">TensorWorkflowHealthSummary</ref></type>
+        <definition>TensorWorkflowHealthSummary themis::tensor::TensorWorkflowObservability::evaluateSlo</definition>
+        <argsstring>(const TensorWorkflowSloConfig &amp;cfg) const</argsstring>
+        <name>evaluateSlo</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::evaluateSlo</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config" kindref="compound">TensorWorkflowSloConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="59" column="34" bodyfile="src/tensor/tensor_workflow_observability.cpp" bodystart="172" bodyend="237"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a1e17a853d0d3a6b67da2cdaedea54fa5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::tensor::TensorWorkflowObservability::percentile95</definition>
+        <argsstring>(std::vector&lt; double &gt; values)</argsstring>
+        <name>percentile95</name>
+        <qualifiedname>themis::tensor::TensorWorkflowObservability::percentile95</qualifiedname>
+        <param>
+          <type>std::vector&lt; double &gt;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Percentile95. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::sort(), begin(), end(), std::floor(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="62" column="19" bodyfile="src/tensor/tensor_workflow_observability.cpp" bodystart="245" bodyend="253"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Prometheus-oriented metrics and SLO tracker for tensor phase 5-8 workflows. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_workflow_observability.h" line="40" column="1" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="40" bodyend="84"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a2560be1f501cdf254c5f952d74553695" prot="private" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>compression_latency_ms_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a5862e50a7e6b502c4ca2f2d9e5e0513b" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>evaluateSlo</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a6c2abd1229a5eac83508449f3e986088" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>exportPrometheusText</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a7a51b2501f6d851777e6eae642f17ece" prot="private" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>gpu_errors_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a4d7b68412539f0aa1d3a8452ddc94aa8" prot="private" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>gpu_fallback_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acfac29fbceb29d83fb6665b12d55ebf0" prot="private" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>gpu_used_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a0e6696a35036fd8966b8b71726ac73d0" prot="private" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a1e17a853d0d3a6b67da2cdaedea54fa5" prot="private" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>percentile95</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acdca2711b9b7654341a5df35120e2641" prot="private" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>persistence_errors_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a740a886c1f660d411488990d40354f05" prot="private" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>persistence_latency_ms_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a00c0283904e3d34291e7cbdb94e42b93" prot="private" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>persistence_total_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a85e51f925c8cfe68dd2133ddd4345bbf" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>recordCompressionLatency</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1accb8be2cd8221a6019598c6f68c0bf81" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>recordGpuDispatch</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1aaefb89fd4fa52568a77a63efd4941669" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>recordPersistenceOp</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a4dea8fd74c9710eec6ebc1f6ec4b258e" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>recordRoutingLatency</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a05fca979a9a81284cfa87047862044da" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>recordTrainingLatency</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1af21a7d0ba7f60b2874d1873f1d8648fd" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>recordTrainingTransition</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1afe3cb440fbe9317dfb5f7c1566370128" prot="private" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>routing_latency_ms_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a788f7574ab2acb97bae295c5b90c810b" prot="private" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>training_cancelled_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a7f9724b0901e693457d3d092354dafe0" prot="private" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>training_failed_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a3c862ef6db66e40f197c033405b57504" prot="private" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>training_latency_ms_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1aaa696fcab02e9fe32eaa9b3d9fb0e774" prot="private" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>training_queued_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a0ba301cdc6fc6aacda8a4c74652ae396" prot="private" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>training_retry_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a22c51c15cda20b398995f89a8a6e8737" prot="private" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>training_running_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a717c3b4348077ac090e6b2e6c4166af8" prot="private" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>training_success_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowObservability</scope><name>TrainingState</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

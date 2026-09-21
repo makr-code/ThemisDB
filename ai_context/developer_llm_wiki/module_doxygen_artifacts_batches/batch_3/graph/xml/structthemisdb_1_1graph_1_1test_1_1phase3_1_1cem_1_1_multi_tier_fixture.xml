@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_multi_tier_fixture" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::graph::test::phase3::cem::MultiTierFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_multi_tier_fixture_1a52d24fcd0dc06e5abad798ffe2f87e0a" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_multi_tier_cache" kindref="compound">MultiTierCache</ref></type>
+        <definition>MultiTierCache themisdb::graph::test::phase3::cem::MultiTierFixture::cache</definition>
+        <argsstring></argsstring>
+        <name>cache</name>
+        <qualifiedname>themisdb::graph::test::phase3::cem::MultiTierFixture::cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="861" column="20" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="861" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_multi_tier_fixture_1a340d6a264810c5f5224640b25558d837" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::graph::test::phase3::cem::MultiTierFixture::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themisdb::graph::test::phase3::cem::MultiTierFixture::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="862" column="10" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="862" bodyend="868"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themisdb::graph::test::phase3::cem::MultiTierFixture</label>
+        <link refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_multi_tier_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::graph::test::phase3::cem::MultiTierCache</label>
+        <link refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_multi_tier_cache"/>
+      </node>
+      <node id="1">
+        <label>themisdb::graph::test::phase3::cem::MultiTierFixture</label>
+        <link refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_multi_tier_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cache</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="860" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="860" bodyend="869"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_multi_tier_fixture_1a52d24fcd0dc06e5abad798ffe2f87e0a" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::cem::MultiTierFixture</scope><name>cache</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_multi_tier_fixture_1a340d6a264810c5f5224640b25558d837" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::cem::MultiTierFixture</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

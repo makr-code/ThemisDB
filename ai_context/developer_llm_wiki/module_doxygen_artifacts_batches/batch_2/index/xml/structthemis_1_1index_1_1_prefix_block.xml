@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_prefix_block" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::PrefixBlock</compoundname>
+    <includes refid="index__compression_8h" local="no">index_compression.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_prefix_block_1a8b2d038baafd9e3bbe2160083975d457" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::PrefixBlock::prefix</definition>
+        <argsstring></argsstring>
+        <name>prefix</name>
+        <qualifiedname>themis::index::PrefixBlock::prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="130" column="30" bodyfile="include/index/index_compression.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_prefix_block_1a8c42697bb3a906dc9c76b74581546d8c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::index::PrefixBlock::suffixes</definition>
+        <argsstring></argsstring>
+        <name>suffixes</name>
+        <qualifiedname>themis::index::PrefixBlock::suffixes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="131" column="17" bodyfile="include/index/index_compression.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1index_1_1_prefix_block_1ae9940748c203f4f4eaaac3064e9f133c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::index::PrefixBlock::decompress</definition>
+        <argsstring>() const</argsstring>
+        <name>decompress</name>
+        <qualifiedname>themis::index::PrefixBlock::decompress</qualifiedname>
+        <briefdescription>
+<para>Reconstruct the original keys. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="134" column="17" bodyfile="src/index/index_compression.cpp" bodystart="201" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1index_1_1_prefix_block_1a7fead9be7bf31f7aa6128af9cfa54ee7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::PrefixBlock::savedBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>savedBytes</name>
+        <qualifiedname>themis::index::PrefixBlock::savedBytes</qualifiedname>
+        <briefdescription>
+<para>Estimated byte saving vs. storing full keys. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="137" column="12" bodyfile="src/index/index_compression.cpp" bodystart="211" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Prefix compression: given a sorted list of keys that share a common prefix, store the prefix once and keep only the unique suffixes.</para>
+<para>Example: Input: [&quot;idx:users:country:USA:pk1&quot;, &quot;idx:users:country:USA:pk2&quot;, &quot;idx:users:country:USA:pk3&quot;] Result: prefix = &quot;idx:users:country:USA:&quot;, suffixes = [&quot;pk1&quot;,&quot;pk2&quot;,&quot;pk3&quot;] </para>
+    </detaileddescription>
+    <location file="include/index/index_compression.h" line="129" column="1" bodyfile="include/index/index_compression.h" bodystart="129" bodyend="138"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_prefix_block_1ae9940748c203f4f4eaaac3064e9f133c" prot="public" virt="non-virtual"><scope>themis::index::PrefixBlock</scope><name>decompress</name></member>
+      <member refid="structthemis_1_1index_1_1_prefix_block_1a8b2d038baafd9e3bbe2160083975d457" prot="public" virt="non-virtual"><scope>themis::index::PrefixBlock</scope><name>prefix</name></member>
+      <member refid="structthemis_1_1index_1_1_prefix_block_1a7fead9be7bf31f7aa6128af9cfa54ee7" prot="public" virt="non-virtual"><scope>themis::index::PrefixBlock</scope><name>savedBytes</name></member>
+      <member refid="structthemis_1_1index_1_1_prefix_block_1a8c42697bb3a906dc9c76b74581546d8c" prot="public" virt="non-virtual"><scope>themis::index::PrefixBlock</scope><name>suffixes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

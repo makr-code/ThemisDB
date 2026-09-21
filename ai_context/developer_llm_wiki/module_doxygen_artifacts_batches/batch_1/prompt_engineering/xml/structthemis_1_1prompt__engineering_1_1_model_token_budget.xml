@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_model_token_budget" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ModelTokenBudget</compoundname>
+    <includes refid="context__window__manager_8h" local="no">context_window_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_model_token_budget_1abd05cc4c5bc1a837a6472f06f08f3e8e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ModelTokenBudget::model_name</definition>
+        <argsstring></argsstring>
+        <name>model_name</name>
+        <qualifiedname>themis::prompt_engineering::ModelTokenBudget::model_name</qualifiedname>
+        <initializer>= &quot;default&quot;</initializer>
+        <briefdescription>
+<para>Human-readable model identifier (e.g. &quot;gpt-4&quot;, &quot;llama-3-8b&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="132" column="17" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_model_token_budget_1aeae9c8857aac75431f1c0d3881c376a3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ModelTokenBudget::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::prompt_engineering::ModelTokenBudget::max_tokens</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Hard maximum tokens accepted by the model (context window). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="135" column="12" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_model_token_budget_1a66d19707808317d17b24b52dc55add0b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ModelTokenBudget::reserved_completion_tokens</definition>
+        <argsstring></argsstring>
+        <name>reserved_completion_tokens</name>
+        <qualifiedname>themis::prompt_engineering::ModelTokenBudget::reserved_completion_tokens</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Tokens reserved for the completion (output) side. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Subtracted from <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_model_token_budget_1aeae9c8857aac75431f1c0d3881c376a3" kindref="member">max_tokens</ref></computeroutput> before computing the prompt budget to ensure there is always room for the model&apos;s response. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="143" column="12" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_model_token_budget_1a6f65e46670cec5ed0ccc62f82d6f561b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ModelTokenBudget::promptBudget</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>promptBudget</name>
+        <qualifiedname>themis::prompt_engineering::ModelTokenBudget::promptBudget</qualifiedname>
+        <briefdescription>
+<para>Returns the tokens available for the full prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="146" column="12" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="146" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Token-budget descriptor for a specific model. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/context_window_manager.h" line="130" column="1" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="130" bodyend="151"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_model_token_budget_1aeae9c8857aac75431f1c0d3881c376a3" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ModelTokenBudget</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_model_token_budget_1abd05cc4c5bc1a837a6472f06f08f3e8e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ModelTokenBudget</scope><name>model_name</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_model_token_budget_1a6f65e46670cec5ed0ccc62f82d6f561b" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ModelTokenBudget</scope><name>promptBudget</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_model_token_budget_1a66d19707808317d17b24b52dc55add0b" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ModelTokenBudget</scope><name>reserved_completion_tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

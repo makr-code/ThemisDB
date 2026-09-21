@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_shard_participant" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ShardParticipant</compoundname>
+    <includes refid="cross__shard__transaction_8h" local="no">cross_shard_transaction.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_participant_1a28f67ec2eef1128363a3ca5201474ca3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ShardParticipant::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themisdb::sharding::ShardParticipant::shard_id</qualifiedname>
+        <briefdescription>
+<para>Shard identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="99" column="17" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_participant_1a74fe7d0191352951f4045e27275aa74d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ShardParticipant::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themisdb::sharding::ShardParticipant::endpoint</qualifiedname>
+        <briefdescription>
+<para>Participant RPC endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="100" column="17" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_participant_1a80dbe7fdba8299e814fc3da4f57d79d4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::sharding::ShardParticipant::operations</definition>
+        <argsstring></argsstring>
+        <name>operations</name>
+        <qualifiedname>themisdb::sharding::ShardParticipant::operations</qualifiedname>
+        <briefdescription>
+<para>Serialized operations for shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="101" column="17" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_participant_1a5bdb9244810cb1b7ea8c5049e558caf5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ShardParticipant::prepared</definition>
+        <argsstring></argsstring>
+        <name>prepared</name>
+        <qualifiedname>themisdb::sharding::ShardParticipant::prepared</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when prepare acknowledged. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="102" column="10" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_participant_1a12bef4c5d6b4ad596926760806bc15ab" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ShardParticipant::precommitted</definition>
+        <argsstring></argsstring>
+        <name>precommitted</name>
+        <qualifiedname>themisdb::sharding::ShardParticipant::precommitted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when 3PC pre-commit acknowledged. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="103" column="10" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_participant_1a222fa8880e9f9f1985449076dbad9f24" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ShardParticipant::committed</definition>
+        <argsstring></argsstring>
+        <name>committed</name>
+        <qualifiedname>themisdb::sharding::ShardParticipant::committed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when commit acknowledged. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="104" column="10" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_participant_1afd420649d0b4ccf754e0c743ee61b54e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ShardParticipant::aborted</definition>
+        <argsstring></argsstring>
+        <name>aborted</name>
+        <qualifiedname>themisdb::sharding::ShardParticipant::aborted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when abort acknowledged. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="105" column="10" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_participant_1ac4657962b5e221a25dde5fb5be22ad1d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ShardParticipant::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themisdb::sharding::ShardParticipant::error_message</qualifiedname>
+        <briefdescription>
+<para>Participant-specific failure detail. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="106" column="17" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Shard participant in a transaction. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/cross_shard_transaction.h" line="98" column="1" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="98" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_participant_1afd420649d0b4ccf754e0c743ee61b54e" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardParticipant</scope><name>aborted</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_participant_1a222fa8880e9f9f1985449076dbad9f24" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardParticipant</scope><name>committed</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_participant_1a74fe7d0191352951f4045e27275aa74d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardParticipant</scope><name>endpoint</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_participant_1ac4657962b5e221a25dde5fb5be22ad1d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardParticipant</scope><name>error_message</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_participant_1a80dbe7fdba8299e814fc3da4f57d79d4" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardParticipant</scope><name>operations</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_participant_1a12bef4c5d6b4ad596926760806bc15ab" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardParticipant</scope><name>precommitted</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_participant_1a5bdb9244810cb1b7ea8c5049e558caf5" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardParticipant</scope><name>prepared</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_participant_1a28f67ec2eef1128363a3ca5201474ca3" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardParticipant</scope><name>shard_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

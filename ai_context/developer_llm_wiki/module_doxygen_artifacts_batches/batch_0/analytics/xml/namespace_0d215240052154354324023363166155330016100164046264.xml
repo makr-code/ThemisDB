@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d215240052154354324023363166155330016100164046264" kind="namespace" language="C++">
+    <compoundname>@215240052154354324023363166155330016100164046264</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_optional_fallback_focused.cpp" line="42" column="1"/>
+  </compounddef>
+</doxygen>

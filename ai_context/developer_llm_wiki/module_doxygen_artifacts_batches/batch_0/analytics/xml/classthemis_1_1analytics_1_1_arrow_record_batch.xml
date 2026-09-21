@@ -1,0 +1,364 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1_arrow_record_batch" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::ArrowRecordBatch</compoundname>
+    <includes refid="arrow__export_8h" local="no">arrow_export.h</includes>
+    <innerclass refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema" prot="public">themis::analytics::ArrowRecordBatch::ColumnSchema</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column" prot="public">themis::analytics::ArrowRecordBatch::Column</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_metadata" prot="public">themis::analytics::ArrowRecordBatch::Metadata</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DataType</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::DataType</qualifiedname>
+        <enumvalue id="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663a4e866b275c85fbb439f6484251cfb31c" prot="public">
+          <name>INT64</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663afd3e4ece78a7d422280d5ed379482229" prot="public">
+          <name>DOUBLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663a63b588d5559f64f89a416e656880b949" prot="public">
+          <name>STRING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663ac48d5da12d702e73d6966069f2687376" prot="public">
+          <name>BOOLEAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663a87fb568bfdc633ffd5dee0f22cb4606c" prot="public">
+          <name>TIMESTAMP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="26" column="5" bodyfile="include/analytics/arrow_export.h" bodystart="26" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_arrow_record_batch_1ac2d38825d071067100835737c6058574" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column" kindref="compound">Column</ref> &gt;</type>
+        <definition>std::vector&lt;Column&gt; themis::analytics::ArrowRecordBatch::columns_</definition>
+        <argsstring></argsstring>
+        <name>columns_</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::columns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="130" column="17" bodyfile="include/analytics/arrow_export.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_arrow_record_batch_1a51b0f3be4607c70e536af82130c8076a" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::ArrowRecordBatch::row_count_</definition>
+        <argsstring></argsstring>
+        <name>row_count_</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::row_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="131" column="12" bodyfile="include/analytics/arrow_export.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_arrow_record_batch_1a53d6a2936dd060f1ddb05b9d1cf91717" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::ArrowRecordBatch::ArrowRecordBatch</definition>
+        <argsstring>()=default</argsstring>
+        <name>ArrowRecordBatch</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::ArrowRecordBatch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="58" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_arrow_record_batch_1a60a0c4ccf49e0d87a74b89621e160268" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::ArrowRecordBatch::~ArrowRecordBatch</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ArrowRecordBatch</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::~ArrowRecordBatch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_arrow_record_batch_1a8666dad19a5207d809537a98fbd3c6f7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::ArrowRecordBatch::addColumn</definition>
+        <argsstring>(const ColumnSchema &amp;schema)</argsstring>
+        <name>addColumn</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::addColumn</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema" kindref="compound">ColumnSchema</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Add <ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column" kindref="compound">Column</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="66" column="10" bodyfile="include/analytics/arrow_export.h" bodystart="66" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_arrow_record_batch_1aac2e3055de62d252899a0280e8708959" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::ArrowRecordBatch::appendRow</definition>
+        <argsstring>(const std::vector&lt; std::variant&lt; std::nullptr_t, int64_t, double, std::string, bool &gt; &gt; &amp;row_data)</argsstring>
+        <name>appendRow</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::appendRow</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::variant&lt; std::nullptr_t, int64_t, double, std::string, bool &gt; &gt; &amp;</type>
+          <declname>row_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="72" column="10" bodyfile="src/analytics/arrow_export.cpp" bodystart="20" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_arrow_record_batch_1a9544a24ad5f7fd49631b796d04f027e2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::ArrowRecordBatch::rowCount</definition>
+        <argsstring>() const</argsstring>
+        <name>rowCount</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::rowCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="75" column="12" bodyfile="include/analytics/arrow_export.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_arrow_record_batch_1a38061d84d2fab8c27a38fef6888a278d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::ArrowRecordBatch::columnCount</definition>
+        <argsstring>() const</argsstring>
+        <name>columnCount</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::columnCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="77" column="12" bodyfile="include/analytics/arrow_export.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_arrow_record_batch_1abfd1ff2df41f6b7f358aefbeaf44bb1d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column" kindref="compound">Column</ref> &amp;</type>
+        <definition>const Column &amp; themis::analytics::ArrowRecordBatch::getColumn</definition>
+        <argsstring>(size_t index) const</argsstring>
+        <name>getColumn</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::getColumn</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="79" column="18" bodyfile="include/analytics/arrow_export.h" bodystart="79" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_arrow_record_batch_1ab5d3c3db58e9f0d4328368d4a284961a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column" kindref="compound">Column</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; Column &gt; &amp; themis::analytics::ArrowRecordBatch::getColumns</definition>
+        <argsstring>() const</argsstring>
+        <name>getColumns</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::getColumns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="83" column="23" bodyfile="include/analytics/arrow_export.h" bodystart="83" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_arrow_record_batch_1aa0584b35571d2fdbc0aef128079c8a4a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::ArrowRecordBatch::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="91" column="10" bodyfile="include/analytics/arrow_export.h" bodystart="91" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_arrow_record_batch_1af6b4d73a8b5c61d866945c980e749967" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const int64_t *</type>
+        <definition>const int64_t * themis::analytics::ArrowRecordBatch::getInt64Data</definition>
+        <argsstring>(size_t col_idx) const</argsstring>
+        <name>getInt64Data</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::getInt64Data</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>col_idx</declname>
+        </param>
+        <briefdescription>
+<para>Get Int64 Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">col_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="101" column="19" bodyfile="src/analytics/arrow_export.cpp" bodystart="56" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_arrow_record_batch_1a2619d792cb423ce37c11df8f985e5eb7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const double *</type>
+        <definition>const double * themis::analytics::ArrowRecordBatch::getDoubleData</definition>
+        <argsstring>(size_t col_idx) const</argsstring>
+        <name>getDoubleData</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::getDoubleData</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>col_idx</declname>
+        </param>
+        <briefdescription>
+<para>Get Double Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">col_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="108" column="18" bodyfile="src/analytics/arrow_export.cpp" bodystart="64" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_arrow_record_batch_1acfe2540ae538870d5b37d7c8e36ec15c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::ArrowRecordBatch::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="114" column="17" bodyfile="src/analytics/arrow_export.cpp" bodystart="72" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_arrow_record_batch_1a45133f5eb2ffe4b175f1231790bcc1a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_metadata" kindref="compound">Metadata</ref></type>
+        <definition>ArrowRecordBatch::Metadata themis::analytics::ArrowRecordBatch::getMetadata</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetadata</name>
+        <qualifiedname>themis::analytics::ArrowRecordBatch::getMetadata</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_metadata" kindref="compound">Metadata</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_export.h" line="127" column="14" bodyfile="src/analytics/arrow_export.cpp" bodystart="165" bodyend="187"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/arrow_export.h" line="24" column="1" bodyfile="include/analytics/arrow_export.h" bodystart="24" bodyend="132"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a8666dad19a5207d809537a98fbd3c6f7" prot="public" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch</scope><name>addColumn</name></member>
+      <member refid="classthemis_1_1analytics_1_1_arrow_record_batch_1aac2e3055de62d252899a0280e8708959" prot="public" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch</scope><name>appendRow</name></member>
+      <member refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a53d6a2936dd060f1ddb05b9d1cf91717" prot="public" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch</scope><name>ArrowRecordBatch</name></member>
+      <member refid="classthemis_1_1analytics_1_1_arrow_record_batch_1aa0584b35571d2fdbc0aef128079c8a4a" prot="public" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch</scope><name>clear</name></member>
+      <member refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a38061d84d2fab8c27a38fef6888a278d" prot="public" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch</scope><name>columnCount</name></member>
+      <member refid="classthemis_1_1analytics_1_1_arrow_record_batch_1ac2d38825d071067100835737c6058574" prot="private" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch</scope><name>columns_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663" prot="public" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch</scope><name>DataType</name></member>
+      <member refid="classthemis_1_1analytics_1_1_arrow_record_batch_1abfd1ff2df41f6b7f358aefbeaf44bb1d" prot="public" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch</scope><name>getColumn</name></member>
+      <member refid="classthemis_1_1analytics_1_1_arrow_record_batch_1ab5d3c3db58e9f0d4328368d4a284961a" prot="public" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch</scope><name>getColumns</name></member>
+      <member refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a2619d792cb423ce37c11df8f985e5eb7" prot="public" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch</scope><name>getDoubleData</name></member>
+      <member refid="classthemis_1_1analytics_1_1_arrow_record_batch_1af6b4d73a8b5c61d866945c980e749967" prot="public" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch</scope><name>getInt64Data</name></member>
+      <member refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a45133f5eb2ffe4b175f1231790bcc1a4" prot="public" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch</scope><name>getMetadata</name></member>
+      <member refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a51b0f3be4607c70e536af82130c8076a" prot="private" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch</scope><name>row_count_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a9544a24ad5f7fd49631b796d04f027e2" prot="public" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch</scope><name>rowCount</name></member>
+      <member refid="classthemis_1_1analytics_1_1_arrow_record_batch_1acfe2540ae538870d5b37d7c8e36ec15c" prot="public" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch</scope><name>toJSON</name></member>
+      <member refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a60a0c4ccf49e0d87a74b89621e160268" prot="public" virt="non-virtual"><scope>themis::analytics::ArrowRecordBatch</scope><name>~ArrowRecordBatch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

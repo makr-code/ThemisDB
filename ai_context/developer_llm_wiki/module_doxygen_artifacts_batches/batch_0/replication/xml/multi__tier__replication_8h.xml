@@ -1,0 +1,357 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="multi__tier__replication_8h" kind="file" language="C++">
+    <compoundname>multi_tier_replication.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">map</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">cstdint</includes>
+    <includes refid="replication__manager_8h" local="yes">replication/replication_manager.h</includes>
+    <includedby refid="multi__tier__replication_8cpp" local="yes">src/replication/multi_tier_replication.cpp</includedby>
+    <includedby refid="test__replication__ha_8cpp" local="yes">tests/replication/test_replication_ha.cpp</includedby>
+    <incdepgraph>
+      <node id="19">
+        <label>replication/geo_placement.h</label>
+        <link refid="geo__placement_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/replication/multi_tier_replication.h</label>
+        <link refid="multi__tier__replication_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>replication/replication_manager.h</label>
+        <link refid="replication__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="15">
+        <label>condition_variable</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>deque</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="17">
+        <label>queue</label>
+      </node>
+      <node id="18">
+        <label>set</label>
+      </node>
+      <node id="6">
+        <label>shared_mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>thread</label>
+      </node>
+      <node id="20">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/replication/multi_tier_replication.h</label>
+        <link refid="multi__tier__replication_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/replication/multi_tier_replication.cpp</label>
+        <link refid="multi__tier__replication_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/replication/test_replication_ha.cpp</label>
+        <link refid="test__replication__ha_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1replication_1_1_tier_config" prot="public">themisdb::replication::TierConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_multi_tier_config" prot="public">themisdb::replication::MultiTierConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_collection_access_stats" prot="public">themisdb::replication::CollectionAccessStats</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_multi_tier_stats" prot="public">themisdb::replication::MultiTierStats</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager" prot="public">themisdb::replication::MultiTierReplicationManager</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1replication">themisdb::replication</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="replication__manager_8h" kindref="compound">replication/replication_manager.h</ref>&quot;</highlight><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>ReplicationMode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1replication" kindref="compound">replication</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ReplicationTier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87a27d3e561fdae26c0039edeb79f93fd90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87a27d3e561fdae26c0039edeb79f93fd90" kindref="member">TIER_1_CRITICAL</ref><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="64" refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87aeef767dda7ea588f055c8a1e2b8556bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87aeef767dda7ea588f055c8a1e2b8556bc" kindref="member">TIER_2_STANDARD</ref><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="65" refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87a58f29658223afe57eb6e7db22d54d400" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87a58f29658223afe57eb6e7db22d54d400" kindref="member">TIER_3_ARCHIVAL</ref><sp/>=<sp/>3<sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TierConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemisdb_1_1replication_1_1_tier_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_tier_config" kindref="compound">TierConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="76" refid="structthemisdb_1_1replication_1_1_tier_config_1a058851e024715900322c98470200282b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref><sp/><ref refid="structthemisdb_1_1replication_1_1_tier_config_1a058851e024715900322c98470200282b" kindref="member">tier</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87aeef767dda7ea588f055c8a1e2b8556bc" kindref="member">ReplicationTier::TIER_2_STANDARD</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemisdb_1_1replication_1_1_tier_config_1a715a4fcc6aeb831343f2025bb11f20c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_tier_config_1a715a4fcc6aeb831343f2025bb11f20c5" kindref="member">replica_count</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemisdb_1_1replication_1_1_tier_config_1abb34ef824c7cc109ce88aa61f412141c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1ab2c44fa8fc1b43c8b21821aa509c54bc" kindref="member">ReplicationMode</ref><sp/><ref refid="structthemisdb_1_1replication_1_1_tier_config_1abb34ef824c7cc109ce88aa61f412141c" kindref="member">mode</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1ab2c44fa8fc1b43c8b21821aa509c54bca767c2b6654e7bd7ac3dae9cbaa2c390b" kindref="member">ReplicationMode::SEMI_SYNC</ref>;</highlight></codeline>
+<codeline lineno="79" refid="structthemisdb_1_1replication_1_1_tier_config_1a79b33e9920393c7aabce0c74c38b26f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_tier_config_1a79b33e9920393c7aabce0c74c38b26f7" kindref="member">max_latency_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>50;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemisdb_1_1replication_1_1_tier_config_1aa4a4b95386507e67c328fb8d604b143d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_tier_config_1aa4a4b95386507e67c328fb8d604b143d" kindref="member">min_availability_pct</ref><sp/><sp/>=<sp/>99;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MultiTierConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemisdb_1_1replication_1_1_multi_tier_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_multi_tier_config" kindref="compound">MultiTierConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Auto-tiering<sp/>thresholds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemisdb_1_1replication_1_1_multi_tier_config_1ae2e6f98cfa3d42f13be8751c662068eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_multi_tier_config_1ae2e6f98cfa3d42f13be8751c662068eb" kindref="member">auto_tiering_enabled</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93" refid="structthemisdb_1_1replication_1_1_multi_tier_config_1a01feb55ded8af6716e1cb9f9c52de698" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_multi_tier_config_1a01feb55ded8af6716e1cb9f9c52de698" kindref="member">hot_access_threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100;<sp/></highlight></codeline>
+<codeline lineno="94" refid="structthemisdb_1_1replication_1_1_multi_tier_config_1af39612b3da1efb791bd453aca1cfb0c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_multi_tier_config_1af39612b3da1efb791bd453aca1cfb0c4" kindref="member">cold_access_threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemisdb_1_1replication_1_1_multi_tier_config_1a7da5ee38c838a2fb280eaa97fcf135d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_multi_tier_config_1a7da5ee38c838a2fb280eaa97fcf135d0" kindref="member">auto_tier_window_seconds</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>60;<sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>tier<sp/>for<sp/>collections<sp/>not<sp/>explicitly<sp/>assigned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemisdb_1_1replication_1_1_multi_tier_config_1aef607440cc9d0c2e906360920c2e1635" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref><sp/><ref refid="structthemisdb_1_1replication_1_1_multi_tier_config_1aef607440cc9d0c2e906360920c2e1635" kindref="member">default_tier</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87aeef767dda7ea588f055c8a1e2b8556bc" kindref="member">ReplicationTier::TIER_2_STANDARD</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-tier<sp/>overrides<sp/>(empty<sp/>→<sp/>built-in<sp/>defaults<sp/>used)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemisdb_1_1replication_1_1_multi_tier_config_1a1781550cee3b8f340523f8c89b3ac824" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TierConfig&gt;<sp/><ref refid="structthemisdb_1_1replication_1_1_multi_tier_config_1a1781550cee3b8f340523f8c89b3ac824" kindref="member">tier1_config</ref>;</highlight></codeline>
+<codeline lineno="102" refid="structthemisdb_1_1replication_1_1_multi_tier_config_1a4337678060ca195460f1ed7630cf50b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TierConfig&gt;<sp/><ref refid="structthemisdb_1_1replication_1_1_multi_tier_config_1a4337678060ca195460f1ed7630cf50b0" kindref="member">tier2_config</ref>;</highlight></codeline>
+<codeline lineno="103" refid="structthemisdb_1_1replication_1_1_multi_tier_config_1a26d102c7351dcd881d16493ffb56480b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TierConfig&gt;<sp/><ref refid="structthemisdb_1_1replication_1_1_multi_tier_config_1a26d102c7351dcd881d16493ffb56480b" kindref="member">tier3_config</ref>;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CollectionAccessStats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemisdb_1_1replication_1_1_collection_access_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_collection_access_stats" kindref="compound">CollectionAccessStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="114" refid="structthemisdb_1_1replication_1_1_collection_access_stats_1ac5c0a6bca091b2e1e8f76da0c8a7fc05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_collection_access_stats_1ac5c0a6bca091b2e1e8f76da0c8a7fc05" kindref="member">collection</ref>;</highlight></codeline>
+<codeline lineno="115" refid="structthemisdb_1_1replication_1_1_collection_access_stats_1ac65dc4dd66db15582616b3f6ac179ccd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_collection_access_stats_1ac65dc4dd66db15582616b3f6ac179ccd" kindref="member">total_accesses</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="116" refid="structthemisdb_1_1replication_1_1_collection_access_stats_1a8df6ccda387ed7407c29d30afe05344b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_collection_access_stats_1a8df6ccda387ed7407c29d30afe05344b" kindref="member">recent_accesses</ref><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="117" refid="structthemisdb_1_1replication_1_1_collection_access_stats_1a5ea844d88fcc38502a74db6568167c51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_collection_access_stats_1a5ea844d88fcc38502a74db6568167c51" kindref="member">access_rate_per_min</ref><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="118" refid="structthemisdb_1_1replication_1_1_collection_access_stats_1a81f6dd561531f08cdf57c6d3f16b9dd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref><sp/><ref refid="structthemisdb_1_1replication_1_1_collection_access_stats_1a81f6dd561531f08cdf57c6d3f16b9dd4" kindref="member">current_tier</ref><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87aeef767dda7ea588f055c8a1e2b8556bc" kindref="member">ReplicationTier::TIER_2_STANDARD</ref>;</highlight></codeline>
+<codeline lineno="119" refid="structthemisdb_1_1replication_1_1_collection_access_stats_1a80d255621237671a8086b96d4ce01bb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1replication_1_1_collection_access_stats_1a80d255621237671a8086b96d4ce01bb3" kindref="member">last_promotion</ref>;</highlight></codeline>
+<codeline lineno="120" refid="structthemisdb_1_1replication_1_1_collection_access_stats_1aa4d23e374e8294ff946c38c322cdeb01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1replication_1_1_collection_access_stats_1aa4d23e374e8294ff946c38c322cdeb01" kindref="member">last_demotion</ref>;</highlight></codeline>
+<codeline lineno="123" refid="structthemisdb_1_1replication_1_1_collection_access_stats_1acebae2a627684c94767d7f0bd88f4d1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;std::chrono::system_clock::time_point&gt;<sp/><ref refid="structthemisdb_1_1replication_1_1_collection_access_stats_1acebae2a627684c94767d7f0bd88f4d1f" kindref="member">access_timestamps</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MultiTierStats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemisdb_1_1replication_1_1_multi_tier_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_multi_tier_stats" kindref="compound">MultiTierStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="134" refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a7c2abf6a832858e66c58a301ea5025b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a7c2abf6a832858e66c58a301ea5025b7" kindref="member">collections_tier1</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="135" refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a93dda9c5f9b4ca7bf82b64ae9a5e9160" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a93dda9c5f9b4ca7bf82b64ae9a5e9160" kindref="member">collections_tier2</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="136" refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a7799af1c0f2aaf43defdc0c43b9c2ac9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a7799af1c0f2aaf43defdc0c43b9c2ac9" kindref="member">collections_tier3</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="137" refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a580ccbf3edc8505c2b6772247a1ca5dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a580ccbf3edc8505c2b6772247a1ca5dc" kindref="member">total_promotions</ref><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="138" refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a611296c354d4e6929aecaf65c9fa69c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a611296c354d4e6929aecaf65c9fa69c1" kindref="member">total_demotions</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="139" refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a07d9e7f9321408b5cea02497cfeed5b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_multi_tier_stats_1a07d9e7f9321408b5cea02497cfeed5b9" kindref="member">auto_tiering_active</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MultiTierReplicationManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1af503eba79d95bf3a7e195df27e06e8a4" kindref="member">MultiTierReplicationManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Construction<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1af503eba79d95bf3a7e195df27e06e8a4" kindref="member">MultiTierReplicationManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_multi_tier_config" kindref="compound">MultiTierConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="175" refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a28072b567e2078557881d450f0d5ed71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a28072b567e2078557881d450f0d5ed71" kindref="member">~MultiTierReplicationManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a8e3aca84ad03baafa08176812b4da38c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a8e3aca84ad03baafa08176812b4da38c" kindref="member">MultiTierReplicationManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1af503eba79d95bf3a7e195df27e06e8a4" kindref="member">MultiTierReplicationManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179" refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1aa788fd84dc96eb36df66a24fb6253fb0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1af503eba79d95bf3a7e195df27e06e8a4" kindref="member">MultiTierReplicationManager</ref>&amp;<sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1aa788fd84dc96eb36df66a24fb6253fb0" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1af503eba79d95bf3a7e195df27e06e8a4" kindref="member">MultiTierReplicationManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Tier<sp/>assignment<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1adc6a30f56ef49a9b3337d9292320b3ee" kindref="member">assignTier</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,<sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref><sp/>tier);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a0a3b043c453e05746df25605f92d3708" kindref="member">removeTier</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref><sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a5c4d9b6148d962d29de810e3222d4d08" kindref="member">getTier</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_tier_config" kindref="compound">TierConfig</ref><sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a7e939bb1485b965482bf10a24ade4a74" kindref="member">getTierConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_tier_config" kindref="compound">TierConfig</ref><sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a654bb56ebd765bdc4c3b2a3e787007ab" kindref="member">getDefaultTierConfig</ref>(<ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref><sp/>tier)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Auto-tiering<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1af2ac0f1766c5ef99e7bf755413944ebb" kindref="member">enableAutoTiering</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a3e10155420a18b882d971d22efb521d8" kindref="member">isAutoTieringEnabled</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1acb852a0b22eb910b138058ac48b9db8c" kindref="member">recordAccess</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref><sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a149926f48c6975b9acd7f0a12d69201f" kindref="member">evaluateTierPromotion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Statistics<sp/>&amp;<sp/>introspection<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_multi_tier_stats" kindref="compound">MultiTierStats</ref><sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a36cb18b5af4e32fb40a329df014b7a05" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CollectionAccessStats&gt;<sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1ab96769a67983c9148d84a8f086966c82" kindref="member">getCollectionStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a5aeef9ba5951a6c823b423cdcf6bf11e" kindref="member">getCollectionsForTier</ref>(<ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref><sp/>tier)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Internal<sp/>helpers<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>refreshAccessRate(<ref refid="structthemisdb_1_1replication_1_1_collection_access_stats" kindref="compound">CollectionAccessStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>applyTierChange(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref><sp/><sp/><sp/><sp/>old_tier,</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref><sp/><sp/><sp/><sp/>new_tier);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>State<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_multi_tier_config" kindref="compound">MultiTierConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>assignments_mutex_;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ReplicationTier&gt;<sp/>tier_assignments_;<sp/></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>stats_mutex_;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>CollectionAccessStats&gt;<sp/>access_stats_;<sp/></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><sp/><sp/><sp/><sp/>auto_tiering_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_promotions_{0};</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_demotions_{0};</highlight></codeline>
+<codeline lineno="303"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>replication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/replication/multi_tier_replication.h"/>
+  </compounddef>
+</doxygen>

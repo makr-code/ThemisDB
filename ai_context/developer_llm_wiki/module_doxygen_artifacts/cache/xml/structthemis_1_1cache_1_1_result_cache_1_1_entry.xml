@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_result_cache_1_1_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::ResultCache::Entry</compoundname>
+    <includes refid="result__cache_8h" local="no">result_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_result_cache_1_1_entry_1a5b2421596a9565ad4d09c05035113466" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::ResultCache::Entry::page_json</definition>
+        <argsstring></argsstring>
+        <name>page_json</name>
+        <qualifiedname>themis::cache::ResultCache::Entry::page_json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/result_cache.h" line="39" column="21" bodyfile="include/cache/result_cache.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_result_cache_1_1_entry_1a97608d447f4b3fa88e65b1a23192e41c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::ResultCache::Entry::ts_ms</definition>
+        <argsstring></argsstring>
+        <name>ts_ms</name>
+        <qualifiedname>themis::cache::ResultCache::Entry::ts_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/result_cache.h" line="40" column="18" bodyfile="include/cache/result_cache.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_result_cache_1_1_entry_1a564f59494d93b338b23e9f8c29e58606" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::ResultCache::Entry::ttl_ms</definition>
+        <argsstring></argsstring>
+        <name>ttl_ms</name>
+        <qualifiedname>themis::cache::ResultCache::Entry::ttl_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/result_cache.h" line="41" column="18" bodyfile="include/cache/result_cache.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/result_cache.h" line="38" column="5" bodyfile="include/cache/result_cache.h" bodystart="38" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_result_cache_1_1_entry_1a5b2421596a9565ad4d09c05035113466" prot="public" virt="non-virtual"><scope>themis::cache::ResultCache::Entry</scope><name>page_json</name></member>
+      <member refid="structthemis_1_1cache_1_1_result_cache_1_1_entry_1a97608d447f4b3fa88e65b1a23192e41c" prot="public" virt="non-virtual"><scope>themis::cache::ResultCache::Entry</scope><name>ts_ms</name></member>
+      <member refid="structthemis_1_1cache_1_1_result_cache_1_1_entry_1a564f59494d93b338b23e9f8c29e58606" prot="public" virt="non-virtual"><scope>themis::cache::ResultCache::Entry</scope><name>ttl_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability_1_1_0d040067176231052304042146342315017224322175077262" kind="namespace" language="C++">
+    <compoundname>themis::observability::@040067176231052304042146342315017224322175077262</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/observability/continuous_profiler.cpp" line="51" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1replication_1_1_i_kafka_change_stream_exporter" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::replication::IKafkaChangeStreamExporter</compoundname>
+    <includes refid="kafka__change__stream_8h" local="no">kafka_change_stream.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1replication_1_1_i_kafka_change_stream_exporter_1a01f2cb1541f40c87758b933484059d30" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::replication::IKafkaChangeStreamExporter::~IKafkaChangeStreamExporter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IKafkaChangeStreamExporter</name>
+        <qualifiedname>themis::replication::IKafkaChangeStreamExporter::~IKafkaChangeStreamExporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="63" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1replication_1_1_i_kafka_change_stream_exporter_1a5a22fe6e1369346d694112c57155b5b5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::replication::IKafkaChangeStreamExporter::configure</definition>
+        <argsstring>(const KafkaChangeStreamConfig &amp;config)=0</argsstring>
+        <name>configure</name>
+        <qualifiedname>themis::replication::IKafkaChangeStreamExporter::configure</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1replication_1_1_kafka_change_stream_config" kindref="compound">KafkaChangeStreamConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="64" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1replication_1_1_i_kafka_change_stream_exporter_1ab520f33c48554314995eb57a1c89c854" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::replication::IKafkaChangeStreamExporter::start</definition>
+        <argsstring>()=0</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::replication::IKafkaChangeStreamExporter::start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="65" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1replication_1_1_i_kafka_change_stream_exporter_1ab0d401b881a932c3e6c2ffa5cb74a865" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::replication::IKafkaChangeStreamExporter::stop</definition>
+        <argsstring>()=0</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::replication::IKafkaChangeStreamExporter::stop</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="66" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1replication_1_1_i_kafka_change_stream_exporter_1a6631aeb241311e045811cccdd6070621" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::replication::IKafkaChangeStreamExporter::isRunning</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::replication::IKafkaChangeStreamExporter::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="67" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1replication_1_1_i_kafka_change_stream_exporter_1a49cde6292d4ef283849f44c01d2cd41a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1replication_1_1_kafka_stream_stats" kindref="compound">KafkaStreamStats</ref></type>
+        <definition>virtual KafkaStreamStats themis::replication::IKafkaChangeStreamExporter::getStats</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::replication::IKafkaChangeStreamExporter::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="68" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1replication_1_1_i_kafka_change_stream_exporter_1a91b872f5acdac035c05e6b9825098e9e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::replication::IKafkaChangeStreamExporter::flush</definition>
+        <argsstring>(std::chrono::milliseconds timeout=std::chrono::milliseconds(5000))=0</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::replication::IKafkaChangeStreamExporter::flush</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::milliseconds(5000)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="69" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>I kafka change stream exporter component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/kafka_change_stream.h" line="61" column="1" bodyfile="include/replication/kafka_change_stream.h" bodystart="61" bodyend="70"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1replication_1_1_i_kafka_change_stream_exporter_1a5a22fe6e1369346d694112c57155b5b5" prot="public" virt="pure-virtual"><scope>themis::replication::IKafkaChangeStreamExporter</scope><name>configure</name></member>
+      <member refid="classthemis_1_1replication_1_1_i_kafka_change_stream_exporter_1a91b872f5acdac035c05e6b9825098e9e" prot="public" virt="pure-virtual"><scope>themis::replication::IKafkaChangeStreamExporter</scope><name>flush</name></member>
+      <member refid="classthemis_1_1replication_1_1_i_kafka_change_stream_exporter_1a49cde6292d4ef283849f44c01d2cd41a" prot="public" virt="pure-virtual"><scope>themis::replication::IKafkaChangeStreamExporter</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1replication_1_1_i_kafka_change_stream_exporter_1a6631aeb241311e045811cccdd6070621" prot="public" virt="pure-virtual"><scope>themis::replication::IKafkaChangeStreamExporter</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1replication_1_1_i_kafka_change_stream_exporter_1ab520f33c48554314995eb57a1c89c854" prot="public" virt="pure-virtual"><scope>themis::replication::IKafkaChangeStreamExporter</scope><name>start</name></member>
+      <member refid="classthemis_1_1replication_1_1_i_kafka_change_stream_exporter_1ab0d401b881a932c3e6c2ffa5cb74a865" prot="public" virt="pure-virtual"><scope>themis::replication::IKafkaChangeStreamExporter</scope><name>stop</name></member>
+      <member refid="classthemis_1_1replication_1_1_i_kafka_change_stream_exporter_1a01f2cb1541f40c87758b933484059d30" prot="public" virt="virtual"><scope>themis::replication::IKafkaChangeStreamExporter</scope><name>~IKafkaChangeStreamExporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

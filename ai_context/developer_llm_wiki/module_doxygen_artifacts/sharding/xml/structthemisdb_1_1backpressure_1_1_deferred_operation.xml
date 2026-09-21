@@ -1,0 +1,336 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1backpressure_1_1_deferred_operation" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::backpressure::DeferredOperation</compoundname>
+    <includes refid="backpressure__protocol_8h" local="no">backpressure_protocol.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1ac428ceb8fa9ee42cbe037515e90ab617" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::backpressure::DeferredOperation::operation_id</definition>
+        <argsstring></argsstring>
+        <name>operation_id</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::operation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="238" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1a276c3f1be5b3a0181a30106c7b4a22f8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1backpressure_1ab2ea3b5415c383f832372c161d505601" kindref="member">DeferredOperationType</ref></type>
+        <definition>DeferredOperationType themisdb::backpressure::DeferredOperation::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1backpressure_1ab2ea3b5415c383f832372c161d505601a2f7732c4faad999224047cce764995cf" kindref="member">DeferredOperationType::SYNC_DATA</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="239" column="27" bodyfile="include/sharding/backpressure_protocol.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1aa438763de63bdc8a309449ad3a77e875" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1backpressure_1a69215d639835a8812b880a362f6bf09d" kindref="member">OperationPriority</ref></type>
+        <definition>OperationPriority themisdb::backpressure::DeferredOperation::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::priority</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1backpressure_1a69215d639835a8812b880a362f6bf09da1e23852820b9154316c7c06e2b7ba051" kindref="member">OperationPriority::NORMAL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="240" column="23" bodyfile="include/sharding/backpressure_protocol.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1afb624729e1d66e9552737a854469dd04" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::backpressure::DeferredOperation::source_shard_id</definition>
+        <argsstring></argsstring>
+        <name>source_shard_id</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::source_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="243" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1a28be948bd8d74e20d3a5f5318bd6be37" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::backpressure::DeferredOperation::target_shard_id</definition>
+        <argsstring></argsstring>
+        <name>target_shard_id</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::target_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="244" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1a2408a05ace591e575ee6c089486c3154" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::backpressure::DeferredOperation::token_range_start</definition>
+        <argsstring></argsstring>
+        <name>token_range_start</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::token_range_start</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="247" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1a0f79fa3df13599e84335b45748626dc2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::backpressure::DeferredOperation::token_range_end</definition>
+        <argsstring></argsstring>
+        <name>token_range_end</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::token_range_end</qualifiedname>
+        <initializer>= UINT64_MAX</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="248" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1a2b865c5342390de6a92f666b1fe4dbca" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::backpressure::DeferredOperation::queued_at</definition>
+        <argsstring></argsstring>
+        <name>queued_at</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::queued_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="251" column="43" bodyfile="include/sharding/backpressure_protocol.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1a8abd1d23f1f74f86e66fa89e60827bf6" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::backpressure::DeferredOperation::max_defer_until</definition>
+        <argsstring></argsstring>
+        <name>max_defer_until</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::max_defer_until</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="252" column="43" bodyfile="include/sharding/backpressure_protocol.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1ab13e8656f62d07a49a799469d9e907c6" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::backpressure::DeferredOperation::last_attempt</definition>
+        <argsstring></argsstring>
+        <name>last_attempt</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::last_attempt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="253" column="43" bodyfile="include/sharding/backpressure_protocol.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1a14f034a20f38bcbd174c1d976f3f2eb7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themisdb::backpressure::DeferredOperation::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::payload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="256" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1add9c0ad1d01705eaaa48f8574a359cdd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::backpressure::DeferredOperation::payload_size</definition>
+        <argsstring></argsstring>
+        <name>payload_size</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::payload_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="257" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1ab3bbe1e3841b50a20efc135d7bc16921" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::DeferredOperation::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::retry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="260" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1aaf2414c5432eabf11e01a4527785511b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::DeferredOperation::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="261" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1af23a966636336026c3554d26f95f2bd9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::DeferredOperation::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::checksum</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="264" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1a212dc5608b8cbfbce49e5850ac261f17" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::DeferredOperation::isExpired</definition>
+        <argsstring>() const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::isExpired</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if operation has expired </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="269" column="10" bodyfile="include/sharding/backpressure_protocol.h" bodystart="269" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1a8352a53ecb07d528bee3f36512a3764a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::DeferredOperation::getAgeSeconds</definition>
+        <argsstring>() const</argsstring>
+        <name>getAgeSeconds</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::getAgeSeconds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate age in seconds </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="276" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="276" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1a5b0964aee4bcfd13d392d58e10d88d96" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::backpressure::DeferredOperation::getEffectivePriority</definition>
+        <argsstring>() const</argsstring>
+        <name>getEffectivePriority</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::getEffectivePriority</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate effective priority (considers age) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="285" column="9" bodyfile="include/sharding/backpressure_protocol.h" bodystart="285" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1a8a26fa26923e6171f0ea737f79af52d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::backpressure::DeferredOperation::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::serialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="292" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1backpressure_1_1_deferred_operation_1ab407b1122c5e18711e8065027c97f324" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1backpressure_1_1_deferred_operation" kindref="compound">DeferredOperation</ref> &gt;</type>
+        <definition>static std::optional&lt; DeferredOperation &gt; themisdb::backpressure::DeferredOperation::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themisdb::backpressure::DeferredOperation::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="293" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Operation deferred for later replay </para>
+    </detaileddescription>
+    <location file="include/sharding/backpressure_protocol.h" line="237" column="1" bodyfile="include/sharding/backpressure_protocol.h" bodystart="237" bodyend="294"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1af23a966636336026c3554d26f95f2bd9" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>checksum</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1ab407b1122c5e18711e8065027c97f324" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>deserialize</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1a8352a53ecb07d528bee3f36512a3764a" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>getAgeSeconds</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1a5b0964aee4bcfd13d392d58e10d88d96" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>getEffectivePriority</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1a212dc5608b8cbfbce49e5850ac261f17" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>isExpired</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1ab13e8656f62d07a49a799469d9e907c6" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>last_attempt</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1a8abd1d23f1f74f86e66fa89e60827bf6" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>max_defer_until</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1aaf2414c5432eabf11e01a4527785511b" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>max_retries</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1ac428ceb8fa9ee42cbe037515e90ab617" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>operation_id</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1a14f034a20f38bcbd174c1d976f3f2eb7" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>payload</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1add9c0ad1d01705eaaa48f8574a359cdd" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>payload_size</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1aa438763de63bdc8a309449ad3a77e875" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>priority</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1a2b865c5342390de6a92f666b1fe4dbca" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>queued_at</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1ab3bbe1e3841b50a20efc135d7bc16921" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>retry_count</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1a8a26fa26923e6171f0ea737f79af52d9" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>serialize</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1afb624729e1d66e9552737a854469dd04" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>source_shard_id</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1a28be948bd8d74e20d3a5f5318bd6be37" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>target_shard_id</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1a0f79fa3df13599e84335b45748626dc2" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>token_range_end</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1a2408a05ace591e575ee6c089486c3154" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>token_range_start</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_deferred_operation_1a276c3f1be5b3a0181a30106c7b4a22f8" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredOperation</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

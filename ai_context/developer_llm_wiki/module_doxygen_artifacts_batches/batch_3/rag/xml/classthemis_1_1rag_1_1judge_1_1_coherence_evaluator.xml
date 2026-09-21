@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::CoherenceEvaluator</compoundname>
+    <includes refid="coherence__evaluator_8h" local="no">coherence_evaluator.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_config" prot="public">themis::rag::judge::CoherenceEvaluator::Config</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_impl" prot="public">themis::rag::judge::CoherenceEvaluator::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1a603e86f227b6762582e981f3e4cdb520" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::judge::CoherenceEvaluator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="103" column="21" bodyfile="include/rag/coherence_evaluator.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1a38eba87f409c9da0cc69dc20db57a6bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::CoherenceEvaluator::CoherenceEvaluator</definition>
+        <argsstring>()</argsstring>
+        <name>CoherenceEvaluator</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::CoherenceEvaluator</qualifiedname>
+        <briefdescription>
+<para>Construct evaluator with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="58" column="5" bodyfile="src/rag/coherence_evaluator.cpp" bodystart="115" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1ad77f8beb77716e3af152f53f7586754b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::CoherenceEvaluator::CoherenceEvaluator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>CoherenceEvaluator</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::CoherenceEvaluator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="59" column="14" bodyfile="src/rag/coherence_evaluator.cpp" bodystart="119" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1a8cb42ca6c916cda3346ff8092823c698" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::CoherenceEvaluator::~CoherenceEvaluator</definition>
+        <argsstring>()</argsstring>
+        <name>~CoherenceEvaluator</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::~CoherenceEvaluator</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="64" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1aa2480ea1a049be4088ee9c74989e13c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_coherence_result" kindref="compound">CoherenceResult</ref></type>
+        <definition>CoherenceResult themis::rag::judge::CoherenceEvaluator::evaluate</definition>
+        <argsstring>(const std::string &amp;answer)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::evaluate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate coherence of an answer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Coherence evaluation result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1aacd74639278f2fd67fb2260b813c6b95" kindref="member">analyzeLogicalFlow()</ref>, <ref refid="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1a4896edc483c969201f723e44f1ba7583" kindref="member">assessStructure()</ref>, <ref refid="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1af44b8c55c72c86833cc3af0b1b7ab189" kindref="member">evaluateLinguisticQuality()</ref>, <ref refid="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1a621b3854e680be9738ca6cec1555ccc8" kindref="member">detectContradictions()</ref>, std::min(), size(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="71" column="21" bodyfile="src/rag/coherence_evaluator.cpp" bodystart="438" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1aacd74639278f2fd67fb2260b813c6b95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::CoherenceEvaluator::analyzeLogicalFlow</definition>
+        <argsstring>(const std::string &amp;answer)</argsstring>
+        <name>analyzeLogicalFlow</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::analyzeLogicalFlow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <briefdescription>
+<para>Analyze logical flow and transitions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyze Logical Flow.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Logical flow score 0-1</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), sentence_regex(), std::sregex_iterator(), begin(), end(), std::distance(), countTransitionWords(), connector_regex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="78" column="12" bodyfile="src/rag/coherence_evaluator.cpp" bodystart="141" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1a4896edc483c969201f723e44f1ba7583" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::CoherenceEvaluator::assessStructure</definition>
+        <argsstring>(const std::string &amp;answer)</argsstring>
+        <name>assessStructure</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::assessStructure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <briefdescription>
+<para>Assess structural coherence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Assess Structure.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Structural score 0-1</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::count(), begin(), end(), sentence_regex(), std::sregex_iterator(), std::distance(), list_regex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="85" column="12" bodyfile="src/rag/coherence_evaluator.cpp" bodystart="194" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1af44b8c55c72c86833cc3af0b1b7ab189" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::CoherenceEvaluator::evaluateLinguisticQuality</definition>
+        <argsstring>(const std::string &amp;answer)</argsstring>
+        <name>evaluateLinguisticQuality</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::evaluateLinguisticQuality</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate linguistic quality. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate Linguistic Quality.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Linguistic score 0-1</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), calculateReadability(), std::transform(), begin(), end(), stream(), length(), sentence_regex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="92" column="12" bodyfile="src/rag/coherence_evaluator.cpp" bodystart="251" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1a621b3854e680be9738ca6cec1555ccc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::judge::CoherenceEvaluator::detectContradictions</definition>
+        <argsstring>(const std::string &amp;answer)</argsstring>
+        <name>detectContradictions</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::detectContradictions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <briefdescription>
+<para>Check for internal contradictions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect Contradictions.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of detected contradictions</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), sentence_regex(), std::sregex_iterator(), begin(), end(), reserve(), std::max(), size_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="99" column="17" bodyfile="src/rag/coherence_evaluator.cpp" bodystart="318" bodyend="430"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Coherence evaluator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Evaluates answer coherence through:<orderedlist>
+<listitem><para>Logical flow analysis</para>
+</listitem><listitem><para>Structural coherence</para>
+</listitem><listitem><para>Linguistic quality</para>
+</listitem><listitem><para>Internal consistency </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <location file="include/rag/coherence_evaluator.h" line="42" column="1" bodyfile="include/rag/coherence_evaluator.h" bodystart="42" bodyend="104"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1aacd74639278f2fd67fb2260b813c6b95" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator</scope><name>analyzeLogicalFlow</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1a4896edc483c969201f723e44f1ba7583" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator</scope><name>assessStructure</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1a38eba87f409c9da0cc69dc20db57a6bc" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator</scope><name>CoherenceEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1ad77f8beb77716e3af152f53f7586754b" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator</scope><name>CoherenceEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1a621b3854e680be9738ca6cec1555ccc8" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator</scope><name>detectContradictions</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1aa2480ea1a049be4088ee9c74989e13c1" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1af44b8c55c72c86833cc3af0b1b7ab189" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator</scope><name>evaluateLinguisticQuality</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1a603e86f227b6762582e981f3e4cdb520" prot="private" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1a8cb42ca6c916cda3346ff8092823c698" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator</scope><name>~CoherenceEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

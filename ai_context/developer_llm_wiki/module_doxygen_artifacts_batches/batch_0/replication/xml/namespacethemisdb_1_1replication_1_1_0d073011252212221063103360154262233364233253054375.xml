@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1replication_1_1_0d073011252212221063103360154262233364233253054375" kind="namespace" language="C++">
+    <compoundname>themisdb::replication::@073011252212221063103360154262233364233253054375</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/replication/geo_placement.cpp" line="24" column="1"/>
+  </compounddef>
+</doxygen>

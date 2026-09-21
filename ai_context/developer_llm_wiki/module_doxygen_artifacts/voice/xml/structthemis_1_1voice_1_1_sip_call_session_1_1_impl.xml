@@ -1,0 +1,279 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_sip_call_session_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::SipCallSession::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a327100e38b76b423b1200f58bf5f70ff" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_sip_call_session_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::voice::SipCallSession::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::voice::SipCallSession::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_telephony.cpp" line="228" column="15" bodyfile="src/voice/voice_telephony.cpp" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a95f92cef2b44b20a7ac472fb991dcb64" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref></type>
+        <definition>CallID themis::voice::SipCallSession::Impl::call_id</definition>
+        <argsstring></argsstring>
+        <name>call_id</name>
+        <qualifiedname>themis::voice::SipCallSession::Impl::call_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_telephony.cpp" line="229" column="15" bodyfile="src/voice/voice_telephony.cpp" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1adab41308a631d5f718e5c7b073d62e5b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1af24c401441bb95b17f0893e73cc02c10" kindref="member">CallState</ref></type>
+        <definition>CallState themis::voice::SipCallSession::Impl::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::voice::SipCallSession::Impl::state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1af24c401441bb95b17f0893e73cc02c10aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">CallState::IDLE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_telephony.cpp" line="230" column="15" bodyfile="src/voice/voice_telephony.cpp" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1af9bee2ab756d321a8ff8077a6bb276a1" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::SipCallSession::Impl::started_at_ms</definition>
+        <argsstring></argsstring>
+        <name>started_at_ms</name>
+        <qualifiedname>themis::voice::SipCallSession::Impl::started_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_telephony.cpp" line="231" column="15" bodyfile="src/voice/voice_telephony.cpp" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1ac9ff83764a955bc9c844fb88183a92e0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::SipCallSession::Impl::bytes_received</definition>
+        <argsstring></argsstring>
+        <name>bytes_received</name>
+        <qualifiedname>themis::voice::SipCallSession::Impl::bytes_received</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_telephony.cpp" line="232" column="15" bodyfile="src/voice/voice_telephony.cpp" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a4ef81f5379d04c537423de233896f42f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::SipCallSession::Impl::rtp_packets_received</definition>
+        <argsstring></argsstring>
+        <name>rtp_packets_received</name>
+        <qualifiedname>themis::voice::SipCallSession::Impl::rtp_packets_received</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_telephony.cpp" line="233" column="15" bodyfile="src/voice/voice_telephony.cpp" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1af7b65e6339defe63d64408b546239a0e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int16_t &gt;</type>
+        <definition>std::vector&lt;int16_t&gt; themis::voice::SipCallSession::Impl::pcm_buffer</definition>
+        <argsstring></argsstring>
+        <name>pcm_buffer</name>
+        <qualifiedname>themis::voice::SipCallSession::Impl::pcm_buffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_telephony.cpp" line="236" column="17" bodyfile="src/voice/voice_telephony.cpp" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a1ed4b9357c720bf91bce58b5a7a9feaf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::SipCallSession::Impl::partial_seq</definition>
+        <argsstring></argsstring>
+        <name>partial_seq</name>
+        <qualifiedname>themis::voice::SipCallSession::Impl::partial_seq</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_telephony.cpp" line="237" column="26" bodyfile="src/voice/voice_telephony.cpp" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a9c4d443eb50c5f16798e1aa841b97690" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1voice_1_1_i_tts_backend" kindref="compound">ITtsBackend</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ITtsBackend&gt; themis::voice::SipCallSession::Impl::tts_backend</definition>
+        <argsstring></argsstring>
+        <name>tts_backend</name>
+        <qualifiedname>themis::voice::SipCallSession::Impl::tts_backend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_telephony.cpp" line="240" column="21" bodyfile="src/voice/voice_telephony.cpp" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1afccd0b68a9f62ac26db419d43f38b587" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_sip_call_session_1a83c109d6296aa4009573ca12b8e65eee" kindref="member">TranscriptCb</ref></type>
+        <definition>TranscriptCb themis::voice::SipCallSession::Impl::on_transcript</definition>
+        <argsstring></argsstring>
+        <name>on_transcript</name>
+        <qualifiedname>themis::voice::SipCallSession::Impl::on_transcript</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_telephony.cpp" line="243" column="19" bodyfile="src/voice/voice_telephony.cpp" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a619e852ee63c32349ce0321f2bdc0cb2" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_sip_call_session_1aa3192d10def733d3b8feb87cbd95ed04" kindref="member">DtmfCb</ref></type>
+        <definition>DtmfCb themis::voice::SipCallSession::Impl::on_dtmf</definition>
+        <argsstring></argsstring>
+        <name>on_dtmf</name>
+        <qualifiedname>themis::voice::SipCallSession::Impl::on_dtmf</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_telephony.cpp" line="244" column="19" bodyfile="src/voice/voice_telephony.cpp" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1aed5b89f672b66cd2e51dd8e110c7e1c7" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_sip_call_session_1a3a6a32fa83bd3850ecf4e70a8ef3c171" kindref="member">StateCb</ref></type>
+        <definition>StateCb themis::voice::SipCallSession::Impl::on_state</definition>
+        <argsstring></argsstring>
+        <name>on_state</name>
+        <qualifiedname>themis::voice::SipCallSession::Impl::on_state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_telephony.cpp" line="245" column="19" bodyfile="src/voice/voice_telephony.cpp" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a45b17ef63ee2e12f8376316f113e77d2" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_sip_call_session_1aeb9b6d80ac9029b50aa4f3aa11eb753b" kindref="member">ErrorCb</ref></type>
+        <definition>ErrorCb themis::voice::SipCallSession::Impl::on_error</definition>
+        <argsstring></argsstring>
+        <name>on_error</name>
+        <qualifiedname>themis::voice::SipCallSession::Impl::on_error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_telephony.cpp" line="246" column="19" bodyfile="src/voice/voice_telephony.cpp" bodystart="246" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a2715aea024e4ef64e18dbcd294f867d1" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::SipCallSession::Impl::Impl</definition>
+        <argsstring>(Config c)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::voice::SipCallSession::Impl::Impl</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1voice_1_1_sip_call_session_1_1_config" kindref="compound">Config</ref></type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_telephony.cpp" line="248" column="14" bodyfile="src/voice/voice_telephony.cpp" bodystart="248" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a492c1291cb721e8a333e2d32d6703552" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::SipCallSession::Impl::setState</definition>
+        <argsstring>(CallState s)</argsstring>
+        <name>setState</name>
+        <qualifiedname>themis::voice::SipCallSession::Impl::setState</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1voice_1af24c401441bb95b17f0893e73cc02c10" kindref="member">CallState</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Set State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1aed5b89f672b66cd2e51dd8e110c7e1c7" kindref="member">on_state()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voice/voice_telephony.cpp" line="255" column="10" bodyfile="src/voice/voice_telephony.cpp" bodystart="255" bodyend="260"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::voice::SipCallSession::Config</label>
+        <link refid="structthemis_1_1voice_1_1_sip_call_session_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::voice::SipCallSession::Impl</label>
+        <link refid="structthemis_1_1voice_1_1_sip_call_session_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/voice/voice_telephony.cpp" line="227" column="1" bodyfile="src/voice/voice_telephony.cpp" bodystart="227" bodyend="261"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1ac9ff83764a955bc9c844fb88183a92e0" prot="public" virt="non-virtual"><scope>themis::voice::SipCallSession::Impl</scope><name>bytes_received</name></member>
+      <member refid="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a95f92cef2b44b20a7ac472fb991dcb64" prot="public" virt="non-virtual"><scope>themis::voice::SipCallSession::Impl</scope><name>call_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a327100e38b76b423b1200f58bf5f70ff" prot="public" virt="non-virtual"><scope>themis::voice::SipCallSession::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a2715aea024e4ef64e18dbcd294f867d1" prot="public" virt="non-virtual"><scope>themis::voice::SipCallSession::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a619e852ee63c32349ce0321f2bdc0cb2" prot="public" virt="non-virtual"><scope>themis::voice::SipCallSession::Impl</scope><name>on_dtmf</name></member>
+      <member refid="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a45b17ef63ee2e12f8376316f113e77d2" prot="public" virt="non-virtual"><scope>themis::voice::SipCallSession::Impl</scope><name>on_error</name></member>
+      <member refid="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1aed5b89f672b66cd2e51dd8e110c7e1c7" prot="public" virt="non-virtual"><scope>themis::voice::SipCallSession::Impl</scope><name>on_state</name></member>
+      <member refid="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1afccd0b68a9f62ac26db419d43f38b587" prot="public" virt="non-virtual"><scope>themis::voice::SipCallSession::Impl</scope><name>on_transcript</name></member>
+      <member refid="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a1ed4b9357c720bf91bce58b5a7a9feaf" prot="public" virt="non-virtual"><scope>themis::voice::SipCallSession::Impl</scope><name>partial_seq</name></member>
+      <member refid="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1af7b65e6339defe63d64408b546239a0e" prot="public" virt="non-virtual"><scope>themis::voice::SipCallSession::Impl</scope><name>pcm_buffer</name></member>
+      <member refid="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a4ef81f5379d04c537423de233896f42f" prot="public" virt="non-virtual"><scope>themis::voice::SipCallSession::Impl</scope><name>rtp_packets_received</name></member>
+      <member refid="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a492c1291cb721e8a333e2d32d6703552" prot="public" virt="non-virtual"><scope>themis::voice::SipCallSession::Impl</scope><name>setState</name></member>
+      <member refid="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1af9bee2ab756d321a8ff8077a6bb276a1" prot="public" virt="non-virtual"><scope>themis::voice::SipCallSession::Impl</scope><name>started_at_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1adab41308a631d5f718e5c7b073d62e5b" prot="public" virt="non-virtual"><scope>themis::voice::SipCallSession::Impl</scope><name>state</name></member>
+      <member refid="structthemis_1_1voice_1_1_sip_call_session_1_1_impl_1a9c4d443eb50c5f16798e1aa841b97690" prot="public" virt="non-virtual"><scope>themis::voice::SipCallSession::Impl</scope><name>tts_backend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

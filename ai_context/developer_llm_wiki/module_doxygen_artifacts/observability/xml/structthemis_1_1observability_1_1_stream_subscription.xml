@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_stream_subscription" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::StreamSubscription</compoundname>
+    <includes refid="metrics__stream__server_8h" local="no">metrics_stream_server.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_stream_subscription_1a23d7c94fc03cde05a8e00bb26fa69940" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::StreamSubscription::client_id</definition>
+        <argsstring></argsstring>
+        <name>client_id</name>
+        <qualifiedname>themis::observability::StreamSubscription::client_id</qualifiedname>
+        <briefdescription>
+<para>Unique client identifier (e.g. WebSocket session ID or SSE client ID). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="53" column="17" bodyfile="include/observability/metrics_stream_server.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_stream_subscription_1a3e906742a960173b0ebcd1333462df69" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::StreamSubscription::metric_names</definition>
+        <argsstring></argsstring>
+        <name>metric_names</name>
+        <qualifiedname>themis::observability::StreamSubscription::metric_names</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> names the client wants to receive. Empty means subscribe to all. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="55" column="17" bodyfile="include/observability/metrics_stream_server.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_stream_subscription_1a4cf5e9f45f1adb6513151692a724e96e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_metric_filter" kindref="compound">MetricFilter</ref> &gt;</type>
+        <definition>std::vector&lt;MetricFilter&gt; themis::observability::StreamSubscription::filters</definition>
+        <argsstring></argsstring>
+        <name>filters</name>
+        <qualifiedname>themis::observability::StreamSubscription::filters</qualifiedname>
+        <briefdescription>
+<para>Label filters; a metric update must satisfy ALL filters to be delivered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="57" column="17" bodyfile="include/observability/metrics_stream_server.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_stream_subscription_1ac41d615332a2b9bde8020ea80f26e90c" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::observability::StreamSubscription::update_interval</definition>
+        <argsstring></argsstring>
+        <name>update_interval</name>
+        <qualifiedname>themis::observability::StreamSubscription::update_interval</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Minimum time between deliveries for this subscription (0 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="59" column="31" bodyfile="include/observability/metrics_stream_server.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Subscription registered by a single client. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Clients name the metrics they want to watch, supply optional label filters to narrow the stream, and specify a minimum delivery interval to throttle high-frequency updates. </para>
+    </detaileddescription>
+    <location file="include/observability/metrics_stream_server.h" line="51" column="1" bodyfile="include/observability/metrics_stream_server.h" bodystart="51" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_stream_subscription_1a23d7c94fc03cde05a8e00bb26fa69940" prot="public" virt="non-virtual"><scope>themis::observability::StreamSubscription</scope><name>client_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_stream_subscription_1a4cf5e9f45f1adb6513151692a724e96e" prot="public" virt="non-virtual"><scope>themis::observability::StreamSubscription</scope><name>filters</name></member>
+      <member refid="structthemis_1_1observability_1_1_stream_subscription_1a3e906742a960173b0ebcd1333462df69" prot="public" virt="non-virtual"><scope>themis::observability::StreamSubscription</scope><name>metric_names</name></member>
+      <member refid="structthemis_1_1observability_1_1_stream_subscription_1ac41d615332a2b9bde8020ea80f26e90c" prot="public" virt="non-virtual"><scope>themis::observability::StreamSubscription</scope><name>update_interval</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

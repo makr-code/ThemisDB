@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="distributed__tracing__sdk_8h" kind="file" language="C++">
+    <compoundname>distributed_tracing_sdk.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">shared_mutex</includes>
+    <includedby refid="trace__instrumentation_8h" local="yes">include/observability/trace_instrumentation.h</includedby>
+    <includedby refid="distributed__trace__span_8cpp" local="yes">src/observability/distributed_trace_span.cpp</includedby>
+    <includedby refid="distributed__tracing__sdk_8cpp" local="yes">src/observability/distributed_tracing_sdk.cpp</includedby>
+    <includedby refid="test__distributed__tracing__sdk_8cpp" local="yes">tests/observability/test_distributed_tracing_sdk.cpp</includedby>
+    <includedby refid="test__otel__exporter__stress_8cpp" local="yes">tests/observability/test_otel_exporter_stress.cpp</includedby>
+    <includedby refid="test__otel__trace__overhead_8cpp" local="yes">tests/observability/test_otel_trace_overhead.cpp</includedby>
+    <includedby refid="test__tracing__integration__replication_8cpp" local="yes">tests/observability/test_tracing_integration_replication.cpp</includedby>
+    <includedby refid="test__tracing__integration__sharding_8cpp" local="yes">tests/observability/test_tracing_integration_sharding.cpp</includedby>
+    <includedby refid="test__tracing__integration__transaction_8cpp" local="yes">tests/observability/test_tracing_integration_transaction.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/distributed_tracing_sdk.h</label>
+        <link refid="distributed__tracing__sdk_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>shared_mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/observability/distributed_tracing_sdk.h</label>
+        <link refid="distributed__tracing__sdk_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/observability/trace_instrumentation.h</label>
+        <link refid="trace__instrumentation_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/observability/distributed_trace_span.cpp</label>
+        <link refid="distributed__trace__span_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/observability/distributed_tracing_sdk.cpp</label>
+        <link refid="distributed__tracing__sdk_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/observability/trace_instrumentation.cpp</label>
+        <link refid="trace__instrumentation_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/observability/test_distributed_tracing_sdk.cpp</label>
+        <link refid="test__distributed__tracing__sdk_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/observability/test_otel_exporter_stress.cpp</label>
+        <link refid="test__otel__exporter__stress_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/observability/test_otel_trace_overhead.cpp</label>
+        <link refid="test__otel__trace__overhead_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/observability/test_tracing_integration_replication.cpp</label>
+        <link refid="test__tracing__integration__replication_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/observability/test_tracing_integration_sharding.cpp</label>
+        <link refid="test__tracing__integration__sharding_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/observability/test_tracing_integration_transaction.cpp</label>
+        <link refid="test__tracing__integration__transaction_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_baggage_item" prot="public">themis::observability::BaggageItem</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_distributed_trace_context" prot="public">themis::observability::DistributedTraceContext</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_distributed_tracing_config" prot="public">themis::observability::DistributedTracingConfig</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_distributed_trace_result" prot="public">themis::observability::DistributedTraceResult</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k" prot="public">themis::observability::DistributedTracingSDK</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 BETA (Phase 2 Observability Expansion) </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 0/100 (implementation in progress) </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Distributed tracing SDK for cross-service span propagation </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ISpan;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5d" kindref="member">TraceContextFormat</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5daae8ff6eda9aad5462befff3fab67b29b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5daae8ff6eda9aad5462befff3fab67b29b" kindref="member">W3C_TRACE_CONTEXT</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5da852aae56cf2dcf4507eb1e6ccb28b864" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5da852aae56cf2dcf4507eb1e6ccb28b864" kindref="member">JAEGER_BAGGAGE</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5dab2af3ada67eb323f78da0bf7e3d6aa9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5dab2af3ada67eb323f78da0bf7e3d6aa9a" kindref="member">B3_SINGLE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5da15873ec6ab742f0592df30d4c75de635" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5da15873ec6ab742f0592df30d4c75de635" kindref="member">B3_MULTI</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1observability_1_1_baggage_item" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_baggage_item" kindref="compound">BaggageItem</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1observability_1_1_baggage_item_1a2c074e0b5c75dcd8e12cc3642807b472" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_baggage_item_1a2c074e0b5c75dcd8e12cc3642807b472" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1observability_1_1_baggage_item_1a7690920e6d2a08cd6c23c9d96c7ba2e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_baggage_item_1a7690920e6d2a08cd6c23c9d96c7ba2e6" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1observability_1_1_baggage_item_1ab6618cc64fbe4eaffd6f1c207f513e22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_baggage_item_1ab6618cc64fbe4eaffd6f1c207f513e22" kindref="member">inherited</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1observability_1_1_distributed_trace_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_distributed_trace_context" kindref="compound">DistributedTraceContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1observability_1_1_distributed_trace_context_1a98b19911ae2c5e9e50bdbf5de5480fab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a98b19911ae2c5e9e50bdbf5de5480fab" kindref="member">DistributedTracingSDK</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;DistributedTraceContext&gt;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a45a228a9858eb2ae932cd8356937cdee" kindref="member">createRoot</ref>();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;DistributedTraceContext&gt;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a5a2d114140f975bc578abbadfba11eaf" kindref="member">fromHttpHeaders</ref>(</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>headers,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5d" kindref="member">TraceContextFormat</ref><sp/>format);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1ab80654bdc56ada19481e8ab09e54b581" kindref="member">toHttpHeaders</ref>(<ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5d" kindref="member">TraceContextFormat</ref><sp/>format)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1observability_1_1_distributed_trace_context_1af93d3673c743c10d6517080ffbf55f7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1af93d3673c743c10d6517080ffbf55f7c" kindref="member">traceId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1aa3a01eeb377d2bb2d9fa0b9326dc4dc4" kindref="member">trace_id_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1observability_1_1_distributed_trace_context_1a051d11275135ec690cdfbc9a9bde5551" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a051d11275135ec690cdfbc9a9bde5551" kindref="member">parentSpanId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1abf2ce6d31cf03e7f203dd232dcdca315" kindref="member">parent_span_id_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1observability_1_1_distributed_trace_context_1af2c5a2b29220caa515b6010ccfb55651" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1af2c5a2b29220caa515b6010ccfb55651" kindref="member">traceState</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a46c8921cfb4ac7ef69a0bfdd35daf617" kindref="member">trace_state_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1observability_1_1_distributed_trace_context_1a472e5990a58e7f1c40ceb9a11d3551f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a472e5990a58e7f1c40ceb9a11d3551f3" kindref="member">isTraceSampled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a304123fc0982a048381e485b982d9a70" kindref="member">trace_sampled_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1observability_1_1_distributed_trace_context_1a419e923643a9202f4afd7dd70d40ebaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BaggageItem&gt;&amp;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a419e923643a9202f4afd7dd70d40ebaa" kindref="member">baggage</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1adde8d3471a0234263c5c9b9c11707982" kindref="member">baggage_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;DistributedTraceContext&gt;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a8f149429f2b0920038ae2fb97e4fbc5b" kindref="member">withBaggage</ref>(</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="classthemis_1_1observability_1_1_distributed_trace_context_1a5accbfee3266e3635a5480417e9e6908" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a5accbfee3266e3635a5480417e9e6908" kindref="member">createdAt</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1aa73a0e69b24fbd4c4dd5e8dbf4d97c89" kindref="member">created_at_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="classthemis_1_1observability_1_1_distributed_trace_context_1a42f78b232cba75e4f3a310a05a544b60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a42f78b232cba75e4f3a310a05a544b60" kindref="member">~DistributedTraceContext</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1observability_1_1_distributed_trace_context_1aa3a01eeb377d2bb2d9fa0b9326dc4dc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1aa3a01eeb377d2bb2d9fa0b9326dc4dc4" kindref="member">trace_id_</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1observability_1_1_distributed_trace_context_1abf2ce6d31cf03e7f203dd232dcdca315" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1abf2ce6d31cf03e7f203dd232dcdca315" kindref="member">parent_span_id_</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1observability_1_1_distributed_trace_context_1a46c8921cfb4ac7ef69a0bfdd35daf617" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a46c8921cfb4ac7ef69a0bfdd35daf617" kindref="member">trace_state_</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196" refid="classthemis_1_1observability_1_1_distributed_trace_context_1a304123fc0982a048381e485b982d9a70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a304123fc0982a048381e485b982d9a70" kindref="member">trace_sampled_</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197" refid="classthemis_1_1observability_1_1_distributed_trace_context_1adde8d3471a0234263c5c9b9c11707982" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BaggageItem&gt;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1adde8d3471a0234263c5c9b9c11707982" kindref="member">baggage_</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="198" refid="classthemis_1_1observability_1_1_distributed_trace_context_1aa73a0e69b24fbd4c4dd5e8dbf4d97c89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1aa73a0e69b24fbd4c4dd5e8dbf4d97c89" kindref="member">created_at_</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="structthemis_1_1observability_1_1_distributed_tracing_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_distributed_tracing_config" kindref="compound">DistributedTracingConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="209" refid="structthemis_1_1observability_1_1_distributed_tracing_config_1a698de95b0d3df77917919445b09b107b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5d" kindref="member">TraceContextFormat</ref><sp/><ref refid="structthemis_1_1observability_1_1_distributed_tracing_config_1a698de95b0d3df77917919445b09b107b" kindref="member">default_format</ref>{<ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5daae8ff6eda9aad5462befff3fab67b29b" kindref="member">TraceContextFormat::W3C_TRACE_CONTEXT</ref>};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="structthemis_1_1observability_1_1_distributed_tracing_config_1ab31fc9838f78280a3d679c66f116081f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_distributed_tracing_config_1ab31fc9838f78280a3d679c66f116081f" kindref="member">inherit_baggage</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215" refid="structthemis_1_1observability_1_1_distributed_tracing_config_1aa9c22edba85813bdbc959be11bca7bff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1observability_1_1_distributed_tracing_config_1aa9c22edba85813bdbc959be11bca7bff" kindref="member">max_baggage_items</ref>{128};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="structthemis_1_1observability_1_1_distributed_tracing_config_1a84a953fd1abcad7922aa5e21a2c23579" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_distributed_tracing_config_1a84a953fd1abcad7922aa5e21a2c23579" kindref="member">propagate_baggage</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221" refid="structthemis_1_1observability_1_1_distributed_tracing_config_1a2cf99cbb8b712a5652f744ad913a2580" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_distributed_tracing_config_1a2cf99cbb8b712a5652f744ad913a2580" kindref="member">service_name</ref>;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="structthemis_1_1observability_1_1_distributed_tracing_config_1a64c937a0a74323df75b10ce8663dff1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_distributed_tracing_config_1a64c937a0a74323df75b10ce8663dff1d" kindref="member">enable_trace_correlation_logging</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="structthemis_1_1observability_1_1_distributed_trace_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_distributed_trace_result" kindref="compound">DistributedTraceResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="234" refid="structthemis_1_1observability_1_1_distributed_trace_result_1acd8d8cf0ab563fe475dd3351cca6efbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_distributed_trace_result_1acd8d8cf0ab563fe475dd3351cca6efbb" kindref="member">success</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237" refid="structthemis_1_1observability_1_1_distributed_trace_result_1a59de010bb984d9bc97bc74494a2cd7ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_distributed_trace_result_1a59de010bb984d9bc97bc74494a2cd7ab" kindref="member">error_code</ref>{0};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240" refid="structthemis_1_1observability_1_1_distributed_trace_result_1abdedc83f6767ff840149424cb7a5edc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_distributed_trace_result_1abdedc83f6767ff840149424cb7a5edc4" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243" refid="structthemis_1_1observability_1_1_distributed_trace_result_1a604f6c13f949f287dd60de66af6a0eb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_distributed_trace_result_1a604f6c13f949f287dd60de66af6a0eb8" kindref="member">debug_context</ref>;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267" refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k_1a099ec2b8a58de4838494d69d83a98d13" kindref="member">DistributedTracingSDK</ref><sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k_1a099ec2b8a58de4838494d69d83a98d13" kindref="member">DistributedTracingSDK</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_distributed_tracing_config" kindref="compound">DistributedTracingConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278" refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k_1ab590a8c5f1ec45c8293900f5bb94c315" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k_1ab590a8c5f1ec45c8293900f5bb94c315" kindref="member">~DistributedTracingSDK</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;DistributedTraceContext&gt;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k_1aa3b647eed3c9e94ad2a54fc25d27be9f" kindref="member">extractContextFromHeaders</ref>(</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>headers,</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5d" kindref="member">TraceContextFormat</ref>*<sp/>format<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k_1a2d4282ee8e062e978102abf40bd5ba1d" kindref="member">propagateContextToHeaders</ref>(</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;DistributedTraceContext&gt;&amp;<sp/>context,</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a25037efd036a064465acfa459ff9de5d" kindref="member">TraceContextFormat</ref>*<sp/>format<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_distributed_trace_result" kindref="compound">DistributedTraceResult</ref><sp/><ref refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k_1a4e117113cfc79608e460a3a342202738" kindref="member">validateTraceContext</ref>(</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;DistributedTraceContext&gt;&amp;<sp/>context);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;DistributedTraceContext&gt;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k_1a003e3e3d1203bf18b6ea200e6dccc051" kindref="member">createChildContext</ref>(</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;DistributedTraceContext&gt;&amp;<sp/>parent_context,</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>new_span_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352" refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k_1ac8066a7247f0e08e45b3ca334a271ac2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_distributed_tracing_config" kindref="compound">DistributedTracingConfig</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k_1ac8066a7247f0e08e45b3ca334a271ac2" kindref="member">configuration</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361" refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k_1aa266c8eea80bfdd19988a7af31f2060f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_distributed_tracing_s_d_k_1aa266c8eea80bfdd19988a7af31f2060f" kindref="member">setConfiguration</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_distributed_tracing_config" kindref="compound">DistributedTracingConfig</ref>&amp;<sp/>config)<sp/>{<sp/>config_<sp/>=<sp/>config;<sp/>}</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_distributed_tracing_config" kindref="compound">DistributedTracingConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>config_mutex_;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1observability_1_1detail_1a2f64b5ed84031e0226e54e8d7be0fae5" kindref="member">generateTraceId</ref>();</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1observability_1_1detail_1a2d62df4bcdce0355fcb25fcc82649423" kindref="member">generateSpanId</ref>();</highlight></codeline>
+<codeline lineno="370"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/distributed_tracing_sdk.h"/>
+  </compounddef>
+</doxygen>

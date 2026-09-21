@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_stream_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::StreamConfig</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_stream_config_1ab24adb6628d5c64cccc058cfc58040c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::StreamConfig::stream_id</definition>
+        <argsstring></argsstring>
+        <name>stream_id</name>
+        <qualifiedname>themisdb::analytics::StreamConfig::stream_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="362" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_stream_config_1a0c295e9042b83fe24e9ae402caf85c37" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::StreamConfig::stream_name</definition>
+        <argsstring></argsstring>
+        <name>stream_name</name>
+        <qualifiedname>themisdb::analytics::StreamConfig::stream_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="363" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_stream_config_1a9a5fd290226acaf3c736869ad1e84d29" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::StreamConfig::buffer_size</definition>
+        <argsstring></argsstring>
+        <name>buffer_size</name>
+        <qualifiedname>themisdb::analytics::StreamConfig::buffer_size</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1a1b7500c180dd53a312a9132493fd6724" kindref="member">DEFAULT_STREAM_BUFFER_SIZE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="364" column="12" bodyfile="include/analytics/cep_engine.h" bodystart="364" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_stream_config_1a3c3a9fcc6d4ad140f3013efcaeed5dad" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::StreamConfig::partitions</definition>
+        <argsstring></argsstring>
+        <name>partitions</name>
+        <qualifiedname>themisdb::analytics::StreamConfig::partitions</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1aaf11b3e3d343e5beeb8b8c15be06bcf2" kindref="member">DEFAULT_PARTITIONS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="365" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="365" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_stream_config_1a7253e22e086325a48ee3adaa0f762dea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::StreamConfig::partition_key_field</definition>
+        <argsstring></argsstring>
+        <name>partition_key_field</name>
+        <qualifiedname>themisdb::analytics::StreamConfig::partition_key_field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="366" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="366" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_stream_config_1abe32d87dacc35fb3fac3da25828d52c3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::StreamConfig::enable_backpressure</definition>
+        <argsstring></argsstring>
+        <name>enable_backpressure</name>
+        <qualifiedname>themisdb::analytics::StreamConfig::enable_backpressure</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="367" column="10" bodyfile="include/analytics/cep_engine.h" bodystart="367" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_stream_config_1ad1609c7193a62ee129cb6f3986469dc4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themisdb::analytics::StreamConfig::backpressure_threshold</definition>
+        <argsstring></argsstring>
+        <name>backpressure_threshold</name>
+        <qualifiedname>themisdb::analytics::StreamConfig::backpressure_threshold</qualifiedname>
+        <initializer>= 0.8f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="368" column="11" bodyfile="include/analytics/cep_engine.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_stream_config_1a1c022622fca9afc0789e095a2ae44ed6" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::StreamConfig::retention</definition>
+        <argsstring></argsstring>
+        <name>retention</name>
+        <qualifiedname>themisdb::analytics::StreamConfig::retention</qualifiedname>
+        <initializer>{3600000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="369" column="31" bodyfile="include/analytics/cep_engine.h" bodystart="369" bodyend="369"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="361" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="361" bodyend="370"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_stream_config_1ad1609c7193a62ee129cb6f3986469dc4" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamConfig</scope><name>backpressure_threshold</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_stream_config_1a9a5fd290226acaf3c736869ad1e84d29" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamConfig</scope><name>buffer_size</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_stream_config_1abe32d87dacc35fb3fac3da25828d52c3" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamConfig</scope><name>enable_backpressure</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_stream_config_1a7253e22e086325a48ee3adaa0f762dea" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamConfig</scope><name>partition_key_field</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_stream_config_1a3c3a9fcc6d4ad140f3013efcaeed5dad" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamConfig</scope><name>partitions</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_stream_config_1a1c022622fca9afc0789e095a2ae44ed6" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamConfig</scope><name>retention</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_stream_config_1ab24adb6628d5c64cccc058cfc58040c6" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamConfig</scope><name>stream_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_stream_config_1a0c295e9042b83fe24e9ae402caf85c37" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamConfig</scope><name>stream_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

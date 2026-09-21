@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstubs_1_1_task_registry" kind="struct" language="C++" prot="public">
+    <compoundname>stubs::TaskRegistry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstubs_1_1_task_registry_1a371d0a891980a0b5d40c3228d050b31d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::TaskRegistry::registered</definition>
+        <argsstring></argsstring>
+        <name>registered</name>
+        <qualifiedname>stubs::TaskRegistry::registered</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_highcardinality_stress.cpp" line="25" column="17" bodyfile="tests/scheduler/test_scheduler_highcardinality_stress.cpp" bodystart="25" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="variable" id="structstubs_1_1_task_registry_1af4187571261512a491674d6396ce17e5" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::TaskRegistry::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>stubs::TaskRegistry::errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_highcardinality_stress.cpp" line="26" column="17" bodyfile="tests/scheduler/test_scheduler_highcardinality_stress.cpp" bodystart="26" bodyend="26"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstubs_1_1_task_registry_1a3c0f4be380ab3568fae932e3093b7882" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::TaskRegistry::register_task</definition>
+        <argsstring>(uint64_t task_id, int priority)</argsstring>
+        <name>register_task</name>
+        <qualifiedname>stubs::TaskRegistry::register_task</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_highcardinality_stress.cpp" line="28" column="10" bodyfile="tests/scheduler/test_scheduler_highcardinality_stress.cpp" bodystart="28" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/scheduler/test_scheduler_highcardinality_stress.cpp" line="24" column="1" bodyfile="tests/scheduler/test_scheduler_highcardinality_stress.cpp" bodystart="24" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structstubs_1_1_task_registry_1af4187571261512a491674d6396ce17e5" prot="public" virt="non-virtual"><scope>stubs::TaskRegistry</scope><name>errors</name></member>
+      <member refid="structstubs_1_1_task_registry_1a3c0f4be380ab3568fae932e3093b7882" prot="public" virt="non-virtual"><scope>stubs::TaskRegistry</scope><name>register_task</name></member>
+      <member refid="structstubs_1_1_task_registry_1a371d0a891980a0b5d40c3228d050b31d" prot="public" virt="non-virtual"><scope>stubs::TaskRegistry</scope><name>registered</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

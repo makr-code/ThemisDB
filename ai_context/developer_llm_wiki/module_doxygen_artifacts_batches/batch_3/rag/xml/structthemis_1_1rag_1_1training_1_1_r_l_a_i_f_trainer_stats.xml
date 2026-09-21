@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::training::RLAIFTrainerStats</compoundname>
+    <includes refid="rlaif__trainer_8h" local="no">rlaif_trainer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1a5baa295a03d57681e4875d85d0e60b5f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::training::RLAIFTrainerStats::total_steps</definition>
+        <argsstring></argsstring>
+        <name>total_steps</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainerStats::total_steps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="116" column="12" bodyfile="include/rag/rlaif_trainer.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1a4a80158ff81c4d63ad63b8564d8016ff" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::training::RLAIFTrainerStats::successful_steps</definition>
+        <argsstring></argsstring>
+        <name>successful_steps</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainerStats::successful_steps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="117" column="12" bodyfile="include/rag/rlaif_trainer.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1a41af52fd08ddf7463396b2454b8a2378" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::training::RLAIFTrainerStats::failed_steps</definition>
+        <argsstring></argsstring>
+        <name>failed_steps</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainerStats::failed_steps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="118" column="12" bodyfile="include/rag/rlaif_trainer.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1a3f7f4e0fa262a0413699b8de5e445faf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::training::RLAIFTrainerStats::revisions_performed</definition>
+        <argsstring></argsstring>
+        <name>revisions_performed</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainerStats::revisions_performed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="119" column="12" bodyfile="include/rag/rlaif_trainer.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1adb2dc260c697d962627c5b015d335756" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::training::RLAIFTrainerStats::violations_detected</definition>
+        <argsstring></argsstring>
+        <name>violations_detected</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainerStats::violations_detected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="120" column="12" bodyfile="include/rag/rlaif_trainer.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1ac82e97db4c92e9bcca105c5c15f73288" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::training::RLAIFTrainerStats::avg_preference_score</definition>
+        <argsstring></argsstring>
+        <name>avg_preference_score</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainerStats::avg_preference_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="122" column="12" bodyfile="include/rag/rlaif_trainer.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1af32ccd5cf4d0fbdc9adaa8144e2a205d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::training::RLAIFTrainerStats::avg_quality_delta</definition>
+        <argsstring></argsstring>
+        <name>avg_quality_delta</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainerStats::avg_quality_delta</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="123" column="12" bodyfile="include/rag/rlaif_trainer.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1a5611ba9dc301454c34c35d87f369319b" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::training::RLAIFTrainerStats::avg_step_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_step_ms</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainerStats::avg_step_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="124" column="31" bodyfile="include/rag/rlaif_trainer.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1a397407aed7accef9050370ed0f971d27" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, size_t &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, size_t&gt; &gt; themis::rag::training::RLAIFTrainerStats::principle_violations</definition>
+        <argsstring></argsstring>
+        <name>principle_violations</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainerStats::principle_violations</qualifiedname>
+        <briefdescription>
+<para>Per-principle violation counts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="127" column="17" bodyfile="include/rag/rlaif_trainer.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated statistics over many training steps. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rlaif_trainer.h" line="115" column="1" bodyfile="include/rag/rlaif_trainer.h" bodystart="115" bodyend="128"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1ac82e97db4c92e9bcca105c5c15f73288" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainerStats</scope><name>avg_preference_score</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1af32ccd5cf4d0fbdc9adaa8144e2a205d" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainerStats</scope><name>avg_quality_delta</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1a5611ba9dc301454c34c35d87f369319b" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainerStats</scope><name>avg_step_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1a41af52fd08ddf7463396b2454b8a2378" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainerStats</scope><name>failed_steps</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1a397407aed7accef9050370ed0f971d27" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainerStats</scope><name>principle_violations</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1a3f7f4e0fa262a0413699b8de5e445faf" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainerStats</scope><name>revisions_performed</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1a4a80158ff81c4d63ad63b8564d8016ff" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainerStats</scope><name>successful_steps</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1a5baa295a03d57681e4875d85d0e60b5f" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainerStats</scope><name>total_steps</name></member>
+      <member refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats_1adb2dc260c697d962627c5b015d335756" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainerStats</scope><name>violations_detected</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

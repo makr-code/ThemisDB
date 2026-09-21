@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_simd_distance_test" kind="class" language="C++" prot="public">
+    <compoundname>SimdDistanceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <derivedcompoundref refid="class_cosine_distance_test" prot="public" virt="non-virtual">CosineDistanceTest</derivedcompoundref>
+    <derivedcompoundref refid="class_inner_product_test" prot="public" virt="non-virtual">InnerProductTest</derivedcompoundref>
+    <derivedcompoundref refid="class_l2_correctness_test" prot="public" virt="non-virtual">L2CorrectnessTest</derivedcompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_simd_distance_test_1aa50769f95b0bd314c8c7cdb9b5f91e9f" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float SimdDistanceTest::kTol</definition>
+        <argsstring></argsstring>
+        <name>kTol</name>
+        <qualifiedname>SimdDistanceTest::kTol</qualifiedname>
+        <initializer>= 1e-4f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="73" column="28" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_simd_distance_test_1a201d7ae8e8ea0dbba8bf7ffd1468f5e9" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; SimdDistanceTest::make_vec</definition>
+        <argsstring>(std::size_t dim, float fill)</argsstring>
+        <name>make_vec</name>
+        <qualifiedname>SimdDistanceTest::make_vec</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>fill</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="75" column="24" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simd_distance_test_1aa41b880ac0b6db22945b8bacfd47960c" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; SimdDistanceTest::make_rand</definition>
+        <argsstring>(std::size_t dim, unsigned seed=42)</argsstring>
+        <name>make_rand</name>
+        <qualifiedname>SimdDistanceTest::make_rand</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>seed</declname>
+          <defval>42</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="79" column="24" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="79" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simd_distance_test_1a2c3973fd0232c8733360a485c664851f" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void SimdDistanceTest::expect_near</definition>
+        <argsstring>(float actual, float expected, const char *label)</argsstring>
+        <name>expect_near</name>
+        <qualifiedname>SimdDistanceTest::expect_near</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>actual</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>expected</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>label</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_simd_distance.cpp" line="89" column="17" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="89" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>CosineDistanceTest</label>
+        <link refid="class_cosine_distance_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>InnerProductTest</label>
+        <link refid="class_inner_product_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>L2CorrectnessTest</label>
+        <link refid="class_l2_correctness_test"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>SimdDistanceTest</label>
+        <link refid="class_simd_distance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SimdDistanceTest</label>
+        <link refid="class_simd_distance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/performance/phase3/test_simd_distance.cpp" line="70" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="70" bodyend="93"/>
+    <listofallmembers>
+      <member refid="class_simd_distance_test_1a2c3973fd0232c8733360a485c664851f" prot="protected" virt="non-virtual"><scope>SimdDistanceTest</scope><name>expect_near</name></member>
+      <member refid="class_simd_distance_test_1aa50769f95b0bd314c8c7cdb9b5f91e9f" prot="protected" virt="non-virtual"><scope>SimdDistanceTest</scope><name>kTol</name></member>
+      <member refid="class_simd_distance_test_1aa41b880ac0b6db22945b8bacfd47960c" prot="protected" virt="non-virtual"><scope>SimdDistanceTest</scope><name>make_rand</name></member>
+      <member refid="class_simd_distance_test_1a201d7ae8e8ea0dbba8bf7ffd1468f5e9" prot="protected" virt="non-virtual"><scope>SimdDistanceTest</scope><name>make_vec</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_in_memory_scraper_api_client" kind="class" language="C++" prot="public">
+    <compoundname>themis::scraper::InMemoryScraperApiClient</compoundname>
+    <basecompoundref refid="classthemis_1_1scraper_1_1_i_scraper_api_client" prot="public" virt="non-virtual">themis::scraper::IScraperApiClient</basecompoundref>
+    <includes refid="scraper__api__client_8h" local="no">scraper_api_client.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a3b8c28a5f1fe180a0c5f09a3e28cdbf7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_api_result" kindref="compound">ApiResult</ref> &gt;</type>
+        <definition>std::vector&lt;ApiResult&gt; themis::scraper::InMemoryScraperApiClient::injected_</definition>
+        <argsstring></argsstring>
+        <name>injected_</name>
+        <qualifiedname>themis::scraper::InMemoryScraperApiClient::injected_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="201" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a2152bdbf45574f4341b16e8d0a72a089" prot="private" static="no" mutable="yes">
+        <type>int</type>
+        <definition>int themis::scraper::InMemoryScraperApiClient::call_count_</definition>
+        <argsstring></argsstring>
+        <name>call_count_</name>
+        <qualifiedname>themis::scraper::InMemoryScraperApiClient::call_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="202" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a78251852689d170624eceeb151ae4d2c" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::InMemoryScraperApiClient::last_query_</definition>
+        <argsstring></argsstring>
+        <name>last_query_</name>
+        <qualifiedname>themis::scraper::InMemoryScraperApiClient::last_query_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="203" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a913b687380cccd13228a5573502c2526" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::InMemoryScraperApiClient::InMemoryScraperApiClient</definition>
+        <argsstring>()=default</argsstring>
+        <name>InMemoryScraperApiClient</name>
+        <qualifiedname>themis::scraper::InMemoryScraperApiClient::InMemoryScraperApiClient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="184" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a6421f8c63c026e18b62783946d151155" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::InMemoryScraperApiClient::injectResults</definition>
+        <argsstring>(std::vector&lt; ApiResult &gt; results)</argsstring>
+        <name>injectResults</name>
+        <qualifiedname>themis::scraper::InMemoryScraperApiClient::injectResults</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_api_result" kindref="compound">ApiResult</ref> &gt;</type>
+          <declname>results</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="186" column="10" bodyfile="include/scraper/scraper_api_client.h" bodystart="186" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a12527ef0b1c509ff47521b6dcb073e87" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::scraper::InMemoryScraperApiClient::callCount</definition>
+        <argsstring>() const</argsstring>
+        <name>callCount</name>
+        <qualifiedname>themis::scraper::InMemoryScraperApiClient::callCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="189" column="9" bodyfile="include/scraper/scraper_api_client.h" bodystart="189" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1aa71946c6d795a2a87e1d60d34d847527" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::scraper::InMemoryScraperApiClient::lastQuery</definition>
+        <argsstring>() const</argsstring>
+        <name>lastQuery</name>
+        <qualifiedname>themis::scraper::InMemoryScraperApiClient::lastQuery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="190" column="23" bodyfile="include/scraper/scraper_api_client.h" bodystart="190" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a904a4c4ebd0e84577fea9855180fae1d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_api_result" kindref="compound">ApiResult</ref> &gt;</type>
+        <definition>std::vector&lt; ApiResult &gt; themis::scraper::InMemoryScraperApiClient::fetchAll</definition>
+        <argsstring>(const ApiEndpointConfig &amp;, const std::string &amp;query) override</argsstring>
+        <name>fetchAll</name>
+        <qualifiedname>themis::scraper::InMemoryScraperApiClient::fetchAll</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_api_client_1a13e74fea6caa8b016d604a1f48953369">fetchAll</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_api_endpoint_config" kindref="compound">ApiEndpointConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Fetch all results from an API endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Endpoint configuration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Search query (replaces {{QUERY}} in body_template or appended as search_param to GET URLs). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>All collected results across all pages. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="192" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="192" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test double for <ref refid="classthemis_1_1scraper_1_1_i_scraper_api_client" kindref="compound">IScraperApiClient</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Returns pre-injected results regardless of the endpoint configuration. Tracks call count and the last query string for test assertions. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::scraper::IScraperApiClient</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_api_client"/>
+      </node>
+      <node id="1">
+        <label>themis::scraper::InMemoryScraperApiClient</label>
+        <link refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::scraper::IScraperApiClient</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_api_client"/>
+      </node>
+      <node id="1">
+        <label>themis::scraper::InMemoryScraperApiClient</label>
+        <link refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/scraper/scraper_api_client.h" line="182" column="1" bodyfile="include/scraper/scraper_api_client.h" bodystart="182" bodyend="204"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a2152bdbf45574f4341b16e8d0a72a089" prot="private" virt="non-virtual"><scope>themis::scraper::InMemoryScraperApiClient</scope><name>call_count_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a12527ef0b1c509ff47521b6dcb073e87" prot="public" virt="non-virtual"><scope>themis::scraper::InMemoryScraperApiClient</scope><name>callCount</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a904a4c4ebd0e84577fea9855180fae1d" prot="public" virt="virtual"><scope>themis::scraper::InMemoryScraperApiClient</scope><name>fetchAll</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a3b8c28a5f1fe180a0c5f09a3e28cdbf7" prot="private" virt="non-virtual"><scope>themis::scraper::InMemoryScraperApiClient</scope><name>injected_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a6421f8c63c026e18b62783946d151155" prot="public" virt="non-virtual"><scope>themis::scraper::InMemoryScraperApiClient</scope><name>injectResults</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a913b687380cccd13228a5573502c2526" prot="public" virt="non-virtual"><scope>themis::scraper::InMemoryScraperApiClient</scope><name>InMemoryScraperApiClient</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1a78251852689d170624eceeb151ae4d2c" prot="private" virt="non-virtual"><scope>themis::scraper::InMemoryScraperApiClient</scope><name>last_query_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_scraper_api_client_1aa71946c6d795a2a87e1d60d34d847527" prot="public" virt="non-virtual"><scope>themis::scraper::InMemoryScraperApiClient</scope><name>lastQuery</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_api_client_1a19fe8e8a47c135840940c6bdd362e293" prot="public" virt="virtual"><scope>themis::scraper::InMemoryScraperApiClient</scope><name>~IScraperApiClient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

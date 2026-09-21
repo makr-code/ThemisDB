@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d106132237373205143361336022366045030266072105234" kind="namespace" language="C++">
+    <compoundname>@106132237373205143361336022366045030266072105234</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/acceleration/test_nccl_merge_topk.cpp" line="73" column="1"/>
+  </compounddef>
+</doxygen>

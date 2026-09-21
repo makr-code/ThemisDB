@@ -1,0 +1,900 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_health_monitor" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::HealthMonitor</compoundname>
+    <includes refid="health__monitor_8h" local="no">health_monitor.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_health_monitor_1_1_statistics" prot="public">themis::sharding::HealthMonitor::Statistics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_monitor_1a5749add2c95a57c3b9d5552fc255dfe6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref></type>
+        <definition>HealthMonitorConfig themis::sharding::HealthMonitor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::HealthMonitor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="229" column="25" bodyfile="include/sharding/health_monitor.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_monitor_1aa68cf7d45c8c85ca1d24a35b1698158c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator" kindref="compound">MultiPrimaryCoordinator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MultiPrimaryCoordinator&gt; themis::sharding::HealthMonitor::primary_coordinator_</definition>
+        <argsstring></argsstring>
+        <name>primary_coordinator_</name>
+        <qualifiedname>themis::sharding::HealthMonitor::primary_coordinator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="230" column="21" bodyfile="include/sharding/health_monitor.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_monitor_1ad2ffcc52015c4dcc9364bcce6878ca60" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_replica_topology" kindref="compound">ReplicaTopology</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ReplicaTopology&gt; themis::sharding::HealthMonitor::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themis::sharding::HealthMonitor::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="231" column="21" bodyfile="include/sharding/health_monitor.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_monitor_1accc2f5eabfa09642fe55d2929eab446c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; utils::HTTPClientPool &gt;</type>
+        <definition>std::shared_ptr&lt;utils::HTTPClientPool&gt; themis::sharding::HealthMonitor::http_pool_</definition>
+        <argsstring></argsstring>
+        <name>http_pool_</name>
+        <qualifiedname>themis::sharding::HealthMonitor::http_pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="232" column="21" bodyfile="include/sharding/health_monitor.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_monitor_1a1397e34baacf350c582ab6d0e65cd20a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; utils::ThreadPoolManager &gt;</type>
+        <definition>std::shared_ptr&lt;utils::ThreadPoolManager&gt; themis::sharding::HealthMonitor::thread_pool_</definition>
+        <argsstring></argsstring>
+        <name>thread_pool_</name>
+        <qualifiedname>themis::sharding::HealthMonitor::thread_pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="233" column="21" bodyfile="include/sharding/health_monitor.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_monitor_1ae119039cc34daa00a25c4c9288a14211" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::HealthMonitor::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::HealthMonitor::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="235" column="24" bodyfile="include/sharding/health_monitor.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_monitor_1a1e220b389df582973a4c65bb1d628aea" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::sharding::HealthMonitor::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::sharding::HealthMonitor::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="236" column="17" bodyfile="include/sharding/health_monitor.h" bodystart="236" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_monitor_1a51293387db9065e5860e481757e9eab0" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::sharding::HealthMonitor::monitor_thread_</definition>
+        <argsstring></argsstring>
+        <name>monitor_thread_</name>
+        <qualifiedname>themis::sharding::HealthMonitor::monitor_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="238" column="17" bodyfile="include/sharding/health_monitor.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_monitor_1ad799012f2b3b50eb0f00662963fe7848" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_health_check_result" kindref="compound">HealthCheckResult</ref> &gt;</type>
+        <definition>std::map&lt;std::string, HealthCheckResult&gt; themis::sharding::HealthMonitor::health_statuses_</definition>
+        <argsstring></argsstring>
+        <name>health_statuses_</name>
+        <qualifiedname>themis::sharding::HealthMonitor::health_statuses_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="240" column="14" bodyfile="include/sharding/health_monitor.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_monitor_1ac78a97622152dabc49c139b8fa9c9743" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_failover_event" kindref="compound">FailoverEvent</ref> &gt;</type>
+        <definition>std::vector&lt;FailoverEvent&gt; themis::sharding::HealthMonitor::failover_history_</definition>
+        <argsstring></argsstring>
+        <name>failover_history_</name>
+        <qualifiedname>themis::sharding::HealthMonitor::failover_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="241" column="17" bodyfile="include/sharding/health_monitor.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_monitor_1a6e71b0d53e90595d6614aad6c5946cdf" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::sharding::HealthMonitor::last_failover_time_</definition>
+        <argsstring></argsstring>
+        <name>last_failover_time_</name>
+        <qualifiedname>themis::sharding::HealthMonitor::last_failover_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="242" column="43" bodyfile="include/sharding/health_monitor.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_monitor_1aa06c74e8d38c65e670422855464f774d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::HealthMonitor::total_health_checks_</definition>
+        <argsstring></argsstring>
+        <name>total_health_checks_</name>
+        <qualifiedname>themis::sharding::HealthMonitor::total_health_checks_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="245" column="17" bodyfile="include/sharding/health_monitor.h" bodystart="245" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_monitor_1ab9acfcf57644e7dd18c232155a83486e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::HealthMonitor::failed_health_checks_</definition>
+        <argsstring></argsstring>
+        <name>failed_health_checks_</name>
+        <qualifiedname>themis::sharding::HealthMonitor::failed_health_checks_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="246" column="17" bodyfile="include/sharding/health_monitor.h" bodystart="246" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_monitor_1aa9cce12432c1d805bdd38f9bfdebc701" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::HealthMonitor::auto_failovers_</definition>
+        <argsstring></argsstring>
+        <name>auto_failovers_</name>
+        <qualifiedname>themis::sharding::HealthMonitor::auto_failovers_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="247" column="17" bodyfile="include/sharding/health_monitor.h" bodystart="247" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_monitor_1a2f49b30ee9d33fc78d75d5c226f322ef" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::HealthMonitor::manual_failovers_</definition>
+        <argsstring></argsstring>
+        <name>manual_failovers_</name>
+        <qualifiedname>themis::sharding::HealthMonitor::manual_failovers_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="248" column="17" bodyfile="include/sharding/health_monitor.h" bodystart="248" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1aa69b38e22bc3030e7e7ba8e0ce7424f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::HealthMonitor::HealthMonitor</definition>
+        <argsstring>(const HealthMonitorConfig &amp;config, std::shared_ptr&lt; MultiPrimaryCoordinator &gt; primary_coordinator, std::shared_ptr&lt; ReplicaTopology &gt; topology)</argsstring>
+        <name>HealthMonitor</name>
+        <qualifiedname>themis::sharding::HealthMonitor::HealthMonitor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator" kindref="compound">MultiPrimaryCoordinator</ref> &gt;</type>
+          <declname>primary_coordinator</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_replica_topology" kindref="compound">ReplicaTopology</ref> &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <briefdescription>
+<para>Construct monitor with default HTTP client pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Health monitor configuration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>primary_coordinator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Primary failover coordinator. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replica topology provider. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="127" column="5" bodyfile="src/sharding/health_monitor.cpp" bodystart="20" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1a2cd4253994a32cf47c8e2f19f65f2103" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::HealthMonitor::HealthMonitor</definition>
+        <argsstring>(const HealthMonitorConfig &amp;config, std::shared_ptr&lt; MultiPrimaryCoordinator &gt; primary_coordinator, std::shared_ptr&lt; ReplicaTopology &gt; topology, std::shared_ptr&lt; utils::HTTPClientPool &gt; http_pool)</argsstring>
+        <name>HealthMonitor</name>
+        <qualifiedname>themis::sharding::HealthMonitor::HealthMonitor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator" kindref="compound">MultiPrimaryCoordinator</ref> &gt;</type>
+          <declname>primary_coordinator</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_replica_topology" kindref="compound">ReplicaTopology</ref> &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; utils::HTTPClientPool &gt;</type>
+          <declname>http_pool</declname>
+        </param>
+        <briefdescription>
+<para>Construct monitor with custom HTTP client pool. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="134" column="5" bodyfile="src/sharding/health_monitor.cpp" bodystart="40" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1acefa2a648ba4e66fc9ce3706d3385677" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::HealthMonitor::HealthMonitor</definition>
+        <argsstring>(const HealthMonitorConfig &amp;config, std::shared_ptr&lt; MultiPrimaryCoordinator &gt; primary_coordinator, std::shared_ptr&lt; ReplicaTopology &gt; topology, std::shared_ptr&lt; utils::HTTPClientPool &gt; http_pool, std::shared_ptr&lt; utils::ThreadPoolManager &gt; thread_pool)</argsstring>
+        <name>HealthMonitor</name>
+        <qualifiedname>themis::sharding::HealthMonitor::HealthMonitor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator" kindref="compound">MultiPrimaryCoordinator</ref> &gt;</type>
+          <declname>primary_coordinator</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_replica_topology" kindref="compound">ReplicaTopology</ref> &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; utils::HTTPClientPool &gt;</type>
+          <declname>http_pool</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; utils::ThreadPoolManager &gt;</type>
+          <declname>thread_pool</declname>
+        </param>
+        <briefdescription>
+<para>Construct monitor with custom HTTP pool and thread-pool manager. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="142" column="5" bodyfile="src/sharding/health_monitor.cpp" bodystart="51" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1aa784e6e931682a00b95db54d4c4b4a64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::HealthMonitor::~HealthMonitor</definition>
+        <argsstring>()</argsstring>
+        <name>~HealthMonitor</name>
+        <qualifiedname>themis::sharding::HealthMonitor::~HealthMonitor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="148" column="5" bodyfile="src/sharding/health_monitor.cpp" bodystart="64" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1af771ebe6e2ae892f0d10b8152400046d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HealthMonitor::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::sharding::HealthMonitor::start</qualifiedname>
+        <briefdescription>
+<para>Start periodic health monitoring loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Calls: exchange(), submitTask(), monitoringLoop(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="151" column="10" bodyfile="src/sharding/health_monitor.cpp" bodystart="72" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1a995d947e3d7eb9ffd2b7ae60195ea8be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HealthMonitor::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::sharding::HealthMonitor::stop</qualifiedname>
+        <briefdescription>
+<para>Stop periodic health monitoring loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: exchange(), themis::utils::joinThreadWithin(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="154" column="10" bodyfile="src/sharding/health_monitor.cpp" bodystart="98" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1af8359afdca8dff0e7fc9da82dd8e2137" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_health_check_result" kindref="compound">HealthCheckResult</ref></type>
+        <definition>HealthCheckResult themis::sharding::HealthMonitor::checkNodeHealth</definition>
+        <argsstring>(const std::string &amp;node_id, const std::string &amp;endpoint)</argsstring>
+        <name>checkNodeHealth</name>
+        <qualifiedname>themis::sharding::HealthMonitor::checkNodeHealth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+<para>Check health of a specific node synchronously. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Node Health.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HTTP health endpoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Structured health-check result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), performHealthCheck(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="162" column="23" bodyfile="src/sharding/health_monitor.cpp" bodystart="116" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1a45e6b0ca421b106aedb0d615a091fa3e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_health_check_result" kindref="compound">HealthCheckResult</ref> &gt;</type>
+        <definition>std::map&lt; std::string, HealthCheckResult &gt; themis::sharding::HealthMonitor::getAllHealthStatuses</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllHealthStatuses</name>
+        <qualifiedname>themis::sharding::HealthMonitor::getAllHealthStatuses</qualifiedname>
+        <briefdescription>
+<para>Get health status snapshots for all known nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="165" column="14" bodyfile="src/sharding/health_monitor.cpp" bodystart="147" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1ab7af442083fb6bdd7c2df6b69a3f2085" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_health_check_result" kindref="compound">HealthCheckResult</ref> &gt;</type>
+        <definition>std::optional&lt; HealthCheckResult &gt; themis::sharding::HealthMonitor::getHealthStatus</definition>
+        <argsstring>(const std::string &amp;node_id) const</argsstring>
+        <name>getHealthStatus</name>
+        <qualifiedname>themis::sharding::HealthMonitor::getHealthStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Get health status for one node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Status snapshot when available; std::nullopt otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="172" column="19" bodyfile="src/sharding/health_monitor.cpp" bodystart="157" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1a296785ca993486fb777dc683520adf81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::HealthMonitor::triggerManualFailover</definition>
+        <argsstring>(const std::string &amp;failed_node_id, const std::string &amp;promote_node_id)</argsstring>
+        <name>triggerManualFailover</name>
+        <qualifiedname>themis::sharding::HealthMonitor::triggerManualFailover</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failed_node_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>promote_node_id</declname>
+        </param>
+        <briefdescription>
+<para>Trigger manual failover from failed node to target node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Trigger Manual Failover.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>failed_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node considered failed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>promote_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node to promote. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on successful promotion.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the failed node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">promote_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the promote node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: markPrimaryOffline(), promoteToPrimary(), std::chrono::steady_clock::now(), recordFailoverEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="180" column="10" bodyfile="src/sharding/health_monitor.cpp" bodystart="180" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1ae7f9a7110d630237e2b45b615bfad5fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HealthMonitor::setAutoFailoverEnabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setAutoFailoverEnabled</name>
+        <qualifiedname>themis::sharding::HealthMonitor::setAutoFailoverEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Enable/disable automatic failover. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Auto Failover Enabled.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True to allow automatic failover.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="187" column="10" bodyfile="src/sharding/health_monitor.cpp" bodystart="209" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1ad8f28c48463dba83e17b0aa93e09a47f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_failover_event" kindref="compound">FailoverEvent</ref> &gt;</type>
+        <definition>std::vector&lt; FailoverEvent &gt; themis::sharding::HealthMonitor::getFailoverHistory</definition>
+        <argsstring>(size_t max_events=10) const</argsstring>
+        <name>getFailoverHistory</name>
+        <qualifiedname>themis::sharding::HealthMonitor::getFailoverHistory</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_events</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Get failover history tail. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_events</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of most recent events. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Chronological subset of failover events. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="194" column="17" bodyfile="src/sharding/health_monitor.cpp" bodystart="214" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1a4847394d4a2c9219c3122cf8dc222674" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_health_monitor_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>HealthMonitor::Statistics themis::sharding::HealthMonitor::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::sharding::HealthMonitor::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return monitor-wide statistics snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="211" column="16" bodyfile="src/sharding/health_monitor.cpp" bodystart="229" bodyend="238"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1ae75d0ed1ef684956d9da29c5db05f554" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HealthMonitor::monitoringLoop</definition>
+        <argsstring>()</argsstring>
+        <name>monitoringLoop</name>
+        <qualifiedname>themis::sharding::HealthMonitor::monitoringLoop</qualifiedname>
+        <briefdescription>
+<para>Main background loop executing periodic checks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Monitoring Loop.</para>
+<para>Calls: performHealthChecks(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="215" column="10" bodyfile="src/sharding/health_monitor.cpp" bodystart="246" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1a57cf027b577955fba2367be2edaa0aa1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HealthMonitor::performHealthChecks</definition>
+        <argsstring>()</argsstring>
+        <name>performHealthChecks</name>
+        <qualifiedname>themis::sharding::HealthMonitor::performHealthChecks</qualifiedname>
+        <briefdescription>
+<para>Perform one full health-check pass over primaries and replicas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform Health Checks.</para>
+<para>Calls: getActivePrimaries(), empty(), <ref refid="classthemis_1_1sharding_1_1_health_monitor_1af8359afdca8dff0e7fc9da82dd8e2137" kindref="member">checkNodeHealth()</ref>, lock(), find(), end(), handleNodeFailure(), updateHeartbeat(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="217" column="10" bodyfile="src/sharding/health_monitor.cpp" bodystart="257" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1a1d79e497772215f8516e5eb25b49e9e4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HealthMonitor::handleNodeFailure</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>handleNodeFailure</name>
+        <qualifiedname>themis::sharding::HealthMonitor::handleNodeFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle transition of a node into DOWN state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle Node Failure.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: shouldTriggerFailover(), markPrimaryOffline(), selectStandbyForPromotion(), promoteToPrimary(), std::chrono::steady_clock::now(), recordFailoverEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="219" column="10" bodyfile="src/sharding/health_monitor.cpp" bodystart="353" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1ac4c05bc0ad69d5ba720b9168d8dc49ba" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::HealthMonitor::shouldTriggerFailover</definition>
+        <argsstring>(const std::string &amp;node_id) const</argsstring>
+        <name>shouldTriggerFailover</name>
+        <qualifiedname>themis::sharding::HealthMonitor::shouldTriggerFailover</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Return whether failover is currently allowed by policy/cooldown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="221" column="10" bodyfile="src/sharding/health_monitor.cpp" bodystart="383" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1a6fd8404ae9ca7dcfca0a565439a7fdaf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::sharding::HealthMonitor::selectStandbyForPromotion</definition>
+        <argsstring>() const</argsstring>
+        <name>selectStandbyForPromotion</name>
+        <qualifiedname>themis::sharding::HealthMonitor::selectStandbyForPromotion</qualifiedname>
+        <briefdescription>
+<para>Select best standby candidate for promotion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="223" column="19" bodyfile="src/sharding/health_monitor.cpp" bodystart="399" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1a8d24e2a36082f5533b07e90a0c582cbf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HealthMonitor::recordFailoverEvent</definition>
+        <argsstring>(const FailoverEvent &amp;event)</argsstring>
+        <name>recordFailoverEvent</name>
+        <qualifiedname>themis::sharding::HealthMonitor::recordFailoverEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_failover_event" kindref="compound">FailoverEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Persist one failover event into history and update timestamps. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Failover Event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), size(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="225" column="10" bodyfile="src/sharding/health_monitor.cpp" bodystart="430" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_monitor_1ad8be30fb1555cf54b1afa8984cba8a3d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::HealthMonitor::performHealthCheck</definition>
+        <argsstring>(const std::string &amp;endpoint)</argsstring>
+        <name>performHealthCheck</name>
+        <qualifiedname>themis::sharding::HealthMonitor::performHealthCheck</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+<para>Execute HTTP health probe against endpoint URL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform Health Check.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), back(), substr(), length(), find(), get(), wait_for(), isSuccess(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="227" column="10" bodyfile="src/sharding/health_monitor.cpp" bodystart="448" bodyend="488"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Health Monitor</para>
+<para>Monitors health of all nodes (primaries + replicas) and triggers auto-failover. Features:<itemizedlist>
+<listitem><para>Periodic heartbeat checks (HTTP ping)</para>
+</listitem><listitem><para>State machine: HEALTHY → SUSPECT → DOWN → RECOVERING</para>
+</listitem><listitem><para>Auto-failover: Promotes standby when active primary fails</para>
+</listitem><listitem><para>Manual override: Operators can disable auto-promotion</para>
+</listitem><listitem><para>Event log for audit trail </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/health_monitor.h" line="119" column="1" bodyfile="include/sharding/health_monitor.h" bodystart="119" bodyend="249"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1aa9cce12432c1d805bdd38f9bfdebc701" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>auto_failovers_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1af8359afdca8dff0e7fc9da82dd8e2137" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>checkNodeHealth</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1a5749add2c95a57c3b9d5552fc255dfe6" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1ab9acfcf57644e7dd18c232155a83486e" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>failed_health_checks_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1ac78a97622152dabc49c139b8fa9c9743" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>failover_history_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1a45e6b0ca421b106aedb0d615a091fa3e" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>getAllHealthStatuses</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1ad8f28c48463dba83e17b0aa93e09a47f" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>getFailoverHistory</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1ab7af442083fb6bdd7c2df6b69a3f2085" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1a4847394d4a2c9219c3122cf8dc222674" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1a1d79e497772215f8516e5eb25b49e9e4" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>handleNodeFailure</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1ad799012f2b3b50eb0f00662963fe7848" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>health_statuses_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1aa69b38e22bc3030e7e7ba8e0ce7424f3" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>HealthMonitor</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1a2cd4253994a32cf47c8e2f19f65f2103" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>HealthMonitor</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1acefa2a648ba4e66fc9ce3706d3385677" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>HealthMonitor</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1accc2f5eabfa09642fe55d2929eab446c" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>http_pool_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1a6e71b0d53e90595d6614aad6c5946cdf" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>last_failover_time_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1a2f49b30ee9d33fc78d75d5c226f322ef" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>manual_failovers_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1a51293387db9065e5860e481757e9eab0" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>monitor_thread_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1ae75d0ed1ef684956d9da29c5db05f554" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>monitoringLoop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1ae119039cc34daa00a25c4c9288a14211" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1ad8be30fb1555cf54b1afa8984cba8a3d" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>performHealthCheck</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1a57cf027b577955fba2367be2edaa0aa1" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>performHealthChecks</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1aa68cf7d45c8c85ca1d24a35b1698158c" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>primary_coordinator_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1a8d24e2a36082f5533b07e90a0c582cbf" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>recordFailoverEvent</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1a1e220b389df582973a4c65bb1d628aea" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>running_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1a6fd8404ae9ca7dcfca0a565439a7fdaf" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>selectStandbyForPromotion</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1ae7f9a7110d630237e2b45b615bfad5fb" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>setAutoFailoverEnabled</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1ac4c05bc0ad69d5ba720b9168d8dc49ba" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>shouldTriggerFailover</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1af771ebe6e2ae892f0d10b8152400046d" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>start</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1a995d947e3d7eb9ffd2b7ae60195ea8be" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>stop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1a1397e34baacf350c582ab6d0e65cd20a" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>thread_pool_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1ad2ffcc52015c4dcc9364bcce6878ca60" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>topology_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1aa06c74e8d38c65e670422855464f774d" prot="private" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>total_health_checks_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1a296785ca993486fb777dc683520adf81" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>triggerManualFailover</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_monitor_1aa784e6e931682a00b95db54d4c4b4a64" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor</scope><name>~HealthMonitor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

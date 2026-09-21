@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_quality_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::QualityReport</compoundname>
+    <includes refid="prompt__quality__evaluator_8h" local="no">prompt_quality_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_quality_report_1ae5a05065c27f0901cf7884b54db802ce" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::QualityReport::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::prompt_engineering::QualityReport::score</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>0.0 (all fail) – 1.0 (all pass). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="42" column="31" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_quality_report_1af6ff450fb0a000434e69bcf4c4d7cf3a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::QualityReport::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themis::prompt_engineering::QualityReport::threshold</qualifiedname>
+        <initializer>= 0.6</initializer>
+        <briefdescription>
+<para>Min score to be considered passing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="43" column="31" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_quality_report_1af41274deb73c8a9b7d84e26c6969ac18" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_quality_check" kindref="compound">QualityCheck</ref> &gt;</type>
+        <definition>std::vector&lt;QualityCheck&gt; themis::prompt_engineering::QualityReport::failed_checks</definition>
+        <argsstring></argsstring>
+        <name>failed_checks</name>
+        <qualifiedname>themis::prompt_engineering::QualityReport::failed_checks</qualifiedname>
+        <briefdescription>
+<para>Checks that did not pass. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="44" column="17" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_quality_report_1a587bfa3267e685babdf14e8aa117d751" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::QualityReport::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::prompt_engineering::QualityReport::warnings</qualifiedname>
+        <briefdescription>
+<para>Non-fatal warnings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="45" column="18" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_quality_report_1a7846d7f5b7b93745dc55db7feea62bcf" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::QualityReport::passed</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>passed</name>
+        <qualifiedname>themis::prompt_engineering::QualityReport::passed</qualifiedname>
+        <briefdescription>
+<para>Returns <computeroutput>true</computeroutput> iff <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_quality_report_1ae5a05065c27f0901cf7884b54db802ce" kindref="member">score</ref> &gt;= <ref refid="structthemis_1_1prompt__engineering_1_1_quality_report_1af6ff450fb0a000434e69bcf4c4d7cf3a" kindref="member">threshold</ref></computeroutput> and <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_quality_report_1af41274deb73c8a9b7d84e26c6969ac18" kindref="member">failed_checks</ref></computeroutput> is empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="48" column="10" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="48" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated result of all quality checks applied to a prompt. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_quality_report_1ae5a05065c27f0901cf7884b54db802ce" kindref="member">score</ref></computeroutput> is the ratio of passed checks to total checks (0.0–1.0). <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_quality_report_1a7846d7f5b7b93745dc55db7feea62bcf" kindref="member">passed()</ref></computeroutput> returns <computeroutput>true</computeroutput> iff <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_quality_report_1ae5a05065c27f0901cf7884b54db802ce" kindref="member">score</ref> &gt;= <ref refid="structthemis_1_1prompt__engineering_1_1_quality_report_1af6ff450fb0a000434e69bcf4c4d7cf3a" kindref="member">threshold</ref></computeroutput> <bold>and</bold> no check failed. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="41" column="1" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="41" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_quality_report_1af41274deb73c8a9b7d84e26c6969ac18" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::QualityReport</scope><name>failed_checks</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_quality_report_1a7846d7f5b7b93745dc55db7feea62bcf" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::QualityReport</scope><name>passed</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_quality_report_1ae5a05065c27f0901cf7884b54db802ce" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::QualityReport</scope><name>score</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_quality_report_1af6ff450fb0a000434e69bcf4c4d7cf3a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::QualityReport</scope><name>threshold</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_quality_report_1a587bfa3267e685babdf14e8aa117d751" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::QualityReport</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_regression_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::RegressionConfig</compoundname>
+    <includes refid="prompt__regression__runner_8h" local="no">prompt_regression_runner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_regression_config_1aa6061dfa49f0214a5349a988b280d468" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::RegressionConfig::max_regression_pct</definition>
+        <argsstring></argsstring>
+        <name>max_regression_pct</name>
+        <qualifiedname>themis::prompt_engineering::RegressionConfig::max_regression_pct</qualifiedname>
+        <initializer>= 5.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Mean score may drop at most this many percentage points before the run is flagged as a regression (default: 5.0 %). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="64" column="12" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_regression_config_1a0d9608f0ed53b32d243547ba502dd85e" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::prompt_engineering::RegressionConfig::min_fixtures</definition>
+        <argsstring></argsstring>
+        <name>min_fixtures</name>
+        <qualifiedname>themis::prompt_engineering::RegressionConfig::min_fixtures</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum number of fixtures required to produce a valid result. If fewer fixtures are available the result is flagged as inconclusive. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="68" column="17" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_regression_config_1ae7e70c9632b1b899c4884f8375664332" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::RegressionConfig::block_on_regression</definition>
+        <argsstring></argsstring>
+        <name>block_on_regression</name>
+        <qualifiedname>themis::prompt_engineering::RegressionConfig::block_on_regression</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When <computeroutput>true</computeroutput>, <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_regression_result_1a154a4e6e270b750b4bff961b0336035c" kindref="member">RegressionResult::blocked</ref></computeroutput> is set to <computeroutput>true</computeroutput> whenever <computeroutput>is_regression</computeroutput> is <computeroutput>true</computeroutput>. Callers can use this to gate a publish. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="72" column="10" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_regression_config_1a780a804c3b2a7cfc799a8a132adca72f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::RegressionConfig::confidence_level</definition>
+        <argsstring></argsstring>
+        <name>confidence_level</name>
+        <qualifiedname>themis::prompt_engineering::RegressionConfig::confidence_level</qualifiedname>
+        <initializer>= 0.95</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Confidence level used for the Welch t-test significance check (0.0–1.0, default: 0.95). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_regression_runner.h" line="76" column="12" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tuning parameters for <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_regression_runner" kindref="compound">PromptRegressionRunner</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_regression_runner.h" line="61" column="1" bodyfile="include/prompt_engineering/prompt_regression_runner.h" bodystart="61" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_regression_config_1ae7e70c9632b1b899c4884f8375664332" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RegressionConfig</scope><name>block_on_regression</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_regression_config_1a780a804c3b2a7cfc799a8a132adca72f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RegressionConfig</scope><name>confidence_level</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_regression_config_1aa6061dfa49f0214a5349a988b280d468" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RegressionConfig</scope><name>max_regression_pct</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_regression_config_1a0d9608f0ed53b32d243547ba502dd85e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RegressionConfig</scope><name>min_fixtures</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

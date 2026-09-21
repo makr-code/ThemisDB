@@ -1,0 +1,603 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_l_l_m_output_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::LLMOutputValidator</compoundname>
+    <includes refid="llamacpp__inference__engine_8h" local="no">llamacpp_inference_engine.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config" prot="public">themis::llm::LLMOutputValidator::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_output_validator_1a963f15e23f9a35d3a265d3610b4fd0f6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::LLMOutputValidator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="85" column="12" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_output_validator_1a85f72ecdebf3d159fcd9aeb120c9fae8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LLMOutputValidator::LLMOutputValidator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>LLMOutputValidator</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::LLMOutputValidator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>LLMOutput Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="61" column="14" bodyfile="src/llm/llamacpp_inference_engine.cpp" bodystart="26" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_output_validator_1ae4b2545be9e842334c57d0be133dc232" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LLMOutputValidator::LLMOutputValidator</definition>
+        <argsstring>()</argsstring>
+        <name>LLMOutputValidator</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::LLMOutputValidator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="62" column="5" bodyfile="src/llm/llamacpp_inference_engine.cpp" bodystart="32" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_output_validator_1ab680ddd10b0cf442e0b4850f68e68ae7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::llm::LLMOutputValidator::validate</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::validate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: length(), countWords(), countSentences(), calculateAvgWordLength(), std::count(), begin(), end(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="69" column="22" bodyfile="src/llm/llamacpp_inference_engine.cpp" bodystart="43" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_output_validator_1a7a46d95ac14fdfb7d57b3060d903f253" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::llm::LLMOutputValidator::validateWithTokens</definition>
+        <argsstring>(const std::string &amp;text, int token_count, int max_tokens)</argsstring>
+        <name>validateWithTokens</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::validateWithTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>token_count</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <briefdescription>
+<para>Validate With Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_l_l_m_output_validator_1ab680ddd10b0cf442e0b4850f68e68ae7" kindref="member">validate()</ref>, push_back(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="78" column="22" bodyfile="src/llm/llamacpp_inference_engine.cpp" bodystart="129" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_output_validator_1a2b419efc333b18aa2e96647fc2232ab9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMOutputValidator::isValidUTF8</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>isValidUTF8</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::isValidUTF8</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Is Valid UTF8. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ UTF-8 Validation ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: c_str(), length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="93" column="10" bodyfile="src/llm/llamacpp_inference_engine.cpp" bodystart="156" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_output_validator_1ac6e5961ebf88a3e9fc30d4fec1dd0fad" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMOutputValidator::detectTruncation</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>detectTruncation</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::detectTruncation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detect Truncation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Truncation Detection ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), substr(), std::max(), length(), back(), std::isspace(), std::isalpha(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="99" column="10" bodyfile="src/llm/llamacpp_inference_engine.cpp" bodystart="219" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_output_validator_1a21e5b1ca2b890817b5d960103d49fc19" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::LLMOutputValidator::estimateCoherence</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>estimateCoherence</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::estimateCoherence</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Coherence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Semantic Coherence Estimation (Simple Heuristics) ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), countWords(), calculateAvgWordLength(), countSentences(), unique_chars(), begin(), end(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="105" column="12" bodyfile="src/llm/llamacpp_inference_engine.cpp" bodystart="258" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_output_validator_1af0732c75c267850a048457c919cc3b87" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMOutputValidator::hasCommonErrors</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>hasCommonErrors</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::hasCommonErrors</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Has Common Errors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Error Pattern Detection ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="111" column="10" bodyfile="src/llm/llamacpp_inference_engine.cpp" bodystart="411" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_output_validator_1a7fb742924ea1f766ba0b238cb3b67b11" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::LLMOutputValidator::countWords</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>countWords</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::countWords</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Count Words. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Metrics Calculation Helpers ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::isspace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="119" column="9" bodyfile="src/llm/llamacpp_inference_engine.cpp" bodystart="512" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_output_validator_1a75e7c75c18744c4c575a61e6c896e869" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::LLMOutputValidator::countSentences</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>countSentences</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::countSentences</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Count Sentences. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: countWords(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="125" column="9" bodyfile="src/llm/llamacpp_inference_engine.cpp" bodystart="545" bodyend="560"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_output_validator_1abc2ce3c18ceabd837e5bf1edc535d992" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::LLMOutputValidator::calculateAvgWordLength</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>calculateAvgWordLength</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::calculateAvgWordLength</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Avg Word Length. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::isspace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="131" column="12" bodyfile="src/llm/llamacpp_inference_engine.cpp" bodystart="568" bodyend="596"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_output_validator_1a4d20f65ad04d75657527dbbf61cf162d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMOutputValidator::hasRepeatingPatterns</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>hasRepeatingPatterns</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::hasRepeatingPatterns</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Has Repeating Patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Repeating Pattern Detection ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: length(), std::min(), size_t(), substr(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="139" column="10" bodyfile="src/llm/llamacpp_inference_engine.cpp" bodystart="450" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_output_validator_1acba13b49b52d5affd595a969ee5bfdc7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMOutputValidator::hasInvalidControlChars</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>hasInvalidControlChars</name>
+        <qualifiedname>themis::llm::LLMOutputValidator::hasInvalidControlChars</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Has Invalid Control Chars. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Invalid Control Characters ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements hasInvalidControlChars without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="145" column="10" bodyfile="src/llm/llamacpp_inference_engine.cpp" bodystart="494" bodyend="503"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llamacpp_inference_engine.h" line="44" column="1" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="44" bodyend="146"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_output_validator_1abc2ce3c18ceabd837e5bf1edc535d992" prot="private" virt="non-virtual"><scope>themis::llm::LLMOutputValidator</scope><name>calculateAvgWordLength</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_output_validator_1a963f15e23f9a35d3a265d3610b4fd0f6" prot="private" virt="non-virtual"><scope>themis::llm::LLMOutputValidator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_output_validator_1a75e7c75c18744c4c575a61e6c896e869" prot="private" virt="non-virtual"><scope>themis::llm::LLMOutputValidator</scope><name>countSentences</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_output_validator_1a7fb742924ea1f766ba0b238cb3b67b11" prot="private" virt="non-virtual"><scope>themis::llm::LLMOutputValidator</scope><name>countWords</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_output_validator_1ac6e5961ebf88a3e9fc30d4fec1dd0fad" prot="private" virt="non-virtual"><scope>themis::llm::LLMOutputValidator</scope><name>detectTruncation</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_output_validator_1a21e5b1ca2b890817b5d960103d49fc19" prot="private" virt="non-virtual"><scope>themis::llm::LLMOutputValidator</scope><name>estimateCoherence</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_output_validator_1af0732c75c267850a048457c919cc3b87" prot="private" virt="non-virtual"><scope>themis::llm::LLMOutputValidator</scope><name>hasCommonErrors</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_output_validator_1acba13b49b52d5affd595a969ee5bfdc7" prot="private" virt="non-virtual"><scope>themis::llm::LLMOutputValidator</scope><name>hasInvalidControlChars</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_output_validator_1a4d20f65ad04d75657527dbbf61cf162d" prot="private" virt="non-virtual"><scope>themis::llm::LLMOutputValidator</scope><name>hasRepeatingPatterns</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_output_validator_1a2b419efc333b18aa2e96647fc2232ab9" prot="private" virt="non-virtual"><scope>themis::llm::LLMOutputValidator</scope><name>isValidUTF8</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_output_validator_1a85f72ecdebf3d159fcd9aeb120c9fae8" prot="public" virt="non-virtual"><scope>themis::llm::LLMOutputValidator</scope><name>LLMOutputValidator</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_output_validator_1ae4b2545be9e842334c57d0be133dc232" prot="public" virt="non-virtual"><scope>themis::llm::LLMOutputValidator</scope><name>LLMOutputValidator</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_output_validator_1ab680ddd10b0cf442e0b4850f68e68ae7" prot="public" virt="non-virtual"><scope>themis::llm::LLMOutputValidator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_output_validator_1a7a46d95ac14fdfb7d57b3060d903f253" prot="public" virt="non-virtual"><scope>themis::llm::LLMOutputValidator</scope><name>validateWithTokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

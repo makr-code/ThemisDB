@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_time_series_metrics_1_1_per_metric_stats" kind="struct" language="C++" prot="private">
+    <compoundname>themis::TimeSeriesMetrics::PerMetricStats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_time_series_metrics_1_1_per_metric_stats_1a47224f372bf67a8de72c7249858d2364" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TimeSeriesMetrics::PerMetricStats::data_points_written</definition>
+        <argsstring></argsstring>
+        <name>data_points_written</name>
+        <qualifiedname>themis::TimeSeriesMetrics::PerMetricStats::data_points_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="294" column="18" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_time_series_metrics_1_1_per_metric_stats_1a114f9becd9d39d05d53c9a65f455e160" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TimeSeriesMetrics::PerMetricStats::queries_executed</definition>
+        <argsstring></argsstring>
+        <name>queries_executed</name>
+        <qualifiedname>themis::TimeSeriesMetrics::PerMetricStats::queries_executed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="295" column="18" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_time_series_metrics_1_1_per_metric_stats_1a37c8019289d84c7df70c93db55a17516" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TimeSeriesMetrics::PerMetricStats::bytes_written</definition>
+        <argsstring></argsstring>
+        <name>bytes_written</name>
+        <qualifiedname>themis::TimeSeriesMetrics::PerMetricStats::bytes_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="296" column="18" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_time_series_metrics_1_1_per_metric_stats_1a92d59ebc75d8f3e0333183fd024800c7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TimeSeriesMetrics::PerMetricStats::total_write_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>total_write_latency_ms</name>
+        <qualifiedname>themis::TimeSeriesMetrics::PerMetricStats::total_write_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="297" column="16" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_time_series_metrics_1_1_per_metric_stats_1a6c95383cebcb91131bea83765dfedac8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TimeSeriesMetrics::PerMetricStats::total_query_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>total_query_latency_ms</name>
+        <qualifiedname>themis::TimeSeriesMetrics::PerMetricStats::total_query_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="298" column="16" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/timeseries_metrics.h" line="293" column="5" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="293" bodyend="299"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_time_series_metrics_1_1_per_metric_stats_1a37c8019289d84c7df70c93db55a17516" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics::PerMetricStats</scope><name>bytes_written</name></member>
+      <member refid="structthemis_1_1_time_series_metrics_1_1_per_metric_stats_1a47224f372bf67a8de72c7249858d2364" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics::PerMetricStats</scope><name>data_points_written</name></member>
+      <member refid="structthemis_1_1_time_series_metrics_1_1_per_metric_stats_1a114f9becd9d39d05d53c9a65f455e160" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics::PerMetricStats</scope><name>queries_executed</name></member>
+      <member refid="structthemis_1_1_time_series_metrics_1_1_per_metric_stats_1a6c95383cebcb91131bea83765dfedac8" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics::PerMetricStats</scope><name>total_query_latency_ms</name></member>
+      <member refid="structthemis_1_1_time_series_metrics_1_1_per_metric_stats_1a92d59ebc75d8f3e0333183fd024800c7" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics::PerMetricStats</scope><name>total_write_latency_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

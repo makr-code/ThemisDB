@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="metric__labels_8h" kind="file" language="C++">
+    <compoundname>metric_labels.h</compoundname>
+    <includes refid="i__metrics_8h" local="yes">core/concerns/i_metrics.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>core/concerns/i_metrics.h</label>
+        <link refid="i__metrics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>core/concerns/lifecycle.h</label>
+        <link refid="lifecycle_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/core/concerns/metric_labels.h</label>
+        <link refid="metric__labels_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_metric_labels" prot="public">themis::core::concerns::MetricLabels</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core">themis::core</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core_1_1concerns">themis::core::concerns</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core_1_1concerns_1_1labels">themis::core::concerns::labels</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="i__metrics_8h" kindref="compound">core/concerns/i_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core" kindref="compound">core</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core_1_1concerns" kindref="compound">concerns</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="classthemis_1_1core_1_1concerns_1_1_metric_labels" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1a2ff0230636d71ecb3385bddbb550ed8b" kindref="member">MetricLabels</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1a2ff0230636d71ecb3385bddbb550ed8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1a2ff0230636d71ecb3385bddbb550ed8b" kindref="member">MetricLabels</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1a043f8d84f9dd26d33425d82b112a25aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1a2ff0230636d71ecb3385bddbb550ed8b" kindref="member">MetricLabels</ref>&amp;<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1a043f8d84f9dd26d33425d82b112a25aa" kindref="member">add</ref>(std::string_view<sp/>key,<sp/>std::string_view<sp/>value)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>labels_[std::string(key)]<sp/>=<sp/>std::string(value);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1a9445ccac63f7fd79e3f19ab5f7d8f5eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">IMetrics::Labels</ref><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1a9445ccac63f7fd79e3f19ab5f7d8f5eb" kindref="member">toLabels</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>labels_;<sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1ac9869fe9cc58f07d8c86cfe039f35602" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">IMetrics::Labels</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>labels_;<sp/>}<sp/><sp/></highlight><highlight class="comment">//<sp/>NOLINT(google-explicit-constructor)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1aaa8bb8306fab42d526f9e26a3f4f683e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1aaa8bb8306fab42d526f9e26a3f4f683e" kindref="member">empty</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>labels_.empty();<sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1af849a8cc34b895928c888673d25d631c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_metric_labels_1af849a8cc34b895928c888673d25d631c" kindref="member">size</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>labels_.size();<sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">IMetrics::Labels</ref><sp/>labels_;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1core_1_1concerns_1_1labels" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core_1_1concerns_1_1labels" kindref="compound">labels</ref><sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HTTP<sp/>/<sp/>RPC<sp/>dimensions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1core_1_1concerns_1_1labels_1a2dfc89dd75f76e6c9ea0b829b144f2cf" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1core_1_1concerns_1_1labels_1a2dfc89dd75f76e6c9ea0b829b144f2cf" kindref="member">kMethod</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;method&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1core_1_1concerns_1_1labels_1a0eb1d47b3aceb649a718614a78832100" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1core_1_1concerns_1_1labels_1a0eb1d47b3aceb649a718614a78832100" kindref="member">kStatus</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1core_1_1concerns_1_1labels_1af2200c24c2552841abfa821bc8856b38" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1core_1_1concerns_1_1labels_1af2200c24c2552841abfa821bc8856b38" kindref="member">kEndpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;endpoint&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Database<sp/>/<sp/>storage<sp/>dimensions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1core_1_1concerns_1_1labels_1a4d22039b401f51074dba2086d7022ab7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1core_1_1concerns_1_1labels_1a4d22039b401f51074dba2086d7022ab7" kindref="member">kOperation</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;operation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1core_1_1concerns_1_1labels_1a22c9dc16eba04341daa647c24da0591b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1core_1_1concerns_1_1labels_1a22c9dc16eba04341daa647c24da0591b" kindref="member">kTable</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;table&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1core_1_1concerns_1_1labels_1ace17097f32e40ee23de45f36dbd67691" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1core_1_1concerns_1_1labels_1ace17097f32e40ee23de45f36dbd67691" kindref="member">kDatabase</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;database&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Service<sp/>identity<sp/>dimensions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1core_1_1concerns_1_1labels_1a54257b820650a5432a1efe18bcda560a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1core_1_1concerns_1_1labels_1a54257b820650a5432a1efe18bcda560a" kindref="member">kService</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;service&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1core_1_1concerns_1_1labels_1ae4df64b058e488d030106a5d724d984f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1core_1_1concerns_1_1labels_1ae4df64b058e488d030106a5d724d984f" kindref="member">kEnv</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;env&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1core_1_1concerns_1_1labels_1a88e0c70d982a8913785a478e572f6159" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1core_1_1concerns_1_1labels_1a88e0c70d982a8913785a478e572f6159" kindref="member">kInstance</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;instance&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>/<sp/>result<sp/>dimensions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1core_1_1concerns_1_1labels_1ad59271aa8efc1b8db736c03a8ad72349" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1core_1_1concerns_1_1labels_1ad59271aa8efc1b8db736c03a8ad72349" kindref="member">kError</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1core_1_1concerns_1_1labels_1a7862b7abc39cc04ca49062f407d575ee" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1core_1_1concerns_1_1labels_1a7862b7abc39cc04ca49062f407d575ee" kindref="member">kResult</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;result&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cache-specific<sp/>dimensions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1core_1_1concerns_1_1labels_1a13ff94f267634693c0ee13e97e9d6051" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1core_1_1concerns_1_1labels_1a13ff94f267634693c0ee13e97e9d6051" kindref="member">kCacheName</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cache_name&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1core_1_1concerns_1_1labels_1ad62833638271b8b6de198df533c89810" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1core_1_1concerns_1_1labels_1ad62833638271b8b6de198df533c89810" kindref="member">kCacheResult</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cache_result&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>labels</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>concerns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/core/concerns/metric_labels.h"/>
+  </compounddef>
+</doxygen>

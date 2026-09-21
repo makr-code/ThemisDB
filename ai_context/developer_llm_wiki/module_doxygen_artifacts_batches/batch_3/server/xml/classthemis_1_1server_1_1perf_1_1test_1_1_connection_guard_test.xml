@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1perf_1_1test_1_1_connection_guard_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::perf::test::ConnectionGuardTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-type">
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1perf_1_1test_1_1_connection_guard_test_1aeeea2261cb5e2c5b34aada880cb04000" prot="protected" static="no">
+        <type><ref refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool" kindref="compound">GenericConnectionPool</ref>&lt; <ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_mock_connection" kindref="compound">MockConnection</ref> &gt;</type>
+        <definition>using themis::server::perf::test::ConnectionGuardTest::Pool = GenericConnectionPool&lt;MockConnection&gt;</definition>
+        <argsstring></argsstring>
+        <name>Pool</name>
+        <qualifiedname>themis::server::perf::test::ConnectionGuardTest::Pool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="146" column="5" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1perf_1_1test_1_1_connection_guard_test_1a024f3dbb1fc6954f8c86d16deebcce9c" prot="protected" static="no">
+        <type><ref refid="classthemis_1_1server_1_1perf_1_1_connection_guard" kindref="compound">ConnectionGuard</ref>&lt; <ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_mock_connection" kindref="compound">MockConnection</ref>, <ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_connection_guard_test_1aeeea2261cb5e2c5b34aada880cb04000" kindref="member">Pool</ref> &gt;</type>
+        <definition>using themis::server::perf::test::ConnectionGuardTest::Guard = ConnectionGuard&lt;MockConnection, Pool&gt;</definition>
+        <argsstring></argsstring>
+        <name>Guard</name>
+        <qualifiedname>themis::server::perf::test::ConnectionGuardTest::Guard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="147" column="5" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::server::perf::test::ConnectionGuardTest</label>
+        <link refid="classthemis_1_1server_1_1perf_1_1test_1_1_connection_guard_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::server::perf::test::ConnectionGuardTest</label>
+        <link refid="classthemis_1_1server_1_1perf_1_1test_1_1_connection_guard_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/server/test_server_phase2_focused.cpp" line="144" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="144" bodyend="148"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1perf_1_1test_1_1_connection_guard_test_1a024f3dbb1fc6954f8c86d16deebcce9c" prot="protected" virt="non-virtual"><scope>themis::server::perf::test::ConnectionGuardTest</scope><name>Guard</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1test_1_1_connection_guard_test_1aeeea2261cb5e2c5b34aada880cb04000" prot="protected" virt="non-virtual"><scope>themis::server::perf::test::ConnectionGuardTest</scope><name>Pool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

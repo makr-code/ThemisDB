@@ -1,0 +1,278 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="error__recovery__handler_8cc" kind="file" language="C++">
+    <compoundname>error_recovery_handler.cc</compoundname>
+    <includes refid="error__recovery__handler_8h" local="yes">../include/error_recovery_handler.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cmath</includes>
+    <incdepgraph>
+      <node id="10">
+        <label>artifact_invalidation.h</label>
+        <link refid="artifact__invalidation_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>artifact_manifest.h</label>
+        <link refid="src_2distributed__tensor_2include_2artifact__manifest_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>../include/error_recovery_handler.h</label>
+        <link refid="error__recovery__handler_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/distributed_tensor/src/error_recovery_handler.cc</label>
+        <link refid="error__recovery__handler_8cc"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>cmath</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__tensor">themis::distributed_tensor</innernamespace>
+    <briefdescription>
+<para>Implementation of error recovery handler. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>ThemisDB EPIC 3 Implementation Team </para>
+</simplesect>
+<simplesect kind="date"><para>2026-07-03 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="error__recovery__handler_8h" kindref="compound">../include/error_recovery_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__tensor" kindref="compound">distributed_tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1acd1cfec3fc8ac1caf975cf9bf03fb486" kindref="member">ErrorRecoveryHandler::ErrorRecoveryHandler</ref>()<sp/>{}</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal">int64_t<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a06d1ca42f58387c5a90ae63740544f1f" kindref="member">ErrorRecoveryHandler::getCurrentTimeMs</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(now.time_since_epoch()).count();</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info" kindref="compound">ErrorRecoveryInfo</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1ac2afaa6ff301899af9a876697a5d1cb6" kindref="member">ErrorRecoveryHandler::analyzePartialRefitFailure</ref>(</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>failure_reason,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>previous_residual,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>resulting_residual)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/>ErrorRecoveryInfo<sp/>info;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/>info.<ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info_1a25af957ec46847b6ccfc23cc21384f63" kindref="member">error_code</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1ad957f85bd64a6028eb2fc7647ad6674ea1d293b8d0a57f8af3711aa9805067869" kindref="member">UpdateErrorCode::PARTIAL_REFIT_FAILED</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/>info.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Partial<sp/>refit<sp/>failed:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>failure_reason;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/>info.context<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;artifact_id=&quot;</highlight><highlight class="normal"><sp/>+<sp/>artifact_id;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>residual<sp/>increased<sp/>too<sp/>much</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>residual_increase<sp/>=<sp/>resulting_residual<sp/>-<sp/>previous_residual;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(residual_increase<sp/>&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1ad165b33a16509e3b6c7e8bab887bde8d" kindref="member">residual_increase_threshold_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Residual<sp/>breach,<sp/>need<sp/>to<sp/>rebuild</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>info.recovery_action<sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a08420ceb70a296bd2ebec3ad8f7657aaa3fd14ab89e42898035571ebbe83afb73" kindref="member">RecoveryAction::FALLBACK_TO_REBUILD</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>info.retry_attempts_allowed<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>info.is_recoverable<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Might<sp/>be<sp/>recoverable<sp/>with<sp/>retry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>info.recovery_action<sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a08420ceb70a296bd2ebec3ad8f7657aaac0cc02c3b3d55abb7bfb49ddbb4866c8" kindref="member">RecoveryAction::RETRY</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>info.retry_attempts_allowed<sp/>=<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1aae0b9965b0af8cdb46056b7bebb6ae07" kindref="member">retry_threshold_</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>info.is_recoverable<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>.total_errors++;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(info.is_recoverable)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>.successful_recoveries++;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>.irrecoverable_errors++;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>info;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info" kindref="compound">ErrorRecoveryInfo</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a2c55deaeb129303d5920ae56326c2dce" kindref="member">ErrorRecoveryHandler::analyzeRankCapBreach</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>current_rank_status,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>rank_cap)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/>ErrorRecoveryInfo<sp/>info;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/>info.<ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info_1a25af957ec46847b6ccfc23cc21384f63" kindref="member">error_code</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1ad957f85bd64a6028eb2fc7647ad6674eaf21fb1a72ae2af08deadeb070f9c011f" kindref="member">UpdateErrorCode::RANK_CAP_BREACH</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/>info.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Rank<sp/>cap<sp/>breach:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(current_rank_status)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&gt;<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(rank_cap);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/>info.context<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;artifact_id=&quot;</highlight><highlight class="normal"><sp/>+<sp/>artifact_id;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Rank<sp/>cap<sp/>breach<sp/>requires<sp/>rebuild<sp/>to<sp/>reset<sp/>rank<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/>info.recovery_action<sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a08420ceb70a296bd2ebec3ad8f7657aaa3fd14ab89e42898035571ebbe83afb73" kindref="member">RecoveryAction::FALLBACK_TO_REBUILD</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/>info.retry_attempts_allowed<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/>info.is_recoverable<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/>info.should_cascade_invalidate<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>.total_errors++;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>.successful_recoveries++;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>.errors_requiring_invalidation++;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>info;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info" kindref="compound">ErrorRecoveryInfo</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1ad826424542f9e882d21114e9116b34f8" kindref="member">ErrorRecoveryHandler::analyzeResidualBreach</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>resulting_residual,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>residual_threshold)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/>ErrorRecoveryInfo<sp/>info;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/>info.<ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info_1a25af957ec46847b6ccfc23cc21384f63" kindref="member">error_code</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1ad957f85bd64a6028eb2fc7647ad6674ea60fbe864f53779e58555efc99fac571e" kindref="member">UpdateErrorCode::RESIDUAL_BREACH</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/>info.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Residual<sp/>breach:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(resulting_residual)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&gt;<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(residual_threshold);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/>info.context<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;artifact_id=&quot;</highlight><highlight class="normal"><sp/>+<sp/>artifact_id;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Residual<sp/>breach<sp/>requires<sp/>invalidation<sp/>and<sp/>fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/>info.recovery_action<sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a08420ceb70a296bd2ebec3ad8f7657aaac7ba4bde5fe21a5ad38e8ddb71e2ae2a" kindref="member">RecoveryAction::INVALIDATE</ref>;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/>info.retry_attempts_allowed<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/>info.is_recoverable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/>info.should_cascade_invalidate<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>.total_errors++;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>.errors_requiring_invalidation++;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>.irrecoverable_errors++;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>info;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info" kindref="compound">ErrorRecoveryInfo</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1ad2dded997161a397de8db0a311ea99a4" kindref="member">ErrorRecoveryHandler::analyzeLockTimeout</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>timeout_ms)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/>ErrorRecoveryInfo<sp/>info;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/>info.<ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info_1a25af957ec46847b6ccfc23cc21384f63" kindref="member">error_code</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1ad957f85bd64a6028eb2fc7647ad6674eac342f2ab390aa5dde1cd9cd6cf96f301" kindref="member">UpdateErrorCode::LOCK_TIMEOUT</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/>info.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Lock<sp/>acquisition<sp/>timeout<sp/>after<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(timeout_ms)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;ms&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/>info.context<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;artifact_id=&quot;</highlight><highlight class="normal"><sp/>+<sp/>artifact_id;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Lock<sp/>timeout<sp/>→<sp/>escalate<sp/>to<sp/>priority<sp/>queue<sp/>for<sp/>immediate<sp/>retry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/>info.recovery_action<sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a08420ceb70a296bd2ebec3ad8f7657aaa9f049697059f4bf2d43d85d11e5453f5" kindref="member">RecoveryAction::ESCALATE_TO_PRIORITY</ref>;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/>info.retry_attempts_allowed<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/>info.is_recoverable<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>.total_errors++;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>.successful_recoveries++;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>.errors_escalated++;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>info;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info" kindref="compound">ErrorRecoveryInfo</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a60fac3968870410d4aba9583f67981da" kindref="member">ErrorRecoveryHandler::analyzeCheckpointCorruption</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/>ErrorRecoveryInfo<sp/>info;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/>info.<ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info_1a25af957ec46847b6ccfc23cc21384f63" kindref="member">error_code</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1ad957f85bd64a6028eb2fc7647ad6674ea1fb0cb12f98f10c07244f839f0963930" kindref="member">UpdateErrorCode::CHECKPOINT_CORRUPTED</ref>;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/>info.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Checkpoint<sp/>file<sp/>corrupted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/>info.context<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;artifact_id=&quot;</highlight><highlight class="normal"><sp/>+<sp/>artifact_id;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Checkpoint<sp/>corruption<sp/>→<sp/>delete<sp/>it<sp/>and<sp/>continue<sp/>normally</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/>info.recovery_action<sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a08420ceb70a296bd2ebec3ad8f7657aaab50339a10e1de285ac99d4c3990b8693" kindref="member">RecoveryAction::NONE</ref>;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/>info.retry_attempts_allowed<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/>info.is_recoverable<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>.total_errors++;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>.successful_recoveries++;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>info;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info" kindref="compound">ErrorRecoveryInfo</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a939f21ba94ddce8d526ebc580f9987cf" kindref="member">ErrorRecoveryHandler::analyzeUpdateTimeout</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>timeout_ms,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>delta_lag)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/>ErrorRecoveryInfo<sp/>info;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/>info.<ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info_1a25af957ec46847b6ccfc23cc21384f63" kindref="member">error_code</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1ad957f85bd64a6028eb2fc7647ad6674ead30e88cdb2897128035121f24a35125b" kindref="member">UpdateErrorCode::UPDATE_TIMEOUT</ref>;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/>info.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Update<sp/>timeout<sp/>after<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(timeout_ms)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;ms,<sp/>delta_lag=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(delta_lag);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/>info.context<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;artifact_id=&quot;</highlight><highlight class="normal"><sp/>+<sp/>artifact_id;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>timeout<sp/>→<sp/>mark<sp/>stale<sp/>and<sp/>defer<sp/>for<sp/>later<sp/>processing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(delta_lag<sp/>&gt;<sp/>10000)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Large<sp/>delta<sp/>lag<sp/>→<sp/>defer<sp/>to<sp/>let<sp/>worker<sp/>catch<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>info.recovery_action<sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a08420ceb70a296bd2ebec3ad8f7657aaa5702f0a75b0d225300e4764ce2359c2c" kindref="member">RecoveryAction::DEFER_UPDATE</ref>;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>info.retry_attempts_allowed<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>info.is_recoverable<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>lag<sp/>→<sp/>mark<sp/>stale<sp/>and<sp/>retry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>info.recovery_action<sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a08420ceb70a296bd2ebec3ad8f7657aaaca750ccb333dd1ca9dcc27ad9997b99e" kindref="member">RecoveryAction::MARK_STALE</ref>;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>info.retry_attempts_allowed<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>info.is_recoverable<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>.total_errors++;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>.successful_recoveries++;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>.errors_deferred++;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>info;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats" kindref="compound">ErrorRecoveryHandler::RecoveryStats</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1af143418c85284a2b53223556f6f49c86" kindref="member">ErrorRecoveryHandler::getStats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref>;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a47d1237b19dac2ad2684deb5c0006cfe" kindref="member">ErrorRecoveryHandler::resetStats</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1a8a159fb10abea0d3289937a0c7544df8" kindref="member">stats_</ref><sp/>=<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats" kindref="compound">RecoveryStats</ref>();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1abb43323a8309848026206ee5aec72150" kindref="member">ErrorRecoveryHandler::setRecoveryThresholds</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>residual_increase_threshold,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>retry_threshold)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1ad165b33a16509e3b6c7e8bab887bde8d" kindref="member">residual_increase_threshold_</ref><sp/>=<sp/>residual_increase_threshold;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler_1aae0b9965b0af8cdb46056b7bebb6ae07" kindref="member">retry_threshold_</ref><sp/>=<sp/>retry_threshold;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>distributed_tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/distributed_tensor/src/error_recovery_handler.cc"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_9a9183a0b9ae26ea69e6c85f1059ee97" kind="dir">
+    <compoundname>include/importers</compoundname>
+    <innerfile refid="adaptive__import_8h">adaptive_import.h</innerfile>
+    <innerfile refid="audit__trail_8h">audit_trail.h</innerfile>
+    <innerfile refid="blockchain__integrity_8h">blockchain_integrity.h</innerfile>
+    <innerfile refid="canonical__resolver_8h">canonical_resolver.h</innerfile>
+    <innerfile refid="column__importance_8h">column_importance.h</innerfile>
+    <innerfile refid="conflict__resolver_8h">conflict_resolver.h</innerfile>
+    <innerfile refid="crdt__importer_8h">crdt_importer.h</innerfile>
+    <innerfile refid="data__quality_8h">data_quality.h</innerfile>
+    <innerfile refid="debezium__cdc__importer_8h">debezium_cdc_importer.h</innerfile>
+    <innerfile refid="diagnostics_8h">diagnostics.h</innerfile>
+    <innerfile refid="elasticsearch__importer_8h">elasticsearch_importer.h</innerfile>
+    <innerfile refid="entity__linker_8h">entity_linker.h</innerfile>
+    <innerfile refid="entity__matcher_8h">entity_matcher.h</innerfile>
+    <innerfile refid="federated__learning_8h">federated_learning.h</innerfile>
+    <innerfile refid="flatfile__importer_8h">flatfile_importer.h</innerfile>
+    <innerfile refid="graphql__federation_8h">graphql_federation.h</innerfile>
+    <innerfile refid="gui__import__wizard_8h">gui_import_wizard.h</innerfile>
+    <innerfile refid="huggingface__ingest__plugin_8h">huggingface_ingest_plugin.h</innerfile>
+    <innerfile refid="importer__common_8h">importer_common.h</innerfile>
+    <innerfile refid="importer__interface_8h">importer_interface.h</innerfile>
+    <innerfile refid="importer__interfaces_8h">importer_interfaces.h</innerfile>
+    <innerfile refid="importer__plugin_8h">importer_plugin.h</innerfile>
+    <innerfile refid="importer__plugin__api_8h">importer_plugin_api.h</innerfile>
+    <innerfile refid="importers__api__contract_8h">importers_api_contract.h</innerfile>
+    <innerfile refid="kafka__importer_8h">kafka_importer.h</innerfile>
+    <innerfile refid="mdm__audit__trail_8h">mdm_audit_trail.h</innerfile>
+    <innerfile refid="mdm__engine_8h">mdm_engine.h</innerfile>
+    <innerfile refid="mdm__metrics_8h">mdm_metrics.h</innerfile>
+    <innerfile refid="mongo__importer_8h">mongo_importer.h</innerfile>
+    <innerfile refid="mysql__importer_8h">mysql_importer.h</innerfile>
+    <innerfile refid="oracle__importer_8h">oracle_importer.h</innerfile>
+    <innerfile refid="ozg__service__registry_8h">ozg_service_registry.h</innerfile>
+    <innerfile refid="polyglot__mapper_8h">polyglot_mapper.h</innerfile>
+    <innerfile refid="postgres__cdc_8h">postgres_cdc.h</innerfile>
+    <innerfile refid="postgres__importer_8h">postgres_importer.h</innerfile>
+    <innerfile refid="postgres__importer__mdm_8h">postgres_importer_mdm.h</innerfile>
+    <innerfile refid="redis__importer_8h">redis_importer.h</innerfile>
+    <innerfile refid="relationship__mapper_8h">relationship_mapper.h</innerfile>
+    <innerfile refid="s3__importer_8h">s3_importer.h</innerfile>
+    <innerfile refid="schema__inference_8h">schema_inference.h</innerfile>
+    <innerfile refid="schema__validator_8h">schema_validator.h</innerfile>
+    <innerfile refid="sqlite__importer_8h">sqlite_importer.h</innerfile>
+    <innerfile refid="temporal__support_8h">temporal_support.h</innerfile>
+    <innerfile refid="wikipedia__checkpoint_8hpp">wikipedia_checkpoint.hpp</innerfile>
+    <innerfile refid="wikipedia__config_8hpp">wikipedia_config.hpp</innerfile>
+    <innerfile refid="wikipedia__pipeline_8hpp">wikipedia_pipeline.hpp</innerfile>
+    <innerfile refid="wikipedia__plugin_8hpp">wikipedia_plugin.hpp</innerfile>
+    <innerfile refid="wikipedia__transform_8hpp">wikipedia_transform.hpp</innerfile>
+    <innerfile refid="wikipedia__types_8hpp">wikipedia_types.hpp</innerfile>
+    <innerfile refid="xoev__importer_8h">xoev_importer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/"/>
+  </compounddef>
+</doxygen>

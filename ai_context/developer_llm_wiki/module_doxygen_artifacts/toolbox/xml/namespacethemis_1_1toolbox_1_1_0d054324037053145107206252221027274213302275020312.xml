@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1toolbox_1_1_0d054324037053145107206252221027274213302275020312" kind="namespace" language="C++">
+    <compoundname>themis::toolbox::@054324037053145107206252221027274213302275020312</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/toolbox/text_chunker.cpp" line="25" column="1"/>
+  </compounddef>
+</doxygen>

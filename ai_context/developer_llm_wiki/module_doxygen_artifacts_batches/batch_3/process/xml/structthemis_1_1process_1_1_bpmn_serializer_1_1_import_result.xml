@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::BpmnSerializer::ImportResult</compoundname>
+    <includes refid="bpmn__serializer_8h" local="no">bpmn_serializer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1a66320ea190f4104a73ac53cc6977ba66" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::BpmnSerializer::ImportResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::process::BpmnSerializer::ImportResult::ok</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/bpmn_serializer.h" line="78" column="14" bodyfile="include/process/bpmn_serializer.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1ab94d95a396b5407f75558279b7bc2c5f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2" kindref="member">ProcessErrorCode</ref></type>
+        <definition>ProcessErrorCode themis::process::BpmnSerializer::ImportResult::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::process::BpmnSerializer::ImportResult::error_code</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2ae8c0c70879b5895c615677261d64a1ee" kindref="member">ProcessErrorCode::INTERNAL_ERROR</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/bpmn_serializer.h" line="79" column="26" bodyfile="include/process/bpmn_serializer.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1abb8d03044bd2978ee44ba1eda2398a7b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::BpmnSerializer::ImportResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::process::BpmnSerializer::ImportResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/bpmn_serializer.h" line="80" column="21" bodyfile="include/process/bpmn_serializer.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1addc9eeb8fd74c4de1a50cc2f06225cba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::BpmnSerializer::ImportResult::process_id</definition>
+        <argsstring></argsstring>
+        <name>process_id</name>
+        <qualifiedname>themis::process::BpmnSerializer::ImportResult::process_id</qualifiedname>
+        <briefdescription>
+<para>Extracted from the BPMN &lt;process id=…&gt;&gt;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/bpmn_serializer.h" line="81" column="21" bodyfile="include/process/bpmn_serializer.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1a4739a929b146c9dc9f7ae6acba3c56df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::BpmnSerializer::ImportResult::process_name</definition>
+        <argsstring></argsstring>
+        <name>process_name</name>
+        <qualifiedname>themis::process::BpmnSerializer::ImportResult::process_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/bpmn_serializer.h" line="82" column="21" bodyfile="include/process/bpmn_serializer.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1a54612db8749d4108885a893a41a6d3ad" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; ProcessNodeInfo &gt;</type>
+        <definition>std::vector&lt;ProcessNodeInfo&gt; themis::process::BpmnSerializer::ImportResult::nodes</definition>
+        <argsstring></argsstring>
+        <name>nodes</name>
+        <qualifiedname>themis::process::BpmnSerializer::ImportResult::nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/bpmn_serializer.h" line="83" column="21" bodyfile="include/process/bpmn_serializer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1ab9c909c46a3ba0768e4242f41b8fa512" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; ProcessEdgeInfo &gt;</type>
+        <definition>std::vector&lt;ProcessEdgeInfo&gt; themis::process::BpmnSerializer::ImportResult::edges</definition>
+        <argsstring></argsstring>
+        <name>edges</name>
+        <qualifiedname>themis::process::BpmnSerializer::ImportResult::edges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/bpmn_serializer.h" line="84" column="21" bodyfile="include/process/bpmn_serializer.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1a1a7b3726094a85161f411d248ab9589c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result" kindref="compound">ImportResult</ref></type>
+        <definition>BpmnSerializer::ImportResult themis::process::BpmnSerializer::ImportResult::success</definition>
+        <argsstring>(std::string_view pid, std::string_view pname, std::vector&lt; ProcessNodeInfo &gt; n, std::vector&lt; ProcessEdgeInfo &gt; e)</argsstring>
+        <name>success</name>
+        <qualifiedname>themis::process::BpmnSerializer::ImportResult::success</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pid</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pname</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; ProcessNodeInfo &gt;</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; ProcessEdgeInfo &gt;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Create a successful import result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result" kindref="compound">BpmnSerializer::ImportResult</ref> helper methods (Phase 3) ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pname</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/bpmn_serializer.h" line="89" column="29" bodyfile="src/process/bpmn_serializer.cpp" bodystart="448" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1ac11e5c80a59dd05021c404c422d204e7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result" kindref="compound">ImportResult</ref></type>
+        <definition>BpmnSerializer::ImportResult themis::process::BpmnSerializer::ImportResult::failure</definition>
+        <argsstring>(ProcessErrorCode code, std::string_view context, std::string_view detail=&quot;&quot;)</argsstring>
+        <name>failure</name>
+        <qualifiedname>themis::process::BpmnSerializer::ImportResult::failure</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2" kindref="member">ProcessErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>detail</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create a failure result with error code and diagnostic message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Failure.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1process_1a1328c8d776c00aecb80f58f13b2ecaab" kindref="member">formatDiagnostic()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/bpmn_serializer.h" line="99" column="29" bodyfile="src/process/bpmn_serializer.cpp" bodystart="473" bodyend="483"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a BPMN import operation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When <computeroutput>ok</computeroutput> is false:<itemizedlist>
+<listitem><para><computeroutput>error_code</computeroutput> is set to a <ref refid="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2" kindref="member">ProcessErrorCode</ref> indicating the failure category.</para>
+</listitem><listitem><para><computeroutput>message</computeroutput> contains an actionable diagnostic message for operator triage.</para>
+</listitem><listitem><para>All other fields are empty/default.</para>
+</listitem></itemizedlist>
+</para>
+<para>When <computeroutput>ok</computeroutput> is true:<itemizedlist>
+<listitem><para><computeroutput>error_code</computeroutput> is ignored (not checked by callers).</para>
+</listitem><listitem><para><computeroutput>nodes</computeroutput> and <computeroutput>edges</computeroutput> contain the parsed process graph. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/process/bpmn_serializer.h" line="77" column="5" bodyfile="include/process/bpmn_serializer.h" bodystart="77" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1ab9c909c46a3ba0768e4242f41b8fa512" prot="public" virt="non-virtual"><scope>themis::process::BpmnSerializer::ImportResult</scope><name>edges</name></member>
+      <member refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1ab94d95a396b5407f75558279b7bc2c5f" prot="public" virt="non-virtual"><scope>themis::process::BpmnSerializer::ImportResult</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1ac11e5c80a59dd05021c404c422d204e7" prot="public" virt="non-virtual"><scope>themis::process::BpmnSerializer::ImportResult</scope><name>failure</name></member>
+      <member refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1abb8d03044bd2978ee44ba1eda2398a7b" prot="public" virt="non-virtual"><scope>themis::process::BpmnSerializer::ImportResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1a54612db8749d4108885a893a41a6d3ad" prot="public" virt="non-virtual"><scope>themis::process::BpmnSerializer::ImportResult</scope><name>nodes</name></member>
+      <member refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1a66320ea190f4104a73ac53cc6977ba66" prot="public" virt="non-virtual"><scope>themis::process::BpmnSerializer::ImportResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1addc9eeb8fd74c4de1a50cc2f06225cba" prot="public" virt="non-virtual"><scope>themis::process::BpmnSerializer::ImportResult</scope><name>process_id</name></member>
+      <member refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1a4739a929b146c9dc9f7ae6acba3c56df" prot="public" virt="non-virtual"><scope>themis::process::BpmnSerializer::ImportResult</scope><name>process_name</name></member>
+      <member refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1a1a7b3726094a85161f411d248ab9589c" prot="public" virt="non-virtual"><scope>themis::process::BpmnSerializer::ImportResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

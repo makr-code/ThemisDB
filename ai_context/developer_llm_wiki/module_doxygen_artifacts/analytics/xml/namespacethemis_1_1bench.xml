@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench" kind="namespace" language="C++">
+    <compoundname>themis::bench</compoundname>
+    <innernamespace refid="namespacethemis_1_1bench_1_1ana__bm">themis::bench::ana_bm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1arg">themis::bench::arg</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1gap">themis::bench::gap</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="64" column="1"/>
+  </compounddef>
+</doxygen>

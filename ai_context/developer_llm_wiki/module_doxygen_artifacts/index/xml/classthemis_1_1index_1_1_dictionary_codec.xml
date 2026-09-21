@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_dictionary_codec" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::DictionaryCodec</compoundname>
+    <includes refid="index__compression_8h" local="no">index_compression.h</includes>
+    <innerclass refid="structthemis_1_1index_1_1_dictionary_codec_1_1_config" prot="public">themis::index::DictionaryCodec::Config</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_dictionary_codec_1a896fa2adf1bb8e3d388cca19066df214" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::index::DictionaryCodec::kMissCode</definition>
+        <argsstring></argsstring>
+        <name>kMissCode</name>
+        <qualifiedname>themis::index::DictionaryCodec::kMissCode</qualifiedname>
+        <initializer>= UINT32_MAX</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="82" column="31" bodyfile="include/index/index_compression.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_dictionary_codec_1a594158140cff01b5310be54dcba921a4" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1index_1_1_dictionary_codec_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::index::DictionaryCodec::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::index::DictionaryCodec::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="112" column="41" bodyfile="include/index/index_compression.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_dictionary_codec_1a7b30013ac08b6438672ece7c7d9adcfc" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint32_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint32_t&gt; themis::index::DictionaryCodec::string_to_id_</definition>
+        <argsstring></argsstring>
+        <name>string_to_id_</name>
+        <qualifiedname>themis::index::DictionaryCodec::string_to_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="113" column="24" bodyfile="include/index/index_compression.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_dictionary_codec_1abd38d229862135c0a2ff26ba2e9a08c6" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::index::DictionaryCodec::id_to_string_</definition>
+        <argsstring></argsstring>
+        <name>id_to_string_</name>
+        <qualifiedname>themis::index::DictionaryCodec::id_to_string_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="114" column="28" bodyfile="include/index/index_compression.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_dictionary_codec_1a6b51035777ee7a2bb51ac4555cc6b3b7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::DictionaryCodec::DictionaryCodec</definition>
+        <argsstring>()</argsstring>
+        <name>DictionaryCodec</name>
+        <qualifiedname>themis::index::DictionaryCodec::DictionaryCodec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="89" column="14" bodyfile="src/index/index_compression.cpp" bodystart="133" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_dictionary_codec_1aaeeafbf3e72d6026d9d786245fa703fb" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::DictionaryCodec::DictionaryCodec</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>DictionaryCodec</name>
+        <qualifiedname>themis::index::DictionaryCodec::DictionaryCodec</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_dictionary_codec_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="90" column="14" bodyfile="src/index/index_compression.cpp" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_dictionary_codec_1a04c44d1507c550d56366c67e1840d480" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::DictionaryCodec::train</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;corpus)</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::index::DictionaryCodec::train</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>corpus</declname>
+        </param>
+        <briefdescription>
+<para>Build (or rebuild) the dictionary from a corpus of strings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Train.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">corpus</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: reserve(), <ref refid="classthemis_1_1index_1_1_dictionary_codec_1ac4bd2627e50b150538e394cd0918efb4" kindref="member">size()</ref>, emplace_back(), std::sort(), begin(), end(), std::min(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="93" column="10" bodyfile="src/index/index_compression.cpp" bodystart="142" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_dictionary_codec_1ad5c85cacff8a8ef0369f3d3f9e7c8343" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::index::DictionaryCodec::encode</definition>
+        <argsstring>(std::string_view value) const</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::index::DictionaryCodec::encode</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Encode a string to its dictionary code, or kMissCode when not present. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="96" column="14" bodyfile="src/index/index_compression.cpp" bodystart="181" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_dictionary_codec_1a18ba5f020cc9ae35688a6b98bcd0cbb8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::index::DictionaryCodec::decode</definition>
+        <argsstring>(uint32_t code) const</argsstring>
+        <name>decode</name>
+        <qualifiedname>themis::index::DictionaryCodec::decode</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Decode a code back to the original string. Returns empty string for kMissCode or unknown codes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="100" column="17" bodyfile="src/index/index_compression.cpp" bodystart="189" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_dictionary_codec_1ac5236e049101f0958f9258934eafb831" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::DictionaryCodec::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::index::DictionaryCodec::empty</qualifiedname>
+        <briefdescription>
+<para>True if the dictionary contains at least one entry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="103" column="10" bodyfile="include/index/index_compression.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_dictionary_codec_1ac4bd2627e50b150538e394cd0918efb4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::DictionaryCodec::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::index::DictionaryCodec::size</qualifiedname>
+        <briefdescription>
+<para>Number of entries in the dictionary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="106" column="12" bodyfile="include/index/index_compression.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_dictionary_codec_1a8cade774c6e51d550e512bcc1b4acbaf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::string &gt; &amp;</type>
+        <definition>const std::vector&lt; std::string &gt; &amp; themis::index::DictionaryCodec::entries</definition>
+        <argsstring>() const</argsstring>
+        <name>entries</name>
+        <qualifiedname>themis::index::DictionaryCodec::entries</qualifiedname>
+        <briefdescription>
+<para>Access all dictionary entries (for serialisation / inspection). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="109" column="23" bodyfile="include/index/index_compression.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Dictionary encoding: maps frequent strings to compact integer codes.</para>
+<para>The codec is built from a training corpus (a list of strings). Strings that appear at least min_frequency times are assigned codes starting at 0. All other strings receive the sentinel code kMissCode. </para>
+    </detaileddescription>
+    <location file="include/index/index_compression.h" line="80" column="1" bodyfile="include/index/index_compression.h" bodystart="80" bodyend="115"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_dictionary_codec_1a594158140cff01b5310be54dcba921a4" prot="private" virt="non-virtual"><scope>themis::index::DictionaryCodec</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1index_1_1_dictionary_codec_1a18ba5f020cc9ae35688a6b98bcd0cbb8" prot="public" virt="non-virtual"><scope>themis::index::DictionaryCodec</scope><name>decode</name></member>
+      <member refid="classthemis_1_1index_1_1_dictionary_codec_1a6b51035777ee7a2bb51ac4555cc6b3b7" prot="public" virt="non-virtual"><scope>themis::index::DictionaryCodec</scope><name>DictionaryCodec</name></member>
+      <member refid="classthemis_1_1index_1_1_dictionary_codec_1aaeeafbf3e72d6026d9d786245fa703fb" prot="public" virt="non-virtual"><scope>themis::index::DictionaryCodec</scope><name>DictionaryCodec</name></member>
+      <member refid="classthemis_1_1index_1_1_dictionary_codec_1ac5236e049101f0958f9258934eafb831" prot="public" virt="non-virtual"><scope>themis::index::DictionaryCodec</scope><name>empty</name></member>
+      <member refid="classthemis_1_1index_1_1_dictionary_codec_1ad5c85cacff8a8ef0369f3d3f9e7c8343" prot="public" virt="non-virtual"><scope>themis::index::DictionaryCodec</scope><name>encode</name></member>
+      <member refid="classthemis_1_1index_1_1_dictionary_codec_1a8cade774c6e51d550e512bcc1b4acbaf" prot="public" virt="non-virtual"><scope>themis::index::DictionaryCodec</scope><name>entries</name></member>
+      <member refid="classthemis_1_1index_1_1_dictionary_codec_1abd38d229862135c0a2ff26ba2e9a08c6" prot="private" virt="non-virtual"><scope>themis::index::DictionaryCodec</scope><name>id_to_string_</name></member>
+      <member refid="classthemis_1_1index_1_1_dictionary_codec_1a896fa2adf1bb8e3d388cca19066df214" prot="public" virt="non-virtual"><scope>themis::index::DictionaryCodec</scope><name>kMissCode</name></member>
+      <member refid="classthemis_1_1index_1_1_dictionary_codec_1ac4bd2627e50b150538e394cd0918efb4" prot="public" virt="non-virtual"><scope>themis::index::DictionaryCodec</scope><name>size</name></member>
+      <member refid="classthemis_1_1index_1_1_dictionary_codec_1a7b30013ac08b6438672ece7c7d9adcfc" prot="private" virt="non-virtual"><scope>themis::index::DictionaryCodec</scope><name>string_to_id_</name></member>
+      <member refid="classthemis_1_1index_1_1_dictionary_codec_1a04c44d1507c550d56366c67e1840d480" prot="public" virt="non-virtual"><scope>themis::index::DictionaryCodec</scope><name>train</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

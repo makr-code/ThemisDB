@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_query_profiler_test" kind="class" language="C++" prot="public">
+    <compoundname>QueryProfilerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_query_profiler_test_1ab1ac518dde1e3b36bea711cb0c4fbbde" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_query_profiler_config" kindref="compound">QueryProfilerConfig</ref></type>
+        <definition>QueryProfilerConfig QueryProfilerTest::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>QueryProfilerTest::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_profilers.cpp" line="43" column="25" bodyfile="tests/observability/test_observability_profilers.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_query_profiler_test_1a381e179120b4a4db47c69d7279a1061f" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1observability_1_1_query_profiler" kindref="compound">QueryProfiler</ref></type>
+        <definition>QueryProfiler QueryProfilerTest::profiler_</definition>
+        <argsstring></argsstring>
+        <name>profiler_</name>
+        <qualifiedname>QueryProfilerTest::profiler_</qualifiedname>
+        <initializer>{<ref refid="class_query_profiler_test_1ab1ac518dde1e3b36bea711cb0c4fbbde" kindref="member">cfg_</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_profilers.cpp" line="44" column="25" bodyfile="tests/observability/test_observability_profilers.cpp" bodystart="44" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>QueryProfilerTest</label>
+        <link refid="class_query_profiler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>QueryProfilerTest</label>
+        <link refid="class_query_profiler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>profiler_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::observability::QueryProfiler</label>
+        <link refid="classthemis_1_1observability_1_1_query_profiler"/>
+      </node>
+      <node id="3">
+        <label>themis::observability::QueryProfilerConfig</label>
+        <link refid="structthemis_1_1observability_1_1_query_profiler_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/observability/test_observability_profilers.cpp" line="41" column="1" bodyfile="tests/observability/test_observability_profilers.cpp" bodystart="41" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_query_profiler_test_1ab1ac518dde1e3b36bea711cb0c4fbbde" prot="protected" virt="non-virtual"><scope>QueryProfilerTest</scope><name>cfg_</name></member>
+      <member refid="class_query_profiler_test_1a381e179120b4a4db47c69d7279a1061f" prot="protected" virt="non-virtual"><scope>QueryProfilerTest</scope><name>profiler_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,963 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__load__balancer_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_load_balancer.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">themis/gpu/load_balancer.h</includes>
+    <includes local="yes">themis/gpu/cluster_topology.h</includes>
+    <includes local="yes">themis/gpu/device_discovery.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">atomic</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_load_balancer.cpp</label>
+        <link refid="test__gpu__load__balancer_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>themis/gpu/cluster_topology.h</label>
+      </node>
+      <node id="5">
+        <label>themis/gpu/device_discovery.h</label>
+      </node>
+      <node id="3">
+        <label>themis/gpu/load_balancer.h</label>
+      </node>
+      <node id="6">
+        <label>thread</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1abb01fee02e6b60f76911ca4de0c01e75" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; DeviceInfo &gt;</type>
+        <definition>static std::vector&lt; DeviceInfo &gt; makeDevices</definition>
+        <argsstring>(int n, uint64_t vram_each=8ULL *1024 *1024 *1024)</argsstring>
+        <name>makeDevices</name>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>vram_each</declname>
+          <defval>8ULL *1024 *1024 *1024</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="12" column="20" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="12" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, Construct_NoDevices_HealthyIsZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>Construct_NoDevices_HealthyIsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="33" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="33" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1ae3197722870a53c65e1835960323d57d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, UpdateDevices_SetsDevices)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>UpdateDevices_SetsDevices</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="39" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="39" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1a94b7e13e5036614c66bdc8923a4b80f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, UpdateDevices_ReplacesExisting)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>UpdateDevices_ReplacesExisting</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="46" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="46" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1a5fe5b3fdd9bc1c94277d0a4dd3d13d23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, FirstHealthy_ReturnsFirstDevice)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>FirstHealthy_ReturnsFirstDevice</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="56" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="56" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1a4e9000dd03d198f0767991c523ef8316" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, FirstHealthy_NoDevices_ReturnsNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>FirstHealthy_NoDevices_ReturnsNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="63" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="63" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1a422d830d50669bc2e84e8b9893a013c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, RoundRobin_CyclesThroughDevices)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>RoundRobin_CyclesThroughDevices</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="72" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="72" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1a059208634460d084e77980819895ef09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, RoundRobin_SkipsFailedDevice)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>RoundRobin_SkipsFailedDevice</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="88" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="88" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1a1df9ff9c16dc5748e13518707831fd8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, LeastLoaded_SelectsDeviceWithMostFreeVRAM)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>LeastLoaded_SelectsDeviceWithMostFreeVRAM</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="102" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="102" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1a0e8c65f2f77cbce95ca8c7336c6efa01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, LeastLoaded_ExcludesDevicesWithInsufficientVRAM)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>LeastLoaded_ExcludesDevicesWithInsufficientVRAM</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="113" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="113" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1ab73c35713c5f56afff908fbc5053451a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, LeastLoaded_NoEligibleDevice_ReturnsNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>LeastLoaded_NoEligibleDevice_ReturnsNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="124" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="124" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1a20e3bfb0cca9dc680c0c1782b23070d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, MarkFailed_ReducesHealthyCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>MarkFailed_ReducesHealthyCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="136" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="136" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1a998cfd83802b94ca6413e600a37d712e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, ResetDevice_RestoresHealthyCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>ResetDevice_RestoresHealthyCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="142" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="142" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1a42a2b2dbb8960e66a57e9a086f78c3bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, AllDevicesFailed_SelectReturnsNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>AllDevicesFailed_SelectReturnsNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="150" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="150" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1ac4c45f065b277a1d19e7ad8121f4575d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, RecordAlloc_DecreasesDeviceFreeVRAM)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>RecordAlloc_DecreasesDeviceFreeVRAM</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="161" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="161" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1ad107420124aa3a60325c6715a9c9cd8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, RecordDealloc_IncreasesDeviceFreeVRAM)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>RecordDealloc_IncreasesDeviceFreeVRAM</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="171" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="171" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1aef7437f01c5e6810a8e33f7dcadcb8f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, GetDeviceLoads_ContainsAllDevices)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>GetDeviceLoads_ContainsAllDevices</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="183" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="183" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1af8734738b5cc0d4f03cde2be8190bd26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, GetDeviceLoads_ReflectsFailureReason)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>GetDeviceLoads_ReflectsFailureReason</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="188" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="188" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1a36c56e6545cb9a10cc864350e163ac21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, CPUFallback_ExcludedFromSelection)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>CPUFallback_ExcludedFromSelection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="204" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="204" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1aab251080d37eebc0c8089ed797a7b958" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTest, Concurrent_Select_NoDataRace)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTest</type>
+        </param>
+        <param>
+          <type>Concurrent_Select_NoDataRace</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="222" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="222" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1a245f29e9414df2923cf4d114e3141f96" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GPUClusterTopology</type>
+        <definition>static GPUClusterTopology makeNVLinkTopology</definition>
+        <argsstring>(int num_gpus, int src, int dst, float bw_gbps=300.0f)</argsstring>
+        <name>makeNVLinkTopology</name>
+        <param>
+          <type>int</type>
+          <declname>num_gpus</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>dst</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>bw_gbps</declname>
+          <defval>300.0f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="250" column="27" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="250" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1a0e8b1eaeb973aca31ae67af6607ebc4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTopologyAwareTest, TopologyAware_NoTopology_FallsBackToLeastLoaded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTopologyAwareTest</type>
+        </param>
+        <param>
+          <type>TopologyAware_NoTopology_FallsBackToLeastLoaded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="269" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="269" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1a13ecde7068c965f84e62fdd0dd0d58f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTopologyAwareTest, TopologyAware_NVLinkTopology_PicksBestConnectedDevice)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTopologyAwareTest</type>
+        </param>
+        <param>
+          <type>TopologyAware_NVLinkTopology_PicksBestConnectedDevice</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="281" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="281" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1ad67ef9b22bac37b5874e3280ec61f9d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTopologyAwareTest, TopologyAware_SkipsUnhealthyDevice)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTopologyAwareTest</type>
+        </param>
+        <param>
+          <type>TopologyAware_SkipsUnhealthyDevice</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="314" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="314" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1afb2b87c594659324c0260f24526f745f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTopologyAwareTest, TopologyAware_NoDevices_ReturnsNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTopologyAwareTest</type>
+        </param>
+        <param>
+          <type>TopologyAware_NoDevices_ReturnsNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="325" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="325" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1ac6d6ad99cc976343b3479c59adc27b02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTopologyAwareTest, TopologyAware_NVLinkTopology_RespectsVRAMRequirement)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTopologyAwareTest</type>
+        </param>
+        <param>
+          <type>TopologyAware_NVLinkTopology_RespectsVRAMRequirement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="331" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="331" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__load__balancer_8cpp_1a6b3fc953328b11858773a5ca2c11c9a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPULoadBalancerTopologyAwareTest, TopologyAware_SetTopology_UpdatesScheduling)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPULoadBalancerTopologyAwareTest</type>
+        </param>
+        <param>
+          <type>TopologyAware_SetTopology_UpdatesScheduling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_load_balancer.cpp" line="347" column="1" bodyfile="tests/gpu/test_gpu_load_balancer.cpp" bodystart="347" bodyend="373"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/load_balancer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/cluster_topology.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/device_discovery.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>fake<sp/>device<sp/>list.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;DeviceInfo&gt;<sp/>makeDevices(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n,</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>vram_each<sp/>=<sp/>8ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024)<sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeviceInfo&gt;<sp/>devs<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DeviceInfo<sp/>d;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.index<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>i;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GPU_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.backend<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CUDA&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.total_vram_bytes<sp/>=<sp/>vram_each;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.free_vram_bytes<sp/><sp/>=<sp/>vram_each;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.is_healthy<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>devs.push_back(d);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>devs;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Construction<sp/>/<sp/>updateDevices</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>Construct_NoDevices_HealthyIsZero)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.totalDevices(),<sp/>0u);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.healthyDevices(),<sp/>0u);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>UpdateDevices_SetsDevices)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.updateDevices(makeDevices(3));</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.totalDevices(),<sp/>3u);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.healthyDevices(),<sp/>3u);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>UpdateDevices_ReplacesExisting)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::ROUND_ROBIN,<sp/>makeDevices(4));</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.updateDevices(makeDevices(2));</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.totalDevices(),<sp/>2u);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>selectDevice<sp/>—<sp/>FIRST_HEALTHY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>FirstHealthy_ReturnsFirstDevice)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::FIRST_HEALTHY,<sp/>makeDevices(3));</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>d<sp/>=<sp/>lb.selectDevice();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(d,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d-&gt;index,<sp/>0);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>FirstHealthy_NoDevices_ReturnsNull)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::FIRST_HEALTHY);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.selectDevice(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>selectDevice<sp/>—<sp/>ROUND_ROBIN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>RoundRobin_CyclesThroughDevices)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::ROUND_ROBIN,<sp/>makeDevices(3));</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>selected<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>6;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>d<sp/>=<sp/>lb.selectDevice();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_NE(d,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>selected.push_back(d-&gt;index);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>see<sp/>0,1,2,0,1,2.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(selected[0],<sp/>0);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(selected[1],<sp/>1);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(selected[2],<sp/>2);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(selected[3],<sp/>0);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>RoundRobin_SkipsFailedDevice)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::ROUND_ROBIN,<sp/>makeDevices(3));</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.markDeviceFailed(1,<sp/></highlight><highlight class="stringliteral">&quot;lost&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>6;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>d<sp/>=<sp/>lb.selectDevice();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_NE(d,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(d-&gt;index,<sp/>1);<sp/><sp/></highlight><highlight class="comment">//<sp/>Device<sp/>1<sp/>must<sp/>never<sp/>be<sp/>selected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>selectDevice<sp/>—<sp/>LEAST_LOADED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>LeastLoaded_SelectsDeviceWithMostFreeVRAM)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>devs<sp/>=<sp/>makeDevices(3);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>devs[0].free_vram_bytes<sp/>=<sp/>2ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>devs[1].free_vram_bytes<sp/>=<sp/>8ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>devs[2].free_vram_bytes<sp/>=<sp/>4ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::LEAST_LOADED,<sp/>devs);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>d<sp/>=<sp/>lb.selectDevice();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(d,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d-&gt;index,<sp/>1);<sp/><sp/></highlight><highlight class="comment">//<sp/>device<sp/>1<sp/>has<sp/>most<sp/>free<sp/>VRAM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>LeastLoaded_ExcludesDevicesWithInsufficientVRAM)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>devs<sp/>=<sp/>makeDevices(2);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>devs[0].free_vram_bytes<sp/>=<sp/>512ULL<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>512<sp/>MB<sp/>free</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>devs[1].free_vram_bytes<sp/>=<sp/>4ULL<sp/><sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>4<sp/>GB<sp/>free</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::LEAST_LOADED,<sp/>devs);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>req<sp/>=<sp/>1ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>need<sp/>1<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>d<sp/>=<sp/>lb.selectDevice(req);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(d,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d-&gt;index,<sp/>1);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>LeastLoaded_NoEligibleDevice_ReturnsNull)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>devs<sp/>=<sp/>makeDevices(2);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>devs[0].free_vram_bytes<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>devs[1].free_vram_bytes<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::LEAST_LOADED,<sp/>devs);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.selectDevice(1ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>markDeviceFailed<sp/>/<sp/>resetDevice</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>MarkFailed_ReducesHealthyCount)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::ROUND_ROBIN,<sp/>makeDevices(3));</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.markDeviceFailed(2,<sp/></highlight><highlight class="stringliteral">&quot;device<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.healthyDevices(),<sp/>2u);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>ResetDevice_RestoresHealthyCount)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::ROUND_ROBIN,<sp/>makeDevices(3));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.markDeviceFailed(0);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.healthyDevices(),<sp/>2u);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.resetDevice(0);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.healthyDevices(),<sp/>3u);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>AllDevicesFailed_SelectReturnsNull)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::ROUND_ROBIN,<sp/>makeDevices(2));</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.markDeviceFailed(0);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.markDeviceFailed(1);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.selectDevice(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>recordAllocation<sp/>/<sp/>recordDeallocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>RecordAlloc_DecreasesDeviceFreeVRAM)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::LEAST_LOADED,<sp/>makeDevices(1));</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.recordAllocation(0,<sp/>2ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loads<sp/>=<sp/>lb.getDeviceLoads();</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(loads.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loads[0].free_vram_bytes,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>8ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>-<sp/>2ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loads[0].tracked_alloc_bytes,<sp/>2ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>RecordDealloc_IncreasesDeviceFreeVRAM)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::LEAST_LOADED,<sp/>makeDevices(1));</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.recordAllocation(0,<sp/>4ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.recordDeallocation(0,<sp/>2ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loads<sp/>=<sp/>lb.getDeviceLoads();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loads[0].tracked_alloc_bytes,<sp/>2ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getDeviceLoads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>GetDeviceLoads_ContainsAllDevices)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::ROUND_ROBIN,<sp/>makeDevices(3));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.getDeviceLoads().size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>GetDeviceLoads_ReflectsFailureReason)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::ROUND_ROBIN,<sp/>makeDevices(2));</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.markDeviceFailed(1,<sp/></highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loads<sp/>=<sp/>lb.getDeviceLoads();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>dl<sp/>:<sp/>loads)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(dl.index<sp/>==<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(dl.is_healthy);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(dl.failure_reason,<sp/></highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CPU_FALLBACK<sp/>device<sp/>excluded<sp/>from<sp/>selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>CPUFallback_ExcludedFromSelection)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeviceInfo&gt;<sp/>devs;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>DeviceInfo<sp/>cpu;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>cpu.index<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>cpu.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CPU<sp/>Fallback&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>cpu.backend<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CPU_FALLBACK&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>cpu.is_healthy<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>devs.push_back(cpu);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::LEAST_LOADED,<sp/>devs);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.healthyDevices(),<sp/>0u);<sp/><sp/></highlight><highlight class="comment">//<sp/>CPU<sp/>fallback<sp/>doesn&apos;t<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.selectDevice(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Concurrent<sp/>selectDevice<sp/>—<sp/>no<sp/>data<sp/>race</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTest,<sp/>Concurrent_Select_NoDataRace)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::ROUND_ROBIN,<sp/>makeDevices(4));</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>THREADS<sp/>=<sp/>8,<sp/>OPS_PER_THREAD<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>non_null{0};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(THREADS);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>THREADS;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;lb,<sp/>&amp;non_null]()<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>OPS_PER_THREAD;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(lb.selectDevice()<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>non_null.fetch_add(1);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(non_null.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TOPOLOGY_AWARE<sp/>—<sp/>NVLink<sp/>topology-aware<sp/>scheduling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>a<sp/>topology<sp/>with<sp/>an<sp/>NVLink<sp/>link<sp/>from<sp/>device<sp/>src<sp/>to<sp/>device<sp/>dst.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GPUClusterTopology<sp/>makeNVLinkTopology(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_gpus,</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>src,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dst,</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>bw_gbps<sp/>=<sp/>300.0f)</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterTopology<sp/>topo;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>topo.num_gpus<sp/>=<sp/>num_gpus;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>topo.bandwidth_matrix.assign(num_gpus,<sp/>std::vector&lt;float&gt;(num_gpus,<sp/>0.0f));</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>TopologyLink<sp/>lnk;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>lnk.type<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>InterconnectType::NVLINK;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>lnk.bandwidth_gbps<sp/><sp/><sp/>=<sp/>bw_gbps;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>lnk.latency_us<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>lnk.src_device_index<sp/>=<sp/>src;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>lnk.dst_device_index<sp/>=<sp/>dst;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>topo.addLink(lnk);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>topo.has_nvlink<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>topo;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTopologyAwareTest,<sp/>TopologyAware_NoTopology_FallsBackToLeastLoaded)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>no<sp/>topology<sp/>set,<sp/>TOPOLOGY_AWARE<sp/>should<sp/>behave<sp/>like<sp/>LEAST_LOADED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>devs<sp/>=<sp/>makeDevices(2);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>devs[0].free_vram_bytes<sp/>=<sp/>2ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>devs[1].free_vram_bytes<sp/>=<sp/>8ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::TOPOLOGY_AWARE,<sp/>devs);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>topology<sp/>set<sp/>—<sp/>falls<sp/>back<sp/>to<sp/>least-loaded,<sp/>should<sp/>pick<sp/>device<sp/>1<sp/>(most<sp/>VRAM).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>d<sp/>=<sp/>lb.selectDevice();</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(d,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d-&gt;index,<sp/>1);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTopologyAwareTest,<sp/>TopologyAware_NVLinkTopology_PicksBestConnectedDevice)<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Three<sp/>devices.<sp/><sp/>Device<sp/>0<sp/>has<sp/>NVLink<sp/>to<sp/>device<sp/>1<sp/>(300<sp/>GB/s)<sp/>and<sp/>device<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(300<sp/>GB/s),<sp/>so<sp/>it<sp/>has<sp/>the<sp/>highest<sp/>total<sp/>outgoing<sp/>bandwidth<sp/>(600<sp/>GB/s).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Devices<sp/>1<sp/>and<sp/>2<sp/>only<sp/>have<sp/>one<sp/>NVLink<sp/>connection<sp/>each<sp/>(300<sp/>GB/s).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>devs<sp/>=<sp/>makeDevices(3);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterTopology<sp/>topo;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>topo.num_gpus<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>topo.bandwidth_matrix.assign(3,<sp/>std::vector&lt;float&gt;(3,<sp/>0.0f));</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>topo.has_nvlink<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addNVLink<sp/>=<sp/>[&amp;](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>s,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>d,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>bw)<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TopologyLink<sp/>lnk;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lnk.type<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>InterconnectType::NVLINK;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lnk.bandwidth_gbps<sp/><sp/><sp/>=<sp/>bw;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lnk.latency_us<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lnk.src_device_index<sp/>=<sp/>s;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lnk.dst_device_index<sp/>=<sp/>d;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>topo.addLink(lnk);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>addNVLink(0,<sp/>1,<sp/>300.0f);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>addNVLink(0,<sp/>2,<sp/>300.0f);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>addNVLink(1,<sp/>0,<sp/>300.0f);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>addNVLink(2,<sp/>0,<sp/>300.0f);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::TOPOLOGY_AWARE,<sp/>devs);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.setTopology(topo);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>d<sp/>=<sp/>lb.selectDevice();</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(d,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Device<sp/>0<sp/>has<sp/>600<sp/>GB/s<sp/>total<sp/>outgoing<sp/>bandwidth<sp/>—<sp/>must<sp/>be<sp/>selected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d-&gt;index,<sp/>0);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTopologyAwareTest,<sp/>TopologyAware_SkipsUnhealthyDevice)<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>devs<sp/>=<sp/>makeDevices(2);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::TOPOLOGY_AWARE,<sp/>devs);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.setTopology(makeNVLinkTopology(2,<sp/>0,<sp/>1));</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.markDeviceFailed(0,<sp/></highlight><highlight class="stringliteral">&quot;oom&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>d<sp/>=<sp/>lb.selectDevice();</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(d,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d-&gt;index,<sp/>1);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTopologyAwareTest,<sp/>TopologyAware_NoDevices_ReturnsNull)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::TOPOLOGY_AWARE);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.setTopology(makeNVLinkTopology(2,<sp/>0,<sp/>1));</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lb.selectDevice(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTopologyAwareTest,<sp/>TopologyAware_NVLinkTopology_RespectsVRAMRequirement)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>devs<sp/>=<sp/>makeDevices(2);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Device<sp/>0<sp/>has<sp/>more<sp/>NVLink<sp/>bandwidth<sp/>but<sp/>not<sp/>enough<sp/>VRAM.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>devs[0].free_vram_bytes<sp/>=<sp/>512ULL<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>512<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>devs[1].free_vram_bytes<sp/>=<sp/>4ULL<sp/><sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>4<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::TOPOLOGY_AWARE,<sp/>devs);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.setTopology(makeNVLinkTopology(2,<sp/>0,<sp/>1,<sp/>300.0f));</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>req<sp/>=<sp/>1ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>need<sp/>1<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>d<sp/>=<sp/>lb.selectDevice(req);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(d,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Device<sp/>0<sp/>is<sp/>ineligible<sp/>(insufficient<sp/>VRAM)<sp/>—<sp/>must<sp/>pick<sp/>device<sp/>1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d-&gt;index,<sp/>1);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><ref refid="test__gpu__load__balancer_8cpp_1adafd55aee11720f38cdc6b1a1695cb46" kindref="member">TEST</ref>(GPULoadBalancerTopologyAwareTest,<sp/>TopologyAware_SetTopology_UpdatesScheduling)<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>devs<sp/>=<sp/>makeDevices(2);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>lb(GPULoadBalancer::Strategy::TOPOLOGY_AWARE,<sp/>devs);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Before<sp/>setting<sp/>topology:<sp/>falls<sp/>back<sp/>to<sp/>least-loaded<sp/>(both<sp/>equal<sp/>VRAM<sp/>→<sp/>device<sp/>0).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>d1<sp/>=<sp/>lb.selectDevice();</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(d1,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>set<sp/>a<sp/>topology<sp/>where<sp/>device<sp/>1<sp/>has<sp/>NVLink<sp/>to<sp/>device<sp/>0.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUClusterTopology<sp/>topo;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>topo.num_gpus<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>topo.bandwidth_matrix.assign(2,<sp/>std::vector&lt;float&gt;(2,<sp/>0.0f));</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>topo.has_nvlink<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>TopologyLink<sp/>lnk;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>lnk.type<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>InterconnectType::NVLINK;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>lnk.bandwidth_gbps<sp/><sp/><sp/>=<sp/>300.0f;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>lnk.latency_us<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>lnk.src_device_index<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>lnk.dst_device_index<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>topo.addLink(lnk);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>lb.setTopology(topo);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>d2<sp/>=<sp/>lb.selectDevice();</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(d2,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Device<sp/>1<sp/>now<sp/>has<sp/>the<sp/>highest<sp/>outgoing<sp/>NVLink<sp/>bandwidth.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d2-&gt;index,<sp/>1);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_load_balancer.cpp"/>
+  </compounddef>
+</doxygen>

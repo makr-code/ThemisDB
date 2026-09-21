@@ -1,0 +1,381 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_redundancy_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::RedundancyConfig</compoundname>
+    <includes refid="redundancy__strategy_8h" local="no">redundancy_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_config_1a20913269f082ad3b505bcb4693e4557d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a7308132120857fab8deaf60e60544436" kindref="member">RedundancyMode</ref></type>
+        <definition>RedundancyMode themis::sharding::RedundancyConfig::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1sharding_1a7308132120857fab8deaf60e60544436a72a92ae9c1d172cdda196686278fbfc6" kindref="member">RedundancyMode::MIRROR</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="190" column="20" bodyfile="include/sharding/redundancy_strategy.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_config_1a97b549ebabb885b07e5e7ce77a901236" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::RedundancyConfig::replication_factor</definition>
+        <argsstring></argsstring>
+        <name>replication_factor</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::replication_factor</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="193" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_config_1a9faf9de4ac30721c7ecb7bec2e7da9e2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a2b420e430306b2b5050e71bee1f23090" kindref="member">ReadPreference</ref></type>
+        <definition>ReadPreference themis::sharding::RedundancyConfig::read_preference</definition>
+        <argsstring></argsstring>
+        <name>read_preference</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::read_preference</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1sharding_1a2b420e430306b2b5050e71bee1f23090aad135772d7cf93dd0ccf9d2474b34e6a" kindref="member">ReadPreference::NEAREST</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="194" column="20" bodyfile="include/sharding/redundancy_strategy.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_config_1a3e66853c4d11fff8d1e16538d36e9fb6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164" kindref="member">WriteConcern</ref></type>
+        <definition>WriteConcern themis::sharding::RedundancyConfig::write_concern</definition>
+        <argsstring></argsstring>
+        <name>write_concern</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::write_concern</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a28e6444341e60a10ed454a48de251aa9" kindref="member">WriteConcern::MAJORITY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="195" column="18" bodyfile="include/sharding/redundancy_strategy.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_config_1a964fa7c75ee80501c53e4e5b92607ef2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::RedundancyConfig::read_quorum</definition>
+        <argsstring></argsstring>
+        <name>read_quorum</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::read_quorum</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="198" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_config_1a368499929b3c90b3b0b0c307333f3d40" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::RedundancyConfig::write_quorum</definition>
+        <argsstring></argsstring>
+        <name>write_quorum</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::write_quorum</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="199" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_config_1a19a7ee69e4eac2eda782bb87a46f8281" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::RedundancyConfig::enable_quorum_enforcement</definition>
+        <argsstring></argsstring>
+        <name>enable_quorum_enforcement</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::enable_quorum_enforcement</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="200" column="10" bodyfile="include/sharding/redundancy_strategy.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_config_1a3328a04a7b8bec905dd0187e5857ef52" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::RedundancyConfig::enable_partition_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_partition_detection</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::enable_partition_detection</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="201" column="10" bodyfile="include/sharding/redundancy_strategy.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_config_1a7784b4e52c24b87e7c9b8aec580c1a23" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::RedundancyConfig::enable_raft_consensus</definition>
+        <argsstring></argsstring>
+        <name>enable_raft_consensus</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::enable_raft_consensus</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="202" column="10" bodyfile="include/sharding/redundancy_strategy.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_config_1aec156b2180f281e9194aca2c90f1139e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_stripe_config" kindref="compound">StripeConfig</ref></type>
+        <definition>StripeConfig themis::sharding::RedundancyConfig::stripe</definition>
+        <argsstring></argsstring>
+        <name>stripe</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::stripe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="205" column="18" bodyfile="include/sharding/redundancy_strategy.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_config_1a2454de3c1e1ef5f26c66b16540409c38" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_erasure_coding_config" kindref="compound">ErasureCodingConfig</ref></type>
+        <definition>ErasureCodingConfig themis::sharding::RedundancyConfig::erasure_coding</definition>
+        <argsstring></argsstring>
+        <name>erasure_coding</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::erasure_coding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="208" column="25" bodyfile="include/sharding/redundancy_strategy.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_config_1a9e00daab51e9c275dc70310b333e1c86" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_geo_replication_config" kindref="compound">GeoReplicationConfig</ref></type>
+        <definition>GeoReplicationConfig themis::sharding::RedundancyConfig::geo_replication</definition>
+        <argsstring></argsstring>
+        <name>geo_replication</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::geo_replication</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="211" column="26" bodyfile="include/sharding/redundancy_strategy.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_config_1a8f49455bd8746c2a1b899a18701aff37" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_hot_spare_config_simple" kindref="compound">HotSpareConfigSimple</ref></type>
+        <definition>HotSpareConfigSimple themis::sharding::RedundancyConfig::hot_spare</definition>
+        <argsstring></argsstring>
+        <name>hot_spare</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::hot_spare</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="214" column="26" bodyfile="include/sharding/redundancy_strategy.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_config_1a49863af91bf10622e6dd763edf5595ec" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::RedundancyConfig::replication_timeout</definition>
+        <argsstring></argsstring>
+        <name>replication_timeout</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::replication_timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="217" column="31" bodyfile="include/sharding/redundancy_strategy.h" bodystart="217" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_config_1a4124b26b0b09578e899f98fb3041b2b0" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::RedundancyConfig::health_check_interval</definition>
+        <argsstring></argsstring>
+        <name>health_check_interval</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::health_check_interval</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="218" column="31" bodyfile="include/sharding/redundancy_strategy.h" bodystart="218" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_config_1a062206b2c73682f30aecabc8a0cd6357" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::RedundancyConfig::auto_recovery</definition>
+        <argsstring></argsstring>
+        <name>auto_recovery</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::auto_recovery</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="221" column="10" bodyfile="include/sharding/redundancy_strategy.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_config_1ac361e4d0562cfdcf4edddb9311f0a4e7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::RedundancyConfig::recovery_parallelism</definition>
+        <argsstring></argsstring>
+        <name>recovery_parallelism</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::recovery_parallelism</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="222" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_redundancy_config_1a428d92905b9287b0d71330a12b82bac4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::RedundancyConfig::validate</definition>
+        <argsstring>() const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::validate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="225" column="10" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="98" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_redundancy_config_1acfda9981e10cc5fc7203e8bc7ef2206d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::RedundancyConfig::getStorageEfficiency</definition>
+        <argsstring>() const</argsstring>
+        <name>getStorageEfficiency</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::getStorageEfficiency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="228" column="12" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="162" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_redundancy_config_1a03b22c07e8297ac435907de461cbe4da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::RedundancyConfig::getFaultTolerance</definition>
+        <argsstring>() const</argsstring>
+        <name>getFaultTolerance</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::getFaultTolerance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="231" column="14" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="183" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_redundancy_config_1a4d09f44dccebd7d5a84d36eb72cb6d61" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::RedundancyConfig::getEffectiveReplicationFactor</definition>
+        <argsstring>() const</argsstring>
+        <name>getEffectiveReplicationFactor</name>
+        <qualifiedname>themis::sharding::RedundancyConfig::getEffectiveReplicationFactor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="234" column="14" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="204" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Top-level redundancy policy configuration for one collection/strategy. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::sharding::ErasureCodingConfig</label>
+        <link refid="structthemis_1_1sharding_1_1_erasure_coding_config"/>
+      </node>
+      <node id="4">
+        <label>themis::sharding::GeoReplicationConfig</label>
+        <link refid="structthemis_1_1sharding_1_1_geo_replication_config"/>
+      </node>
+      <node id="5">
+        <label>themis::sharding::HotSpareConfigSimple</label>
+        <link refid="structthemis_1_1sharding_1_1_hot_spare_config_simple"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::RedundancyConfig</label>
+        <link refid="structthemis_1_1sharding_1_1_redundancy_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>stripe</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>erasure_coding</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>geo_replication</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>hot_spare</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::StripeConfig</label>
+        <link refid="structthemis_1_1sharding_1_1_stripe_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/redundancy_strategy.h" line="189" column="1" bodyfile="include/sharding/redundancy_strategy.h" bodystart="189" bodyend="235"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a062206b2c73682f30aecabc8a0cd6357" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>auto_recovery</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a3328a04a7b8bec905dd0187e5857ef52" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>enable_partition_detection</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a19a7ee69e4eac2eda782bb87a46f8281" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>enable_quorum_enforcement</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a7784b4e52c24b87e7c9b8aec580c1a23" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>enable_raft_consensus</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a2454de3c1e1ef5f26c66b16540409c38" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>erasure_coding</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a9e00daab51e9c275dc70310b333e1c86" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>geo_replication</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a4d09f44dccebd7d5a84d36eb72cb6d61" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>getEffectiveReplicationFactor</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a03b22c07e8297ac435907de461cbe4da" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>getFaultTolerance</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1acfda9981e10cc5fc7203e8bc7ef2206d" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>getStorageEfficiency</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a4124b26b0b09578e899f98fb3041b2b0" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>health_check_interval</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a8f49455bd8746c2a1b899a18701aff37" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>hot_spare</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a20913269f082ad3b505bcb4693e4557d" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>mode</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a9faf9de4ac30721c7ecb7bec2e7da9e2" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>read_preference</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a964fa7c75ee80501c53e4e5b92607ef2" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>read_quorum</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1ac361e4d0562cfdcf4edddb9311f0a4e7" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>recovery_parallelism</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a97b549ebabb885b07e5e7ce77a901236" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>replication_factor</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a49863af91bf10622e6dd763edf5595ec" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>replication_timeout</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1aec156b2180f281e9194aca2c90f1139e" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>stripe</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a428d92905b9287b0d71330a12b82bac4" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>validate</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a3e66853c4d11fff8d1e16538d36e9fb6" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>write_concern</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_config_1a368499929b3c90b3b0b0c307333f3d40" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyConfig</scope><name>write_quorum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

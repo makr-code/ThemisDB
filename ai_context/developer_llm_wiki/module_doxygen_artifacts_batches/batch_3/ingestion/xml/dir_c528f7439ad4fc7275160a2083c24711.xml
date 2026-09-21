@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_c528f7439ad4fc7275160a2083c24711" kind="dir">
+    <compoundname>src/ingestion/steps</compoundname>
+    <innerfile refid="base__entity__assembler__step_8cpp">base_entity_assembler_step.cpp</innerfile>
+    <innerfile refid="chunk__embed__step_8cpp">chunk_embed_step.cpp</innerfile>
+    <innerfile refid="chunk__text__step_8cpp">chunk_text_step.cpp</innerfile>
+    <innerfile refid="chunk__tt__decompose__step_8cpp">chunk_tt_decompose_step.cpp</innerfile>
+    <innerfile refid="decompress__step_8cpp">decompress_step.cpp</innerfile>
+    <innerfile refid="deontic__step_8cpp">deontic_step.cpp</innerfile>
+    <innerfile refid="format__parse__step_8cpp">format_parse_step.cpp</innerfile>
+    <innerfile refid="legal__metadata__step_8cpp">legal_metadata_step.cpp</innerfile>
+    <innerfile refid="legal__reference__step_8cpp">legal_reference_step.cpp</innerfile>
+    <innerfile refid="llm__extract__step_8cpp">llm_extract_step.cpp</innerfile>
+    <innerfile refid="ner__step_8cpp">ner_step.cpp</innerfile>
+    <innerfile refid="parse__text__step_8cpp">parse_text_step.cpp</innerfile>
+    <innerfile refid="tensor__core__bridge__step_8cpp">tensor_core_bridge_step.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ingestion/steps/"/>
+  </compounddef>
+</doxygen>

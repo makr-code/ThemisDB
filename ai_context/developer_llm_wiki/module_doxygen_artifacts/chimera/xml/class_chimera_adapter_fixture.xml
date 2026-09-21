@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_chimera_adapter_fixture" kind="class" language="C++" prot="public">
+    <compoundname>ChimeraAdapterFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_chimera_adapter_fixture_1a250be516bed6e3acda6f19a6ede25b27" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; ThemisDBAdapter &gt;</type>
+        <definition>std::unique_ptr&lt;ThemisDBAdapter&gt; ChimeraAdapterFixture::adapter_</definition>
+        <argsstring></argsstring>
+        <name>adapter_</name>
+        <qualifiedname>ChimeraAdapterFixture::adapter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chimera/bench_chimera_adapter.cpp" line="74" column="21" bodyfile="benchmarks/chimera/bench_chimera_adapter.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_chimera_adapter_fixture_1a89b41cd8a8ddddab813e268ad2cfe99a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ChimeraAdapterFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ChimeraAdapterFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chimera/bench_chimera_adapter.cpp" line="76" column="10" bodyfile="benchmarks/chimera/bench_chimera_adapter.cpp" bodystart="76" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_chimera_adapter_fixture_1a8cb3aaec58fbe44723a83d097c594a50" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ChimeraAdapterFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ChimeraAdapterFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chimera/bench_chimera_adapter.cpp" line="84" column="10" bodyfile="benchmarks/chimera/bench_chimera_adapter.cpp" bodystart="84" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ChimeraAdapterFixture</label>
+        <link refid="class_chimera_adapter_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ChimeraAdapterFixture</label>
+        <link refid="class_chimera_adapter_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/chimera/bench_chimera_adapter.cpp" line="72" column="1" bodyfile="benchmarks/chimera/bench_chimera_adapter.cpp" bodystart="72" bodyend="87"/>
+    <listofallmembers>
+      <member refid="class_chimera_adapter_fixture_1a250be516bed6e3acda6f19a6ede25b27" prot="protected" virt="non-virtual"><scope>ChimeraAdapterFixture</scope><name>adapter_</name></member>
+      <member refid="class_chimera_adapter_fixture_1a89b41cd8a8ddddab813e268ad2cfe99a" prot="protected" virt="non-virtual"><scope>ChimeraAdapterFixture</scope><name>SetUp</name></member>
+      <member refid="class_chimera_adapter_fixture_1a8cb3aaec58fbe44723a83d097c594a50" prot="protected" virt="non-virtual"><scope>ChimeraAdapterFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

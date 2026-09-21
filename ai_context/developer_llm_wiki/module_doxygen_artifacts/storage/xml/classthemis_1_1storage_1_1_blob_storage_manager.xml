@@ -1,0 +1,335 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_blob_storage_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::BlobStorageManager</compoundname>
+    <includes refid="blob__storage__manager_8h" local="no">blob_storage_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_blob_storage_manager_1a7ccb28386b0546bc3f1b6d79647b4f42" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_blob_storage_config" kindref="compound">BlobStorageConfig</ref></type>
+        <definition>BlobStorageConfig themis::storage::BlobStorageManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::storage::BlobStorageManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_manager.h" line="36" column="23" bodyfile="include/storage/blob_storage_manager.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_blob_storage_manager_1a9f1f21b2c9f1158f853d380407b31ca5" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42" kindref="member">BlobStorageType</ref>, std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_i_blob_storage_backend" kindref="compound">IBlobStorageBackend</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;BlobStorageType, std::shared_ptr&lt;IBlobStorageBackend&gt; &gt; themis::storage::BlobStorageManager::backends_</definition>
+        <argsstring></argsstring>
+        <name>backends_</name>
+        <qualifiedname>themis::storage::BlobStorageManager::backends_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_manager.h" line="37" column="24" bodyfile="include/storage/blob_storage_manager.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_blob_storage_manager_1a11d13efa3ff193cec10e1c79d01c218b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::BlobStorageManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::storage::BlobStorageManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_manager.h" line="38" column="24" bodyfile="include/storage/blob_storage_manager.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_blob_storage_manager_1a6cc2a4b74fa742ef3b42bf1fc303e041" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42" kindref="member">BlobStorageType</ref></type>
+        <definition>BlobStorageType themis::storage::BlobStorageManager::selectBackendType</definition>
+        <argsstring>(size_t blob_size) const</argsstring>
+        <name>selectBackendType</name>
+        <qualifiedname>themis::storage::BlobStorageManager::selectBackendType</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>blob_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_manager.h" line="40" column="21" bodyfile="include/storage/blob_storage_manager.h" bodystart="40" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_blob_storage_manager_1ad6ca5c9dd87909d27e6ecdc4835f8950" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::BlobStorageManager::BlobStorageManager</definition>
+        <argsstring>(const BlobStorageConfig &amp;config)</argsstring>
+        <name>BlobStorageManager</name>
+        <qualifiedname>themis::storage::BlobStorageManager::BlobStorageManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_storage_config" kindref="compound">BlobStorageConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_manager.h" line="71" column="14" bodyfile="include/storage/blob_storage_manager.h" bodystart="71" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_blob_storage_manager_1a80bd3c6c7e65e1b130d8c7c6f83f8bd6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::BlobStorageManager::registerBackend</definition>
+        <argsstring>(BlobStorageType type, std::shared_ptr&lt; IBlobStorageBackend &gt; backend)</argsstring>
+        <name>registerBackend</name>
+        <qualifiedname>themis::storage::BlobStorageManager::registerBackend</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42" kindref="member">BlobStorageType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_i_blob_storage_backend" kindref="compound">IBlobStorageBackend</ref> &gt;</type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Register a blob storage backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backend type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backend implementation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_manager.h" line="79" column="10" bodyfile="include/storage/blob_storage_manager.h" bodystart="79" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_blob_storage_manager_1af4966d2a26fc02253f4af6bd9096bfc9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref></type>
+        <definition>BlobRef themis::storage::BlobStorageManager::put</definition>
+        <argsstring>(const std::string &amp;blob_id, const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::storage::BlobStorageManager::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Store a blob with automatic backend selection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique blob identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> Reference to stored blob </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if no suitable backend available </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_manager.h" line="91" column="13" bodyfile="include/storage/blob_storage_manager.h" bodystart="91" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_blob_storage_manager_1adaeb27e9a99338555443744681382b29" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::BlobStorageManager::get</definition>
+        <argsstring>(const BlobRef &amp;ref)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::storage::BlobStorageManager::get</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob reference </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Blob data or nullopt if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_manager.h" line="126" column="19" bodyfile="include/storage/blob_storage_manager.h" bodystart="126" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_blob_storage_manager_1a1bfb596b01456c0f750e08033f6b5cdf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::BlobStorageManager::remove</definition>
+        <argsstring>(const BlobRef &amp;ref)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::storage::BlobStorageManager::remove</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Delete a blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob reference </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if deleted </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_manager.h" line="154" column="10" bodyfile="include/storage/blob_storage_manager.h" bodystart="154" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_blob_storage_manager_1a9c0827ed07269105c3473aa9fa130000" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::BlobStorageManager::exists</definition>
+        <argsstring>(const BlobRef &amp;ref)</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::storage::BlobStorageManager::exists</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Check if blob exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob reference </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if exists </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_manager.h" line="180" column="10" bodyfile="include/storage/blob_storage_manager.h" bodystart="180" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_blob_storage_manager_1ac09b8972521a09a4933c1cf586d2a383" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1storage_1_1_blob_storage_config" kindref="compound">BlobStorageConfig</ref> &amp;</type>
+        <definition>const BlobStorageConfig &amp; themis::storage::BlobStorageManager::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::storage::BlobStorageManager::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_manager.h" line="200" column="29" bodyfile="include/storage/blob_storage_manager.h" bodystart="200" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_blob_storage_manager_1a318b695d925fd8543e2068537fcb841b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42" kindref="member">BlobStorageType</ref> &gt;</type>
+        <definition>std::vector&lt; BlobStorageType &gt; themis::storage::BlobStorageManager::getRegisteredBackends</definition>
+        <argsstring>() const</argsstring>
+        <name>getRegisteredBackends</name>
+        <qualifiedname>themis::storage::BlobStorageManager::getRegisteredBackends</qualifiedname>
+        <briefdescription>
+<para>Get registered backend types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_manager.h" line="207" column="17" bodyfile="include/storage/blob_storage_manager.h" bodystart="207" bodyend="215"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Blob Storage Manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Orchestrates multiple blob storage backends and automatically selects the appropriate backend based on blob size and configuration.</para>
+<para>Selection Strategy:<itemizedlist>
+<listitem><para>&lt; inline_threshold_bytes: INLINE (stored in RocksDB)</para>
+</listitem><listitem><para>&lt; rocksdb_blob_threshold_bytes: ROCKSDB_BLOB (RocksDB BlobDB)</para>
+</listitem><listitem><para>&gt;= rocksdb_blob_threshold_bytes: External backend (Filesystem/S3/Azure/WebDAV)</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-Safety: All methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/storage/blob_storage_manager.h" line="34" column="1" bodyfile="include/storage/blob_storage_manager.h" bodystart="34" bodyend="216"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_blob_storage_manager_1a9f1f21b2c9f1158f853d380407b31ca5" prot="private" virt="non-virtual"><scope>themis::storage::BlobStorageManager</scope><name>backends_</name></member>
+      <member refid="classthemis_1_1storage_1_1_blob_storage_manager_1ad6ca5c9dd87909d27e6ecdc4835f8950" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageManager</scope><name>BlobStorageManager</name></member>
+      <member refid="classthemis_1_1storage_1_1_blob_storage_manager_1a7ccb28386b0546bc3f1b6d79647b4f42" prot="private" virt="non-virtual"><scope>themis::storage::BlobStorageManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1storage_1_1_blob_storage_manager_1a9c0827ed07269105c3473aa9fa130000" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageManager</scope><name>exists</name></member>
+      <member refid="classthemis_1_1storage_1_1_blob_storage_manager_1adaeb27e9a99338555443744681382b29" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageManager</scope><name>get</name></member>
+      <member refid="classthemis_1_1storage_1_1_blob_storage_manager_1ac09b8972521a09a4933c1cf586d2a383" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageManager</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1storage_1_1_blob_storage_manager_1a318b695d925fd8543e2068537fcb841b" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageManager</scope><name>getRegisteredBackends</name></member>
+      <member refid="classthemis_1_1storage_1_1_blob_storage_manager_1a11d13efa3ff193cec10e1c79d01c218b" prot="private" virt="non-virtual"><scope>themis::storage::BlobStorageManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1storage_1_1_blob_storage_manager_1af4966d2a26fc02253f4af6bd9096bfc9" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageManager</scope><name>put</name></member>
+      <member refid="classthemis_1_1storage_1_1_blob_storage_manager_1a80bd3c6c7e65e1b130d8c7c6f83f8bd6" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageManager</scope><name>registerBackend</name></member>
+      <member refid="classthemis_1_1storage_1_1_blob_storage_manager_1a1bfb596b01456c0f750e08033f6b5cdf" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageManager</scope><name>remove</name></member>
+      <member refid="classthemis_1_1storage_1_1_blob_storage_manager_1a6cc2a4b74fa742ef3b42bf1fc303e041" prot="private" virt="non-virtual"><scope>themis::storage::BlobStorageManager</scope><name>selectBackendType</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

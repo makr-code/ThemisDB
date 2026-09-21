@@ -1,0 +1,457 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_lo_r_a_adapter_merger" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::LoRAAdapterMerger</compoundname>
+    <includes refid="lora__adapter__merger_8h" local="no">lora_adapter_merger.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_merger_1a110b70b1499466a32e425e7027240a29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LoRAAdapterMerger::LoRAAdapterMerger</definition>
+        <argsstring>()=default</argsstring>
+        <name>LoRAAdapterMerger</name>
+        <qualifiedname>themis::training::LoRAAdapterMerger::LoRAAdapterMerger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="83" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_merger_1a95302384a6ad0f01ffe172d4e9e15b4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LoRAAdapterMerger::~LoRAAdapterMerger</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LoRAAdapterMerger</name>
+        <qualifiedname>themis::training::LoRAAdapterMerger::~LoRAAdapterMerger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="84" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_merger_1aa7379c73fe44627ed8aa0333798725b2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_merge_layer_result" kindref="compound">MergeLayerResult</ref></type>
+        <definition>MergeLayerResult themis::training::LoRAAdapterMerger::mergeLinear</definition>
+        <argsstring>(const std::vector&lt; AdapterDescriptor &gt; &amp;adapters, const std::string &amp;out_layer, size_t in_dim, size_t out_dim, size_t rank, float alpha=8.0f) const</argsstring>
+        <name>mergeLinear</name>
+        <qualifiedname>themis::training::LoRAAdapterMerger::mergeLinear</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1training_1_1_adapter_descriptor" kindref="compound">AdapterDescriptor</ref> &gt; &amp;</type>
+          <declname>adapters</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>out_layer</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>in_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>out_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rank</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>alpha</declname>
+          <defval>8.0f</defval>
+        </param>
+        <briefdescription>
+<para>Linearly combine multiple LoRA adapters for a single output layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Computes the merged weight delta as a weighted sum of the individual ΔW = (B @ A) × scaling contributions, then factorises back to (B&apos;, A&apos;).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapters to merge (all must have the given layer name) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name for the output layer in the returned result </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>in_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input dimension of the layer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output dimension of the layer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rank for the output B&apos; and A&apos; matrices </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>alpha</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LoRA alpha for the output layer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1training_1_1_merge_layer_result" kindref="compound">MergeLayerResult</ref> with merged B and A (in_dim×rank, rank×out_dim) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="104" column="22" bodyfile="src/training/lora_adapter_merger.cpp" bodystart="171" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_merger_1ab564de80bbe78414d4a9701e47d1b20a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_merge_result" kindref="compound">MergeResult</ref></type>
+        <definition>MergeResult themis::training::LoRAAdapterMerger::mergeLinearAll</definition>
+        <argsstring>(const std::vector&lt; const LoRAAdapter * &gt; &amp;adapters, const std::vector&lt; float &gt; &amp;weights, size_t output_rank) const</argsstring>
+        <name>mergeLinearAll</name>
+        <qualifiedname>themis::training::LoRAAdapterMerger::mergeLinearAll</qualifiedname>
+        <param>
+          <type>const std::vector&lt; const <ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref> * &gt; &amp;</type>
+          <declname>adapters</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>output_rank</declname>
+        </param>
+        <briefdescription>
+<para>Linearly merge all layers shared by all given adapters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Iterates over the layer names present in the first adapter and merges each layer that exists in all adapters.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection of adapters to merge (all non-null) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-adapter blend weights (must match adapters.size()) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>output_rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rank for all output layers </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1training_1_1_merge_result" kindref="compound">MergeResult</ref> describing the merged layers </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="122" column="17" bodyfile="src/training/lora_adapter_merger.cpp" bodystart="219" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_merger_1a380c3aacf710adc713f3312de2025b92" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_merge_layer_result" kindref="compound">MergeLayerResult</ref></type>
+        <definition>MergeLayerResult themis::training::LoRAAdapterMerger::mergeTIES</definition>
+        <argsstring>(const std::vector&lt; AdapterDescriptor &gt; &amp;adapters, const std::string &amp;out_layer, size_t in_dim, size_t out_dim, size_t rank, float alpha=8.0f, float trim_threshold=0.2f) const</argsstring>
+        <name>mergeTIES</name>
+        <qualifiedname>themis::training::LoRAAdapterMerger::mergeTIES</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1training_1_1_adapter_descriptor" kindref="compound">AdapterDescriptor</ref> &gt; &amp;</type>
+          <declname>adapters</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>out_layer</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>in_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>out_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rank</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>alpha</declname>
+          <defval>8.0f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>trim_threshold</declname>
+          <defval>0.2f</defval>
+        </param>
+        <briefdescription>
+<para>TIES-merge multiple LoRA adapters for a single output layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements the Trim–Resolve–Merge algorithm on the flattened ΔW matrices. The output B&apos; and A&apos; represent the merged delta refactored to rank 1 (or the requested rank via SVD approximation).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapters to merge </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name for the output layer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>in_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input dimension </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output dimension </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rank for the output matrices </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>alpha</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LoRA alpha </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trim_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fraction of each adapter&apos;s max-abs-value used as the trimming threshold (default: 0.2 → 20%) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1training_1_1_merge_layer_result" kindref="compound">MergeLayerResult</ref> with TIES-merged B and A </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="147" column="22" bodyfile="src/training/lora_adapter_merger.cpp" bodystart="276" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_merger_1a943c650439cf640ebdc72afaaa3f6343" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_merge_result" kindref="compound">MergeResult</ref></type>
+        <definition>MergeResult themis::training::LoRAAdapterMerger::mergeTIESAll</definition>
+        <argsstring>(const std::vector&lt; const LoRAAdapter * &gt; &amp;adapters, size_t output_rank, float trim_threshold=0.2f) const</argsstring>
+        <name>mergeTIESAll</name>
+        <qualifiedname>themis::training::LoRAAdapterMerger::mergeTIESAll</qualifiedname>
+        <param>
+          <type>const std::vector&lt; const <ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref> * &gt; &amp;</type>
+          <declname>adapters</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>output_rank</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>trim_threshold</declname>
+          <defval>0.2f</defval>
+        </param>
+        <briefdescription>
+<para>TIES-merge all layers shared by all given adapters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection of adapters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>output_rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rank for all output layers </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trim_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Trimming threshold fraction (default 0.2) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1training_1_1_merge_result" kindref="compound">MergeResult</ref> describing the merged layers </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="163" column="17" bodyfile="src/training/lora_adapter_merger.cpp" bodystart="395" bodyend="442"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_merger_1aad1d7b4892a73aac21270182fb582838" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::LoRAAdapterMerger::validateMergeInputs</definition>
+        <argsstring>(const std::vector&lt; AdapterDescriptor &gt; &amp;adapters) const</argsstring>
+        <name>validateMergeInputs</name>
+        <qualifiedname>themis::training::LoRAAdapterMerger::validateMergeInputs</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1training_1_1_adapter_descriptor" kindref="compound">AdapterDescriptor</ref> &gt; &amp;</type>
+          <declname>adapters</declname>
+        </param>
+        <briefdescription>
+<para>Validate merge inputs before performing a merge operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks that:<itemizedlist>
+<listitem><para>All adapters are non-null</para>
+</listitem><listitem><para>All adapter descriptors reference valid layers</para>
+</listitem><listitem><para>No dimension mismatches exist</para>
+</listitem><listitem><para>Adapter is not empty (has at least one layer)</para>
+</listitem><listitem><para>Weights are normalized and positive</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection of adapter descriptors to validate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Empty string if valid; otherwise an error message describing the problem </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="184" column="17" bodyfile="src/training/lora_adapter_merger.cpp" bodystart="448" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_adapter_merger_1a7e7b09941fd6aaed0fd5ef3bbc5ab851" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::LoRAAdapterMerger::validateMergeResult</definition>
+        <argsstring>(const MergeResult &amp;result) const</argsstring>
+        <name>validateMergeResult</name>
+        <qualifiedname>themis::training::LoRAAdapterMerger::validateMergeResult</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_merge_result" kindref="compound">MergeResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Phase 2: Validate that a merge result is acceptable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks that:<itemizedlist>
+<listitem><para>Result matrices have correct dimensions</para>
+</listitem><listitem><para>Result matrices contain finite values (no NaN/Inf)</para>
+</listitem><listitem><para>Result is marked successful if all layers passed</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The merge result to validate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the result is valid and can be deployed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="197" column="10" bodyfile="src/training/lora_adapter_merger.cpp" bodystart="482" bodyend="513"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>LoRA adapter merger supporting linear and TIES merge strategies. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage (linear merge): <programlisting><codeline><highlight class="normal">LoRAAdapter<sp/>a1(4,<sp/>8.0f),<sp/>a2(4,<sp/>8.0f);</highlight></codeline>
+<codeline><highlight class="normal">a1.addLayer(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>768,<sp/>768,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline><highlight class="normal">a2.addLayer(</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>768,<sp/>768,<sp/>4,<sp/>8.0f);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>populate<sp/>weights<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter_merger_1a110b70b1499466a32e425e7027240a29" kindref="member">LoRAAdapterMerger</ref><sp/>merger;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>merger.mergeLinear(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>&amp;a1,<sp/></highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>0.6f},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>&amp;a2,<sp/></highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>0.4f}},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>768,<sp/>768,<sp/>4,<sp/>8.0f);</highlight></codeline>
+</programlisting></para>
+<para>Usage (TIES merge): <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>merger.mergeTIES(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>&amp;a1,<sp/></highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>1.0f},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>&amp;a2,<sp/></highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>1.0f}},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;q_proj&quot;</highlight><highlight class="normal">,<sp/>768,<sp/>768,<sp/>4,<sp/>8.0f,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>0.2f);<sp/><sp/></highlight><highlight class="comment">//<sp/>trim_threshold=0.2f</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/training/lora_adapter_merger.h" line="81" column="1" bodyfile="include/training/lora_adapter_merger.h" bodystart="81" bodyend="198"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_merger_1a110b70b1499466a32e425e7027240a29" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapterMerger</scope><name>LoRAAdapterMerger</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_merger_1aa7379c73fe44627ed8aa0333798725b2" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapterMerger</scope><name>mergeLinear</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_merger_1ab564de80bbe78414d4a9701e47d1b20a" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapterMerger</scope><name>mergeLinearAll</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_merger_1a380c3aacf710adc713f3312de2025b92" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapterMerger</scope><name>mergeTIES</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_merger_1a943c650439cf640ebdc72afaaa3f6343" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapterMerger</scope><name>mergeTIESAll</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_merger_1aad1d7b4892a73aac21270182fb582838" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapterMerger</scope><name>validateMergeInputs</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_merger_1a7e7b09941fd6aaed0fd5ef3bbc5ab851" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapterMerger</scope><name>validateMergeResult</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_adapter_merger_1a95302384a6ad0f01ffe172d4e9e15b4e" prot="public" virt="non-virtual"><scope>themis::training::LoRAAdapterMerger</scope><name>~LoRAAdapterMerger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

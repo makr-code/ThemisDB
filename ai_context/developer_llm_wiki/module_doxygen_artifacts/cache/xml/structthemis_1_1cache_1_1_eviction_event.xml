@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_eviction_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::EvictionEvent</compoundname>
+    <includes refid="cache__interfaces_8h" local="no">cache_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_eviction_event_1ad4c19364b78bb6809bf69dc977ead9a7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cache_1a2ab5c1e8c77352e8274a9caaf9767446" kindref="member">EvictionEventType</ref></type>
+        <definition>EvictionEventType themis::cache::EvictionEvent::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::cache::EvictionEvent::type</qualifiedname>
+        <briefdescription>
+<para>What happened. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="37" column="23" bodyfile="include/cache/cache_interfaces.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_eviction_event_1a5869133bf3c349e57caac06e30288f37" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::EvictionEvent::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::cache::EvictionEvent::key</qualifiedname>
+        <briefdescription>
+<para>Affected cache key (never empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="38" column="23" bodyfile="include/cache/cache_interfaces.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_interfaces.h" line="36" column="1" bodyfile="include/cache/cache_interfaces.h" bodystart="36" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_eviction_event_1a5869133bf3c349e57caac06e30288f37" prot="public" virt="non-virtual"><scope>themis::cache::EvictionEvent</scope><name>key</name></member>
+      <member refid="structthemis_1_1cache_1_1_eviction_event_1ad4c19364b78bb6809bf69dc977ead9a7" prot="public" virt="non-virtual"><scope>themis::cache::EvictionEvent</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

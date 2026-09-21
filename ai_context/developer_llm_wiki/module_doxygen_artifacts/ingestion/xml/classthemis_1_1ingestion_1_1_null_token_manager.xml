@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_null_token_manager" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::ingestion::NullTokenManager</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager" prot="public" virt="non-virtual">themis::ingestion::IOAuthTokenManager</basecompoundref>
+    <includes refid="oauth__token__manager_8h" local="no">oauth_token_manager.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_null_token_manager_1a876ca7c47a23ad2b90dd8602d0071c7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::NullTokenManager::NullTokenManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>NullTokenManager</name>
+        <qualifiedname>themis::ingestion::NullTokenManager::NullTokenManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/oauth_token_manager.h" line="154" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_null_token_manager_1a478795f2f01a80334c57507be10fc2e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::NullTokenManager::~NullTokenManager</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~NullTokenManager</name>
+        <qualifiedname>themis::ingestion::NullTokenManager::~NullTokenManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/oauth_token_manager.h" line="155" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_null_token_manager_1af349a1b235d11b924f7b7167e70804a8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::NullTokenManager::getAccessToken</definition>
+        <argsstring>() override</argsstring>
+        <name>getAccessToken</name>
+        <qualifiedname>themis::ingestion::NullTokenManager::getAccessToken</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager_1ad75492fa1af2177cc1fe66f36f35ef5f">getAccessToken</reimplements>
+        <briefdescription>
+<para>Returns the current access token, refreshing if necessary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If the token expires within 60 seconds, a refresh is triggered first.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>OAuthRefreshExpiredError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when the refresh token has expired (401). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on persistent refresh failures. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/oauth_token_manager.h" line="157" column="17" bodyfile="include/ingestion/oauth_token_manager.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_null_token_manager_1ae518d56987fad6515a7465c7221d32e1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::NullTokenManager::refreshToken</definition>
+        <argsstring>() override</argsstring>
+        <name>refreshToken</name>
+        <qualifiedname>themis::ingestion::NullTokenManager::refreshToken</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager_1ab7c9620b6876e6e044fd70af5e893fe8">refreshToken</reimplements>
+        <briefdescription>
+<para>Force an immediate token refresh. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>OAuthRefreshExpiredError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on 401 from the token endpoint. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on persistent failures after retries. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/oauth_token_manager.h" line="158" column="17" bodyfile="include/ingestion/oauth_token_manager.h" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_null_token_manager_1ade6306e51cd8ba4dce6aafbfa9da6346" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::NullTokenManager::getBearerAuthorizationHeader</definition>
+        <argsstring>() override</argsstring>
+        <name>getBearerAuthorizationHeader</name>
+        <qualifiedname>themis::ingestion::NullTokenManager::getBearerAuthorizationHeader</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager_1a1eff227c85a4c9705159c8f15444aad2">getBearerAuthorizationHeader</reimplements>
+        <briefdescription>
+<para>Returns the current access token as a Bearer authorization header value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Format: &quot;Bearer &lt;access_token&gt;&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/oauth_token_manager.h" line="159" column="17" bodyfile="include/ingestion/oauth_token_manager.h" bodystart="159" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>No-op token manager for testing and disabled-auth scenarios. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput><ref refid="classthemis_1_1ingestion_1_1_null_token_manager_1af349a1b235d11b924f7b7167e70804a8" kindref="member">getAccessToken()</ref></computeroutput> always returns an empty string. <computeroutput><ref refid="classthemis_1_1ingestion_1_1_null_token_manager_1ae518d56987fad6515a7465c7221d32e1" kindref="member">refreshToken()</ref></computeroutput> is a no-op. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::ingestion::IOAuthTokenManager</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::NullTokenManager</label>
+        <link refid="classthemis_1_1ingestion_1_1_null_token_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::ingestion::IOAuthTokenManager</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::NullTokenManager</label>
+        <link refid="classthemis_1_1ingestion_1_1_null_token_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/oauth_token_manager.h" line="152" column="1" bodyfile="include/ingestion/oauth_token_manager.h" bodystart="152" bodyend="160"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_null_token_manager_1af349a1b235d11b924f7b7167e70804a8" prot="public" virt="virtual"><scope>themis::ingestion::NullTokenManager</scope><name>getAccessToken</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_null_token_manager_1ade6306e51cd8ba4dce6aafbfa9da6346" prot="public" virt="virtual"><scope>themis::ingestion::NullTokenManager</scope><name>getBearerAuthorizationHeader</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_null_token_manager_1a876ca7c47a23ad2b90dd8602d0071c7d" prot="public" virt="non-virtual"><scope>themis::ingestion::NullTokenManager</scope><name>NullTokenManager</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_null_token_manager_1ae518d56987fad6515a7465c7221d32e1" prot="public" virt="virtual"><scope>themis::ingestion::NullTokenManager</scope><name>refreshToken</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager_1ad7a8d3b46fdb81340d4603e9bec3eb19" prot="public" virt="virtual"><scope>themis::ingestion::NullTokenManager</scope><name>~IOAuthTokenManager</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_null_token_manager_1a478795f2f01a80334c57507be10fc2e1" prot="public" virt="non-virtual"><scope>themis::ingestion::NullTokenManager</scope><name>~NullTokenManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

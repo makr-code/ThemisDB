@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::USBAdminAuthenticator::Metrics</compoundname>
+    <includes refid="usb__admin__authenticator_8h" local="no">usb_admin_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a32da2b342f24c5d5741a4c1fe53ec555" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::USBAdminAuthenticator::Metrics::admin_ops_allowed</definition>
+        <argsstring></argsstring>
+        <name>admin_ops_allowed</name>
+        <qualifiedname>themis::security::USBAdminAuthenticator::Metrics::admin_ops_allowed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="146" column="18" bodyfile="include/security/usb_admin_authenticator.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a78e9d36e59cf60a3e3c1505ff17b266b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::USBAdminAuthenticator::Metrics::admin_ops_denied_no_usb</definition>
+        <argsstring></argsstring>
+        <name>admin_ops_denied_no_usb</name>
+        <qualifiedname>themis::security::USBAdminAuthenticator::Metrics::admin_ops_denied_no_usb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="147" column="18" bodyfile="include/security/usb_admin_authenticator.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a3aa46811f794d56bcb38fc82661b3da2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::USBAdminAuthenticator::Metrics::admin_ops_denied_invalid_license</definition>
+        <argsstring></argsstring>
+        <name>admin_ops_denied_invalid_license</name>
+        <qualifiedname>themis::security::USBAdminAuthenticator::Metrics::admin_ops_denied_invalid_license</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="148" column="18" bodyfile="include/security/usb_admin_authenticator.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a840b3fbccef75d0c7d71f2661534e671" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::USBAdminAuthenticator::Metrics::admin_ops_denied_expired</definition>
+        <argsstring></argsstring>
+        <name>admin_ops_denied_expired</name>
+        <qualifiedname>themis::security::USBAdminAuthenticator::Metrics::admin_ops_denied_expired</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="149" column="18" bodyfile="include/security/usb_admin_authenticator.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ad938c0d3b03e87b11e16142055d3d30c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::USBAdminAuthenticator::Metrics::admin_ops_denied_lockout</definition>
+        <argsstring></argsstring>
+        <name>admin_ops_denied_lockout</name>
+        <qualifiedname>themis::security::USBAdminAuthenticator::Metrics::admin_ops_denied_lockout</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="150" column="18" bodyfile="include/security/usb_admin_authenticator.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ac36a555f3e2f027e5eeedf8a6008f1fe" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::USBAdminAuthenticator::Metrics::usb_mount_checks</definition>
+        <argsstring></argsstring>
+        <name>usb_mount_checks</name>
+        <qualifiedname>themis::security::USBAdminAuthenticator::Metrics::usb_mount_checks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="151" column="18" bodyfile="include/security/usb_admin_authenticator.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a3bb2fe98ae23fab4f3fd16f541d9c2c1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::USBAdminAuthenticator::Metrics::usb_mount_detected</definition>
+        <argsstring></argsstring>
+        <name>usb_mount_detected</name>
+        <qualifiedname>themis::security::USBAdminAuthenticator::Metrics::usb_mount_detected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="152" column="18" bodyfile="include/security/usb_admin_authenticator.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ab7812cfb032067af419a7a388aa01a67" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::USBAdminAuthenticator::Metrics::usb_denied_not_readonly</definition>
+        <argsstring></argsstring>
+        <name>usb_denied_not_readonly</name>
+        <qualifiedname>themis::security::USBAdminAuthenticator::Metrics::usb_denied_not_readonly</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Rejected: filesystem not mounted read-only. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="153" column="18" bodyfile="include/security/usb_admin_authenticator.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ab3dabced5cb746758a20b315afb25844" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::USBAdminAuthenticator::Metrics::usb_denied_volume_hash_mismatch</definition>
+        <argsstring></argsstring>
+        <name>usb_denied_volume_hash_mismatch</name>
+        <qualifiedname>themis::security::USBAdminAuthenticator::Metrics::usb_denied_volume_hash_mismatch</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Rejected: FAT-level file tampering detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="154" column="18" bodyfile="include/security/usb_admin_authenticator.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ab9b6ef63c9f32fc472e126cbbea23693" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::USBAdminAuthenticator::Metrics::usb_denied_serial_mismatch</definition>
+        <argsstring></argsstring>
+        <name>usb_denied_serial_mismatch</name>
+        <qualifiedname>themis::security::USBAdminAuthenticator::Metrics::usb_denied_serial_mismatch</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Rejected: cloned USB device detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="155" column="18" bodyfile="include/security/usb_admin_authenticator.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ae912ff064e89884273f9d076d12f4cac" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::security::USBAdminAuthenticator::Metrics::last_valid_check</definition>
+        <argsstring></argsstring>
+        <name>last_valid_check</name>
+        <qualifiedname>themis::security::USBAdminAuthenticator::Metrics::last_valid_check</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="156" column="47" bodyfile="include/security/usb_admin_authenticator.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Get metrics for monitoring. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/usb_admin_authenticator.h" line="145" column="5" bodyfile="include/security/usb_admin_authenticator.h" bodystart="145" bodyend="157"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a32da2b342f24c5d5741a4c1fe53ec555" prot="public" virt="non-virtual"><scope>themis::security::USBAdminAuthenticator::Metrics</scope><name>admin_ops_allowed</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a840b3fbccef75d0c7d71f2661534e671" prot="public" virt="non-virtual"><scope>themis::security::USBAdminAuthenticator::Metrics</scope><name>admin_ops_denied_expired</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a3aa46811f794d56bcb38fc82661b3da2" prot="public" virt="non-virtual"><scope>themis::security::USBAdminAuthenticator::Metrics</scope><name>admin_ops_denied_invalid_license</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ad938c0d3b03e87b11e16142055d3d30c" prot="public" virt="non-virtual"><scope>themis::security::USBAdminAuthenticator::Metrics</scope><name>admin_ops_denied_lockout</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a78e9d36e59cf60a3e3c1505ff17b266b" prot="public" virt="non-virtual"><scope>themis::security::USBAdminAuthenticator::Metrics</scope><name>admin_ops_denied_no_usb</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ae912ff064e89884273f9d076d12f4cac" prot="public" virt="non-virtual"><scope>themis::security::USBAdminAuthenticator::Metrics</scope><name>last_valid_check</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ab7812cfb032067af419a7a388aa01a67" prot="public" virt="non-virtual"><scope>themis::security::USBAdminAuthenticator::Metrics</scope><name>usb_denied_not_readonly</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ab9b6ef63c9f32fc472e126cbbea23693" prot="public" virt="non-virtual"><scope>themis::security::USBAdminAuthenticator::Metrics</scope><name>usb_denied_serial_mismatch</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ab3dabced5cb746758a20b315afb25844" prot="public" virt="non-virtual"><scope>themis::security::USBAdminAuthenticator::Metrics</scope><name>usb_denied_volume_hash_mismatch</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1ac36a555f3e2f027e5eeedf8a6008f1fe" prot="public" virt="non-virtual"><scope>themis::security::USBAdminAuthenticator::Metrics</scope><name>usb_mount_checks</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_authenticator_1_1_metrics_1a3bb2fe98ae23fab4f3fd16f541d9c2c1" prot="public" virt="non-virtual"><scope>themis::security::USBAdminAuthenticator::Metrics</scope><name>usb_mount_detected</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

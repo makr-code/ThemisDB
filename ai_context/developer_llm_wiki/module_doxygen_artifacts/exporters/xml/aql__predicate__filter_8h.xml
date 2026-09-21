@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="aql__predicate__filter_8h" kind="file" language="C++">
+    <compoundname>aql_predicate_filter.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includedby refid="aql__predicate__filter_8cpp" local="yes">src/exporters/aql_predicate_filter.cpp</includedby>
+    <includedby refid="incremental__exporter_8cpp" local="yes">src/exporters/incremental_exporter.cpp</includedby>
+    <includedby refid="join__exporter_8cpp" local="yes">src/exporters/join_exporter.cpp</includedby>
+    <includedby refid="jsonl__llm__exporter_8cpp" local="yes">src/exporters/jsonl_llm_exporter.cpp</includedby>
+    <includedby refid="parquet__exporter_8cpp" local="yes">src/exporters/parquet_exporter.cpp</includedby>
+    <includedby refid="streaming__exporter_8cpp" local="yes">src/exporters/streaming_exporter.cpp</includedby>
+    <includedby refid="test__aql__predicate__filter_8cpp" local="yes">tests/exporters/test_aql_predicate_filter.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/exporters/aql_predicate_filter.h</label>
+        <link refid="aql__predicate__filter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>stdexcept</label>
+      </node>
+      <node id="6">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/exporters/aql_predicate_filter.h</label>
+        <link refid="aql__predicate__filter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/exporters/aql_predicate_filter.cpp</label>
+        <link refid="aql__predicate__filter_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/exporters/incremental_exporter.cpp</label>
+        <link refid="incremental__exporter_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/exporters/join_exporter.cpp</label>
+        <link refid="join__exporter_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/exporters/jsonl_llm_exporter.cpp</label>
+        <link refid="jsonl__llm__exporter_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/exporters/parquet_exporter.cpp</label>
+        <link refid="parquet__exporter_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/exporters/streaming_exporter.cpp</label>
+        <link refid="streaming__exporter_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/exporters/test_aql_predicate_filter.cpp</label>
+        <link refid="test__aql__predicate__filter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1exporters_1_1_aql_predicate_filter_exception" prot="public">themis::exporters::AqlPredicateFilterException</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_aql_predicate_filter" prot="public">themis::exporters::AqlPredicateFilter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <innernamespace refid="namespacethemis_1_1exporters">themis::exporters</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22" refid="namespacethemis_1_1query" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">FilterNode;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1exporters" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1exporters" kindref="compound">themis::exporters</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1exporters_1_1_aql_predicate_filter_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_exception_1a8d55a9de8ccaac9f2fa91e6423d6f72a" kindref="member">AqlPredicateFilterException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1exporters_1_1_aql_predicate_filter_exception_1a8d55a9de8ccaac9f2fa91e6423d6f72a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_exception_1a8d55a9de8ccaac9f2fa91e6423d6f72a" kindref="member">AqlPredicateFilterException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>msg)</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(msg)<sp/>{}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1exporters_1_1_aql_predicate_filter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a07a4be1fbbfc92ba459f4e03ab42bd9d" kindref="member">AqlPredicateFilter</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a07a4be1fbbfc92ba459f4e03ab42bd9d" kindref="member">AqlPredicateFilter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>predicate);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a6cb4ab9acbd41874478124f25a71af91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a6cb4ab9acbd41874478124f25a71af91" kindref="member">~AqlPredicateFilter</ref>();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a518b39c1d86d8358245552b5d1c3d422" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a518b39c1d86d8358245552b5d1c3d422" kindref="member">AqlPredicateFilter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a07a4be1fbbfc92ba459f4e03ab42bd9d" kindref="member">AqlPredicateFilter</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1add0d72d4107bad0022fb4b2ea0b3a570" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a07a4be1fbbfc92ba459f4e03ab42bd9d" kindref="member">AqlPredicateFilter</ref>&amp;<sp/><ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1add0d72d4107bad0022fb4b2ea0b3a570" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a07a4be1fbbfc92ba459f4e03ab42bd9d" kindref="member">AqlPredicateFilter</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a682aa50d9538b19c02c26c06fc67e703" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a682aa50d9538b19c02c26c06fc67e703" kindref="member">AqlPredicateFilter</ref>(<ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a07a4be1fbbfc92ba459f4e03ab42bd9d" kindref="member">AqlPredicateFilter</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1aac9da883ff278b6afb76c4422b871d6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a07a4be1fbbfc92ba459f4e03ab42bd9d" kindref="member">AqlPredicateFilter</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a07a4be1fbbfc92ba459f4e03ab42bd9d" kindref="member">AqlPredicateFilter</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a99964fc9b11e2160e189ab7042ca4bbb" kindref="member">evaluate</ref>(const<sp/>BaseEntity&amp;<sp/>entity)<sp/>const;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a456862ca76a6b3b9407b8d0b722e0889" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a456862ca76a6b3b9407b8d0b722e0889" kindref="member">getPredicate</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>predicate_;<sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>predicate_;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;themis::query::FilterNode&gt;&gt;<sp/>filter_nodes_;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::exporters</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/exporters/aql_predicate_filter.h"/>
+  </compounddef>
+</doxygen>

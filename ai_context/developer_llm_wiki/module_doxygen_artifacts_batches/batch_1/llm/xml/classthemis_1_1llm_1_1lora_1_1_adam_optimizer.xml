@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::AdamOptimizer</compoundname>
+    <includes refid="lora__layers_8h" local="no">lora_layers.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a66c13ea8b9702d9fde514664a4749000" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::AdamOptimizer::learning_rate_</definition>
+        <argsstring></argsstring>
+        <name>learning_rate_</name>
+        <qualifiedname>themis::llm::lora::AdamOptimizer::learning_rate_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="331" column="11" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a96cbf949f77b10558d3944cecc5984f6" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::AdamOptimizer::beta1_</definition>
+        <argsstring></argsstring>
+        <name>beta1_</name>
+        <qualifiedname>themis::llm::lora::AdamOptimizer::beta1_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="332" column="11" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a21399ca3fe46f14c8d1229e6ff865644" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::AdamOptimizer::beta2_</definition>
+        <argsstring></argsstring>
+        <name>beta2_</name>
+        <qualifiedname>themis::llm::lora::AdamOptimizer::beta2_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="333" column="11" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a9f04cfd3a0a0b2321d205b8ec8849f49" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::AdamOptimizer::epsilon_</definition>
+        <argsstring></argsstring>
+        <name>epsilon_</name>
+        <qualifiedname>themis::llm::lora::AdamOptimizer::epsilon_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="334" column="11" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a47f5fa167367463c1d9e8fe10ab6af68" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::AdamOptimizer::weight_decay_</definition>
+        <argsstring></argsstring>
+        <name>weight_decay_</name>
+        <qualifiedname>themis::llm::lora::AdamOptimizer::weight_decay_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="335" column="11" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1ab0433cfe5d46ddc786cc97b5a246a8b6" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::AdamOptimizer::step_count_</definition>
+        <argsstring></argsstring>
+        <name>step_count_</name>
+        <qualifiedname>themis::llm::lora::AdamOptimizer::step_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="336" column="9" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a797f7fbb715779114dd9bd5c23f0663a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt;</type>
+        <definition>std::vector&lt;Tensor*&gt; themis::llm::lora::AdamOptimizer::parameters_</definition>
+        <argsstring></argsstring>
+        <name>parameters_</name>
+        <qualifiedname>themis::llm::lora::AdamOptimizer::parameters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="337" column="17" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a5061395c5493390195a7bf71984afb23" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> *, <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> &gt;</type>
+        <definition>std::unordered_map&lt;Tensor*, Tensor&gt; themis::llm::lora::AdamOptimizer::m_buffers_</definition>
+        <argsstring></argsstring>
+        <name>m_buffers_</name>
+        <qualifiedname>themis::llm::lora::AdamOptimizer::m_buffers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="340" column="24" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a0807a87b005e31ec188a79de57bc076a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> *, <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> &gt;</type>
+        <definition>std::unordered_map&lt;Tensor*, Tensor&gt; themis::llm::lora::AdamOptimizer::v_buffers_</definition>
+        <argsstring></argsstring>
+        <name>v_buffers_</name>
+        <qualifiedname>themis::llm::lora::AdamOptimizer::v_buffers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="343" column="24" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1ab7c1acb9ede99564bce7148ec9dee57c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::AdamOptimizer::~AdamOptimizer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AdamOptimizer</name>
+        <qualifiedname>themis::llm::lora::AdamOptimizer::~AdamOptimizer</qualifiedname>
+        <briefdescription>
+<para>Adam Optimizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="295" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a4cc1338bbd5f53dab441670b39732703" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::AdamOptimizer::AdamOptimizer</definition>
+        <argsstring>(float learning_rate=1e-4f, float beta1=0.9f, float beta2=0.999f, float epsilon=1e-8f, float weight_decay=0.0f)</argsstring>
+        <name>AdamOptimizer</name>
+        <qualifiedname>themis::llm::lora::AdamOptimizer::AdamOptimizer</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>learning_rate</declname>
+          <defval>1e-4f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>beta1</declname>
+          <defval>0.9f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>beta2</declname>
+          <defval>0.999f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>epsilon</declname>
+          <defval>1e-8f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>weight_decay</declname>
+          <defval>0.0f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="296" column="14" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="726" bodyend="735"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a48124672dc4ece01ffc8aa640ff9d73b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::AdamOptimizer::add_parameters</definition>
+        <argsstring>(const std::vector&lt; Tensor * &gt; &amp;params)</argsstring>
+        <name>add_parameters</name>
+        <qualifiedname>themis::llm::lora::AdamOptimizer::add_parameters</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt; &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Register parameters to optimize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add parameters.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: insert(), end(), begin(), spdlog::debug(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="308" column="10" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="742" bodyend="746"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a2862a71afd7c1c8aef0e5a3f51b72e99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::AdamOptimizer::step</definition>
+        <argsstring>()</argsstring>
+        <name>step</name>
+        <qualifiedname>themis::llm::lora::AdamOptimizer::step</qualifiedname>
+        <briefdescription>
+<para>Perform optimization step (update parameters using gradients). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Step.</para>
+<para>Calls: std::pow(), themis::utils::conversion::clamp_double_to_float(), themis::utils::conversion::safe_size_to_int32(), find(), end(), Tensor(), shape(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="313" column="10" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="752" bodyend="809"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1aa1a86567db757a081068ac7e2447fdc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::AdamOptimizer::zero_grad</definition>
+        <argsstring>()</argsstring>
+        <name>zero_grad</name>
+        <qualifiedname>themis::llm::lora::AdamOptimizer::zero_grad</qualifiedname>
+        <briefdescription>
+<para>Zero out all gradients. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Zero grad.</para>
+<para>Calls: zero(), spdlog::debug(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="318" column="10" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="815" bodyend="824"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a60a43dd4fdaa973a8f01e6d5b5eb9b26" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::AdamOptimizer::learning_rate</definition>
+        <argsstring>() const</argsstring>
+        <name>learning_rate</name>
+        <qualifiedname>themis::llm::lora::AdamOptimizer::learning_rate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="321" column="11" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="321" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1ac7133c9bdff8b698a5fbb71fdcd7b7ec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::AdamOptimizer::set_learning_rate</definition>
+        <argsstring>(float lr)</argsstring>
+        <name>set_learning_rate</name>
+        <qualifiedname>themis::llm::lora::AdamOptimizer::set_learning_rate</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>lr</declname>
+        </param>
+        <briefdescription>
+<para>Set learning rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_learning_rate without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="327" column="10" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="327" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1ac9e4e5c6df89efa3b212318533f2a7b6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::lora::AdamOptimizer::step_count</definition>
+        <argsstring>() const</argsstring>
+        <name>step_count</name>
+        <qualifiedname>themis::llm::lora::AdamOptimizer::step_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="328" column="9" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="328" bodyend="328"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_layers.h" line="289" column="1" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="289" bodyend="344"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a4cc1338bbd5f53dab441670b39732703" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdamOptimizer</scope><name>AdamOptimizer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a48124672dc4ece01ffc8aa640ff9d73b" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdamOptimizer</scope><name>add_parameters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a96cbf949f77b10558d3944cecc5984f6" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdamOptimizer</scope><name>beta1_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a21399ca3fe46f14c8d1229e6ff865644" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdamOptimizer</scope><name>beta2_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a9f04cfd3a0a0b2321d205b8ec8849f49" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdamOptimizer</scope><name>epsilon_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a60a43dd4fdaa973a8f01e6d5b5eb9b26" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdamOptimizer</scope><name>learning_rate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a66c13ea8b9702d9fde514664a4749000" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdamOptimizer</scope><name>learning_rate_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a5061395c5493390195a7bf71984afb23" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdamOptimizer</scope><name>m_buffers_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a797f7fbb715779114dd9bd5c23f0663a" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdamOptimizer</scope><name>parameters_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1ac7133c9bdff8b698a5fbb71fdcd7b7ec" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdamOptimizer</scope><name>set_learning_rate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a2862a71afd7c1c8aef0e5a3f51b72e99" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdamOptimizer</scope><name>step</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1ac9e4e5c6df89efa3b212318533f2a7b6" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdamOptimizer</scope><name>step_count</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1ab0433cfe5d46ddc786cc97b5a246a8b6" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdamOptimizer</scope><name>step_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a0807a87b005e31ec188a79de57bc076a" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdamOptimizer</scope><name>v_buffers_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1a47f5fa167367463c1d9e8fe10ab6af68" prot="private" virt="non-virtual"><scope>themis::llm::lora::AdamOptimizer</scope><name>weight_decay_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1aa1a86567db757a081068ac7e2447fdc8" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdamOptimizer</scope><name>zero_grad</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_adam_optimizer_1ab7c1acb9ede99564bce7148ec9dee57c" prot="public" virt="virtual"><scope>themis::llm::lora::AdamOptimizer</scope><name>~AdamOptimizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

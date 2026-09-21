@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::TensorRouter::RouterStats</compoundname>
+    <includes refid="tensor__router_8h" local="no">tensor_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1ae77ceee0595d73942117be209d0bff4c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::TensorRouter::RouterStats::total_decisions</definition>
+        <argsstring></argsstring>
+        <name>total_decisions</name>
+        <qualifiedname>themis::storage::TensorRouter::RouterStats::total_decisions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="314" column="21" bodyfile="include/storage/tensor_router.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1a75da5920a369b791936935f9f9d9ca79" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::TensorRouter::RouterStats::lift_decisions</definition>
+        <argsstring></argsstring>
+        <name>lift_decisions</name>
+        <qualifiedname>themis::storage::TensorRouter::RouterStats::lift_decisions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="315" column="21" bodyfile="include/storage/tensor_router.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1a10c96ff0df1cb5af1c65f629334534e1" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::TensorRouter::RouterStats::hybrid_decisions</definition>
+        <argsstring></argsstring>
+        <name>hybrid_decisions</name>
+        <qualifiedname>themis::storage::TensorRouter::RouterStats::hybrid_decisions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="316" column="21" bodyfile="include/storage/tensor_router.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1a670ef71fbb82f40919accd54afe90422" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::TensorRouter::RouterStats::keep_decisions</definition>
+        <argsstring></argsstring>
+        <name>keep_decisions</name>
+        <qualifiedname>themis::storage::TensorRouter::RouterStats::keep_decisions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="317" column="21" bodyfile="include/storage/tensor_router.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1aebf5ee462985b0e9598d44abcdbe8d24" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::TensorRouter::RouterStats::avg_pilot_ratio</definition>
+        <argsstring></argsstring>
+        <name>avg_pilot_ratio</name>
+        <qualifiedname>themis::storage::TensorRouter::RouterStats::avg_pilot_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="318" column="21" bodyfile="include/storage/tensor_router.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1a0ba37b4529f3f580d301045f4e156891" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::TensorRouter::RouterStats::avg_decision_us</definition>
+        <argsstring></argsstring>
+        <name>avg_decision_us</name>
+        <qualifiedname>themis::storage::TensorRouter::RouterStats::avg_decision_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="319" column="21" bodyfile="include/storage/tensor_router.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/tensor_router.h" line="313" column="5" bodyfile="include/storage/tensor_router.h" bodystart="313" bodyend="320"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1a0ba37b4529f3f580d301045f4e156891" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::RouterStats</scope><name>avg_decision_us</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1aebf5ee462985b0e9598d44abcdbe8d24" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::RouterStats</scope><name>avg_pilot_ratio</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1a10c96ff0df1cb5af1c65f629334534e1" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::RouterStats</scope><name>hybrid_decisions</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1a670ef71fbb82f40919accd54afe90422" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::RouterStats</scope><name>keep_decisions</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1a75da5920a369b791936935f9f9d9ca79" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::RouterStats</scope><name>lift_decisions</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats_1ae77ceee0595d73942117be209d0bff4c" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::RouterStats</scope><name>total_decisions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

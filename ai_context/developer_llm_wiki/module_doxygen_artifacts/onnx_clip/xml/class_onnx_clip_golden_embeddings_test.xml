@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_onnx_clip_golden_embeddings_test" kind="class" language="C++" prot="public">
+    <compoundname>OnnxClipGoldenEmbeddingsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_onnx_clip_golden_embeddings_test_1afba829540f812034fa1904c695a70b8e" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; OnnxClipGoldenEmbeddingsTest::makeImageBytes</definition>
+        <argsstring>(size_t size=kDefaultImageSize, uint32_t seed=kClipGoldenSeed) const</argsstring>
+        <name>makeImageBytes</name>
+        <qualifiedname>OnnxClipGoldenEmbeddingsTest::makeImageBytes</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+          <defval>kDefaultImageSize</defval>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>seed</declname>
+          <defval>kClipGoldenSeed</defval>
+        </param>
+        <briefdescription>
+<para>Generate deterministic pseudo-random image bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses a linear congruential generator (LCG) to produce reproducible image data. The seed parameter allows different images to be generated while maintaining determinism.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to generate (default: 256) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Random seed for LCG (default: kClipGoldenSeed) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of pseudo-random image bytes </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="60" column="17" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="60" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_onnx_clip_golden_embeddings_test_1a73e57bb3fd67f0e8fd0f15412bff23c0" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double OnnxClipGoldenEmbeddingsTest::computeL2Norm</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;embedding) const</argsstring>
+        <name>computeL2Norm</name>
+        <qualifiedname>OnnxClipGoldenEmbeddingsTest::computeL2Norm</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+<para>Compute L2 norm of an embedding vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>L2 norm is sqrt(sum(v[i]^2)). For normalized embeddings, this should be approximately 1.0.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of floating-point embedding components </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>L2 norm (should be ≈ 1.0 for normalized embeddings) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="83" column="12" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="83" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="class_onnx_clip_golden_embeddings_test_1a531b08cf5e0136900ee96e4c3ecc7534" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double OnnxClipGoldenEmbeddingsTest::computeL2Distance</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, const std::vector&lt; float &gt; &amp;b) const</argsstring>
+        <name>computeL2Distance</name>
+        <qualifiedname>OnnxClipGoldenEmbeddingsTest::computeL2Distance</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Compute L2 distance between two embedding vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>L2 distance = sqrt(sum((a[i] - b[i])^2)). Used to verify that identical inputs produce identical embeddings.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First embedding vector </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second embedding vector </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>L2 distance (should be 0 for identical embeddings, &lt; 1e-6 for reproducibility) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="102" column="12" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="102" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="class_onnx_clip_golden_embeddings_test_1adc9def8c499c70b109957c30ff272f4e" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool OnnxClipGoldenEmbeddingsTest::isL2Normalized</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;embedding) const</argsstring>
+        <name>isL2Normalized</name>
+        <qualifiedname>OnnxClipGoldenEmbeddingsTest::isL2Normalized</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+<para>Check if an embedding is properly L2-normalized. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>An embedding is considered normalized if its L2 norm is approximately 1.0 (within kL2NormTolerance).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Embedding vector to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if norm is approximately 1.0, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="126" column="10" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="126" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="class_onnx_clip_golden_embeddings_test_1a5decc0bfbd0a1d194126e58337d03f1b" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>PluginConfig</type>
+        <definition>PluginConfig OnnxClipGoldenEmbeddingsTest::makeViTB32Config</definition>
+        <argsstring>() const</argsstring>
+        <name>makeViTB32Config</name>
+        <qualifiedname>OnnxClipGoldenEmbeddingsTest::makeViTB32Config</qualifiedname>
+        <briefdescription>
+<para>Create a PluginConfig for ViT-B/32 (512-dimensional). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>PluginConfig with ViT-B/32 settings </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="136" column="18" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="136" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="class_onnx_clip_golden_embeddings_test_1a9aa02933a8b4889cdd406b674ab7ad36" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>PluginConfig</type>
+        <definition>PluginConfig OnnxClipGoldenEmbeddingsTest::makeViTL14Config</definition>
+        <argsstring>() const</argsstring>
+        <name>makeViTL14Config</name>
+        <qualifiedname>OnnxClipGoldenEmbeddingsTest::makeViTL14Config</qualifiedname>
+        <briefdescription>
+<para>Create a PluginConfig for ViT-L/14 (768-dimensional). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>PluginConfig with ViT-L/14 settings </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="148" column="18" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="148" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="class_onnx_clip_golden_embeddings_test_1a5e8ab3b09eb3772539ed56d939ed98ef" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool OnnxClipGoldenEmbeddingsTest::compareBatchVsSequential</definition>
+        <argsstring>(ONNXClipPlugin &amp;plugin, const std::vector&lt; uint32_t &gt; &amp;imageSeeds, double tolerance=kReproducibilityTolerance) const</argsstring>
+        <name>compareBatchVsSequential</name>
+        <qualifiedname>OnnxClipGoldenEmbeddingsTest::compareBatchVsSequential</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref> &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>imageSeeds</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>tolerance</declname>
+          <defval>kReproducibilityTolerance</defval>
+        </param>
+        <briefdescription>
+<para>Compare batch embedding generation with sequential generation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Helper method for OCP-IT-09 and OCP-IT-10. Verifies that generating N images in a batch produces identical results to generating them sequentially with N separate calls.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ONNX CLIP plugin instance (must be initialized) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>imageSeeds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of seeds for generating test images </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tolerance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>L2 distance tolerance for comparison (default: 1e-6) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if all batch results match sequential results, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="167" column="10" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="167" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="class_onnx_clip_golden_embeddings_test_1af18547c946eccc3eaf79f1981ecd3ec8" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool OnnxClipGoldenEmbeddingsTest::verifyConcurrentInference</definition>
+        <argsstring>(ONNXClipPlugin &amp;plugin, int threadCount=4, int imagesPerThread=2) const</argsstring>
+        <name>verifyConcurrentInference</name>
+        <qualifiedname>OnnxClipGoldenEmbeddingsTest::verifyConcurrentInference</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref> &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>threadCount</declname>
+          <defval>4</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>imagesPerThread</declname>
+          <defval>2</defval>
+        </param>
+        <briefdescription>
+<para>Verify concurrent inference safety. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Helper method for OCP-IT-12. Spawns N concurrent threads, each generating embeddings, and verifies that all operations complete without race conditions or data corruption.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ONNX CLIP plugin instance (must be initialized) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>threadCount</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of concurrent threads to spawn </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>imagesPerThread</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of images each thread should process </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if all threads completed successfully with correct results, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="228" column="10" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="228" bodyend="293"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Golden embeddings test fixture. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides helper methods for generating deterministic test data and validating embedding properties (normalization, dimensionality, etc.). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>OnnxClipGoldenEmbeddingsTest</label>
+        <link refid="class_onnx_clip_golden_embeddings_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>OnnxClipGoldenEmbeddingsTest</label>
+        <link refid="class_onnx_clip_golden_embeddings_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="47" column="1" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="47" bodyend="294"/>
+    <listofallmembers>
+      <member refid="class_onnx_clip_golden_embeddings_test_1a5e8ab3b09eb3772539ed56d939ed98ef" prot="protected" virt="non-virtual"><scope>OnnxClipGoldenEmbeddingsTest</scope><name>compareBatchVsSequential</name></member>
+      <member refid="class_onnx_clip_golden_embeddings_test_1a531b08cf5e0136900ee96e4c3ecc7534" prot="protected" virt="non-virtual"><scope>OnnxClipGoldenEmbeddingsTest</scope><name>computeL2Distance</name></member>
+      <member refid="class_onnx_clip_golden_embeddings_test_1a73e57bb3fd67f0e8fd0f15412bff23c0" prot="protected" virt="non-virtual"><scope>OnnxClipGoldenEmbeddingsTest</scope><name>computeL2Norm</name></member>
+      <member refid="class_onnx_clip_golden_embeddings_test_1adc9def8c499c70b109957c30ff272f4e" prot="protected" virt="non-virtual"><scope>OnnxClipGoldenEmbeddingsTest</scope><name>isL2Normalized</name></member>
+      <member refid="class_onnx_clip_golden_embeddings_test_1afba829540f812034fa1904c695a70b8e" prot="protected" virt="non-virtual"><scope>OnnxClipGoldenEmbeddingsTest</scope><name>makeImageBytes</name></member>
+      <member refid="class_onnx_clip_golden_embeddings_test_1a5decc0bfbd0a1d194126e58337d03f1b" prot="protected" virt="non-virtual"><scope>OnnxClipGoldenEmbeddingsTest</scope><name>makeViTB32Config</name></member>
+      <member refid="class_onnx_clip_golden_embeddings_test_1a9aa02933a8b4889cdd406b674ab7ad36" prot="protected" virt="non-virtual"><scope>OnnxClipGoldenEmbeddingsTest</scope><name>makeViTL14Config</name></member>
+      <member refid="class_onnx_clip_golden_embeddings_test_1af18547c946eccc3eaf79f1981ecd3ec8" prot="protected" virt="non-virtual"><scope>OnnxClipGoldenEmbeddingsTest</scope><name>verifyConcurrentInference</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

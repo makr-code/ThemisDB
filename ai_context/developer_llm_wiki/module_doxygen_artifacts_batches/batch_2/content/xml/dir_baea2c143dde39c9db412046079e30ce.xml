@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_baea2c143dde39c9db412046079e30ce" kind="dir">
+    <compoundname>tests/content</compoundname>
+    <innerfile refid="test__adapter__scope__validation_8cpp">test_adapter_scope_validation.cpp</innerfile>
+    <innerfile refid="test__archive__processor__validation_8cpp">test_archive_processor_validation.cpp</innerfile>
+    <innerfile refid="test__cmt__fin__doxygen__headers__validation_8cpp">test_cmt_fin_doxygen_headers_validation.cpp</innerfile>
+    <innerfile refid="test__content__audio__processor_8cpp">test_content_audio_processor.cpp</innerfile>
+    <innerfile refid="test__content__con007__con012__remediations_8cpp">test_content_con007_con012_remediations.cpp</innerfile>
+    <innerfile refid="test__content__contract__hardening__focused_8cpp">test_content_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__content__deduplication_8cpp">test_content_deduplication.cpp</innerfile>
+    <innerfile refid="test__content__docs__linkset__validation_8cpp">test_content_docs_linkset_validation.cpp</innerfile>
+    <innerfile refid="test__content__embedding__pipeline_8cpp">test_content_embedding_pipeline.cpp</innerfile>
+    <innerfile refid="test__content__errors_8cpp">test_content_errors.cpp</innerfile>
+    <innerfile refid="test__content__features_8cpp">test_content_features.cpp</innerfile>
+    <innerfile refid="test__content__fs_8cpp">test_content_fs.cpp</innerfile>
+    <innerfile refid="test__content__fulltext__index_8cpp">test_content_fulltext_index.cpp</innerfile>
+    <innerfile refid="test__content__html__processor_8cpp">test_content_html_processor.cpp</innerfile>
+    <innerfile refid="test__content__language__detector_8cpp">test_content_language_detector.cpp</innerfile>
+    <innerfile refid="test__content__logger_8cpp">test_content_logger.cpp</innerfile>
+    <innerfile refid="test__content__markdown__processor_8cpp">test_content_markdown_processor.cpp</innerfile>
+    <innerfile refid="test__content__metrics_8cpp">test_content_metrics.cpp</innerfile>
+    <innerfile refid="test__content__pipeline_8cpp">test_content_pipeline.cpp</innerfile>
+    <innerfile refid="test__content__pipeline__hardening_8cpp">test_content_pipeline_hardening.cpp</innerfile>
+    <innerfile refid="test__content__policy_8cpp">test_content_policy.cpp</innerfile>
+    <innerfile refid="test__content__policy__manual_8cpp">test_content_policy_manual.cpp</innerfile>
+    <innerfile refid="test__content__processor__chain_8cpp">test_content_processor_chain.cpp</innerfile>
+    <innerfile refid="test__content__security_8cpp">test_content_security.cpp</innerfile>
+    <innerfile refid="test__content__soak_8cpp">test_content_soak.cpp</innerfile>
+    <innerfile refid="test__content__streaming__ingestion_8cpp">test_content_streaming_ingestion.cpp</innerfile>
+    <innerfile refid="test__content__toolbox__bridge_8cpp">test_content_toolbox_bridge.cpp</innerfile>
+    <innerfile refid="test__content__version__manager_8cpp">test_content_version_manager.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/content/"/>
+  </compounddef>
+</doxygen>

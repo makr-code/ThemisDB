@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_model_router_1_1_compiled_rule" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::ModelRouter::CompiledRule</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_router_1_1_compiled_rule_1a9f1bf15e846fab095aef1003f6342f26" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_routing_rule" kindref="compound">RoutingRule</ref></type>
+        <definition>RoutingRule themis::llm::ModelRouter::CompiledRule::rule</definition>
+        <argsstring></argsstring>
+        <name>rule</name>
+        <qualifiedname>themis::llm::ModelRouter::CompiledRule::rule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="99" column="33" bodyfile="include/llm/model_router.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_router_1_1_compiled_rule_1a1bfcdaf5e68f286be72c4104432f1ada" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::regex &gt;</type>
+        <definition>std::vector&lt;std::regex&gt; themis::llm::ModelRouter::CompiledRule::compiled_patterns</definition>
+        <argsstring></argsstring>
+        <name>compiled_patterns</name>
+        <qualifiedname>themis::llm::ModelRouter::CompiledRule::compiled_patterns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="100" column="21" bodyfile="include/llm/model_router.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::ModelRouter::CompiledRule</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>rule</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::RoutingRule</label>
+        <link refid="structthemis_1_1llm_1_1_routing_rule"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/model_router.h" line="98" column="5" bodyfile="include/llm/model_router.h" bodystart="98" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_model_router_1_1_compiled_rule_1a1bfcdaf5e68f286be72c4104432f1ada" prot="public" virt="non-virtual"><scope>themis::llm::ModelRouter::CompiledRule</scope><name>compiled_patterns</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_router_1_1_compiled_rule_1a9f1bf15e846fab095aef1003f6342f26" prot="public" virt="non-virtual"><scope>themis::llm::ModelRouter::CompiledRule</scope><name>rule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

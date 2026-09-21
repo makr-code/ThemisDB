@@ -1,0 +1,346 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="network__api__contract_8h" kind="file" language="C++">
+    <compoundname>network_api_contract.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__network__protocol__path_8cpp" local="yes">benchmarks/network/bench_network_protocol_path.cpp</includedby>
+    <includedby refid="bench__network__release__gates_8cpp" local="yes">benchmarks/network/bench_network_release_gates.cpp</includedby>
+    <includedby refid="bench__network__routing__gates_8cpp" local="yes">benchmarks/network/bench_network_routing_gates.cpp</includedby>
+    <includedby refid="test__network__contract__hardening__focused_8cpp" local="yes">tests/network/test_network_contract_hardening_focused.cpp</includedby>
+    <includedby refid="test__network__hardening__phase2__focused_8cpp" local="yes">tests/network/test_network_hardening_phase2_focused.cpp</includedby>
+    <includedby refid="test__network__highcardinality__stress_8cpp" local="yes">tests/network/test_network_highcardinality_stress.cpp</includedby>
+    <includedby refid="test__network__lifecycle__guardrails__focused_8cpp" local="yes">tests/network/test_network_lifecycle_guardrails_focused.cpp</includedby>
+    <includedby refid="test__network__routing__hardening__focused_8cpp" local="yes">tests/network/test_network_routing_hardening_focused.cpp</includedby>
+    <includedby refid="test__network__transport__resilience__focused_8cpp" local="yes">tests/network/test_network_transport_resilience_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/network/network_api_contract.h</label>
+        <link refid="network__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/network/bench_network_protocol_path.cpp</label>
+        <link refid="bench__network__protocol__path_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/network/bench_network_release_gates.cpp</label>
+        <link refid="bench__network__release__gates_8cpp"/>
+      </node>
+      <node id="4">
+        <label>benchmarks/network/bench_network_routing_gates.cpp</label>
+        <link refid="bench__network__routing__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/network/network_api_contract.h</label>
+        <link refid="network__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>tests/network/test_network_contract_hardening_focused.cpp</label>
+        <link refid="test__network__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/network/test_network_hardening_phase2_focused.cpp</label>
+        <link refid="test__network__hardening__phase2__focused_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/network/test_network_highcardinality_stress.cpp</label>
+        <link refid="test__network__highcardinality__stress_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/network/test_network_lifecycle_guardrails_focused.cpp</label>
+        <link refid="test__network__lifecycle__guardrails__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/network/test_network_routing_hardening_focused.cpp</label>
+        <link refid="test__network__routing__hardening__focused_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/network/test_network_transport_resilience_focused.cpp</label>
+        <link refid="test__network__transport__resilience__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1network">themis::network</innernamespace>
+    <briefdescription>
+<para>Frozen network module API contracts for the active v1.x major line. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative, binding contract for the ThemisDB network module covering:<itemizedlist>
+<listitem><para>Connection lifecycle (accept → auth → serve → drain → close ordering)</para>
+</listitem><listitem><para>Frame validation (malformed frame handling — fail-closed)</para>
+</listitem><listitem><para>Auth/session guards (every privileged opcode requires a valid session)</para>
+</listitem><listitem><para>Transport fallback (TCP → QUIC semantics, no silent data loss)</para>
+</listitem><listitem><para>Rate limiting (per-connection and per-client with explicit 429)</para>
+</listitem><listitem><para>Canonical error taxonomy</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="network__api__contract_8h_1autotoc_md0_1s1"><sect2 id="network__api__contract_8h_1autotoc_md0">
+<title>Contract Scope</title><para>These contracts are binding for all v1.x implementations:<itemizedlist>
+<listitem><para>Wire protocol servers (WireProtocolServer, WireProtocolWebSocket)</para>
+</listitem><listitem><para>UDP and QUIC transports (UdpServer, QuicServer, QuicTransport)</para>
+</listitem><listitem><para>gRPC transport adapters (GrpcTransport)</para>
+</listitem><listitem><para>Connection pool / session managers</para>
+</listitem><listitem><para>Rate limiters and backpressure controllers (QosManager)</para>
+</listitem><listitem><para>Retry policy implementations (WireRetryPolicy)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="network__api__contract_8h_1autotoc_md1_1s1"><sect2 id="network__api__contract_8h_1autotoc_md1">
+<title>Versioning</title><para>Stable within v1.x. Breaking changes require v2.0 with migration notes.</para>
+<para><simplesect kind="see"><para>src/network/ROADMAP.md — Phase 1 frozen contract items </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="wire__protocol_8h" kindref="compound">include/network/wire_protocol.h</ref> — Frame framing constants </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="wire__protocol__server_8h" kindref="compound">include/network/wire_protocol_server.h</ref> — Server lifecycle types </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="qos__manager_8h" kindref="compound">include/network/qos_manager.h</ref> — Rate-limiting interface </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">network</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Connection<sp/>Lifecycle<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Every<sp/>connection<sp/>MUST<sp/>traverse<sp/>the<sp/>following<sp/>states<sp/>in<sp/>order:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ACCEPTING<sp/>→<sp/>AUTHENTICATING<sp/>→<sp/>SERVING<sp/>→<sp/>DRAINING<sp/>→<sp/>CLOSED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Invariants:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>a)<sp/>No<sp/>application<sp/>messages<sp/>may<sp/>be<sp/>dispatched<sp/>before<sp/>AUTHENTICATING</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>completes<sp/>successfully.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>b)<sp/>No<sp/>new<sp/>messages<sp/>are<sp/>accepted<sp/>once<sp/>DRAINING<sp/>begins.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>c)<sp/>CLOSED<sp/>is<sp/>terminal:<sp/>no<sp/>data<sp/>may<sp/>be<sp/>written<sp/>after<sp/>entering<sp/>CLOSED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>d)<sp/>Connections<sp/>that<sp/>do<sp/>not<sp/>complete<sp/>AUTHENTICATING<sp/>within</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>kAuthHandshakeTimeout<sp/>are<sp/>forcibly<sp/>CLOSED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1network_1a08a9f3f88d02cc53b1a2d89ff408f87d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1network_1a08a9f3f88d02cc53b1a2d89ff408f87d" kindref="member">kAuthHandshakeTimeout</ref>{15};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1network_1a3f2492bd58e4db728ddd57937dda2eb4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::minutes<sp/><ref refid="namespacethemis_1_1network_1a3f2492bd58e4db728ddd57937dda2eb4" kindref="member">kConnectionIdleTimeout</ref>{30};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1network_1a8e488de12b4c4f48996272855ab8fead" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1network_1a8e488de12b4c4f48996272855ab8fead" kindref="member">kDrainGracePeriod</ref>{30};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1network_1aadc5e7525c9b85812684750a0d405445" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1network_1aadc5e7525c9b85812684750a0d405445" kindref="member">kMaxConcurrentConnections</ref><sp/>=<sp/>65536;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Frame<sp/>Validation<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>inbound<sp/>frames<sp/>MUST<sp/>be<sp/>validated<sp/>before<sp/>dispatch:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>a)<sp/>A<sp/>frame<sp/>with<sp/>an<sp/>invalid<sp/>magic<sp/>number<sp/>→<sp/>connection<sp/>is<sp/>CLOSED<sp/>immediately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>with<sp/>FRAME_INVALID<sp/>(not<sp/>silently<sp/>dropped).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>b)<sp/>A<sp/>frame<sp/>whose<sp/>declared<sp/>payload<sp/>length<sp/>exceeds<sp/>kMaxFramePayloadBytes<sp/>→</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>FRAME_OVERSIZED<sp/>and<sp/>connection<sp/>is<sp/>CLOSED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>c)<sp/>A<sp/>frame<sp/>with<sp/>an<sp/>unrecognised<sp/>opcode<sp/>in<sp/>SERVING<sp/>state<sp/>→</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>OPCODE_UNKNOWN<sp/>response;<sp/>connection<sp/>remains<sp/>open.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>d)<sp/>Validation<sp/>failures<sp/>are<sp/>always<sp/>logged<sp/>to<sp/>the<sp/>network<sp/>audit<sp/>channel</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>before<sp/>the<sp/>connection<sp/>is<sp/>closed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Silent<sp/>drop<sp/>of<sp/>malformed<sp/>frames<sp/>is<sp/>NOT<sp/>permitted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="namespacethemis_1_1network_1a62a93292d001c72c544919b155574cdb" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint8_t<sp/><ref refid="namespacethemis_1_1network_1a62a93292d001c72c544919b155574cdb" kindref="member">kFrameMagic0</ref><sp/>=<sp/>0xDB;</highlight></codeline>
+<codeline lineno="93" refid="namespacethemis_1_1network_1a1784d9f0506397be5c1270a669ea71de" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint8_t<sp/><ref refid="namespacethemis_1_1network_1a1784d9f0506397be5c1270a669ea71de" kindref="member">kFrameMagic1</ref><sp/>=<sp/>0x01;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="namespacethemis_1_1network_1a388923109f56cbe0aa1cd94cd33f4793" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1network_1a388923109f56cbe0aa1cd94cd33f4793" kindref="member">kMaxFramePayloadBytes</ref><sp/>=<sp/>64<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="namespacethemis_1_1network_1a64158eecd7a388d67d0247fb49c17b76" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1network_1a64158eecd7a388d67d0247fb49c17b76" kindref="member">kMinFrameBytes</ref><sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Auth/Session<sp/>Guard<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Every<sp/>privileged<sp/>opcode<sp/>MUST:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>a)<sp/>Carry<sp/>a<sp/>valid,<sp/>non-expired<sp/>session<sp/>token<sp/>in<sp/>the<sp/>frame<sp/>header.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>b)<sp/>Be<sp/>rejected<sp/>with<sp/>AUTH_REQUIRED<sp/>if<sp/>no<sp/>token<sp/>is<sp/>present.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>c)<sp/>Be<sp/>rejected<sp/>with<sp/>SESSION_EXPIRED<sp/>if<sp/>the<sp/>token&apos;s<sp/>expiry<sp/>is<sp/>in<sp/>the<sp/>past.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>d)<sp/>Be<sp/>rejected<sp/>with<sp/>SESSION_REVOKED<sp/>if<sp/>the<sp/>session<sp/>appears<sp/>in<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>revocation<sp/>index<sp/>at<sp/>evaluation<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>session<sp/>guard<sp/>is<sp/>evaluated<sp/>BEFORE<sp/>any<sp/>handler<sp/>dispatch.<sp/><sp/>Handlers<sp/>must</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>not<sp/>be<sp/>reachable<sp/>without<sp/>a<sp/>passing<sp/>guard<sp/>check.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="namespacethemis_1_1network_1a4e25a51283fe0089f0dfeb4c2c85118e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1network_1a4e25a51283fe0089f0dfeb4c2c85118e" kindref="member">kMaxSessionTokenBytes</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="namespacethemis_1_1network_1aab09ebd11d376b9b0540436cae2a3bd4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::hours<sp/><ref refid="namespacethemis_1_1network_1aab09ebd11d376b9b0540436cae2a3bd4" kindref="member">kMaxNetworkSessionLifetime</ref>{24};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="namespacethemis_1_1network_1a8bd05ca6027e2c25ce7dbb5982541b25" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1network_1a8bd05ca6027e2c25ce7dbb5982541b25" kindref="member">kSessionClockSkew</ref>{30};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Transport<sp/>Fallback<sp/>Contract<sp/>(TCP<sp/>→<sp/>QUIC)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>When<sp/>transport<sp/>fallback<sp/>is<sp/>enabled:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>a)<sp/>The<sp/>fallback<sp/>triggers<sp/>only<sp/>when<sp/>the<sp/>primary<sp/>transport<sp/>fails<sp/>to<sp/>complete</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>handshake<sp/>within<sp/>kTransportFallbackDelay.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>b)<sp/>No<sp/>data<sp/>written<sp/>to<sp/>the<sp/>primary<sp/>transport<sp/>may<sp/>be<sp/>silently<sp/>dropped;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>pending<sp/>writes<sp/>are<sp/>either<sp/>replayed<sp/>on<sp/>the<sp/>fallback<sp/>transport<sp/>or<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>caller<sp/>receives<sp/>an<sp/>explicit<sp/>TRANSPORT_CLOSED<sp/>error.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>c)<sp/>The<sp/>fallback<sp/>sequence<sp/>is:<sp/>TCP<sp/>→<sp/>QUIC;<sp/>no<sp/>further<sp/>automatic<sp/>fallback.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>d)<sp/>Both<sp/>transports<sp/>use<sp/>the<sp/>same<sp/>session<sp/>and<sp/>authentication<sp/>context.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="namespacethemis_1_1network_1ad98c80154f36b4a2b1c7e02a9be679ec" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1network_1ad98c80154f36b4a2b1c7e02a9be679ec" kindref="member">kTransportFallbackDelay</ref>{500};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Rate-Limiting<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Two<sp/>independent<sp/>rate-limit<sp/>dimensions<sp/>are<sp/>enforced:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Per-connection:<sp/>kDefaultPerConnRequestsPerSec<sp/>requests<sp/>per<sp/>second.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Per-client<sp/>(by<sp/>remote<sp/>IP):<sp/>kDefaultPerClientRequestsPerSec.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>When<sp/>a<sp/>limit<sp/>is<sp/>exceeded:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>a)<sp/>The<sp/>server<sp/>returns<sp/>RATE_LIMITED<sp/>with<sp/>a<sp/>Retry-After<sp/>indication.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>b)<sp/>The<sp/>current<sp/>request<sp/>is<sp/>NOT<sp/>processed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>c)<sp/>The<sp/>connection<sp/>is<sp/>NOT<sp/>closed<sp/>on<sp/>the<sp/>first<sp/>violation;<sp/>it<sp/>is<sp/>closed<sp/>after</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>kRateLimitBanThreshold<sp/>consecutive<sp/>violations<sp/>within<sp/>kRateLimitBanWindow.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="namespacethemis_1_1network_1acb168b8646312e2c8e716e58edaed742" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1acb168b8646312e2c8e716e58edaed742" kindref="member">kDefaultPerConnRequestsPerSec</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="namespacethemis_1_1network_1abcbf28f1d6a702c78965be751ad762b8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1abcbf28f1d6a702c78965be751ad762b8" kindref="member">kDefaultPerClientRequestsPerSec</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="namespacethemis_1_1network_1a7124d8a275d4786265c8d633b4926a93" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a7124d8a275d4786265c8d633b4926a93" kindref="member">kRateLimitBanThreshold</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="namespacethemis_1_1network_1af7f9746d0b778aa8153b15850c0532f0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1network_1af7f9746d0b778aa8153b15850c0532f0" kindref="member">kRateLimitBanWindow</ref>{60};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="namespacethemis_1_1network_1a2ffbc1d6aaa5102964ebaa53627213fa" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::minutes<sp/><ref refid="namespacethemis_1_1network_1a2ffbc1d6aaa5102964ebaa53627213fa" kindref="member">kRateLimitBanDuration</ref>{5};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Error<sp/>Taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Codes<sp/>&lt;<sp/>100:<sp/>frame/protocol;<sp/>100–199:<sp/>auth/session;<sp/>200–299:<sp/>transport;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>300–399:<sp/>rate-limit/backpressure;<sp/>400–499:<sp/>quorum/cluster;<sp/>9xxx:<sp/>internal.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Frame<sp/>/<sp/>Protocol<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ab2f6a2721617683361a296bd02c17003" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ab2f6a2721617683361a296bd02c17003" kindref="member">FRAME_INVALID</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10,</highlight></codeline>
+<codeline lineno="188" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aac51997d76ebeb2c5f184ec31c72f52b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aac51997d76ebeb2c5f184ec31c72f52b" kindref="member">FRAME_OVERSIZED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>11,</highlight></codeline>
+<codeline lineno="190" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a9af9df975e7f72da7144d8c2c4927088" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a9af9df975e7f72da7144d8c2c4927088" kindref="member">OPCODE_UNKNOWN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>12,</highlight></codeline>
+<codeline lineno="192" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aa6fdc242143d7fa2160a9d1eb1325b39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aa6fdc242143d7fa2160a9d1eb1325b39" kindref="member">FRAME_CHECKSUM_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>13,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Auth<sp/>/<sp/>Session<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7721bb1adc008815561e7b04c3ae986e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7721bb1adc008815561e7b04c3ae986e" kindref="member">AUTH_REQUIRED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100,</highlight></codeline>
+<codeline lineno="198" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aee7c1374d9480eb0dafeedd8d6f1ee12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aee7c1374d9480eb0dafeedd8d6f1ee12" kindref="member">SESSION_EXPIRED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>101,</highlight></codeline>
+<codeline lineno="200" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a048bd3b5342e4099a9b64eb083b8456a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a048bd3b5342e4099a9b64eb083b8456a" kindref="member">SESSION_REVOKED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>102,</highlight></codeline>
+<codeline lineno="202" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a9757e29a382ccff4901d4807adbedc6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a9757e29a382ccff4901d4807adbedc6f" kindref="member">SESSION_MALFORMED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>103,</highlight></codeline>
+<codeline lineno="204" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a30611ff322b606c366083e8dc7dcf459" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a30611ff322b606c366083e8dc7dcf459" kindref="member">AUTH_TIMEOUT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>104,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Transport<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7a6a45397e5124ffeb22e133b906b9e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7a6a45397e5124ffeb22e133b906b9e5" kindref="member">TRANSPORT_CLOSED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>200,</highlight></codeline>
+<codeline lineno="210" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7632e0cc96e7d69bb8e4f9d59113aa95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7632e0cc96e7d69bb8e4f9d59113aa95" kindref="member">TRANSPORT_FALLBACK_ACTIVE</ref><sp/><sp/><sp/>=<sp/>201,</highlight></codeline>
+<codeline lineno="212" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a06e231de202bc95d06df42f58b5fb187" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a06e231de202bc95d06df42f58b5fb187" kindref="member">TRANSPORT_UNAVAILABLE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>202,</highlight></codeline>
+<codeline lineno="214" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75af55bbfda6d0028eaec46a1788ad73e65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75af55bbfda6d0028eaec46a1788ad73e65" kindref="member">TRANSPORT_WRITE_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>203,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Rate<sp/>Limiting<sp/>/<sp/>Backpressure<sp/>─────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0b481e215c9fdd207e9d14f6a0cc228f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0b481e215c9fdd207e9d14f6a0cc228f" kindref="member">RATE_LIMITED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>300,</highlight></codeline>
+<codeline lineno="220" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ad102264cf4b9f438b284d2c9908486a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ad102264cf4b9f438b284d2c9908486a8" kindref="member">BACKPRESSURE_EXCEEDED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>301,</highlight></codeline>
+<codeline lineno="222" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a75b498788ed886073765edc4db5419d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a75b498788ed886073765edc4db5419d2" kindref="member">CLIENT_BANNED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>302,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Quorum<sp/>/<sp/>Cluster<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0dde4c0549c0aa9d75332ace206aec40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0dde4c0549c0aa9d75332ace206aec40" kindref="member">QUORUM_DEGRADED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>400,</highlight></codeline>
+<codeline lineno="228" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ac6388c623680d7b5b4334ea09b64ab45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ac6388c623680d7b5b4334ea09b64ab45" kindref="member">ROUTING_UNAVAILABLE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>401,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Connection<sp/>Lifecycle<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75acba9e7771ca025f323a6d7c150e82b8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75acba9e7771ca025f323a6d7c150e82b8f" kindref="member">CONNECTION_LIMIT_REACHED</ref><sp/><sp/><sp/><sp/>=<sp/>500,</highlight></codeline>
+<codeline lineno="234" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ad4381a52828e126b02907417a6e7abd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ad4381a52828e126b02907417a6e7abd4" kindref="member">SERVER_DRAINING</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>501,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Generic<sp/>───────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="240" refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9999,</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>7<sp/><sp/>Fail-Closed<sp/>Classification<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253" refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(code)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ab2f6a2721617683361a296bd02c17003" kindref="member">NetworkErrorCode::FRAME_INVALID</ref>:</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aac51997d76ebeb2c5f184ec31c72f52b" kindref="member">NetworkErrorCode::FRAME_OVERSIZED</ref>:</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a30611ff322b606c366083e8dc7dcf459" kindref="member">NetworkErrorCode::AUTH_TIMEOUT</ref>:</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7a6a45397e5124ffeb22e133b906b9e5" kindref="member">NetworkErrorCode::TRANSPORT_CLOSED</ref>:</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a06e231de202bc95d06df42f58b5fb187" kindref="member">NetworkErrorCode::TRANSPORT_UNAVAILABLE</ref>:</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae8c0c70879b5895c615677261d64a1ee" kindref="member">NetworkErrorCode::INTERNAL_ERROR</ref>:</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271" refid="namespacethemis_1_1network_1ab89627f567fd641a325ebaaf902b8ad8" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1ab89627f567fd641a325ebaaf902b8ad8" kindref="member">isRateLimitTransient</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0b481e215c9fdd207e9d14f6a0cc228f" kindref="member">NetworkErrorCode::RATE_LIMITED</ref></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ad102264cf4b9f438b284d2c9908486a8" kindref="member">NetworkErrorCode::BACKPRESSURE_EXCEEDED</ref>;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>8<sp/><sp/>Contract<sp/>Conformance<sp/>Notes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>network<sp/>module<sp/>components<sp/>MUST:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>Close<sp/>connections<sp/>(not<sp/>silently<sp/>drop)<sp/>on<sp/>FRAME_INVALID<sp/>or<sp/>FRAME_OVERSIZED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>Evaluate<sp/>the<sp/>session<sp/>guard<sp/>before<sp/>invoking<sp/>any<sp/>privileged<sp/>handler.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>3.<sp/>Emit<sp/>an<sp/>audit<sp/>event<sp/>for<sp/>AUTH_REQUIRED,<sp/>SESSION_EXPIRED,<sp/>RATE_LIMITED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>4.<sp/>Never<sp/>write<sp/>application<sp/>data<sp/>after<sp/>the<sp/>connection<sp/>enters<sp/>DRAINING/CLOSED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>5.<sp/>Surface<sp/>NetworkErrorCode<sp/>values<sp/>(or<sp/>Expected&lt;T,<sp/>NetworkErrorCode&gt;).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>network</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/network/network_api_contract.h"/>
+  </compounddef>
+</doxygen>

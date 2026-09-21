@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_import_job_registry" kind="class" language="C++" prot="public">
+    <compoundname>ImportJobRegistry</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_import_job_registry_1acc8df1ec803f27826ef84a0df2e1ebcb" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex ImportJobRegistry::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>ImportJobRegistry::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="153" column="24" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_import_job_registry_1adf142c52079555c260a68ffb54366d34" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;ImportHandle&gt; &gt; ImportJobRegistry::jobs_</definition>
+        <argsstring></argsstring>
+        <name>jobs_</name>
+        <qualifiedname>ImportJobRegistry::jobs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="154" column="14" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_import_job_registry_1a7bf30c2f1cca05d9ee7fa44032087407" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ImportJobRegistry::add</definition>
+        <argsstring>(std::shared_ptr&lt; ImportHandle &gt; h)</argsstring>
+        <name>add</name>
+        <qualifiedname>ImportJobRegistry::add</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt;</type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="127" column="10" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="127" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="class_import_job_registry_1aefb84e34dd318a12c5c66fdcbdf3a4ee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ImportHandle &gt; ImportJobRegistry::get</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>get</name>
+        <qualifiedname>ImportJobRegistry::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="131" column="21" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="131" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="class_import_job_registry_1abf1d9ec57dba5be41e20ed613ef6c717" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::shared_ptr&lt; ImportHandle &gt; &gt; ImportJobRegistry::all</definition>
+        <argsstring>() const</argsstring>
+        <name>all</name>
+        <qualifiedname>ImportJobRegistry::all</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="136" column="17" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="136" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="class_import_job_registry_1ad883fa529948cb7d72802a0a6bf22f46" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ImportJobRegistry::remove</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>remove</name>
+        <qualifiedname>ImportJobRegistry::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="144" column="10" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="144" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="class_import_job_registry_1afc366d24a4849156c20f1c06786b93a6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t ImportJobRegistry::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>ImportJobRegistry::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="148" column="12" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="148" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/importers/test_importer_async_api.cpp" line="125" column="1" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="125" bodyend="155"/>
+    <listofallmembers>
+      <member refid="class_import_job_registry_1a7bf30c2f1cca05d9ee7fa44032087407" prot="public" virt="non-virtual"><scope>ImportJobRegistry</scope><name>add</name></member>
+      <member refid="class_import_job_registry_1abf1d9ec57dba5be41e20ed613ef6c717" prot="public" virt="non-virtual"><scope>ImportJobRegistry</scope><name>all</name></member>
+      <member refid="class_import_job_registry_1aefb84e34dd318a12c5c66fdcbdf3a4ee" prot="public" virt="non-virtual"><scope>ImportJobRegistry</scope><name>get</name></member>
+      <member refid="class_import_job_registry_1adf142c52079555c260a68ffb54366d34" prot="private" virt="non-virtual"><scope>ImportJobRegistry</scope><name>jobs_</name></member>
+      <member refid="class_import_job_registry_1acc8df1ec803f27826ef84a0df2e1ebcb" prot="private" virt="non-virtual"><scope>ImportJobRegistry</scope><name>mutex_</name></member>
+      <member refid="class_import_job_registry_1ad883fa529948cb7d72802a0a6bf22f46" prot="public" virt="non-virtual"><scope>ImportJobRegistry</scope><name>remove</name></member>
+      <member refid="class_import_job_registry_1afc366d24a4849156c20f1c06786b93a6" prot="public" virt="non-virtual"><scope>ImportJobRegistry</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

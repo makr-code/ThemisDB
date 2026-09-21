@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_kernel_fusion_cross_path_test" kind="class" language="C++" prot="public">
+    <compoundname>KernelFusionCrossPathTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_kernel_fusion_cross_path_test_1aa2d861bfb069e063bde3068cb13452f7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void KernelFusionCrossPathTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>KernelFusionCrossPathTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_kernel_fusion_cuda.cpp" line="459" column="10" bodyfile="tests/llm/test_kernel_fusion_cuda.cpp" bodystart="459" bodyend="464"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>KernelFusionCrossPathTest</label>
+        <link refid="class_kernel_fusion_cross_path_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>KernelFusionCrossPathTest</label>
+        <link refid="class_kernel_fusion_cross_path_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_kernel_fusion_cuda.cpp" line="457" column="1" bodyfile="tests/llm/test_kernel_fusion_cuda.cpp" bodystart="457" bodyend="465"/>
+    <listofallmembers>
+      <member refid="class_kernel_fusion_cross_path_test_1aa2d861bfb069e063bde3068cb13452f7" prot="protected" virt="non-virtual"><scope>KernelFusionCrossPathTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

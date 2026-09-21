@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::test::GPUChaosTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test_1a0202f952e2ee8dac7bead74d22431b71" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::test::GPUChaosTest::kChaosTestSeed</definition>
+        <argsstring></argsstring>
+        <name>kChaosTestSeed</name>
+        <qualifiedname>themis::gpu::test::GPUChaosTest::kChaosTestSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_chaos_fault_injection.cpp" line="29" column="31" bodyfile="tests/gpu/test_gpu_chaos_fault_injection.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test_1a08dfe01ad28157cb60418974ee8fd614" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::test::GPUChaosTest::kMaxAllocationAttempts</definition>
+        <argsstring></argsstring>
+        <name>kMaxAllocationAttempts</name>
+        <qualifiedname>themis::gpu::test::GPUChaosTest::kMaxAllocationAttempts</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_chaos_fault_injection.cpp" line="30" column="26" bodyfile="tests/gpu/test_gpu_chaos_fault_injection.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test_1ae63a90047f51bb7923e861b824ad9a7f" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::test::GPUChaosTest::kKernelTimeoutMs</definition>
+        <argsstring></argsstring>
+        <name>kKernelTimeoutMs</name>
+        <qualifiedname>themis::gpu::test::GPUChaosTest::kKernelTimeoutMs</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_chaos_fault_injection.cpp" line="31" column="31" bodyfile="tests/gpu/test_gpu_chaos_fault_injection.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::test::GPUChaosTest</label>
+        <link refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::test::GPUChaosTest</label>
+        <link refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_chaos_fault_injection.cpp" line="27" column="1" bodyfile="tests/gpu/test_gpu_chaos_fault_injection.cpp" bodystart="27" bodyend="32"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test_1a0202f952e2ee8dac7bead74d22431b71" prot="protected" virt="non-virtual"><scope>themis::gpu::test::GPUChaosTest</scope><name>kChaosTestSeed</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test_1ae63a90047f51bb7923e861b824ad9a7f" prot="protected" virt="non-virtual"><scope>themis::gpu::test::GPUChaosTest</scope><name>kKernelTimeoutMs</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_chaos_test_1a08dfe01ad28157cb60418974ee8fd614" prot="protected" virt="non-virtual"><scope>themis::gpu::test::GPUChaosTest</scope><name>kMaxAllocationAttempts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

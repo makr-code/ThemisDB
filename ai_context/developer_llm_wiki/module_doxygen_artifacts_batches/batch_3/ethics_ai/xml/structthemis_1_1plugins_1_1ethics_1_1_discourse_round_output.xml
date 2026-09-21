@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::DiscourseRoundOutput</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1ae7e3a945a75cd7a49a37bf21afe39f5b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::DiscourseRoundOutput::school_id</definition>
+        <argsstring></argsstring>
+        <name>school_id</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseRoundOutput::school_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="308" column="18" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a0560d0ca20029d49662e01d39633f80b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::DiscourseRoundOutput::round_number</definition>
+        <argsstring></argsstring>
+        <name>round_number</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseRoundOutput::round_number</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="309" column="18" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="309" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a4b07d847106ccb1eeea7c502cd5ba690" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::DiscourseRoundOutput::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseRoundOutput::content</qualifiedname>
+        <briefdescription>
+<para>Full argument text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="310" column="18" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a43b3a92181a10cb9dabe8bbdfa47482c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::DiscourseRoundOutput::verdict</definition>
+        <argsstring></argsstring>
+        <name>verdict</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseRoundOutput::verdict</qualifiedname>
+        <briefdescription>
+<para>&quot;PROHIBIT&quot;|&quot;PERMIT&quot;|&quot;CONDITIONAL&quot;|&quot;ABSTAIN&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="311" column="18" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a522aafb6ff4b0234af9848e4f1e3da1b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::ethics::DiscourseRoundOutput::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseRoundOutput::confidence</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="312" column="18" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="312" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a52d8bb04d27b811514b5a25faccadab1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::DiscourseRoundOutput::core_thesis_ids</definition>
+        <argsstring></argsstring>
+        <name>core_thesis_ids</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseRoundOutput::core_thesis_ids</qualifiedname>
+        <briefdescription>
+<para>≤ 3 thesis_ids </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="313" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a6b367557e5dfb40f01f5fb4d964ad3b5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::DiscourseRoundOutput::primary_rebuttal_of</definition>
+        <argsstring></argsstring>
+        <name>primary_rebuttal_of</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseRoundOutput::primary_rebuttal_of</qualifiedname>
+        <briefdescription>
+<para>thesis_id rebutted (R2+) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="314" column="18" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1ab42442aa714bbd2d5192a8d0870619d0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::DiscourseRoundOutput::position_abstract</definition>
+        <argsstring></argsstring>
+        <name>position_abstract</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseRoundOutput::position_abstract</qualifiedname>
+        <briefdescription>
+<para>≤ 100 tokens — §12.2.3 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="315" column="18" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1abfc581341e10818a6fe73a85c0b6b216" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::DiscourseRoundOutput::schema_valid</definition>
+        <argsstring></argsstring>
+        <name>schema_valid</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseRoundOutput::schema_valid</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="316" column="18" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="316" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a6fa9e9151819c62341a9133f233ea4da" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602e" kindref="member">DiscourseVerdict</ref></type>
+        <definition>DiscourseVerdict themis::plugins::ethics::DiscourseRoundOutput::ldm_verdict</definition>
+        <argsstring></argsstring>
+        <name>ldm_verdict</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseRoundOutput::ldm_verdict</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602eaf4d833a3465758569accea637f9fc592" kindref="member">DiscourseVerdict::ABSTAIN</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="320" column="22" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="320" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a98c2cb3d6e682c77cf15053d4a48c9c3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::DiscourseRoundOutput::initial_weight</definition>
+        <argsstring></argsstring>
+        <name>initial_weight</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseRoundOutput::initial_weight</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="322" column="12" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="322" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1aea42094e3ef7de47ed28f40dd43d7fc5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::DiscourseRoundOutput::timed_out</definition>
+        <argsstring></argsstring>
+        <name>timed_out</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseRoundOutput::timed_out</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="324" column="10" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="324" bodyend="324"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="307" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="307" bodyend="325"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a522aafb6ff4b0234af9848e4f1e3da1b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseRoundOutput</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a4b07d847106ccb1eeea7c502cd5ba690" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseRoundOutput</scope><name>content</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a52d8bb04d27b811514b5a25faccadab1" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseRoundOutput</scope><name>core_thesis_ids</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a98c2cb3d6e682c77cf15053d4a48c9c3" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseRoundOutput</scope><name>initial_weight</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a6fa9e9151819c62341a9133f233ea4da" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseRoundOutput</scope><name>ldm_verdict</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1ab42442aa714bbd2d5192a8d0870619d0" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseRoundOutput</scope><name>position_abstract</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a6b367557e5dfb40f01f5fb4d964ad3b5" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseRoundOutput</scope><name>primary_rebuttal_of</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a0560d0ca20029d49662e01d39633f80b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseRoundOutput</scope><name>round_number</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1abfc581341e10818a6fe73a85c0b6b216" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseRoundOutput</scope><name>schema_valid</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1ae7e3a945a75cd7a49a37bf21afe39f5b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseRoundOutput</scope><name>school_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1aea42094e3ef7de47ed28f40dd43d7fc5" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseRoundOutput</scope><name>timed_out</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a43b3a92181a10cb9dabe8bbdfa47482c" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseRoundOutput</scope><name>verdict</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

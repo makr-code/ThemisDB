@@ -1,0 +1,257 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1srg" kind="namespace" language="C++">
+    <compoundname>themis::bench::srg</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1srg_1a4adfbf2e70c91d4d3f49e4d871a2d256" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::srg::kSecurityCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kSecurityCanonicalSeed</name>
+        <qualifiedname>themis::bench::srg::kSecurityCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical RNG seed — must not change between releases without a gate note. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_release_gates.cpp" line="61" column="32" bodyfile="benchmarks/security/bench_security_release_gates.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1srg_1ac067e133511412552f211a9003b76433" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::srg::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::srg::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Number of repeated benchmark runs for variance capture. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_release_gates.cpp" line="64" column="22" bodyfile="benchmarks/security/bench_security_release_gates.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1srg_1aa70774ca9ba775074baaee4d762a6e14" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::srg::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::srg::kWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Warmup iterations before measurement begins. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_release_gates.cpp" line="67" column="22" bodyfile="benchmarks/security/bench_security_release_gates.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1a0a6deaa04c5119c38dc8b18d2d58cf6a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const BenchPolicyTable &amp;</type>
+        <definition>static const BenchPolicyTable &amp; themis::bench::srg::policyTable</definition>
+        <argsstring>()</argsstring>
+        <name>policyTable</name>
+        <qualifiedname>themis::bench::srg::policyTable</qualifiedname>
+        <briefdescription>
+<para>Lazily-initialised policy table (constructed once per process). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_release_gates.cpp" line="210" column="31" bodyfile="benchmarks/security/bench_security_release_gates.cpp" bodystart="210" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1a561ead0237b59dc928d957c9f0a09928" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const BenchKeyStore &amp;</type>
+        <definition>static const BenchKeyStore &amp; themis::bench::srg::keyStore</definition>
+        <argsstring>()</argsstring>
+        <name>keyStore</name>
+        <qualifiedname>themis::bench::srg::keyStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_release_gates.cpp" line="215" column="28" bodyfile="benchmarks/security/bench_security_release_gates.cpp" bodystart="215" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1a7efec80668b41f3dd4425ccec4f68e51" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const BenchRbacTable &amp;</type>
+        <definition>static const BenchRbacTable &amp; themis::bench::srg::rbacTable</definition>
+        <argsstring>()</argsstring>
+        <name>rbacTable</name>
+        <qualifiedname>themis::bench::srg::rbacTable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_release_gates.cpp" line="220" column="29" bodyfile="benchmarks/security/bench_security_release_gates.cpp" bodystart="220" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1a199a0d4c9d42576f4f93f73aaef04214" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::srg::BM_SRG01_PolicyEval</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SRG01_PolicyEval</name>
+        <qualifiedname>themis::bench::srg::BM_SRG01_PolicyEval</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SRG-01: Policy evaluate() from pre-built in-memory table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 1 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_release_gates.cpp" line="234" column="13" bodyfile="benchmarks/security/bench_security_release_gates.cpp" bodystart="234" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1acc8ede61fd5be65431b8d9ed7fec7490" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::srg::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::srg::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_release_gates.cpp" line="252" column="5" declfile="benchmarks/security/bench_security_release_gates.cpp" declline="252" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1aa98abf64229e0fa3b6067adc40eadfc2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::srg::BM_SRG02_JwtValidate</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SRG02_JwtValidate</name>
+        <qualifiedname>themis::bench::srg::BM_SRG02_JwtValidate</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SRG-02: JWT structural parse overhead (header.payload.sig split). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 500 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_release_gates.cpp" line="264" column="13" bodyfile="benchmarks/security/bench_security_release_gates.cpp" bodystart="264" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1a5f2617b3bfb10eb4aa0337ddfd48ba2d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::srg::BM_SRG03_KeyLookup</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SRG03_KeyLookup</name>
+        <qualifiedname>themis::bench::srg::BM_SRG03_KeyLookup</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SRG-03: Hash-map key lookup overhead (512 entries, warm cache). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_release_gates.cpp" line="286" column="13" bodyfile="benchmarks/security/bench_security_release_gates.cpp" bodystart="286" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1a714798d9b2e7b56ef15da001a981df0d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::srg::BM_SRG04_AuditWrite</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SRG04_AuditWrite</name>
+        <qualifiedname>themis::bench::srg::BM_SRG04_AuditWrite</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SRG-04: Audit ring-buffer write (no disk I/O). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 500 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_release_gates.cpp" line="312" column="13" bodyfile="benchmarks/security/bench_security_release_gates.cpp" bodystart="312" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1a3ccce6e357b51ce9c5cbafcea01a89a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::srg::UseRealTime</definition>
+        <argsstring>() -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>UseRealTime</name>
+        <qualifiedname>themis::bench::srg::UseRealTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_release_gates.cpp" line="324" column="5" declfile="benchmarks/security/bench_security_release_gates.cpp" declline="324" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1a5e4e8ffded8163e6bc90431c770431e1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::srg::BM_SRG05_RbacCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SRG05_RbacCheck</name>
+        <qualifiedname>themis::bench::srg::BM_SRG05_RbacCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SRG-05: <ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> role→resource permission lookup (50 roles, 20 perms each). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 200 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_release_gates.cpp" line="337" column="13" bodyfile="benchmarks/security/bench_security_release_gates.cpp" bodystart="337" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srg_1a9706c5e95ca22c3c3c6314fa43faf345" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::srg::BM_SRG06_CertValidation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SRG06_CertValidation</name>
+        <qualifiedname>themis::bench::srg::BM_SRG06_CertValidation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>SRG-06: Mock certificate validation (chain-depth + state, no real crypto). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 2 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_release_gates.cpp" line="366" column="13" bodyfile="benchmarks/security/bench_security_release_gates.cpp" bodystart="366" bodyend="377"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/security/bench_security_release_gates.cpp" line="51" column="1"/>
+  </compounddef>
+</doxygen>

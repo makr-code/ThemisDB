@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="fts__index_8h" kind="file" language="C++">
+    <compoundname>fts_index.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="bm25__scorer_8h" local="yes">include/query/bm25_scorer.h</includedby>
+    <includedby refid="index__cache_8h" local="yes">include/query/index_cache.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/fts_index.h</label>
+        <link refid="fts__index_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/query/bm25_scorer.h</label>
+        <link refid="bm25__scorer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/query/fts_executor.h</label>
+        <link refid="fts__executor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/query/fts_index.h</label>
+        <link refid="fts__index_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/query/index_cache.h</label>
+        <link refid="index__cache_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/query/bm25_scorer.cpp</label>
+        <link refid="bm25__scorer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/query/fts_executor.cpp</label>
+        <link refid="fts__executor_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/query/index_cache.cpp</label>
+        <link refid="index__cache_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/query/test_fts_bm25_scorer.cpp</label>
+        <link refid="test__fts__bm25__scorer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/query/test_fts_executor.cpp</label>
+        <link refid="test__fts__executor_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/query/test_fts_index_cache.cpp</label>
+        <link refid="test__fts__index__cache_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_document_metadata" prot="public">themis::query::fts::DocumentMetadata</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_posting_list_entry" prot="public">themis::query::fts::PostingListEntry</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_index_statistics" prot="public">themis::query::fts::IndexStatistics</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1fts_1_1_fts_index" prot="public">themis::query::fts::FtsIndex</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_index_update_batch" prot="public">themis::query::fts::IndexUpdateBatch</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query_1_1fts">themis::query::fts</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>include/query/fts_index.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FTS<sp/>Index<sp/>Abstraction<sp/>Layer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Provides<sp/>uniform<sp/>interface<sp/>to<sp/>on-disk<sp/>index<sp/>(regardless<sp/>of<sp/>backend)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Data<sp/>Structures:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Vocabulary:<sp/>map<sp/>of<sp/>term<sp/>→<sp/>(df,<sp/>posting_list_offset)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Posting<sp/>Lists:<sp/>(doc_id,<sp/>term_freq,<sp/>positions)<sp/>sorted<sp/>by<sp/>doc_id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Document<sp/>Stats:<sp/>doc_length,<sp/>avg_tf,<sp/>language<sp/>per<sp/>document</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread-Safety:<sp/>NOT<sp/>thread-safe<sp/>on<sp/>its<sp/>own</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>FtsExecutor<sp/>wraps<sp/>this<sp/>with<sp/>shared_mutex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Safe<sp/>to<sp/>share<sp/>const<sp/>pointer<sp/>across<sp/>threads<sp/>(read-only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1_1fts" kindref="compound">themis::query::fts</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Document<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1query_1_1fts_1_1_document_metadata" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1fts_1_1_document_metadata" kindref="compound">DocumentMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1query_1_1fts_1_1_document_metadata_1abe53e57f1476134f9512042c1abb09db" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_document_metadata_1abe53e57f1476134f9512042c1abb09db" kindref="member">doc_id</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1query_1_1fts_1_1_document_metadata_1af868198b7789709526d5f32961a96927" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_document_metadata_1af868198b7789709526d5f32961a96927" kindref="member">length_tokens</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1query_1_1fts_1_1_document_metadata_1a4dce7c5b3cf3107d852819e74c29cb17" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_document_metadata_1a4dce7c5b3cf3107d852819e74c29cb17" kindref="member">avg_term_freq</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1query_1_1fts_1_1_document_metadata_1a1762db8a807b207e8b64489b8815f6c9" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_document_metadata_1a1762db8a807b207e8b64489b8815f6c9" kindref="member">language</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Posting<sp/>list<sp/>entry:<sp/>(doc_id,<sp/>term_freq,<sp/>positions)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1query_1_1fts_1_1_posting_list_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1fts_1_1_posting_list_entry" kindref="compound">PostingListEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1query_1_1fts_1_1_posting_list_entry_1af4cd8f76bed939fd9f63bb208a6dd721" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_posting_list_entry_1af4cd8f76bed939fd9f63bb208a6dd721" kindref="member">doc_id</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1query_1_1fts_1_1_posting_list_entry_1ac1a29d3cd302e75ba563502a5d96fc5c" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_posting_list_entry_1ac1a29d3cd302e75ba563502a5d96fc5c" kindref="member">term_freq</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1query_1_1fts_1_1_posting_list_entry_1ae889af4232672d1e3eee9fd0ac3a303c" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_posting_list_entry_1ae889af4232672d1e3eee9fd0ac3a303c" kindref="member">positions</ref>;<sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Posting<sp/>list:<sp/>collection<sp/>of<sp/>documents<sp/>containing<sp/>a<sp/>term</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1query_1_1fts_1ae576c8a5450ccd843e380412ffa3ce78" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1_1fts_1ae576c8a5450ccd843e380412ffa3ce78" kindref="member">PostingList</ref><sp/>=<sp/>std::vector&lt;PostingListEntry&gt;;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Index<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1query_1_1fts_1_1_index_statistics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1fts_1_1_index_statistics" kindref="compound">IndexStatistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1query_1_1fts_1_1_index_statistics_1ab268f8f2eb0b9e142a2e708a4e55383e" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_index_statistics_1ab268f8f2eb0b9e142a2e708a4e55383e" kindref="member">document_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1query_1_1fts_1_1_index_statistics_1a98bee0c30f76368b4307704c0591ab9a" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_index_statistics_1a98bee0c30f76368b4307704c0591ab9a" kindref="member">term_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1query_1_1fts_1_1_index_statistics_1a33f4f6be89508f729d3bf1c9478755e6" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_index_statistics_1a33f4f6be89508f729d3bf1c9478755e6" kindref="member">index_size_bytes</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1query_1_1fts_1_1_index_statistics_1a36a1af5b08b31bbc793a5cdd5e6c7da0" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_index_statistics_1a36a1af5b08b31bbc793a5cdd5e6c7da0" kindref="member">average_doc_length</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1query_1_1fts_1_1_index_statistics_1a319da3e14ff95aa3ff692e170d4f442c" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_index_statistics_1a319da3e14ff95aa3ff692e170d4f442c" kindref="member">language</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FtsIndex<sp/>—<sp/>Abstraction<sp/>for<sp/>on-disk<sp/>FTS<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1query_1_1fts_1_1_fts_index" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1fts_1_1_fts_index" kindref="compound">FtsIndex</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;FtsIndex&gt;<sp/><ref refid="classthemis_1_1query_1_1fts_1_1_fts_index_1a3b70b69eeb619b5732513738398739ae" kindref="member">open</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_path);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1query_1_1fts_1_1_fts_index_1a4c03c7c0694360a06908b98b405f92cf" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_fts_index_1a4c03c7c0694360a06908b98b405f92cf" kindref="member">~FtsIndex</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1query_1_1fts_1_1_fts_index_1a00879f5e1570f6eec450afd7f23f2f23" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1fts_1ae576c8a5450ccd843e380412ffa3ce78" kindref="member">PostingList</ref><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_fts_index_1a00879f5e1570f6eec450afd7f23f2f23" kindref="member">lookupTerm</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>term)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1query_1_1fts_1_1_fts_index_1a889d25e522824ca1225faf0fef3e3734" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_document_metadata" kindref="compound">DocumentMetadata</ref><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_fts_index_1a889d25e522824ca1225faf0fef3e3734" kindref="member">getDocumentStats</ref>(uint64_t<sp/>doc_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1query_1_1fts_1_1_fts_index_1aabe07a1a279a0df5d92b55ef8568e9de" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_index_statistics" kindref="compound">IndexStatistics</ref><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_fts_index_1aabe07a1a279a0df5d92b55ef8568e9de" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1query_1_1fts_1_1_fts_index_1a84a616174369e5fc75a4f0606356a379" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_fts_index_1a84a616174369e5fc75a4f0606356a379" kindref="member">isHealthy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>API<sp/>(Write<sp/>operations)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1query_1_1fts_1_1_fts_index_1a75d43398188971e0a851a7fe6985168b" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_fts_index_1a75d43398188971e0a851a7fe6985168b" kindref="member">addDocuments</ref>(</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;uint64_t,<sp/>std::string&gt;&gt;&amp;<sp/>documents)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1query_1_1fts_1_1_fts_index_1a39cf72ff6a858c6cab12babb2f96b9fe" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_fts_index_1a39cf72ff6a858c6cab12babb2f96b9fe" kindref="member">removeDocuments</ref>(</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint64_t&gt;&amp;<sp/>doc_ids)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1query_1_1fts_1_1_index_update_batch" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1fts_1_1_index_update_batch" kindref="compound">IndexUpdateBatch</ref><sp/>{</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1query_1_1fts_1_1_index_update_batch_1a6e278642bb74d12d4f4ed5c09683838f" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;std::pair&lt;uint64_t,<sp/>std::string&gt;&gt;<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_index_update_batch_1a6e278642bb74d12d4f4ed5c09683838f" kindref="member">additions</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1query_1_1fts_1_1_index_update_batch_1acc1763b56fd95d6c4549eeb9cd0a9fc7" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_index_update_batch_1acc1763b56fd95d6c4549eeb9cd0a9fc7" kindref="member">deletions</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::query::fts</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/fts_index.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,852 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="moral__analyzer_8h" kind="file" language="C++">
+    <compoundname>moral_analyzer.h</compoundname>
+    <includes local="yes">index/property_graph.h</includes>
+    <includes local="yes">index/vector_index.h</includes>
+    <includes refid="ethical__guidelines__manager_8h" local="yes">llm/ethical_guidelines_manager.h</includes>
+    <includes refid="ai__decision__auditor_8h" local="yes">llm/ai_decision_auditor.h</includes>
+    <includes refid="inference__engine__enhanced_8h" local="yes">llm/inference_engine_enhanced.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="moral__analyzer_8cpp" local="yes">src/llm/moral_analyzer.cpp</includedby>
+    <incdepgraph>
+      <node id="20">
+        <label>llm/adapter_registry.h</label>
+        <link refid="adapter__registry_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>llm/ai_decision_auditor.h</label>
+        <link refid="ai__decision__auditor_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>llm/block_table.h</label>
+        <link refid="block__table_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>llm/continuous_batch_scheduler.h</label>
+        <link refid="continuous__batch__scheduler_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/ethical_guidelines_manager.h</label>
+        <link refid="ethical__guidelines__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>llm/grafana_metrics.h</label>
+        <link refid="grafana__metrics_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>llm/i_federated_inference_backend.h</label>
+        <link refid="i__federated__inference__backend_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>llm/inference_engine_enhanced.h</label>
+        <link refid="inference__engine__enhanced_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>llm/inference_handle.h</label>
+        <link refid="inference__handle_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>llm/llm_interaction_store.h</label>
+        <link refid="llm__interaction__store_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>llm/llm_prefix_cache.h</label>
+        <link refid="llm__prefix__cache_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>llm/lookup_decoder.h</label>
+        <link refid="lookup__decoder_8h"/>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>llm/lora_framework/lora_provenance.h</label>
+        <link refid="lora__provenance_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>llm/model_router.h</label>
+        <link refid="model__router_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/moral_analyzer.h</label>
+        <link refid="moral__analyzer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>llm/paged_block_manager.h</label>
+        <link refid="paged__block__manager_8h"/>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>llm/paged_kv_cache.h</label>
+        <link refid="paged__kv__cache_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>llm/shared_worker_pool.h</label>
+        <link refid="shared__worker__pool_8h"/>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="50">
+        <label>llm/speculative_decoder.h</label>
+        <link refid="speculative__decoder_8h"/>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>llm/token_quota_manager.h</label>
+        <link refid="token__quota__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>algorithm</label>
+      </node>
+      <node id="29">
+        <label>atomic</label>
+      </node>
+      <node id="18">
+        <label>chrono</label>
+      </node>
+      <node id="39">
+        <label>condition_variable</label>
+      </node>
+      <node id="54">
+        <label>cstddef</label>
+      </node>
+      <node id="15">
+        <label>cstdint</label>
+      </node>
+      <node id="49">
+        <label>deque</label>
+      </node>
+      <node id="11">
+        <label>ethics_ai/ethics_ai_types.h</label>
+      </node>
+      <node id="23">
+        <label>functional</label>
+      </node>
+      <node id="42">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>index/property_graph.h</label>
+      </node>
+      <node id="3">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="35">
+        <label>list</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="16">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="14">
+        <label>optional</label>
+      </node>
+      <node id="28">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="34">
+        <label>queue</label>
+      </node>
+      <node id="55">
+        <label>rag/self_rag.h</label>
+      </node>
+      <node id="52">
+        <label>random</label>
+      </node>
+      <node id="47">
+        <label>regex</label>
+      </node>
+      <node id="56">
+        <label>sharding/remote_executor.h</label>
+      </node>
+      <node id="24">
+        <label>shared_mutex</label>
+      </node>
+      <node id="58">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="21">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="57">
+        <label>string_view</label>
+      </node>
+      <node id="37">
+        <label>thread</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="43">
+        <label>utility</label>
+      </node>
+      <node id="17">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="45">
+        <label>utils/clock.h</label>
+      </node>
+      <node id="33">
+        <label>utils/concurrent_cache.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/moral_analyzer.h</label>
+        <link refid="moral__analyzer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/moral_analyzer.cpp</label>
+        <link refid="moral__analyzer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1_moral_analyzer" prot="public">themis::llm::MoralAnalyzer</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" prot="public">themis::llm::MoralAnalyzer::EthicalScenario</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_predicted_outcome" prot="public">themis::llm::MoralAnalyzer::PredictedOutcome</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument" prot="public">themis::llm::MoralAnalyzer::EthicalArgument</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path" prot="public">themis::llm::MoralAnalyzer::ReasoningPath</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision" prot="public">themis::llm::MoralAnalyzer::EthicalDecision</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics" prot="public">themis::llm::MoralAnalyzer::EthicalDecision::Metrics</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" prot="public">themis::llm::MoralAnalyzer::Status</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/property_graph.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/vector_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ethical__guidelines__manager_8h" kindref="compound">llm/ethical_guidelines_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ai__decision__auditor_8h" kindref="compound">llm/ai_decision_auditor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="inference__engine__enhanced_8h" kindref="compound">llm/inference_engine_enhanced.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1llm_1_1_moral_analyzer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1a4e689193e820802753099910dc16117d" kindref="member">MoralAnalyzer</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario" kindref="compound">EthicalScenario</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario_1aa9b4a9066e39940dc60fd9f4f4902412" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario_1ad7f13dd29e39091bdb025b614a7e8373" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario_1ad7f13dd29e39091bdb025b614a7e8373" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario_1a9625f08ae51eb932bf405868c34339e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario_1a9625f08ae51eb932bf405868c34339e3" kindref="member">domain</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>medical,<sp/>legal,<sp/>autonomous_systems,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario_1a4ad2f0e7e642cd46285fa8a9658dfe39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>int&gt;<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario_1a4ad2f0e7e642cd46285fa8a9658dfe39" kindref="member">stakeholders</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>stakeholder<sp/>type<sp/>-&gt;<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario_1a95c1c0aa238d2f1d335a07b4304283e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario_1a95c1c0aa238d2f1d335a07b4304283e0" kindref="member">possible_actions</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario_1a6393761cb4d6ea263676ce860b9950d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario_1a6393761cb4d6ea263676ce860b9950d4" kindref="member">relevant_principles</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario_1aab3ae9f260f2bd59e14070ff934ac485" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario_1aab3ae9f260f2bd59e14070ff934ac485" kindref="member">context_weights</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>urgency,<sp/>certainty,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario_1a4097eb2b6346756fdf2c9a18e65efb77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_scenario_1a4097eb2b6346756fdf2c9a18e65efb77" kindref="member">graph_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ethics_default&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_predicted_outcome" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_predicted_outcome" kindref="compound">PredictedOutcome</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_predicted_outcome_1a3930ced617c115f05f339317046e2832" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_predicted_outcome_1a3930ced617c115f05f339317046e2832" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_predicted_outcome_1a9bd88af2a7b03cc964fdabe33c72bab9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_predicted_outcome_1a9bd88af2a7b03cc964fdabe33c72bab9" kindref="member">probability</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_predicted_outcome_1a82f3739e0414562e52ea09e5ae9c049b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_predicted_outcome_1a82f3739e0414562e52ea09e5ae9c049b" kindref="member">utility</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>-1.0<sp/>to<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_predicted_outcome_1a7f3b8531cb54697845a71baaeda0ca64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_predicted_outcome_1a7f3b8531cb54697845a71baaeda0ca64" kindref="member">stakeholder_impacts</ref>;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_predicted_outcome_1a6968bcd277d1e247dcd9e949eecbcaf8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_predicted_outcome_1a6968bcd277d1e247dcd9e949eecbcaf8" kindref="member">affected_principles</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument" kindref="compound">EthicalArgument</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument_1afc216e9716f50dc3ba362cb737a386df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument_1afc216e9716f50dc3ba362cb737a386df" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument_1a697d75e3aca22201167b7129b3088d65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument_1a697d75e3aca22201167b7129b3088d65" kindref="member">content</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument_1a93fff01249d09154d4ef7454dd471bf5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument_1a93fff01249d09154d4ef7454dd471bf5" kindref="member">philosophy</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument_1a2f72ff432ab716b5e7cf031e34436c4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument_1a2f72ff432ab716b5e7cf031e34436c4c" kindref="member">principle_basis</ref>;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument_1a84f4c4ca78f29725af50def9241e0179" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument_1a84f4c4ca78f29725af50def9241e0179" kindref="member">argument_type</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>pro,<sp/>contra,<sp/>rebuttal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument_1a1fca0f5c2c05caeb0f6f19a82c13717b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_argument_1a1fca0f5c2c05caeb0f6f19a82c13717b" kindref="member">strength</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>0.0<sp/>to<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path" kindref="compound">ReasoningPath</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path_1a96ca05103a08f938be1345c3537f1003" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path_1a96ca05103a08f938be1345c3537f1003" kindref="member">action_id</ref>;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path_1a10d591ef7b0b834a90ee60dc955ea897" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path_1a10d591ef7b0b834a90ee60dc955ea897" kindref="member">supporting_principles</ref>;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path_1a5a0d7e8f0fad93e903e010d040724513" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path_1a5a0d7e8f0fad93e903e010d040724513" kindref="member">opposing_principles</ref>;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path_1ab9426c5b4e4c4e4dfd62635e20c5264c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;PredictedOutcome&gt;<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path_1ab9426c5b4e4c4e4dfd62635e20c5264c" kindref="member">outcomes</ref>;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path_1a22996ad88805f7afbe302e9e7f79b287" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;EthicalArgument&gt;<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path_1a22996ad88805f7afbe302e9e7f79b287" kindref="member">arguments</ref>;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path_1a90c081ff974f48105b9a60bcadd99d25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path_1a90c081ff974f48105b9a60bcadd99d25" kindref="member">total_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path_1adb2da83df510c1079a0fee8443e8cfc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path_1adb2da83df510c1079a0fee8443e8cfc4" kindref="member">confidence</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision" kindref="compound">EthicalDecision</ref><sp/>{</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1ab746749e4315469a0dd64736e279f6ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1ab746749e4315469a0dd64736e279f6ee" kindref="member">decision_id</ref>;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a50f96ed972e4d1b68005736f8bceb02c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a50f96ed972e4d1b68005736f8bceb02c" kindref="member">scenario_id</ref>;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1ae1cb8fa86de442e05c6d90bfb2604ee4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1ae1cb8fa86de442e05c6d90bfb2604ee4" kindref="member">philosophy</ref>;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1af13fb890bed7e004ff99ed1237f9b886" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1af13fb890bed7e004ff99ed1237f9b886" kindref="member">recommended_action</ref>;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1ad3bbf36904d9551e81586a3e85ebf9e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1ad3bbf36904d9551e81586a3e85ebf9e7" kindref="member">reasoning</ref>;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a7d7b6194c66257010e6cbe702a92f3c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a7d7b6194c66257010e6cbe702a92f3c2" kindref="member">principle_citations</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a980a3135e9b984256ba1a73b0d5be6d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path" kindref="compound">ReasoningPath</ref><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a980a3135e9b984256ba1a73b0d5be6d9" kindref="member">reasoning_path</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a08d817f4a5c67bb693a6fd327f2eb805" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a08d817f4a5c67bb693a6fd327f2eb805" kindref="member">confidence</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a6c6b26ffbbc6fbb32118e0d72e6571df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a6c6b26ffbbc6fbb32118e0d72e6571df" kindref="member">alternative_perspectives</ref>;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a647117eb4374f3c1671bec59a1050bb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a647117eb4374f3c1671bec59a1050bb9" kindref="member">graph_id</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Evaluation<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics" kindref="compound">Metrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1a3a790e52cbbb9821ad98dda2c6cbb1a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1a3a790e52cbbb9821ad98dda2c6cbb1a9" kindref="member">consistency</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1ae303ad3e6a9113a2e84e402b6aed6d63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1ae303ad3e6a9113a2e84e402b6aed6d63" kindref="member">fairness</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1a1af3ed685148b08097bb4e0fa9c3000e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1a1af3ed685148b08097bb4e0fa9c3000e" kindref="member">transparency</ref><sp/>=<sp/>1.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Always<sp/>transparent<sp/>with<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1a4c610261450fa4e0ade9ed55d61c60dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1a4c610261450fa4e0ade9ed55d61c60dd" kindref="member">feasibility</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1a172356ec94e6ee0575b4ae4a63e5fd85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1a172356ec94e6ee0575b4ae4a63e5fd85" kindref="member">long_term_impact</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a2ae6d49460de05724de1fbf8380d65a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/><ref refid="namespacethemis_1_1llm_1_1metrics" kindref="compound">metrics</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref><sp/>{</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a5cb45c870bf20a821cd6e01438df5de6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a5cb45c870bf20a821cd6e01438df5de6" kindref="member">ok</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a2b16c2484a03f2701eb65025b8bbcabc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a2b16c2484a03f2701eb65025b8bbcabc" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a9a92bb8720929d0af0811a643fd7c671" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a9a92bb8720929d0af0811a643fd7c671" kindref="member">OK</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a6a87662097c831013fdd27afb768320a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a6a87662097c831013fdd27afb768320a" kindref="member">Error</ref>(std::string<sp/>msg)<sp/>{<sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::move(msg)};<sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1a4e689193e820802753099910dc16117d" kindref="member">MoralAnalyzer</ref>(</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper&amp;<sp/>db,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;EthicalGuidelinesManager&gt;<sp/>ethical_guidelines<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;VectorIndexManager&gt;<sp/>vector_index<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;AIDecisionAuditor&gt;<sp/>decision_auditor<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;InferenceEngineEnhanced&gt;<sp/>llm_engine<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1a634bdd1930004bde247303142fcbd3cc" kindref="member">buildDecisionGraph</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalScenario&amp;<sp/>scenario);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>EthicalDecision&gt;<sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1ab4757186f852d045b8295cae4fbbc302" kindref="member">analyzeWithPhilosophy</ref>(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalScenario&amp;<sp/>scenario,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>philosophy</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>EthicalDecision&gt;<sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1a04d0cead739f60b6451e5c78e39d6e78" kindref="member">analyzeMultiPhilosophy</ref>(</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalScenario&amp;<sp/>scenario,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>philosophies</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>ReasoningPath<sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1aa40ceaf4560c6157e5fd56dcd1a76f80" kindref="member">evaluateDeontological</ref>(</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalScenario&amp;<sp/>scenario,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>action</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>ReasoningPath<sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1a6017dbc7cb985cfca761bb61743d42e0" kindref="member">evaluateConsequentialist</ref>(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalScenario&amp;<sp/>scenario,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>action</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>ReasoningPath<sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1acb4d05a65ec39468eb080b386bec314a" kindref="member">evaluateVirtueEthics</ref>(</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalScenario&amp;<sp/>scenario,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>action</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PredictedOutcome&gt;<sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1a9969cff709ff4a8b13aa1b2022be7b69" kindref="member">predictOutcomes</ref>(</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalScenario&amp;<sp/>scenario,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>action</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1a2bd12780ebe0d545bba513a00dc4360e" kindref="member">calculateExpectedUtility</ref>(</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PredictedOutcome&gt;&amp;<sp/>outcomes</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EthicalArgument&gt;<sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1a18d9779be14ed91d9bf126376d7041ae" kindref="member">generateArguments</ref>(</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalScenario&amp;<sp/>scenario,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>action,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>philosophy</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1a25eaec61584301137667aa22a22e7645" kindref="member">recommendPhilosophies</ref>(</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalScenario&amp;<sp/>scenario,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>use_llm<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::vector&lt;std::string&gt;&gt;<sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1a103ab8066a80b99e23de3cfe1c399d0b" kindref="member">detectEthicalImplicationsViaLLM</ref>(</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalScenario&amp;<sp/>scenario</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EthicalDecision<sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1aa1e5f955017954ef7b6371ee5fb1e332" kindref="member">synthesizeDecision</ref>(</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>ReasoningPath&gt;&gt;&amp;<sp/>paths</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1a5545f9579f16d81d1ab5f27f023f79ab" kindref="member">checkConsistency</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalDecision&amp;<sp/>decision);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1a794772d5d66ac54525ee9c7b0fea59fb" kindref="member">assessFairness</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalDecision&amp;<sp/>decision);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;EthicalScenario,<sp/>EthicalDecision&gt;&gt;<sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1adf2b9d9fae5330713c842e5698f7d96f" kindref="member">retrieveSimilarScenarios</ref>(</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalScenario&amp;<sp/>scenario,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>5</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1a836d25d4189835dd63a168c2f522a8d9" kindref="member">storeDecision</ref>(</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalDecision&amp;<sp/>decision,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>scenario_embedding<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ethics_system&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1afba807fca02b743cab276da6ff8acd0d" kindref="member">exportDecisionGraphDOT</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>scenario_id);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1a74f1fd6a7c2a3115114e8b452ed3f650" kindref="member">getReasoningExplanation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalDecision&amp;<sp/>decision);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/><ref refid="classthemis_1_1llm_1_1_moral_analyzer_1ad5927e7e7d2d75e3a6415e7e00afb8a0" kindref="member">clearDecisionGraph</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>scenario_id);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>components</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper&amp;<sp/>db_;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;PropertyGraphManager&gt;<sp/>graph_manager_;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;EthicalGuidelinesManager&gt;<sp/>ethical_guidelines_;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;VectorIndexManager&gt;<sp/>vector_index_;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;AIDecisionAuditor&gt;<sp/>decision_auditor_;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;InferenceEngineEnhanced&gt;<sp/>llm_engine_;<sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>semantic<sp/>analysis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>extractKeywords(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalDecision&amp;<sp/>decision);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/>addScenarioNode(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalScenario&amp;<sp/>scenario);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/>addStakeholderNodes(</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalScenario&amp;<sp/>scenario,</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>scenario_node_id</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/>addPrincipleNodes(</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalScenario&amp;<sp/>scenario,</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>scenario_node_id,</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>philosophy</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/>addActionNodes(</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalScenario&amp;<sp/>scenario,</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>scenario_node_id</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/>addOutcomeNodes(</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>action_id,</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PredictedOutcome&gt;&amp;<sp/>outcomes</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/>addArgumentNodes(</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>action_id,</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;EthicalArgument&gt;&amp;<sp/>arguments</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>ReasoningPath<sp/>traverseReasoningPath(</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>scenario_id,</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>action_id,</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>philosophy</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>loadPrinciplesForPhilosophy(</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>philosophy</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>scoreActionByPrinciples(</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>action,</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>principles,</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>philosophy</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/>calculateStakeholderImpacts(</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalScenario&amp;<sp/>scenario,</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>action</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>formatDecisionText(</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalDecision&amp;<sp/>decision</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>validateScenario(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EthicalScenario&amp;<sp/>scenario);</highlight></codeline>
+<codeline lineno="399"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="402"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/moral_analyzer.h"/>
+  </compounddef>
+</doxygen>

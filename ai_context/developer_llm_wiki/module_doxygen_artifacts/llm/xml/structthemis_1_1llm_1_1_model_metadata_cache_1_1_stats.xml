@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ModelMetadataCache::Stats</compoundname>
+    <includes refid="model__metadata__cache_8h" local="no">model_metadata_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats_1a47d8f78b552123935989e446c16bd374" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ModelMetadataCache::Stats::total_entries</definition>
+        <argsstring></argsstring>
+        <name>total_entries</name>
+        <qualifiedname>themis::llm::ModelMetadataCache::Stats::total_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_metadata_cache.h" line="102" column="16" bodyfile="include/llm/model_metadata_cache.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats_1a816d26e13a6e791befbf913293dd9dcd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ModelMetadataCache::Stats::pinned_entries</definition>
+        <argsstring></argsstring>
+        <name>pinned_entries</name>
+        <qualifiedname>themis::llm::ModelMetadataCache::Stats::pinned_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_metadata_cache.h" line="103" column="16" bodyfile="include/llm/model_metadata_cache.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats_1af8ca23411f30f64f263027d80fd4ae04" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ModelMetadataCache::Stats::total_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_size_bytes</name>
+        <qualifiedname>themis::llm::ModelMetadataCache::Stats::total_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_metadata_cache.h" line="104" column="16" bodyfile="include/llm/model_metadata_cache.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats_1a8ec34a4e06d8833639c190b32a578f00" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::ModelMetadataCache::Stats::total_accesses</definition>
+        <argsstring></argsstring>
+        <name>total_accesses</name>
+        <qualifiedname>themis::llm::ModelMetadataCache::Stats::total_accesses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_metadata_cache.h" line="105" column="18" bodyfile="include/llm/model_metadata_cache.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_metadata_cache.h" line="101" column="5" bodyfile="include/llm/model_metadata_cache.h" bodystart="101" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats_1a816d26e13a6e791befbf913293dd9dcd" prot="public" virt="non-virtual"><scope>themis::llm::ModelMetadataCache::Stats</scope><name>pinned_entries</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats_1a8ec34a4e06d8833639c190b32a578f00" prot="public" virt="non-virtual"><scope>themis::llm::ModelMetadataCache::Stats</scope><name>total_accesses</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats_1a47d8f78b552123935989e446c16bd374" prot="public" virt="non-virtual"><scope>themis::llm::ModelMetadataCache::Stats</scope><name>total_entries</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_metadata_cache_1_1_stats_1af8ca23411f30f64f263027d80fd4ae04" prot="public" virt="non-virtual"><scope>themis::llm::ModelMetadataCache::Stats</scope><name>total_size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

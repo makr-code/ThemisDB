@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_trend_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TrendResult</compoundname>
+    <includes refid="temporal__aggregator_8h" local="no">temporal_aggregator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_trend_result_1a284313d810479e8939fac1b71155387e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::temporal::TrendResult::slope</definition>
+        <argsstring></argsstring>
+        <name>slope</name>
+        <qualifiedname>themisdb::temporal::TrendResult::slope</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Rate of change of the measure per millisecond. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="102" column="15" bodyfile="include/temporal/temporal_aggregator.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_trend_result_1a54987418f9883590a5af44966f42364d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::temporal::TrendResult::intercept</definition>
+        <argsstring></argsstring>
+        <name>intercept</name>
+        <qualifiedname>themisdb::temporal::TrendResult::intercept</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Fitted value at t = period_start. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="103" column="15" bodyfile="include/temporal/temporal_aggregator.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_trend_result_1aa4cc1a113eed13eef07f19c6ee613973" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::temporal::TrendResult::r_squared</definition>
+        <argsstring></argsstring>
+        <name>r_squared</name>
+        <qualifiedname>themisdb::temporal::TrendResult::r_squared</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Coefficient of determination [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="104" column="15" bodyfile="include/temporal/temporal_aggregator.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_trend_result_1a2714196a5be590e1641202c42c95826c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TrendResult::sample_count</definition>
+        <argsstring></argsstring>
+        <name>sample_count</name>
+        <qualifiedname>themisdb::temporal::TrendResult::sample_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of windows used in the regression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="105" column="15" bodyfile="include/temporal/temporal_aggregator.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_trend_result_1a76aef001387ddc694c1a17f761c9c545" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::TrendResult::period_start</definition>
+        <argsstring></argsstring>
+        <name>period_start</name>
+        <qualifiedname>themisdb::temporal::TrendResult::period_start</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Start of the analysed range. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="106" column="15" bodyfile="include/temporal/temporal_aggregator.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_trend_result_1af836937a6154efb3dbf3cabed0d8200c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::TrendResult::period_end</definition>
+        <argsstring></argsstring>
+        <name>period_end</name>
+        <qualifiedname>themisdb::temporal::TrendResult::period_end</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>End of the analysed range. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="107" column="15" bodyfile="include/temporal/temporal_aggregator.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_trend_result_1ad3333e20652210232e4ac5aef5cfc631" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::TrendResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::temporal::TrendResult::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="109" column="20" bodyfile="include/temporal/temporal_aggregator.h" bodystart="109" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Result of a linear trend analysis over time-windowed aggregates. </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_aggregator.h" line="101" column="1" bodyfile="include/temporal/temporal_aggregator.h" bodystart="101" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_trend_result_1a54987418f9883590a5af44966f42364d" prot="public" virt="non-virtual"><scope>themisdb::temporal::TrendResult</scope><name>intercept</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_trend_result_1af836937a6154efb3dbf3cabed0d8200c" prot="public" virt="non-virtual"><scope>themisdb::temporal::TrendResult</scope><name>period_end</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_trend_result_1a76aef001387ddc694c1a17f761c9c545" prot="public" virt="non-virtual"><scope>themisdb::temporal::TrendResult</scope><name>period_start</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_trend_result_1aa4cc1a113eed13eef07f19c6ee613973" prot="public" virt="non-virtual"><scope>themisdb::temporal::TrendResult</scope><name>r_squared</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_trend_result_1a2714196a5be590e1641202c42c95826c" prot="public" virt="non-virtual"><scope>themisdb::temporal::TrendResult</scope><name>sample_count</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_trend_result_1a284313d810479e8939fac1b71155387e" prot="public" virt="non-virtual"><scope>themisdb::temporal::TrendResult</scope><name>slope</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_trend_result_1ad3333e20652210232e4ac5aef5cfc631" prot="public" virt="non-virtual"><scope>themisdb::temporal::TrendResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

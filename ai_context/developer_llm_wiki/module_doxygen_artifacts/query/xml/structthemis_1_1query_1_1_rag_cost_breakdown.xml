@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_rag_cost_breakdown" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::RagCostBreakdown</compoundname>
+    <includes refid="tensor__rag__cost__model_8h" local="no">tensor_rag_cost_model.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_rag_cost_breakdown_1a9ba50f82a818fc398f33c3c884332f56" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a958cbda6d6348c26463ba37e41c49085" kindref="member">RagRetrievalPath</ref></type>
+        <definition>RagRetrievalPath themis::query::RagCostBreakdown::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::query::RagCostBreakdown::path</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1query_1a958cbda6d6348c26463ba37e41c49085a74fff60bf1308a987daba73f672c0934" kindref="member">RagRetrievalPath::HNSW_FLAT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="93" column="22" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_rag_cost_breakdown_1ad64b6558dc7478f7599da6d4d1de4047" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::RagCostBreakdown::cost_index_traversal</definition>
+        <argsstring></argsstring>
+        <name>cost_index_traversal</name>
+        <qualifiedname>themis::query::RagCostBreakdown::cost_index_traversal</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="97" column="12" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_rag_cost_breakdown_1ad6793e7ace2098989775e2cf94d6a4e2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::RagCostBreakdown::cost_dist_verification</definition>
+        <argsstring></argsstring>
+        <name>cost_dist_verification</name>
+        <qualifiedname>themis::query::RagCostBreakdown::cost_dist_verification</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="99" column="12" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_rag_cost_breakdown_1a4803121a24f1c1c716c68ca063ecfb56" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::RagCostBreakdown::cost_storage_fetch</definition>
+        <argsstring></argsstring>
+        <name>cost_storage_fetch</name>
+        <qualifiedname>themis::query::RagCostBreakdown::cost_storage_fetch</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="101" column="12" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_rag_cost_breakdown_1acbb56ae4eb365409ffb888c53225bdca" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::RagCostBreakdown::cost_decode</definition>
+        <argsstring></argsstring>
+        <name>cost_decode</name>
+        <qualifiedname>themis::query::RagCostBreakdown::cost_decode</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="103" column="12" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_rag_cost_breakdown_1a457c66912dfdb1a7b657624c6337552b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::RagCostBreakdown::cost_inject</definition>
+        <argsstring></argsstring>
+        <name>cost_inject</name>
+        <qualifiedname>themis::query::RagCostBreakdown::cost_inject</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="105" column="12" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_rag_cost_breakdown_1a43617ce990244aa661566574d3945852" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::RagCostBreakdown::total_ncu</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>total_ncu</name>
+        <qualifiedname>themis::query::RagCostBreakdown::total_ncu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="109" column="12" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="109" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_rag_cost_breakdown_1a1b8dd928b98a8154c612f26c11feb0e6" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::RagCostBreakdown::ttft_ms</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ttft_ms</name>
+        <qualifiedname>themis::query::RagCostBreakdown::ttft_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="114" column="12" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_rag_cost_breakdown_1aa53881512390592b23815494a865b24c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416" kindref="member">WorkloadType</ref></type>
+        <definition>WorkloadType themis::query::RagCostBreakdown::workloadType</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>workloadType</name>
+        <qualifiedname>themis::query::RagCostBreakdown::workloadType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="116" column="18" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="116" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_rag_cost_breakdown_1ad66bdbf82edfc03365fdcdcb05618c19" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::RagCostBreakdown::summary</definition>
+        <argsstring>() const</argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::query::RagCostBreakdown::summary</qualifiedname>
+        <briefdescription>
+<para>Summary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="124" column="17" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="356" bodyend="365"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/tensor_rag_cost_model.h" line="92" column="1" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="92" bodyend="125"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_rag_cost_breakdown_1acbb56ae4eb365409ffb888c53225bdca" prot="public" virt="non-virtual"><scope>themis::query::RagCostBreakdown</scope><name>cost_decode</name></member>
+      <member refid="structthemis_1_1query_1_1_rag_cost_breakdown_1ad6793e7ace2098989775e2cf94d6a4e2" prot="public" virt="non-virtual"><scope>themis::query::RagCostBreakdown</scope><name>cost_dist_verification</name></member>
+      <member refid="structthemis_1_1query_1_1_rag_cost_breakdown_1ad64b6558dc7478f7599da6d4d1de4047" prot="public" virt="non-virtual"><scope>themis::query::RagCostBreakdown</scope><name>cost_index_traversal</name></member>
+      <member refid="structthemis_1_1query_1_1_rag_cost_breakdown_1a457c66912dfdb1a7b657624c6337552b" prot="public" virt="non-virtual"><scope>themis::query::RagCostBreakdown</scope><name>cost_inject</name></member>
+      <member refid="structthemis_1_1query_1_1_rag_cost_breakdown_1a4803121a24f1c1c716c68ca063ecfb56" prot="public" virt="non-virtual"><scope>themis::query::RagCostBreakdown</scope><name>cost_storage_fetch</name></member>
+      <member refid="structthemis_1_1query_1_1_rag_cost_breakdown_1a9ba50f82a818fc398f33c3c884332f56" prot="public" virt="non-virtual"><scope>themis::query::RagCostBreakdown</scope><name>path</name></member>
+      <member refid="structthemis_1_1query_1_1_rag_cost_breakdown_1ad66bdbf82edfc03365fdcdcb05618c19" prot="public" virt="non-virtual"><scope>themis::query::RagCostBreakdown</scope><name>summary</name></member>
+      <member refid="structthemis_1_1query_1_1_rag_cost_breakdown_1a43617ce990244aa661566574d3945852" prot="public" virt="non-virtual"><scope>themis::query::RagCostBreakdown</scope><name>total_ncu</name></member>
+      <member refid="structthemis_1_1query_1_1_rag_cost_breakdown_1a1b8dd928b98a8154c612f26c11feb0e6" prot="public" virt="non-virtual"><scope>themis::query::RagCostBreakdown</scope><name>ttft_ms</name></member>
+      <member refid="structthemis_1_1query_1_1_rag_cost_breakdown_1aa53881512390592b23815494a865b24c" prot="public" virt="non-virtual"><scope>themis::query::RagCostBreakdown</scope><name>workloadType</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

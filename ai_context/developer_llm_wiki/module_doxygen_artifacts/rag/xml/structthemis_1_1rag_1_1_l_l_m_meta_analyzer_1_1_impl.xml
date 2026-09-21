@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::LLMMetaAnalyzer::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_impl_1aafe6d197d62dcb08f985e388a3d44a81" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config" kindref="compound">AnalysisConfig</ref></type>
+        <definition>AnalysisConfig themis::rag::LLMMetaAnalyzer::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/llm_meta_analyzer.cpp" line="27" column="20" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_impl_1a503dc5e3c8df14c6aa7bd3d3ea423021" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_result" kindref="compound">AnalysisResult</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, AnalysisResult&gt; themis::rag::LLMMetaAnalyzer::Impl::cache</definition>
+        <argsstring></argsstring>
+        <name>cache</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::Impl::cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/llm_meta_analyzer.cpp" line="28" column="24" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_impl_1a4b7668e700591f3bb03cb08712e72b80" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::LLMMetaAnalyzer::Impl::total_calls</definition>
+        <argsstring></argsstring>
+        <name>total_calls</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::Impl::total_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/llm_meta_analyzer.cpp" line="31" column="12" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_impl_1abb182d7afe92e2fb8242a41bb2d67ac9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::LLMMetaAnalyzer::Impl::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::Impl::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/llm_meta_analyzer.cpp" line="32" column="12" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_impl_1ad3fbcbf19f4fa421400e445b5758273c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::LLMMetaAnalyzer::Impl::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::Impl::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/llm_meta_analyzer.cpp" line="33" column="12" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_impl_1a79afc7cac652d1e217ce767a106203cd" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::LLMMetaAnalyzer::Impl::metrics_mutex</definition>
+        <argsstring></argsstring>
+        <name>metrics_mutex</name>
+        <qualifiedname>themis::rag::LLMMetaAnalyzer::Impl::metrics_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/llm_meta_analyzer.cpp" line="34" column="24" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::LLMMetaAnalyzer::AnalysisConfig</label>
+        <link refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_analysis_config"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::LLMMetaAnalyzer::Impl</label>
+        <link refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/llm_meta_analyzer.cpp" line="26" column="1" bodyfile="src/rag/llm_meta_analyzer.cpp" bodystart="26" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_impl_1a503dc5e3c8df14c6aa7bd3d3ea423021" prot="public" virt="non-virtual"><scope>themis::rag::LLMMetaAnalyzer::Impl</scope><name>cache</name></member>
+      <member refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_impl_1abb182d7afe92e2fb8242a41bb2d67ac9" prot="public" virt="non-virtual"><scope>themis::rag::LLMMetaAnalyzer::Impl</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_impl_1ad3fbcbf19f4fa421400e445b5758273c" prot="public" virt="non-virtual"><scope>themis::rag::LLMMetaAnalyzer::Impl</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_impl_1aafe6d197d62dcb08f985e388a3d44a81" prot="public" virt="non-virtual"><scope>themis::rag::LLMMetaAnalyzer::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_impl_1a79afc7cac652d1e217ce767a106203cd" prot="public" virt="non-virtual"><scope>themis::rag::LLMMetaAnalyzer::Impl</scope><name>metrics_mutex</name></member>
+      <member refid="structthemis_1_1rag_1_1_l_l_m_meta_analyzer_1_1_impl_1a4b7668e700591f3bb03cb08712e72b80" prot="public" virt="non-virtual"><scope>themis::rag::LLMMetaAnalyzer::Impl</scope><name>total_calls</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_remote_executor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::RemoteExecutor::Config</compoundname>
+    <includes refid="remote__executor_8h" local="no">remote_executor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a8add0e2b859a87ce842c8a09fc3f3250" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RemoteExecutor::Config::cert_path</definition>
+        <argsstring></argsstring>
+        <name>cert_path</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Config::cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="39" column="21" bodyfile="include/sharding/remote_executor.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a896f9b64bb27dad7616ff12a1bb967c1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RemoteExecutor::Config::key_path</definition>
+        <argsstring></argsstring>
+        <name>key_path</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Config::key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="40" column="21" bodyfile="include/sharding/remote_executor.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1ab731e282ea8557768a57d4bc2c587b83" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RemoteExecutor::Config::key_passphrase</definition>
+        <argsstring></argsstring>
+        <name>key_passphrase</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Config::key_passphrase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="41" column="21" bodyfile="include/sharding/remote_executor.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a0441236637e157c3d26822e0a6af8c4c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RemoteExecutor::Config::ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>ca_cert_path</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Config::ca_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="42" column="21" bodyfile="include/sharding/remote_executor.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a6867ad5cfb0f9f6383274bbe1145335f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RemoteExecutor::Config::crl_path</definition>
+        <argsstring></argsstring>
+        <name>crl_path</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Config::crl_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="43" column="21" bodyfile="include/sharding/remote_executor.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1af8629d83c202fb803ff92d96729bac5a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RemoteExecutor::Config::local_shard_id</definition>
+        <argsstring></argsstring>
+        <name>local_shard_id</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Config::local_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="46" column="21" bodyfile="include/sharding/remote_executor.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a68f8bfa19dff4fb63ddc058cf6faa05d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::RemoteExecutor::Config::enable_signing</definition>
+        <argsstring></argsstring>
+        <name>enable_signing</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Config::enable_signing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="49" column="14" bodyfile="include/sharding/remote_executor.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1ac12cfc89300ed1a4e08f8c508ce1b2d5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::RemoteExecutor::Config::connect_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>connect_timeout_ms</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Config::connect_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="52" column="18" bodyfile="include/sharding/remote_executor.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a2e0413f7199f0df7107e7842109d990a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::RemoteExecutor::Config::request_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>request_timeout_ms</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Config::request_timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="53" column="18" bodyfile="include/sharding/remote_executor.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1ac0443667f1d6de1b033e1063ec6f198f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::RemoteExecutor::Config::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Config::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="54" column="18" bodyfile="include/sharding/remote_executor.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a728fea22ba9454b09ee158697a9c1038" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::RemoteExecutor::Config::enable_circuit_breaker</definition>
+        <argsstring></argsstring>
+        <name>enable_circuit_breaker</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Config::enable_circuit_breaker</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="57" column="14" bodyfile="include/sharding/remote_executor.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a0d8704366d30e7853fbd716b0f843a9a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config" kindref="compound">CircuitBreaker::Config</ref></type>
+        <definition>CircuitBreaker::Config themis::sharding::RemoteExecutor::Config::circuit_breaker_config</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_config</name>
+        <qualifiedname>themis::sharding::RemoteExecutor::Config::circuit_breaker_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/remote_executor.h" line="58" column="32" bodyfile="include/sharding/remote_executor.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration for Remote Executor </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::CircuitBreaker::Config</label>
+        <link refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::RemoteExecutor::Config</label>
+        <link refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>circuit_breaker_config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/remote_executor.h" line="37" column="5" bodyfile="include/sharding/remote_executor.h" bodystart="37" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a0441236637e157c3d26822e0a6af8c4c" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Config</scope><name>ca_cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a8add0e2b859a87ce842c8a09fc3f3250" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Config</scope><name>cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a0d8704366d30e7853fbd716b0f843a9a" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Config</scope><name>circuit_breaker_config</name></member>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1ac12cfc89300ed1a4e08f8c508ce1b2d5" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Config</scope><name>connect_timeout_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a6867ad5cfb0f9f6383274bbe1145335f" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Config</scope><name>crl_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a728fea22ba9454b09ee158697a9c1038" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Config</scope><name>enable_circuit_breaker</name></member>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a68f8bfa19dff4fb63ddc058cf6faa05d" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Config</scope><name>enable_signing</name></member>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1ab731e282ea8557768a57d4bc2c587b83" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Config</scope><name>key_passphrase</name></member>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a896f9b64bb27dad7616ff12a1bb967c1" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Config</scope><name>key_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1af8629d83c202fb803ff92d96729bac5a" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Config</scope><name>local_shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1ac0443667f1d6de1b033e1063ec6f198f" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Config</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a2e0413f7199f0df7107e7842109d990a" prot="public" virt="non-virtual"><scope>themis::sharding::RemoteExecutor::Config</scope><name>request_timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

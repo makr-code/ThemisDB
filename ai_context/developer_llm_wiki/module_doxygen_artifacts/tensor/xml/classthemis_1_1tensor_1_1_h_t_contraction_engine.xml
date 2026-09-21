@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_h_t_contraction_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::HTContractionEngine</compoundname>
+    <includes refid="ht__train_8h" local="no">ht_train.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_h_t_contraction_engine_1a1691498ddf0010ca3858d1d400725628" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::tensor::HTContractionEngine::innerProduct</definition>
+        <argsstring>(const HTTrain &amp;A, const HTTrain &amp;B)</argsstring>
+        <name>innerProduct</name>
+        <qualifiedname>themis::tensor::HTContractionEngine::innerProduct</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">HTTrain</ref> &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">HTTrain</ref> &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+<para>Compute ⟨A, B⟩ without decompression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Both A and B must have the same tree topology (same shape and rank layout). Returns 0.0 if the trees are structurally incompatible. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="231" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_h_t_contraction_engine_1a931f92f2d16638ee3824d76cd5a727e5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::tensor::HTContractionEngine::frobeniusNorm</definition>
+        <argsstring>(const HTTrain &amp;A)</argsstring>
+        <name>frobeniusNorm</name>
+        <qualifiedname>themis::tensor::HTContractionEngine::frobeniusNorm</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">HTTrain</ref> &amp;</type>
+          <declname>A</declname>
+        </param>
+        <briefdescription>
+<para>Compute ‖A‖_F = sqrt(⟨A, A⟩). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="234" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_h_t_contraction_engine_1ab3410e6a29d413b9f42e3419cdf62489" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::tensor::HTContractionEngine::cosineSimilarity</definition>
+        <argsstring>(const HTTrain &amp;A, const HTTrain &amp;B)</argsstring>
+        <name>cosineSimilarity</name>
+        <qualifiedname>themis::tensor::HTContractionEngine::cosineSimilarity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">HTTrain</ref> &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_h_t_train" kindref="compound">HTTrain</ref> &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+<para>Cosine similarity ∈ [−1, 1]; returns 0.0 if either tensor has zero norm. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="237" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_h_t_contraction_engine_1a63abb993ca052f13cc1d6942cc45c16e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>static std::vector&lt; double &gt; themis::tensor::HTContractionEngine::computeGram</definition>
+        <argsstring>(const HTNode &amp;A, const HTNode &amp;B)</argsstring>
+        <name>computeGram</name>
+        <qualifiedname>themis::tensor::HTContractionEngine::computeGram</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_h_t_node" kindref="compound">HTNode</ref> &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_h_t_node" kindref="compound">HTNode</ref> &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Recursive helper: returns the Gram matrix Γ_t[α, β] as a flat row-major vector of shape [r_A × r_B]. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/ht_train.h" line="242" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Arithmetic engine for Hierarchical Tucker tensors. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides O(d·r⁴) inner product without full tensor reconstruction.</para>
+<para><heading level="3">Inner product algorithm (Grasedyck 2010 §4)</heading>
+</para>
+<para>Given two HT tensors A and B with the same binary-tree topology:<orderedlist>
+<listitem><para>Leaf k: Γ_k[α, β] = ∑_i U_A_k[i, α] · U_B_k[i, β] (O(n·r²))</para>
+</listitem><listitem><para>Internal node (bottom-up): Γ[α, β] = ∑_{γ_l,γ_l&apos;,γ_r,γ_r&apos;} B_A[γ_l,γ_r,α] · B_B[γ_l&apos;,γ_r&apos;,β] · Γ_left[γ_l,γ_l&apos;] · Γ_right[γ_r,γ_r&apos;] (O(r⁴) per node)</para>
+</listitem><listitem><para>Root: ⟨A, B⟩ = Γ_root[0, 0]</para>
+</listitem></orderedlist>
+</para>
+<para>Total: O(d·n·r² + d·r⁴). </para>
+    </detaileddescription>
+    <location file="include/tensor/ht_train.h" line="223" column="1" bodyfile="include/tensor/ht_train.h" bodystart="223" bodyend="243"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_h_t_contraction_engine_1a63abb993ca052f13cc1d6942cc45c16e" prot="private" virt="non-virtual"><scope>themis::tensor::HTContractionEngine</scope><name>computeGram</name></member>
+      <member refid="classthemis_1_1tensor_1_1_h_t_contraction_engine_1ab3410e6a29d413b9f42e3419cdf62489" prot="public" virt="non-virtual"><scope>themis::tensor::HTContractionEngine</scope><name>cosineSimilarity</name></member>
+      <member refid="classthemis_1_1tensor_1_1_h_t_contraction_engine_1a931f92f2d16638ee3824d76cd5a727e5" prot="public" virt="non-virtual"><scope>themis::tensor::HTContractionEngine</scope><name>frobeniusNorm</name></member>
+      <member refid="classthemis_1_1tensor_1_1_h_t_contraction_engine_1a1691498ddf0010ca3858d1d400725628" prot="public" virt="non-virtual"><scope>themis::tensor::HTContractionEngine</scope><name>innerProduct</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

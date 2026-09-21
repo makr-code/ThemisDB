@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_load_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardLoadMetrics</compoundname>
+    <includes refid="shard__load__detector_8h" local="no">shard_load_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_metrics_1a8b0f24070a61eed554a2b6ec6fe1b93e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardLoadMetrics::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::ShardLoadMetrics::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="34" column="17" bodyfile="include/sharding/shard_load_detector.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_metrics_1aa40b02fcab088dbca9d6651be864406e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardLoadMetrics::total_records</definition>
+        <argsstring></argsstring>
+        <name>total_records</name>
+        <qualifiedname>themis::sharding::ShardLoadMetrics::total_records</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="37" column="14" bodyfile="include/sharding/shard_load_detector.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_metrics_1aba74edb0fa6e7a209b2d7d1879e9e392" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardLoadMetrics::total_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_bytes</name>
+        <qualifiedname>themis::sharding::ShardLoadMetrics::total_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="38" column="14" bodyfile="include/sharding/shard_load_detector.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_metrics_1ad12d67c98cc0fc1cc44af9ca77102c95" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadMetrics::storage_usage_percent</definition>
+        <argsstring></argsstring>
+        <name>storage_usage_percent</name>
+        <qualifiedname>themis::sharding::ShardLoadMetrics::storage_usage_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="39" column="12" bodyfile="include/sharding/shard_load_detector.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_metrics_1a99d1f8b56a5d94ad0793a5dd7ad8e694" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardLoadMetrics::requests_per_sec</definition>
+        <argsstring></argsstring>
+        <name>requests_per_sec</name>
+        <qualifiedname>themis::sharding::ShardLoadMetrics::requests_per_sec</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="42" column="14" bodyfile="include/sharding/shard_load_detector.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_metrics_1a4ceca4b9fa6e33748d52315cc242e479" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardLoadMetrics::read_requests_per_sec</definition>
+        <argsstring></argsstring>
+        <name>read_requests_per_sec</name>
+        <qualifiedname>themis::sharding::ShardLoadMetrics::read_requests_per_sec</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="43" column="14" bodyfile="include/sharding/shard_load_detector.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_metrics_1a287514d72ada6aae812e57fcbbb863f1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardLoadMetrics::write_requests_per_sec</definition>
+        <argsstring></argsstring>
+        <name>write_requests_per_sec</name>
+        <qualifiedname>themis::sharding::ShardLoadMetrics::write_requests_per_sec</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="44" column="14" bodyfile="include/sharding/shard_load_detector.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_metrics_1a271939a030a4f9f17f49414dfcd126d0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadMetrics::avg_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_latency_ms</name>
+        <qualifiedname>themis::sharding::ShardLoadMetrics::avg_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="47" column="12" bodyfile="include/sharding/shard_load_detector.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_metrics_1a66982dd3e039a0e0719b74b94d5b4b27" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadMetrics::p95_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p95_latency_ms</name>
+        <qualifiedname>themis::sharding::ShardLoadMetrics::p95_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="48" column="12" bodyfile="include/sharding/shard_load_detector.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_metrics_1a9ffaae24663b8fcb3ead0d8c26a04c88" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadMetrics::p99_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p99_latency_ms</name>
+        <qualifiedname>themis::sharding::ShardLoadMetrics::p99_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="49" column="12" bodyfile="include/sharding/shard_load_detector.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_metrics_1a681d96af8c0df41f13849f6e00f99d61" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadMetrics::cpu_usage_percent</definition>
+        <argsstring></argsstring>
+        <name>cpu_usage_percent</name>
+        <qualifiedname>themis::sharding::ShardLoadMetrics::cpu_usage_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="52" column="12" bodyfile="include/sharding/shard_load_detector.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_metrics_1a365f083f329e04372372b1f9f540a878" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadMetrics::memory_usage_mb</definition>
+        <argsstring></argsstring>
+        <name>memory_usage_mb</name>
+        <qualifiedname>themis::sharding::ShardLoadMetrics::memory_usage_mb</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="53" column="12" bodyfile="include/sharding/shard_load_detector.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_metrics_1aafcb31f58da48d28e8bf3ad9b2857b2f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadMetrics::token_range_coverage</definition>
+        <argsstring></argsstring>
+        <name>token_range_coverage</name>
+        <qualifiedname>themis::sharding::ShardLoadMetrics::token_range_coverage</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="56" column="12" bodyfile="include/sharding/shard_load_detector.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_metrics_1a2285921e488467abbcd5e78869590436" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::ShardLoadMetrics::last_update</definition>
+        <argsstring></argsstring>
+        <name>last_update</name>
+        <qualifiedname>themis::sharding::ShardLoadMetrics::last_update</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="59" column="43" bodyfile="include/sharding/shard_load_detector.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Latest observed load/resource metrics for one shard. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/shard_load_detector.h" line="33" column="1" bodyfile="include/sharding/shard_load_detector.h" bodystart="33" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a271939a030a4f9f17f49414dfcd126d0" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadMetrics</scope><name>avg_latency_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a681d96af8c0df41f13849f6e00f99d61" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadMetrics</scope><name>cpu_usage_percent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a2285921e488467abbcd5e78869590436" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadMetrics</scope><name>last_update</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a365f083f329e04372372b1f9f540a878" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadMetrics</scope><name>memory_usage_mb</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a66982dd3e039a0e0719b74b94d5b4b27" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadMetrics</scope><name>p95_latency_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a9ffaae24663b8fcb3ead0d8c26a04c88" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadMetrics</scope><name>p99_latency_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a4ceca4b9fa6e33748d52315cc242e479" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadMetrics</scope><name>read_requests_per_sec</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a99d1f8b56a5d94ad0793a5dd7ad8e694" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadMetrics</scope><name>requests_per_sec</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a8b0f24070a61eed554a2b6ec6fe1b93e" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadMetrics</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_metrics_1ad12d67c98cc0fc1cc44af9ca77102c95" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadMetrics</scope><name>storage_usage_percent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_metrics_1aafcb31f58da48d28e8bf3ad9b2857b2f" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadMetrics</scope><name>token_range_coverage</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_metrics_1aba74edb0fa6e7a209b2d7d1879e9e392" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadMetrics</scope><name>total_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_metrics_1aa40b02fcab088dbca9d6651be864406e" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadMetrics</scope><name>total_records</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a287514d72ada6aae812e57fcbbb863f1" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadMetrics</scope><name>write_requests_per_sec</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

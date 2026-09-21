@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::tests::BenchmarkHistoryCompressor::Config</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1_1_config_1ac86bd59430632a2f1e413374bcb40078" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::aql::tests::BenchmarkHistoryCompressor::Config::compression_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>compression_latency_ms</name>
+        <qualifiedname>themis::aql::tests::BenchmarkHistoryCompressor::Config::compression_latency_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="46" column="17" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1_1_config_1a4aef9c6d01594b4804bf6897b2088e47" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::aql::tests::BenchmarkHistoryCompressor::Config::token_reduction_ratio</definition>
+        <argsstring></argsstring>
+        <name>token_reduction_ratio</name>
+        <qualifiedname>themis::aql::tests::BenchmarkHistoryCompressor::Config::token_reduction_ratio</qualifiedname>
+        <initializer>= 60</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="47" column="17" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1_1_config_1a92ac466607ec69cd90998cb89682426c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::aql::tests::BenchmarkHistoryCompressor::Config::semantic_similarity</definition>
+        <argsstring></argsstring>
+        <name>semantic_similarity</name>
+        <qualifiedname>themis::aql::tests::BenchmarkHistoryCompressor::Config::semantic_similarity</qualifiedname>
+        <initializer>= 0.92f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="48" column="15" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="45" column="5" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="45" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1_1_config_1ac86bd59430632a2f1e413374bcb40078" prot="public" virt="non-virtual"><scope>themis::aql::tests::BenchmarkHistoryCompressor::Config</scope><name>compression_latency_ms</name></member>
+      <member refid="structthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1_1_config_1a92ac466607ec69cd90998cb89682426c" prot="public" virt="non-virtual"><scope>themis::aql::tests::BenchmarkHistoryCompressor::Config</scope><name>semantic_similarity</name></member>
+      <member refid="structthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1_1_config_1a4aef9c6d01594b4804bf6897b2088e47" prot="public" virt="non-virtual"><scope>themis::aql::tests::BenchmarkHistoryCompressor::Config</scope><name>token_reduction_ratio</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_5763cf1100c2cf401a14115514476880" kind="dir">
+    <compoundname>include/server/examples</compoundname>
+    <innerfile refid="workload__fingerprint__example_8cpp">workload_fingerprint_example.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/examples/"/>
+  </compounddef>
+</doxygen>

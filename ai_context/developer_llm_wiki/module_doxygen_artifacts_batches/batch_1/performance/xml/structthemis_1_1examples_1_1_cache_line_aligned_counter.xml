@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1examples_1_1_cache_line_aligned_counter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::examples::CacheLineAlignedCounter</compoundname>
+    <includes refid="alignment__examples_8h" local="no">alignment_examples.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_cache_line_aligned_counter_1af4ad939f54e556f5b57f58c427ace14b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::examples::CacheLineAlignedCounter::counter</definition>
+        <argsstring></argsstring>
+        <name>counter</name>
+        <qualifiedname>themis::examples::CacheLineAlignedCounter::counter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="47" column="17" bodyfile="include/performance/alignment_examples.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_cache_line_aligned_counter_1a3ef6c8d7e0f5dfd6bb129fad78d9a9fa" prot="public" static="no" mutable="no">
+        <type>char</type>
+        <definition>char themis::examples::CacheLineAlignedCounter::padding[56]</definition>
+        <argsstring>[56]</argsstring>
+        <name>padding</name>
+        <qualifiedname>themis::examples::CacheLineAlignedCounter::padding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="48" column="10" bodyfile="include/performance/alignment_examples.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cache-line aligned atomic counter. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Prevents false sharing in multi-threaded environments where multiple threads update separate counters. Each counter occupies its own cache line.</para>
+<para>False sharing occurs when:<itemizedlist>
+<listitem><para>Two threads update variables in the same cache line</para>
+</listitem><listitem><para>CPU must invalidate/synchronize the entire cache line</para>
+</listitem><listitem><para>Performance degrades due to cache coherency traffic</para>
+</listitem></itemizedlist>
+</para>
+<para>Solution: Align each counter to cache line boundary (64 bytes) </para>
+    </detaileddescription>
+    <location file="include/performance/alignment_examples.h" line="46" column="1" bodyfile="include/performance/alignment_examples.h" bodystart="46" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1examples_1_1_cache_line_aligned_counter_1af4ad939f54e556f5b57f58c427ace14b" prot="public" virt="non-virtual"><scope>themis::examples::CacheLineAlignedCounter</scope><name>counter</name></member>
+      <member refid="structthemis_1_1examples_1_1_cache_line_aligned_counter_1a3ef6c8d7e0f5dfd6bb129fad78d9a9fa" prot="public" virt="non-virtual"><scope>themis::examples::CacheLineAlignedCounter</scope><name>padding</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

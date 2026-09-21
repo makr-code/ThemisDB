@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_labeling_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::LabelingStats</compoundname>
+    <includes refid="auto__labeler_8h" local="no">auto_labeler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_labeling_stats_1a1e5466505abedd5c90dbe06f8f9a9e9a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::LabelingStats::documents_processed</definition>
+        <argsstring></argsstring>
+        <name>documents_processed</name>
+        <qualifiedname>themis::training::LabelingStats::documents_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="68" column="12" bodyfile="include/training/auto_labeler.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_labeling_stats_1a83724db1fad5e9333d2a510f08dee604" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::LabelingStats::samples_created</definition>
+        <argsstring></argsstring>
+        <name>samples_created</name>
+        <qualifiedname>themis::training::LabelingStats::samples_created</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="69" column="12" bodyfile="include/training/auto_labeler.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_labeling_stats_1ad498158ffc37ad339faad6a4a42ef193" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::LabelingStats::high_confidence_samples</definition>
+        <argsstring></argsstring>
+        <name>high_confidence_samples</name>
+        <qualifiedname>themis::training::LabelingStats::high_confidence_samples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>confidence &gt;= 0.8 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="70" column="12" bodyfile="include/training/auto_labeler.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_labeling_stats_1aa5a87cbaba6408b74402adbdbd9a0ce1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::LabelingStats::low_confidence_samples</definition>
+        <argsstring></argsstring>
+        <name>low_confidence_samples</name>
+        <qualifiedname>themis::training::LabelingStats::low_confidence_samples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>confidence &lt; 0.5 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="71" column="12" bodyfile="include/training/auto_labeler.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_labeling_stats_1ac563b2557159abbade6baabfb3223f6e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::LabelingStats::elapsed_seconds</definition>
+        <argsstring></argsstring>
+        <name>elapsed_seconds</name>
+        <qualifiedname>themis::training::LabelingStats::elapsed_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="72" column="12" bodyfile="include/training/auto_labeler.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_labeling_stats_1a93aebe50ae3975d1617ec5f24ca687e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LabelingStats::LabelingStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>LabelingStats</name>
+        <qualifiedname>themis::training::LabelingStats::LabelingStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="74" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Auto-labeling statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/auto_labeler.h" line="67" column="1" bodyfile="include/training/auto_labeler.h" bodystart="67" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_labeling_stats_1a1e5466505abedd5c90dbe06f8f9a9e9a" prot="public" virt="non-virtual"><scope>themis::training::LabelingStats</scope><name>documents_processed</name></member>
+      <member refid="structthemis_1_1training_1_1_labeling_stats_1ac563b2557159abbade6baabfb3223f6e" prot="public" virt="non-virtual"><scope>themis::training::LabelingStats</scope><name>elapsed_seconds</name></member>
+      <member refid="structthemis_1_1training_1_1_labeling_stats_1ad498158ffc37ad339faad6a4a42ef193" prot="public" virt="non-virtual"><scope>themis::training::LabelingStats</scope><name>high_confidence_samples</name></member>
+      <member refid="structthemis_1_1training_1_1_labeling_stats_1a93aebe50ae3975d1617ec5f24ca687e4" prot="public" virt="non-virtual"><scope>themis::training::LabelingStats</scope><name>LabelingStats</name></member>
+      <member refid="structthemis_1_1training_1_1_labeling_stats_1aa5a87cbaba6408b74402adbdbd9a0ce1" prot="public" virt="non-virtual"><scope>themis::training::LabelingStats</scope><name>low_confidence_samples</name></member>
+      <member refid="structthemis_1_1training_1_1_labeling_stats_1a83724db1fad5e9333d2a510f08dee604" prot="public" virt="non-virtual"><scope>themis::training::LabelingStats</scope><name>samples_created</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

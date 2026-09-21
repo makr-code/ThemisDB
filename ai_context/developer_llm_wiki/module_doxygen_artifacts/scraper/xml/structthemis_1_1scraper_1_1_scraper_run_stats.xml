@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_scraper_run_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::ScraperRunStats</compoundname>
+    <includes refid="scraper__plugin_8h" local="no">scraper_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_stats_1a07c8be41cbea871f7e2e1b5ece35d531" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::ScraperRunStats::urls_visited</definition>
+        <argsstring></argsstring>
+        <name>urls_visited</name>
+        <qualifiedname>themis::scraper::ScraperRunStats::urls_visited</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total URLs fetched (includes discarded and policy-blocked URLs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="79" column="10" bodyfile="include/scraper/scraper_plugin.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_stats_1ac29fbb8aeedc4ec09de65ac6da6a3165" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::ScraperRunStats::forms_submitted</definition>
+        <argsstring></argsstring>
+        <name>forms_submitted</name>
+        <qualifiedname>themis::scraper::ScraperRunStats::forms_submitted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>HTML search forms submitted with gap keywords. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="80" column="10" bodyfile="include/scraper/scraper_plugin.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_stats_1ad6ab33617289f7774532f7a1322e0e40" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::ScraperRunStats::result_pages_parsed</definition>
+        <argsstring></argsstring>
+        <name>result_pages_parsed</name>
+        <qualifiedname>themis::scraper::ScraperRunStats::result_pages_parsed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Search result pages paginated through. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="81" column="10" bodyfile="include/scraper/scraper_plugin.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_stats_1a476e131709434c22e2e12bdac8d279b2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::ScraperRunStats::api_pages_fetched</definition>
+        <argsstring></argsstring>
+        <name>api_pages_fetched</name>
+        <qualifiedname>themis::scraper::ScraperRunStats::api_pages_fetched</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>JSON REST / GraphQL API pages fetched. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="82" column="10" bodyfile="include/scraper/scraper_plugin.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_stats_1ab1c54d329b938ecec9d25cc4ef279d57" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::ScraperRunStats::docs_scraped</definition>
+        <argsstring></argsstring>
+        <name>docs_scraped</name>
+        <qualifiedname>themis::scraper::ScraperRunStats::docs_scraped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Raw documents collected before quality filtering. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="83" column="10" bodyfile="include/scraper/scraper_plugin.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_stats_1ab60c9b22260d982fa8e665517d4ceb61" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::ScraperRunStats::docs_accepted</definition>
+        <argsstring></argsstring>
+        <name>docs_accepted</name>
+        <qualifiedname>themis::scraper::ScraperRunStats::docs_accepted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Documents that met the quality threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="84" column="10" bodyfile="include/scraper/scraper_plugin.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_stats_1a5c11ea77bd0658865ded7cf078765c06" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::ScraperRunStats::docs_discarded</definition>
+        <argsstring></argsstring>
+        <name>docs_discarded</name>
+        <qualifiedname>themis::scraper::ScraperRunStats::docs_discarded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Documents rejected by the LLM/heuristic evaluator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="85" column="10" bodyfile="include/scraper/scraper_plugin.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_stats_1aff0c6e612e3063c21954aed4995b77a4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::ScraperRunStats::docs_written</definition>
+        <argsstring></argsstring>
+        <name>docs_written</name>
+        <qualifiedname>themis::scraper::ScraperRunStats::docs_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Documents successfully persisted to the DB. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="86" column="10" bodyfile="include/scraper/scraper_plugin.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_stats_1aaa8439c900d482308ed5e93afe22db3f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::ScraperRunStats::write_errors</definition>
+        <argsstring></argsstring>
+        <name>write_errors</name>
+        <qualifiedname>themis::scraper::ScraperRunStats::write_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Persistence failures (run continues despite errors). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="87" column="10" bodyfile="include/scraper/scraper_plugin.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_stats_1ada03fcdade75b39b3d11731ca8f830ff" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::ScraperRunStats::urls_skipped</definition>
+        <argsstring></argsstring>
+        <name>urls_skipped</name>
+        <qualifiedname>themis::scraper::ScraperRunStats::urls_skipped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>URLs skipped due to burst-limiter exhaustion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="88" column="10" bodyfile="include/scraper/scraper_plugin.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_run_stats_1add76ffd883918278844c0d18bad6ddf3" prot="public" static="no" mutable="no">
+        <type>long</type>
+        <definition>long themis::scraper::ScraperRunStats::elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themis::scraper::ScraperRunStats::elapsed_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total wall-clock duration of the scrape() call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="89" column="10" bodyfile="include/scraper/scraper_plugin.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Counters and timing returned by <ref refid="classthemis_1_1scraper_1_1_scraper_plugin_1a774d7b3759eb2a9d01a5274e33556da6" kindref="member">ScraperPlugin::scrape()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All fields are zero-initialised and incremented atomically during a run. Inspect after scrape() returns to measure throughput, acceptance rate, and error counts. </para>
+    </detaileddescription>
+    <location file="include/scraper/scraper_plugin.h" line="78" column="1" bodyfile="include/scraper/scraper_plugin.h" bodystart="78" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_stats_1a476e131709434c22e2e12bdac8d279b2" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunStats</scope><name>api_pages_fetched</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_stats_1ab60c9b22260d982fa8e665517d4ceb61" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunStats</scope><name>docs_accepted</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_stats_1a5c11ea77bd0658865ded7cf078765c06" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunStats</scope><name>docs_discarded</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_stats_1ab1c54d329b938ecec9d25cc4ef279d57" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunStats</scope><name>docs_scraped</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_stats_1aff0c6e612e3063c21954aed4995b77a4" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunStats</scope><name>docs_written</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_stats_1add76ffd883918278844c0d18bad6ddf3" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunStats</scope><name>elapsed_ms</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_stats_1ac29fbb8aeedc4ec09de65ac6da6a3165" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunStats</scope><name>forms_submitted</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_stats_1ad6ab33617289f7774532f7a1322e0e40" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunStats</scope><name>result_pages_parsed</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_stats_1ada03fcdade75b39b3d11731ca8f830ff" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunStats</scope><name>urls_skipped</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_stats_1a07c8be41cbea871f7e2e1b5ece35d531" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunStats</scope><name>urls_visited</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_run_stats_1aaa8439c900d482308ed5e93afe22db3f" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRunStats</scope><name>write_errors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

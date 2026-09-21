@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::SentenceCitationMapping::SecondarySource</compoundname>
+    <includes refid="citation__highlighter_8h" local="no">citation_highlighter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source_1a7e2136ca32ceb779a9426867dd9efaba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::SentenceCitationMapping::SecondarySource::doc_id</definition>
+        <argsstring></argsstring>
+        <name>doc_id</name>
+        <qualifiedname>themis::rag::SentenceCitationMapping::SecondarySource::doc_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="53" column="21" bodyfile="include/rag/citation_highlighter.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source_1a2813396cb1247d06e40ec9d86cfd997a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::SentenceCitationMapping::SecondarySource::chunk_index</definition>
+        <argsstring></argsstring>
+        <name>chunk_index</name>
+        <qualifiedname>themis::rag::SentenceCitationMapping::SecondarySource::chunk_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="54" column="21" bodyfile="include/rag/citation_highlighter.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source_1a2e364a65620a6d97d93549c71a7e15c2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::SentenceCitationMapping::SecondarySource::similarity_score</definition>
+        <argsstring></argsstring>
+        <name>similarity_score</name>
+        <qualifiedname>themis::rag::SentenceCitationMapping::SecondarySource::similarity_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="55" column="21" bodyfile="include/rag/citation_highlighter.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Additional chunks that also provide supporting evidence. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/citation_highlighter.h" line="52" column="5" bodyfile="include/rag/citation_highlighter.h" bodystart="52" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source_1a2813396cb1247d06e40ec9d86cfd997a" prot="public" virt="non-virtual"><scope>themis::rag::SentenceCitationMapping::SecondarySource</scope><name>chunk_index</name></member>
+      <member refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source_1a7e2136ca32ceb779a9426867dd9efaba" prot="public" virt="non-virtual"><scope>themis::rag::SentenceCitationMapping::SecondarySource</scope><name>doc_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source_1a2e364a65620a6d97d93549c71a7e15c2" prot="public" virt="non-virtual"><scope>themis::rag::SentenceCitationMapping::SecondarySource</scope><name>similarity_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

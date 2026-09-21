@@ -1,0 +1,1161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__plugin__manager_8cpp" kind="file" language="C++">
+    <compoundname>test_plugin_manager.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="plugin__manager_8h" local="yes">plugins/plugin_manager.h</includes>
+    <includes refid="plugin__interface_8h" local="yes">plugins/plugin_interface.h</includes>
+    <includes local="yes">acceleration/plugin_security.h</includes>
+    <includes local="yes">utils/error_registry.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="31">
+        <label>plugins/oci_registry_client.h</label>
+        <link refid="oci__registry__client_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>plugins/plugin_dependency_resolver.h</label>
+        <link refid="plugin__dependency__resolver_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>plugins/plugin_hot_plug_monitor.h</label>
+        <link refid="plugin__hot__plug__monitor_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>plugins/plugin_interface.h</label>
+        <link refid="plugin__interface_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>plugins/plugin_manager.h</label>
+        <link refid="plugin__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>plugins/plugin_metrics.h</label>
+        <link refid="plugin__metrics_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>plugins/plugins_api_contract.h</label>
+        <link refid="plugins__api__contract_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>plugins/signed_plugin_repository.h</label>
+        <link refid="signed__plugin__repository_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/plugins/test_plugin_manager.cpp</label>
+        <link refid="test__plugin__manager_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>acceleration/plugin_loader.h</label>
+      </node>
+      <node id="37">
+        <label>acceleration/plugin_security.h</label>
+      </node>
+      <node id="15">
+        <label>algorithm</label>
+      </node>
+      <node id="30">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="18">
+        <label>core/concerns/i_metrics.h</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>cstdio</label>
+      </node>
+      <node id="19">
+        <label>deque</label>
+      </node>
+      <node id="39">
+        <label>filesystem</label>
+      </node>
+      <node id="40">
+        <label>fstream</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="20">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="22">
+        <label>mutex</label>
+      </node>
+      <node id="16">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="23">
+        <label>numeric</label>
+      </node>
+      <node id="14">
+        <label>optional</label>
+      </node>
+      <node id="26">
+        <label>queue</label>
+      </node>
+      <node id="25">
+        <label>set</label>
+      </node>
+      <node id="27">
+        <label>stdexcept</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="35">
+        <label>themis/edition.h</label>
+      </node>
+      <node id="36">
+        <label>themis/runtime_license_gate.h</label>
+      </node>
+      <node id="29">
+        <label>thread</label>
+      </node>
+      <node id="12">
+        <label>tuple</label>
+      </node>
+      <node id="21">
+        <label>unordered_map</label>
+      </node>
+      <node id="38">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="32">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_plugin_manager_test" prot="public">PluginManagerTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, SingletonReturnsSameInstance)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>SingletonReturnsSameInstance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="121" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="121" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1a044236e16080d0cefe50e0e9b7a3aad3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, InitialLoadedPluginsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>InitialLoadedPluginsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="131" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="131" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1ab5989fc4bf1af1c772f7d898b7ed1e6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, IsPluginLoadedReturnsFalseForUnregisteredPlugin)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>IsPluginLoadedReturnsFalseForUnregisteredPlugin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="136" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="136" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1a16e7236f47a6e8c03158c4ebd84a6a8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, GetPluginsByTypeEmptyWhenNoneLoaded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>GetPluginsByTypeEmptyWhenNoneLoaded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="140" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="140" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1ac894cef5db57745460b6f203e3832d8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, ScanNonExistentDirectoryReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>ScanNonExistentDirectoryReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="149" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="149" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1a8e24790e87aac514799e288b957870b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, ScanEmptyDirectoryReturnsZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>ScanEmptyDirectoryReturnsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="156" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="156" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1ac30de908c6801685cdac425bc0ca006d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, ScanDirectoryDiscoversOneManifest)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>ScanDirectoryDiscoversOneManifest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="162" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="162" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1a37944b74b327d03eef2b25f448785f44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, ScanDirectoryDiscoversMultipleManifests)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>ScanDirectoryDiscoversMultipleManifests</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="170" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="170" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1a1d9c44028e8129eab180f055f6c003aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, DiscoveredPluginIsNotLoadedAfterScan)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>DiscoveredPluginIsNotLoadedAfterScan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="180" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="180" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1ae2ed9cd183394dd923231c0e4373e0ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, GetPluginNotInRegistry)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>GetPluginNotInRegistry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="192" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="192" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1ab22df7e50b88f219c926212a3f604ffb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, LoadPluginNotInRegistry)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>LoadPluginNotInRegistry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="199" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="199" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1a5e8ccbe2d0687162122be9d57b6f7ba5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, LoadPluginWithMissingBinaryFails)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>LoadPluginWithMissingBinaryFails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="206" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="206" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1afe3dae73518a8ab17759d5223bc7c499" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, GetManifestForNonExistentPluginReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>GetManifestForNonExistentPluginReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="226" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="226" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1ac8503f0d01d8b439d9716a7f5825aa2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, GetManifestAfterScanSucceeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>GetManifestAfterScanSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="233" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="233" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1a071cf8732b82a59368ce8740ac9f7533" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, GetManifestParsesPrivateMetadata)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>GetManifestParsesPrivateMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="245" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="245" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1a003c3de743d8127cadc06e8be6dd0957" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, UnloadNonExistentPluginReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>UnloadNonExistentPluginReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="274" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="274" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1a8ccc98722d708407adf65b46447b7eb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, UnloadDiscoveredButUnloadedPluginReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>UnloadDiscoveredButUnloadedPluginReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="281" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="281" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1a111d29128a4e429385496b07916c6c84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, UnloadAllPluginsWhenEmptySucceeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>UnloadAllPluginsWhenEmptySucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="292" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="292" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1a4592b345e1c3af50da804cc6baa03937" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, ListLoadedPluginsEmptyAfterUnloadAll)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>ListLoadedPluginsEmptyAfterUnloadAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="297" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="297" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1ac2da9031bde3b929969079d75a19acc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, RegisterReloadListenerAndClearDoesNotThrow)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>RegisterReloadListenerAndClearDoesNotThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="306" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="306" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1a7c38d8d22cfbf2414e23d47e0c0315dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, HotPlugInitiallyDisabled)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>HotPlugInitiallyDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="320" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="320" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1a712d82dc4736684b4265e3f71b0c2283" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, EnableHotPlugOnValidDirectorySucceeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>EnableHotPlugOnValidDirectorySucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="324" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="324" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1aa3489742fe60d51917447942434d6c8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, DisableHotPlugWhenEnabled)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>DisableHotPlugWhenEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="331" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="331" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1a43e25a788221ebf620da2c9f5c66bae2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, EnableHotPlugOnNonExistentDirectoryFails)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>EnableHotPlugOnNonExistentDirectoryFails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="337" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="337" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1aef15aa06048fdb54488d634c41a3c097" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, NegotiateCapabilitiesForUnknownPluginReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>NegotiateCapabilitiesForUnknownPluginReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="347" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="347" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__manager_8cpp_1aa80ae150d43d9b85a03d4f42b995984b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginManagerTest, NegotiateCapabilitiesForDiscoveredButUnloadedPluginReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref></type>
+        </param>
+        <param>
+          <type>NegotiateCapabilitiesForDiscoveredButUnloadedPluginReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_manager.cpp" line="354" column="1" bodyfile="tests/plugins/test_plugin_manager.cpp" bodystart="354" bodyend="362"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> core operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests cover:<itemizedlist>
+<listitem><para>Singleton identity</para>
+</listitem><listitem><para>Empty manager state (no loaded plugins)</para>
+</listitem><listitem><para>scanPluginDirectory: error on missing dir, zero on empty dir, discovery on manifests</para>
+</listitem><listitem><para>getPlugin / loadPlugin error paths for unregistered plugins</para>
+</listitem><listitem><para>isPluginLoaded state transitions (unregistered → discovered → not loaded)</para>
+</listitem><listitem><para>getManifest: success after scan, error before scan</para>
+</listitem><listitem><para>unloadPlugin / unloadAllPlugins error paths and empty-state success</para>
+</listitem><listitem><para>getPluginsByType on a manager with no loaded plugins</para>
+</listitem><listitem><para>autoLoadPlugins when all manifests have auto_load=false</para>
+</listitem><listitem><para>Reload listener registration and clearing</para>
+</listitem><listitem><para>Hot-plug enable / disable / isEnabled</para>
+</listitem><listitem><para>negotiateCapabilities for an unknown plugin </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="plugin__manager_8h" kindref="compound">plugins/plugin_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="plugin__interface_8h" kindref="compound">plugins/plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;acceleration/plugin_security.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/error_registry.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">themis::plugins</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="class_plugin_manager_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_plugin_manager_test_1a7375b03ec2c43c001290d3617fb46f5e" kindref="member">test_dir_</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_manager" kindref="compound">PluginManager</ref>*<sp/><ref refid="class_plugin_manager_test_1a1c3fdf378e1115437e81b46b8632e335" kindref="member">manager_</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_plugin_manager_test_1abba47f9b0f7aa7ace2be754d8bc7b918" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager_test_1a7375b03ec2c43c001290d3617fb46f5e" kindref="member">test_dir_</ref><sp/>=<sp/>(fs::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themis_test_plugin_manager&quot;</highlight><highlight class="normal">).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::exists(<ref refid="class_plugin_manager_test_1a7375b03ec2c43c001290d3617fb46f5e" kindref="member">test_dir_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_plugin_manager_test_1a7375b03ec2c43c001290d3617fb46f5e" kindref="member">test_dir_</ref>);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(<ref refid="class_plugin_manager_test_1a7375b03ec2c43c001290d3617fb46f5e" kindref="member">test_dir_</ref>);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager_test_1a1c3fdf378e1115437e81b46b8632e335" kindref="member">manager_</ref><sp/>=<sp/>&amp;<ref refid="classthemis_1_1plugins_1_1_plugin_manager_1a19a14a35966008a2185d9b21b8c64e43" kindref="member">PluginManager::instance</ref>();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager_test_1a1c3fdf378e1115437e81b46b8632e335" kindref="member">manager_</ref>-&gt;disableHotPlug();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager_test_1a1c3fdf378e1115437e81b46b8632e335" kindref="member">manager_</ref>-&gt;unloadAllPlugins();</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager_test_1a1c3fdf378e1115437e81b46b8632e335" kindref="member">manager_</ref>-&gt;clearReloadListeners();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_plugin_manager_test_1ae1d714718aafd1cd8780681efd5e7ea4" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager_test_1a1c3fdf378e1115437e81b46b8632e335" kindref="member">manager_</ref>-&gt;disableHotPlug();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager_test_1a1c3fdf378e1115437e81b46b8632e335" kindref="member">manager_</ref>-&gt;unloadAllPlugins();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_manager_test_1a1c3fdf378e1115437e81b46b8632e335" kindref="member">manager_</ref>-&gt;clearReloadListeners();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::exists(<ref refid="class_plugin_manager_test_1a7375b03ec2c43c001290d3617fb46f5e" kindref="member">test_dir_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_plugin_manager_test_1a7375b03ec2c43c001290d3617fb46f5e" kindref="member">test_dir_</ref>);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>create<sp/>a<sp/>plugin.json<sp/>manifest<sp/>in<sp/>test_dir_/&lt;name&gt;/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_plugin_manager_test_1affbd35cd4de3c38778c37bc0b2404693" kindref="member">createManifest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;custom&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>auto_load<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>deps<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>extra_fields<sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>plugin_dir<sp/>=<sp/><ref refid="class_plugin_manager_test_1a7375b03ec2c43c001290d3617fb46f5e" kindref="member">test_dir_</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/&quot;</highlight><highlight class="normal"><sp/>+<sp/>name;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(plugin_dir);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>manifest<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>name},</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/>type},</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;description&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>plugin:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>name},</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;binary&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;windows&quot;</highlight><highlight class="normal">,<sp/>name<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.dll&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;linux&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>name<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.so&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;macos&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>name<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.dylib&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}},</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;capabilities&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;thread_safe&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;streaming&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}},</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;auto_load&quot;</highlight><highlight class="normal">,<sp/>auto_load},</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;load_priority&quot;</highlight><highlight class="normal">,<sp/>100}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!deps.empty())<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manifest[</highlight><highlight class="stringliteral">&quot;dependencies&quot;</highlight><highlight class="normal">]<sp/>=<sp/>deps;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>extra_fields.begin();<sp/>it<sp/>!=<sp/>extra_fields.end();<sp/>++it)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manifest[it.key()]<sp/>=<sp/>it.value();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>manifest_path<sp/>=<sp/>plugin_dir<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/plugin.json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>file(manifest_path);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>file<sp/>&lt;&lt;<sp/>manifest.dump(2);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>file.close();</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Release<sp/>builds<sp/>require<sp/>manifest<sp/>signature<sp/>files;<sp/>write<sp/>expected<sp/>hash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::acceleration::PluginSecurityPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::acceleration::PluginSecurityVerifier<sp/>verifier(policy);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>manifest_hash<sp/>=<sp/>verifier.calculateFileHash(manifest_path);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>sig_path<sp/>=<sp/>manifest_path<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.sig&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>sig_file(sig_path);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sig_file<sp/>&lt;&lt;<sp/>manifest_hash;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sig_file.close();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Singleton</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>SingletonReturnsSameInstance)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_manager" kindref="compound">PluginManager</ref>&amp;<sp/>a<sp/>=<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_manager_1a19a14a35966008a2185d9b21b8c64e43" kindref="member">PluginManager::instance</ref>();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_manager" kindref="compound">PluginManager</ref>&amp;<sp/>b<sp/>=<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_manager_1a19a14a35966008a2185d9b21b8c64e43" kindref="member">PluginManager::instance</ref>();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(&amp;a,<sp/>&amp;b);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Empty<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>InitialLoadedPluginsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>manager_-&gt;listLoadedPlugins();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(loaded.empty());</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>IsPluginLoadedReturnsFalseForUnregisteredPlugin)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager_-&gt;isPluginLoaded(</highlight><highlight class="stringliteral">&quot;nonexistent_plugin_abc123&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>GetPluginsByTypeEmptyWhenNoneLoaded)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>=<sp/>manager_-&gt;getPluginsByType(<ref refid="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12a72baef04098f035e8a320b03ad197818" kindref="member">PluginType::CUSTOM</ref>);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref>.empty());</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>scanPluginDirectory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>ScanNonExistentDirectoryReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>manager_-&gt;scanPluginDirectory(</highlight><highlight class="stringliteral">&quot;/nonexistent/path/xyz_themis_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error().code(),</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>ScanEmptyDirectoryReturnsZero)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>manager_-&gt;scanPluginDirectory(test_dir_);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*result,<sp/>0u);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>ScanDirectoryDiscoversOneManifest)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>createManifest(</highlight><highlight class="stringliteral">&quot;pm_scan_single_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>manager_-&gt;scanPluginDirectory(test_dir_);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(*result,<sp/>1u);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>ScanDirectoryDiscoversMultipleManifests)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>createManifest(</highlight><highlight class="stringliteral">&quot;pm_scan_multi_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>createManifest(</highlight><highlight class="stringliteral">&quot;pm_scan_multi_002&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>createManifest(</highlight><highlight class="stringliteral">&quot;pm_scan_multi_003&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>manager_-&gt;scanPluginDirectory(test_dir_);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(*result,<sp/>3u);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>DiscoveredPluginIsNotLoadedAfterScan)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>createManifest(</highlight><highlight class="stringliteral">&quot;pm_discovered_only_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;scanPluginDirectory(test_dir_);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Plugin<sp/>registered<sp/>in<sp/>registry<sp/>but<sp/>binary<sp/>is<sp/>absent<sp/>—<sp/>not<sp/>loaded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager_-&gt;isPluginLoaded(</highlight><highlight class="stringliteral">&quot;pm_discovered_only_001&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getPlugin<sp/>/<sp/>loadPlugin<sp/>error<sp/>paths</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>GetPluginNotInRegistry)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>manager_-&gt;getPlugin(</highlight><highlight class="stringliteral">&quot;pm_not_registered_xyz&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error().code(),</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>LoadPluginNotInRegistry)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>manager_-&gt;loadPlugin(</highlight><highlight class="stringliteral">&quot;pm_not_registered_xyz&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error().code(),</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>LoadPluginWithMissingBinaryFails)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Manifest<sp/>is<sp/>registered<sp/>but<sp/>no<sp/>.so/.dll<sp/>exists<sp/>→<sp/>load<sp/>must<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>createManifest(</highlight><highlight class="stringliteral">&quot;pm_no_binary_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;scanPluginDirectory(test_dir_);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>manager_-&gt;loadPlugin(</highlight><highlight class="stringliteral">&quot;pm_no_binary_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Depending<sp/>on<sp/>runtime<sp/>edition/license<sp/>gating<sp/>this<sp/>may<sp/>be<sp/>rejected<sp/>as</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NOT_FOUND<sp/>before<sp/>binary/signature<sp/>checks;<sp/>otherwise<sp/>LOAD_FAILED<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>INVALID_SIGNATURE<sp/>are<sp/>valid<sp/>outcomes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.error().code()<sp/>==<sp/>themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND<sp/>||</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.error().code()<sp/>==<sp/>themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED<sp/>||</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.error().code()<sp/>==<sp/>themis::errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getManifest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>GetManifestForNonExistentPluginReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>manager_-&gt;getManifest(</highlight><highlight class="stringliteral">&quot;pm_no_such_manifest_xyz&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error().code(),</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>GetManifestAfterScanSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>createManifest(</highlight><highlight class="stringliteral">&quot;pm_manifest_test_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;scanPluginDirectory(test_dir_);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>manager_-&gt;getManifest(</highlight><highlight class="stringliteral">&quot;pm_manifest_test_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;name,<sp/></highlight><highlight class="stringliteral">&quot;pm_manifest_test_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;version,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>GetManifestParsesPrivateMetadata)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>createManifest(</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;pm_private_manifest_001&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;custom&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{},</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;visibility&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;private&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;allowed_editions&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::array({</highlight><highlight class="stringliteral">&quot;enterprise&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hyperscaler&quot;</highlight><highlight class="normal">})},</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;license_feature&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;private_connector_pack&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;min_themisdb_version&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2.4.0&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;compatible_core_abi&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;plugin-abi-v2&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;scanPluginDirectory(test_dir_);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>manager_-&gt;getManifest(</highlight><highlight class="stringliteral">&quot;pm_private_manifest_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;visibility,<sp/></highlight><highlight class="stringliteral">&quot;private&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result-&gt;allowed_editions.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;allowed_editions[0],<sp/></highlight><highlight class="stringliteral">&quot;enterprise&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;license_feature,<sp/></highlight><highlight class="stringliteral">&quot;private_connector_pack&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;min_themisdb_version,<sp/></highlight><highlight class="stringliteral">&quot;2.4.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;compatible_core_abi,<sp/></highlight><highlight class="stringliteral">&quot;plugin-abi-v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="comment">//<sp/>unloadPlugin<sp/>/<sp/>unloadAllPlugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>UnloadNonExistentPluginReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>manager_-&gt;unloadPlugin(</highlight><highlight class="stringliteral">&quot;pm_no_such_plugin_xyz&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error().code(),</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>UnloadDiscoveredButUnloadedPluginReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>createManifest(</highlight><highlight class="stringliteral">&quot;pm_unload_disc_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;scanPluginDirectory(test_dir_);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>manager_-&gt;unloadPlugin(</highlight><highlight class="stringliteral">&quot;pm_unload_disc_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Plugin<sp/>is<sp/>registered<sp/>but<sp/>not<sp/>loaded<sp/>—<sp/>should<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error().code(),</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>UnloadAllPluginsWhenEmptySucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>manager_-&gt;unloadAllPlugins();</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>ListLoadedPluginsEmptyAfterUnloadAll)<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;unloadAllPlugins();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager_-&gt;listLoadedPlugins().empty());</highlight></codeline>
+<codeline lineno="300"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reload<sp/>listeners</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>RegisterReloadListenerAndClearDoesNotThrow)<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>reached<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;registerReloadListener(</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;reached](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/><ref refid="namespacethemis_1_1plugins_1a9c78b2d33a3f0b52923a8e8784c68279" kindref="member">PluginReloadPhase</ref>)<sp/>{<sp/>reached<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clear<sp/>without<sp/>any<sp/>reload<sp/>—<sp/>must<sp/>not<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;clearReloadListeners();</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(reached);<sp/><sp/></highlight><highlight class="comment">//<sp/>Listener<sp/>was<sp/>never<sp/>triggered</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Hot-plug<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>HotPlugInitiallyDisabled)<sp/>{</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager_-&gt;isHotPlugEnabled());</highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>EnableHotPlugOnValidDirectorySucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>manager_-&gt;enableHotPlug(test_dir_);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager_-&gt;isHotPlugEnabled());</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;disableHotPlug();</highlight></codeline>
+<codeline lineno="329"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>DisableHotPlugWhenEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;enableHotPlug(test_dir_);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;disableHotPlug();</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager_-&gt;isHotPlugEnabled());</highlight></codeline>
+<codeline lineno="335"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>EnableHotPlugOnNonExistentDirectoryFails)<sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>manager_-&gt;enableHotPlug(</highlight><highlight class="stringliteral">&quot;/nonexistent/path/xyz_hot_plug_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ok);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager_-&gt;isHotPlugEnabled());</highlight></codeline>
+<codeline lineno="341"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="comment">//<sp/>negotiateCapabilities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>NegotiateCapabilitiesForUnknownPluginReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_negotiation_result" kindref="compound">PluginNegotiationResult</ref><sp/>result<sp/>=</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager_-&gt;negotiateCapabilities(</highlight><highlight class="stringliteral">&quot;pm_unknown_plugin_xyz&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.<ref refid="structthemis_1_1plugins_1_1_plugin_negotiation_result_1af64ac6d63cdfb591854f1da376f7143b" kindref="member">success</ref>);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.<ref refid="structthemis_1_1plugins_1_1_plugin_negotiation_result_1a2c7a3973cf99fd25e59e40e1e74134ab" kindref="member">error_message</ref>.empty());</highlight></codeline>
+<codeline lineno="352"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><ref refid="test__plugin__manager_8cpp_1a16616ed5da2eea877d29994feb82a0d6" kindref="member">TEST_F</ref>(<ref refid="class_plugin_manager_test" kindref="compound">PluginManagerTest</ref>,<sp/>NegotiateCapabilitiesForDiscoveredButUnloadedPluginReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>createManifest(</highlight><highlight class="stringliteral">&quot;pm_negotiate_disc_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;scanPluginDirectory(test_dir_);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_negotiation_result" kindref="compound">PluginNegotiationResult</ref><sp/>result<sp/>=</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager_-&gt;negotiateCapabilities(</highlight><highlight class="stringliteral">&quot;pm_negotiate_disc_001&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Plugin<sp/>is<sp/>known<sp/>but<sp/>not<sp/>loaded<sp/>—<sp/>negotiation<sp/>must<sp/>report<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.<ref refid="structthemis_1_1plugins_1_1_plugin_negotiation_result_1af64ac6d63cdfb591854f1da376f7143b" kindref="member">success</ref>);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/plugins/test_plugin_manager.cpp"/>
+  </compounddef>
+</doxygen>

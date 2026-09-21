@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="alignment__helpers_8h" kind="file" language="C++">
+    <compoundname>alignment_helpers.h</compoundname>
+    <includes local="no">type_traits</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="alignment__examples_8h" local="yes">include/performance/alignment_examples.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/performance/alignment_helpers.h</label>
+        <link refid="alignment__helpers_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>type_traits</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/performance/alignment_examples.h</label>
+        <link refid="alignment__examples_8h"/>
+      </node>
+      <node id="1">
+        <label>include/performance/alignment_helpers.h</label>
+        <link refid="alignment__helpers_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="alignment__helpers_8h_1a9d33c9c3eb767ad4857909f18d050570" prot="public" static="no">
+        <name>_THEMIS_STRINGIFY_IMPL</name>
+        <param><defname>x</defname></param>
+        <initializer>#x</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_helpers.h" line="156" column="9" bodyfile="include/performance/alignment_helpers.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="alignment__helpers_8h_1acf555ef82d4346ea16f4e82ecb267823" prot="public" static="no">
+        <name>_THEMIS_STRINGIFY</name>
+        <param><defname>x</defname></param>
+        <initializer><ref refid="alignment__helpers_8h_1a9d33c9c3eb767ad4857909f18d050570" kindref="member">_THEMIS_STRINGIFY_IMPL</ref>(x)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_helpers.h" line="157" column="9" bodyfile="include/performance/alignment_helpers.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="alignment__helpers_8h_1a4c217828209a12b51660c3a695aa1899" prot="public" static="no">
+        <name>THEMIS_STATIC_ASSERT_ALIGNED</name>
+        <param><defname>Type</defname></param>
+        <param><defname>Alignment</defname></param>
+        <initializer>static_assert(alignof(Type) == (Alignment), \
+              #Type &quot; must be aligned to &quot; #Alignment &quot; bytes, but has alignof=&quot; \
+              _THEMIS_STRINGIFY(alignof(Type)))</initializer>
+        <briefdescription>
+<para>Assert type has exact alignment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_helpers.h" line="160" column="9" bodyfile="include/performance/alignment_helpers.h" bodystart="160" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="define" id="alignment__helpers_8h_1a340d0ceb2dd39e4973e827311cef47f7" prot="public" static="no">
+        <name>THEMIS_STATIC_ASSERT_MIN_ALIGNED</name>
+        <param><defname>Type</defname></param>
+        <param><defname>MinAlignment</defname></param>
+        <initializer>static_assert(alignof(Type) &gt;= (MinAlignment), \
+              #Type &quot; must be aligned to at least &quot; #MinAlignment &quot; bytes, but has alignof=&quot; \
+              _THEMIS_STRINGIFY(alignof(Type)))</initializer>
+        <briefdescription>
+<para>Assert type has at least minimum alignment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_helpers.h" line="166" column="9" bodyfile="include/performance/alignment_helpers.h" bodystart="166" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="define" id="alignment__helpers_8h_1ac54b7a3af0be4d221e2001cdd8772f55" prot="public" static="no">
+        <name>THEMIS_STATIC_ASSERT_SIZE</name>
+        <param><defname>Type</defname></param>
+        <param><defname>Size</defname></param>
+        <initializer>static_assert(sizeof(Type) == (Size), \
+              #Type &quot; must be exactly &quot; #Size &quot; bytes, but has sizeof=&quot; \
+              _THEMIS_STRINGIFY(sizeof(Type)))</initializer>
+        <briefdescription>
+<para>Assert structure size is exact (catches unexpected padding). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_helpers.h" line="172" column="9" bodyfile="include/performance/alignment_helpers.h" bodystart="172" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>Alignment<sp/>Verification<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Provides<sp/>compile-time<sp/>and<sp/>runtime<sp/>alignment<sp/>verification<sp/>for<sp/>SIMD<sp/>and<sp/>cache-critical<sp/>structures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Critical<sp/>for:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>ARM<sp/>platforms<sp/>(strict<sp/>alignment<sp/>requirements)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>SIMD<sp/>operations<sp/>(16,<sp/>32-byte<sp/>alignment)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Cache<sp/>line<sp/>optimization<sp/>(64-byte<sp/>alignment)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">performance</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>RequiredAlignment&gt;</highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1performance_1a709ef58baf6d75c8e758c7319cdda61c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1performance_1a709ef58baf6d75c8e758c7319cdda61c" kindref="member">check_alignment</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">alignof</highlight><highlight class="normal">(T)<sp/>==<sp/>RequiredAlignment;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>MinAlignment&gt;</highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1performance_1a04abdc2aad0e2a16634c43d4a85775b7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1performance_1a04abdc2aad0e2a16634c43d4a85775b7" kindref="member">check_min_alignment</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">alignof</highlight><highlight class="normal">(T)<sp/>&gt;=<sp/>MinAlignment;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Alignment&gt;</highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1performance_1a99f431616aaeee8f3b8e63998f002b24" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1performance_1a99f431616aaeee8f3b8e63998f002b24" kindref="member">is_aligned</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">((Alignment<sp/>&amp;<sp/>(Alignment<sp/>-<sp/>1))<sp/>==<sp/>0,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Alignment<sp/>must<sp/>be<sp/>power<sp/>of<sp/>2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">uintptr_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ptr)<sp/>&amp;<sp/>(Alignment<sp/>-<sp/>1))<sp/>==<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Alignment&gt;</highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1performance_1a2c47cf9f46a5273f887fc3c2d8f7266c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1performance_1a2c47cf9f46a5273f887fc3c2d8f7266c" kindref="member">align_up</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">((Alignment<sp/>&amp;<sp/>(Alignment<sp/>-<sp/>1))<sp/>==<sp/>0,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Alignment<sp/>must<sp/>be<sp/>power<sp/>of<sp/>2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">uintptr_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ptr);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((addr<sp/>+<sp/>Alignment<sp/>-<sp/>1)<sp/>&amp;<sp/>~(Alignment<sp/>-<sp/>1));</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Alignment&gt;</highlight></codeline>
+<codeline lineno="99" refid="namespacethemis_1_1performance_1a6a2e5b9095aeb41854b6388cb6d14dd6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1performance_1a2c47cf9f46a5273f887fc3c2d8f7266c" kindref="member">align_up</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">((Alignment<sp/>&amp;<sp/>(Alignment<sp/>-<sp/>1))<sp/>==<sp/>0,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Alignment<sp/>must<sp/>be<sp/>power<sp/>of<sp/>2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">uintptr_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ptr);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((addr<sp/>+<sp/>Alignment<sp/>-<sp/>1)<sp/>&amp;<sp/>~(Alignment<sp/>-<sp/>1));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Alignment&gt;</highlight></codeline>
+<codeline lineno="114" refid="namespacethemis_1_1performance_1a1052ca070a9be7375a96fde1486acaac" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1performance_1a1052ca070a9be7375a96fde1486acaac" kindref="member">align_down</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">((Alignment<sp/>&amp;<sp/>(Alignment<sp/>-<sp/>1))<sp/>==<sp/>0,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Alignment<sp/>must<sp/>be<sp/>power<sp/>of<sp/>2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">uintptr_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ptr);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addr<sp/>&amp;<sp/>~(Alignment<sp/>-<sp/>1));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Alignment&gt;</highlight></codeline>
+<codeline lineno="129" refid="namespacethemis_1_1performance_1affa1633747b1b5ea3732bfba3a8a7f7d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1performance_1a1052ca070a9be7375a96fde1486acaac" kindref="member">align_down</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">((Alignment<sp/>&amp;<sp/>(Alignment<sp/>-<sp/>1))<sp/>==<sp/>0,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Alignment<sp/>must<sp/>be<sp/>power<sp/>of<sp/>2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">uintptr_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ptr);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addr<sp/>&amp;<sp/>~(Alignment<sp/>-<sp/>1));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Alignment&gt;</highlight></codeline>
+<codeline lineno="144" refid="namespacethemis_1_1performance_1a99e04057c83cffefd6084d5673c4ed72" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1performance_1a99e04057c83cffefd6084d5673c4ed72" kindref="member">padding_for_alignment</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_offset)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(Alignment<sp/>-<sp/>(current_offset<sp/>%<sp/>Alignment))<sp/>%<sp/>Alignment;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compile-time<sp/>assertion<sp/>macros</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>macro<sp/>for<sp/>stringification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="alignment__helpers_8h_1a9d33c9c3eb767ad4857909f18d050570" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_THEMIS_STRINGIFY_IMPL(x)<sp/>#x</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="alignment__helpers_8h_1acf555ef82d4346ea16f4e82ecb267823" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_THEMIS_STRINGIFY(x)<sp/>_THEMIS_STRINGIFY_IMPL(x)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="alignment__helpers_8h_1a4c217828209a12b51660c3a695aa1899" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_STATIC_ASSERT_ALIGNED(Type,<sp/>Alignment)<sp/>\</highlight></codeline>
+<codeline lineno="161"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>static_assert(alignof(Type)<sp/>==<sp/>(Alignment),<sp/>\</highlight></codeline>
+<codeline lineno="162"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#Type<sp/>&quot;<sp/>must<sp/>be<sp/>aligned<sp/>to<sp/>&quot;<sp/>#Alignment<sp/>&quot;<sp/>bytes,<sp/>but<sp/>has<sp/>alignof=&quot;<sp/>\</highlight></codeline>
+<codeline lineno="163"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_THEMIS_STRINGIFY(alignof(Type)))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="alignment__helpers_8h_1a340d0ceb2dd39e4973e827311cef47f7" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_STATIC_ASSERT_MIN_ALIGNED(Type,<sp/>MinAlignment)<sp/>\</highlight></codeline>
+<codeline lineno="167"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>static_assert(alignof(Type)<sp/>&gt;=<sp/>(MinAlignment),<sp/>\</highlight></codeline>
+<codeline lineno="168"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#Type<sp/>&quot;<sp/>must<sp/>be<sp/>aligned<sp/>to<sp/>at<sp/>least<sp/>&quot;<sp/>#MinAlignment<sp/>&quot;<sp/>bytes,<sp/>but<sp/>has<sp/>alignof=&quot;<sp/>\</highlight></codeline>
+<codeline lineno="169"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_THEMIS_STRINGIFY(alignof(Type)))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="alignment__helpers_8h_1ac54b7a3af0be4d221e2001cdd8772f55" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_STATIC_ASSERT_SIZE(Type,<sp/>Size)<sp/>\</highlight></codeline>
+<codeline lineno="173"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>static_assert(sizeof(Type)<sp/>==<sp/>(Size),<sp/>\</highlight></codeline>
+<codeline lineno="174"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#Type<sp/>&quot;<sp/>must<sp/>be<sp/>exactly<sp/>&quot;<sp/>#Size<sp/>&quot;<sp/>bytes,<sp/>but<sp/>has<sp/>sizeof=&quot;<sp/>\</highlight></codeline>
+<codeline lineno="175"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_THEMIS_STRINGIFY(sizeof(Type)))</highlight></codeline>
+    </programlisting>
+    <location file="include/performance/alignment_helpers.h"/>
+  </compounddef>
+</doxygen>

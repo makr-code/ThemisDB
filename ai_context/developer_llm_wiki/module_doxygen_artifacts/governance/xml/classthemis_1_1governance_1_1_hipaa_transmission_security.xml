@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_hipaa_transmission_security" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::governance::HipaaTransmissionSecurity</compoundname>
+    <basecompoundref refid="classthemis_1_1governance_1_1_i_compliance_rule" prot="public" virt="non-virtual">themis::governance::IComplianceRule</basecompoundref>
+    <includes refid="hipaa__rules_8h" local="no">hipaa_rules.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_transmission_security_1aa4679a04a6d8c002e8f8cc38b8e2a42a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::HipaaTransmissionSecurity::id</definition>
+        <argsstring>() const override</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::governance::HipaaTransmissionSecurity::id</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1a01395f8af99fa20ce9be6b77cd3b5557">id</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="105" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_transmission_security_1af2eafe8b11b0e01aa6536ce93c578313" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::HipaaTransmissionSecurity::framework</definition>
+        <argsstring>() const override</argsstring>
+        <name>framework</name>
+        <qualifiedname>themis::governance::HipaaTransmissionSecurity::framework</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1ae95c843e2f550ded2eeb7ad923960aba">framework</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="106" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_transmission_security_1a63c17fd03f4012a833a084ff3955733d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::HipaaTransmissionSecurity::description</definition>
+        <argsstring>() const override</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::HipaaTransmissionSecurity::description</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1af1ff57617e2151936aa46d9a4d6d39b2">description</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="107" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="107" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_transmission_security_1aa6b04ea6e93bcef0a10f19eae26f124c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::HipaaTransmissionSecurity::evaluate</definition>
+        <argsstring>(const PolicyRule &amp;rule) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::governance::HipaaTransmissionSecurity::evaluate</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1a96562e0417b8471400cfcf2ea185a7ea">evaluate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="115" column="10" bodyfile="src/governance/hipaa_rules.cpp" bodystart="97" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::governance::HipaaTransmissionSecurity</label>
+        <link refid="classthemis_1_1governance_1_1_hipaa_transmission_security"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceRule</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_rule"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::governance::HipaaTransmissionSecurity</label>
+        <link refid="classthemis_1_1governance_1_1_hipaa_transmission_security"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceRule</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_rule"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/hipaa_rules.h" line="103" column="1" bodyfile="include/governance/hipaa_rules.h" bodystart="103" bodyend="116"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_hipaa_transmission_security_1a63c17fd03f4012a833a084ff3955733d" prot="public" virt="virtual"><scope>themis::governance::HipaaTransmissionSecurity</scope><name>description</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_transmission_security_1aa6b04ea6e93bcef0a10f19eae26f124c" prot="public" virt="virtual"><scope>themis::governance::HipaaTransmissionSecurity</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_transmission_security_1af2eafe8b11b0e01aa6536ce93c578313" prot="public" virt="virtual"><scope>themis::governance::HipaaTransmissionSecurity</scope><name>framework</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_transmission_security_1aa4679a04a6d8c002e8f8cc38b8e2a42a" prot="public" virt="virtual"><scope>themis::governance::HipaaTransmissionSecurity</scope><name>id</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_compliance_rule_1a6f34423b2bbde587233879f221cb63b8" prot="public" virt="virtual"><scope>themis::governance::HipaaTransmissionSecurity</scope><name>~IComplianceRule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

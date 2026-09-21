@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_validation_error" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::ValidationError</compoundname>
+    <includes refid="geo__json__geometry_8h" local="no">geo_json_geometry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_validation_error_1ac5ac77d9b059fca5a43c85d79e1d2231" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::ValidationError::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::geo::ValidationError::code</qualifiedname>
+        <briefdescription>
+<para>Machine-readable code, e.g. &quot;WINDING_ORDER_VIOLATION&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="65" column="17" bodyfile="include/geo/geo_json_geometry.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_validation_error_1a9488d8e6b961ff9a15f6e12eaa70a435" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::ValidationError::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::geo::ValidationError::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="66" column="17" bodyfile="include/geo/geo_json_geometry.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/geo_json_geometry.h" line="64" column="1" bodyfile="include/geo/geo_json_geometry.h" bodystart="64" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_validation_error_1ac5ac77d9b059fca5a43c85d79e1d2231" prot="public" virt="non-virtual"><scope>themis::geo::ValidationError</scope><name>code</name></member>
+      <member refid="structthemis_1_1geo_1_1_validation_error_1a9488d8e6b961ff9a15f6e12eaa70a435" prot="public" virt="non-virtual"><scope>themis::geo::ValidationError</scope><name>message</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

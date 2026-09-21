@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_gov_sources_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::GovSourcesOptions</compoundname>
+    <includes refid="scraper__config_8h" local="no">scraper_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_sources_options_1a3287c88f2b161b22b0bea37a0c333367" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::GovSourcesOptions::bund_enabled</definition>
+        <argsstring></argsstring>
+        <name>bund_enabled</name>
+        <qualifiedname>themis::scraper::GovSourcesOptions::bund_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="113" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_sources_options_1a70fc266810d48a062bfe5e57e3ffeb27" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::GovSourcesOptions::bundeslaender_enabled</definition>
+        <argsstring></argsstring>
+        <name>bundeslaender_enabled</name>
+        <qualifiedname>themis::scraper::GovSourcesOptions::bundeslaender_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="114" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_sources_options_1a121754c9deed15b60997c318f37393ec" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::GovSourcesOptions::eu_enabled</definition>
+        <argsstring></argsstring>
+        <name>eu_enabled</name>
+        <qualifiedname>themis::scraper::GovSourcesOptions::eu_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="115" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_sources_options_1a1b7a00eef5d74e4dc1363ad6f18e24d5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::scraper::GovSourcesOptions::source_ids</definition>
+        <argsstring></argsstring>
+        <name>source_ids</name>
+        <qualifiedname>themis::scraper::GovSourcesOptions::source_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional explicit list of source IDs from the catalog (overrides the group flags when non-empty, e.g. [&quot;gesetze_im_internet&quot;,&quot;eurlex&quot;]). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="118" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_sources_options_1ad381adc50f8bff86931d298f0da25961" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovSourcesOptions::custom_catalog_path</definition>
+        <argsstring></argsstring>
+        <name>custom_catalog_path</name>
+        <qualifiedname>themis::scraper::GovSourcesOptions::custom_catalog_path</qualifiedname>
+        <briefdescription>
+<para>Path to a custom gov_sources YAML file; empty = built-in catalog. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="120" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Controls which predefined government source groups are activated. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each group maps to entries in the <ref refid="classthemis_1_1scraper_1_1_gov_source_catalog" kindref="compound">GovSourceCatalog</ref>. An empty list means no predefined sources are used (only whitelist seed_urls are crawled). </para>
+    </detaileddescription>
+    <location file="include/scraper/scraper_config.h" line="112" column="1" bodyfile="include/scraper/scraper_config.h" bodystart="112" bodyend="121"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_gov_sources_options_1a3287c88f2b161b22b0bea37a0c333367" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourcesOptions</scope><name>bund_enabled</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_sources_options_1a70fc266810d48a062bfe5e57e3ffeb27" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourcesOptions</scope><name>bundeslaender_enabled</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_sources_options_1ad381adc50f8bff86931d298f0da25961" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourcesOptions</scope><name>custom_catalog_path</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_sources_options_1a121754c9deed15b60997c318f37393ec" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourcesOptions</scope><name>eu_enabled</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_sources_options_1a1b7a00eef5d74e4dc1363ad6f18e24d5" prot="public" virt="non-virtual"><scope>themis::scraper::GovSourcesOptions</scope><name>source_ids</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1storage_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::storage::test</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1storage_1_1test_1ab15ac099da5f2de749bd53a7e89a9b88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::test::TEST</definition>
+        <argsstring>(Wave1CriticalFixes, CompactionManagerDestructorIsNoexcept)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::test::TEST</qualifiedname>
+        <param>
+          <type>Wave1CriticalFixes</type>
+        </param>
+        <param>
+          <type>CompactionManagerDestructorIsNoexcept</type>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1_compaction_manager" kindref="compound">CompactionManager</ref> destructor must be declared noexcept. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_wave1_critical_fixes.cpp" line="47" column="1" bodyfile="tests/storage/test_wave1_critical_fixes.cpp" bodystart="47" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1_1test_1a081c37427e6690afc6aefe7c0025f92f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::test::TEST</definition>
+        <argsstring>(Wave1CriticalFixes, IndexMaintenanceManagerDestructorIsNoexcept)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::test::TEST</qualifiedname>
+        <param>
+          <type>Wave1CriticalFixes</type>
+        </param>
+        <param>
+          <type>IndexMaintenanceManagerDestructorIsNoexcept</type>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1_index_maintenance_manager" kindref="compound">IndexMaintenanceManager</ref> destructor must be declared noexcept. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_wave1_critical_fixes.cpp" line="55" column="1" bodyfile="tests/storage/test_wave1_critical_fixes.cpp" bodystart="55" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1_1test_1ad53b401f0a076b1bd94d9f6472fb0125" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::test::TEST</definition>
+        <argsstring>(Wave1CriticalFixes, StreamingIngestManagerCreateRejectsNullDb)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::test::TEST</qualifiedname>
+        <param>
+          <type>Wave1CriticalFixes</type>
+        </param>
+        <param>
+          <type>StreamingIngestManagerCreateRejectsNullDb</type>
+        </param>
+        <briefdescription>
+<para>create() must throw std::invalid_argument on null db (not return nullptr). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_wave1_critical_fixes.cpp" line="66" column="1" bodyfile="tests/storage/test_wave1_critical_fixes.cpp" bodystart="66" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1_1test_1a05a0e41983666eb39df9778b98baa1d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::test::TEST</definition>
+        <argsstring>(Wave1CriticalFixes, StreamingIngestManagerCreateReturnType)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::test::TEST</qualifiedname>
+        <param>
+          <type>Wave1CriticalFixes</type>
+        </param>
+        <param>
+          <type>StreamingIngestManagerCreateReturnType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>create() return type must be [[nodiscard]] — checked at compile time by ensuring the return type is std::unique_ptr (ownership-semantics correct). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_wave1_critical_fixes.cpp" line="76" column="1" bodyfile="tests/storage/test_wave1_critical_fixes.cpp" bodystart="76" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1_1test_1a41e3e76a328149dbef6facfdc743af1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::test::TEST</definition>
+        <argsstring>(Wave1CriticalFixes, BracesImbalanceFilesCompileClean)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::test::TEST</qualifiedname>
+        <param>
+          <type>Wave1CriticalFixes</type>
+        </param>
+        <param>
+          <type>BracesImbalanceFilesCompileClean</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_wave1_critical_fixes.cpp" line="104" column="1" bodyfile="tests/storage/test_wave1_critical_fixes.cpp" bodystart="104" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1_1test_1a6777fa5ac84d3f4b5918f497e4e3081d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::test::TEST</definition>
+        <argsstring>(Wave1CriticalFixes, CudaCheckMacroDefined)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::test::TEST</qualifiedname>
+        <param>
+          <type>Wave1CriticalFixes</type>
+        </param>
+        <param>
+          <type>CudaCheckMacroDefined</type>
+        </param>
+        <briefdescription>
+<para>THEMIS_CUDA_CHECK must be defined (either as a no-op or as a real check). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_wave1_critical_fixes.cpp" line="115" column="1" bodyfile="tests/storage/test_wave1_critical_fixes.cpp" bodystart="115" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1_1test_1ae6d4b1962a7e054ae79572c133d1de16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::test::TEST</definition>
+        <argsstring>(Wave1CriticalFixes, CudaCheckMacroIsNoopWithoutCuda)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::test::TEST</qualifiedname>
+        <param>
+          <type>Wave1CriticalFixes</type>
+        </param>
+        <param>
+          <type>CudaCheckMacroIsNoopWithoutCuda</type>
+        </param>
+        <briefdescription>
+<para>When CUDA is disabled the macro must expand to a no-op (void expression). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_wave1_critical_fixes.cpp" line="126" column="1" bodyfile="tests/storage/test_wave1_critical_fixes.cpp" bodystart="126" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1_1test_1a872250691f55a3cf92b484886d76871e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::test::TEST</definition>
+        <argsstring>(Wave1CriticalFixes, WebdavTransitEncryptionDocumented)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::test::TEST</qualifiedname>
+        <param>
+          <type>Wave1CriticalFixes</type>
+        </param>
+        <param>
+          <type>WebdavTransitEncryptionDocumented</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_wave1_critical_fixes.cpp" line="147" column="1" bodyfile="tests/storage/test_wave1_critical_fixes.cpp" bodystart="147" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1_1test_1a51ef83b9b08e6348a7c29e0c95bbd406" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::test::TEST</definition>
+        <argsstring>(Wave1CriticalFixes, PathTraversalGuardDocumented)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::test::TEST</qualifiedname>
+        <param>
+          <type>Wave1CriticalFixes</type>
+        </param>
+        <param>
+          <type>PathTraversalGuardDocumented</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_wave1_critical_fixes.cpp" line="164" column="1" bodyfile="tests/storage/test_wave1_critical_fixes.cpp" bodystart="164" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/storage/test_wave1_critical_fixes.cpp" line="40" column="1"/>
+  </compounddef>
+</doxygen>

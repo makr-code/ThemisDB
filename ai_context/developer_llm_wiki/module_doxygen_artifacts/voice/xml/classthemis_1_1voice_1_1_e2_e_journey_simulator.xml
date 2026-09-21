@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_e2_e_journey_simulator" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::E2EJourneySimulator</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_e2_e_journey_simulator_1aa4b2288f1101bff1d599e00f2e317508" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_command_journey" kindref="compound">CommandJourney</ref> &gt;</type>
+        <definition>std::vector&lt;CommandJourney&gt; themis::voice::E2EJourneySimulator::active_journeys_</definition>
+        <argsstring></argsstring>
+        <name>active_journeys_</name>
+        <qualifiedname>themis::voice::E2EJourneySimulator::active_journeys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="66" column="17" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a6aa1aa3a23b04ecae7b96f0427071ac7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::E2EJourneySimulator::audit_trail_</definition>
+        <argsstring></argsstring>
+        <name>audit_trail_</name>
+        <qualifiedname>themis::voice::E2EJourneySimulator::audit_trail_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="67" column="17" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a5e399ba8cd76edec38132268ebb78b62" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::E2EJourneySimulator::response_latency_ms_</definition>
+        <argsstring></argsstring>
+        <name>response_latency_ms_</name>
+        <qualifiedname>themis::voice::E2EJourneySimulator::response_latency_ms_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="68" column="9" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a8556bc5308e99610493b8509693313c8" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::E2EJourneySimulator::backend_available_</definition>
+        <argsstring></argsstring>
+        <name>backend_available_</name>
+        <qualifiedname>themis::voice::E2EJourneySimulator::backend_available_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="69" column="10" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_e2_e_journey_simulator_1aab880c671403ad41e931e3b4687a8941" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::E2EJourneySimulator::startJourney</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>startJourney</name>
+        <qualifiedname>themis::voice::E2EJourneySimulator::startJourney</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="72" column="17" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="72" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a5e7e783d963458305132d83e7c4c9d9f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::E2EJourneySimulator::addAudio</definition>
+        <argsstring>(const std::string &amp;session_id, const std::vector&lt; uint8_t &gt; &amp;audio)</argsstring>
+        <name>addAudio</name>
+        <qualifiedname>themis::voice::E2EJourneySimulator::addAudio</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="85" column="10" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="85" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a2822fe64f9f847ec54ae72f2b0717186" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::E2EJourneySimulator::detectIntent</definition>
+        <argsstring>(const std::string &amp;session_id, const std::string &amp;transcript)</argsstring>
+        <name>detectIntent</name>
+        <qualifiedname>themis::voice::E2EJourneySimulator::detectIntent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transcript</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="98" column="10" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="98" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a95b891786fa939177b1851fa1927a51e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::E2EJourneySimulator::executeCommand</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>executeCommand</name>
+        <qualifiedname>themis::voice::E2EJourneySimulator::executeCommand</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="112" column="10" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="112" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a3d51153a7fef471909bc5eb09da55154" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::E2EJourneySimulator::getResponse</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>getResponse</name>
+        <qualifiedname>themis::voice::E2EJourneySimulator::getResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="135" column="17" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="135" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a8e2e74f61069c37820b72014328c636e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::E2EJourneySimulator::endJourney</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>endJourney</name>
+        <qualifiedname>themis::voice::E2EJourneySimulator::endJourney</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="145" column="10" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="145" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a2439efba7d46599a6e25dc49578292b7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::E2EJourneySimulator::logAudit</definition>
+        <argsstring>(const std::string &amp;action, const std::string &amp;session_id, const std::string &amp;detail)</argsstring>
+        <name>logAudit</name>
+        <qualifiedname>themis::voice::E2EJourneySimulator::logAudit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="157" column="10" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="157" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_e2_e_journey_simulator_1ab1f8b36451813c0e1bdf2627f4b01c25" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::string &gt; &amp;</type>
+        <definition>const std::vector&lt; std::string &gt; &amp; themis::voice::E2EJourneySimulator::getAuditTrail</definition>
+        <argsstring>() const</argsstring>
+        <name>getAuditTrail</name>
+        <qualifiedname>themis::voice::E2EJourneySimulator::getAuditTrail</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="162" column="23" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="162" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a08e3959da61c9c79792669ba0c8ab1de" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::E2EJourneySimulator::setBackendAvailable</definition>
+        <argsstring>(bool available)</argsstring>
+        <name>setBackendAvailable</name>
+        <qualifiedname>themis::voice::E2EJourneySimulator::setBackendAvailable</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>available</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="166" column="10" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="166" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_e2_e_journey_simulator_1aafd455b93f1505c1317717b59e4b6100" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::E2EJourneySimulator::getActiveJourneys</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveJourneys</name>
+        <qualifiedname>themis::voice::E2EJourneySimulator::getActiveJourneys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="170" column="12" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="170" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_e2_e_journey_simulator_1aea18d94ad99320fa668814d624fed4f0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::voice::E2EJourneySimulator::getResponseLatency</definition>
+        <argsstring>() const</argsstring>
+        <name>getResponseLatency</name>
+        <qualifiedname>themis::voice::E2EJourneySimulator::getResponseLatency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="174" column="9" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="174" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_e2_e_journey_simulator_1ae2c4783bd7c40f8a8cdcde6035b41e66" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::voice::E2EJourneySimulator::getErrorCount</definition>
+        <argsstring>(const std::string &amp;session_id) const</argsstring>
+        <name>getErrorCount</name>
+        <qualifiedname>themis::voice::E2EJourneySimulator::getErrorCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="178" column="9" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="178" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_e2e_journey_focused.cpp" line="64" column="1" bodyfile="tests/voice/test_voice_e2e_journey_focused.cpp" bodystart="64" bodyend="186"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_simulator_1aa4b2288f1101bff1d599e00f2e317508" prot="private" virt="non-virtual"><scope>themis::voice::E2EJourneySimulator</scope><name>active_journeys_</name></member>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a5e7e783d963458305132d83e7c4c9d9f" prot="public" virt="non-virtual"><scope>themis::voice::E2EJourneySimulator</scope><name>addAudio</name></member>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a6aa1aa3a23b04ecae7b96f0427071ac7" prot="private" virt="non-virtual"><scope>themis::voice::E2EJourneySimulator</scope><name>audit_trail_</name></member>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a8556bc5308e99610493b8509693313c8" prot="private" virt="non-virtual"><scope>themis::voice::E2EJourneySimulator</scope><name>backend_available_</name></member>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a2822fe64f9f847ec54ae72f2b0717186" prot="public" virt="non-virtual"><scope>themis::voice::E2EJourneySimulator</scope><name>detectIntent</name></member>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a8e2e74f61069c37820b72014328c636e" prot="public" virt="non-virtual"><scope>themis::voice::E2EJourneySimulator</scope><name>endJourney</name></member>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a95b891786fa939177b1851fa1927a51e" prot="public" virt="non-virtual"><scope>themis::voice::E2EJourneySimulator</scope><name>executeCommand</name></member>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_simulator_1aafd455b93f1505c1317717b59e4b6100" prot="public" virt="non-virtual"><scope>themis::voice::E2EJourneySimulator</scope><name>getActiveJourneys</name></member>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_simulator_1ab1f8b36451813c0e1bdf2627f4b01c25" prot="public" virt="non-virtual"><scope>themis::voice::E2EJourneySimulator</scope><name>getAuditTrail</name></member>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_simulator_1ae2c4783bd7c40f8a8cdcde6035b41e66" prot="public" virt="non-virtual"><scope>themis::voice::E2EJourneySimulator</scope><name>getErrorCount</name></member>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a3d51153a7fef471909bc5eb09da55154" prot="public" virt="non-virtual"><scope>themis::voice::E2EJourneySimulator</scope><name>getResponse</name></member>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_simulator_1aea18d94ad99320fa668814d624fed4f0" prot="public" virt="non-virtual"><scope>themis::voice::E2EJourneySimulator</scope><name>getResponseLatency</name></member>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a2439efba7d46599a6e25dc49578292b7" prot="public" virt="non-virtual"><scope>themis::voice::E2EJourneySimulator</scope><name>logAudit</name></member>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a5e399ba8cd76edec38132268ebb78b62" prot="private" virt="non-virtual"><scope>themis::voice::E2EJourneySimulator</scope><name>response_latency_ms_</name></member>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_simulator_1a08e3959da61c9c79792669ba0c8ab1de" prot="public" virt="non-virtual"><scope>themis::voice::E2EJourneySimulator</scope><name>setBackendAvailable</name></member>
+      <member refid="classthemis_1_1voice_1_1_e2_e_journey_simulator_1aab880c671403ad41e931e3b4687a8941" prot="public" virt="non-virtual"><scope>themis::voice::E2EJourneySimulator</scope><name>startJourney</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

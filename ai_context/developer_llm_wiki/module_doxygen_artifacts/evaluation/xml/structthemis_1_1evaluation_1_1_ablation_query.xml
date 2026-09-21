@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_ablation_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::AblationQuery</compoundname>
+    <includes refid="ablation__framework_8h" local="no">ablation_framework.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_query_1a4b6fe394c2c66caa06a0efd4b8577311" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::AblationQuery::query_id</definition>
+        <argsstring></argsstring>
+        <name>query_id</name>
+        <qualifiedname>themis::evaluation::AblationQuery::query_id</qualifiedname>
+        <briefdescription>
+<para>Unique query identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="112" column="34" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_query_1a5c1d69ff1876443a4046a7764cf41378" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_ranked_result" kindref="compound">RankedResult</ref> &gt;</type>
+        <definition>std::vector&lt;RankedResult&gt; themis::evaluation::AblationQuery::results</definition>
+        <argsstring></argsstring>
+        <name>results</name>
+        <qualifiedname>themis::evaluation::AblationQuery::results</qualifiedname>
+        <briefdescription>
+<para>Ranked results returned by the retrieval system. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="113" column="20" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_query_1ac6463cb1cfdbfc28b562b09654a6ade2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::evaluation::AblationQuery::ground_truth</definition>
+        <argsstring></argsstring>
+        <name>ground_truth</name>
+        <qualifiedname>themis::evaluation::AblationQuery::ground_truth</qualifiedname>
+        <briefdescription>
+<para>Relevant document ids for recall/precision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="114" column="21" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_query_1a3725eaeb3ce4fb4df0452011e3eb7ffa" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::evaluation::AblationQuery::k</definition>
+        <argsstring></argsstring>
+        <name>k</name>
+        <qualifiedname>themis::evaluation::AblationQuery::k</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+<para>Cutoff depth for quality metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="115" column="34" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_query_1a873f739c3e68468d33aac358095fbd93" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::evaluation::AblationQuery::total_candidates</definition>
+        <argsstring></argsstring>
+        <name>total_candidates</name>
+        <qualifiedname>themis::evaluation::AblationQuery::total_candidates</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Candidate pool size (0 to skip reduction ratio). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="116" column="34" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_query_1aebd9737da17d81e4163cd50a20042848" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot" kindref="compound">TensorGraphSnapshot</ref></type>
+        <definition>TensorGraphSnapshot themis::evaluation::AblationQuery::snapshot</definition>
+        <argsstring></argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::evaluation::AblationQuery::snapshot</qualifiedname>
+        <briefdescription>
+<para>Runtime snapshot for tensor-graph metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="117" column="34" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::evaluation::AblationQuery</label>
+        <link refid="structthemis_1_1evaluation_1_1_ablation_query"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>snapshot</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::evaluation::TensorGraphSnapshot</label>
+        <link refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/evaluation/include/ablation_framework.h" line="111" column="1" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="111" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_query_1ac6463cb1cfdbfc28b562b09654a6ade2" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationQuery</scope><name>ground_truth</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_query_1a3725eaeb3ce4fb4df0452011e3eb7ffa" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationQuery</scope><name>k</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_query_1a4b6fe394c2c66caa06a0efd4b8577311" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationQuery</scope><name>query_id</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_query_1a5c1d69ff1876443a4046a7764cf41378" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationQuery</scope><name>results</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_query_1aebd9737da17d81e4163cd50a20042848" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationQuery</scope><name>snapshot</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_query_1a873f739c3e68468d33aac358095fbd93" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationQuery</scope><name>total_candidates</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

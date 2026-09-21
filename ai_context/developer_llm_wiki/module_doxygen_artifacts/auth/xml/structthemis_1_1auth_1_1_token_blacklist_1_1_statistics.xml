@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_token_blacklist_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::TokenBlacklist::Statistics</compoundname>
+    <includes refid="token__blacklist_8h" local="no">token_blacklist.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_token_blacklist_1_1_statistics_1a1aa8efbabf5611f37c7563fa8e3f79d4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::TokenBlacklist::Statistics::current_size</definition>
+        <argsstring></argsstring>
+        <name>current_size</name>
+        <qualifiedname>themis::auth::TokenBlacklist::Statistics::current_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="154" column="16" bodyfile="include/auth/token_blacklist.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_token_blacklist_1_1_statistics_1a69aa0c9272f2cc717a35dc68a06a65e3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::TokenBlacklist::Statistics::total_revocations</definition>
+        <argsstring></argsstring>
+        <name>total_revocations</name>
+        <qualifiedname>themis::auth::TokenBlacklist::Statistics::total_revocations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="155" column="18" bodyfile="include/auth/token_blacklist.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_token_blacklist_1_1_statistics_1a4b0d7899d9c5d0718ce80404a031d989" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::TokenBlacklist::Statistics::total_checks</definition>
+        <argsstring></argsstring>
+        <name>total_checks</name>
+        <qualifiedname>themis::auth::TokenBlacklist::Statistics::total_checks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="156" column="18" bodyfile="include/auth/token_blacklist.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_token_blacklist_1_1_statistics_1a01fdd0e455b702e967e8975dd5ab171f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::TokenBlacklist::Statistics::revoked_hits</definition>
+        <argsstring></argsstring>
+        <name>revoked_hits</name>
+        <qualifiedname>themis::auth::TokenBlacklist::Statistics::revoked_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1auth_1_1_token_blacklist_1a3435f5fd1faa95ae2781f45e18a1bd0b" kindref="member">isRevoked()</ref> returned true </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="157" column="18" bodyfile="include/auth/token_blacklist.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_token_blacklist_1_1_statistics_1aede78338c43e44a5f67e15c88de2a81a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::TokenBlacklist::Statistics::pruned_entries</definition>
+        <argsstring></argsstring>
+        <name>pruned_entries</name>
+        <qualifiedname>themis::auth::TokenBlacklist::Statistics::pruned_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="158" column="18" bodyfile="include/auth/token_blacklist.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_token_blacklist_1_1_statistics_1a2cd149ac874cbe3f5573f65a790d074c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::TokenBlacklist::Statistics::bloom_negatives</definition>
+        <argsstring></argsstring>
+        <name>bloom_negatives</name>
+        <qualifiedname>themis::auth::TokenBlacklist::Statistics::bloom_negatives</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1auth_1_1_token_blacklist_1a3435f5fd1faa95ae2781f45e18a1bd0b" kindref="member">isRevoked()</ref> short-circuited by Bloom filter </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="159" column="18" bodyfile="include/auth/token_blacklist.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/token_blacklist.h" line="153" column="5" bodyfile="include/auth/token_blacklist.h" bodystart="153" bodyend="160"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_statistics_1a2cd149ac874cbe3f5573f65a790d074c" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist::Statistics</scope><name>bloom_negatives</name></member>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_statistics_1a1aa8efbabf5611f37c7563fa8e3f79d4" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist::Statistics</scope><name>current_size</name></member>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_statistics_1aede78338c43e44a5f67e15c88de2a81a" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist::Statistics</scope><name>pruned_entries</name></member>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_statistics_1a01fdd0e455b702e967e8975dd5ab171f" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist::Statistics</scope><name>revoked_hits</name></member>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_statistics_1a4b0d7899d9c5d0718ce80404a031d989" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist::Statistics</scope><name>total_checks</name></member>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_statistics_1a69aa0c9272f2cc717a35dc68a06a65e3" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist::Statistics</scope><name>total_revocations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

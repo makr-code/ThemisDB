@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_wire_packet" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::WirePacket</compoundname>
+    <includes refid="wire__protocol_8h" local="no">wire_protocol.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_packet_1af5aa87e41a1c0a542b4a9ceefb9b11d8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728" kindref="member">PacketType</ref></type>
+        <definition>PacketType themis::network::WirePacket::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::network::WirePacket::type</qualifiedname>
+        <briefdescription>
+<para>Decoded packet type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="114" column="26" bodyfile="include/network/wire_protocol.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_packet_1a950f066c9829fff4c539b2d0c0d68977" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::network::WirePacket::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themis::network::WirePacket::payload</qualifiedname>
+        <briefdescription>
+<para>Raw payload bytes (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="115" column="17" bodyfile="include/network/wire_protocol.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Represents one fully-parsed wire protocol packet. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Immutable value type; constructed exclusively by <computeroutput><ref refid="classthemis_1_1network_1_1_packet_parser_1a0a9e1daa4713e1c3983a45ba410b9022" kindref="member">PacketParser::parse()</ref></computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/network/wire_protocol.h" line="113" column="1" bodyfile="include/network/wire_protocol.h" bodystart="113" bodyend="116"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_wire_packet_1a950f066c9829fff4c539b2d0c0d68977" prot="public" virt="non-virtual"><scope>themis::network::WirePacket</scope><name>payload</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_packet_1af5aa87e41a1c0a542b4a9ceefb9b11d8" prot="public" virt="non-virtual"><scope>themis::network::WirePacket</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

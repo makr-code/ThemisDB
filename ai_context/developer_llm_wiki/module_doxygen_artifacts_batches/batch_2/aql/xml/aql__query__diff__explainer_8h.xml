@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="aql__query__diff__explainer_8h" kind="file" language="C++">
+    <compoundname>aql_query_diff_explainer.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="aql__query__diff__explainer_8cpp" local="yes">src/aql/aql_query_diff_explainer.cpp</includedby>
+    <includedby refid="test__aql__query__diff__explainer_8cpp" local="yes">tests/aql/test_aql_query_diff_explainer.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aql/aql_query_diff_explainer.h</label>
+        <link refid="aql__query__diff__explainer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/aql/aql_query_diff_explainer.h</label>
+        <link refid="aql__query__diff__explainer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/aql/aql_query_diff_explainer.cpp</label>
+        <link refid="aql__query__diff__explainer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/aql/test_aql_query_diff_explainer.cpp</label>
+        <link refid="test__aql__query__diff__explainer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1aql_1_1_query_diff_entry" prot="public">themis::aql::QueryDiffEntry</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1_query_diff_result" prot="public">themis::aql::QueryDiffResult</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1_i_a_q_l_query_diff_explainer" prot="public">themis::aql::IAQLQueryDiffExplainer</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer" prot="public">themis::aql::AQLQueryDiffExplainer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1aql">themis::aql</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.9 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IAQLQueryDiffExplainer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1aql_1_1_query_diff_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_query_diff_entry" kindref="compound">QueryDiffEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945" kindref="member">Kind</ref><sp/>{</highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945ac83f569c25bdb00ea7efe5aa413be336" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945ac83f569c25bdb00ea7efe5aa413be336" kindref="member">CLAUSE_ADDED</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a2438bf81baf2ddc8313bee90b5093c13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a2438bf81baf2ddc8313bee90b5093c13" kindref="member">CLAUSE_REMOVED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a829ab6d3538f3898c279c52a1b619910" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a829ab6d3538f3898c279c52a1b619910" kindref="member">CLAUSE_CHANGED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a5d35d1a6fb4bc3bce01ed4f8f9bfb560" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a5d35d1a6fb4bc3bce01ed4f8f9bfb560" kindref="member">FILTER_CHANGED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945ad26bdb1e416b271558085e1ee75009ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945ad26bdb1e416b271558085e1ee75009ca" kindref="member">SORT_CHANGED</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945afef27de339b4c599360e6397bff81aec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945afef27de339b4c599360e6397bff81aec" kindref="member">LIMIT_CHANGED</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a9a3bf1fb0ea091e1c4a9676f633e8f10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a9a3bf1fb0ea091e1c4a9676f633e8f10" kindref="member">RETURN_CHANGED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a98ea99aa3e1aa0b747de39a43083874a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a98ea99aa3e1aa0b747de39a43083874a" kindref="member">COLLECTION_CHANGED</ref>,<sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a070f591767330b043989f75263fdf696" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a070f591767330b043989f75263fdf696" kindref="member">FUNCTION_ADDED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a44b59be4673f498cf4dc5af215f49359" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a44b59be4673f498cf4dc5af215f49359" kindref="member">FUNCTION_REMOVED</ref>,</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a2b6a3029b4490bb4c70c62b23427d0ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945a2b6a3029b4490bb4c70c62b23427d0ad" kindref="member">STRUCTURAL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1aql_1_1_query_diff_entry_1a10d00f5834d1bf974b944f9534590f52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945" kindref="member">Kind</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a10d00f5834d1bf974b944f9534590f52" kindref="member">kind</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1aql_1_1_query_diff_entry_1a16d09fa7822deed781a51dd6e6e6990e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a16d09fa7822deed781a51dd6e6e6990e" kindref="member">clause_a</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1aql_1_1_query_diff_entry_1aef09cfcd0cc8aef13baf7fa54ffdd90c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1aef09cfcd0cc8aef13baf7fa54ffdd90c" kindref="member">clause_b</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1aql_1_1_query_diff_entry_1ae889bf9c2891fe4adc1244a46dc47843" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1ae889bf9c2891fe4adc1244a46dc47843" kindref="member">explanation</ref>;<sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1aql_1_1_query_diff_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_query_diff_result" kindref="compound">QueryDiffResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1aql_1_1_query_diff_result_1ac6240311ecb0312946e12380b3950346" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QueryDiffEntry&gt;<sp/><ref refid="structthemis_1_1aql_1_1_query_diff_result_1ac6240311ecb0312946e12380b3950346" kindref="member">diffs</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1aql_1_1_query_diff_result_1a92716dd581bb9112d66d89d138c13857" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_query_diff_result_1a92716dd581bb9112d66d89d138c13857" kindref="member">summary</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" kindref="member">is_equivalent</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_result_1a35c1b7363cdc7bde0c84767e6d987b10" kindref="member">count</ref>(<ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945" kindref="member">QueryDiffEntry::Kind</ref><sp/>kind)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1aql_1_1_i_a_q_l_query_diff_explainer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_i_a_q_l_query_diff_explainer" kindref="compound">IAQLQueryDiffExplainer</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1aql_1_1_i_a_q_l_query_diff_explainer_1ae9b2f642d3e8e833fcf42dbe44417b1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_i_a_q_l_query_diff_explainer_1ae9b2f642d3e8e833fcf42dbe44417b1c" kindref="member">~IAQLQueryDiffExplainer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1aql_1_1_i_a_q_l_query_diff_explainer_1a4bc8171b6f51335de3dc30c0bbc9b750" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_result" kindref="compound">QueryDiffResult</ref><sp/><ref refid="classthemis_1_1aql_1_1_i_a_q_l_query_diff_explainer_1a4bc8171b6f51335de3dc30c0bbc9b750" kindref="member">explain</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_a,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_b)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer_1ad852e111bf6125be23914329d8ec672d" kindref="member">AQLQueryDiffExplainer</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_i_a_q_l_query_diff_explainer" kindref="compound">IAQLQueryDiffExplainer</ref><sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer_1ad852e111bf6125be23914329d8ec672d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer_1ad852e111bf6125be23914329d8ec672d" kindref="member">AQLQueryDiffExplainer</ref>()<sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer_1ada0f31cd4449470e30e39c50906dc35e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer_1ada0f31cd4449470e30e39c50906dc35e" kindref="member">~AQLQueryDiffExplainer</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_query_diff_result" kindref="compound">QueryDiffResult</ref><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_query_diff_explainer_1a3d2ad4d72596480679b48f70a2a5a133" kindref="member">explain</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_a,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_b)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aql</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aql/aql_query_diff_explainer.h"/>
+  </compounddef>
+</doxygen>

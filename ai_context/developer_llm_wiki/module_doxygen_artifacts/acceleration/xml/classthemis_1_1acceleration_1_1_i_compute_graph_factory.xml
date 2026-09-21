@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_i_compute_graph_factory" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::acceleration::IComputeGraphFactory</compoundname>
+    <includes refid="compute__graph_8h" local="no">compute_graph.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_compute_graph_factory_1a02a3e1eaa89a2773fc793f1c351b0da3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::acceleration::IComputeGraphFactory::~IComputeGraphFactory</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IComputeGraphFactory</name>
+        <qualifiedname>themis::acceleration::IComputeGraphFactory::~IComputeGraphFactory</qualifiedname>
+        <briefdescription>
+<para>ICompute Graph Factory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="97" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_compute_graph_factory_1a3266e734bac0e436337e85ce54fd0d43" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1_i_compute_graph" kindref="compound">IComputeGraph</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; IComputeGraph &gt; themis::acceleration::IComputeGraphFactory::create</definition>
+        <argsstring>(const std::string &amp;backend_id)=0</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::acceleration::IComputeGraphFactory::create</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backend_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="99" column="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_graph.h" line="91" column="1" bodyfile="include/acceleration/compute_graph.h" bodystart="91" bodyend="100"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_graph_factory_1a3266e734bac0e436337e85ce54fd0d43" prot="public" virt="pure-virtual"><scope>themis::acceleration::IComputeGraphFactory</scope><name>create</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_graph_factory_1a02a3e1eaa89a2773fc793f1c351b0da3" prot="public" virt="virtual"><scope>themis::acceleration::IComputeGraphFactory</scope><name>~IComputeGraphFactory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

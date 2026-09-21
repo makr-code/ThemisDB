@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_auth_gate" kind="class" language="C++" prot="public">
+    <compoundname>StubAuthGate</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_auth_gate_1afa93975385cb6b170dbffa9951b37ab6" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161" kindref="member">ServerErrorClass</ref></type>
+        <definition>ServerErrorClass StubAuthGate::validate</definition>
+        <argsstring>(const FakeJwtToken &amp;tok) const noexcept</argsstring>
+        <name>validate</name>
+        <qualifiedname>StubAuthGate::validate</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_fake_jwt_token" kindref="compound">FakeJwtToken</ref> &amp;</type>
+          <declname>tok</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="64" column="22" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="64" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub auth gate: applies the server contract&apos;s auth gate logic. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_contract_hardening_focused.cpp" line="62" column="1" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="62" bodyend="79"/>
+    <listofallmembers>
+      <member refid="class_stub_auth_gate_1afa93975385cb6b170dbffa9951b37ab6" prot="public" virt="non-virtual"><scope>StubAuthGate</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

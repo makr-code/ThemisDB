@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_ai_safety_chaos_test" kind="class" language="C++" prot="public">
+    <compoundname>AiSafetyChaosTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_ai_safety_chaos_test_1abbae7afbf536cfbdc8e503bff40ce58f" prot="protected" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_ai_operation_guard" kindref="compound">AiOperationGuard</ref> &gt;</type>
+        <definition>std::optional&lt;AiOperationGuard&gt; AiSafetyChaosTest::guard_</definition>
+        <argsstring></argsstring>
+        <name>guard_</name>
+        <qualifiedname>AiSafetyChaosTest::guard_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/ai_safety/test_ai_safety_chaos.cpp" line="53" column="22" bodyfile="tests/security/ai_safety/test_ai_safety_chaos.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_ai_safety_chaos_test_1af1723b6345d6429e3fa7d9c6dc86266e" prot="protected" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_intent_classifier" kindref="compound">IntentClassifier</ref> &gt;</type>
+        <definition>std::optional&lt;IntentClassifier&gt; AiSafetyChaosTest::classifier_</definition>
+        <argsstring></argsstring>
+        <name>classifier_</name>
+        <qualifiedname>AiSafetyChaosTest::classifier_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/ai_safety/test_ai_safety_chaos.cpp" line="54" column="22" bodyfile="tests/security/ai_safety/test_ai_safety_chaos.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_ai_safety_chaos_test_1ad8daa01a1af934685730054c26611082" prot="protected" static="no" mutable="no">
+        <type>AqlSafetyValidator</type>
+        <definition>AqlSafetyValidator AiSafetyChaosTest::validator_</definition>
+        <argsstring></argsstring>
+        <name>validator_</name>
+        <qualifiedname>AiSafetyChaosTest::validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/ai_safety/test_ai_safety_chaos.cpp" line="55" column="40" bodyfile="tests/security/ai_safety/test_ai_safety_chaos.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_ai_safety_chaos_test_1ae17277b379e8fa2c8a441ecc1292b182" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AiSafetyChaosTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AiSafetyChaosTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/ai_safety/test_ai_safety_chaos.cpp" line="44" column="10" bodyfile="tests/security/ai_safety/test_ai_safety_chaos.cpp" bodystart="44" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_ai_safety_chaos_test_1aa58f1a7ee20bc6474e8f523a229a9053" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_zero_trust_context" kindref="compound">themis::security::ZeroTrustContext</ref></type>
+        <definition>static themis::security::ZeroTrustContext AiSafetyChaosTest::makeCtx</definition>
+        <argsstring>(const std::string &amp;uid=&quot;chaos-user&quot;)</argsstring>
+        <name>makeCtx</name>
+        <qualifiedname>AiSafetyChaosTest::makeCtx</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>uid</declname>
+          <defval>&quot;chaos-user&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/ai_safety/test_ai_safety_chaos.cpp" line="57" column="47" bodyfile="tests/security/ai_safety/test_ai_safety_chaos.cpp" bodystart="57" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AiSafetyChaosTest</label>
+        <link refid="class_ai_safety_chaos_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AiSafetyChaosTest</label>
+        <link refid="class_ai_safety_chaos_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/ai_safety/test_ai_safety_chaos.cpp" line="42" column="1" bodyfile="tests/security/ai_safety/test_ai_safety_chaos.cpp" bodystart="42" bodyend="65"/>
+    <listofallmembers>
+      <member refid="class_ai_safety_chaos_test_1af1723b6345d6429e3fa7d9c6dc86266e" prot="protected" virt="non-virtual"><scope>AiSafetyChaosTest</scope><name>classifier_</name></member>
+      <member refid="class_ai_safety_chaos_test_1abbae7afbf536cfbdc8e503bff40ce58f" prot="protected" virt="non-virtual"><scope>AiSafetyChaosTest</scope><name>guard_</name></member>
+      <member refid="class_ai_safety_chaos_test_1aa58f1a7ee20bc6474e8f523a229a9053" prot="protected" virt="non-virtual"><scope>AiSafetyChaosTest</scope><name>makeCtx</name></member>
+      <member refid="class_ai_safety_chaos_test_1ae17277b379e8fa2c8a441ecc1292b182" prot="protected" virt="non-virtual"><scope>AiSafetyChaosTest</scope><name>SetUp</name></member>
+      <member refid="class_ai_safety_chaos_test_1ad8daa01a1af934685730054c26611082" prot="protected" virt="non-virtual"><scope>AiSafetyChaosTest</scope><name>validator_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

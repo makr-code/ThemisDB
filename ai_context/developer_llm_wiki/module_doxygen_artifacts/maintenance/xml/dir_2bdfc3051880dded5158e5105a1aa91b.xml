@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_2bdfc3051880dded5158e5105a1aa91b" kind="dir">
+    <compoundname>src/maintenance</compoundname>
+    <innerfile refid="database__maintenance__orchestrator_8cpp">database_maintenance_orchestrator.cpp</innerfile>
+    <innerfile refid="maintenance__registry_8cpp">maintenance_registry.cpp</innerfile>
+    <innerfile refid="maintenance__schedule__store_8cpp">maintenance_schedule_store.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/maintenance/"/>
+  </compounddef>
+</doxygen>

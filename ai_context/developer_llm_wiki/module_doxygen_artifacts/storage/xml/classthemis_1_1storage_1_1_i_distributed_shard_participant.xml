@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_i_distributed_shard_participant" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::storage::IDistributedShardParticipant</compoundname>
+    <includes refid="distributed__transaction__manager_8h" local="no">distributed_transaction_manager.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_distributed_shard_participant_1a25426acee7789ac61ee766cc7d83645a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::storage::IDistributedShardParticipant::~IDistributedShardParticipant</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IDistributedShardParticipant</name>
+        <qualifiedname>themis::storage::IDistributedShardParticipant::~IDistributedShardParticipant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="83" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_distributed_shard_participant_1ae4a47dd6b4afc320f0a5170650fad4f4" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::storage::IDistributedShardParticipant::prepare</definition>
+        <argsstring>(const std::string &amp;txn_id, const std::vector&lt; DistributedOperation &gt; &amp;ops)=0</argsstring>
+        <name>prepare</name>
+        <qualifiedname>themis::storage::IDistributedShardParticipant::prepare</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1storage_1_1_distributed_operation" kindref="compound">DistributedOperation</ref> &gt; &amp;</type>
+          <declname>ops</declname>
+        </param>
+        <briefdescription>
+<para>Phase 1 — lock rows and record a durable PREPARE log entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Globally unique transaction identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ops</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operations destined for this shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true → vote COMMIT; false → vote ABORT. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="92" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_distributed_shard_participant_1aa8020230cb47c4bdb3fa2d1c5f81fce4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::storage::IDistributedShardParticipant::commit</definition>
+        <argsstring>(const std::string &amp;txn_id)=0</argsstring>
+        <name>commit</name>
+        <qualifiedname>themis::storage::IDistributedShardParticipant::commit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Phase 2 (commit path) — apply the prepared operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called only when every participant voted COMMIT.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction to commit. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="104" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_distributed_shard_participant_1af7587597b894928ecdcc446aaac6661a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::storage::IDistributedShardParticipant::abort</definition>
+        <argsstring>(const std::string &amp;txn_id)=0</argsstring>
+        <name>abort</name>
+        <qualifiedname>themis::storage::IDistributedShardParticipant::abort</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Phase 2 (abort path) — discard prepared operations and release locks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction to abort. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="111" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_distributed_shard_participant_1a9ecb07bb2de6ee9599e7f6ff90080024" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>virtual std::optional&lt; std::string &gt; themis::storage::IDistributedShardParticipant::get</definition>
+        <argsstring>(const std::string &amp;)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::storage::IDistributedShardParticipant::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+<para>Optional point-in-time read of a single key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used by <ref refid="classthemis_1_1storage_1_1_distributed_transaction_1afb2faf92bd9363647a0458e0be150d29" kindref="member">DistributedTransaction::get()</ref> for cross-shard reads. The default implementation returns std::nullopt (key not found). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="119" column="28" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="119" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface every shard participant must implement for 2PC coordination. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Concrete implementations may wrap an in-process <ref refid="classthemis_1_1_m_v_c_c_store" kindref="compound">MVCCStore</ref> or a remote RPC stub (gRPC). Returning false from <ref refid="classthemis_1_1storage_1_1_i_distributed_shard_participant_1ae4a47dd6b4afc320f0a5170650fad4f4" kindref="member">prepare()</ref> votes ABORT for the entire transaction. </para>
+    </detaileddescription>
+    <location file="include/storage/distributed_transaction_manager.h" line="81" column="1" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="81" bodyend="122"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_i_distributed_shard_participant_1af7587597b894928ecdcc446aaac6661a" prot="public" virt="pure-virtual"><scope>themis::storage::IDistributedShardParticipant</scope><name>abort</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_distributed_shard_participant_1aa8020230cb47c4bdb3fa2d1c5f81fce4" prot="public" virt="pure-virtual"><scope>themis::storage::IDistributedShardParticipant</scope><name>commit</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_distributed_shard_participant_1a9ecb07bb2de6ee9599e7f6ff90080024" prot="public" virt="virtual"><scope>themis::storage::IDistributedShardParticipant</scope><name>get</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_distributed_shard_participant_1ae4a47dd6b4afc320f0a5170650fad4f4" prot="public" virt="pure-virtual"><scope>themis::storage::IDistributedShardParticipant</scope><name>prepare</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_distributed_shard_participant_1a25426acee7789ac61ee766cc7d83645a" prot="public" virt="virtual"><scope>themis::storage::IDistributedShardParticipant</scope><name>~IDistributedShardParticipant</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

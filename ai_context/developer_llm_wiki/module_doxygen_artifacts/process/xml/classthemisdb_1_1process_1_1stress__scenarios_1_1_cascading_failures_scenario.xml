@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1process_1_1stress__scenarios_1_1_cascading_failures_scenario" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::process::stress_scenarios::CascadingFailuresScenario</compoundname>
+    <includes refid="process__federation__stress__scenarios_8h" local="no">process_federation_stress_scenarios.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_cascading_failures_scenario_1a574fcd9f2824626aa70a2998125315f6" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::CascadingFailuresScenario::Name</definition>
+        <argsstring>()</argsstring>
+        <name>Name</name>
+        <qualifiedname>themisdb::process::stress_scenarios::CascadingFailuresScenario::Name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="422" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="422" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_cascading_failures_scenario_1af55dc5b4da3aa4ffd43d0d648fef8386" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::CascadingFailuresScenario::Description</definition>
+        <argsstring>()</argsstring>
+        <name>Description</name>
+        <qualifiedname>themisdb::process::stress_scenarios::CascadingFailuresScenario::Description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="423" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="423" bodyend="425"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Network Failure Scenario 11: Cascading Failures (F &lt; N/3). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests behavior when multiple nodes fail simultaneously (respects F &lt; N/3).</para>
+<para><bold>Setup:</bold><itemizedlist>
+<listitem><para>5-node cluster (tolerate F&lt;2, max 1 failure)</para>
+</listitem><listitem><para>Simulate 2 node failures</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Execution:</bold><itemizedlist>
+<listitem><para>Node failure 1: remaining 4 nodes can still achieve quorum (2/3 of 3 needed)</para>
+</listitem><listitem><para>Node failure 2: remaining 3 nodes exactly at quorum boundary</para>
+</listitem><listitem><para>Attempt additional writes</para>
+</listitem><listitem><para>If 3rd node fails: quorum lost, no more writes</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Verification:</bold><itemizedlist>
+<listitem><para>After 1 failure: cluster operational</para>
+</listitem><listitem><para>After 2 failures: cluster operational (barely)</para>
+</listitem><listitem><para>After 3+ failures: cluster read-only (quorum lost)</para>
+</listitem><listitem><para>No data loss during failures</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Expected:</bold> Cluster remains operational until quorum lost </para>
+    </detaileddescription>
+    <location file="include/process/process_federation_stress_scenarios.h" line="420" column="1" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="420" bodyend="426"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_cascading_failures_scenario_1af55dc5b4da3aa4ffd43d0d648fef8386" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::CascadingFailuresScenario</scope><name>Description</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_cascading_failures_scenario_1a574fcd9f2824626aa70a2998125315f6" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::CascadingFailuresScenario</scope><name>Name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

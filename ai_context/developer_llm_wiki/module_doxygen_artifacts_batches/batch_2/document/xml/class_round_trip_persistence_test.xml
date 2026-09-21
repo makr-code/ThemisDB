@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_round_trip_persistence_test" kind="class" language="C++" prot="public">
+    <compoundname>RoundTripPersistenceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_round_trip_persistence_test_1a48c3d0fdb3e2eaf854160ce888edd016" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_in_memory_document_store" kindref="compound">InMemoryDocumentStore</ref></type>
+        <definition>InMemoryDocumentStore RoundTripPersistenceTest::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>RoundTripPersistenceTest::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="149" column="32" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_round_trip_persistence_test_1a0fb3b2125df4c5ffc485d11fb8b066fa" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_store_backed_round_trip_editor" kindref="compound">StoreBackedRoundTripEditor</ref></type>
+        <definition>StoreBackedRoundTripEditor RoundTripPersistenceTest::editor_</definition>
+        <argsstring></argsstring>
+        <name>editor_</name>
+        <qualifiedname>RoundTripPersistenceTest::editor_</qualifiedname>
+        <initializer>{<ref refid="class_round_trip_persistence_test_1a48c3d0fdb3e2eaf854160ce888edd016" kindref="member">store_</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="150" column="32" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_round_trip_persistence_test_1a6908a08939d55022c2c7cc63068f43f7" prot="protected" static="no" mutable="no">
+        <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref></type>
+        <definition>const CollectionId RoundTripPersistenceTest::kCol</definition>
+        <argsstring></argsstring>
+        <name>kCol</name>
+        <qualifiedname>RoundTripPersistenceTest::kCol</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1document_1aa2c043cd325abdd7526e543ca08253ed" kindref="member">kDefaultRoundTripCollection</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="151" column="32" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="151" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test fixture for store-backed snapshot persistence correctness. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Owns a real <ref refid="classthemis_1_1document_1_1_in_memory_document_store" kindref="compound">InMemoryDocumentStore</ref> so that both the editor API and the underlying store can be probed for correctness. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RoundTripPersistenceTest</label>
+        <link refid="class_round_trip_persistence_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RoundTripPersistenceTest</label>
+        <link refid="class_round_trip_persistence_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>store_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>editor_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::document::IDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_i_document_store"/>
+      </node>
+      <node id="6">
+        <label>themis::document::IRoundTripEditor</label>
+        <link refid="classthemis_1_1document_1_1_i_round_trip_editor"/>
+      </node>
+      <node id="3">
+        <label>themis::document::InMemoryDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_store"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::document::StoreBackedRoundTripEditor</label>
+        <link refid="classthemis_1_1document_1_1_store_backed_round_trip_editor"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="147" column="1" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="147" bodyend="152"/>
+    <listofallmembers>
+      <member refid="class_round_trip_persistence_test_1a0fb3b2125df4c5ffc485d11fb8b066fa" prot="protected" virt="non-virtual"><scope>RoundTripPersistenceTest</scope><name>editor_</name></member>
+      <member refid="class_round_trip_persistence_test_1a6908a08939d55022c2c7cc63068f43f7" prot="protected" virt="non-virtual"><scope>RoundTripPersistenceTest</scope><name>kCol</name></member>
+      <member refid="class_round_trip_persistence_test_1a48c3d0fdb3e2eaf854160ce888edd016" prot="protected" virt="non-virtual"><scope>RoundTripPersistenceTest</scope><name>store_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,306 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_fallback_compression_strategy" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::FallbackCompressionStrategy</compoundname>
+    <basecompoundref refid="classthemis_1_1tensor_1_1_i_compression_strategy" prot="public" virt="non-virtual">themis::tensor::ICompressionStrategy</basecompoundref>
+    <includes refid="tensor__error__handling_8h" local="no">tensor_error_handling.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_fallback_compression_strategy_1a9b2e70ec25b3eecfd13ba2e439e83643" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_i_compression_strategy" kindref="compound">ICompressionStrategy</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;ICompressionStrategy&gt; &gt; themis::tensor::FallbackCompressionStrategy::strategies_</definition>
+        <argsstring></argsstring>
+        <name>strategies_</name>
+        <qualifiedname>themis::tensor::FallbackCompressionStrategy::strategies_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="350" column="17" bodyfile="include/tensor/tensor_error_handling.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_fallback_compression_strategy_1a129aeb83333da80b85395d44f08383f4" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::FallbackCompressionStrategy::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::tensor::FallbackCompressionStrategy::name</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_compression_strategy_1a034e76cf7a13b1ec33b7ab264bd0faeb">name</reimplements>
+        <briefdescription>
+<para>Get the name of this compression strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable strategy name (e.g., &quot;TT_DECOMPOSITION&quot;, &quot;QUANTIZE_INT8&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="318" column="17" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="318" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_fallback_compression_strategy_1a71abb94ce2490af9684c92705b236b8d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::tensor::FallbackCompressionStrategy::compress</definition>
+        <argsstring>(const float *data, std::size_t dim, const std::vector&lt; size_t &gt; &amp;mode_sizes, const CompressionConfig &amp;config) const override</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::tensor::FallbackCompressionStrategy::compress</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_compression_strategy_1aaa88d1aa11525f2666b42f855e626720">compress</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>mode_sizes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Compress a candidate represented as a flat vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flat vector data (dim elements of float). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimension. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode_sizes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tensor mode sizes (for reshape operations). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression configuration parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Compression result with success flag and metrics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="320" column="23" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="322" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_fallback_compression_strategy_1ad3dab6f105b60b7099445fc9e9203024" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::tensor::FallbackCompressionStrategy::compressTTTrain</definition>
+        <argsstring>(const storage::TTTrain &amp;train, const CompressionConfig &amp;config) const override</argsstring>
+        <name>compressTTTrain</name>
+        <qualifiedname>themis::tensor::FallbackCompressionStrategy::compressTTTrain</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_compression_strategy_1a6b0d38e0f14137d0a154dfddfdb57d56">compressTTTrain</reimplements>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>train</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Compress a Tensor-Train representation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>TT-format candidate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression configuration parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Compression result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="326" column="23" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="331" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_fallback_compression_strategy_1ac5fbd01539576a612e15720f56108c26" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>float</type>
+        <definition>float themis::tensor::FallbackCompressionStrategy::estimateRatio</definition>
+        <argsstring>(const float *data, std::size_t dim, const CompressionConfig &amp;config) const override</argsstring>
+        <name>estimateRatio</name>
+        <qualifiedname>themis::tensor::FallbackCompressionStrategy::estimateRatio</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_compression_strategy_1a701d7e2d1d0f7eac9ec6d9455b1b35a7">estimateRatio</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Estimate compression ratio without performing actual compression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sample data (may be partial). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimension. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression configuration parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Estimated compression ratio. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="330" column="11" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="346" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_fallback_compression_strategy_1a75895b226a40a0692c0d5569e329dd49" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::FallbackCompressionStrategy::pushStrategy</definition>
+        <argsstring>(std::shared_ptr&lt; ICompressionStrategy &gt; strategy)</argsstring>
+        <name>pushStrategy</name>
+        <qualifiedname>themis::tensor::FallbackCompressionStrategy::pushStrategy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_i_compression_strategy" kindref="compound">ICompressionStrategy</ref> &gt;</type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Append a strategy to the fallback chain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="338" column="10" bodyfile="include/tensor/tensor_error_handling.h" bodystart="338" bodyend="340"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_fallback_compression_strategy_1a9fd52765023d026ff98729537a742631" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::tensor::FallbackCompressionStrategy::trySequentially</definition>
+        <argsstring>(const float *data, std::size_t dim, const std::vector&lt; size_t &gt; &amp;mode_sizes, const CompressionConfig &amp;config) const</argsstring>
+        <name>trySequentially</name>
+        <qualifiedname>themis::tensor::FallbackCompressionStrategy::trySequentially</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>mode_sizes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Try compression strategies in order until one succeeds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="344" column="24" bodyfile="src/tensor/tensor_error_handling.cpp" bodystart="357" bodyend="399"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fallback compression strategy that never fails. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses increasingly lenient compression approaches to ensure success. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::tensor::FallbackCompressionStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_fallback_compression_strategy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::ICompressionStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_compression_strategy"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::tensor::FallbackCompressionStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_fallback_compression_strategy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::ICompressionStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_compression_strategy"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tensor_error_handling.h" line="316" column="1" bodyfile="include/tensor/tensor_error_handling.h" bodystart="316" bodyend="351"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_fallback_compression_strategy_1a71abb94ce2490af9684c92705b236b8d" prot="public" virt="virtual"><scope>themis::tensor::FallbackCompressionStrategy</scope><name>compress</name></member>
+      <member refid="classthemis_1_1tensor_1_1_fallback_compression_strategy_1ad3dab6f105b60b7099445fc9e9203024" prot="public" virt="virtual"><scope>themis::tensor::FallbackCompressionStrategy</scope><name>compressTTTrain</name></member>
+      <member refid="classthemis_1_1tensor_1_1_fallback_compression_strategy_1ac5fbd01539576a612e15720f56108c26" prot="public" virt="virtual"><scope>themis::tensor::FallbackCompressionStrategy</scope><name>estimateRatio</name></member>
+      <member refid="classthemis_1_1tensor_1_1_fallback_compression_strategy_1a129aeb83333da80b85395d44f08383f4" prot="public" virt="virtual"><scope>themis::tensor::FallbackCompressionStrategy</scope><name>name</name></member>
+      <member refid="classthemis_1_1tensor_1_1_fallback_compression_strategy_1a75895b226a40a0692c0d5569e329dd49" prot="public" virt="non-virtual"><scope>themis::tensor::FallbackCompressionStrategy</scope><name>pushStrategy</name></member>
+      <member refid="classthemis_1_1tensor_1_1_fallback_compression_strategy_1a9b2e70ec25b3eecfd13ba2e439e83643" prot="private" virt="non-virtual"><scope>themis::tensor::FallbackCompressionStrategy</scope><name>strategies_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_fallback_compression_strategy_1a9fd52765023d026ff98729537a742631" prot="private" virt="non-virtual"><scope>themis::tensor::FallbackCompressionStrategy</scope><name>trySequentially</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_compression_strategy_1a484c45d1998b33b907273eda4216678a" prot="public" virt="virtual"><scope>themis::tensor::FallbackCompressionStrategy</scope><name>~ICompressionStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

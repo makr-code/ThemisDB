@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_benchmark_storage" kind="class" language="C++" prot="public">
+    <compoundname>BenchmarkStorage</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_benchmark_storage_1a5a6317f3f19dd1ade8ddcfeeb66b0efe" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::map&lt; std::string, std::vector&lt; uint8_t &gt; &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::map&lt;std::string, std::vector&lt;uint8_t&gt; &gt; &gt; BenchmarkStorage::storage</definition>
+        <argsstring></argsstring>
+        <name>storage</name>
+        <qualifiedname>BenchmarkStorage::storage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_raid_lora.cpp" line="32" column="14" bodyfile="benchmarks/llm/bench_raid_lora.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_benchmark_storage_1aaf0c638d4bec08a4440720a62b2f865a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BenchmarkStorage::write</definition>
+        <argsstring>(const std::string &amp;shard, const std::string &amp;key, const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>write</name>
+        <qualifiedname>BenchmarkStorage::write</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_raid_lora.cpp" line="34" column="10" bodyfile="benchmarks/llm/bench_raid_lora.cpp" bodystart="34" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_benchmark_storage_1af82c2d82bbf123c3810ab1c829a7c4a1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; BenchmarkStorage::read</definition>
+        <argsstring>(const std::string &amp;shard, const std::string &amp;key)</argsstring>
+        <name>read</name>
+        <qualifiedname>BenchmarkStorage::read</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_raid_lora.cpp" line="40" column="19" bodyfile="benchmarks/llm/bench_raid_lora.cpp" bodystart="40" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llm/bench_raid_lora.cpp" line="30" column="1" bodyfile="benchmarks/llm/bench_raid_lora.cpp" bodystart="30" bodyend="47"/>
+    <listofallmembers>
+      <member refid="class_benchmark_storage_1af82c2d82bbf123c3810ab1c829a7c4a1" prot="public" virt="non-virtual"><scope>BenchmarkStorage</scope><name>read</name></member>
+      <member refid="class_benchmark_storage_1a5a6317f3f19dd1ade8ddcfeeb66b0efe" prot="public" virt="non-virtual"><scope>BenchmarkStorage</scope><name>storage</name></member>
+      <member refid="class_benchmark_storage_1aaf0c638d4bec08a4440720a62b2f865a" prot="public" virt="non-virtual"><scope>BenchmarkStorage</scope><name>write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

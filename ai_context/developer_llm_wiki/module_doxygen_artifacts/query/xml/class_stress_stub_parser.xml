@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stress_stub_parser" kind="class" language="C++" prot="public">
+    <compoundname>StressStubParser</compoundname>
+    <innerclass refid="struct_stress_stub_parser_1_1_parse_result" prot="public">StressStubParser::ParseResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stress_stub_parser_1a10b61a5dcd9ec76c19bd37ae35e7e954" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StressStubParser::seq_</definition>
+        <argsstring></argsstring>
+        <name>seq_</name>
+        <qualifiedname>StressStubParser::seq_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_highcardinality_stress.cpp" line="51" column="17" bodyfile="tests/query/test_query_highcardinality_stress.cpp" bodystart="51" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stress_stub_parser_1ae9411367e53664676c2163e79ef0c3c7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_stress_stub_parser_1_1_parse_result" kindref="compound">ParseResult</ref></type>
+        <definition>ParseResult StressStubParser::parse</definition>
+        <argsstring>(const std::string &amp;aql)</argsstring>
+        <name>parse</name>
+        <qualifiedname>StressStubParser::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_highcardinality_stress.cpp" line="47" column="17" bodyfile="tests/query/test_query_highcardinality_stress.cpp" bodystart="47" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/query/test_query_highcardinality_stress.cpp" line="44" column="1" bodyfile="tests/query/test_query_highcardinality_stress.cpp" bodystart="44" bodyend="52"/>
+    <listofallmembers>
+      <member refid="class_stress_stub_parser_1ae9411367e53664676c2163e79ef0c3c7" prot="public" virt="non-virtual"><scope>StressStubParser</scope><name>parse</name></member>
+      <member refid="class_stress_stub_parser_1a10b61a5dcd9ec76c19bd37ae35e7e954" prot="private" virt="non-virtual"><scope>StressStubParser</scope><name>seq_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

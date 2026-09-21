@@ -1,0 +1,965 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_knowledge_graph_reasoner" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::KnowledgeGraphReasoner</compoundname>
+    <includes refid="knowledge__graph__reasoner_8h" local="no">knowledge_graph_reasoner.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a611d2ca23c24c95a2c5610313e2667d4" prot="public" static="no">
+        <type>std::function&lt; double(std::string_view adapter_id, const <ref refid="structthemis_1_1graph_1_1_inference_edge" kindref="compound">InferenceEdge</ref> &amp;edge)&gt;</type>
+        <definition>using themis::graph::KnowledgeGraphReasoner::LoraScoreFn = std::function&lt;double(std::string_view adapter_id,
+                                            const InferenceEdge&amp; edge)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LoraScoreFn</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::LoraScoreFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="212" column="5" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1ad0378b316fabe1c643b12ada14ff8cc1" prot="private" static="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>using themis::graph::KnowledgeGraphReasoner::Bindings = std::unordered_map&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>Bindings</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::Bindings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="251" column="5" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1aa296255038ebcfd7e366819f823a3084" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::graph::KnowledgeGraphReasoner::kDefaultMaxHops</definition>
+        <argsstring></argsstring>
+        <name>kDefaultMaxHops</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::kDefaultMaxHops</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="150" column="26" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1aa5e6ba929001f5993daa2d39d48c42fa" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::graph::KnowledgeGraphReasoner::kHardMaxHops</definition>
+        <argsstring></argsstring>
+        <name>kHardMaxHops</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::kHardMaxHops</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="151" column="33" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a2bf1325759ba90c15275f7c57c183e6c" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::graph::KnowledgeGraphReasoner::max_hops_</definition>
+        <argsstring></argsstring>
+        <name>max_hops_</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::max_hops_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="295" column="9" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1aa3b15e30fa3bb6f188aa4b75000c7d00" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::graph::KnowledgeGraphReasoner::rules_mutex_</definition>
+        <argsstring></argsstring>
+        <name>rules_mutex_</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::rules_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="297" column="31" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1ac947ae8f62f5166863c046d23813a66e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_rule" kindref="compound">Rule</ref> &gt;</type>
+        <definition>std::vector&lt;Rule&gt; themis::graph::KnowledgeGraphReasoner::rules_</definition>
+        <argsstring></argsstring>
+        <name>rules_</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::rules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="298" column="17" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1adab25206e0558f8c4445649b824b3aa3" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::graph::KnowledgeGraphReasoner::facts_mutex_</definition>
+        <argsstring></argsstring>
+        <name>facts_mutex_</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::facts_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="300" column="31" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1aa508e107fe21e07f69a983b4bc3e7401" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> &gt;</type>
+        <definition>std::vector&lt;Triple&gt; themis::graph::KnowledgeGraphReasoner::base_facts_</definition>
+        <argsstring></argsstring>
+        <name>base_facts_</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::base_facts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="301" column="17" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a1c134fd317a84eb40e89f7ec33a5f23d" prot="private" static="no" mutable="yes">
+        <type><ref refid="classthemis_1_1graph_1_1_inference_store" kindref="compound">InferenceStore</ref></type>
+        <definition>InferenceStore themis::graph::KnowledgeGraphReasoner::inference_store_</definition>
+        <argsstring></argsstring>
+        <name>inference_store_</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::inference_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="303" column="28" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1af40f9cbd6906d584fa34f7c3d3e568a2" prot="private" static="no" mutable="yes">
+        <type><ref refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a611d2ca23c24c95a2c5610313e2667d4" kindref="member">LoraScoreFn</ref></type>
+        <definition>LoraScoreFn themis::graph::KnowledgeGraphReasoner::lora_score_fn_</definition>
+        <argsstring></argsstring>
+        <name>lora_score_fn_</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::lora_score_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="305" column="25" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1aa038b00f98c5143e1a1a8bcde979c79c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::KnowledgeGraphReasoner::KnowledgeGraphReasoner</definition>
+        <argsstring>(int max_inference_hops=kDefaultMaxHops)</argsstring>
+        <name>KnowledgeGraphReasoner</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::KnowledgeGraphReasoner</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>max_inference_hops</declname>
+          <defval><ref refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1aa296255038ebcfd7e366819f823a3084" kindref="member">kDefaultMaxHops</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="155" column="14" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="212" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a887aee09c1bb458a47178913fabdd960" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::KnowledgeGraphReasoner::~KnowledgeGraphReasoner</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>~KnowledgeGraphReasoner</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::~KnowledgeGraphReasoner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="156" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1ab39ab605adf6cf6b896d2945552dbace" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::KnowledgeGraphReasoner::KnowledgeGraphReasoner</definition>
+        <argsstring>(const KnowledgeGraphReasoner &amp;)=delete</argsstring>
+        <name>KnowledgeGraphReasoner</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::KnowledgeGraphReasoner</qualifiedname>
+        <param>
+          <type>const KnowledgeGraphReasoner &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="158" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1ac7d9c82fd14f0309279498bf3730b5a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1aa038b00f98c5143e1a1a8bcde979c79c" kindref="member">KnowledgeGraphReasoner</ref> &amp;</type>
+        <definition>KnowledgeGraphReasoner &amp; themis::graph::KnowledgeGraphReasoner::operator=</definition>
+        <argsstring>(const KnowledgeGraphReasoner &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1aa038b00f98c5143e1a1a8bcde979c79c" kindref="member">KnowledgeGraphReasoner</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="159" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a7dcc1951c7a4e67049b792a17b4ad001" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::KnowledgeGraphReasoner::KnowledgeGraphReasoner</definition>
+        <argsstring>(KnowledgeGraphReasoner &amp;&amp;) noexcept=default</argsstring>
+        <name>KnowledgeGraphReasoner</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::KnowledgeGraphReasoner</qualifiedname>
+        <param>
+          <type>KnowledgeGraphReasoner &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="161" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1af3fd8cde1da4b7a737b6770d3c8e0f69" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1aa038b00f98c5143e1a1a8bcde979c79c" kindref="member">KnowledgeGraphReasoner</ref> &amp;</type>
+        <definition>KnowledgeGraphReasoner &amp; themis::graph::KnowledgeGraphReasoner::operator=</definition>
+        <argsstring>(KnowledgeGraphReasoner &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1aa038b00f98c5143e1a1a8bcde979c79c" kindref="member">KnowledgeGraphReasoner</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="162" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a64a1c285dd49f10afeb4370eb85cafe0" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::KnowledgeGraphReasoner::addRule</definition>
+        <argsstring>(Rule rule)</argsstring>
+        <name>addRule</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::addRule</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_rule" kindref="compound">Rule</ref></type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Add <ref refid="structthemis_1_1graph_1_1_rule" kindref="compound">Rule</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), lock(), std::find_if(), begin(), end(), std::move(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="166" column="11" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="225" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a864f6d3bb8664b9d0f4856ae88207f86" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::KnowledgeGraphReasoner::ruleCount</definition>
+        <argsstring>() const</argsstring>
+        <name>ruleCount</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::ruleCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="168" column="18" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="240" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a25cc9ee7b44cae4e160c7ac0c7662068" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::KnowledgeGraphReasoner::clearRules</definition>
+        <argsstring>()</argsstring>
+        <name>clearRules</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::clearRules</qualifiedname>
+        <briefdescription>
+<para>Clear Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="173" column="10" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="254" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1abccb3839e8d9c793e450cb538a73ba0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::KnowledgeGraphReasoner::addFact</definition>
+        <argsstring>(Triple fact)</argsstring>
+        <name>addFact</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::addFact</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref></type>
+          <declname>fact</declname>
+        </param>
+        <briefdescription>
+<para>── Fact management ───────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Fact.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fact</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fact</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isGround(), lock(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="180" column="10" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="268" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a2a0dc40bb2507b0668f089f526a82f7b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::KnowledgeGraphReasoner::factCount</definition>
+        <argsstring>() const</argsstring>
+        <name>factCount</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::factCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">facts_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="182" column="18" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="282" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a18b09c57ebd472f8d92cf6280f400d8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::KnowledgeGraphReasoner::clearFacts</definition>
+        <argsstring>()</argsstring>
+        <name>clearFacts</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::clearFacts</qualifiedname>
+        <briefdescription>
+<para>Clear Facts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="187" column="10" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="296" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a80b3f16ca3011c1b4e9044bae337a6e0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_inference_chain" kindref="compound">InferenceChain</ref></type>
+        <definition>InferenceChain themis::graph::KnowledgeGraphReasoner::infer</definition>
+        <argsstring>(std::string_view subjectId, int depth=-1) const</argsstring>
+        <name>infer</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::infer</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>subjectId</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+          <defval>-1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">facts_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="191" column="21" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="449" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a811fab1f0aae26c7a7711d76d3dc39fb" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1graph_1_1_inference_edge" kindref="compound">InferenceEdge</ref> &gt;</type>
+        <definition>std::optional&lt; InferenceEdge &gt; themis::graph::KnowledgeGraphReasoner::explain</definition>
+        <argsstring>(const Triple &amp;fact) const</argsstring>
+        <name>explain</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::explain</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> &amp;</type>
+          <declname>fact</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="193" column="20" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="488" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a7419b297a8a7508bb172bfc7d2b0e8b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::KnowledgeGraphReasoner::onCDCEvent</definition>
+        <argsstring>(const CDCEvent &amp;event)</argsstring>
+        <name>onCDCEvent</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::onCDCEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_c_d_c_event" kindref="compound">CDCEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>── Incremental CDC ───────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">facts_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">facts_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="200" column="10" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="496" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1adbb7a1c7fe417af8b2d6966dd4feb6e3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::KnowledgeGraphReasoner::applyLoRAScore</definition>
+        <argsstring>(InferenceChain &amp;chain, std::string_view adapter_id) const</argsstring>
+        <name>applyLoRAScore</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::applyLoRAScore</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_inference_chain" kindref="compound">InferenceChain</ref> &amp;</type>
+          <declname>chain</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>── LoRA scoring ──────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">chain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="208" column="10" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="579" bodyend="675"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1aa2b4509709eafd32dd3fa77c9bc5b665" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::KnowledgeGraphReasoner::setLoraScoreFn</definition>
+        <argsstring>(LoraScoreFn fn)</argsstring>
+        <name>setLoraScoreFn</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::setLoraScoreFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a611d2ca23c24c95a2c5610313e2667d4" kindref="member">LoraScoreFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Lora Score Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="219" column="10" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="560" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1ad944bf9682c352975ca9b765a5f5914a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1graph_1_1_inference_store" kindref="compound">InferenceStore</ref> &amp;</type>
+        <definition>const InferenceStore &amp; themis::graph::KnowledgeGraphReasoner::inferenceStore</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>inferenceStore</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::inferenceStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="231" column="27" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="231" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a4d5c765d5af700dfafd2995f65b0ba34" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::KnowledgeGraphReasoner::setMaxHops</definition>
+        <argsstring>(int hops) noexcept</argsstring>
+        <name>setMaxHops</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::setMaxHops</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>hops</declname>
+        </param>
+        <briefdescription>
+<para>Set Max Hops. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hops</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="240" column="10" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="681" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a64ea099459fc5e2d1f8d749f3bdd87e7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::graph::KnowledgeGraphReasoner::maxHops</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>maxHops</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::maxHops</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="242" column="10" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="242" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a4f18e5a8f423b965a0d6cdb2df546062" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::KnowledgeGraphReasoner::derivedTripleCount</definition>
+        <argsstring>() const</argsstring>
+        <name>derivedTripleCount</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::derivedTripleCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="244" column="18" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="244" bodyend="246"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a06a9ea3267e19729e6e9fa78205bbec5" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::KnowledgeGraphReasoner::unify</definition>
+        <argsstring>(const Triple &amp;pattern, const Triple &amp;fact, Bindings &amp;bindings)</argsstring>
+        <name>unify</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::unify</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> &amp;</type>
+          <declname>fact</declname>
+        </param>
+        <param>
+          <type>Bindings &amp;</type>
+          <declname>bindings</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="253" column="18" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="305" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a61b22af1dffc2af93203adf3ebd6cced" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref></type>
+        <definition>Triple themis::graph::KnowledgeGraphReasoner::ground</definition>
+        <argsstring>(const Triple &amp;pattern, const Bindings &amp;bindings)</argsstring>
+        <name>ground</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::ground</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const Bindings &amp;</type>
+          <declname>bindings</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="257" column="20" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="323" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1ad0f7b7537af12ab7755144d3224eb1db" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::KnowledgeGraphReasoner::matchConditions</definition>
+        <argsstring>(const std::vector&lt; Triple &gt; &amp;conditions, std::size_t cond_idx, const std::vector&lt; Triple &gt; &amp;facts, Bindings bindings, std::vector&lt; Bindings &gt; &amp;out)</argsstring>
+        <name>matchConditions</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::matchConditions</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> &gt; &amp;</type>
+          <declname>conditions</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>cond_idx</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> &gt; &amp;</type>
+          <declname>facts</declname>
+        </param>
+        <param>
+          <type>Bindings</type>
+          <declname>bindings</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; Bindings &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Match Conditions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conditions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cond_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">facts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bindings</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="268" column="17" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="336" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a59941ded100460923ccbe78ceb4febaf" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::KnowledgeGraphReasoner::tripleKey</definition>
+        <argsstring>(const Triple &amp;t)</argsstring>
+        <name>tripleKey</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::tripleKey</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>── <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> helpers ────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="291" column="24" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="357" bodyend="359"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a6ead0e698f36d8950bbe2e31860a428f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::KnowledgeGraphReasoner::forwardChain</definition>
+        <argsstring>(std::vector&lt; Triple &gt; &amp;working_set, std::vector&lt; InferenceEdge &gt; &amp;derived_out, int max_depth) const</argsstring>
+        <name>forwardChain</name>
+        <qualifiedname>themis::graph::KnowledgeGraphReasoner::forwardChain</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> &gt; &amp;</type>
+          <declname>working_set</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_inference_edge" kindref="compound">InferenceEdge</ref> &gt; &amp;</type>
+          <declname>derived_out</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+        </param>
+        <briefdescription>
+<para>── Forward chaining internals ────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">working_set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">derived_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Rules lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="281" column="10" bodyfile="src/graph/knowledge_graph_reasoner.cpp" bodystart="365" bodyend="443"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/knowledge_graph_reasoner.h" line="148" column="1" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="148" bodyend="310"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1abccb3839e8d9c793e450cb538a73ba0a" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>addFact</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a64a1c285dd49f10afeb4370eb85cafe0" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>addRule</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1adbb7a1c7fe417af8b2d6966dd4feb6e3" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>applyLoRAScore</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1aa508e107fe21e07f69a983b4bc3e7401" prot="private" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>base_facts_</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1ad0378b316fabe1c643b12ada14ff8cc1" prot="private" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>Bindings</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a18b09c57ebd472f8d92cf6280f400d8a" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>clearFacts</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a25cc9ee7b44cae4e160c7ac0c7662068" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>clearRules</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a4f18e5a8f423b965a0d6cdb2df546062" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>derivedTripleCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a811fab1f0aae26c7a7711d76d3dc39fb" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>explain</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a2a0dc40bb2507b0668f089f526a82f7b" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>factCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1adab25206e0558f8c4445649b824b3aa3" prot="private" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>facts_mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a6ead0e698f36d8950bbe2e31860a428f" prot="private" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>forwardChain</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a61b22af1dffc2af93203adf3ebd6cced" prot="private" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>ground</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a80b3f16ca3011c1b4e9044bae337a6e0" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>infer</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a1c134fd317a84eb40e89f7ec33a5f23d" prot="private" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>inference_store_</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1ad944bf9682c352975ca9b765a5f5914a" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>inferenceStore</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1aa296255038ebcfd7e366819f823a3084" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>kDefaultMaxHops</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1aa5e6ba929001f5993daa2d39d48c42fa" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>kHardMaxHops</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1aa038b00f98c5143e1a1a8bcde979c79c" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>KnowledgeGraphReasoner</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1ab39ab605adf6cf6b896d2945552dbace" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>KnowledgeGraphReasoner</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a7dcc1951c7a4e67049b792a17b4ad001" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>KnowledgeGraphReasoner</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1af40f9cbd6906d584fa34f7c3d3e568a2" prot="private" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>lora_score_fn_</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a611d2ca23c24c95a2c5610313e2667d4" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>LoraScoreFn</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1ad0f7b7537af12ab7755144d3224eb1db" prot="private" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>matchConditions</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a2bf1325759ba90c15275f7c57c183e6c" prot="private" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>max_hops_</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a64ea099459fc5e2d1f8d749f3bdd87e7" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>maxHops</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a7419b297a8a7508bb172bfc7d2b0e8b0" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>onCDCEvent</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1ac7d9c82fd14f0309279498bf3730b5a3" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1af3fd8cde1da4b7a737b6770d3c8e0f69" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a864f6d3bb8664b9d0f4856ae88207f86" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>ruleCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1ac947ae8f62f5166863c046d23813a66e" prot="private" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>rules_</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1aa3b15e30fa3bb6f188aa4b75000c7d00" prot="private" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>rules_mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1aa2b4509709eafd32dd3fa77c9bc5b665" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>setLoraScoreFn</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a4d5c765d5af700dfafd2995f65b0ba34" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>setMaxHops</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a59941ded100460923ccbe78ceb4febaf" prot="private" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>tripleKey</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a06a9ea3267e19729e6e9fa78205bbec5" prot="private" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>unify</name></member>
+      <member refid="classthemis_1_1graph_1_1_knowledge_graph_reasoner_1a887aee09c1bb458a47178913fabdd960" prot="public" virt="non-virtual"><scope>themis::graph::KnowledgeGraphReasoner</scope><name>~KnowledgeGraphReasoner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

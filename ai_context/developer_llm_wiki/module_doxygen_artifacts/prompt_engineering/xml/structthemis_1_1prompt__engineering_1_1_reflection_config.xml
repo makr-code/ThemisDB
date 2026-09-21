@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_reflection_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ReflectionConfig</compoundname>
+    <includes refid="reflection__tuner_8h" local="no">reflection_tuner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_config_1aec8f23245a302cb7fb53403079b4daaa" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921f" kindref="member">ReflectionStrategy</ref></type>
+        <definition>ReflectionStrategy themis::prompt_engineering::ReflectionConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionConfig::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921fa440d48e0b4aa56402fc8e62af4acdd4c" kindref="member">ReflectionStrategy::SELF_REFINE</ref></initializer>
+        <briefdescription>
+<para>Strategy that determines the critique-prompt template family. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="52" column="24" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_config_1a346711971705d2f5d2042bb4e8a6d7b8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ReflectionConfig::max_iterations</definition>
+        <argsstring></argsstring>
+        <name>max_iterations</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionConfig::max_iterations</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximum number of generate→critique→revise iterations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="55" column="12" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_config_1a34514e8418bb8aa3ad2a130fc4273a31" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ReflectionConfig::convergence_threshold</definition>
+        <argsstring></argsstring>
+        <name>convergence_threshold</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionConfig::convergence_threshold</qualifiedname>
+        <initializer>= 0.95</initializer>
+        <briefdescription>
+<para>Stop iterating when quality score reaches this value. Value in [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="61" column="12" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_config_1a1c2f5eba61359f30e995046bab9ff3b9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ReflectionConfig::min_delta_improvement</definition>
+        <argsstring></argsstring>
+        <name>min_delta_improvement</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionConfig::min_delta_improvement</qualifiedname>
+        <initializer>= 0.02</initializer>
+        <briefdescription>
+<para>Stop iterating when the per-step quality gain falls below this value (plateau detection). Value in [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="67" column="12" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_config_1affc5a61a87cb8a89af5b5f0d4d51fb68" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ReflectionConfig::hallucination_guard_enabled</definition>
+        <argsstring></argsstring>
+        <name>hallucination_guard_enabled</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionConfig::hallucination_guard_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable the divergence-based hallucination guard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="70" column="10" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_config_1a87b3944c64c83daaa66bb6f5344f9d74" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ReflectionConfig::divergence_threshold</definition>
+        <argsstring></argsstring>
+        <name>divergence_threshold</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionConfig::divergence_threshold</qualifiedname>
+        <initializer>= 0.15</initializer>
+        <briefdescription>
+<para>Halt when the rolling quality average drops by at least this fraction relative to the peak within the divergence window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="76" column="12" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_config_1a73de0030f6fe2af9b0e19e4f5e8e6422" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ReflectionConfig::divergence_window</definition>
+        <argsstring></argsstring>
+        <name>divergence_window</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionConfig::divergence_window</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Number of trailing steps inspected by the divergence detector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="81" column="12" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_config_1a5dbcda3d5c8d897d3129e29d9335161c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::ReflectionConfig::constitutional_principles</definition>
+        <argsstring></argsstring>
+        <name>constitutional_principles</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionConfig::constitutional_principles</qualifiedname>
+        <briefdescription>
+<para>Principles used when strategy == CONSTITUTIONAL. Each string should be one imperative sentence, e.g. &quot;The response must not contain personally identifiable information.&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="88" column="17" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_config_1a1e565e7406dea0d65ba1e62685ff17dc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ReflectionConfig::include_self_aware_context</definition>
+        <argsstring></argsstring>
+        <name>include_self_aware_context</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionConfig::include_self_aware_context</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>When true, the self-aware context header (confidence, uncertainty markers) is injected into the critique and revision prompts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="94" column="10" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for one <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner" kindref="compound">ReflectionTuner</ref></computeroutput> instance. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/reflection_tuner.h" line="50" column="1" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="50" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_config_1a5dbcda3d5c8d897d3129e29d9335161c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionConfig</scope><name>constitutional_principles</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_config_1a34514e8418bb8aa3ad2a130fc4273a31" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionConfig</scope><name>convergence_threshold</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_config_1a87b3944c64c83daaa66bb6f5344f9d74" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionConfig</scope><name>divergence_threshold</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_config_1a73de0030f6fe2af9b0e19e4f5e8e6422" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionConfig</scope><name>divergence_window</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_config_1affc5a61a87cb8a89af5b5f0d4d51fb68" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionConfig</scope><name>hallucination_guard_enabled</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_config_1a1e565e7406dea0d65ba1e62685ff17dc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionConfig</scope><name>include_self_aware_context</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_config_1a346711971705d2f5d2042bb4e8a6d7b8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionConfig</scope><name>max_iterations</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_config_1a1c2f5eba61359f30e995046bab9ff3b9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionConfig</scope><name>min_delta_improvement</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_config_1aec8f23245a302cb7fb53403079b4daaa" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionConfig</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_discourse_memory_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::DiscourseMemoryConfig</compoundname>
+    <includes refid="discourse__memory__store_8h" local="no">discourse_memory_store.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_memory_config_1a877386891cac03b14129807f7f5b8295" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::DiscourseMemoryConfig::max_episodes_per_school</definition>
+        <argsstring></argsstring>
+        <name>max_episodes_per_school</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMemoryConfig::max_episodes_per_school</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+<para>Ring buffer size per school (MemGPT §4.1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_memory_store.h" line="25" column="11" bodyfile="include/ethics_ai/discourse_memory_store.h" bodystart="25" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_memory_config_1a86083a118cba8b1f5f9b057a2c7b2e4b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::DiscourseMemoryConfig::max_tokens_per_episode</definition>
+        <argsstring></argsstring>
+        <name>max_tokens_per_episode</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMemoryConfig::max_tokens_per_episode</qualifiedname>
+        <initializer>{50}</initializer>
+        <briefdescription>
+<para>Hard cap on compressed_position tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_memory_store.h" line="26" column="11" bodyfile="include/ethics_ai/discourse_memory_store.h" bodystart="26" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_memory_config_1a8834cdc1b1d29d6acc4ed7681cff6b46" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::ethics::DiscourseMemoryConfig::min_dc_score_to_store</definition>
+        <argsstring></argsstring>
+        <name>min_dc_score_to_store</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseMemoryConfig::min_dc_score_to_store</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>Only store episodes with DC &gt;= this value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/discourse_memory_store.h" line="27" column="11" bodyfile="include/ethics_ai/discourse_memory_store.h" bodystart="27" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/discourse_memory_store.h" line="24" column="1" bodyfile="include/ethics_ai/discourse_memory_store.h" bodystart="24" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_memory_config_1a877386891cac03b14129807f7f5b8295" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseMemoryConfig</scope><name>max_episodes_per_school</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_memory_config_1a86083a118cba8b1f5f9b057a2c7b2e4b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseMemoryConfig</scope><name>max_tokens_per_episode</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_memory_config_1a8834cdc1b1d29d6acc4ed7681cff6b46" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseMemoryConfig</scope><name>min_dc_score_to_store</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

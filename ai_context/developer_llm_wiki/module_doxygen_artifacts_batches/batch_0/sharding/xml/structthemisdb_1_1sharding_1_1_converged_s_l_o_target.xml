@@ -1,0 +1,529 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ConvergedSLOTarget</compoundname>
+    <includes refid="converged__slo__metrics_8h" local="no">converged_slo_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1ab6f7936150265146dad766d529e190ea" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::system_availability_target</definition>
+        <argsstring></argsstring>
+        <name>system_availability_target</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::system_availability_target</qualifiedname>
+        <initializer>= 0.999</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="63" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1ab994b8f5cd6a3fe93ed537a9190e4397" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::storage_layer_availability</definition>
+        <argsstring></argsstring>
+        <name>storage_layer_availability</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::storage_layer_availability</qualifiedname>
+        <initializer>= 0.9999</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="66" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1ad994c27afc1c93302d8dd098b77dcba8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::cache_layer_availability</definition>
+        <argsstring></argsstring>
+        <name>cache_layer_availability</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::cache_layer_availability</qualifiedname>
+        <initializer>= 0.999</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="67" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1ad9e613400e73e85b58d048b47850a9cb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::inference_layer_availability</definition>
+        <argsstring></argsstring>
+        <name>inference_layer_availability</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::inference_layer_availability</qualifiedname>
+        <initializer>= 0.99</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="68" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a609375eadb79e81c0eabd7e3275d025a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::cross_layer_sync_p50_ms</definition>
+        <argsstring></argsstring>
+        <name>cross_layer_sync_p50_ms</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::cross_layer_sync_p50_ms</qualifiedname>
+        <initializer>= 50.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="75" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a766fcef6088765b163f4426e611b1e4b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::cross_layer_sync_p99_ms</definition>
+        <argsstring></argsstring>
+        <name>cross_layer_sync_p99_ms</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::cross_layer_sync_p99_ms</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="76" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a18a4be7f27018f910e84efba91720d21" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::dual_consensus_commit_p50_ms</definition>
+        <argsstring></argsstring>
+        <name>dual_consensus_commit_p50_ms</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::dual_consensus_commit_p50_ms</qualifiedname>
+        <initializer>= 100.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="77" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1ab2814ae550f6e6d370d7deb87887ea56" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::dual_consensus_commit_p99_ms</definition>
+        <argsstring></argsstring>
+        <name>dual_consensus_commit_p99_ms</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::dual_consensus_commit_p99_ms</qualifiedname>
+        <initializer>= 500.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="78" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a6776560325f8566639ce37bb71c00805" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::inference_request_p50_ms</definition>
+        <argsstring></argsstring>
+        <name>inference_request_p50_ms</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::inference_request_p50_ms</qualifiedname>
+        <initializer>= 100.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="81" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a10116c173ad4505c4e1a72b35923e7d3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::inference_request_p99_ms</definition>
+        <argsstring></argsstring>
+        <name>inference_request_p99_ms</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::inference_request_p99_ms</qualifiedname>
+        <initializer>= 1000.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="82" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1ae3291e8cb7b22f5d040ce554b9564f9b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::inference_token_generation_ms_per_token</definition>
+        <argsstring></argsstring>
+        <name>inference_token_generation_ms_per_token</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::inference_token_generation_ms_per_token</qualifiedname>
+        <initializer>= 20.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="83" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a1741d14b47a982fb2b63ce39e90bed09" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::rag_retrieval_p50_ms</definition>
+        <argsstring></argsstring>
+        <name>rag_retrieval_p50_ms</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::rag_retrieval_p50_ms</qualifiedname>
+        <initializer>= 50.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="86" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a2a892247ab72fed365feb0c0ea384a95" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::rag_retrieval_p99_ms</definition>
+        <argsstring></argsstring>
+        <name>rag_retrieval_p99_ms</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::rag_retrieval_p99_ms</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="87" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a2b29bcff28117942f363c236425161cc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::rag_generation_p50_ms</definition>
+        <argsstring></argsstring>
+        <name>rag_generation_p50_ms</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::rag_generation_p50_ms</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="88" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a79f3b21557987b6e1717b9a17376c108" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::rag_generation_p99_ms</definition>
+        <argsstring></argsstring>
+        <name>rag_generation_p99_ms</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::rag_generation_p99_ms</qualifiedname>
+        <initializer>= 2000.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="89" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a960222280a7df76b140af26e810e72d7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::max_storage_cache_lag_ms</definition>
+        <argsstring></argsstring>
+        <name>max_storage_cache_lag_ms</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::max_storage_cache_lag_ms</qualifiedname>
+        <initializer>= 100.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="96" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1abe7f4228019abb175f1e688bc525a02d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::max_cache_storage_lag_ms</definition>
+        <argsstring></argsstring>
+        <name>max_cache_storage_lag_ms</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::max_cache_storage_lag_ms</qualifiedname>
+        <initializer>= 500.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="97" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1ad4d8843d864bec131b15c667d910f140" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::max_cross_shard_version_spread</definition>
+        <argsstring></argsstring>
+        <name>max_cross_shard_version_spread</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::max_cross_shard_version_spread</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="100" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1abdb1dc2ad7c6cea3328dd7f362c43f20" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::cross_shard_consistency_target</definition>
+        <argsstring></argsstring>
+        <name>cross_shard_consistency_target</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::cross_shard_consistency_target</qualifiedname>
+        <initializer>= 0.999</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="101" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a323f6527e2fdda556996eda95805c317" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::grounding_audit_coverage_target</definition>
+        <argsstring></argsstring>
+        <name>grounding_audit_coverage_target</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::grounding_audit_coverage_target</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="104" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a5245de1597a0d7f0f97675d23afffc6f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::grounding_version_continuity_target</definition>
+        <argsstring></argsstring>
+        <name>grounding_version_continuity_target</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::grounding_version_continuity_target</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="105" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1ab934e4fa2011892e085a84cac2c8af58" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::raid0_data_loss_tolerance</definition>
+        <argsstring></argsstring>
+        <name>raid0_data_loss_tolerance</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::raid0_data_loss_tolerance</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="112" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a7c6504ade7ac83f918d396ae8201f7fe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::raid1_data_loss_tolerance</definition>
+        <argsstring></argsstring>
+        <name>raid1_data_loss_tolerance</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::raid1_data_loss_tolerance</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="113" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a07af1389814bdd0842209c62bf3580d3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::raid5_data_loss_tolerance</definition>
+        <argsstring></argsstring>
+        <name>raid5_data_loss_tolerance</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::raid5_data_loss_tolerance</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="114" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a22a3912a6d02072b8475bf1c5604652c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::raid10_data_loss_tolerance</definition>
+        <argsstring></argsstring>
+        <name>raid10_data_loss_tolerance</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::raid10_data_loss_tolerance</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="115" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a88ac683cb1085107c575694b14aca2ac" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::kv_cache_persistence_target</definition>
+        <argsstring></argsstring>
+        <name>kv_cache_persistence_target</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::kv_cache_persistence_target</qualifiedname>
+        <initializer>= 0.999</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="118" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a37f8d5e85c0710dc0d0c208383f36143" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::inference_state_checkpoint_interval_s</definition>
+        <argsstring></argsstring>
+        <name>inference_state_checkpoint_interval_s</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::inference_state_checkpoint_interval_s</qualifiedname>
+        <initializer>= 60.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="119" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a721b3d042fc782a2ebe0a603f365a433" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::gpu_memory_utilization_target</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_utilization_target</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::gpu_memory_utilization_target</qualifiedname>
+        <initializer>= 0.85</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="126" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1af2c1591b814a843fd687481b79f5ef35" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::gpu_compute_utilization_target</definition>
+        <argsstring></argsstring>
+        <name>gpu_compute_utilization_target</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::gpu_compute_utilization_target</qualifiedname>
+        <initializer>= 0.90</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="127" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a5272941057aa581ed8c8c1e7d23fb63d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::sharding::ConvergedSLOTarget::max_concurrent_inference_requests</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_inference_requests</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::max_concurrent_inference_requests</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="128" column="9" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a6ab4cdf39b98e508a73a6902d35666cc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::max_inference_preemption_rate</definition>
+        <argsstring></argsstring>
+        <name>max_inference_preemption_rate</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::max_inference_preemption_rate</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="131" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a04fb54ce58bc2b2ecc281951b6639672" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ConvergedSLOTarget::preemption_recovery_time_target_s</definition>
+        <argsstring></argsstring>
+        <name>preemption_recovery_time_target_s</name>
+        <qualifiedname>themisdb::sharding::ConvergedSLOTarget::preemption_recovery_time_target_s</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/converged_slo_metrics.h" line="132" column="12" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>SLO targets specific to Converged Storage-Inference. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/converged_slo_metrics.h" line="57" column="1" bodyfile="include/sharding/converged_slo_metrics.h" bodystart="57" bodyend="133"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1ad994c27afc1c93302d8dd098b77dcba8" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>cache_layer_availability</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a609375eadb79e81c0eabd7e3275d025a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>cross_layer_sync_p50_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a766fcef6088765b163f4426e611b1e4b" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>cross_layer_sync_p99_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1abdb1dc2ad7c6cea3328dd7f362c43f20" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>cross_shard_consistency_target</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a18a4be7f27018f910e84efba91720d21" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>dual_consensus_commit_p50_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1ab2814ae550f6e6d370d7deb87887ea56" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>dual_consensus_commit_p99_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1af2c1591b814a843fd687481b79f5ef35" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>gpu_compute_utilization_target</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a721b3d042fc782a2ebe0a603f365a433" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>gpu_memory_utilization_target</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a323f6527e2fdda556996eda95805c317" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>grounding_audit_coverage_target</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a5245de1597a0d7f0f97675d23afffc6f" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>grounding_version_continuity_target</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1ad9e613400e73e85b58d048b47850a9cb" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>inference_layer_availability</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a6776560325f8566639ce37bb71c00805" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>inference_request_p50_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a10116c173ad4505c4e1a72b35923e7d3" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>inference_request_p99_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a37f8d5e85c0710dc0d0c208383f36143" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>inference_state_checkpoint_interval_s</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1ae3291e8cb7b22f5d040ce554b9564f9b" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>inference_token_generation_ms_per_token</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a88ac683cb1085107c575694b14aca2ac" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>kv_cache_persistence_target</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1abe7f4228019abb175f1e688bc525a02d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>max_cache_storage_lag_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a5272941057aa581ed8c8c1e7d23fb63d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>max_concurrent_inference_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1ad4d8843d864bec131b15c667d910f140" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>max_cross_shard_version_spread</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a6ab4cdf39b98e508a73a6902d35666cc" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>max_inference_preemption_rate</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a960222280a7df76b140af26e810e72d7" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>max_storage_cache_lag_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a04fb54ce58bc2b2ecc281951b6639672" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>preemption_recovery_time_target_s</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a2b29bcff28117942f363c236425161cc" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>rag_generation_p50_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a79f3b21557987b6e1717b9a17376c108" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>rag_generation_p99_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a1741d14b47a982fb2b63ce39e90bed09" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>rag_retrieval_p50_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a2a892247ab72fed365feb0c0ea384a95" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>rag_retrieval_p99_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1ab934e4fa2011892e085a84cac2c8af58" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>raid0_data_loss_tolerance</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a22a3912a6d02072b8475bf1c5604652c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>raid10_data_loss_tolerance</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a7c6504ade7ac83f918d396ae8201f7fe" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>raid1_data_loss_tolerance</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1a07af1389814bdd0842209c62bf3580d3" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>raid5_data_loss_tolerance</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1ab994b8f5cd6a3fe93ed537a9190e4397" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>storage_layer_availability</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target_1ab6f7936150265146dad766d529e190ea" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConvergedSLOTarget</scope><name>system_availability_target</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

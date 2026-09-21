@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_budget_handle" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::BudgetHandle</compoundname>
+    <includes refid="rag__context__budget__manager_8h" local="no">rag_context_budget_manager.h</includes>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1prompt__engineering_1_1_budget_handle_1ac90eca340644ca67fe3bcd25bc162741" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class RagContextBudgetManager</definition>
+        <argsstring></argsstring>
+        <name>RagContextBudgetManager</name>
+        <qualifiedname>themis::prompt_engineering::BudgetHandle::RagContextBudgetManager</qualifiedname>
+        <param>
+          <type>RagContextBudgetManager</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="131" column="18" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_budget_handle_1a52c4a278bbb50afdeb1ee815a07acde2" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::BudgetHandle::tokens_</definition>
+        <argsstring></argsstring>
+        <name>tokens_</name>
+        <qualifiedname>themis::prompt_engineering::BudgetHandle::tokens_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="136" column="36" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_budget_handle_1a8fc1d6aa0baeae5ad86bdea630c568e9" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::BudgetHandle::released_</definition>
+        <argsstring></argsstring>
+        <name>released_</name>
+        <qualifiedname>themis::prompt_engineering::BudgetHandle::released_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="137" column="36" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_budget_handle_1a9884e168757eb5c3387c9ba1c2692855" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(size_t)&gt;</type>
+        <definition>std::function&lt;void(size_t)&gt; themis::prompt_engineering::BudgetHandle::release_fn_</definition>
+        <argsstring></argsstring>
+        <name>release_fn_</name>
+        <qualifiedname>themis::prompt_engineering::BudgetHandle::release_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="138" column="22" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_budget_handle_1a18bb2af0411b4f457400cf7cf3466a6e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::BudgetHandle::BudgetHandle</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>BudgetHandle</name>
+        <qualifiedname>themis::prompt_engineering::BudgetHandle::BudgetHandle</qualifiedname>
+        <briefdescription>
+<para>Constructs an empty (no-op) handle. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="85" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_budget_handle_1a028a8c31591faf678538cc728b94bd7d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::BudgetHandle::BudgetHandle</definition>
+        <argsstring>(BudgetHandle &amp;&amp;other) noexcept</argsstring>
+        <name>BudgetHandle</name>
+        <qualifiedname>themis::prompt_engineering::BudgetHandle::BudgetHandle</qualifiedname>
+        <param>
+          <type>BudgetHandle &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move construction transfers ownership; the source becomes a no-op handle. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="88" column="5" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="88" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_budget_handle_1ad913b0154254ffeb63b81abd517a31ca" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1a18bb2af0411b4f457400cf7cf3466a6e" kindref="member">BudgetHandle</ref> &amp;</type>
+        <definition>BudgetHandle &amp; themis::prompt_engineering::BudgetHandle::operator=</definition>
+        <argsstring>(BudgetHandle &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::prompt_engineering::BudgetHandle::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1a18bb2af0411b4f457400cf7cf3466a6e" kindref="member">BudgetHandle</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move assignment transfers ownership. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="95" column="18" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="95" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_budget_handle_1a1566880e2b29470d1e874541b41209b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::BudgetHandle::BudgetHandle</definition>
+        <argsstring>(const BudgetHandle &amp;)=delete</argsstring>
+        <name>BudgetHandle</name>
+        <qualifiedname>themis::prompt_engineering::BudgetHandle::BudgetHandle</qualifiedname>
+        <param>
+          <type>const BudgetHandle &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="106" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_budget_handle_1ae915853abbc3edcf6709b672d76ae95f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1a18bb2af0411b4f457400cf7cf3466a6e" kindref="member">BudgetHandle</ref> &amp;</type>
+        <definition>BudgetHandle &amp; themis::prompt_engineering::BudgetHandle::operator=</definition>
+        <argsstring>(const BudgetHandle &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::prompt_engineering::BudgetHandle::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1a18bb2af0411b4f457400cf7cf3466a6e" kindref="member">BudgetHandle</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="107" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_budget_handle_1a30c9356e1dfc652df3f88ddd67f18555" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::BudgetHandle::~BudgetHandle</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~BudgetHandle</name>
+        <qualifiedname>themis::prompt_engineering::BudgetHandle::~BudgetHandle</qualifiedname>
+        <briefdescription>
+<para>Releases the reserved tokens back to the manager if not already released. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="110" column="5" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_budget_handle_1a95d0cfa2a22acdb3daaf4eaefebeaf78" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::BudgetHandle::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::prompt_engineering::BudgetHandle::release</qualifiedname>
+        <briefdescription>
+<para>Explicitly release the reservation before the handle is destroyed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Idempotent — calling <ref refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1a95d0cfa2a22acdb3daaf4eaefebeaf78" kindref="member">release()</ref> multiple times is safe. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="117" column="10" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="117" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_budget_handle_1a970ae0acb7f80e16d83c5694e4d520af" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::BudgetHandle::tokens</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>tokens</name>
+        <qualifiedname>themis::prompt_engineering::BudgetHandle::tokens</qualifiedname>
+        <briefdescription>
+<para>Returns the number of tokens held by this handle. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="125" column="12" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_budget_handle_1a243ea1c77cbb143e73864c758ceff3aa" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::BudgetHandle::isReleased</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isReleased</name>
+        <qualifiedname>themis::prompt_engineering::BudgetHandle::isReleased</qualifiedname>
+        <briefdescription>
+<para>Returns true if the reservation has already been released. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="128" column="10" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_budget_handle_1ad23c73f7a18227b722335bacc003f528" prot="private" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::BudgetHandle::BudgetHandle</definition>
+        <argsstring>(size_t tokens, std::function&lt; void(size_t)&gt; release_fn) noexcept</argsstring>
+        <name>BudgetHandle</name>
+        <qualifiedname>themis::prompt_engineering::BudgetHandle::BudgetHandle</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>tokens</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(size_t)&gt;</type>
+          <declname>release_fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="133" column="14" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="133" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII token-reservation handle returned by <computeroutput>allocate()</computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The handle owns a reservation of <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1a970ae0acb7f80e16d83c5694e4d520af" kindref="member">tokens()</ref></computeroutput> tokens on the budget manager. Tokens are automatically released when the handle is destroyed or when <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1a95d0cfa2a22acdb3daaf4eaefebeaf78" kindref="member">release()</ref></computeroutput> is called explicitly. Handles are move-only; copying is intentionally disabled to prevent double-releases. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/rag_context_budget_manager.h" line="82" column="1" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="82" bodyend="139"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1a18bb2af0411b4f457400cf7cf3466a6e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BudgetHandle</scope><name>BudgetHandle</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1a028a8c31591faf678538cc728b94bd7d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BudgetHandle</scope><name>BudgetHandle</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1a1566880e2b29470d1e874541b41209b5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BudgetHandle</scope><name>BudgetHandle</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1ad23c73f7a18227b722335bacc003f528" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BudgetHandle</scope><name>BudgetHandle</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1a243ea1c77cbb143e73864c758ceff3aa" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BudgetHandle</scope><name>isReleased</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1ad913b0154254ffeb63b81abd517a31ca" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BudgetHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1ae915853abbc3edcf6709b672d76ae95f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BudgetHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1ac90eca340644ca67fe3bcd25bc162741" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BudgetHandle</scope><name>RagContextBudgetManager</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1a95d0cfa2a22acdb3daaf4eaefebeaf78" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BudgetHandle</scope><name>release</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1a9884e168757eb5c3387c9ba1c2692855" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BudgetHandle</scope><name>release_fn_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1a8fc1d6aa0baeae5ad86bdea630c568e9" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BudgetHandle</scope><name>released_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1a970ae0acb7f80e16d83c5694e4d520af" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BudgetHandle</scope><name>tokens</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1a52c4a278bbb50afdeb1ee815a07acde2" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BudgetHandle</scope><name>tokens_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_handle_1a30c9356e1dfc652df3f88ddd67f18555" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BudgetHandle</scope><name>~BudgetHandle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

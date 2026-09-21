@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_weights" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardLoadBalancer::Weights</compoundname>
+    <includes refid="shard__load__balancer_8h" local="no">shard_load_balancer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_weights_1af022b2436bd11c3bfd5271d3503e643f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadBalancer::Weights::cpu</definition>
+        <argsstring></argsstring>
+        <name>cpu</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::Weights::cpu</qualifiedname>
+        <initializer>= 0.30</initializer>
+        <briefdescription>
+<para>Weight for CPU utilisation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="92" column="16" bodyfile="include/sharding/shard_load_balancer.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_weights_1a3f51d5f83247e29260d35d450a99fb7f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadBalancer::Weights::queue</definition>
+        <argsstring></argsstring>
+        <name>queue</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::Weights::queue</qualifiedname>
+        <initializer>= 0.40</initializer>
+        <briefdescription>
+<para>Weight for pending query count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="93" column="16" bodyfile="include/sharding/shard_load_balancer.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_weights_1a48ba5123d342e0ef2602023546f45356" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadBalancer::Weights::latency</definition>
+        <argsstring></argsstring>
+        <name>latency</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::Weights::latency</qualifiedname>
+        <initializer>= 0.30</initializer>
+        <briefdescription>
+<para>Weight for p99 latency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="94" column="16" bodyfile="include/sharding/shard_load_balancer.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Weight configuration for the load score formula. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/shard_load_balancer.h" line="91" column="5" bodyfile="include/sharding/shard_load_balancer.h" bodystart="91" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_weights_1af022b2436bd11c3bfd5271d3503e643f" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer::Weights</scope><name>cpu</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_weights_1a48ba5123d342e0ef2602023546f45356" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer::Weights</scope><name>latency</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_weights_1a3f51d5f83247e29260d35d450a99fb7f" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer::Weights</scope><name>queue</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

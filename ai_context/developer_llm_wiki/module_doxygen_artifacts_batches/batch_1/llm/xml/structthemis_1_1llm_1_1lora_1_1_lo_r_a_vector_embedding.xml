@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRAVectorEmbedding</compoundname>
+    <includes refid="lora__graph_8h" local="no">lora_graph.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a66dd7e938b5806e0337b508556fdf30a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Source</name>
+        <qualifiedname>themis::llm::lora::LoRAVectorEmbedding::Source</qualifiedname>
+        <enumvalue id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a66dd7e938b5806e0337b508556fdf30aa35ba4a2677442e210c23a00a5601aba3" prot="public">
+          <name>DESCRIPTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a66dd7e938b5806e0337b508556fdf30aa10de00ccecc47e20305e6664cf648b8b" prot="public">
+          <name>HYPERPARAMETERS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a66dd7e938b5806e0337b508556fdf30aaa49fc2f9014e22ecb2181085a3ce79ae" prot="public">
+          <name>TRAINING_DATA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a66dd7e938b5806e0337b508556fdf30aa063360736adfccfae2f1d8093c02959a" prot="public">
+          <name>PERFORMANCE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a66dd7e938b5806e0337b508556fdf30aa448285d39c3f159c017938c7c367d0d2" prot="public">
+          <name>COMBINED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="96" column="5" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="96" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1ab37c2a2aef64f3724448abbf78b6497d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAVectorEmbedding::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::lora::LoRAVectorEmbedding::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="90" column="17" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a58cf3388eb3868f43e16b869e0801861" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::lora::LoRAVectorEmbedding::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::llm::lora::LoRAVectorEmbedding::embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="91" column="17" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a1b0c6df676ff476e802f9f47e16bb671" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAVectorEmbedding::embedding_model</definition>
+        <argsstring></argsstring>
+        <name>embedding_model</name>
+        <qualifiedname>themis::llm::lora::LoRAVectorEmbedding::embedding_model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="92" column="17" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a1eb10c8ae3266b24746e536e6f6720b2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAVectorEmbedding::source_text</definition>
+        <argsstring></argsstring>
+        <name>source_text</name>
+        <qualifiedname>themis::llm::lora::LoRAVectorEmbedding::source_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="93" column="17" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a5b280c431f4039d00f611e1c4c4e4261" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a66dd7e938b5806e0337b508556fdf30a" kindref="member">Source</ref></type>
+        <definition>Source themis::llm::lora::LoRAVectorEmbedding::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>themis::llm::lora::LoRAVectorEmbedding::source</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a66dd7e938b5806e0337b508556fdf30aa35ba4a2677442e210c23a00a5601aba3" kindref="member">Source::DESCRIPTION</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="103" column="12" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a3961220a0d06bd9e5cb74492c8b80396" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::LoRAVectorEmbedding::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::LoRAVectorEmbedding::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="105" column="10" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="105" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a3b552fadb8c9fbee1b5f8bc5c28309d5" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding" kindref="compound">LoRAVectorEmbedding</ref></type>
+        <definition>static LoRAVectorEmbedding themis::llm::lora::LoRAVectorEmbedding::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::lora::LoRAVectorEmbedding::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_array(), is_number_integer(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_graph.h" line="122" column="32" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="122" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_graph.h" line="89" column="1" bodyfile="include/llm/lora_framework/lora_graph.h" bodystart="89" bodyend="144"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1ab37c2a2aef64f3724448abbf78b6497d" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAVectorEmbedding</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a58cf3388eb3868f43e16b869e0801861" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAVectorEmbedding</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a1b0c6df676ff476e802f9f47e16bb671" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAVectorEmbedding</scope><name>embedding_model</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a3b552fadb8c9fbee1b5f8bc5c28309d5" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAVectorEmbedding</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a66dd7e938b5806e0337b508556fdf30a" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAVectorEmbedding</scope><name>Source</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a5b280c431f4039d00f611e1c4c4e4261" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAVectorEmbedding</scope><name>source</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a1eb10c8ae3266b24746e536e6f6720b2" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAVectorEmbedding</scope><name>source_text</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_vector_embedding_1a3961220a0d06bd9e5cb74492c8b80396" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAVectorEmbedding</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

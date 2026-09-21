@@ -1,0 +1,277 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="geo__edge__case__handler_8h" kind="file" language="C++">
+    <compoundname>geo_edge_case_handler.h</compoundname>
+    <includes refid="geo__api__contract_8h" local="yes">geo/geo_api_contract.h</includes>
+    <includes local="no">array</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="geo__edge__case__handler_8cpp" local="yes">src/geo/geo_edge_case_handler.cpp</includedby>
+    <includedby refid="test__geo__q4__hardening__focused_8cpp" local="yes">tests/geo/test_geo_q4_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>geo/geo_api_contract.h</label>
+        <link refid="geo__api__contract_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/geo/geo_edge_case_handler.h</label>
+        <link refid="geo__edge__case__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>array</label>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>string_view</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/geo/geo_edge_case_handler.h</label>
+        <link refid="geo__edge__case__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/geo/geo_edge_case_handler.cpp</label>
+        <link refid="geo__edge__case__handler_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/geo/test_geo_q4_hardening_focused.cpp</label>
+        <link refid="test__geo__q4__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_edge_case_result" prot="public">themis::geo::GeoEdgeCaseResult</innerclass>
+    <innerclass refid="classthemis_1_1geo_1_1_geo_edge_case_handler" prot="public">themis::geo::GeoEdgeCaseHandler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1geo">themis::geo</innernamespace>
+    <briefdescription>
+<para>Deterministic edge-case handler for mixed-backend and precision-mode permutations in the ThemisDB geo module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header provides the GeoEdgeCaseHandler class, which enforces deterministic behavior across all backend/precision-mode combinations:</para>
+<para><itemizedlist>
+<listitem><para>Mixed CPU/GPU backend permutations with validated result consistency</para>
+</listitem><listitem><para>Precision-mode edge cases (STANDARD, HIGH, ULTRA) with bounded tolerances</para>
+</listitem><listitem><para>Geometry boundary conditions (degenerate, near-antipodal, null-island)</para>
+</listitem><listitem><para>Complex join/raster edge cases (empty inputs, single-point, max-size)</para>
+</listitem><listitem><para>Backend capability drift detection with fail-closed semantics</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="geo__edge__case__handler_8h_1autotoc_md2_1s1"><sect2 id="geo__edge__case__handler_8h_1autotoc_md2">
+<title>Design Principles</title><para><orderedlist>
+<listitem><para><bold>Determinism</bold>: identical inputs always produce identical outputs regardless of backend selection order.</para>
+</listitem><listitem><para><bold>Fail-Closed</bold>: unsupported precision/backend combinations produce GeoErrorCode::BACKEND_UNAVAILABLE rather than silently degrading.</para>
+</listitem><listitem><para><bold>Bounded Tolerance</bold>: each precision mode carries a documented numeric tolerance bound; results outside the bound are flagged as PRECISION_EXCEEDED.</para>
+</listitem><listitem><para><bold>Thread-Safety</bold>: all public methods are safe for concurrent invocation.</para>
+</listitem></orderedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="geo__api__contract_8h" kindref="compound">include/geo/geo_api_contract.h</ref> — base error taxonomy and backend contracts </para>
+</simplesect>
+<simplesect kind="see"><para>src/geo/ROADMAP.md — Phase 2/3 Q4 2026 items </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geo__api__contract_8h" kindref="compound">geo/geo_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;array&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">geo</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Precision<sp/>Mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61a94e94133f4bdc1794c6b647b8ea134d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61a94e94133f4bdc1794c6b647b8ea134d0" kindref="member">STANDARD</ref><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61ab89de3b4b81c4facfac906edf29aec8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61ab89de3b4b81c4facfac906edf29aec8c" kindref="member">HIGH</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61af8b6b495ae37b7f4baa34a5c54bd2f6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61af8b6b495ae37b7f4baa34a5c54bd2f6c" kindref="member">ULTRA</ref><sp/><sp/><sp/><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1geo_1a6ffe7e043f024d0a39f8434ddf11fd0d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::array&lt;double,<sp/>3&gt;<sp/><ref refid="namespacethemis_1_1geo_1a6ffe7e043f024d0a39f8434ddf11fd0d" kindref="member">kPrecisionTolerance</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>1e-6,<sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>1e-9,<sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>1e-12,<sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1geo_1a336bd9697c43d4fa32e75fea24e532ee" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1a336bd9697c43d4fa32e75fea24e532ee" kindref="member">toleranceForMode</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref><sp/>mode)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1a6ffe7e043f024d0a39f8434ddf11fd0d" kindref="member">kPrecisionTolerance</ref>[</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(mode)];</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Backend<sp/>Combination</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1geo_1a132a0b4e28cf622a04d131f5472c4595" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1a132a0b4e28cf622a04d131f5472c4595" kindref="member">BackendCombination</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1geo_1a132a0b4e28cf622a04d131f5472c4595a9393911bc06bdfb0c3663d541246e15a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a132a0b4e28cf622a04d131f5472c4595a9393911bc06bdfb0c3663d541246e15a" kindref="member">CPU_ONLY</ref><sp/><sp/><sp/>=<sp/>0x01,<sp/></highlight></codeline>
+<codeline lineno="75" refid="namespacethemis_1_1geo_1a132a0b4e28cf622a04d131f5472c4595a95c8166e4f408834884bbe57fef928f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a132a0b4e28cf622a04d131f5472c4595a95c8166e4f408834884bbe57fef928f6" kindref="member">GPU_ONLY</ref><sp/><sp/><sp/>=<sp/>0x02,<sp/></highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1geo_1a132a0b4e28cf622a04d131f5472c4595aab033d83844993023513aea6fb37c7eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a132a0b4e28cf622a04d131f5472c4595aab033d83844993023513aea6fb37c7eb" kindref="member">CPU_AND_GPU</ref><sp/>=<sp/>0x03,<sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Edge-Case<sp/>Result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1geo_1_1_geo_edge_case_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_geo_edge_case_result" kindref="compound">GeoEdgeCaseResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1geo_1_1_geo_edge_case_result_1a3e4895f74a145cb436464dc96093b597" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317d" kindref="member">GeoErrorCode</ref><sp/><ref refid="structthemis_1_1geo_1_1_geo_edge_case_result_1a3e4895f74a145cb436464dc96093b597" kindref="member">code</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1geo_1_1_geo_edge_case_result_1a28fa6687d411f82b3490b2fc8a360ce2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_edge_case_result_1a28fa6687d411f82b3490b2fc8a360ce2" kindref="member">value</ref>;<sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1geo_1_1_geo_edge_case_result_1aae3935221ba4b5986bbd0929f2a897f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_geo_edge_case_result_1aae3935221ba4b5986bbd0929f2a897f0" kindref="member">ok</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_geo_edge_case_result_1a3e4895f74a145cb436464dc96093b597" kindref="member">code</ref><sp/>==<sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317dae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">GeoErrorCode::OK</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>GeoEdgeCaseHandler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1geo_1_1_geo_edge_case_handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a1c59e3d871bf988c864176949a20ce48" kindref="member">GeoEdgeCaseHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ad236da6cb820b678e59263ffaaa9d838" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ad236da6cb820b678e59263ffaaa9d838" kindref="member">IncidentCallback</ref><sp/>=<sp/>std::function&lt;void(std::string_view<sp/>incident_id,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>description)&gt;;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a1c59e3d871bf988c864176949a20ce48" kindref="member">GeoEdgeCaseHandler</ref>(</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a132a0b4e28cf622a04d131f5472c4595" kindref="member">BackendCombination</ref><sp/>combo<sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a132a0b4e28cf622a04d131f5472c4595a9393911bc06bdfb0c3663d541246e15a" kindref="member">BackendCombination::CPU_ONLY</ref>,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref><sp/><sp/><sp/>precision<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61a94e94133f4bdc1794c6b647b8ea134d0" kindref="member">GeoPrecisionMode::STANDARD</ref>,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ad236da6cb820b678e59263ffaaa9d838" kindref="member">IncidentCallback</ref><sp/><sp/><sp/>on_incident<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable;<sp/>movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a5ed66959562766b53927652902797454" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a1c59e3d871bf988c864176949a20ce48" kindref="member">GeoEdgeCaseHandler</ref>(const<sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a1c59e3d871bf988c864176949a20ce48" kindref="member">GeoEdgeCaseHandler</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ab6707b3e5efc3c6d37083ece0f20174a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a1c59e3d871bf988c864176949a20ce48" kindref="member">GeoEdgeCaseHandler</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a1c59e3d871bf988c864176949a20ce48" kindref="member">GeoEdgeCaseHandler</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a9245b89b9d0f0b57d1b5a778dc96660e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a1c59e3d871bf988c864176949a20ce48" kindref="member">GeoEdgeCaseHandler</ref>(<ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a1c59e3d871bf988c864176949a20ce48" kindref="member">GeoEdgeCaseHandler</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a37a9ea90baa4070cfdc25d1ff2cdfa3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a1c59e3d871bf988c864176949a20ce48" kindref="member">GeoEdgeCaseHandler</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a1c59e3d871bf988c864176949a20ce48" kindref="member">GeoEdgeCaseHandler</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>§<sp/>4.1<sp/><sp/>Dispatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1geo_1_1_geo_edge_case_result" kindref="compound">GeoEdgeCaseResult</ref><sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ac97532d6d25cf5c4c02df5fa99efd80c" kindref="member">dispatch</ref>(</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">()&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cpu_fn,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::optional&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;()&gt;<sp/>gpu_fn<sp/>=<sp/></highlight><highlight class="keywordtype">nullptr</highlight><highlight class="normal">)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>§<sp/>4.2<sp/><sp/>Geometry<sp/>Boundary<sp/>Validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317d" kindref="member">GeoErrorCode</ref><sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ab7be33d1b71af6d5b71aa561f526c95b" kindref="member">validateCoordinateBoundary</ref>(</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317d" kindref="member">GeoErrorCode</ref><sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1acde9443f9951f3c801a24e05bdb00243" kindref="member">validateRing</ref>(</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;std::pair&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;&gt;&amp;<sp/>ring)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>§<sp/>4.3<sp/><sp/>Capability<sp/>Drift<sp/>Detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a8d38e1fcd81150f0b52641280a01f9c4" kindref="member">hasCapabilityDrift</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ac5c6c9f94a895c1c5debe8699677c2f2" kindref="member">resetDriftCounter</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>§<sp/>4.4<sp/><sp/>Counters<sp/>(diagnostic)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint64_t<sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a77704f914f1f90077fb01c3614ab5501" kindref="member">cpuDispatchCount</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint64_t<sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ab15913c42fdd9a14be50a7c64e1737a1" kindref="member">gpuDispatchCount</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint64_t<sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a35e38f7ec726c5d73d57aebed082f0f7" kindref="member">fallbackCount</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint64_t<sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1aedd430884022b8cb5efec4db3c2ff784" kindref="member">driftEventCount</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a132a0b4e28cf622a04d131f5472c4595" kindref="member">BackendCombination</ref><sp/><sp/><sp/><sp/><sp/><sp/>combo_;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>precision_;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ad236da6cb820b678e59263ffaaa9d838" kindref="member">IncidentCallback</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>on_incident_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><sp/><sp/>cpu_dispatch_count_{0};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><sp/><sp/>gpu_dispatch_count_{0};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><sp/><sp/>fallback_count_{0};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><sp/><sp/>drift_event_count_{0};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kDriftThreshold<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>emitIncident(std::string_view<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>std::string_view<sp/>desc)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>geo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/geo/geo_edge_case_handler.h"/>
+  </compounddef>
+</doxygen>

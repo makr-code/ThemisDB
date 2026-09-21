@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_hot_plug_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::HotPlugConfig</compoundname>
+    <includes refid="plugin__hot__plug__monitor_8h" local="no">plugin_hot_plug_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hot_plug_config_1a1c300fc806a0adc7db2c7d087e393c3a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::HotPlugConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::plugins::HotPlugConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="30" column="10" bodyfile="include/plugins/plugin_hot_plug_monitor.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hot_plug_config_1a8b9c639232338a456f5919b6b64e8e45" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::HotPlugConfig::auto_load</definition>
+        <argsstring></argsstring>
+        <name>auto_load</name>
+        <qualifiedname>themis::plugins::HotPlugConfig::auto_load</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="31" column="10" bodyfile="include/plugins/plugin_hot_plug_monitor.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hot_plug_config_1a5430867d241967f2b9c5c73bb30d65e6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::HotPlugConfig::auto_reload</definition>
+        <argsstring></argsstring>
+        <name>auto_reload</name>
+        <qualifiedname>themis::plugins::HotPlugConfig::auto_reload</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="32" column="10" bodyfile="include/plugins/plugin_hot_plug_monitor.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hot_plug_config_1ad52af57f6fff7eb4be83d28e6f92dfb8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::HotPlugConfig::auto_unload</definition>
+        <argsstring></argsstring>
+        <name>auto_unload</name>
+        <qualifiedname>themis::plugins::HotPlugConfig::auto_unload</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="33" column="10" bodyfile="include/plugins/plugin_hot_plug_monitor.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hot_plug_config_1a126538519565c0a7389cdfdadda9ebd5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::HotPlugConfig::watch_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>watch_interval_ms</name>
+        <qualifiedname>themis::plugins::HotPlugConfig::watch_interval_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_hot_plug_monitor.h" line="34" column="9" bodyfile="include/plugins/plugin_hot_plug_monitor.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration options for hot-plug monitoring. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/plugin_hot_plug_monitor.h" line="29" column="1" bodyfile="include/plugins/plugin_hot_plug_monitor.h" bodystart="29" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_hot_plug_config_1a8b9c639232338a456f5919b6b64e8e45" prot="public" virt="non-virtual"><scope>themis::plugins::HotPlugConfig</scope><name>auto_load</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hot_plug_config_1a5430867d241967f2b9c5c73bb30d65e6" prot="public" virt="non-virtual"><scope>themis::plugins::HotPlugConfig</scope><name>auto_reload</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hot_plug_config_1ad52af57f6fff7eb4be83d28e6f92dfb8" prot="public" virt="non-virtual"><scope>themis::plugins::HotPlugConfig</scope><name>auto_unload</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hot_plug_config_1a1c300fc806a0adc7db2c7d087e393c3a" prot="public" virt="non-virtual"><scope>themis::plugins::HotPlugConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hot_plug_config_1a126538519565c0a7389cdfdadda9ebd5" prot="public" virt="non-virtual"><scope>themis::plugins::HotPlugConfig</scope><name>watch_interval_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

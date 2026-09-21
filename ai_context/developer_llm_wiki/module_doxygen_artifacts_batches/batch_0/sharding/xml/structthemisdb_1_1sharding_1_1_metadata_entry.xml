@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_metadata_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::MetadataEntry</compoundname>
+    <includes refid="metadata__shard_8h" local="no">metadata_shard.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_entry_1a218599242d41abccb99a8116f3e64bab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::MetadataEntry::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themisdb::sharding::MetadataEntry::key</qualifiedname>
+        <briefdescription>
+<para>Logical key inside partition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="52" column="17" bodyfile="include/sharding/metadata_shard.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_entry_1a7aff41af44d7f73460edecb8cb514c25" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::MetadataEntry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themisdb::sharding::MetadataEntry::value</qualifiedname>
+        <briefdescription>
+<para>JSON payload for metadata value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="54" column="20" bodyfile="include/sharding/metadata_shard.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_entry_1a6ff50a39d6c38d7824b5f364a44ae042" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::MetadataEntry::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themisdb::sharding::MetadataEntry::version</qualifiedname>
+        <briefdescription>
+<para>Monotonic version for conflict resolution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="56" column="14" bodyfile="include/sharding/metadata_shard.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_entry_1a3316c06c8ff63032c97a6366c258ab14" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref></type>
+        <definition>MetadataPartitionKey themisdb::sharding::MetadataEntry::partition</definition>
+        <argsstring></argsstring>
+        <name>partition</name>
+        <qualifiedname>themisdb::sharding::MetadataEntry::partition</qualifiedname>
+        <briefdescription>
+<para>Owning metadata partition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="58" column="26" bodyfile="include/sharding/metadata_shard.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_entry_1a775ded8e5cd5cae06aea209fd66fcf01" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::sharding::MetadataEntry::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themisdb::sharding::MetadataEntry::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="59" column="43" bodyfile="include/sharding/metadata_shard.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_entry_1ac01871f6c4f65a51c4b2aa74eece530c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::sharding::MetadataEntry::updated_at</definition>
+        <argsstring></argsstring>
+        <name>updated_at</name>
+        <qualifiedname>themisdb::sharding::MetadataEntry::updated_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="60" column="43" bodyfile="include/sharding/metadata_shard.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_metadata_entry_1a4010422c256db0fabdde8cdaa9b3762a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::MetadataEntry::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::sharding::MetadataEntry::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialize entry to JSON representation for cache/persistence paths. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="63" column="20" bodyfile="include/sharding/metadata_shard.h" bodystart="63" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_metadata_entry_1a575fc0808fb57f2bbd1fa591d6e6cef8" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_metadata_entry" kindref="compound">MetadataEntry</ref></type>
+        <definition>static MetadataEntry themisdb::sharding::MetadataEntry::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themisdb::sharding::MetadataEntry::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize metadata entry from JSON representation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_shard.h" line="77" column="26" bodyfile="include/sharding/metadata_shard.h" bodystart="77" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Versioned metadata key/value record stored in a partition. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/metadata_shard.h" line="50" column="1" bodyfile="include/sharding/metadata_shard.h" bodystart="50" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a775ded8e5cd5cae06aea209fd66fcf01" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataEntry</scope><name>created_at</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a575fc0808fb57f2bbd1fa591d6e6cef8" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataEntry</scope><name>fromJson</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a218599242d41abccb99a8116f3e64bab" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataEntry</scope><name>key</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a3316c06c8ff63032c97a6366c258ab14" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataEntry</scope><name>partition</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a4010422c256db0fabdde8cdaa9b3762a" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataEntry</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_entry_1ac01871f6c4f65a51c4b2aa74eece530c" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataEntry</scope><name>updated_at</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a7aff41af44d7f73460edecb8cb514c25" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataEntry</scope><name>value</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_entry_1a6ff50a39d6c38d7824b5f364a44ae042" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataEntry</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

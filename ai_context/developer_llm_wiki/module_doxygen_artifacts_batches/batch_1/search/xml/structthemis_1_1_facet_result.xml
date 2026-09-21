@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_facet_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::FacetResult</compoundname>
+    <includes refid="faceted__search_8h" local="no">faceted_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_facet_result_1a7a05c4d7722687aa4347a5fc9ad9b7e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::FacetResult::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::FacetResult::field</qualifiedname>
+        <briefdescription>
+<para>Field/column name this facet covers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/faceted_search.h" line="26" column="17" bodyfile="include/search/faceted_search.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_facet_result_1ab86d0979e16e1038c2c3b58dec89aa51" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt;std::string, size_t&gt; themis::FacetResult::value_counts</definition>
+        <argsstring></argsstring>
+        <name>value_counts</name>
+        <qualifiedname>themis::FacetResult::value_counts</qualifiedname>
+        <briefdescription>
+<para>value → number of documents with that value </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/faceted_search.h" line="27" column="14" bodyfile="include/search/faceted_search.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_facet_result_1a33c8d3ee80e5c0fd6971d06b6495ef72" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::FacetResult::total_docs</definition>
+        <argsstring></argsstring>
+        <name>total_docs</name>
+        <qualifiedname>themis::FacetResult::total_docs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total number of documents scanned. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/faceted_search.h" line="28" column="12" bodyfile="include/search/faceted_search.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a single facet computation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/faceted_search.h" line="25" column="1" bodyfile="include/search/faceted_search.h" bodystart="25" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_facet_result_1a7a05c4d7722687aa4347a5fc9ad9b7e8" prot="public" virt="non-virtual"><scope>themis::FacetResult</scope><name>field</name></member>
+      <member refid="structthemis_1_1_facet_result_1a33c8d3ee80e5c0fd6971d06b6495ef72" prot="public" virt="non-virtual"><scope>themis::FacetResult</scope><name>total_docs</name></member>
+      <member refid="structthemis_1_1_facet_result_1ab86d0979e16e1038c2c3b58dec89aa51" prot="public" virt="non-virtual"><scope>themis::FacetResult</scope><name>value_counts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,985 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::server::BufferBinaryProtocolHandler</compoundname>
+    <includes refid="buffer__binary__protocol_8h" local="no">buffer_binary_protocol.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a3459a27970d184160c2fad41f89794cd" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themisdb::server::BufferBinaryProtocolHandler::TS_PUT_BUFFERED</definition>
+        <argsstring></argsstring>
+        <name>TS_PUT_BUFFERED</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::TS_PUT_BUFFERED</qualifiedname>
+        <initializer>= 0x70</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="36" column="30" bodyfile="include/server/buffer_binary_protocol.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a1c1d1dd41494f5059eafa6ada32b0de1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themisdb::server::BufferBinaryProtocolHandler::TS_PUT_BUFFERED_BATCH</definition>
+        <argsstring></argsstring>
+        <name>TS_PUT_BUFFERED_BATCH</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::TS_PUT_BUFFERED_BATCH</qualifiedname>
+        <initializer>= 0x71</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="37" column="30" bodyfile="include/server/buffer_binary_protocol.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a1d493cef10573c36d3a9ff1de97be736" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themisdb::server::BufferBinaryProtocolHandler::VECTOR_ADD_BUFFERED</definition>
+        <argsstring></argsstring>
+        <name>VECTOR_ADD_BUFFERED</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::VECTOR_ADD_BUFFERED</qualifiedname>
+        <initializer>= 0x72</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="38" column="30" bodyfile="include/server/buffer_binary_protocol.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a7412137d47541cafa38e10127f5db6f5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themisdb::server::BufferBinaryProtocolHandler::VECTOR_UPDATE_BUFFERED</definition>
+        <argsstring></argsstring>
+        <name>VECTOR_UPDATE_BUFFERED</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::VECTOR_UPDATE_BUFFERED</qualifiedname>
+        <initializer>= 0x73</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="39" column="30" bodyfile="include/server/buffer_binary_protocol.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a96e6a66c4eee452df634b914b0e35c3b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themisdb::server::BufferBinaryProtocolHandler::VECTOR_REMOVE_BUFFERED</definition>
+        <argsstring></argsstring>
+        <name>VECTOR_REMOVE_BUFFERED</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::VECTOR_REMOVE_BUFFERED</qualifiedname>
+        <initializer>= 0x74</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="40" column="30" bodyfile="include/server/buffer_binary_protocol.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1ad6e20e1a1182f0ec521ee544c2d5a04c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themisdb::server::BufferBinaryProtocolHandler::GRAPH_NODE_BUFFERED</definition>
+        <argsstring></argsstring>
+        <name>GRAPH_NODE_BUFFERED</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::GRAPH_NODE_BUFFERED</qualifiedname>
+        <initializer>= 0x75</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="41" column="30" bodyfile="include/server/buffer_binary_protocol.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1affeaf012288361ebdbe28e44e823a57e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themisdb::server::BufferBinaryProtocolHandler::GRAPH_EDGE_BUFFERED</definition>
+        <argsstring></argsstring>
+        <name>GRAPH_EDGE_BUFFERED</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::GRAPH_EDGE_BUFFERED</qualifiedname>
+        <initializer>= 0x76</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="42" column="30" bodyfile="include/server/buffer_binary_protocol.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1aaab689b4f3c561d780c5bca7093367ac" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themisdb::server::BufferBinaryProtocolHandler::BUFFER_STATS</definition>
+        <argsstring></argsstring>
+        <name>BUFFER_STATS</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::BUFFER_STATS</qualifiedname>
+        <initializer>= 0x77</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="43" column="30" bodyfile="include/server/buffer_binary_protocol.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a12ec97b9ce30a1860ac1494e887737cd" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themisdb::server::BufferBinaryProtocolHandler::BUFFER_FLUSH</definition>
+        <argsstring></argsstring>
+        <name>BUFFER_FLUSH</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::BUFFER_FLUSH</qualifiedname>
+        <initializer>= 0x78</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="44" column="30" bodyfile="include/server/buffer_binary_protocol.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a16e1b040bdfd8064ed78ea2de3b5f2bd" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themisdb::server::BufferBinaryProtocolHandler::STATUS_SUCCESS</definition>
+        <argsstring></argsstring>
+        <name>STATUS_SUCCESS</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::STATUS_SUCCESS</qualifiedname>
+        <initializer>= 0x00</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="47" column="30" bodyfile="include/server/buffer_binary_protocol.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a4797d36125d5a218dc7a0e39055b30f2" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themisdb::server::BufferBinaryProtocolHandler::STATUS_INVALID_OPCODE</definition>
+        <argsstring></argsstring>
+        <name>STATUS_INVALID_OPCODE</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::STATUS_INVALID_OPCODE</qualifiedname>
+        <initializer>= 0x01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="48" column="30" bodyfile="include/server/buffer_binary_protocol.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a3cd17b39498247ee696c9f33c5e99c2b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themisdb::server::BufferBinaryProtocolHandler::STATUS_MALFORMED_PAYLOAD</definition>
+        <argsstring></argsstring>
+        <name>STATUS_MALFORMED_PAYLOAD</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::STATUS_MALFORMED_PAYLOAD</qualifiedname>
+        <initializer>= 0x02</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="49" column="30" bodyfile="include/server/buffer_binary_protocol.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1ac309a22caec2bdbd95ad89dadd057b0d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themisdb::server::BufferBinaryProtocolHandler::STATUS_PROCESSING_ERROR</definition>
+        <argsstring></argsstring>
+        <name>STATUS_PROCESSING_ERROR</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::STATUS_PROCESSING_ERROR</qualifiedname>
+        <initializer>= 0x03</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="50" column="30" bodyfile="include/server/buffer_binary_protocol.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a62ba77635e61d2cc7fbfe3e48dfca34a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themisdb::server::BufferBinaryProtocolHandler::STATUS_BUFFER_OVERFLOW</definition>
+        <argsstring></argsstring>
+        <name>STATUS_BUFFER_OVERFLOW</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::STATUS_BUFFER_OVERFLOW</qualifiedname>
+        <initializer>= 0x04</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="51" column="30" bodyfile="include/server/buffer_binary_protocol.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a2daeb282954d4b3a6c7fa405197839e7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TSStore &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TSStore&gt; themisdb::server::BufferBinaryProtocolHandler::tsstore_</definition>
+        <argsstring></argsstring>
+        <name>tsstore_</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::tsstore_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="81" column="21" bodyfile="include/server/buffer_binary_protocol.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1ae31251efb02334fb601c850930af4258" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; themisdb::server::BufferBinaryProtocolHandler::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="82" column="21" bodyfile="include/server/buffer_binary_protocol.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a2406de8568263bae7e1432014030f522" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::PropertyGraphManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::PropertyGraphManager&gt; themisdb::server::BufferBinaryProtocolHandler::property_graph_</definition>
+        <argsstring></argsstring>
+        <name>property_graph_</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::property_graph_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="83" column="21" bodyfile="include/server/buffer_binary_protocol.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a544c4b36ca86f9388f4c812d4e845597" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::TSAutoBuffer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::TSAutoBuffer&gt; themisdb::server::BufferBinaryProtocolHandler::ts_buffer_</definition>
+        <argsstring></argsstring>
+        <name>ts_buffer_</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::ts_buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="86" column="21" bodyfile="include/server/buffer_binary_protocol.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a36e383c14c13e70af5b98685c1c5bfa3" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::VectorAutoBuffer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::VectorAutoBuffer&gt; themisdb::server::BufferBinaryProtocolHandler::vector_buffer_</definition>
+        <argsstring></argsstring>
+        <name>vector_buffer_</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::vector_buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="87" column="21" bodyfile="include/server/buffer_binary_protocol.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a04e6305017ec2e7e89b08f23f9e4429d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::GraphAutoBuffer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::GraphAutoBuffer&gt; themisdb::server::BufferBinaryProtocolHandler::graph_buffer_</definition>
+        <argsstring></argsstring>
+        <name>graph_buffer_</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::graph_buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="88" column="21" bodyfile="include/server/buffer_binary_protocol.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a248e01030dc9bb56f52b515beb94a9e9" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::server::BufferBinaryProtocolHandler::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::running_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="91" column="10" bodyfile="include/server/buffer_binary_protocol.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a0f47b021069f026058d86956aad99627" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::server::BufferBinaryProtocolHandler::BufferBinaryProtocolHandler</definition>
+        <argsstring>(std::shared_ptr&lt; themis::TSStore &gt; tsstore, std::shared_ptr&lt; themis::VectorIndexManager &gt; vector_index, std::shared_ptr&lt; themis::PropertyGraphManager &gt; property_graph)</argsstring>
+        <name>BufferBinaryProtocolHandler</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::BufferBinaryProtocolHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::TSStore &gt;</type>
+          <declname>tsstore</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+          <declname>vector_index</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; themis::PropertyGraphManager &gt;</type>
+          <declname>property_graph</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="53" column="5" bodyfile="src/server/buffer_binary_protocol.cpp" bodystart="27" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1ada18514473be7a559313338da8ce2c95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::server::BufferBinaryProtocolHandler::~BufferBinaryProtocolHandler</definition>
+        <argsstring>()</argsstring>
+        <name>~BufferBinaryProtocolHandler</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::~BufferBinaryProtocolHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="59" column="5" bodyfile="src/server/buffer_binary_protocol.cpp" bodystart="37" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a43a299c3a286693ea6dae675ab8e447e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::server::BufferBinaryProtocolHandler::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_WARN(), std::chrono::milliseconds(), get(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="64" column="10" bodyfile="src/server/buffer_binary_protocol.cpp" bodystart="47" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1af1a399d867504d480e6c292c1b62a685" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::server::BufferBinaryProtocolHandler::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="69" column="10" bodyfile="src/server/buffer_binary_protocol.cpp" bodystart="89" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1afc0beee8d663a0d5a36d1cc0ac839231" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::server::BufferBinaryProtocolHandler::handleMessage</definition>
+        <argsstring>(uint8_t opcode, const std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>handleMessage</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::handleMessage</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+          <declname>opcode</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Handle Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">opcode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">opcode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: createErrorResponse(), handleTSPutBuffered(), handleTSPutBufferedBatch(), handleVectorAddBuffered(), handleVectorUpdateBuffered(), handleVectorRemoveBuffered(), handleGraphNodeBuffered(), handleGraphEdgeBuffered(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="77" column="17" bodyfile="src/server/buffer_binary_protocol.cpp" bodystart="116" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a233d3b28591b4fb5d6a3465dd5e59c7c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::server::BufferBinaryProtocolHandler::handleTSPutBuffered</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>handleTSPutBuffered</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::handleTSPutBuffered</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Handle TSPut Buffered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: msgpack::unpack(), data(), size(), get(), convert(), add(), has_value(), createResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="99" column="17" bodyfile="src/server/buffer_binary_protocol.cpp" bodystart="159" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1ae4d1eb6991a76d2f4e2d1dc37d417637" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::server::BufferBinaryProtocolHandler::handleTSPutBufferedBatch</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>handleTSPutBufferedBatch</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::handleTSPutBufferedBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Handle TSPut Buffered Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: msgpack::unpack(), data(), size(), get(), convert(), at(), add(), has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="105" column="17" bodyfile="src/server/buffer_binary_protocol.cpp" bodystart="198" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a5fada7dce9ffe27babe118a102c46fbb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::server::BufferBinaryProtocolHandler::handleVectorAddBuffered</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>handleVectorAddBuffered</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::handleVectorAddBuffered</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Handle Vector Add Buffered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: msgpack::unpack(), data(), size(), get(), convert(), setPrimaryKey(), add(), createResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="111" column="17" bodyfile="src/server/buffer_binary_protocol.cpp" bodystart="247" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a69cf46ba186cfdbb60990a291390a46a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::server::BufferBinaryProtocolHandler::handleVectorUpdateBuffered</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>handleVectorUpdateBuffered</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::handleVectorUpdateBuffered</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Handle Vector Update Buffered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: createResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="117" column="17" bodyfile="src/server/buffer_binary_protocol.cpp" bodystart="285" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a4ce54a2034f3ec9a941c89abf941f663" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::server::BufferBinaryProtocolHandler::handleVectorRemoveBuffered</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>handleVectorRemoveBuffered</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::handleVectorRemoveBuffered</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Handle Vector Remove Buffered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: msgpack::unpack(), data(), size(), get(), convert(), remove(), createResponse(), createErrorResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="123" column="17" bodyfile="src/server/buffer_binary_protocol.cpp" bodystart="298" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a6284ee44c4305c1be7f6ae79f7688ca2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::server::BufferBinaryProtocolHandler::handleGraphNodeBuffered</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>handleGraphNodeBuffered</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::handleGraphNodeBuffered</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Handle Graph Node Buffered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: msgpack::unpack(), data(), size(), get(), convert(), setPrimaryKey(), addNode(), createResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="129" column="17" bodyfile="src/server/buffer_binary_protocol.cpp" bodystart="330" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a73048613364aaeb218dd75c3fb41b8b9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::server::BufferBinaryProtocolHandler::handleGraphEdgeBuffered</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>handleGraphEdgeBuffered</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::handleGraphEdgeBuffered</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Handle Graph Edge Buffered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: createResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="135" column="17" bodyfile="src/server/buffer_binary_protocol.cpp" bodystart="364" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1ac385ddf6d7aa1d5a81934c323492128d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::server::BufferBinaryProtocolHandler::handleBufferStats</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>handleBufferStats</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::handleBufferStats</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Handle Buffer Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getStats(), packer(), pack_map(), pack(), load(), response_payload(), data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="141" column="17" bodyfile="src/server/buffer_binary_protocol.cpp" bodystart="377" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a49e1cd346e6682a3571610dd14e55086" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::server::BufferBinaryProtocolHandler::handleBufferFlush</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>handleBufferFlush</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::handleBufferFlush</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Handle Buffer Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: msgpack::unpack(), data(), size(), get(), convert(), flush(), packer(), pack_map(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="147" column="17" bodyfile="src/server/buffer_binary_protocol.cpp" bodystart="439" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a1c47db74880c64f7934cf78b9eb47e80" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::server::BufferBinaryProtocolHandler::createResponse</definition>
+        <argsstring>(uint8_t status, const std::vector&lt; uint8_t &gt; &amp;payload={})</argsstring>
+        <name>createResponse</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::createResponse</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create Response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), size(), insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="150" column="17" bodyfile="src/server/buffer_binary_protocol.cpp" bodystart="488" bodyend="508"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a63078c880533de0d5540b451cbc30b5f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::server::BufferBinaryProtocolHandler::createErrorResponse</definition>
+        <argsstring>(uint8_t status, const std::string &amp;error_message)</argsstring>
+        <name>createErrorResponse</name>
+        <qualifiedname>themisdb::server::BufferBinaryProtocolHandler::createErrorResponse</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_message</declname>
+        </param>
+        <briefdescription>
+<para>Create Error Response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: payload(), begin(), end(), createResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/buffer_binary_protocol.h" line="157" column="17" bodyfile="src/server/buffer_binary_protocol.cpp" bodystart="517" bodyend="524"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/buffer_binary_protocol.h" line="33" column="1" bodyfile="include/server/buffer_binary_protocol.h" bodystart="33" bodyend="158"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a12ec97b9ce30a1860ac1494e887737cd" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>BUFFER_FLUSH</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1aaab689b4f3c561d780c5bca7093367ac" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>BUFFER_STATS</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a0f47b021069f026058d86956aad99627" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>BufferBinaryProtocolHandler</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a63078c880533de0d5540b451cbc30b5f" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>createErrorResponse</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a1c47db74880c64f7934cf78b9eb47e80" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>createResponse</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a04e6305017ec2e7e89b08f23f9e4429d" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>graph_buffer_</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1affeaf012288361ebdbe28e44e823a57e" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>GRAPH_EDGE_BUFFERED</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1ad6e20e1a1182f0ec521ee544c2d5a04c" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>GRAPH_NODE_BUFFERED</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a49e1cd346e6682a3571610dd14e55086" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>handleBufferFlush</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1ac385ddf6d7aa1d5a81934c323492128d" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>handleBufferStats</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a73048613364aaeb218dd75c3fb41b8b9" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>handleGraphEdgeBuffered</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a6284ee44c4305c1be7f6ae79f7688ca2" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>handleGraphNodeBuffered</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1afc0beee8d663a0d5a36d1cc0ac839231" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>handleMessage</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a233d3b28591b4fb5d6a3465dd5e59c7c" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>handleTSPutBuffered</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1ae4d1eb6991a76d2f4e2d1dc37d417637" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>handleTSPutBufferedBatch</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a5fada7dce9ffe27babe118a102c46fbb" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>handleVectorAddBuffered</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a4ce54a2034f3ec9a941c89abf941f663" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>handleVectorRemoveBuffered</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a69cf46ba186cfdbb60990a291390a46a" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>handleVectorUpdateBuffered</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a2406de8568263bae7e1432014030f522" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>property_graph_</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a248e01030dc9bb56f52b515beb94a9e9" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a43a299c3a286693ea6dae675ab8e447e" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a62ba77635e61d2cc7fbfe3e48dfca34a" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>STATUS_BUFFER_OVERFLOW</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a4797d36125d5a218dc7a0e39055b30f2" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>STATUS_INVALID_OPCODE</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a3cd17b39498247ee696c9f33c5e99c2b" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>STATUS_MALFORMED_PAYLOAD</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1ac309a22caec2bdbd95ad89dadd057b0d" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>STATUS_PROCESSING_ERROR</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a16e1b040bdfd8064ed78ea2de3b5f2bd" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>STATUS_SUCCESS</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1af1a399d867504d480e6c292c1b62a685" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>stop</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a544c4b36ca86f9388f4c812d4e845597" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>ts_buffer_</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a3459a27970d184160c2fad41f89794cd" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>TS_PUT_BUFFERED</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a1c1d1dd41494f5059eafa6ada32b0de1" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>TS_PUT_BUFFERED_BATCH</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a2daeb282954d4b3a6c7fa405197839e7" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>tsstore_</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a1d493cef10573c36d3a9ff1de97be736" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>VECTOR_ADD_BUFFERED</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a36e383c14c13e70af5b98685c1c5bfa3" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>vector_buffer_</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1ae31251efb02334fb601c850930af4258" prot="private" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>vector_index_</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a96e6a66c4eee452df634b914b0e35c3b" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>VECTOR_REMOVE_BUFFERED</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a7412137d47541cafa38e10127f5db6f5" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>VECTOR_UPDATE_BUFFERED</name></member>
+      <member refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1ada18514473be7a559313338da8ce2c95" prot="public" virt="non-virtual"><scope>themisdb::server::BufferBinaryProtocolHandler</scope><name>~BufferBinaryProtocolHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

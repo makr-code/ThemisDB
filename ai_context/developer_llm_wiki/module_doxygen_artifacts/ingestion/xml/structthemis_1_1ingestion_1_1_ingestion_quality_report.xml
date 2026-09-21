@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_ingestion_quality_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::IngestionQualityReport</compoundname>
+    <includes refid="ingestion__quality__judge_8h" local="no">ingestion_quality_judge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1ad69c5c24f0bead5eec3b71968662e9d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionQualityReport::doc_id</definition>
+        <argsstring></argsstring>
+        <name>doc_id</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::doc_id</qualifiedname>
+        <briefdescription>
+<para>manifest.source_uri or generated ID </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="103" column="17" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1af0b71ad82dccaeb01a478fac7772878b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::IngestionQualityReport::attempt</definition>
+        <argsstring></argsstring>
+        <name>attempt</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::attempt</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 = initial ingestion, 1+ = re-ingestion pass </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="104" column="17" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a46d400c9229aed7340d628a4da919294" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionQualityReport::completeness_score</definition>
+        <argsstring></argsstring>
+        <name>completeness_score</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::completeness_score</qualifiedname>
+        <initializer>= -1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="107" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1ab1e58c6acf7b215446982f9d02da87ec" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionQualityReport::groundedness_score</definition>
+        <argsstring></argsstring>
+        <name>groundedness_score</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::groundedness_score</qualifiedname>
+        <initializer>= -1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="108" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a13182b8505a1b62ff5b0b9c531a79036" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionQualityReport::entity_coverage_score</definition>
+        <argsstring></argsstring>
+        <name>entity_coverage_score</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::entity_coverage_score</qualifiedname>
+        <initializer>= -1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="109" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1af54e32077b82f986655d12cdee7b6ec4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionQualityReport::relation_coherence_score</definition>
+        <argsstring></argsstring>
+        <name>relation_coherence_score</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::relation_coherence_score</qualifiedname>
+        <initializer>= -1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="110" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a326ea420a60b2bbac00c4a41371f0301" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionQualityReport::overall_score</definition>
+        <argsstring></argsstring>
+        <name>overall_score</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::overall_score</qualifiedname>
+        <initializer>= -1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="111" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a894e4e0335b2bdc4f749acf6d9b84465" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionQualityReport::passed</definition>
+        <argsstring></argsstring>
+        <name>passed</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::passed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>True when overall_score ≥ <ref refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1afb59cd0ae652bdf614ddad280ce71909" kindref="member">IngestionJudgeConfig::overall_threshold</ref> AND all enabled dimensions meet their individual thresholds. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="116" column="10" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1ad831cda7d677c53c205fa4d522fce1ee" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::IngestionQualityReport::missing_entities</definition>
+        <argsstring></argsstring>
+        <name>missing_entities</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::missing_entities</qualifiedname>
+        <briefdescription>
+<para>Entity labels the LLM believes were missed in the extraction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="120" column="17" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a5ae9fa2da4c9ef4b0fea12f3d67d01c0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::IngestionQualityReport::ungrounded_claims</definition>
+        <argsstring></argsstring>
+        <name>ungrounded_claims</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::ungrounded_claims</qualifiedname>
+        <briefdescription>
+<para>Claims in the extraction that could not be grounded in source text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="122" column="17" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a0cfed800bebb8d43fd12fb0594359328" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::IngestionQualityReport::improvement_hints</definition>
+        <argsstring></argsstring>
+        <name>improvement_hints</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::improvement_hints</qualifiedname>
+        <briefdescription>
+<para>Human-readable improvement suggestions from the LLM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="124" column="17" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1ae12f999ee8ca3f6152f78c76edf147a4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::IngestionQualityReport::recommended_steps</definition>
+        <argsstring></argsstring>
+        <name>recommended_steps</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::recommended_steps</qualifiedname>
+        <briefdescription>
+<para>Step plugin names recommended for re-execution (e.g. &quot;builtin.ner_de&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="126" column="17" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1aa9535faeb2fed741d178d8dc7a3f3958" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionQualityReport::completeness_rationale</definition>
+        <argsstring></argsstring>
+        <name>completeness_rationale</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::completeness_rationale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="129" column="17" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a83098ed78f79532a3814d9494a0c3ed1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionQualityReport::groundedness_rationale</definition>
+        <argsstring></argsstring>
+        <name>groundedness_rationale</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::groundedness_rationale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="130" column="17" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a742827f0a65dd6353151c34dbe0fa94e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionQualityReport::entity_coverage_rationale</definition>
+        <argsstring></argsstring>
+        <name>entity_coverage_rationale</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::entity_coverage_rationale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="131" column="17" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1ab50a8eb54e0aef975cee78844e7a039d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionQualityReport::relation_coherence_rationale</definition>
+        <argsstring></argsstring>
+        <name>relation_coherence_rationale</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::relation_coherence_rationale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="132" column="17" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1aa22a7bbf72c51a9c85683c1fe62c5f5e" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::ingestion::IngestionQualityReport::evaluation_time</definition>
+        <argsstring></argsstring>
+        <name>evaluation_time</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::evaluation_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="135" column="31" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a02d0413b52bea44891753febdbb296f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionQualityReport::judge_backend</definition>
+        <argsstring></argsstring>
+        <name>judge_backend</name>
+        <qualifiedname>themis::ingestion::IngestionQualityReport::judge_backend</qualifiedname>
+        <briefdescription>
+<para>ITextGenerationBackend::describe(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="136" column="17" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of one quality-judge evaluation pass. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_quality_judge.h" line="101" column="1" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="101" bodyend="137"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1af0b71ad82dccaeb01a478fac7772878b" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>attempt</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1aa9535faeb2fed741d178d8dc7a3f3958" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>completeness_rationale</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a46d400c9229aed7340d628a4da919294" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>completeness_score</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1ad69c5c24f0bead5eec3b71968662e9d3" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>doc_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a742827f0a65dd6353151c34dbe0fa94e" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>entity_coverage_rationale</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a13182b8505a1b62ff5b0b9c531a79036" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>entity_coverage_score</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1aa22a7bbf72c51a9c85683c1fe62c5f5e" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>evaluation_time</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a83098ed78f79532a3814d9494a0c3ed1" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>groundedness_rationale</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1ab1e58c6acf7b215446982f9d02da87ec" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>groundedness_score</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a0cfed800bebb8d43fd12fb0594359328" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>improvement_hints</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a02d0413b52bea44891753febdbb296f0" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>judge_backend</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1ad831cda7d677c53c205fa4d522fce1ee" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>missing_entities</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a326ea420a60b2bbac00c4a41371f0301" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>overall_score</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a894e4e0335b2bdc4f749acf6d9b84465" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>passed</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1ae12f999ee8ca3f6152f78c76edf147a4" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>recommended_steps</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1ab50a8eb54e0aef975cee78844e7a039d" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>relation_coherence_rationale</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1af54e32077b82f986655d12cdee7b6ec4" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>relation_coherence_score</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_quality_report_1a5ae9fa2da4c9ef4b0fea12f3d67d01c0" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionQualityReport</scope><name>ungrounded_claims</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

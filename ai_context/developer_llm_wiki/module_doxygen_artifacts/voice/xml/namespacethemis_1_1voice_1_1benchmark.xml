@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1voice_1_1benchmark" kind="namespace" language="C++">
+    <compoundname>themis::voice::benchmark</compoundname>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_mock_s_t_t_processor" prot="public">themis::voice::benchmark::MockSTTProcessor</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_mock_t_t_s_processor" prot="public">themis::voice::benchmark::MockTTSProcessor</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_mock_l_l_m_processor" prot="public">themis::voice::benchmark::MockLLMProcessor</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_mock_stream_buffer" prot="public">themis::voice::benchmark::MockStreamBuffer</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture" prot="public">themis::voice::benchmark::VoiceBenchmarkFixture</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_s_t_t_t_t_s_latency_fixture" prot="public">themis::voice::benchmark::STTTTSLatencyFixture</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_streaming_throughput_fixture" prot="public">themis::voice::benchmark::StreamingThroughputFixture</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture" prot="public">themis::voice::benchmark::SessionLifecycleFixture</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_audio_preprocessing_fixture" prot="public">themis::voice::benchmark::AudioPreprocessingFixture</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1benchmark_1_1_assistant_latency_fixture" prot="public">themis::voice::benchmark::AssistantLatencyFixture</innerclass>
+    <innernamespace refid="namespacethemis_1_1voice_1_1benchmark_1_1gates">themis::voice::benchmark::gates</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice_1_1benchmark_1_1utils">themis::voice::benchmark::utils</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1ab32d48daee02c1c9be0b8964b983a968" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::benchmark::kCanonicalRngSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalRngSeed</name>
+        <qualifiedname>themis::voice::benchmark::kCanonicalRngSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="34" column="27" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1a9d33a3bf8498b9e7ada18e3c8ad41136" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::kMicrosecondToNanosecond</definition>
+        <argsstring></argsstring>
+        <name>kMicrosecondToNanosecond</name>
+        <qualifiedname>themis::voice::benchmark::kMicrosecondToNanosecond</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="37" column="26" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1a0144ee552fe0dab75698e6e273d35b9f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::kMillisecondToMicrosecond</definition>
+        <argsstring></argsstring>
+        <name>kMillisecondToMicrosecond</name>
+        <qualifiedname>themis::voice::benchmark::kMillisecondToMicrosecond</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="38" column="26" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1a5e4cb6241ced5fdd9f60359808c5d246" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::kSecondToMillisecond</definition>
+        <argsstring></argsstring>
+        <name>kSecondToMillisecond</name>
+        <qualifiedname>themis::voice::benchmark::kSecondToMillisecond</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="39" column="26" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1a2317b5a75a6efb83d3070b8e85de4d86" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::benchmark::kAudioSampleRate</definition>
+        <argsstring></argsstring>
+        <name>kAudioSampleRate</name>
+        <qualifiedname>themis::voice::benchmark::kAudioSampleRate</qualifiedname>
+        <initializer>= 16000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="42" column="22" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1ae27e1209eebb2b22e989ad359e8faeeb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::benchmark::kAudioChannels</definition>
+        <argsstring></argsstring>
+        <name>kAudioChannels</name>
+        <qualifiedname>themis::voice::benchmark::kAudioChannels</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="43" column="22" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1a419d73dd5cce3b726f128dbf0e0206e5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::benchmark::kAudioBitsPerSample</definition>
+        <argsstring></argsstring>
+        <name>kAudioBitsPerSample</name>
+        <qualifiedname>themis::voice::benchmark::kAudioBitsPerSample</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="44" column="22" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1a5d09b53af9d33bd8b299c3d2d10b6f6b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::benchmark::kAudioBytesPerSecond</definition>
+        <argsstring></argsstring>
+        <name>kAudioBytesPerSecond</name>
+        <qualifiedname>themis::voice::benchmark::kAudioBytesPerSecond</qualifiedname>
+        <initializer>= kAudioSampleRate * kAudioChannels * (kAudioBitsPerSample / 8)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="45" column="22" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1a22dfd9298ce706c077f9ad38834e7bd1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::kMockSTTLatencyMicroseconds</definition>
+        <argsstring></argsstring>
+        <name>kMockSTTLatencyMicroseconds</name>
+        <qualifiedname>themis::voice::benchmark::kMockSTTLatencyMicroseconds</qualifiedname>
+        <initializer>= 500&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="48" column="26" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1ac4111abe0064fcc8115e9b3be19ae4c9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::kMockTTSLatencyMicroseconds</definition>
+        <argsstring></argsstring>
+        <name>kMockTTSLatencyMicroseconds</name>
+        <qualifiedname>themis::voice::benchmark::kMockTTSLatencyMicroseconds</qualifiedname>
+        <initializer>= 300&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="49" column="26" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1a5653e37e511ef22d0a199bfe62e6ce45" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::kMockLLMLatencyMicroseconds</definition>
+        <argsstring></argsstring>
+        <name>kMockLLMLatencyMicroseconds</name>
+        <qualifiedname>themis::voice::benchmark::kMockLLMLatencyMicroseconds</qualifiedname>
+        <initializer>= 1&apos;500&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="50" column="26" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1a6c8b90e430a4d26ea0bb8b0e98d69b8c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::kMockStreamChunkLatencyMicroseconds</definition>
+        <argsstring></argsstring>
+        <name>kMockStreamChunkLatencyMicroseconds</name>
+        <qualifiedname>themis::voice::benchmark::kMockStreamChunkLatencyMicroseconds</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="51" column="26" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1a3b59f2980b6355c05137e673ea931827" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::kSessionMemoryBytesBase</definition>
+        <argsstring></argsstring>
+        <name>kSessionMemoryBytesBase</name>
+        <qualifiedname>themis::voice::benchmark::kSessionMemoryBytesBase</qualifiedname>
+        <initializer>= 5&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="54" column="26" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1a968adf2051d6a824e640d1d37ddcb347" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::kStreamBufferBytesBase</definition>
+        <argsstring></argsstring>
+        <name>kStreamBufferBytesBase</name>
+        <qualifiedname>themis::voice::benchmark::kStreamBufferBytesBase</qualifiedname>
+        <initializer>= 10&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="55" column="26" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1voice_1_1benchmark_1a39422c3f7e34707cd419d2d2888aeb77" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::kChunksPerSecondTarget</definition>
+        <argsstring></argsstring>
+        <name>kChunksPerSecondTarget</name>
+        <qualifiedname>themis::voice::benchmark::kChunksPerSecondTarget</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="56" column="26" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/voice/benchmark_fixtures.h" line="31" column="1"/>
+  </compounddef>
+</doxygen>

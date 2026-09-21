@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_0076cb9b329767483d4f20997c94ff19" kind="dir">
+    <compoundname>tests/scheduler</compoundname>
+    <innerfile refid="test__scheduler__concurrency__edge__cases_8cpp">test_scheduler_concurrency_edge_cases.cpp</innerfile>
+    <innerfile refid="test__scheduler__contract__hardening__focused_8cpp">test_scheduler_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__scheduler__coordination__failures_8cpp">test_scheduler_coordination_failures.cpp</innerfile>
+    <innerfile refid="test__scheduler__highcardinality__stress_8cpp">test_scheduler_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__scheduler__integration_8cpp">test_scheduler_integration.cpp</innerfile>
+    <innerfile refid="test__scheduler__stress__burst__retention_8cpp">test_scheduler_stress_burst_retention.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/scheduler/"/>
+  </compounddef>
+</doxygen>

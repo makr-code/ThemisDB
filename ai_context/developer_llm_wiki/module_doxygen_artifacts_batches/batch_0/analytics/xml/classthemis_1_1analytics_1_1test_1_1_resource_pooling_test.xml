@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::test::ResourcePoolingTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test_1ab5bba899d0878c8c0420c097d743bf6f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::test::ResourcePoolingTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::analytics::test::ResourcePoolingTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="192" column="10" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="192" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test_1aa8cb71afb30d0b44d252051993cf0e5c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::test::ResourcePoolingTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::analytics::test::ResourcePoolingTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="196" column="10" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="196" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themis::analytics::test::ResourcePoolingTest</label>
+        <link refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themis::analytics::test::ResourcePoolingTest</label>
+        <link refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="190" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="190" bodyend="200"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test_1ab5bba899d0878c8c0420c097d743bf6f" prot="protected" virt="non-virtual"><scope>themis::analytics::test::ResourcePoolingTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_resource_pooling_test_1aa8cb71afb30d0b44d252051993cf0e5c" prot="protected" virt="non-virtual"><scope>themis::analytics::test::ResourcePoolingTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

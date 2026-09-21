@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_embedding_cache_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::EmbeddingCacheImpl</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structthemis_1_1_embedding_cache_impl_1ae054e96be93dedb14df99b87b3f219a8" prot="public" static="no">
+        <type>std::pair&lt; int64_t, std::string &gt;</type>
+        <definition>using themis::EmbeddingCacheImpl::EvictionEntry = std::pair&lt;int64_t, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>EvictionEntry</name>
+        <qualifiedname>themis::EmbeddingCacheImpl::EvictionEntry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/embedding_cache.cpp" line="50" column="5" bodyfile="src/cache/embedding_cache.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_impl_1a499268f8c93372568f3edbe53f5bba87" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; themis::EmbeddingCacheImpl::db</definition>
+        <argsstring></argsstring>
+        <name>db</name>
+        <qualifiedname>themis::EmbeddingCacheImpl::db</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/embedding_cache.cpp" line="36" column="21" bodyfile="src/cache/embedding_cache.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_impl_1a37235e3c7482e041cd5109e5355dd99d" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;VectorIndexManager&gt; themis::EmbeddingCacheImpl::vector_index</definition>
+        <argsstring></argsstring>
+        <name>vector_index</name>
+        <qualifiedname>themis::EmbeddingCacheImpl::vector_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/embedding_cache.cpp" line="37" column="21" bodyfile="src/cache/embedding_cache.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_impl_1a93314eb13191b4a55b492e679036406a" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1_embedding_cache_1_1_cache_entry" kindref="compound">EmbeddingCache::CacheEntry</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, EmbeddingCache::CacheEntry&gt; themis::EmbeddingCacheImpl::entries</definition>
+        <argsstring></argsstring>
+        <name>entries</name>
+        <qualifiedname>themis::EmbeddingCacheImpl::entries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/embedding_cache.cpp" line="38" column="24" bodyfile="src/cache/embedding_cache.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_impl_1a482721e0101ccc7e7a365665c7c609b4" prot="public" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::EmbeddingCacheImpl::entry_mutex</definition>
+        <argsstring></argsstring>
+        <name>entry_mutex</name>
+        <qualifiedname>themis::EmbeddingCacheImpl::entry_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/embedding_cache.cpp" line="42" column="31" bodyfile="src/cache/embedding_cache.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_impl_1a95f5a1dfbe9a6a7b9e659878cdc1600b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::EmbeddingCacheImpl::next_id</definition>
+        <argsstring></argsstring>
+        <name>next_id</name>
+        <qualifiedname>themis::EmbeddingCacheImpl::next_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/embedding_cache.cpp" line="43" column="14" bodyfile="src/cache/embedding_cache.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_impl_1a5f50d41d6ccfcc8785c81d3a9548c709" prot="public" static="no" mutable="no">
+        <type>VectorIndexManager::Metric</type>
+        <definition>VectorIndexManager::Metric themis::EmbeddingCacheImpl::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themis::EmbeddingCacheImpl::metric</qualifiedname>
+        <initializer>= VectorIndexManager::Metric::COSINE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/embedding_cache.cpp" line="44" column="32" bodyfile="src/cache/embedding_cache.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_impl_1a8587c55765386f7e24490a43207e56a4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::EmbeddingCacheImpl::cache_dir</definition>
+        <argsstring></argsstring>
+        <name>cache_dir</name>
+        <qualifiedname>themis::EmbeddingCacheImpl::cache_dir</qualifiedname>
+        <initializer>= &quot;/tmp/themis_embedding_cache&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/embedding_cache.cpp" line="45" column="17" bodyfile="src/cache/embedding_cache.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_embedding_cache_impl_1a335e6c3a6ecc7fa81780b980fd8fefd5" prot="public" static="no" mutable="no">
+        <type>std::priority_queue&lt; <ref refid="structthemis_1_1_embedding_cache_impl_1ae054e96be93dedb14df99b87b3f219a8" kindref="member">EvictionEntry</ref>, std::vector&lt; <ref refid="structthemis_1_1_embedding_cache_impl_1ae054e96be93dedb14df99b87b3f219a8" kindref="member">EvictionEntry</ref> &gt;, std::greater&lt; <ref refid="structthemis_1_1_embedding_cache_impl_1ae054e96be93dedb14df99b87b3f219a8" kindref="member">EvictionEntry</ref> &gt; &gt;</type>
+        <definition>std::priority_queue&lt;EvictionEntry, std::vector&lt;EvictionEntry&gt;, std::greater&lt;EvictionEntry&gt; &gt; themis::EmbeddingCacheImpl::eviction_heap</definition>
+        <argsstring></argsstring>
+        <name>eviction_heap</name>
+        <qualifiedname>themis::EmbeddingCacheImpl::eviction_heap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cache/embedding_cache.cpp" line="51" column="25" bodyfile="src/cache/embedding_cache.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/cache/embedding_cache.cpp" line="35" column="1" bodyfile="src/cache/embedding_cache.cpp" bodystart="35" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_embedding_cache_impl_1a8587c55765386f7e24490a43207e56a4" prot="public" virt="non-virtual"><scope>themis::EmbeddingCacheImpl</scope><name>cache_dir</name></member>
+      <member refid="structthemis_1_1_embedding_cache_impl_1a499268f8c93372568f3edbe53f5bba87" prot="public" virt="non-virtual"><scope>themis::EmbeddingCacheImpl</scope><name>db</name></member>
+      <member refid="structthemis_1_1_embedding_cache_impl_1a93314eb13191b4a55b492e679036406a" prot="public" virt="non-virtual"><scope>themis::EmbeddingCacheImpl</scope><name>entries</name></member>
+      <member refid="structthemis_1_1_embedding_cache_impl_1a482721e0101ccc7e7a365665c7c609b4" prot="public" virt="non-virtual"><scope>themis::EmbeddingCacheImpl</scope><name>entry_mutex</name></member>
+      <member refid="structthemis_1_1_embedding_cache_impl_1a335e6c3a6ecc7fa81780b980fd8fefd5" prot="public" virt="non-virtual"><scope>themis::EmbeddingCacheImpl</scope><name>eviction_heap</name></member>
+      <member refid="structthemis_1_1_embedding_cache_impl_1ae054e96be93dedb14df99b87b3f219a8" prot="public" virt="non-virtual"><scope>themis::EmbeddingCacheImpl</scope><name>EvictionEntry</name></member>
+      <member refid="structthemis_1_1_embedding_cache_impl_1a5f50d41d6ccfcc8785c81d3a9548c709" prot="public" virt="non-virtual"><scope>themis::EmbeddingCacheImpl</scope><name>metric</name></member>
+      <member refid="structthemis_1_1_embedding_cache_impl_1a95f5a1dfbe9a6a7b9e659878cdc1600b" prot="public" virt="non-virtual"><scope>themis::EmbeddingCacheImpl</scope><name>next_id</name></member>
+      <member refid="structthemis_1_1_embedding_cache_impl_1a37235e3c7482e041cd5109e5355dd99d" prot="public" virt="non-virtual"><scope>themis::EmbeddingCacheImpl</scope><name>vector_index</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

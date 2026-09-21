@@ -1,0 +1,450 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_task_decomposer" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::TaskDecomposer</compoundname>
+    <includes refid="task__decomposer_8h" local="no">task_decomposer.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_task_decomposer_1_1_impl" prot="public">themis::llm::TaskDecomposer::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_task_decomposer_1a0fb4e061f079a68695fbc4a3a2340779" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1llm_1_1_task_decomposer_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::TaskDecomposer::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::TaskDecomposer::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="183" column="21" bodyfile="include/llm/task_decomposer.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_task_decomposer_1a32c0878bff44c02f7f91ceb002929830" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::TaskDecomposer::TaskDecomposer</definition>
+        <argsstring>(const TaskDecomposerConfig &amp;config=TaskDecomposerConfig{})</argsstring>
+        <name>TaskDecomposer</name>
+        <qualifiedname>themis::llm::TaskDecomposer::TaskDecomposer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_task_decomposer_config" kindref="compound">TaskDecomposerConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1_task_decomposer_config" kindref="compound">TaskDecomposerConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="136" column="14" bodyfile="src/llm/task_decomposer.cpp" bodystart="746" bodyend="749"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_task_decomposer_1aa507590e38ef99f6312d6d4740caf74c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::TaskDecomposer::~TaskDecomposer</definition>
+        <argsstring>()</argsstring>
+        <name>~TaskDecomposer</name>
+        <qualifiedname>themis::llm::TaskDecomposer::~TaskDecomposer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="138" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_task_decomposer_1abba6dc6275af6efc97ba3e060fe8e529" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::TaskDecomposer::TaskDecomposer</definition>
+        <argsstring>(const TaskDecomposer &amp;)=delete</argsstring>
+        <name>TaskDecomposer</name>
+        <qualifiedname>themis::llm::TaskDecomposer::TaskDecomposer</qualifiedname>
+        <param>
+          <type>const TaskDecomposer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="141" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_task_decomposer_1af1579dd665ae6f04b6c06b2c435ea55c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_task_decomposer_1a32c0878bff44c02f7f91ceb002929830" kindref="member">TaskDecomposer</ref> &amp;</type>
+        <definition>TaskDecomposer &amp; themis::llm::TaskDecomposer::operator=</definition>
+        <argsstring>(const TaskDecomposer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::TaskDecomposer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_task_decomposer_1a32c0878bff44c02f7f91ceb002929830" kindref="member">TaskDecomposer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="142" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_task_decomposer_1af4a3510e5b6d8dbe7bfde2908c45fc88" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::TaskDecomposer::TaskDecomposer</definition>
+        <argsstring>(TaskDecomposer &amp;&amp;) noexcept</argsstring>
+        <name>TaskDecomposer</name>
+        <qualifiedname>themis::llm::TaskDecomposer::TaskDecomposer</qualifiedname>
+        <param>
+          <type>TaskDecomposer &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="145" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_task_decomposer_1aae292f0585c38e9120d16970f7d16889" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_task_decomposer_1a32c0878bff44c02f7f91ceb002929830" kindref="member">TaskDecomposer</ref> &amp;</type>
+        <definition>TaskDecomposer &amp; themis::llm::TaskDecomposer::operator=</definition>
+        <argsstring>(TaskDecomposer &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::TaskDecomposer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_task_decomposer_1a32c0878bff44c02f7f91ceb002929830" kindref="member">TaskDecomposer</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="146" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_task_decomposer_1a9c09a1672e04362f048906478240cb03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::TaskDecomposer::setLLMPlugin</definition>
+        <argsstring>(std::shared_ptr&lt; ILLMPlugin &gt; plugin)</argsstring>
+        <name>setLLMPlugin</name>
+        <qualifiedname>themis::llm::TaskDecomposer::setLLMPlugin</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; ILLMPlugin &gt;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>── Configuration ──────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set LLMPlugin.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="153" column="10" bodyfile="src/llm/task_decomposer.cpp" bodystart="761" bodyend="764"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_task_decomposer_1aa4ba7df592ef427d9d86e35614dadc2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::TaskDecomposer::setConfig</definition>
+        <argsstring>(const TaskDecomposerConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::llm::TaskDecomposer::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_task_decomposer_config" kindref="compound">TaskDecomposerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="159" column="10" bodyfile="src/llm/task_decomposer.cpp" bodystart="771" bodyend="774"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_task_decomposer_1afe3a3006c6de6360b064006a597e1acf" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_task_decomposer_config" kindref="compound">TaskDecomposerConfig</ref></type>
+        <definition>TaskDecomposerConfig themis::llm::TaskDecomposer::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::TaskDecomposer::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="161" column="27" bodyfile="src/llm/task_decomposer.cpp" bodystart="776" bodyend="779"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_task_decomposer_1a038b3c3ef7fda74a9ed3c4ae1577812a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_task_decomposition_result" kindref="compound">TaskDecompositionResult</ref></type>
+        <definition>TaskDecompositionResult themis::llm::TaskDecomposer::decompose</definition>
+        <argsstring>(const std::string &amp;task, const std::string &amp;extra_ctx=&quot;&quot;) const</argsstring>
+        <name>decompose</name>
+        <qualifiedname>themis::llm::TaskDecomposer::decompose</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>extra_ctx</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="165" column="30" bodyfile="src/llm/task_decomposer.cpp" bodystart="956" bodyend="1002"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_task_decomposer_1a7c287069ee1e0dbe08828dd65a708bc5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TaskDecomposer::buildDecompositionPrompt</definition>
+        <argsstring>(const std::string &amp;task, const std::string &amp;extra_ctx=&quot;&quot;) const</argsstring>
+        <name>buildDecompositionPrompt</name>
+        <qualifiedname>themis::llm::TaskDecomposer::buildDecompositionPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>extra_ctx</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="177" column="18" bodyfile="src/llm/task_decomposer.cpp" bodystart="864" bodyend="875"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_task_decomposer_1a074eef7d0d291a45a5aeb4a702feda2e" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref></type>
+        <definition>WorkflowDefinition themis::llm::TaskDecomposer::toWorkflow</definition>
+        <argsstring>(const TaskDecompositionResult &amp;result, const std::string &amp;workflow_id=&quot;decomposed_workflow&quot;)</argsstring>
+        <name>toWorkflow</name>
+        <qualifiedname>themis::llm::TaskDecomposer::toWorkflow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_task_decomposition_result" kindref="compound">TaskDecompositionResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>workflow_id</declname>
+          <defval>&quot;decomposed_workflow&quot;</defval>
+        </param>
+        <briefdescription>
+<para>── <ref refid="classthemis_1_1llm_1_1_task_decomposer_1a074eef7d0d291a45a5aeb4a702feda2e" kindref="member">toWorkflow()</ref> ───────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">workflow_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the workflow. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), contains(), <ref refid="namespacethemis_1_1llm_1ad398dbcac591c66965c2d0daf055a06f" kindref="member">workflowStepModeFromString()</ref>, value(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="171" column="32" bodyfile="src/llm/task_decomposer.cpp" bodystart="1013" bodyend="1040"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_task_decomposer_1a1b141abaeec7f28e1211d318ad16202c" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TaskDecomposer::buildChainOfThoughtPrompt</definition>
+        <argsstring>(const std::string &amp;task, const std::string &amp;extra_ctx) const</argsstring>
+        <name>buildChainOfThoughtPrompt</name>
+        <qualifiedname>themis::llm::TaskDecomposer::buildChainOfThoughtPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>extra_ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="187" column="18" bodyfile="src/llm/task_decomposer.cpp" bodystart="793" bodyend="814"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_task_decomposer_1a0359c7554202f3ea4769ff0aadf09ace" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TaskDecomposer::buildDirectJsonPrompt</definition>
+        <argsstring>(const std::string &amp;task, const std::string &amp;extra_ctx) const</argsstring>
+        <name>buildDirectJsonPrompt</name>
+        <qualifiedname>themis::llm::TaskDecomposer::buildDirectJsonPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>extra_ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="191" column="18" bodyfile="src/llm/task_decomposer.cpp" bodystart="816" bodyend="831"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_task_decomposer_1a538ad24505e51517a455dd4fbdf091c9" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TaskDecomposer::buildFewShotPrompt</definition>
+        <argsstring>(const std::string &amp;task, const std::string &amp;extra_ctx) const</argsstring>
+        <name>buildFewShotPrompt</name>
+        <qualifiedname>themis::llm::TaskDecomposer::buildFewShotPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>extra_ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="195" column="18" bodyfile="src/llm/task_decomposer.cpp" bodystart="833" bodyend="862"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_task_decomposer_1a0a6bfdd30e1f2ba6dea84679b1bddc20" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_task_decomposition_result" kindref="compound">TaskDecompositionResult</ref></type>
+        <definition>TaskDecompositionResult themis::llm::TaskDecomposer::parseResponse</definition>
+        <argsstring>(const std::string &amp;raw_response, const std::string &amp;prompt) const</argsstring>
+        <name>parseResponse</name>
+        <qualifiedname>themis::llm::TaskDecomposer::parseResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>raw_response</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="199" column="30" bodyfile="src/llm/task_decomposer.cpp" bodystart="912" bodyend="952"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_task_decomposer_1a1c25e70132e59b10ff568b9adbfe7493" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_sub_task" kindref="compound">SubTask</ref> &gt;</type>
+        <definition>std::vector&lt; SubTask &gt; themis::llm::TaskDecomposer::parseSubtasksFromJson</definition>
+        <argsstring>(const json &amp;arr) const</argsstring>
+        <name>parseSubtasksFromJson</name>
+        <qualifiedname>themis::llm::TaskDecomposer::parseSubtasksFromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>arr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="203" column="18" bodyfile="src/llm/task_decomposer.cpp" bodystart="879" bodyend="910"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/task_decomposer.h" line="134" column="1" bodyfile="include/llm/task_decomposer.h" bodystart="134" bodyend="205"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1a1b141abaeec7f28e1211d318ad16202c" prot="private" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>buildChainOfThoughtPrompt</name></member>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1a7c287069ee1e0dbe08828dd65a708bc5" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>buildDecompositionPrompt</name></member>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1a0359c7554202f3ea4769ff0aadf09ace" prot="private" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>buildDirectJsonPrompt</name></member>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1a538ad24505e51517a455dd4fbdf091c9" prot="private" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>buildFewShotPrompt</name></member>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1afe3a3006c6de6360b064006a597e1acf" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>config</name></member>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1a038b3c3ef7fda74a9ed3c4ae1577812a" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>decompose</name></member>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1a0fb4e061f079a68695fbc4a3a2340779" prot="private" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1af1579dd665ae6f04b6c06b2c435ea55c" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1aae292f0585c38e9120d16970f7d16889" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1a0a6bfdd30e1f2ba6dea84679b1bddc20" prot="private" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>parseResponse</name></member>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1a1c25e70132e59b10ff568b9adbfe7493" prot="private" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>parseSubtasksFromJson</name></member>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1aa4ba7df592ef427d9d86e35614dadc2e" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1a9c09a1672e04362f048906478240cb03" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>setLLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1a32c0878bff44c02f7f91ceb002929830" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>TaskDecomposer</name></member>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1abba6dc6275af6efc97ba3e060fe8e529" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>TaskDecomposer</name></member>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1af4a3510e5b6d8dbe7bfde2908c45fc88" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>TaskDecomposer</name></member>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1a074eef7d0d291a45a5aeb4a702feda2e" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>toWorkflow</name></member>
+      <member refid="classthemis_1_1llm_1_1_task_decomposer_1aa507590e38ef99f6312d6d4740caf74c" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposer</scope><name>~TaskDecomposer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

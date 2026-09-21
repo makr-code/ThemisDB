@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_rewrite_engine_fixture" kind="class" language="C++" prot="public">
+    <compoundname>RewriteEngineFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_rewrite_engine_fixture_1aa719309239b6af53054f97bdf9ddead2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_rewrite_engine" kindref="compound">RewriteEngine</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;RewriteEngine&gt; RewriteEngineFixture::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>RewriteEngineFixture::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/prompt_engineering/bench_rewrite_engine.cpp" line="116" column="21" bodyfile="benchmarks/prompt_engineering/bench_rewrite_engine.cpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_rewrite_engine_fixture_1a472b05596a9d159627bd0a8969dfaebd" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_rewrite_rule_loader" kindref="compound">RewriteRuleLoader</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;RewriteRuleLoader&gt; RewriteEngineFixture::loader_</definition>
+        <argsstring></argsstring>
+        <name>loader_</name>
+        <qualifiedname>RewriteEngineFixture::loader_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/prompt_engineering/bench_rewrite_engine.cpp" line="117" column="21" bodyfile="benchmarks/prompt_engineering/bench_rewrite_engine.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_rewrite_engine_fixture_1a42e6399505bebd62f6ea3bce41bd63d9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RewriteEngineFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>RewriteEngineFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/prompt_engineering/bench_rewrite_engine.cpp" line="119" column="10" bodyfile="benchmarks/prompt_engineering/bench_rewrite_engine.cpp" bodystart="119" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="class_rewrite_engine_fixture_1a1e80f4fbe400b42fc36ed4f2df9be3d0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RewriteEngineFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>RewriteEngineFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/prompt_engineering/bench_rewrite_engine.cpp" line="124" column="10" bodyfile="benchmarks/prompt_engineering/bench_rewrite_engine.cpp" bodystart="124" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RewriteEngineFixture</label>
+        <link refid="class_rewrite_engine_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RewriteEngineFixture</label>
+        <link refid="class_rewrite_engine_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/prompt_engineering/bench_rewrite_engine.cpp" line="114" column="1" bodyfile="benchmarks/prompt_engineering/bench_rewrite_engine.cpp" bodystart="114" bodyend="128"/>
+    <listofallmembers>
+      <member refid="class_rewrite_engine_fixture_1aa719309239b6af53054f97bdf9ddead2" prot="protected" virt="non-virtual"><scope>RewriteEngineFixture</scope><name>engine_</name></member>
+      <member refid="class_rewrite_engine_fixture_1a472b05596a9d159627bd0a8969dfaebd" prot="protected" virt="non-virtual"><scope>RewriteEngineFixture</scope><name>loader_</name></member>
+      <member refid="class_rewrite_engine_fixture_1a42e6399505bebd62f6ea3bce41bd63d9" prot="protected" virt="non-virtual"><scope>RewriteEngineFixture</scope><name>SetUp</name></member>
+      <member refid="class_rewrite_engine_fixture_1a1e80f4fbe400b42fc36ed4f2df9be3d0" prot="protected" virt="non-virtual"><scope>RewriteEngineFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

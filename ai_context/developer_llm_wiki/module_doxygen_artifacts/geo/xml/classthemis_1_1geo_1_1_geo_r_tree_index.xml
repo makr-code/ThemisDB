@@ -1,0 +1,337 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_geo_r_tree_index" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::geo::GeoRTreeIndex</compoundname>
+    <basecompoundref refid="classthemis_1_1geo_1_1_i_geo_index" prot="public" virt="non-virtual">themis::geo::IGeoIndex</basecompoundref>
+    <includes refid="rtree__cursor_8h" local="no">rtree_cursor.h</includes>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_r_tree_index_1_1_impl" prot="public">themis::geo::GeoRTreeIndex::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_r_tree_index_1a8967011e19695374d02aa55d31aa0519" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1geo_1_1_geo_r_tree_index_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::geo::GeoRTreeIndex::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::geo::GeoRTreeIndex::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="128" column="21" bodyfile="include/geo/rtree_cursor.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_r_tree_index_1a0b45a3b82de57d4e888b178aa2869d5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoRTreeIndex::GeoRTreeIndex</definition>
+        <argsstring>()</argsstring>
+        <name>GeoRTreeIndex</name>
+        <qualifiedname>themis::geo::GeoRTreeIndex::GeoRTreeIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="102" column="5" bodyfile="src/geo/rtree_cursor.cpp" bodystart="132" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_r_tree_index_1a10319e931b5ca6bd6d4e708db73c555b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoRTreeIndex::~GeoRTreeIndex</definition>
+        <argsstring>() override</argsstring>
+        <name>~GeoRTreeIndex</name>
+        <qualifiedname>themis::geo::GeoRTreeIndex::~GeoRTreeIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="103" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_r_tree_index_1a5c9a89490492aacd13750b3bf3efb828" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoRTreeIndex::GeoRTreeIndex</definition>
+        <argsstring>(const GeoRTreeIndex &amp;)=delete</argsstring>
+        <name>GeoRTreeIndex</name>
+        <qualifiedname>themis::geo::GeoRTreeIndex::GeoRTreeIndex</qualifiedname>
+        <param>
+          <type>const GeoRTreeIndex &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="106" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_r_tree_index_1a23b3e0799cc1ff79f96b4233396a2c99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a0b45a3b82de57d4e888b178aa2869d5d" kindref="member">GeoRTreeIndex</ref> &amp;</type>
+        <definition>GeoRTreeIndex &amp; themis::geo::GeoRTreeIndex::operator=</definition>
+        <argsstring>(const GeoRTreeIndex &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::geo::GeoRTreeIndex::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a0b45a3b82de57d4e888b178aa2869d5d" kindref="member">GeoRTreeIndex</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="107" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_r_tree_index_1a1287250f5f4251fd288f3da4a8df3e13" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoRTreeIndex::GeoRTreeIndex</definition>
+        <argsstring>(GeoRTreeIndex &amp;&amp;) noexcept</argsstring>
+        <name>GeoRTreeIndex</name>
+        <qualifiedname>themis::geo::GeoRTreeIndex::GeoRTreeIndex</qualifiedname>
+        <param>
+          <type>GeoRTreeIndex &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="108" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_r_tree_index_1a501dee0c78b5683472f606eb74cba305" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a0b45a3b82de57d4e888b178aa2869d5d" kindref="member">GeoRTreeIndex</ref> &amp;</type>
+        <definition>GeoRTreeIndex &amp; themis::geo::GeoRTreeIndex::operator=</definition>
+        <argsstring>(GeoRTreeIndex &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::geo::GeoRTreeIndex::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a0b45a3b82de57d4e888b178aa2869d5d" kindref="member">GeoRTreeIndex</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="109" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_r_tree_index_1a67f526a34b5a622c70e81897df0b5d7e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_r_tree_cursor" kindref="compound">IRTreeCursor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IRTreeCursor &gt; themis::geo::GeoRTreeIndex::openRangeCursor</definition>
+        <argsstring>(const MBR &amp;bbox) override</argsstring>
+        <name>openRangeCursor</name>
+        <qualifiedname>themis::geo::GeoRTreeIndex::openRangeCursor</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_index_1a32698745c84f812c544d39343571ddf1">openRangeCursor</reimplements>
+        <param>
+          <type>const MBR &amp;</type>
+          <declname>bbox</declname>
+        </param>
+        <briefdescription>
+<para>Open Range Cursor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bbox</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), <ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1ab83984cc4aed89915222dd96f9ff76d4" kindref="member">size()</ref>, computeMBR(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="111" column="22" bodyfile="src/geo/rtree_cursor.cpp" bodystart="176" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_r_tree_index_1a8e3382b6551cc72fa102ea4e866840e2" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_r_tree_cursor" kindref="compound">IRTreeCursor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IRTreeCursor &gt; themis::geo::GeoRTreeIndex::openKNNCursor</definition>
+        <argsstring>(const Coordinate &amp;query_point, std::size_t k) override</argsstring>
+        <name>openKNNCursor</name>
+        <qualifiedname>themis::geo::GeoRTreeIndex::openKNNCursor</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_index_1aaaf34ad24e77dff9c6213c208c904505">openKNNCursor</reimplements>
+        <param>
+          <type>const Coordinate &amp;</type>
+          <declname>query_point</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Open KNNCursor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), <ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1ab83984cc4aed89915222dd96f9ff76d4" kindref="member">size()</ref>, mbrCentroid(), <ref refid="namespacethemis_1_1geo_1ac51b8d1e83cad10bc42db91ae9b43f03" kindref="member">haversineDistanceM()</ref>, push_back(), std::min(), std::partial_sort(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="114" column="22" bodyfile="src/geo/rtree_cursor.cpp" bodystart="200" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_r_tree_index_1ab83984cc4aed89915222dd96f9ff76d4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::GeoRTreeIndex::size</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::geo::GeoRTreeIndex::size</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_index_1a564f35ad35b499c4ee0a82d904cd6127">size</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="117" column="18" bodyfile="src/geo/rtree_cursor.cpp" bodystart="138" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::geo::GeoRTreeIndex::insert</definition>
+        <argsstring>(const std::string &amp;key, const GeometryInfo &amp;geom) override</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::geo::GeoRTreeIndex::insert</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_index_1a0dedcd426778a77877bcf49a65d67bb1">insert</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom</declname>
+        </param>
+        <briefdescription>
+<para>Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">geom</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emplace_back(), bumpVersion(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="119" column="10" bodyfile="src/geo/rtree_cursor.cpp" bodystart="148" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_r_tree_index_1a10f448598a7edb6617ef630af1713a0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::geo::GeoRTreeIndex::bulkLoad</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, GeometryInfo &gt; &gt; &amp;entries) override</argsstring>
+        <name>bulkLoad</name>
+        <qualifiedname>themis::geo::GeoRTreeIndex::bulkLoad</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_index_1a7f37dca8f398812883b5a7585b45d570">bulkLoad</reimplements>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, GeometryInfo &gt; &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="121" column="10" bodyfile="src/geo/rtree_cursor.cpp" bodystart="154" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_r_tree_index_1a36334ab979c28c68472a5e1a16593ed0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::geo::GeoRTreeIndex::clear</definition>
+        <argsstring>() override</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::geo::GeoRTreeIndex::clear</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_index_1abeb6898af08712cbe0657bac1f3ee419">clear</reimplements>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: bumpVersion(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="124" column="10" bodyfile="src/geo/rtree_cursor.cpp" bodystart="164" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::geo::GeoRTreeIndex</label>
+        <link refid="classthemis_1_1geo_1_1_geo_r_tree_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::geo::IGeoIndex</label>
+        <link refid="classthemis_1_1geo_1_1_i_geo_index"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::geo::GeoRTreeIndex</label>
+        <link refid="classthemis_1_1geo_1_1_geo_r_tree_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::geo::IGeoIndex</label>
+        <link refid="classthemis_1_1geo_1_1_i_geo_index"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/geo/rtree_cursor.h" line="100" column="1" bodyfile="include/geo/rtree_cursor.h" bodystart="100" bodyend="129"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a10f448598a7edb6617ef630af1713a0d" prot="public" virt="virtual"><scope>themis::geo::GeoRTreeIndex</scope><name>bulkLoad</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a36334ab979c28c68472a5e1a16593ed0" prot="public" virt="virtual"><scope>themis::geo::GeoRTreeIndex</scope><name>clear</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a0b45a3b82de57d4e888b178aa2869d5d" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTreeIndex</scope><name>GeoRTreeIndex</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a5c9a89490492aacd13750b3bf3efb828" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTreeIndex</scope><name>GeoRTreeIndex</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a1287250f5f4251fd288f3da4a8df3e13" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTreeIndex</scope><name>GeoRTreeIndex</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a8967011e19695374d02aa55d31aa0519" prot="private" virt="non-virtual"><scope>themis::geo::GeoRTreeIndex</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" prot="public" virt="virtual"><scope>themis::geo::GeoRTreeIndex</scope><name>insert</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a8e3382b6551cc72fa102ea4e866840e2" prot="public" virt="virtual"><scope>themis::geo::GeoRTreeIndex</scope><name>openKNNCursor</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a67f526a34b5a622c70e81897df0b5d7e" prot="public" virt="virtual"><scope>themis::geo::GeoRTreeIndex</scope><name>openRangeCursor</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a23b3e0799cc1ff79f96b4233396a2c99" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTreeIndex</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a501dee0c78b5683472f606eb74cba305" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTreeIndex</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_r_tree_index_1ab83984cc4aed89915222dd96f9ff76d4" prot="public" virt="virtual"><scope>themis::geo::GeoRTreeIndex</scope><name>size</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a10319e931b5ca6bd6d4e708db73c555b" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTreeIndex</scope><name>~GeoRTreeIndex</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_geo_index_1ac31b19e6df224c4a6dfb7bebbb19130d" prot="public" virt="virtual"><scope>themis::geo::GeoRTreeIndex</scope><name>~IGeoIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

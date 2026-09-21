@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__pki__shard__certificate_8cpp" kind="file" language="C++">
+    <compoundname>test_pki_shard_certificate.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">sharding/pki_shard_certificate.h</includes>
+    <includes local="no">fstream</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_pki_shard_certificate.cpp</label>
+        <link refid="test__pki__shard__certificate_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>sharding/pki_shard_certificate.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__pki__shard__certificate_8cpp_1ad9c98bf5db3f822e24fcccb443d484a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PKIShardCertificateTest, ParseCertificateStructure)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PKIShardCertificateTest</type>
+        </param>
+        <param>
+          <type>ParseCertificateStructure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_shard_certificate.cpp" line="15" column="1" bodyfile="tests/security/test_pki_shard_certificate.cpp" bodystart="15" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pki__shard__certificate_8cpp_1a78ab9f80e63a873d94424d5048c5841b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PKIShardCertificateTest, ValidateShardCertificate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PKIShardCertificateTest</type>
+        </param>
+        <param>
+          <type>ValidateShardCertificate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_shard_certificate.cpp" line="27" column="1" bodyfile="tests/security/test_pki_shard_certificate.cpp" bodystart="27" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pki__shard__certificate_8cpp_1ac3601f6cf22e01a91587c5ffd1a9e1a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PKIShardCertificateTest, ValidateInvalidCertificate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PKIShardCertificateTest</type>
+        </param>
+        <param>
+          <type>ValidateInvalidCertificate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_shard_certificate.cpp" line="39" column="1" bodyfile="tests/security/test_pki_shard_certificate.cpp" bodystart="39" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pki__shard__certificate_8cpp_1aef807e9f2cc51ac79335fd85bf5d3920" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PKIShardCertificateTest, ValidateNoCapabilities)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PKIShardCertificateTest</type>
+        </param>
+        <param>
+          <type>ValidateNoCapabilities</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_shard_certificate.cpp" line="49" column="1" bodyfile="tests/security/test_pki_shard_certificate.cpp" bodystart="49" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pki__shard__certificate_8cpp_1a0af5c4fdaf83a2f6b3e78c7d3c035b3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PKIShardCertificateTest, ValidateInvalidTokenRange)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PKIShardCertificateTest</type>
+        </param>
+        <param>
+          <type>ValidateInvalidTokenRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_shard_certificate.cpp" line="59" column="1" bodyfile="tests/security/test_pki_shard_certificate.cpp" bodystart="59" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pki__shard__certificate_8cpp_1a6a0ce184bcd2dfc6157593c4d23e17e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PKIShardCertificateTest, ValidateRejectsMalformedPrintedTime)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PKIShardCertificateTest</type>
+        </param>
+        <param>
+          <type>ValidateRejectsMalformedPrintedTime</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_shard_certificate.cpp" line="71" column="1" bodyfile="tests/security/test_pki_shard_certificate.cpp" bodystart="71" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/pki_shard_certificate.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::sharding;</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Note:<sp/>These<sp/>tests<sp/>are<sp/>stubs<sp/>for<sp/>Phase<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Full<sp/>implementation<sp/>would<sp/>require<sp/>actual<sp/>test<sp/>certificates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kValidNotBefore<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Jan<sp/><sp/>1<sp/>00:00:00<sp/>2024<sp/>GMT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kValidNotAfter<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Jan<sp/><sp/>1<sp/>00:00:00<sp/>2099<sp/>GMT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><ref refid="test__pki__shard__certificate_8cpp_1ad9c98bf5db3f822e24fcccb443d484a6" kindref="member">TEST</ref>(PKIShardCertificateTest,<sp/>ParseCertificateStructure)<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>the<sp/>structure<sp/>is<sp/>defined<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>ShardCertificateInfo<sp/>info;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>info.shard_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard_001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>info.datacenter<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>info.capabilities<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;replicate&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(info.hasCapability(</highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(info.hasCapability(</highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(info.hasCapability(</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="test__pki__shard__certificate_8cpp_1ad9c98bf5db3f822e24fcccb443d484a6" kindref="member">TEST</ref>(PKIShardCertificateTest,<sp/>ValidateShardCertificate)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>ShardCertificateInfo<sp/>info;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>info.shard_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard_001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>info.not_before<sp/>=<sp/>kValidNotBefore;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>info.not_after<sp/>=<sp/>kValidNotAfter;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>info.capabilities<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>info.token_range_start<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>info.token_range_end<sp/>=<sp/>0x7FFFFFFFFFFFFFFFULL;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(PKIShardCertificate::validateShardCertificate(info));</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="test__pki__shard__certificate_8cpp_1ad9c98bf5db3f822e24fcccb443d484a6" kindref="member">TEST</ref>(PKIShardCertificateTest,<sp/>ValidateInvalidCertificate)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>ShardCertificateInfo<sp/>info;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Missing<sp/>shard_id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>info.not_before<sp/>=<sp/>kValidNotBefore;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>info.not_after<sp/>=<sp/>kValidNotAfter;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>info.capabilities<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(PKIShardCertificate::validateShardCertificate(info));</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__pki__shard__certificate_8cpp_1ad9c98bf5db3f822e24fcccb443d484a6" kindref="member">TEST</ref>(PKIShardCertificateTest,<sp/>ValidateNoCapabilities)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>ShardCertificateInfo<sp/>info;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>info.shard_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard_001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>info.not_before<sp/>=<sp/>kValidNotBefore;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>info.not_after<sp/>=<sp/>kValidNotAfter;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>capabilities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(PKIShardCertificate::validateShardCertificate(info));</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__pki__shard__certificate_8cpp_1ad9c98bf5db3f822e24fcccb443d484a6" kindref="member">TEST</ref>(PKIShardCertificateTest,<sp/>ValidateInvalidTokenRange)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>ShardCertificateInfo<sp/>info;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>info.shard_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard_001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>info.not_before<sp/>=<sp/>kValidNotBefore;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>info.not_after<sp/>=<sp/>kValidNotAfter;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>info.capabilities<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>info.token_range_start<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>info.token_range_end<sp/>=<sp/>100;<sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid:<sp/>start<sp/>&gt;<sp/>end</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(PKIShardCertificate::validateShardCertificate(info));</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__pki__shard__certificate_8cpp_1ad9c98bf5db3f822e24fcccb443d484a6" kindref="member">TEST</ref>(PKIShardCertificateTest,<sp/>ValidateRejectsMalformedPrintedTime)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>ShardCertificateInfo<sp/>info;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>info.shard_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard_001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>info.not_before<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Janu<sp/><sp/>1<sp/>00:00:00<sp/>2024<sp/>GMT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>info.not_after<sp/>=<sp/>kValidNotAfter;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>info.capabilities<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>info.token_range_start<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>info.token_range_end<sp/>=<sp/>0x7FFFFFFFFFFFFFFFULL;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(PKIShardCertificate::validateShardCertificate(info));</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_pki_shard_certificate.cpp"/>
+  </compounddef>
+</doxygen>

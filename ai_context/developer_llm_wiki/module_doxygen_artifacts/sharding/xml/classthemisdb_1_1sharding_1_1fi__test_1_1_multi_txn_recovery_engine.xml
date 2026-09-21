@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1fi__test_1_1_multi_txn_recovery_engine" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::fi_test::MultiTxnRecoveryEngine</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1fi__test_1_1_multi_txn_recovery_engine_1a64d48d2c9bd448782df88f4bb82e583e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> *</type>
+        <definition>SimWAL* themisdb::sharding::fi_test::MultiTxnRecoveryEngine::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themisdb::sharding::fi_test::MultiTxnRecoveryEngine::wal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="766" column="33" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="766" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1fi__test_1_1_multi_txn_recovery_engine_1a6a152a0a1a725d9a32550b27aa1c64b1" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_participant" kindref="compound">SimParticipant</ref> * &gt;</type>
+        <definition>std::vector&lt;SimParticipant*&gt; themisdb::sharding::fi_test::MultiTxnRecoveryEngine::participants_</definition>
+        <argsstring></argsstring>
+        <name>participants_</name>
+        <qualifiedname>themisdb::sharding::fi_test::MultiTxnRecoveryEngine::participants_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="767" column="17" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="767" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_multi_txn_recovery_engine_1a19fc4620a19fb2fb030a136a44303f02" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::MultiTxnRecoveryEngine::MultiTxnRecoveryEngine</definition>
+        <argsstring>(SimWAL *wal, std::vector&lt; SimParticipant * &gt; participants)</argsstring>
+        <name>MultiTxnRecoveryEngine</name>
+        <qualifiedname>themisdb::sharding::fi_test::MultiTxnRecoveryEngine::MultiTxnRecoveryEngine</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> *</type>
+          <declname>wal</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_participant" kindref="compound">SimParticipant</ref> * &gt;</type>
+          <declname>participants</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="721" column="5" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="721" bodyend="723"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_multi_txn_recovery_engine_1a1d526a39ff2db1f27947d0186a2f8c1e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::fi_test::MultiTxnRecoveryEngine::recoverAll</definition>
+        <argsstring>()</argsstring>
+        <name>recoverAll</name>
+        <qualifiedname>themisdb::sharding::fi_test::MultiTxnRecoveryEngine::recoverAll</qualifiedname>
+        <briefdescription>
+<para>Recover all in-doubt transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Count of transactions recovered. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="729" column="12" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="729" bodyend="740"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_multi_txn_recovery_engine_1a8d97ade550d741965dd3cf5bfac4d9f1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::fi_test::MultiTxnRecoveryEngine::recoverAllConcurrent</definition>
+        <argsstring>()</argsstring>
+        <name>recoverAllConcurrent</name>
+        <qualifiedname>themisdb::sharding::fi_test::MultiTxnRecoveryEngine::recoverAllConcurrent</qualifiedname>
+        <briefdescription>
+<para>Recover all in-doubt transactions concurrently. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Count of transactions recovered. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="746" column="12" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="746" bodyend="763"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Replays all in-doubt txns from a <ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> given a list of participants. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>For each txn that has a PREPARE but no COMMIT/ABORT, the engine:<itemizedlist>
+<listitem><para>logs a COMMIT decision, and</para>
+</listitem><listitem><para>drives every participant to COMMITTED.</para>
+</listitem></itemizedlist>
+</para>
+<para>This mirrors the new-coordinator WAL-replay path used in production. </para>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="719" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="719" bodyend="768"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_multi_txn_recovery_engine_1a19fc4620a19fb2fb030a136a44303f02" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::MultiTxnRecoveryEngine</scope><name>MultiTxnRecoveryEngine</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_multi_txn_recovery_engine_1a6a152a0a1a725d9a32550b27aa1c64b1" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::MultiTxnRecoveryEngine</scope><name>participants_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_multi_txn_recovery_engine_1a1d526a39ff2db1f27947d0186a2f8c1e" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::MultiTxnRecoveryEngine</scope><name>recoverAll</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_multi_txn_recovery_engine_1a8d97ade550d741965dd3cf5bfac4d9f1" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::MultiTxnRecoveryEngine</scope><name>recoverAllConcurrent</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_multi_txn_recovery_engine_1a64d48d2c9bd448782df88f4bb82e583e" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::MultiTxnRecoveryEngine</scope><name>wal_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

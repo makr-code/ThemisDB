@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_server_rate_limit_live_test" kind="class" language="C++" prot="public">
+    <compoundname>ServerRateLimitLiveTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_server_rate_limit_live_test_1a29ca9fe1ecd9ba2b045db36c77ce3ddb" prot="protected" static="no" mutable="no">
+        <type>ServerFixtureHelper</type>
+        <definition>ServerFixtureHelper ServerRateLimitLiveTest::fixture_</definition>
+        <argsstring></argsstring>
+        <name>fixture_</name>
+        <qualifiedname>ServerRateLimitLiveTest::fixture_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_integration_complete.cpp" line="977" column="33" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="977" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_server_rate_limit_live_test_1ae150e733cc42cdf3acaa2771175bffb6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; ScopedEnv &gt;</type>
+        <definition>std::unique_ptr&lt;ScopedEnv&gt; ServerRateLimitLiveTest::env_rate_</definition>
+        <argsstring></argsstring>
+        <name>env_rate_</name>
+        <qualifiedname>ServerRateLimitLiveTest::env_rate_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_integration_complete.cpp" line="978" column="22" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="978" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_server_rate_limit_live_test_1a32090b3f80c09b38a1253080b0f364a0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ServerRateLimitLiveTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ServerRateLimitLiveTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_integration_complete.cpp" line="956" column="10" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="956" bodyend="964"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_rate_limit_live_test_1a28b8f926f210f8dcdc6c4800e1d3937a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ServerRateLimitLiveTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ServerRateLimitLiveTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_integration_complete.cpp" line="966" column="10" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="966" bodyend="969"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_rate_limit_live_test_1a58d8f7ea8c9b29c7602c9318bfc28cf1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; ServerRateLimitLiveTest::timedRequest</definition>
+        <argsstring>()</argsstring>
+        <name>timedRequest</name>
+        <qualifiedname>ServerRateLimitLiveTest::timedRequest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_integration_complete.cpp" line="972" column="20" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="972" bodyend="975"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ServerRateLimitLiveTest</label>
+        <link refid="class_server_rate_limit_live_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ServerRateLimitLiveTest</label>
+        <link refid="class_server_rate_limit_live_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>fixture_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>anonymous:fixture_</label>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/server/test_server_integration_complete.cpp" line="954" column="1" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="954" bodyend="979"/>
+    <listofallmembers>
+      <member refid="class_server_rate_limit_live_test_1ae150e733cc42cdf3acaa2771175bffb6" prot="protected" virt="non-virtual"><scope>ServerRateLimitLiveTest</scope><name>env_rate_</name></member>
+      <member refid="class_server_rate_limit_live_test_1a29ca9fe1ecd9ba2b045db36c77ce3ddb" prot="protected" virt="non-virtual"><scope>ServerRateLimitLiveTest</scope><name>fixture_</name></member>
+      <member refid="class_server_rate_limit_live_test_1a32090b3f80c09b38a1253080b0f364a0" prot="protected" virt="non-virtual"><scope>ServerRateLimitLiveTest</scope><name>SetUp</name></member>
+      <member refid="class_server_rate_limit_live_test_1a28b8f926f210f8dcdc6c4800e1d3937a" prot="protected" virt="non-virtual"><scope>ServerRateLimitLiveTest</scope><name>TearDown</name></member>
+      <member refid="class_server_rate_limit_live_test_1a58d8f7ea8c9b29c7602c9318bfc28cf1" prot="protected" virt="non-virtual"><scope>ServerRateLimitLiveTest</scope><name>timedRequest</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

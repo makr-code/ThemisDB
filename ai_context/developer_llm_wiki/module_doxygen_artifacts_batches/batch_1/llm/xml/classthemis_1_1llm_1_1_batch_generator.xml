@@ -1,0 +1,357 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_batch_generator" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::BatchGenerator</compoundname>
+    <includes refid="batch__generator_8h" local="no">batch_generator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_batch_generator_1a74a7d63e6341fc931f5838235dc60136" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Impl &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::BatchGenerator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::BatchGenerator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="176" column="21" bodyfile="include/llm/batch_generator.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_generator_1a5264b382f508f1556b1f627c4658bf7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::BatchGenerator::BatchGenerator</definition>
+        <argsstring>(std::shared_ptr&lt; TrainingDataIterator &gt; data_iterator, const BatchConfig &amp;config)</argsstring>
+        <name>BatchGenerator</name>
+        <qualifiedname>themis::llm::BatchGenerator::BatchGenerator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_training_data_iterator" kindref="compound">TrainingDataIterator</ref> &gt;</type>
+          <declname>data_iterator</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_batch_config" kindref="compound">BatchConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="126" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_generator_1a3a4c571ff430d1fa5f1c86a82ef245d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::BatchGenerator::~BatchGenerator</definition>
+        <argsstring>()</argsstring>
+        <name>~BatchGenerator</name>
+        <qualifiedname>themis::llm::BatchGenerator::~BatchGenerator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="131" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_generator_1aeba5dac9ee7d5108ef9d0e962cec9acf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_training_batch" kindref="compound">TrainingBatch</ref> &gt;</type>
+        <definition>std::optional&lt; TrainingBatch &gt; themis::llm::BatchGenerator::nextBatch</definition>
+        <argsstring>()</argsstring>
+        <name>nextBatch</name>
+        <qualifiedname>themis::llm::BatchGenerator::nextBatch</qualifiedname>
+        <briefdescription>
+<para>Next Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="137" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_generator_1af49a178055d1c63ee87e347cd8f4c6cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::BatchGenerator::reset</definition>
+        <argsstring>(bool reshuffle=true)</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::llm::BatchGenerator::reset</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>reshuffle</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="139" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_generator_1ad18fa29fc324fcdd834d74c427038989" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::BatchGenerator::getBatchCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getBatchCount</name>
+        <qualifiedname>themis::llm::BatchGenerator::getBatchCount</qualifiedname>
+        <briefdescription>
+<para>Get Batch Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="145" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_generator_1affd6176082224593890778cb335dc3b3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::BatchGenerator::getCurrentBatchIndex</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentBatchIndex</name>
+        <qualifiedname>themis::llm::BatchGenerator::getCurrentBatchIndex</qualifiedname>
+        <briefdescription>
+<para>Get Current Batch Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="151" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_generator_1a869d7039ced39fc7b5957300b00c9045" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::BatchGenerator::hasNextBatch</definition>
+        <argsstring>() const</argsstring>
+        <name>hasNextBatch</name>
+        <qualifiedname>themis::llm::BatchGenerator::hasNextBatch</qualifiedname>
+        <briefdescription>
+<para>Has Next Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="157" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_generator_1a87e4515f758ee5617fd889a1ccd84301" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_batch_statistics" kindref="compound">BatchStatistics</ref></type>
+        <definition>BatchStatistics themis::llm::BatchGenerator::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::llm::BatchGenerator::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="163" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_generator_1a3701a0d07e2bc63e82e95a89f00574bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::BatchGenerator::setFilter</definition>
+        <argsstring>(std::function&lt; bool(const TrainingSample &amp;)&gt; filter)</argsstring>
+        <name>setFilter</name>
+        <qualifiedname>themis::llm::BatchGenerator::setFilter</qualifiedname>
+        <param>
+          <type>std::function&lt; bool(const TrainingSample &amp;)&gt;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="165" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_generator_1a73c0d6c5edb6bd8678246d4b4c09a09c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::BatchGenerator::setPrefetchEnabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setPrefetchEnabled</name>
+        <qualifiedname>themis::llm::BatchGenerator::setPrefetchEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Set Prefetch Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="171" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_generator_1a7cd9f608bba5a0de6065a68208f1447b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::BatchGenerator::prefetchNextBatch</definition>
+        <argsstring>()</argsstring>
+        <name>prefetchNextBatch</name>
+        <qualifiedname>themis::llm::BatchGenerator::prefetchNextBatch</qualifiedname>
+        <briefdescription>
+<para>Prefetch next batch in background. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="181" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_generator_1a1d2a478bf5e41a52d97a5f3dd102beaa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt; size_t &gt; themis::llm::BatchGenerator::sampleIndices</definition>
+        <argsstring>(size_t total_count, size_t batch_size)</argsstring>
+        <name>sampleIndices</name>
+        <qualifiedname>themis::llm::BatchGenerator::sampleIndices</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>total_count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <briefdescription>
+<para>Sample Indices. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">total_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="190" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_generator_1add0f6011ff52c722fc5cad1daa8e84a4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::BatchGenerator::tokenizeBatch</definition>
+        <argsstring>(TrainingBatch &amp;batch)</argsstring>
+        <name>tokenizeBatch</name>
+        <qualifiedname>themis::llm::BatchGenerator::tokenizeBatch</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_training_batch" kindref="compound">TrainingBatch</ref> &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Tokenize Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="197" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_generator_1aaa128072c1ac1a855559efe8ed988928" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::BatchGenerator::applyPadding</definition>
+        <argsstring>(TrainingBatch &amp;batch)</argsstring>
+        <name>applyPadding</name>
+        <qualifiedname>themis::llm::BatchGenerator::applyPadding</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_training_batch" kindref="compound">TrainingBatch</ref> &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Apply Padding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="204" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/batch_generator.h" line="124" column="1" bodyfile="include/llm/batch_generator.h" bodystart="124" bodyend="205"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_batch_generator_1aaa128072c1ac1a855559efe8ed988928" prot="private" virt="non-virtual"><scope>themis::llm::BatchGenerator</scope><name>applyPadding</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_generator_1a5264b382f508f1556b1f627c4658bf7d" prot="public" virt="non-virtual"><scope>themis::llm::BatchGenerator</scope><name>BatchGenerator</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_generator_1ad18fa29fc324fcdd834d74c427038989" prot="public" virt="non-virtual"><scope>themis::llm::BatchGenerator</scope><name>getBatchCount</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_generator_1affd6176082224593890778cb335dc3b3" prot="public" virt="non-virtual"><scope>themis::llm::BatchGenerator</scope><name>getCurrentBatchIndex</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_generator_1a87e4515f758ee5617fd889a1ccd84301" prot="public" virt="non-virtual"><scope>themis::llm::BatchGenerator</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_generator_1a869d7039ced39fc7b5957300b00c9045" prot="public" virt="non-virtual"><scope>themis::llm::BatchGenerator</scope><name>hasNextBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_generator_1a74a7d63e6341fc931f5838235dc60136" prot="private" virt="non-virtual"><scope>themis::llm::BatchGenerator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_generator_1aeba5dac9ee7d5108ef9d0e962cec9acf" prot="public" virt="non-virtual"><scope>themis::llm::BatchGenerator</scope><name>nextBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_generator_1a7cd9f608bba5a0de6065a68208f1447b" prot="private" virt="non-virtual"><scope>themis::llm::BatchGenerator</scope><name>prefetchNextBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_generator_1af49a178055d1c63ee87e347cd8f4c6cc" prot="public" virt="non-virtual"><scope>themis::llm::BatchGenerator</scope><name>reset</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_generator_1a1d2a478bf5e41a52d97a5f3dd102beaa" prot="private" virt="non-virtual"><scope>themis::llm::BatchGenerator</scope><name>sampleIndices</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_generator_1a3701a0d07e2bc63e82e95a89f00574bd" prot="public" virt="non-virtual"><scope>themis::llm::BatchGenerator</scope><name>setFilter</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_generator_1a73c0d6c5edb6bd8678246d4b4c09a09c" prot="public" virt="non-virtual"><scope>themis::llm::BatchGenerator</scope><name>setPrefetchEnabled</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_generator_1add0f6011ff52c722fc5cad1daa8e84a4" prot="private" virt="non-virtual"><scope>themis::llm::BatchGenerator</scope><name>tokenizeBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_generator_1a3a4c571ff430d1fa5f1c86a82ef245d1" prot="public" virt="non-virtual"><scope>themis::llm::BatchGenerator</scope><name>~BatchGenerator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

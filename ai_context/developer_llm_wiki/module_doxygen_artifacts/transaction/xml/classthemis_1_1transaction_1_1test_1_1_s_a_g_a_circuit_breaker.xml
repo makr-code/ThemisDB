@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::test::SAGACircuitBreaker</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1a1e48163ffbe96e2cbafb2435a5341d9a" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::transaction::test::SAGACircuitBreaker::threshold_</definition>
+        <argsstring></argsstring>
+        <name>threshold_</name>
+        <qualifiedname>themis::transaction::test::SAGACircuitBreaker::threshold_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="164" column="9" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1a87d83eff0c6b40974c773bb08bee5736" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::transaction::test::SAGACircuitBreaker::failure_count_</definition>
+        <argsstring></argsstring>
+        <name>failure_count_</name>
+        <qualifiedname>themis::transaction::test::SAGACircuitBreaker::failure_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="165" column="9" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1ac5c50433f6750f3aa91931901f4463d2" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1transaction_1_1test_1a1ca7309f10e7007f1671a54494463fe2" kindref="member">CircuitState</ref></type>
+        <definition>CircuitState themis::transaction::test::SAGACircuitBreaker::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::transaction::test::SAGACircuitBreaker::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="166" column="18" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1a4eaa2e317107826bd8db89e88da5c8c7" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::test::SAGACircuitBreaker::SAGACircuitBreaker</definition>
+        <argsstring>(int failure_threshold=5)</argsstring>
+        <name>SAGACircuitBreaker</name>
+        <qualifiedname>themis::transaction::test::SAGACircuitBreaker::SAGACircuitBreaker</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>failure_threshold</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="133" column="14" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="133" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1ac1733b7636c76b842bd38aaf7453d4df" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1transaction_1_1test_1a1ca7309f10e7007f1671a54494463fe2" kindref="member">CircuitState</ref></type>
+        <definition>CircuitState themis::transaction::test::SAGACircuitBreaker::state</definition>
+        <argsstring>() const</argsstring>
+        <name>state</name>
+        <qualifiedname>themis::transaction::test::SAGACircuitBreaker::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="137" column="18" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="137" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1adedca10cb03d728a7359185a8f2a2ac8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::test::SAGACircuitBreaker::canAttempt</definition>
+        <argsstring>() const</argsstring>
+        <name>canAttempt</name>
+        <qualifiedname>themis::transaction::test::SAGACircuitBreaker::canAttempt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="138" column="10" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1a3a78c7c7824e58fd220461e649f5f547" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::transaction::test::SAGACircuitBreaker::failureCount</definition>
+        <argsstring>() const</argsstring>
+        <name>failureCount</name>
+        <qualifiedname>themis::transaction::test::SAGACircuitBreaker::failureCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="139" column="9" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1ac0f0d1f062c12fd682b6abe74871ab5c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::SAGACircuitBreaker::recordFailure</definition>
+        <argsstring>()</argsstring>
+        <name>recordFailure</name>
+        <qualifiedname>themis::transaction::test::SAGACircuitBreaker::recordFailure</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="141" column="10" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="141" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1a3041f4c511419313e90210b511d14810" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::SAGACircuitBreaker::recordSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::transaction::test::SAGACircuitBreaker::recordSuccess</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="150" column="10" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="150" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1a6013c3236977e9db9f74a3352eb96a14" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::SAGACircuitBreaker::halfOpen</definition>
+        <argsstring>()</argsstring>
+        <name>halfOpen</name>
+        <qualifiedname>themis::transaction::test::SAGACircuitBreaker::halfOpen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="157" column="10" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="157" bodyend="161"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="131" column="1" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="131" bodyend="167"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1adedca10cb03d728a7359185a8f2a2ac8" prot="public" virt="non-virtual"><scope>themis::transaction::test::SAGACircuitBreaker</scope><name>canAttempt</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1a87d83eff0c6b40974c773bb08bee5736" prot="private" virt="non-virtual"><scope>themis::transaction::test::SAGACircuitBreaker</scope><name>failure_count_</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1a3a78c7c7824e58fd220461e649f5f547" prot="public" virt="non-virtual"><scope>themis::transaction::test::SAGACircuitBreaker</scope><name>failureCount</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1a6013c3236977e9db9f74a3352eb96a14" prot="public" virt="non-virtual"><scope>themis::transaction::test::SAGACircuitBreaker</scope><name>halfOpen</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1ac0f0d1f062c12fd682b6abe74871ab5c" prot="public" virt="non-virtual"><scope>themis::transaction::test::SAGACircuitBreaker</scope><name>recordFailure</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1a3041f4c511419313e90210b511d14810" prot="public" virt="non-virtual"><scope>themis::transaction::test::SAGACircuitBreaker</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1a4eaa2e317107826bd8db89e88da5c8c7" prot="public" virt="non-virtual"><scope>themis::transaction::test::SAGACircuitBreaker</scope><name>SAGACircuitBreaker</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1ac1733b7636c76b842bd38aaf7453d4df" prot="public" virt="non-virtual"><scope>themis::transaction::test::SAGACircuitBreaker</scope><name>state</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1ac5c50433f6750f3aa91931901f4463d2" prot="private" virt="non-virtual"><scope>themis::transaction::test::SAGACircuitBreaker</scope><name>state_</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_s_a_g_a_circuit_breaker_1a1e48163ffbe96e2cbafb2435a5341d9a" prot="private" virt="non-virtual"><scope>themis::transaction::test::SAGACircuitBreaker</scope><name>threshold_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

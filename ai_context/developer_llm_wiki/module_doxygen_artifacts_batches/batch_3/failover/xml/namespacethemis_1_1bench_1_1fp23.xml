@@ -1,0 +1,534 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1fp23" kind="namespace" language="C++">
+    <compoundname>themis::bench::fp23</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1fp23_1_1_mock_fencing_manager" prot="public">themis::bench::fp23::MockFencingManager</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1fp23_1_1_mock_recovery_stats" prot="public">themis::bench::fp23::MockRecoveryStats</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1fp23_1_1_mock_queue_stats" prot="public">themis::bench::fp23::MockQueueStats</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1bench_1_1fp23_1ab0f353ae9e90c19d484f657498e1339c" prot="public" static="no">
+        <type>std::function&lt; void(<ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6" kindref="member">FailoverEventType</ref>, const std::string &amp;, const std::string &amp;)&gt;</type>
+        <definition>using themis::bench::fp23::FailoverEventCallback = std::function&lt;
+   void(FailoverEventType, const std::string&amp;, const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>FailoverEventCallback</name>
+        <qualifiedname>themis::bench::fp23::FailoverEventCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="245" column="1" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="245" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1fp23_1a6fce1fcb1a40eebba0c9fed1ca04b8f5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::fp23::kP23CanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kP23CanonicalSeed</name>
+        <qualifiedname>themis::bench::fp23::kP23CanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="83" column="27" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1fp23_1a8274c6f4c25c726b588b84d0570158e1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::fp23::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::fp23::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="84" column="27" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1fp23_1a157f4d174c1c7026e4161fce71d44895" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::fp23::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::fp23::kWarmupIterations</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="85" column="27" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1fp23_1a5e342838939022fe32b35c227513dc84" prot="public" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::bench::fp23::g_execution_mutex</definition>
+        <argsstring></argsstring>
+        <name>g_execution_mutex</name>
+        <qualifiedname>themis::bench::fp23::g_execution_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="193" column="19" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1fp23_1ab1ffa41567488842850bdc69cb05a9f2" prot="public" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::bench::fp23::g_stats_mutex</definition>
+        <argsstring></argsstring>
+        <name>g_stats_mutex</name>
+        <qualifiedname>themis::bench::fp23::g_stats_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="219" column="26" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1fp23_1a72ddcdc193dd5d4785f5eb8938310e23" prot="public" static="yes" mutable="no">
+        <type><ref refid="structthemis_1_1bench_1_1fp23_1_1_mock_recovery_stats" kindref="compound">MockRecoveryStats</ref></type>
+        <definition>MockRecoveryStats themis::bench::fp23::g_recovery_stats</definition>
+        <argsstring></argsstring>
+        <name>g_recovery_stats</name>
+        <qualifiedname>themis::bench::fp23::g_recovery_stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="220" column="26" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1fp23_1a406ccae7ad05cbe12498cdd9275d2abd" prot="public" static="yes" mutable="no">
+        <type>const std::vector&lt; <ref refid="namespacethemis_1_1bench_1_1fp23_1ab0f353ae9e90c19d484f657498e1339c" kindref="member">FailoverEventCallback</ref> &gt;</type>
+        <definition>const std::vector&lt;FailoverEventCallback&gt; themis::bench::fp23::g_empty_callbacks</definition>
+        <argsstring></argsstring>
+        <name>g_empty_callbacks</name>
+        <qualifiedname>themis::bench::fp23::g_empty_callbacks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="248" column="26" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1fp23_1a04021a88e9e6e77f4e4c4b58d5c695a1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::bench::fp23::kMockMaxConcurrentFailovers</definition>
+        <argsstring></argsstring>
+        <name>kMockMaxConcurrentFailovers</name>
+        <qualifiedname>themis::bench::fp23::kMockMaxConcurrentFailovers</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="282" column="30" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1fp23_1ab279a27f41d8adb08225bd16fab3127f" prot="public" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::bench::fp23::g_queue_mutex</definition>
+        <argsstring></argsstring>
+        <name>g_queue_mutex</name>
+        <qualifiedname>themis::bench::fp23::g_queue_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="288" column="24" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1fp23_1a4569ebaaf1686b805d69515f5eac8a2d" prot="public" static="yes" mutable="no">
+        <type><ref refid="structthemis_1_1bench_1_1fp23_1_1_mock_queue_stats" kindref="compound">MockQueueStats</ref></type>
+        <definition>MockQueueStats themis::bench::fp23::g_queue_stats</definition>
+        <argsstring></argsstring>
+        <name>g_queue_stats</name>
+        <qualifiedname>themis::bench::fp23::g_queue_stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="289" column="24" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="289" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1fp23_1aeed046991ea4282ff3b35223fefcadcb" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::fp23::mockCanTransition</definition>
+        <argsstring>(FailoverOrchestratorState from, FailoverOrchestratorState to) noexcept</argsstring>
+        <name>mockCanTransition</name>
+        <qualifiedname>themis::bench::fp23::mockCanTransition</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53d" kindref="member">FailoverOrchestratorState</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53d" kindref="member">FailoverOrchestratorState</ref></type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Inline replica of <ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1aa6e71037f52683f0dfedd16c81c26ff7" kindref="member">AutoFailoverManager::canTransition()</ref> for benchmarking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Models the state-machine switch (9 arms + 2 universal rules) that was delivered as part of Phase 2/3 hardening. The logic is intentionally kept identical to the production implementation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source state. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target state. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the transition is in the allowed table. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="106" column="14" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="106" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1fp23_1adf6189d717f0585c49cce4a64f99c655" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::fp23::mockPreventSplitBrainFailClosed</definition>
+        <argsstring>(const MockFencingManager *fencing_mgr) noexcept</argsstring>
+        <name>mockPreventSplitBrainFailClosed</name>
+        <qualifiedname>themis::bench::fp23::mockPreventSplitBrainFailClosed</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1bench_1_1fp23_1_1_mock_fencing_manager" kindref="compound">MockFencingManager</ref> *</type>
+          <declname>fencing_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Inline replica of the preventSplitBrain() null-manager fast-reject path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fencing_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the fencing manager (nullptr → fail closed). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>false when no fencing manager is configured. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="174" column="14" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="174" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1fp23_1a10aa9529d1662311c1b0e94fea0feee9" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::fp23::mockExecutionGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>mockExecutionGuard</name>
+        <qualifiedname>themis::bench::fp23::mockExecutionGuard</qualifiedname>
+        <briefdescription>
+<para>Inline replica of the executePlan() concurrency guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if the lock was acquired (no concurrent execution); false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="200" column="14" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="200" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1fp23_1a5ea83f1551d783787f40123265e0061e" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::fp23::mockBatchStatsFlush</definition>
+        <argsstring>(uint64_t local_total, uint64_t local_failed, uint64_t local_success) noexcept</argsstring>
+        <name>mockBatchStatsFlush</name>
+        <qualifiedname>themis::bench::fp23::mockBatchStatsFlush</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>local_total</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>local_failed</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>local_success</declname>
+        </param>
+        <briefdescription>
+<para>Inline replica of the batch stats flush at end of attemptRecovery(). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>local_total</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Accumulated total attempt count (not yet flushed). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>local_failed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Accumulated failed attempt count. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>local_success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Accumulated successful attempt count. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="229" column="13" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="229" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1fp23_1a8cb1d2a4491626b897c23ae436ddcd6f" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::fp23::mockEmitDiagnostic</definition>
+        <argsstring>(FailoverErrorCode code, const std::vector&lt; FailoverEventCallback &gt; &amp;callbacks) noexcept</argsstring>
+        <name>mockEmitDiagnostic</name>
+        <qualifiedname>themis::bench::fp23::mockEmitDiagnostic</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcc" kindref="member">FailoverErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1bench_1_1fp23_1ab0f353ae9e90c19d484f657498e1339c" kindref="member">FailoverEventCallback</ref> &gt; &amp;</type>
+          <declname>callbacks</declname>
+        </param>
+        <briefdescription>
+<para>Inline replica of emitDiagnostic() code-to-event-type mapping + dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Canonical error code. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callbacks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Registered event callbacks (empty in the typical case). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="256" column="13" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="256" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1fp23_1aae806421022fa5e79b6e48388037b932" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::fp23::mockTriggerFailoverQueueFullDrop</definition>
+        <argsstring>(std::size_t queue_size) noexcept</argsstring>
+        <name>mockTriggerFailoverQueueFullDrop</name>
+        <qualifiedname>themis::bench::fp23::mockTriggerFailoverQueueFullDrop</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>queue_size</declname>
+        </param>
+        <briefdescription>
+<para>Inline replica of the triggerManualFailover() drop path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>queue_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current number of items already in the failover queue. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>false when the queue is at capacity (drop path). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="297" column="14" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="297" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1fp23_1a42f32ac821fabf6ce0ac2e5d27d534f6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::fp23::BM_FP23_01_CanTransitionLookup</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_FP23_01_CanTransitionLookup</name>
+        <qualifiedname>themis::bench::fp23::BM_FP23_01_CanTransitionLookup</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>FP23-01: State-machine canTransition() switch dispatch over a mixed set of valid and invalid pairs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-FP23-01: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="319" column="13" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="319" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1fp23_1a87484199bdb6af036250433d46ba346d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::fp23::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::fp23::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="361" column="5" declfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" declline="361" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1fp23_1a45a89e09ba284702cd0869345bb577af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::fp23::BM_FP23_02_PreventSplitBrainFailClosed</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_FP23_02_PreventSplitBrainFailClosed</name>
+        <qualifiedname>themis::bench::fp23::BM_FP23_02_PreventSplitBrainFailClosed</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>FP23-02: preventSplitBrain() null-fencing-manager fast reject. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the null pointer check + fail-closed decision. GATE-FP23-02: p99 ≤ 200 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="375" column="13" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="375" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1fp23_1aac9b98509f76383cf4d402dbc4df7dd1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::fp23::BM_FP23_03_ExecutePlanConcurrencyGuard</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_FP23_03_ExecutePlanConcurrencyGuard</name>
+        <qualifiedname>themis::bench::fp23::BM_FP23_03_ExecutePlanConcurrencyGuard</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>FP23-03: executePlan() try_to_lock concurrency guard, uncontested path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures unique_lock construction with try_to_lock + owns_lock() check on an uncontested mutex. This is the fast-accept path; the reject path (contested mutex) would be similarly fast. GATE-FP23-03: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="404" column="13" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="404" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1fp23_1a660e88268d2cd620a29d090833a9959a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::fp23::BM_FP23_04_AttemptRecoveryBatchStatsFlush</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_FP23_04_AttemptRecoveryBatchStatsFlush</name>
+        <qualifiedname>themis::bench::fp23::BM_FP23_04_AttemptRecoveryBatchStatsFlush</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>FP23-04: attemptRecovery() batch stats update — single lock + 3 increments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the batched stats-flush pattern (one lock_guard per call) that replaced the per-iteration lock pattern in Phase 2 hardening. GATE-FP23-04: p99 ≤ 200 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="430" column="13" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="430" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1fp23_1a9fdb30d499b4b6cbb45c22e118a4cb03" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::fp23::BM_FP23_05_EmitDiagnosticDispatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_FP23_05_EmitDiagnosticDispatch</name>
+        <qualifiedname>themis::bench::fp23::BM_FP23_05_EmitDiagnosticDispatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>FP23-05: emitDiagnostic() code-to-event-type switch + empty callback dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Represents the most common runtime case: QUORUM_UNAVAILABLE diagnostic with no subscribers registered. The spdlog::error call present in production is omitted to isolate dispatch overhead. GATE-FP23-05: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="457" column="13" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="457" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1fp23_1a117eee8a6975fadc68674fde1e357613" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::fp23::BM_FP23_06_TriggerFailoverQueueFullDrop</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_FP23_06_TriggerFailoverQueueFullDrop</name>
+        <qualifiedname>themis::bench::fp23::BM_FP23_06_TriggerFailoverQueueFullDrop</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>FP23-06: triggerManualFailover() fast-drop path — full-queue detection + stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates the queue-saturation rejection introduced in Phase 2 hardening: size check against kMockMaxConcurrentFailovers, then lock_guard + counter increment. GATE-FP23-06: p99 ≤ 200 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="484" column="13" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="484" bodyend="495"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="77" column="1"/>
+  </compounddef>
+</doxygen>

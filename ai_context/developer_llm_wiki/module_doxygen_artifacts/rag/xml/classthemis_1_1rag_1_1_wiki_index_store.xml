@@ -1,0 +1,721 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_wiki_index_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::WikiIndexStore</compoundname>
+    <includes refid="wiki__index__store_8h" local="no">wiki_index_store.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl" prot="public">themis::rag::WikiIndexStore::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1rag_1_1_wiki_index_store_1afc955bc478e27ce364faff8f2fd688b1" prot="public" static="no">
+        <type><ref refid="structthemis_1_1rag_1_1_wiki_index_store_config" kindref="compound">WikiIndexStoreConfig</ref></type>
+        <definition>using themis::rag::WikiIndexStore::Config = WikiIndexStoreConfig</definition>
+        <argsstring></argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::rag::WikiIndexStore::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="116" column="5" bodyfile="include/rag/wiki_index_store.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_wiki_index_store_1a7fc3144f72e32386d1ac495808301f0a" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::WikiIndexStore::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::WikiIndexStore::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="286" column="21" bodyfile="include/rag/wiki_index_store.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1a60c952fdcb58e0c6015ba33d685f1b01" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::WikiIndexStore::WikiIndexStore</definition>
+        <argsstring>(Config cfg=Config{})</argsstring>
+        <name>WikiIndexStore</name>
+        <qualifiedname>themis::rag::WikiIndexStore::WikiIndexStore</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1afc955bc478e27ce364faff8f2fd688b1" kindref="member">Config</ref></type>
+          <declname>cfg</declname>
+          <defval><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1afc955bc478e27ce364faff8f2fd688b1" kindref="member">Config</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="118" column="14" bodyfile="src/rag/wiki_index_store.cpp" bodystart="470" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1a89e40120ce6a013da37e40dc7a8cfabb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::WikiIndexStore::~WikiIndexStore</definition>
+        <argsstring>()</argsstring>
+        <name>~WikiIndexStore</name>
+        <qualifiedname>themis::rag::WikiIndexStore::~WikiIndexStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="119" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1a8ae40548773ed24d0e9083a7c3f1309e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::WikiIndexStore::WikiIndexStore</definition>
+        <argsstring>(const WikiIndexStore &amp;)=delete</argsstring>
+        <name>WikiIndexStore</name>
+        <qualifiedname>themis::rag::WikiIndexStore::WikiIndexStore</qualifiedname>
+        <param>
+          <type>const WikiIndexStore &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="122" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1a385ca8ec1ec5d9f9980b010c9bcf34b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a60c952fdcb58e0c6015ba33d685f1b01" kindref="member">WikiIndexStore</ref> &amp;</type>
+        <definition>WikiIndexStore &amp; themis::rag::WikiIndexStore::operator=</definition>
+        <argsstring>(const WikiIndexStore &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::WikiIndexStore::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a60c952fdcb58e0c6015ba33d685f1b01" kindref="member">WikiIndexStore</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="123" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1a20477dd28534b98a041de895c0f5b34f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::WikiIndexStore::WikiIndexStore</definition>
+        <argsstring>(WikiIndexStore &amp;&amp;) noexcept</argsstring>
+        <name>WikiIndexStore</name>
+        <qualifiedname>themis::rag::WikiIndexStore::WikiIndexStore</qualifiedname>
+        <param>
+          <type>WikiIndexStore &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="124" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1ac22e510335bd4174f7a1d9e191cce83b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a60c952fdcb58e0c6015ba33d685f1b01" kindref="member">WikiIndexStore</ref> &amp;</type>
+        <definition>WikiIndexStore &amp; themis::rag::WikiIndexStore::operator=</definition>
+        <argsstring>(WikiIndexStore &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::WikiIndexStore::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a60c952fdcb58e0c6015ba33d685f1b01" kindref="member">WikiIndexStore</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="125" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::WikiIndexStore::addDocument</definition>
+        <argsstring>(const std::string &amp;doc_id, const std::string &amp;text)</argsstring>
+        <name>addDocument</name>
+        <qualifiedname>themis::rag::WikiIndexStore::addDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Index a document for BM25+ retrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Document.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Stable document identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw document text to tokenize and index.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the doc. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), THEMIS_WARN(), lk(), rebuildIDF(), rebuildPositionalIndex(), THEMIS_DEBUG(), <ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a408ce02a73085a41f39e7cf5c6dec7d8" kindref="member">size()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="132" column="10" bodyfile="src/rag/wiki_index_store.cpp" bodystart="486" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1ad3cb30be102a90f28a1b86f31de9cb33" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref> &gt;</type>
+        <definition>std::vector&lt; IndexResult &gt; themis::rag::WikiIndexStore::searchBM25</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;query_terms, size_t top_k=10) const</argsstring>
+        <name>searchBM25</name>
+        <qualifiedname>themis::rag::WikiIndexStore::searchBM25</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>query_terms</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>BM25+ ranked search. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="135" column="17" bodyfile="src/rag/wiki_index_store.cpp" bodystart="499" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1a94210a9579e690216e27d1b417c70776" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref> &gt;</type>
+        <definition>std::vector&lt; IndexResult &gt; themis::rag::WikiIndexStore::searchPhrase</definition>
+        <argsstring>(const std::string &amp;phrase, size_t top_k=10) const</argsstring>
+        <name>searchPhrase</name>
+        <qualifiedname>themis::rag::WikiIndexStore::searchPhrase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phrase</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Exact phrase search using positional index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Tokenises <computeroutput>phrase</computeroutput> with the same whitespace tokeniser used during indexing, then returns documents where the terms appear as a consecutive run (pos[i+1] == pos[i]+1 for every adjacent pair). Results are BM25+-scored and sorted descending.</para>
+<para>Edge cases:<itemizedlist>
+<listitem><para>Single-term phrase → equivalent to searchBM25.</para>
+</listitem><listitem><para>Empty phrase → returns empty vector.</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>phrase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw phrase string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum results to return. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ranked results, descending score. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="155" column="17" bodyfile="src/rag/wiki_index_store.cpp" bodystart="596" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1a78de316f31f92b97500dea573f75616c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref> &gt;</type>
+        <definition>std::vector&lt; IndexResult &gt; themis::rag::WikiIndexStore::searchProximity</definition>
+        <argsstring>(const std::string &amp;term1, const std::string &amp;term2, size_t distance, size_t top_k=10) const</argsstring>
+        <name>searchProximity</name>
+        <qualifiedname>themis::rag::WikiIndexStore::searchProximity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>term1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>term2</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>distance</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Proximity search: docs where term1 and term2 are ≤ distance apart. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses the positional index to find the minimum token-distance between any occurrence of term1 and any occurrence of term2 within the same document. Only documents satisfying the distance constraint are returned.</para>
+<para>Edge cases:<itemizedlist>
+<listitem><para>term1 == term2 → requires ≥2 occurrences whose mutual distance satisfies the constraint.</para>
+</listitem><listitem><para>Either term absent in corpus → returns empty vector.</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>term1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First term (pre-tokenised, lowercase). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>term2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second term (pre-tokenised, lowercase). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>distance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum allowed token distance (inclusive). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum results to return. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ranked results, descending score. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>If. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements if without additional internal calls.</para>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="178" column="17" bodyfile="src/rag/wiki_index_store.cpp" bodystart="686" bodyend="769"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1a6a70ba484d01572533618d9cdc369dca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref> &gt;</type>
+        <definition>std::vector&lt; IndexResult &gt; themis::rag::WikiIndexStore::fuseRRF</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;ranked_lists) const</argsstring>
+        <name>fuseRRF</name>
+        <qualifiedname>themis::rag::WikiIndexStore::fuseRRF</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;</type>
+          <declname>ranked_lists</declname>
+        </param>
+        <briefdescription>
+<para>Fuse the provided ranked lists with reciprocal-rank fusion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ranked_lists</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ranked document-id lists to combine. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>RRF-ranked results derived from the supplied lists. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="189" column="17" bodyfile="src/rag/wiki_index_store.cpp" bodystart="771" bodyend="775"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1a311f1c574ee76d2090d5c92f4347dc63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::WikiIndexStore::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::rag::WikiIndexStore::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all indexed documents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="193" column="10" bodyfile="src/rag/wiki_index_store.cpp" bodystart="1067" bodyend="1072"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1a408ce02a73085a41f39e7cf5c6dec7d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rag::WikiIndexStore::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::rag::WikiIndexStore::size</qualifiedname>
+        <briefdescription>
+<para>Return the number of indexed documents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Count of documents currently stored in the index. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="199" column="12" bodyfile="src/rag/wiki_index_store.cpp" bodystart="1074" bodyend="1077"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1a5a4d2656325aa11ef2dbdca1d3454d4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::WikiIndexStore::addVector</definition>
+        <argsstring>(const std::string &amp;doc_id, const std::vector&lt; float &gt; &amp;embedding)</argsstring>
+        <name>addVector</name>
+        <qualifiedname>themis::rag::WikiIndexStore::addVector</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+<para>Add a dense embedding vector for <computeroutput>doc_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── <ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a5a4d2656325aa11ef2dbdca1d3454d4f" kindref="member">WikiIndexStore::addVector</ref> — [W8-18] hnswlib wiring + exhaustive fallback ─────────────────────────────────────────────────────────────────────────────</para>
+<para>[W8-18] Stores the vector in the in-memory HNSW injection-bridge backend if <computeroutput><ref refid="structthemis_1_1rag_1_1_wiki_index_store_config_1ade6fc0f3ec0a5313c5baa1e7a9527521" kindref="member">WikiIndexStoreConfig::enable_hnsw</ref></computeroutput> is true. When the backend is disabled (compile-time flag <computeroutput>THEMIS_HNSW_BACKEND</computeroutput> not set or <computeroutput>enable_hnsw</computeroutput> is false) the call is a no-op and logs a warning.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Document identifier (must match an already-indexed document to allow hybrid fusion). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dense vector; all calls must use the same dimension. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>embedding</computeroutput> is empty.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the doc. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="216" column="10" bodyfile="src/rag/wiki_index_store.cpp" bodystart="783" bodyend="841"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1aaf33ecd36162a1f79c25c6a615d9a4d1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref> &gt;</type>
+        <definition>std::vector&lt; IndexResult &gt; themis::rag::WikiIndexStore::searchHNSW</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query_embedding, size_t top_k=10) const</argsstring>
+        <name>searchHNSW</name>
+        <qualifiedname>themis::rag::WikiIndexStore::searchHNSW</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_embedding</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Approximate nearest-neighbour search over stored vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>[W8-18] Returns up to <computeroutput>top_k</computeroutput> doc_ids ranked by cosine similarity. When HNSW backend is disabled this returns an empty vector and logs a warning.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query dense vector (same dimension as indexed). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum results. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ranked results (score = cosine similarity ∈ [0,1]). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="230" column="17" bodyfile="src/rag/wiki_index_store.cpp" bodystart="847" bodyend="920"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1ac809644e624a37662ff34a46d8916f9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::WikiIndexStore::cacheEmbedding</definition>
+        <argsstring>(const std::string &amp;key, const std::vector&lt; float &gt; &amp;embedding)</argsstring>
+        <name>cacheEmbedding</name>
+        <qualifiedname>themis::rag::WikiIndexStore::cacheEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+<para>Persist an embedding vector for <computeroutput>key</computeroutput> in the RocksDB cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── <ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ac809644e624a37662ff34a46d8916f9d" kindref="member">WikiIndexStore::cacheEmbedding</ref> / retrieveEmbedding — [W8-19] RocksDB CF persistence + in-memory LRU ─────────────────────────────────────────────────────────────────────────────</para>
+<para>[W8-19] Writes the embedding to the RocksDB column family under SHA-256(<computeroutput>key</computeroutput> + model_id). No-op when <computeroutput>cache_dir</computeroutput> is empty or <computeroutput>THEMIS_ROCKSDB_CACHE</computeroutput> is not defined.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cache key (typically doc_id or content hash). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dense vector to persist.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="246" column="10" bodyfile="src/rag/wiki_index_store.cpp" bodystart="928" bodyend="962"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1aecc8bb9c737868dd008224564e952d34" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::rag::WikiIndexStore::retrieveEmbedding</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>retrieveEmbedding</name>
+        <qualifiedname>themis::rag::WikiIndexStore::retrieveEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a cached embedding for <computeroutput>key</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>[W8-19] Returns the stored vector on cache hit, or an empty vector on miss/expiry. No-op (returns {}) when <computeroutput>cache_dir</computeroutput> is empty.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cache key (same key used in <computeroutput>cacheEmbedding</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Stored embedding or empty vector on miss. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="258" column="17" bodyfile="src/rag/wiki_index_store.cpp" bodystart="964" bodyend="1010"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_wiki_index_store_1af993386d8f91496537070a0c1214991e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref> &gt;</type>
+        <definition>std::vector&lt; IndexResult &gt; themis::rag::WikiIndexStore::searchHybrid</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;query_terms, const std::vector&lt; float &gt; &amp;query_embedding, size_t top_k=10) const</argsstring>
+        <name>searchHybrid</name>
+        <qualifiedname>themis::rag::WikiIndexStore::searchHybrid</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>query_terms</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_embedding</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Hybrid BM25+ + HNSW search fused with RRF. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>[W8-21] Runs BM25+ lexical search on <computeroutput>query_terms</computeroutput> and HNSW approximate nearest-neighbour search on <computeroutput>query_embedding</computeroutput> in parallel, then fuses both ranked lists with <computeroutput><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a6a70ba484d01572533618d9cdc369dca" kindref="member">fuseRRF()</ref></computeroutput>.</para>
+<para>When HNSW is disabled (config or compile flag) only the BM25+ list is used — the result is identical to <computeroutput><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ad3cb30be102a90f28a1b86f31de9cb33" kindref="member">searchBM25()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_terms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tokenised BM25+ query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query_embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dense query vector for HNSW (may be empty when HNSW is disabled; caller must not mix empty and populated embeddings across add/search calls). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum results. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Fused results, descending score. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="279" column="17" bodyfile="src/rag/wiki_index_store.cpp" bodystart="1016" bodyend="1061"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Composite index store providing BM25+ lexical search and RRF fusion. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>HNSW vector search is wired against hnswlib (when THEMIS_HNSW_ENABLED) or falls back to an exhaustive cosine scan. RocksDB persistent embedding cache is wired when THEMIS_ROCKSDB_AVAILABLE and <ref refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a6bd6289a121f2f218bed990608d7a599" kindref="member">WikiIndexStoreConfig::cache_dir</ref> is non-empty. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/rag/wiki_index_store.h" line="114" column="1" bodyfile="include/rag/wiki_index_store.h" bodystart="114" bodyend="287"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>addDocument</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1a5a4d2656325aa11ef2dbdca1d3454d4f" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>addVector</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1ac809644e624a37662ff34a46d8916f9d" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>cacheEmbedding</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1a311f1c574ee76d2090d5c92f4347dc63" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>clear</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1afc955bc478e27ce364faff8f2fd688b1" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>Config</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1a6a70ba484d01572533618d9cdc369dca" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>fuseRRF</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1a7fc3144f72e32386d1ac495808301f0a" prot="private" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1a385ca8ec1ec5d9f9980b010c9bcf34b0" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1ac22e510335bd4174f7a1d9e191cce83b" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1aecc8bb9c737868dd008224564e952d34" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>retrieveEmbedding</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1ad3cb30be102a90f28a1b86f31de9cb33" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>searchBM25</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1aaf33ecd36162a1f79c25c6a615d9a4d1" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>searchHNSW</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1af993386d8f91496537070a0c1214991e" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>searchHybrid</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1a94210a9579e690216e27d1b417c70776" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>searchPhrase</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1a78de316f31f92b97500dea573f75616c" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>searchProximity</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1a408ce02a73085a41f39e7cf5c6dec7d8" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>size</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1a60c952fdcb58e0c6015ba33d685f1b01" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>WikiIndexStore</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1a8ae40548773ed24d0e9083a7c3f1309e" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>WikiIndexStore</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1a20477dd28534b98a041de895c0f5b34f" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>WikiIndexStore</name></member>
+      <member refid="classthemis_1_1rag_1_1_wiki_index_store_1a89e40120ce6a013da37e40dc7a8cfabb" prot="public" virt="non-virtual"><scope>themis::rag::WikiIndexStore</scope><name>~WikiIndexStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

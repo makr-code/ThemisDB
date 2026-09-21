@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1test_1_1_compensation_log" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::test::CompensationLog</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_compensation_log_1a8526c6d981d2513215ac4fd086495f4b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::transaction::test::CompensationLog::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::transaction::test::CompensationLog::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="195" column="24" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_compensation_log_1a0a5ac94a3c818ee8db2276eb90687125" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::transaction::test::CompensationLog::compensated_</definition>
+        <argsstring></argsstring>
+        <name>compensated_</name>
+        <qualifiedname>themis::transaction::test::CompensationLog::compensated_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="196" column="24" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="196" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_compensation_log_1a34bd06e2098ead09246f8f398d59fa8b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::test::CompensationLog::compensate</definition>
+        <argsstring>(const std::string &amp;step_id)</argsstring>
+        <name>compensate</name>
+        <qualifiedname>themis::transaction::test::CompensationLog::compensate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>step_id</declname>
+        </param>
+        <briefdescription>
+<para>Record a compensation call for a step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>false if the step was already compensated (idempotent guard). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="179" column="10" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="179" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_compensation_log_1a8dfe80c54b5af2981fdd723a9bca05df" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::test::CompensationLog::wasCompensated</definition>
+        <argsstring>(const std::string &amp;step_id) const</argsstring>
+        <name>wasCompensated</name>
+        <qualifiedname>themis::transaction::test::CompensationLog::wasCompensated</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>step_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="184" column="10" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="184" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_compensation_log_1a4edc9a1896c738ac596281d041ed3a0c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::transaction::test::CompensationLog::compensatedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>compensatedCount</name>
+        <qualifiedname>themis::transaction::test::CompensationLog::compensatedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="189" column="9" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="189" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="173" column="1" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="173" bodyend="197"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_compensation_log_1a34bd06e2098ead09246f8f398d59fa8b" prot="public" virt="non-virtual"><scope>themis::transaction::test::CompensationLog</scope><name>compensate</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_compensation_log_1a0a5ac94a3c818ee8db2276eb90687125" prot="private" virt="non-virtual"><scope>themis::transaction::test::CompensationLog</scope><name>compensated_</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_compensation_log_1a4edc9a1896c738ac596281d041ed3a0c" prot="public" virt="non-virtual"><scope>themis::transaction::test::CompensationLog</scope><name>compensatedCount</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_compensation_log_1a8526c6d981d2513215ac4fd086495f4b" prot="private" virt="non-virtual"><scope>themis::transaction::test::CompensationLog</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_compensation_log_1a8dfe80c54b5af2981fdd723a9bca05df" prot="public" virt="non-virtual"><scope>themis::transaction::test::CompensationLog</scope><name>wasCompensated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_i_warmup_source" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cache::IWarmupSource</compoundname>
+    <derivedcompoundref refid="class_vector_warmup_source" prot="public" virt="non-virtual">VectorWarmupSource</derivedcompoundref>
+    <includes refid="cache__interfaces_8h" local="no">cache_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_warmup_source_1a644a7a9b831714bc66afc39ffd26962c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cache::IWarmupSource::~IWarmupSource</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IWarmupSource</name>
+        <qualifiedname>themis::cache::IWarmupSource::~IWarmupSource</qualifiedname>
+        <briefdescription>
+<para>IWarmup Source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="142" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_warmup_source_1ac0e09ff6c58b7fbc3cdc21ff9bd6ebba" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cache_1_1_cache_entry" kindref="compound">CacheEntry</ref>&lt; std::string, std::string &gt; &gt;</type>
+        <definition>virtual std::vector&lt; CacheEntry&lt; std::string, std::string &gt; &gt; themis::cache::IWarmupSource::nextBatch</definition>
+        <argsstring>()=0</argsstring>
+        <name>nextBatch</name>
+        <qualifiedname>themis::cache::IWarmupSource::nextBatch</qualifiedname>
+        <reimplementedby refid="class_vector_warmup_source_1a609ed1c24c5298e3f35735eed82fa3c9">nextBatch</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="144" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>VectorWarmupSource</label>
+        <link refid="class_vector_warmup_source"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::cache::IWarmupSource</label>
+        <link refid="structthemis_1_1cache_1_1_i_warmup_source"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/cache/cache_interfaces.h" line="137" column="1" bodyfile="include/cache/cache_interfaces.h" bodystart="137" bodyend="145"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_i_warmup_source_1ac0e09ff6c58b7fbc3cdc21ff9bd6ebba" prot="public" virt="pure-virtual"><scope>themis::cache::IWarmupSource</scope><name>nextBatch</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_warmup_source_1a644a7a9b831714bc66afc39ffd26962c" prot="public" virt="virtual"><scope>themis::cache::IWarmupSource</scope><name>~IWarmupSource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1document_1_1_x_d_o_m_e_a_import_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::document::XDOMEAImportResult</compoundname>
+    <includes refid="xdomea__connector_8h" local="no">xdomea_connector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_import_result_1a0fbd6a39dcd3edfdd291bd31bd564513" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::document::XDOMEAImportResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::document::XDOMEAImportResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="155" column="10" bodyfile="include/document/xdomea_connector.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_import_result_1af0f69a85c15a0ec36a7bd36fb1b18490" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1document_1a8345c500cc3c7209425a507d53801369" kindref="member">XDOMEAVersion</ref></type>
+        <definition>XDOMEAVersion themis::document::XDOMEAImportResult::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::document::XDOMEAImportResult::version</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1document_1a8345c500cc3c7209425a507d53801369abc6a02c77473f9d3fafb2cbebdbb38ee" kindref="member">XDOMEAVersion::V3_0</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="156" column="19" bodyfile="include/document/xdomea_connector.h" bodystart="156" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_import_result_1ac4103ab16cb9f106a831d46af133c606" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1document_1a8c1a7cd61551f41b1fc04addddb4dbc9" kindref="member">XDOMEAMessageType</ref></type>
+        <definition>XDOMEAMessageType themis::document::XDOMEAImportResult::message_type</definition>
+        <argsstring></argsstring>
+        <name>message_type</name>
+        <qualifiedname>themis::document::XDOMEAImportResult::message_type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1document_1a8c1a7cd61551f41b1fc04addddb4dbc9a34e3455b9d49967a17a3e449770f3a38" kindref="member">XDOMEAMessageType::ERFASSUNG</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="157" column="23" bodyfile="include/document/xdomea_connector.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_import_result_1ae1c2e6bafbfd5ca2121c535979d76b3b" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::document::XDOMEAImportResult::documents_parsed</definition>
+        <argsstring></argsstring>
+        <name>documents_parsed</name>
+        <qualifiedname>themis::document::XDOMEAImportResult::documents_parsed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="158" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_import_result_1ae137a3a2c52fdc7b21244b00b1ffd325" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::document::XDOMEAImportResult::documents_imported</definition>
+        <argsstring></argsstring>
+        <name>documents_imported</name>
+        <qualifiedname>themis::document::XDOMEAImportResult::documents_imported</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="159" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="159" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_import_result_1a71abee5967f47500ddb52a83a4e8533c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::document::XDOMEAImportResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::document::XDOMEAImportResult::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="160" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_import_result_1af4a6097a56098becaa705003ca78e389" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document" kindref="compound">XDOMEADocument</ref> &gt;</type>
+        <definition>std::vector&lt;XDOMEADocument&gt; themis::document::XDOMEAImportResult::documents</definition>
+        <argsstring></argsstring>
+        <name>documents</name>
+        <qualifiedname>themis::document::XDOMEAImportResult::documents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="161" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/xdomea_connector.h" line="154" column="1" bodyfile="include/document/xdomea_connector.h" bodystart="154" bodyend="162"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_import_result_1af4a6097a56098becaa705003ca78e389" prot="public" virt="non-virtual"><scope>themis::document::XDOMEAImportResult</scope><name>documents</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_import_result_1ae137a3a2c52fdc7b21244b00b1ffd325" prot="public" virt="non-virtual"><scope>themis::document::XDOMEAImportResult</scope><name>documents_imported</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_import_result_1ae1c2e6bafbfd5ca2121c535979d76b3b" prot="public" virt="non-virtual"><scope>themis::document::XDOMEAImportResult</scope><name>documents_parsed</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_import_result_1a71abee5967f47500ddb52a83a4e8533c" prot="public" virt="non-virtual"><scope>themis::document::XDOMEAImportResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_import_result_1ac4103ab16cb9f106a831d46af133c606" prot="public" virt="non-virtual"><scope>themis::document::XDOMEAImportResult</scope><name>message_type</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_import_result_1a0fbd6a39dcd3edfdd291bd31bd564513" prot="public" virt="non-virtual"><scope>themis::document::XDOMEAImportResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_import_result_1af0f69a85c15a0ec36a7bd36fb1b18490" prot="public" virt="non-virtual"><scope>themis::document::XDOMEAImportResult</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

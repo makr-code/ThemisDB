@@ -1,0 +1,336 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_conversation_context" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::ConversationContext</compoundname>
+    <includes refid="voice__intent__detector_8h" local="no">voice_intent_detector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_conversation_context_1af88369b6a032fa2840851279083e6ec7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; themis::voice::ConversationContext::history_</definition>
+        <argsstring></argsstring>
+        <name>history_</name>
+        <qualifiedname>themis::voice::ConversationContext::history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="162" column="17" bodyfile="include/voice/voice_intent_detector.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_conversation_context_1a6cd1cac1fda7d5fc9e8ae84f3d36d7ca" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::voice::ConversationContext::entities_</definition>
+        <argsstring></argsstring>
+        <name>entities_</name>
+        <qualifiedname>themis::voice::ConversationContext::entities_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="163" column="14" bodyfile="include/voice/voice_intent_detector.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_conversation_context_1a19dab9276492119e80e30c82e9b9cc35" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::ConversationContext::max_history_</definition>
+        <argsstring></argsstring>
+        <name>max_history_</name>
+        <qualifiedname>themis::voice::ConversationContext::max_history_</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="164" column="12" bodyfile="include/voice/voice_intent_detector.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_conversation_context_1ac51b439c6c4dad944e4653d0e0d5e7f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::ConversationContext::ConversationContext</definition>
+        <argsstring>()=default</argsstring>
+        <name>ConversationContext</name>
+        <qualifiedname>themis::voice::ConversationContext::ConversationContext</qualifiedname>
+        <briefdescription>
+<para>Construct with default max_history=20. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="127" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_conversation_context_1a8b6ed46bab92644ce4e5b7839bc5a3a9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::ConversationContext::ConversationContext</definition>
+        <argsstring>(size_t max_history)</argsstring>
+        <name>ConversationContext</name>
+        <qualifiedname>themis::voice::ConversationContext::ConversationContext</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_history</declname>
+        </param>
+        <briefdescription>
+<para>Construct with custom max_history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_history</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum turns to retain (older turns dropped). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="131" column="14" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="63" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_conversation_context_1ad125fa0b78cfb2c9a659335cec237ece" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::ConversationContext::addTurn</definition>
+        <argsstring>(const std::string &amp;user_input, const std::string &amp;assistant_response)</argsstring>
+        <name>addTurn</name>
+        <qualifiedname>themis::voice::ConversationContext::addTurn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_input</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>assistant_response</declname>
+        </param>
+        <briefdescription>
+<para>Add a user/assistant turn to history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Turn.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">assistant_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emplace_back(), size(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="134" column="10" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="72" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_conversation_context_1aed70aa979d817160467607ac92f1ae2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::ConversationContext::setEntity</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>setEntity</name>
+        <qualifiedname>themis::voice::ConversationContext::setEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Store extracted entity for context lookup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Entity.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setEntity without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="137" column="10" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="85" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_conversation_context_1a2cf177cc580d221abf9576e52589a02c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::voice::ConversationContext::getEntity</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>getEntity</name>
+        <qualifiedname>themis::voice::ConversationContext::getEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve entity value from cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="140" column="19" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="89" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_conversation_context_1a86e9ea1cfdc9ad8dadf93577578d2c58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::ConversationContext::clearEntities</definition>
+        <argsstring>()</argsstring>
+        <name>clearEntities</name>
+        <qualifiedname>themis::voice::ConversationContext::clearEntities</qualifiedname>
+        <briefdescription>
+<para>Clear all cached entities (keep history). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Entities.</para>
+<para>Calls: <ref refid="classthemis_1_1voice_1_1_conversation_context_1a1ef19b91816e059b4b7bdcae8c079bff" kindref="member">clear()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="143" column="10" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_conversation_context_1a270c1a1860826e0a1767cd3d9afb3c3d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp; themis::voice::ConversationContext::getHistory</definition>
+        <argsstring>() const</argsstring>
+        <name>getHistory</name>
+        <qualifiedname>themis::voice::ConversationContext::getHistory</qualifiedname>
+        <briefdescription>
+<para>Get conversation history (user/assistant turns). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="146" column="23" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="105" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_conversation_context_1ac2021c61c2b492c9237b84f638658317" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::ConversationContext::buildContextString</definition>
+        <argsstring>(size_t max_turns=5) const</argsstring>
+        <name>buildContextString</name>
+        <qualifiedname>themis::voice::ConversationContext::buildContextString</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_turns</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Build context string from recent history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_turns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum recent turns to include (default 5). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="150" column="17" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="109" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_conversation_context_1a1ef19b91816e059b4b7bdcae8c079bff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::ConversationContext::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::voice::ConversationContext::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all history and entities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="153" column="10" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="123" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_conversation_context_1ac988e24173a72a6b0016e24fadb3ee45" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::ConversationContext::turnCount</definition>
+        <argsstring>() const</argsstring>
+        <name>turnCount</name>
+        <qualifiedname>themis::voice::ConversationContext::turnCount</qualifiedname>
+        <briefdescription>
+<para>Get number of turns in history. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="156" column="12" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="128" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_conversation_context_1a97871b46e2c3ca5b2c4cd0e0f0e0038d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::ConversationContext::hasEntity</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>hasEntity</name>
+        <qualifiedname>themis::voice::ConversationContext::hasEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Check if entity exists in cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="159" column="10" bodyfile="src/voice/voice_intent_detector.cpp" bodystart="132" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Multi-turn conversation history and entity cache (frozen Phase 1). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_intent_detector.h" line="124" column="1" bodyfile="include/voice/voice_intent_detector.h" bodystart="124" bodyend="165"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_conversation_context_1ad125fa0b78cfb2c9a659335cec237ece" prot="public" virt="non-virtual"><scope>themis::voice::ConversationContext</scope><name>addTurn</name></member>
+      <member refid="classthemis_1_1voice_1_1_conversation_context_1ac2021c61c2b492c9237b84f638658317" prot="public" virt="non-virtual"><scope>themis::voice::ConversationContext</scope><name>buildContextString</name></member>
+      <member refid="classthemis_1_1voice_1_1_conversation_context_1a1ef19b91816e059b4b7bdcae8c079bff" prot="public" virt="non-virtual"><scope>themis::voice::ConversationContext</scope><name>clear</name></member>
+      <member refid="classthemis_1_1voice_1_1_conversation_context_1a86e9ea1cfdc9ad8dadf93577578d2c58" prot="public" virt="non-virtual"><scope>themis::voice::ConversationContext</scope><name>clearEntities</name></member>
+      <member refid="classthemis_1_1voice_1_1_conversation_context_1ac51b439c6c4dad944e4653d0e0d5e7f1" prot="public" virt="non-virtual"><scope>themis::voice::ConversationContext</scope><name>ConversationContext</name></member>
+      <member refid="classthemis_1_1voice_1_1_conversation_context_1a8b6ed46bab92644ce4e5b7839bc5a3a9" prot="public" virt="non-virtual"><scope>themis::voice::ConversationContext</scope><name>ConversationContext</name></member>
+      <member refid="classthemis_1_1voice_1_1_conversation_context_1a6cd1cac1fda7d5fc9e8ae84f3d36d7ca" prot="private" virt="non-virtual"><scope>themis::voice::ConversationContext</scope><name>entities_</name></member>
+      <member refid="classthemis_1_1voice_1_1_conversation_context_1a2cf177cc580d221abf9576e52589a02c" prot="public" virt="non-virtual"><scope>themis::voice::ConversationContext</scope><name>getEntity</name></member>
+      <member refid="classthemis_1_1voice_1_1_conversation_context_1a270c1a1860826e0a1767cd3d9afb3c3d" prot="public" virt="non-virtual"><scope>themis::voice::ConversationContext</scope><name>getHistory</name></member>
+      <member refid="classthemis_1_1voice_1_1_conversation_context_1a97871b46e2c3ca5b2c4cd0e0f0e0038d" prot="public" virt="non-virtual"><scope>themis::voice::ConversationContext</scope><name>hasEntity</name></member>
+      <member refid="classthemis_1_1voice_1_1_conversation_context_1af88369b6a032fa2840851279083e6ec7" prot="private" virt="non-virtual"><scope>themis::voice::ConversationContext</scope><name>history_</name></member>
+      <member refid="classthemis_1_1voice_1_1_conversation_context_1a19dab9276492119e80e30c82e9b9cc35" prot="private" virt="non-virtual"><scope>themis::voice::ConversationContext</scope><name>max_history_</name></member>
+      <member refid="classthemis_1_1voice_1_1_conversation_context_1aed70aa979d817160467607ac92f1ae2b" prot="public" virt="non-virtual"><scope>themis::voice::ConversationContext</scope><name>setEntity</name></member>
+      <member refid="classthemis_1_1voice_1_1_conversation_context_1ac988e24173a72a6b0016e24fadb3ee45" prot="public" virt="non-virtual"><scope>themis::voice::ConversationContext</scope><name>turnCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

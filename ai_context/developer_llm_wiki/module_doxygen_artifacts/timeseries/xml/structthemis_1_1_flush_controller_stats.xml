@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_flush_controller_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::FlushControllerStats</compoundname>
+    <includes refid="ts__auto__buffer__adaptive_8h" local="no">ts_auto_buffer_adaptive.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_flush_controller_stats_1a655edb39638e9868de73760709263412" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::FlushControllerStats::ewma_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>ewma_latency_ms</name>
+        <qualifiedname>themis::FlushControllerStats::ewma_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Current EWMA write latency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="64" column="14" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_flush_controller_stats_1aebfe0d46eadc115fa4cf290e6d32aea7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::FlushControllerStats::current_batch_sz</definition>
+        <argsstring></argsstring>
+        <name>current_batch_sz</name>
+        <qualifiedname>themis::FlushControllerStats::current_batch_sz</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current recommended batch size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="65" column="14" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_flush_controller_stats_1aeafd756b3963e291b700ac5dfef5b0ff" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::FlushControllerStats::backpressure_events</definition>
+        <argsstring></argsstring>
+        <name>backpressure_events</name>
+        <qualifiedname>themis::FlushControllerStats::backpressure_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total backpressure events emitted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="66" column="14" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_flush_controller_stats_1a0e89a7e0c99d2c8d8b5cf88d06bf45a6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::FlushControllerStats::samples</definition>
+        <argsstring></argsstring>
+        <name>samples</name>
+        <qualifiedname>themis::FlushControllerStats::samples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total flush samples received. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="67" column="14" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_flush_controller_stats_1ab5a70144b9c9b0420ffbb2d88063607b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::FlushControllerStats::in_backpressure</definition>
+        <argsstring></argsstring>
+        <name>in_backpressure</name>
+        <qualifiedname>themis::FlushControllerStats::in_backpressure</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether backpressure is active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="68" column="14" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime statistics exposed by <ref refid="classthemis_1_1_flush_controller" kindref="compound">FlushController</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/ts_auto_buffer_adaptive.h" line="63" column="1" bodyfile="include/timeseries/ts_auto_buffer_adaptive.h" bodystart="63" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_flush_controller_stats_1aeafd756b3963e291b700ac5dfef5b0ff" prot="public" virt="non-virtual"><scope>themis::FlushControllerStats</scope><name>backpressure_events</name></member>
+      <member refid="structthemis_1_1_flush_controller_stats_1aebfe0d46eadc115fa4cf290e6d32aea7" prot="public" virt="non-virtual"><scope>themis::FlushControllerStats</scope><name>current_batch_sz</name></member>
+      <member refid="structthemis_1_1_flush_controller_stats_1a655edb39638e9868de73760709263412" prot="public" virt="non-virtual"><scope>themis::FlushControllerStats</scope><name>ewma_latency_ms</name></member>
+      <member refid="structthemis_1_1_flush_controller_stats_1ab5a70144b9c9b0420ffbb2d88063607b" prot="public" virt="non-virtual"><scope>themis::FlushControllerStats</scope><name>in_backpressure</name></member>
+      <member refid="structthemis_1_1_flush_controller_stats_1a0e89a7e0c99d2c8d8b5cf88d06bf45a6" prot="public" virt="non-virtual"><scope>themis::FlushControllerStats</scope><name>samples</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

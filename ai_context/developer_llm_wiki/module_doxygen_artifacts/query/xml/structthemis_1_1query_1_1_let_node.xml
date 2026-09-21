@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_let_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::LetNode</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_let_node_1abb0efac57aa5fe2f95a36528ae4471ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::LetNode::variable</definition>
+        <argsstring></argsstring>
+        <name>variable</name>
+        <qualifiedname>themis::query::LetNode::variable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="637" column="17" bodyfile="include/query/aql_parser.h" bodystart="637" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_let_node_1ae9eac31fad15e3612117160fd05bbe7f" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Expression&gt; themis::query::LetNode::expression</definition>
+        <argsstring></argsstring>
+        <name>expression</name>
+        <qualifiedname>themis::query::LetNode::expression</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="638" column="21" bodyfile="include/query/aql_parser.h" bodystart="638" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_let_node_1ac38ab99fb4a900f1ae13e6330f2f621a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::LetNode::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::LetNode::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="640" column="20" bodyfile="include/query/aql_parser.h" bodystart="640" bodyend="646"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_parser.h" line="636" column="1" bodyfile="include/query/aql_parser.h" bodystart="636" bodyend="647"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_let_node_1ae9eac31fad15e3612117160fd05bbe7f" prot="public" virt="non-virtual"><scope>themis::query::LetNode</scope><name>expression</name></member>
+      <member refid="structthemis_1_1query_1_1_let_node_1ac38ab99fb4a900f1ae13e6330f2f621a" prot="public" virt="non-virtual"><scope>themis::query::LetNode</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1query_1_1_let_node_1abb0efac57aa5fe2f95a36528ae4471ab" prot="public" virt="non-virtual"><scope>themis::query::LetNode</scope><name>variable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

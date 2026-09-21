@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_set" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::crdt::GrowOnlySet</compoundname>
+    <includes refid="crdt__types_8h" local="no">crdt_types.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_set_1a4d5e6e0da5f87f4f8195c99711e1e8e7" prot="private" static="no" mutable="no">
+        <type>std::set&lt; T &gt;</type>
+        <definition>std::set&lt;T&gt; themisdb::replication::crdt::GrowOnlySet&lt; T &gt;::elements_</definition>
+        <argsstring></argsstring>
+        <name>elements_</name>
+        <qualifiedname>themisdb::replication::crdt::GrowOnlySet::elements_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="270" column="14" bodyfile="include/replication/crdt_types.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_set_1a7bf699df5b5bf4ae4458c577e19d053a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::GrowOnlySet&lt; T &gt;::add</definition>
+        <argsstring>(const T &amp;element)</argsstring>
+        <name>add</name>
+        <qualifiedname>themisdb::replication::crdt::GrowOnlySet::add</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>element</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="257" column="10" bodyfile="include/replication/crdt_types.h" bodystart="257" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_set_1a4f9fcd9011805eaa19f9fa45b4ff39c5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::crdt::GrowOnlySet&lt; T &gt;::contains</definition>
+        <argsstring>(const T &amp;element) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themisdb::replication::crdt::GrowOnlySet::contains</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>element</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="259" column="10" bodyfile="include/replication/crdt_types.h" bodystart="259" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_set_1ac1e7843232963278160d18ccf9e8f004" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::set&lt; T &gt; &amp;</type>
+        <definition>const std::set&lt; T &gt; &amp; themisdb::replication::crdt::GrowOnlySet&lt; T &gt;::elements</definition>
+        <argsstring>() const</argsstring>
+        <name>elements</name>
+        <qualifiedname>themisdb::replication::crdt::GrowOnlySet::elements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="263" column="20" bodyfile="include/replication/crdt_types.h" bodystart="263" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_set_1a1ddfc76767e2937f5b0f2137623e7571" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::GrowOnlySet&lt; T &gt;::merge</definition>
+        <argsstring>(const GrowOnlySet&lt; T &gt; &amp;other)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themisdb::replication::crdt::GrowOnlySet::merge</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_set" kindref="compound">GrowOnlySet</ref>&lt; T &gt; &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="265" column="10" bodyfile="include/replication/crdt_types.h" bodystart="265" bodyend="267"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A Grow-Only Set (G-Set). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Elements can only be added, never removed.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Element type (must be less-than-comparable). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/replication/crdt_types.h" line="255" column="1" bodyfile="include/replication/crdt_types.h" bodystart="255" bodyend="271"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_set_1a7bf699df5b5bf4ae4458c577e19d053a" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::GrowOnlySet</scope><name>add</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_set_1a4f9fcd9011805eaa19f9fa45b4ff39c5" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::GrowOnlySet</scope><name>contains</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_set_1ac1e7843232963278160d18ccf9e8f004" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::GrowOnlySet</scope><name>elements</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_set_1a4d5e6e0da5f87f4f8195c99711e1e8e7" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::GrowOnlySet</scope><name>elements_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_set_1a1ddfc76767e2937f5b0f2137623e7571" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::GrowOnlySet</scope><name>merge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,899 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_scheduled_task" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ScheduledTask</compoundname>
+    <includes refid="task__scheduler_8h" local="no">task_scheduler.h</includes>
+    <innerclass refid="structthemis_1_1_scheduled_task_1_1_c_d_c_trigger" prot="public">themis::ScheduledTask::CDCTrigger</innerclass>
+    <innerclass refid="structthemis_1_1_scheduled_task_1_1_retry_policy" prot="public">themis::ScheduledTask::RetryPolicy</innerclass>
+    <innerclass refid="structthemis_1_1_scheduled_task_1_1_slo_retry_config" prot="public">themis::ScheduledTask::SloRetryConfig</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0db" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TaskType</name>
+        <qualifiedname>themis::ScheduledTask::TaskType</qualifiedname>
+        <enumvalue id="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba3725a574ca60a9701ffcae5b6827641a" prot="public">
+          <name>AQL_QUERY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba6a72a6a776662a244f82d31e9274a07b" prot="public">
+          <name>FUNCTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="60" column="5" bodyfile="include/scheduler/task_scheduler.h" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="enum" id="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TriggerType</name>
+        <qualifiedname>themis::ScheduledTask::TriggerType</qualifiedname>
+        <enumvalue id="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5ac16afd878f99cc59851c860ea909059d" prot="public">
+          <name>CRON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5a21ef3147a98040a9167367c1ad8d065e" prot="public">
+          <name>INTERVAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5aabc9f97c2b3c1bdfff888b946b05c776" prot="public">
+          <name>CDC_EVENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5a7ff61c5ef591dc72cbe8a265607c37c6" prot="public">
+          <name>WEBHOOK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5aa60a6a471c0681e5a49c4f5d00f6bc5a" prot="public">
+          <name>MANUAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="70" column="5" bodyfile="include/scheduler/task_scheduler.h" bodystart="70" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="enum" id="structthemis_1_1_scheduled_task_1a15932a7b80d26a851faccf3c63d0ca95" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TriggerLogic</name>
+        <qualifiedname>themis::ScheduledTask::TriggerLogic</qualifiedname>
+        <enumvalue id="structthemis_1_1_scheduled_task_1a15932a7b80d26a851faccf3c63d0ca95a1d00e7dce692e8dc3f6877f035e3a616" prot="public">
+          <name>OR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1a15932a7b80d26a851faccf3c63d0ca95a558ffc8f5770d8e4f95f51d822685532" prot="public">
+          <name>AND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="95" column="5" bodyfile="include/scheduler/task_scheduler.h" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="enum" id="structthemis_1_1_scheduled_task_1ac358885b85f5c5902af02e4212da8023" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Priority</name>
+        <qualifiedname>themis::ScheduledTask::Priority</qualifiedname>
+        <enumvalue id="structthemis_1_1_scheduled_task_1ac358885b85f5c5902af02e4212da8023a41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1ac358885b85f5c5902af02e4212da8023a1e23852820b9154316c7c06e2b7ba051" prot="public">
+          <name>NORMAL</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1ac358885b85f5c5902af02e4212da8023ab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="101" column="5" bodyfile="include/scheduler/task_scheduler.h" bodystart="101" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="enum" id="structthemis_1_1_scheduled_task_1a72657dd4a9921241ba8b116d5fc61a7a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ErrorCategory</name>
+        <qualifiedname>themis::ScheduledTask::ErrorCategory</qualifiedname>
+        <enumvalue id="structthemis_1_1_scheduled_task_1a72657dd4a9921241ba8b116d5fc61a7aab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1a72657dd4a9921241ba8b116d5fc61a7aa18a0316e7c30cc56acf083d96de6c386" prot="public">
+          <name>TRANSIENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1a72657dd4a9921241ba8b116d5fc61a7aa54bcf9b291726b4cf8343f61681a5cfd" prot="public">
+          <name>PERMANENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1a72657dd4a9921241ba8b116d5fc61a7aa070a0fb40f6c308ab544b227660aadff" prot="public">
+          <name>TIMEOUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1a72657dd4a9921241ba8b116d5fc61a7aa4f49da9035f276c0947466eb7c42249a" prot="public">
+          <name>RESOURCE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1a72657dd4a9921241ba8b116d5fc61a7aa219ce424cc367fba8a5a0210792d4dc0" prot="public">
+          <name>SECURITY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Classification of the most recent execution failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>NONE – no failure / task has never failed TRANSIENT – intermittent error; retry may succeed (network timeout, temporary resource exhaustion) PERMANENT – error that will not recover without code/config change (e.g. invalid AQL, function not found) TIMEOUT – the task exceeded its configured timeout RESOURCE – the task was rejected due to resource / rate limits SECURITY – rejected by security validation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="135" column="5" bodyfile="include/scheduler/task_scheduler.h" bodystart="135" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="enum" id="structthemis_1_1_scheduled_task_1ae43db46ce1400d66ac95038e95522351" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RetryStrategy</name>
+        <qualifiedname>themis::ScheduledTask::RetryStrategy</qualifiedname>
+        <enumvalue id="structthemis_1_1_scheduled_task_1ae43db46ce1400d66ac95038e95522351ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1ae43db46ce1400d66ac95038e95522351ad62e88ba503a6d3aaf07624660eb6d17" prot="public">
+          <name>FIXED_DELAY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1ae43db46ce1400d66ac95038e95522351a3b88ce88be75ece36530b8e4f7c8a688" prot="public">
+          <name>EXPONENTIAL_BACKOFF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1ae43db46ce1400d66ac95038e95522351ae987b446013d8207f930674b1b6bbfc6" prot="public">
+          <name>LINEAR_BACKOFF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1ae43db46ce1400d66ac95038e95522351ab7c43143348e2f19dfd6274d5ba79654" prot="public">
+          <name>JITTER_BACKOFF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_scheduled_task_1ae43db46ce1400d66ac95038e95522351ac7a90c8d5bac74b931ab3e9fa02d2da5" prot="public">
+          <name>FIBONACCI_BACKOFF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Retry strategy for failed task executions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="170" column="5" bodyfile="include/scheduler/task_scheduler.h" bodystart="170" bodyend="177"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1ad0fe77c1f27a4ea81fd5941c82d3b2f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ScheduledTask::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::ScheduledTask::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="55" column="17" bodyfile="include/scheduler/task_scheduler.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ScheduledTask::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::ScheduledTask::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="56" column="17" bodyfile="include/scheduler/task_scheduler.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a336b9d96f8dcf785da0f0a90139b6e35" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ScheduledTask::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::ScheduledTask::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="57" column="17" bodyfile="include/scheduler/task_scheduler.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a5c626280bc82f08f0413dd45b160ff85" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0db" kindref="member">themis::ScheduledTask::TaskType</ref></type>
+        <definition>enum themis::ScheduledTask::TaskType themis::ScheduledTask::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::ScheduledTask::type</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0dba3725a574ca60a9701ffcae5b6827641a" kindref="member">TaskType::AQL_QUERY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="63" column="11"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a8ddc37333b40886f8de89ce0dd0a9aab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ScheduledTask::aql_query</definition>
+        <argsstring></argsstring>
+        <name>aql_query</name>
+        <qualifiedname>themis::ScheduledTask::aql_query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="65" column="17" bodyfile="include/scheduler/task_scheduler.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1aca58f82e68483df98f220b4a25395445" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ScheduledTask::function_name</definition>
+        <argsstring></argsstring>
+        <name>function_name</name>
+        <qualifiedname>themis::ScheduledTask::function_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="66" column="17" bodyfile="include/scheduler/task_scheduler.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a96fd9710e8ef2771569802cab78e172d" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::ScheduledTask::parameters</definition>
+        <argsstring></argsstring>
+        <name>parameters</name>
+        <qualifiedname>themis::ScheduledTask::parameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="67" column="20" bodyfile="include/scheduler/task_scheduler.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a4c8c9c3e50082015629fa5946734a723" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5" kindref="member">themis::ScheduledTask::TriggerType</ref></type>
+        <definition>enum themis::ScheduledTask::TriggerType themis::ScheduledTask::trigger_type</definition>
+        <argsstring></argsstring>
+        <name>trigger_type</name>
+        <qualifiedname>themis::ScheduledTask::trigger_type</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5a21ef3147a98040a9167367c1ad8d065e" kindref="member">TriggerType::INTERVAL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="76" column="19"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a37fc2f2ad099392ec9d0b897883a7221" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ScheduledTask::cron_expression</definition>
+        <argsstring></argsstring>
+        <name>cron_expression</name>
+        <qualifiedname>themis::ScheduledTask::cron_expression</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="79" column="17" bodyfile="include/scheduler/task_scheduler.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a3968f26710f6611bd2df6491113792ca" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::ScheduledTask::interval</definition>
+        <argsstring></argsstring>
+        <name>interval</name>
+        <qualifiedname>themis::ScheduledTask::interval</qualifiedname>
+        <initializer>{std::chrono::minutes(5)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="82" column="31" bodyfile="include/scheduler/task_scheduler.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a0f1e592847eb04a7f38616253e2d7f34" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::ScheduledTask::next_run</definition>
+        <argsstring></argsstring>
+        <name>next_run</name>
+        <qualifiedname>themis::ScheduledTask::next_run</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="83" column="43" bodyfile="include/scheduler/task_scheduler.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a407d23d04ea5bb4b9889f1d36795dd36" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::ScheduledTask::last_run_ms</definition>
+        <argsstring></argsstring>
+        <name>last_run_ms</name>
+        <qualifiedname>themis::ScheduledTask::last_run_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="84" column="13" bodyfile="include/scheduler/task_scheduler.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a18c2edc21c9fcd97096b979be9e85ed4" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1_scheduled_task_1_1_c_d_c_trigger" kindref="compound">themis::ScheduledTask::CDCTrigger</ref></type>
+        <definition>struct themis::ScheduledTask::CDCTrigger themis::ScheduledTask::cdc_trigger</definition>
+        <argsstring></argsstring>
+        <name>cdc_trigger</name>
+        <qualifiedname>themis::ScheduledTask::cdc_trigger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="92" column="17"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1ad6f115cb61a937cd777bdec7c0d995a1" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="structthemis_1_1_scheduled_task_1a15932a7b80d26a851faccf3c63d0ca95" kindref="member">themis::ScheduledTask::TriggerLogic</ref></type>
+        <definition>enum themis::ScheduledTask::TriggerLogic themis::ScheduledTask::trigger_logic</definition>
+        <argsstring></argsstring>
+        <name>trigger_logic</name>
+        <qualifiedname>themis::ScheduledTask::trigger_logic</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_scheduled_task_1a15932a7b80d26a851faccf3c63d0ca95a1d00e7dce692e8dc3f6877f035e3a616" kindref="member">TriggerLogic::OR</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="98" column="20"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a4547b00e2055e9fdea02d7e90b0389aa" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="structthemis_1_1_scheduled_task_1ac358885b85f5c5902af02e4212da8023" kindref="member">themis::ScheduledTask::Priority</ref></type>
+        <definition>enum themis::ScheduledTask::Priority themis::ScheduledTask::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::ScheduledTask::priority</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_scheduled_task_1ac358885b85f5c5902af02e4212da8023a1e23852820b9154316c7c06e2b7ba051" kindref="member">Priority::NORMAL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="105" column="15"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1af3ea9b9e76a8528785ebc76651ab80cd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ScheduledTask::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::ScheduledTask::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="108" column="10" bodyfile="include/scheduler/task_scheduler.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a8848e68ed87c3953a2d03d5bb9c2eb23" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ScheduledTask::running</definition>
+        <argsstring></argsstring>
+        <name>running</name>
+        <qualifiedname>themis::ScheduledTask::running</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="109" column="10" bodyfile="include/scheduler/task_scheduler.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a3262218ada5648b3334a665ae79a09f9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ScheduledTask::allow_concurrent</definition>
+        <argsstring></argsstring>
+        <name>allow_concurrent</name>
+        <qualifiedname>themis::ScheduledTask::allow_concurrent</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="110" column="10" bodyfile="include/scheduler/task_scheduler.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a0f6a6dcbeb616272890f2e4a301b78db" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::ScheduledTask::consecutive_skips</definition>
+        <argsstring></argsstring>
+        <name>consecutive_skips</name>
+        <qualifiedname>themis::ScheduledTask::consecutive_skips</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>How many consecutive scheduler ticks this task was ready-but-skipped (due to the concurrency limit being reached). When this counter reaches the configured <computeroutput>aging_threshold</computeroutput> the scheduler temporarily treats the task as having NORMAL priority (LOW→NORMAL) or HIGH priority (NORMAL→HIGH) so that it cannot be starved indefinitely by higher-priority tasks. The counter is reset to 0 when the task is dispatched or when the task is disabled. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="120" column="14" bodyfile="include/scheduler/task_scheduler.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a76002310c2d444e72ae76fc4baf606ce" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ScheduledTask::total_executions</definition>
+        <argsstring></argsstring>
+        <name>total_executions</name>
+        <qualifiedname>themis::ScheduledTask::total_executions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="145" column="12" bodyfile="include/scheduler/task_scheduler.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1ad4bcbc6774d2943ccea91bfc374d91b5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ScheduledTask::successful_executions</definition>
+        <argsstring></argsstring>
+        <name>successful_executions</name>
+        <qualifiedname>themis::ScheduledTask::successful_executions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="146" column="12" bodyfile="include/scheduler/task_scheduler.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1ae1d0cc8d73b05499ac3fe33ef47a3167" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ScheduledTask::failed_executions</definition>
+        <argsstring></argsstring>
+        <name>failed_executions</name>
+        <qualifiedname>themis::ScheduledTask::failed_executions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="147" column="12" bodyfile="include/scheduler/task_scheduler.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a4d8ecfc72312cfdb9e7822f5a2415cb2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ScheduledTask::avg_execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_execution_time_ms</name>
+        <qualifiedname>themis::ScheduledTask::avg_execution_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="148" column="12" bodyfile="include/scheduler/task_scheduler.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a401fe90147d1935827d0747b0df539bb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ScheduledTask::last_error</definition>
+        <argsstring></argsstring>
+        <name>last_error</name>
+        <qualifiedname>themis::ScheduledTask::last_error</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="149" column="17" bodyfile="include/scheduler/task_scheduler.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a186157fdf75c300667b6481b1cc170a0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_scheduled_task_1a72657dd4a9921241ba8b116d5fc61a7a" kindref="member">ErrorCategory</ref></type>
+        <definition>ErrorCategory themis::ScheduledTask::last_error_category</definition>
+        <argsstring></argsstring>
+        <name>last_error_category</name>
+        <qualifiedname>themis::ScheduledTask::last_error_category</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_scheduled_task_1a72657dd4a9921241ba8b116d5fc61a7aab50339a10e1de285ac99d4c3990b8693" kindref="member">ErrorCategory::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="150" column="19" bodyfile="include/scheduler/task_scheduler.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a9065545372ec5f337d921f885b07d592" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::ScheduledTask::last_success_time</definition>
+        <argsstring></argsstring>
+        <name>last_success_time</name>
+        <qualifiedname>themis::ScheduledTask::last_success_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="151" column="43" bodyfile="include/scheduler/task_scheduler.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a603d36c3cb89eb0686239882181ff7b2" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::ScheduledTask::last_failure_time</definition>
+        <argsstring></argsstring>
+        <name>last_failure_time</name>
+        <qualifiedname>themis::ScheduledTask::last_failure_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="152" column="43" bodyfile="include/scheduler/task_scheduler.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a701f4bf7ae52227593f25db8d8b3be54" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::ScheduledTask::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>themis::ScheduledTask::timeout</qualifiedname>
+        <initializer>{std::chrono::minutes(10)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="155" column="31" bodyfile="include/scheduler/task_scheduler.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1ad0c47b65fe87862493d10adaaa4e0f8b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ScheduledTask::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::ScheduledTask::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="156" column="12" bodyfile="include/scheduler/task_scheduler.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a15dd7910c7fbc70bee8a63d07e70f25b" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::chrono::milliseconds &gt;</type>
+        <definition>std::optional&lt;std::chrono::milliseconds&gt; themis::ScheduledTask::sla_deadline</definition>
+        <argsstring></argsstring>
+        <name>sla_deadline</name>
+        <qualifiedname>themis::ScheduledTask::sla_deadline</qualifiedname>
+        <briefdescription>
+<para>Optional SLA deadline for task execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, an SLA breach alert is fired if the task execution time exceeds this duration. The task is not interrupted; the alert is purely a notification. Unset (nullopt) means no SLA monitoring for this task. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="165" column="19" bodyfile="include/scheduler/task_scheduler.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a9c7a8fd9011413f425745669503cc5e1" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_scheduled_task_1_1_retry_policy" kindref="compound">RetryPolicy</ref> &gt;</type>
+        <definition>std::optional&lt;RetryPolicy&gt; themis::ScheduledTask::retry_policy</definition>
+        <argsstring></argsstring>
+        <name>retry_policy</name>
+        <qualifiedname>themis::ScheduledTask::retry_policy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="197" column="19" bodyfile="include/scheduler/task_scheduler.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1ac150ec8d2e5ff0993893afc8ac2cad55" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_scheduled_task_1_1_slo_retry_config" kindref="compound">SloRetryConfig</ref> &gt;</type>
+        <definition>std::optional&lt;SloRetryConfig&gt; themis::ScheduledTask::slo_retry_config</definition>
+        <argsstring></argsstring>
+        <name>slo_retry_config</name>
+        <qualifiedname>themis::ScheduledTask::slo_retry_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional SLO-aware adaptive retry configuration. Requires <computeroutput>sla_deadline</computeroutput> to be set; silently ignored otherwise. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="241" column="19" bodyfile="include/scheduler/task_scheduler.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a0e93a0c4bce20f8b3dd7cc366c186cb0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ScheduledTask::slo_violations</definition>
+        <argsstring></argsstring>
+        <name>slo_violations</name>
+        <qualifiedname>themis::ScheduledTask::slo_violations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Cumulative SLO violations in current window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="245" column="12" bodyfile="include/scheduler/task_scheduler.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a3153cdf870ccb00949cb959443746e65" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ScheduledTask::slo_window_count</definition>
+        <argsstring></argsstring>
+        <name>slo_window_count</name>
+        <qualifiedname>themis::ScheduledTask::slo_window_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total executions tracked in current window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="246" column="12" bodyfile="include/scheduler/task_scheduler.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a77938ca906dd8b0a393f5fb0e419e890" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ScheduledTask::dependencies</definition>
+        <argsstring></argsstring>
+        <name>dependencies</name>
+        <qualifiedname>themis::ScheduledTask::dependencies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="249" column="17" bodyfile="include/scheduler/task_scheduler.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1a449a13e9ff179ab8bed7818a79867c7b" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const std::string &amp;task_id, const nlohmann::json &amp;result)&gt;</type>
+        <definition>std::function&lt;void(const std::string&amp; task_id, const nlohmann::json&amp; result)&gt; themis::ScheduledTask::on_success</definition>
+        <argsstring></argsstring>
+        <name>on_success</name>
+        <qualifiedname>themis::ScheduledTask::on_success</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="252" column="19" bodyfile="include/scheduler/task_scheduler.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1aafba7fa3282be8d6323d8e2ee7f1b29f" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const std::string &amp;task_id, const std::string &amp;error)&gt;</type>
+        <definition>std::function&lt;void(const std::string&amp; task_id, const std::string&amp; error)&gt; themis::ScheduledTask::on_failure</definition>
+        <argsstring></argsstring>
+        <name>on_failure</name>
+        <qualifiedname>themis::ScheduledTask::on_failure</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="253" column="19" bodyfile="include/scheduler/task_scheduler.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1aa8f98180a3ef555efabc52f4ba8d9220" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const std::map&lt; std::string, nlohmann::json &gt; &amp;dep_results)&gt;</type>
+        <definition>std::function&lt;bool(const std::map&lt;std::string, nlohmann::json&gt;&amp; dep_results)&gt; themis::ScheduledTask::branch_condition</definition>
+        <argsstring></argsstring>
+        <name>branch_condition</name>
+        <qualifiedname>themis::ScheduledTask::branch_condition</qualifiedname>
+        <briefdescription>
+<para>Optional predicate for conditional branching in DAG execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, this function is evaluated AFTER all dependency tasks complete successfully and BEFORE this task is dispatched for execution.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dep_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of { dependency_task_id -&gt; result JSON } for every dependency that succeeded in the current DAG execution. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true – execute this task normally. </para>
+</simplesect>
+<simplesect kind="return"><para>false – skip this task (conditional skip); the task appears in DagExecutionResult::condition_skipped and its dependents are also condition-skipped transitively.</para>
+</simplesect>
+When not set the task executes whenever its dependencies complete successfully (existing behaviour, fully backward-compatible). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="271" column="19" bodyfile="include/scheduler/task_scheduler.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Represents a scheduled task with AQL query or custom function. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ScheduledTask</label>
+        <link refid="structthemis_1_1_scheduled_task"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>cdc_trigger</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ScheduledTask::CDCTrigger</label>
+        <link refid="structthemis_1_1_scheduled_task_1_1_c_d_c_trigger"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/scheduler/task_scheduler.h" line="54" column="1" bodyfile="include/scheduler/task_scheduler.h" bodystart="54" bodyend="272"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_scheduled_task_1a3262218ada5648b3334a665ae79a09f9" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>allow_concurrent</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a8ddc37333b40886f8de89ce0dd0a9aab" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>aql_query</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a4d8ecfc72312cfdb9e7822f5a2415cb2" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>avg_execution_time_ms</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1aa8f98180a3ef555efabc52f4ba8d9220" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>branch_condition</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a18c2edc21c9fcd97096b979be9e85ed4" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>cdc_trigger</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a0f6a6dcbeb616272890f2e4a301b78db" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>consecutive_skips</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a37fc2f2ad099392ec9d0b897883a7221" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>cron_expression</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a77938ca906dd8b0a393f5fb0e419e890" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>dependencies</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a336b9d96f8dcf785da0f0a90139b6e35" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>description</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1af3ea9b9e76a8528785ebc76651ab80cd" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a72657dd4a9921241ba8b116d5fc61a7a" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>ErrorCategory</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1ae1d0cc8d73b05499ac3fe33ef47a3167" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>failed_executions</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1aca58f82e68483df98f220b4a25395445" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>function_name</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1ad0fe77c1f27a4ea81fd5941c82d3b2f5" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>id</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a3968f26710f6611bd2df6491113792ca" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>interval</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a401fe90147d1935827d0747b0df539bb" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>last_error</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a186157fdf75c300667b6481b1cc170a0" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>last_error_category</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a603d36c3cb89eb0686239882181ff7b2" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>last_failure_time</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a407d23d04ea5bb4b9889f1d36795dd36" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>last_run_ms</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a9065545372ec5f337d921f885b07d592" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>last_success_time</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1ad0c47b65fe87862493d10adaaa4e0f8b" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a9474dc97304884a6f8406f2444b0994e" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>name</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a0f1e592847eb04a7f38616253e2d7f34" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>next_run</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1aafba7fa3282be8d6323d8e2ee7f1b29f" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>on_failure</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a449a13e9ff179ab8bed7818a79867c7b" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>on_success</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a96fd9710e8ef2771569802cab78e172d" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>parameters</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1ac358885b85f5c5902af02e4212da8023" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>Priority</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a4547b00e2055e9fdea02d7e90b0389aa" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>priority</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a9c7a8fd9011413f425745669503cc5e1" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>retry_policy</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1ae43db46ce1400d66ac95038e95522351" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>RetryStrategy</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a8848e68ed87c3953a2d03d5bb9c2eb23" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>running</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a15dd7910c7fbc70bee8a63d07e70f25b" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>sla_deadline</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1ac150ec8d2e5ff0993893afc8ac2cad55" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>slo_retry_config</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a0e93a0c4bce20f8b3dd7cc366c186cb0" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>slo_violations</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a3153cdf870ccb00949cb959443746e65" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>slo_window_count</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1ad4bcbc6774d2943ccea91bfc374d91b5" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>successful_executions</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a622e9a12de362b464847d2828376b0db" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>TaskType</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a701f4bf7ae52227593f25db8d8b3be54" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>timeout</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a76002310c2d444e72ae76fc4baf606ce" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>total_executions</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1ad6f115cb61a937cd777bdec7c0d995a1" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>trigger_logic</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a4c8c9c3e50082015629fa5946734a723" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>trigger_type</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a15932a7b80d26a851faccf3c63d0ca95" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>TriggerLogic</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a7e38bd7aaba2e024b37a42854d4751d5" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>TriggerType</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1a5c626280bc82f08f0413dd45b160ff85" prot="public" virt="non-virtual"><scope>themis::ScheduledTask</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

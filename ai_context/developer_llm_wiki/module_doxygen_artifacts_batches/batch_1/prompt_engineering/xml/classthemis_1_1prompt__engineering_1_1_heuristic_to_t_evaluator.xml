@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_heuristic_to_t_evaluator" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::HeuristicToTEvaluator</compoundname>
+    <basecompoundref refid="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator" prot="public" virt="non-virtual">themis::prompt_engineering::IToTEvaluator</basecompoundref>
+    <includes refid="tree__of__thoughts_8h" local="no">tree_of_thoughts.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_heuristic_to_t_evaluator_1ac6aa49425aa09a7a15e1934e046b06a1" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::HeuristicToTEvaluator::max_depth_</definition>
+        <argsstring></argsstring>
+        <name>max_depth_</name>
+        <qualifiedname>themis::prompt_engineering::HeuristicToTEvaluator::max_depth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="169" column="12" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_heuristic_to_t_evaluator_1a2994ed27d1ece77940bf92f17436c02f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::HeuristicToTEvaluator::HeuristicToTEvaluator</definition>
+        <argsstring>(size_t max_depth=3)</argsstring>
+        <name>HeuristicToTEvaluator</name>
+        <qualifiedname>themis::prompt_engineering::HeuristicToTEvaluator::HeuristicToTEvaluator</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_depth</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="162" column="14" bodyfile="src/prompt_engineering/tree_of_thoughts.cpp" bodystart="59" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_heuristic_to_t_evaluator_1a121e0b12ef269c8c4d2bebe130d9f344" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::pair&lt; double, <ref refid="namespacethemis_1_1prompt__engineering_1a00b067daf3c39b120137faa40ec9ff61" kindref="member">ToTVerdict</ref> &gt;</type>
+        <definition>std::pair&lt; double, ToTVerdict &gt; themis::prompt_engineering::HeuristicToTEvaluator::evaluate</definition>
+        <argsstring>(const std::string &amp;problem, const ToTNode &amp;node) override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::prompt_engineering::HeuristicToTEvaluator::evaluate</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator_1a5bbabe8b417a68809be68c1cbf4c8073">evaluate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>problem</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_to_t_node" kindref="compound">ToTNode</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Score a thought node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>problem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original problem statement. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The node to evaluate (path and thought are populated). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of (score in [0, 1], verdict). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="164" column="15" bodyfile="src/prompt_engineering/tree_of_thoughts.cpp" bodystart="63" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Length-based heuristic evaluator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Scores a node by the cumulative length of its thought path relative to the problem length — longer paths score higher (proxy for thoroughness). Always returns MAYBE for internal nodes and SURE for nodes at max depth. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::prompt_engineering::HeuristicToTEvaluator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_heuristic_to_t_evaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::IToTEvaluator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::prompt_engineering::HeuristicToTEvaluator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_heuristic_to_t_evaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::IToTEvaluator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/tree_of_thoughts.h" line="160" column="1" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="160" bodyend="170"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_heuristic_to_t_evaluator_1a121e0b12ef269c8c4d2bebe130d9f344" prot="public" virt="virtual"><scope>themis::prompt_engineering::HeuristicToTEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_heuristic_to_t_evaluator_1a2994ed27d1ece77940bf92f17436c02f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::HeuristicToTEvaluator</scope><name>HeuristicToTEvaluator</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_heuristic_to_t_evaluator_1ac6aa49425aa09a7a15e1934e046b06a1" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::HeuristicToTEvaluator</scope><name>max_depth_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator_1a1ebf032ba4a56b06903bed1ff5f9f4a7" prot="public" virt="virtual"><scope>themis::prompt_engineering::HeuristicToTEvaluator</scope><name>~IToTEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

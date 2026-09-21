@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_e2d53920cf28c39bfc65f4604b82d9fa" kind="dir">
+    <compoundname>tests/sharding</compoundname>
+    <innerfile refid="test__converged__chaos_8cpp">test_converged_chaos.cpp</innerfile>
+    <innerfile refid="test__cross__shard__fk__validator_8cpp">test_cross_shard_fk_validator.cpp</innerfile>
+    <innerfile refid="test__dual__consensus_8cpp">test_dual_consensus.cpp</innerfile>
+    <innerfile refid="test__paged__kv__cache__focused_8cpp">test_paged_kv_cache_focused.cpp</innerfile>
+    <innerfile refid="test__raid__paxos_8cpp">test_raid_paxos.cpp</innerfile>
+    <innerfile refid="test__redundancy__consistency_8cpp">test_redundancy_consistency.cpp</innerfile>
+    <innerfile refid="test__sharding__chaos_8cpp">test_sharding_chaos.cpp</innerfile>
+    <innerfile refid="test__sharding__chaos__batch__a9_8cpp">test_sharding_chaos_batch_a9.cpp</innerfile>
+    <innerfile refid="test__sharding__contract__hardening__focused_8cpp">test_sharding_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__sharding__core_8cpp">test_sharding_core.cpp</innerfile>
+    <innerfile refid="test__sharding__cross__shard__fk_8cpp">test_sharding_cross_shard_fk.cpp</innerfile>
+    <innerfile refid="test__sharding__e2e_8cpp">test_sharding_e2e.cpp</innerfile>
+    <innerfile refid="test__sharding__gossip_8cpp">test_sharding_gossip.cpp</innerfile>
+    <innerfile refid="test__sharding__highcardinality__stress_8cpp">test_sharding_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__sharding__integration_8cpp">test_sharding_integration.cpp</innerfile>
+    <innerfile refid="test__sharding__interfaces_8cpp">test_sharding_interfaces.cpp</innerfile>
+    <innerfile refid="test__sharding__multishard__exact_8cpp">test_sharding_multishard_exact.cpp</innerfile>
+    <innerfile refid="test__sharding__operational__metrics_8cpp">test_sharding_operational_metrics.cpp</innerfile>
+    <innerfile refid="test__sharding__p6__fault__injection_8cpp">test_sharding_p6_fault_injection.cpp</innerfile>
+    <innerfile refid="test__sharding__phase2__hardening_8cpp">test_sharding_phase2_hardening.cpp</innerfile>
+    <innerfile refid="test__sharding__phase3__edgecases_8cpp">test_sharding_phase3_edgecases.cpp</innerfile>
+    <innerfile refid="test__sharding__phase5_8cpp">test_sharding_phase5.cpp</innerfile>
+    <innerfile refid="test__sharding__phase5__lora__distribution_8cpp">test_sharding_phase5_lora_distribution.cpp</innerfile>
+    <innerfile refid="test__sharding__phase6__hardening_8cpp">test_sharding_phase6_hardening.cpp</innerfile>
+    <innerfile refid="test__sharding__repair_8cpp">test_sharding_repair.cpp</innerfile>
+    <innerfile refid="test__sharding__thread__safety__lock__order__focused_8cpp">test_sharding_thread_safety_lock_order_focused.cpp</innerfile>
+    <innerfile refid="test__sharding__transaction__wal_8cpp">test_sharding_transaction_wal.cpp</innerfile>
+    <innerfile refid="test__sharding__uncovered_8cpp">test_sharding_uncovered.cpp</innerfile>
+    <innerfile refid="test__sharding__wave1__critical__closure_8cpp">test_sharding_wave1_critical_closure.cpp</innerfile>
+    <innerfile refid="test__three__phase__commit_8cpp">test_three_phase_commit.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/"/>
+  </compounddef>
+</doxygen>

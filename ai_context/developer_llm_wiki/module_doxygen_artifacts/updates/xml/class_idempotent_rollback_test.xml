@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_idempotent_rollback_test" kind="class" language="C++" prot="public">
+    <compoundname>IdempotentRollbackTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_idempotent_rollback_test_1aa13205b09fff6f2ad67763c43b4ad740" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref></type>
+        <definition>UpdateStateMachine IdempotentRollbackTest::state_machine_</definition>
+        <argsstring></argsstring>
+        <name>state_machine_</name>
+        <qualifiedname>IdempotentRollbackTest::state_machine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_idempotent_rollback_wave_a.cpp" line="35" column="24" bodyfile="tests/updates/test_idempotent_rollback_wave_a.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_idempotent_rollback_test_1af4a95b5c4b31031876e49d251cd4bf2c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IdempotentRollbackTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>IdempotentRollbackTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_idempotent_rollback_wave_a.cpp" line="37" column="10" bodyfile="tests/updates/test_idempotent_rollback_wave_a.cpp" bodystart="37" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_idempotent_rollback_test_1a2f5bf2abfb579ca487c2071bc25d8f41" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IdempotentRollbackTest::transitionToState</definition>
+        <argsstring>(UpdateState target, const std::string &amp;version=&quot;1.0.0&quot;)</argsstring>
+        <name>transitionToState</name>
+        <qualifiedname>IdempotentRollbackTest::transitionToState</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbec" kindref="member">UpdateState</ref></type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+          <defval>&quot;1.0.0&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_idempotent_rollback_wave_a.cpp" line="42" column="10" bodyfile="tests/updates/test_idempotent_rollback_wave_a.cpp" bodystart="42" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>IdempotentRollbackTest</label>
+        <link refid="class_idempotent_rollback_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>IdempotentRollbackTest</label>
+        <link refid="class_idempotent_rollback_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>state_machine_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::updates::UpdateStateMachine</label>
+        <link refid="classthemis_1_1updates_1_1_update_state_machine"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/updates/test_idempotent_rollback_wave_a.cpp" line="33" column="1" bodyfile="tests/updates/test_idempotent_rollback_wave_a.cpp" bodystart="33" bodyend="60"/>
+    <listofallmembers>
+      <member refid="class_idempotent_rollback_test_1af4a95b5c4b31031876e49d251cd4bf2c" prot="protected" virt="non-virtual"><scope>IdempotentRollbackTest</scope><name>SetUp</name></member>
+      <member refid="class_idempotent_rollback_test_1aa13205b09fff6f2ad67763c43b4ad740" prot="protected" virt="non-virtual"><scope>IdempotentRollbackTest</scope><name>state_machine_</name></member>
+      <member refid="class_idempotent_rollback_test_1a2f5bf2abfb579ca487c2071bc25d8f41" prot="protected" virt="non-virtual"><scope>IdempotentRollbackTest</scope><name>transitionToState</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

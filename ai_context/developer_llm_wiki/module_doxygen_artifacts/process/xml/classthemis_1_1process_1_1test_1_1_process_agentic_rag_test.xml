@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1test_1_1_process_agentic_rag_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::test::ProcessAgenticRagTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1test_1_1_process_agentic_rag_test_1ae59d0bff7d22ebe98f6252dc86eccceb" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_rag_context" kindref="compound">ProcessRagContext</ref></type>
+        <definition>ProcessRagContext themis::process::test::ProcessAgenticRagTest::createTestContext</definition>
+        <argsstring>()</argsstring>
+        <name>createTestContext</name>
+        <qualifiedname>themis::process::test::ProcessAgenticRagTest::createTestContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="27" column="23" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="27" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::process::test::ProcessAgenticRagTest</label>
+        <link refid="classthemis_1_1process_1_1test_1_1_process_agentic_rag_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::process::test::ProcessAgenticRagTest</label>
+        <link refid="classthemis_1_1process_1_1test_1_1_process_agentic_rag_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_high_batch_2a.cpp" line="25" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="25" bodyend="69"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1test_1_1_process_agentic_rag_test_1ae59d0bff7d22ebe98f6252dc86eccceb" prot="protected" virt="non-virtual"><scope>themis::process::test::ProcessAgenticRagTest</scope><name>createTestContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

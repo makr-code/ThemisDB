@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_detected_language" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::DetectedLanguage</compoundname>
+    <includes refid="language__detector_8h" local="no">language_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_detected_language_1ab39e7ea31572b38d4ff7077e17e4af85" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::DetectedLanguage::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::content::DetectedLanguage::code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/language_detector.h" line="23" column="17" bodyfile="include/content/language_detector.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_detected_language_1a691515ca69824140f1869ce9c45fb588" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::DetectedLanguage::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::content::DetectedLanguage::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/language_detector.h" line="25" column="17" bodyfile="include/content/language_detector.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_detected_language_1a1dcc549eb0c3e603b8e21b8e8285f998" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::content::DetectedLanguage::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::content::DetectedLanguage::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/language_detector.h" line="27" column="11" bodyfile="include/content/language_detector.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_detected_language_1ac20825c59479bdd4f04b922ee5ce33bf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::content::DetectedLanguage::indicator_hits</definition>
+        <argsstring></argsstring>
+        <name>indicator_hits</name>
+        <qualifiedname>themis::content::DetectedLanguage::indicator_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/language_detector.h" line="29" column="14" bodyfile="include/content/language_detector.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/language_detector.h" line="22" column="1" bodyfile="include/content/language_detector.h" bodystart="22" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_detected_language_1ab39e7ea31572b38d4ff7077e17e4af85" prot="public" virt="non-virtual"><scope>themis::content::DetectedLanguage</scope><name>code</name></member>
+      <member refid="structthemis_1_1content_1_1_detected_language_1a1dcc549eb0c3e603b8e21b8e8285f998" prot="public" virt="non-virtual"><scope>themis::content::DetectedLanguage</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1content_1_1_detected_language_1ac20825c59479bdd4f04b922ee5ce33bf" prot="public" virt="non-virtual"><scope>themis::content::DetectedLanguage</scope><name>indicator_hits</name></member>
+      <member refid="structthemis_1_1content_1_1_detected_language_1a691515ca69824140f1869ce9c45fb588" prot="public" virt="non-virtual"><scope>themis::content::DetectedLanguage</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

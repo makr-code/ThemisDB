@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="xpdl__importer_8h" kind="file" language="C++">
+    <compoundname>xpdl_importer.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/xpdl_importer.h</label>
+        <link refid="xpdl__importer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1process_1_1_xpdl_package" prot="public">themis::process::XpdlPackage</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_xpdl_import_result" prot="public">themis::process::XpdlImportResult</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_i_xpdl_importer" prot="public">themis::process::IXpdlImporter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>XPDL<sp/>2.2<sp/>import/export<sp/>(WFMC<sp/>standard)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">process</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="structthemis_1_1process_1_1_xpdl_package" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_xpdl_package" kindref="compound">XpdlPackage</ref><sp/>{</highlight></codeline>
+<codeline lineno="20" refid="structthemis_1_1process_1_1_xpdl_package_1a0f8e06e7eba1ab99b27cf22b76667bbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_xpdl_package_1a0f8e06e7eba1ab99b27cf22b76667bbc" kindref="member">package_id</ref>;</highlight></codeline>
+<codeline lineno="21" refid="structthemis_1_1process_1_1_xpdl_package_1a95508d5fc936433222da44cfc1b15bfb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_xpdl_package_1a95508d5fc936433222da44cfc1b15bfb" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="22" refid="structthemis_1_1process_1_1_xpdl_package_1ab52f7021cf2fc3458e613e25f11d3b1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_xpdl_package_1ab52f7021cf2fc3458e613e25f11d3b1b" kindref="member">version</ref>;</highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1process_1_1_xpdl_package_1a7d272dc7defa9c850e74248969788775" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_xpdl_package_1a7d272dc7defa9c850e74248969788775" kindref="member">vendor</ref>;</highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1process_1_1_xpdl_package_1a66c6264355cf9fd46934f951dc91892b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1process_1_1_xpdl_package_1a66c6264355cf9fd46934f951dc91892b" kindref="member">process_ids</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1process_1_1_xpdl_import_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_xpdl_import_result" kindref="compound">XpdlImportResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1process_1_1_xpdl_import_result_1a3e083e79a7ad9827c8038aeb3d748c93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_xpdl_import_result_1a3e083e79a7ad9827c8038aeb3d748c93" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1process_1_1_xpdl_import_result_1a7f917a15eae8c5e635023bafa597a7b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_xpdl_import_result_1a7f917a15eae8c5e635023bafa597a7b0" kindref="member">package_id</ref>;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1process_1_1_xpdl_import_result_1a88c39c97c1d6744ebeb088671b8f3622" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_xpdl_import_result_1a88c39c97c1d6744ebeb088671b8f3622" kindref="member">processes_imported</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1process_1_1_xpdl_import_result_1aa94f74e4ef9b60721bd9c579113f5418" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_xpdl_import_result_1aa94f74e4ef9b60721bd9c579113f5418" kindref="member">activities_imported</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1process_1_1_xpdl_import_result_1ae3ef5b1c7be6378e7c764cc9afaa5943" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_xpdl_import_result_1ae3ef5b1c7be6378e7c764cc9afaa5943" kindref="member">transitions_imported</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1process_1_1_xpdl_import_result_1abd6c44294818e72d673d6bbc3502b5a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1process_1_1_xpdl_import_result_1abd6c44294818e72d673d6bbc3502b5a7" kindref="member">warnings</ref>;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1process_1_1_xpdl_import_result_1ad0158a0fa3c22634245b0ae6a8e05e73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1process_1_1_xpdl_import_result_1ad0158a0fa3c22634245b0ae6a8e05e73" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1process_1_1_i_xpdl_importer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_i_xpdl_importer" kindref="compound">IXpdlImporter</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1process_1_1_i_xpdl_importer_1a4edbb4f1c52bee7fe6c467fb3c5783b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_i_xpdl_importer_1a4edbb4f1c52bee7fe6c467fb3c5783b7" kindref="member">~IXpdlImporter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1process_1_1_i_xpdl_importer_1a1b286c717dedea36d5d004066ca24cfc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_xpdl_import_result" kindref="compound">XpdlImportResult</ref><sp/><ref refid="classthemis_1_1process_1_1_i_xpdl_importer_1a1b286c717dedea36d5d004066ca24cfc" kindref="member">importFromFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>xpdl_path)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1process_1_1_i_xpdl_importer_1acd6f2fd370df59c70dbcfb36c2bf821a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_xpdl_import_result" kindref="compound">XpdlImportResult</ref><sp/><ref refid="classthemis_1_1process_1_1_i_xpdl_importer_1acd6f2fd370df59c70dbcfb36c2bf821a" kindref="member">importFromString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>xpdl_xml)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1process_1_1_i_xpdl_importer_1a8458133874bfec0c75ac7ed57fc8923a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_i_xpdl_importer_1a8458133874bfec0c75ac7ed57fc8923a" kindref="member">exportToXpdl</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>package_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1process_1_1_i_xpdl_importer_1a65e622a228a0d65258a4cab5bb3a7e8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_i_xpdl_importer_1a65e622a228a0d65258a4cab5bb3a7e8a" kindref="member">validateXpdl</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>xpdl_xml,<sp/>std::vector&lt;std::string&gt;&amp;<sp/>errors)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1process_1_1_i_xpdl_importer_1a62464e42d5a79b9633495f21da5d9a3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_i_xpdl_importer_1a62464e42d5a79b9633495f21da5d9a3b" kindref="member">xpdlVersion</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;2.2&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::process</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/xpdl_importer.h"/>
+  </compounddef>
+</doxygen>

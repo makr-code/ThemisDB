@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_device_code_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::OAuthDeviceFlow::DeviceCodeResponse</compoundname>
+    <includes refid="oauth__device__flow_8h" local="no">oauth_device_flow.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_device_code_response_1a7dc7170b02e11060d0da89cf9a199a38" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthDeviceFlow::DeviceCodeResponse::device_code</definition>
+        <argsstring></argsstring>
+        <name>device_code</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::DeviceCodeResponse::device_code</qualifiedname>
+        <briefdescription>
+<para>Opaque device code for polling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="30" column="21" bodyfile="include/auth/oauth_device_flow.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_device_code_response_1afc7554dc11619aa02bf0c73ca1c84034" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthDeviceFlow::DeviceCodeResponse::user_code</definition>
+        <argsstring></argsstring>
+        <name>user_code</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::DeviceCodeResponse::user_code</qualifiedname>
+        <briefdescription>
+<para>Human-readable code (e.g., &quot;BDWP-HQMF&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="31" column="21" bodyfile="include/auth/oauth_device_flow.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_device_code_response_1a6e3b3579d25f260c75fa93f8cf27afc9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthDeviceFlow::DeviceCodeResponse::verification_uri</definition>
+        <argsstring></argsstring>
+        <name>verification_uri</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::DeviceCodeResponse::verification_uri</qualifiedname>
+        <briefdescription>
+<para>URL user must visit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="32" column="21" bodyfile="include/auth/oauth_device_flow.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_device_code_response_1a460342dc99a028fd8c68530fa26d53ae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthDeviceFlow::DeviceCodeResponse::verification_uri_complete</definition>
+        <argsstring></argsstring>
+        <name>verification_uri_complete</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::DeviceCodeResponse::verification_uri_complete</qualifiedname>
+        <briefdescription>
+<para>Pre-filled URL for QR code. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="33" column="21" bodyfile="include/auth/oauth_device_flow.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_device_code_response_1ae0f07225b695711f8590825146a1edbb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::OAuthDeviceFlow::DeviceCodeResponse::expires_in</definition>
+        <argsstring></argsstring>
+        <name>expires_in</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::DeviceCodeResponse::expires_in</qualifiedname>
+        <initializer>{600}</initializer>
+        <briefdescription>
+<para>Device code lifetime in seconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="34" column="13" bodyfile="include/auth/oauth_device_flow.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_device_code_response_1adeb25247643d541aa956e49874a3c234" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::OAuthDeviceFlow::DeviceCodeResponse::interval</definition>
+        <argsstring></argsstring>
+        <name>interval</name>
+        <qualifiedname>themis::auth::OAuthDeviceFlow::DeviceCodeResponse::interval</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+<para>Minimum polling interval in seconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_device_flow.h" line="35" column="13" bodyfile="include/auth/oauth_device_flow.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/oauth_device_flow.h" line="29" column="5" bodyfile="include/auth/oauth_device_flow.h" bodystart="29" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_device_code_response_1a7dc7170b02e11060d0da89cf9a199a38" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::DeviceCodeResponse</scope><name>device_code</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_device_code_response_1ae0f07225b695711f8590825146a1edbb" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::DeviceCodeResponse</scope><name>expires_in</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_device_code_response_1adeb25247643d541aa956e49874a3c234" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::DeviceCodeResponse</scope><name>interval</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_device_code_response_1afc7554dc11619aa02bf0c73ca1c84034" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::DeviceCodeResponse</scope><name>user_code</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_device_code_response_1a6e3b3579d25f260c75fa93f8cf27afc9" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::DeviceCodeResponse</scope><name>verification_uri</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_device_flow_1_1_device_code_response_1a460342dc99a028fd8c68530fa26d53ae" prot="public" virt="non-virtual"><scope>themis::auth::OAuthDeviceFlow::DeviceCodeResponse</scope><name>verification_uri_complete</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

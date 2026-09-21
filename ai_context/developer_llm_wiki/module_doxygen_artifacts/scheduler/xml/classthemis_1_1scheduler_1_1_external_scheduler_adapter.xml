@@ -1,0 +1,844 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scheduler_1_1_external_scheduler_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::scheduler::ExternalSchedulerAdapter</compoundname>
+    <includes refid="external__scheduler__adapter_8h" local="no">external_scheduler_adapter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1ab882746b4bed160155ca841d5aa95d3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::ExternalSchedulerAdapter::ExternalSchedulerAdapter</definition>
+        <argsstring>()=default</argsstring>
+        <name>ExternalSchedulerAdapter</name>
+        <qualifiedname>themis::scheduler::ExternalSchedulerAdapter::ExternalSchedulerAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="110" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1ae777370a83a213b03e4ef6703a7054df" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::scheduler::ExternalSchedulerAdapter::toKubernetesCronJobJson</definition>
+        <argsstring>(const ScheduledTask &amp;task, const KubernetesCronJobConfig &amp;config) const</argsstring>
+        <name>toKubernetesCronJobJson</name>
+        <qualifiedname>themis::scheduler::ExternalSchedulerAdapter::toKubernetesCronJobJson</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config" kindref="compound">KubernetesCronJobConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Generate a Kubernetes CronJob manifest in JSON format for a single task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The manifest represents a <computeroutput>batch/v1 CronJob</computeroutput> resource that, on each trigger, runs a pod which calls POST {themisdb_base_url}/api/v1/scheduler/tasks/{task.id}/execute</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ThemisDB scheduled task to export. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Kubernetes generation options (namespace, image, auth, …). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON object representing the Kubernetes CronJob manifest.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if task.id is empty or if the task has no cron expression and no finite interval to convert to a cron schedule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="128" column="20" bodyfile="src/scheduler/external_scheduler_adapter.cpp" bodystart="232" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a3f4d23e3768b112e32989abbdbff67f4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::ExternalSchedulerAdapter::toKubernetesCronJobYaml</definition>
+        <argsstring>(const ScheduledTask &amp;task, const KubernetesCronJobConfig &amp;config) const</argsstring>
+        <name>toKubernetesCronJobYaml</name>
+        <qualifiedname>themis::scheduler::ExternalSchedulerAdapter::toKubernetesCronJobYaml</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config" kindref="compound">KubernetesCronJobConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Generate a Kubernetes CronJob manifest in YAML format for a single task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Convenience wrapper around <ref refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1ae777370a83a213b03e4ef6703a7054df" kindref="member">toKubernetesCronJobJson()</ref> that serialises the JSON as YAML text.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ThemisDB scheduled task to export. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Kubernetes generation options. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>YAML string ready to apply with <computeroutput>kubectl apply -f</computeroutput>.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(see toKubernetesCronJobJson). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="143" column="17" bodyfile="src/scheduler/external_scheduler_adapter.cpp" bodystart="342" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a316bb7824f942cd50b0c2117b02bf7e0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref></type>
+        <definition>ScheduledTask themis::scheduler::ExternalSchedulerAdapter::fromKubernetesCronJobJson</definition>
+        <argsstring>(const nlohmann::json &amp;manifest) const</argsstring>
+        <name>fromKubernetesCronJobJson</name>
+        <qualifiedname>themis::scheduler::ExternalSchedulerAdapter::fromKubernetesCronJobJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <briefdescription>
+<para>Parse a Kubernetes CronJob manifest (JSON) and create a matching ThemisDB <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The resulting task uses TriggerType::CRON with the cron expression taken from spec.schedule. The task id is derived from metadata.name; the name and description are also mapped.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON object of the Kubernetes CronJob resource. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>ThemisDB <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> mirroring the CronJob schedule.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the manifest is missing required fields. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="159" column="19" bodyfile="src/scheduler/external_scheduler_adapter.cpp" bodystart="354" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1aca66832d9adef66511aca6b77b5175df" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::ExternalSchedulerAdapter::toAirflowDagPython</definition>
+        <argsstring>(const std::vector&lt; ScheduledTask &gt; &amp;tasks, const AirflowDagConfig &amp;config) const</argsstring>
+        <name>toAirflowDagPython</name>
+        <qualifiedname>themis::scheduler::ExternalSchedulerAdapter::toAirflowDagPython</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &gt; &amp;</type>
+          <declname>tasks</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_airflow_dag_config" kindref="compound">AirflowDagConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Generate an Airflow DAG Python file for one or more ThemisDB tasks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The generated file can be dropped directly into an Airflow <computeroutput>dags/</computeroutput> directory. Each task becomes a <computeroutput>SimpleHttpOperator</computeroutput> (Airflow provider: <computeroutput>apache-airflow-providers-http</computeroutput>) that POSTs to ThemisDB&apos;s task-execute endpoint. Task <computeroutput>dependencies</computeroutput> are translated into Airflow operator dependencies using the <computeroutput>&gt;&gt;</computeroutput> syntax.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tasks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of ThemisDB tasks to export. Must not be empty. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Airflow DAG generation options. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Python source code of the Airflow DAG file.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if tasks is empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="178" column="17" bodyfile="src/scheduler/external_scheduler_adapter.cpp" bodystart="413" bodyend="547"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a06c0d9c10cc4f5e8799fa43149d0b175" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">SchedulerError</ref></type>
+        <definition>SchedulerError themis::scheduler::ExternalSchedulerAdapter::dispatchTaskToExternal</definition>
+        <argsstring>(const ScheduledTask &amp;task, ExternalSchedulerType scheduler_type, const nlohmann::json &amp;external_config)</argsstring>
+        <name>dispatchTaskToExternal</name>
+        <qualifiedname>themis::scheduler::ExternalSchedulerAdapter::dispatchTaskToExternal</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1scheduler_1adad64463c80c3c05bbd6faed6a0a246f" kindref="member">ExternalSchedulerType</ref></type>
+          <declname>scheduler_type</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>external_config</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch a ThemisDB task to an external scheduler backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── External Scheduler Integration and Status Sync ─────────────────────────────────────────────────────────────────────────────</para>
+<para>This method translates a ThemisDB <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> into the target external scheduler&apos;s format and sends it to the external scheduler for registration. The task remains registered locally even if dispatch fails, allowing for retry logic and diagnostic introspection.</para>
+<para>When the external scheduler is unavailable or unresponsive:<itemizedlist>
+<listitem><para>The method fails explicitly with kCoordinationError</para>
+</listitem><listitem><para>The task remains in the local registry for retry</para>
+</listitem><listitem><para>No partial state is left on the external backend</para>
+</listitem></itemizedlist>
+</para>
+<para>This is a fail-closed operation: if dispatch fails, the task is NOT lost, but it will not execute on the external scheduler until a successful retry.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ThemisDB task to dispatch. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scheduler_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target scheduler platform (Kubernetes, Airflow, etc). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>external_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backend-specific configuration (URL, auth, etc). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1a8c632159fa131f09d04f94e3cbcd8782" kindref="member">SchedulerError::kSuccess</ref> if dispatch successful, <ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1a9d5b55c0775961298a75c0c1fc66412a" kindref="member">SchedulerError::kCoordinationError</ref> if backend unavailable, other <ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">SchedulerError</ref> codes for validation/format errors.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::exception</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on internal serialization or network errors.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para><ref refid="scheduler__api__contract_8h" kindref="compound">scheduler_api_contract.h</ref> for error taxonomy.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scheduler_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">external_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="248" column="20" bodyfile="src/scheduler/external_scheduler_adapter.cpp" bodystart="557" bodyend="619"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a448ca36ead07aa3c11e8705d4070deb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">SchedulerError</ref></type>
+        <definition>SchedulerError themis::scheduler::ExternalSchedulerAdapter::pollExternalStatus</definition>
+        <argsstring>(const std::string &amp;task_id, const std::string &amp;external_task_id, ExternalSchedulerType scheduler_type, const nlohmann::json &amp;external_config, TaskResultStore *result_store, int max_retries=3, std::chrono::milliseconds initial_backoff_ms=std::chrono::milliseconds{100})</argsstring>
+        <name>pollExternalStatus</name>
+        <qualifiedname>themis::scheduler::ExternalSchedulerAdapter::pollExternalStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>external_task_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1scheduler_1adad64463c80c3c05bbd6faed6a0a246f" kindref="member">ExternalSchedulerType</ref></type>
+          <declname>scheduler_type</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>external_config</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1scheduler_1_1_task_result_store" kindref="compound">TaskResultStore</ref> *</type>
+          <declname>result_store</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_retries</declname>
+          <defval>3</defval>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>initial_backoff_ms</declname>
+          <defval>std::chrono::milliseconds{100}</defval>
+        </param>
+        <briefdescription>
+<para>Poll an external scheduler for task status and sync results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Poll External Status.</para>
+<para>Queries the external scheduler backend for the current execution status of a previously dispatched task, and if the status has changed (e.g., from SCHEDULED to COMPLETED), syncs the result back to the local result store.</para>
+<para>Uses exponential backoff on transient failures (network errors, timeouts) to avoid overwhelming the external backend. Permanent errors (invalid task ID, authentication failure) fail fast without retry.</para>
+<para>The local result store is the source of truth; external results are synced only if they indicate task completion (success or failure).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ThemisDB task identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>external_task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>External scheduler&apos;s task identifier (e.g., K8s pod name). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scheduler_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target scheduler platform. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>external_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backend-specific configuration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result_store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local result store for syncing outcomes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_retries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum retry attempts on transient errors (default 3). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>initial_backoff_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial backoff in milliseconds (default 100). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1a8c632159fa131f09d04f94e3cbcd8782" kindref="member">SchedulerError::kSuccess</ref> if poll succeeded and status was synced, <ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1a9d5b55c0775961298a75c0c1fc66412a" kindref="member">SchedulerError::kCoordinationError</ref> if backend unavailable (after retries), other <ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">SchedulerError</ref> codes for other failures.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="scheduler__api__contract_8h" kindref="compound">scheduler_api_contract.h</ref> for error taxonomy.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">external_task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the external task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scheduler_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">external_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result_store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_retries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">initial_backoff_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="280" column="20" bodyfile="src/scheduler/external_scheduler_adapter.cpp" bodystart="632" bodyend="690"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1acc3b554a1fd723e2fba56690c166d67a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">SchedulerError</ref></type>
+        <definition>SchedulerError themis::scheduler::ExternalSchedulerAdapter::classifyAndMapExternalError</definition>
+        <argsstring>(const std::string &amp;error_msg, int http_status, const std::string &amp;task_id, ExternalSchedulerType scheduler_type)</argsstring>
+        <name>classifyAndMapExternalError</name>
+        <qualifiedname>themis::scheduler::ExternalSchedulerAdapter::classifyAndMapExternalError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_msg</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>http_status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1scheduler_1adad64463c80c3c05bbd6faed6a0a246f" kindref="member">ExternalSchedulerType</ref></type>
+          <declname>scheduler_type</declname>
+        </param>
+        <briefdescription>
+<para>Classify and map external scheduler errors to <ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">SchedulerError</ref> codes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Classify And Map External Error.</para>
+<para>Examines error information from an external scheduler backend (HTTP status, error message, exception type) and maps it to a standard <ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">SchedulerError</ref> code. This enables consistent error handling across different external scheduler implementations and makes diagnostics observable and traceable.</para>
+<para>Error classification rules:<itemizedlist>
+<listitem><para>Network/timeout errors (connection refused, deadline exceeded) → kCoordinationError</para>
+</listitem><listitem><para>Configuration errors (invalid URL, missing auth) → kInternalError</para>
+</listitem><listitem><para>Permanent task errors (not found, permission denied) → kExecutionFailed</para>
+</listitem><listitem><para>Transient errors (service temporarily unavailable) → kCoordinationError</para>
+</listitem></itemizedlist>
+</para>
+<para>All classified errors are logged with context (task ID, scheduler type, error details) to support production incident diagnostics.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error message or exception description. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>http_status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HTTP response status code (if applicable; 0 if not HTTP-based). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task ID for diagnostic logging. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scheduler_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target scheduler for contextual logging. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Mapped <ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">SchedulerError</ref> code.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="scheduler__api__contract_8h" kindref="compound">scheduler_api_contract.h</ref> for error taxonomy.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">http_status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scheduler_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="314" column="20" bodyfile="src/scheduler/external_scheduler_adapter.cpp" bodystart="700" bodyend="768"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1aaf420b397f8cf52d6f526e740ef41b9e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::ExternalSchedulerAdapter::intervalToCron</definition>
+        <argsstring>(std::chrono::milliseconds interval)</argsstring>
+        <name>intervalToCron</name>
+        <qualifiedname>themis::scheduler::ExternalSchedulerAdapter::intervalToCron</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>interval</declname>
+        </param>
+        <briefdescription>
+<para>Convert a fixed millisecond interval to a best-effort cron expression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Interval To Cron.</para>
+<para>Intervals shorter than 1 minute are rounded up to 1 minute. Intervals shorter than 1 hour are expressed as <computeroutput>*\/N * * * *</computeroutput>. Intervals shorter than 24 hours are expressed as <computeroutput>0 *\/N * * *</computeroutput>. Daily or longer intervals are expressed as <computeroutput>0 0 *\/D * *</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Duration to convert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>5-field cron expression string.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: minutes(), count(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="194" column="24" bodyfile="src/scheduler/external_scheduler_adapter.cpp" bodystart="33" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a2b4697f6264e68f408f4483d54a60bbc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::ExternalSchedulerAdapter::effectiveCronSchedule</definition>
+        <argsstring>(const ScheduledTask &amp;task)</argsstring>
+        <name>effectiveCronSchedule</name>
+        <qualifiedname>themis::scheduler::ExternalSchedulerAdapter::effectiveCronSchedule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Return the effective cron schedule for a task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Effective Cron Schedule.</para>
+<para>Returns task.cron_expression when TriggerType is CRON and the expression is non-empty. Otherwise converts task.interval using <ref refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1aaf420b397f8cf52d6f526e740ef41b9e" kindref="member">intervalToCron()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ThemisDB scheduled task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Cron expression string.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1aaf420b397f8cf52d6f526e740ef41b9e" kindref="member">intervalToCron()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="205" column="24" bodyfile="src/scheduler/external_scheduler_adapter.cpp" bodystart="66" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1aa402be963b6e341462ef5bb6f34fcdff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::ExternalSchedulerAdapter::toK8sName</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>toK8sName</name>
+        <qualifiedname>themis::scheduler::ExternalSchedulerAdapter::toK8sName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Sanitise a string for use as a Kubernetes resource name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>To K8s Name.</para>
+<para>Converts to lowercase, replaces non-alphanumeric characters with &apos;-&apos;, and trims leading/trailing hyphens. Truncates to 52 characters to leave room for a suffix.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw name string (e.g. task.id or task.name). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>DNS-label-safe name.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), std::isalnum(), std::tolower(), find_first_not_of(), substr(), find_last_not_of(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="217" column="24" bodyfile="src/scheduler/external_scheduler_adapter.cpp" bodystart="80" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a5597a577eb88d87fdff8248b5b52b72a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::ExternalSchedulerAdapter::jsonToYaml</definition>
+        <argsstring>(const nlohmann::json &amp;j, int indent=0)</argsstring>
+        <name>jsonToYaml</name>
+        <qualifiedname>themis::scheduler::ExternalSchedulerAdapter::jsonToYaml</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>indent</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Serialise a JSON object as minimal YAML (enough for Kubernetes manifests). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── YAML serialiser (subset sufficient for Kubernetes manifests) ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">indent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: pad(), child_pad(), is_object(), begin(), end(), key(), value(), is_array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="322" column="24" bodyfile="src/scheduler/external_scheduler_adapter.cpp" bodystart="133" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a97c0eaa3221e66a2b6e6f7c53fec5612" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::ExternalSchedulerAdapter::pyStringEscape</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>pyStringEscape</name>
+        <qualifiedname>themis::scheduler::ExternalSchedulerAdapter::pyStringEscape</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Escape a string for embedding in a Python string literal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Py String Escape.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="325" column="24" bodyfile="src/scheduler/external_scheduler_adapter.cpp" bodystart="211" bodyend="226"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Converts ThemisDB <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> definitions to and from external scheduler formats. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All methods are stateless and thread-safe. </para>
+    </detaileddescription>
+    <location file="include/scheduler/external_scheduler_adapter.h" line="108" column="1" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="108" bodyend="326"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1acc3b554a1fd723e2fba56690c166d67a" prot="public" virt="non-virtual"><scope>themis::scheduler::ExternalSchedulerAdapter</scope><name>classifyAndMapExternalError</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a06c0d9c10cc4f5e8799fa43149d0b175" prot="public" virt="non-virtual"><scope>themis::scheduler::ExternalSchedulerAdapter</scope><name>dispatchTaskToExternal</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a2b4697f6264e68f408f4483d54a60bbc" prot="public" virt="non-virtual"><scope>themis::scheduler::ExternalSchedulerAdapter</scope><name>effectiveCronSchedule</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1ab882746b4bed160155ca841d5aa95d3e" prot="public" virt="non-virtual"><scope>themis::scheduler::ExternalSchedulerAdapter</scope><name>ExternalSchedulerAdapter</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a316bb7824f942cd50b0c2117b02bf7e0" prot="public" virt="non-virtual"><scope>themis::scheduler::ExternalSchedulerAdapter</scope><name>fromKubernetesCronJobJson</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1aaf420b397f8cf52d6f526e740ef41b9e" prot="public" virt="non-virtual"><scope>themis::scheduler::ExternalSchedulerAdapter</scope><name>intervalToCron</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a5597a577eb88d87fdff8248b5b52b72a" prot="private" virt="non-virtual"><scope>themis::scheduler::ExternalSchedulerAdapter</scope><name>jsonToYaml</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a448ca36ead07aa3c11e8705d4070deb9" prot="public" virt="non-virtual"><scope>themis::scheduler::ExternalSchedulerAdapter</scope><name>pollExternalStatus</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a97c0eaa3221e66a2b6e6f7c53fec5612" prot="private" virt="non-virtual"><scope>themis::scheduler::ExternalSchedulerAdapter</scope><name>pyStringEscape</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1aca66832d9adef66511aca6b77b5175df" prot="public" virt="non-virtual"><scope>themis::scheduler::ExternalSchedulerAdapter</scope><name>toAirflowDagPython</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1aa402be963b6e341462ef5bb6f34fcdff" prot="public" virt="non-virtual"><scope>themis::scheduler::ExternalSchedulerAdapter</scope><name>toK8sName</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1ae777370a83a213b03e4ef6703a7054df" prot="public" virt="non-virtual"><scope>themis::scheduler::ExternalSchedulerAdapter</scope><name>toKubernetesCronJobJson</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter_1a3f4d23e3768b112e32989abbdbff67f4" prot="public" virt="non-virtual"><scope>themis::scheduler::ExternalSchedulerAdapter</scope><name>toKubernetesCronJobYaml</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

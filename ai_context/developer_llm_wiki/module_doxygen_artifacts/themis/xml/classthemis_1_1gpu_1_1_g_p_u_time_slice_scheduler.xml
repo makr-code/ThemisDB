@@ -1,0 +1,542 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUTimeSliceScheduler</compoundname>
+    <includes refid="time__slice__scheduler_8h" local="no">time_slice_scheduler.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config" prot="public">themis::gpu::GPUTimeSliceScheduler::TenantConfig</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats" prot="public">themis::gpu::GPUTimeSliceScheduler::TenantStats</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_stats" prot="public">themis::gpu::GPUTimeSliceScheduler::Stats</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_state" prot="private">themis::gpu::GPUTimeSliceScheduler::TenantState</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1acf09feefb36475574e9e2bb2463cd9ee" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPUTimeSliceScheduler::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="239" column="53" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aecc3a6305829774f72d229cab8de6298" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, TenantState &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TenantState&gt; themis::gpu::GPUTimeSliceScheduler::tenants_</definition>
+        <argsstring></argsstring>
+        <name>tenants_</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::tenants_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="240" column="26" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a9ef70f711eb345ea0b250319956e5f83" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::gpu::GPUTimeSliceScheduler::round_robin_order_</definition>
+        <argsstring></argsstring>
+        <name>round_robin_order_</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::round_robin_order_</qualifiedname>
+        <briefdescription>
+<para>Stable insertion-order list for round-robin. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="241" column="40" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a5c64cc08691fa037eba87c0a57874752" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTimeSliceScheduler::total_submitted_</definition>
+        <argsstring></argsstring>
+        <name>total_submitted_</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::total_submitted_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="244" column="12" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a3bfbbccd3d57c405ae87bdbf32b13466" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTimeSliceScheduler::total_completed_</definition>
+        <argsstring></argsstring>
+        <name>total_completed_</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::total_completed_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="245" column="12" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1ad6ebbb0bc570202b48261904ce056cec" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTimeSliceScheduler::total_preempted_</definition>
+        <argsstring></argsstring>
+        <name>total_preempted_</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::total_preempted_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="246" column="12" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a652f1e643038e11ac5dd512426cc8571" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTimeSliceScheduler::dispatch_rounds_</definition>
+        <argsstring></argsstring>
+        <name>dispatch_rounds_</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::dispatch_rounds_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="247" column="12" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a60f07b55fa0350064a7d50da4953878a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUTimeSliceScheduler::GPUTimeSliceScheduler</definition>
+        <argsstring>()=default</argsstring>
+        <name>GPUTimeSliceScheduler</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::GPUTimeSliceScheduler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="98" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a8ec3256e92de76038e2b8605da65933c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUTimeSliceScheduler::~GPUTimeSliceScheduler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GPUTimeSliceScheduler</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::~GPUTimeSliceScheduler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="99" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a10f0e089c9ecce5fd9ec95b186b1238f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUTimeSliceScheduler::GPUTimeSliceScheduler</definition>
+        <argsstring>(const GPUTimeSliceScheduler &amp;)=delete</argsstring>
+        <name>GPUTimeSliceScheduler</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::GPUTimeSliceScheduler</qualifiedname>
+        <param>
+          <type>const GPUTimeSliceScheduler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="102" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1ab4fd54a2b3c7b609ee7ee28722bbad94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a60f07b55fa0350064a7d50da4953878a" kindref="member">GPUTimeSliceScheduler</ref> &amp;</type>
+        <definition>GPUTimeSliceScheduler &amp; themis::gpu::GPUTimeSliceScheduler::operator=</definition>
+        <argsstring>(const GPUTimeSliceScheduler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a60f07b55fa0350064a7d50da4953878a" kindref="member">GPUTimeSliceScheduler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="103" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a43bc458f0e6cd3c44d9bf6c039348e01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUTimeSliceScheduler::registerTenant</definition>
+        <argsstring>(const TenantConfig &amp;config)</argsstring>
+        <name>registerTenant</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::registerTenant</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config" kindref="compound">TenantConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Register a tenant with its time-slice configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant configuration. <computeroutput>tenant_id</computeroutput> must be non-empty and <computeroutput>slice_ms</computeroutput> must be &gt; 0. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false if the tenant is already registered or the configuration is invalid. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="122" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a61ef28ba0faeac89b3a1e4e5c6a8189d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUTimeSliceScheduler::unregisterTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>unregisterTenant</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::unregisterTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister a tenant and discard any pending queue entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if the tenant was found and removed; false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="129" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aaad4eafd81fd54c6a96ae08fce2d3922" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUTimeSliceScheduler::hasTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>hasTenant</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::hasTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Return true if the tenant is currently registered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="134" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a381a1a7a657adf2c58e90f68cb393e59" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTimeSliceScheduler::tenantCount</definition>
+        <argsstring>() const</argsstring>
+        <name>tenantCount</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::tenantCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of registered tenants. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="139" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a7dc8e7c4529c58dafb68c02c65defca3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::gpu::GPUTimeSliceScheduler::tenantIds</definition>
+        <argsstring>() const</argsstring>
+        <name>tenantIds</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::tenantIds</qualifiedname>
+        <briefdescription>
+<para>Return all registered tenant identifiers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="144" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a53fef7a5a00deb10173900d209eb1d3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUTimeSliceScheduler::submit</definition>
+        <argsstring>(const std::string &amp;tenant_id, GPULauncher::WorkItem item)</argsstring>
+        <name>submit</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::submit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item" kindref="compound">GPULauncher::WorkItem</ref></type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Enqueue a work item for <computeroutput>tenant_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The item is placed at the back of the tenant&apos;s FIFO queue and will be dispatched in a future <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aabc734f3b81334e64010af7ae2b0d2a1" kindref="member">dispatch()</ref></computeroutput> call.</para>
+<para><simplesect kind="return"><para>true on success; false if the tenant is not registered. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="158" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1ae67e4d34681a89d6801dfd24ce7b5650" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTimeSliceScheduler::queueDepth</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>queueDepth</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::queueDepth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the number of items currently queued for <computeroutput>tenant_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns 0 if the tenant is not registered. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="165" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aabc734f3b81334e64010af7ae2b0d2a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUTimeSliceScheduler::dispatch</definition>
+        <argsstring>(GPULauncher::BackendFn backend=nullptr)</argsstring>
+        <name>dispatch</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::dispatch</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">GPULauncher::BackendFn</ref></type>
+          <declname>backend</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Execute one scheduling round. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Visits each registered tenant in round-robin order (registration order). For each tenant, executes queued items via <computeroutput>backend</computeroutput> until either:<itemizedlist>
+<listitem><para>the tenant&apos;s time quantum (<computeroutput>slice_ms</computeroutput>) has elapsed, or</para>
+</listitem><listitem><para>the tenant&apos;s queue is empty.</para>
+</listitem></itemizedlist>
+</para>
+<para>Items not reached within this round remain in the queue for the next <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aabc734f3b81334e64010af7ae2b0d2a1" kindref="member">dispatch()</ref></computeroutput> call. The <computeroutput>preempted</computeroutput> counter is incremented for a tenant when the slice expires while items remain in the queue.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>GPU execution backend. Receives each <computeroutput>WorkItem</computeroutput> and returns true on success. When nullptr is passed a CPU no-op backend (always succeeds) is used. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="187" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1af2be773a458fc2a7b87a877e127e1704" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUTimeSliceScheduler::drainAll</definition>
+        <argsstring>(GPULauncher::BackendFn backend=nullptr)</argsstring>
+        <name>drainAll</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::drainAll</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">GPULauncher::BackendFn</ref></type>
+          <declname>backend</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Drain all tenant queues by calling <ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aabc734f3b81334e64010af7ae2b0d2a1" kindref="member">dispatch()</ref> until empty. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Terminates when every tenant&apos;s queue is empty. Intended for tests and batch workflows. Avoid calling from a latency-sensitive path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>GPU execution backend; nullptr = CPU no-op. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="197" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1af9993e93d1b88e4767b612959503a1d6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUTimeSliceScheduler::allQueuesEmpty</definition>
+        <argsstring>() const</argsstring>
+        <name>allQueuesEmpty</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::allQueuesEmpty</qualifiedname>
+        <briefdescription>
+<para>Return true when all tenant queues are empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="202" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a3c0425e35106554d5808b7f8b63f4f6a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats" kindref="compound">TenantStats</ref></type>
+        <definition>TenantStats themis::gpu::GPUTimeSliceScheduler::getTenantStats</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getTenantStats</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::getTenantStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Return stats for a specific tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a zero-filled <ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats" kindref="compound">TenantStats</ref> if the tenant is not registered. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="213" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1ae0dc53fcdc0f2dd7f64f78785560fa21" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats" kindref="compound">TenantStats</ref> &gt;</type>
+        <definition>std::vector&lt; TenantStats &gt; themis::gpu::GPUTimeSliceScheduler::getAllTenantStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllTenantStats</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::getAllTenantStats</qualifiedname>
+        <briefdescription>
+<para>Return stats for all registered tenants. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="218" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a33389d1e548e6da3a4ee507db926d550" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::gpu::GPUTimeSliceScheduler::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::getStats</qualifiedname>
+        <briefdescription>
+<para>Return aggregate scheduler statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="223" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aee0a96e87b61ea462de6da76d361152c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUTimeSliceScheduler::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset all statistics and clear all queues (keeps tenant registrations). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Intended for unit tests. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="230" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1acc3d09787924041e3757a777f0422581" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a60f07b55fa0350064a7d50da4953878a" kindref="member">GPUTimeSliceScheduler</ref> &amp;</type>
+        <definition>static GPUTimeSliceScheduler &amp; themis::gpu::GPUTimeSliceScheduler::GetInstance</definition>
+        <argsstring>()</argsstring>
+        <name>GetInstance</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::GetInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="105" column="34" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="105" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Dynamic GPU time-slicing scheduler for multi-tenant isolation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides fair time-sharing of the GPU across multiple tenants so that no single tenant can monopolize the compute resource. Each tenant is registered with a configurable time quantum (<computeroutput>slice_ms</computeroutput>). The scheduler dispatches GPU work items in round-robin order; within each tenant&apos;s turn it executes as many queued items as fit inside the time quantum before moving to the next tenant.</para>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1autotoc_md49_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1autotoc_md49">
+<title>Work submission</title><para>Callers enqueue work with <computeroutput>submit(tenant_id, item)</computeroutput>. Items accumulate in per-tenant FIFO queues until the scheduler dispatches them.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1autotoc_md50_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1autotoc_md50">
+<title>Dispatch modes</title><para><itemizedlist>
+<listitem><para><computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aabc734f3b81334e64010af7ae2b0d2a1" kindref="member">dispatch()</ref></computeroutput> — one scheduling round: visit each registered tenant in round-robin order and execute items until the time slice is exhausted. Items that were not reached in this round remain in the queue.</para>
+</listitem><listitem><para><computeroutput>drainAll(backend)</computeroutput> — keep calling <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aabc734f3b81334e64010af7ae2b0d2a1" kindref="member">dispatch()</ref></computeroutput> until every tenant queue is empty, useful in tests and batch workflows.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1autotoc_md51_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1autotoc_md51">
+<title>Tenant isolation guarantee</title><para>After each tenant&apos;s slice expires the scheduler stops dispatching that tenant&apos;s items for the current round. Any item already executing is allowed to finish; the quantum is enforced between item boundaries, not inside a running kernel.</para>
+<para>Thread safety: all public methods are protected by an internal mutex. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/gpu/time_slice_scheduler.h" line="58" column="1" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="58" bodyend="248"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1af9993e93d1b88e4767b612959503a1d6" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>allQueuesEmpty</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aabc734f3b81334e64010af7ae2b0d2a1" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>dispatch</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a652f1e643038e11ac5dd512426cc8571" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>dispatch_rounds_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1af2be773a458fc2a7b87a877e127e1704" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>drainAll</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1ae0dc53fcdc0f2dd7f64f78785560fa21" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>getAllTenantStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1acc3d09787924041e3757a777f0422581" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>GetInstance</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a33389d1e548e6da3a4ee507db926d550" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a3c0425e35106554d5808b7f8b63f4f6a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>getTenantStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a60f07b55fa0350064a7d50da4953878a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>GPUTimeSliceScheduler</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a10f0e089c9ecce5fd9ec95b186b1238f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>GPUTimeSliceScheduler</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aaad4eafd81fd54c6a96ae08fce2d3922" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>hasTenant</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1acf09feefb36475574e9e2bb2463cd9ee" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1ab4fd54a2b3c7b609ee7ee28722bbad94" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1ae67e4d34681a89d6801dfd24ce7b5650" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>queueDepth</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a43bc458f0e6cd3c44d9bf6c039348e01" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>registerTenant</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aee0a96e87b61ea462de6da76d361152c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a9ef70f711eb345ea0b250319956e5f83" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>round_robin_order_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a53fef7a5a00deb10173900d209eb1d3a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>submit</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a381a1a7a657adf2c58e90f68cb393e59" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>tenantCount</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a7dc8e7c4529c58dafb68c02c65defca3" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>tenantIds</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aecc3a6305829774f72d229cab8de6298" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>tenants_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a3bfbbccd3d57c405ae87bdbf32b13466" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>total_completed_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1ad6ebbb0bc570202b48261904ce056cec" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>total_preempted_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a5c64cc08691fa037eba87c0a57874752" prot="private" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>total_submitted_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a61ef28ba0faeac89b3a1e4e5c6a8189d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>unregisterTenant</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a8ec3256e92de76038e2b8605da65933c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler</scope><name>~GPUTimeSliceScheduler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

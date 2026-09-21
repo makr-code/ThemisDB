@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1boundary__enforcement_1_1_scoped_checkout_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::boundary_enforcement::ScopedCheckoutValidator</compoundname>
+    <innerclass refid="structthemis_1_1plugins_1_1boundary__enforcement_1_1_scoped_checkout_validator_1_1_gitmodules_entry" prot="public">themis::plugins::boundary_enforcement::ScopedCheckoutValidator::GitmodulesEntry</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1boundary__enforcement_1_1_scoped_checkout_validator_1ad9dc6044ab31397b193f4e402c14d3a6" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::plugins::boundary_enforcement::ScopedCheckoutValidator::validate_community_checkout</definition>
+        <argsstring>(const std::vector&lt; GitmodulesEntry &gt; &amp;submodules, bool is_community_target)</argsstring>
+        <name>validate_community_checkout</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::ScopedCheckoutValidator::validate_community_checkout</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1boundary__enforcement_1_1_scoped_checkout_validator_1_1_gitmodules_entry" kindref="compound">GitmodulesEntry</ref> &gt; &amp;</type>
+          <declname>submodules</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_community_target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="221" column="17" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="221" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1boundary__enforcement_1_1_scoped_checkout_validator_1a148801626484abea03f82c48e32a05a6" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1boundary__enforcement_1_1_scoped_checkout_validator_1_1_gitmodules_entry" kindref="compound">GitmodulesEntry</ref> &gt;</type>
+        <definition>static std::vector&lt; GitmodulesEntry &gt; themis::plugins::boundary_enforcement::ScopedCheckoutValidator::parse_gitmodules</definition>
+        <argsstring>(const std::string &amp;content)</argsstring>
+        <name>parse_gitmodules</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::ScopedCheckoutValidator::parse_gitmodules</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="237" column="24" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="237" bodyend="273"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Scoped checkout validator. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="211" column="1" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="211" bodyend="274"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_scoped_checkout_validator_1a148801626484abea03f82c48e32a05a6" prot="public" virt="non-virtual"><scope>themis::plugins::boundary_enforcement::ScopedCheckoutValidator</scope><name>parse_gitmodules</name></member>
+      <member refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_scoped_checkout_validator_1ad9dc6044ab31397b193f4e402c14d3a6" prot="public" virt="non-virtual"><scope>themis::plugins::boundary_enforcement::ScopedCheckoutValidator</scope><name>validate_community_checkout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

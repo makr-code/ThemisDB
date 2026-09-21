@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_content_policy_test" kind="class" language="C++" prot="public">
+    <compoundname>ContentPolicyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_content_policy_test_1a3e5ac77066df8e61b6b025ccab6798ea" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1content_1_1_content_policy" kindref="compound">ContentPolicy</ref></type>
+        <definition>ContentPolicy ContentPolicyTest::policy_</definition>
+        <argsstring></argsstring>
+        <name>policy_</name>
+        <qualifiedname>ContentPolicyTest::policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="83" column="19" bodyfile="tests/content/test_content_policy.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_content_policy_test_1a447af392674a105cf4a6a39252b6547d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ContentPolicyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ContentPolicyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="16" column="10" bodyfile="tests/content/test_content_policy.cpp" bodystart="16" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ContentPolicyTest</label>
+        <link refid="class_content_policy_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ContentPolicyTest</label>
+        <link refid="class_content_policy_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>policy_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::content::ContentPolicy</label>
+        <link refid="structthemis_1_1content_1_1_content_policy"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_content_policy.cpp" line="14" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="14" bodyend="84"/>
+    <listofallmembers>
+      <member refid="class_content_policy_test_1a3e5ac77066df8e61b6b025ccab6798ea" prot="protected" virt="non-virtual"><scope>ContentPolicyTest</scope><name>policy_</name></member>
+      <member refid="class_content_policy_test_1a447af392674a105cf4a6a39252b6547d" prot="protected" virt="non-virtual"><scope>ContentPolicyTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

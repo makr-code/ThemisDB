@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_bounded_l_r_u_c4_test" kind="class" language="C++" prot="public">
+    <compoundname>BoundedLRUC4Test</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_bounded_l_r_u_c4_test_1a2f5bb6248b81ace2e2e61fa26986995e" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config" kindref="compound">BoundedLRUCache::Config</ref></type>
+        <definition>BoundedLRUCache::Config BoundedLRUC4Test::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>BoundedLRUC4Test::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_phase4_cache_hardening.cpp" line="137" column="29" bodyfile="tests/cache/test_phase4_cache_hardening.cpp" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_bounded_l_r_u_c4_test_1a329cbffabdec3e9064b57b301a2a99f2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache" kindref="compound">BoundedLRUCache</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;BoundedLRUCache&gt; BoundedLRUC4Test::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>BoundedLRUC4Test::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_phase4_cache_hardening.cpp" line="138" column="21" bodyfile="tests/cache/test_phase4_cache_hardening.cpp" bodystart="138" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_bounded_l_r_u_c4_test_1ab58bde4e48b9bbf373cf114f0dc0ed51" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BoundedLRUC4Test::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>BoundedLRUC4Test::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_phase4_cache_hardening.cpp" line="140" column="10" bodyfile="tests/cache/test_phase4_cache_hardening.cpp" bodystart="140" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BoundedLRUC4Test</label>
+        <link refid="class_bounded_l_r_u_c4_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BoundedLRUC4Test</label>
+        <link refid="class_bounded_l_r_u_c4_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::cache::BoundedLRUCache::Config</label>
+        <link refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_phase4_cache_hardening.cpp" line="135" column="1" bodyfile="tests/cache/test_phase4_cache_hardening.cpp" bodystart="135" bodyend="148"/>
+    <listofallmembers>
+      <member refid="class_bounded_l_r_u_c4_test_1a329cbffabdec3e9064b57b301a2a99f2" prot="protected" virt="non-virtual"><scope>BoundedLRUC4Test</scope><name>cache_</name></member>
+      <member refid="class_bounded_l_r_u_c4_test_1a2f5bb6248b81ace2e2e61fa26986995e" prot="protected" virt="non-virtual"><scope>BoundedLRUC4Test</scope><name>cfg_</name></member>
+      <member refid="class_bounded_l_r_u_c4_test_1ab58bde4e48b9bbf373cf114f0dc0ed51" prot="protected" virt="non-virtual"><scope>BoundedLRUC4Test</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

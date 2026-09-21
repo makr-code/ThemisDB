@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="schema__constraints_8h" kind="file" language="C++">
+    <compoundname>schema_constraints.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">variant</includes>
+    <includes local="no">map</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="schema__consistency__checker_8cpp" local="yes">src/metadata/schema_consistency_checker.cpp</includedby>
+    <includedby refid="schema__constraints_8cpp" local="yes">src/metadata/schema_constraints.cpp</includedby>
+    <includedby refid="test__schema__consistency__checker_8cpp" local="yes">tests/metadata/test_schema_consistency_checker.cpp</includedby>
+    <includedby refid="test__schema__constraints_8cpp" local="yes">tests/metadata/test_schema_constraints.cpp</includedby>
+    <includedby refid="test__schema__constraints__persistence_8cpp" local="yes">tests/metadata/test_schema_constraints_persistence.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/metadata/schema_constraints.h</label>
+        <link refid="schema__constraints_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+      <node id="6">
+        <label>variant</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/metadata/schema_constraints.h</label>
+        <link refid="schema__constraints_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/metadata/schema_consistency_checker.cpp</label>
+        <link refid="schema__consistency__checker_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/metadata/schema_constraints.cpp</label>
+        <link refid="schema__constraints_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/metadata/test_schema_consistency_checker.cpp</label>
+        <link refid="test__schema__consistency__checker_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/metadata/test_schema_constraints.cpp</label>
+        <link refid="test__schema__constraints_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/metadata/test_schema_constraints_persistence.cpp</label>
+        <link refid="test__schema__constraints__persistence_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_constraint_violation" prot="public">themis::ConstraintViolation</innerclass>
+    <innerclass refid="structthemis_1_1_column_constraint" prot="public">themis::ColumnConstraint</innerclass>
+    <innerclass refid="classthemis_1_1_schema_constraints" prot="public">themis::SchemaConstraints</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RocksDBWrapper;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1_constraint_violation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_constraint_violation" kindref="compound">ConstraintViolation</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1_constraint_violation_1a080855d70708effe97ad8c9266302e43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_constraint_violation_1a080855d70708effe97ad8c9266302e43" kindref="member">table_name</ref>;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1_constraint_violation_1ac97806ce059c013c743b91e13db99335" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_constraint_violation_1ac97806ce059c013c743b91e13db99335" kindref="member">column_name</ref>;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1_constraint_violation_1ad9dc68fe7b00cdb6d7739fd72e3ee284" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_constraint_violation_1ad9dc68fe7b00cdb6d7739fd72e3ee284" kindref="member">constraint_name</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1_constraint_violation_1ae4bf97be347319cc3e9d7ae26ab22085" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_constraint_violation_1ae4bf97be347319cc3e9d7ae26ab22085" kindref="member">constraint_type</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1_constraint_violation_1abe4a02566002275f87ffd4b4e7bf1b2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_constraint_violation_1abe4a02566002275f87ffd4b4e7bf1b2d" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1_constraint_violation_1affa5787df35c41959247f538d6bbc4f1" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref><sp/>=<sp/>std::variant&lt;std::monostate,<sp/>std::string,<sp/>int64_t,<sp/>double,<sp/>bool&gt;;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1_column_constraint" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref><sp/>{</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6" kindref="member">Kind</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6aeed1de8e53bda49dda97e42841cfe6c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6aeed1de8e53bda49dda97e42841cfe6c5" kindref="member">NOT_NULL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6a88e3e8040c7cd11b9faffdf34372fa2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6a88e3e8040c7cd11b9faffdf34372fa2a" kindref="member">UNIQUE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6a8c46d8d9d3402788403e2f6911153089" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6a8c46d8d9d3402788403e2f6911153089" kindref="member">CHECK</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6a5b39c8b553c821e7cddc6da64b5bd2ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6a5b39c8b553c821e7cddc6da64b5bd2ee" kindref="member">DEFAULT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6ab5ec1c758d5803d83495713c6f3be569" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6ab5ec1c758d5803d83495713c6f3be569" kindref="member">FOREIGN_KEY</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1_column_constraint_1a8d865e14ae659489419eaea5cc738255" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6" kindref="member">Kind</ref><sp/><ref refid="structthemis_1_1_column_constraint_1a8d865e14ae659489419eaea5cc738255" kindref="member">kind</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1_column_constraint_1a8897deba7b2ea4f13fd7478dadb32e8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_column_constraint_1a8897deba7b2ea4f13fd7478dadb32e8e" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1_column_constraint_1a044bbc491363be360dee282fe690b48a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_column_constraint_1a044bbc491363be360dee282fe690b48a" kindref="member">check_expr</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1_column_constraint_1a0ce6395967aec34819dedcfe7df5ac2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ColumnValue&gt;<sp/><ref refid="structthemis_1_1_column_constraint_1a0ce6395967aec34819dedcfe7df5ac2f" kindref="member">default_value</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1_column_constraint_1a700d0683c239c2d31e30660d3d808daf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_column_constraint_1a700d0683c239c2d31e30660d3d808daf" kindref="member">fk_table</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1_column_constraint_1a355516499562391efb0d37bf0abb9f3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_column_constraint_1a355516499562391efb0d37bf0abb9f3a" kindref="member">fk_column</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1_column_constraint_1acc14bad36e73538116f3102701518db2" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref><sp/><ref refid="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" kindref="member">makeNotNull</ref>(std::string<sp/>constraint_name);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref><sp/><ref refid="structthemis_1_1_column_constraint_1aa165b13268c1da7109c8171d12ce1101" kindref="member">makeUnique</ref>(std::string<sp/>constraint_name);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref><sp/><ref refid="structthemis_1_1_column_constraint_1afd0f40ae1b5dcbe1bd760854e0fc752a" kindref="member">makeCheck</ref>(std::string<sp/>constraint_name,<sp/>std::string<sp/>expr);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref><sp/><ref refid="structthemis_1_1_column_constraint_1abcd63e4eae1d711bfef5633132b2dd5f" kindref="member">makeDefault</ref>(std::string<sp/>constraint_name,<sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref><sp/>value);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref><sp/><ref refid="structthemis_1_1_column_constraint_1a08a87196e60424bfa003a804c83ac6dc" kindref="member">makeForeignKey</ref>(</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>constraint_name,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>ref_table,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>ref_column</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1a2645671a6291b51f2c35f17db3549933" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a2645671a6291b51f2c35f17db3549933" kindref="member">ConstraintErrorCode</ref><sp/>{</highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1a2645671a6291b51f2c35f17db3549933ae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2645671a6291b51f2c35f17db3549933ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1a2645671a6291b51f2c35f17db3549933a9cd5def5e93269fd7c1a1fb555571117" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2645671a6291b51f2c35f17db3549933a9cd5def5e93269fd7c1a1fb555571117" kindref="member">NOT_NULL_VIOLATION</ref>,</highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1a2645671a6291b51f2c35f17db3549933af99c72df347381507d1e5c1e99f72304" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2645671a6291b51f2c35f17db3549933af99c72df347381507d1e5c1e99f72304" kindref="member">UNIQUE_VIOLATION</ref>,</highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1a2645671a6291b51f2c35f17db3549933ae294140616439e50594d42a3a6199245" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2645671a6291b51f2c35f17db3549933ae294140616439e50594d42a3a6199245" kindref="member">CHECK_VIOLATION</ref>,</highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1a2645671a6291b51f2c35f17db3549933a6198483dc3f2a0913781b62ad1727917" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2645671a6291b51f2c35f17db3549933a6198483dc3f2a0913781b62ad1727917" kindref="member">FOREIGN_KEY_VIOLATION</ref>,</highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1a2645671a6291b51f2c35f17db3549933ae7ab0baaeef2c10221ca8e7224e3b616" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2645671a6291b51f2c35f17db3549933ae7ab0baaeef2c10221ca8e7224e3b616" kindref="member">UNKNOWN_TABLE</ref>,</highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1a2645671a6291b51f2c35f17db3549933a2fbf814f4b4d5550d72470ca42f6d283" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2645671a6291b51f2c35f17db3549933a2fbf814f4b4d5550d72470ca42f6d283" kindref="member">UNKNOWN_COLUMN</ref>,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1_schema_constraints" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_schema_constraints_1a3eb699d36b8f1e2e77eddebc9b467020" kindref="member">SchemaConstraints</ref><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1_schema_constraints_1a3eb699d36b8f1e2e77eddebc9b467020" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints_1a3eb699d36b8f1e2e77eddebc9b467020" kindref="member">SchemaConstraints</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1_schema_constraints_1a5aa5667e39dc8c6910b8543359024704" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints_1a5aa5667e39dc8c6910b8543359024704" kindref="member">~SchemaConstraints</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy,<sp/>allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1_schema_constraints_1a0d800377c24932ae99f5fe72b3d531b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints_1a0d800377c24932ae99f5fe72b3d531b1" kindref="member">SchemaConstraints</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_constraints_1a3eb699d36b8f1e2e77eddebc9b467020" kindref="member">SchemaConstraints</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1_schema_constraints_1a998e451eef91ba61adce094a6e886a3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints_1a3eb699d36b8f1e2e77eddebc9b467020" kindref="member">SchemaConstraints</ref>&amp;<sp/><ref refid="classthemis_1_1_schema_constraints_1a998e451eef91ba61adce094a6e886a3d" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_constraints_1a3eb699d36b8f1e2e77eddebc9b467020" kindref="member">SchemaConstraints</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1_schema_constraints_1a925f3767b56f8999c3d4a7206495d3ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints_1a925f3767b56f8999c3d4a7206495d3ec" kindref="member">SchemaConstraints</ref>(<ref refid="classthemis_1_1_schema_constraints_1a3eb699d36b8f1e2e77eddebc9b467020" kindref="member">SchemaConstraints</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1_schema_constraints_1a59575c11ee1ffce0e6c4b98049115e8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints_1a3eb699d36b8f1e2e77eddebc9b467020" kindref="member">SchemaConstraints</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1_schema_constraints_1a3eb699d36b8f1e2e77eddebc9b467020" kindref="member">SchemaConstraints</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Constraint<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_constraints_1ad274f47402ff59be622cd6ad56a76acd" kindref="member">addConstraint</ref>(</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table_name,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>column_name,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref><sp/>constraint</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_constraints_1a0b3a28a217e867442b79b872ceedc22b" kindref="member">removeColumnConstraints</ref>(</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table_name,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>column_name</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_constraints_1a1ca77fb3afcbfb2f4327612cf878c657" kindref="member">removeTableConstraints</ref>(std::string_view<sp/>table_name);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref>&gt;<sp/><ref refid="classthemis_1_1_schema_constraints_1a9e2367f13a7b2e955772b385a21ac139" kindref="member">getColumnConstraints</ref>(</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table_name,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>column_name</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref>&gt;<sp/><ref refid="classthemis_1_1_schema_constraints_1a5911f34efbfc5a7aafb4ec4ca5a8e099" kindref="member">getTableConstraints</ref>(</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table_name</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enforcement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1_constraint_violation" kindref="compound">ConstraintViolation</ref>&gt;<sp/><ref refid="classthemis_1_1_schema_constraints_1a53d7bc3e777301f03d347036c0962ea1" kindref="member">enforce</ref>(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table_name,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref>&gt;&amp;<sp/>row</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref>&gt;<sp/><ref refid="classthemis_1_1_schema_constraints_1a2fde734ceda6c4292ad606eddfe6eed5" kindref="member">applyDefaults</ref>(</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table_name,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref>&gt;<sp/>row</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialisation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="classthemis_1_1_schema_constraints_1add013df92fe2ab510d30ce95683f90df" kindref="member">toJSON</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/><ref refid="classthemis_1_1_schema_constraints_1a3eb699d36b8f1e2e77eddebc9b467020" kindref="member">SchemaConstraints</ref><sp/><ref refid="classthemis_1_1_schema_constraints_1afbfe622e676ad8d7d64903d93a390612" kindref="member">fromJSON</ref>(const<sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RocksDB<sp/>persistence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_constraints_1a71e8fc0b325b07eadc177e21f3e369fe" kindref="member">persistTo</ref>(RocksDBWrapper&amp;<sp/>db)<sp/>const;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_constraints_1a4bd1fdc5e445c1d4926f496bfc41e306" kindref="member">persistTableTo</ref>(RocksDBWrapper&amp;<sp/>db,<sp/>std::string_view<sp/>table_name)<sp/>const;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_constraints_1a44b8ead26df0494edda6fe18879d0e00" kindref="member">loadFrom</ref>(RocksDBWrapper&amp;<sp/>db);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_constraints_1a1358077be81bb903e6eda38685d968c0" kindref="member">loadTableFrom</ref>(RocksDBWrapper&amp;<sp/>db,<sp/>std::string_view<sp/>table_name);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1_constraint_violation" kindref="compound">ConstraintViolation</ref>&gt;<sp/>checkNotNull(</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table_name,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>column_name,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref>&amp;<sp/>c,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref>&amp;<sp/>value</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1_constraint_violation" kindref="compound">ConstraintViolation</ref>&gt;<sp/>checkCheck(</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table_name,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>column_name,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref>&amp;<sp/>c,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref>&amp;<sp/>value</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>table_name<sp/>-&gt;<sp/>(column_name<sp/>-&gt;<sp/>[constraints])</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>std::map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>std::vector&lt;<ref refid="structthemis_1_1_column_constraint" kindref="compound">ColumnConstraint</ref>&gt;&gt;&gt;<sp/>constraints_;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/metadata/schema_constraints.h"/>
+  </compounddef>
+</doxygen>

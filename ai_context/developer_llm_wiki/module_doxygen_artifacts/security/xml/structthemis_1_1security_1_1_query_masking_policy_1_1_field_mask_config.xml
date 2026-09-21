@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_query_masking_policy_1_1_field_mask_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::QueryMaskingPolicy::FieldMaskConfig</compoundname>
+    <includes refid="query__masking__policy_8h" local="no">query_masking_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_query_masking_policy_1_1_field_mask_config_1a9d785121fffbe1afaddc1fb5dd8fcb0d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::QueryMaskingPolicy::FieldMaskConfig::mask_mode</definition>
+        <argsstring></argsstring>
+        <name>mask_mode</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::FieldMaskConfig::mask_mode</qualifiedname>
+        <briefdescription>
+<para>&quot;strict&quot; | &quot;partial&quot; | &quot;none&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="63" column="21" bodyfile="include/security/query_masking_policy.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_query_masking_policy_1_1_field_mask_config_1ad1724438729008d35cfccdc144e0fa0c" prot="public" static="no" mutable="no">
+        <type>utils::PIIType</type>
+        <definition>utils::PIIType themis::security::QueryMaskingPolicy::FieldMaskConfig::pii_type</definition>
+        <argsstring></argsstring>
+        <name>pii_type</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::FieldMaskConfig::pii_type</qualifiedname>
+        <initializer>= utils::PIIType::UNKNOWN</initializer>
+        <briefdescription>
+<para>Hint for masking form. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="64" column="24" bodyfile="include/security/query_masking_policy.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-field masking configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/query_masking_policy.h" line="62" column="5" bodyfile="include/security/query_masking_policy.h" bodystart="62" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_query_masking_policy_1_1_field_mask_config_1a9d785121fffbe1afaddc1fb5dd8fcb0d" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy::FieldMaskConfig</scope><name>mask_mode</name></member>
+      <member refid="structthemis_1_1security_1_1_query_masking_policy_1_1_field_mask_config_1ad1724438729008d35cfccdc144e0fa0c" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy::FieldMaskConfig</scope><name>pii_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="process__federation__stress__scenarios_8h" kind="file" language="C++">
+    <compoundname>process_federation_stress_scenarios.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/process_federation_stress_scenarios.h</label>
+        <link refid="process__federation__stress__scenarios_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_byzantine_consensus_scenario" prot="public">themisdb::process::stress_scenarios::ByzantineConsensusScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_network_partition_healing_scenario" prot="public">themisdb::process::stress_scenarios::NetworkPartitionHealingScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_callback_under_high_churn_scenario" prot="public">themisdb::process::stress_scenarios::CallbackUnderHighChurnScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_multi_model_conflict_scenario" prot="public">themisdb::process::stress_scenarios::MultiModelConflictScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_audit_trail_high_churn_scenario" prot="public">themisdb::process::stress_scenarios::AuditTrailHighChurnScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_temporal_reconstruction_scenario" prot="public">themisdb::process::stress_scenarios::TemporalReconstructionScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_correlation_id_propagation_scenario" prot="public">themisdb::process::stress_scenarios::CorrelationIdPropagationScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_trace_completeness_partition_scenario" prot="public">themisdb::process::stress_scenarios::TraceCompletenessPartitionScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_partition_detection_latency_scenario" prot="public">themisdb::process::stress_scenarios::PartitionDetectionLatencyScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_split_brain_prevention_scenario" prot="public">themisdb::process::stress_scenarios::SplitBrainPreventionScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_cascading_failures_scenario" prot="public">themisdb::process::stress_scenarios::CascadingFailuresScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_rejoin_log_sync_scenario" prot="public">themisdb::process::stress_scenarios::RejoinLogSyncScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario" prot="public">themisdb::process::stress_scenarios::FederationStressScenario</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1process">themisdb::process</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1process_1_1stress__scenarios">themisdb::process::stress_scenarios</innernamespace>
+    <briefdescription>
+<para>12 federated stress scenarios for Phase 4 testing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines stress test scenarios covering consensus, conflict resolution, incremental evolution, telemetry, and network failure edge cases.</para>
+<para><simplesect kind="version"><para>2.1.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-06 @status PHASE_1_DESIGN (Q1 2027)</para>
+</simplesect>
+</para>
+<sect1 id="process__federation__stress__scenarios_8h_1autotoc_md25_1s1"><sect2 id="process__federation__stress__scenarios_8h_1autotoc_md25">
+<title>Stress Scenario Overview</title><para>12 scenarios across 5 categories, mapped to Phase 4 test suites:</para>
+<para><table rows="6" cols="3"><row>
+<entry thead="yes"><para>Category  </para>
+</entry><entry thead="yes"><para>Count  </para>
+</entry><entry thead="yes"><para>Scenarios  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Consensus  </para>
+</entry><entry thead="no"><para>2  </para>
+</entry><entry thead="no"><para>Byzantine consensus, partition healing  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Conflict Resolution  </para>
+</entry><entry thead="no"><para>2  </para>
+</entry><entry thead="no"><para>Callback under high churn, multi-model conflicts  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Incremental Evolution  </para>
+</entry><entry thead="no"><para>2  </para>
+</entry><entry thead="no"><para>Audit trail under churn, temporal reconstruction  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Distributed Tracing  </para>
+</entry><entry thead="no"><para>2  </para>
+</entry><entry thead="no"><para>Trace completeness, correlation ID propagation  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Network Failure  </para>
+</entry><entry thead="no"><para>4  </para>
+</entry><entry thead="no"><para>Partition detection, split-brain, cascading failures, re-join  </para>
+</entry></row>
+</table>
+</para>
+<para>All scenarios are deterministic (kFederationTestSeed = 42).</para>
+<para><simplesect kind="see"><para>ROADMAP_FEDERATION.md – Phase 1-6 implementation plan </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_FEDERATION_STRESS_SCENARIOS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_FEDERATION_STRESS_SCENARIOS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="namespacethemisdb_1_1process_1_1stress__scenarios" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1process_1_1stress__scenarios" kindref="compound">themisdb::process::stress_scenarios</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STRESS<sp/>SCENARIO<sp/>CONSTANTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespacethemisdb_1_1process_1_1stress__scenarios_1ae62fa9ddc8125983c6eb16cfeaa3ff8c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint32_t<sp/><ref refid="namespacethemisdb_1_1process_1_1stress__scenarios_1ae62fa9ddc8125983c6eb16cfeaa3ff8c" kindref="member">kFederationTestSeed</ref><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="namespacethemisdb_1_1process_1_1stress__scenarios_1a919aa79f601813eb1bf551a0231ff1f6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint32_t<sp/><ref refid="namespacethemisdb_1_1process_1_1stress__scenarios_1a919aa79f601813eb1bf551a0231ff1f6" kindref="member">kBaseReplicaCount</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="namespacethemisdb_1_1process_1_1stress__scenarios_1aec2ff31f8bea71218cdace676a030ee5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint32_t<sp/><ref refid="namespacethemisdb_1_1process_1_1stress__scenarios_1aec2ff31f8bea71218cdace676a030ee5" kindref="member">kHighChurnOperations</ref><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="namespacethemisdb_1_1process_1_1stress__scenarios_1a83b5b6eb5edd11bda74e66e98152abcd" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint32_t<sp/><ref refid="namespacethemisdb_1_1process_1_1stress__scenarios_1a83b5b6eb5edd11bda74e66e98152abcd" kindref="member">kPartitionDetectionTimeoutMs</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CONSENSUS<sp/>SCENARIOS<sp/>(2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_byzantine_consensus_scenario" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_byzantine_consensus_scenario" kindref="compound">ByzantineConsensusScenario</ref><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_byzantine_consensus_scenario_1a28ef675c89a9db723fb8600f11e6f8e2" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_byzantine_consensus_scenario_1a28ef675c89a9db723fb8600f11e6f8e2" kindref="member">Name</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ByzantineNodeUnderQuorum&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="84" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_byzantine_consensus_scenario_1a1010025cacf8539f5a341efe11140656" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_byzantine_consensus_scenario_1a1010025cacf8539f5a341efe11140656" kindref="member">Description</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Byzantine<sp/>node<sp/>sends<sp/>conflicting<sp/>votes;<sp/>quorum<sp/>prevails&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_network_partition_healing_scenario" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_network_partition_healing_scenario" kindref="compound">NetworkPartitionHealingScenario</ref><sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="117" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_network_partition_healing_scenario_1a177ad714b2bd4d0c49a768b309c02929" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_network_partition_healing_scenario_1a177ad714b2bd4d0c49a768b309c02929" kindref="member">Name</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;NetworkPartitionAndHealing&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="118" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_network_partition_healing_scenario_1a90e3ba8fc20c8caad9dca8cc7cf24ef2" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_network_partition_healing_scenario_1a90e3ba8fc20c8caad9dca8cc7cf24ef2" kindref="member">Description</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Partition<sp/>for<sp/>5s,<sp/>detect,<sp/>continue<sp/>majority,<sp/>heal,<sp/>re-sync&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CONFLICT<sp/>RESOLUTION<sp/>SCENARIOS<sp/>(2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_callback_under_high_churn_scenario" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_callback_under_high_churn_scenario" kindref="compound">CallbackUnderHighChurnScenario</ref><sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="155" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_callback_under_high_churn_scenario_1ab1ce603b3a20103fd6460444b7c57239" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_callback_under_high_churn_scenario_1ab1ce603b3a20103fd6460444b7c57239" kindref="member">Name</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CallbackUnderHighChurn&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="156" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_callback_under_high_churn_scenario_1ada3df2fef597a123c44b070a44a4c1a9" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_callback_under_high_churn_scenario_1ada3df2fef597a123c44b070a44a4c1a9" kindref="member">Description</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;500+<sp/>concurrent<sp/>updates<sp/>trigger<sp/>callbacks<sp/>for<sp/>conflict<sp/>resolution&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_multi_model_conflict_scenario" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_multi_model_conflict_scenario" kindref="compound">MultiModelConflictScenario</ref><sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="187" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_multi_model_conflict_scenario_1a64ed89aab868ece319833db34652b045" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_multi_model_conflict_scenario_1a64ed89aab868ece319833db34652b045" kindref="member">Name</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;MultiModelConflicts&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="188" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_multi_model_conflict_scenario_1a54afddd8c26f0318f9934a4ec89ddaca" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_multi_model_conflict_scenario_1a54afddd8c26f0318f9934a4ec89ddaca" kindref="member">Description</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Simultaneous<sp/>conflicts<sp/>on<sp/>3+<sp/>models;<sp/>each<sp/>resolved<sp/>independently&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INCREMENTAL<sp/>EVOLUTION<sp/>SCENARIOS<sp/>(2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_audit_trail_high_churn_scenario" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_audit_trail_high_churn_scenario" kindref="compound">AuditTrailHighChurnScenario</ref><sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="224" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_audit_trail_high_churn_scenario_1a2b7ce2514629fca9b4fd44251a87d1df" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_audit_trail_high_churn_scenario_1a2b7ce2514629fca9b4fd44251a87d1df" kindref="member">Name</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;AuditTrailHighChurn&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="225" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_audit_trail_high_churn_scenario_1a4bd7f82416d3d85c99e7450a51d736a1" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_audit_trail_high_churn_scenario_1a4bd7f82416d3d85c99e7450a51d736a1" kindref="member">Description</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;10K+<sp/>audit<sp/>entries<sp/>with<sp/>concurrent<sp/>reads<sp/>and<sp/>writes&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_temporal_reconstruction_scenario" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_temporal_reconstruction_scenario" kindref="compound">TemporalReconstructionScenario</ref><sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="255" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_temporal_reconstruction_scenario_1ae70cceb0bd50d83656a46ec5559b8c1d" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_temporal_reconstruction_scenario_1ae70cceb0bd50d83656a46ec5559b8c1d" kindref="member">Name</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;TemporalReconstruction&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="256" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_temporal_reconstruction_scenario_1afb992b3f4e6dd7bdbfce5bddd2ed1abc" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_temporal_reconstruction_scenario_1afb992b3f4e6dd7bdbfce5bddd2ed1abc" kindref="member">Description</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Reconstruct<sp/>model<sp/>at<sp/>10<sp/>historical<sp/>timepoints;<sp/>verify<sp/>equivalence&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DISTRIBUTED<sp/>TRACING<sp/>SCENARIOS<sp/>(2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_correlation_id_propagation_scenario" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_correlation_id_propagation_scenario" kindref="compound">CorrelationIdPropagationScenario</ref><sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="292" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_correlation_id_propagation_scenario_1a11e789ac09e4579180198fb71458e183" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_correlation_id_propagation_scenario_1a11e789ac09e4579180198fb71458e183" kindref="member">Name</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CorrelationIdPropagation&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="293" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_correlation_id_propagation_scenario_1aaf8dbb0dfc1579b70dc910c640a8fa0b" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_correlation_id_propagation_scenario_1aaf8dbb0dfc1579b70dc910c640a8fa0b" kindref="member">Description</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Correlation<sp/>ID<sp/>flows<sp/>through<sp/>4+<sp/>RPC<sp/>hops;<sp/>collected<sp/>in<sp/>single<sp/>trace&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_trace_completeness_partition_scenario" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_trace_completeness_partition_scenario" kindref="compound">TraceCompletenessPartitionScenario</ref><sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="325" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_trace_completeness_partition_scenario_1a1ad0ebdd555b8c15525ba84b89b7009c" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_trace_completeness_partition_scenario_1a1ad0ebdd555b8c15525ba84b89b7009c" kindref="member">Name</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;TraceCompletenessUnderPartition&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="326" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_trace_completeness_partition_scenario_1af3b3e9b43ab703e08333f4b2edd90ab3" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_trace_completeness_partition_scenario_1af3b3e9b43ab703e08333f4b2edd90ab3" kindref="member">Description</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Traces<sp/>from<sp/>majority<sp/>partition<sp/>complete;<sp/>minority<sp/>delayed;<sp/>all<sp/>collected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NETWORK<sp/>FAILURE<sp/>SCENARIOS<sp/>(4)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_partition_detection_latency_scenario" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_partition_detection_latency_scenario" kindref="compound">PartitionDetectionLatencyScenario</ref><sp/>{</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="360" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_partition_detection_latency_scenario_1afdb5c3782fd8eaae2f730ddedb7768f5" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_partition_detection_latency_scenario_1afdb5c3782fd8eaae2f730ddedb7768f5" kindref="member">Name</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;PartitionDetectionLatency&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="361" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_partition_detection_latency_scenario_1a4d31e20013dfcbd09795df7725a29d97" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_partition_detection_latency_scenario_1a4d31e20013dfcbd09795df7725a29d97" kindref="member">Description</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Measure<sp/>time<sp/>to<sp/>detect<sp/>network<sp/>partition<sp/>(heartbeat<sp/>timeout)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_split_brain_prevention_scenario" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_split_brain_prevention_scenario" kindref="compound">SplitBrainPreventionScenario</ref><sp/>{</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="391" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_split_brain_prevention_scenario_1aeefeddd9c934abf0646573d709bac17b" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_split_brain_prevention_scenario_1aeefeddd9c934abf0646573d709bac17b" kindref="member">Name</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;SplitBrainPrevention&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="392" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_split_brain_prevention_scenario_1aaa303eb1d7a2aba43028acffcd56191e" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_split_brain_prevention_scenario_1aaa303eb1d7a2aba43028acffcd56191e" kindref="member">Description</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Minority<sp/>partition<sp/>(2/5<sp/>nodes)<sp/>cannot<sp/>elect<sp/>leader;<sp/>writes<sp/>rejected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="395"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="420" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_cascading_failures_scenario" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_cascading_failures_scenario" kindref="compound">CascadingFailuresScenario</ref><sp/>{</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="422" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_cascading_failures_scenario_1a574fcd9f2824626aa70a2998125315f6" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_cascading_failures_scenario_1a574fcd9f2824626aa70a2998125315f6" kindref="member">Name</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CascadingFailures&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="423" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_cascading_failures_scenario_1af55dc5b4da3aa4ffd43d0d648fef8386" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_cascading_failures_scenario_1af55dc5b4da3aa4ffd43d0d648fef8386" kindref="member">Description</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Simulate<sp/>2-3<sp/>node<sp/>failures;<sp/>verify<sp/>F<sp/>&lt;<sp/>N/3<sp/>constraints<sp/>respected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="426"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight></codeline>
+<codeline lineno="454" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_rejoin_log_sync_scenario" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_rejoin_log_sync_scenario" kindref="compound">RejoinLogSyncScenario</ref><sp/>{</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="456" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_rejoin_log_sync_scenario_1ab4ea03ca7cd0f8c27ee413429132de6b" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_rejoin_log_sync_scenario_1ab4ea03ca7cd0f8c27ee413429132de6b" kindref="member">Name</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;RejoinLogSync&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="457" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_rejoin_log_sync_scenario_1a669fdf04dbf67f6f492848b534d40d4c" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_rejoin_log_sync_scenario_1a669fdf04dbf67f6f492848b534d40d4c" kindref="member">Description</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Partition<sp/>heals;<sp/>minority<sp/>catches<sp/>up<sp/>via<sp/>log<sp/>sync;<sp/>verify<sp/>consistency&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="460"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCENARIO<sp/>FACTORY<sp/>(Phase<sp/>4<sp/>Test<sp/>Infrastructure)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="464"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="465"><highlight class="normal"></highlight></codeline>
+<codeline lineno="471" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario" kindref="compound">FederationStressScenario</ref><sp/>{</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="474" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1aa6f248b54ec4c93d3d00cdfff1093e4d" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1aa6f248b54ec4c93d3d00cdfff1093e4d" kindref="member">Name</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"></highlight></codeline>
+<codeline lineno="477" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a3175cdf01798030021e74efffcf1c460" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a3175cdf01798030021e74efffcf1c460" kindref="member">Description</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"></highlight></codeline>
+<codeline lineno="480" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a7a745b84454eec456f48a6655c52d1b8" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a7a745b84454eec456f48a6655c52d1b8" kindref="member">Setup</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"></highlight></codeline>
+<codeline lineno="483" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a27dbec343a8e1fb8d2865f918c54f707" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a27dbec343a8e1fb8d2865f918c54f707" kindref="member">Execute</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"></highlight></codeline>
+<codeline lineno="486" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1aaf6cb06b26d809ec5f5185a7219963b2" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1aaf6cb06b26d809ec5f5185a7219963b2" kindref="member">Verify</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight></codeline>
+<codeline lineno="489" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a59e1c6c32f519955e8b7ea7dbab762cf" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a59e1c6c32f519955e8b7ea7dbab762cf" kindref="member">Cleanup</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"></highlight></codeline>
+<codeline lineno="491" refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a3b748b20b8d404848fc6baa9b9f8dbe8" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario_1a3b748b20b8d404848fc6baa9b9f8dbe8" kindref="member">~FederationStressScenario</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="492"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"></highlight></codeline>
+<codeline lineno="495" refid="namespacethemisdb_1_1process_1_1stress__scenarios_1a9b85ec24a9b96ab8d9e2c0b97f588a42" refkind="member"><highlight class="normal">std::vector&lt;std::shared_ptr&lt;FederationStressScenario&gt;&gt;<sp/><ref refid="namespacethemisdb_1_1process_1_1stress__scenarios_1a9b85ec24a9b96ab8d9e2c0b97f588a42" kindref="member">GetAllStressScenarios</ref>();</highlight></codeline>
+<codeline lineno="496"><highlight class="normal"></highlight></codeline>
+<codeline lineno="497"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb::process::stress_scenarios</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="498"><highlight class="normal"></highlight></codeline>
+<codeline lineno="499"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_FEDERATION_STRESS_SCENARIOS_H</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/process_federation_stress_scenarios.h"/>
+  </compounddef>
+</doxygen>

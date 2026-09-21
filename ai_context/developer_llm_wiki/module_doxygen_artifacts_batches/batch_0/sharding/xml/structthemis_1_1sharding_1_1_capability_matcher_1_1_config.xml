@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_capability_matcher_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::CapabilityMatcher::Config</compoundname>
+    <includes refid="capability__matcher_8h" local="no">capability_matcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a1b8d69369a06fb07a36a4563f49bfc8a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::Config::keyword_weight</definition>
+        <argsstring></argsstring>
+        <name>keyword_weight</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::Config::keyword_weight</qualifiedname>
+        <initializer>= 0.30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="43" column="16" bodyfile="include/sharding/capability_matcher.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a4de27eb182bd440eff1a2f6ed9335c32" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::Config::semantic_weight</definition>
+        <argsstring></argsstring>
+        <name>semantic_weight</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::Config::semantic_weight</qualifiedname>
+        <initializer>= 0.40</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="44" column="16" bodyfile="include/sharding/capability_matcher.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a24c20381cbc5584d5dba860c1b43c5e4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::Config::domain_weight</definition>
+        <argsstring></argsstring>
+        <name>domain_weight</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::Config::domain_weight</qualifiedname>
+        <initializer>= 0.10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="45" column="16" bodyfile="include/sharding/capability_matcher.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a8dadc593239941e6332b75358af32378" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::Config::organization_weight</definition>
+        <argsstring></argsstring>
+        <name>organization_weight</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::Config::organization_weight</qualifiedname>
+        <initializer>= 0.10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="46" column="16" bodyfile="include/sharding/capability_matcher.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1addcebad5e7162bdb3482e488d5fac7e5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::Config::region_weight</definition>
+        <argsstring></argsstring>
+        <name>region_weight</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::Config::region_weight</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="47" column="16" bodyfile="include/sharding/capability_matcher.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a79f1dc1c4076326e43e562218e792fe5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::Config::data_type_weight</definition>
+        <argsstring></argsstring>
+        <name>data_type_weight</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::Config::data_type_weight</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="48" column="16" bodyfile="include/sharding/capability_matcher.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a7a2ccd57a10bcf9c01d85bb01df09018" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::CapabilityMatcher::Config::use_tfidf</definition>
+        <argsstring></argsstring>
+        <name>use_tfidf</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::Config::use_tfidf</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="51" column="14" bodyfile="include/sharding/capability_matcher.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a5428bf2109bcaf440047c0561ca40fa1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::Config::idf_smoothing</definition>
+        <argsstring></argsstring>
+        <name>idf_smoothing</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::Config::idf_smoothing</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="52" column="16" bodyfile="include/sharding/capability_matcher.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a71bb106a00445b37caad9df0c1483b58" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::CapabilityMatcher::Config::enable_embeddings</definition>
+        <argsstring></argsstring>
+        <name>enable_embeddings</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::Config::enable_embeddings</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="55" column="14" bodyfile="include/sharding/capability_matcher.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1aa50761fd133d97f73c8fe16e99ef6362" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::Config::embedding_threshold</definition>
+        <argsstring></argsstring>
+        <name>embedding_threshold</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::Config::embedding_threshold</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="56" column="16" bodyfile="include/sharding/capability_matcher.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a3761b3c117e561aa71d1165e43fb8878" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatcher::Config::min_score</definition>
+        <argsstring></argsstring>
+        <name>min_score</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::Config::min_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="59" column="16" bodyfile="include/sharding/capability_matcher.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1ac5e817ef77987dda1be90a508d2d9e06" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::CapabilityMatcher::Config::max_results</definition>
+        <argsstring></argsstring>
+        <name>max_results</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::Config::max_results</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="60" column="16" bodyfile="include/sharding/capability_matcher.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a89eca6e18f66f7174898573d86e80ffc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::CapabilityMatcher::Config::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::sharding::CapabilityMatcher::Config::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/capability_matcher.h" line="65" column="14" bodyfile="include/sharding/capability_matcher.h" bodystart="65" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration for capability matching </para>
+    </detaileddescription>
+    <location file="include/sharding/capability_matcher.h" line="41" column="5" bodyfile="include/sharding/capability_matcher.h" bodystart="41" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a79f1dc1c4076326e43e562218e792fe5" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::Config</scope><name>data_type_weight</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a24c20381cbc5584d5dba860c1b43c5e4" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::Config</scope><name>domain_weight</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1aa50761fd133d97f73c8fe16e99ef6362" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::Config</scope><name>embedding_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a71bb106a00445b37caad9df0c1483b58" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::Config</scope><name>enable_embeddings</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a5428bf2109bcaf440047c0561ca40fa1" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::Config</scope><name>idf_smoothing</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a89eca6e18f66f7174898573d86e80ffc" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::Config</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a1b8d69369a06fb07a36a4563f49bfc8a" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::Config</scope><name>keyword_weight</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1ac5e817ef77987dda1be90a508d2d9e06" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::Config</scope><name>max_results</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a3761b3c117e561aa71d1165e43fb8878" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::Config</scope><name>min_score</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a8dadc593239941e6332b75358af32378" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::Config</scope><name>organization_weight</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1addcebad5e7162bdb3482e488d5fac7e5" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::Config</scope><name>region_weight</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a4de27eb182bd440eff1a2f6ed9335c32" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::Config</scope><name>semantic_weight</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_matcher_1_1_config_1a7a2ccd57a10bcf9c01d85bb01df09018" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatcher::Config</scope><name>use_tfidf</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

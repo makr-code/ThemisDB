@@ -1,0 +1,326 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_packet_parser" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::PacketParser</compoundname>
+    <includes refid="wire__protocol_8h" local="no">wire_protocol.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_packet_parser_1a4f559b56746dae4da97dec94fe0f26ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::PacketParser::PacketParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>PacketParser</name>
+        <qualifiedname>themis::network::PacketParser::PacketParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="142" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_packet_parser_1a0a9e1daa4713e1c3983a45ba410b9022" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_wire_packet" kindref="compound">WirePacket</ref></type>
+        <definition>WirePacket themis::network::PacketParser::parse</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;buf)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::network::PacketParser::parse</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+<para>Parse one wire packet from a raw byte buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="classthemis_1_1network_1_1_packet_parser_1a0a9e1daa4713e1c3983a45ba410b9022" kindref="member">PacketParser::parse</ref> ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw bytes received from the network. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Fully decoded <computeroutput><ref refid="structthemis_1_1network_1_1_wire_packet" kindref="compound">WirePacket</ref></computeroutput>. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ParseError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the packet is malformed, truncated, or oversized.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<bold>Iterator safety:</bold> Every buffer position is validated through <computeroutput>BoundsChecker::check_dereference()</computeroutput> before the byte is read, and every multi-byte skip uses <computeroutput>AdvanceSafe::advance()</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="155" column="23" bodyfile="src/network/wire_protocol.cpp" bodystart="141" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_packet_parser_1a76315174856ee7726eba205995365c99" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T</type>
+        <definition>template uint32_t themis::network::PacketParser::read_big_endian&lt; uint32_t &gt;</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt;::const_iterator &amp;it, const std::vector&lt; uint8_t &gt;::const_iterator &amp;end)</argsstring>
+        <name>read_big_endian</name>
+        <qualifiedname>themis::network::PacketParser::read_big_endian</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt;::const_iterator &amp;</type>
+          <declname>it</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt;::const_iterator &amp;</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+<para>Read one field of type T from a buffer iterator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Trivially-copyable integer type (uint8_t, uint16_t, uint32_t …). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>it</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current buffer position (advanced by <computeroutput>sizeof(T)</computeroutput> on return). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>One-past-the-end sentinel. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Value decoded in host byte order (big-endian source assumed). </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ParseError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if fewer than <computeroutput>sizeof(T)</computeroutput> bytes remain.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<bold>Iterator safety:</bold> uses <computeroutput>AdvanceSafe::advance()</computeroutput> internally. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="169" column="14" bodyfile="src/network/wire_protocol.cpp" bodystart="62" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_packet_parser_1a2b42b83a027f2ede7925d52b0cb66799" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::network::PacketParser::read_bytes</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt;::const_iterator &amp;it, const std::vector&lt; uint8_t &gt;::const_iterator &amp;end, std::size_t n)</argsstring>
+        <name>read_bytes</name>
+        <qualifiedname>themis::network::PacketParser::read_bytes</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt;::const_iterator &amp;</type>
+          <declname>it</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt;::const_iterator &amp;</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Read exactly <computeroutput>n</computeroutput> payload bytes starting at <computeroutput>it</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="classthemis_1_1network_1_1_packet_parser_1a2b42b83a027f2ede7925d52b0cb66799" kindref="member">PacketParser::read_bytes</ref> ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>it</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current position (advanced by <computeroutput>n</computeroutput> on return). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer sentinel. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to read. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Byte span copied into a new vector. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ParseError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if fewer than <computeroutput>n</computeroutput> bytes remain.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">it</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Validate the sub-range before copying. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">range_begin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">it</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="181" column="24" bodyfile="src/network/wire_protocol.cpp" bodystart="104" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_packet_parser_1ad30fdf637b2d4e338891a7cb8b9f03c7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::PacketParser::check_magic</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt;::const_iterator &amp;it, const std::vector&lt; uint8_t &gt;::const_iterator &amp;end)</argsstring>
+        <name>check_magic</name>
+        <qualifiedname>themis::network::PacketParser::check_magic</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt;::const_iterator &amp;</type>
+          <declname>it</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt;::const_iterator &amp;</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+<para>Validate magic header bytes; throws <ref refid="classthemis_1_1network_1_1_parse_error" kindref="compound">ParseError</ref> on mismatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> PacketParser::check_magic ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">it</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="188" column="17" bodyfile="src/network/wire_protocol.cpp" bodystart="33" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stateless binary packet parser with iterator-safe buffer access. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All buffer traversal is performed through <computeroutput>themis::security::SafeIterator</computeroutput> primitives. Parsing rejects packets that are:<itemizedlist>
+<listitem><para>Too short to contain the framing header.</para>
+</listitem><listitem><para>Missing the expected magic bytes.</para>
+</listitem><listitem><para>Carrying a payload longer than <computeroutput><ref refid="namespacethemis_1_1network_1a9bdb4826801cf07211c3b84c8d18abb0" kindref="member">kWireProtocolMaxPayloadBytes</ref></computeroutput>.</para>
+</listitem><listitem><para>Shorter than the header-declared payload length.</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Usage:</bold> <programlisting filename=".cpp"><codeline><highlight class="normal">std::vector&lt;uint8_t&gt;<sp/>raw<sp/>=<sp/>receive_bytes();</highlight></codeline>
+<codeline><highlight class="normal">WirePacket<sp/>pkt<sp/>=<sp/><ref refid="classthemis_1_1network_1_1_packet_parser_1a0a9e1daa4713e1c3983a45ba410b9022" kindref="member">PacketParser::parse</ref>(raw);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>This class is stateless; all methods are static. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/network/wire_protocol.h" line="140" column="1" bodyfile="include/network/wire_protocol.h" bodystart="140" bodyend="190"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_packet_parser_1ad30fdf637b2d4e338891a7cb8b9f03c7" prot="private" virt="non-virtual"><scope>themis::network::PacketParser</scope><name>check_magic</name></member>
+      <member refid="classthemis_1_1network_1_1_packet_parser_1a4f559b56746dae4da97dec94fe0f26ff" prot="public" virt="non-virtual"><scope>themis::network::PacketParser</scope><name>PacketParser</name></member>
+      <member refid="classthemis_1_1network_1_1_packet_parser_1a0a9e1daa4713e1c3983a45ba410b9022" prot="public" virt="non-virtual"><scope>themis::network::PacketParser</scope><name>parse</name></member>
+      <member refid="classthemis_1_1network_1_1_packet_parser_1a76315174856ee7726eba205995365c99" prot="public" virt="non-virtual"><scope>themis::network::PacketParser</scope><name>read_big_endian</name></member>
+      <member refid="classthemis_1_1network_1_1_packet_parser_1a2b42b83a027f2ede7925d52b0cb66799" prot="public" virt="non-virtual"><scope>themis::network::PacketParser</scope><name>read_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

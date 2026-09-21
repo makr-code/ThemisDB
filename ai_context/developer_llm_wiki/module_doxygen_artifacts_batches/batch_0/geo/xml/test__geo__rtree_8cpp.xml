@@ -1,0 +1,782 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__geo__rtree_8cpp" kind="file" language="C++">
+    <compoundname>test_geo_rtree.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="geo__rtree_8h" local="yes">geo/geo_rtree.h</includes>
+    <includes local="yes">utils/geo/ewkb.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>geo/geo_rtree.h</label>
+        <link refid="geo__rtree_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/geo/test_geo_rtree.cpp</label>
+        <link refid="test__geo__rtree_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="10">
+        <label>cmath</label>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_geo_r_tree_test" prot="public">GeoRTreeTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, DefaultConstructor_EmptyIndex)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>DefaultConstructor_EmptyIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="39" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="39" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1a3e7edd8c6f358b7f6442ae124bedf0ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, Insert_SinglePoint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>Insert_SinglePoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="49" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="49" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1a8ca6a2ede10b46c8f792fd7c63fe1e6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, Insert_MultipleGeometries)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>Insert_MultipleGeometries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="54" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="54" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1a549077a24f56de158c963ba8bd9350e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, BulkLoad_Empty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>BulkLoad_Empty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="63" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="63" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1ab1b3981841629934064a9ea4d1007f79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, BulkLoad_ReplacesPreviousContent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>BulkLoad_ReplacesPreviousContent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="68" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="68" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1a2f530a7fded34730e0d7dd3e46fbb7b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, BulkLoad_ManyPoints)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>BulkLoad_ManyPoints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="80" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="80" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1aec83f279344d3ba816d0b17daf7707f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, Remove_ExistingEntry)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>Remove_ExistingEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="93" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="93" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1aead15e39ce4ba028d75cd8a6e36f3e53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, Remove_NonExistentKeyReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>Remove_NonExistentKeyReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="103" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="103" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1a3229a33549bda516d471b1533eaf9e48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, Remove_LeavesOtherEntriesIntact)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>Remove_LeavesOtherEntriesIntact</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="109" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="109" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1a4c4921b5583b394bd16d34ca1be86210" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, Clear_ResetsIndex)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>Clear_ResetsIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="125" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="125" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1ab233b4cb529f10b227a547c7d7185e06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, Intersects_PointInsideBBox)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>Intersects_PointInsideBBox</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="135" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="135" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1a540553bc1f9a544dfaa47e87179fb8c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, Intersects_NothingInBBox)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>Intersects_NothingInBBox</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="144" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="144" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1afb072964cfd957bc0bdef304f63bc157" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, Intersects_MultipleHits)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>Intersects_MultipleHits</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="150" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="150" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1a534111a7eca8700077640ed6d77caf25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, Intersects_OverlappingPolygons)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>Intersects_OverlappingPolygons</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="162" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="162" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1a557bb331babe800d5daa8e611bb5e814" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, Intersects_WorldQuery_ReturnsAll)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>Intersects_WorldQuery_ReturnsAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="177" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="177" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1a73bb459c1586cc9ef9f93e537a95e18b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, Contains_PointInsidePolygon)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>Contains_PointInsidePolygon</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="188" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="188" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1ab91cc9c2cfef3b6a5cca14fd1a84d305" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, Contains_PointOutsideAllGeometries)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>Contains_PointOutsideAllGeometries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="198" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="198" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1aa72133d415493927521083af27ea953e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, Contains_MultipleContainingBoxes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>Contains_MultipleContainingBoxes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="206" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="206" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1a79760009a00f7473b2a201ca845cd467" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, Contains_PointOnMBRBoundary)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>Contains_PointOnMBRBoundary</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="219" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="219" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1aa80b459cbd57a92a127e3fcb9ccd3b07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, MemoryBytes_GrowsWithInserts)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryBytes_GrowsWithInserts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="230" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="230" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1a62b1a47c11055b6b41490c551030807b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, MemoryBytes_BulkLoad)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryBytes_BulkLoad</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="239" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="239" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1a2abacc5fdf697bee9158bf2b2f2a4c4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, MoveConstructor)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>MoveConstructor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="250" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="250" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__rtree_8cpp_1ad2c73de6d399ca476d12d5f4c5be28cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GeoRTreeTest, MoveAssignment)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref></type>
+        </param>
+        <param>
+          <type>MoveAssignment</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="259" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="259" bodyend="264"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geo__rtree_8h" kindref="compound">geo/geo_rtree.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/geo/ewkb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">themis::geo</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11" refid="class_geo_r_tree_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree" kindref="compound">GeoRTree</ref><sp/><ref refid="class_geo_r_tree_test_1a58ce3182f206d6f58df1942e6e5dc520" kindref="member">tree_</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>create<sp/>a<sp/>Point<sp/>geometry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GeometryInfo<sp/><ref refid="class_geo_r_tree_test_1a21603fcf30487f9b4ac8d7bfe2831e5a" kindref="member">makePoint</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GeometryInfo<sp/>g(GeometryType::Point);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g.coords.emplace_back(x,<sp/>y);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>create<sp/>a<sp/>Polygon<sp/>geometry<sp/>from<sp/>a<sp/>bounding<sp/>box</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GeometryInfo<sp/><ref refid="class_geo_r_tree_test_1a33bc73b34c70c8256a88082e0a608719" kindref="member">makeBox</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>minx,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>miny,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>maxx,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>maxy)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GeometryInfo<sp/>g(GeometryType::Polygon);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Coordinate&gt;<sp/>ring<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{minx,<sp/>miny},<sp/>{maxx,<sp/>miny},<sp/>{maxx,<sp/>maxy},<sp/>{minx,<sp/>maxy},<sp/>{minx,<sp/>miny}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g.rings.push_back(ring);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_geo_r_tree_test_1a30db462438a26d515c4a270ec1cf756b" kindref="member">contains_key</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>v,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::find(v.begin(),<sp/>v.end(),<sp/>key)<sp/>!=<sp/>v.end();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Construction<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>DefaultConstructor_EmptyIndex)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree_.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>memoryBytes()<sp/>includes<sp/>Impl<sp/>struct<sp/>overhead<sp/>even<sp/>when<sp/>empty;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>require<sp/>it<sp/>is<sp/>non-zero<sp/>(struct<sp/>overhead)<sp/>but<sp/>below<sp/>an<sp/>unreasonable<sp/>ceiling.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(tree_.memoryBytes(),<sp/>0u);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(tree_.memoryBytes(),<sp/>1024u);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Insert<sp/>────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>Insert_SinglePoint)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/>makePoint(13.4,<sp/>52.5));</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree_.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>Insert_MultipleGeometries)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/>makePoint(13.4,<sp/>52.5));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;p2&quot;</highlight><highlight class="normal">,<sp/>makePoint(2.35,<sp/>48.85));</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;b1&quot;</highlight><highlight class="normal">,<sp/>makeBox(10.0,<sp/>50.0,<sp/>15.0,<sp/>55.0));</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree_.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>BulkLoad<sp/>──────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>BulkLoad_Empty)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.bulkLoad({});</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree_.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>BulkLoad_ReplacesPreviousContent)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;old&quot;</highlight><highlight class="normal">,<sp/>makePoint(0.0,<sp/>0.0));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree_.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.bulkLoad({{</highlight><highlight class="stringliteral">&quot;new1&quot;</highlight><highlight class="normal">,<sp/>makePoint(1.0,<sp/>1.0)},<sp/>{</highlight><highlight class="stringliteral">&quot;new2&quot;</highlight><highlight class="normal">,<sp/>makePoint(2.0,<sp/>2.0)}});</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree_.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>old<sp/>entry<sp/>must<sp/>no<sp/>longer<sp/>be<sp/>reachable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tree_.intersects(MBR(-0.5,<sp/>-0.5,<sp/>0.5,<sp/>0.5));</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.empty());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>BulkLoad_ManyPoints)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>GeometryInfo&gt;&gt;<sp/>entries;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>200;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entries.emplace_back(</highlight><highlight class="stringliteral">&quot;pt_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makePoint(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>0.5,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>0.25));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.bulkLoad(entries);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree_.size(),<sp/>200u);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Remove<sp/>────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>Remove_ExistingEntry)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>geom<sp/>=<sp/>makePoint(13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>geom);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree_.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/>tree_.remove(</highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>geom);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(removed);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree_.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>Remove_NonExistentKeyReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>geom<sp/>=<sp/>makePoint(1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/>tree_.remove(</highlight><highlight class="stringliteral">&quot;ghost&quot;</highlight><highlight class="normal">,<sp/>geom);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(removed);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>Remove_LeavesOtherEntriesIntact)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g1<sp/>=<sp/>makePoint(1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g2<sp/>=<sp/>makePoint(5.0,<sp/>5.0);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>g1);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>g2);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.remove(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>g1);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree_.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tree_.intersects(MBR(4.0,<sp/>4.0,<sp/>6.0,<sp/>6.0));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res[0],<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Clear<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>Clear_ResetsIndex)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>makePoint(1.0,<sp/>1.0));</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>makePoint(2.0,<sp/>2.0));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.clear();</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tree_.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tree_.intersects(MBR(-180,<sp/>-90,<sp/>180,<sp/>90)).empty());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Intersects<sp/>────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>Intersects_PointInsideBBox)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>makePoint(13.4,<sp/>52.5));</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">,<sp/><sp/>makePoint(2.35,<sp/>48.85));</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tree_.intersects(MBR(12.0,<sp/>51.0,<sp/>15.0,<sp/>54.0));<sp/><sp/></highlight><highlight class="comment">//<sp/>covers<sp/>Berlin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res[0],<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>Intersects_NothingInBBox)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>makePoint(13.4,<sp/>52.5));</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tree_.intersects(MBR(0.0,<sp/>0.0,<sp/>1.0,<sp/>1.0));</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.empty());</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>Intersects_MultipleHits)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>makePoint(1.0,<sp/>1.0));</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>makePoint(2.0,<sp/>2.0));</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/>makePoint(50.0,<sp/>50.0));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tree_.intersects(MBR(0.0,<sp/>0.0,<sp/>3.0,<sp/>3.0));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains_key(res,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains_key(res,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(contains_key(res,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>Intersects_OverlappingPolygons)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Box<sp/>A:<sp/>[0,0]-[4,4]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;boxA&quot;</highlight><highlight class="normal">,<sp/>makeBox(0.0,<sp/>0.0,<sp/>4.0,<sp/>4.0));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Box<sp/>B:<sp/>[3,3]-[7,7]<sp/><sp/>overlaps<sp/>A</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;boxB&quot;</highlight><highlight class="normal">,<sp/>makeBox(3.0,<sp/>3.0,<sp/>7.0,<sp/>7.0));</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Box<sp/>C:<sp/>[10,10]-[15,15]<sp/><sp/>does<sp/>not<sp/>overlap<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;boxC&quot;</highlight><highlight class="normal">,<sp/>makeBox(10.0,<sp/>10.0,<sp/>15.0,<sp/>15.0));</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>MBR<sp/>intersects<sp/>A<sp/>and<sp/>B</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tree_.intersects(MBR(2.0,<sp/>2.0,<sp/>5.0,<sp/>5.0));</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains_key(res,<sp/></highlight><highlight class="stringliteral">&quot;boxA&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains_key(res,<sp/></highlight><highlight class="stringliteral">&quot;boxB&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(contains_key(res,<sp/></highlight><highlight class="stringliteral">&quot;boxC&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>Intersects_WorldQuery_ReturnsAll)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/>makePoint(13.4,<sp/>52.5));</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;p2&quot;</highlight><highlight class="normal">,<sp/>makePoint(-74.0,<sp/>40.7));</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;p3&quot;</highlight><highlight class="normal">,<sp/>makePoint(139.7,<sp/>35.7));</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tree_.intersects(MBR(-180.0,<sp/>-90.0,<sp/>180.0,<sp/>90.0));</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Contains<sp/>──────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>Contains_PointInsidePolygon)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Box<sp/>covering<sp/>Germany<sp/>roughly:<sp/>[6,47]-[15,55]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;germany&quot;</highlight><highlight class="normal">,<sp/>makeBox(6.0,<sp/>47.0,<sp/>15.0,<sp/>55.0));</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Berlin<sp/>(13.4,<sp/>52.5)<sp/>is<sp/>inside</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tree_.contains(13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res[0],<sp/></highlight><highlight class="stringliteral">&quot;germany&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>Contains_PointOutsideAllGeometries)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;germany&quot;</highlight><highlight class="normal">,<sp/>makeBox(6.0,<sp/>47.0,<sp/>15.0,<sp/>55.0));</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tokyo<sp/>(139.7,<sp/>35.7)<sp/>is<sp/>outside<sp/>Germany&apos;s<sp/>MBR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tree_.contains(139.7,<sp/>35.7);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.empty());</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>Contains_MultipleContainingBoxes)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;large&quot;</highlight><highlight class="normal">,<sp/><sp/>makeBox(0.0,<sp/>0.0,<sp/>10.0,<sp/>10.0));</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;small&quot;</highlight><highlight class="normal">,<sp/><sp/>makeBox(3.0,<sp/>3.0,<sp/>7.0,<sp/>7.0));</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;other&quot;</highlight><highlight class="normal">,<sp/><sp/>makeBox(20.0,<sp/>20.0,<sp/>30.0,<sp/>30.0));</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Point<sp/>(5,<sp/>5)<sp/>is<sp/>inside<sp/>both<sp/>&quot;large&quot;<sp/>and<sp/>&quot;small&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tree_.contains(5.0,<sp/>5.0);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains_key(res,<sp/></highlight><highlight class="stringliteral">&quot;large&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(contains_key(res,<sp/></highlight><highlight class="stringliteral">&quot;small&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(contains_key(res,<sp/></highlight><highlight class="stringliteral">&quot;other&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>Contains_PointOnMBRBoundary)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;box&quot;</highlight><highlight class="normal">,<sp/>makeBox(0.0,<sp/>0.0,<sp/>5.0,<sp/>5.0));</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corners<sp/>and<sp/>edges<sp/>should<sp/>be<sp/>inside<sp/>(MBR::contains<sp/>is<sp/>inclusive)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(tree_.contains(0.0,<sp/>0.0).empty());</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(tree_.contains(5.0,<sp/>5.0).empty());</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(tree_.contains(2.5,<sp/>0.0).empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>bottom<sp/>edge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Memory<sp/>reporting<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>MemoryBytes_GrowsWithInserts)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>before<sp/>=<sp/>tree_.memoryBytes();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/>makePoint(1.0,<sp/>1.0));</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;p2&quot;</highlight><highlight class="normal">,<sp/>makePoint(2.0,<sp/>2.0));</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>after<sp/>=<sp/>tree_.memoryBytes();</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(after,<sp/>before);<sp/><sp/></highlight><highlight class="comment">//<sp/>must<sp/>not<sp/>shrink</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(after,<sp/>0u);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>MemoryBytes_BulkLoad)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>GeometryInfo&gt;&gt;<sp/>entries;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entries.emplace_back(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>makePoint(i<sp/>*<sp/>0.1,<sp/>i<sp/>*<sp/>0.1));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.bulkLoad(entries);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(tree_.memoryBytes(),<sp/>0u);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Move<sp/>semantics<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>MoveConstructor)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/>makePoint(1.0,<sp/>1.0));</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree" kindref="compound">GeoRTree</ref><sp/>moved(std::move(tree_));</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(moved.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>moved.intersects(MBR(0.5,<sp/>0.5,<sp/>1.5,<sp/>1.5));</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res[0],<sp/></highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="test__geo__rtree_8cpp_1a2b7244c249867ca924b023d704c09a3e" kindref="member">TEST_F</ref>(<ref refid="class_geo_r_tree_test" kindref="compound">GeoRTreeTest</ref>,<sp/>MoveAssignment)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>tree_.insert(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/>makePoint(1.0,<sp/>1.0));</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree" kindref="compound">GeoRTree</ref><sp/>other;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>other<sp/>=<sp/>std::move(tree_);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(other.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_1a5b46ead605c330771dae6827bfac2b87" kindref="member">size</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_geo_rtree.cpp"/>
+  </compounddef>
+</doxygen>

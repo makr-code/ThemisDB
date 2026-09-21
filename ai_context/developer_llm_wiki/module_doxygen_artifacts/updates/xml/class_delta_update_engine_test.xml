@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_delta_update_engine_test" kind="class" language="C++" prot="public">
+    <compoundname>DeltaUpdateEngineTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_delta_update_engine_test_1ae522ea22de20ddce930c410193665fc4" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DeltaUpdateEngineTest::tmp_dir_</definition>
+        <argsstring></argsstring>
+        <name>tmp_dir_</name>
+        <qualifiedname>DeltaUpdateEngineTest::tmp_dir_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="703" column="17" bodyfile="tests/updates/test_updates_production.cpp" bodystart="703" bodyend="703"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_update_engine_test_1a3aa5fb92cb67ea369c0bd07336a6dec6" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DeltaUpdateEngineTest::install_dir_</definition>
+        <argsstring></argsstring>
+        <name>install_dir_</name>
+        <qualifiedname>DeltaUpdateEngineTest::install_dir_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="704" column="17" bodyfile="tests/updates/test_updates_production.cpp" bodystart="704" bodyend="704"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_update_engine_test_1a13f5901f750356d300eebe9f09a2e6c6" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DeltaUpdateEngineTest::download_dir_</definition>
+        <argsstring></argsstring>
+        <name>download_dir_</name>
+        <qualifiedname>DeltaUpdateEngineTest::download_dir_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="705" column="17" bodyfile="tests/updates/test_updates_production.cpp" bodystart="705" bodyend="705"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_delta_update_engine_test_1ac5ee90441fdda3e79d48134e44c29227" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DeltaUpdateEngineTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DeltaUpdateEngineTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="707" column="10" bodyfile="tests/updates/test_updates_production.cpp" bodystart="707" bodyend="714"/>
+      </memberdef>
+      <memberdef kind="function" id="class_delta_update_engine_test_1ab0dfdaedf64127021f232966b9cd7827" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DeltaUpdateEngineTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>DeltaUpdateEngineTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="716" column="10" bodyfile="tests/updates/test_updates_production.cpp" bodystart="716" bodyend="718"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_delta_update_engine_test_1a38a6af194abb5db7212a457d39f372a4" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void DeltaUpdateEngineTest::writeBytes</definition>
+        <argsstring>(const std::string &amp;path, const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>writeBytes</name>
+        <qualifiedname>DeltaUpdateEngineTest::writeBytes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="720" column="17" bodyfile="tests/updates/test_updates_production.cpp" bodystart="720" bodyend="726"/>
+      </memberdef>
+      <memberdef kind="function" id="class_delta_update_engine_test_1a8305324105f09d018c987154fbe780f1" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; DeltaUpdateEngineTest::readBytes</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>readBytes</name>
+        <qualifiedname>DeltaUpdateEngineTest::readBytes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="728" column="24" bodyfile="tests/updates/test_updates_production.cpp" bodystart="728" bodyend="732"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DeltaUpdateEngineTest</label>
+        <link refid="class_delta_update_engine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DeltaUpdateEngineTest</label>
+        <link refid="class_delta_update_engine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/updates/test_updates_production.cpp" line="701" column="1" bodyfile="tests/updates/test_updates_production.cpp" bodystart="701" bodyend="733"/>
+    <listofallmembers>
+      <member refid="class_delta_update_engine_test_1a13f5901f750356d300eebe9f09a2e6c6" prot="protected" virt="non-virtual"><scope>DeltaUpdateEngineTest</scope><name>download_dir_</name></member>
+      <member refid="class_delta_update_engine_test_1a3aa5fb92cb67ea369c0bd07336a6dec6" prot="protected" virt="non-virtual"><scope>DeltaUpdateEngineTest</scope><name>install_dir_</name></member>
+      <member refid="class_delta_update_engine_test_1a8305324105f09d018c987154fbe780f1" prot="protected" virt="non-virtual"><scope>DeltaUpdateEngineTest</scope><name>readBytes</name></member>
+      <member refid="class_delta_update_engine_test_1ac5ee90441fdda3e79d48134e44c29227" prot="protected" virt="non-virtual"><scope>DeltaUpdateEngineTest</scope><name>SetUp</name></member>
+      <member refid="class_delta_update_engine_test_1ab0dfdaedf64127021f232966b9cd7827" prot="protected" virt="non-virtual"><scope>DeltaUpdateEngineTest</scope><name>TearDown</name></member>
+      <member refid="class_delta_update_engine_test_1ae522ea22de20ddce930c410193665fc4" prot="protected" virt="non-virtual"><scope>DeltaUpdateEngineTest</scope><name>tmp_dir_</name></member>
+      <member refid="class_delta_update_engine_test_1a38a6af194abb5db7212a457d39f372a4" prot="protected" virt="non-virtual"><scope>DeltaUpdateEngineTest</scope><name>writeBytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

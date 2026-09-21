@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_lookup_decoder_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LookupDecoder::Config</compoundname>
+    <includes refid="lookup__decoder_8h" local="no">lookup_decoder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lookup_decoder_1_1_config_1a9d98725213c9241c65155d8a46b74e35" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LookupDecoder::Config::ngram_min</definition>
+        <argsstring></argsstring>
+        <name>ngram_min</name>
+        <qualifiedname>themis::llm::LookupDecoder::Config::ngram_min</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="39" column="16" bodyfile="include/llm/lookup_decoder.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lookup_decoder_1_1_config_1aad19953c8189ab7e74ba4171755e3ce5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LookupDecoder::Config::ngram_max</definition>
+        <argsstring></argsstring>
+        <name>ngram_max</name>
+        <qualifiedname>themis::llm::LookupDecoder::Config::ngram_max</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="40" column="16" bodyfile="include/llm/lookup_decoder.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lookup_decoder_1_1_config_1acde0b5bd52e39571063c56bc288d0e99" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LookupDecoder::Config::max_draft_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_draft_tokens</name>
+        <qualifiedname>themis::llm::LookupDecoder::Config::max_draft_tokens</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="41" column="16" bodyfile="include/llm/lookup_decoder.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lookup_decoder_1_1_config_1a653489582fba681cd5a36066457bb6f0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LookupDecoder::Config::max_index_entries</definition>
+        <argsstring></argsstring>
+        <name>max_index_entries</name>
+        <qualifiedname>themis::llm::LookupDecoder::Config::max_index_entries</qualifiedname>
+        <initializer>= 32768</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="42" column="16" bodyfile="include/llm/lookup_decoder.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lookup_decoder.h" line="38" column="5" bodyfile="include/llm/lookup_decoder.h" bodystart="38" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_lookup_decoder_1_1_config_1acde0b5bd52e39571063c56bc288d0e99" prot="public" virt="non-virtual"><scope>themis::llm::LookupDecoder::Config</scope><name>max_draft_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_lookup_decoder_1_1_config_1a653489582fba681cd5a36066457bb6f0" prot="public" virt="non-virtual"><scope>themis::llm::LookupDecoder::Config</scope><name>max_index_entries</name></member>
+      <member refid="structthemis_1_1llm_1_1_lookup_decoder_1_1_config_1aad19953c8189ab7e74ba4171755e3ce5" prot="public" virt="non-virtual"><scope>themis::llm::LookupDecoder::Config</scope><name>ngram_max</name></member>
+      <member refid="structthemis_1_1llm_1_1_lookup_decoder_1_1_config_1a9d98725213c9241c65155d8a46b74e35" prot="public" virt="non-virtual"><scope>themis::llm::LookupDecoder::Config</scope><name>ngram_min</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

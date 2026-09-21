@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_o_tel_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::OTelConfig</compoundname>
+    <includes refid="opentelemetry__tracer_8h" local="no">opentelemetry_tracer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_o_tel_config_1adb6b04f0f7475a4ddda823bd7310ad64" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::OTelConfig::service_name</definition>
+        <argsstring></argsstring>
+        <name>service_name</name>
+        <qualifiedname>themis::observability::OTelConfig::service_name</qualifiedname>
+        <initializer>= &quot;themisdb&quot;</initializer>
+        <briefdescription>
+<para>Logical service name embedded in every span and resource. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="93" column="17" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_o_tel_config_1a79110100eac82449201d092de9f1fe42" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::OTelConfig::service_version</definition>
+        <argsstring></argsstring>
+        <name>service_version</name>
+        <qualifiedname>themis::observability::OTelConfig::service_version</qualifiedname>
+        <initializer>= &quot;1.6.0&quot;</initializer>
+        <briefdescription>
+<para>Semantic-versioning service version (added as resource attribute). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="96" column="17" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_o_tel_config_1a64276787643f822dce2bcc37b968bf63" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::OTelConfig::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themis::observability::OTelConfig::endpoint</qualifiedname>
+        <initializer>= &quot;http://otel-collector:4317&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Exporter endpoint URL. Protocol-specific:<itemizedlist>
+<listitem><para>OTLP gRPC: &quot;http://otel-collector:4317&quot;</para>
+</listitem><listitem><para>OTLP HTTP: &quot;http://otel-collector:4318&quot;</para>
+</listitem><listitem><para>Jaeger: &quot;http://jaeger-collector:14268/api/traces&quot;</para>
+</listitem><listitem><para>Zipkin: &quot;http://zipkin:9411/api/v2/spans&quot;</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>OTLP only</bold>: the tracer automatically appends &quot;/v1/traces&quot; when the endpoint does not already end with that path, so both base URLs (&quot;http://otel:4318&quot;) and full URLs (&quot;http://otel:4318/v1/traces&quot;) are accepted. Jaeger and Zipkin endpoints are used exactly as supplied. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="108" column="17" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_o_tel_config_1ae17f9c3926721d635ea876d4356fda4b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::OTelConfig::protocol</definition>
+        <argsstring></argsstring>
+        <name>protocol</name>
+        <qualifiedname>themis::observability::OTelConfig::protocol</qualifiedname>
+        <initializer>= &quot;grpc&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transport protocol for OTLP: &quot;grpc&quot; (default) or &quot;http&quot;. This field only affects the OTLP exporter back-end; it is ignored when using Jaeger or Zipkin exporters, which always use their own fixed HTTP protocol. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="114" column="17" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_o_tel_config_1ab0c61f7a6fdb71345a8135288add3225" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::OTelConfig::sample_rate</definition>
+        <argsstring></argsstring>
+        <name>sample_rate</name>
+        <qualifiedname>themis::observability::OTelConfig::sample_rate</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Span sampling rate in [0.0, 1.0]. 1.0 = always-on (default). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="117" column="12" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_o_tel_config_1a4d4cfd226a0a7d626a148bf3b08c4bfd" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::OTelConfig::resource_attributes</definition>
+        <argsstring></argsstring>
+        <name>resource_attributes</name>
+        <qualifiedname>themis::observability::OTelConfig::resource_attributes</qualifiedname>
+        <briefdescription>
+<para>Additional OTel resource attributes (e.g. &quot;deployment.environment&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="120" column="14" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_o_tel_config_1ab1c4b4abee8d00c8f4336a308ebf7afe" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::OTelConfig::exporters</definition>
+        <argsstring></argsstring>
+        <name>exporters</name>
+        <qualifiedname>themis::observability::OTelConfig::exporters</qualifiedname>
+        <initializer>= {&quot;otlp&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List of active exporter back-ends. Accepted values: &quot;otlp&quot;, &quot;jaeger&quot;, &quot;zipkin&quot;. Defaults to OTLP only. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="124" column="17" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_o_tel_config_1a4efbc05216ef9f504246988b636fc585" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::OTelConfig::max_retained_spans</definition>
+        <argsstring></argsstring>
+        <name>max_retained_spans</name>
+        <qualifiedname>themis::observability::OTelConfig::max_retained_spans</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Maximum completed spans to retain in the in-process ring buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="127" column="12" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_o_tel_config_1a38a6d7df166014120969ccd02c48085f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::OTelConfig::publish_metrics</definition>
+        <argsstring></argsstring>
+        <name>publish_metrics</name>
+        <qualifiedname>themis::observability::OTelConfig::publish_metrics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>When true, publish span counters to <ref refid="classthemis_1_1observability_1_1_metrics_collector" kindref="compound">MetricsCollector</ref> on each startSpan. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="130" column="10" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <computeroutput><ref refid="classthemis_1_1observability_1_1_open_telemetry_tracer" kindref="compound">OpenTelemetryTracer</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Matches the specification in <computeroutput>src/observability/FUTURE_ENHANCEMENTS.md</computeroutput> (section &quot;OpenTelemetry Full Integration&quot;, Target v1.6.0). </para>
+    </detaileddescription>
+    <location file="include/observability/opentelemetry_tracer.h" line="91" column="1" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="91" bodyend="131"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_o_tel_config_1a64276787643f822dce2bcc37b968bf63" prot="public" virt="non-virtual"><scope>themis::observability::OTelConfig</scope><name>endpoint</name></member>
+      <member refid="structthemis_1_1observability_1_1_o_tel_config_1ab1c4b4abee8d00c8f4336a308ebf7afe" prot="public" virt="non-virtual"><scope>themis::observability::OTelConfig</scope><name>exporters</name></member>
+      <member refid="structthemis_1_1observability_1_1_o_tel_config_1a4efbc05216ef9f504246988b636fc585" prot="public" virt="non-virtual"><scope>themis::observability::OTelConfig</scope><name>max_retained_spans</name></member>
+      <member refid="structthemis_1_1observability_1_1_o_tel_config_1ae17f9c3926721d635ea876d4356fda4b" prot="public" virt="non-virtual"><scope>themis::observability::OTelConfig</scope><name>protocol</name></member>
+      <member refid="structthemis_1_1observability_1_1_o_tel_config_1a38a6d7df166014120969ccd02c48085f" prot="public" virt="non-virtual"><scope>themis::observability::OTelConfig</scope><name>publish_metrics</name></member>
+      <member refid="structthemis_1_1observability_1_1_o_tel_config_1a4d4cfd226a0a7d626a148bf3b08c4bfd" prot="public" virt="non-virtual"><scope>themis::observability::OTelConfig</scope><name>resource_attributes</name></member>
+      <member refid="structthemis_1_1observability_1_1_o_tel_config_1ab0c61f7a6fdb71345a8135288add3225" prot="public" virt="non-virtual"><scope>themis::observability::OTelConfig</scope><name>sample_rate</name></member>
+      <member refid="structthemis_1_1observability_1_1_o_tel_config_1adb6b04f0f7475a4ddda823bd7310ad64" prot="public" virt="non-virtual"><scope>themis::observability::OTelConfig</scope><name>service_name</name></member>
+      <member refid="structthemis_1_1observability_1_1_o_tel_config_1a79110100eac82449201d092de9f1fe42" prot="public" virt="non-virtual"><scope>themis::observability::OTelConfig</scope><name>service_version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

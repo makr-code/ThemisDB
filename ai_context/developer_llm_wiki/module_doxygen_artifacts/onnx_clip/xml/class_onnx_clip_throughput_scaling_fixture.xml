@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_onnx_clip_throughput_scaling_fixture" kind="class" language="C++" prot="public">
+    <compoundname>OnnxClipThroughputScalingFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_onnx_clip_throughput_scaling_fixture_1a99245db4192d00c89d75665db11dd989" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_mock_onnx_clip_backend_model" kindref="compound">MockOnnxClipBackendModel</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MockOnnxClipBackendModel&gt; themis::bench::onnx_clip::OnnxClipThroughputScalingFixture::model_</definition>
+        <argsstring></argsstring>
+        <name>model_</name>
+        <qualifiedname>OnnxClipThroughputScalingFixture::model_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="302" column="21" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="302" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_onnx_clip_throughput_scaling_fixture_1af014e48df7d7e61f6ca4161af6ede01c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::onnx_clip::OnnxClipThroughputScalingFixture::SetUp</definition>
+        <argsstring>(::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>OnnxClipThroughputScalingFixture::SetUp</qualifiedname>
+        <param>
+          <type>::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="287" column="10" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="287" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="class_onnx_clip_throughput_scaling_fixture_1a0b4bee973e22048339f595f5123a1b69" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::onnx_clip::OnnxClipThroughputScalingFixture::TearDown</definition>
+        <argsstring>(::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>OnnxClipThroughputScalingFixture::TearDown</qualifiedname>
+        <param>
+          <type>::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="297" column="10" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="297" bodyend="299"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixture for throughput scaling study across batch sizes. Measures images/second for batch sizes 1, 8, 16, 32, 64. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>OnnxClipThroughputScalingFixture</label>
+        <link refid="class_onnx_clip_throughput_scaling_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>OnnxClipThroughputScalingFixture</label>
+        <link refid="class_onnx_clip_throughput_scaling_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="285" column="1" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="285" bodyend="303"/>
+    <listofallmembers>
+      <member refid="class_onnx_clip_throughput_scaling_fixture_1a99245db4192d00c89d75665db11dd989" prot="protected" virt="non-virtual"><scope>OnnxClipThroughputScalingFixture</scope><name>model_</name></member>
+      <member refid="class_onnx_clip_throughput_scaling_fixture_1af014e48df7d7e61f6ca4161af6ede01c" prot="public" virt="non-virtual"><scope>OnnxClipThroughputScalingFixture</scope><name>SetUp</name></member>
+      <member refid="class_onnx_clip_throughput_scaling_fixture_1a0b4bee973e22048339f595f5123a1b69" prot="public" virt="non-virtual"><scope>OnnxClipThroughputScalingFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

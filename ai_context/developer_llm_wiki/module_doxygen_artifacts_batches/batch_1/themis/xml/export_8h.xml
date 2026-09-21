@@ -1,0 +1,518 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="export_8h" kind="file" language="C++">
+    <compoundname>export.h</compoundname>
+    <includedby refid="build__info_8h" local="yes">include/themis/build_info.h</includedby>
+    <includedby refid="edition__manager_8h" local="yes">include/themis/edition_manager.h</includedby>
+    <includedby refid="license__info_8h" local="yes">include/themis/license_info.h</includedby>
+    <includedby refid="module__hash__verifier_8h" local="yes">include/themis/module_hash_verifier.h</includedby>
+    <includedby refid="module__signature__verifier_8h" local="yes">include/themis/module_signature_verifier.h</includedby>
+    <includedby refid="runtime__license__gate_8h" local="yes">include/themis/runtime_license_gate.h</includedby>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/themis/bench_themis_core.cpp</label>
+        <link refid="bench__themis__core_8cpp"/>
+      </node>
+      <node id="13">
+        <label>include/themis/base/ab_test_manager.h</label>
+        <link refid="ab__test__manager_8h"/>
+      </node>
+      <node id="14">
+        <label>include/themis/base/hot_reload_manager.h</label>
+        <link refid="hot__reload__manager_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/themis/base/module_loader.h</label>
+        <link refid="module__loader_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/themis/base/plugin_dependency_graph.h</label>
+        <link refid="plugin__dependency__graph_8h"/>
+      </node>
+      <node id="16">
+        <label>include/themis/base/remote_registry_client.h</label>
+        <link refid="remote__registry__client_8h"/>
+      </node>
+      <node id="2">
+        <label>include/themis/build_info.h</label>
+        <link refid="build__info_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/themis/edition_manager.h</label>
+        <link refid="edition__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/themis/export.h</label>
+        <link refid="export_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/themis/license_info.h</label>
+        <link refid="license__info_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/themis/module_hash_verifier.h</label>
+        <link refid="module__hash__verifier_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>include/themis/module_signature_verifier.h</label>
+        <link refid="module__signature__verifier_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/themis/runtime_license_gate.h</label>
+        <link refid="runtime__license__gate_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/themis/build_info.cpp</label>
+        <link refid="build__info_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/themis/edition_manager.cpp</label>
+        <link refid="edition__manager_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/themis/license_info.cpp</label>
+        <link refid="license__info_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/themis/module_dependency_resolver.cpp</label>
+        <link refid="module__dependency__resolver_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/themis/module_hash_verifier.cpp</label>
+        <link refid="module__hash__verifier_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/themis/module_loader.cpp</label>
+        <link refid="module__loader_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/themis/module_loader_linux.cpp</label>
+        <link refid="module__loader__linux_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/themis/module_loader_win32.cpp</label>
+        <link refid="module__loader__win32_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/themis/module_security.cpp</label>
+        <link refid="module__security_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/themis/module_signature_verifier.cpp</label>
+        <link refid="module__signature__verifier_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/themis/test_themis_integration.cpp</label>
+        <link refid="test__themis__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="export_8h_1a89feff9bb7b7e9645de4d98b00a72e2d" prot="public" static="no">
+        <name>THEMIS_EXPORT_MACRO</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/export.h" line="34" column="23" bodyfile="include/themis/export.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="export_8h_1a3b2968cfb879dd91b3367bf895694455" prot="public" static="no">
+        <name>THEMIS_IMPORT_MACRO</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/export.h" line="35" column="17" bodyfile="include/themis/export.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="export_8h_1a45442eca05927c095c0baa8f37264d40" prot="public" static="no">
+        <name>THEMIS_HIDDEN_MACRO</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/export.h" line="36" column="17" bodyfile="include/themis/export.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="export_8h_1a40367e08fc588bd01a6b059a512eea0c" prot="public" static="no">
+        <name>THEMIS_BASE_API</name>
+        <initializer><ref refid="export_8h_1a3b2968cfb879dd91b3367bf895694455" kindref="member">THEMIS_IMPORT_MACRO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/export.h" line="48" column="14" bodyfile="include/themis/export.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="export_8h_1a9283af478a008937858631189d4b4294" prot="public" static="no">
+        <name>THEMIS_STORAGE_API</name>
+        <initializer><ref refid="export_8h_1a3b2968cfb879dd91b3367bf895694455" kindref="member">THEMIS_IMPORT_MACRO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/export.h" line="57" column="14" bodyfile="include/themis/export.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="export_8h_1a57f354158543f155c09dc052e14baca5" prot="public" static="no">
+        <name>THEMIS_QUERY_API</name>
+        <initializer><ref refid="export_8h_1a3b2968cfb879dd91b3367bf895694455" kindref="member">THEMIS_IMPORT_MACRO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/export.h" line="68" column="14" bodyfile="include/themis/export.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="export_8h_1a9a7aa43360081e0594373c823eecc948" prot="public" static="no">
+        <name>THEMIS_SECURITY_API</name>
+        <initializer><ref refid="export_8h_1a3b2968cfb879dd91b3367bf895694455" kindref="member">THEMIS_IMPORT_MACRO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/export.h" line="77" column="14" bodyfile="include/themis/export.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="export_8h_1a55b7238be967237447431d931c338b6a" prot="public" static="no">
+        <name>THEMIS_NETWORK_API</name>
+        <initializer><ref refid="export_8h_1a3b2968cfb879dd91b3367bf895694455" kindref="member">THEMIS_IMPORT_MACRO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/export.h" line="86" column="14" bodyfile="include/themis/export.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="export_8h_1af94f5f54393976ea14ae02cba1ba3a58" prot="public" static="no">
+        <name>THEMIS_TRANSACTION_API</name>
+        <initializer><ref refid="export_8h_1a3b2968cfb879dd91b3367bf895694455" kindref="member">THEMIS_IMPORT_MACRO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/export.h" line="95" column="14" bodyfile="include/themis/export.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="export_8h_1a1b0b59923fe45ed40272f92ab15f8a4f" prot="public" static="no">
+        <name>THEMIS_SHARDING_API</name>
+        <initializer><ref refid="export_8h_1a3b2968cfb879dd91b3367bf895694455" kindref="member">THEMIS_IMPORT_MACRO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/export.h" line="104" column="14" bodyfile="include/themis/export.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="export_8h_1acfe2334a613a95992f997e8a3d658ade" prot="public" static="no">
+        <name>THEMIS_LLM_API</name>
+        <initializer><ref refid="export_8h_1a3b2968cfb879dd91b3367bf895694455" kindref="member">THEMIS_IMPORT_MACRO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/export.h" line="113" column="14" bodyfile="include/themis/export.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="export_8h_1a66d6373d3af030abd05749749482f75f" prot="public" static="no">
+        <name>THEMIS_CONTENT_API</name>
+        <initializer><ref refid="export_8h_1a3b2968cfb879dd91b3367bf895694455" kindref="member">THEMIS_IMPORT_MACRO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/export.h" line="122" column="14" bodyfile="include/themis/export.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="export_8h_1acd6b3e70a80ee7a16ad6b938048c7a4b" prot="public" static="no">
+        <name>THEMIS_TIMESERIES_API</name>
+        <initializer><ref refid="export_8h_1a3b2968cfb879dd91b3367bf895694455" kindref="member">THEMIS_IMPORT_MACRO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/export.h" line="131" column="14" bodyfile="include/themis/export.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="export_8h_1a80362130b99cb9df69bf119d2dcb8274" prot="public" static="no">
+        <name>THEMIS_GRAPH_API</name>
+        <initializer><ref refid="export_8h_1a3b2968cfb879dd91b3367bf895694455" kindref="member">THEMIS_IMPORT_MACRO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/export.h" line="140" column="14" bodyfile="include/themis/export.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="export_8h_1ad6d12fe89c72ee4d232b61d1c19f1a23" prot="public" static="no">
+        <name>THEMIS_GEO_API</name>
+        <initializer><ref refid="export_8h_1a3b2968cfb879dd91b3367bf895694455" kindref="member">THEMIS_IMPORT_MACRO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/export.h" line="149" column="14" bodyfile="include/themis/export.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="export_8h_1a11086332130887b7a4cc35ffd1d7af28" prot="public" static="no">
+        <name>THEMIS_CORE_API</name>
+        <initializer><ref refid="export_8h_1a3b2968cfb879dd91b3367bf895694455" kindref="member">THEMIS_IMPORT_MACRO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/export.h" line="157" column="14" bodyfile="include/themis/export.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>Export<sp/>Macros<sp/>for<sp/>Modular<sp/>Architecture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>file<sp/>provides<sp/>DLL<sp/>export/import<sp/>macros<sp/>for<sp/>all<sp/>ThemisDB<sp/>modules</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Windows<sp/>requires<sp/>explicit<sp/>__declspec(dllexport/dllimport)<sp/>for<sp/>shared<sp/>libraries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Detect<sp/>platform</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(_WIN32)<sp/>||<sp/>defined(_WIN64)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PLATFORM_WINDOWS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Base<sp/>export<sp/>macro<sp/>helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_PLATFORM_WINDOWS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_EXPORT_MACRO<sp/>__declspec(dllexport)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_IMPORT_MACRO<sp/>__declspec(dllimport)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_HIDDEN_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#if<sp/>__GNUC__<sp/>&gt;=<sp/>4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_EXPORT_MACRO<sp/>__attribute__((visibility(&quot;default&quot;)))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_IMPORT_MACRO<sp/>__attribute__((visibility(&quot;default&quot;)))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_HIDDEN_MACRO<sp/>__attribute__((visibility(&quot;hidden&quot;)))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="export_8h_1a89feff9bb7b7e9645de4d98b00a72e2d" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_EXPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="export_8h_1a3b2968cfb879dd91b3367bf895694455" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_IMPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="export_8h_1a45442eca05927c095c0baa8f37264d40" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_HIDDEN_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Module-specific<sp/>export<sp/>macros</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Each<sp/>module<sp/>defines<sp/>THEMIS_&lt;MODULE&gt;_EXPORTS<sp/>when<sp/>building<sp/>the<sp/>DLL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>themis_base<sp/>-<sp/>Core<sp/>types,<sp/>interfaces,<sp/>utilities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_BASE_API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_BASE_EXPORTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_BASE_API<sp/>THEMIS_EXPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_BASE_API<sp/>THEMIS_IMPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>themis_storage<sp/>-<sp/>Storage<sp/>engine<sp/>and<sp/>indexes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_STORAGE_API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_STORAGE_EXPORTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_STORAGE_API<sp/>THEMIS_EXPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="export_8h_1a9283af478a008937858631189d4b4294" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_STORAGE_API<sp/>THEMIS_IMPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>themis_query<sp/>-<sp/>Query<sp/>engine<sp/>and<sp/>AQL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_QUERY_API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(THEMIS_QUERY_STATIC)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_QUERY_API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(THEMIS_QUERY_EXPORTS)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_QUERY_API<sp/>THEMIS_EXPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="export_8h_1a57f354158543f155c09dc052e14baca5" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_QUERY_API<sp/>THEMIS_IMPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>themis_security<sp/>-<sp/>Encryption,<sp/>PKI,<sp/>RBAC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_SECURITY_API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_SECURITY_EXPORTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_SECURITY_API<sp/>THEMIS_EXPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="export_8h_1a9a7aa43360081e0594373c823eecc948" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_SECURITY_API<sp/>THEMIS_IMPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>themis_network<sp/>-<sp/>HTTP/gRPC<sp/>servers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_NETWORK_API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_NETWORK_EXPORTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NETWORK_API<sp/>THEMIS_EXPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="export_8h_1a55b7238be967237447431d931c338b6a" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NETWORK_API<sp/>THEMIS_IMPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>themis_transaction<sp/>-<sp/>Transaction<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_TRANSACTION_API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_TRANSACTION_EXPORTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_TRANSACTION_API<sp/>THEMIS_EXPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="export_8h_1af94f5f54393976ea14ae02cba1ba3a58" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_TRANSACTION_API<sp/>THEMIS_IMPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>themis_sharding<sp/>-<sp/>Distributed<sp/>system<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_SHARDING_API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_SHARDING_EXPORTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_SHARDING_API<sp/>THEMIS_EXPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="export_8h_1a1b0b59923fe45ed40272f92ab15f8a4f" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_SHARDING_API<sp/>THEMIS_IMPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>themis_llm<sp/>-<sp/>LLM<sp/>integration<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_LLM_API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_LLM_EXPORTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_LLM_API<sp/>THEMIS_EXPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="export_8h_1acfe2334a613a95992f997e8a3d658ade" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_LLM_API<sp/>THEMIS_IMPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>themis_content<sp/>-<sp/>Content<sp/>processors<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_CONTENT_API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_CONTENT_EXPORTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_CONTENT_API<sp/>THEMIS_EXPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="export_8h_1a66d6373d3af030abd05749749482f75f" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_CONTENT_API<sp/>THEMIS_IMPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>themis_timeseries<sp/>-<sp/>Time-series<sp/>support<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_TIMESERIES_API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_TIMESERIES_EXPORTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_TIMESERIES_API<sp/>THEMIS_EXPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="export_8h_1acd6b3e70a80ee7a16ad6b938048c7a4b" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_TIMESERIES_API<sp/>THEMIS_IMPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>themis_graph<sp/>-<sp/>Graph<sp/>analytics<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_GRAPH_API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_GRAPH_EXPORTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_GRAPH_API<sp/>THEMIS_EXPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="export_8h_1a80362130b99cb9df69bf119d2dcb8274" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_GRAPH_API<sp/>THEMIS_IMPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>themis_geo<sp/>-<sp/>Geospatial<sp/>features<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_GEO_API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_GEO_EXPORTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_GEO_API<sp/>THEMIS_EXPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="export_8h_1ad6d12fe89c72ee4d232b61d1c19f1a23" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_GEO_API<sp/>THEMIS_IMPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Legacy<sp/>compatibility:<sp/>themis_core<sp/>for<sp/>monolithic<sp/>builds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_CORE_EXPORTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_CORE_API<sp/>THEMIS_EXPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="export_8h_1a11086332130887b7a4cc35ffd1d7af28" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_CORE_API<sp/>THEMIS_IMPORT_MACRO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/themis/export.h"/>
+  </compounddef>
+</doxygen>

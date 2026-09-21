@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_consumer_group_test" kind="class" language="C++" prot="public">
+    <compoundname>ConsumerGroupTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_consumer_group_test_1adbc7fbc980d989f45e9aa265fa1db082" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ConsumerGroupTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>ConsumerGroupTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_consumer_group.cpp" line="75" column="42" bodyfile="tests/cdc/test_cdc_consumer_group.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_consumer_group_test_1a88fed2d75ac5daeb6eb5fe49416ea1f3" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; ConsumerGroupTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ConsumerGroupTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_consumer_group.cpp" line="76" column="26" bodyfile="tests/cdc/test_cdc_consumer_group.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_consumer_group_test_1a111513262536ed16dedba5bf590a62a1" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; ConsumerGroupTest::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>ConsumerGroupTest::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_consumer_group.cpp" line="77" column="30" bodyfile="tests/cdc/test_cdc_consumer_group.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_consumer_group_test_1a12ee8899290cb4d7d8a16c01bdf9468e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_consumer_group_manager" kindref="compound">ConsumerGroupManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ConsumerGroupManager&gt; ConsumerGroupTest::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>ConsumerGroupTest::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_consumer_group.cpp" line="78" column="21" bodyfile="tests/cdc/test_cdc_consumer_group.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_consumer_group_test_1ac7731cfe08254b4425bc141c40a816da" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ConsumerGroupTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ConsumerGroupTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_consumer_group.cpp" line="22" column="10" bodyfile="tests/cdc/test_cdc_consumer_group.cpp" bodystart="22" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_consumer_group_test_1a92102a247b6d2ea3dd22e0e16303fa9c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ConsumerGroupTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ConsumerGroupTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_consumer_group.cpp" line="52" column="10" bodyfile="tests/cdc/test_cdc_consumer_group.cpp" bodystart="52" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_consumer_group_test_1ade017aa0c7c3d5afed8f3295c9689f3e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ConsumerGroupTest::addEvents</definition>
+        <argsstring>(int count, const std::string &amp;key_prefix=&quot;key&quot;)</argsstring>
+        <name>addEvents</name>
+        <qualifiedname>ConsumerGroupTest::addEvents</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_prefix</declname>
+          <defval>&quot;key&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_consumer_group.cpp" line="65" column="10" bodyfile="tests/cdc/test_cdc_consumer_group.cpp" bodystart="65" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ConsumerGroupTest</label>
+        <link refid="class_consumer_group_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ConsumerGroupTest</label>
+        <link refid="class_consumer_group_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_consumer_group.cpp" line="20" column="1" bodyfile="tests/cdc/test_cdc_consumer_group.cpp" bodystart="20" bodyend="79"/>
+    <listofallmembers>
+      <member refid="class_consumer_group_test_1ade017aa0c7c3d5afed8f3295c9689f3e" prot="protected" virt="non-virtual"><scope>ConsumerGroupTest</scope><name>addEvents</name></member>
+      <member refid="class_consumer_group_test_1a111513262536ed16dedba5bf590a62a1" prot="protected" virt="non-virtual"><scope>ConsumerGroupTest</scope><name>changefeed_</name></member>
+      <member refid="class_consumer_group_test_1a88fed2d75ac5daeb6eb5fe49416ea1f3" prot="protected" virt="non-virtual"><scope>ConsumerGroupTest</scope><name>db_</name></member>
+      <member refid="class_consumer_group_test_1a12ee8899290cb4d7d8a16c01bdf9468e" prot="protected" virt="non-virtual"><scope>ConsumerGroupTest</scope><name>manager_</name></member>
+      <member refid="class_consumer_group_test_1ac7731cfe08254b4425bc141c40a816da" prot="protected" virt="non-virtual"><scope>ConsumerGroupTest</scope><name>SetUp</name></member>
+      <member refid="class_consumer_group_test_1a92102a247b6d2ea3dd22e0e16303fa9c" prot="protected" virt="non-virtual"><scope>ConsumerGroupTest</scope><name>TearDown</name></member>
+      <member refid="class_consumer_group_test_1adbc7fbc980d989f45e9aa265fa1db082" prot="protected" virt="non-virtual"><scope>ConsumerGroupTest</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

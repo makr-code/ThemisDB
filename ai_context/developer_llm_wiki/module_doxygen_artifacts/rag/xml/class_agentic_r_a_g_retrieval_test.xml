@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_agentic_r_a_g_retrieval_test" kind="class" language="C++" prot="public">
+    <compoundname>AgenticRAGRetrievalTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_agentic_r_a_g_retrieval_test_1a7800eecd8a4c387c136de71b574f7903" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config" kindref="compound">AgenticRAGConfig</ref></type>
+        <definition>AgenticRAGConfig AgenticRAGRetrievalTest::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>AgenticRAGRetrievalTest::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_agentic.cpp" line="239" column="22" bodyfile="tests/rag/test_rag_agentic.cpp" bodystart="239" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_agentic_r_a_g_retrieval_test_1abf492d23458bb29983b2ac0f6e3fc907" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AgenticRAGRetrievalTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AgenticRAGRetrievalTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_agentic.cpp" line="241" column="10" bodyfile="tests/rag/test_rag_agentic.cpp" bodystart="241" bodyend="244"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AgenticRAGRetrievalTest</label>
+        <link refid="class_agentic_r_a_g_retrieval_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AgenticRAGRetrievalTest</label>
+        <link refid="class_agentic_r_a_g_retrieval_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::agentic::AgenticRAGConfig</label>
+        <link refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>judge_config</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>gap_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::rag::judge::RAGJudgeConfig</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config"/>
+      </node>
+      <node id="5">
+        <label>themis::rag::knowledge_gap::KnowledgeGapConfig</label>
+        <link refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_agentic.cpp" line="237" column="1" bodyfile="tests/rag/test_rag_agentic.cpp" bodystart="237" bodyend="245"/>
+    <listofallmembers>
+      <member refid="class_agentic_r_a_g_retrieval_test_1a7800eecd8a4c387c136de71b574f7903" prot="protected" virt="non-virtual"><scope>AgenticRAGRetrievalTest</scope><name>config</name></member>
+      <member refid="class_agentic_r_a_g_retrieval_test_1abf492d23458bb29983b2ac0f6e3fc907" prot="protected" virt="non-virtual"><scope>AgenticRAGRetrievalTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

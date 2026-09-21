@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="epk__aris__xml__importer_8h" kind="file" language="C++">
+    <compoundname>epk_aris_xml_importer.h</compoundname>
+    <includes local="yes">index/process_graph.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="epk__aris__xml__importer_8cpp" local="yes">src/process/epk_aris_xml_importer.cpp</includedby>
+    <includedby refid="process__model__manager_8cpp" local="yes">src/process/process_model_manager.cpp</includedby>
+    <includedby refid="test__process__aris__xml_8cpp" local="yes">tests/process/test_process_aris_xml.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/epk_aris_xml_importer.h</label>
+        <link refid="epk__aris__xml__importer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>index/process_graph.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>string_view</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/process/epk_aris_xml_importer.h</label>
+        <link refid="epk__aris__xml__importer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/process/epk_aris_xml_importer.cpp</label>
+        <link refid="epk__aris__xml__importer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/process/process_model_manager.cpp</label>
+        <link refid="process__model__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/process/test_process_aris_xml.cpp</label>
+        <link refid="test__process__aris__xml_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1process_1_1_epk_aris_xml_importer" prot="public">themis::process::EpkArisXmlImporter</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result" prot="public">themis::process::EpkArisXmlImporter::ImportResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>-<sp/>Process<sp/>Modeling<sp/>Module</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/>File:<sp/><sp/><sp/><sp/>epk_aris_xml_importer.h</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/>Module:<sp/><sp/>include/process/</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*<sp/>Purpose:<sp/>EPK<sp/>import<sp/>from<sp/>ARIS<sp/>Markup<sp/>Language<sp/>(AML)<sp/>XML<sp/>files.</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/>*<sp/>ARIS<sp/>(Architecture<sp/>of<sp/>Integrated<sp/>Information<sp/>Systems)<sp/>is<sp/>a<sp/>methodology</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/>*<sp/>and<sp/>toolset<sp/>by<sp/>Software<sp/>AG.<sp/><sp/>AML<sp/>is<sp/>the<sp/>native<sp/>export<sp/>format<sp/>of<sp/>the</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"><sp/>*<sp/>ARIS<sp/>Designer/Architect<sp/>suite.</highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="25"><highlight class="comment"><sp/>*<sp/>##<sp/>ARIS<sp/>EPK<sp/>TypeNum<sp/>mapping</highlight></codeline>
+<codeline lineno="26"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="27"><highlight class="comment"><sp/>*<sp/>|<sp/>ARIS<sp/>TypeNum<sp/>|<sp/>ARIS<sp/>Name<sp/>(de)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>EPKNodeType<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline lineno="28"><highlight class="comment"><sp/>*<sp/>|-------------:|-------------------------------|-------------------------|</highlight></codeline>
+<codeline lineno="29"><highlight class="comment"><sp/>*<sp/>|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1<sp/>|<sp/>Funktion<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>FUNCTION<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline lineno="30"><highlight class="comment"><sp/>*<sp/>|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>14<sp/>|<sp/>Ereignis<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>EVENT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline lineno="31"><highlight class="comment"><sp/>*<sp/>|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>13<sp/>|<sp/>UND-Verknüpfungsoperator<sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>AND_CONNECTOR<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline lineno="32"><highlight class="comment"><sp/>*<sp/>|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>12<sp/>|<sp/>ODER-Verknüpfungsoperator<sp/><sp/><sp/><sp/><sp/>|<sp/>OR_CONNECTOR<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline lineno="33"><highlight class="comment"><sp/>*<sp/>|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>11<sp/>|<sp/>XOR-Verknüpfungsoperator<sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>XOR_CONNECTOR<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline lineno="34"><highlight class="comment"><sp/>*<sp/>|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>18<sp/>|<sp/>Organisationseinheit<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>ORGANIZATIONAL_UNIT<sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline lineno="35"><highlight class="comment"><sp/>*<sp/>|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>15<sp/>|<sp/>Informationsobjekt<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>INFORMATION_OBJECT<sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline lineno="36"><highlight class="comment"><sp/>*<sp/>|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>40<sp/>|<sp/>Anwendungssystem<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>APPLICATION_SYSTEM<sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline lineno="37"><highlight class="comment"><sp/>*<sp/>|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>16<sp/>|<sp/>Prozesswegweiser<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>PROCESS_PATH<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline lineno="38"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="39"><highlight class="comment"><sp/>*<sp/>##<sp/>Supported<sp/>AML<sp/>structure</highlight></codeline>
+<codeline lineno="40"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="41"><highlight class="comment"><sp/>*<sp/>The<sp/>importer<sp/>handles<sp/>the<sp/>following<sp/>subset<sp/>of<sp/>AML<sp/>v9<sp/>and<sp/>v10:</highlight></codeline>
+<codeline lineno="42"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="43"><highlight class="comment"><sp/>*<sp/>```xml</highlight></codeline>
+<codeline lineno="44"><highlight class="comment"><sp/>*<sp/>&lt;AML&gt;</highlight></codeline>
+<codeline lineno="45"><highlight class="comment"><sp/>*<sp/><sp/><sp/>&lt;Group<sp/>Group.ID=&quot;g-001&quot;&gt;</highlight></codeline>
+<codeline lineno="46"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>&lt;Model<sp/>Model.ID=&quot;m-001&quot;<sp/>Model.Type=&quot;EPK&quot;&gt;</highlight></codeline>
+<codeline lineno="47"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;Model.Name<sp/>LocaleId=&quot;19&quot;&gt;Process<sp/>Name&lt;/Model.Name&gt;</highlight></codeline>
+<codeline lineno="48"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjOcc<sp/>ObjOcc.ID=&quot;occ-001&quot;<sp/>SymbolNum=&quot;14&quot;<sp/>ObjDef.IdRef=&quot;obj-001&quot;/&gt;</highlight></codeline>
+<codeline lineno="49"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjOcc<sp/>ObjOcc.ID=&quot;occ-002&quot;<sp/>SymbolNum=&quot;1&quot;<sp/><sp/>ObjDef.IdRef=&quot;obj-002&quot;/&gt;</highlight></codeline>
+<codeline lineno="50"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;CxnOcc<sp/>CxnOcc.ID=&quot;cx-001&quot;<sp/>CxnDef.IdRef=&quot;cd-001&quot;</highlight></codeline>
+<codeline lineno="51"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FromObjOcc.IdRef=&quot;occ-001&quot;<sp/>ToObjOcc.IdRef=&quot;occ-002&quot;/&gt;</highlight></codeline>
+<codeline lineno="52"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>&lt;/Model&gt;</highlight></codeline>
+<codeline lineno="53"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>&lt;ObjDef<sp/>ObjDef.ID=&quot;obj-001&quot;<sp/>TypeNum=&quot;14&quot;&gt;</highlight></codeline>
+<codeline lineno="54"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjDef.Name&gt;Antrag<sp/>eingegangen&lt;/ObjDef.Name&gt;</highlight></codeline>
+<codeline lineno="55"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>&lt;/ObjDef&gt;</highlight></codeline>
+<codeline lineno="56"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>&lt;ObjDef<sp/>ObjDef.ID=&quot;obj-002&quot;<sp/>TypeNum=&quot;1&quot;&gt;</highlight></codeline>
+<codeline lineno="57"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;ObjDef.Name&gt;Vollständigkeit<sp/>prüfen&lt;/ObjDef.Name&gt;</highlight></codeline>
+<codeline lineno="58"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/>&lt;/ObjDef&gt;</highlight></codeline>
+<codeline lineno="59"><highlight class="comment"><sp/>*<sp/><sp/><sp/>&lt;/Group&gt;</highlight></codeline>
+<codeline lineno="60"><highlight class="comment"><sp/>*<sp/>&lt;/AML&gt;</highlight></codeline>
+<codeline lineno="61"><highlight class="comment"><sp/>*<sp/>```</highlight></codeline>
+<codeline lineno="62"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="63"><highlight class="comment"><sp/>*<sp/>Multiple<sp/>`&lt;Group&gt;`<sp/>levels<sp/>are<sp/>supported;<sp/>the<sp/>first<sp/>EPK<sp/>model<sp/>encountered<sp/>is</highlight></codeline>
+<codeline lineno="64"><highlight class="comment"><sp/>*<sp/>imported.<sp/><sp/>To<sp/>import<sp/>all<sp/>models<sp/>from<sp/>a<sp/>multi-model<sp/>AML<sp/>file<sp/>call</highlight></codeline>
+<codeline lineno="65"><highlight class="comment"><sp/>*<sp/>`importAllAml()`.</highlight></codeline>
+<codeline lineno="66"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="67"><highlight class="comment"><sp/>*<sp/>##<sp/>Thread<sp/>safety</highlight></codeline>
+<codeline lineno="68"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="69"><highlight class="comment"><sp/>*<sp/>All<sp/>methods<sp/>are<sp/>static;<sp/>the<sp/>class<sp/>has<sp/>no<sp/>instance<sp/>state.</highlight></codeline>
+<codeline lineno="70"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/process_graph.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">process</ref><sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1process_1_1_epk_aris_xml_importer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer" kindref="compound">EpkArisXmlImporter</ref><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result" kindref="compound">ImportResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result_1a59aed06316ab03139b8019dd883478ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result_1a59aed06316ab03139b8019dd883478ba" kindref="member">ok</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result_1a557770dffe0157e415629baf9262aa0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result_1a557770dffe0157e415629baf9262aa0e" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result_1a35d88328705df8ebe5fda64ddc9076e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result_1a35d88328705df8ebe5fda64ddc9076e8" kindref="member">process_id</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result_1a45b0d81fd2860f1603f93ec2f573ac4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result_1a45b0d81fd2860f1603f93ec2f573ac4b" kindref="member">process_name</ref>;<sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result_1a1b77578d3b2f55f8277ef1d9e674360f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ProcessNodeInfo&gt;<sp/><ref refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result_1a1b77578d3b2f55f8277ef1d9e674360f" kindref="member">nodes</ref>;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result_1a61eb03d8e02c21658088bb95e5990a6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ProcessEdgeInfo&gt;<sp/><ref refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result_1a61eb03d8e02c21658088bb95e5990a6f" kindref="member">edges</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Import</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_epk_aris_xml_importer_1_1_import_result" kindref="compound">ImportResult</ref><sp/><ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a690fdf09f3ced0388f07bf2588514acf" kindref="member">importAml</ref>(std::string_view<sp/>aml_xml);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;ImportResult&gt;<sp/><ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a43461adeab9d41a01ae43f3833b03b57" kindref="member">importAllAml</ref>(std::string_view<sp/>aml_xml);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TypeNum<sp/>helpers<sp/>(public<sp/>for<sp/>unit<sp/>testing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>EPKNodeType<sp/><ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1ab0c4be34ffacf56af87eeabf8a81cb72" kindref="member">typeNumToEpkNodeType</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>type_num);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="classthemis_1_1process_1_1_epk_aris_xml_importer_1a99fcd1fbc42f3a9987a23af7fa74f7de" kindref="member">typeNumToLabel</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>type_num);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kMaxAmlBytes<sp/>=<sp/>10u<sp/>*<sp/>1024u<sp/>*<sp/>1024u;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>process</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/epk_aris_xml_importer.h"/>
+  </compounddef>
+</doxygen>

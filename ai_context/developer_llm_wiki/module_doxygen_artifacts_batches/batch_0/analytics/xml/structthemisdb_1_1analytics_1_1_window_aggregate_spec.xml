@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_window_aggregate_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::WindowAggregateSpec</compoundname>
+    <includes refid="streaming__window_8h" local="no">streaming_window.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1aa25d72151b0fb0e2074af17d78d475e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::WindowAggregateSpec::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themisdb::analytics::WindowAggregateSpec::name</qualifiedname>
+        <briefdescription>
+<para>output name in <ref refid="structthemisdb_1_1analytics_1_1_window_result" kindref="compound">WindowResult</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="129" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1ae4dc8279a951d8b3c73ac3fbcc879485" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841" kindref="member">AggFunc</ref></type>
+        <definition>AggFunc themisdb::analytics::WindowAggregateSpec::func</definition>
+        <argsstring></argsstring>
+        <name>func</name>
+        <qualifiedname>themisdb::analytics::WindowAggregateSpec::func</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a4905ac9d6a22bdfc1ae096094ce6248d" kindref="member">AggFunc::COUNT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="130" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1ad41b37d22901007befd1d33a4ca7ac19" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::WindowAggregateSpec::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themisdb::analytics::WindowAggregateSpec::field</qualifiedname>
+        <briefdescription>
+<para>input field name (empty → operate on presence) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="131" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a133ac6b60ce7439fdd83220a48e8bdae" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::WindowAggregateSpec::percentile_p</definition>
+        <argsstring></argsstring>
+        <name>percentile_p</name>
+        <qualifiedname>themisdb::analytics::WindowAggregateSpec::percentile_p</qualifiedname>
+        <initializer>= 50.0</initializer>
+        <briefdescription>
+<para>only used for PERCENTILE </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="132" column="17" bodyfile="include/analytics/streaming_window.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a790d5b5c38e23c592e583b6413ab83ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::WindowAggregateSpec::WindowAggregateSpec</definition>
+        <argsstring>()=default</argsstring>
+        <name>WindowAggregateSpec</name>
+        <qualifiedname>themisdb::analytics::WindowAggregateSpec::WindowAggregateSpec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="134" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a2d0c834d84ba31b8a90afec1d788a9be" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::WindowAggregateSpec::WindowAggregateSpec</definition>
+        <argsstring>(std::string name_, AggFunc func_, std::string field_, double percentile_p_=50.0)</argsstring>
+        <name>WindowAggregateSpec</name>
+        <qualifiedname>themisdb::analytics::WindowAggregateSpec::WindowAggregateSpec</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name_</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841" kindref="member">AggFunc</ref></type>
+          <declname>func_</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>field_</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>percentile_p_</declname>
+          <defval>50.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="135" column="5" bodyfile="include/analytics/streaming_window.h" bodystart="135" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a720c59ff9ef27ec2bdd5452278d18b77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::WindowAggregateSpec::WindowAggregateSpec</definition>
+        <argsstring>(const WindowAggregateSpec &amp;)=default</argsstring>
+        <name>WindowAggregateSpec</name>
+        <qualifiedname>themisdb::analytics::WindowAggregateSpec::WindowAggregateSpec</qualifiedname>
+        <param>
+          <type>const WindowAggregateSpec &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="142" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a996fedb2643dc73c25ddcbd62b6215e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a790d5b5c38e23c592e583b6413ab83ad" kindref="member">WindowAggregateSpec</ref> &amp;</type>
+        <definition>WindowAggregateSpec &amp; themisdb::analytics::WindowAggregateSpec::operator=</definition>
+        <argsstring>(const WindowAggregateSpec &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::WindowAggregateSpec::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a790d5b5c38e23c592e583b6413ab83ad" kindref="member">WindowAggregateSpec</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="143" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a29f6c9e5cd0d71306ae9ac2040ac3871" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::WindowAggregateSpec::WindowAggregateSpec</definition>
+        <argsstring>(WindowAggregateSpec &amp;&amp;) noexcept=default</argsstring>
+        <name>WindowAggregateSpec</name>
+        <qualifiedname>themisdb::analytics::WindowAggregateSpec::WindowAggregateSpec</qualifiedname>
+        <param>
+          <type>WindowAggregateSpec &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="144" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1ab42c427ece379b31b89bad0b4234bac0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a790d5b5c38e23c592e583b6413ab83ad" kindref="member">WindowAggregateSpec</ref> &amp;</type>
+        <definition>WindowAggregateSpec &amp; themisdb::analytics::WindowAggregateSpec::operator=</definition>
+        <argsstring>(WindowAggregateSpec &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::WindowAggregateSpec::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a790d5b5c38e23c592e583b6413ab83ad" kindref="member">WindowAggregateSpec</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="145" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1aa4c2ff8b70f381be8d1cb13cf517de90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::WindowAggregateSpec::~WindowAggregateSpec</definition>
+        <argsstring>()=default</argsstring>
+        <name>~WindowAggregateSpec</name>
+        <qualifiedname>themisdb::analytics::WindowAggregateSpec::~WindowAggregateSpec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="146" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/streaming_window.h" line="128" column="1" bodyfile="include/analytics/streaming_window.h" bodystart="128" bodyend="147"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1ad41b37d22901007befd1d33a4ca7ac19" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowAggregateSpec</scope><name>field</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1ae4dc8279a951d8b3c73ac3fbcc879485" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowAggregateSpec</scope><name>func</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1aa25d72151b0fb0e2074af17d78d475e8" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowAggregateSpec</scope><name>name</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a996fedb2643dc73c25ddcbd62b6215e0" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowAggregateSpec</scope><name>operator=</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1ab42c427ece379b31b89bad0b4234bac0" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowAggregateSpec</scope><name>operator=</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a133ac6b60ce7439fdd83220a48e8bdae" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowAggregateSpec</scope><name>percentile_p</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a790d5b5c38e23c592e583b6413ab83ad" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowAggregateSpec</scope><name>WindowAggregateSpec</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a2d0c834d84ba31b8a90afec1d788a9be" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowAggregateSpec</scope><name>WindowAggregateSpec</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a720c59ff9ef27ec2bdd5452278d18b77" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowAggregateSpec</scope><name>WindowAggregateSpec</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a29f6c9e5cd0d71306ae9ac2040ac3871" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowAggregateSpec</scope><name>WindowAggregateSpec</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1aa4c2ff8b70f381be8d1cb13cf517de90" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowAggregateSpec</scope><name>~WindowAggregateSpec</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

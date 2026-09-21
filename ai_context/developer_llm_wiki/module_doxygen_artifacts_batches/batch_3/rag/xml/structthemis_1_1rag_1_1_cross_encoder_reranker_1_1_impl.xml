@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::CrossEncoderReranker::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1a7a41c336982e105d13ddc5c94f00cc38" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_cross_encoder_config" kindref="compound">CrossEncoderConfig</ref></type>
+        <definition>CrossEncoderConfig themis::rag::CrossEncoderReranker::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/reranker.cpp" line="281" column="24" bodyfile="src/rag/reranker.cpp" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1a69b3ebe628ea1b5e37348df1257b5641" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::CrossEncoderReranker::Impl::state_mutex</definition>
+        <argsstring></argsstring>
+        <name>state_mutex</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::Impl::state_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/reranker.cpp" line="282" column="24" bodyfile="src/rag/reranker.cpp" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1aef3ff13a5c93c6e9af581b6b56175ec6" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::rag::CrossEncoderReranker::Impl::model_loaded</definition>
+        <argsstring></argsstring>
+        <name>model_loaded</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::Impl::model_loaded</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/reranker.cpp" line="283" column="17" bodyfile="src/rag/reranker.cpp" bodystart="283" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1aac2a970ba17aa2b476efe9f966305767" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::CrossEncoderReranker::Impl::cache_mutex</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::Impl::cache_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/reranker.cpp" line="286" column="24" bodyfile="src/rag/reranker.cpp" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1a55bbf5e6d928ca42f66d5778596cf1b6" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::CrossEncoderReranker::Impl::config_mutex</definition>
+        <argsstring></argsstring>
+        <name>config_mutex</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::Impl::config_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/reranker.cpp" line="287" column="24" bodyfile="src/rag/reranker.cpp" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1aa812c23a9f0db59fafbc080ce09ff838" prot="public" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::rag::CrossEncoderReranker::Impl::score_cache</definition>
+        <argsstring></argsstring>
+        <name>score_cache</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::Impl::score_cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/reranker.cpp" line="288" column="32" bodyfile="src/rag/reranker.cpp" bodystart="288" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1ac95dcb6800b906226723a45d491199a4" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::CrossEncoderReranker::Impl::Impl</definition>
+        <argsstring>(const CrossEncoderConfig &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_cross_encoder_config" kindref="compound">CrossEncoderConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/reranker.cpp" line="290" column="14" bodyfile="src/rag/reranker.cpp" bodystart="290" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1a41cf0baee16023906d631825f4edd315" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::CrossEncoderReranker::Impl::cacheKey</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;doc_id) const</argsstring>
+        <name>cacheKey</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::Impl::cacheKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/reranker.cpp" line="308" column="17" bodyfile="src/rag/reranker.cpp" bodystart="308" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1a72c9a5e3e952cb25a9fdf34a9fb42a6b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt; double &gt; themis::rag::CrossEncoderReranker::Impl::getCached</definition>
+        <argsstring>(const std::string &amp;key, bool cache_enabled) const</argsstring>
+        <name>getCached</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::Impl::getCached</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>cache_enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rag/reranker.cpp" line="317" column="19" bodyfile="src/rag/reranker.cpp" bodystart="317" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1afbbc310836729c2bd0105d02f6ed2639" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::CrossEncoderReranker::Impl::setCached</definition>
+        <argsstring>(const std::string &amp;key, double value, std::size_t max_cache_size, bool cache_enabled) const</argsstring>
+        <name>setCached</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::Impl::setCached</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_cache_size</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>cache_enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rag/reranker.cpp" line="335" column="10" bodyfile="src/rag/reranker.cpp" bodystart="335" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1a29707373ac8a425df499c4840bd21b9f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::CrossEncoderReranker::Impl::computeScore</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;doc_text) const</argsstring>
+        <name>computeScore</name>
+        <qualifiedname>themis::rag::CrossEncoderReranker::Impl::computeScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/rag/reranker.cpp" line="360" column="12" bodyfile="src/rag/reranker.cpp" bodystart="360" bodyend="381"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::CrossEncoderConfig</label>
+        <link refid="structthemis_1_1rag_1_1_cross_encoder_config"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::CrossEncoderReranker::Impl</label>
+        <link refid="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/reranker.cpp" line="280" column="1" bodyfile="src/rag/reranker.cpp" bodystart="280" bodyend="382"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1aac2a970ba17aa2b476efe9f966305767" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker::Impl</scope><name>cache_mutex</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1a41cf0baee16023906d631825f4edd315" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker::Impl</scope><name>cacheKey</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1a29707373ac8a425df499c4840bd21b9f" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker::Impl</scope><name>computeScore</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1a7a41c336982e105d13ddc5c94f00cc38" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1a55bbf5e6d928ca42f66d5778596cf1b6" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker::Impl</scope><name>config_mutex</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1a72c9a5e3e952cb25a9fdf34a9fb42a6b" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker::Impl</scope><name>getCached</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1ac95dcb6800b906226723a45d491199a4" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1aef3ff13a5c93c6e9af581b6b56175ec6" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker::Impl</scope><name>model_loaded</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1aa812c23a9f0db59fafbc080ce09ff838" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker::Impl</scope><name>score_cache</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1afbbc310836729c2bd0105d02f6ed2639" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker::Impl</scope><name>setCached</name></member>
+      <member refid="structthemis_1_1rag_1_1_cross_encoder_reranker_1_1_impl_1a69b3ebe628ea1b5e37348df1257b5641" prot="public" virt="non-virtual"><scope>themis::rag::CrossEncoderReranker::Impl</scope><name>state_mutex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

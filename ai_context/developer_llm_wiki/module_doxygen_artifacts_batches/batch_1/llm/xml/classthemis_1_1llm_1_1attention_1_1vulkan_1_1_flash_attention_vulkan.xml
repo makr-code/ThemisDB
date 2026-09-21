@@ -1,0 +1,355 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::attention::vulkan::FlashAttentionVulkan</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention" prot="public" virt="non-virtual">themis::llm::attention::IFlashAttention</basecompoundref>
+    <includes refid="flash__attention__vulkan_8h" local="no">flash_attention_vulkan.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1ae6c5185486ae2609f3b69a0e492af6ae" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config" kindref="compound">FlashAttentionConfig</ref></type>
+        <definition>FlashAttentionConfig themis::llm::attention::vulkan::FlashAttentionVulkan::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::attention::vulkan::FlashAttentionVulkan::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/flash_attention_vulkan.h" line="57" column="26" bodyfile="include/llm/attention/vulkan/flash_attention_vulkan.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1a97db1da3990ce31d7fea17f2b66ac3e9" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::attention::vulkan::FlashAttentionVulkan::vk_device_</definition>
+        <argsstring></argsstring>
+        <name>vk_device_</name>
+        <qualifiedname>themis::llm::attention::vulkan::FlashAttentionVulkan::vk_device_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/flash_attention_vulkan.h" line="60" column="10" bodyfile="include/llm/attention/vulkan/flash_attention_vulkan.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1a9433e01897170266a9875b461bed256a" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::attention::vulkan::FlashAttentionVulkan::vk_pipeline_</definition>
+        <argsstring></argsstring>
+        <name>vk_pipeline_</name>
+        <qualifiedname>themis::llm::attention::vulkan::FlashAttentionVulkan::vk_pipeline_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/flash_attention_vulkan.h" line="61" column="10" bodyfile="include/llm/attention/vulkan/flash_attention_vulkan.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1a501efbcf62b3a12438f666f0880903b8" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::attention::vulkan::FlashAttentionVulkan::vk_descriptor_set_</definition>
+        <argsstring></argsstring>
+        <name>vk_descriptor_set_</name>
+        <qualifiedname>themis::llm::attention::vulkan::FlashAttentionVulkan::vk_descriptor_set_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/flash_attention_vulkan.h" line="62" column="10" bodyfile="include/llm/attention/vulkan/flash_attention_vulkan.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1aa3185b3bda740cc9891b6590292fb91c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::vulkan::FlashAttentionVulkan::FlashAttentionVulkan</definition>
+        <argsstring>(const FlashAttentionConfig &amp;config)</argsstring>
+        <name>FlashAttentionVulkan</name>
+        <qualifiedname>themis::llm::attention::vulkan::FlashAttentionVulkan::FlashAttentionVulkan</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config" kindref="compound">FlashAttentionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Flash Attention Vulkan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/flash_attention_vulkan.h" line="29" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1a7c7031480adc1288d893a395d92e360a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::vulkan::FlashAttentionVulkan::~FlashAttentionVulkan</definition>
+        <argsstring>() override</argsstring>
+        <name>~FlashAttentionVulkan</name>
+        <qualifiedname>themis::llm::attention::vulkan::FlashAttentionVulkan::~FlashAttentionVulkan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/flash_attention_vulkan.h" line="30" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1aec2629da2a0c18cd6b31cf22c7d849e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::vulkan::FlashAttentionVulkan::forward</definition>
+        <argsstring>(const Tensor &amp;Q, const Tensor &amp;K, const Tensor &amp;V, Tensor &amp;O, const KVCacheManager *kv_cache=nullptr) override</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::llm::attention::vulkan::FlashAttentionVulkan::forward</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1a7c0913857f75209720e959517b5e5250">forward</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>Q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>O</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager" kindref="compound">KVCacheManager</ref> *</type>
+          <declname>kv_cache</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/flash_attention_vulkan.h" line="32" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1a155adcd160905b1710948679fd61af10" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::vulkan::FlashAttentionVulkan::backward</definition>
+        <argsstring>(const Tensor &amp;dO, Tensor &amp;dQ, Tensor &amp;dK, Tensor &amp;dV) override</argsstring>
+        <name>backward</name>
+        <qualifiedname>themis::llm::attention::vulkan::FlashAttentionVulkan::backward</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1a78d23c9d48d190ac8a03e078f2afe382">backward</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dO</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dQ</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dK</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dV</declname>
+        </param>
+        <briefdescription>
+<para>Backward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dO</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dQ</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dK</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dV</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/flash_attention_vulkan.h" line="40" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1afe8f524526348e59841cf756261b5e81" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::attention::vulkan::FlashAttentionVulkan::getBackendName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getBackendName</name>
+        <qualifiedname>themis::llm::attention::vulkan::FlashAttentionVulkan::getBackendName</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1a5efbd390b10ff2f4e6676fe9b3d7fe06">getBackendName</reimplements>
+        <briefdescription>
+<para>Get <ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref> Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/flash_attention_vulkan.h" line="47" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1ae3204490ca23a8f75a4d2918bf29919a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats" kindref="compound">AttentionMemoryStats</ref></type>
+        <definition>AttentionMemoryStats themis::llm::attention::vulkan::FlashAttentionVulkan::getMemoryStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>themis::llm::attention::vulkan::FlashAttentionVulkan::getMemoryStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1af771cc05c9302afde1122f4a88326951">getMemoryStats</reimplements>
+        <briefdescription>
+<para>Get Memory Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/flash_attention_vulkan.h" line="48" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1ae67f46afceca241098cd213d300f29b6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::llm::attention::vulkan::FlashAttentionVulkan::isAvailable</definition>
+        <argsstring>()</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::llm::attention::vulkan::FlashAttentionVulkan::isAvailable</qualifiedname>
+        <briefdescription>
+<para>Is Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/flash_attention_vulkan.h" line="54" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1ad29d807978e88bb280cb30bb42cc3641" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::attention::vulkan::FlashAttentionVulkan::initializeVulkan</definition>
+        <argsstring>()</argsstring>
+        <name>initializeVulkan</name>
+        <qualifiedname>themis::llm::attention::vulkan::FlashAttentionVulkan::initializeVulkan</qualifiedname>
+        <briefdescription>
+<para>Initialize Vulkan. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/flash_attention_vulkan.h" line="67" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1a541521fbd9f7367d3b272fae18cdb1a7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::attention::vulkan::FlashAttentionVulkan::cleanupVulkan</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupVulkan</name>
+        <qualifiedname>themis::llm::attention::vulkan::FlashAttentionVulkan::cleanupVulkan</qualifiedname>
+        <briefdescription>
+<para>Cleanup Vulkan. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/flash_attention_vulkan.h" line="71" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::attention::IFlashAttention</label>
+        <link refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::attention::vulkan::FlashAttentionVulkan</label>
+        <link refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::attention::IFlashAttention</label>
+        <link refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::attention::vulkan::FlashAttentionVulkan</label>
+        <link refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/attention/vulkan/flash_attention_vulkan.h" line="22" column="1" bodyfile="include/llm/attention/vulkan/flash_attention_vulkan.h" bodystart="22" bodyend="72"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1a155adcd160905b1710948679fd61af10" prot="public" virt="virtual"><scope>themis::llm::attention::vulkan::FlashAttentionVulkan</scope><name>backward</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1a541521fbd9f7367d3b272fae18cdb1a7" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::FlashAttentionVulkan</scope><name>cleanupVulkan</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1ae6c5185486ae2609f3b69a0e492af6ae" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::FlashAttentionVulkan</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1aa3185b3bda740cc9891b6590292fb91c" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::FlashAttentionVulkan</scope><name>FlashAttentionVulkan</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1aec2629da2a0c18cd6b31cf22c7d849e2" prot="public" virt="virtual"><scope>themis::llm::attention::vulkan::FlashAttentionVulkan</scope><name>forward</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1afe8f524526348e59841cf756261b5e81" prot="public" virt="virtual"><scope>themis::llm::attention::vulkan::FlashAttentionVulkan</scope><name>getBackendName</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1ae3204490ca23a8f75a4d2918bf29919a" prot="public" virt="virtual"><scope>themis::llm::attention::vulkan::FlashAttentionVulkan</scope><name>getMemoryStats</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1ad29d807978e88bb280cb30bb42cc3641" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::FlashAttentionVulkan</scope><name>initializeVulkan</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1ae67f46afceca241098cd213d300f29b6" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::FlashAttentionVulkan</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1a501efbcf62b3a12438f666f0880903b8" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::FlashAttentionVulkan</scope><name>vk_descriptor_set_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1a97db1da3990ce31d7fea17f2b66ac3e9" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::FlashAttentionVulkan</scope><name>vk_device_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1a9433e01897170266a9875b461bed256a" prot="private" virt="non-virtual"><scope>themis::llm::attention::vulkan::FlashAttentionVulkan</scope><name>vk_pipeline_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1a7c7031480adc1288d893a395d92e360a" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::FlashAttentionVulkan</scope><name>~FlashAttentionVulkan</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention_1abe74ffe785c2ad56eb715030bf5bcc56" prot="public" virt="virtual"><scope>themis::llm::attention::vulkan::FlashAttentionVulkan</scope><name>~IFlashAttention</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

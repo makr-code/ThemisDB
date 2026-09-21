@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_peer_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::PeerInfo</compoundname>
+    <includes refid="gossip__protocol_8h" local="no">gossip_protocol.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_peer_info_1a5736a61d465281c64798e34cb6771815" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::PeerInfo::peer_id</definition>
+        <argsstring></argsstring>
+        <name>peer_id</name>
+        <qualifiedname>themis::sharding::PeerInfo::peer_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="56" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_peer_info_1ad381b957f4bcfb6856d7d0fed95c1ba0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::PeerInfo::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themis::sharding::PeerInfo::endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="57" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_peer_info_1a82a0873a9d114a9e12ef887b4d37a82e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::PeerInfo::datacenter</definition>
+        <argsstring></argsstring>
+        <name>datacenter</name>
+        <qualifiedname>themis::sharding::PeerInfo::datacenter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="58" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_peer_info_1aad80df8637f4da8fb26c5dfd805d62a9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::PeerInfo::region</definition>
+        <argsstring></argsstring>
+        <name>region</name>
+        <qualifiedname>themis::sharding::PeerInfo::region</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="59" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_peer_info_1a6927e5e332cdd49a1538ba1141c00f13" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::PeerInfo::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::sharding::PeerInfo::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="60" column="14" bodyfile="include/sharding/gossip_protocol.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_peer_info_1a7b258963155b3463b8b51392070727c1" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::PeerInfo::last_seen</definition>
+        <argsstring></argsstring>
+        <name>last_seen</name>
+        <qualifiedname>themis::sharding::PeerInfo::last_seen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="61" column="43" bodyfile="include/sharding/gossip_protocol.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_peer_info_1a2e5993809cbd81eb99c7f16b945abbed" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::PeerInfo::first_seen</definition>
+        <argsstring></argsstring>
+        <name>first_seen</name>
+        <qualifiedname>themis::sharding::PeerInfo::first_seen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="62" column="43" bodyfile="include/sharding/gossip_protocol.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_peer_info_1a1aa2ebdb1cffe5d4e585068bc2eb748d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::PeerInfo::is_healthy</definition>
+        <argsstring></argsstring>
+        <name>is_healthy</name>
+        <qualifiedname>themis::sharding::PeerInfo::is_healthy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="63" column="10" bodyfile="include/sharding/gossip_protocol.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_peer_info_1a30a6ccf8b99e02ead6c68da374c8ab87" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::PeerInfo::certificate_serial</definition>
+        <argsstring></argsstring>
+        <name>certificate_serial</name>
+        <qualifiedname>themis::sharding::PeerInfo::certificate_serial</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="64" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_peer_info_1aef81e2f8cd0ee34c204857a56aef85b8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::PeerInfo::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::sharding::PeerInfo::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="67" column="20" bodyfile="include/sharding/gossip_protocol.h" bodystart="67" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_peer_info_1ae277239c282fedf0891c75183cd61f36" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_peer_info" kindref="compound">PeerInfo</ref></type>
+        <definition>static PeerInfo themis::sharding::PeerInfo::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::sharding::PeerInfo::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="82" column="21" bodyfile="include/sharding/gossip_protocol.h" bodystart="82" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Gossip Protocol for Cluster Membership and Failure Detection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Sources:<itemizedlist>
+<listitem><para>Algorithm: Gossip Protocol (Epidemic/Anti-Entropy)</para>
+</listitem><listitem><para>Inspired by: Apache Cassandra&apos;s Gossip Implementation</para>
+</listitem><listitem><para>Paper: van Renesse, R., Birman, K. P., &amp; Vogels, W. (2003) &quot;Astrolabe: A robust and scalable technology for distributed system monitoring,
+          management, and data mining&quot; ACM Transactions on Computer Systems, 21(2), 164-206</para>
+</listitem><listitem><para>Cassandra: <ulink url="https://cassandra.apache.org/doc/latest/architecture/gossip.html">https://cassandra.apache.org/doc/latest/architecture/gossip.html</ulink></para>
+</listitem><listitem><para>License: Apache 2.0 (Cassandra)</para>
+</listitem><listitem><para>ThemisDB Implementation: Custom gossip protocol with:<itemizedlist>
+<listitem><para>Integration with VCC-URN sharding</para>
+</listitem><listitem><para>mTLS certificate-based peer validation</para>
+</listitem><listitem><para>Datacenter/region-aware topology</para>
+</listitem><listitem><para>Optimized for database cluster state synchronization Peer Information Contains metadata about a known peer in the gossip network. </para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/gossip_protocol.h" line="55" column="1" bodyfile="include/sharding/gossip_protocol.h" bodystart="55" bodyend="99"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_peer_info_1a30a6ccf8b99e02ead6c68da374c8ab87" prot="public" virt="non-virtual"><scope>themis::sharding::PeerInfo</scope><name>certificate_serial</name></member>
+      <member refid="structthemis_1_1sharding_1_1_peer_info_1a82a0873a9d114a9e12ef887b4d37a82e" prot="public" virt="non-virtual"><scope>themis::sharding::PeerInfo</scope><name>datacenter</name></member>
+      <member refid="structthemis_1_1sharding_1_1_peer_info_1ad381b957f4bcfb6856d7d0fed95c1ba0" prot="public" virt="non-virtual"><scope>themis::sharding::PeerInfo</scope><name>endpoint</name></member>
+      <member refid="structthemis_1_1sharding_1_1_peer_info_1a2e5993809cbd81eb99c7f16b945abbed" prot="public" virt="non-virtual"><scope>themis::sharding::PeerInfo</scope><name>first_seen</name></member>
+      <member refid="structthemis_1_1sharding_1_1_peer_info_1ae277239c282fedf0891c75183cd61f36" prot="public" virt="non-virtual"><scope>themis::sharding::PeerInfo</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1sharding_1_1_peer_info_1a1aa2ebdb1cffe5d4e585068bc2eb748d" prot="public" virt="non-virtual"><scope>themis::sharding::PeerInfo</scope><name>is_healthy</name></member>
+      <member refid="structthemis_1_1sharding_1_1_peer_info_1a7b258963155b3463b8b51392070727c1" prot="public" virt="non-virtual"><scope>themis::sharding::PeerInfo</scope><name>last_seen</name></member>
+      <member refid="structthemis_1_1sharding_1_1_peer_info_1a5736a61d465281c64798e34cb6771815" prot="public" virt="non-virtual"><scope>themis::sharding::PeerInfo</scope><name>peer_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_peer_info_1aad80df8637f4da8fb26c5dfd805d62a9" prot="public" virt="non-virtual"><scope>themis::sharding::PeerInfo</scope><name>region</name></member>
+      <member refid="structthemis_1_1sharding_1_1_peer_info_1aef81e2f8cd0ee34c204857a56aef85b8" prot="public" virt="non-virtual"><scope>themis::sharding::PeerInfo</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1sharding_1_1_peer_info_1a6927e5e332cdd49a1538ba1141c00f13" prot="public" virt="non-virtual"><scope>themis::sharding::PeerInfo</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

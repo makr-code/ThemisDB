@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_click_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ClickEvent</compoundname>
+    <includes refid="learning__to__rank_8h" local="no">learning_to_rank.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_click_event_1a776e56b74a551e1e3714e0f82a30c434" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ClickEvent::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::ClickEvent::query</qualifiedname>
+        <briefdescription>
+<para>Query that was issued. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="46" column="17" bodyfile="include/search/learning_to_rank.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_click_event_1a195ef7f57d1e8e5805b26d80e2f72fcd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ClickEvent::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::ClickEvent::document_id</qualifiedname>
+        <briefdescription>
+<para>Document that was clicked. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="47" column="17" bodyfile="include/search/learning_to_rank.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_click_event_1a4b4690429a57996fd45e7f649f229f62" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ClickEvent::result_position</definition>
+        <argsstring></argsstring>
+        <name>result_position</name>
+        <qualifiedname>themis::ClickEvent::result_position</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0-based position in the result list when clicked </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="48" column="12" bodyfile="include/search/learning_to_rank.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Click-through event used to train the LTR model. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/learning_to_rank.h" line="45" column="1" bodyfile="include/search/learning_to_rank.h" bodystart="45" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_click_event_1a195ef7f57d1e8e5805b26d80e2f72fcd" prot="public" virt="non-virtual"><scope>themis::ClickEvent</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1_click_event_1a776e56b74a551e1e3714e0f82a30c434" prot="public" virt="non-virtual"><scope>themis::ClickEvent</scope><name>query</name></member>
+      <member refid="structthemis_1_1_click_event_1a4b4690429a57996fd45e7f649f229f62" prot="public" virt="non-virtual"><scope>themis::ClickEvent</scope><name>result_position</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

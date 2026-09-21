@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_q_l_general_traversal_test" kind="class" language="C++" prot="public">
+    <compoundname>AQLGeneralTraversalTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_q_l_general_traversal_test_1a4725b435ae7c3b48170e99538d590d57" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; AQLGeneralTraversalTest::db</definition>
+        <argsstring></argsstring>
+        <name>db</name>
+        <qualifiedname>AQLGeneralTraversalTest::db</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_general_traversal.cpp" line="18" column="21" bodyfile="tests/aql/test_aql_general_traversal.cpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_general_traversal_test_1ad1ca8a3df2100f5d6f426cf1d73feb01" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; AQLGeneralTraversalTest::secIdx</definition>
+        <argsstring></argsstring>
+        <name>secIdx</name>
+        <qualifiedname>AQLGeneralTraversalTest::secIdx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_general_traversal.cpp" line="19" column="21" bodyfile="tests/aql/test_aql_general_traversal.cpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_general_traversal_test_1a5743a10e00efee571fadb2213f892f5c" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; AQLGeneralTraversalTest::graphIdx</definition>
+        <argsstring></argsstring>
+        <name>graphIdx</name>
+        <qualifiedname>AQLGeneralTraversalTest::graphIdx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_general_traversal.cpp" line="20" column="21" bodyfile="tests/aql/test_aql_general_traversal.cpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_general_traversal_test_1ad70d0b52d41d1ad4d888c60c01250141" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; QueryEngine &gt;</type>
+        <definition>std::unique_ptr&lt;QueryEngine&gt; AQLGeneralTraversalTest::engine</definition>
+        <argsstring></argsstring>
+        <name>engine</name>
+        <qualifiedname>AQLGeneralTraversalTest::engine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_general_traversal.cpp" line="21" column="21" bodyfile="tests/aql/test_aql_general_traversal.cpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_general_traversal_test_1ae4d9be99427a1b1203e094deff089a92" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AQLGeneralTraversalTest::dbPath</definition>
+        <argsstring></argsstring>
+        <name>dbPath</name>
+        <qualifiedname>AQLGeneralTraversalTest::dbPath</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_general_traversal.cpp" line="22" column="17" bodyfile="tests/aql/test_aql_general_traversal.cpp" bodystart="22" bodyend="22"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_q_l_general_traversal_test_1a5f60e8fd17d66e9856b36e4b339dcfeb" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLGeneralTraversalTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AQLGeneralTraversalTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_general_traversal.cpp" line="24" column="10" bodyfile="tests/aql/test_aql_general_traversal.cpp" bodystart="24" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_q_l_general_traversal_test_1ac248752cbb176af1f8c602bde0269867" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLGeneralTraversalTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AQLGeneralTraversalTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_general_traversal.cpp" line="47" column="10" bodyfile="tests/aql/test_aql_general_traversal.cpp" bodystart="47" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_q_l_general_traversal_test_1ac1bb5e494c59fe1d5367266ae56785f9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLGeneralTraversalTest::createSampleGraph</definition>
+        <argsstring>()</argsstring>
+        <name>createSampleGraph</name>
+        <qualifiedname>AQLGeneralTraversalTest::createSampleGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_general_traversal.cpp" line="57" column="10" bodyfile="tests/aql/test_aql_general_traversal.cpp" bodystart="57" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AQLGeneralTraversalTest</label>
+        <link refid="class_a_q_l_general_traversal_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AQLGeneralTraversalTest</label>
+        <link refid="class_a_q_l_general_traversal_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_general_traversal.cpp" line="16" column="1" bodyfile="tests/aql/test_aql_general_traversal.cpp" bodystart="16" bodyend="103"/>
+    <listofallmembers>
+      <member refid="class_a_q_l_general_traversal_test_1ac1bb5e494c59fe1d5367266ae56785f9" prot="protected" virt="non-virtual"><scope>AQLGeneralTraversalTest</scope><name>createSampleGraph</name></member>
+      <member refid="class_a_q_l_general_traversal_test_1a4725b435ae7c3b48170e99538d590d57" prot="protected" virt="non-virtual"><scope>AQLGeneralTraversalTest</scope><name>db</name></member>
+      <member refid="class_a_q_l_general_traversal_test_1ae4d9be99427a1b1203e094deff089a92" prot="protected" virt="non-virtual"><scope>AQLGeneralTraversalTest</scope><name>dbPath</name></member>
+      <member refid="class_a_q_l_general_traversal_test_1ad70d0b52d41d1ad4d888c60c01250141" prot="protected" virt="non-virtual"><scope>AQLGeneralTraversalTest</scope><name>engine</name></member>
+      <member refid="class_a_q_l_general_traversal_test_1a5743a10e00efee571fadb2213f892f5c" prot="protected" virt="non-virtual"><scope>AQLGeneralTraversalTest</scope><name>graphIdx</name></member>
+      <member refid="class_a_q_l_general_traversal_test_1ad1ca8a3df2100f5d6f426cf1d73feb01" prot="protected" virt="non-virtual"><scope>AQLGeneralTraversalTest</scope><name>secIdx</name></member>
+      <member refid="class_a_q_l_general_traversal_test_1a5f60e8fd17d66e9856b36e4b339dcfeb" prot="protected" virt="non-virtual"><scope>AQLGeneralTraversalTest</scope><name>SetUp</name></member>
+      <member refid="class_a_q_l_general_traversal_test_1ac248752cbb176af1f8c602bde0269867" prot="protected" virt="non-virtual"><scope>AQLGeneralTraversalTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

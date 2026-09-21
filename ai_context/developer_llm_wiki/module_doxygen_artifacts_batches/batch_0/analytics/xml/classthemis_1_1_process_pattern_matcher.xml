@@ -1,0 +1,794 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_process_pattern_matcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::ProcessPatternMatcher</compoundname>
+    <includes refid="process__pattern__matcher_8h" local="no">process_pattern_matcher.h</includes>
+    <innerclass refid="structthemis_1_1_process_pattern_matcher_1_1_status" prot="public">themis::ProcessPatternMatcher::Status</innerclass>
+    <innerclass refid="structthemis_1_1_process_pattern_matcher_1_1_pattern_statistics" prot="public">themis::ProcessPatternMatcher::PatternStatistics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_process_pattern_matcher_1ab2cb8eb5584090de35afb2615cdb65ac" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::ProcessPatternMatcher::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::ProcessPatternMatcher::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="208" column="20" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_process_pattern_matcher_1accf23f10a4002535f7ca9fb526aa92ed" prot="private" static="no" mutable="no">
+        <type>VectorIndex *</type>
+        <definition>VectorIndex* themis::ProcessPatternMatcher::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>themis::ProcessPatternMatcher::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="209" column="17" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_process_pattern_matcher_1a9c2b12703b4c002603412ddb4db78eff" prot="private" static="no" mutable="no">
+        <type>GraphIndex *</type>
+        <definition>GraphIndex* themis::ProcessPatternMatcher::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>themis::ProcessPatternMatcher::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="210" column="16" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_process_pattern_matcher_1a5cb47007c91d3a8c66fbb351c4568f8b" prot="private" static="no" mutable="yes">
+        <type><ref refid="classthemis_1_1_process_mining" kindref="compound">ProcessMining</ref></type>
+        <definition>ProcessMining themis::ProcessPatternMatcher::process_mining_</definition>
+        <argsstring></argsstring>
+        <name>process_mining_</name>
+        <qualifiedname>themis::ProcessPatternMatcher::process_mining_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="211" column="27" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_process_pattern_matcher_1a746aa308b587856954378ffa254b0412" prot="private" static="no" mutable="yes">
+        <type>std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1_similarity_result" kindref="compound">SimilarityResult</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;SimilarityResult&gt; &gt; themis::ProcessPatternMatcher::pattern_cache_</definition>
+        <argsstring></argsstring>
+        <name>pattern_cache_</name>
+        <qualifiedname>themis::ProcessPatternMatcher::pattern_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="214" column="22" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_process_pattern_matcher_1aa3202f9382cc90d7d1ab7f8cf3278a6a" prot="private" static="no" mutable="yes">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1_process_pattern" kindref="compound">ProcessPattern</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ProcessPattern&gt; themis::ProcessPatternMatcher::model_cache_</definition>
+        <argsstring></argsstring>
+        <name>model_cache_</name>
+        <qualifiedname>themis::ProcessPatternMatcher::model_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="215" column="22" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_process_pattern_matcher_1a503007b719827bd9ce86a07fcf0f2687" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1_process_pattern_matcher_1_1_pattern_statistics" kindref="compound">PatternStatistics</ref></type>
+        <definition>PatternStatistics themis::ProcessPatternMatcher::statistics_</definition>
+        <argsstring></argsstring>
+        <name>statistics_</name>
+        <qualifiedname>themis::ProcessPatternMatcher::statistics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="218" column="31" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1aa1479f095b426764ec2c1511865781bb" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ProcessPatternMatcher::ProcessPatternMatcher</definition>
+        <argsstring>(RocksDBWrapper &amp;db, VectorIndex *vector_index=nullptr, GraphIndex *graph_index=nullptr)</argsstring>
+        <name>ProcessPatternMatcher</name>
+        <qualifiedname>themis::ProcessPatternMatcher::ProcessPatternMatcher</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>VectorIndex *</type>
+          <declname>vector_index</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>GraphIndex *</type>
+          <declname>graph_index</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="140" column="14" bodyfile="src/analytics/process_pattern_matcher.cpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1a6ae38a09c56bf7612cbdfd73bd0aa2af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_pattern_matcher_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_similarity_result" kindref="compound">SimilarityResult</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessPatternMatcher::Status, std::vector&lt; SimilarityResult &gt; &gt; themis::ProcessPatternMatcher::findSimilar</definition>
+        <argsstring>(const ProcessPattern &amp;pattern, const PatternMatchConfig &amp;config)</argsstring>
+        <name>findSimilar</name>
+        <qualifiedname>themis::ProcessPatternMatcher::findSimilar</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_process_pattern" kindref="compound">ProcessPattern</ref> &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_pattern_match_config" kindref="compound">PatternMatchConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="148" column="15" bodyfile="src/analytics/process_pattern_matcher.cpp" bodystart="304" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1ac5b787f614d857109aaffdef71c0728a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_pattern_matcher_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_process_mining_1_1_conformance_result" kindref="compound">ProcessMining::ConformanceResult</ref> &gt;</type>
+        <definition>std::pair&lt; ProcessPatternMatcher::Status, ProcessMining::ConformanceResult &gt; themis::ProcessPatternMatcher::compareWithIdeal</definition>
+        <argsstring>(const std::string &amp;case_id, const ProcessPattern &amp;ideal_pattern)</argsstring>
+        <name>compareWithIdeal</name>
+        <qualifiedname>themis::ProcessPatternMatcher::compareWithIdeal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>case_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_process_pattern" kindref="compound">ProcessPattern</ref> &amp;</type>
+          <declname>ideal_pattern</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="153" column="15" bodyfile="src/analytics/process_pattern_matcher.cpp" bodystart="467" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1ac9ee3a9805555b02d68dd591d2675d04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_pattern_matcher_1_1_status" kindref="compound">Status</ref>, bool &gt;</type>
+        <definition>std::pair&lt; ProcessPatternMatcher::Status, bool &gt; themis::ProcessPatternMatcher::hasPattern</definition>
+        <argsstring>(const std::string &amp;case_id, const ProcessPattern &amp;pattern, double threshold=0.8)</argsstring>
+        <name>hasPattern</name>
+        <qualifiedname>themis::ProcessPatternMatcher::hasPattern</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>case_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_process_pattern" kindref="compound">ProcessPattern</ref> &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+          <defval>0.8</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="158" column="15" bodyfile="src/analytics/process_pattern_matcher.cpp" bodystart="528" bodyend="563"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1a51f69f292a7e74187439575e1dfd5835" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_pattern_matcher_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::ProcessPatternMatcher::matchActivityPattern</definition>
+        <argsstring>(const EventLog &amp;log, const std::vector&lt; std::string &gt; &amp;pattern, std::vector&lt; int &gt; &amp;out_matching_trace_indices)</argsstring>
+        <name>matchActivityPattern</name>
+        <qualifiedname>themis::ProcessPatternMatcher::matchActivityPattern</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; int &gt; &amp;</type>
+          <declname>out_matching_trace_indices</declname>
+        </param>
+        <briefdescription>
+<para>Match Activity Pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_matching_trace_indices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="171" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1a88756da8f0f0cdc4d21c231567fb15c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_pattern_matcher_1_1_status" kindref="compound">Status</ref>, std::map&lt; std::string, <ref refid="structthemis_1_1_similarity_result" kindref="compound">SimilarityResult</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessPatternMatcher::Status, std::map&lt; std::string, SimilarityResult &gt; &gt; themis::ProcessPatternMatcher::findPatternsInBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;case_ids, const ProcessPattern &amp;pattern, const PatternMatchConfig &amp;config)</argsstring>
+        <name>findPatternsInBatch</name>
+        <qualifiedname>themis::ProcessPatternMatcher::findPatternsInBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>case_ids</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_process_pattern" kindref="compound">ProcessPattern</ref> &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_pattern_match_config" kindref="compound">PatternMatchConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="179" column="15" bodyfile="src/analytics/process_pattern_matcher.cpp" bodystart="570" bodyend="655"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1ae894bbaa276aea2d4c9d18421bc8e783" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_pattern_matcher_1_1_status" kindref="compound">Status</ref>, std::map&lt; std::string, <ref refid="structthemis_1_1_process_pattern" kindref="compound">ProcessPattern</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessPatternMatcher::Status, std::map&lt; std::string, ProcessPattern &gt; &gt; themis::ProcessPatternMatcher::loadAdministrativeModels</definition>
+        <argsstring>()</argsstring>
+        <name>loadAdministrativeModels</name>
+        <qualifiedname>themis::ProcessPatternMatcher::loadAdministrativeModels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="187" column="15" bodyfile="src/analytics/process_pattern_matcher.cpp" bodystart="662" bodyend="740"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1a48fe025289b865d27509ac4cd64b05e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_pattern_matcher_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_process_pattern" kindref="compound">ProcessPattern</ref> &gt;</type>
+        <definition>std::pair&lt; ProcessPatternMatcher::Status, ProcessPattern &gt; themis::ProcessPatternMatcher::getAdministrativeModel</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>getAdministrativeModel</name>
+        <qualifiedname>themis::ProcessPatternMatcher::getAdministrativeModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="189" column="15" bodyfile="src/analytics/process_pattern_matcher.cpp" bodystart="747" bodyend="758"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1a31587248d725c8bb119e899d08be25c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_pattern_matcher_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_process_pattern_matcher_1_1_pattern_statistics" kindref="compound">PatternStatistics</ref> &gt;</type>
+        <definition>std::pair&lt; ProcessPatternMatcher::Status, ProcessPatternMatcher::PatternStatistics &gt; themis::ProcessPatternMatcher::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::ProcessPatternMatcher::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="200" column="15" bodyfile="src/analytics/process_pattern_matcher.cpp" bodystart="765" bodyend="773"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1a792709896ee903236c6e93954ae6b369" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ProcessPatternMatcher::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::ProcessPatternMatcher::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="205" column="10" bodyfile="src/analytics/process_pattern_matcher.cpp" bodystart="783" bodyend="786"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1a94e2ea669dc435783f728b6a32a335e8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::ProcessPatternMatcher::computeGraphSimilarity</definition>
+        <argsstring>(const ProcessPattern &amp;pattern, const EventLog &amp;log, const std::string &amp;case_id) const</argsstring>
+        <name>computeGraphSimilarity</name>
+        <qualifiedname>themis::ProcessPatternMatcher::computeGraphSimilarity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_process_pattern" kindref="compound">ProcessPattern</ref> &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>case_id</declname>
+        </param>
+        <briefdescription>
+<para>Compute Graph Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">case_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the case. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="228" column="12" bodyfile="src/analytics/process_pattern_matcher.cpp" bodystart="158" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1a65ca6429efd43d194e96e3b67bff6105" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::ProcessPatternMatcher::computeVectorSimilarity</definition>
+        <argsstring>(const ProcessPattern &amp;pattern, const EventLog &amp;log, const std::string &amp;case_id) const</argsstring>
+        <name>computeVectorSimilarity</name>
+        <qualifiedname>themis::ProcessPatternMatcher::computeVectorSimilarity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_process_pattern" kindref="compound">ProcessPattern</ref> &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>case_id</declname>
+        </param>
+        <briefdescription>
+<para>Compute Vector Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">case_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the case. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="241" column="12" bodyfile="src/analytics/process_pattern_matcher.cpp" bodystart="199" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1aa71a0cace58333853c811f3152f8cce1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::ProcessPatternMatcher::computeBehavioralSimilarity</definition>
+        <argsstring>(const ProcessPattern &amp;pattern, const EventLog &amp;log, const std::string &amp;case_id) const</argsstring>
+        <name>computeBehavioralSimilarity</name>
+        <qualifiedname>themis::ProcessPatternMatcher::computeBehavioralSimilarity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_process_pattern" kindref="compound">ProcessPattern</ref> &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>case_id</declname>
+        </param>
+        <briefdescription>
+<para>Compute Behavioral Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">case_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the case. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="254" column="12" bodyfile="src/analytics/process_pattern_matcher.cpp" bodystart="228" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1a7b55c983c71b80075d69e4081e0955ad" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::ProcessPatternMatcher::computeHybridSimilarity</definition>
+        <argsstring>(const ProcessPattern &amp;pattern, const EventLog &amp;log, const std::string &amp;case_id, const PatternMatchConfig &amp;config) const</argsstring>
+        <name>computeHybridSimilarity</name>
+        <qualifiedname>themis::ProcessPatternMatcher::computeHybridSimilarity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_process_pattern" kindref="compound">ProcessPattern</ref> &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>case_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_pattern_match_config" kindref="compound">PatternMatchConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Compute Hybrid Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">case_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the case. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="268" column="12" bodyfile="src/analytics/process_pattern_matcher.cpp" bodystart="262" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1acd3199f6a8d8765fd4b11dc1876686ef" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_pattern_matcher_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_process_trace" kindref="compound">ProcessTrace</ref> &gt;</type>
+        <definition>std::pair&lt; ProcessPatternMatcher::Status, ProcessTrace &gt; themis::ProcessPatternMatcher::getTrace</definition>
+        <argsstring>(const std::string &amp;case_id) const</argsstring>
+        <name>getTrace</name>
+        <qualifiedname>themis::ProcessPatternMatcher::getTrace</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>case_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="277" column="15" bodyfile="src/analytics/process_pattern_matcher.cpp" bodystart="276" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1a6f4bf3fa7c98157ba354734c2a85f63a" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>double</type>
+        <definition>double themis::ProcessPatternMatcher::jaccardSimilarity</definition>
+        <argsstring>(const std::set&lt; T &gt; &amp;a, const std::set&lt; T &gt; &amp;b) const</argsstring>
+        <name>jaccardSimilarity</name>
+        <qualifiedname>themis::ProcessPatternMatcher::jaccardSimilarity</qualifiedname>
+        <param>
+          <type>const std::set&lt; T &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::set&lt; T &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="280" column="12" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="280" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1a615151232209ed7c6670ebe96f0547fe" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::ProcessPatternMatcher::longestCommonSubsequence</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;a, const std::vector&lt; std::string &gt; &amp;b) const</argsstring>
+        <name>longestCommonSubsequence</name>
+        <qualifiedname>themis::ProcessPatternMatcher::longestCommonSubsequence</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Longest Common Subsequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="303" column="9" bodyfile="src/analytics/process_pattern_matcher.cpp" bodystart="792" bodyend="807"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1a245929271c781376a2bd7bd86ce61c04" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::ProcessPatternMatcher::embedActivities</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;activities) const</argsstring>
+        <name>embedActivities</name>
+        <qualifiedname>themis::ProcessPatternMatcher::embedActivities</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>activities</declname>
+        </param>
+        <briefdescription>
+<para>Embed Activities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">activities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Result. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">DIM</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="313" column="17" bodyfile="src/analytics/process_pattern_matcher.cpp" bodystart="109" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_pattern_matcher_1aa65338403135cff562b80510ff012c7c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::ProcessPatternMatcher::cosineSimilarity</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, const std::vector&lt; float &gt; &amp;b) const</argsstring>
+        <name>cosineSimilarity</name>
+        <qualifiedname>themis::ProcessPatternMatcher::cosineSimilarity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Cosine Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="321" column="12" bodyfile="src/analytics/process_pattern_matcher.cpp" bodystart="813" bodyend="828"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_pattern_matcher.h" line="119" column="1" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="119" bodyend="322"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_process_pattern_matcher_1a792709896ee903236c6e93954ae6b369" prot="public" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1ac5b787f614d857109aaffdef71c0728a" prot="public" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>compareWithIdeal</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1aa71a0cace58333853c811f3152f8cce1" prot="private" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>computeBehavioralSimilarity</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1a94e2ea669dc435783f728b6a32a335e8" prot="private" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>computeGraphSimilarity</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1a7b55c983c71b80075d69e4081e0955ad" prot="private" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>computeHybridSimilarity</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1a65ca6429efd43d194e96e3b67bff6105" prot="private" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>computeVectorSimilarity</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1aa65338403135cff562b80510ff012c7c" prot="private" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>cosineSimilarity</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1ab2cb8eb5584090de35afb2615cdb65ac" prot="private" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1a245929271c781376a2bd7bd86ce61c04" prot="private" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>embedActivities</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1a88756da8f0f0cdc4d21c231567fb15c7" prot="public" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>findPatternsInBatch</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1a6ae38a09c56bf7612cbdfd73bd0aa2af" prot="public" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>findSimilar</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1a48fe025289b865d27509ac4cd64b05e6" prot="public" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>getAdministrativeModel</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1a31587248d725c8bb119e899d08be25c5" prot="public" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1acd3199f6a8d8765fd4b11dc1876686ef" prot="private" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>getTrace</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1a9c2b12703b4c002603412ddb4db78eff" prot="private" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>graph_index_</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1ac9ee3a9805555b02d68dd591d2675d04" prot="public" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>hasPattern</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1a6f4bf3fa7c98157ba354734c2a85f63a" prot="private" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>jaccardSimilarity</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1ae894bbaa276aea2d4c9d18421bc8e783" prot="public" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>loadAdministrativeModels</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1a615151232209ed7c6670ebe96f0547fe" prot="private" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>longestCommonSubsequence</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1a51f69f292a7e74187439575e1dfd5835" prot="public" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>matchActivityPattern</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1aa3202f9382cc90d7d1ab7f8cf3278a6a" prot="private" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>model_cache_</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1a746aa308b587856954378ffa254b0412" prot="private" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>pattern_cache_</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1a5cb47007c91d3a8c66fbb351c4568f8b" prot="private" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>process_mining_</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1aa1479f095b426764ec2c1511865781bb" prot="public" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>ProcessPatternMatcher</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1a503007b719827bd9ce86a07fcf0f2687" prot="private" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>statistics_</name></member>
+      <member refid="classthemis_1_1_process_pattern_matcher_1accf23f10a4002535f7ca9fb526aa92ed" prot="private" virt="non-virtual"><scope>themis::ProcessPatternMatcher</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

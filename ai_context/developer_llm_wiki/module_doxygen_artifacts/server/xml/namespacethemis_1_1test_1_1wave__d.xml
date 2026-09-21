@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1test_1_1wave__d" kind="namespace" language="C++">
+    <compoundname>themis::test::wave_d</compoundname>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_route_table" prot="public">themis::test::wave_d::RouteTable</innerclass>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_token_bucket" prot="public">themis::test::wave_d::TokenBucket</innerclass>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_rate_limiter_pool" prot="public">themis::test::wave_d::RateLimiterPool</innerclass>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool" prot="public">themis::test::wave_d::WasmSandboxPool</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1a9682adb4a01b5fc4e605f890e13cd3df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(HighCardinalityRouting, AllRoutesResolvable)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>HighCardinalityRouting</type>
+        </param>
+        <param>
+          <type>AllRoutesResolvable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="161" column="1" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="161" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1a9127a9593c951539a62ac4b03db18509" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(ConcurrentRateLimitStress, NoUnderflowOrOverflow)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>ConcurrentRateLimitStress</type>
+        </param>
+        <param>
+          <type>NoUnderflowOrOverflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="195" column="1" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="195" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1a7d57001e544150ef61d25b0af7c14daa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(WASMSandboxLoadStress, NoSlotLeakOrCrash)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>WASMSandboxLoadStress</type>
+        </param>
+        <param>
+          <type>NoSlotLeakOrCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="248" column="1" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="248" bodyend="281"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_highcardinality_stress.cpp" line="37" column="1"/>
+  </compounddef>
+</doxygen>

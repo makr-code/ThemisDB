@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="otlp__exemplar_8h" kind="file" language="C++">
+    <compoundname>otlp_exemplar.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/otlp_exemplar.h</label>
+        <link refid="otlp__exemplar_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context" prot="public">themis::observability::OTLPTraceContext</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_metric_exemplar" prot="public">themis::observability::MetricExemplar</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_exemplar_reservoir_config" prot="public">themis::observability::ExemplarReservoirConfig</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_i_exemplar_reservoir" prot="public">themis::observability::IExemplarReservoir</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_i_exemplar_sampler" prot="public">themis::observability::IExemplarSampler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context" kindref="compound">OTLPTraceContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context_1a97ce88d0934e37acd3aa7c646001e1f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context_1a97ce88d0934e37acd3aa7c646001e1f1" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context_1af22a964f3ed7d79f43e931bbde0ea1ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context_1af22a964f3ed7d79f43e931bbde0ea1ec" kindref="member">span_id</ref>;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context_1a8d672c2ddb3f54d590a4b52ae8cd27a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context_1a8d672c2ddb3f54d590a4b52ae8cd27a8" kindref="member">trace_flags</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1observability_1_1_metric_exemplar" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_metric_exemplar" kindref="compound">MetricExemplar</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1observability_1_1_metric_exemplar_1aaeac5aee5f511ab9efcf1b4b3c4fc5fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context" kindref="compound">OTLPTraceContext</ref><sp/><ref refid="structthemis_1_1observability_1_1_metric_exemplar_1aaeac5aee5f511ab9efcf1b4b3c4fc5fc" kindref="member">trace_context</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1observability_1_1_metric_exemplar_1a152405c08c705e33aeda2c4b1e0344e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_metric_exemplar_1a152405c08c705e33aeda2c4b1e0344e9" kindref="member">filtered_attributes</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1observability_1_1_metric_exemplar_1a46e91ba557b55c5799b820bdfa51f358" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_metric_exemplar_1a46e91ba557b55c5799b820bdfa51f358" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1observability_1_1_metric_exemplar_1a51c6bf0b655d3e5366365f44d32c0264" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_metric_exemplar_1a51c6bf0b655d3e5366365f44d32c0264" kindref="member">time_unix_nano</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1observability_1ac886f26d28cc274de0f433b147b45d62" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1ac886f26d28cc274de0f433b147b45d62" kindref="member">ExemplarReservoirStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1observability_1ac886f26d28cc274de0f433b147b45d62aad1a4538bfd2da7de0e4a50a549358f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1ac886f26d28cc274de0f433b147b45d62aad1a4538bfd2da7de0e4a50a549358f1" kindref="member">SIMPLE_FIXED_SIZE</ref>,</highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1observability_1ac886f26d28cc274de0f433b147b45d62a197704602d5631ee3a2b138aaa300468" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1ac886f26d28cc274de0f433b147b45d62a197704602d5631ee3a2b138aaa300468" kindref="member">ALIGNED_HISTOGRAM</ref>,</highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1observability_1ac886f26d28cc274de0f433b147b45d62ac9093b4bb51d808a826bfc80fd3200b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1ac886f26d28cc274de0f433b147b45d62ac9093b4bb51d808a826bfc80fd3200b7" kindref="member">TRACE_BASED</ref>,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1observability_1_1_exemplar_reservoir_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_exemplar_reservoir_config" kindref="compound">ExemplarReservoirConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1observability_1_1_exemplar_reservoir_config_1a6984e2a1b326cb6fb9611bb12486adda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1ac886f26d28cc274de0f433b147b45d62" kindref="member">ExemplarReservoirStrategy</ref><sp/><ref refid="structthemis_1_1observability_1_1_exemplar_reservoir_config_1a6984e2a1b326cb6fb9611bb12486adda" kindref="member">strategy</ref><sp/>=<sp/><ref refid="namespacethemis_1_1observability_1ac886f26d28cc274de0f433b147b45d62a197704602d5631ee3a2b138aaa300468" kindref="member">ExemplarReservoirStrategy::ALIGNED_HISTOGRAM</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1observability_1_1_exemplar_reservoir_config_1ae795aeef4df32029dac21b322846f050" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_exemplar_reservoir_config_1ae795aeef4df32029dac21b322846f050" kindref="member">reservoir_size</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1observability_1_1_exemplar_reservoir_config_1a5cd78a8da7dd90a16c5a7f918bd54a0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_exemplar_reservoir_config_1a5cd78a8da7dd90a16c5a7f918bd54a0b" kindref="member">filter_sampled_only</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1observability_1_1_i_exemplar_reservoir" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_i_exemplar_reservoir" kindref="compound">IExemplarReservoir</ref><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1observability_1_1_i_exemplar_reservoir_1ad529f62eb74c185cc34d8013ffe51bc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_i_exemplar_reservoir_1ad529f62eb74c185cc34d8013ffe51bc8" kindref="member">~IExemplarReservoir</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1observability_1_1_i_exemplar_reservoir_1a4fb61a475a8183521f2a138d79add0c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_i_exemplar_reservoir_1a4fb61a475a8183521f2a138d79add0c4" kindref="member">offer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_metric_exemplar" kindref="compound">MetricExemplar</ref>&amp;<sp/>exemplar)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1observability_1_1_i_exemplar_reservoir_1af34e7f9543dfc37febbeeb292bc72a26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;MetricExemplar&gt;<sp/><ref refid="classthemis_1_1observability_1_1_i_exemplar_reservoir_1af34e7f9543dfc37febbeeb292bc72a26" kindref="member">collect</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1observability_1_1_i_exemplar_reservoir_1a0bf2f6d606a7b2addeaa0e096874668c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_i_exemplar_reservoir_1a0bf2f6d606a7b2addeaa0e096874668c" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1observability_1_1_i_exemplar_reservoir_1aed21471033a8c1b31b6b6208af1087ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_i_exemplar_reservoir_1aed21471033a8c1b31b6b6208af1087ee" kindref="member">reset</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1observability_1_1_i_exemplar_sampler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_i_exemplar_sampler" kindref="compound">IExemplarSampler</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1observability_1_1_i_exemplar_sampler_1a0f540cd7774960b612f745b3c4e7e4b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_i_exemplar_sampler_1a0f540cd7774960b612f745b3c4e7e4b8" kindref="member">~IExemplarSampler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1observability_1_1_i_exemplar_sampler_1aca667e18b77741b1a3edcbe45bdb00ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_i_exemplar_sampler_1aca667e18b77741b1a3edcbe45bdb00ae" kindref="member">shouldSample</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context" kindref="compound">OTLPTraceContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1observability_1_1_i_exemplar_sampler_1ac738449633d1c9cbb99a869e6404e202" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_i_exemplar_sampler_1ac738449633d1c9cbb99a869e6404e202" kindref="member">recordMeasurement</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context" kindref="compound">OTLPTraceContext</ref>&amp;<sp/>ctx,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>attrs)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::observability</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/otlp_exemplar.h"/>
+  </compounddef>
+</doxygen>

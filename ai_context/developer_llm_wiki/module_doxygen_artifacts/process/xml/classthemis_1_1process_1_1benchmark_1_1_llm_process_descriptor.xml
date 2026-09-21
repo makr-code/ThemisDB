@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1benchmark_1_1_llm_process_descriptor" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::LlmProcessDescriptor</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_llm_process_descriptor_1a2936856a6db3722136575c229e371971" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::process::benchmark::LlmProcessDescriptor::generateDescription</definition>
+        <argsstring>(const EventLog &amp;log)</argsstring>
+        <name>generateDescription</name>
+        <qualifiedname>themis::process::benchmark::LlmProcessDescriptor::generateDescription</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <briefdescription>
+<para>Generate natural language description of process. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="237" column="24" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="237" bodyend="262"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>LLM-based process descriptor. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="232" column="1" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="232" bodyend="263"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_llm_process_descriptor_1a2936856a6db3722136575c229e371971" prot="public" virt="non-virtual"><scope>themis::process::benchmark::LlmProcessDescriptor</scope><name>generateDescription</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

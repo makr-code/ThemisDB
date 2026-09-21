@@ -1,0 +1,401 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_r_u_cache" kind="class" language="C++" prot="public">
+    <compoundname>LRUCache</compoundname>
+    <includes refid="lru__cache_8h" local="no">lru_cache.h</includes>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="class_l_r_u_cache_1a823374b74cc177639c79a76696a70669" prot="private" static="no">
+        <type>std::list&lt; std::pair&lt; K, V &gt; &gt;</type>
+        <definition>using LRUCache::ListType = std::list&lt;std::pair&lt;K, V&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>ListType</name>
+        <qualifiedname>LRUCache::ListType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="171" column="5" bodyfile="include/analytics/detail/lru_cache.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_l_r_u_cache_1a46043343ec92c1f8ef54b397262bb741" prot="private" static="no">
+        <type>typename ListType::iterator</type>
+        <definition>using LRUCache::IterType = typename ListType::iterator</definition>
+        <argsstring></argsstring>
+        <name>IterType</name>
+        <qualifiedname>LRUCache::IterType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="172" column="5" bodyfile="include/analytics/detail/lru_cache.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_l_r_u_cache_1a228fab58ee70701188160b5262d427fb" prot="private" static="no" mutable="no">
+        <type>const std::size_t</type>
+        <definition>const std::size_t LRUCache::max_entries_</definition>
+        <argsstring></argsstring>
+        <name>max_entries_</name>
+        <qualifiedname>LRUCache::max_entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="174" column="45" bodyfile="include/analytics/detail/lru_cache.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_l_r_u_cache_1ad7779fcd28d96c1da3c10c586b5a1cd2" prot="private" static="no" mutable="no">
+        <type>ListType</type>
+        <definition>ListType LRUCache::list_</definition>
+        <argsstring></argsstring>
+        <name>list_</name>
+        <qualifiedname>LRUCache::list_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="175" column="45" bodyfile="include/analytics/detail/lru_cache.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_l_r_u_cache_1a4fa5df2cc7f50ce7eb213f276943ef28" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; K, IterType &gt;</type>
+        <definition>std::unordered_map&lt;K, IterType&gt; LRUCache::map_</definition>
+        <argsstring></argsstring>
+        <name>map_</name>
+        <qualifiedname>LRUCache::map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="176" column="32" bodyfile="include/analytics/detail/lru_cache.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_l_r_u_cache_1a0831cf182dc1c1fcb935cc7220324513" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>LRUCache::LRUCache</definition>
+        <argsstring>(std::size_t max_entries)</argsstring>
+        <name>LRUCache</name>
+        <qualifiedname>LRUCache::LRUCache</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_entries</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="class_l_r_u_cache" kindref="compound">LRUCache</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="65" column="14" bodyfile="include/analytics/detail/lru_cache.h" bodystart="65" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_r_u_cache_1a160b7588f5cccf586392d470796700d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>LRUCache::LRUCache</definition>
+        <argsstring>(const LRUCache &amp;)=delete</argsstring>
+        <name>LRUCache</name>
+        <qualifiedname>LRUCache::LRUCache</qualifiedname>
+        <param>
+          <type>const <ref refid="class_l_r_u_cache" kindref="compound">LRUCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="75" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_r_u_cache_1acfd176d279307cda7f1d922539be380f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_l_r_u_cache" kindref="compound">LRUCache</ref> &amp;</type>
+        <definition>LRUCache &amp; LRUCache::operator=</definition>
+        <argsstring>(const LRUCache &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>LRUCache::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_l_r_u_cache" kindref="compound">LRUCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="76" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_r_u_cache_1a3e3e85601d312f12c9499531ee854664" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>LRUCache::LRUCache</definition>
+        <argsstring>(LRUCache &amp;&amp;) noexcept=default</argsstring>
+        <name>LRUCache</name>
+        <qualifiedname>LRUCache::LRUCache</qualifiedname>
+        <param>
+          <type><ref refid="class_l_r_u_cache" kindref="compound">LRUCache</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_r_u_cache_1a2604c287dc9119c9c42a94443ab94f46" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="class_l_r_u_cache" kindref="compound">LRUCache</ref> &amp;</type>
+        <definition>LRUCache &amp; LRUCache::operator=</definition>
+        <argsstring>(LRUCache &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>LRUCache::operator=</qualifiedname>
+        <param>
+          <type><ref refid="class_l_r_u_cache" kindref="compound">LRUCache</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="78" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_r_u_cache_1af19e3884fc198b997226e68a77660dc8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>V *</type>
+        <definition>V * LRUCache::get</definition>
+        <argsstring>(const K &amp;key)</argsstring>
+        <name>get</name>
+        <qualifiedname>LRUCache::get</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: find(), end(), splice(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="90" column="7" bodyfile="include/analytics/detail/lru_cache.h" bodystart="90" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_r_u_cache_1a46dad69a747f09995dec3fc1153ff591" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const V *</type>
+        <definition>const V * LRUCache::peek</definition>
+        <argsstring>(const K &amp;key) const</argsstring>
+        <name>peek</name>
+        <qualifiedname>LRUCache::peek</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="100" column="13" bodyfile="include/analytics/detail/lru_cache.h" bodystart="100" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_r_u_cache_1a97b893971296f4f120d9c659d6c4401d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LRUCache::put</definition>
+        <argsstring>(K key, V value)</argsstring>
+        <name>put</name>
+        <qualifiedname>LRUCache::put</qualifiedname>
+        <param>
+          <type>K</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>V</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), std::move(), splice(), begin(), <ref refid="class_l_r_u_cache_1a655eff6b67cf886142515bb8f9223bd7" kindref="member">size()</ref>, <ref refid="class_l_r_u_cache_1ad823d0f69609ad59973386e02294fdad" kindref="member">erase()</ref>, back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="114" column="10" bodyfile="include/analytics/detail/lru_cache.h" bodystart="114" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_r_u_cache_1ad823d0f69609ad59973386e02294fdad" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool LRUCache::erase</definition>
+        <argsstring>(const K &amp;key)</argsstring>
+        <name>erase</name>
+        <qualifiedname>LRUCache::erase</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Erase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="138" column="10" bodyfile="include/analytics/detail/lru_cache.h" bodystart="138" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_r_u_cache_1ae716c4b674e51136837edea0e122e742" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LRUCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>LRUCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="152" column="10" bodyfile="include/analytics/detail/lru_cache.h" bodystart="152" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_r_u_cache_1a655eff6b67cf886142515bb8f9223bd7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t LRUCache::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>LRUCache::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="161" column="18" bodyfile="include/analytics/detail/lru_cache.h" bodystart="161" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_r_u_cache_1acfa8e0c30771cea506c325e46f1a3d2f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t LRUCache::capacity</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>capacity</name>
+        <qualifiedname>LRUCache::capacity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="163" column="18" bodyfile="include/analytics/detail/lru_cache.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_r_u_cache_1aafa7969484763acd497ded9176c9b075" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool LRUCache::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>LRUCache::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="165" column="11" bodyfile="include/analytics/detail/lru_cache.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_r_u_cache_1ab30df03f4ad075579720c64f8879d45f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool LRUCache::full</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>full</name>
+        <qualifiedname>LRUCache::full</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/lru_cache.h" line="167" column="11" bodyfile="include/analytics/detail/lru_cache.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/detail/lru_cache.h" line="54" column="1" bodyfile="include/analytics/detail/lru_cache.h" bodystart="54" bodyend="177"/>
+    <listofallmembers>
+      <member refid="class_l_r_u_cache_1acfa8e0c30771cea506c325e46f1a3d2f" prot="public" virt="non-virtual"><scope>LRUCache</scope><name>capacity</name></member>
+      <member refid="class_l_r_u_cache_1ae716c4b674e51136837edea0e122e742" prot="public" virt="non-virtual"><scope>LRUCache</scope><name>clear</name></member>
+      <member refid="class_l_r_u_cache_1aafa7969484763acd497ded9176c9b075" prot="public" virt="non-virtual"><scope>LRUCache</scope><name>empty</name></member>
+      <member refid="class_l_r_u_cache_1ad823d0f69609ad59973386e02294fdad" prot="public" virt="non-virtual"><scope>LRUCache</scope><name>erase</name></member>
+      <member refid="class_l_r_u_cache_1ab30df03f4ad075579720c64f8879d45f" prot="public" virt="non-virtual"><scope>LRUCache</scope><name>full</name></member>
+      <member refid="class_l_r_u_cache_1af19e3884fc198b997226e68a77660dc8" prot="public" virt="non-virtual"><scope>LRUCache</scope><name>get</name></member>
+      <member refid="class_l_r_u_cache_1a46043343ec92c1f8ef54b397262bb741" prot="private" virt="non-virtual"><scope>LRUCache</scope><name>IterType</name></member>
+      <member refid="class_l_r_u_cache_1ad7779fcd28d96c1da3c10c586b5a1cd2" prot="private" virt="non-virtual"><scope>LRUCache</scope><name>list_</name></member>
+      <member refid="class_l_r_u_cache_1a823374b74cc177639c79a76696a70669" prot="private" virt="non-virtual"><scope>LRUCache</scope><name>ListType</name></member>
+      <member refid="class_l_r_u_cache_1a0831cf182dc1c1fcb935cc7220324513" prot="public" virt="non-virtual"><scope>LRUCache</scope><name>LRUCache</name></member>
+      <member refid="class_l_r_u_cache_1a160b7588f5cccf586392d470796700d1" prot="public" virt="non-virtual"><scope>LRUCache</scope><name>LRUCache</name></member>
+      <member refid="class_l_r_u_cache_1a3e3e85601d312f12c9499531ee854664" prot="public" virt="non-virtual"><scope>LRUCache</scope><name>LRUCache</name></member>
+      <member refid="class_l_r_u_cache_1a4fa5df2cc7f50ce7eb213f276943ef28" prot="private" virt="non-virtual"><scope>LRUCache</scope><name>map_</name></member>
+      <member refid="class_l_r_u_cache_1a228fab58ee70701188160b5262d427fb" prot="private" virt="non-virtual"><scope>LRUCache</scope><name>max_entries_</name></member>
+      <member refid="class_l_r_u_cache_1acfd176d279307cda7f1d922539be380f" prot="public" virt="non-virtual"><scope>LRUCache</scope><name>operator=</name></member>
+      <member refid="class_l_r_u_cache_1a2604c287dc9119c9c42a94443ab94f46" prot="public" virt="non-virtual"><scope>LRUCache</scope><name>operator=</name></member>
+      <member refid="class_l_r_u_cache_1a46dad69a747f09995dec3fc1153ff591" prot="public" virt="non-virtual"><scope>LRUCache</scope><name>peek</name></member>
+      <member refid="class_l_r_u_cache_1a97b893971296f4f120d9c659d6c4401d" prot="public" virt="non-virtual"><scope>LRUCache</scope><name>put</name></member>
+      <member refid="class_l_r_u_cache_1a655eff6b67cf886142515bb8f9223bd7" prot="public" virt="non-virtual"><scope>LRUCache</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1experimental_1_1_dictionary_compressed" kind="struct" language="C++" prot="public">
+    <compoundname>themis::experimental::DictionaryCompressed</compoundname>
+    <includes refid="lossless__vector__compression_8h" local="no">lossless_vector_compression.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1experimental_1_1_dictionary_compressed_1afac58ac13fcca8e5650a88da775f852e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; T &gt;</type>
+        <definition>std::vector&lt;T&gt; themis::experimental::DictionaryCompressed&lt; T &gt;::dictionary</definition>
+        <argsstring></argsstring>
+        <name>dictionary</name>
+        <qualifiedname>themis::experimental::DictionaryCompressed::dictionary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="273" column="17" bodyfile="include/utils/lossless_vector_compression.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1experimental_1_1_dictionary_compressed_1a88c9fd7008048bc46e81a515b05d841c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>std::vector&lt;uint32_t&gt; themis::experimental::DictionaryCompressed&lt; T &gt;::indices</definition>
+        <argsstring></argsstring>
+        <name>indices</name>
+        <qualifiedname>themis::experimental::DictionaryCompressed::indices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="274" column="17" bodyfile="include/utils/lossless_vector_compression.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1experimental_1_1_dictionary_compressed_1a1bb5caab8bdb15cd29c5f120d2390b35" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::experimental::DictionaryCompressed&lt; T &gt;::original_size</definition>
+        <argsstring></argsstring>
+        <name>original_size</name>
+        <qualifiedname>themis::experimental::DictionaryCompressed::original_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="275" column="12" bodyfile="include/utils/lossless_vector_compression.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1experimental_1_1_dictionary_compressed_1a02370edd9b0eaf43a30605ada950c170" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::experimental::DictionaryCompressed&lt; T &gt;::compressed_bytes</definition>
+        <argsstring>() const</argsstring>
+        <name>compressed_bytes</name>
+        <qualifiedname>themis::experimental::DictionaryCompressed::compressed_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="277" column="12" bodyfile="include/utils/lossless_vector_compression.h" bodystart="277" bodyend="281"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/lossless_vector_compression.h" line="272" column="1" bodyfile="include/utils/lossless_vector_compression.h" bodystart="272" bodyend="282"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1experimental_1_1_dictionary_compressed_1a02370edd9b0eaf43a30605ada950c170" prot="public" virt="non-virtual"><scope>themis::experimental::DictionaryCompressed</scope><name>compressed_bytes</name></member>
+      <member refid="structthemis_1_1experimental_1_1_dictionary_compressed_1afac58ac13fcca8e5650a88da775f852e" prot="public" virt="non-virtual"><scope>themis::experimental::DictionaryCompressed</scope><name>dictionary</name></member>
+      <member refid="structthemis_1_1experimental_1_1_dictionary_compressed_1a88c9fd7008048bc46e81a515b05d841c" prot="public" virt="non-virtual"><scope>themis::experimental::DictionaryCompressed</scope><name>indices</name></member>
+      <member refid="structthemis_1_1experimental_1_1_dictionary_compressed_1a1bb5caab8bdb15cd29c5f120d2390b35" prot="public" virt="non-virtual"><scope>themis::experimental::DictionaryCompressed</scope><name>original_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

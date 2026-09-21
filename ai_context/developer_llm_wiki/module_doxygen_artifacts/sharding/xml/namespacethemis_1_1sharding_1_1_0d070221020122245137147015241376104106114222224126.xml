@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1sharding_1_1_0d070221020122245137147015241376104106114222224126" kind="namespace" language="C++">
+    <compoundname>themis::sharding::@070221020122245137147015241376104106114222224126</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/sharding/hardware_migration_manager.cpp" line="28" column="1"/>
+  </compounddef>
+</doxygen>

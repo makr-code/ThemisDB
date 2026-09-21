@@ -1,0 +1,420 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_multi_model_mock_plugin" kind="class" language="C++" prot="public">
+    <compoundname>MultiModelMockPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin" prot="public" virt="non-virtual">themis::llm::ILLMPlugin</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_multi_model_mock_plugin_1ae96b407615cc3259a3b145fec5685240" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MultiModelMockPlugin::call_count</definition>
+        <argsstring></argsstring>
+        <name>call_count</name>
+        <qualifiedname>MultiModelMockPlugin::call_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="45" column="17" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_multi_model_mock_plugin_1a74396064d5feb739d7bb4ceec4cd4b8f" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MultiModelMockPlugin::model_id_</definition>
+        <argsstring></argsstring>
+        <name>model_id_</name>
+        <qualifiedname>MultiModelMockPlugin::model_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="92" column="17" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_model_mock_plugin_1a7a611d9ea8b337727a55673759e70b1f" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int MultiModelMockPlugin::latency_ms_</definition>
+        <argsstring></argsstring>
+        <name>latency_ms_</name>
+        <qualifiedname>MultiModelMockPlugin::latency_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="93" column="17" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_multi_model_mock_plugin_1a49bdc4769316959ea92259ce605752c9" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MultiModelMockPlugin::MultiModelMockPlugin</definition>
+        <argsstring>(const std::string &amp;model_id, int latency_ms=10)</argsstring>
+        <name>MultiModelMockPlugin</name>
+        <qualifiedname>MultiModelMockPlugin::MultiModelMockPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>latency_ms</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="41" column="14" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="41" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_model_mock_plugin_1a69433116994c4f374944dfb1c0008835" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MultiModelMockPlugin::loadModel</definition>
+        <argsstring>(const std::string &amp;, const json &amp;) override</argsstring>
+        <name>loadModel</name>
+        <qualifiedname>MultiModelMockPlugin::loadModel</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab2f6318ca437d31318a0beca0c5d4742">loadModel</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="47" column="10" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_model_mock_plugin_1a050c82126f0db04e797ced1901ab4deb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MultiModelMockPlugin::unloadModel</definition>
+        <argsstring>() override</argsstring>
+        <name>unloadModel</name>
+        <qualifiedname>MultiModelMockPlugin::unloadModel</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a20a8a402b6aca0e9a79b87e5a6c2fd20">unloadModel</reimplements>
+        <briefdescription>
+<para>Unload Model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="48" column="10" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_model_mock_plugin_1af2189afc00413820b0a7eee51b5aac02" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_model_info" kindref="compound">ModelInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ModelInfo &gt; MultiModelMockPlugin::getModelInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getModelInfo</name>
+        <qualifiedname>MultiModelMockPlugin::getModelInfo</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a3bfc697aeb24baf7fc2fdf4d697d389c">getModelInfo</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="49" column="19" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="49" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_model_mock_plugin_1aa2abdc30bea4a5846d15788ab08d3705" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MultiModelMockPlugin::isModelLoaded</definition>
+        <argsstring>() const override</argsstring>
+        <name>isModelLoaded</name>
+        <qualifiedname>MultiModelMockPlugin::isModelLoaded</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a016365da7a906c3a2c6c81a440591698">isModelLoaded</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="56" column="10" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_model_mock_plugin_1a7ea40188f8196407a550204bb466f421" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse MultiModelMockPlugin::generate</definition>
+        <argsstring>(const InferenceRequest &amp;request) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>MultiModelMockPlugin::generate</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a0554007ed2a748e84472f01a30369a1d">generate</reimplements>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="58" column="23" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="58" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_model_mock_plugin_1a0e0dcfbd75e939cdf0ad7218cb43ea41" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse MultiModelMockPlugin::generateRAG</definition>
+        <argsstring>(const RAGContext &amp;, const InferenceRequest &amp;req) override</argsstring>
+        <name>generateRAG</name>
+        <qualifiedname>MultiModelMockPlugin::generateRAG</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a6166ce75f4c3572cab7b4b1c487dfc94">generateRAG</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_r_a_g_context" kindref="compound">RAGContext</ref> &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="73" column="23" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="73" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_model_mock_plugin_1ad7cbe7f3258b6520a1e7a71069e45a42" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; MultiModelMockPlugin::embed</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>embed</name>
+        <qualifiedname>MultiModelMockPlugin::embed</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a14195e7bc658ae90b32b7374169ee239">embed</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="78" column="17" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_model_mock_plugin_1ab19a65c8fd1b933efa5fae4faee6cf29" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities" kindref="compound">LLMCapabilities</ref></type>
+        <definition>LLMCapabilities MultiModelMockPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>MultiModelMockPlugin::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a66a14a28b9ddc624c8886eaaaf6abbfa">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="79" column="24" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_model_mock_plugin_1af3c33cbd073852e4a26fe8f2af3f6203" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json MultiModelMockPlugin::getMemoryStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>MultiModelMockPlugin::getMemoryStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1afbc46d4815c236a390d9f17789bb9a99">getMemoryStats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="80" column="10" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_model_mock_plugin_1afdeb905801991a983df3d05353e47c94" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json MultiModelMockPlugin::getPerformanceStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getPerformanceStats</name>
+        <qualifiedname>MultiModelMockPlugin::getPerformanceStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a8817d5900eff52785e71a314d39f0b47">getPerformanceStats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="81" column="10" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_model_mock_plugin_1ac3163a593246fc75fe0b0426323155c2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MultiModelMockPlugin::loadLoRA</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;, float) override</argsstring>
+        <name>loadLoRA</name>
+        <qualifiedname>MultiModelMockPlugin::loadLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a2c33ddf52b0dc03bc395d8346c805e6b">loadLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>float</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="82" column="10" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_model_mock_plugin_1aaf15d2503ac0b72e4a64e6468aebc1b3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MultiModelMockPlugin::unloadLoRA</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>unloadLoRA</name>
+        <qualifiedname>MultiModelMockPlugin::unloadLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab72da450bc0dc2904fe7eff875d71667">unloadLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="83" column="10" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_model_mock_plugin_1a813cdf2b307c2c1f2045f28314aaf1ef" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_lo_r_a_info" kindref="compound">LoRAInfo</ref> &gt;</type>
+        <definition>std::vector&lt; LoRAInfo &gt; MultiModelMockPlugin::listLoRAs</definition>
+        <argsstring>() const override</argsstring>
+        <name>listLoRAs</name>
+        <qualifiedname>MultiModelMockPlugin::listLoRAs</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa4a9a794e561f78c5ed77d2d59343d12">listLoRAs</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="84" column="17" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_model_mock_plugin_1ae8e06a5a63917546b1a39b2ac9f482ec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; MultiModelMockPlugin::exportLoRA</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>exportLoRA</name>
+        <qualifiedname>MultiModelMockPlugin::exportLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5bceecb2024467d70f4e67c951111d9a">exportLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="85" column="18" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_model_mock_plugin_1a9ef55715eef33dd58897541bfdd3cc1c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MultiModelMockPlugin::importLoRA</definition>
+        <argsstring>(const std::string &amp;, const std::vector&lt; uint8_t &gt; &amp;) override</argsstring>
+        <name>importLoRA</name>
+        <qualifiedname>MultiModelMockPlugin::importLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aca1ef263bd70ffc0d1c04c92a1cd00fc">importLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="86" column="10" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="86" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_model_mock_plugin_1a5f15b46ce03c88ead4440a23c51e3bbc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; MultiModelMockPlugin::modelId</definition>
+        <argsstring>() const</argsstring>
+        <name>modelId</name>
+        <qualifiedname>MultiModelMockPlugin::modelId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="89" column="23" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="89" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MultiModelMockPlugin</label>
+        <link refid="class_multi_model_mock_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MultiModelMockPlugin</label>
+        <link refid="class_multi_model_mock_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_multi_model_integration.cpp" line="39" column="1" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="39" bodyend="94"/>
+    <listofallmembers>
+      <member refid="class_multi_model_mock_plugin_1ae96b407615cc3259a3b145fec5685240" prot="public" virt="non-virtual"><scope>MultiModelMockPlugin</scope><name>call_count</name></member>
+      <member refid="class_multi_model_mock_plugin_1ad7cbe7f3258b6520a1e7a71069e45a42" prot="public" virt="virtual"><scope>MultiModelMockPlugin</scope><name>embed</name></member>
+      <member refid="class_multi_model_mock_plugin_1ae8e06a5a63917546b1a39b2ac9f482ec" prot="public" virt="virtual"><scope>MultiModelMockPlugin</scope><name>exportLoRA</name></member>
+      <member refid="class_multi_model_mock_plugin_1a7ea40188f8196407a550204bb466f421" prot="public" virt="virtual"><scope>MultiModelMockPlugin</scope><name>generate</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa5297bc971b879d93360f913a76e9469" prot="public" virt="virtual"><scope>MultiModelMockPlugin</scope><name>generateDraftTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a113e6f344509f115a632b0ee1614b6c2" prot="public" virt="non-virtual"><scope>MultiModelMockPlugin</scope><name>GenerateDraftTokensFn</name></member>
+      <member refid="class_multi_model_mock_plugin_1a0e0dcfbd75e939cdf0ad7218cb43ea41" prot="public" virt="virtual"><scope>MultiModelMockPlugin</scope><name>generateRAG</name></member>
+      <member refid="class_multi_model_mock_plugin_1ab19a65c8fd1b933efa5fae4faee6cf29" prot="public" virt="virtual"><scope>MultiModelMockPlugin</scope><name>getCapabilities</name></member>
+      <member refid="class_multi_model_mock_plugin_1af3c33cbd073852e4a26fe8f2af3f6203" prot="public" virt="virtual"><scope>MultiModelMockPlugin</scope><name>getMemoryStats</name></member>
+      <member refid="class_multi_model_mock_plugin_1af2189afc00413820b0a7eee51b5aac02" prot="public" virt="virtual"><scope>MultiModelMockPlugin</scope><name>getModelInfo</name></member>
+      <member refid="class_multi_model_mock_plugin_1afdeb905801991a983df3d05353e47c94" prot="public" virt="virtual"><scope>MultiModelMockPlugin</scope><name>getPerformanceStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" prot="public" virt="non-virtual"><scope>MultiModelMockPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ae20ccb33c21564f563810ed78f50c6cf" prot="public" virt="non-virtual"><scope>MultiModelMockPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a617f63576be5c553550530c3a72c5f53" prot="protected" virt="non-virtual"><scope>MultiModelMockPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="class_multi_model_mock_plugin_1a9ef55715eef33dd58897541bfdd3cc1c" prot="public" virt="virtual"><scope>MultiModelMockPlugin</scope><name>importLoRA</name></member>
+      <member refid="class_multi_model_mock_plugin_1aa2abdc30bea4a5846d15788ab08d3705" prot="public" virt="virtual"><scope>MultiModelMockPlugin</scope><name>isModelLoaded</name></member>
+      <member refid="class_multi_model_mock_plugin_1a7a611d9ea8b337727a55673759e70b1f" prot="private" virt="non-virtual"><scope>MultiModelMockPlugin</scope><name>latency_ms_</name></member>
+      <member refid="class_multi_model_mock_plugin_1a813cdf2b307c2c1f2045f28314aaf1ef" prot="public" virt="virtual"><scope>MultiModelMockPlugin</scope><name>listLoRAs</name></member>
+      <member refid="class_multi_model_mock_plugin_1ac3163a593246fc75fe0b0426323155c2" prot="public" virt="virtual"><scope>MultiModelMockPlugin</scope><name>loadLoRA</name></member>
+      <member refid="class_multi_model_mock_plugin_1a69433116994c4f374944dfb1c0008835" prot="public" virt="virtual"><scope>MultiModelMockPlugin</scope><name>loadModel</name></member>
+      <member refid="class_multi_model_mock_plugin_1a74396064d5feb739d7bb4ceec4cd4b8f" prot="private" virt="non-virtual"><scope>MultiModelMockPlugin</scope><name>model_id_</name></member>
+      <member refid="class_multi_model_mock_plugin_1a5f15b46ce03c88ead4440a23c51e3bbc" prot="public" virt="non-virtual"><scope>MultiModelMockPlugin</scope><name>modelId</name></member>
+      <member refid="class_multi_model_mock_plugin_1a49bdc4769316959ea92259ce605752c9" prot="public" virt="non-virtual"><scope>MultiModelMockPlugin</scope><name>MultiModelMockPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a06828a4415efeab05bd0d69c7d54828c" prot="public" virt="non-virtual"><scope>MultiModelMockPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a379dc1e0152b9197835c0a05f95d234c" prot="public" virt="non-virtual"><scope>MultiModelMockPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" prot="public" virt="non-virtual"><scope>MultiModelMockPlugin</scope><name>setDefaultGenerateDraftTokensFn</name></member>
+      <member refid="class_multi_model_mock_plugin_1aaf15d2503ac0b72e4a64e6468aebc1b3" prot="public" virt="virtual"><scope>MultiModelMockPlugin</scope><name>unloadLoRA</name></member>
+      <member refid="class_multi_model_mock_plugin_1a050c82126f0db04e797ced1901ab4deb" prot="public" virt="virtual"><scope>MultiModelMockPlugin</scope><name>unloadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a9c52c9bc3ec16061fceacc8963da3176" prot="public" virt="virtual"><scope>MultiModelMockPlugin</scope><name>~ILLMPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

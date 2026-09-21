@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_planner_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::PlannerConfig</compoundname>
+    <includes refid="query__planner_8h" local="no">query_planner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_planner_config_1a07bfb8b47ecdd76940f8ecb3e4235c97" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::evaluation::PlannerConfig::max_staleness_ms</definition>
+        <argsstring></argsstring>
+        <name>max_staleness_ms</name>
+        <qualifiedname>themis::evaluation::PlannerConfig::max_staleness_ms</qualifiedname>
+        <initializer>{5&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="236" column="14" bodyfile="src/evaluation/include/query_planner.h" bodystart="236" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_planner_config_1a602afda9534e353a12f642715d3351dd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::evaluation::PlannerConfig::max_delta_lag</definition>
+        <argsstring></argsstring>
+        <name>max_delta_lag</name>
+        <qualifiedname>themis::evaluation::PlannerConfig::max_delta_lag</qualifiedname>
+        <initializer>{1&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="238" column="14" bodyfile="src/evaluation/include/query_planner.h" bodystart="238" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_planner_config_1ab4275d0b6a1537a591be8f65ffe1b819" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::PlannerConfig::min_residual_threshold</definition>
+        <argsstring></argsstring>
+        <name>min_residual_threshold</name>
+        <qualifiedname>themis::evaluation::PlannerConfig::min_residual_threshold</qualifiedname>
+        <initializer>{0.95}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="240" column="12" bodyfile="src/evaluation/include/query_planner.h" bodystart="240" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_planner_config_1aa449fe5ec7c9f91706031703e7735d83" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::evaluation::PlannerConfig::max_rank_cap</definition>
+        <argsstring></argsstring>
+        <name>max_rank_cap</name>
+        <qualifiedname>themis::evaluation::PlannerConfig::max_rank_cap</qualifiedname>
+        <initializer>{1&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="242" column="9" bodyfile="src/evaluation/include/query_planner.h" bodystart="242" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_planner_config_1a2d3d9c92d1fb14fa30ff826bcdc62973" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::PlannerConfig::min_shard_summary_confidence</definition>
+        <argsstring></argsstring>
+        <name>min_shard_summary_confidence</name>
+        <qualifiedname>themis::evaluation::PlannerConfig::min_shard_summary_confidence</qualifiedname>
+        <initializer>{0.80}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="244" column="12" bodyfile="src/evaluation/include/query_planner.h" bodystart="244" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_planner_config_1a03f9e01198b2f4db96f05c6734211449" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::PlannerConfig::policy_version</definition>
+        <argsstring></argsstring>
+        <name>policy_version</name>
+        <qualifiedname>themis::evaluation::PlannerConfig::policy_version</qualifiedname>
+        <initializer>{&quot;v0&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="246" column="17" bodyfile="src/evaluation/include/query_planner.h" bodystart="246" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_planner_config_1afc2f6360bbeebff519731a7b42669e30" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::PlannerConfig::staleness_threshold_key</definition>
+        <argsstring></argsstring>
+        <name>staleness_threshold_key</name>
+        <qualifiedname>themis::evaluation::PlannerConfig::staleness_threshold_key</qualifiedname>
+        <initializer>{&quot;tensor.max_staleness_ms&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="248" column="17" bodyfile="src/evaluation/include/query_planner.h" bodystart="248" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/query_planner.h" line="235" column="1" bodyfile="src/evaluation/include/query_planner.h" bodystart="235" bodyend="249"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_planner_config_1a602afda9534e353a12f642715d3351dd" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerConfig</scope><name>max_delta_lag</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_planner_config_1aa449fe5ec7c9f91706031703e7735d83" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerConfig</scope><name>max_rank_cap</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_planner_config_1a07bfb8b47ecdd76940f8ecb3e4235c97" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerConfig</scope><name>max_staleness_ms</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_planner_config_1ab4275d0b6a1537a591be8f65ffe1b819" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerConfig</scope><name>min_residual_threshold</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_planner_config_1a2d3d9c92d1fb14fa30ff826bcdc62973" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerConfig</scope><name>min_shard_summary_confidence</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_planner_config_1a03f9e01198b2f4db96f05c6734211449" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerConfig</scope><name>policy_version</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_planner_config_1afc2f6360bbeebff519731a7b42669e30" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerConfig</scope><name>staleness_threshold_key</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

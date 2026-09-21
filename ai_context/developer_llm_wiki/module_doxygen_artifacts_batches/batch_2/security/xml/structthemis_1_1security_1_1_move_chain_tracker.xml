@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_move_chain_tracker" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::MoveChainTracker</compoundname>
+    <includes refid="safe__move_8h" local="no">safe_move.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_move_chain_tracker_1a7398a5e7405b10ae97a74aa904280160" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::MoveChainTracker::MAX_CHAIN_DEPTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_CHAIN_DEPTH</name>
+        <qualifiedname>themis::security::MoveChainTracker::MAX_CHAIN_DEPTH</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Maximum chain depth (prevents infinite loops in tracking). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="300" column="24" bodyfile="include/security/safe_move.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_move_chain_tracker_1ae149b38ab22a2a66b3d59519d0fe21e5" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::security::MoveChainTracker::depth</definition>
+        <argsstring></argsstring>
+        <name>depth</name>
+        <qualifiedname>themis::security::MoveChainTracker::depth</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Current chain depth. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="303" column="15" bodyfile="include/security/safe_move.h" bodystart="303" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_move_chain_tracker_1a072ff5b965e9525f7b52ce78b7a594e5" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::security::MoveChainTracker::error_state</definition>
+        <argsstring></argsstring>
+        <name>error_state</name>
+        <qualifiedname>themis::security::MoveChainTracker::error_state</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Flag indicating chain error state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="306" column="15" bodyfile="include/security/safe_move.h" bodystart="306" bodyend="306"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_move_chain_tracker_1a470e4e195622e5c1c45e7b544420dc8d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::MoveChainTracker::onMoveBegin</definition>
+        <argsstring>()</argsstring>
+        <name>onMoveBegin</name>
+        <qualifiedname>themis::security::MoveChainTracker::onMoveBegin</qualifiedname>
+        <briefdescription>
+<para>Increments chain depth on move start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>MoveViolationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if chain depth exceeds limit </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>MoveViolationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="313" column="8" bodyfile="include/security/safe_move.h" bodystart="313" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1_move_chain_tracker_1a2671362fa29b644c0f41849f8567a88a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::MoveChainTracker::onMoveEnd</definition>
+        <argsstring>()</argsstring>
+        <name>onMoveEnd</name>
+        <qualifiedname>themis::security::MoveChainTracker::onMoveEnd</qualifiedname>
+        <briefdescription>
+<para>Decrements chain depth on move completion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="323" column="8" bodyfile="include/security/safe_move.h" bodystart="323" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1_move_chain_tracker_1a9ace665b35786d8c9f4df4d6f217907f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::MoveChainTracker::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::security::MoveChainTracker::isValid</qualifiedname>
+        <briefdescription>
+<para>Checks if chain is in valid state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="331" column="8" bodyfile="include/security/safe_move.h" bodystart="331" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1_move_chain_tracker_1aa938b98fad605a57851d978b0ad35e73" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::MoveChainTracker::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::security::MoveChainTracker::reset</qualifiedname>
+        <briefdescription>
+<para>Resets chain state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="336" column="8" bodyfile="include/security/safe_move.h" bodystart="336" bodyend="339"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tracks multi-hop move operations to detect cycles and issues. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>For complex scenarios where objects are moved through multiple functions/types, tracks the chain to detect:<itemizedlist>
+<listitem><para>Circular moves (A moves to B, B moves back to A)</para>
+</listitem><listitem><para>Premature destruction in move chain</para>
+</listitem><listitem><para>Unbalanced move operations </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/security/safe_move.h" line="298" column="1" bodyfile="include/security/safe_move.h" bodystart="298" bodyend="340"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_move_chain_tracker_1ae149b38ab22a2a66b3d59519d0fe21e5" prot="public" virt="non-virtual"><scope>themis::security::MoveChainTracker</scope><name>depth</name></member>
+      <member refid="structthemis_1_1security_1_1_move_chain_tracker_1a072ff5b965e9525f7b52ce78b7a594e5" prot="public" virt="non-virtual"><scope>themis::security::MoveChainTracker</scope><name>error_state</name></member>
+      <member refid="structthemis_1_1security_1_1_move_chain_tracker_1a9ace665b35786d8c9f4df4d6f217907f" prot="public" virt="non-virtual"><scope>themis::security::MoveChainTracker</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1security_1_1_move_chain_tracker_1a7398a5e7405b10ae97a74aa904280160" prot="public" virt="non-virtual"><scope>themis::security::MoveChainTracker</scope><name>MAX_CHAIN_DEPTH</name></member>
+      <member refid="structthemis_1_1security_1_1_move_chain_tracker_1a470e4e195622e5c1c45e7b544420dc8d" prot="public" virt="non-virtual"><scope>themis::security::MoveChainTracker</scope><name>onMoveBegin</name></member>
+      <member refid="structthemis_1_1security_1_1_move_chain_tracker_1a2671362fa29b644c0f41849f8567a88a" prot="public" virt="non-virtual"><scope>themis::security::MoveChainTracker</scope><name>onMoveEnd</name></member>
+      <member refid="structthemis_1_1security_1_1_move_chain_tracker_1aa938b98fad605a57851d978b0ad35e73" prot="public" virt="non-virtual"><scope>themis::security::MoveChainTracker</scope><name>reset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

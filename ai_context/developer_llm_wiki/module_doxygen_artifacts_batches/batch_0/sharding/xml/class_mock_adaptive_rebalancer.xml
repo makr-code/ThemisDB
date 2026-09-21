@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_adaptive_rebalancer" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>MockAdaptiveRebalancer</compoundname>
+    <basecompoundref refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer" prot="public" virt="non-virtual">themis::sharding::IAdaptiveRebalancer</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_adaptive_rebalancer_1adb6e752a02cdb6d70c4a53c7e9dded9a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_rebalance_plan" kindref="compound">RebalancePlan</ref></type>
+        <definition>RebalancePlan MockAdaptiveRebalancer::planRebalance</definition>
+        <argsstring>(const ClusterStats &amp;stats) const override</argsstring>
+        <name>planRebalance</name>
+        <qualifiedname>MockAdaptiveRebalancer::planRebalance</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a41472446a2669cd6c2d77f2d53cffd00">planRebalance</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_cluster_stats" kindref="compound">ClusterStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute a conflict-free migration plan from current cluster telemetry. Pure: no mutations, no network calls. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current cluster telemetry. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <ref refid="structthemis_1_1sharding_1_1_rebalance_plan" kindref="compound">RebalancePlan</ref> ready for submission to <ref refid="class_mock_adaptive_rebalancer_1aef6d6e226af0a8507e318e45f34d5e0c" kindref="member">applyPlan()</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="55" column="19" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="55" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_adaptive_rebalancer_1aef6d6e226af0a8507e318e45f34d5e0c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1sharding_1_1_rebalance_result" kindref="compound">RebalanceResult</ref> &gt;</type>
+        <definition>std::future&lt; RebalanceResult &gt; MockAdaptiveRebalancer::applyPlan</definition>
+        <argsstring>(const RebalancePlan &amp;plan, const AdminContext &amp;context) override</argsstring>
+        <name>applyPlan</name>
+        <qualifiedname>MockAdaptiveRebalancer::applyPlan</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a193a4a83976ed1ed9933235353632726">applyPlan</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_rebalance_plan" kindref="compound">RebalancePlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_admin_context" kindref="compound">AdminContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Submit a plan for asynchronous execution. Requires a cluster-admin <ref refid="structthemis_1_1sharding_1_1_admin_context" kindref="compound">AdminContext</ref>; throws <ref refid="classthemis_1_1sharding_1_1_permission_denied_error" kindref="compound">PermissionDeniedError</ref> if the capability token is missing or invalid. Internally verifies quorum before beginning the first migration step. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The plan to execute. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Admin capability token. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A future that resolves to the execution outcome. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="73" column="17" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="73" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_adaptive_rebalancer_1a38f508a78edc307067fc0396749e2f41" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MockAdaptiveRebalancer::cancel</definition>
+        <argsstring>(const RebalancePlanId &amp;plan_id) override</argsstring>
+        <name>cancel</name>
+        <qualifiedname>MockAdaptiveRebalancer::cancel</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a5a1f366a25ba1d7b75b23d3c7d8e0999">cancel</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1aceef1bf36d28c685930224570034180d" kindref="member">RebalancePlanId</ref> &amp;</type>
+          <declname>plan_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Cancel a previously submitted plan. Cancellation is best-effort and safe to call from any thread. <simplesect kind="return"><para>true if the plan was found and cancelled; false if it had already completed or the id is unknown. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="90" column="10" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="90" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockAdaptiveRebalancer</label>
+        <link refid="class_mock_adaptive_rebalancer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::IAdaptiveRebalancer</label>
+        <link refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockAdaptiveRebalancer</label>
+        <link refid="class_mock_adaptive_rebalancer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::IAdaptiveRebalancer</label>
+        <link refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_sharding_interfaces.cpp" line="53" column="1" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="53" bodyend="93"/>
+    <listofallmembers>
+      <member refid="class_mock_adaptive_rebalancer_1aef6d6e226af0a8507e318e45f34d5e0c" prot="public" virt="virtual"><scope>MockAdaptiveRebalancer</scope><name>applyPlan</name></member>
+      <member refid="class_mock_adaptive_rebalancer_1a38f508a78edc307067fc0396749e2f41" prot="public" virt="virtual"><scope>MockAdaptiveRebalancer</scope><name>cancel</name></member>
+      <member refid="class_mock_adaptive_rebalancer_1adb6e752a02cdb6d70c4a53c7e9dded9a" prot="public" virt="virtual"><scope>MockAdaptiveRebalancer</scope><name>planRebalance</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a2d182fbf638f839e3982d8d5747c8a6b" prot="public" virt="virtual"><scope>MockAdaptiveRebalancer</scope><name>~IAdaptiveRebalancer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

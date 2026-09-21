@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPULauncher::WorkItem</compoundname>
+    <includes refid="launcher_8h" local="no">launcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item_1a88024af98d9454dd5a2ba829157f3123" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPULauncher::WorkItem::kernel_id</definition>
+        <argsstring></argsstring>
+        <name>kernel_id</name>
+        <qualifiedname>themis::gpu::GPULauncher::WorkItem::kernel_id</qualifiedname>
+        <briefdescription>
+<para>Identifier matching KernelValidator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="57" column="21" bodyfile="include/themis/gpu/launcher.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item_1afdef40d1d5de29d01c7f39aa50a733c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPULauncher::WorkItem::tag</definition>
+        <argsstring></argsstring>
+        <name>tag</name>
+        <qualifiedname>themis::gpu::GPULauncher::WorkItem::tag</qualifiedname>
+        <briefdescription>
+<para>Caller-supplied label for audit/metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="58" column="21" bodyfile="include/themis/gpu/launcher.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item_1a479f2c1ede7415170ed68c1f6e3b6c8d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPULauncher::WorkItem::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::gpu::GPULauncher::WorkItem::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Tenant owning this work item. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="59" column="21" bodyfile="include/themis/gpu/launcher.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item_1a37c07bae5e87257ec52480c09c322de4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::gpu::GPULauncher::WorkItem::args</definition>
+        <argsstring></argsstring>
+        <name>args</name>
+        <qualifiedname>themis::gpu::GPULauncher::WorkItem::args</qualifiedname>
+        <briefdescription>
+<para>Serialised kernel arguments. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="60" column="21" bodyfile="include/themis/gpu/launcher.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item_1ac155b2a4c4dd491d81469b7aca974af9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::GPULauncher::WorkItem::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::gpu::GPULauncher::WorkItem::timeout_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 = no timeout </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="61" column="21" bodyfile="include/themis/gpu/launcher.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/launcher.h" line="56" column="5" bodyfile="include/themis/gpu/launcher.h" bodystart="56" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item_1a37c07bae5e87257ec52480c09c322de4" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher::WorkItem</scope><name>args</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item_1a88024af98d9454dd5a2ba829157f3123" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher::WorkItem</scope><name>kernel_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item_1afdef40d1d5de29d01c7f39aa50a733c6" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher::WorkItem</scope><name>tag</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item_1a479f2c1ede7415170ed68c1f6e3b6c8d" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher::WorkItem</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item_1ac155b2a4c4dd491d81469b7aca974af9" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher::WorkItem</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

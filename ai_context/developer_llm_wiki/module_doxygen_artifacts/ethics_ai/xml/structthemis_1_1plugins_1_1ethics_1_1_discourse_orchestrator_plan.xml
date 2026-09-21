@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::DiscourseOrchestratorPlan</compoundname>
+    <includes refid="ethics__selection__router_8h" local="no">ethics_selection_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1abe503f234f57354a68126db2835a9f27" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1" kindref="member">DiscourseMode</ref></type>
+        <definition>DiscourseMode themis::plugins::ethics::DiscourseOrchestratorPlan::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestratorPlan::mode</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1a0282fee2140132ea4e4dfa14f6998688" kindref="member">DiscourseMode::SELECTION_ONLY</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="38" column="19" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1adaf42d0dea9318ae4dab98aca49a4193" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::DiscourseOrchestratorPlan::ebene1_school_ids</definition>
+        <argsstring></argsstring>
+        <name>ebene1_school_ids</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestratorPlan::ebene1_school_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="40" column="17" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1a40f3c8ffb5d00838f970600655db21d9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::DiscourseOrchestratorPlan::initial_weight</definition>
+        <argsstring></argsstring>
+        <name>initial_weight</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestratorPlan::initial_weight</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="42" column="12" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1ad73ba3ea8779587bf941c865d389fe28" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::plugins::ethics::DiscourseOrchestratorPlan::cluster_map</definition>
+        <argsstring></argsstring>
+        <name>cluster_map</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestratorPlan::cluster_map</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="44" column="14" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1ac120576d1cde556632f1963101179b01" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::DiscourseOrchestratorPlan::tension_axes</definition>
+        <argsstring></argsstring>
+        <name>tension_axes</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestratorPlan::tension_axes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="46" column="17" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1ab239a4592d53494675698ef521abf0e9" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::DiscourseOrchestratorPlan::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::plugins::ethics::DiscourseOrchestratorPlan::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="48" column="10" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_selection_router.h" line="37" column="1" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="37" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1ad73ba3ea8779587bf941c865d389fe28" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestratorPlan</scope><name>cluster_map</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1adaf42d0dea9318ae4dab98aca49a4193" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestratorPlan</scope><name>ebene1_school_ids</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1ab239a4592d53494675698ef521abf0e9" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestratorPlan</scope><name>empty</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1a40f3c8ffb5d00838f970600655db21d9" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestratorPlan</scope><name>initial_weight</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1abe503f234f57354a68126db2835a9f27" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestratorPlan</scope><name>mode</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1ac120576d1cde556632f1963101179b01" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DiscourseOrchestratorPlan</scope><name>tension_axes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

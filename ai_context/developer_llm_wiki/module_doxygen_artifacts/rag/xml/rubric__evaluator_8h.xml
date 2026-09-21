@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="rubric__evaluator_8h" kind="file" language="C++">
+    <compoundname>rubric_evaluator.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">unordered_map</includes>
+    <includedby refid="rubric__evaluator_8cpp" local="yes">src/rag/rubric_evaluator.cpp</includedby>
+    <includedby refid="test__rag__judge__phase4_8cpp" local="yes">tests/rag/test_rag_judge_phase4.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/rubric_evaluator.h</label>
+        <link refid="rubric__evaluator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/rubric_evaluator.h</label>
+        <link refid="rubric__evaluator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/rubric_evaluator.cpp</label>
+        <link refid="rubric__evaluator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/rag/test_rag_judge_phase4.cpp</label>
+        <link refid="test__rag__judge__phase4_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_rubric_level" prot="public">themis::rag::judge::RubricLevel</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric" prot="public">themis::rag::judge::DimensionRubric</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric" prot="public">themis::rag::judge::EvaluationRubric</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result" prot="public">themis::rag::judge::RubricEvaluationResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator" prot="public">themis::rag::judge::RubricEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config" prot="public">themis::rag::judge::RubricEvaluator::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1judge">themis::rag::judge</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1rag_1_1judge_1_1_rubric_level" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_level" kindref="compound">RubricLevel</ref><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1rag_1_1judge_1_1_rubric_level_1a29ae845441ac59d3262d079b01ce6bd9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_level_1a29ae845441ac59d3262d079b01ce6bd9" kindref="member">score</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1rag_1_1judge_1_1_rubric_level_1ae996f9f0d6a38917ccdbb572ccc32d71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_level_1ae996f9f0d6a38917ccdbb572ccc32d71" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1rag_1_1judge_1_1_rubric_level_1ad03be9ed7e6adc883c4205140a3e1a2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_level_1ad03be9ed7e6adc883c4205140a3e1a2e" kindref="member">examples</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1rag_1_1judge_1_1_rubric_level_1acf6cc17e34d01cef608cdc7ecd6cbeb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_level_1acf6cc17e34d01cef608cdc7ecd6cbeb4" kindref="member">criteria</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="28"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric" kindref="compound">DimensionRubric</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1ad26168ce77f805c55d57eb77fbae1ab2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1ad26168ce77f805c55d57eb77fbae1ab2" kindref="member">dimension_name</ref>;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1a3a28095a92f57e87e27d0ef8fff1a0fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1a3a28095a92f57e87e27d0ef8fff1a0fe" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1a1a6742aafba6c1f74cef36643d812077" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1a1a6742aafba6c1f74cef36643d812077" kindref="member">weight</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1aec66ff04790bc418eab5c8f865b9e23a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RubricLevel&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1aec66ff04790bc418eab5c8f865b9e23a" kindref="member">levels</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric" kindref="compound">EvaluationRubric</ref><sp/>{</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1a5871eb7eb1876f6d2d2adbf9c9c3b74c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1a5871eb7eb1876f6d2d2adbf9c9c3b74c" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1a491e6eb5af273ca939bd363988e39c40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1a491e6eb5af273ca939bd363988e39c40" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1abc8024754d2b3cbeac6643f3ad40b3b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1abc8024754d2b3cbeac6643f3ad40b3b6" kindref="member">domain</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1a246203b68e0ff2e0b07c44f45c256bff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DimensionRubric&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1a246203b68e0ff2e0b07c44f45c256bff" kindref="member">dimensions</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1adc0f227a86d76727c1cbffc9d2cc9f22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1adc0f227a86d76727c1cbffc9d2cc9f22" kindref="member">version</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1ab9c112b8a470657529e9babe93326bdb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1ab9c112b8a470657529e9babe93326bdb" kindref="member">author</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result" kindref="compound">RubricEvaluationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1a7f6d77837b21f00e80437c234f0fd1a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1a7f6d77837b21f00e80437c234f0fd1a4" kindref="member">overall_score</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1aa5edb1db9cb51abe4f888aba1efba3e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1aa5edb1db9cb51abe4f888aba1efba3e8" kindref="member">dimension_scores</ref>;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1a05923a4df896171d14cb9c78039f1db3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>int&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1a05923a4df896171d14cb9c78039f1db3" kindref="member">dimension_levels</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1af476742109e5cf3a261ef0ade1ee683b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1af476742109e5cf3a261ef0ade1ee683b" kindref="member">dimension_reasoning</ref>;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1a7efe500674e7d0068782b521c8110e13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1a7efe500674e7d0068782b521c8110e13" kindref="member">overall_reasoning</ref>;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1a1b689c2c9eb18dd82f33f286a94286e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1a1b689c2c9eb18dd82f33f286a94286e7" kindref="member">rubric_name</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1a7f1d985d85ecf6c9758318b72474c197" kindref="member">RubricEvaluator</ref><sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config_1a8728c9eef7489409818e5cf0faa46364" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config_1a8728c9eef7489409818e5cf0faa46364" kindref="member">strict_level_matching</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config_1abac0f99ba16c1bdc18385f6e3c871e3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config_1abac0f99ba16c1bdc18385f6e3c871e3b" kindref="member">enable_consistency_check</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config_1a05617924630bdd00208c88dc9bddfd7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config_1a05617924630bdd00208c88dc9bddfd7f" kindref="member">consistency_threshold</ref><sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1a7f1d985d85ecf6c9758318b72474c197" kindref="member">RubricEvaluator</ref>();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1a7f1d985d85ecf6c9758318b72474c197" kindref="member">RubricEvaluator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1aaeb0dd2f457cc9767a60e1120bad69fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1aaeb0dd2f457cc9767a60e1120bad69fc" kindref="member">~RubricEvaluator</ref>();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1a653b320e2e1743381c87a33e21900555" kindref="member">loadRubricFromYAML</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>yaml_content);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1a6a941b8192684653a715d8fe3783037f" kindref="member">loadRubricFromFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1a0847e9595445381248feff8c2de4e233" kindref="member">setRubric</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric" kindref="compound">EvaluationRubric</ref>&amp;<sp/>rubric);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric" kindref="compound">EvaluationRubric</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1a8c4734942424cdc760c95cbff07075aa" kindref="member">getRubric</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result" kindref="compound">RubricEvaluationResult</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1ad3673ad19c5043002e64c33da7be13b2" kindref="member">evaluate</ref>(</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>answer,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&amp;<sp/>documents</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric" kindref="compound">EvaluationRubric</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1a37dfd38a54649e4b66b3e39652954326" kindref="member">createDefaultRubric</ref>();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1abab8e23b37a9039c2d8720315f5c00a7" kindref="member">validateRubric</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric" kindref="compound">EvaluationRubric</ref>&amp;<sp/>rubric);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1a954bcbf52c7f122f2b44873916b8e27e" kindref="member">normalizeScore</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>level_score);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::judge</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/rubric_evaluator.h"/>
+  </compounddef>
+</doxygen>

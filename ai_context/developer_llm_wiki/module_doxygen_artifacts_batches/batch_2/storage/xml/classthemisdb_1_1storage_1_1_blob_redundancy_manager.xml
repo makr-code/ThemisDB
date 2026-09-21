@@ -1,0 +1,1780 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1storage_1_1_blob_redundancy_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::storage::BlobRedundancyManager</compoundname>
+    <includes refid="blob__redundancy__manager_8h" local="no">blob_redundancy_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config" prot="public">themisdb::storage::BlobRedundancyManager::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a54e3980c897dec42e923ce38fbf9f93f" prot="public" static="no">
+        <type>std::function&lt; bool( const std::string &amp;shard_id, const std::string &amp;path, const std::vector&lt; uint8_t &gt; &amp;data)&gt;</type>
+        <definition>using themisdb::storage::BlobRedundancyManager::WriteHandler = std::function&lt;bool(
+       const std::string&amp; shard_id,
+       const std::string&amp; path,
+       const std::vector&lt;uint8_t&gt;&amp; data
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>WriteHandler</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::WriteHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="369" column="5" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a6e4ee254afa1eae72a78a320f542c61b" prot="public" static="no">
+        <type>std::function&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt;( const std::string &amp;shard_id, const std::string &amp;path)&gt;</type>
+        <definition>using themisdb::storage::BlobRedundancyManager::ReadHandler = std::function&lt;std::optional&lt;std::vector&lt;uint8_t&gt;&gt;(
+       const std::string&amp; shard_id,
+       const std::string&amp; path
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>ReadHandler</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::ReadHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="375" column="5" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a1a7e6c36214b5e4e65b68b977c4ceef3" prot="public" static="no">
+        <type>std::function&lt; bool( const std::string &amp;shard_id, const std::string &amp;path)&gt;</type>
+        <definition>using themisdb::storage::BlobRedundancyManager::DeleteHandler = std::function&lt;bool(
+       const std::string&amp; shard_id,
+       const std::string&amp; path
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>DeleteHandler</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::DeleteHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="380" column="5" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="380" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1ad159fbcbb13fe935678f9504d77d435e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::storage::BlobRedundancyManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="463" column="12" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="463" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a2a496732747eb624727c0fe5e9db09c7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::storage::BlobRedundancyManager::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="464" column="17" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="464" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1ad944710c92aaeb1034e2af031f1472a3" prot="private" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098b" kindref="member">BlobType</ref>, <ref refid="structthemisdb_1_1storage_1_1_blob_redundancy_config" kindref="compound">BlobRedundancyConfig</ref> &gt;</type>
+        <definition>std::map&lt;BlobType, BlobRedundancyConfig&gt; themisdb::storage::BlobRedundancyManager::blob_type_configs_</definition>
+        <argsstring></argsstring>
+        <name>blob_type_configs_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::blob_type_configs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="467" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="467" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1afbe16c15c158639ea6540135961ec30b" prot="private" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemisdb_1_1storage_1af621d748d6a2a85cbadefeb0dd4c3bd5" kindref="member">StorageTier</ref>, <ref refid="structthemisdb_1_1storage_1_1_tier_config" kindref="compound">TierConfig</ref> &gt;</type>
+        <definition>std::map&lt;StorageTier, TierConfig&gt; themisdb::storage::BlobRedundancyManager::tier_configs_</definition>
+        <argsstring></argsstring>
+        <name>tier_configs_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::tier_configs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="468" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="468" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1acd27bdc4593cda94e964622aee19d523" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemisdb_1_1storage_1_1_blob_redundancy_config" kindref="compound">BlobRedundancyConfig</ref> &gt;</type>
+        <definition>std::map&lt;std::string, BlobRedundancyConfig&gt; themisdb::storage::BlobRedundancyManager::collection_overrides_</definition>
+        <argsstring></argsstring>
+        <name>collection_overrides_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::collection_overrides_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="469" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="469" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a25ec38316f37d605ed365f0861395b4b" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemisdb_1_1storage_1_1_blob_redundancy_config" kindref="compound">BlobRedundancyConfig</ref> &gt;</type>
+        <definition>std::map&lt;std::string, BlobRedundancyConfig&gt; themisdb::storage::BlobRedundancyManager::document_overrides_</definition>
+        <argsstring></argsstring>
+        <name>document_overrides_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::document_overrides_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="470" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="470" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1aad85a73a8b7bbf54a61ae519ef697b21" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::storage::BlobRedundancyManager::config_mutex_</definition>
+        <argsstring></argsstring>
+        <name>config_mutex_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::config_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="471" column="31" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="471" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a80b7344ed678d6f4399c7c84f24f99e0" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemisdb_1_1storage_1_1_blob_metadata" kindref="compound">BlobMetadata</ref> &gt;</type>
+        <definition>std::map&lt;std::string, BlobMetadata&gt; themisdb::storage::BlobRedundancyManager::blobs_</definition>
+        <argsstring></argsstring>
+        <name>blobs_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::blobs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="474" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="474" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a64a53e6c3d9d1e7479489fe12243b55a" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::storage::BlobRedundancyManager::blobs_mutex_</definition>
+        <argsstring></argsstring>
+        <name>blobs_mutex_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::blobs_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="475" column="31" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="475" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a9ebce5996b4d8f449d8d3ee50c83e065" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; std::string &gt;</type>
+        <definition>std::queue&lt;std::string&gt; themisdb::storage::BlobRedundancyManager::repair_queue_</definition>
+        <argsstring></argsstring>
+        <name>repair_queue_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::repair_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="478" column="16" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="478" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a6c1fd8a8ff1bca1f59b836f2338185c5" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::storage::BlobRedundancyManager::repair_mutex_</definition>
+        <argsstring></argsstring>
+        <name>repair_mutex_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::repair_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="479" column="16" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="479" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1aa837f9ab2c9e7276e5528ada111f4e91" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::storage::BlobRedundancyManager::repair_cv_</definition>
+        <argsstring></argsstring>
+        <name>repair_cv_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::repair_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="480" column="29" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="480" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1af140b288c0cb03cba66ae2b548ee4000" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::storage::BlobRedundancyManager::shutdown_mutex_</definition>
+        <argsstring></argsstring>
+        <name>shutdown_mutex_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::shutdown_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="481" column="24" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="481" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a2b678e5550745749cf7d2f58b6f75186" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::storage::BlobRedundancyManager::shutdown_cv_</definition>
+        <argsstring></argsstring>
+        <name>shutdown_cv_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::shutdown_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="482" column="29" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="482" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1ac977d4fdb9ccfb2f3b9af5f41a38fdd9" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::storage::BlobRedundancyManager::maintenance_thread_</definition>
+        <argsstring></argsstring>
+        <name>maintenance_thread_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::maintenance_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="485" column="17" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="485" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1afe1943bb7c835c7a620ef93c9b5bd512" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::storage::BlobRedundancyManager::repair_thread_</definition>
+        <argsstring></argsstring>
+        <name>repair_thread_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::repair_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="486" column="17" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="486" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1adfd4f15bad24f73fa9eca6707177a818" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::storage::BlobRedundancyManager::config_reload_thread_</definition>
+        <argsstring></argsstring>
+        <name>config_reload_thread_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::config_reload_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="487" column="17" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="487" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a813e17199d481800bd01b2d79e47cb2e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::storage::BlobRedundancyManager::stats_total_blobs_</definition>
+        <argsstring></argsstring>
+        <name>stats_total_blobs_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::stats_total_blobs_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="491" column="17" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="491" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a7aa4260fba6a95fe8993e7dc18ae07a5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::storage::BlobRedundancyManager::stats_repairs_</definition>
+        <argsstring></argsstring>
+        <name>stats_repairs_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::stats_repairs_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="492" column="17" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="492" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a9c5721d46a800439779dc53791726d7a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::storage::BlobRedundancyManager::stats_tier_transitions_</definition>
+        <argsstring></argsstring>
+        <name>stats_tier_transitions_</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::stats_tier_transitions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="493" column="17" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="493" bodyend="493"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a912190f4c9ec592c215479566e26b0a6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::storage::BlobRedundancyManager::BlobRedundancyManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>BlobRedundancyManager</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::BlobRedundancyManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="385" column="14" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="624" bodyend="681"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a25b892695e1f1caf8c9bd29b2bc72a7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::storage::BlobRedundancyManager::~BlobRedundancyManager</definition>
+        <argsstring>()</argsstring>
+        <name>~BlobRedundancyManager</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::~BlobRedundancyManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="386" column="5" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="683" bodyend="685"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a5476a5e61e3835d101be10639994cb75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::storage::BlobRedundancyManager::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: exchange(), spdlog::warn(), spdlog::info(), std::thread(), maintenanceLoop(), repairLoop(), configReloadLoop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="389" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="692" bodyend="719"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1aff710ebd587b265dcb80daaea38670d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::BlobRedundancyManager::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), spdlog::info(), notify_all(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="390" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="725" bodyend="751"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a8e0df55572f5bd71b530b14f9563200d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::storage::BlobRedundancyManager::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="391" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="753" bodyend="755"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a18697170bbb3595d07467428ca243069" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::storage::BlobRedundancyManager::loadConfig</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadConfig</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::loadConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load <ref refid="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), IsMap(), YAML::LoadFile(), spdlog::warn(), lock(), parseBlobConfig(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="394" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="763" bodyend="914"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a2c9fef286c4e42a75887eaa28b305720" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::storage::BlobRedundancyManager::reloadConfig</definition>
+        <argsstring>()</argsstring>
+        <name>reloadConfig</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::reloadConfig</qualifiedname>
+        <briefdescription>
+<para>Reload <ref refid="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a18697170bbb3595d07467428ca243069" kindref="member">loadConfig()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="395" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="921" bodyend="923"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a82bab1f341df86c94a91cabcbd907b61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1storage_1_1_blob_redundancy_config" kindref="compound">BlobRedundancyConfig</ref></type>
+        <definition>BlobRedundancyConfig themisdb::storage::BlobRedundancyManager::getConfigForBlob</definition>
+        <argsstring>(BlobType type, const std::string &amp;collection=&quot;&quot;)</argsstring>
+        <name>getConfigForBlob</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::getConfigForBlob</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098b" kindref="member">BlobType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config" kindref="compound">Config</ref> For Blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), empty(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="396" column="26" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="932" bodyend="963"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1abd87d4c56c8b8a9d2e171bc8ceda382b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::BlobRedundancyManager::setCollectionOverride</definition>
+        <argsstring>(const std::string &amp;collection, const BlobRedundancyConfig &amp;config)</argsstring>
+        <name>setCollectionOverride</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::setCollectionOverride</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1storage_1_1_blob_redundancy_config" kindref="compound">BlobRedundancyConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Collection Override. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="397" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="971" bodyend="977"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a1aeaad2270eb435344860b413783926d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::BlobRedundancyManager::setDocumentOverride</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;doc_id, const BlobRedundancyConfig &amp;config)</argsstring>
+        <name>setDocumentOverride</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::setDocumentOverride</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1storage_1_1_blob_redundancy_config" kindref="compound">BlobRedundancyConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Document Override. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the doc. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="398" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="986" bodyend="994"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1acf4a266e801b367efbb5d304d78652f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::storage::BlobRedundancyManager::registerBlob</definition>
+        <argsstring>(BlobType type, const std::string &amp;local_path, uint64_t size_bytes, const std::string &amp;collection=&quot;&quot;, const std::string &amp;document_id=&quot;&quot;)</argsstring>
+        <name>registerBlob</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::registerBlob</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098b" kindref="member">BlobType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_path</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Register Blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">local_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the local. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateBlobId(), spdlog::info(), <ref refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a82bab1f341df86c94a91cabcbd907b61" kindref="member">getConfigForBlob()</ref>, std::chrono::system_clock::now(), reserve(), totalShards(), push_back(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="402" column="17" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1006" bodyend="1083"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a96abbcdd84f5eb611ad8bf159717f71d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::BlobRedundancyManager::unregisterBlob</definition>
+        <argsstring>(const std::string &amp;blob_id)</argsstring>
+        <name>unregisterBlob</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::unregisterBlob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the blob.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="411" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1090" bodyend="1097"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1aa8dee52c52da8daaeff75f895b07bed0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themisdb::storage::BlobRedundancyManager::ensureRedundancy</definition>
+        <argsstring>(const std::string &amp;blob_id)</argsstring>
+        <name>ensureRedundancy</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::ensureRedundancy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <briefdescription>
+<para>Ensure Redundancy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the blob. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), isHealthy(), themis::OkVoid(), repair_lock(), push(), notify_one(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="414" column="12" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1105" bodyend="1131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a3afaf32585142d8feabca6fcbbe57dfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themisdb::storage::BlobRedundancyManager::repairBlob</definition>
+        <argsstring>(const std::string &amp;blob_id)</argsstring>
+        <name>repairBlob</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::repairBlob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <briefdescription>
+<para>Repair Blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the blob. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), themis::OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="415" column="12" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1139" bodyend="1152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a43cfe4c8799a823cfa1307365cee189e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::storage::BlobRedundancyManager::verifyBlob</definition>
+        <argsstring>(const std::string &amp;blob_id)</argsstring>
+        <name>verifyBlob</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::verifyBlob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <briefdescription>
+<para>Verify Blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the blob. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), empty(), spdlog::warn(), healthyLocationCount(), requiredLocationCount(), getMissingShards(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="416" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1160" bodyend="1226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a2ec9064d506845cbeab611db81a2844c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themisdb::storage::BlobRedundancyManager::writeBlob</definition>
+        <argsstring>(const std::string &amp;blob_id, const std::vector&lt; uint8_t &gt; &amp;data, WriteHandler handler)</argsstring>
+        <name>writeBlob</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::writeBlob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a54e3980c897dec42e923ce38fbf9f93f" kindref="member">WriteHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Write Blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the blob. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), unlock(), ec_backend(), encode(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="419" column="12" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1262" bodyend="1342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1ae7bc0ec622a20536b02221023794f828" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themisdb::storage::BlobRedundancyManager::readBlob</definition>
+        <argsstring>(const std::string &amp;blob_id, ReadHandler handler)</argsstring>
+        <name>readBlob</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::readBlob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a6e4ee254afa1eae72a78a320f542c61b" kindref="member">ReadHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Read Blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the blob. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), unlock(), totalShards(), ecShardId(), ecChunkPath(), handler(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="425" column="12" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1351" bodyend="1436"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a35fcfe5e1b077fce6ab73e58e618bd03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themisdb::storage::BlobRedundancyManager::deleteBlob</definition>
+        <argsstring>(const std::string &amp;blob_id, DeleteHandler handler)</argsstring>
+        <name>deleteBlob</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::deleteBlob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a1a7e6c36214b5e4e65b68b977c4ceef3" kindref="member">DeleteHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Delete Blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the blob. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), reserve(), size(), handler(), push_back(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="430" column="12" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1445" bodyend="1474"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a8b2a7c16e6590d2f6f425fed078aa4a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themisdb::storage::BlobRedundancyManager::tierDown</definition>
+        <argsstring>(const std::string &amp;blob_id, StorageTier target)</argsstring>
+        <name>tierDown</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::tierDown</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1storage_1af621d748d6a2a85cbadefeb0dd4c3bd5" kindref="member">StorageTier</ref></type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Tier Down. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the blob. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), std::chrono::system_clock::now(), updateMetadataStore(), themis::OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="436" column="12" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1483" bodyend="1505"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a3fb179cbeb86c73f192162e7bec555b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themisdb::storage::BlobRedundancyManager::tierUp</definition>
+        <argsstring>(const std::string &amp;blob_id, StorageTier target)</argsstring>
+        <name>tierUp</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::tierUp</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1storage_1af621d748d6a2a85cbadefeb0dd4c3bd5" kindref="member">StorageTier</ref></type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Tier Up. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the blob. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), std::chrono::system_clock::now(), updateMetadataStore(), themis::OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="437" column="12" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1514" bodyend="1536"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1aa9ccf70785a8a25a6672cec16250e8f8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::storage::BlobRedundancyManager::getBlobsForTierDown</definition>
+        <argsstring>() const</argsstring>
+        <name>getBlobsForTierDown</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::getBlobsForTierDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="438" column="17" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1538" bodyend="1566"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a140f3bd6a71b98a358cd29f21fd01284" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1storage_1_1_blob_metadata" kindref="compound">BlobMetadata</ref></type>
+        <definition>BlobMetadata themisdb::storage::BlobRedundancyManager::getBlobMetadata</definition>
+        <argsstring>(const std::string &amp;blob_id) const</argsstring>
+        <name>getBlobMetadata</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::getBlobMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="441" column="18" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1568" bodyend="1582"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a7c71d95be0aa2e87b6367306ead50386" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::storage::BlobRedundancyManager::getDegradedBlobs</definition>
+        <argsstring>() const</argsstring>
+        <name>getDegradedBlobs</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::getDegradedBlobs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="442" column="17" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1584" bodyend="1602"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1ab944ff8421a3e7a6b6a744b5a5ee0254" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::storage::BlobRedundancyManager::getCriticalBlobs</definition>
+        <argsstring>() const</argsstring>
+        <name>getCriticalBlobs</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::getCriticalBlobs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="443" column="17" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1604" bodyend="1622"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a131b366e51946b14c83b272b1ecac82f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats" kindref="compound">BlobRedundancyStats</ref></type>
+        <definition>BlobRedundancyStats themisdb::storage::BlobRedundancyManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="444" column="25" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1624" bodyend="1667"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1af168f79cf418058ce7bd18dfd36981e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::BlobRedundancyManager::runMaintenanceCycle</definition>
+        <argsstring>()</argsstring>
+        <name>runMaintenanceCycle</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::runMaintenanceCycle</qualifiedname>
+        <briefdescription>
+<para>Run Maintenance Cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: spdlog::debug(), <ref refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a7c71d95be0aa2e87b6367306ead50386" kindref="member">getDegradedBlobs()</ref>, spdlog::info(), size(), lock(), push(), notify_one(), <ref refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1aa9ccf70785a8a25a6672cec16250e8f8" kindref="member">getBlobsForTierDown()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="447" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1673" bodyend="1700"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a91c22420c2fece21e9d2fc8435d62740" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::BlobRedundancyManager::runScrub</definition>
+        <argsstring>(bool full=false)</argsstring>
+        <name>runScrub</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::runScrub</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>full</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Run Scrub. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">full</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(), lock(), reserve(), size(), isHealthy(), getMissingShards(), spdlog::warn(), healthyLocationCount(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="448" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1707" bodyend="1775"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a52cfbea5cf39ea0449bd90a1bf314c2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::BlobRedundancyManager::runRepairQueue</definition>
+        <argsstring>()</argsstring>
+        <name>runRepairQueue</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::runRepairQueue</qualifiedname>
+        <briefdescription>
+<para>Run Repair Queue. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: spdlog::debug(), lock(), empty(), front(), pop(), <ref refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a3afaf32585142d8feabca6fcbbe57dfa" kindref="member">repairBlob()</ref>, spdlog::warn(), error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="449" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1781" bodyend="1800"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1aaa530782423279c2ee8a57b7fd5868ea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::storage::BlobRedundancyManager::exportPrometheusMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>exportPrometheusMetrics</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::exportPrometheusMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="452" column="17" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1802" bodyend="1840"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1accd55a4822dd13f904d658621ac1fe3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::shared_ptr&lt; <ref refid="classrocksdb_1_1_event_listener" kindref="compound">rocksdb::EventListener</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::shared_ptr&lt; rocksdb::EventListener &gt; &gt; themisdb::storage::BlobRedundancyManager::createRocksDBListener</definition>
+        <argsstring>()</argsstring>
+        <name>createRocksDBListener</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::createRocksDBListener</qualifiedname>
+        <briefdescription>
+<para>Create Rocks DBListener. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: themis::Ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="455" column="12" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1847" bodyend="1850"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a63fe3bd43b1d2db9a7e428eb4910de39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::BlobRedundancyManager::notifySSTFileDeleted</definition>
+        <argsstring>(const std::string &amp;file_path)</argsstring>
+        <name>notifySSTFileDeleted</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::notifySSTFileDeleted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <briefdescription>
+<para>Notify SSTFile Deleted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), reserve(), size(), healthyLocationCount(), requiredLocationCount(), canRecover(), push_back(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="460" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1857" bodyend="1913"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1aff89bd700a8d4eab15f3e815e73a9336" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::BlobRedundancyManager::maintenanceLoop</definition>
+        <argsstring>()</argsstring>
+        <name>maintenanceLoop</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::maintenanceLoop</qualifiedname>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Private Methods ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: spdlog::info(), load(), <ref refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1af168f79cf418058ce7bd18dfd36981e8" kindref="member">runMaintenanceCycle()</ref>, spdlog::error(), what(), lock(), wait_for(), std::chrono::seconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="496" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1920" bodyend="1938"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1ae54d1b1973d760be6f0a0955e4fcb881" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::BlobRedundancyManager::repairLoop</definition>
+        <argsstring>()</argsstring>
+        <name>repairLoop</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::repairLoop</qualifiedname>
+        <briefdescription>
+<para>Repair Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: spdlog::info(), load(), lock(), wait_for(), std::chrono::seconds(), empty(), unlock(), <ref refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a52cfbea5cf39ea0449bd90a1bf314c2f" kindref="member">runRepairQueue()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="497" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1944" bodyend="1969"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a6f7dddf9d758f4e81377812fa575aae5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::BlobRedundancyManager::configReloadLoop</definition>
+        <argsstring>()</argsstring>
+        <name>configReloadLoop</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::configReloadLoop</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config" kindref="compound">Config</ref> Reload Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: spdlog::info(), load(), lock(), wait_for(), std::chrono::seconds(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="498" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="1975" bodyend="1999"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a4f60131b1608c981b56c8a6bdbc59360" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::storage::BlobRedundancyManager::generateBlobId</definition>
+        <argsstring>()</argsstring>
+        <name>generateBlobId</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::generateBlobId</qualifiedname>
+        <briefdescription>
+<para>Generate Blob Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: gen(), rd(), dis(), std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="500" column="17" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="2006" bodyend="2017"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a085e518aee8336a2e823a7e94533cff3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::storage::BlobRedundancyManager::calculateChecksum</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>calculateChecksum</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::calculateChecksum</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Checksum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="501" column="17" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="2025" bodyend="2036"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1af662d92cfa0d83f4afe4799d95fdad2d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098b" kindref="member">BlobType</ref></type>
+        <definition>BlobType themisdb::storage::BlobRedundancyManager::classifyBlobType</definition>
+        <argsstring>(const std::string &amp;path, uint64_t size)</argsstring>
+        <name>classifyBlobType</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::classifyBlobType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Classify Blob Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="502" column="14" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="2045" bodyend="2072"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a62d0232b754dc2ad72e882979abc4e95" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::storage::BlobRedundancyManager::replicateToShard</definition>
+        <argsstring>(const std::string &amp;shard_id, const BlobMetadata &amp;blob, const std::vector&lt; uint8_t &gt; &amp;data, WriteHandler handler)</argsstring>
+        <name>replicateToShard</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::replicateToShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1storage_1_1_blob_metadata" kindref="compound">BlobMetadata</ref> &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a54e3980c897dec42e923ce38fbf9f93f" kindref="member">WriteHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Replicate To Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: handler(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="504" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="2083" bodyend="2090"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a2a91dbdd4a317efa5125479b2ba06d2e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::storage::BlobRedundancyManager::deleteFromShard</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;path, DeleteHandler handler)</argsstring>
+        <name>deleteFromShard</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::deleteFromShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a1a7e6c36214b5e4e65b68b977c4ceef3" kindref="member">DeleteHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Delete From Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: handler(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="506" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="2100" bodyend="2106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1afbe5a6bb5d848d73135285337815c996" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::storage::BlobRedundancyManager::selectTargetShards</definition>
+        <argsstring>(const BlobMetadata &amp;blob)</argsstring>
+        <name>selectTargetShards</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::selectTargetShards</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1storage_1_1_blob_metadata" kindref="compound">BlobMetadata</ref> &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Select Target Shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="509" column="17" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="2114" bodyend="2125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1ae08f1225ad713a5c302686122c6d7a78" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::storage::BlobRedundancyManager::selectReadShard</definition>
+        <argsstring>(const BlobMetadata &amp;blob)</argsstring>
+        <name>selectReadShard</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::selectReadShard</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1storage_1_1_blob_metadata" kindref="compound">BlobMetadata</ref> &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Select Read Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="510" column="17" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="2133" bodyend="2148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a547bab13ee3d52488c00fa730813aec3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::BlobRedundancyManager::updateMetadataStore</definition>
+        <argsstring>(const BlobMetadata &amp;blob)</argsstring>
+        <name>updateMetadataStore</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::updateMetadataStore</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1storage_1_1_blob_metadata" kindref="compound">BlobMetadata</ref> &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Update Metadata Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="512" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="2155" bodyend="2164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a455b277324c9c77dbb2a46214a5c9174" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::BlobRedundancyManager::removeFromMetadataStore</definition>
+        <argsstring>(const std::string &amp;blob_id)</argsstring>
+        <name>removeFromMetadataStore</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::removeFromMetadataStore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove From Metadata Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the blob.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="513" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="2171" bodyend="2178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a592dec38f3f923e91e5f1398961b7980" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::storage::BlobRedundancyManager::loadFromMetadataStore</definition>
+        <argsstring>()</argsstring>
+        <name>loadFromMetadataStore</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::loadFromMetadataStore</qualifiedname>
+        <briefdescription>
+<para>Load From Metadata Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements loadFromMetadataStore without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="514" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="2184" bodyend="2187"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Blob Redundancy Manager</para>
+<para>Central manager for blob-level redundancy, integrating with RocksDB and providing fine-grained control over storage and replication. </para>
+    </detaileddescription>
+    <location file="include/storage/blob_redundancy_manager.h" line="341" column="1" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="341" bodyend="515"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1ad944710c92aaeb1034e2af031f1472a3" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>blob_type_configs_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a912190f4c9ec592c215479566e26b0a6" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>BlobRedundancyManager</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a80b7344ed678d6f4399c7c84f24f99e0" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>blobs_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a64a53e6c3d9d1e7479489fe12243b55a" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>blobs_mutex_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a085e518aee8336a2e823a7e94533cff3" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>calculateChecksum</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1af662d92cfa0d83f4afe4799d95fdad2d" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>classifyBlobType</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1acd27bdc4593cda94e964622aee19d523" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>collection_overrides_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1ad159fbcbb13fe935678f9504d77d435e" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1aad85a73a8b7bbf54a61ae519ef697b21" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>config_mutex_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1adfd4f15bad24f73fa9eca6707177a818" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>config_reload_thread_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a6f7dddf9d758f4e81377812fa575aae5" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>configReloadLoop</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1accd55a4822dd13f904d658621ac1fe3f" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>createRocksDBListener</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a35fcfe5e1b077fce6ab73e58e618bd03" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>deleteBlob</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a2a91dbdd4a317efa5125479b2ba06d2e" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>deleteFromShard</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a1a7e6c36214b5e4e65b68b977c4ceef3" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>DeleteHandler</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a25ec38316f37d605ed365f0861395b4b" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>document_overrides_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1aa8dee52c52da8daaeff75f895b07bed0" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>ensureRedundancy</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1aaa530782423279c2ee8a57b7fd5868ea" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>exportPrometheusMetrics</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a4f60131b1608c981b56c8a6bdbc59360" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>generateBlobId</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a140f3bd6a71b98a358cd29f21fd01284" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>getBlobMetadata</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1aa9ccf70785a8a25a6672cec16250e8f8" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>getBlobsForTierDown</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a82bab1f341df86c94a91cabcbd907b61" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>getConfigForBlob</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1ab944ff8421a3e7a6b6a744b5a5ee0254" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>getCriticalBlobs</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a7c71d95be0aa2e87b6367306ead50386" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>getDegradedBlobs</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a131b366e51946b14c83b272b1ecac82f" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a8e0df55572f5bd71b530b14f9563200d" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>isRunning</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a18697170bbb3595d07467428ca243069" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>loadConfig</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a592dec38f3f923e91e5f1398961b7980" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>loadFromMetadataStore</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1ac977d4fdb9ccfb2f3b9af5f41a38fdd9" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>maintenance_thread_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1aff89bd700a8d4eab15f3e815e73a9336" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>maintenanceLoop</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a63fe3bd43b1d2db9a7e428eb4910de39" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>notifySSTFileDeleted</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1ae7bc0ec622a20536b02221023794f828" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>readBlob</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a6e4ee254afa1eae72a78a320f542c61b" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>ReadHandler</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1acf4a266e801b367efbb5d304d78652f1" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>registerBlob</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a2c9fef286c4e42a75887eaa28b305720" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>reloadConfig</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a455b277324c9c77dbb2a46214a5c9174" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>removeFromMetadataStore</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1aa837f9ab2c9e7276e5528ada111f4e91" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>repair_cv_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a6c1fd8a8ff1bca1f59b836f2338185c5" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>repair_mutex_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a9ebce5996b4d8f449d8d3ee50c83e065" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>repair_queue_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1afe1943bb7c835c7a620ef93c9b5bd512" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>repair_thread_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a3afaf32585142d8feabca6fcbbe57dfa" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>repairBlob</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1ae54d1b1973d760be6f0a0955e4fcb881" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>repairLoop</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a62d0232b754dc2ad72e882979abc4e95" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>replicateToShard</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1af168f79cf418058ce7bd18dfd36981e8" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>runMaintenanceCycle</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a2a496732747eb624727c0fe5e9db09c7" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a52cfbea5cf39ea0449bd90a1bf314c2f" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>runRepairQueue</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a91c22420c2fece21e9d2fc8435d62740" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>runScrub</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1ae08f1225ad713a5c302686122c6d7a78" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>selectReadShard</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1afbe5a6bb5d848d73135285337815c996" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>selectTargetShards</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1abd87d4c56c8b8a9d2e171bc8ceda382b" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>setCollectionOverride</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a1aeaad2270eb435344860b413783926d" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>setDocumentOverride</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a2b678e5550745749cf7d2f58b6f75186" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>shutdown_cv_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1af140b288c0cb03cba66ae2b548ee4000" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>shutdown_mutex_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a5476a5e61e3835d101be10639994cb75" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a7aa4260fba6a95fe8993e7dc18ae07a5" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>stats_repairs_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a9c5721d46a800439779dc53791726d7a" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>stats_tier_transitions_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a813e17199d481800bd01b2d79e47cb2e" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>stats_total_blobs_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1aff710ebd587b265dcb80daaea38670d4" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>stop</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1afbe16c15c158639ea6540135961ec30b" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>tier_configs_</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a8b2a7c16e6590d2f6f425fed078aa4a0" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>tierDown</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a3fb179cbeb86c73f192162e7bec555b9" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>tierUp</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a96abbcdd84f5eb611ad8bf159717f71d" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>unregisterBlob</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a547bab13ee3d52488c00fa730813aec3" prot="private" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>updateMetadataStore</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a43cfe4c8799a823cfa1307365cee189e" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>verifyBlob</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a2ec9064d506845cbeab611db81a2844c" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>writeBlob</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a54e3980c897dec42e923ce38fbf9f93f" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>WriteHandler</name></member>
+      <member refid="classthemisdb_1_1storage_1_1_blob_redundancy_manager_1a25b892695e1f1caf8c9bd29b2bc72a7d" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager</scope><name>~BlobRedundancyManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

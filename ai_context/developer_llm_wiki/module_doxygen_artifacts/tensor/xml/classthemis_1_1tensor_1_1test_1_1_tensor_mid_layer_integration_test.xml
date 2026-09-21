@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::test::TensorMidLayerIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test_1a37dc049bddc469349921b39f6bd7282e" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_mid_layer" kindref="compound">TensorMidLayer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TensorMidLayer&gt; themis::tensor::test::TensorMidLayerIntegrationTest::mid_layer_</definition>
+        <argsstring></argsstring>
+        <name>mid_layer_</name>
+        <qualifiedname>themis::tensor::test::TensorMidLayerIntegrationTest::mid_layer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_integration.cpp" line="54" column="21" bodyfile="tests/tensor/test_tensor_mid_layer_integration.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test_1af97b31e93855b2619738b79bb4c0f59e" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_adapter_repository" kindref="compound">AdapterRepository</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AdapterRepository&gt; themis::tensor::test::TensorMidLayerIntegrationTest::adapter_repo_</definition>
+        <argsstring></argsstring>
+        <name>adapter_repo_</name>
+        <qualifiedname>themis::tensor::test::TensorMidLayerIntegrationTest::adapter_repo_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_integration.cpp" line="55" column="21" bodyfile="tests/tensor/test_tensor_mid_layer_integration.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test_1a4c0468f2834154f5bc6bdd2327106dc2" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TensorFingerprintGraph&gt; themis::tensor::test::TensorMidLayerIntegrationTest::fingerprint_graph_</definition>
+        <argsstring></argsstring>
+        <name>fingerprint_graph_</name>
+        <qualifiedname>themis::tensor::test::TensorMidLayerIntegrationTest::fingerprint_graph_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_integration.cpp" line="56" column="21" bodyfile="tests/tensor/test_tensor_mid_layer_integration.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test_1ab62246f793e8bdd7d0358c0e004aee17" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_error_handler" kindref="compound">TensorErrorHandler</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TensorErrorHandler&gt; themis::tensor::test::TensorMidLayerIntegrationTest::error_handler_</definition>
+        <argsstring></argsstring>
+        <name>error_handler_</name>
+        <qualifiedname>themis::tensor::test::TensorMidLayerIntegrationTest::error_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_integration.cpp" line="57" column="21" bodyfile="tests/tensor/test_tensor_mid_layer_integration.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test_1a4dce4df0155044de9824e1660f0f1040" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::test::TensorMidLayerIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::tensor::test::TensorMidLayerIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_integration.cpp" line="44" column="10" bodyfile="tests/tensor/test_tensor_mid_layer_integration.cpp" bodystart="44" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Integration test harness for full tensor mid-layer pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::tensor::test::TensorMidLayerIntegrationTest</label>
+        <link refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::tensor::test::TensorMidLayerIntegrationTest</label>
+        <link refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/tensor/test_tensor_mid_layer_integration.cpp" line="42" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_integration.cpp" bodystart="42" bodyend="58"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test_1af97b31e93855b2619738b79bb4c0f59e" prot="protected" virt="non-virtual"><scope>themis::tensor::test::TensorMidLayerIntegrationTest</scope><name>adapter_repo_</name></member>
+      <member refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test_1ab62246f793e8bdd7d0358c0e004aee17" prot="protected" virt="non-virtual"><scope>themis::tensor::test::TensorMidLayerIntegrationTest</scope><name>error_handler_</name></member>
+      <member refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test_1a4c0468f2834154f5bc6bdd2327106dc2" prot="protected" virt="non-virtual"><scope>themis::tensor::test::TensorMidLayerIntegrationTest</scope><name>fingerprint_graph_</name></member>
+      <member refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test_1a37dc049bddc469349921b39f6bd7282e" prot="protected" virt="non-virtual"><scope>themis::tensor::test::TensorMidLayerIntegrationTest</scope><name>mid_layer_</name></member>
+      <member refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test_1a4dce4df0155044de9824e1660f0f1040" prot="protected" virt="non-virtual"><scope>themis::tensor::test::TensorMidLayerIntegrationTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

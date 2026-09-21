@@ -1,0 +1,503 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__memory__hierarchy_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_memory_hierarchy.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">string</includes>
+    <includes local="yes">themis/gpu/ivram_policy.h</includes>
+    <includes local="yes">themis/gpu/memory_manager.h</includes>
+    <includes local="yes">llm/gpu_memory_manager.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_memory_hierarchy.cpp</label>
+        <link refid="test__gpu__memory__hierarchy_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>llm/gpu_memory_manager.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>themis/gpu/ivram_policy.h</label>
+      </node>
+      <node id="5">
+        <label>themis/gpu/memory_manager.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_i_v_r_a_m_policy_test" prot="public">IVRAMPolicyTest</innerclass>
+    <innerclass refid="class_l_l_m_to_canonical_delegation_test" prot="public">LLMToCanonicalDelegationTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__memory__hierarchy_8cpp_1ad2c5c23f48c101403e86a23c47cdfdb6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void DrainCanonicalManager</definition>
+        <argsstring>()</argsstring>
+        <name>DrainCanonicalManager</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="13" column="13" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="13" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__memory__hierarchy_8cpp_1a35226f0287e448307b1169304d73daae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IVRAMPolicyTest, CanonicalManagerImplementsInterface)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>CanonicalManagerImplementsInterface</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="34" column="1" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="34" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__memory__hierarchy_8cpp_1a02609d55682bbeca43c335d32fbdfb5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IVRAMPolicyTest, IsGPUEnabled_MatchesEditionConstant)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>IsGPUEnabled_MatchesEditionConstant</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="40" column="1" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__memory__hierarchy_8cpp_1a2a1a7aabda022f0c8a60937b237be948" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IVRAMPolicyTest, UsedBytes_InitiallyZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>UsedBytes_InitiallyZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="45" column="1" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__memory__hierarchy_8cpp_1ab32df8e99b710d4368d1e5c0ce5a90b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IVRAMPolicyTest, OnAllocate_IncreasesUsedBytes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>OnAllocate_IncreasesUsedBytes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="50" column="1" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="50" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__memory__hierarchy_8cpp_1a0fa48583a10b1bf6dcfadfae446a645a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IVRAMPolicyTest, OnDeallocate_DecreasesUsedBytes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>OnDeallocate_DecreasesUsedBytes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="60" column="1" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="60" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__memory__hierarchy_8cpp_1a83cedcdba5422a2786d6fb7fc3e6ded0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IVRAMPolicyTest, CanAllocate_ReturnsTrueWhenBelowLimit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>CanAllocate_ReturnsTrueWhenBelowLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="72" column="1" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="72" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__memory__hierarchy_8cpp_1ab21744e3c3ff50066795b767b586229b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IVRAMPolicyTest, CanAllocate_ReturnsFalseWhenAboveLimit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>CanAllocate_ReturnsFalseWhenAboveLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="80" column="1" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="80" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__memory__hierarchy_8cpp_1a76051c202b21ad449f0614351be00914" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IVRAMPolicyTest, TenantIsolation_ViaInterface)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>TenantIsolation_ViaInterface</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="86" column="1" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="86" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__memory__hierarchy_8cpp_1a56e08c809bbaff5fe21986bca259d4db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMToCanonicalDelegationTest, CanonicalManagerIsGPUEnabledConsistency)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_to_canonical_delegation_test" kindref="compound">LLMToCanonicalDelegationTest</ref></type>
+        </param>
+        <param>
+          <type>CanonicalManagerIsGPUEnabledConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="120" column="1" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="120" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__memory__hierarchy_8cpp_1a4a36da5b2da00e9e5f3db00744176f1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMToCanonicalDelegationTest, LLMManagerAllocate_GatedByCanonical)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_to_canonical_delegation_test" kindref="compound">LLMToCanonicalDelegationTest</ref></type>
+        </param>
+        <param>
+          <type>LLMManagerAllocate_GatedByCanonical</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="130" column="1" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="130" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__memory__hierarchy_8cpp_1a636a8c893f8813e6976faf8f96eced32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMToCanonicalDelegationTest, TenantQuota_EnforcedAcrossHierarchy)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_to_canonical_delegation_test" kindref="compound">LLMToCanonicalDelegationTest</ref></type>
+        </param>
+        <param>
+          <type>TenantQuota_EnforcedAcrossHierarchy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="160" column="1" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="160" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__memory__hierarchy_8cpp_1ac0bb9781416aad4f9822b9a60ef93907" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IVRAMPolicyTest, OnAllocate_WithTenant_UpdatesTenantStats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>OnAllocate_WithTenant_UpdatesTenantStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="185" column="1" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="185" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/ivram_policy.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/memory_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm/gpu_memory_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>DrainCanonicalManager()<sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/>GPUMemoryManager::GetInstance();</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>used<sp/>=<sp/>mgr.GetGPUMemoryUsed();</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(used<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.DeallocateGPU(used);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ts<sp/>:<sp/>mgr.GetAllTenantStats())<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.RemoveTenantQuota(ts.tenant_id);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IVRAMPolicy<sp/>interface<sp/>contract<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="class_i_v_r_a_m_policy_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_i_v_r_a_m_policy_test_1a66d60dbe0a8aee6d7f91337a4d7937ea" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/>DrainCanonicalManager();<sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_i_v_r_a_m_policy_test_1acac0894b2ff75309d063543cfc952af8" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/>DrainCanonicalManager();<sp/>}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="test__gpu__memory__hierarchy_8cpp_1a35226f0287e448307b1169304d73daae" kindref="member">TEST_F</ref>(<ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref>,<sp/>CanonicalManagerImplementsInterface)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPUMemoryManager<sp/>must<sp/>be<sp/>usable<sp/>through<sp/>the<sp/>IVRAMPolicy<sp/>interface<sp/>pointer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>IVRAMPolicy*<sp/>policy<sp/>=<sp/>&amp;GPUMemoryManager::GetInstance();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(policy,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><ref refid="test__gpu__memory__hierarchy_8cpp_1a35226f0287e448307b1169304d73daae" kindref="member">TEST_F</ref>(<ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref>,<sp/>IsGPUEnabled_MatchesEditionConstant)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>IVRAMPolicy&amp;<sp/>policy<sp/>=<sp/>GPUMemoryManager::GetInstance();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.isGPUEnabled(),<sp/>GPUMemoryManager::GetMaxGPUVRAMGB()<sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="test__gpu__memory__hierarchy_8cpp_1a35226f0287e448307b1169304d73daae" kindref="member">TEST_F</ref>(<ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref>,<sp/>UsedBytes_InitiallyZero)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>IVRAMPolicy&amp;<sp/>policy<sp/>=<sp/>GPUMemoryManager::GetInstance();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.usedBytes(),<sp/>0u);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__gpu__memory__hierarchy_8cpp_1a35226f0287e448307b1169304d73daae" kindref="member">TEST_F</ref>(<ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref>,<sp/>OnAllocate_IncreasesUsedBytes)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!GPUMemoryManager::GetInstance().isGPUEnabled())<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;capability:gpu_edition_enabled=false;reason=edition_limit_zero&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>IVRAMPolicy&amp;<sp/>policy<sp/>=<sp/>GPUMemoryManager::GetInstance();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>kOneMB<sp/>=<sp/>1024ULL<sp/>*<sp/>1024ULL;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.onAllocate(kOneMB,<sp/></highlight><highlight class="stringliteral">&quot;test-tag&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.usedBytes(),<sp/>kOneMB);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__gpu__memory__hierarchy_8cpp_1a35226f0287e448307b1169304d73daae" kindref="member">TEST_F</ref>(<ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref>,<sp/>OnDeallocate_DecreasesUsedBytes)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!GPUMemoryManager::GetInstance().isGPUEnabled())<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;capability:gpu_edition_enabled=false;reason=edition_limit_zero&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>IVRAMPolicy&amp;<sp/>policy<sp/>=<sp/>GPUMemoryManager::GetInstance();</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>kOneMB<sp/>=<sp/>1024ULL<sp/>*<sp/>1024ULL;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.onAllocate(kOneMB,<sp/></highlight><highlight class="stringliteral">&quot;test-tag&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(policy.usedBytes(),<sp/>kOneMB);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.onDeallocate(kOneMB);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.usedBytes(),<sp/>0u);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__gpu__memory__hierarchy_8cpp_1a35226f0287e448307b1169304d73daae" kindref="member">TEST_F</ref>(<ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref>,<sp/>CanAllocate_ReturnsTrueWhenBelowLimit)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!GPUMemoryManager::GetInstance().isGPUEnabled())<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;capability:gpu_edition_enabled=false;reason=edition_limit_zero&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>IVRAMPolicy&amp;<sp/>policy<sp/>=<sp/>GPUMemoryManager::GetInstance();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy.canAllocate(1024ULL<sp/>*<sp/>1024ULL));</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__gpu__memory__hierarchy_8cpp_1a35226f0287e448307b1169304d73daae" kindref="member">TEST_F</ref>(<ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref>,<sp/>CanAllocate_ReturnsFalseWhenAboveLimit)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>IVRAMPolicy&amp;<sp/>policy<sp/>=<sp/>GPUMemoryManager::GetInstance();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Requesting<sp/>UINT64_MAX<sp/>bytes<sp/>must<sp/>always<sp/>fail<sp/>regardless<sp/>of<sp/>edition.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.canAllocate(std::numeric_limits&lt;uint64_t&gt;::max()));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__gpu__memory__hierarchy_8cpp_1a35226f0287e448307b1169304d73daae" kindref="member">TEST_F</ref>(<ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref>,<sp/>TenantIsolation_ViaInterface)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!GPUMemoryManager::GetInstance().isGPUEnabled())<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;capability:gpu_edition_enabled=false;reason=edition_limit_zero&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/>GPUMemoryManager::GetInstance();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>IVRAMPolicy&amp;<sp/>policy<sp/>=<sp/>mgr;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>tenant<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-tenant-hierarchy&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>kQuota<sp/>=<sp/>4ULL<sp/>*<sp/>1024ULL<sp/>*<sp/>1024ULL;<sp/><sp/></highlight><highlight class="comment">//<sp/>4<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.SetTenantQuota(tenant,<sp/>kQuota);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Within<sp/>quota:<sp/>canAllocate<sp/>should<sp/>return<sp/>true.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy.canAllocate(kQuota,<sp/>tenant));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exceeds<sp/>quota:<sp/>canAllocate<sp/>should<sp/>return<sp/>false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.canAllocate(kQuota<sp/>+<sp/>1,<sp/>tenant));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.RemoveTenantQuota(tenant);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cross-namespace<sp/>accounting:<sp/>LLM<sp/>manager<sp/>registers<sp/>with<sp/>canonical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="class_l_l_m_to_canonical_delegation_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_l_l_m_to_canonical_delegation_test" kindref="compound">LLMToCanonicalDelegationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_l_l_m_to_canonical_delegation_test_1a77e1c3d8bc283f1f25be51d696070510" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DrainCanonicalManager();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_l_l_m_to_canonical_delegation_test_1a4ad336189b11835da9134cf3ffa1ca71" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DrainCanonicalManager();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__gpu__memory__hierarchy_8cpp_1a35226f0287e448307b1169304d73daae" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_to_canonical_delegation_test" kindref="compound">LLMToCanonicalDelegationTest</ref>,<sp/>CanonicalManagerIsGPUEnabledConsistency)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>canonical<sp/>manager&apos;s<sp/>isGPUEnabled()<sp/>result<sp/>should<sp/>be<sp/>usable<sp/>as<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>prerequisite<sp/>gate<sp/>in<sp/>tests<sp/>that<sp/>exercise<sp/>cross-namespace<sp/>delegation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>canonical<sp/>=<sp/>GPUMemoryManager::GetInstance();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Just<sp/>validate<sp/>the<sp/>getter<sp/>returns<sp/>a<sp/>consistent<sp/>value.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>first<sp/><sp/>=<sp/>canonical.isGPUEnabled();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>second<sp/>=<sp/>canonical.isGPUEnabled();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(first,<sp/>second);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__gpu__memory__hierarchy_8cpp_1a35226f0287e448307b1169304d73daae" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_to_canonical_delegation_test" kindref="compound">LLMToCanonicalDelegationTest</ref>,<sp/>LLMManagerAllocate_GatedByCanonical)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>the<sp/>canonical<sp/>manager<sp/>has<sp/>the<sp/>global<sp/>VRAM<sp/>budget<sp/>exhausted,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>LLM<sp/>manager<sp/>must<sp/>reject<sp/>new<sp/>allocations.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>canonical<sp/>=<sp/>GPUMemoryManager::GetInstance();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!canonical.isGPUEnabled())<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;capability:gpu_edition_enabled=false;reason=edition_limit_zero&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fill<sp/>the<sp/>canonical<sp/>budget<sp/>completely.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>limit<sp/>=<sp/>GPUMemoryManager::GetMaxGPUVRAMBytes();</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(canonical.TryAllocateGPU(limit,<sp/></highlight><highlight class="stringliteral">&quot;fill-budget&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(canonical.GetGPUMemoryUsed(),<sp/>limit);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>attempt<sp/>an<sp/>LLM-manager<sp/>allocation;<sp/>it<sp/>should<sp/>be<sp/>rejected<sp/>because</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>canonical<sp/>policy<sp/>has<sp/>no<sp/>headroom<sp/>left.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::llm::GPUMemoryManager::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_vram_bytes<sp/>=<sp/>64ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>plenty<sp/>of<sp/>local<sp/>room</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::llm::GPUMemoryManager<sp/>llm_mgr(cfg);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/>llm_mgr.allocateGPU(</highlight><highlight class="stringliteral">&quot;model-x&quot;</highlight><highlight class="normal">,<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ptr,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>nullptr<sp/>when<sp/>canonical<sp/>budget<sp/>is<sp/>exhausted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clean<sp/>up.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>canonical.DeallocateGPU(limit);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tenant<sp/>isolation<sp/>via<sp/>canonical<sp/>manager<sp/>quota<sp/>propagation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__gpu__memory__hierarchy_8cpp_1a35226f0287e448307b1169304d73daae" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_to_canonical_delegation_test" kindref="compound">LLMToCanonicalDelegationTest</ref>,<sp/>TenantQuota_EnforcedAcrossHierarchy)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>canonical<sp/>=<sp/>GPUMemoryManager::GetInstance();</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!canonical.isGPUEnabled())<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;capability:gpu_edition_enabled=false;reason=edition_limit_zero&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>a<sp/>tiny<sp/>per-tenant<sp/>quota<sp/>on<sp/>the<sp/>canonical<sp/>manager.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>tenant<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;llm-hierarchy-tenant&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>kQuotaBytes<sp/>=<sp/>2ULL<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>canonical.SetTenantQuota(tenant,<sp/>kQuotaBytes);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>canonical<sp/>manager<sp/>must<sp/>reject<sp/>any<sp/>request<sp/>that<sp/>would<sp/>exceed<sp/>the<sp/>quota.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(canonical.TryAllocateGPU(kQuotaBytes,<sp/></highlight><highlight class="stringliteral">&quot;alloc-ok&quot;</highlight><highlight class="normal">,<sp/>tenant));</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(canonical.TryAllocateGPU(1,<sp/></highlight><highlight class="stringliteral">&quot;alloc-denied&quot;</highlight><highlight class="normal">,<sp/>tenant))</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Second<sp/>allocation<sp/>should<sp/>exceed<sp/>tenant<sp/>quota&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>canonical.DeallocateGPU(kQuotaBytes,<sp/>tenant);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>canonical.RemoveTenantQuota(tenant);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IVRAMPolicy::onAllocate/onDeallocate<sp/>consistency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__gpu__memory__hierarchy_8cpp_1a35226f0287e448307b1169304d73daae" kindref="member">TEST_F</ref>(<ref refid="class_i_v_r_a_m_policy_test" kindref="compound">IVRAMPolicyTest</ref>,<sp/>OnAllocate_WithTenant_UpdatesTenantStats)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!GPUMemoryManager::GetInstance().isGPUEnabled())<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;capability:gpu_edition_enabled=false;reason=edition_limit_zero&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/>GPUMemoryManager::GetInstance();</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>IVRAMPolicy&amp;<sp/>policy<sp/>=<sp/>mgr;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>tenant<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;policy-tenant&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>kBytes<sp/>=<sp/>512ULL<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>512<sp/>KB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.SetTenantQuota(tenant,<sp/>kBytes<sp/>*<sp/>4);<sp/><sp/></highlight><highlight class="comment">//<sp/>enough<sp/>room</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.onAllocate(kBytes,<sp/></highlight><highlight class="stringliteral">&quot;lora-layer&quot;</highlight><highlight class="normal">,<sp/>tenant);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.usedBytes(),<sp/>kBytes);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>mgr.GetTenantStats(tenant);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ts.allocated_bytes,<sp/>kBytes);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.onDeallocate(kBytes,<sp/>tenant);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.usedBytes(),<sp/>0u);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>ts<sp/>=<sp/>mgr.GetTenantStats(tenant);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ts.allocated_bytes,<sp/>0u);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.RemoveTenantQuota(tenant);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_memory_hierarchy.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1access__model_1_1_tier_transition_log" kind="struct" language="C++" prot="public">
+    <compoundname>themis::access_model::TierTransitionLog</compoundname>
+    <includes refid="access__model__logging_8h" local="no">access_model_logging.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_tier_transition_log_1a345f30c856e43bee79e1775cbe2295c5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::TierTransitionLog::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::access_model::TierTransitionLog::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="42" column="17" bodyfile="include/access_model/access_model_logging.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_tier_transition_log_1ae40fda22bf42035be46da2ee9eda098b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+        <definition>TierLevel themis::access_model::TierTransitionLog::from_tier</definition>
+        <argsstring></argsstring>
+        <name>from_tier</name>
+        <qualifiedname>themis::access_model::TierTransitionLog::from_tier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="44" column="15" bodyfile="include/access_model/access_model_logging.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_tier_transition_log_1abbdf3b5d121765f12678d5cae9dd7ca8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+        <definition>TierLevel themis::access_model::TierTransitionLog::to_tier</definition>
+        <argsstring></argsstring>
+        <name>to_tier</name>
+        <qualifiedname>themis::access_model::TierTransitionLog::to_tier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="46" column="15" bodyfile="include/access_model/access_model_logging.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_tier_transition_log_1afc4b851b9d67bedc49fb3206d13012d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::TierTransitionLog::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::access_model::TierTransitionLog::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="48" column="17" bodyfile="include/access_model/access_model_logging.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_tier_transition_log_1afdb04899c865f70531146d9d4f41de90" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::TierTransitionLog::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::access_model::TierTransitionLog::latency_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="50" column="14" bodyfile="include/access_model/access_model_logging.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_tier_transition_log_1a908e82a8928638e7b32dd74baba73986" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::TierTransitionLog::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::access_model::TierTransitionLog::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="52" column="17" bodyfile="include/access_model/access_model_logging.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_tier_transition_log_1a240c169719361b94e4309b0555e1b68a" prot="public" static="no" mutable="no">
+        <type>std::thread::id</type>
+        <definition>std::thread::id themis::access_model::TierTransitionLog::thread_id</definition>
+        <argsstring></argsstring>
+        <name>thread_id</name>
+        <qualifiedname>themis::access_model::TierTransitionLog::thread_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="54" column="21" bodyfile="include/access_model/access_model_logging.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_tier_transition_log_1ab703fc428f12115852bb4ca05ebbc862" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::access_model::TierTransitionLog::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::access_model::TierTransitionLog::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="56" column="43" bodyfile="include/access_model/access_model_logging.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_tier_transition_log_1a8711d92dd0910c94f1abd1cb835657a8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::TierTransitionLog::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::access_model::TierTransitionLog::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_logging.h" line="58" column="17" bodyfile="include/access_model/access_model_logging.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/access_model/access_model_logging.h" line="41" column="1" bodyfile="include/access_model/access_model_logging.h" bodystart="41" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1access__model_1_1_tier_transition_log_1a908e82a8928638e7b32dd74baba73986" prot="public" virt="non-virtual"><scope>themis::access_model::TierTransitionLog</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1access__model_1_1_tier_transition_log_1ae40fda22bf42035be46da2ee9eda098b" prot="public" virt="non-virtual"><scope>themis::access_model::TierTransitionLog</scope><name>from_tier</name></member>
+      <member refid="structthemis_1_1access__model_1_1_tier_transition_log_1a345f30c856e43bee79e1775cbe2295c5" prot="public" virt="non-virtual"><scope>themis::access_model::TierTransitionLog</scope><name>key</name></member>
+      <member refid="structthemis_1_1access__model_1_1_tier_transition_log_1afdb04899c865f70531146d9d4f41de90" prot="public" virt="non-virtual"><scope>themis::access_model::TierTransitionLog</scope><name>latency_ms</name></member>
+      <member refid="structthemis_1_1access__model_1_1_tier_transition_log_1afc4b851b9d67bedc49fb3206d13012d3" prot="public" virt="non-virtual"><scope>themis::access_model::TierTransitionLog</scope><name>reason</name></member>
+      <member refid="structthemis_1_1access__model_1_1_tier_transition_log_1a8711d92dd0910c94f1abd1cb835657a8" prot="public" virt="non-virtual"><scope>themis::access_model::TierTransitionLog</scope><name>status</name></member>
+      <member refid="structthemis_1_1access__model_1_1_tier_transition_log_1a240c169719361b94e4309b0555e1b68a" prot="public" virt="non-virtual"><scope>themis::access_model::TierTransitionLog</scope><name>thread_id</name></member>
+      <member refid="structthemis_1_1access__model_1_1_tier_transition_log_1ab703fc428f12115852bb4ca05ebbc862" prot="public" virt="non-virtual"><scope>themis::access_model::TierTransitionLog</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1access__model_1_1_tier_transition_log_1abbdf3b5d121765f12678d5cae9dd7ca8" prot="public" virt="non-virtual"><scope>themis::access_model::TierTransitionLog</scope><name>to_tier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

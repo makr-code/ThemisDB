@@ -1,0 +1,351 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="voice__browser__streaming_8h" kind="file" language="C++">
+    <compoundname>voice_browser_streaming.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="voice__browser__streaming_8cpp" local="yes">src/voice/voice_browser_streaming.cpp</includedby>
+    <includedby refid="test__voice__batch__a8__focused_8cpp" local="yes">tests/voice/test_voice_batch_a8_focused.cpp</includedby>
+    <includedby refid="test__voice__browser__streaming_8cpp" local="yes">tests/voice/test_voice_browser_streaming.cpp</includedby>
+    <includedby refid="test__voice__security__features_8cpp" local="yes">tests/voice/test_voice_security_features.cpp</includedby>
+    <includedby refid="test__voice__streaming__focused_8cpp" local="yes">tests/voice/test_voice_streaming_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/voice/voice_browser_streaming.h</label>
+        <link refid="voice__browser__streaming_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/voice/voice_browser_streaming.h</label>
+        <link refid="voice__browser__streaming_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/voice/voice_browser_streaming.cpp</label>
+        <link refid="voice__browser__streaming_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/voice/test_voice_batch_a8_focused.cpp</label>
+        <link refid="test__voice__batch__a8__focused_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/voice/test_voice_browser_streaming.cpp</label>
+        <link refid="test__voice__browser__streaming_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/voice/test_voice_security_features.cpp</label>
+        <link refid="test__voice__security__features_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/voice/test_voice_streaming_focused.cpp</label>
+        <link refid="test__voice__streaming__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1voice_1_1_word" prot="public">themis::voice::Word</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_partial_transcript" prot="public">themis::voice::PartialTranscript</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_final_transcript" prot="public">themis::voice::FinalTranscript</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_stream_audio_format" prot="public">themis::voice::StreamAudioFormat</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_streaming_session" prot="public">themis::voice::VoiceStreamingSession</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config" prot="public">themis::voice::VoiceStreamingSession::Config</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_streaming_manager" prot="public">themis::voice::VoiceStreamingManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <briefdescription>
+<para>Voice Streaming &amp; WebSocket — Frozen API Contract for Phase 1. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>v1.0 frozen as of 2026-08-08</para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Design/API Contract Frozen (Phase 1)</para>
+</simplesect>
+</para>
+<sect1 id="voice__browser__streaming_8h_1autotoc_md14_1s1"><sect2 id="voice__browser__streaming_8h_1autotoc_md14">
+<title>Stream Lifecycle State Machine (Frozen)</title><para><programlisting><codeline><highlight class="normal">[CREATE]<sp/>→<sp/>[<ref refid="namespacethemis_1_1voice_1a4dfd17d6bc0a231dc2b402607d9edb3faa5afd6edd5336d91316964e493936858" kindref="member">CONNECTED</ref>]<sp/>→<sp/>[<ref refid="namespacethemis_1_1voice_1a4dfd17d6bc0a231dc2b402607d9edb3fab8f87bd0ae829f0fa0fcaa1a0a2bf91e" kindref="member">STREAMING</ref>]<sp/>→<sp/>[<ref refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CLOSED</ref>]</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>↓<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>↓</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[<ref refid="namespacethemis_1_1voice_1af24c401441bb95b17f0893e73cc02c10abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">ERROR</ref>]<sp/>←────────┘</highlight></codeline>
+</programlisting></para>
+<para><itemizedlist>
+<listitem><para><bold>CONNECTED</bold>: Session created, ready to receive audio</para>
+</listitem><listitem><para><bold>STREAMING</bold>: Audio frames flowing, STT active</para>
+</listitem><listitem><para><bold>CLOSED</bold>: Session terminated gracefully</para>
+</listitem><listitem><para><bold>ERROR</bold>: Unrecoverable error (see error codes)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="voice__browser__streaming_8h_1autotoc_md15_1s1"><sect2 id="voice__browser__streaming_8h_1autotoc_md15">
+<title>Streaming Contract (Frozen)</title><para><bold>Chunk Delivery Guarantees:</bold><itemizedlist>
+<listitem><para>Chunks processed in strict order (FIFO)</para>
+</listitem><listitem><para>Chunks not duplicated; at-most-once semantics</para>
+</listitem><listitem><para>Chunks may be coalesced (multiple frames → single STT call)</para>
+</listitem><listitem><para>No chunk reordering; out-of-order arrival = frame error</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Concurrent Session Limit:</bold> &gt;= 100 (frozen minimum)</para>
+</sect2></sect1>
+<sect1 id="voice__browser__streaming_8h_1autotoc_md16_1s1"><sect2 id="voice__browser__streaming_8h_1autotoc_md16">
+<title>Error Codes (Voice Module — Streaming)</title><para><itemizedlist>
+<listitem><para>6900: Stream creation failed</para>
+</listitem><listitem><para>6901: Stream not found / closed</para>
+</listitem><listitem><para>6902: Audio frame too large for stream</para>
+</listitem><listitem><para>6903: Stream timeout (no activity)</para>
+</listitem><listitem><para>6904: Codec mismatch / unsupported format</para>
+</listitem><listitem><para>6905: Origin/CORS validation failed</para>
+</listitem><listitem><para>6906: STT engine error</para>
+</listitem><listitem><para>6907-6999: Reserved for streaming errors</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="voice__browser__streaming_8h_1autotoc_md17_1s1"><sect2 id="voice__browser__streaming_8h_1autotoc_md17">
+<title>Thread Safety</title><para><itemizedlist>
+<listitem><para>VoiceStreamingSession is thread-safe for concurrent audio input</para>
+</listitem><listitem><para>VoiceStreamingManager is thread-safe for concurrent session creation</para>
+</listitem><listitem><para>Callbacks (onPartialTranscript, onFinalTranscript) run on internal worker threads </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">voice</ref><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Data<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" kindref="member">StreamID</ref><sp/>=<sp/>std::string;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1voice_1_1_word" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_word" kindref="compound">Word</ref><sp/>{</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1voice_1_1_word_1a78580087c43445db8088bf479e389775" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_word_1a78580087c43445db8088bf479e389775" kindref="member">text</ref>;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1voice_1_1_word_1a9c35eb9d44498124befa9accdb952981" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_word_1a9c35eb9d44498124befa9accdb952981" kindref="member">start_s</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1voice_1_1_word_1adea188c0ccc9b8eb87839b60fe2404d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_word_1adea188c0ccc9b8eb87839b60fe2404d5" kindref="member">end_s</ref><sp/><sp/><sp/>=<sp/>0.0f;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1voice_1_1_word_1ac8aa0092fb021a4c41332783e108a72d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_word_1ac8aa0092fb021a4c41332783e108a72d" kindref="member">confidence</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1voice_1_1_partial_transcript" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_partial_transcript" kindref="compound">PartialTranscript</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1voice_1_1_partial_transcript_1a48fd89b639f64c81538ae1fbc60b0b2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" kindref="member">StreamID</ref><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_partial_transcript_1a48fd89b639f64c81538ae1fbc60b0b2a" kindref="member">stream_id</ref>;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1voice_1_1_partial_transcript_1af914885354c30b914d869a73e9e50763" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_partial_transcript_1af914885354c30b914d869a73e9e50763" kindref="member">text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1voice_1_1_partial_transcript_1a971eeaeb0b45e94abd35540b66461af6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_partial_transcript_1a971eeaeb0b45e94abd35540b66461af6" kindref="member">is_final</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1voice_1_1_partial_transcript_1aaf64b641b8c1200fafeec20bea91cbab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_partial_transcript_1aaf64b641b8c1200fafeec20bea91cbab" kindref="member">confidence</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1voice_1_1_partial_transcript_1ad70325e43f3450ea042e8467814cba01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Word&gt;<sp/><ref refid="structthemis_1_1voice_1_1_partial_transcript_1ad70325e43f3450ea042e8467814cba01" kindref="member">words</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1voice_1_1_partial_transcript_1a1b1643dcce08b88a8ca14eecf87a5da9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_partial_transcript_1a1b1643dcce08b88a8ca14eecf87a5da9" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1voice_1_1_final_transcript" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_final_transcript" kindref="compound">FinalTranscript</ref><sp/>{</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1voice_1_1_final_transcript_1ac4f3225852db5287c710c34e3c7e6ba0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" kindref="member">StreamID</ref><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_final_transcript_1ac4f3225852db5287c710c34e3c7e6ba0" kindref="member">stream_id</ref>;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1voice_1_1_final_transcript_1ad0097611e775adbf48d16ac941ddd031" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_final_transcript_1ad0097611e775adbf48d16ac941ddd031" kindref="member">text</ref>;</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1voice_1_1_final_transcript_1a292801d53c06da895e8e2ec48fc7e3c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_final_transcript_1a292801d53c06da895e8e2ec48fc7e3c1" kindref="member">confidence</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1voice_1_1_final_transcript_1a03afa356a772b263c78d150dab1ae79f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Word&gt;<sp/><ref refid="structthemis_1_1voice_1_1_final_transcript_1a03afa356a772b263c78d150dab1ae79f" kindref="member">words</ref>;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1voice_1_1_final_transcript_1aa6ecc46730265f13d72946d33acdc2e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_final_transcript_1aa6ecc46730265f13d72946d33acdc2e0" kindref="member">intent</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1voice_1_1_final_transcript_1ae510501ee991d30cb86f0d8fcd0a7ec3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_final_transcript_1ae510501ee991d30cb86f0d8fcd0a7ec3" kindref="member">intent_confidence</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1voice_1_1_final_transcript_1a5b62b7526f749ac8ab4ce48c1546b7aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_final_transcript_1a5b62b7526f749ac8ab4ce48c1546b7aa" kindref="member">duration_ms</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1voice_1_1_stream_audio_format" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_stream_audio_format" kindref="compound">StreamAudioFormat</ref><sp/>{</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1voice_1_1_stream_audio_format_1af638343fb210acdf6afe88fdfd6bef2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_stream_audio_format_1af638343fb210acdf6afe88fdfd6bef2a" kindref="member">Encoding</ref><sp/>{<sp/><ref refid="structthemis_1_1voice_1_1_stream_audio_format_1af638343fb210acdf6afe88fdfd6bef2aa1674e5751ee747c73262d1479e828d15" kindref="member">PCM16</ref>,<sp/><ref refid="structthemis_1_1voice_1_1_stream_audio_format_1af638343fb210acdf6afe88fdfd6bef2aa4c2223596711a6a941bc19e8067ceef9" kindref="member">OPUS</ref>,<sp/><ref refid="structthemis_1_1voice_1_1_stream_audio_format_1af638343fb210acdf6afe88fdfd6bef2aa4e63f282e55c25ab589e0a10c4fba649" kindref="member">WEBM_OPUS</ref><sp/>};</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1voice_1_1_stream_audio_format_1aa2f75f01763968a615856f2203c40a28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_stream_audio_format_1af638343fb210acdf6afe88fdfd6bef2a" kindref="member">Encoding</ref><sp/><ref refid="structthemis_1_1voice_1_1_stream_audio_format_1aa2f75f01763968a615856f2203c40a28" kindref="member">encoding</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1voice_1_1_stream_audio_format_1af638343fb210acdf6afe88fdfd6bef2aa1674e5751ee747c73262d1479e828d15" kindref="member">Encoding::PCM16</ref>;</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1voice_1_1_stream_audio_format_1a08b790bc1182025f3b2d5f5d84abe8d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1voice_1_1_stream_audio_format_1a08b790bc1182025f3b2d5f5d84abe8d3" kindref="member">sample_rate</ref><sp/><sp/><sp/>=<sp/>16000;<sp/><sp/></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1voice_1_1_stream_audio_format_1ad49e0b9e3f74c37641f9780473c377ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/><ref refid="structthemis_1_1voice_1_1_stream_audio_format_1ad49e0b9e3f74c37641f9780473c377ca" kindref="member">channels</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1voice_1_1_stream_audio_format_1a2c6cd268ede91b32d99cb23529415ecd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/><ref refid="structthemis_1_1voice_1_1_stream_audio_format_1a2c6cd268ede91b32d99cb23529415ecd" kindref="member">bits_per_sample</ref><sp/>=<sp/>16;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VoiceStreamingSession</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1voice_1_1_voice_streaming_session" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a29fc5d103175af818d0d07dac1b4ee0e" kindref="member">VoiceStreamingSession</ref><sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1acb524d7e6466ad4d5ff16f01d89cc28c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1acb524d7e6466ad4d5ff16f01d89cc28c" kindref="member">session_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1ab41620a734393e3d3ac5e924adbf9c93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1ab41620a734393e3d3ac5e924adbf9c93" kindref="member">user_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a9def9d542bc4c17315928131d5b86078" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_stream_audio_format" kindref="compound">StreamAudioFormat</ref><sp/><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a9def9d542bc4c17315928131d5b86078" kindref="member">audio_format</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a3c686e2bcd1648241d8c8ee85d3eb66d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a3c686e2bcd1648241d8c8ee85d3eb66d" kindref="member">language</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a78fd383bf43d87cca99f910794160aab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a78fd383bf43d87cca99f910794160aab" kindref="member">run_nlu</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1af98b11eb904e52f6d5b02262c4283ff9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1af98b11eb904e52f6d5b02262c4283ff9" kindref="member">enable_tts</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a20d622990ef41c6601538b1fdaa27c75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a20d622990ef41c6601538b1fdaa27c75" kindref="member">max_frame_bytes</ref><sp/>=<sp/>65536;<sp/><sp/></highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a388382620b5b6b6ca51026038228ddf3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a388382620b5b6b6ca51026038228ddf3" kindref="member">max_duration_s</ref><sp/><sp/>=<sp/>600;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a84d339d27af1e276e0dcd82bd07ccfd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a84d339d27af1e276e0dcd82bd07ccfd2" kindref="member">partial_results</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a6387df1528e48369ee905240c79df5f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a6387df1528e48369ee905240c79df5f0" kindref="member">origin_allowlist</ref>;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;VoiceStreamingSession&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a3f638ecbef58b78f6d06d77cab665d0e" kindref="member">create</ref>(<ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config" kindref="compound">Config</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a24a93af006cd290db98c25b486f95766" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a3c04106628dd9256375d0335c56ddfc2" kindref="member">~VoiceStreamingSession</ref>();</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="classthemis_1_1voice_1_1_voice_streaming_session_1a29fc5d103175af818d0d07dac1b4ee0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a29fc5d103175af818d0d07dac1b4ee0e" kindref="member">VoiceStreamingSession</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a29fc5d103175af818d0d07dac1b4ee0e" kindref="member">VoiceStreamingSession</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1voice_1_1_voice_streaming_session_1a7addd955ae6a65341dbc5b00d4a0b908" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a29fc5d103175af818d0d07dac1b4ee0e" kindref="member">VoiceStreamingSession</ref>&amp;<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a7addd955ae6a65341dbc5b00d4a0b908" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a29fc5d103175af818d0d07dac1b4ee0e" kindref="member">VoiceStreamingSession</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Lifecycle<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" kindref="member">StreamID</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1aa9359c2bb7a81ebec99d17a50a758f58" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1ad2930877dd10c605b26853cc4229d4c6" kindref="member">end</ref>();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1abcf83478275e1d58ea67cf8abd4dd5d7" kindref="member">isActive</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Audio<sp/>ingestion<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_partial_transcript" kindref="compound">PartialTranscript</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a173ac3d37b99d48f35b28cf6a4fc9372" kindref="member">sendAudioChunk</ref>(const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>audio_chunk);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a25e77f8295d72382b8ff9e56648ef54f" kindref="member">endOfUtterance</ref>();</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>Streaming<sp/>Resilience</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a5ffcdb4a293d8a7a01777ebdb63cdd1c" kindref="member">sendHeartbeat</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a2d179f9ff5726c897f1ec90feb12ebe4" kindref="member">reconnectWithBackoff</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_retries<sp/>=<sp/>5)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a842a525388a2127a32d52070645eb40d" kindref="member">retryUnacknowledgedChunks</ref>(uint32_t<sp/>last_acked_sequence_num)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1af433a6df50d4fb792b550993ea4c0922" kindref="member">detectSequenceGap</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1ae64840d5e86d1f67fb3dd1b67f1b014f" kindref="member">rebalanceBufferPressure</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Callbacks<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265" refid="classthemis_1_1voice_1_1_voice_streaming_session_1a22daca811b0efcd6c076474de4fb5fea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>using<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a22daca811b0efcd6c076474de4fb5fea" kindref="member">PartialTranscriptCb</ref><sp/>=<sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(const<sp/><ref refid="structthemis_1_1voice_1_1_partial_transcript" kindref="compound">PartialTranscript</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="266" refid="classthemis_1_1voice_1_1_voice_streaming_session_1a5e1abff510ae6812b996c610458a727d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>using<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a5e1abff510ae6812b996c610458a727d" kindref="member">FinalTranscriptCb</ref><sp/><sp/><sp/>=<sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(const<sp/><ref refid="structthemis_1_1voice_1_1_final_transcript" kindref="compound">FinalTranscript</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="267" refid="classthemis_1_1voice_1_1_voice_streaming_session_1a5bed5aca00a7009edb75a43e69a9ca03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>using<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a5bed5aca00a7009edb75a43e69a9ca03" kindref="member">TtsChunkCb</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(const<sp/>std::vector&lt;uint8_t&gt;&amp;)&gt;;</highlight></codeline>
+<codeline lineno="268" refid="classthemis_1_1voice_1_1_voice_streaming_session_1a0c6fd536bdcff76cef36f1dca5c2127f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>using<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a0c6fd536bdcff76cef36f1dca5c2127f" kindref="member">ErrorCb</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>error)&gt;;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1aa1f11ba00be52fe6c0fd101e1b094ad7" kindref="member">onPartialTranscript</ref>(<ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a22daca811b0efcd6c076474de4fb5fea" kindref="member">PartialTranscriptCb</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a85e10ed17adb94f1371d79ffbf48dc1c" kindref="member">onFinalTranscript</ref>(<ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a5e1abff510ae6812b996c610458a727d" kindref="member">FinalTranscriptCb</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a9da2259d5636c9309595d9eaaec51f93" kindref="member">onTtsChunk</ref>(<ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a5bed5aca00a7009edb75a43e69a9ca03" kindref="member">TtsChunkCb</ref><sp/>cb);<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a482837063c4906f6e325ddc2fdd5c62b" kindref="member">onError</ref>(<ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a0c6fd536bdcff76cef36f1dca5c2127f" kindref="member">ErrorCb</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>STT<sp/>backend<sp/>injection<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291" refid="classthemis_1_1voice_1_1_voice_streaming_session_1a9d90e45195968ce49958debb7e3994fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>using<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a9d90e45195968ce49958debb7e3994fd" kindref="member">TranscribeFn</ref><sp/>=<sp/>std::function&lt;<ref refid="structthemis_1_1voice_1_1_partial_transcript" kindref="compound">PartialTranscript</ref>(</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>audio,</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_final,</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>seq)&gt;;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1af40c0501fc32e77939438ececa56b5d1" kindref="member">setTranscribeBackend</ref>(<ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a9d90e45195968ce49958debb7e3994fd" kindref="member">TranscribeFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Session<sp/>info<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" kindref="member">StreamID</ref><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a1f3afb8bd22be598c9a89be5acc3f6bc" kindref="member">streamId</ref>()<sp/><sp/><sp/><sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a24a93af006cd290db98c25b486f95766" kindref="member">config</ref>()<sp/><sp/><sp/><sp/><sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a601a3679a373c539d556c8c999532d65" kindref="member">startedAtMs</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a17abc58d50544ba6c9689c668f9a2915" kindref="member">bytesReceived</ref>()const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Origin<sp/>allowlist<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a29bb6cd242bfaa744900d1d8be2b5622" kindref="member">checkOrigin</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>origin)<sp/>const;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>explicit<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a29fc5d103175af818d0d07dac1b4ee0e" kindref="member">VoiceStreamingSession</ref>(<ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config" kindref="compound">Config</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a24a93af006cd290db98c25b486f95766" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VoiceStreamingManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341" refid="classthemis_1_1voice_1_1_voice_streaming_manager" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_manager_1a92cb567bec5affd9c098d4bdbd0e3739" kindref="member">VoiceStreamingManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_manager_1a92cb567bec5affd9c098d4bdbd0e3739" kindref="member">VoiceStreamingManager</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_concurrent_sessions<sp/>=<sp/>200);</highlight></codeline>
+<codeline lineno="344" refid="classthemis_1_1voice_1_1_voice_streaming_manager_1a6a201f8637ddc4211371ecbeb2aee9fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_manager_1a6a201f8637ddc4211371ecbeb2aee9fe" kindref="member">~VoiceStreamingManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" kindref="member">StreamID</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_manager_1aa19c93d2221cb448152a6b89cc81fca3" kindref="member">createSession</ref>(<ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config" kindref="compound">VoiceStreamingSession::Config</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a24a93af006cd290db98c25b486f95766" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_partial_transcript" kindref="compound">PartialTranscript</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_manager_1aaaf7512cb8f495c4a2d5d10abcad5805" kindref="member">routeAudio</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" kindref="member">StreamID</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream_id,</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>audio_chunk);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_manager_1a3f66a03e524f69380b8065b26f11dc46" kindref="member">closeSession</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" kindref="member">StreamID</ref>&amp;<sp/>stream_id);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_manager_1a828aa7f1f99ee7bd77e270b60b5e96f5" kindref="member">activeSessionCount</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_sessions_;</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/>sessions_mutex_;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1voice_1_1_voice_streaming_session" kindref="compound">VoiceStreamingSession</ref>&gt;&gt;<sp/>sessions_;</highlight></codeline>
+<codeline lineno="376"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>voice</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/voice/voice_browser_streaming.h"/>
+  </compounddef>
+</doxygen>

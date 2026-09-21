@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classchimera_1_1_i_streaming_adapter" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>chimera::IStreamingAdapter</compoundname>
+    <derivedcompoundref refid="classchimera_1_1_themis_d_b_adapter" prot="public" virt="non-virtual">chimera::ThemisDBAdapter</derivedcompoundref>
+    <includes refid="database__adapter_8hpp" local="no">database_adapter.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classchimera_1_1_i_streaming_adapter_1afc46f3c638326eee7f8519d302febfc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual chimera::IStreamingAdapter::~IStreamingAdapter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IStreamingAdapter</name>
+        <qualifiedname>chimera::IStreamingAdapter::~IStreamingAdapter</qualifiedname>
+        <briefdescription>
+<para>IStreaming Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="190" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_streaming_adapter_1adc44d3af066cfbed27b0d221bfb26a4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::unique_ptr&lt; <ref refid="classchimera_1_1_i_result_stream" kindref="compound">IResultStream</ref> &gt; &gt;</type>
+        <definition>virtual Result&lt; std::unique_ptr&lt; IResultStream &gt; &gt; chimera::IStreamingAdapter::execute_query_stream</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; Scalar &gt; &amp;params={})=0</argsstring>
+        <name>execute_query_stream</name>
+        <qualifiedname>chimera::IStreamingAdapter::execute_query_stream</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_adapter_1a0172e76f90204ed282168e32aedfc2a4">execute_query_stream</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>params</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="192" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_streaming_adapter_1a6ed5e4b63ea3729ecc29932d47090dc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>virtual Result&lt; bool &gt; chimera::IStreamingAdapter::set_stream_config</definition>
+        <argsstring>(const StreamConfig &amp;config)=0</argsstring>
+        <name>set_stream_config</name>
+        <qualifiedname>chimera::IStreamingAdapter::set_stream_config</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_themis_d_b_adapter_1ae12aa5def51472b64dbd60646b0f4d00">set_stream_config</reimplementedby>
+        <param>
+          <type>const <ref refid="structchimera_1_1_stream_config" kindref="compound">StreamConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set stream config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="202" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>chimera::IStreamingAdapter</label>
+        <link refid="classchimera_1_1_i_streaming_adapter"/>
+      </node>
+      <node id="2">
+        <label>chimera::ThemisDBAdapter</label>
+        <link refid="classchimera_1_1_themis_d_b_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/chimera/database_adapter.hpp" line="184" column="1" bodyfile="include/chimera/database_adapter.hpp" bodystart="184" bodyend="203"/>
+    <listofallmembers>
+      <member refid="classchimera_1_1_i_streaming_adapter_1adc44d3af066cfbed27b0d221bfb26a4c" prot="public" virt="pure-virtual"><scope>chimera::IStreamingAdapter</scope><name>execute_query_stream</name></member>
+      <member refid="classchimera_1_1_i_streaming_adapter_1a6ed5e4b63ea3729ecc29932d47090dc4" prot="public" virt="pure-virtual"><scope>chimera::IStreamingAdapter</scope><name>set_stream_config</name></member>
+      <member refid="classchimera_1_1_i_streaming_adapter_1afc46f3c638326eee7f8519d302febfc0" prot="public" virt="virtual"><scope>chimera::IStreamingAdapter</scope><name>~IStreamingAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

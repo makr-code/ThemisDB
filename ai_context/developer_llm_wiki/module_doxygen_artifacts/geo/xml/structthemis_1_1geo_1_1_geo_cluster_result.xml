@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_geo_cluster_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::GeoClusterResult</compoundname>
+    <includes refid="geo__clustering_8h" local="no">geo_clustering.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_cluster_result_1ae80b350e850507a1f033ae0ce5f7854c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::geo::GeoClusterResult::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::geo::GeoClusterResult::labels</qualifiedname>
+        <briefdescription>
+<para>Cluster label for each input point, parallel to the input vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_clustering.h" line="39" column="17" bodyfile="include/geo/geo_clustering.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_cluster_result_1aee19758dfb7036df39fbe804f4ebcd22" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::geo::GeoClusterResult::num_clusters</definition>
+        <argsstring></argsstring>
+        <name>num_clusters</name>
+        <qualifiedname>themis::geo::GeoClusterResult::num_clusters</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of distinct clusters found (excludes DBSCAN noise). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_clustering.h" line="41" column="9" bodyfile="include/geo/geo_clustering.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a DBSCAN or k-means clustering run. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput><ref refid="structthemis_1_1geo_1_1_geo_cluster_result_1ae80b350e850507a1f033ae0ce5f7854c" kindref="member">labels</ref>[i]</computeroutput> holds the cluster index (0-based) for the i-th input point. For DBSCAN, noise points receive label <computeroutput>kDbscanNoise</computeroutput> (-1). <computeroutput><ref refid="structthemis_1_1geo_1_1_geo_cluster_result_1aee19758dfb7036df39fbe804f4ebcd22" kindref="member">num_clusters</ref></computeroutput> is the total number of discovered (non-noise) clusters. </para>
+    </detaileddescription>
+    <location file="include/geo/geo_clustering.h" line="37" column="1" bodyfile="include/geo/geo_clustering.h" bodystart="37" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_geo_cluster_result_1ae80b350e850507a1f033ae0ce5f7854c" prot="public" virt="non-virtual"><scope>themis::geo::GeoClusterResult</scope><name>labels</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_cluster_result_1aee19758dfb7036df39fbe804f4ebcd22" prot="public" virt="non-virtual"><scope>themis::geo::GeoClusterResult</scope><name>num_clusters</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

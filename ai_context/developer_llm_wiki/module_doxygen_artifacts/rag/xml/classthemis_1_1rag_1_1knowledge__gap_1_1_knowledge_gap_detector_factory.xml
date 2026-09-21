@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::knowledge_gap::KnowledgeGapDetectorFactory</compoundname>
+    <includes refid="knowledge__gap__detector_8h" local="no">knowledge_gap_detector.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_factory_1aeac5a87c376514f7b3c307c5c10c53ca" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector" kindref="compound">KnowledgeGapDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; KnowledgeGapDetector &gt; themis::rag::knowledge_gap::KnowledgeGapDetectorFactory::createFast</definition>
+        <argsstring>()</argsstring>
+        <name>createFast</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetectorFactory::createFast</qualifiedname>
+        <briefdescription>
+<para>Create a fast detector (pre-generation only). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Fast.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createFast without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="458" column="28" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1970" bodyend="1979"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_factory_1a1a2b4717023cfd5ed85519eea62e8ee6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector" kindref="compound">KnowledgeGapDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; KnowledgeGapDetector &gt; themis::rag::knowledge_gap::KnowledgeGapDetectorFactory::createBalanced</definition>
+        <argsstring>()</argsstring>
+        <name>createBalanced</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetectorFactory::createBalanced</qualifiedname>
+        <briefdescription>
+<para>Create a balanced detector (pre + during generation). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Balanced.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createBalanced without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="463" column="28" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="1986" bodyend="1994"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_factory_1aaea1a929b98c6fb4bbb6ed06c6781812" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector" kindref="compound">KnowledgeGapDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; KnowledgeGapDetector &gt; themis::rag::knowledge_gap::KnowledgeGapDetectorFactory::createThorough</definition>
+        <argsstring>()</argsstring>
+        <name>createThorough</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetectorFactory::createThorough</qualifiedname>
+        <briefdescription>
+<para>Create a thorough detector (all detection levels). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Thorough.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createThorough without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="468" column="28" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="2001" bodyend="2011"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_factory_1a6dfbe72e79db1c2e81026b9008bf41b7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector" kindref="compound">KnowledgeGapDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; KnowledgeGapDetector &gt; themis::rag::knowledge_gap::KnowledgeGapDetectorFactory::create</definition>
+        <argsstring>(const KnowledgeGapConfig &amp;config)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetectorFactory::create</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config" kindref="compound">KnowledgeGapConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create a custom configured detector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements create without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="473" column="28" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="2019" bodyend="2023"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_factory_1ada072f331b5b3b1016131c26db0be149" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector" kindref="compound">KnowledgeGapDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; KnowledgeGapDetector &gt; themis::rag::knowledge_gap::KnowledgeGapDetectorFactory::createProductionReady</definition>
+        <argsstring>()</argsstring>
+        <name>createProductionReady</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetectorFactory::createProductionReady</qualifiedname>
+        <briefdescription>
+<para>Create a production-ready detector with FLARE enabled (v1.4.0+). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Production Ready.</para>
+<para>FLARE (Feedback Loop Active Retrieval) with Token Perplexity Threshold gating is enabled by default. Use this factory for new deployments.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="481" column="28" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="2030" bodyend="2045"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_factory_1adcfe022b128da0e9cbb504ee8af9168b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector" kindref="compound">KnowledgeGapDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; KnowledgeGapDetector &gt; themis::rag::knowledge_gap::KnowledgeGapDetectorFactory::createLegacy</definition>
+        <argsstring>()</argsstring>
+        <name>createLegacy</name>
+        <qualifiedname>themis::rag::knowledge_gap::KnowledgeGapDetectorFactory::createLegacy</qualifiedname>
+        <briefdescription>
+<para>Create a legacy-compatible detector with FLARE disabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Legacy.</para>
+<para>Provides backward compatibility with v1.3.x behaviour where FLARE was disabled. Use this factory when migrating from v1.3 or when FLARE must be explicitly opted out.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="490" column="28" bodyfile="src/rag/knowledge_gap_detector.cpp" bodystart="2052" bodyend="2061"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory for creating detectors with different configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/knowledge_gap_detector.h" line="453" column="1" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="453" bodyend="491"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_factory_1a6dfbe72e79db1c2e81026b9008bf41b7" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetectorFactory</scope><name>create</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_factory_1a1a2b4717023cfd5ed85519eea62e8ee6" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetectorFactory</scope><name>createBalanced</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_factory_1aeac5a87c376514f7b3c307c5c10c53ca" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetectorFactory</scope><name>createFast</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_factory_1adcfe022b128da0e9cbb504ee8af9168b" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetectorFactory</scope><name>createLegacy</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_factory_1ada072f331b5b3b1016131c26db0be149" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetectorFactory</scope><name>createProductionReady</name></member>
+      <member refid="classthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_detector_factory_1aaea1a929b98c6fb4bbb6ed06c6781812" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::KnowledgeGapDetectorFactory</scope><name>createThorough</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

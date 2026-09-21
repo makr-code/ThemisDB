@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb" kind="namespace" language="C++">
+    <compoundname>themisdb</compoundname>
+    <innernamespace refid="namespacethemisdb_1_1temporal">themisdb::temporal</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB Bi-Temporal Table</para>
+<para>SQL:2011 bi-temporal support: each row carries both a system-time period (when it was stored) and a valid-time period (when it is true in the modelled reality).</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Augmented Interval Tree Index</para>
+<para>An augmented BST-based interval tree with per-node max-end tracking, providing O(log n) insert/remove and O(log n + k) overlap-query performance where k is the number of matching intervals.</para>
+<para>Suitable for high-throughput valid-time overlap detection in bi-temporal tables and period-predicate foreign-key enforcement.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Retention Manager</para>
+<para>Configurable lifecycle management for historical temporal data. Supports time-based, version-count-based, and custom retention policies.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Snapshot Manager</para>
+<para>Creates and manages consistent point-in-time snapshots of SystemVersionedTable collections for snapshot-isolation reads.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB System-Versioned Table</para>
+<para>Provides SQL:2011-compliant system-time versioning with automatic history maintenance for insert, update and delete operations.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Aggregator</para>
+<para>Window-based aggregation over SystemVersionedTable data:<itemizedlist>
+<listitem><para>TUMBLING : non-overlapping fixed-size windows</para>
+</listitem><listitem><para>SLIDING : overlapping windows advancing by a slide interval</para>
+</listitem><listitem><para>SESSION : gap-based windows (closed when data is silent ≥ gap_duration)</para>
+</listitem></itemizedlist>
+</para>
+<para>Supported aggregation functions: SUM, AVG, COUNT, MIN, MAX</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Change Data Capture (CDC)</para>
+<para>Version-aware change event streaming for system-versioned tables.</para>
+<sect1 id="namespacethemisdb_1autotoc_md3_1s1"><sect2 id="namespacethemisdb_1autotoc_md3">
+<title>Features</title><para><itemizedlist>
+<listitem><para>Typed ChangeEvent with before/after payloads and temporal metadata</para>
+</listitem><listitem><para>Named, persistent subscriptions (subscribe/unsubscribe)</para>
+</listitem><listitem><para>Fire-and-forget event emission (publishEvent) from write paths</para>
+</listitem><listitem><para>In-process event log with bounded ring-buffer (default: 65536 events)</para>
+</listitem><listitem><para>replayChanges() for point-in-time backfill / audit replay</para>
+</listitem><listitem><para>Thread-safe: all public methods safe for concurrent callers</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="namespacethemisdb_1autotoc_md4_1s1"><sect2 id="namespacethemisdb_1autotoc_md4">
+<title>Usage</title><para><programlisting filename=".cpp"><codeline><highlight class="normal">TemporalCDC<sp/>cdc;</highlight></codeline>
+<codeline><highlight class="normal">std::string<sp/>sub_id<sp/>=<sp/>cdc.subscribeToChanges(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ChangeEvent&amp;<sp/>ev)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>handle<sp/>ev.type,<sp/>ev.after_value,<sp/>ev.transaction_time<sp/>…</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Emit<sp/>events<sp/>from<sp/>the<sp/>write<sp/>path:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ChangeEvent<sp/>ev;</highlight></codeline>
+<codeline><highlight class="normal">ev.type<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>ChangeType::INSERT;</highlight></codeline>
+<codeline><highlight class="normal">ev.table_name<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">ev.entity_id<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;emp:42&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">ev.after_value<sp/><sp/><sp/><sp/>=<sp/>doc;</highlight></codeline>
+<codeline><highlight class="normal">ev.transaction_time<sp/>=<sp/>now();</highlight></codeline>
+<codeline><highlight class="normal">cdc.publishEvent(ev);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Later<sp/>replay:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>cdc.replayChanges(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>{t_start,<sp/>t_end});</highlight></codeline>
+<codeline><highlight class="normal">cdc.unsubscribe(sub_id);</highlight></codeline>
+</programlisting></para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Cold Store</para>
+<para>Tiered cold storage for historical VersionedDocument entries that have been evicted from the hot tier of SystemVersionedTable.</para>
+</sect2></sect1>
+<sect1 id="namespacethemisdb_1autotoc_md9_1s1"><sect2 id="namespacethemisdb_1autotoc_md9">
+<title>Architecture</title><para>The store separates the <bold>RAM index</bold> from the <bold>value storage</bold>:</para>
+<para>RAM index — <computeroutput>std::set&lt;std::string&gt;</computeroutput> of composite keys only. Each entry costs ~60 bytes (key string) regardless of payload size. Enables O(log N) AS-OF and range queries without touching disk.</para>
+<para>Backend — pluggable <computeroutput>IColdStoreBackend</computeroutput> interface. Two built-in implementations:</para>
+<para><itemizedlist>
+<listitem><para>InMemoryBackend (default) — stores values in a <computeroutput>std::map&lt;string,string&gt;</computeroutput> in RAM. Used in unit tests and embedded builds. RAM cost = index + values.</para>
+</listitem><listitem><para>FileSystemBackend — stores each version as a JSON file: <computeroutput>{base_dir}/{table}/{safe_key_hex}/{016x_ts}.json</computeroutput> Values are NOT kept in RAM; only the key appears in the RAM index (~60 B/version vs ~400 B/version in-memory). The index is rebuilt from disk on construction.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="namespacethemisdb_1autotoc_md10_1s1"><sect2 id="namespacethemisdb_1autotoc_md10">
+<title>RAM savings (FileSystemBackend)</title><para><table rows="4" cols="3"><row>
+<entry thead="yes"><para>Scenario  </para>
+</entry><entry thead="yes"><para>InMemoryBackend  </para>
+</entry><entry thead="yes"><para>FileSystemBackend  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>10 k versions (avg 400 B)  </para>
+</entry><entry thead="no"><para>~4 MB  </para>
+</entry><entry thead="no"><para>~600 KB (index)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>100 k versions  </para>
+</entry><entry thead="no"><para>~40 MB  </para>
+</entry><entry thead="no"><para>~6 MB (index)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>1 M versions  </para>
+</entry><entry thead="no"><para>~400 MB  </para>
+</entry><entry thead="no"><para>~60 MB (index)  </para>
+</entry></row>
+</table>
+</para>
+</sect2></sect1>
+<sect1 id="namespacethemisdb_1autotoc_md11_1s1"><sect2 id="namespacethemisdb_1autotoc_md11">
+<title>Key encoding</title><para>Composite key: <computeroutput>&lt;table_name&gt;\x01&lt;doc_key&gt;\x01&lt;016llx biased timestamp&gt;</computeroutput> BIAS = uint64_max/2 + 1 so that negative timestamps sort before positive ones in lexicographic order.</para>
+</sect2></sect1>
+<sect1 id="namespacethemisdb_1autotoc_md12_1s1"><sect2 id="namespacethemisdb_1autotoc_md12">
+<title>Integration with SystemVersionedTable</title><para>auto cs = std::make_shared&lt;TemporalColdStore&gt;( std::make_unique&lt;FileSystemBackend&gt;(&quot;/var/lib/themisdb/cold&quot;)); table.attachColdStore(cs.get(), 500); // hot_threshold table.flushToCold(&quot;my_key&quot;);</para>
+<para>Thread-safety: all public methods are thread-safe.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Data Compressor</para>
+<para>Compresses historical version payloads stored in SystemVersionedTable using four strategies:</para>
+<para>• DELTA – stores field-level JSON diff between consecutive versions • ZSTD – general-purpose LZ-family compressor (inline implementation) • GORILLA – XOR-delta encoding for numeric time-series columns • DICTIONARY – value-table encoding for high-cardinality string columns</para>
+<para>All algorithms are self-contained and operate purely on <computeroutput>nlohmann::json</computeroutput> payloads, avoiding any external library dependencies. The <computeroutput>compressHistory</computeroutput> method returns a <computeroutput>CompressionStats</computeroutput> snapshot for observability.</para>
+<para>Thread-safety: all public methods are thread-safe.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Conflict Resolver</para>
+<para>Resolves conflicts between temporal snapshots using HLC timestamps</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Index</para>
+<para>An in-memory interval-tree index for fast temporal range look-ups. Supports both point-in-time (AS OF) and range queries.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Migrator</para>
+<para>Converts existing plain document collections to SQL:2011-compatible system-versioned tables with optional history backfill from audit logs or change-tracking snapshots.</para>
+</sect2></sect1>
+<sect1 id="namespacethemisdb_1autotoc_md20_1s1"><sect2 id="namespacethemisdb_1autotoc_md20">
+<title>Features</title><para><itemizedlist>
+<listitem><para>Analyze an existing key/document set to produce a MigrationPlan</para>
+</listitem><listitem><para>Execute the migration: create a SystemVersionedTable and insert all current rows with correct system timestamps</para>
+</listitem><listitem><para>Backfill historical versions from a caller-supplied audit log</para>
+</listitem><listitem><para>Verify post-migration data integrity (key count, version count, temporal ordering)</para>
+</listitem><listitem><para>Progress reporting via MigrationStatus enum and optional callback</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="namespacethemisdb_1autotoc_md21_1s1"><sect2 id="namespacethemisdb_1autotoc_md21">
+<title>Usage</title><para><programlisting filename=".cpp"><codeline><highlight class="normal">TemporalMigrator<sp/>migrator;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Step<sp/>1<sp/>–<sp/>analyse</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>current_rows);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Step<sp/>2<sp/>–<sp/>migrate</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>current_rows);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>(Optional)<sp/>Step<sp/>3<sp/>–<sp/>backfill<sp/>history</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">migrator.backfillHistory(table,<sp/>historical_versions);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Step<sp/>4<sp/>–<sp/>verify</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>migrator.verifyMigration(table);</highlight></codeline>
+<codeline><highlight class="normal">assert(report.success);</highlight></codeline>
+</programlisting></para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Query Engine</para>
+<para>SQL:2011-style time-travel queries over SystemVersionedTable collections.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Tier Manager</para>
+<para>Three-tier LSM-style version storage following the RocksDB philosophy:</para>
+<para>Hot (MemTable) — mutable sorted map, fully in RAM/VRAM. Last N versions per key; O(log n) AS-OF queries.</para>
+<para>Warm (L0 blocks) — immutable VersionBlocks in RAM. Each block carries a Bloom filter for O(1) miss detection and min/max timestamps for range pruning. Values are RAM-resident but payload is optional-LZ4.</para>
+<para>Cold (L1+ SST) — only composite keys in RAM; JSON values on disk via TemporalColdStore / FileSystemBackend.</para>
+<para>── Tier transition (Abwägungsentscheidung) ──────────────────────────────</para>
+<para>Every insert evaluates TierPolicy::evaluate() to decide whether the hot tier should be flushed to warm, or warm blocks compacted to cold. TierPolicy ships with a threshold-based default implementation.</para>
+</sect2></sect1>
+<sect1 id="namespacethemisdb_1autotoc_md22_1s1"><sect2 id="namespacethemisdb_1autotoc_md22">
+<title>Future plan — autonomous LLM / LoRA tier decisions</title><para>The <computeroutput>TierPolicy::decision_fn</computeroutput> field is an optional hook that replaces the built-in threshold logic with an arbitrary callable. In a future release this hook will be wired to the ThemisDB LoRA/ML stack so that an in-process LoRA adapter can observe real-time workload signals (access frequency, query patterns, RAM pressure, time-of-day, key cardinality) and emit tier-migration decisions autonomously.</para>
+<para>Expected wiring (future, not yet implemented):</para>
+<para>auto policy = TierPolicy::withLoraAdvisor(lora_router); tier_manager.setPolicy(policy);</para>
+<para>Until the LoRA advisor is available, the default threshold logic is used. The hook contract is identical so the switch is fully backward-compatible.</para>
+<para>── Complexity summary ────────────────────────────────────────────────────</para>
+<para><table rows="6" cols="4"><row>
+<entry thead="yes"><para>Operation  </para>
+</entry><entry thead="yes"><para>Hot tier  </para>
+</entry><entry thead="yes"><para>Warm tier  </para>
+</entry><entry thead="yes"><para>Cold tier  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>insert()  </para>
+</entry><entry thead="no"><para>O(log h)  </para>
+</entry><entry thead="no"><para>—  </para>
+</entry><entry thead="no"><para>—  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>getAsOf()  </para>
+</entry><entry thead="no"><para>O(log h)  </para>
+</entry><entry thead="no"><para>O(b * bloomO(1))  </para>
+</entry><entry thead="no"><para>O(log N) + I/O  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>getHistory()  </para>
+</entry><entry thead="no"><para>O(h)  </para>
+</entry><entry thead="no"><para>O(b * k_w)  </para>
+</entry><entry thead="no"><para>O(k_c) + I/O  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>flush hot→warm  </para>
+</entry><entry thead="no"><para>O(h log h)  </para>
+</entry><entry thead="no"><para>O(1) append  </para>
+</entry><entry thead="no"><para>—  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>compact warm→cold  </para>
+</entry><entry thead="no"><para>—  </para>
+</entry><entry thead="no"><para>O(b * k_w)  </para>
+</entry><entry thead="no"><para>O(k_w log N)  </para>
+</entry></row>
+</table>
+</para>
+<para>h = hot versions per key, b = warm blocks per key, k_w/k_c = versions in warm/cold, N = total cold versions</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Types</para>
+<para>Common types and utilities for all temporal module components.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Bi-Temporal Table Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Augmented Interval Tree Index Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Retention Manager Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Snapshot Manager Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB System-Versioned Table Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Aggregator Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal CDC Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Cold Store Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Data Compressor Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Conflict Resolver Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Index Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Migrator Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Query Engine Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Temporal Tier Manager — LSM-style three-tier implementation.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0 </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/temporal/bitemporal_join.h" line="18" column="1"/>
+  </compounddef>
+</doxygen>

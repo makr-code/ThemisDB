@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_signature_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::SignatureInfo</compoundname>
+    <includes refid="governance__audit__integrity_8h" local="no">governance_audit_integrity.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_signature_info_1a9409f50230518b5bf04ffc65dd225470" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::SignatureInfo::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::governance::SignatureInfo::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="44" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_signature_info_1ac786f88b6d75df16e7e01626e392c99f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::SignatureInfo::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::governance::SignatureInfo::algorithm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="45" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_signature_info_1a98da319425c15fcfd80a9403f35de84c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::SignatureInfo::signed_at_ms</definition>
+        <argsstring></argsstring>
+        <name>signed_at_ms</name>
+        <qualifiedname>themis::governance::SignatureInfo::signed_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="46" column="13" bodyfile="include/governance/governance_audit_integrity.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_signature_info_1a5be59508a133fb5f84abad96f1493757" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::SignatureInfo::key_id</definition>
+        <argsstring></argsstring>
+        <name>key_id</name>
+        <qualifiedname>themis::governance::SignatureInfo::key_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="47" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_signature_info_1a5bb1ad5844e3ea2957a0620dd45e320d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::SignatureInfo::previous_entry_hash</definition>
+        <argsstring></argsstring>
+        <name>previous_entry_hash</name>
+        <qualifiedname>themis::governance::SignatureInfo::previous_entry_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="48" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_signature_info_1a076e07e5662c007a8b93d723f17fb58b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::SignatureInfo::entry_hash</definition>
+        <argsstring></argsstring>
+        <name>entry_hash</name>
+        <qualifiedname>themis::governance::SignatureInfo::entry_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="49" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_signature_info_1a7da2c972a1c06513b737792bd779d2c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::SignatureInfo::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::SignatureInfo::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="55" column="20" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="81" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_signature_info_1a0c7433301168407a0f3984e6f36dc6e8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_signature_info" kindref="compound">SignatureInfo</ref></type>
+        <definition>SignatureInfo themis::governance::SignatureInfo::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::governance::SignatureInfo::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="61" column="26" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="98" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/governance_audit_integrity.h" line="43" column="1" bodyfile="include/governance/governance_audit_integrity.h" bodystart="43" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_signature_info_1ac786f88b6d75df16e7e01626e392c99f" prot="public" virt="non-virtual"><scope>themis::governance::SignatureInfo</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1governance_1_1_signature_info_1a076e07e5662c007a8b93d723f17fb58b" prot="public" virt="non-virtual"><scope>themis::governance::SignatureInfo</scope><name>entry_hash</name></member>
+      <member refid="structthemis_1_1governance_1_1_signature_info_1a0c7433301168407a0f3984e6f36dc6e8" prot="public" virt="non-virtual"><scope>themis::governance::SignatureInfo</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_signature_info_1a5be59508a133fb5f84abad96f1493757" prot="public" virt="non-virtual"><scope>themis::governance::SignatureInfo</scope><name>key_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_signature_info_1a5bb1ad5844e3ea2957a0620dd45e320d" prot="public" virt="non-virtual"><scope>themis::governance::SignatureInfo</scope><name>previous_entry_hash</name></member>
+      <member refid="structthemis_1_1governance_1_1_signature_info_1a9409f50230518b5bf04ffc65dd225470" prot="public" virt="non-virtual"><scope>themis::governance::SignatureInfo</scope><name>signature</name></member>
+      <member refid="structthemis_1_1governance_1_1_signature_info_1a98da319425c15fcfd80a9403f35de84c" prot="public" virt="non-virtual"><scope>themis::governance::SignatureInfo</scope><name>signed_at_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_signature_info_1a7da2c972a1c06513b737792bd779d2c4" prot="public" virt="non-virtual"><scope>themis::governance::SignatureInfo</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

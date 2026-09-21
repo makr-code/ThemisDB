@@ -1,0 +1,487 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_l_l_m_integration" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::LLMIntegration</compoundname>
+    <includes refid="llm__integration_8h" local="no">llm_integration.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_integration_1a2db171ce7e6b6723ff39a94ed737f043" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::LLMIntegration::setInferenceEngine</definition>
+        <argsstring>(std::shared_ptr&lt; llm::InferenceEngineEnhanced &gt; engine)</argsstring>
+        <name>setInferenceEngine</name>
+        <qualifiedname>themis::rag::LLMIntegration::setInferenceEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; llm::InferenceEngineEnhanced &gt;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Set the inference engine to use. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Inference Engine.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to the inference engine</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="95" column="17" bodyfile="src/rag/llm_integration.cpp" bodystart="115" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_integration_1a2f29d29790a85e5ad656014534dc6fa0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; llm::InferenceEngineEnhanced &gt;</type>
+        <definition>std::shared_ptr&lt; llm::InferenceEngineEnhanced &gt; themis::rag::LLMIntegration::getInferenceEngine</definition>
+        <argsstring>()</argsstring>
+        <name>getInferenceEngine</name>
+        <qualifiedname>themis::rag::LLMIntegration::getInferenceEngine</qualifiedname>
+        <briefdescription>
+<para>Get the current inference engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Inference Engine.</para>
+<para><simplesect kind="return"><para>Shared pointer to the inference engine (may be null)</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="101" column="28" bodyfile="src/rag/llm_integration.cpp" bodystart="126" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_integration_1a76bf439c2811dd578ce9714a5a305456" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::LLMIntegration::generate</definition>
+        <argsstring>(const std::string &amp;prompt)</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::rag::LLMIntegration::generate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Generate text using the LLM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The prompt to send to the LLM </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Generated text</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements generate without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="108" column="24" bodyfile="src/rag/llm_integration.cpp" bodystart="137" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_integration_1acfce82393fc1d203c0a1dfe169548d16" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::LLMIntegration::generate</definition>
+        <argsstring>(const std::string &amp;prompt, const LLMGenerationOptions &amp;options)</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::rag::LLMIntegration::generate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_l_l_m_generation_options" kindref="compound">LLMGenerationOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Generate text using the LLM with custom options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The prompt to send to the LLM </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generation options </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Generated text</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), length(), <ref refid="classthemis_1_1rag_1_1_l_l_m_integration_1a2f29d29790a85e5ad656014534dc6fa0" kindref="member">getInferenceEngine()</ref>, std::min(), max(), llm::LLMPluginManager::instance(), empty(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="116" column="24" bodyfile="src/rag/llm_integration.cpp" bodystart="148" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_integration_1acb332bd72a6e8ab4ca9c9a99bbb83732" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::LLMIntegration::generateMultipleSamples</definition>
+        <argsstring>(const std::string &amp;prompt, size_t num_samples)</argsstring>
+        <name>generateMultipleSamples</name>
+        <qualifiedname>themis::rag::LLMIntegration::generateMultipleSamples</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_samples</declname>
+        </param>
+        <briefdescription>
+<para>Generate multiple samples for self-consistency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Multiple Samples.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The prompt to send to the LLM </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>num_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of samples to generate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of generated texts</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements generateMultipleSamples without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="127" column="24" bodyfile="src/rag/llm_integration.cpp" bodystart="248" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_integration_1af2385e423b0e97534bc351216cda7710" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::LLMIntegration::generateMultipleSamples</definition>
+        <argsstring>(const std::string &amp;prompt, size_t num_samples, const LLMGenerationOptions &amp;options)</argsstring>
+        <name>generateMultipleSamples</name>
+        <qualifiedname>themis::rag::LLMIntegration::generateMultipleSamples</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_samples</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_l_l_m_generation_options" kindref="compound">LLMGenerationOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Generate multiple samples with custom options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Multiple Samples.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The prompt to send to the LLM </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>num_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of samples to generate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generation options </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of generated texts</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), reserve(), gen(), rd(), seed_dist(), size(), std::min(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="139" column="24" bodyfile="src/rag/llm_integration.cpp" bodystart="263" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_integration_1a0dd1a6b7b2fb8a242271acba3191349c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_l_l_m_evaluation_response" kindref="compound">LLMEvaluationResponse</ref></type>
+        <definition>LLMEvaluationResponse themis::rag::LLMIntegration::parseEvaluationResponse</definition>
+        <argsstring>(const std::string &amp;response)</argsstring>
+        <name>parseEvaluationResponse</name>
+        <qualifiedname>themis::rag::LLMIntegration::parseEvaluationResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Parse evaluation response from LLM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse Evaluation Response.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw LLM response </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parsed evaluation response</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: score_regex(), std::regex_search(), std::stod(), confidence_regex(), explanation_regex(), THEMIS_DEBUG(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="150" column="34" bodyfile="src/rag/llm_integration.cpp" bodystart="307" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_integration_1a1ef0e99e5ef689f2cc47a1fb384a9cdc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::LLMIntegration::calculatePerplexity</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;token_probs)</argsstring>
+        <name>calculatePerplexity</name>
+        <qualifiedname>themis::rag::LLMIntegration::calculatePerplexity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>token_probs</declname>
+        </param>
+        <briefdescription>
+<para>Calculate perplexity from token probabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate Perplexity.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>token_probs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of token probabilities </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Perplexity score</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_probs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::log(), size(), std::exp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="157" column="19" bodyfile="src/rag/llm_integration.cpp" bodystart="358" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_l_l_m_integration_1a006bf9ab8dfca8de8336b655641eda65" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::LLMIntegration::calculateSemanticSimilarity</definition>
+        <argsstring>(const std::string &amp;text1, const std::string &amp;text2)</argsstring>
+        <name>calculateSemanticSimilarity</name>
+        <qualifiedname>themis::rag::LLMIntegration::calculateSemanticSimilarity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text2</declname>
+        </param>
+        <briefdescription>
+<para>Calculate semantic similarity between two texts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate Semantic Similarity.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First text </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>text2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Similarity score (0-1)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), empty(), iss(), std::transform(), begin(), end(), push_back(), tokenize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_integration.h" line="165" column="19" bodyfile="src/rag/llm_integration.cpp" bodystart="382" bodyend="448"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>LLM Integration Manager for RAG components. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides a unified interface for RAG components to interact with the LLM inference engine. </para>
+    </detaileddescription>
+    <location file="include/rag/llm_integration.h" line="89" column="1" bodyfile="include/rag/llm_integration.h" bodystart="89" bodyend="169"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_integration_1a1ef0e99e5ef689f2cc47a1fb384a9cdc" prot="public" virt="non-virtual"><scope>themis::rag::LLMIntegration</scope><name>calculatePerplexity</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_integration_1a006bf9ab8dfca8de8336b655641eda65" prot="public" virt="non-virtual"><scope>themis::rag::LLMIntegration</scope><name>calculateSemanticSimilarity</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_integration_1a76bf439c2811dd578ce9714a5a305456" prot="public" virt="non-virtual"><scope>themis::rag::LLMIntegration</scope><name>generate</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_integration_1acfce82393fc1d203c0a1dfe169548d16" prot="public" virt="non-virtual"><scope>themis::rag::LLMIntegration</scope><name>generate</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_integration_1acb332bd72a6e8ab4ca9c9a99bbb83732" prot="public" virt="non-virtual"><scope>themis::rag::LLMIntegration</scope><name>generateMultipleSamples</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_integration_1af2385e423b0e97534bc351216cda7710" prot="public" virt="non-virtual"><scope>themis::rag::LLMIntegration</scope><name>generateMultipleSamples</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_integration_1a2f29d29790a85e5ad656014534dc6fa0" prot="public" virt="non-virtual"><scope>themis::rag::LLMIntegration</scope><name>getInferenceEngine</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_integration_1a0dd1a6b7b2fb8a242271acba3191349c" prot="public" virt="non-virtual"><scope>themis::rag::LLMIntegration</scope><name>parseEvaluationResponse</name></member>
+      <member refid="classthemis_1_1rag_1_1_l_l_m_integration_1a2db171ce7e6b6723ff39a94ed737f043" prot="public" virt="non-virtual"><scope>themis::rag::LLMIntegration</scope><name>setInferenceEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

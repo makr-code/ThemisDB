@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_optimizer_cost_model_1_1_filter_cost" kind="struct" language="C++" prot="public">
+    <compoundname>themis::OptimizerCostModel::FilterCost</compoundname>
+    <includes refid="optimizer__cost__model_8h" local="no">optimizer_cost_model.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_filter_cost_1a365cf4b097115aa71e83a8b70b9d3709" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::FilterCost::cpuCost</definition>
+        <argsstring></argsstring>
+        <name>cpuCost</name>
+        <qualifiedname>themis::OptimizerCostModel::FilterCost::cpuCost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="159" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_filter_cost_1a602a614e1b5fa2d27dfc22227c1a64f7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::FilterCost::selectivity</definition>
+        <argsstring></argsstring>
+        <name>selectivity</name>
+        <qualifiedname>themis::OptimizerCostModel::FilterCost::selectivity</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="160" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_filter_cost_1aca476e5188104fffd2342923dc9768e2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::FilterCost::inputRows</definition>
+        <argsstring></argsstring>
+        <name>inputRows</name>
+        <qualifiedname>themis::OptimizerCostModel::FilterCost::inputRows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="161" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_filter_cost_1a43e0cbe2bc18f02e92c5fede8a9aa282" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::FilterCost::outputRows</definition>
+        <argsstring></argsstring>
+        <name>outputRows</name>
+        <qualifiedname>themis::OptimizerCostModel::FilterCost::outputRows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="162" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/optimizer_cost_model.h" line="158" column="5" bodyfile="include/query/optimizer_cost_model.h" bodystart="158" bodyend="163"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_filter_cost_1a365cf4b097115aa71e83a8b70b9d3709" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::FilterCost</scope><name>cpuCost</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_filter_cost_1aca476e5188104fffd2342923dc9768e2" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::FilterCost</scope><name>inputRows</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_filter_cost_1a43e0cbe2bc18f02e92c5fede8a9aa282" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::FilterCost</scope><name>outputRows</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_filter_cost_1a602a614e1b5fa2d27dfc22227c1a64f7" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::FilterCost</scope><name>selectivity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_manager_shared_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::ManagerSharedState</compoundname>
+    <includes refid="distributed__transaction__manager_8h" local="no">distributed_transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_manager_shared_state_1a36fff57a7db36a48945e352b94275f64" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::ManagerSharedState::shards_mutex</definition>
+        <argsstring></argsstring>
+        <name>shards_mutex</name>
+        <qualifiedname>themis::storage::ManagerSharedState::shards_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="164" column="24" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_manager_shared_state_1a19bfb1f8834b5c5dd58e58f36629503c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::storage::ManagerSharedState::total_transactions</definition>
+        <argsstring></argsstring>
+        <name>total_transactions</name>
+        <qualifiedname>themis::storage::ManagerSharedState::total_transactions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Best-effort statistics counters (all relaxed — approximate counts only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="166" column="17" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="166" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_manager_shared_state_1a6a8bd25a1a464a98b387bb1698c0377f" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::storage::ManagerSharedState::committed</definition>
+        <argsstring></argsstring>
+        <name>committed</name>
+        <qualifiedname>themis::storage::ManagerSharedState::committed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="167" column="17" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_manager_shared_state_1a6e0dec40f311c54c6f12f4faac6167c6" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::storage::ManagerSharedState::aborted</definition>
+        <argsstring></argsstring>
+        <name>aborted</name>
+        <qualifiedname>themis::storage::ManagerSharedState::aborted</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="168" column="17" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="168" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_manager_shared_state_1ae30fc2eb111257d38460a50f050ed5ac" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::storage::ManagerSharedState::active</definition>
+        <argsstring></argsstring>
+        <name>active</name>
+        <qualifiedname>themis::storage::ManagerSharedState::active</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="169" column="17" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="169" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_manager_shared_state_1af5e30678ff331acf83041b8cb0226ebf" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::storage::ManagerSharedState::txn_counter</definition>
+        <argsstring></argsstring>
+        <name>txn_counter</name>
+        <qualifiedname>themis::storage::ManagerSharedState::txn_counter</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="171" column="17" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="171" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_manager_shared_state_1a24cc963b184842b4de7759eece40c3e2" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_i_distributed_shard_participant" kindref="compound">IDistributedShardParticipant</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;IDistributedShardParticipant&gt; &gt; themis::storage::ManagerSharedState::shards</definition>
+        <argsstring></argsstring>
+        <name>shards</name>
+        <qualifiedname>themis::storage::ManagerSharedState::shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Participants are stored as shared_ptr with a no-op deleter: the caller retains ownership of the underlying object, but copying the shared_ptr under the shards_mutex gives in-flight operations a stable reference that outlives a concurrent unregisterShard() call. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="177" column="14" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_manager_shared_state_1a356db41a9c8e8c0e6ec603eaf47543bb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::ManagerSharedState::next_shard_version</definition>
+        <argsstring></argsstring>
+        <name>next_shard_version</name>
+        <qualifiedname>themis::storage::ManagerSharedState::next_shard_version</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Monotonic per-shard registration versions (protected by shards_mutex). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="180" column="14" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="180" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_manager_shared_state_1aa503776fd51353fea502674100b4f9b5" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::map&lt;std::string, uint64_t&gt; themis::storage::ManagerSharedState::shard_versions</definition>
+        <argsstring></argsstring>
+        <name>shard_versions</name>
+        <qualifiedname>themis::storage::ManagerSharedState::shard_versions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="181" column="14" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Internal state co-owned by <ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager" kindref="compound">DistributedTransactionManager</ref> and all active <ref refid="classthemis_1_1storage_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> handles via std::shared_ptr. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This ensures that a transaction can safely call rollback() in its destructor even if the owning <ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager" kindref="compound">DistributedTransactionManager</ref> has already been destroyed.</para>
+<para>Participants are stored as std::shared_ptr with a no-op deleter, so the caller retains ownership while still allowing safe reference-copying under the lock to prevent use-after-free when a concurrent unregisterShard() races with an in-flight prepare/commit/abort call. </para>
+    </detaileddescription>
+    <location file="include/storage/distributed_transaction_manager.h" line="163" column="1" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="163" bodyend="182"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_manager_shared_state_1a6e0dec40f311c54c6f12f4faac6167c6" prot="public" virt="non-virtual"><scope>themis::storage::ManagerSharedState</scope><name>aborted</name></member>
+      <member refid="structthemis_1_1storage_1_1_manager_shared_state_1ae30fc2eb111257d38460a50f050ed5ac" prot="public" virt="non-virtual"><scope>themis::storage::ManagerSharedState</scope><name>active</name></member>
+      <member refid="structthemis_1_1storage_1_1_manager_shared_state_1a6a8bd25a1a464a98b387bb1698c0377f" prot="public" virt="non-virtual"><scope>themis::storage::ManagerSharedState</scope><name>committed</name></member>
+      <member refid="structthemis_1_1storage_1_1_manager_shared_state_1a356db41a9c8e8c0e6ec603eaf47543bb" prot="public" virt="non-virtual"><scope>themis::storage::ManagerSharedState</scope><name>next_shard_version</name></member>
+      <member refid="structthemis_1_1storage_1_1_manager_shared_state_1aa503776fd51353fea502674100b4f9b5" prot="public" virt="non-virtual"><scope>themis::storage::ManagerSharedState</scope><name>shard_versions</name></member>
+      <member refid="structthemis_1_1storage_1_1_manager_shared_state_1a24cc963b184842b4de7759eece40c3e2" prot="public" virt="non-virtual"><scope>themis::storage::ManagerSharedState</scope><name>shards</name></member>
+      <member refid="structthemis_1_1storage_1_1_manager_shared_state_1a36fff57a7db36a48945e352b94275f64" prot="public" virt="non-virtual"><scope>themis::storage::ManagerSharedState</scope><name>shards_mutex</name></member>
+      <member refid="structthemis_1_1storage_1_1_manager_shared_state_1a19bfb1f8834b5c5dd58e58f36629503c" prot="public" virt="non-virtual"><scope>themis::storage::ManagerSharedState</scope><name>total_transactions</name></member>
+      <member refid="structthemis_1_1storage_1_1_manager_shared_state_1af5e30678ff331acf83041b8cb0226ebf" prot="public" virt="non-virtual"><scope>themis::storage::ManagerSharedState</scope><name>txn_counter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

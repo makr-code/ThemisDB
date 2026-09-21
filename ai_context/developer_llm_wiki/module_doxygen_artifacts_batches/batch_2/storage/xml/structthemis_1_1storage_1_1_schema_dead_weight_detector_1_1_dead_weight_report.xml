@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::SchemaDeadWeightDetector::DeadWeightReport</compoundname>
+    <includes refid="schema__dead__weight__detector_8h" local="no">schema_dead_weight_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1a31e5bd2d4d28e431756b15c6713adb94" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_candidate" kindref="compound">DeadWeightCandidate</ref> &gt;</type>
+        <definition>std::vector&lt;DeadWeightCandidate&gt; themis::storage::SchemaDeadWeightDetector::DeadWeightReport::candidates</definition>
+        <argsstring></argsstring>
+        <name>candidates</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::DeadWeightReport::candidates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="115" column="21" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1af7a7eecf0fc3060a6d48db9b68d51a4b" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::storage::SchemaDeadWeightDetector::DeadWeightReport::generated_at</definition>
+        <argsstring></argsstring>
+        <name>generated_at</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::DeadWeightReport::generated_at</qualifiedname>
+        <initializer>{
+            std::chrono::system_clock::now()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="116" column="47" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="116" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1a2cbeb79d97673437da98fb9384a7dff4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::SchemaDeadWeightDetector::DeadWeightReport::analysis_window_days</definition>
+        <argsstring></argsstring>
+        <name>analysis_window_days</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::DeadWeightReport::analysis_window_days</qualifiedname>
+        <initializer>{180}</initializer>
+        <briefdescription>
+<para>Rolling window used for the analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="120" column="18" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1a940485561611986841020c01a7b308bb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::SchemaDeadWeightDetector::DeadWeightReport::total_fields_analyzed</definition>
+        <argsstring></argsstring>
+        <name>total_fields_analyzed</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::DeadWeightReport::total_fields_analyzed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total number of fields examined (including GDPR and seasonal). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="123" column="16" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="123" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1adef8a8c0f8b5152c75f75f6c704d4c56" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::SchemaDeadWeightDetector::DeadWeightReport::gdpr_protected_skipped</definition>
+        <argsstring></argsstring>
+        <name>gdpr_protected_skipped</name>
+        <qualifiedname>themis::storage::SchemaDeadWeightDetector::DeadWeightReport::gdpr_protected_skipped</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>How many fields were skipped because of GDPR protection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/schema_dead_weight_detector.h" line="126" column="16" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/schema_dead_weight_detector.h" line="114" column="5" bodyfile="include/storage/schema_dead_weight_detector.h" bodystart="114" bodyend="127"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1a2cbeb79d97673437da98fb9384a7dff4" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector::DeadWeightReport</scope><name>analysis_window_days</name></member>
+      <member refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1a31e5bd2d4d28e431756b15c6713adb94" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector::DeadWeightReport</scope><name>candidates</name></member>
+      <member refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1adef8a8c0f8b5152c75f75f6c704d4c56" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector::DeadWeightReport</scope><name>gdpr_protected_skipped</name></member>
+      <member refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1af7a7eecf0fc3060a6d48db9b68d51a4b" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector::DeadWeightReport</scope><name>generated_at</name></member>
+      <member refid="structthemis_1_1storage_1_1_schema_dead_weight_detector_1_1_dead_weight_report_1a940485561611986841020c01a7b308bb" prot="public" virt="non-virtual"><scope>themis::storage::SchemaDeadWeightDetector::DeadWeightReport</scope><name>total_fields_analyzed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

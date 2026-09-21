@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_multi_modal_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::MultiModalResult</compoundname>
+    <includes refid="multi__modal__search_8h" local="no">multi_modal_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_multi_modal_result_1afbe3d41bf3e019c7f150f340fbd5e4f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::MultiModalResult::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::MultiModalResult::document_id</qualifiedname>
+        <briefdescription>
+<para>Primary key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="46" column="17" bodyfile="include/search/multi_modal_search.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_multi_modal_result_1a853c0fb534db3ab3a547eb7239f7790f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::MultiModalResult::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::MultiModalResult::score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Fused relevance score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="47" column="12" bodyfile="include/search/multi_modal_search.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_multi_modal_result_1ad1631838fb71f85271e4a256735a446b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::MultiModalResult::matched_modality</definition>
+        <argsstring></argsstring>
+        <name>matched_modality</name>
+        <qualifiedname>themis::MultiModalResult::matched_modality</qualifiedname>
+        <briefdescription>
+<para>Which modality produced the best match. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="48" column="17" bodyfile="include/search/multi_modal_search.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A multi-modal search result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/multi_modal_search.h" line="45" column="1" bodyfile="include/search/multi_modal_search.h" bodystart="45" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_multi_modal_result_1afbe3d41bf3e019c7f150f340fbd5e4f2" prot="public" virt="non-virtual"><scope>themis::MultiModalResult</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1_multi_modal_result_1ad1631838fb71f85271e4a256735a446b" prot="public" virt="non-virtual"><scope>themis::MultiModalResult</scope><name>matched_modality</name></member>
+      <member refid="structthemis_1_1_multi_modal_result_1a853c0fb534db3ab3a547eb7239f7790f" prot="public" virt="non-virtual"><scope>themis::MultiModalResult</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_training_incident_listener" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::training::TrainingIncidentListener</compoundname>
+    <includes refid="training__incident__emitter_8h" local="no">training_incident_emitter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_incident_listener_1ad8ea158ea9150146a91888fa94ad983b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::training::TrainingIncidentListener::~TrainingIncidentListener</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TrainingIncidentListener</name>
+        <qualifiedname>themis::training::TrainingIncidentListener::~TrainingIncidentListener</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="138" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_incident_listener_1a77da47e9377ba1cf29738083aa320967" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::training::TrainingIncidentListener::onIncident</definition>
+        <argsstring>(const TrainingIncident &amp;incident)=0</argsstring>
+        <name>onIncident</name>
+        <qualifiedname>themis::training::TrainingIncidentListener::onIncident</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_training_incident" kindref="compound">TrainingIncident</ref> &amp;</type>
+          <declname>incident</declname>
+        </param>
+        <briefdescription>
+<para>Receive a training incident event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>incident</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The incident. All fields are populated before the call. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="145" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract listener interface for training incident events. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations receive every incident emitted by <ref refid="classthemis_1_1training_1_1_training_incident_emitter" kindref="compound">TrainingIncidentEmitter</ref>. <computeroutput><ref refid="classthemis_1_1training_1_1_training_incident_listener_1a77da47e9377ba1cf29738083aa320967" kindref="member">onIncident</ref></computeroutput> is called with the emitter&apos;s internal mutex held, so implementations MUST NOT call back into the emitter (to avoid deadlock) and SHOULD return quickly to avoid stalling the emitting thread.</para>
+<para><simplesect kind="par"><title>Thread-safety contract</title><para>The emitter calls <computeroutput><ref refid="classthemis_1_1training_1_1_training_incident_listener_1a77da47e9377ba1cf29738083aa320967" kindref="member">onIncident</ref></computeroutput> under a mutex. Implementations are responsible for their own internal thread safety (e.g., if they forward to a queue). </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/training/training_incident_emitter.h" line="136" column="1" bodyfile="include/training/training_incident_emitter.h" bodystart="136" bodyend="146"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_training_incident_listener_1a77da47e9377ba1cf29738083aa320967" prot="public" virt="pure-virtual"><scope>themis::training::TrainingIncidentListener</scope><name>onIncident</name></member>
+      <member refid="classthemis_1_1training_1_1_training_incident_listener_1ad8ea158ea9150146a91888fa94ad983b" prot="public" virt="virtual"><scope>themis::training::TrainingIncidentListener</scope><name>~TrainingIncidentListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

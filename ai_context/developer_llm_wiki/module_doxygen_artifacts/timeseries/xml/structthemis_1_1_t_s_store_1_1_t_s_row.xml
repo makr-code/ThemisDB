@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_t_s_store_1_1_t_s_row" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TSStore::TSRow</compoundname>
+    <includes refid="tsstore_8h" local="no">tsstore.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_t_s_row_1a757a0257ada9d4cacb9902e46529668a" prot="public" static="no" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::TSStore::TSRow::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themis::TSStore::TSRow::metric</qualifiedname>
+        <briefdescription>
+<para>Metric name (e.g., &quot;cpu_usage&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="277" column="26" bodyfile="include/timeseries/tsstore.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_t_s_row_1ae57d18672ae2df469e0cc80f765a25c5" prot="public" static="no" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::TSStore::TSRow::entity</definition>
+        <argsstring></argsstring>
+        <name>entity</name>
+        <qualifiedname>themis::TSStore::TSRow::entity</qualifiedname>
+        <briefdescription>
+<para>Entity ID (e.g., &quot;server01&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="278" column="26" bodyfile="include/timeseries/tsstore.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_t_s_row_1afcb761ac867dfd8bdff173d42ccc48d2" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::TSStore::TSRow::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::TSStore::TSRow::timestamp_ms</qualifiedname>
+        <briefdescription>
+<para>Unix epoch in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="279" column="26" bodyfile="include/timeseries/tsstore.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_t_s_row_1ad83bc9a608756564438a11ecdbdd6c33" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TSStore::TSRow::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::TSStore::TSRow::value</qualifiedname>
+        <briefdescription>
+<para>Numeric sample value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="280" column="26" bodyfile="include/timeseries/tsstore.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Zero-copy view of a single time-series row for high-throughput batch ingestion. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Unlike <computeroutput><ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">DataPoint</ref></computeroutput>, all string fields are <computeroutput>std::string_view</computeroutput> — no heap allocation is required at the call site. The caller must ensure that the backing storage for <computeroutput><ref refid="structthemis_1_1_t_s_store_1_1_t_s_row_1a757a0257ada9d4cacb9902e46529668a" kindref="member">metric</ref></computeroutput> and <computeroutput><ref refid="structthemis_1_1_t_s_store_1_1_t_s_row_1ae57d18672ae2df469e0cc80f765a25c5" kindref="member">entity</ref></computeroutput> outlives the <computeroutput><ref refid="classthemis_1_1_t_s_store_1a2b54cb6bf7aeb4a1429a5e0fc6ce3f26" kindref="member">putBatch()</ref></computeroutput> call.</para>
+<para><computeroutput>tags</computeroutput> and <computeroutput>metadata</computeroutput> are optional JSON blobs; pass an empty / null JSON value when not needed. </para>
+    </detaileddescription>
+    <location file="include/timeseries/tsstore.h" line="276" column="5" bodyfile="include/timeseries/tsstore.h" bodystart="276" bodyend="281"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_t_s_store_1_1_t_s_row_1ae57d18672ae2df469e0cc80f765a25c5" prot="public" virt="non-virtual"><scope>themis::TSStore::TSRow</scope><name>entity</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_t_s_row_1a757a0257ada9d4cacb9902e46529668a" prot="public" virt="non-virtual"><scope>themis::TSStore::TSRow</scope><name>metric</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_t_s_row_1afcb761ac867dfd8bdff173d42ccc48d2" prot="public" virt="non-virtual"><scope>themis::TSStore::TSRow</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_t_s_row_1ad83bc9a608756564438a11ecdbdd6c33" prot="public" virt="non-virtual"><scope>themis::TSStore::TSRow</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

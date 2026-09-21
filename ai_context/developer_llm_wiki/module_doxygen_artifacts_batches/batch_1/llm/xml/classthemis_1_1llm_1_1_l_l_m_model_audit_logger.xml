@@ -1,0 +1,779 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_l_l_m_model_audit_logger" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::LLMModelAuditLogger</compoundname>
+    <includes refid="llm__model__audit__logger_8h" local="no">llm_model_audit_logger.h</includes>
+    <innerclass refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1_1_impl" prot="public">themis::llm::LLMModelAuditLogger::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a7992f3f631638471c94296da1ba66046" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::LLMModelAuditLogger::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="276" column="21" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a59cfb0e1a1038127902455e48528ff83" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LLMModelAuditLogger::LLMModelAuditLogger</definition>
+        <argsstring>(const utils::AuditLoggerConfig &amp;config=utils::AuditLoggerConfig{})</argsstring>
+        <name>LLMModelAuditLogger</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::LLMModelAuditLogger</qualifiedname>
+        <param>
+          <type>const utils::AuditLoggerConfig &amp;</type>
+          <declname>config</declname>
+          <defval>utils::AuditLoggerConfig{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="185" column="14" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="179" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a8f2daa3fa75d7aa0cfcb3a6f344832d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LLMModelAuditLogger::~LLMModelAuditLogger</definition>
+        <argsstring>()</argsstring>
+        <name>~LLMModelAuditLogger</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::~LLMModelAuditLogger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="186" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a442fa0114b7d6cbd70f7792df6e43f1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMModelAuditLogger::logInference</definition>
+        <argsstring>(const LLMModelInferenceAudit &amp;audit)</argsstring>
+        <name>logInference</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::logInference</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit" kindref="compound">LLMModelInferenceAudit</ref> &amp;</type>
+          <declname>audit</declname>
+        </param>
+        <briefdescription>
+<para>Log Inference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">audit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(), appendRecord(), get(), toJSON(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="192" column="10" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="228" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a9b2ed9a39041d6e7f4c6e755026055e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMModelAuditLogger::logEvent</definition>
+        <argsstring>(LLMModelAuditEventType event_type, const std::string &amp;model_id, const json &amp;details=json::object())</argsstring>
+        <name>logEvent</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::logEvent</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1" kindref="member">LLMModelAuditEventType</ref></type>
+          <declname>event_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>details</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Log Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(), eventTypeName(), appendRecord(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="194" column="10" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="247" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a34941d1b9acc29c50aaf27d82bc2bd56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMModelAuditLogger::logModelLifecycle</definition>
+        <argsstring>(LLMModelAuditEventType event_type, const std::string &amp;model_id, const std::string &amp;version=&quot;&quot;, const json &amp;metadata=json::object())</argsstring>
+        <name>logModelLifecycle</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::logModelLifecycle</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1" kindref="member">LLMModelAuditEventType</ref></type>
+          <declname>event_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>metadata</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Log Model Lifecycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(), appendRecord(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="200" column="10" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="265" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1aa12ca068a4bd5a387dc6081084ccec6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMModelAuditLogger::logFineTuning</definition>
+        <argsstring>(LLMModelAuditEventType event_type, const std::string &amp;model_id, const std::string &amp;base_model_id, int num_samples, float final_loss=0.0f, const json &amp;hyperparameters=json::object())</argsstring>
+        <name>logFineTuning</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::logFineTuning</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1" kindref="member">LLMModelAuditEventType</ref></type>
+          <declname>event_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num_samples</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>final_loss</declname>
+          <defval>0.0f</defval>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>hyperparameters</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Log Fine Tuning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the base model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">final_loss</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hyperparameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(), appendRecord(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="207" column="10" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="287" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a2f770f911298ce096e1a756f964d3c50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMModelAuditLogger::logDeployment</definition>
+        <argsstring>(LLMModelAuditEventType event_type, const std::string &amp;model_id, const std::string &amp;deployment_target, const json &amp;config=json::object())</argsstring>
+        <name>logDeployment</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::logDeployment</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1" kindref="member">LLMModelAuditEventType</ref></type>
+          <declname>event_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>deployment_target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Log Deployment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deployment_target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(), appendRecord(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="216" column="10" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="312" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a5172cd16acd7ee8d54260e092cb6d2aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMModelAuditLogger::logPolicyViolation</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;request_id, const std::string &amp;rule_name, const std::string &amp;reason, bool was_blocked)</argsstring>
+        <name>logPolicyViolation</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::logPolicyViolation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>was_blocked</declname>
+        </param>
+        <briefdescription>
+<para>Log Policy Violation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the retention policy. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">was_blocked</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the retention policy. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">was_blocked</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: appendRecord(), get(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="231" column="10" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="333" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1ac0977d2a84634df0a84892f05d588254" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt; json &gt; themis::llm::LLMModelAuditLogger::queryLogs</definition>
+        <argsstring>(const std::string &amp;model_id, std::optional&lt; std::chrono::system_clock::time_point &gt; start_time=std::nullopt, std::optional&lt; std::chrono::system_clock::time_point &gt; end_time=std::nullopt)</argsstring>
+        <name>queryLogs</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::queryLogs</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+          <declname>start_time</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+          <declname>end_time</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Query Logs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), empty(), eventTypeName(), std::chrono::system_clock::to_time_t(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="239" column="17" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="368" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1ae9ab6ab0420b3d81c38ec2bddc684fe8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit" kindref="compound">LLMModelInferenceAudit</ref> &gt;</type>
+        <definition>std::vector&lt; LLMModelInferenceAudit &gt; themis::llm::LLMModelAuditLogger::getInferenceHistory</definition>
+        <argsstring>(const std::string &amp;model_id, int limit=100)</argsstring>
+        <name>getInferenceHistory</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::getInferenceHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Get Inference History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="245" column="17" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="403" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a70aa4dbd2dfad9990a6c14c6e9cceca1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::LLMModelAuditLogger::getModelStats</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>getModelStats</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::getModelStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Model Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="255" column="10" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="498" bodyend="523"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a6610109a7a07bb81b799824ead4415b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMModelAuditLogger::setEnabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setEnabled</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::setEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Set Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="261" column="10" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="479" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a1944674a7bd89c8372bef39f59e8f51f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMModelAuditLogger::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::flush</qualifiedname>
+        <briefdescription>
+<para>Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: flushFile(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="266" column="10" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="488" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1ad0659dfafb7690ff81b1b740684b072e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMModelAuditLogger::exportAnalytics</definition>
+        <argsstring>(std::ostream &amp;out_stream, const std::string &amp;model_id=&quot;&quot;, std::optional&lt; std::chrono::system_clock::time_point &gt; start_time=std::nullopt, std::optional&lt; std::chrono::system_clock::time_point &gt; end_time=std::nullopt)</argsstring>
+        <name>exportAnalytics</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::exportAnalytics</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out_stream</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+          <declname>start_time</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+          <declname>end_time</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Export Analytics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), empty(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str(), eventTypeName(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_audit_logger.h" line="268" column="12" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="425" bodyend="468"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_model_audit_logger.h" line="181" column="1" bodyfile="include/llm/llm_model_audit_logger.h" bodystart="181" bodyend="277"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1ad0659dfafb7690ff81b1b740684b072e" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger</scope><name>exportAnalytics</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a1944674a7bd89c8372bef39f59e8f51f" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger</scope><name>flush</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1ae9ab6ab0420b3d81c38ec2bddc684fe8" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger</scope><name>getInferenceHistory</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a70aa4dbd2dfad9990a6c14c6e9cceca1" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger</scope><name>getModelStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a7992f3f631638471c94296da1ba66046" prot="private" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a59cfb0e1a1038127902455e48528ff83" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger</scope><name>LLMModelAuditLogger</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a2f770f911298ce096e1a756f964d3c50" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger</scope><name>logDeployment</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a9b2ed9a39041d6e7f4c6e755026055e4" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger</scope><name>logEvent</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1aa12ca068a4bd5a387dc6081084ccec6a" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger</scope><name>logFineTuning</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a442fa0114b7d6cbd70f7792df6e43f1b" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger</scope><name>logInference</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a34941d1b9acc29c50aaf27d82bc2bd56" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger</scope><name>logModelLifecycle</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a5172cd16acd7ee8d54260e092cb6d2aa" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger</scope><name>logPolicyViolation</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1ac0977d2a84634df0a84892f05d588254" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger</scope><name>queryLogs</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a6610109a7a07bb81b799824ead4415b5" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger</scope><name>setEnabled</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger_1a8f2daa3fa75d7aa0cfcb3a6f344832d5" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger</scope><name>~LLMModelAuditLogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

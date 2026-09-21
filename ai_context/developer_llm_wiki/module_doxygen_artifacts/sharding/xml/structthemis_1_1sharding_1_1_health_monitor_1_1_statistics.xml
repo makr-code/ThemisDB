@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_health_monitor_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::HealthMonitor::Statistics</compoundname>
+    <includes refid="health__monitor_8h" local="no">health_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_monitor_1_1_statistics_1af17372926d44f871363c3b7f5bf654ba" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::HealthMonitor::Statistics::total_health_checks</definition>
+        <argsstring></argsstring>
+        <name>total_health_checks</name>
+        <qualifiedname>themis::sharding::HealthMonitor::Statistics::total_health_checks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Count of executed health checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="199" column="18" bodyfile="include/sharding/health_monitor.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_monitor_1_1_statistics_1ae9e39616fda9d8662d33dd53e8ac3333" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::HealthMonitor::Statistics::failed_health_checks</definition>
+        <argsstring></argsstring>
+        <name>failed_health_checks</name>
+        <qualifiedname>themis::sharding::HealthMonitor::Statistics::failed_health_checks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Count of failed/timed-out health checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="201" column="18" bodyfile="include/sharding/health_monitor.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_monitor_1_1_statistics_1a4f48b40a12ab5b4a04de8d369f92ae68" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::HealthMonitor::Statistics::auto_failovers_triggered</definition>
+        <argsstring></argsstring>
+        <name>auto_failovers_triggered</name>
+        <qualifiedname>themis::sharding::HealthMonitor::Statistics::auto_failovers_triggered</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Count of automatically triggered failovers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="203" column="18" bodyfile="include/sharding/health_monitor.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_monitor_1_1_statistics_1a4edd6a563a118f97e090589a196ce5c9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::HealthMonitor::Statistics::manual_failovers_triggered</definition>
+        <argsstring></argsstring>
+        <name>manual_failovers_triggered</name>
+        <qualifiedname>themis::sharding::HealthMonitor::Statistics::manual_failovers_triggered</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Count of manually triggered failovers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="205" column="18" bodyfile="include/sharding/health_monitor.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_monitor_1_1_statistics_1a34332a2efaa048ac2c45abb2054e7f62" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::sharding::HealthMonitor::Statistics::last_failover_time</definition>
+        <argsstring></argsstring>
+        <name>last_failover_time</name>
+        <qualifiedname>themis::sharding::HealthMonitor::Statistics::last_failover_time</qualifiedname>
+        <briefdescription>
+<para>Timestamp of most recent failover event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="207" column="47" bodyfile="include/sharding/health_monitor.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1sharding_1_1_health_monitor_1_1_statistics" kindref="compound">Statistics</ref> snapshot for health/failover activity. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/health_monitor.h" line="197" column="5" bodyfile="include/sharding/health_monitor.h" bodystart="197" bodyend="208"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_health_monitor_1_1_statistics_1a4f48b40a12ab5b4a04de8d369f92ae68" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor::Statistics</scope><name>auto_failovers_triggered</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_monitor_1_1_statistics_1ae9e39616fda9d8662d33dd53e8ac3333" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor::Statistics</scope><name>failed_health_checks</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_monitor_1_1_statistics_1a34332a2efaa048ac2c45abb2054e7f62" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor::Statistics</scope><name>last_failover_time</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_monitor_1_1_statistics_1a4edd6a563a118f97e090589a196ce5c9" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor::Statistics</scope><name>manual_failovers_triggered</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_monitor_1_1_statistics_1af17372926d44f871363c3b7f5bf654ba" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitor::Statistics</scope><name>total_health_checks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,382 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_gov_data_source" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::GovDataSource</compoundname>
+    <includes refid="gov__source__catalog_8h" local="no">gov_source_catalog.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1ae7b738078d84dd70e0272c7316d9062c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovDataSource::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::scraper::GovDataSource::id</qualifiedname>
+        <briefdescription>
+<para>Unique key, e.g. &quot;gesetze_im_internet&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="63" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1a6585eba2322b4c4b3c04b51c08833c89" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovDataSource::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::scraper::GovDataSource::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="64" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1a7e1a42d0c0c4458a0b1f6933c9f697fe" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1scraper_1a25385fb487993b14ea81b7131203ff13" kindref="member">GovSourceType</ref></type>
+        <definition>GovSourceType themis::scraper::GovDataSource::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::scraper::GovDataSource::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="65" column="19" bodyfile="include/scraper/gov_source_catalog.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1afec14d97008569bdb402c6223126ee2c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1scraper_1ad3d335834fd5e92ede299d7b0d126d0a" kindref="member">GovSearchStyle</ref></type>
+        <definition>GovSearchStyle themis::scraper::GovDataSource::search_style</definition>
+        <argsstring></argsstring>
+        <name>search_style</name>
+        <qualifiedname>themis::scraper::GovDataSource::search_style</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="66" column="20" bodyfile="include/scraper/gov_source_catalog.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1abf04d95dab289b8165d9f888730e10b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovDataSource::bundesland</definition>
+        <argsstring></argsstring>
+        <name>bundesland</name>
+        <qualifiedname>themis::scraper::GovDataSource::bundesland</qualifiedname>
+        <briefdescription>
+<para>ISO 3166-2:DE code for state sources, e.g. &quot;DE-BY&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="67" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1aab727acf723df73adc0b461d8e840925" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovDataSource::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::scraper::GovDataSource::language</qualifiedname>
+        <briefdescription>
+<para>Primary language (&quot;de&quot;, &quot;en&quot;, &quot;fr&quot;, …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="68" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1a4a3fbd2a3173f4768b68647d90f74fec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovDataSource::base_url</definition>
+        <argsstring></argsstring>
+        <name>base_url</name>
+        <qualifiedname>themis::scraper::GovDataSource::base_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="71" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1a586b1b7ad2b9c6368f92a93d356ae334" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovDataSource::search_url</definition>
+        <argsstring></argsstring>
+        <name>search_url</name>
+        <qualifiedname>themis::scraper::GovDataSource::search_url</qualifiedname>
+        <briefdescription>
+<para>URL of the search endpoint / form page. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="72" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1ac1546b991388ea3702d87d2dbf1e90af" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovDataSource::sitemap_url</definition>
+        <argsstring></argsstring>
+        <name>sitemap_url</name>
+        <qualifiedname>themis::scraper::GovDataSource::sitemap_url</qualifiedname>
+        <briefdescription>
+<para>XML sitemap URL (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="73" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1ad39a316438f918489e6767296852c4c4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovDataSource::search_param</definition>
+        <argsstring></argsstring>
+        <name>search_param</name>
+        <qualifiedname>themis::scraper::GovDataSource::search_param</qualifiedname>
+        <briefdescription>
+<para>Query parameter name, e.g. &quot;query&quot; or &quot;q&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="76" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1a5938ba5b16ce2e4fbb454c702fb761bc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovDataSource::page_param</definition>
+        <argsstring></argsstring>
+        <name>page_param</name>
+        <qualifiedname>themis::scraper::GovDataSource::page_param</qualifiedname>
+        <briefdescription>
+<para>Pagination parameter name, e.g. &quot;p&quot; or &quot;page&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="77" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1a68b552043efd3d75749bd262a4c3512f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::GovDataSource::results_per_page</definition>
+        <argsstring></argsstring>
+        <name>results_per_page</name>
+        <qualifiedname>themis::scraper::GovDataSource::results_per_page</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="78" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1ac897acaaad932318c5474526dcb972fe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovDataSource::form_method</definition>
+        <argsstring></argsstring>
+        <name>form_method</name>
+        <qualifiedname>themis::scraper::GovDataSource::form_method</qualifiedname>
+        <initializer>= &quot;GET&quot;</initializer>
+        <briefdescription>
+<para>Method for HTML_FORM sources: &quot;GET&quot; or &quot;POST&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="80" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1ad2805927d65e45e9d0c4f8bfb4a0b703" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::scraper::GovDataSource::extra_params</definition>
+        <argsstring></argsstring>
+        <name>extra_params</name>
+        <qualifiedname>themis::scraper::GovDataSource::extra_params</qualifiedname>
+        <briefdescription>
+<para>Additional fixed parameters appended to every search request. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="82" column="14" bodyfile="include/scraper/gov_source_catalog.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1a7e93f9d6078a7cc412452eb3036a7dca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovDataSource::result_list_selector</definition>
+        <argsstring></argsstring>
+        <name>result_list_selector</name>
+        <qualifiedname>themis::scraper::GovDataSource::result_list_selector</qualifiedname>
+        <briefdescription>
+<para>CSS-like selector hint for the result list container. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="86" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1a24c83f9b57f8368e400520457b753f5f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovDataSource::next_page_selector</definition>
+        <argsstring></argsstring>
+        <name>next_page_selector</name>
+        <qualifiedname>themis::scraper::GovDataSource::next_page_selector</qualifiedname>
+        <briefdescription>
+<para>CSS-like selector for the &quot;next page&quot; link. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="88" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1aa18b4a301374c36e2b93ebd40a23cd6f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovDataSource::api_endpoint</definition>
+        <argsstring></argsstring>
+        <name>api_endpoint</name>
+        <qualifiedname>themis::scraper::GovDataSource::api_endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="91" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1a59a84eb4548fc33ca8447d862cdbf53d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovDataSource::api_results_field</definition>
+        <argsstring></argsstring>
+        <name>api_results_field</name>
+        <qualifiedname>themis::scraper::GovDataSource::api_results_field</qualifiedname>
+        <briefdescription>
+<para>JSON field containing the results array. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="92" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1a68193e6e2b114553dde63bec687cb178" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovDataSource::api_cursor_field</definition>
+        <argsstring></argsstring>
+        <name>api_cursor_field</name>
+        <qualifiedname>themis::scraper::GovDataSource::api_cursor_field</qualifiedname>
+        <briefdescription>
+<para>JSON field for cursor-based pagination. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="93" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1a58fe80126f0cd5843588e6a8db6d9816" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovDataSource::api_key_env</definition>
+        <argsstring></argsstring>
+        <name>api_key_env</name>
+        <qualifiedname>themis::scraper::GovDataSource::api_key_env</qualifiedname>
+        <briefdescription>
+<para>Environment variable holding the API key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="94" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1a28cc9ff0eeda4120c3d4ebd162985c1a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GovDataSource::notes</definition>
+        <argsstring></argsstring>
+        <name>notes</name>
+        <qualifiedname>themis::scraper::GovDataSource::notes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="97" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1a80f95938bf674fe67d274cf068d74ee6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::GovDataSource::requires_auth</definition>
+        <argsstring></argsstring>
+        <name>requires_auth</name>
+        <qualifiedname>themis::scraper::GovDataSource::requires_auth</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="98" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gov_data_source_1a6eaf19c387ec56e76e00cdb928b30ec8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::GovDataSource::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::scraper::GovDataSource::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/gov_source_catalog.h" line="99" column="17" bodyfile="include/scraper/gov_source_catalog.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One entry in the government source catalog. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Carries everything needed to search and scrape a specific official portal. </para>
+    </detaileddescription>
+    <location file="include/scraper/gov_source_catalog.h" line="61" column="1" bodyfile="include/scraper/gov_source_catalog.h" bodystart="61" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1a68193e6e2b114553dde63bec687cb178" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>api_cursor_field</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1aa18b4a301374c36e2b93ebd40a23cd6f" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>api_endpoint</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1a58fe80126f0cd5843588e6a8db6d9816" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>api_key_env</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1a59a84eb4548fc33ca8447d862cdbf53d" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>api_results_field</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1a4a3fbd2a3173f4768b68647d90f74fec" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>base_url</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1abf04d95dab289b8165d9f888730e10b9" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>bundesland</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1a6eaf19c387ec56e76e00cdb928b30ec8" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1ad2805927d65e45e9d0c4f8bfb4a0b703" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>extra_params</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1ac897acaaad932318c5474526dcb972fe" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>form_method</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1ae7b738078d84dd70e0272c7316d9062c" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>id</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1aab727acf723df73adc0b461d8e840925" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>language</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1a6585eba2322b4c4b3c04b51c08833c89" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>name</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1a24c83f9b57f8368e400520457b753f5f" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>next_page_selector</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1a28cc9ff0eeda4120c3d4ebd162985c1a" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>notes</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1a5938ba5b16ce2e4fbb454c702fb761bc" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>page_param</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1a80f95938bf674fe67d274cf068d74ee6" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>requires_auth</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1a7e93f9d6078a7cc412452eb3036a7dca" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>result_list_selector</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1a68b552043efd3d75749bd262a4c3512f" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>results_per_page</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1ad39a316438f918489e6767296852c4c4" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>search_param</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1afec14d97008569bdb402c6223126ee2c" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>search_style</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1a586b1b7ad2b9c6368f92a93d356ae334" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>search_url</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1ac1546b991388ea3702d87d2dbf1e90af" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>sitemap_url</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gov_data_source_1a7e1a42d0c0c4458a0b1f6933c9f697fe" prot="public" virt="non-virtual"><scope>themis::scraper::GovDataSource</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

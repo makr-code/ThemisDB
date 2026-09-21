@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_span_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::SpanEvent</compoundname>
+    <includes refid="distributed__trace__span_8h" local="no">distributed_trace_span.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_event_1a7fada919e5c265abb823c5626c58d0d0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::SpanEvent::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::observability::SpanEvent::name</qualifiedname>
+        <briefdescription>
+<para>Event name (e.g., &quot;cache_hit&quot;, &quot;retry&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="42" column="17" bodyfile="include/observability/distributed_trace_span.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_event_1ac108b699d8da0161d8bb246b7ef218fd" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::SpanEvent::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::observability::SpanEvent::attributes</qualifiedname>
+        <briefdescription>
+<para>Attributes associated with this event (e.g., {&quot;retry_count&quot;, &quot;3&quot;}). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="45" column="14" bodyfile="include/observability/distributed_trace_span.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_span_event_1af7e5c5ee36a711bf7b10cd5d0e090707" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::SpanEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::SpanEvent::timestamp</qualifiedname>
+        <briefdescription>
+<para>Wall-clock timestamp of the event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="48" column="43" bodyfile="include/observability/distributed_trace_span.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_span_event_1a1c0d28ce3ba8dc9cc5756cf3a0002d1d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::SpanEvent::SpanEvent</definition>
+        <argsstring>()</argsstring>
+        <name>SpanEvent</name>
+        <qualifiedname>themis::observability::SpanEvent::SpanEvent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="50" column="5" bodyfile="include/observability/distributed_trace_span.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_span_event_1af37216326f892ef1bc117a57bd2b89ec" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::SpanEvent::SpanEvent</definition>
+        <argsstring>(std::string event_name)</argsstring>
+        <name>SpanEvent</name>
+        <qualifiedname>themis::observability::SpanEvent::SpanEvent</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>event_name</declname>
+        </param>
+        <briefdescription>
+<para>Construct a span event with name and timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the event. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_trace_span.h" line="56" column="14" bodyfile="include/observability/distributed_trace_span.h" bodystart="56" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Event recorded within a span&apos;s lifetime. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Span events are lightweight markers with a timestamp and optional attributes. Useful for recording lifecycle events (e.g., &quot;cache_hit&quot;, &quot;network_retry&quot;). </para>
+    </detaileddescription>
+    <location file="include/observability/distributed_trace_span.h" line="40" column="1" bodyfile="include/observability/distributed_trace_span.h" bodystart="40" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_span_event_1ac108b699d8da0161d8bb246b7ef218fd" prot="public" virt="non-virtual"><scope>themis::observability::SpanEvent</scope><name>attributes</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_event_1a7fada919e5c265abb823c5626c58d0d0" prot="public" virt="non-virtual"><scope>themis::observability::SpanEvent</scope><name>name</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_event_1a1c0d28ce3ba8dc9cc5756cf3a0002d1d" prot="public" virt="non-virtual"><scope>themis::observability::SpanEvent</scope><name>SpanEvent</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_event_1af37216326f892ef1bc117a57bd2b89ec" prot="public" virt="non-virtual"><scope>themis::observability::SpanEvent</scope><name>SpanEvent</name></member>
+      <member refid="structthemis_1_1observability_1_1_span_event_1af7e5c5ee36a711bf7b10cd5d0e090707" prot="public" virt="non-virtual"><scope>themis::observability::SpanEvent</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

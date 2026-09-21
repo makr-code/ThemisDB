@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_stress_stub_planner_1_1_plan_result" kind="struct" language="C++" prot="public">
+    <compoundname>StressStubPlanner::PlanResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_stress_stub_planner_1_1_plan_result_1a5c1b5b0b0bb8fa10bb45df6c6ce10852" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool StressStubPlanner::PlanResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>StressStubPlanner::PlanResult::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_highcardinality_stress.cpp" line="59" column="26" bodyfile="tests/query/test_query_highcardinality_stress.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stress_stub_planner_1_1_plan_result_1aab051397bf57ea8abe3041d788a85c3d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t StressStubPlanner::PlanResult::cost</definition>
+        <argsstring></argsstring>
+        <name>cost</name>
+        <qualifiedname>StressStubPlanner::PlanResult::cost</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_highcardinality_stress.cpp" line="59" column="39" bodyfile="tests/query/test_query_highcardinality_stress.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/query/test_query_highcardinality_stress.cpp" line="59" column="5" bodyfile="tests/query/test_query_highcardinality_stress.cpp" bodystart="59" bodyend="59"/>
+    <listofallmembers>
+      <member refid="struct_stress_stub_planner_1_1_plan_result_1aab051397bf57ea8abe3041d788a85c3d" prot="public" virt="non-virtual"><scope>StressStubPlanner::PlanResult</scope><name>cost</name></member>
+      <member refid="struct_stress_stub_planner_1_1_plan_result_1a5c1b5b0b0bb8fa10bb45df6c6ce10852" prot="public" virt="non-virtual"><scope>StressStubPlanner::PlanResult</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_cloud_agent_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::CloudAgentResult</compoundname>
+    <includes refid="cloud__agent_8h" local="no">cloud_agent.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_agent_result_1afdeb2cf5392633a69ac353a425a1cfc6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CloudAgentResult::operation_id</definition>
+        <argsstring></argsstring>
+        <name>operation_id</name>
+        <qualifiedname>themis::sharding::CloudAgentResult::operation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_agent.h" line="60" column="17" bodyfile="include/sharding/cloud_agent.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_agent_result_1a1b0e5b0b4d55c2923e6d0ec178a17557" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::CloudAgentResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::CloudAgentResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_agent.h" line="61" column="10" bodyfile="include/sharding/cloud_agent.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_agent_result_1a02af67dfc1da050cfcf8d7546641848e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CloudAgentResult::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::sharding::CloudAgentResult::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_agent.h" line="62" column="17" bodyfile="include/sharding/cloud_agent.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_agent_result_1ac0e75ad99414a7bb358549b56caa1634" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::CloudAgentResult::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::sharding::CloudAgentResult::result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_agent.h" line="63" column="20" bodyfile="include/sharding/cloud_agent.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_agent_result_1af5dda4cb43327875e7052e0b34f7d8ba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CloudAgentResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::sharding::CloudAgentResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_agent.h" line="64" column="17" bodyfile="include/sharding/cloud_agent.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_agent_result_1afbd5bb1c41c6cec3b8048289c03adef3" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::CloudAgentResult::execution_time</definition>
+        <argsstring></argsstring>
+        <name>execution_time</name>
+        <qualifiedname>themis::sharding::CloudAgentResult::execution_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_agent.h" line="65" column="31" bodyfile="include/sharding/cloud_agent.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_agent_result_1aae63350009d93571e02414e399fc8728" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, nlohmann::json &gt;</type>
+        <definition>std::map&lt;std::string, nlohmann::json&gt; themis::sharding::CloudAgentResult::shard_results</definition>
+        <argsstring></argsstring>
+        <name>shard_results</name>
+        <qualifiedname>themis::sharding::CloudAgentResult::shard_results</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_agent.h" line="66" column="14" bodyfile="include/sharding/cloud_agent.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Cloud Agent Operation Result</para>
+<para>Result from delegated operation execution. </para>
+    </detaileddescription>
+    <location file="include/sharding/cloud_agent.h" line="59" column="1" bodyfile="include/sharding/cloud_agent.h" bodystart="59" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_cloud_agent_result_1af5dda4cb43327875e7052e0b34f7d8ba" prot="public" virt="non-virtual"><scope>themis::sharding::CloudAgentResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_agent_result_1afbd5bb1c41c6cec3b8048289c03adef3" prot="public" virt="non-virtual"><scope>themis::sharding::CloudAgentResult</scope><name>execution_time</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_agent_result_1afdeb2cf5392633a69ac353a425a1cfc6" prot="public" virt="non-virtual"><scope>themis::sharding::CloudAgentResult</scope><name>operation_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_agent_result_1ac0e75ad99414a7bb358549b56caa1634" prot="public" virt="non-virtual"><scope>themis::sharding::CloudAgentResult</scope><name>result</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_agent_result_1aae63350009d93571e02414e399fc8728" prot="public" virt="non-virtual"><scope>themis::sharding::CloudAgentResult</scope><name>shard_results</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_agent_result_1a02af67dfc1da050cfcf8d7546641848e" prot="public" virt="non-virtual"><scope>themis::sharding::CloudAgentResult</scope><name>status</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_agent_result_1a1b0e5b0b4d55c2923e6d0ec178a17557" prot="public" virt="non-virtual"><scope>themis::sharding::CloudAgentResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

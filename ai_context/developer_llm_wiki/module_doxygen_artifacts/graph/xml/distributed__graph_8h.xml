@@ -1,0 +1,351 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="distributed__graph_8h" kind="file" language="C++">
+    <compoundname>distributed_graph.h</compoundname>
+    <includes refid="graph__query__optimizer_8h" local="yes">graph/graph_query_optimizer.h</includes>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="distributed__graph_8cpp" local="yes">src/graph/distributed_graph.cpp</includedby>
+    <includedby refid="test__graph__distributed_8cpp" local="yes">tests/graph/test_graph_distributed.cpp</includedby>
+    <includedby refid="test__graph__exact__traversal_8cpp" local="yes">tests/graph/test_graph_exact_traversal.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/graph/distributed_graph.h</label>
+        <link refid="distributed__graph_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>graph/graph_query_optimizer.h</label>
+        <link refid="graph__query__optimizer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="15">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="16">
+        <label>future</label>
+      </node>
+      <node id="4">
+        <label>index/graph_analytics.h</label>
+      </node>
+      <node id="3">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="12">
+        <label>list</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="17">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="18">
+        <label>shared_mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>unordered_set</label>
+      </node>
+      <node id="5">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/graph/distributed_graph.h</label>
+        <link refid="distributed__graph_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/graph/distributed_graph.cpp</label>
+        <link refid="distributed__graph_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/graph/test_graph_distributed.cpp</label>
+        <link refid="test__graph__distributed_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/graph/test_graph_exact_traversal.cpp</label>
+        <link refid="test__graph__exact__traversal_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1graph_1_1_distributed_graph_config" prot="public">themis::graph::DistributedGraphConfig</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_shard_graph_executor" prot="public">themis::graph::ShardGraphExecutor</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_local_shard_graph_executor" prot="public">themis::graph::LocalShardGraphExecutor</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_distributed_graph_manager" prot="public">themis::graph::DistributedGraphManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1graph">themis::graph</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="graph__query__optimizer_8h" kindref="compound">graph/graph_query_optimizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">graph</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15" kindref="member">PartitionStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a50b7748612b28db487d115f220bb77ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a50b7748612b28db487d115f220bb77ab" kindref="member">HASH</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a01036ddcc971d02f6c32c3da31a119f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a01036ddcc971d02f6c32c3da31a119f2" kindref="member">RANGE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a4a221f74494f1ac7a498e6524292eaef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a4a221f74494f1ac7a498e6524292eaef" kindref="member">GEO</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a72baef04098f035e8a320b03ad197818" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a72baef04098f035e8a320b03ad197818" kindref="member">CUSTOM</ref><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1graph_1a9dfdd3a7336cd12b775be408e0ccea12" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1graph_1a9dfdd3a7336cd12b775be408e0ccea12" kindref="member">ConsistencyLevel</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1graph_1a9dfdd3a7336cd12b775be408e0ccea12a1c24fbd27d8776c209d0d7d22584e46f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a9dfdd3a7336cd12b775be408e0ccea12a1c24fbd27d8776c209d0d7d22584e46f" kindref="member">EVENTUAL</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1graph_1a9dfdd3a7336cd12b775be408e0ccea12a3dfb3ae3cdaa322f0388f1a531c39520" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a9dfdd3a7336cd12b775be408e0ccea12a3dfb3ae3cdaa322f0388f1a531c39520" kindref="member">STRONG</ref><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1graph_1_1_distributed_graph_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_distributed_graph_config_1a1fa4cbe887a467d4abb7ce61fcfe0845" kindref="member">DistributedGraphConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1graph_1_1_distributed_graph_config_1a2c974dc3f779b12708c85cebecee8ffb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15" kindref="member">PartitionStrategy</ref><sp/><ref refid="structthemis_1_1graph_1_1_distributed_graph_config_1a2c974dc3f779b12708c85cebecee8ffb" kindref="member">partitioning</ref><sp/>=<sp/><ref refid="namespacethemis_1_1graph_1a8fb9fba9d388684e583e12bca03bdd15a50b7748612b28db487d115f220bb77ab" kindref="member">PartitionStrategy::HASH</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1graph_1_1_distributed_graph_config_1ad56c05ab65972ac511ca020b3ac620ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_distributed_graph_config_1ad56c05ab65972ac511ca020b3ac620ee" kindref="member">replication_factor</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1graph_1_1_distributed_graph_config_1acfafcfdd4bec36d6517c6888bcea78ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a9dfdd3a7336cd12b775be408e0ccea12" kindref="member">ConsistencyLevel</ref><sp/><ref refid="structthemis_1_1graph_1_1_distributed_graph_config_1acfafcfdd4bec36d6517c6888bcea78ae" kindref="member">consistency</ref><sp/>=<sp/><ref refid="namespacethemis_1_1graph_1a9dfdd3a7336cd12b775be408e0ccea12a1c24fbd27d8776c209d0d7d22584e46f" kindref="member">ConsistencyLevel::EVENTUAL</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1graph_1_1_distributed_graph_config_1a179afb1a3eb8d724683484aec9c2d6a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1graph_1_1_distributed_graph_config_1a179afb1a3eb8d724683484aec9c2d6a3" kindref="member">timeout_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1graph_1_1_distributed_graph_config_1a5c854bc69fec8c3bb56568e9bfe1dc9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1graph_1_1_distributed_graph_config_1a5c854bc69fec8c3bb56568e9bfe1dc9d" kindref="member">max_parallel_shards</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1graph_1_1_distributed_graph_config_1a1fa4cbe887a467d4abb7ce61fcfe0845" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_distributed_graph_config_1a1fa4cbe887a467d4abb7ce61fcfe0845" kindref="member">DistributedGraphConfig</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ShardGraphExecutor<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1graph_1_1_shard_graph_executor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graph_1_1_shard_graph_executor_1a4d3585b367a5b6b6667e186f082a5f68" kindref="member">ShardGraphExecutor</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1graph_1_1_shard_graph_executor_1ac0ad66db21ec1fdf57a01dc308c10340" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_shard_graph_executor_1ac0ad66db21ec1fdf57a01dc308c10340" kindref="member">~ShardGraphExecutor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1graph_1_1_shard_graph_executor_1a4d3585b367a5b6b6667e186f082a5f68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_shard_graph_executor_1a4d3585b367a5b6b6667e186f082a5f68" kindref="member">ShardGraphExecutor</ref>(<ref refid="classthemis_1_1graph_1_1_shard_graph_executor_1a4d3585b367a5b6b6667e186f082a5f68" kindref="member">ShardGraphExecutor</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1graph_1_1_shard_graph_executor_1a58674a4327d0aee8fe1cd9cf00919530" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_shard_graph_executor_1a4d3585b367a5b6b6667e186f082a5f68" kindref="member">ShardGraphExecutor</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1graph_1_1_shard_graph_executor_1a4d3585b367a5b6b6667e186f082a5f68" kindref="member">ShardGraphExecutor</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1graph_1_1_shard_graph_executor_1a09b817d06fdc909c79a948d1014dedfc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_shard_graph_executor_1a4d3585b367a5b6b6667e186f082a5f68" kindref="member">ShardGraphExecutor</ref>(const<sp/><ref refid="classthemis_1_1graph_1_1_shard_graph_executor_1a4d3585b367a5b6b6667e186f082a5f68" kindref="member">ShardGraphExecutor</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1graph_1_1_shard_graph_executor_1a8baf968fa2bed845f1ddf481122c1db6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_shard_graph_executor_1a4d3585b367a5b6b6667e186f082a5f68" kindref="member">ShardGraphExecutor</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1graph_1_1_shard_graph_executor_1a4d3585b367a5b6b6667e186f082a5f68" kindref="member">ShardGraphExecutor</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal">protected:</highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1graph_1_1_shard_graph_executor_1a5a6c753b033fd11edd5e7001662d56c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_shard_graph_executor_1a4d3585b367a5b6b6667e186f082a5f68" kindref="member">ShardGraphExecutor</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal">public:</highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1graph_1_1_shard_graph_executor_1ae55148424f227bf12ada68410c234b08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_shard_graph_executor_1ae55148424f227bf12ada68410c234b08" kindref="member">shardId</ref>()<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1graph_1_1_shard_graph_executor_1af89bfbf41f8983b0a03f9d7477446dd9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>Result&lt;std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;&gt;<sp/><ref refid="classthemis_1_1graph_1_1_shard_graph_executor_1af89bfbf41f8983b0a03f9d7477446dd9" kindref="member">executeBFS</ref>(</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>start_vertex,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_depth,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer" kindref="compound">GraphQueryOptimizer</ref>::QueryConstraints&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a9e158cabe159ffcc172d0e3578b90448" kindref="member">constraints</ref>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1graph_1_1_shard_graph_executor_1a5aa46aa913a83f6b544213c023a93559" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>Result&lt;GraphIndexManager::PathResult&gt;<sp/><ref refid="classthemis_1_1graph_1_1_shard_graph_executor_1a5aa46aa913a83f6b544213c023a93559" kindref="member">executeDijkstra</ref>(</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>start_vertex,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>target_vertex,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer" kindref="compound">GraphQueryOptimizer</ref>::QueryConstraints&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a9e158cabe159ffcc172d0e3578b90448" kindref="member">constraints</ref>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1graph_1_1_shard_graph_executor_1a09337af08e486135af27629b31c8159a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_shard_graph_executor_1a09337af08e486135af27629b31c8159a" kindref="member">isHealthy</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LocalShardGraphExecutor<sp/>–<sp/>thin<sp/>wrapper<sp/>around<sp/>GraphQueryOptimizer<sp/>/<sp/>GraphIndexManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1graph_1_1_local_shard_graph_executor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0e05782c55c8e4a70f233219868e3ea9" kindref="member">LocalShardGraphExecutor</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_shard_graph_executor_1a4d3585b367a5b6b6667e186f082a5f68" kindref="member">ShardGraphExecutor</ref><sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0e05782c55c8e4a70f233219868e3ea9" kindref="member">LocalShardGraphExecutor</ref>(std::string<sp/>shard_id,<sp/>GraphIndexManager&amp;<sp/>graph_mgr);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a54fd5d12a20563402bff4634ce7a0a16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a54fd5d12a20563402bff4634ce7a0a16" kindref="member">LocalShardGraphExecutor</ref>(<ref refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0e05782c55c8e4a70f233219868e3ea9" kindref="member">LocalShardGraphExecutor</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a21c5a387e4120edd1375131db4195374" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0e05782c55c8e4a70f233219868e3ea9" kindref="member">LocalShardGraphExecutor</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0e05782c55c8e4a70f233219868e3ea9" kindref="member">LocalShardGraphExecutor</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a88000cb98e63833e108241764748e413" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0e05782c55c8e4a70f233219868e3ea9" kindref="member">LocalShardGraphExecutor</ref>(const<sp/><ref refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0e05782c55c8e4a70f233219868e3ea9" kindref="member">LocalShardGraphExecutor</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0aedef4e64c851205916d4a4ba55396d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0e05782c55c8e4a70f233219868e3ea9" kindref="member">LocalShardGraphExecutor</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0e05782c55c8e4a70f233219868e3ea9" kindref="member">LocalShardGraphExecutor</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a337ae41d33a816240332bdbdb68e7d85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a337ae41d33a816240332bdbdb68e7d85" kindref="member">shardId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>shard_id_;<sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::vector&lt;std::string&gt;&gt;<sp/><ref refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1ad740c93eb1fd17a9efb8d45d07564ec2" kindref="member">executeBFS</ref>(</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>start_vertex,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_depth,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">GraphQueryOptimizer::QueryConstraints</ref>&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a9e158cabe159ffcc172d0e3578b90448" kindref="member">constraints</ref>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;GraphIndexManager::PathResult&gt;<sp/><ref refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1afc886c3d1c6c4668329ee909d3009500" kindref="member">executeDijkstra</ref>(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>start_vertex,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_vertex,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">GraphQueryOptimizer::QueryConstraints</ref>&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a9e158cabe159ffcc172d0e3578b90448" kindref="member">constraints</ref>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>shard_id_<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>GraphQueryOptimizer<sp/>optimizer_;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>qualify(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>vertex_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DistributedGraphManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1graph_1_1_distributed_graph_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a8c235583a0834679f7d61bf84591fa74" kindref="member">DistributedGraphManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a8c235583a0834679f7d61bf84591fa74" kindref="member">DistributedGraphManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_distributed_graph_config" kindref="compound">DistributedGraphConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shard<sp/>registry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a40725cb6cd5f2852c1c458457b2ee3e1" kindref="member">addShard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardGraphExecutor&gt;<sp/>executor);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1af1dc4b7fd8a88a19f20cb9978ea1126f" kindref="member">removeShard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a6ea69cf68c570b7e3fecd2be2abd974f" kindref="member">shardIds</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1af49ec134292805502a0f4e96f77f65ae" kindref="member">shardCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Distributed<sp/>query<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;GraphIndexManager::PathResult&gt;<sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1ad8a92078ac7a497b14f065586d2dd720" kindref="member">shortestPath</ref>(</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>start_vertex,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>target_vertex,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">GraphQueryOptimizer::QueryConstraints</ref>&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a9e158cabe159ffcc172d0e3578b90448" kindref="member">constraints</ref><sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::vector&lt;std::string&gt;&gt;<sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a19cbe8607826a0d3f23b4e075c6a68d9" kindref="member">kHopNeighbors</ref>(</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>start_vertex,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">GraphQueryOptimizer::QueryConstraints</ref>&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a9e158cabe159ffcc172d0e3578b90448" kindref="member">constraints</ref><sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;GraphQueryOptimizer::OptimizationPlan&gt;<sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a44b9812d183185cee99250a14e972e73" kindref="member">optimizePlan</ref>(</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>start_vertex,</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>target_vertex,</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5" kindref="member">GraphQueryOptimizer::QueryPattern</ref><sp/>pattern,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">GraphQueryOptimizer::QueryConstraints</ref>&amp;<sp/><ref refid="bench__graph__release__gates_8cpp_1a9e158cabe159ffcc172d0e3578b90448" kindref="member">constraints</ref><sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Utilities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::pair&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a865357b9ea7d56296fc048aa75b8f1a7" kindref="member">parseVertexId</ref>(</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>qualified_id);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a7f2a05dac61345f634e67ab3294b8fcc" kindref="member">resolveShardForVertex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>local_vertex_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_distributed_graph_config" kindref="compound">DistributedGraphConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Registered<sp/>shards:<sp/>shard_id<sp/>-&gt;<sp/>executor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::shared_ptr&lt;ShardGraphExecutor&gt;&gt;<sp/>shards_;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>shards_mutex_;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::shared_ptr&lt;ShardGraphExecutor&gt;&gt;&gt;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>healthyShards()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>effectiveParallelism(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_shards)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/graph/distributed_graph.h"/>
+  </compounddef>
+</doxygen>

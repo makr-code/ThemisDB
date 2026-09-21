@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_c024eacef3c245f46398e893f696ffb6" kind="dir">
+    <compoundname>tests/evaluation</compoundname>
+    <innerfile refid="test__evaluation__ablation__framework__focused_8cpp">test_evaluation_ablation_framework_focused.cpp</innerfile>
+    <innerfile refid="test__evaluation__artifact__lifecycle__focused_8cpp">test_evaluation_artifact_lifecycle_focused.cpp</innerfile>
+    <innerfile refid="test__evaluation__benchmark__matrix__focused_8cpp">test_evaluation_benchmark_matrix_focused.cpp</innerfile>
+    <innerfile refid="test__evaluation__highcardinality__stress_8cpp">test_evaluation_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__evaluation__retrieval__metrics__focused_8cpp">test_evaluation_retrieval_metrics_focused.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/evaluation/"/>
+  </compounddef>
+</doxygen>

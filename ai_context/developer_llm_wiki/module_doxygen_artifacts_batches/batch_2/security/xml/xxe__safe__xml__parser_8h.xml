@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="xxe__safe__xml__parser_8h" kind="file" language="C++">
+    <compoundname>xxe_safe_xml_parser.h</compoundname>
+    <includes local="no">pugixml.hpp</includes>
+    <includes local="no">string</includes>
+    <includedby refid="xxe__safe__xml__parser_8cpp" local="yes">src/security/xxe_safe_xml_parser.cpp</includedby>
+    <includedby refid="test__xxe__safe__xml__parser_8cpp" local="yes">tests/security/test_xxe_safe_xml_parser.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/security/xxe_safe_xml_parser.h</label>
+        <link refid="xxe__safe__xml__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pugixml.hpp</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/security/xxe_safe_xml_parser.h</label>
+        <link refid="xxe__safe__xml__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/security/xxe_safe_xml_parser.cpp</label>
+        <link refid="xxe__safe__xml__parser_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/security/test_xxe_safe_xml_parser.cpp</label>
+        <link refid="test__xxe__safe__xml__parser_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result" prot="public">themis::security::XxeSafeXmlParseResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <briefdescription>
+<para>Result of an XXE-hardened XML parse. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The document member is only valid when success is true.</para>
+<para>XXE-safe XML parser wrapper.</para>
+<para>Provides a thin wrapper around the underlying XML library that disables external entity expansion and DOCTYPE processing to prevent XML External Entity (XXE) injection attacks. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>ThemisDB<sp/>XXE-safe<sp/>XML<sp/>parsing<sp/>utilities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;pugixml.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">security</ref><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result" kindref="compound">XxeSafeXmlParseResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result_1abd595a13e87426e3d6a19972bb37ec46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result_1abd595a13e87426e3d6a19972bb37ec46" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result_1a5c163046c0192bc47676e43461cd0176" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>pugi::xml_document<sp/><ref refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result_1a5c163046c0192bc47676e43461cd0176" kindref="member">document</ref>;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result_1a96fbd65e80b4521e53748265d97a9c03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result_1a96fbd65e80b4521e53748265d97a9c03" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result_1a0f738ad6faeaf8fbef085d710986fc1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result_1a0f738ad6faeaf8fbef085d710986fc1c" kindref="member">max_depth</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result" kindref="compound">XxeSafeXmlParseResult</ref><sp/><ref refid="namespacethemis_1_1security_1a0db9044fc2bd6a6fbdddadadac4fcf79" kindref="member">parseXmlSafe</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>xml_content,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source_hint,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>allow_external_entities<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1security_1a01ac9db5a9df606164b87e8ec14e07d2" kindref="member">validateNoExternalEntities</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>pugi::xml_document&amp;<sp/>doc);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>security</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/xxe_safe_xml_parser.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_lo_r_a_router_1_1_cached_decision" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::LoRARouter::CachedDecision</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_router_1_1_cached_decision_1af5bfdd996a70c4db074055a040aa0c94" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_routing_decision" kindref="compound">RoutingDecision</ref></type>
+        <definition>RoutingDecision themis::llm::LoRARouter::CachedDecision::decision</definition>
+        <argsstring></argsstring>
+        <name>decision</name>
+        <qualifiedname>themis::llm::LoRARouter::CachedDecision::decision</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="288" column="25" bodyfile="include/llm/lora_router.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_router_1_1_cached_decision_1a3ae7c868d4697bfeb991a5fa5da4565e" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::LoRARouter::CachedDecision::cached_at</definition>
+        <argsstring></argsstring>
+        <name>cached_at</name>
+        <qualifiedname>themis::llm::LoRARouter::CachedDecision::cached_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="289" column="47" bodyfile="include/llm/lora_router.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::LoRARouter::CachedDecision</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>decision</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::RoutingDecision</label>
+        <link refid="structthemis_1_1llm_1_1_routing_decision"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_router.h" line="287" column="5" bodyfile="include/llm/lora_router.h" bodystart="287" bodyend="290"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_router_1_1_cached_decision_1a3ae7c868d4697bfeb991a5fa5da4565e" prot="public" virt="non-virtual"><scope>themis::llm::LoRARouter::CachedDecision</scope><name>cached_at</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_router_1_1_cached_decision_1af5bfdd996a70c4db074055a040aa0c94" prot="public" virt="non-virtual"><scope>themis::llm::LoRARouter::CachedDecision</scope><name>decision</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

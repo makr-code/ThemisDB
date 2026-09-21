@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d014306126241202265340367173125224141245245012137" kind="namespace" language="C++">
+    <compoundname>@014306126241202265340367173125224141245245012137</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/metadata/test_column_lineage_traversal_edge_focused.cpp" line="30" column="1"/>
+  </compounddef>
+</doxygen>

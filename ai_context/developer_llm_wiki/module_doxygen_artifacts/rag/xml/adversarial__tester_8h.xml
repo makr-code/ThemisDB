@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="adversarial__tester_8h" kind="file" language="C++">
+    <compoundname>adversarial_tester.h</compoundname>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="adversarial__tester_8cpp" local="yes">src/rag/adversarial_tester.cpp</includedby>
+    <includedby refid="test__rag__adversarial__tester_8cpp" local="yes">tests/rag/test_rag_adversarial_tester.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/adversarial_tester.h</label>
+        <link refid="adversarial__tester_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cmath</label>
+      </node>
+      <node id="11">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/adversarial_tester.h</label>
+        <link refid="adversarial__tester_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/adversarial_tester.cpp</label>
+        <link refid="adversarial__tester_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/rag/test_rag_adversarial_tester.cpp</label>
+        <link refid="test__rag__adversarial__tester_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1adversarial_1_1_base_query" prot="public">themis::rag::adversarial::BaseQuery</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example" prot="public">themis::rag::adversarial::AdversarialExample</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result" prot="public">themis::rag::adversarial::PoisoningResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" prot="public">themis::rag::adversarial::RobustnessReport</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config" prot="public">themis::rag::adversarial::AdversarialTesterConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester" prot="public">themis::rag::adversarial::AdversarialTester</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_input" prot="public">themis::rag::adversarial::EvaluationInput</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result" prot="public">themis::rag::adversarial::EvaluationResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge" prot="public">themis::rag::adversarial::RAGJudge</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1adversarial_1_1_retrieved_document" prot="public">themis::rag::adversarial::RetrievedDocument</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1adversarial">themis::rag::adversarial</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="namespacethemis_1_1rag_1_1adversarial" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1adversarial" kindref="compound">themis::rag::adversarial</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">judge::EvaluationInput</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">judge::EvaluationResult</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">judge::RAGJudge</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Adversarial<sp/>strategy<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979d" kindref="member">AdversarialStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da83d15c0f92336101d6622dff6de2ecf5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da83d15c0f92336101d6622dff6de2ecf5" kindref="member">SEMANTIC_PERTURBATION</ref>,<sp/></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da21416b40ed4599ee8ade821a240d207b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da21416b40ed4599ee8ade821a240d207b" kindref="member">LEXICAL_SUBSTITUTION</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979dae4238401b6631673833656f3fd9219ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979dae4238401b6631673833656f3fd9219ca" kindref="member">TYPO_INJECTION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da21cd4c42925b52573e258a6108e8bae3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da21cd4c42925b52573e258a6108e8bae3" kindref="member">NEGATION_FLIP</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da383ca755958edd3ae315417d2b663faa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da383ca755958edd3ae315417d2b663faa" kindref="member">SYCOPHANCY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1rag_1_1adversarial_1a281ec023c21049bfa500cedcfd856298" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a281ec023c21049bfa500cedcfd856298" kindref="member">VulnerabilityCategory</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1rag_1_1adversarial_1a281ec023c21049bfa500cedcfd856298a766dfc728d8b22a68ac493acab34f2b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a281ec023c21049bfa500cedcfd856298a766dfc728d8b22a68ac493acab34f2b2" kindref="member">QUERY_INSTABILITY</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1rag_1_1adversarial_1a281ec023c21049bfa500cedcfd856298a730c71fdf9f9c1bd882bff11628d0150" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a281ec023c21049bfa500cedcfd856298a730c71fdf9f9c1bd882bff11628d0150" kindref="member">DOCUMENT_POISONING</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1rag_1_1adversarial_1a281ec023c21049bfa500cedcfd856298aa6ac4db48d599bfc1c70461012c07c9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a281ec023c21049bfa500cedcfd856298aa6ac4db48d599bfc1c70461012c07c9c" kindref="member">PROMPT_INJECTION</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1rag_1_1adversarial_1a281ec023c21049bfa500cedcfd856298a3525f904c1769a9549ea1f7fa4350982" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a281ec023c21049bfa500cedcfd856298a3525f904c1769a9549ea1f7fa4350982" kindref="member">CONTEXT_OVERFLOW</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1rag_1_1adversarial_1a281ec023c21049bfa500cedcfd856298a383ca755958edd3ae315417d2b663faa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da383ca755958edd3ae315417d2b663faa" kindref="member">SYCOPHANCY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Data<sp/>structures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1rag_1_1adversarial_1_1_base_query" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1adversarial_1_1_base_query" kindref="compound">BaseQuery</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1rag_1_1adversarial_1_1_base_query_1a1796ca26f1ddcb013835eed36a456765" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_base_query_1a1796ca26f1ddcb013835eed36a456765" kindref="member">query</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1rag_1_1adversarial_1_1_base_query_1a36d26cfeef9f2dbe71cc6068b936e912" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_base_query_1a36d26cfeef9f2dbe71cc6068b936e912" kindref="member">expected_answer</ref>;<sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example" kindref="compound">AdversarialExample</ref><sp/>{</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a3690d58d63830f8c838988cd4c6128ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a3690d58d63830f8c838988cd4c6128ce" kindref="member">original_query</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a3dcc63c8afbbedf66f5ee7544841347a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a3dcc63c8afbbedf66f5ee7544841347a" kindref="member">perturbed_query</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a9207b0ddf49ec394829dc075ac556874" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979d" kindref="member">AdversarialStrategy</ref><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a9207b0ddf49ec394829dc075ac556874" kindref="member">strategy</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a9834ca978d5a23062d2efe8145322047" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a9834ca978d5a23062d2efe8145322047" kindref="member">original_result</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a7eb7021e04683931dc854baa7e502bf8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a7eb7021e04683931dc854baa7e502bf8" kindref="member">perturbed_result</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a4b253309d20e82a30d1c20274e88e698" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example_1a4b253309d20e82a30d1c20274e88e698" kindref="member">score_delta</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result" kindref="compound">PoisoningResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1a48f2c54fa81d50a76146dd4bb820c79d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1a48f2c54fa81d50a76146dd4bb820c79d" kindref="member">original_doc_id</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1a77d8c573e1a5f630c143f4a48ad751d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1a77d8c573e1a5f630c143f4a48ad751d9" kindref="member">poison_payload</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1ad2a10d62f5c7ac2ec8684d6448c78403" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1ad2a10d62f5c7ac2ec8684d6448c78403" kindref="member">faithfulness_before</ref>;<sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1a8e9c54331484a041afe4ab2c7d5ea501" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1a8e9c54331484a041afe4ab2c7d5ea501" kindref="member">faithfulness_after</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1a0a1a031c80104a61cde32928b206718d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result_1a0a1a031c80104a61cde32928b206718d" kindref="member">attack_succeeded</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" kindref="compound">RobustnessReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1a1a1460e6c5a3de8e738c5839241602b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1a1a1460e6c5a3de8e738c5839241602b1" kindref="member">robustness_score</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1a999dbd8bffd1f6f6c4a77535e7478b27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1a999dbd8bffd1f6f6c4a77535e7478b27" kindref="member">vulnerabilities</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1ae97c3587dbe85fdc15ae14481ee07995" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AdversarialExample&gt;<sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1ae97c3587dbe85fdc15ae14481ee07995" kindref="member">failing_examples</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1ad0dac157b22f97d5df91e1bb874f269f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PoisoningResult&gt;<sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1ad0dac157b22f97d5df91e1bb874f269f" kindref="member">poisoning_results</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1af2f4f6f47e6580d17eee691ddb578d70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1af2f4f6f47e6580d17eee691ddb578d70" kindref="member">prompt_injection_attempts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1a1926265122363bd747f591fa308ee441" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1a1926265122363bd747f591fa308ee441" kindref="member">context_overflow_detected</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1a9644ef4b481f14a28710c0933ee9cbef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report_1a9644ef4b481f14a28710c0933ee9cbef" kindref="member">sycophancy_detected</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config" kindref="compound">AdversarialTesterConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Query<sp/>perturbation<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1a3e27117cb0aba83cc2128434388b453d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1a3e27117cb0aba83cc2128434388b453d" kindref="member">score_instability_threshold</ref><sp/>=<sp/>0.3;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1ac6bc045585b37da42d71cb0552885193" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1ac6bc045585b37da42d71cb0552885193" kindref="member">perturbations_per_query</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Document<sp/>poisoning<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1af58243e98201eb9cd858693dbde251b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1af58243e98201eb9cd858693dbde251b7" kindref="member">poisoning_faithfulness_threshold</ref><sp/>=<sp/>0.2;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Context<sp/>overflow<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1ac800c73cb04bcb7c5fd6b5e409b24d50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1ac800c73cb04bcb7c5fd6b5e409b24d50" kindref="member">context_overflow_padding_docs</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1a01a661de63a7953f871088f0c1150acc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1a01a661de63a7953f871088f0c1150acc" kindref="member">context_overflow_score_threshold</ref><sp/>=<sp/>0.15;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Sycophancy<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1ac770003c3ffe768491c06f6243541899" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1ac770003c3ffe768491c06f6243541899" kindref="member">sycophancy_score_threshold</ref><sp/>=<sp/>0.25;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Strategies<sp/>to<sp/>test<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1a36b5cb9799a61b4c57a2a44bec709b60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AdversarialStrategy&gt;<sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config_1a36b5cb9799a61b4c57a2a44bec709b60" kindref="member">enabled_strategies</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da83d15c0f92336101d6622dff6de2ecf5" kindref="member">AdversarialStrategy::SEMANTIC_PERTURBATION</ref>,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da21416b40ed4599ee8ade821a240d207b" kindref="member">AdversarialStrategy::LEXICAL_SUBSTITUTION</ref>,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979dae4238401b6631673833656f3fd9219ca" kindref="member">AdversarialStrategy::TYPO_INJECTION</ref>,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da21cd4c42925b52573e258a6108e8bae3" kindref="member">AdversarialStrategy::NEGATION_FLIP</ref>,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da383ca755958edd3ae315417d2b663faa" kindref="member">AdversarialStrategy::SYCOPHANCY</ref>,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AdversarialTester</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0581412a20e99188214bd1c0df1202b4" kindref="member">AdversarialTester</ref><sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0581412a20e99188214bd1c0df1202b4" kindref="member">AdversarialTester</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config" kindref="compound">AdversarialTesterConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config" kindref="compound">AdversarialTesterConfig</ref>{});</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1af9f6fd1dc4fca223fea6d5d85b8c813c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1af9f6fd1dc4fca223fea6d5d85b8c813c" kindref="member">~AdversarialTester</ref>();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a9b6737e5b41fce93048ac0a16d57642c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a9b6737e5b41fce93048ac0a16d57642c" kindref="member">AdversarialTester</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0581412a20e99188214bd1c0df1202b4" kindref="member">AdversarialTester</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a5f8627167a3b7433b5b8218879ee5cde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0581412a20e99188214bd1c0df1202b4" kindref="member">AdversarialTester</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a5f8627167a3b7433b5b8218879ee5cde" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0581412a20e99188214bd1c0df1202b4" kindref="member">AdversarialTester</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a1e8679cfd9959493e9a66424b605f26e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a1e8679cfd9959493e9a66424b605f26e" kindref="member">AdversarialTester</ref>(<ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0581412a20e99188214bd1c0df1202b4" kindref="member">AdversarialTester</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="196" refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1ab7cd992a89732b66bb03c5c4c33ca8b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0581412a20e99188214bd1c0df1202b4" kindref="member">AdversarialTester</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0581412a20e99188214bd1c0df1202b4" kindref="member">AdversarialTester</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Population<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1acf8a1b5c10a6b0ca3685411a191e5b70" kindref="member">addBaseQuery</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>expected_answer<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a50ed7cb6aaef8e81b31534c4feaa9b4e" kindref="member">addBaseDocument</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref>&amp;<sp/><ref refid="namespacethemis_1_1document" kindref="compound">document</ref>);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1aaadf20fc0d0ac113219d42e6f5628e8e" kindref="member">setBaseQueries</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BaseQuery&gt;&amp;<sp/>queries);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a2effe772f01c3da7c7205021a3297e65" kindref="member">setBaseDocuments</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RetrievedDocument&gt;&amp;<sp/>documents);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Generation<sp/>helpers<sp/>(public<sp/>so<sp/>callers<sp/>can<sp/>inspect<sp/>generated<sp/>inputs)<sp/>──</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1ab29d9e7665dde69ebf673c26aeb9a6ef" kindref="member">generatePerturbedQueries</ref>(</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979d" kindref="member">AdversarialStrategy</ref><sp/>strategy,</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>count)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a3f7cdad3a4b96800e0fe6427df1209c3" kindref="member">generatePoisonedDocuments</ref>(</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RetrievedDocument&gt;&amp;<sp/>documents)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a2054fc486576bbb4a9b75d79e2c03d40" kindref="member">generateSycophancyQuery</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Testing<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" kindref="compound">RobustnessReport</ref><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a0f1eb423ab4b3d954855964955a7e440" kindref="member">testRobustness</ref>(<ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref>&amp;<sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a50798c33da9f17c3f41245e29bb7c56f" kindref="member">testQueryPerturbations</ref>(<ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref>&amp;<sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>,<sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" kindref="compound">RobustnessReport</ref>&amp;<sp/>report);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a5e5661dcc696a325179d067838775679" kindref="member">testDocumentPoisoning</ref>(<ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref>&amp;<sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>,<sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" kindref="compound">RobustnessReport</ref>&amp;<sp/>report);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a2e6638a111be81be46370763abe75ff3" kindref="member">testPromptInjection</ref>(<ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref>&amp;<sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>,<sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" kindref="compound">RobustnessReport</ref>&amp;<sp/>report);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a66c62887851faf7a281b9bbd7666ca25" kindref="member">testContextOverflow</ref>(<ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref>&amp;<sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>,<sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" kindref="compound">RobustnessReport</ref>&amp;<sp/>report);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1ab0d0305318b9fcea8e248d39ecdcdb86" kindref="member">testSycophancy</ref>(<ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref>&amp;<sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>,<sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" kindref="compound">RobustnessReport</ref>&amp;<sp/>report);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Helpers<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1a8f3ca9d5126ec2c1429176fba7cac738" kindref="member">isSuccessfulAttack</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>original_answer,</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adversarial_answer)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config" kindref="compound">AdversarialTesterConfig</ref><sp/><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_1aba7e824bcf2f66d7929199db9b84dcfe" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::adversarial</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/adversarial_tester.h"/>
+  </compounddef>
+</doxygen>

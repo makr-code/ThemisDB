@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_fixed_result_executor" kind="class" language="C++" prot="public">
+    <compoundname>FixedResultExecutor</compoundname>
+    <basecompoundref refid="classthemisdb_1_1analytics_1_1_shard_query_executor" prot="public" virt="non-virtual">themisdb::analytics::ShardQueryExecutor</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_fixed_result_executor_1a20136ee76f8c86242c7cc58c2869d755" prot="private" static="no" mutable="no">
+        <type><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a3b88b9c5f1e8b9e1690589fe79feca45" kindref="member">OLAPResult</ref></type>
+        <definition>OLAPResult FixedResultExecutor::result_</definition>
+        <argsstring></argsstring>
+        <name>result_</name>
+        <qualifiedname>FixedResultExecutor::result_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_distributed_analytics.cpp" line="471" column="16" bodyfile="tests/analytics/test_distributed_analytics.cpp" bodystart="471" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_fixed_result_executor_1a2fa4056f62dac578497cb5b9b08d94ff" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>FixedResultExecutor::FixedResultExecutor</definition>
+        <argsstring>(OLAPResult r)</argsstring>
+        <name>FixedResultExecutor</name>
+        <qualifiedname>FixedResultExecutor::FixedResultExecutor</qualifiedname>
+        <param>
+          <type><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a3b88b9c5f1e8b9e1690589fe79feca45" kindref="member">OLAPResult</ref></type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_distributed_analytics.cpp" line="464" column="14" bodyfile="tests/analytics/test_distributed_analytics.cpp" bodystart="464" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="class_fixed_result_executor_1ab340b532660d9bad989d3610eae26d1c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a3b88b9c5f1e8b9e1690589fe79feca45" kindref="member">OLAPResult</ref></type>
+        <definition>OLAPResult FixedResultExecutor::execute</definition>
+        <argsstring>(const std::string &amp;, const OLAPQuery &amp;) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>FixedResultExecutor::execute</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1aa3986a26fa7b7ad3eb9355ec44917f2a">execute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a8b47afb9dc74d79e986abd7e2c8eb334" kindref="member">OLAPQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_distributed_analytics.cpp" line="466" column="16" bodyfile="tests/analytics/test_distributed_analytics.cpp" bodystart="466" bodyend="468"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A test executor that returns a pre-built <ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a3b88b9c5f1e8b9e1690589fe79feca45" kindref="member">OLAPResult</ref>. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FixedResultExecutor</label>
+        <link refid="class_fixed_result_executor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::ShardQueryExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_shard_query_executor"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FixedResultExecutor</label>
+        <link refid="class_fixed_result_executor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::ShardQueryExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_shard_query_executor"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_distributed_analytics.cpp" line="462" column="1" bodyfile="tests/analytics/test_distributed_analytics.cpp" bodystart="462" bodyend="472"/>
+    <listofallmembers>
+      <member refid="class_fixed_result_executor_1ab340b532660d9bad989d3610eae26d1c" prot="public" virt="virtual"><scope>FixedResultExecutor</scope><name>execute</name></member>
+      <member refid="class_fixed_result_executor_1a2fa4056f62dac578497cb5b9b08d94ff" prot="public" virt="non-virtual"><scope>FixedResultExecutor</scope><name>FixedResultExecutor</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1aa0c09cb8b04ecc18c5320ecdddab547b" prot="public" virt="virtual"><scope>FixedResultExecutor</scope><name>isHealthy</name></member>
+      <member refid="class_fixed_result_executor_1a20136ee76f8c86242c7cc58c2869d755" prot="private" virt="non-virtual"><scope>FixedResultExecutor</scope><name>result_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1abaecd42838910a0fcc4d50d31eeb075e" prot="public" virt="virtual"><scope>FixedResultExecutor</scope><name>~ShardQueryExecutor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

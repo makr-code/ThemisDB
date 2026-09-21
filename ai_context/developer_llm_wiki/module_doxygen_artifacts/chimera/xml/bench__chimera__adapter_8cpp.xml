@@ -1,0 +1,458 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__chimera__adapter_8cpp" kind="file" language="C++">
+    <compoundname>bench_chimera_adapter.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="yes">chimera/themisdb_adapter.h</includes>
+    <includes local="yes">chimera/adapter_config.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/chimera/bench_chimera_adapter.cpp</label>
+        <link refid="bench__chimera__adapter_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="4">
+        <label>chimera/adapter_config.h</label>
+      </node>
+      <node id="3">
+        <label>chimera/themisdb_adapter.h</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_chimera_adapter_fixture" prot="public">ChimeraAdapterFixture</innerclass>
+    <innernamespace refid="namespacethemis_1_1chimera">themis::chimera</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="bench__chimera__adapter_8cpp_1aad7b007391b040010de5cc1c5c74daf1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t kChimeraCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kChimeraCanonicalSeed</name>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical seed for all Chimera benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chimera/bench_chimera_adapter.cpp" line="63" column="27" bodyfile="benchmarks/chimera/bench_chimera_adapter.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__chimera__adapter_8cpp_1a9d31281e8728c8ccb2a56410f88ba640" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Repetitions per benchmark for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chimera/bench_chimera_adapter.cpp" line="66" column="22" bodyfile="benchmarks/chimera/bench_chimera_adapter.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" prot="public" static="no" mutable="no">
+        <type>benchmark::State &amp;</type>
+        <definition>benchmark::State &amp; state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <initializer>{
+    <ref refid="bench__chimera__adapter_8cpp_1ad6a7b6b73caa2bc27f897bd23d8740ec" kindref="member">for</ref> (auto _ : state) {
+        auto conn = adapter_-&gt;connect();
+        benchmark::DoNotOptimize(conn);
+        
+    }
+    <ref refid="bench__chimera__adapter_8cpp_1ab66f823899ff34acba815a6fbbccf4ae" kindref="member">state.SetItemsProcessed</ref>(state.iterations())</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chimera/bench_chimera_adapter.cpp" line="95" column="18" bodyfile="benchmarks/chimera/bench_chimera_adapter.cpp" bodystart="95" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__chimera__adapter_8cpp_1ad5c6c8845f7e8aa5e4e8355154d4af59" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <initializer>= &quot;SELECT * FROM test_table WHERE id = ?&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chimera/bench_chimera_adapter.cpp" line="117" column="17" bodyfile="benchmarks/chimera/bench_chimera_adapter.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__chimera__adapter_8cpp_1a980719d07b3ecc933124a01f5790472c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; queries</definition>
+        <argsstring></argsstring>
+        <name>queries</name>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chimera/bench_chimera_adapter.cpp" line="158" column="17" bodyfile="benchmarks/chimera/bench_chimera_adapter.cpp" bodystart="158" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__chimera__adapter_8cpp_1ac929efa573f500d1314b04b581789e39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Unit</definition>
+        <argsstring>(benchmark::kMicrosecond) -&gt; Repetitions(kRepetitions) -&gt;Iterations(100) -&gt;UseRealTime()</argsstring>
+        <name>Unit</name>
+        <param>
+          <type>benchmark::kMicrosecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chimera/bench_chimera_adapter.cpp" line="104" column="5" declfile="benchmarks/chimera/bench_chimera_adapter.cpp" declline="104" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__chimera__adapter_8cpp_1ad6a7b6b73caa2bc27f897bd23d8740ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>for</definition>
+        <argsstring>(auto _ :state)</argsstring>
+        <name>for</name>
+        <param>
+          <type>auto _ :<ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chimera/bench_chimera_adapter.cpp" line="119" column="5" bodyfile="benchmarks/chimera/bench_chimera_adapter.cpp" bodystart="119" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__chimera__adapter_8cpp_1ab66f823899ff34acba815a6fbbccf4ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref></type>
+        <definition>state SetItemsProcessed</definition>
+        <argsstring>(state.iterations())</argsstring>
+        <name>SetItemsProcessed</name>
+        <param>
+          <type>state.</type>
+          <declname>iterations</declname>
+          <array>()</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chimera/bench_chimera_adapter.cpp" line="123" column="10" declfile="benchmarks/chimera/bench_chimera_adapter.cpp" declline="123" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__chimera__adapter_8cpp_1a928218f62d7212291d9bd1c033c9238c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>for</definition>
+        <argsstring>(int i=0;i&lt; 100;++i)</argsstring>
+        <name>for</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chimera/bench_chimera_adapter.cpp" line="160" column="5" bodyfile="benchmarks/chimera/bench_chimera_adapter.cpp" bodystart="160" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__chimera__adapter_8cpp_1a27fc67752a886a853f26b205218baf69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref></type>
+        <definition>state SetItemsProcessed</definition>
+        <argsstring>(state.iterations() *100)</argsstring>
+        <name>SetItemsProcessed</name>
+        <param>
+          <type>state.iterations() *</type>
+          <declname>100</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/chimera/bench_chimera_adapter.cpp" line="168" column="10" declfile="benchmarks/chimera/bench_chimera_adapter.cpp" declline="168" declcolumn="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 5 chimera adapter compatibility release-gate benchmarks. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides reproducible latency and throughput measurements for the Chimera adapter hot paths identified in the chimera module roadmap (Phase 5 — Performance and Hardening). Results are used as release gates; a regression beyond 10% vs. the baseline blocks promotion.</para>
+<sect1 id="bench__chimera__adapter_8cpp_1autotoc_md3_1s1"><sect2 id="bench__chimera__adapter_8cpp_1autotoc_md3">
+<title>Benchmark families</title><para><heading level="3">CHM-01..03 — Adapter lifecycle operations</heading>
+</para>
+<para>CHM-01 ThemisDBAdapter::connect() with connection pooling CHM-02 ThemisDBAdapter::executeQuery() with prepared statement CHM-03 ThemisDBAdapter::disconnect() cleanup</para>
+<para><heading level="3">CHM-04..05 — Batch operations</heading>
+</para>
+<para>CHM-04 ThemisDBAdapter::executeBatch() with 100 operations CHM-05 ThemisDBAdapter::transaction lifecycle (commit)</para>
+<para><heading level="3">CHM-06 — Error recovery</heading>
+</para>
+<para>CHM-06 ThemisDBAdapter error handling and retry logic</para>
+</sect2></sect1>
+<sect1 id="bench__chimera__adapter_8cpp_1autotoc_md4_1s1"><sect2 id="bench__chimera__adapter_8cpp_1autotoc_md4">
+<title>Hard release gates</title><para><table rows="7" cols="3"><row>
+<entry thead="yes"><para>Gate ID  </para>
+</entry><entry thead="yes"><para>Benchmark  </para>
+</entry><entry thead="yes"><para>Threshold  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-CHM-01  </para>
+</entry><entry thead="no"><para>CHM-01  </para>
+</entry><entry thead="no"><para>p99 ≤ 5 ms (connect)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-CHM-02  </para>
+</entry><entry thead="no"><para>CHM-02  </para>
+</entry><entry thead="no"><para>p99 ≤ 500 µs (execute)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-CHM-03  </para>
+</entry><entry thead="no"><para>CHM-03  </para>
+</entry><entry thead="no"><para>p99 ≤ 1 ms (disconnect)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-CHM-04  </para>
+</entry><entry thead="no"><para>CHM-04  </para>
+</entry><entry thead="no"><para>p99 ≤ 50 ms (batch 100)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-CHM-05  </para>
+</entry><entry thead="no"><para>CHM-05  </para>
+</entry><entry thead="no"><para>p99 ≤ 10 ms (txn)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-CHM-06  </para>
+</entry><entry thead="no"><para>CHM-06  </para>
+</entry><entry thead="no"><para>p99 ≤ 100 µs (error)  </para>
+</entry></row>
+</table>
+</para>
+<para>All benchmarks:<itemizedlist>
+<listitem><para>Use kChimeraCanonicalSeed = 42 for deterministic test data.</para>
+</listitem><listitem><para>Run with Repetitions(kRepetitions) to capture variance.</para>
+</listitem><listitem><para>Connection pooling enabled for realistic scenarios.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>src/chimera/ROADMAP.md — Phase 5 items </para>
+</simplesect>
+<simplesect kind="see"><para>include/chimera/themisdb_adapter.h — adapter interface </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;chimera/themisdb_adapter.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;chimera/adapter_config.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::chimera;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constants<sp/>—<sp/>deterministic,<sp/>release-pinned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kChimeraCanonicalSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kRepetitions<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="class_chimera_adapter_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_chimera_adapter_fixture" kindref="compound">ChimeraAdapterFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ThemisDBAdapter&gt;<sp/><ref refid="class_chimera_adapter_fixture_1a250be516bed6e3acda6f19a6ede25b27" kindref="member">adapter_</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_chimera_adapter_fixture_1a89b41cd8a8ddddab813e268ad2cfe99a" kindref="member">SetUp</ref>(const<sp/>::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>adapter<sp/>with<sp/>default<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AdapterConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.enable_connection_pooling<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.pool_size<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_chimera_adapter_fixture_1a250be516bed6e3acda6f19a6ede25b27" kindref="member">adapter_</ref><sp/>=<sp/>std::make_unique&lt;ThemisDBAdapter&gt;(cfg);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_chimera_adapter_fixture_1a8cb3aaec58fbe44723a83d097c594a50" kindref="member">TearDown</ref>(const<sp/>::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_chimera_adapter_fixture_1a250be516bed6e3acda6f19a6ede25b27" kindref="member">adapter_</ref>.reset();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CHM-01:<sp/>ThemisDBAdapter::connect()<sp/>with<sp/>connection<sp/>pooling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>5<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal">BENCHMARK_DEFINE_F(<ref refid="class_chimera_adapter_fixture" kindref="compound">ChimeraAdapterFixture</ref>,<sp/>CHM01_ConnectWithPooling)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">(benchmark::State&amp;<sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>conn<sp/>=<sp/>adapter_-&gt;connect();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(conn);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connection<sp/>will<sp/>be<sp/>released<sp/>at<sp/>end<sp/>of<sp/>iteration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_chimera_adapter_fixture" kindref="compound">ChimeraAdapterFixture</ref>,<sp/>CHM01_ConnectWithPooling)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(100)</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CHM-02:<sp/>ThemisDBAdapter::executeQuery()<sp/>with<sp/>prepared<sp/>statement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>500<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal">BENCHMARK_DEFINE_F(<ref refid="class_chimera_adapter_fixture" kindref="compound">ChimeraAdapterFixture</ref>,<sp/>CHM02_ExecuteQuery)</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">(benchmark::State&amp;<sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>conn<sp/>=<sp/>adapter_-&gt;connect();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="bench__chimera__adapter_8cpp_1ad5c6c8845f7e8aa5e4e8355154d4af59" kindref="member">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>test_table<sp/>WHERE<sp/>id<sp/>=<sp/>?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>adapter_-&gt;executeQuery(<ref refid="bench__chimera__adapter_8cpp_1ad5c6c8845f7e8aa5e4e8355154d4af59" kindref="member">query</ref>,<sp/>conn);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_chimera_adapter_fixture" kindref="compound">ChimeraAdapterFixture</ref>,<sp/>CHM02_ExecuteQuery)</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(500)</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CHM-03:<sp/>ThemisDBAdapter::disconnect()<sp/>cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>1<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal">BENCHMARK_DEFINE_F(<ref refid="class_chimera_adapter_fixture" kindref="compound">ChimeraAdapterFixture</ref>,<sp/>CHM03_Disconnect)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">(benchmark::State&amp;<sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>conn<sp/>=<sp/>adapter_-&gt;connect();</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter_-&gt;disconnect(conn);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_chimera_adapter_fixture" kindref="compound">ChimeraAdapterFixture</ref>,<sp/>CHM03_Disconnect)</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(200)</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CHM-04:<sp/>ThemisDBAdapter::executeBatch()<sp/>with<sp/>100<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>50<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal">BENCHMARK_DEFINE_F(<ref refid="class_chimera_adapter_fixture" kindref="compound">ChimeraAdapterFixture</ref>,<sp/>CHM04_ExecuteBatch)</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">(benchmark::State&amp;<sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>conn<sp/>=<sp/>adapter_-&gt;connect();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="bench__chimera__adapter_8cpp_1a980719d07b3ecc933124a01f5790472c" kindref="member">queries</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__chimera__adapter_8cpp_1a980719d07b3ecc933124a01f5790472c" kindref="member">queries</ref>.push_back(</highlight><highlight class="stringliteral">&quot;INSERT<sp/>INTO<sp/>test_table<sp/>VALUES<sp/>(&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>adapter_-&gt;executeBatch(<ref refid="bench__chimera__adapter_8cpp_1a980719d07b3ecc933124a01f5790472c" kindref="member">queries</ref>,<sp/>conn);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(results);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations()<sp/>*<sp/>100);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_chimera_adapter_fixture" kindref="compound">ChimeraAdapterFixture</ref>,<sp/>CHM04_ExecuteBatch)</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(10)</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CHM-05:<sp/>ThemisDBAdapter::transaction<sp/>lifecycle<sp/>(commit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>10<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal">BENCHMARK_DEFINE_F(<ref refid="class_chimera_adapter_fixture" kindref="compound">ChimeraAdapterFixture</ref>,<sp/>CHM05_TransactionCommit)</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">(benchmark::State&amp;<sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>conn<sp/>=<sp/>adapter_-&gt;connect();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter_-&gt;beginTransaction(conn);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter_-&gt;executeQuery(</highlight><highlight class="stringliteral">&quot;INSERT<sp/>INTO<sp/>test_table<sp/>VALUES<sp/>(1)&quot;</highlight><highlight class="normal">,<sp/>conn);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter_-&gt;commitTransaction(conn);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_chimera_adapter_fixture" kindref="compound">ChimeraAdapterFixture</ref>,<sp/>CHM05_TransactionCommit)</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(50)</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CHM-06:<sp/>ThemisDBAdapter<sp/>error<sp/>handling<sp/>and<sp/>retry<sp/>logic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>100<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal">BENCHMARK_DEFINE_F(<ref refid="class_chimera_adapter_fixture" kindref="compound">ChimeraAdapterFixture</ref>,<sp/>CHM06_ErrorHandling)</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">(benchmark::State&amp;<sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>error<sp/>condition<sp/>and<sp/>verify<sp/>error<sp/>handling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>adapter_-&gt;executeQuery(</highlight><highlight class="stringliteral">&quot;INVALID<sp/>QUERY&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(e);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__chimera__adapter_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_chimera_adapter_fixture" kindref="compound">ChimeraAdapterFixture</ref>,<sp/>CHM06_ErrorHandling)</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(1000)</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/chimera/bench_chimera_adapter.cpp"/>
+  </compounddef>
+</doxygen>

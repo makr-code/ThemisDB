@@ -1,0 +1,355 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_continuous_profiler" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::ContinuousProfiler</compoundname>
+    <includes refid="continuous__profiler_8h" local="no">continuous_profiler.h</includes>
+    <innerclass refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl" prot="public">themis::observability::ContinuousProfiler::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_continuous_profiler_1a51e988237de7e477c4ad50179b38c197" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1observability_1_1_continuous_profiler_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::observability::ContinuousProfiler::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="218" column="21" bodyfile="include/observability/continuous_profiler.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1a4975a9db158e28535b3151202c92d769" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::ContinuousProfiler::ContinuousProfiler</definition>
+        <argsstring>(const ContinuousProfilerConfig &amp;config=ContinuousProfilerConfig{})</argsstring>
+        <name>ContinuousProfiler</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::ContinuousProfiler</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_continuous_profiler_config" kindref="compound">ContinuousProfilerConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config" kindref="compound">ContinuousProfilerConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="156" column="14" bodyfile="src/observability/continuous_profiler.cpp" bodystart="672" bodyend="673"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1a8f1f85c311731fdad91274a396dc3837" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::ContinuousProfiler::~ContinuousProfiler</definition>
+        <argsstring>()</argsstring>
+        <name>~ContinuousProfiler</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::~ContinuousProfiler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="157" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1aaebaffcfb12f4af093ebbb8a1271e9bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::ContinuousProfiler::ContinuousProfiler</definition>
+        <argsstring>(const ContinuousProfiler &amp;)=delete</argsstring>
+        <name>ContinuousProfiler</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::ContinuousProfiler</qualifiedname>
+        <param>
+          <type>const ContinuousProfiler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="160" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1a09ee358f51fc33e650291b90137c9daa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1a4975a9db158e28535b3151202c92d769" kindref="member">ContinuousProfiler</ref> &amp;</type>
+        <definition>ContinuousProfiler &amp; themis::observability::ContinuousProfiler::operator=</definition>
+        <argsstring>(const ContinuousProfiler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_continuous_profiler_1a4975a9db158e28535b3151202c92d769" kindref="member">ContinuousProfiler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="161" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1a0b8224744ce5214595bb9f3d85c7ad7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ContinuousProfiler::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::start</qualifiedname>
+        <briefdescription>
+<para>Start the background sampling loop. No-op if already running or if <computeroutput>enabled</computeroutput> is false. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Implements start without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="167" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="681" bodyend="681"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1a88742d72390a97913244f35585d70e82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ContinuousProfiler::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::stop</qualifiedname>
+        <briefdescription>
+<para>Stop the background sampling loop and flush remaining data. Blocks until the background thread has exited. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Implements stop without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="173" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="686" bodyend="686"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1aa9d2f031ace6ca786fcf9196e7fc2e96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref></type>
+        <definition>ProfileSnapshot themis::observability::ContinuousProfiler::snapshot</definition>
+        <argsstring>(ProfileType type=ProfileType::CPU)</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::snapshot</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893ef" kindref="member">ProfileType</ref></type>
+          <declname>type</declname>
+          <defval><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893efa2b55387dd066c5bac646ac61543d152d" kindref="member">ProfileType::CPU</ref></defval>
+        </param>
+        <briefdescription>
+<para>Capture and return a snapshot of the current accumulated profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Snapshot.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Profile type to capture. Currently only <computeroutput><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893efa2b55387dd066c5bac646ac61543d152d" kindref="member">ProfileType::CPU</ref></computeroutput> is collected; other types return an empty snapshot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <computeroutput><ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref></computeroutput> whose <computeroutput>data</computeroutput> field contains the pprof folded-stacks text for the requested type.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements snapshot without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="182" column="21" bodyfile="src/observability/continuous_profiler.cpp" bodystart="694" bodyend="696"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1a368d53b10f9a2bc32a698d378ce37db1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref> &gt;</type>
+        <definition>std::vector&lt; ProfileSnapshot &gt; themis::observability::ContinuousProfiler::getSnapshots</definition>
+        <argsstring>(ProfileType type, std::chrono::system_clock::time_point from, std::chrono::system_clock::time_point to) const</argsstring>
+        <name>getSnapshots</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::getSnapshots</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893ef" kindref="member">ProfileType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve all snapshots of <computeroutput>type</computeroutput> within [<computeroutput>from</computeroutput>, <computeroutput>to</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="187" column="17" bodyfile="src/observability/continuous_profiler.cpp" bodystart="698" bodyend="703"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1a78cdf983df02d7d4c4e78170d6f6dbd1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_profile_diff" kindref="compound">ProfileDiff</ref></type>
+        <definition>ProfileDiff themis::observability::ContinuousProfiler::compare</definition>
+        <argsstring>(const ProfileSnapshot &amp;baseline, const ProfileSnapshot &amp;current) const</argsstring>
+        <name>compare</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::compare</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref> &amp;</type>
+          <declname>baseline</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref> &amp;</type>
+          <declname>current</declname>
+        </param>
+        <briefdescription>
+<para>Compare two snapshots and return a differential report. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="195" column="17" bodyfile="src/observability/continuous_profiler.cpp" bodystart="705" bodyend="708"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1a349647f82b801e3ca3217f93dc95f7c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ContinuousProfiler::registerAnomalyCallback</definition>
+        <argsstring>(std::function&lt; void(const ProfileSnapshot &amp;, const std::string &amp;anomaly)&gt; cb)</argsstring>
+        <name>registerAnomalyCallback</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::registerAnomalyCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref> &amp;, const std::string &amp;anomaly)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback that fires when a CPU regression is detected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callback receives the snapshot that triggered the detection and a human-readable description of the anomaly. Called from the background thread; implementations must be thread-safe. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="205" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="710" bodyend="713"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1a64c81c63dd0517200d7e6328925aae7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ContinuousProfiler::enable</definition>
+        <argsstring>()</argsstring>
+        <name>enable</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::enable</qualifiedname>
+        <briefdescription>
+<para>Dynamically enable/disable profiling without restarting. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable.</para>
+<para>Implements enable without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="209" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="719" bodyend="719"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1af0bffee1ce691f082697d24a0b3708e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ContinuousProfiler::disable</definition>
+        <argsstring>()</argsstring>
+        <name>disable</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::disable</qualifiedname>
+        <briefdescription>
+<para>Disable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements disable without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="210" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="724" bodyend="724"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1ae621a01ee53049ea31ad86a0b22ded76" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::ContinuousProfiler::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::isEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="211" column="10" bodyfile="src/observability/continuous_profiler.cpp" bodystart="725" bodyend="725"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_continuous_profiler_1a3d915f50de343836578fa8b7d64e0ba9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config" kindref="compound">ContinuousProfilerConfig</ref></type>
+        <definition>ContinuousProfilerConfig themis::observability::ContinuousProfiler::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::observability::ContinuousProfiler::getConfig</qualifiedname>
+        <briefdescription>
+<para>Retrieve the active configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/continuous_profiler.h" line="214" column="30" bodyfile="src/observability/continuous_profiler.cpp" bodystart="727" bodyend="729"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Continuous, low-overhead profiler with pprof / async-profiler compatible output. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Design</heading>
+</para>
+<para>A background sampling thread wakes at a configurable interval (derived from <computeroutput><ref refid="structthemis_1_1observability_1_1_continuous_profiler_config_1a5e17a7b3189b8a7cee06b6855feed525" kindref="member">ContinuousProfilerConfig::cpu_sample_rate</ref></computeroutput>) and collects a stack trace of the calling process. Collected stacks are accumulated in an in-memory store and periodically flushed as pprof folded-stacks snapshots.</para>
+<para><heading level="3">Thread Safety</heading>
+</para>
+<para>All public methods are thread-safe.</para>
+<para><heading level="3">pprof Compatibility</heading>
+</para>
+<para>Snapshots use the folded-stacks text format: <programlisting><codeline><highlight class="normal">frame1;frame2;frame3<sp/>&lt;count&gt;</highlight></codeline>
+</programlisting> Load with: <programlisting><codeline><highlight class="normal">go<sp/>tool<sp/>pprof<sp/>-http=:8080<sp/>profile.folded</highlight></codeline>
+</programlisting> Or convert to flame graph SVG via <computeroutput>flamegraph.pl</computeroutput> from Brendan Gregg&apos;s FlameGraph toolkit.</para>
+<para><heading level="3">async-profiler Compatibility</heading>
+</para>
+<para>The same folded-stacks format is produced by async-profiler&apos;s <computeroutput>-o collapsed</computeroutput> mode, ensuring interoperability with its toolchain.</para>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">ContinuousProfilerConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.enabled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.output_dir<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/var/lib/themisdb/profiles&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_continuous_profiler_1a4975a9db158e28535b3151202c92d769" kindref="member">ContinuousProfiler</ref><sp/>profiler(cfg);</highlight></codeline>
+<codeline><highlight class="normal">profiler.start();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>workload<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snap<sp/>=<sp/>profiler.snapshot(<ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893efa2b55387dd066c5bac646ac61543d152d" kindref="member">ProfileType::CPU</ref>);</highlight></codeline>
+<codeline><highlight class="normal">snap.saveToFile(</highlight><highlight class="stringliteral">&quot;/tmp/profile.folded&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">profiler.stop();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/observability/continuous_profiler.h" line="154" column="1" bodyfile="include/observability/continuous_profiler.h" bodystart="154" bodyend="219"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1a78cdf983df02d7d4c4e78170d6f6dbd1" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler</scope><name>compare</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1a4975a9db158e28535b3151202c92d769" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler</scope><name>ContinuousProfiler</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1aaebaffcfb12f4af093ebbb8a1271e9bd" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler</scope><name>ContinuousProfiler</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1af0bffee1ce691f082697d24a0b3708e7" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler</scope><name>disable</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1a64c81c63dd0517200d7e6328925aae7c" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler</scope><name>enable</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1a3d915f50de343836578fa8b7d64e0ba9" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1a368d53b10f9a2bc32a698d378ce37db1" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler</scope><name>getSnapshots</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1a51e988237de7e477c4ad50179b38c197" prot="private" virt="non-virtual"><scope>themis::observability::ContinuousProfiler</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1ae621a01ee53049ea31ad86a0b22ded76" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1a09ee358f51fc33e650291b90137c9daa" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1a349647f82b801e3ca3217f93dc95f7c0" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler</scope><name>registerAnomalyCallback</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1aa9d2f031ace6ca786fcf9196e7fc2e96" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler</scope><name>snapshot</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1a0b8224744ce5214595bb9f3d85c7ad7d" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler</scope><name>start</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1a88742d72390a97913244f35585d70e82" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler</scope><name>stop</name></member>
+      <member refid="classthemis_1_1observability_1_1_continuous_profiler_1a8f1f85c311731fdad91274a396dc3837" prot="public" virt="non-virtual"><scope>themis::observability::ContinuousProfiler</scope><name>~ContinuousProfiler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_url_policy" kind="class" language="C++" prot="public">
+    <compoundname>themis::scraper::UrlPolicy</compoundname>
+    <includes refid="scraper__config_8h" local="no">scraper_config.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_url_policy_1a12fa95d3ba5624db09a1349348685aef" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::scraper::UrlPolicy::whitelist_</definition>
+        <argsstring></argsstring>
+        <name>whitelist_</name>
+        <qualifiedname>themis::scraper::UrlPolicy::whitelist_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="198" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_url_policy_1ac5437d77335a751bafb05ba93011031c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::scraper::UrlPolicy::blacklist_</definition>
+        <argsstring></argsstring>
+        <name>blacklist_</name>
+        <qualifiedname>themis::scraper::UrlPolicy::blacklist_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="199" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_url_policy_1a6720b954801d44113e3f8321ec53963d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::UrlPolicy::UrlPolicy</definition>
+        <argsstring>(const ScraperConfig &amp;config)</argsstring>
+        <name>UrlPolicy</name>
+        <qualifiedname>themis::scraper::UrlPolicy::UrlPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_scraper_config" kindref="compound">ScraperConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="188" column="14" bodyfile="src/scraper/scraper_config.cpp" bodystart="304" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_url_policy_1aefad18eee79f349789ee5c4bcefb76e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::UrlPolicy::UrlPolicy</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;whitelist, const std::vector&lt; std::string &gt; &amp;blacklist)</argsstring>
+        <name>UrlPolicy</name>
+        <qualifiedname>themis::scraper::UrlPolicy::UrlPolicy</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>whitelist</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>blacklist</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="189" column="5" bodyfile="src/scraper/scraper_config.cpp" bodystart="307" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_url_policy_1a92ed9d5447545f68f3ce8d61cae35904" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::scraper::UrlPolicy::isAllowed</definition>
+        <argsstring>(const std::string &amp;url) const</argsstring>
+        <name>isAllowed</name>
+        <qualifiedname>themis::scraper::UrlPolicy::isAllowed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="192" column="10" bodyfile="src/scraper/scraper_config.cpp" bodystart="336" bodyend="360"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_url_policy_1a23b7efae72868d9ad46a6c1d6c10e921" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::scraper::UrlPolicy::matchesPattern</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;pattern)</argsstring>
+        <name>matchesPattern</name>
+        <qualifiedname>themis::scraper::UrlPolicy::matchesPattern</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="195" column="17" bodyfile="src/scraper/scraper_config.cpp" bodystart="312" bodyend="334"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Decides whether a URL may be scraped. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A URL is allowed when:<orderedlist>
+<listitem><para>The whitelist is empty OR the URL starts with at least one whitelist entry (prefix match) or matches a glob pattern (*) AND</para>
+</listitem><listitem><para>The URL does NOT start with any blacklist entry and does not match any blacklist glob pattern.</para>
+</listitem></orderedlist>
+</para>
+<para>Scheme must be http or https; any other scheme is rejected regardless of the whitelist to prevent SSRF. </para>
+    </detaileddescription>
+    <location file="include/scraper/scraper_config.h" line="186" column="1" bodyfile="include/scraper/scraper_config.h" bodystart="186" bodyend="200"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_url_policy_1ac5437d77335a751bafb05ba93011031c" prot="private" virt="non-virtual"><scope>themis::scraper::UrlPolicy</scope><name>blacklist_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_url_policy_1a92ed9d5447545f68f3ce8d61cae35904" prot="public" virt="non-virtual"><scope>themis::scraper::UrlPolicy</scope><name>isAllowed</name></member>
+      <member refid="classthemis_1_1scraper_1_1_url_policy_1a23b7efae72868d9ad46a6c1d6c10e921" prot="private" virt="non-virtual"><scope>themis::scraper::UrlPolicy</scope><name>matchesPattern</name></member>
+      <member refid="classthemis_1_1scraper_1_1_url_policy_1a6720b954801d44113e3f8321ec53963d" prot="public" virt="non-virtual"><scope>themis::scraper::UrlPolicy</scope><name>UrlPolicy</name></member>
+      <member refid="classthemis_1_1scraper_1_1_url_policy_1aefad18eee79f349789ee5c4bcefb76e5" prot="public" virt="non-virtual"><scope>themis::scraper::UrlPolicy</scope><name>UrlPolicy</name></member>
+      <member refid="classthemis_1_1scraper_1_1_url_policy_1a12fa95d3ba5624db09a1349348685aef" prot="private" virt="non-virtual"><scope>themis::scraper::UrlPolicy</scope><name>whitelist_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

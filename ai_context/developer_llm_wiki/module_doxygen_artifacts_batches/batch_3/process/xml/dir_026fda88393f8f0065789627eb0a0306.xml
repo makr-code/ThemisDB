@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_026fda88393f8f0065789627eb0a0306" kind="dir">
+    <compoundname>include/process</compoundname>
+    <innerfile refid="bpmn__serializer_8h">bpmn_serializer.h</innerfile>
+    <innerfile refid="cmmn__serializer_8h">cmmn_serializer.h</innerfile>
+    <innerfile refid="conflict__resolution__plugin_8h">conflict_resolution_plugin.h</innerfile>
+    <innerfile refid="dmn__evaluator_8h">dmn_evaluator.h</innerfile>
+    <innerfile refid="epk__aris__xml__importer_8h">epk_aris_xml_importer.h</innerfile>
+    <innerfile refid="epk__serializer_8h">epk_serializer.h</innerfile>
+    <innerfile refid="federated__consensus__contract_8h">federated_consensus_contract.h</innerfile>
+    <innerfile refid="federated__span__contract_8h">federated_span_contract.h</innerfile>
+    <innerfile refid="federation__consensus__manager_8h">federation_consensus_manager.h</innerfile>
+    <innerfile refid="federation__replica__manager_8h">federation_replica_manager.h</innerfile>
+    <innerfile refid="fim__importer_8h">fim_importer.h</innerfile>
+    <innerfile refid="llm__process__adapter_8h">llm_process_adapter.h</innerfile>
+    <innerfile refid="llm__process__descriptor_8h">llm_process_descriptor.h</innerfile>
+    <innerfile refid="lock__free__linker__contract_8h">lock_free_linker_contract.h</innerfile>
+    <innerfile refid="model__history__contract_8h">model_history_contract.h</innerfile>
+    <innerfile refid="object__centric__tracer_8h">object_centric_tracer.h</innerfile>
+    <innerfile refid="ocel__exporter_8h">ocel_exporter.h</innerfile>
+    <innerfile refid="process__agentic__rag_8h">process_agentic_rag.h</innerfile>
+    <innerfile refid="process__api__contract_8h">process_api_contract.h</innerfile>
+    <innerfile refid="process__audit__logger_8h">process_audit_logger.h</innerfile>
+    <innerfile refid="process__common_8h">process_common.h</innerfile>
+    <innerfile refid="process__community__detector_8h">process_community_detector.h</innerfile>
+    <innerfile refid="process__concurrency__contract_8h">process_concurrency_contract.h</innerfile>
+    <innerfile refid="process__conflict__resolution__callback_8h">process_conflict_resolution_callback.h</innerfile>
+    <innerfile refid="process__conflict__resolver_8h">process_conflict_resolver.h</innerfile>
+    <innerfile refid="process__determinism__spec_8h">process_determinism_spec.h</innerfile>
+    <innerfile refid="process__diagnostics_8h">process_diagnostics.h</innerfile>
+    <innerfile refid="process__diagnostics__api_8h">process_diagnostics_api.h</innerfile>
+    <innerfile refid="process__federation__contract_8h">process_federation_contract.h</innerfile>
+    <innerfile refid="process__federation__stress__scenarios_8h">process_federation_stress_scenarios.h</innerfile>
+    <innerfile refid="process__graph__rag_8h">process_graph_rag.h</innerfile>
+    <innerfile refid="process__light__retriever_8h">process_light_retriever.h</innerfile>
+    <innerfile refid="process__linker_8h">process_linker.h</innerfile>
+    <innerfile refid="process__model__generator_8h">process_model_generator.h</innerfile>
+    <innerfile refid="process__model__manager_8h">process_model_manager.h</innerfile>
+    <innerfile refid="process__stress__scenarios_8h">process_stress_scenarios.h</innerfile>
+    <innerfile refid="process__telemetry__contract_8h">process_telemetry_contract.h</innerfile>
+    <innerfile refid="process__telemetry__integration_8h">process_telemetry_integration.h</innerfile>
+    <innerfile refid="serializer__hardening_8h">serializer_hardening.h</innerfile>
+    <innerfile refid="vcc__vpb__importer_8h">vcc_vpb_importer.h</innerfile>
+    <innerfile refid="xpdl__importer_8h">xpdl_importer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/"/>
+  </compounddef>
+</doxygen>

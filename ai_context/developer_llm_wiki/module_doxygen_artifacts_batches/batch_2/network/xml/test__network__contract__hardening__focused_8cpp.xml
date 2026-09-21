@@ -1,0 +1,762 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__network__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_network_contract_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="network__api__contract_8h" local="yes">network/network_api_contract.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>network/network_api_contract.h</label>
+        <link refid="network__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/network/test_network_contract_hardening_focused.cpp</label>
+        <link refid="test__network__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>random</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
+      </node>
+      <node id="15">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__network__contract__hardening__focused_8cpp_1a9b136cd7247a4629c68acc22f8c1daad" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t kNetworkContractSeed</definition>
+        <argsstring></argsstring>
+        <name>kNetworkContractSeed</name>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="64" column="32" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__network__contract__hardening__focused_8cpp_1ad2bde4c386a058f933876ce0370c28a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkContractFrame, NCH01_ValidFrameAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkContractFrame</type>
+        </param>
+        <param>
+          <type>NCH01_ValidFrameAccepted</type>
+        </param>
+        <briefdescription>
+<para>NCH-01: Valid frame (correct magic + within size) → OK. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="184" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="184" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__contract__hardening__focused_8cpp_1a3f7c03befcc0d687a7f6fb1950e32413" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkContractFrame, NCH02_InvalidMagicFrameInvalid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkContractFrame</type>
+        </param>
+        <param>
+          <type>NCH02_InvalidMagicFrameInvalid</type>
+        </param>
+        <briefdescription>
+<para>NCH-02: Invalid magic bytes → FRAME_INVALID (fail-closed, close connection). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="193" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="193" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__contract__hardening__focused_8cpp_1adb714b0a323428da3531ad2c67b9fdf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkContractFrame, NCH03_OversizedFrameRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkContractFrame</type>
+        </param>
+        <param>
+          <type>NCH03_OversizedFrameRejected</type>
+        </param>
+        <briefdescription>
+<para>NCH-03: Oversized payload → FRAME_OVERSIZED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="203" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="203" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__contract__hardening__focused_8cpp_1a9339fde9a65b431d1a7a53d13daa7549" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkContractFrame, NCH04_FrameErrorsAreConnectionClosing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkContractFrame</type>
+        </param>
+        <param>
+          <type>NCH04_FrameErrorsAreConnectionClosing</type>
+        </param>
+        <briefdescription>
+<para>NCH-04: <ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError()</ref> is true for FRAME_INVALID and FRAME_OVERSIZED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="212" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="212" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__contract__hardening__focused_8cpp_1aa8be09a53bffd5f701a26480f4ec48b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkContractAuth, NCH05_NoTokenAuthRequired)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkContractAuth</type>
+        </param>
+        <param>
+          <type>NCH05_NoTokenAuthRequired</type>
+        </param>
+        <briefdescription>
+<para>NCH-05: No session token → AUTH_REQUIRED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="227" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="227" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__contract__hardening__focused_8cpp_1a4a4e45fbe9fda75e88030d7abaf1dd59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkContractAuth, NCH06_ExpiredSessionRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkContractAuth</type>
+        </param>
+        <param>
+          <type>NCH06_ExpiredSessionRejected</type>
+        </param>
+        <briefdescription>
+<para>NCH-06: Expired session token → SESSION_EXPIRED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="235" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="235" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__contract__hardening__focused_8cpp_1ab0c0596b6c042b32b07c61d2507ba248" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkContractAuth, NCH07_RevokedSessionFailClosed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkContractAuth</type>
+        </param>
+        <param>
+          <type>NCH07_RevokedSessionFailClosed</type>
+        </param>
+        <briefdescription>
+<para>NCH-07: Revoked session → SESSION_REVOKED (fail-closed, not open). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="244" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="244" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__contract__hardening__focused_8cpp_1abc3d90990e5f6696e6ca6659df25452b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkContractAuth, NCH08_MalformedTokenRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkContractAuth</type>
+        </param>
+        <param>
+          <type>NCH08_MalformedTokenRejected</type>
+        </param>
+        <briefdescription>
+<para>NCH-08: Malformed token (unknown token not in store) → SESSION_MALFORMED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="256" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="256" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__contract__hardening__focused_8cpp_1ab2b07e9a261c31b46d51901197e15fbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkContractRateLimit, NCH09_WithinLimitSucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkContractRateLimit</type>
+        </param>
+        <param>
+          <type>NCH09_WithinLimitSucceeds</type>
+        </param>
+        <briefdescription>
+<para>NCH-09: Requests within per-connection limit all succeed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="270" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="270" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__contract__hardening__focused_8cpp_1a13aeea968bbbc6de8c25fc71cefdb279" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkContractRateLimit, NCH10_ExceededLimitRateLimited)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkContractRateLimit</type>
+        </param>
+        <param>
+          <type>NCH10_ExceededLimitRateLimited</type>
+        </param>
+        <briefdescription>
+<para>NCH-10: Requests exceeding per-connection limit → RATE_LIMITED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="280" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="280" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__contract__hardening__focused_8cpp_1a0e5664fbb10fee0428c8df5708c4a273" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkContractRateLimit, NCH11_RateLimitedIsTransient)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkContractRateLimit</type>
+        </param>
+        <param>
+          <type>NCH11_RateLimitedIsTransient</type>
+        </param>
+        <briefdescription>
+<para>NCH-11: RATE_LIMITED is transient (isRateLimitTransient returns true). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="289" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="289" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__contract__hardening__focused_8cpp_1af8ec3eca3eb543b5e55dc53ddcbff870" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkContractRateLimit, NCH12_UnavailableRateLimiterFailClosed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkContractRateLimit</type>
+        </param>
+        <param>
+          <type>NCH12_UnavailableRateLimiterFailClosed</type>
+        </param>
+        <briefdescription>
+<para>NCH-12: When rate-limiter backend is unavailable → fail-closed deny, NOT fail-open allow. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="301" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="301" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__contract__hardening__focused_8cpp_1ab176e36f525d0574dfeed22ec9fddbf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkContractLifecycle, NCH13_DrainingRejectsNewRequests)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkContractLifecycle</type>
+        </param>
+        <param>
+          <type>NCH13_DrainingRejectsNewRequests</type>
+        </param>
+        <briefdescription>
+<para>NCH-13: DRAINING state rejects new requests with SERVER_DRAINING. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="317" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="317" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__contract__hardening__focused_8cpp_1aaa3fe85cf8128d9fe02d2c9d00d7060e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkContractLifecycle, NCH14_NoMessagesAfterClose)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkContractLifecycle</type>
+        </param>
+        <param>
+          <type>NCH14_NoMessagesAfterClose</type>
+        </param>
+        <briefdescription>
+<para>NCH-14: No messages accepted after connection is CLOSED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="326" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="326" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__contract__hardening__focused_8cpp_1aef7a36eada20d401e3463b3339a29b13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkContractLifecycle, NCH15_GracefulShutdownOrdering)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkContractLifecycle</type>
+        </param>
+        <param>
+          <type>NCH15_GracefulShutdownOrdering</type>
+        </param>
+        <briefdescription>
+<para>NCH-15: Graceful shutdown sequence: SERVING → DRAINING → CLOSED. Messages are accepted in SERVING, rejected in DRAINING, rejected in CLOSED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="337" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="337" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__contract__hardening__focused_8cpp_1a7b92009f638ff2aacc2559bbc8c05f08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkContractLifecycle, NCH16_AllHardCloseCodesClassified)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkContractLifecycle</type>
+        </param>
+        <param>
+          <type>NCH16_AllHardCloseCodesClassified</type>
+        </param>
+        <briefdescription>
+<para>NCH-16: isConnectionClosingError covers all hard-close error codes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="354" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="354" bodyend="381"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 4 network module contract-hardening focused tests (NCH-01..NCH-16). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates every invariant defined in <ref refid="network__api__contract_8h" kindref="compound">include/network/network_api_contract.h</ref> using deterministic, self-contained mock fixtures. No live sockets or real network I/O are used.</para>
+<sect1 id="test__network__contract__hardening__focused_8cpp_1autotoc_md3_1s1"><sect2 id="test__network__contract__hardening__focused_8cpp_1autotoc_md3">
+<title>Test Cases</title><para><heading level="3">NCH-01..NCH-04 — Frame Validation Contract</heading>
+</para>
+<para>NCH-01 Valid frame (correct magic + size) passes validation. NCH-02 Invalid magic bytes → FRAME_INVALID. NCH-03 Oversized payload (&gt; kMaxFramePayloadBytes) → FRAME_OVERSIZED. NCH-04 <ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError()</ref> returns true for FRAME_INVALID/OVERSIZED.</para>
+<para><heading level="3">NCH-05..NCH-08 — Auth/Session Contract</heading>
+</para>
+<para>NCH-05 Privileged opcode without session token → AUTH_REQUIRED. NCH-06 Expired session token → SESSION_EXPIRED. NCH-07 Revoked session → SESSION_REVOKED (fail-closed). NCH-08 Malformed session token → SESSION_MALFORMED.</para>
+<para><heading level="3">NCH-09..NCH-12 — Rate-Limit Contract</heading>
+</para>
+<para>NCH-09 Requests within per-connection limit → all succeed. NCH-10 Requests exceeding per-connection limit → RATE_LIMITED. NCH-11 RATE_LIMITED is classified as transient (isRateLimitTransient). NCH-12 Distributed fallback when rate-limiter unavailable → fail-closed deny.</para>
+<para><heading level="3">NCH-13..NCH-16 — Connection Lifecycle Contract</heading>
+</para>
+<para>NCH-13 DRAIN state rejects new requests (SERVER_DRAINING). NCH-14 No messages are accepted after connection transitions to CLOSED. NCH-15 Graceful shutdown respects kDrainGracePeriod ordering. NCH-16 isConnectionClosingError covers all hard-close codes.</para>
+<para><simplesect kind="see"><para><ref refid="network__api__contract_8h" kindref="compound">include/network/network_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/network/ROADMAP.md — Phase 4 items </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="network__api__contract_8h" kindref="compound">network/network_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">themis::network</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Seed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint64_t<sp/>kNetworkContractSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>in-process<sp/>mocks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>frame<sp/>validator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockFrame<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint8_t<sp/>magic0{<ref refid="namespacethemis_1_1network_1a62a93292d001c72c544919b155574cdb" kindref="member">kFrameMagic0</ref>};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint8_t<sp/>magic1{<ref refid="namespacethemis_1_1network_1a1784d9f0506397be5c1270a669ea71de" kindref="member">kFrameMagic1</ref>};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint8_t<sp/>opcode{0x01};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/>payloadSize{0};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>validateFrame(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MockFrame&amp;<sp/>f)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(f.magic0<sp/>!=<sp/><ref refid="namespacethemis_1_1network_1a62a93292d001c72c544919b155574cdb" kindref="member">kFrameMagic0</ref><sp/>||<sp/>f.magic1<sp/>!=<sp/><ref refid="namespacethemis_1_1network_1a1784d9f0506397be5c1270a669ea71de" kindref="member">kFrameMagic1</ref>)</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ab2f6a2721617683361a296bd02c17003" kindref="member">NetworkErrorCode::FRAME_INVALID</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(f.payloadSize<sp/>&gt;<sp/><ref refid="namespacethemis_1_1network_1a388923109f56cbe0aa1cd94cd33f4793" kindref="member">kMaxFramePayloadBytes</ref>)</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aac51997d76ebeb2c5f184ec31c72f52b" kindref="member">NetworkErrorCode::FRAME_OVERSIZED</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>session<sp/>store</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>SessionState<sp/>{<sp/><ref refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036ca18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref>,<sp/>EXPIRED,<sp/>REVOKED,<sp/>MISSING<sp/>};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockSessionStore<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>add(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token,<sp/>SessionState<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sessions_[token]<sp/>=<sp/>state;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>validate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(token.empty())<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::AUTH_REQUIRED;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>sessions_.find(token);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/>sessions_.end())<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::SESSION_MALFORMED;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(it-&gt;second)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>SessionState::ACTIVE:<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::OK;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>SessionState::EXPIRED:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::SESSION_EXPIRED;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>SessionState::REVOKED:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::SESSION_REVOKED;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>SessionState::MISSING:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::AUTH_REQUIRED;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::INTERNAL_ERROR;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>SessionState&gt;<sp/>sessions_;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>per-connection<sp/>rate<sp/>limiter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockRateLimiter<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>MockRateLimiter(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>limitPerSec,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>unavailable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>limit_(limitPerSec),<sp/>count_(0),<sp/>unavailable_(unavailable)<sp/>{}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>check()<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(unavailable_)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fail-closed:<sp/>when<sp/>rate-limiter<sp/>is<sp/>unavailable,<sp/>deny<sp/>(not<sp/>allow).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::RATE_LIMITED;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(++count_<sp/>&gt;<sp/>limit_)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::RATE_LIMITED;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::OK;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>reset()<sp/>{<sp/>count_<sp/>=<sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/>limit_;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/>count_;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>unavailable_;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>connection<sp/>state<sp/>machine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>ConnState<sp/>{<sp/>ACCEPTING,<sp/>AUTHENTICATING,<sp/>SERVING,<sp/>DRAINING,<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bda110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CLOSED</ref><sp/>};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockConnection<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>ConnState<sp/>state{ConnState::SERVING};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>sendMessage(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*msg*/</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(state)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>ConnState::SERVING:</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::OK;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>ConnState::DRAINING:</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::SERVER_DRAINING;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>ConnState::CLOSED:</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::TRANSPORT_CLOSED;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::INTERNAL_ERROR;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>startDrain()<sp/>{<sp/>state<sp/>=<sp/>ConnState::DRAINING;<sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>close()<sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>state<sp/>=<sp/>ConnState::CLOSED;<sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NCH-01..NCH-04<sp/>—<sp/>Frame<sp/>Validation<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="test__network__contract__hardening__focused_8cpp_1ad2bde4c386a058f933876ce0370c28a7" kindref="member">TEST</ref>(NetworkContractFrame,<sp/>NCH01_ValidFrameAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>MockFrame<sp/>f;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>f.payloadSize<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(validateFrame(f),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><ref refid="test__network__contract__hardening__focused_8cpp_1ad2bde4c386a058f933876ce0370c28a7" kindref="member">TEST</ref>(NetworkContractFrame,<sp/>NCH02_InvalidMagicFrameInvalid)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>MockFrame<sp/>f;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>f.magic0<sp/>=<sp/>0x00;<sp/><sp/></highlight><highlight class="comment">//<sp/>corrupt<sp/>magic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>f.payloadSize<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(validateFrame(f),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ab2f6a2721617683361a296bd02c17003" kindref="member">NetworkErrorCode::FRAME_INVALID</ref>);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="test__network__contract__hardening__focused_8cpp_1ad2bde4c386a058f933876ce0370c28a7" kindref="member">TEST</ref>(NetworkContractFrame,<sp/>NCH03_OversizedFrameRejected)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>MockFrame<sp/>f;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>f.payloadSize<sp/>=<sp/><ref refid="namespacethemis_1_1network_1a388923109f56cbe0aa1cd94cd33f4793" kindref="member">kMaxFramePayloadBytes</ref><sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(validateFrame(f),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aac51997d76ebeb2c5f184ec31c72f52b" kindref="member">NetworkErrorCode::FRAME_OVERSIZED</ref>);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__network__contract__hardening__focused_8cpp_1ad2bde4c386a058f933876ce0370c28a7" kindref="member">TEST</ref>(NetworkContractFrame,<sp/>NCH04_FrameErrorsAreConnectionClosing)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ab2f6a2721617683361a296bd02c17003" kindref="member">NetworkErrorCode::FRAME_INVALID</ref>));</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aac51997d76ebeb2c5f184ec31c72f52b" kindref="member">NetworkErrorCode::FRAME_OVERSIZED</ref>));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-closing<sp/>codes<sp/>must<sp/>NOT<sp/>be<sp/>classified<sp/>as<sp/>connection-closing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0b481e215c9fdd207e9d14f6a0cc228f" kindref="member">NetworkErrorCode::RATE_LIMITED</ref>));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aee7c1374d9480eb0dafeedd8d6f1ee12" kindref="member">NetworkErrorCode::SESSION_EXPIRED</ref>));</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NCH-05..NCH-08<sp/>—<sp/>Auth/Session<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="test__network__contract__hardening__focused_8cpp_1ad2bde4c386a058f933876ce0370c28a7" kindref="member">TEST</ref>(NetworkContractAuth,<sp/>NCH05_NoTokenAuthRequired)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>MockSessionStore<sp/>store;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(store.validate(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7721bb1adc008815561e7b04c3ae986e" kindref="member">NetworkErrorCode::AUTH_REQUIRED</ref>);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__network__contract__hardening__focused_8cpp_1ad2bde4c386a058f933876ce0370c28a7" kindref="member">TEST</ref>(NetworkContractAuth,<sp/>NCH06_ExpiredSessionRejected)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>MockSessionStore<sp/>store;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>store.add(</highlight><highlight class="stringliteral">&quot;expired-token&quot;</highlight><highlight class="normal">,<sp/>SessionState::EXPIRED);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(store.validate(</highlight><highlight class="stringliteral">&quot;expired-token&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aee7c1374d9480eb0dafeedd8d6f1ee12" kindref="member">NetworkErrorCode::SESSION_EXPIRED</ref>);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="test__network__contract__hardening__focused_8cpp_1ad2bde4c386a058f933876ce0370c28a7" kindref="member">TEST</ref>(NetworkContractAuth,<sp/>NCH07_RevokedSessionFailClosed)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>MockSessionStore<sp/>store;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>store.add(</highlight><highlight class="stringliteral">&quot;revoked-token&quot;</highlight><highlight class="normal">,<sp/>SessionState::REVOKED);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>store.validate(</highlight><highlight class="stringliteral">&quot;revoked-token&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a048bd3b5342e4099a9b64eb083b8456a" kindref="member">NetworkErrorCode::SESSION_REVOKED</ref>);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Revoked<sp/>must<sp/>not<sp/>be<sp/>OK.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><ref refid="test__network__contract__hardening__focused_8cpp_1ad2bde4c386a058f933876ce0370c28a7" kindref="member">TEST</ref>(NetworkContractAuth,<sp/>NCH08_MalformedTokenRejected)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>MockSessionStore<sp/>store;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>store.add(</highlight><highlight class="stringliteral">&quot;other-token&quot;</highlight><highlight class="normal">,<sp/>SessionState::ACTIVE);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>token<sp/>that<sp/>exists<sp/>in<sp/>the<sp/>wire<sp/>but<sp/>not<sp/>in<sp/>any<sp/>session<sp/>store.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(store.validate(</highlight><highlight class="stringliteral">&quot;garbage-token&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a9757e29a382ccff4901d4807adbedc6f" kindref="member">NetworkErrorCode::SESSION_MALFORMED</ref>);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NCH-09..NCH-12<sp/>—<sp/>Rate-Limit<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><ref refid="test__network__contract__hardening__focused_8cpp_1ad2bde4c386a058f933876ce0370c28a7" kindref="member">TEST</ref>(NetworkContractRateLimit,<sp/>NCH09_WithinLimitSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>MockRateLimiter<sp/>rl(10);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(rl.check(),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Request<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><ref refid="test__network__contract__hardening__focused_8cpp_1ad2bde4c386a058f933876ce0370c28a7" kindref="member">TEST</ref>(NetworkContractRateLimit,<sp/>NCH10_ExceededLimitRateLimited)<sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>MockRateLimiter<sp/>rl(5);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>rl.check();<sp/><sp/></highlight><highlight class="comment">//<sp/>consume<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rl.check(),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0b481e215c9fdd207e9d14f6a0cc228f" kindref="member">NetworkErrorCode::RATE_LIMITED</ref>);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><ref refid="test__network__contract__hardening__focused_8cpp_1ad2bde4c386a058f933876ce0370c28a7" kindref="member">TEST</ref>(NetworkContractRateLimit,<sp/>NCH11_RateLimitedIsTransient)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1network_1ab89627f567fd641a325ebaaf902b8ad8" kindref="member">isRateLimitTransient</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0b481e215c9fdd207e9d14f6a0cc228f" kindref="member">NetworkErrorCode::RATE_LIMITED</ref>));</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1network_1ab89627f567fd641a325ebaaf902b8ad8" kindref="member">isRateLimitTransient</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ad102264cf4b9f438b284d2c9908486a8" kindref="member">NetworkErrorCode::BACKPRESSURE_EXCEEDED</ref>));</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-transient<sp/>codes<sp/>must<sp/>not<sp/>be<sp/>classified<sp/>as<sp/>transient.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1ab89627f567fd641a325ebaaf902b8ad8" kindref="member">isRateLimitTransient</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ab2f6a2721617683361a296bd02c17003" kindref="member">NetworkErrorCode::FRAME_INVALID</ref>));</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1ab89627f567fd641a325ebaaf902b8ad8" kindref="member">isRateLimitTransient</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7721bb1adc008815561e7b04c3ae986e" kindref="member">NetworkErrorCode::AUTH_REQUIRED</ref>));</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><ref refid="test__network__contract__hardening__focused_8cpp_1ad2bde4c386a058f933876ce0370c28a7" kindref="member">TEST</ref>(NetworkContractRateLimit,<sp/>NCH12_UnavailableRateLimiterFailClosed)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>MockRateLimiter<sp/>rl(1000,<sp/></highlight><highlight class="comment">/*unavailable=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Even<sp/>with<sp/>a<sp/>high<sp/>limit,<sp/>unavailability<sp/>must<sp/>not<sp/>produce<sp/>OK.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>rl.check();</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>)</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Rate<sp/>limiter<sp/>unavailability<sp/>must<sp/>not<sp/>fail-open&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0b481e215c9fdd207e9d14f6a0cc228f" kindref="member">NetworkErrorCode::RATE_LIMITED</ref>);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NCH-13..NCH-16<sp/>—<sp/>Connection<sp/>Lifecycle<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><ref refid="test__network__contract__hardening__focused_8cpp_1ad2bde4c386a058f933876ce0370c28a7" kindref="member">TEST</ref>(NetworkContractLifecycle,<sp/>NCH13_DrainingRejectsNewRequests)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>MockConnection<sp/>conn;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.startDrain();</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conn.sendMessage(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ad4381a52828e126b02907417a6e7abd4" kindref="member">NetworkErrorCode::SERVER_DRAINING</ref>);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><ref refid="test__network__contract__hardening__focused_8cpp_1ad2bde4c386a058f933876ce0370c28a7" kindref="member">TEST</ref>(NetworkContractLifecycle,<sp/>NCH14_NoMessagesAfterClose)<sp/>{</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>MockConnection<sp/>conn;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.close();</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conn.sendMessage(</highlight><highlight class="stringliteral">&quot;post-close&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7a6a45397e5124ffeb22e133b906b9e5" kindref="member">NetworkErrorCode::TRANSPORT_CLOSED</ref>);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7a6a45397e5124ffeb22e133b906b9e5" kindref="member">NetworkErrorCode::TRANSPORT_CLOSED</ref>));</highlight></codeline>
+<codeline lineno="331"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><ref refid="test__network__contract__hardening__focused_8cpp_1ad2bde4c386a058f933876ce0370c28a7" kindref="member">TEST</ref>(NetworkContractLifecycle,<sp/>NCH15_GracefulShutdownOrdering)<sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>MockConnection<sp/>conn;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conn.state,<sp/>ConnState::SERVING);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conn.sendMessage(</highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.startDrain();</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conn.state,<sp/>ConnState::DRAINING);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conn.sendMessage(</highlight><highlight class="stringliteral">&quot;draining&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ad4381a52828e126b02907417a6e7abd4" kindref="member">NetworkErrorCode::SERVER_DRAINING</ref>);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.close();</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conn.state,<sp/>ConnState::CLOSED);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conn.sendMessage(</highlight><highlight class="stringliteral">&quot;closed&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7a6a45397e5124ffeb22e133b906b9e5" kindref="member">NetworkErrorCode::TRANSPORT_CLOSED</ref>);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><ref refid="test__network__contract__hardening__focused_8cpp_1ad2bde4c386a058f933876ce0370c28a7" kindref="member">TEST</ref>(NetworkContractLifecycle,<sp/>NCH16_AllHardCloseCodesClassified)<sp/>{</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;NetworkErrorCode&gt;<sp/>closingCodes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ab2f6a2721617683361a296bd02c17003" kindref="member">NetworkErrorCode::FRAME_INVALID</ref>,</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aac51997d76ebeb2c5f184ec31c72f52b" kindref="member">NetworkErrorCode::FRAME_OVERSIZED</ref>,</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a30611ff322b606c366083e8dc7dcf459" kindref="member">NetworkErrorCode::AUTH_TIMEOUT</ref>,</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7a6a45397e5124ffeb22e133b906b9e5" kindref="member">NetworkErrorCode::TRANSPORT_CLOSED</ref>,</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a06e231de202bc95d06df42f58b5fb187" kindref="member">NetworkErrorCode::TRANSPORT_UNAVAILABLE</ref>,</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae8c0c70879b5895c615677261d64a1ee" kindref="member">NetworkErrorCode::INTERNAL_ERROR</ref>,</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>:<sp/>closingCodes)<sp/>{</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(code))</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>connection-closing=true<sp/>for<sp/>code<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>These<sp/>must<sp/>NOT<sp/>trigger<sp/>a<sp/>connection<sp/>close.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;NetworkErrorCode&gt;<sp/>nonClosingCodes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0b481e215c9fdd207e9d14f6a0cc228f" kindref="member">NetworkErrorCode::RATE_LIMITED</ref>,</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aee7c1374d9480eb0dafeedd8d6f1ee12" kindref="member">NetworkErrorCode::SESSION_EXPIRED</ref>,</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a9af9df975e7f72da7144d8c2c4927088" kindref="member">NetworkErrorCode::OPCODE_UNKNOWN</ref>,</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>,</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>:<sp/>nonClosingCodes)<sp/>{</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(code))</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>connection-closing=false<sp/>for<sp/>code<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="381"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_network_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

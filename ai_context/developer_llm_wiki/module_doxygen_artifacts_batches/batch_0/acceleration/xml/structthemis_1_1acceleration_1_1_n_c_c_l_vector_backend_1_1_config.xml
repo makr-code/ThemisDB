@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::NCCLVectorBackend::Config</compoundname>
+    <includes refid="nccl__vector__backend_8h" local="no">nccl_vector_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_config_1a1003ce18098797b9b269639cf711d5ed" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::NCCLVectorBackend::Config::worldSize</definition>
+        <argsstring></argsstring>
+        <name>worldSize</name>
+        <qualifiedname>themis::acceleration::NCCLVectorBackend::Config::worldSize</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/nccl_vector_backend.h" line="40" column="13" bodyfile="include/acceleration/nccl_vector_backend.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_config_1a4818d6ae56e4f7daef39aff7b94e8f5b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::NCCLVectorBackend::Config::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::acceleration::NCCLVectorBackend::Config::rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/nccl_vector_backend.h" line="41" column="13" bodyfile="include/acceleration/nccl_vector_backend.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_config_1a5a8c2af14cd274fd854b088bfaef49c5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::acceleration::NCCLVectorBackend::Config::deviceIds</definition>
+        <argsstring></argsstring>
+        <name>deviceIds</name>
+        <qualifiedname>themis::acceleration::NCCLVectorBackend::Config::deviceIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/nccl_vector_backend.h" line="42" column="21" bodyfile="include/acceleration/nccl_vector_backend.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_config_1a73513c7a386acd708f6207a44b1e6fe4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::NCCLVectorBackend::Config::enableP2P</definition>
+        <argsstring></argsstring>
+        <name>enableP2P</name>
+        <qualifiedname>themis::acceleration::NCCLVectorBackend::Config::enableP2P</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/nccl_vector_backend.h" line="43" column="14" bodyfile="include/acceleration/nccl_vector_backend.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_config_1a04452049831175affed0699956f4864e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::NCCLVectorBackend::Config::enableNVLink</definition>
+        <argsstring></argsstring>
+        <name>enableNVLink</name>
+        <qualifiedname>themis::acceleration::NCCLVectorBackend::Config::enableNVLink</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/nccl_vector_backend.h" line="44" column="14" bodyfile="include/acceleration/nccl_vector_backend.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_config_1a2f2ff00c9226588713fddc8c82554d34" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::NCCLVectorBackend::Config::bufferSizeMB</definition>
+        <argsstring></argsstring>
+        <name>bufferSizeMB</name>
+        <qualifiedname>themis::acceleration::NCCLVectorBackend::Config::bufferSizeMB</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/nccl_vector_backend.h" line="45" column="16" bodyfile="include/acceleration/nccl_vector_backend.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/nccl_vector_backend.h" line="39" column="5" bodyfile="include/acceleration/nccl_vector_backend.h" bodystart="39" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_config_1a2f2ff00c9226588713fddc8c82554d34" prot="public" virt="non-virtual"><scope>themis::acceleration::NCCLVectorBackend::Config</scope><name>bufferSizeMB</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_config_1a5a8c2af14cd274fd854b088bfaef49c5" prot="public" virt="non-virtual"><scope>themis::acceleration::NCCLVectorBackend::Config</scope><name>deviceIds</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_config_1a04452049831175affed0699956f4864e" prot="public" virt="non-virtual"><scope>themis::acceleration::NCCLVectorBackend::Config</scope><name>enableNVLink</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_config_1a73513c7a386acd708f6207a44b1e6fe4" prot="public" virt="non-virtual"><scope>themis::acceleration::NCCLVectorBackend::Config</scope><name>enableP2P</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_config_1a4818d6ae56e4f7daef39aff7b94e8f5b" prot="public" virt="non-virtual"><scope>themis::acceleration::NCCLVectorBackend::Config</scope><name>rank</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_config_1a1003ce18098797b9b269639cf711d5ed" prot="public" virt="non-virtual"><scope>themis::acceleration::NCCLVectorBackend::Config</scope><name>worldSize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

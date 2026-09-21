@@ -1,0 +1,700 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__fips__crypto__mode_8cpp" kind="file" language="C++">
+    <compoundname>test_fips_crypto_mode.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="fips__crypto__mode_8h" local="yes">security/fips_crypto_mode.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>security/fips_crypto_mode.h</label>
+        <link refid="fips__crypto__mode_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/security/test_fips_crypto_mode.cpp</label>
+        <link refid="test__fips__crypto__mode_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_set</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1affeec66b05115ff2d545187bd19e7beb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool fipsAvailable</definition>
+        <argsstring>()</argsstring>
+        <name>fipsAvailable</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="23" column="13" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="23" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, IsAvailableReturnsBool)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>IsAvailableReturnsBool</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="31" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="31" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1af067feba7d81493e27c86ff8d1312a11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, InitiallyDisabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>InitiallyDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="38" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="38" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1a7b9a8744448b66aa4f713565e251b6a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, EnableReturnsFalseWhenProviderMissing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>EnableReturnsFalseWhenProviderMissing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="45" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="45" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1a659c012dfad8fc7c1cbd0683e1b460ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, EnableSucceedsWhenProviderAvailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>EnableSucceedsWhenProviderAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="57" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="57" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1a24d3c3a3e6617a9c1f7e08b844b11486" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, DoubleEnableIsIdempotent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>DoubleEnableIsIdempotent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="70" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="70" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1ab114d7168707eac49b9adcd99334d54f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, DisableWhenNotActivedIsNoop)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>DisableWhenNotActivedIsNoop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="81" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="81" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1a472a5fdc9b088479fba5cfcfd155ab79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, EnableThenDisable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>EnableThenDisable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="87" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="87" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1a413056e62813a6efb005ed30746949bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, ApprovedAlgorithmsSetNotEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>ApprovedAlgorithmsSetNotEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="102" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="102" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1a73fda5c1a1862cfaa221873ee5fd11f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, ValidateApprovedAlgorithmsNoThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>ValidateApprovedAlgorithmsNoThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="106" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="106" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1a81316caaedff1840e6a7a20c201f1ecb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, ValidateCaseInsensitive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>ValidateCaseInsensitive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="124" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="124" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1ae208c9a916980f360ba06b1d94e314ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, ValidateNonApprovedThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>ValidateNonApprovedThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="131" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="131" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1a10677f77dd18791900e98b18abda6ad9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, ValidateEmptyStringThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>ValidateEmptyStringThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="151" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="151" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1a69ad20fe96dd6414c7ed34bb3332726e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, ValidateUnknownAlgorithmThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>ValidateUnknownAlgorithmThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="157" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="157" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1a20a0c5275f3b83514a0f61ba52d2e755" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, SelfTestsReturnFalseWhenDisabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>SelfTestsReturnFalseWhenDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="167" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="167" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1a5fa5bbd4422360f6de241cf2e941463e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, SelfTestsPassWhenEnabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>SelfTestsPassWhenEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="173" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="173" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1a325ffd6047e44a784e725441a8d7a785" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, ZeroizeErasesMemory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>ZeroizeErasesMemory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="187" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="187" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1a61eb1de02e51b8170cd519406671d9c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, ZeroizeNullptrIsNoop)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>ZeroizeNullptrIsNoop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="195" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="195" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1ae15b491b65ff58eb621d6817dedde248" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, ZeroizeZeroLengthIsNoop)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>ZeroizeZeroLengthIsNoop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="199" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="199" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1a294aca895cbd721453c1e281bc2710c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, SingletonReturnsSameInstance)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>SingletonReturnsSameInstance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="210" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="210" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="test__fips__crypto__mode_8cpp_1aa495c00becc8f50fcfb492ca796ebe5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FipsCryptoModeTest, AllCoreAlgorithmsPresent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FipsCryptoModeTest</type>
+        </param>
+        <param>
+          <type>AllCoreAlgorithmsPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_fips_crypto_mode.cpp" line="220" column="1" bodyfile="tests/security/test_fips_crypto_mode.cpp" bodystart="220" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1_fips_crypto_mode" kindref="compound">FipsCryptoMode</ref> — FIPS 140-2/3 validated cryptography mode. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>These tests are self-contained and do NOT require a FIPS-validated OpenSSL build to pass. When the FIPS provider is not available the tests verify graceful degradation. When it IS available the tests additionally verify correct activation, self-test execution, and algorithm enforcement. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="fips__crypto__mode_8h" kindref="compound">security/fips_crypto_mode.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fipsAvailable()<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().<ref refid="classthemis_1_1_fips_crypto_mode_1a13b0a9ef17ccc3c7670bc60bd7415b6d" kindref="member">isAvailable</ref>();</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FipsCryptoMode<sp/>—<sp/>availability<sp/>and<sp/>activation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>IsAvailableReturnsBool)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>throw<sp/>regardless<sp/>of<sp/>whether<sp/>FIPS<sp/>provider<sp/>is<sp/>installed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>available<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(available<sp/>=<sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().isAvailable());</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)available;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>InitiallyDisabled)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fresh<sp/>process<sp/>should<sp/>not<sp/>have<sp/>FIPS<sp/>active<sp/>by<sp/>default.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(Re-disable<sp/>to<sp/>reset<sp/>any<sp/>prior<sp/>test<sp/>state.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().<ref refid="classthemis_1_1_fips_crypto_mode_1aedbd4169da336017c9332c8849f6f127" kindref="member">disable</ref>();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().isEnabled());</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>EnableReturnsFalseWhenProviderMissing)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fipsAvailable())<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;FIPS<sp/>provider<sp/>is<sp/>installed;<sp/>skipping<sp/>&apos;missing&apos;<sp/>path&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>disable<sp/>first<sp/>in<sp/>case<sp/>a<sp/>previous<sp/>test<sp/>left<sp/>it<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().<ref refid="classthemis_1_1_fips_crypto_mode_1aedbd4169da336017c9332c8849f6f127" kindref="member">disable</ref>();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(result<sp/>=<sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().enable());</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().isEnabled());</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>EnableSucceedsWhenProviderAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!fipsAvailable())<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;FIPS<sp/>provider<sp/>not<sp/>installed;<sp/>skipping<sp/>activation<sp/>test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().<ref refid="classthemis_1_1_fips_crypto_mode_1aedbd4169da336017c9332c8849f6f127" kindref="member">disable</ref>();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(result<sp/>=<sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().enable());</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().isEnabled());</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clean<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().<ref refid="classthemis_1_1_fips_crypto_mode_1aedbd4169da336017c9332c8849f6f127" kindref="member">disable</ref>();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>DoubleEnableIsIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!fipsAvailable())<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;FIPS<sp/>provider<sp/>not<sp/>installed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().<ref refid="classthemis_1_1_fips_crypto_mode_1aedbd4169da336017c9332c8849f6f127" kindref="member">disable</ref>();</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().enable());</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().enable());<sp/><sp/></highlight><highlight class="comment">//<sp/>second<sp/>call<sp/>—<sp/>must<sp/>not<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().isEnabled());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().<ref refid="classthemis_1_1_fips_crypto_mode_1aedbd4169da336017c9332c8849f6f127" kindref="member">disable</ref>();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>DisableWhenNotActivedIsNoop)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().<ref refid="classthemis_1_1_fips_crypto_mode_1aedbd4169da336017c9332c8849f6f127" kindref="member">disable</ref>();<sp/><sp/></highlight><highlight class="comment">//<sp/>first<sp/>disable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().disable());<sp/><sp/></highlight><highlight class="comment">//<sp/>second<sp/>—<sp/>no-op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().isEnabled());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>EnableThenDisable)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!fipsAvailable())<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;FIPS<sp/>provider<sp/>not<sp/>installed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().<ref refid="classthemis_1_1_fips_crypto_mode_1aedbd4169da336017c9332c8849f6f127" kindref="member">disable</ref>();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().enable());</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().isEnabled());</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().<ref refid="classthemis_1_1_fips_crypto_mode_1aedbd4169da336017c9332c8849f6f127" kindref="member">disable</ref>();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().isEnabled());</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FipsCryptoMode<sp/>—<sp/>approved<sp/>algorithm<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>ApprovedAlgorithmsSetNotEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().approvedAlgorithms().empty());</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>ValidateApprovedAlgorithmsNoThrow)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>approved<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;AES-256-GCM&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AES-128-CBC&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AES-256-CBC&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;AES-256-CTR&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AES-128-GCM&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;SHA-256&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SHA-384&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SHA-512&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;HMAC-SHA-256&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HMAC-SHA-384&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HMAC-SHA-512&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;RSA-2048&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RSA-3072&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RSA-4096&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ECDSA-P256&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ECDSA-P384&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ECDSA-P521&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ECDH-P256&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ECDH-P384&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ECDH-P521&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;PBKDF2-SHA-256&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HKDF-SHA-256&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;CTR_DRBG&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HASH_DRBG&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HMAC_DRBG&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>algo<sp/>:<sp/>approved)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().validateAlgorithm(algo))</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Algorithm<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>algo<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&apos;<sp/>should<sp/>be<sp/>approved&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>ValidateCaseInsensitive)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Algorithm<sp/>names<sp/>are<sp/>accepted<sp/>in<sp/>any<sp/>case.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().validateAlgorithm(</highlight><highlight class="stringliteral">&quot;aes-256-gcm&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().validateAlgorithm(</highlight><highlight class="stringliteral">&quot;Aes-256-Gcm&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().validateAlgorithm(</highlight><highlight class="stringliteral">&quot;sha-256&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>ValidateNonApprovedThrows)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>not_approved<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;MD5&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;RC4&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;DES&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;3DES&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;BLOWFISH&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;CHACHA20-POLY1305&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;SHA-1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;IDEA&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ARC4&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>algo<sp/>:<sp/>not_approved)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().validateAlgorithm(algo),</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_policy_violation" kindref="compound">FipsPolicyViolation</ref>)</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Algorithm<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>algo<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&apos;<sp/>should<sp/>throw<sp/>FipsPolicyViolation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>ValidateEmptyStringThrows)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().validateAlgorithm(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_policy_violation" kindref="compound">FipsPolicyViolation</ref>);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>ValidateUnknownAlgorithmThrows)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().validateAlgorithm(</highlight><highlight class="stringliteral">&quot;UNKNOWN-ALGO-999&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_policy_violation" kindref="compound">FipsPolicyViolation</ref>);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FipsCryptoMode<sp/>—<sp/>self-tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>SelfTestsReturnFalseWhenDisabled)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().<ref refid="classthemis_1_1_fips_crypto_mode_1aedbd4169da336017c9332c8849f6f127" kindref="member">disable</ref>();</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Self-tests<sp/>cannot<sp/>run<sp/>without<sp/>the<sp/>provider<sp/>loaded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().runSelfTests());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>SelfTestsPassWhenEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!fipsAvailable())<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;FIPS<sp/>provider<sp/>not<sp/>installed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().<ref refid="classthemis_1_1_fips_crypto_mode_1aedbd4169da336017c9332c8849f6f127" kindref="member">disable</ref>();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().enable());</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().runSelfTests());</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().<ref refid="classthemis_1_1_fips_crypto_mode_1aedbd4169da336017c9332c8849f6f127" kindref="member">disable</ref>();</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FipsCryptoMode<sp/>—<sp/>zeroization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>ZeroizeErasesMemory)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>secret<sp/>=<sp/>{0x01,<sp/>0x02,<sp/>0x03,<sp/>0x04,<sp/>0x05};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode_1a5aa2b65cb95538e5f2879ee86888fa98" kindref="member">FipsCryptoMode::zeroize</ref>(secret.data(),<sp/>secret.size());</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">byte</highlight><highlight class="normal"><sp/>:<sp/>secret)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keywordtype">byte</highlight><highlight class="normal">,<sp/>0x00);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>ZeroizeNullptrIsNoop)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="classthemis_1_1_fips_crypto_mode_1a5aa2b65cb95538e5f2879ee86888fa98" kindref="member">FipsCryptoMode::zeroize</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>16));</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>ZeroizeZeroLengthIsNoop)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>buf[4]<sp/>=<sp/>{0xAA,<sp/>0xBB,<sp/>0xCC,<sp/>0xDD};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="classthemis_1_1_fips_crypto_mode_1a5aa2b65cb95538e5f2879ee86888fa98" kindref="member">FipsCryptoMode::zeroize</ref>(buf,<sp/>0));</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Buffer<sp/>should<sp/>be<sp/>unchanged.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(buf[0],<sp/>0xAAu);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FipsCryptoMode<sp/>—<sp/>singleton<sp/>identity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>SingletonReturnsSameInstance)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode" kindref="compound">FipsCryptoMode</ref>*<sp/>a<sp/>=<sp/>&amp;<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_fips_crypto_mode" kindref="compound">FipsCryptoMode</ref>*<sp/>b<sp/>=<sp/>&amp;<ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>();</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(a,<sp/>b);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FipsCryptoMode<sp/>—<sp/>approved<sp/>algorithms<sp/>completeness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><ref refid="test__fips__crypto__mode_8cpp_1a7a18e1a04269e23995cebde13819a915" kindref="member">TEST</ref>(FipsCryptoModeTest,<sp/>AllCoreAlgorithmsPresent)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>approved<sp/>=<sp/><ref refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" kindref="member">FipsCryptoMode::instance</ref>().<ref refid="classthemis_1_1_fips_crypto_mode_1a34ec9a1ad9a3b4cd388e13e671a0cc7c" kindref="member">approvedAlgorithms</ref>();</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>symmetric</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approved.count(</highlight><highlight class="stringliteral">&quot;AES-256-GCM&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approved.count(</highlight><highlight class="stringliteral">&quot;AES-128-GCM&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approved.count(</highlight><highlight class="stringliteral">&quot;AES-256-CBC&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>hash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approved.count(</highlight><highlight class="stringliteral">&quot;SHA-256&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approved.count(</highlight><highlight class="stringliteral">&quot;SHA-384&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approved.count(</highlight><highlight class="stringliteral">&quot;SHA-512&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>MAC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approved.count(</highlight><highlight class="stringliteral">&quot;HMAC-SHA-256&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approved.count(</highlight><highlight class="stringliteral">&quot;HMAC-SHA-512&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>asymmetric</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approved.count(</highlight><highlight class="stringliteral">&quot;RSA-2048&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approved.count(</highlight><highlight class="stringliteral">&quot;ECDSA-P256&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approved.count(</highlight><highlight class="stringliteral">&quot;ECDH-P256&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>KDF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approved.count(</highlight><highlight class="stringliteral">&quot;HKDF-SHA-256&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approved.count(</highlight><highlight class="stringliteral">&quot;PBKDF2-SHA-256&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>DRBG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approved.count(</highlight><highlight class="stringliteral">&quot;CTR_DRBG&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_fips_crypto_mode.cpp"/>
+  </compounddef>
+</doxygen>

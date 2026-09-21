@@ -1,0 +1,421 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="scheduled__edge__refresh_8h" kind="file" language="C++">
+    <compoundname>scheduled_edge_refresh.h</compoundname>
+    <includes local="yes">analytics/cep_engine.h</includes>
+    <includes local="yes">cdc/changefeed.h</includes>
+    <includes local="yes">index/ann_index.h</includes>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="scheduled__edge__refresh_8cpp" local="yes">src/graph/scheduled_edge_refresh.cpp</includedby>
+    <includedby refid="test__scheduled__edge__refresh_8cpp" local="yes">tests/graph/test_scheduled_edge_refresh.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/graph/scheduled_edge_refresh.h</label>
+        <link refid="scheduled__edge__refresh_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>analytics/cep_engine.h</label>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>cdc/changefeed.h</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>condition_variable</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>index/ann_index.h</label>
+      </node>
+      <node id="5">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="14">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>thread</label>
+      </node>
+      <node id="16">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="17">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/graph/scheduled_edge_refresh.h</label>
+        <link refid="scheduled__edge__refresh_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/graph/scheduled_edge_refresh.cpp</label>
+        <link refid="scheduled__edge__refresh_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/graph/test_scheduled_edge_refresh.cpp</label>
+        <link refid="test__scheduled__edge__refresh_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1graph_1_1_refresh_policy" prot="public">themis::graph::RefreshPolicy</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_edge_score" prot="public">themis::graph::EdgeScore</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_refresh_stats" prot="public">themis::graph::RefreshStats</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_refresh_audit_entry" prot="public">themis::graph::RefreshAuditEntry</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine" prot="public">themis::graph::ScheduledGraphEdgeRefreshEngine</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1graph">themis::graph</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;analytics/cep_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;cdc/changefeed.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/ann_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">graph</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RefreshPolicy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1graph_1a66ca174611276aee1d7d96c302ef702f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1graph_1a66ca174611276aee1d7d96c302ef702f" kindref="member">SimilarityMetric</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1graph_1a66ca174611276aee1d7d96c302ef702fae66ba018ef96aa5c78c8fba787f43717" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a66ca174611276aee1d7d96c302ef702fae66ba018ef96aa5c78c8fba787f43717" kindref="member">COSINE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1graph_1a66ca174611276aee1d7d96c302ef702faf631bca16207bd2c79fca06f9f1875e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a66ca174611276aee1d7d96c302ef702faf631bca16207bd2c79fca06f9f1875e0" kindref="member">DOT_PRODUCT</ref>,<sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1graph_1a66ca174611276aee1d7d96c302ef702fab142d642e537e694b9314e1a56835f8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a66ca174611276aee1d7d96c302ef702fab142d642e537e694b9314e1a56835f8d" kindref="member">EUCLIDEAN</ref><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1graph_1_1_refresh_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_refresh_policy_1a52bb72c6cf15f82ef22effb24005884d" kindref="member">RefreshPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Scheduling<sp/>────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1graph_1_1_refresh_policy_1a2f5251244da6bb13288cc0a84e5ccd10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy_1a2f5251244da6bb13288cc0a84e5ccd10" kindref="member">refresh_interval</ref>{3600};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Similarity<sp/>────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1graph_1_1_refresh_policy_1a4b848dd3c6acb9a4637eb0e3eda1c549" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a66ca174611276aee1d7d96c302ef702f" kindref="member">SimilarityMetric</ref><sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy_1a4b848dd3c6acb9a4637eb0e3eda1c549" kindref="member">similarity_metric</ref>{<ref refid="namespacethemis_1_1graph_1a66ca174611276aee1d7d96c302ef702fae66ba018ef96aa5c78c8fba787f43717" kindref="member">SimilarityMetric::COSINE</ref>};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1graph_1_1_refresh_policy_1a8989b466b888e917dfc63f411996abd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy_1a8989b466b888e917dfc63f411996abd2" kindref="member">relevance_threshold</ref>{0.5f};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1graph_1_1_refresh_policy_1ae994a5bd418ef1dd5475fbb083d5eca7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy_1ae994a5bd418ef1dd5475fbb083d5eca7" kindref="member">add_threshold</ref>{0.7f};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1graph_1_1_refresh_policy_1aabb5d930306b80f0282b1268d7b0da09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy_1aabb5d930306b80f0282b1268d7b0da09" kindref="member">top_k_candidates</ref>{10};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Temporal<sp/>decay<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1graph_1_1_refresh_policy_1a96d4e8ebd5b58d38491dd4b181d80f64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy_1a96d4e8ebd5b58d38491dd4b181d80f64" kindref="member">decay_half_life_seconds</ref>{86400.0};<sp/></highlight><highlight class="comment">//<sp/>24<sp/>h<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Safety<sp/>gates<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1graph_1_1_refresh_policy_1acae66f68f2adb21b6c4ba36829c35c39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy_1acae66f68f2adb21b6c4ba36829c35c39" kindref="member">max_removal_fraction</ref>{0.10f};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1graph_1_1_refresh_policy_1a5f3d8b0a66dc7703efa0a0683e7c3800" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy_1a5f3d8b0a66dc7703efa0a0683e7c3800" kindref="member">max_edges_to_add</ref>{1000};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1graph_1_1_refresh_policy_1a97be56898190abfa597766bc9afcc4a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy_1a97be56898190abfa597766bc9afcc4a8" kindref="member">max_edges_to_remove</ref>{500};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Graph<sp/>scope<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1graph_1_1_refresh_policy_1a70276eea1753fe10ed037f4e817a1633" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy_1a70276eea1753fe10ed037f4e817a1633" kindref="member">graph_id</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Anomaly<sp/>detection<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1graph_1_1_refresh_policy_1a156f63a750c565a82006b288dacc1f42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy_1a156f63a750c565a82006b288dacc1f42" kindref="member">anomaly_threshold_removal_rate</ref>{0.0f};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>ANN<sp/>acceleration<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1graph_1_1_refresh_policy_1a6d6af1a421e37bbe90fb41f85a297f71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy_1a6d6af1a421e37bbe90fb41f85a297f71" kindref="member">ann_min_vertices</ref>{10000};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1graph_1_1_refresh_policy_1a52bb72c6cf15f82ef22effb24005884d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy_1a52bb72c6cf15f82ef22effb24005884d" kindref="member">RefreshPolicy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EdgeScore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1graph_1_1_edge_score" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_edge_score" kindref="compound">EdgeScore</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1graph_1_1_edge_score_1a9e782f6b26fdf12f01c651111c0844e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_edge_score_1a9e782f6b26fdf12f01c651111c0844e5" kindref="member">edge_id</ref>;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1graph_1_1_edge_score_1a8a9593522611644d4e1a6688b64645aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_edge_score_1a8a9593522611644d4e1a6688b64645aa" kindref="member">from_vertex</ref>;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1graph_1_1_edge_score_1ac6640f2aa6541d10290479bb32a65afe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_edge_score_1ac6640f2aa6541d10290479bb32a65afe" kindref="member">to_vertex</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1graph_1_1_edge_score_1a390030ec98e19eea4d999c88246e08cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_edge_score_1a390030ec98e19eea4d999c88246e08cf" kindref="member">similarity</ref>{0.0f};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1graph_1_1_edge_score_1ac14aa44699a922e23b94d8dc032e179d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_edge_score_1ac14aa44699a922e23b94d8dc032e179d" kindref="member">temporal_factor</ref>{1.0f};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1graph_1_1_edge_score_1a28b0336e98960657fc0bc5829dbe7f3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_edge_score_1a28b0336e98960657fc0bc5829dbe7f3a" kindref="member">centrality_weight</ref>{1.0f};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1graph_1_1_edge_score_1a43a02317599ba7c3f58289fdee878af7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_edge_score_1a43a02317599ba7c3f58289fdee878af7" kindref="member">relevance</ref>{0.0f};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1graph_1_1_edge_score_1ab94f124e176d5cd274ebd5fc82166d90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_edge_score_1ab94f124e176d5cd274ebd5fc82166d90" kindref="member">is_removal_candidate</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RefreshStats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1graph_1_1_refresh_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_refresh_stats" kindref="compound">RefreshStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1graph_1_1_refresh_stats_1a38e7a4461e091b25d684f0041cc320a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1graph_1_1_refresh_stats_1a38e7a4461e091b25d684f0041cc320a5" kindref="member">edges_evaluated</ref>{0};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1graph_1_1_refresh_stats_1a9f341c3408b121ca96a0660fd35cc4a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1graph_1_1_refresh_stats_1a9f341c3408b121ca96a0660fd35cc4a9" kindref="member">edges_removed</ref>{0};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1graph_1_1_refresh_stats_1ab7472433d3bbe7af5a765ca81289c927" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1graph_1_1_refresh_stats_1ab7472433d3bbe7af5a765ca81289c927" kindref="member">edges_added</ref>{0};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1graph_1_1_refresh_stats_1abd497360fb26ea59c6c32b8f65d35e92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1graph_1_1_refresh_stats_1abd497360fb26ea59c6c32b8f65d35e92" kindref="member">candidate_pairs_evaluated</ref>{0};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1graph_1_1_refresh_stats_1a959d4e5b142c5d985c6a9f5471f7abc2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_stats_1a959d4e5b142c5d985c6a9f5471f7abc2" kindref="member">avg_relevance_retained</ref>{0.0};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1graph_1_1_refresh_stats_1ad54eebda2a2568769799601d93cb8cc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_stats_1ad54eebda2a2568769799601d93cb8cc4" kindref="member">avg_relevance_improvement</ref>{0.0};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1graph_1_1_refresh_stats_1a0bc475075ee5cf70e8a6e8a62d035a0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_stats_1a0bc475075ee5cf70e8a6e8a62d035a0f" kindref="member">cycle_duration_ms</ref>{0.0};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1graph_1_1_refresh_stats_1a38a953ef92634f8231bb39471fc8750f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_stats_1a38a953ef92634f8231bb39471fc8750f" kindref="member">aborted_safety_gate</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1graph_1_1_refresh_stats_1ab9af3ba0be9fc59e1bb69681d70bdcf6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1graph_1_1_refresh_stats_1ab9af3ba0be9fc59e1bb69681d70bdcf6" kindref="member">total_cycles_completed</ref>{0};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Anomaly<sp/>detection<sp/>metrics<sp/>─────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1graph_1_1_refresh_stats_1a354bfd163af4c6fb564aba57d427c651" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_stats_1a354bfd163af4c6fb564aba57d427c651" kindref="member">removal_rate</ref>{0.0};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1graph_1_1_refresh_stats_1a8adb305310af24c2656b804e916320cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_stats_1a8adb305310af24c2656b804e916320cb" kindref="member">anomaly_high_removal_rate</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RefreshAuditEntry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1graph_1_1_refresh_audit_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_refresh_audit_entry" kindref="compound">RefreshAuditEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1graph_1_1_refresh_audit_entry_1afc9f4e8aee1d9b3caebc76e9309f5210" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_audit_entry_1afc9f4e8aee1d9b3caebc76e9309f5210" kindref="member">Action</ref><sp/>{<sp/><ref refid="structthemis_1_1graph_1_1_refresh_audit_entry_1afc9f4e8aee1d9b3caebc76e9309f5210a9eeb52badb613229884838847294b90d" kindref="member">ADD</ref>,<sp/><ref refid="structthemis_1_1graph_1_1_refresh_audit_entry_1afc9f4e8aee1d9b3caebc76e9309f5210a78baf367c4626442174307cdf41c6538" kindref="member">REMOVE</ref><sp/>};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1graph_1_1_refresh_audit_entry_1af74b79086ce013db027a72dbde5ed573" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_refresh_audit_entry_1afc9f4e8aee1d9b3caebc76e9309f5210" kindref="member">Action</ref><sp/><ref refid="structthemis_1_1graph_1_1_refresh_audit_entry_1af74b79086ce013db027a72dbde5ed573" kindref="member">action</ref>;</highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1graph_1_1_refresh_audit_entry_1a80c7e6ba056a028391e421de17ac79a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_refresh_audit_entry_1a80c7e6ba056a028391e421de17ac79a3" kindref="member">edge_id</ref>;</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1graph_1_1_refresh_audit_entry_1a0c0d9dfe5a60d2bb9a7b561ef837f22b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_refresh_audit_entry_1a0c0d9dfe5a60d2bb9a7b561ef837f22b" kindref="member">from_vertex</ref>;</highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1graph_1_1_refresh_audit_entry_1a6c33bf5b7cb0b3cc46d96f026ab7ca7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_refresh_audit_entry_1a6c33bf5b7cb0b3cc46d96f026ab7ca7c" kindref="member">to_vertex</ref>;</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1graph_1_1_refresh_audit_entry_1afdd3493c89a2f8537ef536bbc61c1e61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_audit_entry_1afdd3493c89a2f8537ef536bbc61c1e61" kindref="member">relevance_score</ref>{0.0f};</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1graph_1_1_refresh_audit_entry_1ace3babfc0b01eb488240cf389e4502e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1graph_1_1_refresh_audit_entry_1ace3babfc0b01eb488240cf389e4502e1" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1graph_1_1_refresh_audit_entry_1a5efbf919b434aaf125803c7834e20e99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1graph_1_1_refresh_audit_entry_1a5efbf919b434aaf125803c7834e20e99" kindref="member">cycle_number</ref>{0};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NodeEmbeddingProvider</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="namespacethemis_1_1graph_1a6079938a2f38c988cd5df3a11acd9180" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph_1a6079938a2f38c988cd5df3a11acd9180" kindref="member">NodeEmbeddingProvider</ref><sp/>=</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;std::vector&lt;float&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id)&gt;;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ScheduledGraphEdgeRefreshEngine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad2011541d68950f85e05299edcc8c123" kindref="member">ScheduledGraphEdgeRefreshEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Construction<sp/>/<sp/>destruction<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad2011541d68950f85e05299edcc8c123" kindref="member">ScheduledGraphEdgeRefreshEngine</ref>(</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GraphIndexManager&amp;<sp/>graph_mgr,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy" kindref="compound">RefreshPolicy</ref>&amp;<sp/>policy,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a6079938a2f38c988cd5df3a11acd9180" kindref="member">NodeEmbeddingProvider</ref><sp/>embedding_fn<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a26f19e2d8638fb9e5c75549bb8c59fda" kindref="member">~ScheduledGraphEdgeRefreshEngine</ref>();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a3b78e8d9a5ce57ca448779f5433adba8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a3b78e8d9a5ce57ca448779f5433adba8" kindref="member">ScheduledGraphEdgeRefreshEngine</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad2011541d68950f85e05299edcc8c123" kindref="member">ScheduledGraphEdgeRefreshEngine</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169" refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a4612ecc3cb115616cf7ca3863b975bff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad2011541d68950f85e05299edcc8c123" kindref="member">ScheduledGraphEdgeRefreshEngine</ref>&amp;<sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a4612ecc3cb115616cf7ca3863b975bff" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad2011541d68950f85e05299edcc8c123" kindref="member">ScheduledGraphEdgeRefreshEngine</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170" refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a8a0a9c9c6ee928f1393707a3047e0399" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a8a0a9c9c6ee928f1393707a3047e0399" kindref="member">ScheduledGraphEdgeRefreshEngine</ref>(<ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad2011541d68950f85e05299edcc8c123" kindref="member">ScheduledGraphEdgeRefreshEngine</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a8c03252d0a0145230688ec66f11171ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad2011541d68950f85e05299edcc8c123" kindref="member">ScheduledGraphEdgeRefreshEngine</ref>&amp;<sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a8c03252d0a0145230688ec66f11171ed" kindref="member">operator=</ref>(<ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad2011541d68950f85e05299edcc8c123" kindref="member">ScheduledGraphEdgeRefreshEngine</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a214d5877079f3b294de9c6225ec733f4" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1afca73f017f0ba9ab2a96bfcd27081e91" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_refresh_stats" kindref="compound">RefreshStats</ref><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a127c1130995a0aa3c2061708e56f6e2b" kindref="member">triggerRefresh</ref>();</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_refresh_stats" kindref="compound">RefreshStats</ref><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a34214a2a46f5bf2883f9012bafc8ef59" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RefreshAuditEntry&gt;<sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a04bab3b66c509d3b72b7e099c6b86521" kindref="member">getAuditTrail</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204" refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ac962d7ae52295a91c44d9f342efb222d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy" kindref="compound">RefreshPolicy</ref>&amp;<sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ac962d7ae52295a91c44d9f342efb222d" kindref="member">getPolicy</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>policy_;<sp/>}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a8b4d0beb4a29b134a902e12218579fbf" kindref="member">setPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy" kindref="compound">RefreshPolicy</ref>&amp;<sp/>policy);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a185a2483067311346bff6c79853b06ec" kindref="member">setChangefeed</ref>(std::shared_ptr&lt;Changefeed&gt;<sp/>changefeed);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a6dfc906a3c16c2ac5bffedd20e76fadf" kindref="member">setANNIndex</ref>(std::shared_ptr&lt;index::IAnnIndex&gt;<sp/>ann_index);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ae97b843201854bc2d906b227ac146c1b" kindref="member">setCEPEventCallback</ref>(</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(themisdb::analytics::Event)&gt;<sp/>callback);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a1ccd926d8f445428a76ba97dbf9e9e0c" kindref="member">computeSimilarity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>a,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>b)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ae1d4813d32d075410e08985f427c3c54" kindref="member">computeTemporalDecay</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BaseEntity&amp;<sp/>edge_entity)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_edge_score" kindref="compound">EdgeScore</ref><sp/><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a81f4b4ca92ce051ad03bffe0492416b9" kindref="member">scoreEdge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BaseEntity&amp;<sp/>edge_entity)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>validatePolicy(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy" kindref="compound">RefreshPolicy</ref>&amp;<sp/>policy);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>schedulerLoop();</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_refresh_stats" kindref="compound">RefreshStats</ref><sp/>runRefreshCycle();</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BaseEntity&gt;<sp/>collectEdges()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EdgeScore&gt;<sp/>scoreAllEdges(</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BaseEntity&gt;&amp;<sp/>edges)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::tuple&lt;std::string,<sp/>std::string,<sp/>float&gt;&gt;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>discoverCandidateEdges(</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BaseEntity&gt;&amp;<sp/>existing_edges)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>applyBatch(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>edge_ids_to_remove,</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::tuple&lt;std::string,<sp/>std::string,<sp/>float&gt;&gt;&amp;<sp/>edges_to_add,</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>cycle_number);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>appendAudit(<ref refid="structthemis_1_1graph_1_1_refresh_audit_entry" kindref="compound">RefreshAuditEntry</ref><sp/>entry);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>rebuildANNIndex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>vertices)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Data<sp/>members<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>GraphIndexManager&amp;<sp/>graph_mgr_;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_refresh_policy" kindref="compound">RefreshPolicy</ref><sp/>policy_;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a6079938a2f38c988cd5df3a11acd9180" kindref="member">NodeEmbeddingProvider</ref><sp/>embedding_fn_;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;Changefeed&gt;<sp/>changefeed_;<sp/></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;index::IAnnIndex&gt;<sp/>ann_index_;<sp/></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(themisdb::analytics::Event)&gt;<sp/>cep_event_callback_;<sp/></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vertex<sp/>↔<sp/>integer-ID<sp/>mapping<sp/>built<sp/>by<sp/>rebuildANNIndex().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Protected<sp/>by<sp/>stats_mutex_<sp/>(rebuilt<sp/>inside<sp/>discoverCandidateEdges<sp/>which</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>is<sp/>called<sp/>only<sp/>from<sp/>runRefreshCycle<sp/>which<sp/>holds<sp/>cycle_mutex_).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>int64_t&gt;<sp/>ann_vertex_to_idx_;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ann_idx_to_vertex_;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lock<sp/>Hierarchy<sp/>(CANONICAL<sp/>ORDER<sp/>for<sp/>deadlock<sp/>prevention):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tier<sp/>1<sp/>(Acquire<sp/>FIRST):<sp/>cycle_mutex_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tier<sp/>2<sp/>(Acquire<sp/>SECOND):<sp/>policy_mutex_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tier<sp/>3<sp/>(Acquire<sp/>LAST):<sp/>stats_mutex_,<sp/>cv_mutex_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CRITICAL:<sp/>Always<sp/>acquire<sp/>locks<sp/>in<sp/>Tier<sp/>1<sp/>→<sp/>2<sp/>→<sp/>3<sp/>order.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>you<sp/>need<sp/>multiple<sp/>locks,<sp/>acquire<sp/>higher<sp/>tiers<sp/>first.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NEVER<sp/>reverse<sp/>this<sp/>order,<sp/>or<sp/>deadlocks<sp/>will<sp/>occur.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>policy_mutex_;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>cycle_mutex_;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>stats_mutex_;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>cv_<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>cv_mutex_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>scheduler_thread_;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>stop_requested_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>RefreshStats<sp/>last_stats_;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RefreshAuditEntry&gt;<sp/>audit_trail_;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>cycle_counter_{0};</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kMaxAuditEntries<sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/graph/scheduled_edge_refresh.h"/>
+  </compounddef>
+</doxygen>

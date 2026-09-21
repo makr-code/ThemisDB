@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::MoralAnalyzer::Status</compoundname>
+    <includes refid="moral__analyzer_8h" local="no">moral_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a5cb45c870bf20a821cd6e01438df5de6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MoralAnalyzer::Status::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::Status::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="92" column="14" bodyfile="include/llm/moral_analyzer.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a2b16c2484a03f2701eb65025b8bbcabc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MoralAnalyzer::Status::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::Status::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="93" column="21" bodyfile="include/llm/moral_analyzer.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a9a92bb8720929d0af0811a643fd7c671" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::llm::MoralAnalyzer::Status::OK</definition>
+        <argsstring>()</argsstring>
+        <name>OK</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::Status::OK</qualifiedname>
+        <briefdescription>
+<para>OK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements OK without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="99" column="23" bodyfile="include/llm/moral_analyzer.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a6a87662097c831013fdd27afb768320a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::llm::MoralAnalyzer::Status::Error</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::Status::Error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="106" column="23" bodyfile="include/llm/moral_analyzer.h" bodystart="106" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/moral_analyzer.h" line="91" column="5" bodyfile="include/llm/moral_analyzer.h" bodystart="91" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a6a87662097c831013fdd27afb768320a" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::Status</scope><name>Error</name></member>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a2b16c2484a03f2701eb65025b8bbcabc" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::Status</scope><name>message</name></member>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a9a92bb8720929d0af0811a643fd7c671" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::Status</scope><name>OK</name></member>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_status_1a5cb45c870bf20a821cd6e01438df5de6" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::Status</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

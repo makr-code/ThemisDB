@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_test_vectorizer" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>TestVectorizer</compoundname>
+    <basecompoundref refid="classthemis_1_1rag_1_1_i_vectorizer" prot="public" virt="non-virtual">themis::rag::IVectorizer</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_test_vectorizer_1acb3ee434474c9f60fbf7c34de5fa0a7d" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool TestVectorizer::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>TestVectorizer::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_hybrid_retriever.cpp" line="78" column="10" bodyfile="tests/rag/test_rag_hybrid_retriever.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_test_vectorizer_1acedfdf8adb675b4ec70486487b1db16b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void TestVectorizer::initialize</definition>
+        <argsstring>() override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>TestVectorizer::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1_i_vectorizer_1a3a25d011adb8ef03a97862438ba7a8fd">initialize</reimplements>
+        <briefdescription>
+<para>Initialize the vectorizer with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called before any encoding operations. Must succeed before <ref refid="class_test_vectorizer_1a25baa9d398ec507d91d4588bb8e8a146" kindref="member">encodeQuery()</ref> or <ref refid="class_test_vectorizer_1a07ca2b597dff70736e95f739352cd542" kindref="member">encodePassage()</ref> are called.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if initialization fails. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_hybrid_retriever.cpp" line="58" column="10" bodyfile="tests/rag/test_rag_hybrid_retriever.cpp" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_test_vectorizer_1a795ba099cf3ceb1882990339d831b0c3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool TestVectorizer::isInitialized</definition>
+        <argsstring>() const override</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>TestVectorizer::isInitialized</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1_i_vectorizer_1a7007d76fcbf88751424b4a57b7203b85">isInitialized</reimplements>
+        <briefdescription>
+<para>Check if the vectorizer is ready for encoding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if <ref refid="class_test_vectorizer_1acedfdf8adb675b4ec70486487b1db16b" kindref="member">initialize()</ref> succeeded and models are loaded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_hybrid_retriever.cpp" line="59" column="10" bodyfile="tests/rag/test_rag_hybrid_retriever.cpp" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_test_vectorizer_1a25baa9d398ec507d91d4588bb8e8a146" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; TestVectorizer::encodeQuery</definition>
+        <argsstring>(const std::string &amp;query) override</argsstring>
+        <name>encodeQuery</name>
+        <qualifiedname>TestVectorizer::encodeQuery</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1_i_vectorizer_1ab7cc8ceba0472758dc53aadc01eb4ea8">encodeQuery</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Encode a query string into a dense vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Query encoding typically uses a query-specific model/projection. Implementations may optimize for query-shaped inputs.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The query text to encode. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Dense vector of query embeddings. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if encoding fails. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_hybrid_retriever.cpp" line="61" column="17" bodyfile="tests/rag/test_rag_hybrid_retriever.cpp" bodystart="61" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="class_test_vectorizer_1a07ca2b597dff70736e95f739352cd542" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; TestVectorizer::encodePassage</definition>
+        <argsstring>(const std::string &amp;passage) override</argsstring>
+        <name>encodePassage</name>
+        <qualifiedname>TestVectorizer::encodePassage</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1_i_vectorizer_1a6aff9e92adace5777a774ec68620ef9e">encodePassage</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>passage</declname>
+        </param>
+        <briefdescription>
+<para>Encode a passage/document into a dense vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Passage encoding typically uses a passage-specific model/projection and is often batch-optimized for high throughput.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>passage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The passage text to encode. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Dense vector of passage embeddings. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if encoding fails. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_hybrid_retriever.cpp" line="68" column="17" bodyfile="tests/rag/test_rag_hybrid_retriever.cpp" bodystart="68" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_test_vectorizer_1a1d078a72f92ac88760694f16d56df50c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t TestVectorizer::getEmbeddingDimension</definition>
+        <argsstring>() const override</argsstring>
+        <name>getEmbeddingDimension</name>
+        <qualifiedname>TestVectorizer::getEmbeddingDimension</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1_i_vectorizer_1a87b6bae3eab789c4b5753db553d980fa">getEmbeddingDimension</reimplements>
+        <briefdescription>
+<para>Get the embedding dimension of vectors produced by this vectorizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Dimension (e.g., 384 for CLIP, 768 for DistilBERT). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_hybrid_retriever.cpp" line="75" column="12" bodyfile="tests/rag/test_rag_hybrid_retriever.cpp" bodystart="75" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TestVectorizer</label>
+        <link refid="class_test_vectorizer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::IVectorizer</label>
+        <link refid="classthemis_1_1rag_1_1_i_vectorizer"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TestVectorizer</label>
+        <link refid="class_test_vectorizer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::IVectorizer</label>
+        <link refid="classthemis_1_1rag_1_1_i_vectorizer"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_hybrid_retriever.cpp" line="56" column="1" bodyfile="tests/rag/test_rag_hybrid_retriever.cpp" bodystart="56" bodyend="79"/>
+    <listofallmembers>
+      <member refid="class_test_vectorizer_1a07ca2b597dff70736e95f739352cd542" prot="public" virt="virtual"><scope>TestVectorizer</scope><name>encodePassage</name></member>
+      <member refid="classthemis_1_1rag_1_1_i_vectorizer_1ac4453b89116cd5abf4b6db044c360c89" prot="public" virt="virtual"><scope>TestVectorizer</scope><name>encodePassageBatch</name></member>
+      <member refid="class_test_vectorizer_1a25baa9d398ec507d91d4588bb8e8a146" prot="public" virt="virtual"><scope>TestVectorizer</scope><name>encodeQuery</name></member>
+      <member refid="class_test_vectorizer_1a1d078a72f92ac88760694f16d56df50c" prot="public" virt="virtual"><scope>TestVectorizer</scope><name>getEmbeddingDimension</name></member>
+      <member refid="class_test_vectorizer_1acedfdf8adb675b4ec70486487b1db16b" prot="public" virt="virtual"><scope>TestVectorizer</scope><name>initialize</name></member>
+      <member refid="class_test_vectorizer_1acb3ee434474c9f60fbf7c34de5fa0a7d" prot="private" virt="non-virtual"><scope>TestVectorizer</scope><name>initialized_</name></member>
+      <member refid="class_test_vectorizer_1a795ba099cf3ceb1882990339d831b0c3" prot="public" virt="virtual"><scope>TestVectorizer</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1rag_1_1_i_vectorizer_1a28824ae036efc37adf5a151faa580326" prot="public" virt="virtual"><scope>TestVectorizer</scope><name>~IVectorizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

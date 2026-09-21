@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_pattern_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::PatternConfig</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_config_1a50b7d1a1808adef42c0dc47539267398" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::PatternConfig::pattern_id</definition>
+        <argsstring></argsstring>
+        <name>pattern_id</name>
+        <qualifiedname>themisdb::analytics::PatternConfig::pattern_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="309" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_config_1ae3c7c21593feb5cb7b235dc3d7a5ef63" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a906c75fdc89c07623eac1bf1a3a2b641" kindref="member">PatternType</ref></type>
+        <definition>PatternType themisdb::analytics::PatternConfig::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::analytics::PatternConfig::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1a906c75fdc89c07623eac1bf1a3a2b641a2cb198a10d0a4c217ff4c15e98a97215" kindref="member">PatternType::SEQUENCE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="310" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_config_1a532612db25aac99f400d738a6a4ab1e2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::PatternConfig::event_types</definition>
+        <argsstring></argsstring>
+        <name>event_types</name>
+        <qualifiedname>themisdb::analytics::PatternConfig::event_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="311" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_config_1ad68487a831162ee76d3243455a03205e" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::PatternConfig::within</definition>
+        <argsstring></argsstring>
+        <name>within</name>
+        <qualifiedname>themisdb::analytics::PatternConfig::within</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="312" column="31" bodyfile="include/analytics/cep_engine.h" bodystart="312" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_config_1abaa8036230a0c0baf940f9af45a20057" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::PatternConfig::tolerance</definition>
+        <argsstring></argsstring>
+        <name>tolerance</name>
+        <qualifiedname>themisdb::analytics::PatternConfig::tolerance</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="313" column="31" bodyfile="include/analytics/cep_engine.h" bodystart="313" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_config_1adaa336f623d5ca52f9c7e645c5dc8997" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::PatternConfig::min_occurrences</definition>
+        <argsstring></argsstring>
+        <name>min_occurrences</name>
+        <qualifiedname>themisdb::analytics::PatternConfig::min_occurrences</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="314" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_config_1aa435bc4c6dd4b88fda75b7946d17a907" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::PatternConfig::max_occurrences</definition>
+        <argsstring></argsstring>
+        <name>max_occurrences</name>
+        <qualifiedname>themisdb::analytics::PatternConfig::max_occurrences</qualifiedname>
+        <initializer>= UINT32_MAX</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="315" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_config_1a6f79798d801837d21388d7cccfbe9cc0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::PatternConfig::condition</definition>
+        <argsstring></argsstring>
+        <name>condition</name>
+        <qualifiedname>themisdb::analytics::PatternConfig::condition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="316" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_config_1a50ddf9b461a77d5160f28097ffde0be8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::PatternConfig::group_by</definition>
+        <argsstring></argsstring>
+        <name>group_by</name>
+        <qualifiedname>themisdb::analytics::PatternConfig::group_by</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="317" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="308" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="308" bodyend="318"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_config_1a6f79798d801837d21388d7cccfbe9cc0" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternConfig</scope><name>condition</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_config_1a532612db25aac99f400d738a6a4ab1e2" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternConfig</scope><name>event_types</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_config_1a50ddf9b461a77d5160f28097ffde0be8" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternConfig</scope><name>group_by</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_config_1aa435bc4c6dd4b88fda75b7946d17a907" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternConfig</scope><name>max_occurrences</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_config_1adaa336f623d5ca52f9c7e645c5dc8997" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternConfig</scope><name>min_occurrences</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_config_1a50b7d1a1808adef42c0dc47539267398" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternConfig</scope><name>pattern_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_config_1abaa8036230a0c0baf940f9af45a20057" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternConfig</scope><name>tolerance</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_config_1ae3c7c21593feb5cb7b235dc3d7a5ef63" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternConfig</scope><name>type</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_config_1ad68487a831162ee76d3243455a03205e" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternConfig</scope><name>within</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

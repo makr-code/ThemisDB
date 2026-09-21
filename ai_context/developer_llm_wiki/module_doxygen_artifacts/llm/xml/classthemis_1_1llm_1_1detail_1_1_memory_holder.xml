@@ -1,0 +1,339 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1detail_1_1_memory_holder" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::detail::MemoryHolder</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a3094f152742498ad043faece72269cf1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <qualifiedname>themis::llm::detail::MemoryHolder::Type</qualifiedname>
+        <enumvalue id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a3094f152742498ad043faece72269cf1a52f9ec21735243ad9917cda3ca077d32" prot="public">
+          <name>GPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a3094f152742498ad043faece72269cf1a2b55387dd066c5bac646ac61543d152d" prot="public">
+          <name>CPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a3094f152742498ad043faece72269cf1a3fabc27411786a24eabd969cdc93d5e3" prot="public">
+          <name>PINNED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gpu_memory_manager.cpp" line="62" column="5" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="62" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a01f695fe5a07f0dfff329ce3392057c0" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::detail::MemoryHolder::ptr_</definition>
+        <argsstring></argsstring>
+        <name>ptr_</name>
+        <qualifiedname>themis::llm::detail::MemoryHolder::ptr_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gpu_memory_manager.cpp" line="175" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a2e6bdc717c997941412bdd9d4a7d6592" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::detail::MemoryHolder::bytes_</definition>
+        <argsstring></argsstring>
+        <name>bytes_</name>
+        <qualifiedname>themis::llm::detail::MemoryHolder::bytes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gpu_memory_manager.cpp" line="176" column="12" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1ae54f7026c0d7c0b6bb741430906fd67e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a3094f152742498ad043faece72269cf1" kindref="member">Type</ref></type>
+        <definition>Type themis::llm::detail::MemoryHolder::type_</definition>
+        <argsstring></argsstring>
+        <name>type_</name>
+        <qualifiedname>themis::llm::detail::MemoryHolder::type_</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a3094f152742498ad043faece72269cf1a2b55387dd066c5bac646ac61543d152d" kindref="member">Type::CPU</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gpu_memory_manager.cpp" line="177" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a3a61389b279a13cc6a9ae8e7def8a2a6" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::detail::MemoryHolder::gpu_available_</definition>
+        <argsstring></argsstring>
+        <name>gpu_available_</name>
+        <qualifiedname>themis::llm::detail::MemoryHolder::gpu_available_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gpu_memory_manager.cpp" line="178" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1ab356ba235e7e1d2767061479f050e422" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::detail::MemoryHolder::gpu_device_id_</definition>
+        <argsstring></argsstring>
+        <name>gpu_device_id_</name>
+        <qualifiedname>themis::llm::detail::MemoryHolder::gpu_device_id_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gpu_memory_manager.cpp" line="179" column="9" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a824e2109d64baf3b83b41caf9f167f28" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::detail::MemoryHolder::MemoryHolder</definition>
+        <argsstring>(void *ptr, size_t bytes, Type type, bool gpu_available, int gpu_device_id=0)</argsstring>
+        <name>MemoryHolder</name>
+        <qualifiedname>themis::llm::detail::MemoryHolder::MemoryHolder</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a3094f152742498ad043faece72269cf1" kindref="member">Type</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>gpu_available</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gpu_memory_manager.cpp" line="68" column="5" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="68" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a4943ee9422bdaa2ebfd53cb75d9d375f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::detail::MemoryHolder::~MemoryHolder</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~MemoryHolder</name>
+        <qualifiedname>themis::llm::detail::MemoryHolder::~MemoryHolder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gpu_memory_manager.cpp" line="72" column="5" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="72" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a88a39b65045bea090765e11c0c2d564c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::detail::MemoryHolder::MemoryHolder</definition>
+        <argsstring>(const MemoryHolder &amp;)=delete</argsstring>
+        <name>MemoryHolder</name>
+        <qualifiedname>themis::llm::detail::MemoryHolder::MemoryHolder</qualifiedname>
+        <param>
+          <type>const MemoryHolder &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gpu_memory_manager.cpp" line="97" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1add1f2ba7b0ea2dca5d7f11299ec23548" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a824e2109d64baf3b83b41caf9f167f28" kindref="member">MemoryHolder</ref> &amp;</type>
+        <definition>MemoryHolder &amp; themis::llm::detail::MemoryHolder::operator=</definition>
+        <argsstring>(const MemoryHolder &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::detail::MemoryHolder::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a824e2109d64baf3b83b41caf9f167f28" kindref="member">MemoryHolder</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gpu_memory_manager.cpp" line="98" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1aea74669de5f808954676e953bf2af641" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::detail::MemoryHolder::MemoryHolder</definition>
+        <argsstring>(MemoryHolder &amp;&amp;)=delete</argsstring>
+        <name>MemoryHolder</name>
+        <qualifiedname>themis::llm::detail::MemoryHolder::MemoryHolder</qualifiedname>
+        <param>
+          <type>MemoryHolder &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gpu_memory_manager.cpp" line="99" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a6488e1f5b90cc7be5b045cd740ab129f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a824e2109d64baf3b83b41caf9f167f28" kindref="member">MemoryHolder</ref> &amp;</type>
+        <definition>MemoryHolder &amp; themis::llm::detail::MemoryHolder::operator=</definition>
+        <argsstring>(MemoryHolder &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::detail::MemoryHolder::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a824e2109d64baf3b83b41caf9f167f28" kindref="member">MemoryHolder</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gpu_memory_manager.cpp" line="100" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a529d56140390d46f6b42a0757a6c67e7" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::llm::detail::MemoryHolder::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::llm::detail::MemoryHolder::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gpu_memory_manager.cpp" line="102" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1ae592b92cb5545f7e5972d12afc06342f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::detail::MemoryHolder::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::llm::detail::MemoryHolder::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gpu_memory_manager.cpp" line="103" column="12" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="103" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1aa7e6d452d8b3f795be0a9f64e2d5a8f8" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::detail::MemoryHolder::freeGPUMemory</definition>
+        <argsstring>()</argsstring>
+        <name>freeGPUMemory</name>
+        <qualifiedname>themis::llm::detail::MemoryHolder::freeGPUMemory</qualifiedname>
+        <briefdescription>
+<para>Free GPUMemory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: cudaSetDevice(), spdlog::warn(), cudaGetErrorString(), security::VRAMSecureClear::secureClearCPU(), security::VRAMSecureClear::secureClearCUDA(), cudaFree(), spdlog::error(), std::free(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gpu_memory_manager.cpp" line="110" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="110" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a297f27d0f8cf0125ec66d69efad79349" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::detail::MemoryHolder::freePinnedMemory</definition>
+        <argsstring>()</argsstring>
+        <name>freePinnedMemory</name>
+        <qualifiedname>themis::llm::detail::MemoryHolder::freePinnedMemory</qualifiedname>
+        <briefdescription>
+<para>Free Pinned Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: security::VRAMSecureClear::secureClearCPU(), cudaFreeHost(), spdlog::error(), cudaGetErrorString(), std::free(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gpu_memory_manager.cpp" line="145" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="145" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a4286003012caf9b82816cbc4deac32e3" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::detail::MemoryHolder::freeCPUMemory</definition>
+        <argsstring>()</argsstring>
+        <name>freeCPUMemory</name>
+        <qualifiedname>themis::llm::detail::MemoryHolder::freeCPUMemory</qualifiedname>
+        <briefdescription>
+<para>Free CPUMemory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: security::VRAMSecureClear::secureClearCPU(), std::free(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gpu_memory_manager.cpp" line="170" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="170" bodyend="173"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/gpu_memory_manager.cpp" line="60" column="1" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="60" bodyend="180"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a2e6bdc717c997941412bdd9d4a7d6592" prot="private" virt="non-virtual"><scope>themis::llm::detail::MemoryHolder</scope><name>bytes_</name></member>
+      <member refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a4286003012caf9b82816cbc4deac32e3" prot="private" virt="non-virtual"><scope>themis::llm::detail::MemoryHolder</scope><name>freeCPUMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1aa7e6d452d8b3f795be0a9f64e2d5a8f8" prot="private" virt="non-virtual"><scope>themis::llm::detail::MemoryHolder</scope><name>freeGPUMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a297f27d0f8cf0125ec66d69efad79349" prot="private" virt="non-virtual"><scope>themis::llm::detail::MemoryHolder</scope><name>freePinnedMemory</name></member>
+      <member refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a529d56140390d46f6b42a0757a6c67e7" prot="public" virt="non-virtual"><scope>themis::llm::detail::MemoryHolder</scope><name>get</name></member>
+      <member refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a3a61389b279a13cc6a9ae8e7def8a2a6" prot="private" virt="non-virtual"><scope>themis::llm::detail::MemoryHolder</scope><name>gpu_available_</name></member>
+      <member refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1ab356ba235e7e1d2767061479f050e422" prot="private" virt="non-virtual"><scope>themis::llm::detail::MemoryHolder</scope><name>gpu_device_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a824e2109d64baf3b83b41caf9f167f28" prot="public" virt="non-virtual"><scope>themis::llm::detail::MemoryHolder</scope><name>MemoryHolder</name></member>
+      <member refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a88a39b65045bea090765e11c0c2d564c" prot="public" virt="non-virtual"><scope>themis::llm::detail::MemoryHolder</scope><name>MemoryHolder</name></member>
+      <member refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1aea74669de5f808954676e953bf2af641" prot="public" virt="non-virtual"><scope>themis::llm::detail::MemoryHolder</scope><name>MemoryHolder</name></member>
+      <member refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1add1f2ba7b0ea2dca5d7f11299ec23548" prot="public" virt="non-virtual"><scope>themis::llm::detail::MemoryHolder</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a6488e1f5b90cc7be5b045cd740ab129f" prot="public" virt="non-virtual"><scope>themis::llm::detail::MemoryHolder</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a01f695fe5a07f0dfff329ce3392057c0" prot="private" virt="non-virtual"><scope>themis::llm::detail::MemoryHolder</scope><name>ptr_</name></member>
+      <member refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1ae592b92cb5545f7e5972d12afc06342f" prot="public" virt="non-virtual"><scope>themis::llm::detail::MemoryHolder</scope><name>size</name></member>
+      <member refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a3094f152742498ad043faece72269cf1" prot="public" virt="non-virtual"><scope>themis::llm::detail::MemoryHolder</scope><name>Type</name></member>
+      <member refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1ae54f7026c0d7c0b6bb741430906fd67e" prot="private" virt="non-virtual"><scope>themis::llm::detail::MemoryHolder</scope><name>type_</name></member>
+      <member refid="classthemis_1_1llm_1_1detail_1_1_memory_holder_1a4943ee9422bdaa2ebfd53cb75d9d375f" prot="public" virt="non-virtual"><scope>themis::llm::detail::MemoryHolder</scope><name>~MemoryHolder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1toolbox_1_1_toolbox_composite_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::toolbox::ToolboxCompositeBuilder</compoundname>
+    <includes refid="toolbox__composite_8h" local="no">toolbox_composite.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1a98a2431504a9139f45524abd01f0a097" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1toolbox_1_1_toolbox_composite_1ab60a0d5b07f14acb3a92315540d5c0f4" kindref="member">ToolboxComposite::Route</ref> &gt;</type>
+        <definition>std::vector&lt;ToolboxComposite::Route&gt; themis::toolbox::ToolboxCompositeBuilder::routes_</definition>
+        <argsstring></argsstring>
+        <name>routes_</name>
+        <qualifiedname>themis::toolbox::ToolboxCompositeBuilder::routes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="147" column="17" bodyfile="include/toolbox/toolbox_composite.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1a92da14f78c721b1a53e3bfaec45e1220" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IngestionToolbox&gt; themis::toolbox::ToolboxCompositeBuilder::fallback_</definition>
+        <argsstring></argsstring>
+        <name>fallback_</name>
+        <qualifiedname>themis::toolbox::ToolboxCompositeBuilder::fallback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="148" column="24" bodyfile="include/toolbox/toolbox_composite.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1aab73a8af5038653161851ec07eca5567" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ToolboxCompositeBuilder::ToolboxCompositeBuilder</definition>
+        <argsstring>()=default</argsstring>
+        <name>ToolboxCompositeBuilder</name>
+        <qualifiedname>themis::toolbox::ToolboxCompositeBuilder::ToolboxCompositeBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="114" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1ac8f113d537f2618b9d16ca0bf254f4f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1aab73a8af5038653161851ec07eca5567" kindref="member">ToolboxCompositeBuilder</ref> &amp;</type>
+        <definition>ToolboxCompositeBuilder &amp; themis::toolbox::ToolboxCompositeBuilder::addRoute</definition>
+        <argsstring>(std::string mime_prefix, std::shared_ptr&lt; IngestionToolbox &gt; toolbox)</argsstring>
+        <name>addRoute</name>
+        <qualifiedname>themis::toolbox::ToolboxCompositeBuilder::addRoute</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>mime_prefix</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &gt;</type>
+          <declname>toolbox</declname>
+        </param>
+        <briefdescription>
+<para>Register a MIME-prefix → toolbox route. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Route.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mime_prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prefix to match against the <computeroutput>mime</computeroutput> argument of <computeroutput><ref refid="namespacethemis_1_1toolbox_1a49a1d9d4627444d7785c76abc2eedeb8" kindref="member">extractEntities()</ref></computeroutput>. E.g. <computeroutput>"text/"</computeroutput> matches any <computeroutput>"text/plain"</computeroutput>, <computeroutput>"text/html"</computeroutput>, … </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toolbox</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Toolbox to use when the prefix matches. Must not be null.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">toolbox</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="125" column="29" bodyfile="src/toolbox/toolbox_composite.cpp" bodystart="83" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1a0b9883750256654fc53f10e54772a978" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1aab73a8af5038653161851ec07eca5567" kindref="member">ToolboxCompositeBuilder</ref> &amp;</type>
+        <definition>ToolboxCompositeBuilder &amp; themis::toolbox::ToolboxCompositeBuilder::setFallback</definition>
+        <argsstring>(std::shared_ptr&lt; IngestionToolbox &gt; toolbox)</argsstring>
+        <name>setFallback</name>
+        <qualifiedname>themis::toolbox::ToolboxCompositeBuilder::setFallback</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &gt;</type>
+          <declname>toolbox</declname>
+        </param>
+        <briefdescription>
+<para>Set the fallback toolbox used when no route matches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Fallback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>toolbox</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>May be null (disables the fallback).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">toolbox</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="134" column="29" bodyfile="src/toolbox/toolbox_composite.cpp" bodystart="100" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1a034a1c02bf086e8a271753a6dc663fc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1toolbox_1_1_toolbox_composite" kindref="compound">ToolboxComposite</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ToolboxComposite &gt; themis::toolbox::ToolboxCompositeBuilder::build</definition>
+        <argsstring>()</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::toolbox::ToolboxCompositeBuilder::build</qualifiedname>
+        <briefdescription>
+<para>Build the <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_composite" kindref="compound">ToolboxComposite</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when no routes and no fallback have been added.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_composite.h" line="144" column="21" bodyfile="src/toolbox/toolbox_composite.cpp" bodystart="113" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fluent builder for <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_composite" kindref="compound">ToolboxComposite</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Routes are stored in insertion order; call <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1ac8f113d537f2618b9d16ca0bf254f4f1" kindref="member">addRoute()</ref></computeroutput> multiple times. At least one route or a fallback must be provided before <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1a034a1c02bf086e8a271753a6dc663fc8" kindref="member">build()</ref></computeroutput>.</para>
+<para><programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>composite<sp/>=<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1aab73a8af5038653161851ec07eca5567" kindref="member">ToolboxCompositeBuilder</ref>()</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.addRoute(</highlight><highlight class="stringliteral">&quot;text/html&quot;</highlight><highlight class="normal">,<sp/><sp/>html_toolbox)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.addRoute(</highlight><highlight class="stringliteral">&quot;text/&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/>text_toolbox)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.setFallback(default_toolbox)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.build();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/toolbox/toolbox_composite.h" line="112" column="1" bodyfile="include/toolbox/toolbox_composite.h" bodystart="112" bodyend="149"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1ac8f113d537f2618b9d16ca0bf254f4f1" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxCompositeBuilder</scope><name>addRoute</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1a034a1c02bf086e8a271753a6dc663fc8" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxCompositeBuilder</scope><name>build</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1a92da14f78c721b1a53e3bfaec45e1220" prot="private" virt="non-virtual"><scope>themis::toolbox::ToolboxCompositeBuilder</scope><name>fallback_</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1a98a2431504a9139f45524abd01f0a097" prot="private" virt="non-virtual"><scope>themis::toolbox::ToolboxCompositeBuilder</scope><name>routes_</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1a0b9883750256654fc53f10e54772a978" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxCompositeBuilder</scope><name>setFallback</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder_1aab73a8af5038653161851ec07eca5567" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxCompositeBuilder</scope><name>ToolboxCompositeBuilder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_node_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::NodeInfo</compoundname>
+    <includes refid="ingestion__coordinator_8h" local="no">ingestion_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_node_info_1a161762b19823dc1a391af6b992c8653d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::NodeInfo::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::ingestion::NodeInfo::node_id</qualifiedname>
+        <briefdescription>
+<para>Unique node identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="132" column="17" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_node_info_1a09c503b99b5791c9230830f18210b1cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::NodeInfo::address</definition>
+        <argsstring></argsstring>
+        <name>address</name>
+        <qualifiedname>themis::ingestion::NodeInfo::address</qualifiedname>
+        <briefdescription>
+<para>Network address for remote nodes (empty = in-process). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="133" column="17" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_node_info_1a2d8dbb8cc9d2377cc63fe71757a1bcf0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::NodeInfo::is_local</definition>
+        <argsstring></argsstring>
+        <name>is_local</name>
+        <qualifiedname>themis::ingestion::NodeInfo::is_local</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>true for in-process nodes </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="134" column="10" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_node_info_1a7250b409765b0258e552d4e604c1fd1b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::NodeInfo::is_leader</definition>
+        <argsstring></argsstring>
+        <name>is_leader</name>
+        <qualifiedname>themis::ingestion::NodeInfo::is_leader</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when this node currently holds the leader lease </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="135" column="10" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_node_info_1ac7e7b3585b9cb4f2a5aefe1439e851ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::NodeInfo::NodeInfo</definition>
+        <argsstring>()=default</argsstring>
+        <name>NodeInfo</name>
+        <qualifiedname>themis::ingestion::NodeInfo::NodeInfo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="137" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_node_info_1afc09ef10928318d08e9ff23305eedb59" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::NodeInfo::NodeInfo</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;addr=&quot;&quot;, bool local=true)</argsstring>
+        <name>NodeInfo</name>
+        <qualifiedname>themis::ingestion::NodeInfo::NodeInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>addr</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>local</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="138" column="5" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="138" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_coordinator.h" line="131" column="1" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="131" bodyend="142"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_node_info_1a09c503b99b5791c9230830f18210b1cb" prot="public" virt="non-virtual"><scope>themis::ingestion::NodeInfo</scope><name>address</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_node_info_1a7250b409765b0258e552d4e604c1fd1b" prot="public" virt="non-virtual"><scope>themis::ingestion::NodeInfo</scope><name>is_leader</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_node_info_1a2d8dbb8cc9d2377cc63fe71757a1bcf0" prot="public" virt="non-virtual"><scope>themis::ingestion::NodeInfo</scope><name>is_local</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_node_info_1a161762b19823dc1a391af6b992c8653d" prot="public" virt="non-virtual"><scope>themis::ingestion::NodeInfo</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_node_info_1ac7e7b3585b9cb4f2a5aefe1439e851ad" prot="public" virt="non-virtual"><scope>themis::ingestion::NodeInfo</scope><name>NodeInfo</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_node_info_1afc09ef10928318d08e9ff23305eedb59" prot="public" virt="non-virtual"><scope>themis::ingestion::NodeInfo</scope><name>NodeInfo</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

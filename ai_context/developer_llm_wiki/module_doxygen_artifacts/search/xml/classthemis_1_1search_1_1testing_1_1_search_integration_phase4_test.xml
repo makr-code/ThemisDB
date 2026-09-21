@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::search::testing::SearchIntegrationPhase4Test</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <innerclass refid="structthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1_1_pipeline_result" prot="protected">themis::search::testing::SearchIntegrationPhase4Test::PipelineResult</innerclass>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1aad926cac24762a9bcedb9bb9283e3e25" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::search::testing::SearchIntegrationPhase4Test::kCanonicalRngSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalRngSeed</name>
+        <qualifiedname>themis::search::testing::SearchIntegrationPhase4Test::kCanonicalRngSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="44" column="29" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1acb721ee7b413d684c0d1bb6981563f2b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::search::testing::SearchIntegrationPhase4Test::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::search::testing::SearchIntegrationPhase4Test::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_integration_phase4.cpp" line="46" column="8" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::search::testing::SearchIntegrationPhase4Test</label>
+        <link refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::search::testing::SearchIntegrationPhase4Test</label>
+        <link refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/search/test_search_integration_phase4.cpp" line="42" column="1" bodyfile="tests/search/test_search_integration_phase4.cpp" bodystart="42" bodyend="57"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1aad926cac24762a9bcedb9bb9283e3e25" prot="protected" virt="non-virtual"><scope>themis::search::testing::SearchIntegrationPhase4Test</scope><name>kCanonicalRngSeed</name></member>
+      <member refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1acb721ee7b413d684c0d1bb6981563f2b" prot="protected" virt="non-virtual"><scope>themis::search::testing::SearchIntegrationPhase4Test</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

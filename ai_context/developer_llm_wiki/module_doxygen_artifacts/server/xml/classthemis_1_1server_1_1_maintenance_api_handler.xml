@@ -1,0 +1,614 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_maintenance_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::MaintenanceApiHandler</compoundname>
+    <includes refid="maintenance__api__handler_8h" local="no">maintenance_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_maintenance_api_handler_1a26d643c7fad65c42f474adc1a52f639d" prot="private" static="no" mutable="no">
+        <type>maintenance::DatabaseMaintenanceOrchestrator *</type>
+        <definition>maintenance::DatabaseMaintenanceOrchestrator* themis::server::MaintenanceApiHandler::orchestrator_</definition>
+        <argsstring></argsstring>
+        <name>orchestrator_</name>
+        <qualifiedname>themis::server::MaintenanceApiHandler::orchestrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/maintenance_api_handler.h" line="112" column="50" bodyfile="include/server/maintenance_api_handler.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_maintenance_api_handler_1acea5cf44740a257adc9a89f15962def4" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::MaintenanceApiHandler::MaintenanceApiHandler</definition>
+        <argsstring>(maintenance::DatabaseMaintenanceOrchestrator *orchestrator)</argsstring>
+        <name>MaintenanceApiHandler</name>
+        <qualifiedname>themis::server::MaintenanceApiHandler::MaintenanceApiHandler</qualifiedname>
+        <param>
+          <type>maintenance::DatabaseMaintenanceOrchestrator *</type>
+          <declname>orchestrator</declname>
+        </param>
+        <briefdescription>
+<para>Maintenance Api Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">orchestrator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/maintenance_api_handler.h" line="28" column="14" bodyfile="include/server/maintenance_api_handler.h" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_maintenance_api_handler_1a66daa0aacbfd4abd866e6982d225f958" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::MaintenanceApiHandler::createSchedule</definition>
+        <argsstring>(const nlohmann::json &amp;body)</argsstring>
+        <name>createSchedule</name>
+        <qualifiedname>themis::server::MaintenanceApiHandler::createSchedule</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Create Schedule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setStatus(), errorResponse(), maintenance::MaintenanceScheduleEntry::fromJson(), recordError(), what(), std::string(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/maintenance_api_handler.h" line="38" column="20" bodyfile="src/server/maintenance_api_handler.cpp" bodystart="103" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_maintenance_api_handler_1afcb97c4300a181ca3b250a67b951a9eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::MaintenanceApiHandler::listSchedules</definition>
+        <argsstring>(const std::string &amp;tenant_id=&quot;&quot;)</argsstring>
+        <name>listSchedules</name>
+        <qualifiedname>themis::server::MaintenanceApiHandler::listSchedules</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>List Schedules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setStatus(), errorResponse(), isValidTenantFilter(), setAttribute(), size(), empty(), json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/maintenance_api_handler.h" line="40" column="20" bodyfile="src/server/maintenance_api_handler.cpp" bodystart="137" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_maintenance_api_handler_1a63b92a3ec48c9814554a6c9e7fdfdd5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::MaintenanceApiHandler::getSchedule</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>getSchedule</name>
+        <qualifiedname>themis::server::MaintenanceApiHandler::getSchedule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Get Schedule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: errorResponse(), empty(), isValidMaintenanceIdentifier(), error(), message(), scheduleToResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/maintenance_api_handler.h" line="47" column="20" bodyfile="src/server/maintenance_api_handler.cpp" bodystart="168" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_maintenance_api_handler_1aa0b446c7162a030b9cf47076821d6ae1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::MaintenanceApiHandler::updateSchedule</definition>
+        <argsstring>(const std::string &amp;id, const nlohmann::json &amp;body)</argsstring>
+        <name>updateSchedule</name>
+        <qualifiedname>themis::server::MaintenanceApiHandler::updateSchedule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Update Schedule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: errorResponse(), empty(), isValidMaintenanceIdentifier(), maintenance::MaintenanceScheduleEntry::fromJson(), std::string(), what(), std::move(), error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/maintenance_api_handler.h" line="55" column="20" bodyfile="src/server/maintenance_api_handler.cpp" bodystart="194" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_maintenance_api_handler_1a179ba10ab617dcb1a2aafb04baac12c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::MaintenanceApiHandler::patchSchedule</definition>
+        <argsstring>(const std::string &amp;id, const nlohmann::json &amp;patch)</argsstring>
+        <name>patchSchedule</name>
+        <qualifiedname>themis::server::MaintenanceApiHandler::patchSchedule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>patch</declname>
+        </param>
+        <briefdescription>
+<para>Patch Schedule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">patch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">patch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: errorResponse(), empty(), isValidMaintenanceIdentifier(), error(), message(), scheduleToResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/maintenance_api_handler.h" line="63" column="20" bodyfile="src/server/maintenance_api_handler.cpp" bodystart="227" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_maintenance_api_handler_1a5ac7c7a7a8e73c89716d12b62ef4143e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::MaintenanceApiHandler::deleteSchedule</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>deleteSchedule</name>
+        <qualifiedname>themis::server::MaintenanceApiHandler::deleteSchedule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Delete Schedule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: errorResponse(), empty(), isValidMaintenanceIdentifier(), error(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/maintenance_api_handler.h" line="70" column="20" bodyfile="src/server/maintenance_api_handler.cpp" bodystart="252" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_maintenance_api_handler_1a25862a53046598d38a0d5238b69c1f79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::MaintenanceApiHandler::listJobs</definition>
+        <argsstring>(bool active_only=false)</argsstring>
+        <name>listJobs</name>
+        <qualifiedname>themis::server::MaintenanceApiHandler::listJobs</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>active_only</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>List Jobs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">active_only</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: errorResponse(), json::array(), push_back(), jobToResponse(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/maintenance_api_handler.h" line="74" column="20" bodyfile="src/server/maintenance_api_handler.cpp" bodystart="281" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_maintenance_api_handler_1aa24f9948f46fc6f6fcaf6336dd0a26ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::MaintenanceApiHandler::getJob</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>getJob</name>
+        <qualifiedname>themis::server::MaintenanceApiHandler::getJob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Get Job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: errorResponse(), empty(), isValidMaintenanceIdentifier(), error(), message(), jobToResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/maintenance_api_handler.h" line="81" column="20" bodyfile="src/server/maintenance_api_handler.cpp" bodystart="300" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_maintenance_api_handler_1a9bed7939ad0af790b101584871645850" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::MaintenanceApiHandler::cancelJob</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>cancelJob</name>
+        <qualifiedname>themis::server::MaintenanceApiHandler::cancelJob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel Job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: errorResponse(), empty(), isValidMaintenanceIdentifier(), error(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/maintenance_api_handler.h" line="88" column="20" bodyfile="src/server/maintenance_api_handler.cpp" bodystart="325" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_maintenance_api_handler_1af78c69b099e3c8f29410d14cc9b85d4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::MaintenanceApiHandler::triggerNow</definition>
+        <argsstring>(const std::string &amp;schedule_id, bool force=false)</argsstring>
+        <name>triggerNow</name>
+        <qualifiedname>themis::server::MaintenanceApiHandler::triggerNow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schedule_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>force</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Trigger Now. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the schedule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">force</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: errorResponse(), empty(), isValidMaintenanceIdentifier(), error(), message(), jobToResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/maintenance_api_handler.h" line="90" column="20" bodyfile="src/server/maintenance_api_handler.cpp" bodystart="351" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_maintenance_api_handler_1ad5f10e135b8ccd6164bf1a65541cd998" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::MaintenanceApiHandler::getStatus</definition>
+        <argsstring>()</argsstring>
+        <name>getStatus</name>
+        <qualifiedname>themis::server::MaintenanceApiHandler::getStatus</qualifiedname>
+        <briefdescription>
+<para>Get Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: errorResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/maintenance_api_handler.h" line="97" column="20" bodyfile="src/server/maintenance_api_handler.cpp" bodystart="381" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_maintenance_api_handler_1a9d4a496f667e08de18bb4fa2b1206203" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::MaintenanceApiHandler::getHealth</definition>
+        <argsstring>()</argsstring>
+        <name>getHealth</name>
+        <qualifiedname>themis::server::MaintenanceApiHandler::getHealth</qualifiedname>
+        <briefdescription>
+<para>Get Health. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: errorResponse(), getHealthReport(), toJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/maintenance_api_handler.h" line="103" column="20" bodyfile="src/server/maintenance_api_handler.cpp" bodystart="394" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_maintenance_api_handler_1aef5d777fe486727a84a24bb4fd0edb1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::MaintenanceApiHandler::listTaskHandlers</definition>
+        <argsstring>()</argsstring>
+        <name>listTaskHandlers</name>
+        <qualifiedname>themis::server::MaintenanceApiHandler::listTaskHandlers</qualifiedname>
+        <briefdescription>
+<para>List Task Handlers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: errorResponse(), json::array(), push_back(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/maintenance_api_handler.h" line="109" column="20" bodyfile="src/server/maintenance_api_handler.cpp" bodystart="407" bodyend="418"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_maintenance_api_handler_1a6556a2e1828437ab7856188e4ed42547" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>static nlohmann::json themis::server::MaintenanceApiHandler::errorResponse</definition>
+        <argsstring>(const std::string &amp;msg)</argsstring>
+        <name>errorResponse</name>
+        <qualifiedname>themis::server::MaintenanceApiHandler::errorResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements errorResponse without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/maintenance_api_handler.h" line="120" column="27" bodyfile="include/server/maintenance_api_handler.h" bodystart="120" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/maintenance_api_handler.h" line="21" column="1" bodyfile="include/server/maintenance_api_handler.h" bodystart="21" bodyend="123"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_maintenance_api_handler_1a9bed7939ad0af790b101584871645850" prot="public" virt="non-virtual"><scope>themis::server::MaintenanceApiHandler</scope><name>cancelJob</name></member>
+      <member refid="classthemis_1_1server_1_1_maintenance_api_handler_1a66daa0aacbfd4abd866e6982d225f958" prot="public" virt="non-virtual"><scope>themis::server::MaintenanceApiHandler</scope><name>createSchedule</name></member>
+      <member refid="classthemis_1_1server_1_1_maintenance_api_handler_1a5ac7c7a7a8e73c89716d12b62ef4143e" prot="public" virt="non-virtual"><scope>themis::server::MaintenanceApiHandler</scope><name>deleteSchedule</name></member>
+      <member refid="classthemis_1_1server_1_1_maintenance_api_handler_1a6556a2e1828437ab7856188e4ed42547" prot="private" virt="non-virtual"><scope>themis::server::MaintenanceApiHandler</scope><name>errorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_maintenance_api_handler_1a9d4a496f667e08de18bb4fa2b1206203" prot="public" virt="non-virtual"><scope>themis::server::MaintenanceApiHandler</scope><name>getHealth</name></member>
+      <member refid="classthemis_1_1server_1_1_maintenance_api_handler_1aa24f9948f46fc6f6fcaf6336dd0a26ad" prot="public" virt="non-virtual"><scope>themis::server::MaintenanceApiHandler</scope><name>getJob</name></member>
+      <member refid="classthemis_1_1server_1_1_maintenance_api_handler_1a63b92a3ec48c9814554a6c9e7fdfdd5a" prot="public" virt="non-virtual"><scope>themis::server::MaintenanceApiHandler</scope><name>getSchedule</name></member>
+      <member refid="classthemis_1_1server_1_1_maintenance_api_handler_1ad5f10e135b8ccd6164bf1a65541cd998" prot="public" virt="non-virtual"><scope>themis::server::MaintenanceApiHandler</scope><name>getStatus</name></member>
+      <member refid="classthemis_1_1server_1_1_maintenance_api_handler_1a25862a53046598d38a0d5238b69c1f79" prot="public" virt="non-virtual"><scope>themis::server::MaintenanceApiHandler</scope><name>listJobs</name></member>
+      <member refid="classthemis_1_1server_1_1_maintenance_api_handler_1afcb97c4300a181ca3b250a67b951a9eb" prot="public" virt="non-virtual"><scope>themis::server::MaintenanceApiHandler</scope><name>listSchedules</name></member>
+      <member refid="classthemis_1_1server_1_1_maintenance_api_handler_1aef5d777fe486727a84a24bb4fd0edb1a" prot="public" virt="non-virtual"><scope>themis::server::MaintenanceApiHandler</scope><name>listTaskHandlers</name></member>
+      <member refid="classthemis_1_1server_1_1_maintenance_api_handler_1acea5cf44740a257adc9a89f15962def4" prot="public" virt="non-virtual"><scope>themis::server::MaintenanceApiHandler</scope><name>MaintenanceApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_maintenance_api_handler_1a26d643c7fad65c42f474adc1a52f639d" prot="private" virt="non-virtual"><scope>themis::server::MaintenanceApiHandler</scope><name>orchestrator_</name></member>
+      <member refid="classthemis_1_1server_1_1_maintenance_api_handler_1a179ba10ab617dcb1a2aafb04baac12c6" prot="public" virt="non-virtual"><scope>themis::server::MaintenanceApiHandler</scope><name>patchSchedule</name></member>
+      <member refid="classthemis_1_1server_1_1_maintenance_api_handler_1af78c69b099e3c8f29410d14cc9b85d4e" prot="public" virt="non-virtual"><scope>themis::server::MaintenanceApiHandler</scope><name>triggerNow</name></member>
+      <member refid="classthemis_1_1server_1_1_maintenance_api_handler_1aa0b446c7162a030b9cf47076821d6ae1" prot="public" virt="non-virtual"><scope>themis::server::MaintenanceApiHandler</scope><name>updateSchedule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

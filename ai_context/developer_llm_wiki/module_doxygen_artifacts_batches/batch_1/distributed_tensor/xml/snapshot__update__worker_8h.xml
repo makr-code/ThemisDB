@@ -1,0 +1,494 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="snapshot__update__worker_8h" kind="file" language="C++">
+    <compoundname>snapshot_update_worker.h</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2artifact__manifest_8h" local="yes">artifact_manifest.h</includes>
+    <includes refid="tensor__delta__log_8h" local="yes">tensor_delta_log.h</includes>
+    <includes refid="manifest__store_8h" local="yes">manifest_store.h</includes>
+    <includes refid="crash__recovery__checkpoint_8h" local="yes">crash_recovery_checkpoint.h</includes>
+    <includes refid="distributed__lock__manager_8h" local="yes">distributed_lock_manager.h</includes>
+    <includes refid="stale__artifact__detector_8h" local="yes">stale_artifact_detector.h</includes>
+    <includes refid="error__recovery__handler_8h" local="yes">error_recovery_handler.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">atomic</includes>
+    <includedby refid="snapshot__update__worker_8cc" local="yes">src/distributed_tensor/src/snapshot_update_worker.cc</includedby>
+    <incdepgraph>
+      <node id="20">
+        <label>artifact_invalidation.h</label>
+        <link refid="artifact__invalidation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>artifact_manifest.h</label>
+        <link refid="src_2distributed__tensor_2include_2artifact__manifest_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>crash_recovery_checkpoint.h</label>
+        <link refid="crash__recovery__checkpoint_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>distributed_lock_manager.h</label>
+        <link refid="distributed__lock__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>error_recovery_handler.h</label>
+        <link refid="error__recovery__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>manifest_store.h</label>
+        <link refid="manifest__store_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/distributed_tensor/include/snapshot_update_worker.h</label>
+        <link refid="snapshot__update__worker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>stale_artifact_detector.h</label>
+        <link refid="stale__artifact__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>tensor_delta_log.h</label>
+        <link refid="tensor__delta__log_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>observability/metrics_collector.h</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>src/distributed_tensor/include/snapshot_update_worker.h</label>
+        <link refid="snapshot__update__worker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/distributed_tensor/src/snapshot_update_worker.cc</label>
+        <link refid="snapshot__update__worker_8cc"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_update_task" prot="public">themis::distributed_tensor::UpdateTask</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_update_metrics" prot="public">themis::distributed_tensor::UpdateMetrics</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker" prot="public">themis::distributed_tensor::SnapshotBasedUpdateWorker</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats" prot="public">themis::distributed_tensor::SnapshotBasedUpdateWorker::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__tensor">themis::distributed_tensor</innernamespace>
+    <briefdescription>
+<para>Snapshot-based update worker for dynamic tensor artifact refreshing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>ThemisDB EPIC 3 Implementation Team </para>
+</simplesect>
+<simplesect kind="date"><para>2026-07-03</para>
+</simplesect>
+This header defines the snapshot-based update worker that consumes delta windows and decides whether to patch, partially refit, or fully rebuild tensor artifacts.</para>
+<sect1 id="snapshot__update__worker_8h_1autotoc_md14_1s1"><sect2 id="snapshot__update__worker_8h_1autotoc_md14">
+<title>Design Philosophy</title><para>The update worker is:<itemizedlist>
+<listitem><para><bold>Asynchronous</bold>: Operates independently from the query path</para>
+</listitem><listitem><para><bold>Intelligent</bold>: Decides update strategy based on delta analysis</para>
+</listitem><listitem><para><bold>Safe</bold>: Never makes tensor artifacts truth-bearing; always advisory-only</para>
+</listitem><listitem><para><bold>Observable</bold>: Publishes metrics on update decisions and quality</para>
+</listitem><listitem><para><bold>Recoverable</bold>: Crash-safe with checkpointing</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="snapshot__update__worker_8h_1autotoc_md15_1s1"><sect2 id="snapshot__update__worker_8h_1autotoc_md15">
+<title>Workflow</title><para><orderedlist>
+<listitem><para>Extract delta window from TensorDeltaLog</para>
+</listitem><listitem><para>Analyze delta characteristics (size, mutation distribution, etc.)</para>
+</listitem><listitem><para>Decide update strategy: PATCH, PARTIAL_REFIT, or REBUILD</para>
+</listitem><listitem><para>Execute the strategy asynchronously</para>
+</listitem><listitem><para>Create new artifact version with updated manifest</para>
+</listitem><listitem><para>Atomically publish new manifest to ManifestStore</para>
+</listitem><listitem><para>Collect metrics for observability</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="snapshot__update__worker_8h_1autotoc_md16_1s1"><sect2 id="snapshot__update__worker_8h_1autotoc_md16">
+<title>Update Decision Logic</title><para><itemizedlist>
+<listitem><para><bold>PATCH</bold>: When delta_size &lt; 10% of artifact_size<itemizedlist>
+<listitem><para>Best for: Sporadic, small updates (e.g., fixing outliers)</para>
+</listitem><listitem><para>Cost: O(delta_size)</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold>PARTIAL_REFIT</bold>: When 10% &lt;= delta_size &lt;= 50% of artifact_size<itemizedlist>
+<listitem><para>Best for: Moderate updates (e.g., domain adaptation, LoRA tuning)</para>
+</listitem><listitem><para>Cost: O(k) where k is the subset being retrained</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold>REBUILD</bold>: When delta_size &gt; 50% of artifact_size<itemizedlist>
+<listitem><para>Best for: Major changes (e.g., new training data, model swap)</para>
+</listitem><listitem><para>Cost: O(n) where n is full artifact size</para>
+</listitem><listitem><para>Fallback when partial refit fails or exceeds residual threshold </para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="src_2distributed__tensor_2include_2artifact__manifest_8h" kindref="compound">artifact_manifest.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__delta__log_8h" kindref="compound">tensor_delta_log.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="manifest__store_8h" kindref="compound">manifest_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="crash__recovery__checkpoint_8h" kindref="compound">crash_recovery_checkpoint.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__lock__manager_8h" kindref="compound">distributed_lock_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="stale__artifact__detector_8h" kindref="compound">stale_artifact_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="error__recovery__handler_8h" kindref="compound">error_recovery_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__tensor" kindref="compound">distributed_tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dc" kindref="member">UpdateWorkerState</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dcaa5daf7f2ebbba4975d61dab1c40188c7" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dcaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">IDLE</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dca2baa69eafc7204f3bd8648eba580c489" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1af3b313410b5d33bc1458846e0b17f9f1a2baa69eafc7204f3bd8648eba580c489" kindref="member">READY</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dcae133e9a63fd4950f19c2180be4047ecc" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dcae133e9a63fd4950f19c2180be4047ecc" kindref="member">PROCESSING</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dcabb1ca97ec761fc37101737ba0aa2e7c5" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dcabb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">ERROR</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dca89e5325b1f9acbf5dde5c70b84bbdcb1" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dca89e5325b1f9acbf5dde5c70b84bbdcb1" kindref="member">SHUTTING_DOWN</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770" kindref="member">UpdateDecision</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770a63c719161482d82fb65d5bb9f77dc3a0" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770a63c719161482d82fb65d5bb9f77dc3a0" kindref="member">NO_UPDATE</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770a63bc9a3997d66d835d9f3ec29451407d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1aed4e9fd1628700ec881982b13f40b55fa63bc9a3997d66d835d9f3ec29451407d" kindref="member">PATCH</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770a4bf0cbdd5f69e2c5407d5093aafe56f9" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1aed4e9fd1628700ec881982b13f40b55fa4bf0cbdd5f69e2c5407d5093aafe56f9" kindref="member">PARTIAL_REFIT</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770ac75592fa549dce0833e49b89944bf685" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1aed4e9fd1628700ec881982b13f40b55fac75592fa549dce0833e49b89944bf685" kindref="member">REBUILD</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770acf5f9ba4ad9763a9f8ab7ea89ab6eaf5" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770acf5f9ba4ad9763a9f8ab7ea89ab6eaf5" kindref="member">ERROR_FALLBACK_TO_REBUILD</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1distributed__tensor_1_1_update_task" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_update_task" kindref="compound">UpdateTask</ref><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1distributed__tensor_1_1_update_task_1a975b6c558170f9a09d4452073d883741" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_update_task_1a975b6c558170f9a09d4452073d883741" kindref="member">artifact_id</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1distributed__tensor_1_1_update_task_1a6f444e6c8f9e50c0cf538521957858d5" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_update_task_1a6f444e6c8f9e50c0cf538521957858d5" kindref="member">delta_window</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1distributed__tensor_1_1_update_task_1a74533dfaa5a78b0f51d3c74bdacf289b" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_update_task_1a74533dfaa5a78b0f51d3c74bdacf289b" kindref="member">current_manifest</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1distributed__tensor_1_1_update_task_1a257d9a9a8b1ad4fff101542b84c7815f" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_update_task_1a257d9a9a8b1ad4fff101542b84c7815f" kindref="member">artifact_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1distributed__tensor_1_1_update_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_update_metrics" kindref="compound">UpdateMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1a4c2468d2d7388370b74e467d24e868f3" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770" kindref="member">UpdateDecision</ref><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1a4c2468d2d7388370b74e467d24e868f3" kindref="member">decision</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770a63c719161482d82fb65d5bb9f77dc3a0" kindref="member">UpdateDecision::NO_UPDATE</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1a7280fa46d3a2fdbdd21cb499615f8e4c" refkind="member"><highlight class="normal"><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1a7280fa46d3a2fdbdd21cb499615f8e4c" kindref="member">analysis_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1adbd648e38ec3a8958a2547440442d7f9" refkind="member"><highlight class="normal"><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1adbd648e38ec3a8958a2547440442d7f9" kindref="member">execution_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1affd3b4ef1931c855d714e90ed18aaff7" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1affd3b4ef1931c855d714e90ed18aaff7" kindref="member">resulting_residual</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1a0445aa3056d1a58a80826a0ea43c7628" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1a0445aa3056d1a58a80826a0ea43c7628" kindref="member">resulting_rank_status</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1aa2445ed03d12f7fce3e08d4a5b44e841" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1aa2445ed03d12f7fce3e08d4a5b44e841" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1af4aebb79ec8571dcf8d20e98aaeae72b" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1af4aebb79ec8571dcf8d20e98aaeae72b" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1a67d00d42b49154283fc8a0dd34448eab" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_update_metrics_1a67d00d42b49154283fc8a0dd34448eab" kindref="member">throughput_deltas_per_sec</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a325172667a4eaa4bec191b95dd90bf1c" kindref="member">SnapshotBasedUpdateWorker</ref><sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a325172667a4eaa4bec191b95dd90bf1c" kindref="member">SnapshotBasedUpdateWorker</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_manifest_store" kindref="compound">ManifestStore</ref>*<sp/>manifest_store<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a1126a8ca5365ff8e7076530e0c5475c7" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a1126a8ca5365ff8e7076530e0c5475c7" kindref="member">~SnapshotBasedUpdateWorker</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copy/move<sp/>to<sp/>maintain<sp/>worker<sp/>state<sp/>invariants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a95b34066b1d85137d9e2549e6fb9c763" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a95b34066b1d85137d9e2549e6fb9c763" kindref="member">SnapshotBasedUpdateWorker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a325172667a4eaa4bec191b95dd90bf1c" kindref="member">SnapshotBasedUpdateWorker</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a28072c0e3512318d1b3faea709ec89e8" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a325172667a4eaa4bec191b95dd90bf1c" kindref="member">SnapshotBasedUpdateWorker</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a28072c0e3512318d1b3faea709ec89e8" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a325172667a4eaa4bec191b95dd90bf1c" kindref="member">SnapshotBasedUpdateWorker</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a71cee06a3f3cf0c2ab800017728334db" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a71cee06a3f3cf0c2ab800017728334db" kindref="member">SnapshotBasedUpdateWorker</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a325172667a4eaa4bec191b95dd90bf1c" kindref="member">SnapshotBasedUpdateWorker</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a6abca494b791964922855359a05439a1" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a325172667a4eaa4bec191b95dd90bf1c" kindref="member">SnapshotBasedUpdateWorker</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a6abca494b791964922855359a05439a1" kindref="member">operator=</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a325172667a4eaa4bec191b95dd90bf1c" kindref="member">SnapshotBasedUpdateWorker</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a551207471cec519cbd5c887bc9ffd76d" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770" kindref="member">UpdateDecision</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a0806e565050ba7027499043ecdbdb430" kindref="member">processTask</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_update_task" kindref="compound">UpdateTask</ref>&amp;<sp/>task,<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_update_metrics" kindref="compound">UpdateMetrics</ref>&amp;<sp/>metrics);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770" kindref="member">UpdateDecision</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a9a6d2af8aff7fda7348e4425c10b85dc" kindref="member">processDeltaWindow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref>&amp;<sp/>delta_window,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>current_manifest,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>artifact_size_bytes);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770" kindref="member">UpdateDecision</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a275ff26796d15fb057cdec3bf3b14ff6" kindref="member">decideUpdateStrategy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref>&amp;<sp/>delta_window,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>artifact_size_bytes,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>current_residual);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a1dd3427e4d83a4662d8e82d820daac64" kindref="member">executePatch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref>&amp;<sp/>delta_window,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>current_manifest);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1aabce1b9cedf10be872df04b47cf5b468" kindref="member">executePartialRefit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref>&amp;<sp/>delta_window,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>current_manifest);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a3d3a3733b54ccf52757985630b3b69d3" kindref="member">executeRebuild</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref>&amp;<sp/>delta_window,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>current_manifest);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1ad4927ba16fab9250f5ab2f22c1d1c614" kindref="member">publishManifest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>new_manifest,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>old_version,</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1ada448da74cf52379e2c3526765144ccc" kindref="member">shutdown</ref>();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dc" kindref="member">UpdateWorkerState</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a8490b806e463318508aa48b66111947a" kindref="member">getState</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="228" refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a25d247a8cbd0bb19e3b691dae002385a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a25d247a8cbd0bb19e3b691dae002385a" kindref="member">total_tasks_processed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="229" refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a74bb2223ca7a1a9b563e81c78f6da2f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a74bb2223ca7a1a9b563e81c78f6da2f0" kindref="member">total_patches_applied</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="230" refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a2222d622ba953db4429700f741718bab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a2222d622ba953db4429700f741718bab" kindref="member">total_partial_refits</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="231" refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1af1f6974f851a8a87633502edc50ec50c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1af1f6974f851a8a87633502edc50ec50c" kindref="member">total_rebuilds</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="232" refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a0f90e5c4e7362dfaf0d94e734b631140" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a0f90e5c4e7362dfaf0d94e734b631140" kindref="member">total_failed_updates</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="233" refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1aea68cb925f212893de3ef468533c2a14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1aea68cb925f212893de3ef468533c2a14" kindref="member">average_decision_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="234" refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a3e196f1d617fc6aa223443089e1f3dbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1a3e196f1d617fc6aa223443089e1f3dbe" kindref="member">average_execution_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="235" refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1ac6766bc439ddf629ef6545fb8609ed55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats_1ac6766bc439ddf629ef6545fb8609ed55" kindref="member">last_activity_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a258f986b29ebaa7ad2477aa76acb219e" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1aa96ab4000ab4c0598ef799f14f59123d" kindref="member">setDecisionThresholds</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>patch_threshold_pct,</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>refit_threshold_pct,</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>residual_max_increase_allowed);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a96b2cc7dd0d988ceb8d3af0fbc6828e3" kindref="member">setCheckpointPath</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>checkpoint_path);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a7776efaa06a3546cad2da084fc3aac3c" kindref="member">setLockManager</ref>(std::shared_ptr&lt;DistributedLockManager&gt;<sp/>lock_manager);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a4f88685b42c11f443a7ab193b26fc534" kindref="member">setStaleArtifactDetector</ref>(std::shared_ptr&lt;StaleArtifactDetector&gt;<sp/>detector);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a9e510f83bbfa7b2a14304c8aed2df88f" kindref="member">setErrorRecoveryHandler</ref>(std::shared_ptr&lt;ErrorRecoveryHandler&gt;<sp/>handler);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a3331ae7fc1a4367a2c9e7c2731d48341" kindref="member">setManifestStore</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_manifest_store" kindref="compound">ManifestStore</ref>*<sp/>manifest_store)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;ArtifactManifest&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a67ba4d372bf035f12ed8c4c038c883ca" kindref="member">recoverFromCheckpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a52a67bc8d1ab5e3393bacb0b9dafd75f" kindref="member">saveCheckpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_update_task" kindref="compound">UpdateTask</ref>&amp;<sp/>task);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a9fb19a2c58b9bf41e90d0efc708e6fab" kindref="member">acquireUpdateLock</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>lock_reason<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>ttl_seconds<sp/>=<sp/>3600);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a5e3956aae8fc4b3ca5388c5a52915bca" kindref="member">releaseUpdateLock</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a378500d93761b270969d2de1f16d9b8a" kindref="member">renewUpdateLock</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,<sp/>int64_t<sp/>ttl_seconds<sp/>=<sp/>3600);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics" kindref="compound">StaleArtifactMetrics</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a3a374f618ad9e990542fc823c772aa5e" kindref="member">detectStaleness</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>current_manifest,</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>current_source_seq);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a3643bbb4e084283d0f09dfe95e488c65" kindref="member">isValidForPatchingPublic</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref>&amp;<sp/>delta_window,</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>max_age_ms<sp/>=<sp/>3600000)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a063a073492194f27937c2ff5a4b22d10" kindref="member">detectInstabilityPublic</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref>&amp;<sp/>delta_window,</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>current_residual)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1ab5b7598a740a66d7e24ffe21cc518e8d" kindref="member">isDeltaLogOverflowingPublic</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_entries,</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>max_entries<sp/>=<sp/>100000)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="340" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a76a3e133c3adfc5c0fd69bd57a236b8b" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dc" kindref="member">UpdateWorkerState</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a76a3e133c3adfc5c0fd69bd57a236b8b" kindref="member">state_</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dcaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">UpdateWorkerState::IDLE</ref>;</highlight></codeline>
+<codeline lineno="341" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1af100e72d5f34ec5c582b4651d4016138" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1af100e72d5f34ec5c582b4651d4016138" kindref="member">stats_</ref>;</highlight></codeline>
+<codeline lineno="342" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a750c95e875b046c1972766f50849c561" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a750c95e875b046c1972766f50849c561" kindref="member">patch_threshold_pct_</ref><sp/>=<sp/>10.0;</highlight></codeline>
+<codeline lineno="343" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a2c7258de04daecf3bc4e1bc5c7e7c413" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a2c7258de04daecf3bc4e1bc5c7e7c413" kindref="member">refit_threshold_pct_</ref><sp/>=<sp/>50.0;</highlight></codeline>
+<codeline lineno="344" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1ab08c2655ef58c66482c76ceda1ee5bcf" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1ab08c2655ef58c66482c76ceda1ee5bcf" kindref="member">residual_max_increase_allowed_</ref><sp/>=<sp/>0.05;</highlight></codeline>
+<codeline lineno="345" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a539a5245328c8b3ab31556f1af681c97" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a539a5245328c8b3ab31556f1af681c97" kindref="member">checkpoint_path_</ref>;</highlight></codeline>
+<codeline lineno="346" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1aa1121b83a8ffa2645cf98a31ea3a5f23" refkind="member"><highlight class="normal"><sp/><sp/>std::unique_ptr&lt;CrashRecoveryCheckpoint&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1aa1121b83a8ffa2645cf98a31ea3a5f23" kindref="member">checkpoint_manager_</ref>;</highlight></codeline>
+<codeline lineno="347" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a2613aaa661738e0bd102343cd2056537" refkind="member"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;DistributedLockManager&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a2613aaa661738e0bd102343cd2056537" kindref="member">lock_manager_</ref>;</highlight></codeline>
+<codeline lineno="348" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a87b76ee3faad5d3181436f3bd3f6c43d" refkind="member"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;StaleArtifactDetector&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a87b76ee3faad5d3181436f3bd3f6c43d" kindref="member">stale_detector_</ref>;</highlight></codeline>
+<codeline lineno="349" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a5411e4c089bfcb74f4f96d7320a8c418" refkind="member"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;ErrorRecoveryHandler&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a5411e4c089bfcb74f4f96d7320a8c418" kindref="member">error_handler_</ref>;</highlight></codeline>
+<codeline lineno="350" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a33d5b1ddf2fdb2af4940daac52ca1108" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_manifest_store" kindref="compound">ManifestStore</ref>*<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a33d5b1ddf2fdb2af4940daac52ca1108" kindref="member">manifest_store_</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="351" refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1af227e101c58bae997218962e1819d08b" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1af227e101c58bae997218962e1819d08b" kindref="member">worker_id_</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>worker<sp/>identifier<sp/>for<sp/>locking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1ac0d4b85a307da34adc5a0d88740f95dd" kindref="member">wouldBreachRankCap</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref>&amp;<sp/>delta_window);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker_1a00c84f5a229342336bffabaa2e76d211" kindref="member">estimateResultingResidual</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_delta_window" kindref="compound">DeltaWindow</ref>&amp;<sp/>delta_window,</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>current_residual,</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770" kindref="member">UpdateDecision</ref><sp/>decision);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>distributed_tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/distributed_tensor/include/snapshot_update_worker.h"/>
+  </compounddef>
+</doxygen>

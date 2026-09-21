@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_attribute_test" kind="class" language="C++" prot="public">
+    <compoundname>AttributeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_attribute_test_1a91389a0a0fdf0fe8af08013942e27f6f" prot="protected" static="no" mutable="no">
+        <type><ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t" kindref="compound">CK_FUNCTION_LIST</ref></type>
+        <definition>CK_FUNCTION_LIST AttributeTest::funcs_</definition>
+        <argsstring></argsstring>
+        <name>funcs_</name>
+        <qualifiedname>AttributeTest::funcs_</qualifiedname>
+        <initializer>= makeStubFunctions()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pkcs11_wrapper.cpp" line="689" column="22" bodyfile="tests/security/test_pkcs11_wrapper.cpp" bodystart="689" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_attribute_test_1ad93b46b621fdccc78cc9893851346e1e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref></type>
+        <definition>Pkcs11Session AttributeTest::makeOpenSession</definition>
+        <argsstring>()</argsstring>
+        <name>makeOpenSession</name>
+        <qualifiedname>AttributeTest::makeOpenSession</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pkcs11_wrapper.cpp" line="690" column="19" bodyfile="tests/security/test_pkcs11_wrapper.cpp" bodystart="690" bodyend="694"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AttributeTest</label>
+        <link refid="class_attribute_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AttributeTest</label>
+        <link refid="class_attribute_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>funcs_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>CK_FUNCTION_LIST</label>
+        <link refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t"/>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_pkcs11_wrapper.cpp" line="687" column="1" bodyfile="tests/security/test_pkcs11_wrapper.cpp" bodystart="687" bodyend="695"/>
+    <listofallmembers>
+      <member refid="class_attribute_test_1a91389a0a0fdf0fe8af08013942e27f6f" prot="protected" virt="non-virtual"><scope>AttributeTest</scope><name>funcs_</name></member>
+      <member refid="class_attribute_test_1ad93b46b621fdccc78cc9893851346e1e" prot="protected" virt="non-virtual"><scope>AttributeTest</scope><name>makeOpenSession</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

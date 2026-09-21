@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_rate_limiter_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::RateLimiter::Config</compoundname>
+    <includes refid="cache__metrics_8h" local="no">cache_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_rate_limiter_1_1_config_1aa95016ed8d45552c3f2696aae7043b5a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cache::RateLimiter::Config::max_requests_per_second</definition>
+        <argsstring></argsstring>
+        <name>max_requests_per_second</name>
+        <qualifiedname>themis::cache::RateLimiter::Config::max_requests_per_second</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="404" column="18" bodyfile="include/cache/cache_metrics.h" bodystart="404" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_rate_limiter_1_1_config_1a78920ecf54959cade0b0020cd74972bd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cache::RateLimiter::Config::burst_size</definition>
+        <argsstring></argsstring>
+        <name>burst_size</name>
+        <qualifiedname>themis::cache::RateLimiter::Config::burst_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="405" column="18" bodyfile="include/cache/cache_metrics.h" bodystart="405" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_rate_limiter_1_1_config_1afd8433d0eb27292e8ce35ae097c87beb" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_rate_limiter_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::cache::RateLimiter::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::cache::RateLimiter::Config::defaults</qualifiedname>
+        <briefdescription>
+<para>Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaults without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="411" column="23" bodyfile="include/cache/cache_metrics.h" bodystart="411" bodyend="411"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_metrics.h" line="403" column="5" bodyfile="include/cache/cache_metrics.h" bodystart="403" bodyend="412"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_rate_limiter_1_1_config_1a78920ecf54959cade0b0020cd74972bd" prot="public" virt="non-virtual"><scope>themis::cache::RateLimiter::Config</scope><name>burst_size</name></member>
+      <member refid="structthemis_1_1cache_1_1_rate_limiter_1_1_config_1afd8433d0eb27292e8ce35ae097c87beb" prot="public" virt="non-virtual"><scope>themis::cache::RateLimiter::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1cache_1_1_rate_limiter_1_1_config_1aa95016ed8d45552c3f2696aae7043b5a" prot="public" virt="non-virtual"><scope>themis::cache::RateLimiter::Config</scope><name>max_requests_per_second</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

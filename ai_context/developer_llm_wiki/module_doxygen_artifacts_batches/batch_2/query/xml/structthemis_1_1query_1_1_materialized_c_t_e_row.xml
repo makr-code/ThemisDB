@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_materialized_c_t_e_row" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::MaterializedCTERow</compoundname>
+    <includes refid="materialized__cte_8h" local="no">materialized_cte.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_c_t_e_row_1a6ca542107a8d1b5d442170ccb463a24f" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::MaterializedCTERow::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::query::MaterializedCTERow::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_cte.h" line="103" column="20" bodyfile="include/query/materialized_cte.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/materialized_cte.h" line="102" column="1" bodyfile="include/query/materialized_cte.h" bodystart="102" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_materialized_c_t_e_row_1a6ca542107a8d1b5d442170ccb463a24f" prot="public" virt="non-virtual"><scope>themis::query::MaterializedCTERow</scope><name>data</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

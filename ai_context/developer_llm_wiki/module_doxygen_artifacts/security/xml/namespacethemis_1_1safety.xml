@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1safety" kind="namespace" language="C++">
+    <compoundname>themis::safety</compoundname>
+    <innerclass refid="classthemis_1_1safety_1_1_state_snapshot" prot="public">themis::safety::StateSnapshot</innerclass>
+    <innerclass refid="classthemis_1_1safety_1_1_handle_registry" prot="public">themis::safety::HandleRegistry</innerclass>
+    <innerclass refid="classthemis_1_1safety_1_1_move_guard" prot="public">themis::safety::MoveGuard</innerclass>
+    <innerclass refid="structthemis_1_1safety_1_1_transaction_handle" prot="public">themis::safety::TransactionHandle</innerclass>
+    <innerclass refid="structthemis_1_1safety_1_1_coordinator_state_snapshot" prot="public">themis::safety::CoordinatorStateSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1safety_1_1_placement_handle" prot="public">themis::safety::PlacementHandle</innerclass>
+    <innerclass refid="structthemis_1_1safety_1_1_model_pipeline_state" prot="public">themis::safety::ModelPipelineState</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/move_safety_helpers.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

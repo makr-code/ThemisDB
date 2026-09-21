@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1document_1_1_i_document_schema_evolution" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::document::IDocumentSchemaEvolution</compoundname>
+    <derivedcompoundref refid="classthemis_1_1document_1_1_in_memory_document_schema_evolution" prot="public" virt="non-virtual">themis::document::InMemoryDocumentSchemaEvolution</derivedcompoundref>
+    <includes refid="document__schema__evolution_8h" local="no">document_schema_evolution.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_schema_evolution_1afd2f6aa8ede36f076d551e5f37fa02c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::document::IDocumentSchemaEvolution::~IDocumentSchemaEvolution</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IDocumentSchemaEvolution</name>
+        <qualifiedname>themis::document::IDocumentSchemaEvolution::~IDocumentSchemaEvolution</qualifiedname>
+        <briefdescription>
+<para>IDocument Schema Evolution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="119" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_schema_evolution_1aab808ca3664badb3d0b20e8270e9e0ca" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::document::IDocumentSchemaEvolution::registerVersion</definition>
+        <argsstring>(SchemaVersion version, const SchemaDescriptor &amp;descriptor)=0</argsstring>
+        <name>registerVersion</name>
+        <qualifiedname>themis::document::IDocumentSchemaEvolution::registerVersion</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_schema_evolution_1a898c065e3650db17f4d6c7ac1baf00f3">registerVersion</reimplementedby>
+        <param>
+          <type><ref refid="namespacethemis_1_1document_1a6fc149b60d2235ab81213ad5634d7d9b" kindref="member">SchemaVersion</ref></type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_schema_descriptor" kindref="compound">SchemaDescriptor</ref> &amp;</type>
+          <declname>descriptor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="121" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_schema_evolution_1ad37cf277f6a7a2a4a969c9af16d02d1c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::document::IDocumentSchemaEvolution::seal</definition>
+        <argsstring>() noexcept=0</argsstring>
+        <name>seal</name>
+        <qualifiedname>themis::document::IDocumentSchemaEvolution::seal</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_schema_evolution_1aff8cb693630ed5e9557353b280a404d1">seal</reimplementedby>
+        <briefdescription>
+<para>Seal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="128" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_schema_evolution_1a72a7d719715689d269250a6987b95186" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::document::IDocumentSchemaEvolution::isSealed</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>isSealed</name>
+        <qualifiedname>themis::document::IDocumentSchemaEvolution::isSealed</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_schema_evolution_1a4d28996f2bf07c785ffe822eb20ead69">isSealed</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="130" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_schema_evolution_1ad1f5504ab39e844180887b1cb07a6c58" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1document_1a6fc149b60d2235ab81213ad5634d7d9b" kindref="member">SchemaVersion</ref> &gt;</type>
+        <definition>virtual std::vector&lt; SchemaVersion &gt; themis::document::IDocumentSchemaEvolution::registeredVersions</definition>
+        <argsstring>() const =0</argsstring>
+        <name>registeredVersions</name>
+        <qualifiedname>themis::document::IDocumentSchemaEvolution::registeredVersions</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_schema_evolution_1a5233c2bcd7be2103682e87138efa8989">registeredVersions</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="132" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_document_schema_evolution_1ae8d52f4b8a6076ae704e5ac911ea2039" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1document_1_1_validation_report" kindref="compound">ValidationReport</ref> &gt;</type>
+        <definition>virtual Result&lt; ValidationReport &gt; themis::document::IDocumentSchemaEvolution::validate</definition>
+        <argsstring>(const DocumentId &amp;document_id, const nlohmann::json &amp;document_body, SchemaVersion version) const =0</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::document::IDocumentSchemaEvolution::validate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_document_schema_evolution_1a5c64db27a7c3d80e0ca865507738028d">validate</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref> &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>document_body</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1document_1a6fc149b60d2235ab81213ad5634d7d9b" kindref="member">SchemaVersion</ref></type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="134" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::document::IDocumentSchemaEvolution</label>
+        <link refid="classthemis_1_1document_1_1_i_document_schema_evolution"/>
+      </node>
+      <node id="2">
+        <label>themis::document::InMemoryDocumentSchemaEvolution</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_schema_evolution"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/document/document_schema_evolution.h" line="113" column="1" bodyfile="include/document/document_schema_evolution.h" bodystart="113" bodyend="138"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1document_1_1_i_document_schema_evolution_1a72a7d719715689d269250a6987b95186" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentSchemaEvolution</scope><name>isSealed</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_schema_evolution_1ad1f5504ab39e844180887b1cb07a6c58" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentSchemaEvolution</scope><name>registeredVersions</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_schema_evolution_1aab808ca3664badb3d0b20e8270e9e0ca" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentSchemaEvolution</scope><name>registerVersion</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_schema_evolution_1ad37cf277f6a7a2a4a969c9af16d02d1c" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentSchemaEvolution</scope><name>seal</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_schema_evolution_1ae8d52f4b8a6076ae704e5ac911ea2039" prot="public" virt="pure-virtual"><scope>themis::document::IDocumentSchemaEvolution</scope><name>validate</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_schema_evolution_1afd2f6aa8ede36f076d551e5f37fa02c5" prot="public" virt="virtual"><scope>themis::document::IDocumentSchemaEvolution</scope><name>~IDocumentSchemaEvolution</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

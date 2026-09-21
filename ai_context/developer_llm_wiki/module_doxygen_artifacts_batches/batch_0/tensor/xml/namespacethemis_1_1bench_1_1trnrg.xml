@@ -1,0 +1,417 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1trnrg" kind="namespace" language="C++">
+    <compoundname>themis::bench::trnrg</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1trnrg_1_1_tensor_shape" prot="public">themis::bench::trnrg::TensorShape</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1trnrg_1_1_mock_view" prot="public">themis::bench::trnrg::MockView</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1bench_1_1trnrg_1a4aeaa2b06b5b6a1b3ce5db9eb06939c7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MockDevice</name>
+        <qualifiedname>themis::bench::trnrg::MockDevice</qualifiedname>
+        <enumvalue id="namespacethemis_1_1bench_1_1trnrg_1a4aeaa2b06b5b6a1b3ce5db9eb06939c7a2b55387dd066c5bac646ac61543d152d" prot="public">
+          <name>CPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1trnrg_1a4aeaa2b06b5b6a1b3ce5db9eb06939c7a52f9ec21735243ad9917cda3ca077d32" prot="public">
+          <name>GPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="132" column="1" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="132" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1bench_1_1trnrg_1a17c2d0272cc3300270327c9f065c65f7" prot="public" static="no">
+        <type>std::uint16_t</type>
+        <definition>using themis::bench::trnrg::Float16 = std::uint16_t</definition>
+        <argsstring></argsstring>
+        <name>Float16</name>
+        <qualifiedname>themis::bench::trnrg::Float16</qualifiedname>
+        <briefdescription>
+<para>Minimal mock float16 type (stored as uint16). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="79" column="1" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1trnrg_1aaf4988a5798b3ac036b812c36fd47f0e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::trnrg::kTensorCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kTensorCanonicalSeed</name>
+        <qualifiedname>themis::bench::trnrg::kTensorCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all TRNRG benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="66" column="27" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1trnrg_1ac2d620f3226b43197f096949f291dbde" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::trnrg::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::trnrg::kWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Warmup iterations before measurement window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="69" column="22" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1trnrg_1a977d831016fcfa72677c36c8f62ea43c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::trnrg::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::trnrg::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Repetitions per benchmark for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="72" column="22" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trnrg_1ac2efbe5223b02c9d3e71bbc217b21428" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1bench_1_1trnrg_1a17c2d0272cc3300270327c9f065c65f7" kindref="member">Float16</ref></type>
+        <definition>static Float16 themis::bench::trnrg::f32ToF16</definition>
+        <argsstring>(float v)</argsstring>
+        <name>f32ToF16</name>
+        <qualifiedname>themis::bench::trnrg::f32ToF16</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Convert float32 → mock float16 (round to nearest, drop lower bits). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="82" column="16" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="82" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trnrg_1a7337bf70e260887a30994fc3f5d8e42f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::trnrg::matMul128</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;A, const std::vector&lt; float &gt; &amp;B, std::vector&lt; float &gt; &amp;C)</argsstring>
+        <name>matMul128</name>
+        <qualifiedname>themis::bench::trnrg::matMul128</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>C</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Simple 128×128 matrix multiply (C = A * B), accumulating into output. N=128: 128*128*128*2 = ~4.2M FLOPs per call. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="92" column="13" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="92" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trnrg_1ae1d07211b8c2b34aa237504bbb3ee6ff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1bench_1_1trnrg_1_1_tensor_shape" kindref="compound">TensorShape</ref></type>
+        <definition>static TensorShape themis::bench::trnrg::mockReshape</definition>
+        <argsstring>(const float *data, const std::vector&lt; std::size_t &gt; &amp;new_dims)</argsstring>
+        <name>mockReshape</name>
+        <qualifiedname>themis::bench::trnrg::mockReshape</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>new_dims</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="113" column="20" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="113" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trnrg_1a16aadb43f0ebef22088633ff25f7a2b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::trnrg::elementWiseAdd</definition>
+        <argsstring>(const float *a, const float *b, float *out, std::size_t n)</argsstring>
+        <name>elementWiseAdd</name>
+        <qualifiedname>themis::bench::trnrg::elementWiseAdd</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Element-wise add: out[i] = a[i] + b[i]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="119" column="13" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="119" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trnrg_1a2252913d9bddf484e46a64253342d010" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::trnrg::convertF32ToF16</definition>
+        <argsstring>(const float *src, Float16 *dst, std::size_t n)</argsstring>
+        <name>convertF32ToF16</name>
+        <qualifiedname>themis::bench::trnrg::convertF32ToF16</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1bench_1_1trnrg_1a17c2d0272cc3300270327c9f065c65f7" kindref="member">Float16</ref> *</type>
+          <declname>dst</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Dtype conversion: float32 → float16. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="126" column="13" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="126" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trnrg_1a506d17db73c261d65b1bf56ae0a25f59" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1bench_1_1trnrg_1a4aeaa2b06b5b6a1b3ce5db9eb06939c7" kindref="member">MockDevice</ref></type>
+        <definition>static MockDevice themis::bench::trnrg::mockSelectDevice</definition>
+        <argsstring>(bool gpu_available)</argsstring>
+        <name>mockSelectDevice</name>
+        <qualifiedname>themis::bench::trnrg::mockSelectDevice</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>gpu_available</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="133" column="19" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="133" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trnrg_1aaf5cd074d1aa8f1a07ca22c241d7fbb4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1bench_1_1trnrg_1_1_mock_view" kindref="compound">MockView</ref></type>
+        <definition>static MockView themis::bench::trnrg::mockSliceView</definition>
+        <argsstring>(const float *base, std::size_t offset, std::size_t count)</argsstring>
+        <name>mockSliceView</name>
+        <qualifiedname>themis::bench::trnrg::mockSliceView</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="143" column="17" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="143" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trnrg_1a8bfd723e2035cd38adf5ad3c663795f0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::trnrg::BM_TRNRG01_MatMul128</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TRNRG01_MatMul128</name>
+        <qualifiedname>themis::bench::trnrg::BM_TRNRG01_MatMul128</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TRNRG-01: 128×128 float32 matrix multiplication on CPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TRNRG-01: ≥ 100 MFLOPS. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="156" column="13" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="156" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trnrg_1a3722a9e37f5816b8f356f74b8464d123" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::trnrg::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::trnrg::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="182" column="5" declfile="benchmarks/tensor/bench_tensor_release_gates.cpp" declline="182" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trnrg_1a809e0745cfd8eb29eda0ea5d354e2068" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::trnrg::BM_TRNRG02_TensorReshape</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TRNRG02_TensorReshape</name>
+        <qualifiedname>themis::bench::trnrg::BM_TRNRG02_TensorReshape</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TRNRG-02: Zero-copy reshape of a 1M-element flat tensor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TRNRG-02: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="194" column="13" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="194" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trnrg_1a2e6bb87d5d0d26fbf23191d139d1ead4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::trnrg::BM_TRNRG03_ElementWiseAdd</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TRNRG03_ElementWiseAdd</name>
+        <qualifiedname>themis::bench::trnrg::BM_TRNRG03_ElementWiseAdd</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TRNRG-03: Element-wise float32 addition over 1k elements. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TRNRG-03: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="222" column="13" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="222" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trnrg_1a9d37243a2d656d4a6b36e36ad14d1fc0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::trnrg::BM_TRNRG04_DtypeConversion</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TRNRG04_DtypeConversion</name>
+        <qualifiedname>themis::bench::trnrg::BM_TRNRG04_DtypeConversion</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TRNRG-04: float32 to float16 conversion for 1k elements. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TRNRG-04: p99 ≤ 200 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="250" column="13" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="250" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trnrg_1a2a14021aa32103d2ed10a2c0d286c7d1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::trnrg::BM_TRNRG05_DeviceSelection</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TRNRG05_DeviceSelection</name>
+        <qualifiedname>themis::bench::trnrg::BM_TRNRG05_DeviceSelection</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TRNRG-05: Device selection (CPU vs GPU) decision latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TRNRG-05: p99 ≤ 10 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="284" column="13" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="284" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1trnrg_1a5f0b7679833096fe6ef81b7e7f87c204" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::trnrg::BM_TRNRG06_SliceViewCreation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TRNRG06_SliceViewCreation</name>
+        <qualifiedname>themis::bench::trnrg::BM_TRNRG06_SliceViewCreation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>TRNRG-06: Zero-copy slice view creation into a 1M-element buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-TRNRG-06: p99 ≤ 50 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="310" column="13" bodyfile="benchmarks/tensor/bench_tensor_release_gates.cpp" bodystart="310" bodyend="327"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/tensor/bench_tensor_release_gates.cpp" line="59" column="1"/>
+  </compounddef>
+</doxygen>

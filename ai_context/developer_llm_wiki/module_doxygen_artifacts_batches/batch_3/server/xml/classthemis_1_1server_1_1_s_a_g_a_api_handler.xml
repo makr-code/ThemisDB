@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_s_a_g_a_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::SAGAApiHandler</compoundname>
+    <includes refid="saga__api__handler_8h" local="no">saga_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_s_a_g_a_api_handler_1abbb3e832159f8430457935196ff7c085" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::utils::SAGALogger &gt;</type>
+        <definition>std::shared_ptr&lt;themis::utils::SAGALogger&gt; themis::server::SAGAApiHandler::saga_logger_</definition>
+        <argsstring></argsstring>
+        <name>saga_logger_</name>
+        <qualifiedname>themis::server::SAGAApiHandler::saga_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saga_api_handler.h" line="89" column="21" bodyfile="include/server/saga_api_handler.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_s_a_g_a_api_handler_1a2b62d5257b15b82e3dc52aa51dea5cc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::SAGAApiHandler::SAGAApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; themis::utils::SAGALogger &gt; saga_logger)</argsstring>
+        <name>SAGAApiHandler</name>
+        <qualifiedname>themis::server::SAGAApiHandler::SAGAApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::utils::SAGALogger &gt;</type>
+          <declname>saga_logger</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saga_api_handler.h" line="60" column="5" bodyfile="src/server/saga_api_handler.cpp" bodystart="58" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_s_a_g_a_api_handler_1a7c95a768f3721f566a31961495491676" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::SAGAApiHandler::listBatches</definition>
+        <argsstring>()</argsstring>
+        <name>listBatches</name>
+        <qualifiedname>themis::server::SAGAApiHandler::listBatches</qualifiedname>
+        <briefdescription>
+<para>List Batches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), nlohmann::json::array(), size(), parseBatchInfo(), empty(), push_back(), toJson(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saga_api_handler.h" line="66" column="20" bodyfile="src/server/saga_api_handler.cpp" bodystart="186" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_s_a_g_a_api_handler_1a7bb9c32f8ba12e22887657ea85a131b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::SAGAApiHandler::getBatchDetail</definition>
+        <argsstring>(const std::string &amp;batch_id)</argsstring>
+        <name>getBatchDetail</name>
+        <qualifiedname>themis::server::SAGAApiHandler::getBatchDetail</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>batch_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Batch Detail. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the batch. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the batch. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseBatchInfo(), empty(), <ref refid="classthemis_1_1server_1_1_s_a_g_a_api_handler_1a61a9034c0faa0460a314debe5d1abc50" kindref="member">verifyBatch()</ref>, loadBatch(), ifs(), is_open(), std::getline(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saga_api_handler.h" line="73" column="20" bodyfile="src/server/saga_api_handler.cpp" bodystart="219" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_s_a_g_a_api_handler_1a61a9034c0faa0460a314debe5d1abc50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::SAGAApiHandler::verifyBatch</definition>
+        <argsstring>(const std::string &amp;batch_id)</argsstring>
+        <name>verifyBatch</name>
+        <qualifiedname>themis::server::SAGAApiHandler::verifyBatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>batch_id</declname>
+        </param>
+        <briefdescription>
+<para>Verify Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the batch. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the batch. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseBatchInfo(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saga_api_handler.h" line="80" column="20" bodyfile="src/server/saga_api_handler.cpp" bodystart="286" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_s_a_g_a_api_handler_1ad90991277bbbdb723a973f45744f9cfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::SAGAApiHandler::flushCurrentBatch</definition>
+        <argsstring>()</argsstring>
+        <name>flushCurrentBatch</name>
+        <qualifiedname>themis::server::SAGAApiHandler::flushCurrentBatch</qualifiedname>
+        <briefdescription>
+<para>Flush Current Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), flush(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saga_api_handler.h" line="86" column="20" bodyfile="src/server/saga_api_handler.cpp" bodystart="324" bodyend="339"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_s_a_g_a_api_handler_1af5d59effdbafbff00e05feb5b656d097" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_s_a_g_a_batch_info" kindref="compound">SAGABatchInfo</ref></type>
+        <definition>SAGABatchInfo themis::server::SAGAApiHandler::parseBatchInfo</definition>
+        <argsstring>(const std::string &amp;batch_id)</argsstring>
+        <name>parseBatchInfo</name>
+        <qualifiedname>themis::server::SAGAApiHandler::parseBatchInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>batch_id</declname>
+        </param>
+        <briefdescription>
+<para>Parse Batch Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the batch. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the batch. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ifs(), is_open(), std::getline(), empty(), nlohmann::json::parse(), value(), std::chrono::system_clock::from_time_t(), time_since_epoch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saga_api_handler.h" line="96" column="19" bodyfile="src/server/saga_api_handler.cpp" bodystart="130" bodyend="179"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/saga_api_handler.h" line="58" column="1" bodyfile="include/server/saga_api_handler.h" bodystart="58" bodyend="97"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_s_a_g_a_api_handler_1ad90991277bbbdb723a973f45744f9cfb" prot="public" virt="non-virtual"><scope>themis::server::SAGAApiHandler</scope><name>flushCurrentBatch</name></member>
+      <member refid="classthemis_1_1server_1_1_s_a_g_a_api_handler_1a7bb9c32f8ba12e22887657ea85a131b7" prot="public" virt="non-virtual"><scope>themis::server::SAGAApiHandler</scope><name>getBatchDetail</name></member>
+      <member refid="classthemis_1_1server_1_1_s_a_g_a_api_handler_1a7c95a768f3721f566a31961495491676" prot="public" virt="non-virtual"><scope>themis::server::SAGAApiHandler</scope><name>listBatches</name></member>
+      <member refid="classthemis_1_1server_1_1_s_a_g_a_api_handler_1af5d59effdbafbff00e05feb5b656d097" prot="private" virt="non-virtual"><scope>themis::server::SAGAApiHandler</scope><name>parseBatchInfo</name></member>
+      <member refid="classthemis_1_1server_1_1_s_a_g_a_api_handler_1abbb3e832159f8430457935196ff7c085" prot="private" virt="non-virtual"><scope>themis::server::SAGAApiHandler</scope><name>saga_logger_</name></member>
+      <member refid="classthemis_1_1server_1_1_s_a_g_a_api_handler_1a2b62d5257b15b82e3dc52aa51dea5cc3" prot="public" virt="non-virtual"><scope>themis::server::SAGAApiHandler</scope><name>SAGAApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_s_a_g_a_api_handler_1a61a9034c0faa0460a314debe5d1abc50" prot="public" virt="non-virtual"><scope>themis::server::SAGAApiHandler</scope><name>verifyBatch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

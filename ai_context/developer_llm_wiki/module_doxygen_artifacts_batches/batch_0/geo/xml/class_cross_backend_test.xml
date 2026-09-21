@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cross_backend_test" kind="class" language="C++" prot="public">
+    <compoundname>CrossBackendTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cross_backend_test_1a7fceb7ae7b06184c6f82003095ed6eeb" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">themis::geo::ISpatialComputeBackend</ref> *</type>
+        <definition>themis::geo::ISpatialComputeBackend* CrossBackendTest::gpu</definition>
+        <argsstring></argsstring>
+        <name>gpu</name>
+        <qualifiedname>CrossBackendTest::gpu</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1geo_1a6a624344c315b22db1046070c5e3c504" kindref="member">themis::geo::getGpuSpatialBackend</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_gpu_backend.cpp" line="706" column="41" bodyfile="tests/geo/test_geo_gpu_backend.cpp" bodystart="706" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cross_backend_test_1ae11ff5b831791bb3a85aab1ebf982eeb" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">themis::geo::ISpatialComputeBackend</ref> *</type>
+        <definition>themis::geo::ISpatialComputeBackend* CrossBackendTest::cpu</definition>
+        <argsstring></argsstring>
+        <name>cpu</name>
+        <qualifiedname>CrossBackendTest::cpu</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">themis::geo::getCpuExactBackend</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_gpu_backend.cpp" line="707" column="41" bodyfile="tests/geo/test_geo_gpu_backend.cpp" bodystart="707" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_cross_backend_test_1ad5569fd4bcfb7a43ce3c6e8709fa1926" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CrossBackendTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CrossBackendTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_gpu_backend.cpp" line="709" column="10" bodyfile="tests/geo/test_geo_gpu_backend.cpp" bodystart="709" bodyend="712"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cross_backend_test_1a1c35d990b4354c107ba6c08cbade2ad1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CrossBackendTest::expectAgree</definition>
+        <argsstring>(const GeometryInfo &amp;a, const GeometryInfo &amp;b, std::string_view label)</argsstring>
+        <name>expectAgree</name>
+        <qualifiedname>CrossBackendTest::expectAgree</qualifiedname>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>label</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_gpu_backend.cpp" line="714" column="10" bodyfile="tests/geo/test_geo_gpu_backend.cpp" bodystart="714" bodyend="720"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cross_backend_test_1a31985c896d833a635e04f7cd4d58410c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CrossBackendTest::expectBatchAgree</definition>
+        <argsstring>(const SpatialBatchInputs &amp;in, std::string_view label)</argsstring>
+        <name>expectBatchAgree</name>
+        <qualifiedname>CrossBackendTest::expectBatchAgree</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref> &amp;</type>
+          <declname>in</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>label</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_gpu_backend.cpp" line="722" column="10" bodyfile="tests/geo/test_geo_gpu_backend.cpp" bodystart="722" bodyend="732"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CrossBackendTest</label>
+        <link refid="class_cross_backend_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CrossBackendTest</label>
+        <link refid="class_cross_backend_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cpu</edgelabel>
+          <edgelabel>gpu</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::geo::ISpatialComputeBackend</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_compute_backend"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/geo/test_geo_gpu_backend.cpp" line="703" column="1" bodyfile="tests/geo/test_geo_gpu_backend.cpp" bodystart="703" bodyend="733"/>
+    <listofallmembers>
+      <member refid="class_cross_backend_test_1ae11ff5b831791bb3a85aab1ebf982eeb" prot="protected" virt="non-virtual"><scope>CrossBackendTest</scope><name>cpu</name></member>
+      <member refid="class_cross_backend_test_1a1c35d990b4354c107ba6c08cbade2ad1" prot="protected" virt="non-virtual"><scope>CrossBackendTest</scope><name>expectAgree</name></member>
+      <member refid="class_cross_backend_test_1a31985c896d833a635e04f7cd4d58410c" prot="protected" virt="non-virtual"><scope>CrossBackendTest</scope><name>expectBatchAgree</name></member>
+      <member refid="class_cross_backend_test_1a7fceb7ae7b06184c6f82003095ed6eeb" prot="protected" virt="non-virtual"><scope>CrossBackendTest</scope><name>gpu</name></member>
+      <member refid="class_cross_backend_test_1ad5569fd4bcfb7a43ce3c6e8709fa1926" prot="protected" virt="non-virtual"><scope>CrossBackendTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

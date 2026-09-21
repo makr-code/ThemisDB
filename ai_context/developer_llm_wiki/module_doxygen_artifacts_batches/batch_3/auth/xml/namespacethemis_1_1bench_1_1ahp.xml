@@ -1,0 +1,480 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1ahp" kind="namespace" language="C++">
+    <compoundname>themis::bench::ahp</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1ahp_1_1_latency_summary" prot="public">themis::bench::ahp::LatencySummary</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture" prot="public">themis::bench::ahp::DistributedBlacklistFixture</innerclass>
+    <innernamespace refid="namespacethemis_1_1bench_1_1ahp_1_1themis">themis::bench::ahp::themis</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1bench_1_1ahp_1a0131a3c197378bdff4349a0115089d0e" prot="public" static="no">
+        <type>struct ldap</type>
+        <definition>typedef struct ldap themis::bench::ahp::LDAP</definition>
+        <argsstring></argsstring>
+        <name>LDAP</name>
+        <qualifiedname>themis::bench::ahp::LDAP</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="29" column="19" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1ahp_1a92a3d8938b2e2f5419c7c4f4e1b8b12f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::ahp::kAhpCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kAhpCanonicalSeed</name>
+        <qualifiedname>themis::bench::ahp::kAhpCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all AHP benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="85" column="27" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1ahp_1abd399fe46d9414eda2e7611289f1c6c1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::ahp::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::ahp::kWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Warmup iterations before measurement window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="88" column="22" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1ahp_1a65df6102a1d7f96fb7455c21d7fddc36" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::ahp::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::ahp::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Repetitions per benchmark for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="91" column="22" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1ahp_1ac377100361b39524ff9db94c285ada25" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::ahp::kBlacklistPreloadSize</definition>
+        <argsstring></argsstring>
+        <name>kBlacklistPreloadSize</name>
+        <qualifiedname>themis::bench::ahp::kBlacklistPreloadSize</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Number of JTI entries pre-loaded for hit/miss benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="94" column="22" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1a2c606106b02244f814240f6b9d012f20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::bench::ahp::percentile</definition>
+        <argsstring>(std::vector&lt; double &gt; samples, double fraction)</argsstring>
+        <name>percentile</name>
+        <qualifiedname>themis::bench::ahp::percentile</qualifiedname>
+        <param>
+          <type>std::vector&lt; double &gt;</type>
+          <declname>samples</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>fraction</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="103" column="8" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="103" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1ae359f0d4b03184a221d8fb95b9a22a71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1bench_1_1ahp_1_1_latency_summary" kindref="compound">LatencySummary</ref></type>
+        <definition>LatencySummary themis::bench::ahp::summarizeLatencies</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;samples_us)</argsstring>
+        <name>summarizeLatencies</name>
+        <qualifiedname>themis::bench::ahp::summarizeLatencies</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>samples_us</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="120" column="16" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="120" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1a25b647b8263418a21da9ac67d6362673" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::publishLatencyCounters</definition>
+        <argsstring>(benchmark::State &amp;state, const std::vector&lt; double &gt; &amp;samples_us, double gate_target_us)</argsstring>
+        <name>publishLatencyCounters</name>
+        <qualifiedname>themis::bench::ahp::publishLatencyCounters</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>samples_us</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>gate_target_us</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="134" column="6" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="134" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1a53b18495849f44d08d6539c6b49124ff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::bench::ahp::makeJti</definition>
+        <argsstring>(int index)</argsstring>
+        <name>makeJti</name>
+        <qualifiedname>themis::bench::ahp::makeJti</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Generate a deterministic JTI string from an integer index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="151" column="20" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="151" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1af32550e0a06a56c26aba487bd0258c02" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>static std::chrono::system_clock::time_point themis::bench::ahp::futureExpiry</definition>
+        <argsstring>()</argsstring>
+        <name>futureExpiry</name>
+        <qualifiedname>themis::bench::ahp::futureExpiry</qualifiedname>
+        <briefdescription>
+<para>Time-point helper: far future expiry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="156" column="46" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="156" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1a4aa660548bbbe90fd5d4a9b9cdb61c8e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_token_blacklist" kindref="compound">TokenBlacklist</ref> &gt;</type>
+        <definition>static std::unique_ptr&lt; TokenBlacklist &gt; themis::bench::ahp::makePreloadedBlacklist</definition>
+        <argsstring>()</argsstring>
+        <name>makePreloadedBlacklist</name>
+        <qualifiedname>themis::bench::ahp::makePreloadedBlacklist</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SetUp helper: returns an in-memory <ref refid="classthemis_1_1auth_1_1_token_blacklist" kindref="compound">TokenBlacklist</ref> with kBlacklistPreloadSize entries pre-inserted so that the &quot;hit&quot; benchmark path is warm. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="166" column="24" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="166" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1a27e178d4ff5668fd67328fe3440578c9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::ahp::BM_AHP02_BlacklistIsRevoked_Hit</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AHP02_BlacklistIsRevoked_Hit</name>
+        <qualifiedname>themis::bench::ahp::BM_AHP02_BlacklistIsRevoked_Hit</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>AHP-02: isRevoked() for a JTI known to be in the blacklist. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the hot O(1) lookup path. GATE-AHP-01: p99 ≤ 1 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="183" column="13" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="183" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1a3d7c148a03ca948caf9e686580e822e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::ahp::UseManualTime</definition>
+        <argsstring>() -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>UseManualTime</name>
+        <qualifiedname>themis::bench::ahp::UseManualTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="206" column="5" declfile="benchmarks/auth/bench_auth_hotpaths.cpp" declline="206" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1ad6328ad7ca3d278ddf2bc3c6165a19bc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::ahp::BM_AHP03_BlacklistIsRevoked_Miss</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AHP03_BlacklistIsRevoked_Miss</name>
+        <qualifiedname>themis::bench::ahp::BM_AHP03_BlacklistIsRevoked_Miss</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>AHP-03: isRevoked() for a JTI that is NOT in the blacklist. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-AHP-02: p99 ≤ 1 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="219" column="13" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="219" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1abd8801727dce62681c67deca85b8c3af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::ahp::BM_AHP04_SessionCreate</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AHP04_SessionCreate</name>
+        <qualifiedname>themis::bench::ahp::BM_AHP04_SessionCreate</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>AHP-04: <ref refid="classthemis_1_1auth_1_1_session_manager_1a27bda1b15396f09af311e9c3282b5459" kindref="member">SessionManager::createSession()</ref> latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures cryptographic random ID generation + map insert. GATE-AHP-03: p99 ≤ 5 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="255" column="13" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="255" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1a2bbaab6d009caf386965ef21f5688c08" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::ahp::BM_AHP05_SessionValidate</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AHP05_SessionValidate</name>
+        <qualifiedname>themis::bench::ahp::BM_AHP05_SessionValidate</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>AHP-05: <ref refid="classthemis_1_1auth_1_1_session_manager_1ad1be91118d89ae46093033638136659b" kindref="member">SessionManager::validateSession()</ref> latency for an active session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures map lookup + expiry check against a pre-created session. GATE-AHP-04: p99 ≤ 1 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="293" column="13" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="293" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1a2fa3c0c565c014ab261d7e5ad928885a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::ahp::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DistributedBlacklistFixture, AHP06_DistributedAdd)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::ahp::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture" kindref="compound">DistributedBlacklistFixture</ref></type>
+        </param>
+        <param>
+          <type>AHP06_DistributedAdd</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="357" column="1" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="357" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1ae437d4becab450849d1915092db8ab28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::ahp::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DistributedBlacklistFixture, AHP07_DistributedIsRevoked)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::ahp::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture" kindref="compound">DistributedBlacklistFixture</ref></type>
+        </param>
+        <param>
+          <type>AHP07_DistributedIsRevoked</type>
+        </param>
+        <briefdescription>
+<para>AHP-07: <ref refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1af953baf746c1c8f26a856d00bd3cf231" kindref="member">DistributedTokenBlacklist::isRevoked()</ref> — O(1) RocksDB point-read. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Pre-warms the RocksDB block-cache before measurement. GATE-AHP-06: p99 ≤ 1 µs (warm cache). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="392" column="1" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="392" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1aaa2067ea9bbacabfb855e5cfced86928" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::ahp::BM_AHP08_FederationRealmLookup</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AHP08_FederationRealmLookup</name>
+        <qualifiedname>themis::bench::ahp::BM_AHP08_FederationRealmLookup</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>AHP-08: <ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1aea62ade08217c92bf27b13bfe84533b8" kindref="member">FederatedIdentityManager::realmCount()</ref> — mutex + hash-map overhead. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Tests the synchronisation cost of the realm-map fast path with N registered realms. No network I/O; purely in-process cost. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="432" column="13" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="432" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1ade3c567eaaef039bcc4064ec837a79b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::ahp::BENCHMARK</definition>
+        <argsstring>(BM_AHP08_FederationRealmLookup) -&gt; Arg(1) -&gt;Arg(5) -&gt;Arg(20) -&gt;Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::ahp::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_AHP08_FederationRealmLookup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="450" column="1" declfile="benchmarks/auth/bench_auth_hotpaths.cpp" declline="450" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1a8ba836c61c37e42a513e213aca9fed99" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::ahp::BM_AHP09_LDAPBindSimulation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AHP09_LDAPBindSimulation</name>
+        <qualifiedname>themis::bench::ahp::BM_AHP09_LDAPBindSimulation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="471" column="13" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="471" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1a027c5d747cd5d3ff924cc990d68079a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::ahp::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::ahp::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="484" column="5" declfile="benchmarks/auth/bench_auth_hotpaths.cpp" declline="484" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1aef3d088e6967a15d6b8dbbcd7e8a5c77" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::ahp::BM_AHP10_OIDCTokenParse</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AHP10_OIDCTokenParse</name>
+        <qualifiedname>themis::bench::ahp::BM_AHP10_OIDCTokenParse</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>AHP-10: OIDC token issuer extraction overhead (pre-crypto path). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the cost of extracting the <computeroutput>iss</computeroutput> claim from a JWT payload without performing any cryptographic verification. Represents the fast-path cost in <ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1aaf5b485d011a4013a4170041088f8872" kindref="member">FederatedIdentityManager::validateToken()</ref> before realm dispatch.</para>
+<para>Tagged with bench_auth_protocol_micro. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="500" column="13" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="500" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1a3dc900e51e2a98f48915a18891277ffb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::ahp::BM_AHP11_FederationRealmTrustLookup</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AHP11_FederationRealmTrustLookup</name>
+        <qualifiedname>themis::bench::ahp::BM_AHP11_FederationRealmTrustLookup</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>AHP-11: <ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1abf68d611ec0441c3d400a09f3c9010fa" kindref="member">FederatedIdentityManager::hasRealm()</ref> lookup with N realms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extends AHP-08 to also measure hasRealm() and getCrossProviderTrusts() cost with a populated trust registry. Represents the fast-path cost in <ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1aaf5b485d011a4013a4170041088f8872" kindref="member">FederatedIdentityManager::validateToken()</ref> after realm dispatch.</para>
+<para>Tagged with bench_auth_protocol_micro. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="553" column="13" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="553" bodyend="580"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1ahp_1ae726667bb821b3df555d90580f5e1494" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::ahp::BENCHMARK</definition>
+        <argsstring>(BM_AHP11_FederationRealmTrustLookup) -&gt; Arg(1) -&gt;Arg(5) -&gt;Arg(20) -&gt;Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::ahp::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_AHP11_FederationRealmTrustLookup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="581" column="1" declfile="benchmarks/auth/bench_auth_hotpaths.cpp" declline="581" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="78" column="1"/>
+  </compounddef>
+</doxygen>

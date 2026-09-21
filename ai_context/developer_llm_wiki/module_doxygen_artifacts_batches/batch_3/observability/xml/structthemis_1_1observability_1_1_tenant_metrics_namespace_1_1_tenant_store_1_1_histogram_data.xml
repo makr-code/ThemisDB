@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1_1_histogram_data" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::TenantMetricsNamespace::TenantStore::HistogramData</compoundname>
+    <includes refid="tenant__metrics__namespace_8h" local="no">tenant_metrics_namespace.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1_1_histogram_data_1a39d64fb75f60397bb4f4066cbd7409dc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::observability::TenantMetricsNamespace::TenantStore::HistogramData::samples</definition>
+        <argsstring></argsstring>
+        <name>samples</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::TenantStore::HistogramData::samples</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="203" column="25" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1_1_histogram_data_1a324ce597945331bb44ea01db65bd9f85" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::TenantMetricsNamespace::TenantStore::HistogramData::kMaxSamples</definition>
+        <argsstring></argsstring>
+        <name>kMaxSamples</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::TenantStore::HistogramData::kMaxSamples</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="204" column="37" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/tenant_metrics_namespace.h" line="202" column="9" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="202" bodyend="205"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1_1_histogram_data_1a324ce597945331bb44ea01db65bd9f85" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace::TenantStore::HistogramData</scope><name>kMaxSamples</name></member>
+      <member refid="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store_1_1_histogram_data_1a39d64fb75f60397bb4f4066cbd7409dc" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace::TenantStore::HistogramData</scope><name>samples</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

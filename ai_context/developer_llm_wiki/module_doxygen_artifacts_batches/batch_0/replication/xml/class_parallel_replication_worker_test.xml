@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_parallel_replication_worker_test" kind="class" language="C++" prot="public">
+    <compoundname>ParallelReplicationWorkerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_parallel_replication_worker_test_1a3c46d59cb3cae5bcf8b22bb911b418b2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_parallel_config" kindref="compound">ParallelReplicationWorker::ParallelConfig</ref></type>
+        <definition>ParallelReplicationWorker::ParallelConfig ParallelReplicationWorkerTest::defaultConfig</definition>
+        <argsstring>()</argsstring>
+        <name>defaultConfig</name>
+        <qualifiedname>ParallelReplicationWorkerTest::defaultConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_new_features.cpp" line="783" column="47" bodyfile="tests/replication/test_replication_new_features.cpp" bodystart="783" bodyend="790"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ParallelReplicationWorkerTest</label>
+        <link refid="class_parallel_replication_worker_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ParallelReplicationWorkerTest</label>
+        <link refid="class_parallel_replication_worker_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/replication/test_replication_new_features.cpp" line="779" column="1" bodyfile="tests/replication/test_replication_new_features.cpp" bodystart="779" bodyend="791"/>
+    <listofallmembers>
+      <member refid="class_parallel_replication_worker_test_1a3c46d59cb3cae5bcf8b22bb911b418b2" prot="protected" virt="non-virtual"><scope>ParallelReplicationWorkerTest</scope><name>defaultConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

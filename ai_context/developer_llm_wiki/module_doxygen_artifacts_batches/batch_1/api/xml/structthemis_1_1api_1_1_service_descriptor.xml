@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1api_1_1_service_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::api::ServiceDescriptor</compoundname>
+    <includes refid="grpc__bridge_8h" local="no">grpc_bridge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_service_descriptor_1a28597b4dbc388aa1c2d2745a6a9c42d8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::ServiceDescriptor::service_name</definition>
+        <argsstring></argsstring>
+        <name>service_name</name>
+        <qualifiedname>themis::api::ServiceDescriptor::service_name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/grpc_bridge.h" line="32" column="17" bodyfile="include/api/grpc_bridge.h" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_service_descriptor_1a3ed002f508071cef2d6cf5490be0b89a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::ServiceDescriptor::package</definition>
+        <argsstring></argsstring>
+        <name>package</name>
+        <qualifiedname>themis::api::ServiceDescriptor::package</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/grpc_bridge.h" line="34" column="17" bodyfile="include/api/grpc_bridge.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_service_descriptor_1a86e21008d20a65c98ee0f6cda3a8d948" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::api::ServiceDescriptor::method_names</definition>
+        <argsstring></argsstring>
+        <name>method_names</name>
+        <qualifiedname>themis::api::ServiceDescriptor::method_names</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/grpc_bridge.h" line="36" column="17" bodyfile="include/api/grpc_bridge.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_service_descriptor_1a83037003fcbccec2d4f23a20fa4927d5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::ServiceDescriptor::serialization_format</definition>
+        <argsstring></argsstring>
+        <name>serialization_format</name>
+        <qualifiedname>themis::api::ServiceDescriptor::serialization_format</qualifiedname>
+        <initializer>= &quot;proto&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/grpc_bridge.h" line="38" column="17" bodyfile="include/api/grpc_bridge.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/grpc_bridge.h" line="31" column="1" bodyfile="include/api/grpc_bridge.h" bodystart="31" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1api_1_1_service_descriptor_1a86e21008d20a65c98ee0f6cda3a8d948" prot="public" virt="non-virtual"><scope>themis::api::ServiceDescriptor</scope><name>method_names</name></member>
+      <member refid="structthemis_1_1api_1_1_service_descriptor_1a3ed002f508071cef2d6cf5490be0b89a" prot="public" virt="non-virtual"><scope>themis::api::ServiceDescriptor</scope><name>package</name></member>
+      <member refid="structthemis_1_1api_1_1_service_descriptor_1a83037003fcbccec2d4f23a20fa4927d5" prot="public" virt="non-virtual"><scope>themis::api::ServiceDescriptor</scope><name>serialization_format</name></member>
+      <member refid="structthemis_1_1api_1_1_service_descriptor_1a28597b4dbc388aa1c2d2745a6a9c42d8" prot="public" virt="non-virtual"><scope>themis::api::ServiceDescriptor</scope><name>service_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

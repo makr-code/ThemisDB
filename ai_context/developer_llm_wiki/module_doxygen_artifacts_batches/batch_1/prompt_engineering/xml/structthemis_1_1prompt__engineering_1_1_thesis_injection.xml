@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_thesis_injection" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ThesisInjection</compoundname>
+    <includes refid="context__window__manager_8h" local="no">context_window_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_thesis_injection_1ab1de8fc58ee23fe0a023e4183af9aa2b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ThesisInjection::thesis_id</definition>
+        <argsstring></argsstring>
+        <name>thesis_id</name>
+        <qualifiedname>themis::prompt_engineering::ThesisInjection::thesis_id</qualifiedname>
+        <briefdescription>
+<para>Identifier of the injected thesis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="184" column="17" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_thesis_injection_1a2b8566a5a738eda53a96c3adeefeadc7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ThesisInjection::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::prompt_engineering::ThesisInjection::text</qualifiedname>
+        <briefdescription>
+<para>Actual injected text (full or headline). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="185" column="17" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_thesis_injection_1a0def3dda77b7ebc1560fb8cc93768bf0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ThesisInjection::is_full</definition>
+        <argsstring></argsstring>
+        <name>is_full</name>
+        <qualifiedname>themis::prompt_engineering::ThesisInjection::is_full</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>true = full text; false = headline only </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="186" column="17" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="186" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_thesis_injection_1a425ae7204cf4294a9673a8b456458fb9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::prompt_engineering::ThesisInjection::tokens_used</definition>
+        <argsstring></argsstring>
+        <name>tokens_used</name>
+        <qualifiedname>themis::prompt_engineering::ThesisInjection::tokens_used</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Estimated token count for <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_thesis_injection_1a2b8566a5a738eda53a96c3adeefeadc7" kindref="member">text</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="187" column="17" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="187" bodyend="187"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of injecting one thesis into the discourse context window. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When a thesis is fully active in the current round and its <computeroutput>token_budget</computeroutput> allows, it is injected at full length (<computeroutput>full_text</computeroutput>). Otherwise a compact headline token is injected instead so the LLM still knows the thesis exists. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/context_window_manager.h" line="183" column="1" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="183" bodyend="188"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_thesis_injection_1a0def3dda77b7ebc1560fb8cc93768bf0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ThesisInjection</scope><name>is_full</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_thesis_injection_1a2b8566a5a738eda53a96c3adeefeadc7" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ThesisInjection</scope><name>text</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_thesis_injection_1ab1de8fc58ee23fe0a023e4183af9aa2b" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ThesisInjection</scope><name>thesis_id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_thesis_injection_1a425ae7204cf4294a9673a8b456458fb9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ThesisInjection</scope><name>tokens_used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

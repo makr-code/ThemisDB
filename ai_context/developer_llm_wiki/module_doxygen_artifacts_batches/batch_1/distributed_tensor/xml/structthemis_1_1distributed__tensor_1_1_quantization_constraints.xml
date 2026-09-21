@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_quantization_constraints" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::QuantizationConstraints</compoundname>
+    <includes refid="tensor__storage__strategy_8h" local="no">tensor_storage_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_quantization_constraints_1a38705b1b119608c20ff285e3d524c38a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::QuantizationConstraints::max_l2_error_relative</definition>
+        <argsstring></argsstring>
+        <name>max_l2_error_relative</name>
+        <qualifiedname>themis::distributed_tensor::QuantizationConstraints::max_l2_error_relative</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="104" column="12" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_quantization_constraints_1a5800cbfac4ec9f8531d7de900bee2310" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::QuantizationConstraints::memory_budget_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_budget_bytes</name>
+        <qualifiedname>themis::distributed_tensor::QuantizationConstraints::memory_budget_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="106" column="14" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_quantization_constraints_1ad320147658a8545f28f0f0f77ff3f630" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::QuantizationConstraints::num_params</definition>
+        <argsstring></argsstring>
+        <name>num_params</name>
+        <qualifiedname>themis::distributed_tensor::QuantizationConstraints::num_params</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="108" column="14" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_quantization_constraints_1a953e04d4cd42c0e9f7ab8ae8450b293c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::QuantizationConstraints::has_calibration_data</definition>
+        <argsstring></argsstring>
+        <name>has_calibration_data</name>
+        <qualifiedname>themis::distributed_tensor::QuantizationConstraints::has_calibration_data</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="110" column="10" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_quantization_constraints_1a94e4933fc063a0f637d3cddf4188f0f7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::QuantizationConstraints::hw_avx512_bf16</definition>
+        <argsstring></argsstring>
+        <name>hw_avx512_bf16</name>
+        <qualifiedname>themis::distributed_tensor::QuantizationConstraints::hw_avx512_bf16</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="112" column="10" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_quantization_constraints_1a03220ddff9423f08fed0734c04381a9f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::QuantizationConstraints::is_adapter</definition>
+        <argsstring></argsstring>
+        <name>is_adapter</name>
+        <qualifiedname>themis::distributed_tensor::QuantizationConstraints::is_adapter</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="114" column="10" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/tensor_storage_strategy.h" line="103" column="1" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="103" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_quantization_constraints_1a953e04d4cd42c0e9f7ab8ae8450b293c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::QuantizationConstraints</scope><name>has_calibration_data</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_quantization_constraints_1a94e4933fc063a0f637d3cddf4188f0f7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::QuantizationConstraints</scope><name>hw_avx512_bf16</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_quantization_constraints_1a03220ddff9423f08fed0734c04381a9f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::QuantizationConstraints</scope><name>is_adapter</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_quantization_constraints_1a38705b1b119608c20ff285e3d524c38a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::QuantizationConstraints</scope><name>max_l2_error_relative</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_quantization_constraints_1a5800cbfac4ec9f8531d7de900bee2310" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::QuantizationConstraints</scope><name>memory_budget_bytes</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_quantization_constraints_1ad320147658a8545f28f0f0f77ff3f630" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::QuantizationConstraints</scope><name>num_params</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

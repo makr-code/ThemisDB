@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1test_1_1_vcc_vpb_importer_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::test::VccVpbImporterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1test_1_1_vcc_vpb_importer_test_1a34ff2b4e7bb2b375a0b227db7403b277" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::test::VccVpbImporterTest::createSimpleYaml</definition>
+        <argsstring>()</argsstring>
+        <name>createSimpleYaml</name>
+        <qualifiedname>themis::process::test::VccVpbImporterTest::createSimpleYaml</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_high_batch_2a.cpp" line="253" column="17" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="253" bodyend="255"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::process::test::VccVpbImporterTest</label>
+        <link refid="classthemis_1_1process_1_1test_1_1_vcc_vpb_importer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::process::test::VccVpbImporterTest</label>
+        <link refid="classthemis_1_1process_1_1test_1_1_vcc_vpb_importer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_high_batch_2a.cpp" line="251" column="1" bodyfile="tests/process/test_process_high_batch_2a.cpp" bodystart="251" bodyend="279"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1test_1_1_vcc_vpb_importer_test_1a34ff2b4e7bb2b375a0b227db7403b277" prot="protected" virt="non-virtual"><scope>themis::process::test::VccVpbImporterTest</scope><name>createSimpleYaml</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

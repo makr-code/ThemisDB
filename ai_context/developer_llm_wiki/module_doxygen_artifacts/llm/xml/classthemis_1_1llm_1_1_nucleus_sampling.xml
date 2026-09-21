@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_nucleus_sampling" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::NucleusSampling</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_sampling_strategy" prot="public" virt="non-virtual">themis::llm::ISamplingStrategy</basecompoundref>
+    <includes refid="sampling__strategy_8h" local="no">sampling_strategy.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_nucleus_sampling_1a9fa2217be07390093480cb6e774004a3" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::NucleusSampling::temperature_</definition>
+        <argsstring></argsstring>
+        <name>temperature_</name>
+        <qualifiedname>themis::llm::NucleusSampling::temperature_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/sampling_strategy.h" line="73" column="11" bodyfile="include/llm/sampling_strategy.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_nucleus_sampling_1a6bac711d793e1e7385e8cf4e7bf067f9" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::NucleusSampling::top_k_</definition>
+        <argsstring></argsstring>
+        <name>top_k_</name>
+        <qualifiedname>themis::llm::NucleusSampling::top_k_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/sampling_strategy.h" line="74" column="9" bodyfile="include/llm/sampling_strategy.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_nucleus_sampling_1a4a4513ff868ee79f8a6ff7360d1c58c2" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::NucleusSampling::top_p_</definition>
+        <argsstring></argsstring>
+        <name>top_p_</name>
+        <qualifiedname>themis::llm::NucleusSampling::top_p_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/sampling_strategy.h" line="75" column="11" bodyfile="include/llm/sampling_strategy.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_nucleus_sampling_1ad3f9efba2c90d1940d3320644f3b448f" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::NucleusSampling::repeat_penalty_</definition>
+        <argsstring></argsstring>
+        <name>repeat_penalty_</name>
+        <qualifiedname>themis::llm::NucleusSampling::repeat_penalty_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/sampling_strategy.h" line="76" column="11" bodyfile="include/llm/sampling_strategy.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_nucleus_sampling_1af7be12e1463fb61834db4e8c1ff4ae02" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::NucleusSampling::NucleusSampling</definition>
+        <argsstring>(float temperature=0.8f, int top_k=40, float top_p=0.9f, float repeat_penalty=1.1f)</argsstring>
+        <name>NucleusSampling</name>
+        <qualifiedname>themis::llm::NucleusSampling::NucleusSampling</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>temperature</declname>
+          <defval>0.8f</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>top_k</declname>
+          <defval>40</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>top_p</declname>
+          <defval>0.9f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>repeat_penalty</declname>
+          <defval>1.1f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/sampling_strategy.h" line="58" column="14" bodyfile="src/llm/sampling_strategy.cpp" bodystart="63" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_nucleus_sampling_1a8e4771d8b1067687e6fe27477f0f63e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::NucleusSampling::~NucleusSampling</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~NucleusSampling</name>
+        <qualifiedname>themis::llm::NucleusSampling::~NucleusSampling</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/sampling_strategy.h" line="62" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_nucleus_sampling_1a6312504747e93a67ed7c7c86e5953db0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="llama__wrapper_8h_1a6650afdb61c5d4d386135d9edeb1e4ae" kindref="member">llama_token</ref></type>
+        <definition>llama_token themis::llm::NucleusSampling::sample</definition>
+        <argsstring>(llama_context *ctx, const std::vector&lt; llama_token &gt; &amp;last_tokens, int pos) override</argsstring>
+        <name>sample</name>
+        <qualifiedname>themis::llm::NucleusSampling::sample</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_sampling_strategy_1a48c6b7b6cc7cc7017a90c2cf9f4949c1">sample</reimplements>
+        <param>
+          <type>llama_context *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="llama__wrapper_8h_1a6650afdb61c5d4d386135d9edeb1e4ae" kindref="member">llama_token</ref> &gt; &amp;</type>
+          <declname>last_tokens</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+<para>Sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">last_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::debug(), <ref refid="sampling__strategy_8cpp_1a6bbde577d4a3c0c0f0cde76d5bfcf3d6" kindref="member">llama_get_logits_ith()</ref>, scores(), empty(), size(), std::abs(), indices(), std::iota(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/sampling_strategy.h" line="64" column="17" bodyfile="src/llm/sampling_strategy.cpp" bodystart="84" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_nucleus_sampling_1a9070c808da1c8c372bbfa4931a78e436" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::NucleusSampling::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::llm::NucleusSampling::name</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_sampling_strategy_1a9d5a5d09ad940c2150ec01c99a5e65ae">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/sampling_strategy.h" line="70" column="17" bodyfile="include/llm/sampling_strategy.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::ISamplingStrategy</label>
+        <link refid="classthemis_1_1llm_1_1_i_sampling_strategy"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::NucleusSampling</label>
+        <link refid="classthemis_1_1llm_1_1_nucleus_sampling"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::ISamplingStrategy</label>
+        <link refid="classthemis_1_1llm_1_1_i_sampling_strategy"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::NucleusSampling</label>
+        <link refid="classthemis_1_1llm_1_1_nucleus_sampling"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/sampling_strategy.h" line="56" column="1" bodyfile="include/llm/sampling_strategy.h" bodystart="56" bodyend="77"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_nucleus_sampling_1a9070c808da1c8c372bbfa4931a78e436" prot="public" virt="virtual"><scope>themis::llm::NucleusSampling</scope><name>name</name></member>
+      <member refid="classthemis_1_1llm_1_1_nucleus_sampling_1af7be12e1463fb61834db4e8c1ff4ae02" prot="public" virt="non-virtual"><scope>themis::llm::NucleusSampling</scope><name>NucleusSampling</name></member>
+      <member refid="classthemis_1_1llm_1_1_nucleus_sampling_1ad3f9efba2c90d1940d3320644f3b448f" prot="private" virt="non-virtual"><scope>themis::llm::NucleusSampling</scope><name>repeat_penalty_</name></member>
+      <member refid="classthemis_1_1llm_1_1_nucleus_sampling_1a6312504747e93a67ed7c7c86e5953db0" prot="public" virt="virtual"><scope>themis::llm::NucleusSampling</scope><name>sample</name></member>
+      <member refid="classthemis_1_1llm_1_1_nucleus_sampling_1a9fa2217be07390093480cb6e774004a3" prot="private" virt="non-virtual"><scope>themis::llm::NucleusSampling</scope><name>temperature_</name></member>
+      <member refid="classthemis_1_1llm_1_1_nucleus_sampling_1a6bac711d793e1e7385e8cf4e7bf067f9" prot="private" virt="non-virtual"><scope>themis::llm::NucleusSampling</scope><name>top_k_</name></member>
+      <member refid="classthemis_1_1llm_1_1_nucleus_sampling_1a4a4513ff868ee79f8a6ff7360d1c58c2" prot="private" virt="non-virtual"><scope>themis::llm::NucleusSampling</scope><name>top_p_</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_sampling_strategy_1a42bb6b62c32ca436e701d5129b062024" prot="public" virt="virtual"><scope>themis::llm::NucleusSampling</scope><name>~ISamplingStrategy</name></member>
+      <member refid="classthemis_1_1llm_1_1_nucleus_sampling_1a8e4771d8b1067687e6fe27477f0f63e6" prot="public" virt="non-virtual"><scope>themis::llm::NucleusSampling</scope><name>~NucleusSampling</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

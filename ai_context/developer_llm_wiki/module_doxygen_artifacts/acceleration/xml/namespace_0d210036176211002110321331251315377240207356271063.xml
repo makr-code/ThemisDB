@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d210036176211002110321331251315377240207356271063" kind="namespace" language="C++">
+    <compoundname>@210036176211002110321331251315377240207356271063</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/acceleration/test_acceleration_highcardinality_stress.cpp" line="45" column="1"/>
+  </compounddef>
+</doxygen>

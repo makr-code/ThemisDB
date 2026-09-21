@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_approximation_boundary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::ApproximationBoundary</compoundname>
+    <includes refid="approximation__rules_8h" local="no">approximation_rules.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_approximation_boundary_1a710675896c58013b7ad1e28823fa1cd5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117c" kindref="member">RetrievalLayer</ref></type>
+        <definition>RetrievalLayer themis::evaluation::ApproximationBoundary::layer</definition>
+        <argsstring></argsstring>
+        <name>layer</name>
+        <qualifiedname>themis::evaluation::ApproximationBoundary::layer</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117ca82e335f7ac0e0e412b2ae15abe662110" kindref="member">RetrievalLayer::Ann</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="121" column="20" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_approximation_boundary_1a44b6379f9f1e4f80bee600a1f6ef456d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4" kindref="member">ApproximationZone</ref></type>
+        <definition>ApproximationZone themis::evaluation::ApproximationBoundary::zone</definition>
+        <argsstring></argsstring>
+        <name>zone</name>
+        <qualifiedname>themis::evaluation::ApproximationBoundary::zone</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4ab81a30c12698563b79179ec37d43629b" kindref="member">ApproximationZone::Approximate</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="123" column="23" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="123" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_approximation_boundary_1a764f2ac8fc04cc501e63f04eba922d07" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1ae5fd56f14b7d2264a7da89545ebb170a" kindref="member">KernelCategory</ref></type>
+        <definition>KernelCategory themis::evaluation::ApproximationBoundary::max_kernel_category</definition>
+        <argsstring></argsstring>
+        <name>max_kernel_category</name>
+        <qualifiedname>themis::evaluation::ApproximationBoundary::max_kernel_category</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1evaluation_1ae5fd56f14b7d2264a7da89545ebb170aa7fc56270e7a70fa81a5935b72eacbe29" kindref="member">KernelCategory::A</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="125" column="20" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_approximation_boundary_1af73bda1073af83b53aec5558f0d3bcc4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ApproximationBoundary::truth_bearing</definition>
+        <argsstring></argsstring>
+        <name>truth_bearing</name>
+        <qualifiedname>themis::evaluation::ApproximationBoundary::truth_bearing</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="127" column="10" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_approximation_boundary_1a16451cb9c30f13d34f87af27b981fcdd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ApproximationBoundary::gpu_eligible</definition>
+        <argsstring></argsstring>
+        <name>gpu_eligible</name>
+        <qualifiedname>themis::evaluation::ApproximationBoundary::gpu_eligible</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="129" column="10" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_approximation_boundary_1a9214128a031f2416401543de2b378a24" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ApproximationBoundary::fail_closed</definition>
+        <argsstring></argsstring>
+        <name>fail_closed</name>
+        <qualifiedname>themis::evaluation::ApproximationBoundary::fail_closed</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="131" column="10" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/approximation_rules.h" line="120" column="1" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="120" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a9214128a031f2416401543de2b378a24" prot="public" virt="non-virtual"><scope>themis::evaluation::ApproximationBoundary</scope><name>fail_closed</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a16451cb9c30f13d34f87af27b981fcdd" prot="public" virt="non-virtual"><scope>themis::evaluation::ApproximationBoundary</scope><name>gpu_eligible</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a710675896c58013b7ad1e28823fa1cd5" prot="public" virt="non-virtual"><scope>themis::evaluation::ApproximationBoundary</scope><name>layer</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a764f2ac8fc04cc501e63f04eba922d07" prot="public" virt="non-virtual"><scope>themis::evaluation::ApproximationBoundary</scope><name>max_kernel_category</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_approximation_boundary_1af73bda1073af83b53aec5558f0d3bcc4" prot="public" virt="non-virtual"><scope>themis::evaluation::ApproximationBoundary</scope><name>truth_bearing</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a44b6379f9f1e4f80bee600a1f6ef456d" prot="public" virt="non-virtual"><scope>themis::evaluation::ApproximationBoundary</scope><name>zone</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

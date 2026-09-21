@@ -1,0 +1,489 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="access__tier__interface_8h" kind="file" language="C++">
+    <compoundname>access_tier_interface.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">limits</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__access__coordinator__gates_8cpp" local="yes">benchmarks/access_model/bench_access_coordinator_gates.cpp</includedby>
+    <includedby refid="access__coordinator_8h" local="yes">include/access_model/access_coordinator.h</includedby>
+    <includedby refid="access__model__logging_8h" local="yes">include/access_model/access_model_logging.h</includedby>
+    <includedby refid="age__based__policy_8h" local="yes">include/access_model/age_based_policy.h</includedby>
+    <includedby refid="promotion__demotion_8h" local="yes">include/access_model/promotion_demotion.h</includedby>
+    <includedby refid="test__access__coordinator_8cpp" local="yes">tests/access_model/test_access_coordinator.cpp</includedby>
+    <includedby refid="test__access__coordinator__focused_8cpp" local="yes">tests/access_model/test_access_coordinator_focused.cpp</includedby>
+    <includedby refid="test__access__model__e2e_8cpp" local="yes">tests/access_model/test_access_model_e2e.cpp</includedby>
+    <includedby refid="test__access__model__observability_8cpp" local="yes">tests/access_model/test_access_model_observability.cpp</includedby>
+    <includedby refid="test__cache__storage__integration_8cpp" local="yes">tests/access_model/test_cache_storage_integration.cpp</includedby>
+    <includedby refid="test__coordination__concurrency_8cpp" local="yes">tests/access_model/test_coordination_concurrency.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/access_model/access_tier_interface.h</label>
+        <link refid="access__tier__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>limits</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>string_view</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/access_model/bench_access_coordinator_gates.cpp</label>
+        <link refid="bench__access__coordinator__gates_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/access_model/access_coordinator.h</label>
+        <link refid="access__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/access_model/access_model_logging.h</label>
+        <link refid="access__model__logging_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/access_model/access_tier_interface.h</label>
+        <link refid="access__tier__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/access_model/age_based_policy.h</label>
+        <link refid="age__based__policy_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/access_model/promotion_demotion.h</label>
+        <link refid="promotion__demotion_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/access_model/access_coordinator.cpp</label>
+        <link refid="access__coordinator_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/access_model/access_model_logging.cpp</label>
+        <link refid="access__model__logging_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/access_model/age_based_policy.cpp</label>
+        <link refid="age__based__policy_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/access_model/promotion_demotion.cpp</label>
+        <link refid="promotion__demotion_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/access_model/test_access_coordinator.cpp</label>
+        <link refid="test__access__coordinator_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/access_model/test_access_coordinator_focused.cpp</label>
+        <link refid="test__access__coordinator__focused_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/access_model/test_access_model_e2e.cpp</label>
+        <link refid="test__access__model__e2e_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/access_model/test_access_model_observability.cpp</label>
+        <link refid="test__access__model__observability_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/access_model/test_cache_storage_integration.cpp</label>
+        <link refid="test__cache__storage__integration_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/access_model/test_coordination_concurrency.cpp</label>
+        <link refid="test__coordination__concurrency_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/access_model/test_promotion_demotion.cpp</label>
+        <link refid="test__promotion__demotion_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1access__model_1_1_tier_access_options" prot="public">themis::access_model::TierAccessOptions</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_tier_get_result" prot="public">themis::access_model::TierGetResult</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_tier_put_result" prot="public">themis::access_model::TierPutResult</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1_tier_promotion_result" prot="public">themis::access_model::TierPromotionResult</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_access_tier" prot="public">themis::access_model::AccessTier</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_cache_tier" prot="public">themis::access_model::CacheTier</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1_storage_tier" prot="public">themis::access_model::StorageTier</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1access__model">themis::access_model</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="access__tier__interface_8h_1a7ee3ac13fd32fe14752456d3b5c81c37" prot="public" static="no">
+        <name>THEMIS_UNREACHABLE</name>
+        <param></param>
+        <initializer>((void)0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_tier_interface.h" line="36" column="10" bodyfile="include/access_model/access_tier_interface.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base interface for unified access tier abstraction (cache &amp; storage). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB | File: <ref refid="access__tier__interface_8h" kindref="compound">access_tier_interface.h</ref> | Version: 1.0.0 Maturity: 🟡 ALPHA (Phase 1 API Definition) | Status: Frozen for v1.x Author: Copilot | Date: 2026-08-03</para>
+<para>This header defines the abstract <computeroutput>AccessTier</computeroutput> contract that both cache and storage tiers implement. It enables the <computeroutput>AccessCoordinator</computeroutput> to manage promotion/demotion transitions uniformly without direct cache↔storage coupling.</para>
+<para><simplesect kind="see"><para><ref refid="access__coordinator_8h" kindref="compound">include/access_model/access_coordinator.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>docs/architecture/UNIFIED_ACCESS_MODEL.md </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;limits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cross-platform<sp/>unreachable<sp/>macro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__GNUC__)<sp/>||<sp/>defined(__clang__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_UNREACHABLE()<sp/>__builtin_unreachable()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(_MSC_VER)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_UNREACHABLE()<sp/>__assume(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="access__tier__interface_8h_1a7ee3ac13fd32fe14752456d3b5c81c37" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_UNREACHABLE()<sp/>((void)0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">access_model<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Tier<sp/>Identity<sp/>&amp;<sp/>Classification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a76af21ee6d887a8835430a0ab5545cfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a76af21ee6d887a8835430a0ab5545cfe" kindref="member">L1_WORKING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a5ca54551257176a0a9d2feab971c35ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a5ca54551257176a0a9d2feab971c35ab" kindref="member">L2_EPISODIC</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ad2a2dc333458714fced472d9e54543d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ad2a2dc333458714fced472d9e54543d8" kindref="member">L3_SEMANTIC</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ade4d685b730efe177401248677a6ac93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ade4d685b730efe177401248677a6ac93" kindref="member">STORAGE_HOT</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a7b8382acfc182c62a04eda7fad995451" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a7b8382acfc182c62a04eda7fad995451" kindref="member">STORAGE_WARM</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ad604dd45c3a16f03da7f92cb85203073" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ad604dd45c3a16f03da7f92cb85203073" kindref="member">STORAGE_COLD</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1access__model_1a173b9e13e9393b11e27589a8e332bbbb" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a173b9e13e9393b11e27589a8e332bbbb" kindref="member">TierClassification</ref><sp/>{</highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1access__model_1a173b9e13e9393b11e27589a8e332bbbba08e1be4b785493d9fc2ae52c5ba9ab2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a173b9e13e9393b11e27589a8e332bbbba08e1be4b785493d9fc2ae52c5ba9ab2e" kindref="member">CACHE</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1access__model_1a173b9e13e9393b11e27589a8e332bbbba754a5d433173b5ddc7debc2110ac575f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a173b9e13e9393b11e27589a8e332bbbba754a5d433173b5ddc7debc2110ac575f" kindref="member">STORAGE</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1access__model_1a065b1f8455f2a9abc2d58764b8b1551f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a173b9e13e9393b11e27589a8e332bbbb" kindref="member">TierClassification</ref><sp/><ref refid="namespacethemis_1_1access__model_1a065b1f8455f2a9abc2d58764b8b1551f" kindref="member">classifyTier</ref>(<ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/>level)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(level)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a76af21ee6d887a8835430a0ab5545cfe" kindref="member">TierLevel::L1_WORKING</ref>:</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a5ca54551257176a0a9d2feab971c35ab" kindref="member">TierLevel::L2_EPISODIC</ref>:</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ad2a2dc333458714fced472d9e54543d8" kindref="member">TierLevel::L3_SEMANTIC</ref>:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a173b9e13e9393b11e27589a8e332bbbba08e1be4b785493d9fc2ae52c5ba9ab2e" kindref="member">TierClassification::CACHE</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ade4d685b730efe177401248677a6ac93" kindref="member">TierLevel::STORAGE_HOT</ref>:</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a7b8382acfc182c62a04eda7fad995451" kindref="member">TierLevel::STORAGE_WARM</ref>:</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ad604dd45c3a16f03da7f92cb85203073" kindref="member">TierLevel::STORAGE_COLD</ref>:</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">TierLevel::UNKNOWN</ref>:</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a173b9e13e9393b11e27589a8e332bbbba754a5d433173b5ddc7debc2110ac575f" kindref="member">TierClassification::STORAGE</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="access__tier__interface_8h_1a7ee3ac13fd32fe14752456d3b5c81c37" kindref="member">THEMIS_UNREACHABLE</ref>();</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="namespacethemis_1_1access__model_1a85f72306bf9b8d3b7bd1edc45037206c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1access__model_1a85f72306bf9b8d3b7bd1edc45037206c" kindref="member">tierLevelName</ref>(<ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/>level)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(level)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a76af21ee6d887a8835430a0ab5545cfe" kindref="member">TierLevel::L1_WORKING</ref>:</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;L1_WORKING&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a5ca54551257176a0a9d2feab971c35ab" kindref="member">TierLevel::L2_EPISODIC</ref>:</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;L2_EPISODIC&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ad2a2dc333458714fced472d9e54543d8" kindref="member">TierLevel::L3_SEMANTIC</ref>:</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;L3_SEMANTIC&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ade4d685b730efe177401248677a6ac93" kindref="member">TierLevel::STORAGE_HOT</ref>:</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;STORAGE_HOT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a7b8382acfc182c62a04eda7fad995451" kindref="member">TierLevel::STORAGE_WARM</ref>:</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;STORAGE_WARM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ad604dd45c3a16f03da7f92cb85203073" kindref="member">TierLevel::STORAGE_COLD</ref>:</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;STORAGE_COLD&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">TierLevel::UNKNOWN</ref>:</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Data<sp/>Transfer<sp/>Options<sp/>&amp;<sp/>Results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1access__model_1_1_tier_access_options" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1access__model_1_1_tier_access_options" kindref="compound">TierAccessOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1access__model_1_1_tier_access_options_1a4b312442d2d7ef558af44ef46594149f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_tier_access_options_1a4b312442d2d7ef558af44ef46594149f" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1access__model_1_1_tier_access_options_1ab170245cf241558677c782f8629a72ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TierLevel&gt;<sp/><ref refid="structthemis_1_1access__model_1_1_tier_access_options_1ab170245cf241558677c782f8629a72ae" kindref="member">target_tier</ref>;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1access__model_1_1_tier_access_options_1a15b35c4e5524efa23b67130a0f422d16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1access__model_1_1_tier_access_options_1a15b35c4e5524efa23b67130a0f422d16" kindref="member">max_wait_ms</ref>{0};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1access__model_1_1_tier_access_options_1a0f64bae832fd3ee0a838d13ccc6f8c2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1access__model_1_1_tier_access_options_1a0f64bae832fd3ee0a838d13ccc6f8c2e" kindref="member">context</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1access__model_1_1_tier_access_options_1acdcd3ac13964084f808952112bab0c54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error)&gt;<sp/><ref refid="structthemis_1_1access__model_1_1_tier_access_options_1acdcd3ac13964084f808952112bab0c54" kindref="member">on_complete</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1access__model_1_1_tier_get_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1access__model_1_1_tier_get_result" kindref="compound">TierGetResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1access__model_1_1_tier_get_result_1abdf3602a8c9c1d37ab26f1b9ac132472" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_tier_get_result_1abdf3602a8c9c1d37ab26f1b9ac132472" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1access__model_1_1_tier_get_result_1aa703572143c5743a280bf1e001216ea9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_tier_get_result_1aa703572143c5743a280bf1e001216ea9" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1access__model_1_1_tier_get_result_1a0268cedabff031a5001ea7df4c412073" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_tier_get_result_1a0268cedabff031a5001ea7df4c412073" kindref="member">value</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1access__model_1_1_tier_get_result_1a304550959331f90b32d4ea466674f771" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/><ref refid="structthemis_1_1access__model_1_1_tier_get_result_1a304550959331f90b32d4ea466674f771" kindref="member">current_tier</ref>;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1access__model_1_1_tier_get_result_1ada893ae0e1ea841510eb914a82716d11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1access__model_1_1_tier_get_result_1ada893ae0e1ea841510eb914a82716d11" kindref="member">size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1access__model_1_1_tier_get_result_1a90d7bac10491ebba699996bb8efd564f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::microseconds<sp/><ref refid="structthemis_1_1access__model_1_1_tier_get_result_1a90d7bac10491ebba699996bb8efd564f" kindref="member">latency_us</ref>;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1access__model_1_1_tier_get_result_1af8d5943951d0576dc196d57d14980768" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1access__model_1_1_tier_get_result_1af8d5943951d0576dc196d57d14980768" kindref="member">access_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1access__model_1_1_tier_get_result_1aa5f0169112fe7cd2e394998988752bbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1access__model_1_1_tier_get_result_1aa5f0169112fe7cd2e394998988752bbb" kindref="member">age_secs</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1access__model_1_1_tier_put_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1access__model_1_1_tier_put_result" kindref="compound">TierPutResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1access__model_1_1_tier_put_result_1ad9a8a7ce115ac960ecc5501e8bbaeaab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_tier_put_result_1ad9a8a7ce115ac960ecc5501e8bbaeaab" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1access__model_1_1_tier_put_result_1aa520fe0577e8aa3d91c9e250b013f5cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_tier_put_result_1aa520fe0577e8aa3d91c9e250b013f5cc" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1access__model_1_1_tier_put_result_1a1a318fd924d74532f4d0657cd7c32c12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/><ref refid="structthemis_1_1access__model_1_1_tier_put_result_1a1a318fd924d74532f4d0657cd7c32c12" kindref="member">placed_in_tier</ref>;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1access__model_1_1_tier_put_result_1a696bfb65aec44d2b2160fc8e1082051f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1access__model_1_1_tier_put_result_1a696bfb65aec44d2b2160fc8e1082051f" kindref="member">size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1access__model_1_1_tier_put_result_1a6faa666dc337a8e40ee36cd901e99801" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::microseconds<sp/><ref refid="structthemis_1_1access__model_1_1_tier_put_result_1a6faa666dc337a8e40ee36cd901e99801" kindref="member">latency_us</ref>;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1access__model_1_1_tier_put_result_1a1ecd3631d48b523f6c667cebd775a79d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_tier_put_result_1a1ecd3631d48b523f6c667cebd775a79d" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1access__model_1_1_tier_promotion_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1access__model_1_1_tier_promotion_result" kindref="compound">TierPromotionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1access__model_1_1_tier_promotion_result_1a1d331d09deb4d2e8cd3b3770042f11ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_tier_promotion_result_1a1d331d09deb4d2e8cd3b3770042f11ee" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1access__model_1_1_tier_promotion_result_1ae7436595b4d4d9f007ee0af2dacb61b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_tier_promotion_result_1ae7436595b4d4d9f007ee0af2dacb61b3" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1access__model_1_1_tier_promotion_result_1a7444c99c894914f7fa64659c3d132b2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_tier_promotion_result_1a7444c99c894914f7fa64659c3d132b2d" kindref="member">promoted_value</ref>;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1access__model_1_1_tier_promotion_result_1a877ae1a4935e6a037290f8c3fd36a137" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/><ref refid="structthemis_1_1access__model_1_1_tier_promotion_result_1a877ae1a4935e6a037290f8c3fd36a137" kindref="member">from_tier</ref>;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1access__model_1_1_tier_promotion_result_1aa4c79e1c0350da80fc67118fb59daa54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/><ref refid="structthemis_1_1access__model_1_1_tier_promotion_result_1aa4c79e1c0350da80fc67118fb59daa54" kindref="member">to_tier</ref>;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1access__model_1_1_tier_promotion_result_1ab49f6193df170bceadae6ccb4dff903d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1access__model_1_1_tier_promotion_result_1ab49f6193df170bceadae6ccb4dff903d" kindref="member">total_latency_ms</ref>;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1access__model_1_1_tier_promotion_result_1a4efd80995d292c214a51a4b3b5ccc758" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::chrono::milliseconds&gt;<sp/><ref refid="structthemis_1_1access__model_1_1_tier_promotion_result_1a4efd80995d292c214a51a4b3b5ccc758" kindref="member">hop_latencies_ms</ref>;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1access__model_1_1_tier_promotion_result_1a519cee70682bd9a85f998ee8361b6700" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_tier_promotion_result_1a519cee70682bd9a85f998ee8361b6700" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>AccessTier<sp/>Interface<sp/>(Abstract)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="classthemis_1_1access__model_1_1_access_tier" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1access__model_1_1_access_tier" kindref="compound">AccessTier</ref><sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="184" refid="classthemis_1_1access__model_1_1_access_tier_1a5913db5708822b06081eae64d4c60eac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1a5913db5708822b06081eae64d4c60eac" kindref="member">~AccessTier</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1access__model_1_1_access_tier_1af173828192bcc994351d6b0a50d09315" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_tier_get_result" kindref="compound">TierGetResult</ref><sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1af173828192bcc994351d6b0a50d09315" kindref="member">get</ref>(std::string_view<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_tier_access_options" kindref="compound">TierAccessOptions</ref>&amp;<sp/>options)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="classthemis_1_1access__model_1_1_access_tier_1a1455867bc15c7d68c0391620421ee69e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_tier_put_result" kindref="compound">TierPutResult</ref><sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1a1455867bc15c7d68c0391620421ee69e" kindref="member">put</ref>(std::string_view<sp/>key,<sp/>std::string_view<sp/>value,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_tier_access_options" kindref="compound">TierAccessOptions</ref>&amp;<sp/>options)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1access__model_1_1_access_tier_1a063ef41b196c41bea599781955055a6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1a063ef41b196c41bea599781955055a6e" kindref="member">invalidate</ref>(std::string_view<sp/>key)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="classthemis_1_1access__model_1_1_access_tier_1a99c39b9c734ae89dc21b51765a0af6ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1a99c39b9c734ae89dc21b51765a0af6ea" kindref="member">getTierLevel</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="classthemis_1_1access__model_1_1_access_tier_1a901d52fe25fbad584eb0c896f1a4ff61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1a901d52fe25fbad584eb0c896f1a4ff61" kindref="member">getTierName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230" refid="classthemis_1_1access__model_1_1_access_tier_1a84f6d8d775cb0b99523c7d0c69734ae4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1a84f6d8d775cb0b99523c7d0c69734ae4" kindref="member">hasKey</ref>(std::string_view<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="classthemis_1_1access__model_1_1_access_tier_1a18594d41a44fa636b51408a06a3711a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1a18594d41a44fa636b51408a06a3711a0" kindref="member">getCurrentSizeBytes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242" refid="classthemis_1_1access__model_1_1_access_tier_1afffbb65c3afd17527519fcd7967199e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1afffbb65c3afd17527519fcd7967199e0" kindref="member">getMaxCapacityBytes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248" refid="classthemis_1_1access__model_1_1_access_tier_1ad43b3cf5c803244a909dfa980e64ced0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1ad43b3cf5c803244a909dfa980e64ced0" kindref="member">getEntryCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255" refid="classthemis_1_1access__model_1_1_access_tier_1ae151b7d6876527192943d063e23f9822" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1ae151b7d6876527192943d063e23f9822" kindref="member">getHitRate</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261" refid="classthemis_1_1access__model_1_1_access_tier_1a68817c58f49b57b9a06f0ea46dff77c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::chrono::microseconds<sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1a68817c58f49b57b9a06f0ea46dff77c9" kindref="member">getAverageGetLatency</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267" refid="classthemis_1_1access__model_1_1_access_tier_1a781a7eb5be86fcbfba796a21b8a12e49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::chrono::microseconds<sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1a781a7eb5be86fcbfba796a21b8a12e49" kindref="member">getAveragePutLatency</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274" refid="classthemis_1_1access__model_1_1_access_tier_1a89a8539b30f47bbbc756178a79253f92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1a89a8539b30f47bbbc756178a79253f92" kindref="member">getAccessCount</ref>(std::string_view<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281" refid="classthemis_1_1access__model_1_1_access_tier_1abc3d42797a1d4d30de31a7b4824acce8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1abc3d42797a1d4d30de31a7b4824acce8" kindref="member">getKeyAge</ref>(std::string_view<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284" refid="classthemis_1_1access__model_1_1_access_tier_1a483c291cbc019a0eaf019927879f84b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1a483c291cbc019a0eaf019927879f84b1" kindref="member">supportsPromotion</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286" refid="classthemis_1_1access__model_1_1_access_tier_1ae249b13187604a00077477e87ce1e0ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1ae249b13187604a00077477e87ce1e0ca" kindref="member">supportsDemotion</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288" refid="classthemis_1_1access__model_1_1_access_tier_1aa156a10e059767a51aa854522b0d8473" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1aa156a10e059767a51aa854522b0d8473" kindref="member">estimatePromotionLatency</ref>(</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/>from_tier,<sp/>std::size_t<sp/>data_size_bytes)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)from_tier;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)data_size_bytes;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::milliseconds(-1);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300" refid="classthemis_1_1access__model_1_1_access_tier_1ad4aaff0fc6705db4dcdd8987af210700" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1ad4aaff0fc6705db4dcdd8987af210700" kindref="member">initialize</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305" refid="classthemis_1_1access__model_1_1_access_tier_1ab2090f08400001ef177b8df0bcb15805" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1ab2090f08400001ef177b8df0bcb15805" kindref="member">shutdown</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311" refid="classthemis_1_1access__model_1_1_access_tier_1a02a5612c90bf6e7cbcd7de7cc963509c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_tier_1a02a5612c90bf6e7cbcd7de7cc963509c" kindref="member">isHealthy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Specialized<sp/>Tier<sp/>Interfaces</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318" refid="classthemis_1_1access__model_1_1_cache_tier" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1access__model_1_1_cache_tier" kindref="compound">CacheTier</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_tier" kindref="compound">AccessTier</ref><sp/>{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="326" refid="classthemis_1_1access__model_1_1_cache_tier_1a5ceb8fb004a5b7631871f979cfaf2d37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_cache_tier_1a5ceb8fb004a5b7631871f979cfaf2d37" kindref="member">notifyEviction</ref>(std::string_view<sp/>key,<sp/>std::size_t<sp/>size_bytes,</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>access_count)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330" refid="classthemis_1_1access__model_1_1_storage_tier" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1access__model_1_1_storage_tier" kindref="compound">StorageTier</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_access_tier" kindref="compound">AccessTier</ref><sp/>{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="338" refid="classthemis_1_1access__model_1_1_storage_tier_1a9bbcc0ecbaa09abdeb58c6083a3bffc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1access__model_1_1_storage_tier_1a9bbcc0ecbaa09abdeb58c6083a3bffc1" kindref="member">notifyHotAccess</ref>(std::string_view<sp/>key,<sp/>uint64_t<sp/>access_count,</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>access_window)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346" refid="namespacethemis_1_1access__model_1a0fe83c062f8c9780c1eac6142e22c8d7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1access__model_1a0fe83c062f8c9780c1eac6142e22c8d7" kindref="member">kMaxTierCapacity</ref><sp/>=<sp/>std::numeric_limits&lt;std::size_t&gt;::max();</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348" refid="namespacethemis_1_1access__model_1ae5f0a5dcca7d14ba087a0cd84ba5bffc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/><ref refid="namespacethemis_1_1access__model_1ae5f0a5dcca7d14ba087a0cd84ba5bffc" kindref="member">kNoTier</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(-1);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>access_model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/access_model/access_tier_interface.h"/>
+  </compounddef>
+</doxygen>

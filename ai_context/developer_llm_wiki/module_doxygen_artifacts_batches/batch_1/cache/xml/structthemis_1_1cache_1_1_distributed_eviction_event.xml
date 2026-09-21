@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_distributed_eviction_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::DistributedEvictionEvent</compoundname>
+    <includes refid="distributed__eviction_8h" local="no">distributed_eviction.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_distributed_eviction_event_1a89c4a078e805260fb7383427a972c608" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::DistributedEvictionEvent::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::cache::DistributedEvictionEvent::key</qualifiedname>
+        <briefdescription>
+<para>Affected cache key; empty for FLUSH/TENANT_EVICT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="36" column="17" bodyfile="include/cache/distributed_eviction.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_distributed_eviction_event_1ac25a5d828116eb14def708bb18b9e95f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::DistributedEvictionEvent::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::cache::DistributedEvictionEvent::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Tenant scope; empty = global. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="37" column="17" bodyfile="include/cache/distributed_eviction.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_distributed_eviction_event_1abbf1f29f5219366f32f950a40ef1a117" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::DistributedEvictionEvent::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themis::cache::DistributedEvictionEvent::pattern</qualifiedname>
+        <briefdescription>
+<para>Glob/regex; non-empty only for PATTERN_EVICT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="38" column="17" bodyfile="include/cache/distributed_eviction.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_distributed_eviction_event_1a0780c66ff8a0b0db32ca8052a224488d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929" kindref="member">DistributedEvictionReason</ref></type>
+        <definition>DistributedEvictionReason themis::cache::DistributedEvictionEvent::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::cache::DistributedEvictionEvent::reason</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929ae069607ebd993cd70f61c9b2ecb1b0ec" kindref="member">DistributedEvictionReason::CAPACITY_PRESSURE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="39" column="31" bodyfile="include/cache/distributed_eviction.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_distributed_eviction_event_1a3389e7b6813a374977a80de08f45092b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cache::DistributedEvictionEvent::timestamp_utc_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_utc_ms</name>
+        <qualifiedname>themis::cache::DistributedEvictionEvent::timestamp_utc_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock time of the originating eviction (ms since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="40" column="17" bodyfile="include/cache/distributed_eviction.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_distributed_eviction_event_1acbe4bc07e167a0d2758b611fc8943041" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::DistributedEvictionEvent::origin_node_id</definition>
+        <argsstring></argsstring>
+        <name>origin_node_id</name>
+        <qualifiedname>themis::cache::DistributedEvictionEvent::origin_node_id</qualifiedname>
+        <briefdescription>
+<para>Identifier of the node that triggered the eviction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/distributed_eviction.h" line="41" column="17" bodyfile="include/cache/distributed_eviction.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/distributed_eviction.h" line="35" column="1" bodyfile="include/cache/distributed_eviction.h" bodystart="35" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_distributed_eviction_event_1a89c4a078e805260fb7383427a972c608" prot="public" virt="non-virtual"><scope>themis::cache::DistributedEvictionEvent</scope><name>key</name></member>
+      <member refid="structthemis_1_1cache_1_1_distributed_eviction_event_1acbe4bc07e167a0d2758b611fc8943041" prot="public" virt="non-virtual"><scope>themis::cache::DistributedEvictionEvent</scope><name>origin_node_id</name></member>
+      <member refid="structthemis_1_1cache_1_1_distributed_eviction_event_1abbf1f29f5219366f32f950a40ef1a117" prot="public" virt="non-virtual"><scope>themis::cache::DistributedEvictionEvent</scope><name>pattern</name></member>
+      <member refid="structthemis_1_1cache_1_1_distributed_eviction_event_1a0780c66ff8a0b0db32ca8052a224488d" prot="public" virt="non-virtual"><scope>themis::cache::DistributedEvictionEvent</scope><name>reason</name></member>
+      <member refid="structthemis_1_1cache_1_1_distributed_eviction_event_1ac25a5d828116eb14def708bb18b9e95f" prot="public" virt="non-virtual"><scope>themis::cache::DistributedEvictionEvent</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1cache_1_1_distributed_eviction_event_1a3389e7b6813a374977a80de08f45092b" prot="public" virt="non-virtual"><scope>themis::cache::DistributedEvictionEvent</scope><name>timestamp_utc_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

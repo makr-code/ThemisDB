@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__retrieval__llm__reranking__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_retrieval_llm_reranking_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="lora__package_8h" local="yes">retrieval/include/lora_package.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>retrieval/include/lora_package.h</label>
+        <link refid="lora__package_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/retrieval/test_retrieval_llm_reranking_focused.cpp</label>
+        <link refid="test__retrieval__llm__reranking__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__retrieval__llm__reranking__focused_8cpp_1af9cc9bae3499e6351a711ad300f8f994" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RetrievalLlmRerankingContract, StoreAndLoadById)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RetrievalLlmRerankingContract</type>
+        </param>
+        <param>
+          <type>StoreAndLoadById</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_llm_reranking_focused.cpp" line="12" column="1" bodyfile="tests/retrieval/test_retrieval_llm_reranking_focused.cpp" bodystart="12" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="test__retrieval__llm__reranking__focused_8cpp_1a329e79dccdc149b2ded9d34f1f10f00c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RetrievalLlmRerankingContract, ListByStatus)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RetrievalLlmRerankingContract</type>
+        </param>
+        <param>
+          <type>ListByStatus</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_llm_reranking_focused.cpp" line="24" column="1" bodyfile="tests/retrieval/test_retrieval_llm_reranking_focused.cpp" bodystart="24" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Contract tests for <ref refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store" kindref="compound">LoRAManifestStore</ref> lifecycle APIs. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__package_8h" kindref="compound">retrieval/include/lora_package.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1retrieval" kindref="compound">themis::retrieval</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><ref refid="test__retrieval__llm__reranking__focused_8cpp_1af9cc9bae3499e6351a711ad300f8f994" kindref="member">TEST</ref>(RetrievalLlmRerankingContract,<sp/>StoreAndLoadById)<sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store" kindref="compound">LoRAManifestStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1retrieval_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref><sp/>pkg;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>pkg.<ref refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a83ef7827dd9f2a41167071e2ae0614b2" kindref="member">package_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;pkg-001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>pkg.<ref refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a2ba9d32b772485bccb46a7cb3b907101" kindref="member">status</ref><sp/>=<sp/><ref refid="namespacethemis_1_1retrieval_1ae7f13c6fb213f64c1effed8985a469fda521019040a0f4f7773357aa6bc22180b" kindref="member">LoRAPackageStatus::DRAFT</ref>;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(store.<ref refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a84c00b47da19b21fa87edac2b5e4a777" kindref="member">storePackage</ref>(pkg));</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>store.<ref refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ab26932fd4f83d5e769e9e156260c6cbe" kindref="member">loadPackage</ref>(</highlight><highlight class="stringliteral">&quot;pkg-001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(loaded.has_value());</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded-&gt;package_id,<sp/></highlight><highlight class="stringliteral">&quot;pkg-001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><ref refid="test__retrieval__llm__reranking__focused_8cpp_1af9cc9bae3499e6351a711ad300f8f994" kindref="member">TEST</ref>(RetrievalLlmRerankingContract,<sp/>ListByStatus)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store" kindref="compound">LoRAManifestStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1retrieval_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref><sp/>draft;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>draft.<ref refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a83ef7827dd9f2a41167071e2ae0614b2" kindref="member">package_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;pkg-draft&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>draft.<ref refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a2ba9d32b772485bccb46a7cb3b907101" kindref="member">status</ref><sp/>=<sp/><ref refid="namespacethemis_1_1retrieval_1ae7f13c6fb213f64c1effed8985a469fda521019040a0f4f7773357aa6bc22180b" kindref="member">LoRAPackageStatus::DRAFT</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(store.<ref refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a84c00b47da19b21fa87edac2b5e4a777" kindref="member">storePackage</ref>(draft));</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1retrieval_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref><sp/>validated;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>validated.<ref refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a83ef7827dd9f2a41167071e2ae0614b2" kindref="member">package_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;pkg-validated&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>validated.<ref refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a2ba9d32b772485bccb46a7cb3b907101" kindref="member">status</ref><sp/>=<sp/><ref refid="namespacethemis_1_1retrieval_1ae7f13c6fb213f64c1effed8985a469fda4d6154fe02ac9bf42fd2aacfa49310b0" kindref="member">LoRAPackageStatus::VALIDATED</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(store.<ref refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a84c00b47da19b21fa87edac2b5e4a777" kindref="member">storePackage</ref>(validated));</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>drafts<sp/>=<sp/>store.<ref refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1adbc387d896fb94b940606accc0c07f1d" kindref="member">listPackagesByStatus</ref>(<ref refid="namespacethemis_1_1retrieval_1ae7f13c6fb213f64c1effed8985a469fda521019040a0f4f7773357aa6bc22180b" kindref="member">LoRAPackageStatus::DRAFT</ref>);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(drafts.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(drafts[0].package_id,<sp/></highlight><highlight class="stringliteral">&quot;pkg-draft&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/retrieval/test_retrieval_llm_reranking_focused.cpp"/>
+  </compounddef>
+</doxygen>

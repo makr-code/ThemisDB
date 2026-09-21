@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___n_o___b_a_c_k_u_p" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_NO_BACKUP</compoundname>
+    <includes refid="base__error__taxonomy_8h" local="no">base_error_taxonomy.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___n_o___b_a_c_k_u_p_1a2ca52e3fb23f9e99bdf007c6b5fd4479" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::modules::BaseErrorTaxonomy::BASE_RELOAD_NO_BACKUP::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_NO_BACKUP::code</qualifiedname>
+        <initializer>= 1200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="434" column="26" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="434" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___n_o___b_a_c_k_u_p_1a551baf8de2294087724aac1047ce8ba6" prot="public" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static constexpr std::string_view themis::modules::BaseErrorTaxonomy::BASE_RELOAD_NO_BACKUP::description</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_NO_BACKUP::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="436" column="39" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="436" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___n_o___b_a_c_k_u_p_1acb16773dc66662ecccfb7fb51981feb4" prot="public" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static constexpr std::string_view themis::modules::BaseErrorTaxonomy::BASE_RELOAD_NO_BACKUP::remediationHint</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>remediationHint</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_NO_BACKUP::remediationHint</qualifiedname>
+        <briefdescription>
+<para>Actionable operator remediation hint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="441" column="39" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="441" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___n_o___b_a_c_k_u_p_1a2520f14d6ab5d61582c098935ab1fdb8" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::modules::BaseErrorTaxonomy::BASE_RELOAD_NO_BACKUP::format</definition>
+        <argsstring>(const std::string &amp;module_name)</argsstring>
+        <name>format</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_NO_BACKUP::format</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>module_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Module name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="451" column="24" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="451" bodyend="455"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>rollback() was requested but no backup slot exists. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><programlisting><codeline><highlight class="normal"><ref refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___n_o___b_a_c_k_u_p_1a2ca52e3fb23f9e99bdf007c6b5fd4479" kindref="member">BASE_RELOAD_NO_BACKUP::code</ref><sp/>==<sp/>1200<sp/></highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/themis/base/base_error_taxonomy.h" line="433" column="1" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="433" bodyend="456"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___n_o___b_a_c_k_u_p_1a2ca52e3fb23f9e99bdf007c6b5fd4479" prot="public" virt="non-virtual"><scope>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_NO_BACKUP</scope><name>code</name></member>
+      <member refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___n_o___b_a_c_k_u_p_1a551baf8de2294087724aac1047ce8ba6" prot="public" virt="non-virtual"><scope>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_NO_BACKUP</scope><name>description</name></member>
+      <member refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___n_o___b_a_c_k_u_p_1a2520f14d6ab5d61582c098935ab1fdb8" prot="public" virt="non-virtual"><scope>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_NO_BACKUP</scope><name>format</name></member>
+      <member refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___n_o___b_a_c_k_u_p_1acb16773dc66662ecccfb7fb51981feb4" prot="public" virt="non-virtual"><scope>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_NO_BACKUP</scope><name>remediationHint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

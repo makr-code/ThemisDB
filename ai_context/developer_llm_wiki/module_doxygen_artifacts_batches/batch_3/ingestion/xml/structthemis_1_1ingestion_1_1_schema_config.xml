@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_schema_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::SchemaConfig</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_schema_config_1af397c45851ca371e793f52e911454759" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1ingestion_1_1_schema_field_rule" kindref="compound">SchemaFieldRule</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, SchemaFieldRule&gt; themis::ingestion::SchemaConfig::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>themis::ingestion::SchemaConfig::fields</qualifiedname>
+        <briefdescription>
+<para>Per-field rules (JSON docs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="331" column="24" bodyfile="include/ingestion/ingestion_manager.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_schema_config_1af3a9fc9576be6718aceaf3ad45fc5ddf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::SchemaConfig::min_content_length</definition>
+        <argsstring></argsstring>
+        <name>min_content_length</name>
+        <qualifiedname>themis::ingestion::SchemaConfig::min_content_length</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Minimum raw document length in bytes (0 = no limit). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="332" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_schema_config_1aba422288839fe1ef231ad837f94d9bdc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::SchemaConfig::max_content_length</definition>
+        <argsstring></argsstring>
+        <name>max_content_length</name>
+        <qualifiedname>themis::ingestion::SchemaConfig::max_content_length</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Maximum raw document length in bytes (0 = no limit). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="333" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_schema_config_1a8477382c767d0bc1b5969cd7eb581737" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::SchemaConfig::required_content_pattern</definition>
+        <argsstring></argsstring>
+        <name>required_content_pattern</name>
+        <qualifiedname>themis::ingestion::SchemaConfig::required_content_pattern</qualifiedname>
+        <briefdescription>
+<para>Regex the full document text must match (empty = no check). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="334" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_schema_config_1a4837d515aa59c9ced23958ff5d7ec733" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::SchemaConfig::reject_invalid</definition>
+        <argsstring></argsstring>
+        <name>reject_invalid</name>
+        <qualifiedname>themis::ingestion::SchemaConfig::reject_invalid</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>If true, invalid docs are failed/quarantined; if false, only a warning is recorded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="335" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_schema_config_1af1002bcdc084cf782f58da18ec6e8a45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::SchemaConfig::SchemaConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>SchemaConfig</name>
+        <qualifiedname>themis::ingestion::SchemaConfig::SchemaConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="337" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_schema_config_1a506593f53b1f5556f2643f8042304f01" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::SchemaConfig::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::ingestion::SchemaConfig::isEnabled</qualifiedname>
+        <briefdescription>
+<para>Returns true when at least one validation rule is set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="340" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="340" bodyend="345"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-source schema configuration for document validation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When a <computeroutput><ref refid="structthemis_1_1ingestion_1_1_schema_config" kindref="compound">SchemaConfig</ref></computeroutput> is registered for a source, every document produced by that source is validated before it is written to the target collection. Documents that fail validation are counted as failures and added to the quarantine queue when <computeroutput><ref refid="structthemis_1_1ingestion_1_1_schema_config_1a4837d515aa59c9ced23958ff5d7ec733" kindref="member">reject_invalid</ref></computeroutput> is <computeroutput>true</computeroutput>.</para>
+<para>Two complementary validation layers are provided:</para>
+<para><orderedlist>
+<listitem><para><bold>Content-level</bold>: <computeroutput><ref refid="structthemis_1_1ingestion_1_1_schema_config_1af3a9fc9576be6718aceaf3ad45fc5ddf" kindref="member">min_content_length</ref></computeroutput>, <computeroutput><ref refid="structthemis_1_1ingestion_1_1_schema_config_1aba422288839fe1ef231ad837f94d9bdc" kindref="member">max_content_length</ref></computeroutput>, and <computeroutput><ref refid="structthemis_1_1ingestion_1_1_schema_config_1a8477382c767d0bc1b5969cd7eb581737" kindref="member">required_content_pattern</ref></computeroutput> check the raw document text without JSON parsing. These apply to all document formats.</para>
+</listitem><listitem><para><bold>Field-level</bold>: <computeroutput><ref refid="structthemis_1_1ingestion_1_1_schema_config_1af397c45851ca371e793f52e911454759" kindref="member">fields</ref></computeroutput> maps field names to <computeroutput><ref refid="structthemis_1_1ingestion_1_1_schema_field_rule" kindref="compound">SchemaFieldRule</ref></computeroutput> objects. These checks are performed when the document can be parsed as JSON. Non-JSON documents skip field-level validation silently.</para>
+</listitem></orderedlist>
+</para>
+<para>Example – require a non-empty &quot;text&quot; field of at least 10 characters: <programlisting><codeline><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_schema_config_1af1002bcdc084cf782f58da18ec6e8a45" kindref="member">SchemaConfig</ref><sp/>sc;</highlight></codeline>
+<codeline><highlight class="normal">sc.min_content_length<sp/>=<sp/>10;</highlight></codeline>
+<codeline><highlight class="normal">sc.fields[</highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{.required<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>.expected_type<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1a162cc3ee3799fa7f1f882488ce2a1ba1a63b588d5559f64f89a416e656880b949" kindref="member">SchemaFieldType::STRING</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.min_length<sp/>=<sp/>10};</highlight></codeline>
+<codeline><highlight class="normal">mgr.setSchemaConfig(</highlight><highlight class="stringliteral">&quot;my_source&quot;</highlight><highlight class="normal">,<sp/>sc);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="330" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="330" bodyend="346"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_schema_config_1af397c45851ca371e793f52e911454759" prot="public" virt="non-virtual"><scope>themis::ingestion::SchemaConfig</scope><name>fields</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_schema_config_1a506593f53b1f5556f2643f8042304f01" prot="public" virt="non-virtual"><scope>themis::ingestion::SchemaConfig</scope><name>isEnabled</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_schema_config_1aba422288839fe1ef231ad837f94d9bdc" prot="public" virt="non-virtual"><scope>themis::ingestion::SchemaConfig</scope><name>max_content_length</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_schema_config_1af3a9fc9576be6718aceaf3ad45fc5ddf" prot="public" virt="non-virtual"><scope>themis::ingestion::SchemaConfig</scope><name>min_content_length</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_schema_config_1a4837d515aa59c9ced23958ff5d7ec733" prot="public" virt="non-virtual"><scope>themis::ingestion::SchemaConfig</scope><name>reject_invalid</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_schema_config_1a8477382c767d0bc1b5969cd7eb581737" prot="public" virt="non-virtual"><scope>themis::ingestion::SchemaConfig</scope><name>required_content_pattern</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_schema_config_1af1002bcdc084cf782f58da18ec6e8a45" prot="public" virt="non-virtual"><scope>themis::ingestion::SchemaConfig</scope><name>SchemaConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

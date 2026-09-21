@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability_1_1reason__codes_1_1ann" kind="namespace" language="C++">
+    <compoundname>themis::observability::reason_codes::ann</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1ann_1a9a6d9ecc3fab1d6938d1f0f3a4b2bfc4" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::ann::kRouteHnsw</definition>
+        <argsstring></argsstring>
+        <name>kRouteHnsw</name>
+        <qualifiedname>themis::observability::reason_codes::ann::kRouteHnsw</qualifiedname>
+        <initializer>= &quot;ANN_ROUTE_HNSW&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="24" column="35" bodyfile="include/observability/reason_codes.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1ann_1ae02afe6c95159f6e2783192e181ff2f7" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::ann::kRouteScann</definition>
+        <argsstring></argsstring>
+        <name>kRouteScann</name>
+        <qualifiedname>themis::observability::reason_codes::ann::kRouteScann</qualifiedname>
+        <initializer>= &quot;ANN_ROUTE_SCANN&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="25" column="35" bodyfile="include/observability/reason_codes.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1ann_1a5d70a562802aceeb55491f4d196cc776" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::ann::kRouteDiskann</definition>
+        <argsstring></argsstring>
+        <name>kRouteDiskann</name>
+        <qualifiedname>themis::observability::reason_codes::ann::kRouteDiskann</qualifiedname>
+        <initializer>= &quot;ANN_ROUTE_DISKANN&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="26" column="35" bodyfile="include/observability/reason_codes.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1ann_1a1428c3af2ba4f61439ae056bdd58ae46" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::ann::kRouteDistributed</definition>
+        <argsstring></argsstring>
+        <name>kRouteDistributed</name>
+        <qualifiedname>themis::observability::reason_codes::ann::kRouteDistributed</qualifiedname>
+        <initializer>= &quot;ANN_ROUTE_DISTRIBUTED&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="27" column="35" bodyfile="include/observability/reason_codes.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1ann_1a30eadffd23847917e88fdf08fc7af9b7" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::ann::kRouteFlatBruteForce</definition>
+        <argsstring></argsstring>
+        <name>kRouteFlatBruteForce</name>
+        <qualifiedname>themis::observability::reason_codes::ann::kRouteFlatBruteForce</qualifiedname>
+        <initializer>= &quot;ANN_ROUTE_FLAT_BRUTE_FORCE&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="28" column="35" bodyfile="include/observability/reason_codes.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1ann_1afbc7186ebc96c2dee847b33fcdf04931" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::ann::kRouteUnknown</definition>
+        <argsstring></argsstring>
+        <name>kRouteUnknown</name>
+        <qualifiedname>themis::observability::reason_codes::ann::kRouteUnknown</qualifiedname>
+        <initializer>= &quot;ANN_ROUTE_UNKNOWN&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="29" column="35" bodyfile="include/observability/reason_codes.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1ann_1a37b56460dbbf8d214d727877da46f0c4" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::ann::kFallbackBackendUnavailable</definition>
+        <argsstring></argsstring>
+        <name>kFallbackBackendUnavailable</name>
+        <qualifiedname>themis::observability::reason_codes::ann::kFallbackBackendUnavailable</qualifiedname>
+        <initializer>= &quot;ANN_BACKEND_UNAVAILABLE&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="31" column="35" bodyfile="include/observability/reason_codes.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1ann_1a48b5fd43f02c5c87f2bf05a4fe2f43ca" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::ann::kFallbackDistributedPartialFailure</definition>
+        <argsstring></argsstring>
+        <name>kFallbackDistributedPartialFailure</name>
+        <qualifiedname>themis::observability::reason_codes::ann::kFallbackDistributedPartialFailure</qualifiedname>
+        <initializer>= &quot;ANN_DISTRIBUTED_PARTIAL_FAILURE&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="32" column="35" bodyfile="include/observability/reason_codes.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1ann_1aab0850dcd40e6388c8c2ef9b3d3e9984" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::ann::kFallbackDistributedAllShardsFailed</definition>
+        <argsstring></argsstring>
+        <name>kFallbackDistributedAllShardsFailed</name>
+        <qualifiedname>themis::observability::reason_codes::ann::kFallbackDistributedAllShardsFailed</qualifiedname>
+        <initializer>= &quot;ANN_DISTRIBUTED_ALL_SHARDS_FAILED&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="33" column="35" bodyfile="include/observability/reason_codes.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1ann_1ac410f73c61d51689c9a33c4033c145f2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::ann::kThresholdKeyDefault</definition>
+        <argsstring></argsstring>
+        <name>kThresholdKeyDefault</name>
+        <qualifiedname>themis::observability::reason_codes::ann::kThresholdKeyDefault</qualifiedname>
+        <initializer>= &quot;ann.default&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="35" column="35" bodyfile="include/observability/reason_codes.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/reason_codes.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_c_m_s_signing_service" kind="class" language="C++" prot="public">
+    <compoundname>themis::CMSSigningService</compoundname>
+    <basecompoundref refid="classthemis_1_1_signing_service" prot="public" virt="non-virtual">themis::SigningService</basecompoundref>
+    <includes refid="cms__signing_8h" local="no">cms_signing.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_c_m_s_signing_service_1ab240f1058a8f6b0c28bc646f01ea989e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; X509 &gt;</type>
+        <definition>std::shared_ptr&lt;X509&gt; themis::CMSSigningService::cert_</definition>
+        <argsstring></argsstring>
+        <name>cert_</name>
+        <qualifiedname>themis::CMSSigningService::cert_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/cms_signing.h" line="36" column="21" bodyfile="include/security/cms_signing.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_c_m_s_signing_service_1aa49b4fc7bc3b20b0744b9155cb302bb7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; EVP_PKEY &gt;</type>
+        <definition>std::shared_ptr&lt;EVP_PKEY&gt; themis::CMSSigningService::pkey_</definition>
+        <argsstring></argsstring>
+        <name>pkey_</name>
+        <qualifiedname>themis::CMSSigningService::pkey_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/cms_signing.h" line="37" column="21" bodyfile="include/security/cms_signing.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_c_m_s_signing_service_1a40032969b69a9e4ee0f7d642a5b1d4c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::CMSSigningService::CMSSigningService</definition>
+        <argsstring>(std::shared_ptr&lt; X509 &gt; cert, std::shared_ptr&lt; EVP_PKEY &gt; pkey)</argsstring>
+        <name>CMSSigningService</name>
+        <qualifiedname>themis::CMSSigningService::CMSSigningService</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; X509 &gt;</type>
+          <declname>cert</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; EVP_PKEY &gt;</type>
+          <declname>pkey</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/cms_signing.h" line="25" column="5" bodyfile="src/security/cms_signing.cpp" bodystart="40" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_c_m_s_signing_service_1ae3645d1c99ab860b0157e90cf3f97145" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::CMSSigningService::CMSSigningService</definition>
+        <argsstring>(X509 *cert, EVP_PKEY *pkey)</argsstring>
+        <name>CMSSigningService</name>
+        <qualifiedname>themis::CMSSigningService::CMSSigningService</qualifiedname>
+        <param>
+          <type>X509 *</type>
+          <declname>cert</declname>
+        </param>
+        <param>
+          <type>EVP_PKEY *</type>
+          <declname>pkey</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/cms_signing.h" line="27" column="5" bodyfile="src/security/cms_signing.cpp" bodystart="43" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_c_m_s_signing_service_1ad506ad1749f47db5859288cd0589c011" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::CMSSigningService::~CMSSigningService</definition>
+        <argsstring>() override</argsstring>
+        <name>~CMSSigningService</name>
+        <qualifiedname>themis::CMSSigningService::~CMSSigningService</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/cms_signing.h" line="28" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_c_m_s_signing_service_1a83796966dba1806aea34e1dcfe784e30" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1_signing_result" kindref="compound">SigningResult</ref></type>
+        <definition>SigningResult themis::CMSSigningService::sign</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::string &amp;key_id) override</argsstring>
+        <name>sign</name>
+        <qualifiedname>themis::CMSSigningService::sign</qualifiedname>
+        <reimplements refid="classthemis_1_1_signing_service_1ab3722bd74c3acfc8665f24872b97a529">sign</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Sign. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: in(), BIO_new_mem_buf(), data(), size(), cms(), CMS_sign(), get(), out(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/cms_signing.h" line="30" column="19" bodyfile="src/security/cms_signing.cpp" bodystart="57" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_c_m_s_signing_service_1a0bf7ff83d559fdf43445ff92e72deb64" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::CMSSigningService::verify</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::vector&lt; uint8_t &gt; &amp;signature, const std::string &amp;key_id) override</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::CMSSigningService::verify</qualifiedname>
+        <reimplements refid="classthemis_1_1_signing_service_1a1287bdafce5ea20430ee877cec8f273b">verify</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Verify identity and enforce network policies for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result.</para>
+</simplesect>
+Calls: sig_bio(), BIO_new_mem_buf(), data(), size(), cms(), d2i_CMS_bio(), get(), in(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/cms_signing.h" line="31" column="10" bodyfile="src/security/cms_signing.cpp" bodystart="97" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cms signing service component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::CMSSigningService</label>
+        <link refid="classthemis_1_1_c_m_s_signing_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::SigningService</label>
+        <link refid="classthemis_1_1_signing_service"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::CMSSigningService</label>
+        <link refid="classthemis_1_1_c_m_s_signing_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::SigningService</label>
+        <link refid="classthemis_1_1_signing_service"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/cms_signing.h" line="22" column="1" bodyfile="include/security/cms_signing.h" bodystart="22" bodyend="38"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_c_m_s_signing_service_1ab240f1058a8f6b0c28bc646f01ea989e" prot="private" virt="non-virtual"><scope>themis::CMSSigningService</scope><name>cert_</name></member>
+      <member refid="classthemis_1_1_c_m_s_signing_service_1a40032969b69a9e4ee0f7d642a5b1d4c5" prot="public" virt="non-virtual"><scope>themis::CMSSigningService</scope><name>CMSSigningService</name></member>
+      <member refid="classthemis_1_1_c_m_s_signing_service_1ae3645d1c99ab860b0157e90cf3f97145" prot="public" virt="non-virtual"><scope>themis::CMSSigningService</scope><name>CMSSigningService</name></member>
+      <member refid="classthemis_1_1_c_m_s_signing_service_1aa49b4fc7bc3b20b0744b9155cb302bb7" prot="private" virt="non-virtual"><scope>themis::CMSSigningService</scope><name>pkey_</name></member>
+      <member refid="classthemis_1_1_c_m_s_signing_service_1a83796966dba1806aea34e1dcfe784e30" prot="public" virt="virtual"><scope>themis::CMSSigningService</scope><name>sign</name></member>
+      <member refid="classthemis_1_1_c_m_s_signing_service_1a0bf7ff83d559fdf43445ff92e72deb64" prot="public" virt="virtual"><scope>themis::CMSSigningService</scope><name>verify</name></member>
+      <member refid="classthemis_1_1_c_m_s_signing_service_1ad506ad1749f47db5859288cd0589c011" prot="public" virt="non-virtual"><scope>themis::CMSSigningService</scope><name>~CMSSigningService</name></member>
+      <member refid="classthemis_1_1_signing_service_1a05a49d840a01a4ebe2ac201a35394501" prot="public" virt="virtual"><scope>themis::CMSSigningService</scope><name>~SigningService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="high__cardinality__metrics_8h" kind="file" language="C++">
+    <compoundname>high_cardinality_metrics.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="high__cardinality__metrics_8cpp" local="yes">src/observability/high_cardinality_metrics.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/high_cardinality_metrics.h</label>
+        <link refid="high__cardinality__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/observability/high_cardinality_metrics.h</label>
+        <link refid="high__cardinality__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/observability/high_cardinality_metrics.cpp</label>
+        <link refid="high__cardinality__metrics_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_cardinality_limit" prot="public">themis::observability::CardinalityLimit</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_cardinality_stats" prot="public">themis::observability::CardinalityStats</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_cardinality_fallback_strategy" prot="public">themis::observability::CardinalityFallbackStrategy</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker" prot="public">themis::observability::HighCardinalityMetricsTracker</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 BETA (Phase 2 Observability Expansion) </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 0/100 (implementation in progress) </para>
+</simplesect>
+<simplesect kind="note"><para>Status: High-cardinality metrics tracking with safety bounds </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1observability_1ac078a9a4398426694d21dfd47e993f60" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1ac078a9a4398426694d21dfd47e993f60" kindref="member">CardinalityExceededPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1observability_1ac078a9a4398426694d21dfd47e993f60a7757edc25ce8536c62c33c4247a2ae79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1ac078a9a4398426694d21dfd47e993f60a7757edc25ce8536c62c33c4247a2ae79" kindref="member">DROP_NEW_SETS</ref>,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1observability_1ac078a9a4398426694d21dfd47e993f60a11575c8b325cd929e4f7faaf439af6da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1ac078a9a4398426694d21dfd47e993f60a11575c8b325cd929e4f7faaf439af6da" kindref="member">AGGREGATE_TO_OTHER</ref>,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1observability_1ac078a9a4398426694d21dfd47e993f60a7b5ae3d13ef568c77a5118bb2d8aa311" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1ac078a9a4398426694d21dfd47e993f60a7b5ae3d13ef568c77a5118bb2d8aa311" kindref="member">WARN_ONLY</ref>,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1observability_1_1_cardinality_limit" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_cardinality_limit" kindref="compound">CardinalityLimit</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1observability_1_1_cardinality_limit_1a84ae8afd11db5714ce6c8b28cc77b5a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1observability_1_1_cardinality_limit_1a84ae8afd11db5714ce6c8b28cc77b5a5" kindref="member">max_series</ref>{10&apos;000};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1observability_1_1_cardinality_limit_1a9ca59b547f9240f1a6de8007758b1254" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1ac078a9a4398426694d21dfd47e993f60" kindref="member">CardinalityExceededPolicy</ref><sp/><ref refid="structthemis_1_1observability_1_1_cardinality_limit_1a9ca59b547f9240f1a6de8007758b1254" kindref="member">policy</ref>{<ref refid="namespacethemis_1_1observability_1ac078a9a4398426694d21dfd47e993f60a7757edc25ce8536c62c33c4247a2ae79" kindref="member">CardinalityExceededPolicy::DROP_NEW_SETS</ref>};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1observability_1_1_cardinality_limit_1aa6636c017e3b17384767aeb54b00dece" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_cardinality_limit_1aa6636c017e3b17384767aeb54b00dece" kindref="member">emit_diagnostics</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1observability_1_1_cardinality_limit_1add3a0c0fcbc6ed70c0c97f782c3b52a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1observability_1_1_cardinality_limit_1add3a0c0fcbc6ed70c0c97f782c3b52a0" kindref="member">alert_grace_period_seconds</ref>{60};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1observability_1_1_cardinality_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_cardinality_stats" kindref="compound">CardinalityStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1observability_1_1_cardinality_stats_1ac73c41214323a49d397cc8b4827b3287" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1observability_1_1_cardinality_stats_1ac73c41214323a49d397cc8b4827b3287" kindref="member">current_series_count</ref>{0};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1observability_1_1_cardinality_stats_1aa0f7df936bf33683e087a71475d082b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1observability_1_1_cardinality_stats_1aa0f7df936bf33683e087a71475d082b9" kindref="member">limit</ref>{0};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1observability_1_1_cardinality_stats_1a6552526de67de41e812d164d533a999b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1observability_1_1_cardinality_stats_1a6552526de67de41e812d164d533a999b" kindref="member">rejected_sets_total</ref>{0};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1observability_1_1_cardinality_stats_1ab77c613e335889c50bf98d6b5a1fbfef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1observability_1_1_cardinality_stats_1ab77c613e335889c50bf98d6b5a1fbfef" kindref="member">aggregated_sets_total</ref>{0};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1observability_1_1_cardinality_stats_1ae5340f32b4050574b0def62c8774fbbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1observability_1_1_cardinality_stats_1ae5340f32b4050574b0def62c8774fbbb" kindref="member">last_updated_ns</ref>{0};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1observability_1_1_cardinality_stats_1a22ff6983c122ae2ed41c1a2c10341499" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_cardinality_stats_1a22ff6983c122ae2ed41c1a2c10341499" kindref="member">at_limit</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1observability_1_1_cardinality_stats_1a815dbb6ec82164e5c04300d5823a2f89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_cardinality_stats_1a815dbb6ec82164e5c04300d5823a2f89" kindref="member">utilization_percent</ref>{0.0};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1observability_1_1_cardinality_fallback_strategy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_cardinality_fallback_strategy" kindref="compound">CardinalityFallbackStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1observability_1_1_cardinality_fallback_strategy_1a1364e61bfe9b86c7f4e293c84c7c5daf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="classthemis_1_1observability_1_1_cardinality_fallback_strategy_1a1364e61bfe9b86c7f4e293c84c7c5daf" kindref="member">apply</ref>(</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>original_labels)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1observability_1_1_cardinality_fallback_strategy_1a69f44f8f55454668c38b0a687b3ca555" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_cardinality_fallback_strategy_1a69f44f8f55454668c38b0a687b3ca555" kindref="member">~CardinalityFallbackStrategy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1aa6685eaf68e2c599b168ccb872d43987" kindref="member">HighCardinalityMetricsTracker</ref><sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1aa6685eaf68e2c599b168ccb872d43987" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1aa6685eaf68e2c599b168ccb872d43987" kindref="member">HighCardinalityMetricsTracker</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a2d0dcc2ce15e2b8f52f7d00fd111d2cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a2d0dcc2ce15e2b8f52f7d00fd111d2cd" kindref="member">~HighCardinalityMetricsTracker</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a5b32e7229e1f0bf8a62cd56a30702da1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a5b32e7229e1f0bf8a62cd56a30702da1" kindref="member">setCardinalityLimit</ref>(</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_cardinality_limit" kindref="compound">CardinalityLimit</ref>&amp;<sp/>limit)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a83b7fd4987f0e8735e22d9aa798ba74a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a83b7fd4987f0e8735e22d9aa798ba74a" kindref="member">setCardinalityLimitByPrefix</ref>(</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_prefix,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_cardinality_limit" kindref="compound">CardinalityLimit</ref>&amp;<sp/>limit)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1af8c2a526348b283a7c163ddb6ee09e49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_cardinality_limit" kindref="compound">CardinalityLimit</ref><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1af8c2a526348b283a7c163ddb6ee09e49" kindref="member">getCardinalityLimit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1ac62f21e3ece02baac2880934b0492221" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1ac62f21e3ece02baac2880934b0492221" kindref="member">canAcceptLabelSet</ref>(</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a6fcd4a8073e33ddd77fbd2dd0d6df906" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a6fcd4a8073e33ddd77fbd2dd0d6df906" kindref="member">recordLabelSet</ref>(</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a12c451bddba362707e6b7b5ccda20a92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a12c451bddba362707e6b7b5ccda20a92" kindref="member">getFallbackLabels</ref>(</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name,</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>original_labels)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1aca922a0bbbd10eb6c4ad258d5adc6cbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_cardinality_stats" kindref="compound">CardinalityStats</ref><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1aca922a0bbbd10eb6c4ad258d5adc6cbb" kindref="member">getCardinalityStats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1acbf6fc3e7aff23e3acb20d682fcb112e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>CardinalityStats&gt;<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1acbf6fc3e7aff23e3acb20d682fcb112e" kindref="member">getAllCardinalityStats</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1abb687e4d914fbf7003b3c4e19d6cfeac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1abb687e4d914fbf7003b3c4e19d6cfeac" kindref="member">setFallbackStrategy</ref>(</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name,</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;CardinalityFallbackStrategy&gt;<sp/>strategy)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a06db4b64f91a0756f860596e48854903" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a06db4b64f91a0756f860596e48854903" kindref="member">resetMetricCardinality</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a7a3b1153cbb10a6ab2c03cf147d4d020" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a7a3b1153cbb10a6ab2c03cf147d4d020" kindref="member">resetAll</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1af9787cbc38797dc7c57ea94c49fab12f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1af9787cbc38797dc7c57ea94c49fab12f" kindref="member">setTrackingEnabled</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330" refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a0e42567f65daecec5e10329d1c70b8e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_tracker_1a0e42567f65daecec5e10329d1c70b8e5" kindref="member">isTrackingEnabled</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/high_cardinality_metrics.h"/>
+  </compounddef>
+</doxygen>

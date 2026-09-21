@@ -1,0 +1,1336 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_shard_router" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardRouter</compoundname>
+    <derivedcompoundref refid="classthemis_1_1sharding_1_1_adaptive_shard_router" prot="public" virt="non-virtual">themis::sharding::AdaptiveShardRouter</derivedcompoundref>
+    <includes refid="shard__router_8h" local="no">shard_router.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_shard_router_1_1_config" prot="public">themis::sharding::ShardRouter::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_router_1a95113fa801044444aa26295cf3a06569" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_u_r_n_resolver" kindref="compound">URNResolver</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;URNResolver&gt; themis::sharding::ShardRouter::resolver_</definition>
+        <argsstring></argsstring>
+        <name>resolver_</name>
+        <qualifiedname>themis::sharding::ShardRouter::resolver_</qualifiedname>
+        <briefdescription>
+<para>Resolves ownership and health information for shards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="273" column="21" bodyfile="include/sharding/shard_router.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_router_1a499fff6be62f9d98298cd85bac8c64b6" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_remote_executor" kindref="compound">RemoteExecutor</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RemoteExecutor&gt; themis::sharding::ShardRouter::executor_</definition>
+        <argsstring></argsstring>
+        <name>executor_</name>
+        <qualifiedname>themis::sharding::ShardRouter::executor_</qualifiedname>
+        <briefdescription>
+<para>Performs remote shard RPCs when the target is non-local. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="274" column="21" bodyfile="include/sharding/shard_router.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_router_1a1906e63297180197412058ab5967ba5d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PrometheusMetrics&gt; themis::sharding::ShardRouter::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::sharding::ShardRouter::metrics_</qualifiedname>
+        <briefdescription>
+<para>Optional metrics sink for routing observability. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="275" column="21" bodyfile="include/sharding/shard_router.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_router_1ac4ddc631d3b2bde1b4e368e97863372e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TrueTime&gt; themis::sharding::ShardRouter::truetime_</definition>
+        <argsstring></argsstring>
+        <name>truetime_</name>
+        <qualifiedname>themis::sharding::ShardRouter::truetime_</qualifiedname>
+        <briefdescription>
+<para>Optional bounded-time source for distributed coordination. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="276" column="21" bodyfile="include/sharding/shard_router.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_router_1ac989ce234b1d1cdfdebaad459f7428ab" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator" kindref="compound">DistributedTransactionCoordinator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;DistributedTransactionCoordinator&gt; themis::sharding::ShardRouter::txn_coordinator_</definition>
+        <argsstring></argsstring>
+        <name>txn_coordinator_</name>
+        <qualifiedname>themis::sharding::ShardRouter::txn_coordinator_</qualifiedname>
+        <briefdescription>
+<para>Optional TrueTime-backed txn coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="277" column="21" bodyfile="include/sharding/shard_router.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_router_1a9423c55c7cc45d98f01685de00881793" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::ShardRouter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::ShardRouter::config_</qualifiedname>
+        <briefdescription>
+<para>Immutable router configuration captured at construction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="278" column="12" bodyfile="include/sharding/shard_router.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_router_1a7984c7232269d708e715b4c9ca40e849" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::ShardRouter::total_requests_</definition>
+        <argsstring></argsstring>
+        <name>total_requests_</name>
+        <qualifiedname>themis::sharding::ShardRouter::total_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Thread-safe diagnostic counters using relaxed memory order (no synchronization required). These are read-only metrics for observability; they don&apos;t protect critical state. Memory order: std::memory_order_relaxed (sufficient for diagnostic counters). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Total number of routed operations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="283" column="25" bodyfile="include/sharding/shard_router.h" bodystart="283" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_router_1a2e50736e9b90301c6be5b57c83d8e62f" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::ShardRouter::local_requests_</definition>
+        <argsstring></argsstring>
+        <name>local_requests_</name>
+        <qualifiedname>themis::sharding::ShardRouter::local_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Requests executed on the local shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="284" column="25" bodyfile="include/sharding/shard_router.h" bodystart="284" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_router_1a28bbdf9e0a9dc377f930bf274071f52a" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::ShardRouter::remote_requests_</definition>
+        <argsstring></argsstring>
+        <name>remote_requests_</name>
+        <qualifiedname>themis::sharding::ShardRouter::remote_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Requests dispatched to a remote shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="285" column="25" bodyfile="include/sharding/shard_router.h" bodystart="285" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_router_1a5e69df1cd9aa80d793c2c9760fab3a6c" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::ShardRouter::scatter_gather_requests_</definition>
+        <argsstring></argsstring>
+        <name>scatter_gather_requests_</name>
+        <qualifiedname>themis::sharding::ShardRouter::scatter_gather_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Scatter-gather style requests executed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="286" column="25" bodyfile="include/sharding/shard_router.h" bodystart="286" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_router_1a8f880b74699f8d1aae94eb8c11401c2a" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::ShardRouter::errors_</definition>
+        <argsstring></argsstring>
+        <name>errors_</name>
+        <qualifiedname>themis::sharding::ShardRouter::errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Routing or execution failures observed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="287" column="25" bodyfile="include/sharding/shard_router.h" bodystart="287" bodyend="287"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1a4b1742e6ce3a0d2447eada7a20adc9f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardRouter::ShardRouter</definition>
+        <argsstring>(std::shared_ptr&lt; URNResolver &gt; resolver, std::shared_ptr&lt; RemoteExecutor &gt; executor, const Config &amp;config, std::shared_ptr&lt; PrometheusMetrics &gt; metrics=nullptr, std::shared_ptr&lt; TrueTime &gt; truetime=nullptr)</argsstring>
+        <name>ShardRouter</name>
+        <qualifiedname>themis::sharding::ShardRouter::ShardRouter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_u_r_n_resolver" kindref="compound">URNResolver</ref> &gt;</type>
+          <declname>resolver</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_remote_executor" kindref="compound">RemoteExecutor</ref> &gt;</type>
+          <declname>executor</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+          <declname>metrics</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> &gt;</type>
+          <declname>truetime</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct Shard Router <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resolver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> resolver for shard location </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>executor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Remote executor for shard communication </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Router configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional Prometheus metrics collector </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>truetime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> for distributed transactions </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="87" column="5" bodyfile="src/sharding/shard_router.cpp" bodystart="181" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1a8d824a506ec32efc8d4452dc5c980bd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardRouter::setTrueTime</definition>
+        <argsstring>(std::shared_ptr&lt; TrueTime &gt; truetime)</argsstring>
+        <name>setTrueTime</name>
+        <qualifiedname>themis::sharding::ShardRouter::setTrueTime</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> &gt;</type>
+          <declname>truetime</declname>
+        </param>
+        <briefdescription>
+<para>Set True Time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> instance for distributed transactions <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>truetime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> instance</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">truetime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setTrueTime without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="99" column="10" bodyfile="src/sharding/shard_router.cpp" bodystart="205" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1af0fc3ceb1b791456062872c300423db3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator" kindref="compound">DistributedTransactionCoordinator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; DistributedTransactionCoordinator &gt; themis::sharding::ShardRouter::getTransactionCoordinator</definition>
+        <argsstring>()</argsstring>
+        <name>getTransactionCoordinator</name>
+        <qualifiedname>themis::sharding::ShardRouter::getTransactionCoordinator</qualifiedname>
+        <briefdescription>
+<para>Return the optional distributed transaction coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Transaction Coordinator.</para>
+<para><simplesect kind="return"><para>Shared coordinator instance or nullptr when <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> is unavailable.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getTransactionCoordinator without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="105" column="21" bodyfile="src/sharding/shard_router.cpp" bodystart="218" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1a34258cf876e245a44ba451d3f787be8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; nlohmann::json &gt;</type>
+        <definition>std::optional&lt; nlohmann::json &gt; themis::sharding::ShardRouter::get</definition>
+        <argsstring>(const URN &amp;urn, std::optional&lt; std::chrono::nanoseconds &gt; snapshot_timestamp=std::nullopt)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::sharding::ShardRouter::get</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> &amp;</type>
+          <declname>urn</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::chrono::nanoseconds &gt;</type>
+          <declname>snapshot_timestamp</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Route GET request by <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>urn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> to retrieve </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>snapshot_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional timestamp for snapshot reads </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Data from shard, or nullopt if not found/error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">urn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: recordRoutingRequest(), <ref refid="namespacethemis_1_1sharding_1a0e0db9c66a1fab819f829d615f9cd5b2" kindref="member">toString()</ref>, has_value(), std::to_string(), count(), <ref refid="classthemis_1_1sharding_1_1_shard_router_1a09d228128fc6c0221b8dceba35e2ecbd" kindref="member">routeRequest()</ref>, recordRoutingLatency(), recordCrossShardRequest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="113" column="19" bodyfile="src/sharding/shard_router.cpp" bodystart="229" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1aef98a3a3470699393bf30c7ebd8d766e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardRouter::put</definition>
+        <argsstring>(const URN &amp;urn, const nlohmann::json &amp;data)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::sharding::ShardRouter::put</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> &amp;</type>
+          <declname>urn</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Route PUT request by <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>urn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> to update </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data to store </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">urn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: recordRoutingRequest(), <ref refid="classthemis_1_1sharding_1_1_shard_router_1a09d228128fc6c0221b8dceba35e2ecbd" kindref="member">routeRequest()</ref>, <ref refid="namespacethemis_1_1sharding_1a0e0db9c66a1fab819f829d615f9cd5b2" kindref="member">toString()</ref>, recordRoutingError(), recordRoutingLatency(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="124" column="10" bodyfile="src/sharding/shard_router.cpp" bodystart="271" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1af307284a1096993a51579acfbce1a15b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardRouter::del</definition>
+        <argsstring>(const URN &amp;urn)</argsstring>
+        <name>del</name>
+        <qualifiedname>themis::sharding::ShardRouter::del</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> &amp;</type>
+          <declname>urn</declname>
+        </param>
+        <briefdescription>
+<para>Del. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Route DELETE request by <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>urn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> to delete </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">urn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1sharding_1_1_shard_router_1a09d228128fc6c0221b8dceba35e2ecbd" kindref="member">routeRequest()</ref>, <ref refid="namespacethemis_1_1sharding_1a0e0db9c66a1fab819f829d615f9cd5b2" kindref="member">toString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="131" column="10" bodyfile="src/sharding/shard_router.cpp" bodystart="303" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1a047eb99023722c08b256840908805bc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::ShardRouter::executeQuery</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>executeQuery</name>
+        <qualifiedname>themis::sharding::ShardRouter::executeQuery</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1a1f16bd4e6f9b6f310467778243572909">executeQuery</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute a logical query using the routing strategy inferred from its text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Query.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string, typically an AQL-style statement. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Combined JSON result from the selected shard strategy. </para>
+</simplesect>
+<simplesect kind="note"><para>Falls back to scatter-gather when single-shard extraction is inconclusive.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), length(), <ref refid="classthemis_1_1sharding_1_1_shard_router_1a53576ffb73df9d5709f2667308df570d" kindref="member">analyzeQuery()</ref>, extractURN(), <ref refid="classthemis_1_1sharding_1_1_shard_router_1a09d228128fc6c0221b8dceba35e2ecbd" kindref="member">routeRequest()</ref>, <ref refid="classthemis_1_1sharding_1_1_shard_router_1afc0d19dae886783415ebc7355badd42a" kindref="member">scatterGather()</ref>, mergeResults(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="139" column="28" bodyfile="src/sharding/shard_router.cpp" bodystart="321" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1a53576ffb73df9d5709f2667308df570d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1a4c724f071882bcfc5c0cbea165fc9b88" kindref="member">RoutingStrategy</ref></type>
+        <definition>RoutingStrategy themis::sharding::ShardRouter::analyzeQuery</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>analyzeQuery</name>
+        <qualifiedname>themis::sharding::ShardRouter::analyzeQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Determine routing strategy for a query Analyzes query to determine which shards to involve <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Routing strategy </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="147" column="21" bodyfile="src/sharding/shard_router.cpp" bodystart="383" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1afc0d19dae886783415ebc7355badd42a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_result" kindref="compound">ShardResult</ref> &gt;</type>
+        <definition>std::vector&lt; ShardResult &gt; themis::sharding::ShardRouter::scatterGather</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>scatterGather</name>
+        <qualifiedname>themis::sharding::ShardRouter::scatterGather</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Scatter Gather. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute scatter-gather query Sends query to all shards and merges results <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query to execute </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Merged results from all shards</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: recordRoutingRequest(), std::chrono::steady_clock::now(), getHealthyShards(), empty(), recordScatterGatherFanout(), size(), std::min(), reserve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="155" column="25" bodyfile="src/sharding/shard_router.cpp" bodystart="413" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1aa9b3427d9a29f373b62de2ebc0d3ce89" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_result" kindref="compound">ShardResult</ref> &gt;</type>
+        <definition>std::vector&lt; ShardResult &gt; themis::sharding::ShardRouter::executeOnShards</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; std::string &gt; &amp;shard_ids)</argsstring>
+        <name>executeOnShards</name>
+        <qualifiedname>themis::sharding::ShardRouter::executeOnShards</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_adaptive_shard_router_1ac7b64c3dc7a1a88f4e7c9f5124da9eac">executeOnShards</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shard_ids</declname>
+        </param>
+        <briefdescription>
+<para>Execute On Shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute a query on a specific subset of shards.</para>
+<para>Behaves identically to scatterGather but only contacts the shards whose IDs appear in <computeroutput>shard_ids</computeroutput>. Unknown or unhealthy shard IDs are skipped with a WARN log rather than causing an error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>AQL query string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifiers to target </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Results from the targeted shards (success + failure entries)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), getHealthyShards(), reserve(), size(), push_back(), at(), spdlog::warn(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="168" column="25" bodyfile="src/sharding/shard_router.cpp" bodystart="562" bodyend="682"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1a115bf782561d58670fa79ed0f1228059" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_u_r_n_resolver" kindref="compound">URNResolver</ref> &amp;</type>
+        <definition>URNResolver &amp; themis::sharding::ShardRouter::getResolver</definition>
+        <argsstring>()</argsstring>
+        <name>getResolver</name>
+        <qualifiedname>themis::sharding::ShardRouter::getResolver</qualifiedname>
+        <briefdescription>
+<para>Access the resolver used for key-to-shard lookup decisions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Mutable reference to the configured resolver. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="177" column="17" bodyfile="include/sharding/shard_router.h" bodystart="177" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1ae92b58d50af281e5367ec13a0cf542c6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1sharding_1_1_u_r_n_resolver" kindref="compound">URNResolver</ref> &amp;</type>
+        <definition>const URNResolver &amp; themis::sharding::ShardRouter::getResolver</definition>
+        <argsstring>() const</argsstring>
+        <name>getResolver</name>
+        <qualifiedname>themis::sharding::ShardRouter::getResolver</qualifiedname>
+        <briefdescription>
+<para>Access the resolver used for key-to-shard lookup decisions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Const reference to the configured resolver. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="183" column="23" bodyfile="include/sharding/shard_router.h" bodystart="183" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1af122915f665ffb96d2903ffcd9bb7907" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::ShardRouter::executeCrossShardJoin</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;join_field)</argsstring>
+        <name>executeCrossShardJoin</name>
+        <qualifiedname>themis::sharding::ShardRouter::executeCrossShardJoin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>join_field</declname>
+        </param>
+        <briefdescription>
+<para>Execute Cross Shard Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute cross-shard join (simplified two-phase approach) Phase 1: Fetch from first collection Phase 2: Lookup in second collection <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>join_field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Field to join on </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Joined results with monotonic mergeVersion/version_token metadata so callers can detect stale merged snapshots across shards.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">join_field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), std::chrono::steady_clock::now(), find(), recordCrossShardJoin(), <ref refid="classthemis_1_1sharding_1_1_shard_router_1afc0d19dae886783415ebc7355badd42a" kindref="member">scatterGather()</ref>, is_array(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="194" column="20" bodyfile="src/sharding/shard_router.cpp" bodystart="691" bodyend="893"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1a4b24981bbd9489dbb56c50b45329d938" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::ShardRouter::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::sharding::ShardRouter::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of aggregate routing counters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object containing total, local, remote, scatter, and error counters. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="203" column="20" bodyfile="src/sharding/shard_router.cpp" bodystart="895" bodyend="903"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1a09d228128fc6c0221b8dceba35e2ecbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_shard_result" kindref="compound">ShardResult</ref></type>
+        <definition>ShardResult themis::sharding::ShardRouter::routeRequest</definition>
+        <argsstring>(const URN &amp;urn, const std::string &amp;method, const std::string &amp;path, const std::optional&lt; nlohmann::json &gt; &amp;body=std::nullopt)</argsstring>
+        <name>routeRequest</name>
+        <qualifiedname>themis::sharding::ShardRouter::routeRequest</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> &amp;</type>
+          <declname>urn</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; nlohmann::json &gt; &amp;</type>
+          <declname>body</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Route Request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Route request to appropriate shard Handles both local and remote execution <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>urn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> to route </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HTTP method (non-empty required) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request path (non-empty required) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional request body </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result from shard </para>
+</simplesect>
+<simplesect kind="note"><para>Rejects empty method or path fail-closed</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">urn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), resolvePrimary(), isLocal(), <ref refid="classthemis_1_1sharding_1_1_shard_router_1a02f4f65854a0283e976e85e2214ff80d" kindref="member">executeLocal()</ref>, THEMIS_ERROR(), <ref refid="classthemis_1_1sharding_1_1_shard_router_1a34258cf876e245a44ba451d3f787be8f" kindref="member">get()</ref>, <ref refid="classthemis_1_1sharding_1_1_shard_router_1aef98a3a3470699393bf30c7ebd8d766e" kindref="member">put()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="215" column="17" bodyfile="src/sharding/shard_router.cpp" bodystart="914" bodyend="983"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1a02f4f65854a0283e976e85e2214ff80d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_shard_result" kindref="compound">ShardResult</ref></type>
+        <definition>ShardResult themis::sharding::ShardRouter::executeLocal</definition>
+        <argsstring>(const std::string &amp;method, const std::string &amp;path, const std::optional&lt; nlohmann::json &gt; &amp;body=std::nullopt)</argsstring>
+        <name>executeLocal</name>
+        <qualifiedname>themis::sharding::ShardRouter::executeLocal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; nlohmann::json &gt; &amp;</type>
+          <declname>body</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Execute Local. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute request locally (this shard) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HTTP method (non-empty required) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request path (non-empty required) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional request body </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result from local execution </para>
+</simplesect>
+<simplesect kind="note"><para>Rejects empty method or path fail-closed</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), std::chrono::steady_clock::now(), find(), parseQueryParams(), nlohmann::json::array(), extractUrnFromPath(), <ref refid="structthemis_1_1sharding_1_1_u_r_n_1aa222eb1e093dc37394de57b7185ed4b3" kindref="member">URN::parse()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="230" column="17" bodyfile="src/sharding/shard_router.cpp" bodystart="993" bodyend="1176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1ad85f0426cd799034582902d682c88ba0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_result" kindref="compound">ShardResult</ref> &gt;</type>
+        <definition>std::vector&lt; ShardResult &gt; themis::sharding::ShardRouter::executeMultiShardExactConsistency</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; std::string &gt; &amp;shard_ids)</argsstring>
+        <name>executeMultiShardExactConsistency</name>
+        <qualifiedname>themis::sharding::ShardRouter::executeMultiShardExactConsistency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shard_ids</declname>
+        </param>
+        <briefdescription>
+<para>Execute multi-shard exact consistency query with deterministic fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Multi Shard Exact Consistency.</para>
+<para>Executes a query across multiple shards with exact consistency guarantees. If some shards fail, falls back to healthy shards while maintaining consistency.</para>
+<para>Guarantees:<itemizedlist>
+<listitem><para>Quorum-based validation (majority of shards must agree)</para>
+</listitem><listitem><para>Deterministic fallback to remaining healthy shards</para>
+</listitem><listitem><para>Version token tracking for consistency verification</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target shard identifiers. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Per-shard execution records; check <ref refid="classthemis_1_1sharding_1_1_shard_router_1a5c23429360640489bcc7204edb5dedc7" kindref="member">validateMultiShardExactConsistency()</ref>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::chrono::steady_clock::now(), push_back(), std::async(), <ref refid="classthemis_1_1sharding_1_1_shard_router_1a02f4f65854a0283e976e85e2214ff80d" kindref="member">executeLocal()</ref>, <ref refid="classthemis_1_1sharding_1_1_shard_router_1a047eb99023722c08b256840908805bc6" kindref="member">executeQuery()</ref>, std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="251" column="17" bodyfile="src/sharding/shard_router.cpp" bodystart="1325" bodyend="1433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1a5c23429360640489bcc7204edb5dedc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardRouter::validateMultiShardExactConsistency</definition>
+        <argsstring>(const std::vector&lt; ShardResult &gt; &amp;results)</argsstring>
+        <name>validateMultiShardExactConsistency</name>
+        <qualifiedname>themis::sharding::ShardRouter::validateMultiShardExactConsistency</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_result" kindref="compound">ShardResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <briefdescription>
+<para>Validate multi-shard results for exact consistency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Multi Shard Exact Consistency.</para>
+<para>Checks that results from multiple shards are consistent and can be safely merged for exact consistency reads.</para>
+<para>Validation criteria:<itemizedlist>
+<listitem><para>Quorum of shards must have succeeded</para>
+</listitem><listitem><para>Version tokens must be within expected consistency window</para>
+</listitem><listitem><para>No causal ordering violations</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of shard results. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if results pass exact consistency validation, false otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), push_back(), std::max(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="269" column="10" bodyfile="src/sharding/shard_router.cpp" bodystart="1441" bodyend="1474"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1aeb9b6d1273c21a72c14f8e7c0ffad369" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::ShardRouter::mergeResults</definition>
+        <argsstring>(const std::vector&lt; ShardResult &gt; &amp;results)</argsstring>
+        <name>mergeResults</name>
+        <qualifiedname>themis::sharding::ShardRouter::mergeResults</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_result" kindref="compound">ShardResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <briefdescription>
+<para>Merge Results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Merge results from multiple shards Combines data arrays and handles errors <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Results from shards </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Merged result with mergeVersion/version_token metadata derived from shard payload versions or a local monotonic clock fallback.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nlohmann::json::array(), size(), resolveShardResultVersion(), std::max(), makeStrictMergeVersionToken(), is_array(), push_back(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="296" column="20" bodyfile="src/sharding/shard_router.cpp" bodystart="1184" bodyend="1241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1a7fc104015fdf04683f2575b2052122a3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::ShardRouter::applyPagination</definition>
+        <argsstring>(const nlohmann::json &amp;merged, size_t offset, size_t limit)</argsstring>
+        <name>applyPagination</name>
+        <qualifiedname>themis::sharding::ShardRouter::applyPagination</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>merged</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+<para>Apply Pagination. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply LIMIT/OFFSET across shards For scatter-gather queries <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>merged</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Merged results </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Offset to apply </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Limit to apply </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Paginated results</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">merged</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_array(), empty(), nlohmann::json::array(), std::min(), size(), reserve(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="306" column="20" bodyfile="src/sharding/shard_router.cpp" bodystart="1251" bodyend="1292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1a1236574effe5490ac96cdd250ecbff92" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> &gt;</type>
+        <definition>std::optional&lt; URN &gt; themis::sharding::ShardRouter::extractURN</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>extractURN</name>
+        <qualifiedname>themis::sharding::ShardRouter::extractURN</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> from query (if present) Simple pattern matching for URN-based queries <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> if found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="318" column="19" bodyfile="src/sharding/shard_router.cpp" bodystart="1294" bodyend="1304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_router_1ad7349b2c3b9a5cc3b5a513704ec03abc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::sharding::ShardRouter::extractNamespace</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>extractNamespace</name>
+        <qualifiedname>themis::sharding::ShardRouter::extractNamespace</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract namespace from query (if present) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Namespace if found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="325" column="19" bodyfile="src/sharding/shard_router.cpp" bodystart="1306" bodyend="1316"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Routes point operations and queries to the appropriate shard set. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The router encapsulates shard resolution, local-vs-remote dispatch, scatter-gather fan-out, result merging, and optional TrueTime-backed distributed transaction coordination. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::sharding::AdaptiveShardRouter</label>
+        <link refid="classthemis_1_1sharding_1_1_adaptive_shard_router"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::sharding::ShardRouter</label>
+        <link refid="classthemis_1_1sharding_1_1_shard_router"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/sharding/shard_router.h" line="64" column="1" bodyfile="include/sharding/shard_router.h" bodystart="64" bodyend="326"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a53576ffb73df9d5709f2667308df570d" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>analyzeQuery</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a7fc104015fdf04683f2575b2052122a3" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>applyPagination</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a9423c55c7cc45d98f01685de00881793" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1af307284a1096993a51579acfbce1a15b" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>del</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a8f880b74699f8d1aae94eb8c11401c2a" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>errors_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1af122915f665ffb96d2903ffcd9bb7907" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>executeCrossShardJoin</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a02f4f65854a0283e976e85e2214ff80d" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>executeLocal</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1ad85f0426cd799034582902d682c88ba0" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>executeMultiShardExactConsistency</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1aa9b3427d9a29f373b62de2ebc0d3ce89" prot="public" virt="virtual"><scope>themis::sharding::ShardRouter</scope><name>executeOnShards</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a047eb99023722c08b256840908805bc6" prot="public" virt="virtual"><scope>themis::sharding::ShardRouter</scope><name>executeQuery</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a499fff6be62f9d98298cd85bac8c64b6" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>executor_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1ad7349b2c3b9a5cc3b5a513704ec03abc" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>extractNamespace</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a1236574effe5490ac96cdd250ecbff92" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>extractURN</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a34258cf876e245a44ba451d3f787be8f" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>get</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a115bf782561d58670fa79ed0f1228059" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>getResolver</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1ae92b58d50af281e5367ec13a0cf542c6" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>getResolver</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a4b24981bbd9489dbb56c50b45329d938" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1af0fc3ceb1b791456062872c300423db3" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>getTransactionCoordinator</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a2e50736e9b90301c6be5b57c83d8e62f" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>local_requests_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1aeb9b6d1273c21a72c14f8e7c0ffad369" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>mergeResults</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a1906e63297180197412058ab5967ba5d" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1aef98a3a3470699393bf30c7ebd8d766e" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>put</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a28bbdf9e0a9dc377f930bf274071f52a" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>remote_requests_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a95113fa801044444aa26295cf3a06569" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>resolver_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a09d228128fc6c0221b8dceba35e2ecbd" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>routeRequest</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a5e69df1cd9aa80d793c2c9760fab3a6c" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>scatter_gather_requests_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1afc0d19dae886783415ebc7355badd42a" prot="public" virt="virtual"><scope>themis::sharding::ShardRouter</scope><name>scatterGather</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a8d824a506ec32efc8d4452dc5c980bd7" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>setTrueTime</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a4b1742e6ce3a0d2447eada7a20adc9f4" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>ShardRouter</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a7984c7232269d708e715b4c9ca40e849" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>total_requests_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1ac4ddc631d3b2bde1b4e368e97863372e" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>truetime_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1ac989ce234b1d1cdfdebaad459f7428ab" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>txn_coordinator_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_router_1a5c23429360640489bcc7204edb5dedc7" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter</scope><name>validateMultiShardExactConsistency</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

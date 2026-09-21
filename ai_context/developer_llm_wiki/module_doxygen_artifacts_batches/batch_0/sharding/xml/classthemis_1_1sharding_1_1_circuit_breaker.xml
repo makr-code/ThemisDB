@@ -1,0 +1,482 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_circuit_breaker" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::CircuitBreaker</compoundname>
+    <includes refid="circuit__breaker_8h" local="no">circuit_breaker.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config" prot="public">themis::sharding::CircuitBreaker::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>State</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::State</qualifiedname>
+        <enumvalue id="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3a110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3aa38bd5138bf35514df41a1795ebbf5c3" prot="public">
+          <name>OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3a5c1c0fca237f238d3c656d55a4db3ca4" prot="public">
+          <name>HALF_OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Circuit breaker states </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="46" column="5" bodyfile="include/sharding/circuit_breaker.h" bodystart="46" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_circuit_breaker_1a184fd67653c5cb9659427d38c89e09e9" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::CircuitBreaker::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="121" column="12" bodyfile="include/sharding/circuit_breaker.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_circuit_breaker_1a1fd80c80a1d59610a5418afeae06b561" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3" kindref="member">State</ref> &gt;</type>
+        <definition>std::atomic&lt;State&gt; themis::sharding::CircuitBreaker::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::state_</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">State::CLOSED</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="122" column="17" bodyfile="include/sharding/circuit_breaker.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_circuit_breaker_1a4ebc9f2ac7364e23c8c180048bc47fed" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::CircuitBreaker::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="125" column="24" bodyfile="include/sharding/circuit_breaker.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_circuit_breaker_1a3fa0d8a70db2513eaf918c3fba4c90ed" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::chrono::steady_clock::time_point &gt;</type>
+        <definition>std::vector&lt;std::chrono::steady_clock::time_point&gt; themis::sharding::CircuitBreaker::failure_timestamps_</definition>
+        <argsstring></argsstring>
+        <name>failure_timestamps_</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::failure_timestamps_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="126" column="17" bodyfile="include/sharding/circuit_breaker.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_circuit_breaker_1ac290b39ca3b742db42a32907005442b3" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::CircuitBreaker::consecutive_failures_</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures_</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::consecutive_failures_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="127" column="12" bodyfile="include/sharding/circuit_breaker.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_circuit_breaker_1aa97e6853a6d5d4bb8438753c33372900" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::CircuitBreaker::half_open_successes_</definition>
+        <argsstring></argsstring>
+        <name>half_open_successes_</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::half_open_successes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="130" column="12" bodyfile="include/sharding/circuit_breaker.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_circuit_breaker_1a5c6cc95ff0bc62273ce1cf6e4f6744a8" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::sharding::CircuitBreaker::open_timestamp_</definition>
+        <argsstring></argsstring>
+        <name>open_timestamp_</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::open_timestamp_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="133" column="43" bodyfile="include/sharding/circuit_breaker.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_1a2fa7fb4637d9a66644a27962ae086181" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::CircuitBreaker::CircuitBreaker</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>CircuitBreaker</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::CircuitBreaker</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct circuit breaker with configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="72" column="14" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="18" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_1a9bc7627d5ca382c493f516efed4eb77e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::CircuitBreaker::allowRequest</definition>
+        <argsstring>()</argsstring>
+        <name>allowRequest</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::allowRequest</qualifiedname>
+        <briefdescription>
+<para>Allow Request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if request should be allowed <simplesect kind="return"><para>true if request is allowed, false if circuit is OPEN</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), load(), isTimeoutElapsed(), transitionTo(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="78" column="10" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="27" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_1a786844e90645a5a57250b96e5a8fcd4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::CircuitBreaker::recordSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::recordSuccess</qualifiedname>
+        <briefdescription>
+<para>Record Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record successful request</para>
+<para>Calls: lock(), load(), transitionTo(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="83" column="10" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="60" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_1a48fccbcd4289e464bdddf48d82ba4fc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::CircuitBreaker::recordFailure</definition>
+        <argsstring>()</argsstring>
+        <name>recordFailure</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::recordFailure</qualifiedname>
+        <briefdescription>
+<para>Record Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record failed request</para>
+<para>Calls: lock(), load(), std::chrono::steady_clock::now(), push_back(), cleanupOldFailures(), getCurrentFailureCount(), transitionTo(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="88" column="10" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="85" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_1a8b76a577b9c365d3eaf7708fa9746995" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3" kindref="member">State</ref></type>
+        <definition>CircuitBreaker::State themis::sharding::CircuitBreaker::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::getState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get current state </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="93" column="11" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="114" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_1ad282488f4a886c8337f0d7f351717c4e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::CircuitBreaker::getFailureCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getFailureCount</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::getFailureCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get failure count in current window </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="98" column="12" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="118" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_1a0072dd76900cefc662b2210e8c40738d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::CircuitBreaker::getSuccessCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getSuccessCount</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::getSuccessCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get success count in HALF_OPEN state </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="103" column="12" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="128" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_1a1f8269194bb3562b4fda6fd996dd040a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::CircuitBreaker::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset circuit breaker to CLOSED state</para>
+<para>Calls: lock(), transitionTo(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="108" column="10" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="142" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_1addce4222947026b670fdbdc4fd7c5b9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::CircuitBreaker::forceOpen</definition>
+        <argsstring>()</argsstring>
+        <name>forceOpen</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::forceOpen</qualifiedname>
+        <briefdescription>
+<para>Force Open. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Force circuit breaker to OPEN state</para>
+<para>Calls: lock(), transitionTo(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="113" column="10" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="154" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_1a2c041dd3212c02d96a736a0402d5b80b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CircuitBreaker::stateToString</definition>
+        <argsstring>(State state)</argsstring>
+        <name>stateToString</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::stateToString</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3" kindref="member">State</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3" kindref="member">State</ref> To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get human-readable state name</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stateToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="118" column="24" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="166" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_1aa722418cab22077ca56c04b0cff146f2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::CircuitBreaker::transitionTo</definition>
+        <argsstring>(State new_state)</argsstring>
+        <name>transitionTo</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::transitionTo</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3" kindref="member">State</ref></type>
+          <declname>new_state</declname>
+        </param>
+        <briefdescription>
+<para>Transition To. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transition to new state (thread-safe)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), store(), spdlog::info(), <ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a2c041dd3212c02d96a736a0402d5b80b" kindref="member">stateToString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="138" column="10" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="181" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_1a3a5405538903a4fcd188b13bc43b86c0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::CircuitBreaker::isTimeoutElapsed</definition>
+        <argsstring>() const</argsstring>
+        <name>isTimeoutElapsed</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::isTimeoutElapsed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if timeout has elapsed (OPEN → HALF_OPEN) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="143" column="10" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="189" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_1af16822b28fc949e2e8f53539edd4f4ac" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::CircuitBreaker::cleanupOldFailures</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupOldFailures</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::cleanupOldFailures</qualifiedname>
+        <briefdescription>
+<para>Cleanup Old Failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove old failures outside the rolling window</para>
+<para>Calls: std::chrono::steady_clock::now(), erase(), std::remove_if(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="148" column="10" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="206" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_1a0ab6eda68945e00ad7e6e36d59c903c0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::CircuitBreaker::getCurrentFailureCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentFailureCount</name>
+        <qualifiedname>themis::sharding::CircuitBreaker::getCurrentFailureCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get current failure count in rolling window </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="153" column="12" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="223" bodyend="225"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Circuit Breaker Pattern Implementation</para>
+<para>Prevents cascade failures by isolating failing shards automatically. Implements a state machine: CLOSED → OPEN → HALF_OPEN</para>
+<para>States:<itemizedlist>
+<listitem><para>CLOSED: Normal operation, requests allowed</para>
+</listitem><listitem><para>OPEN: Circuit tripped, requests blocked</para>
+</listitem><listitem><para>HALF_OPEN: Testing recovery, limited requests allowed</para>
+</listitem></itemizedlist>
+</para>
+<para>Best Practices:<itemizedlist>
+<listitem><para>Thread-safe for concurrent access</para>
+</listitem><listitem><para>Configurable thresholds and timeouts</para>
+</listitem><listitem><para>Automatic recovery testing</para>
+</listitem><listitem><para>Per-shard circuit breaker instances </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/circuit_breaker.h" line="41" column="1" bodyfile="include/sharding/circuit_breaker.h" bodystart="41" bodyend="154"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1a9bc7627d5ca382c493f516efed4eb77e" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>allowRequest</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1a2fa7fb4637d9a66644a27962ae086181" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>CircuitBreaker</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1af16822b28fc949e2e8f53539edd4f4ac" prot="private" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>cleanupOldFailures</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1a184fd67653c5cb9659427d38c89e09e9" prot="private" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1ac290b39ca3b742db42a32907005442b3" prot="private" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>consecutive_failures_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3fa0d8a70db2513eaf918c3fba4c90ed" prot="private" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>failure_timestamps_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1addce4222947026b670fdbdc4fd7c5b9c" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>forceOpen</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1a0ab6eda68945e00ad7e6e36d59c903c0" prot="private" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>getCurrentFailureCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1ad282488f4a886c8337f0d7f351717c4e" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>getFailureCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1a8b76a577b9c365d3eaf7708fa9746995" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>getState</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1a0072dd76900cefc662b2210e8c40738d" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>getSuccessCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1aa97e6853a6d5d4bb8438753c33372900" prot="private" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>half_open_successes_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3a5405538903a4fcd188b13bc43b86c0" prot="private" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>isTimeoutElapsed</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1a4ebc9f2ac7364e23c8c180048bc47fed" prot="private" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1a5c6cc95ff0bc62273ce1cf6e4f6744a8" prot="private" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>open_timestamp_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1a48fccbcd4289e464bdddf48d82ba4fc0" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>recordFailure</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1a786844e90645a5a57250b96e5a8fcd4c" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1a1f8269194bb3562b4fda6fd996dd040a" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>reset</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>State</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1a1fd80c80a1d59610a5418afeae06b561" prot="private" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>state_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1a2c041dd3212c02d96a736a0402d5b80b" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>stateToString</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_1aa722418cab22077ca56c04b0cff146f2" prot="private" virt="non-virtual"><scope>themis::sharding::CircuitBreaker</scope><name>transitionTo</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

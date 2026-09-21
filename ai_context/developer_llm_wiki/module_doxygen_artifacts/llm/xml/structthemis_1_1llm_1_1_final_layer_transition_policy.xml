@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_final_layer_transition_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::FinalLayerTransitionPolicy</compoundname>
+    <includes refid="final__layer__orchestrator_8h" local="no">final_layer_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_transition_policy_1a5215cbf682f35845d3336076830431e5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::FinalLayerTransitionPolicy::require_compatibility_gate</definition>
+        <argsstring></argsstring>
+        <name>require_compatibility_gate</name>
+        <qualifiedname>themis::llm::FinalLayerTransitionPolicy::require_compatibility_gate</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="43" column="10" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_transition_policy_1aa6ad85c2a729d73d367424a08ed31906" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::FinalLayerTransitionPolicy::allow_direct_draft_to_production</definition>
+        <argsstring></argsstring>
+        <name>allow_direct_draft_to_production</name>
+        <qualifiedname>themis::llm::FinalLayerTransitionPolicy::allow_direct_draft_to_production</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="44" column="10" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/final_layer_orchestrator.h" line="42" column="1" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="42" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_final_layer_transition_policy_1aa6ad85c2a729d73d367424a08ed31906" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerTransitionPolicy</scope><name>allow_direct_draft_to_production</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_transition_policy_1a5215cbf682f35845d3336076830431e5" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerTransitionPolicy</scope><name>require_compatibility_gate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

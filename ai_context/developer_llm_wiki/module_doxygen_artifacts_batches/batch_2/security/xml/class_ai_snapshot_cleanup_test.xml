@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_ai_snapshot_cleanup_test" kind="class" language="C++" prot="public">
+    <compoundname>AiSnapshotCleanupTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_ai_snapshot_cleanup_test_1aaa1a7294cd169dba40175c6770e0a0a9" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path AiSnapshotCleanupTest::base_dir_</definition>
+        <argsstring></argsstring>
+        <name>base_dir_</name>
+        <qualifiedname>AiSnapshotCleanupTest::base_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ai_snapshot_cleanup.cpp" line="65" column="14" bodyfile="tests/security/test_ai_snapshot_cleanup.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_ai_snapshot_cleanup_test_1a7b7e65750c090c0e674d9e68dd8a811a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AiSnapshotCleanupTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AiSnapshotCleanupTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ai_snapshot_cleanup.cpp" line="25" column="10" bodyfile="tests/security/test_ai_snapshot_cleanup.cpp" bodystart="25" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ai_snapshot_cleanup_test_1ad9e7975b2390afa0cfd46a9d110ceca8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AiSnapshotCleanupTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AiSnapshotCleanupTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ai_snapshot_cleanup.cpp" line="32" column="10" bodyfile="tests/security/test_ai_snapshot_cleanup.cpp" bodystart="32" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ai_snapshot_cleanup_test_1aca25d6b7c20df9f8b075502d7c14f200" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AiSnapshotCleanupTest::makeSnapshot</definition>
+        <argsstring>(const std::string &amp;name, std::uint64_t size_bytes=0, int age_seconds=0)</argsstring>
+        <name>makeSnapshot</name>
+        <qualifiedname>AiSnapshotCleanupTest::makeSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>size_bytes</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>age_seconds</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a fake snapshot directory with a dummy file of <computeroutput>size_bytes</computeroutput>. <computeroutput>age_seconds</computeroutput> &gt; 0 means the file was written that many seconds in the past. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ai_snapshot_cleanup.cpp" line="39" column="17" bodyfile="tests/security/test_ai_snapshot_cleanup.cpp" bodystart="39" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ai_snapshot_cleanup_test_1a98cd0de2289538cfcc95388b3d978692" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_ai_snapshot_cleanup_job_1_1_config" kindref="compound">AiSnapshotCleanupJob::Config</ref></type>
+        <definition>AiSnapshotCleanupJob::Config AiSnapshotCleanupTest::defaultConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>defaultConfig</name>
+        <qualifiedname>AiSnapshotCleanupTest::defaultConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ai_snapshot_cleanup.cpp" line="61" column="34" bodyfile="tests/security/test_ai_snapshot_cleanup.cpp" bodystart="61" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AiSnapshotCleanupTest</label>
+        <link refid="class_ai_snapshot_cleanup_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AiSnapshotCleanupTest</label>
+        <link refid="class_ai_snapshot_cleanup_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_ai_snapshot_cleanup.cpp" line="23" column="1" bodyfile="tests/security/test_ai_snapshot_cleanup.cpp" bodystart="23" bodyend="66"/>
+    <listofallmembers>
+      <member refid="class_ai_snapshot_cleanup_test_1aaa1a7294cd169dba40175c6770e0a0a9" prot="protected" virt="non-virtual"><scope>AiSnapshotCleanupTest</scope><name>base_dir_</name></member>
+      <member refid="class_ai_snapshot_cleanup_test_1a98cd0de2289538cfcc95388b3d978692" prot="protected" virt="non-virtual"><scope>AiSnapshotCleanupTest</scope><name>defaultConfig</name></member>
+      <member refid="class_ai_snapshot_cleanup_test_1aca25d6b7c20df9f8b075502d7c14f200" prot="protected" virt="non-virtual"><scope>AiSnapshotCleanupTest</scope><name>makeSnapshot</name></member>
+      <member refid="class_ai_snapshot_cleanup_test_1a7b7e65750c090c0e674d9e68dd8a811a" prot="protected" virt="non-virtual"><scope>AiSnapshotCleanupTest</scope><name>SetUp</name></member>
+      <member refid="class_ai_snapshot_cleanup_test_1ad9e7975b2390afa0cfd46a9d110ceca8" prot="protected" virt="non-virtual"><scope>AiSnapshotCleanupTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

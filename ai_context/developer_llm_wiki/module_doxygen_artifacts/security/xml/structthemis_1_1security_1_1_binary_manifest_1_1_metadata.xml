@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_binary_manifest_1_1_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::BinaryManifest::Metadata</compoundname>
+    <includes refid="binary__manifest_8h" local="no">binary_manifest.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_binary_manifest_1_1_metadata_1a33b8a5a8f7c56d8e32f354b591c16185" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::BinaryManifest::Metadata::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::security::BinaryManifest::Metadata::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="46" column="21" bodyfile="include/security/binary_manifest.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_binary_manifest_1_1_metadata_1a4435edcacac93259e86de59ddc44a04c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::BinaryManifest::Metadata::build_id</definition>
+        <argsstring></argsstring>
+        <name>build_id</name>
+        <qualifiedname>themis::security::BinaryManifest::Metadata::build_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="47" column="21" bodyfile="include/security/binary_manifest.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_binary_manifest_1_1_metadata_1a66e9c23f9e2d462996baaac7e077a64c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::security::BinaryManifest::Metadata::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::security::BinaryManifest::Metadata::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="48" column="47" bodyfile="include/security/binary_manifest.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_binary_manifest_1_1_metadata_1a48612d63e66be335709f805e3d4b77a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::BinaryManifest::Metadata::release_type</definition>
+        <argsstring></argsstring>
+        <name>release_type</name>
+        <qualifiedname>themis::security::BinaryManifest::Metadata::release_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="49" column="21" bodyfile="include/security/binary_manifest.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_binary_manifest_1_1_metadata_1ac6af9ad7ac93008fd26db3be5fb67eb9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::BinaryManifest::Metadata::platform</definition>
+        <argsstring></argsstring>
+        <name>platform</name>
+        <qualifiedname>themis::security::BinaryManifest::Metadata::platform</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="50" column="21" bodyfile="include/security/binary_manifest.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/binary_manifest.h" line="45" column="5" bodyfile="include/security/binary_manifest.h" bodystart="45" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_binary_manifest_1_1_metadata_1a4435edcacac93259e86de59ddc44a04c" prot="public" virt="non-virtual"><scope>themis::security::BinaryManifest::Metadata</scope><name>build_id</name></member>
+      <member refid="structthemis_1_1security_1_1_binary_manifest_1_1_metadata_1ac6af9ad7ac93008fd26db3be5fb67eb9" prot="public" virt="non-virtual"><scope>themis::security::BinaryManifest::Metadata</scope><name>platform</name></member>
+      <member refid="structthemis_1_1security_1_1_binary_manifest_1_1_metadata_1a48612d63e66be335709f805e3d4b77a0" prot="public" virt="non-virtual"><scope>themis::security::BinaryManifest::Metadata</scope><name>release_type</name></member>
+      <member refid="structthemis_1_1security_1_1_binary_manifest_1_1_metadata_1a66e9c23f9e2d462996baaac7e077a64c" prot="public" virt="non-virtual"><scope>themis::security::BinaryManifest::Metadata</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1security_1_1_binary_manifest_1_1_metadata_1a33b8a5a8f7c56d8e32f354b591c16185" prot="public" virt="non-virtual"><scope>themis::security::BinaryManifest::Metadata</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

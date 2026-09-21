@@ -1,0 +1,466 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::image::ONNXClipPlugin</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IImageAnalysisBackend</basecompoundref>
+    <includes refid="onnx__clip__plugin_8h" local="no">onnx_clip_plugin.h</includes>
+    <innerclass refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl" prot="public">themis::plugins::image::ONNXClipPlugin::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a132da7993522295abbe09e4b65eade1e" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;file_path)&gt;</type>
+        <definition>using themis::plugins::image::ONNXClipPlugin::ModelHashFn = std::function&lt;std::string(const std::string&amp; file_path)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ModelHashFn</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::ModelHashFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="66" column="5" bodyfile="src/onnx_clip/onnx_clip_plugin.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a34311953c1740dd2d15d415f5d6ee70a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::image::ONNXClipPlugin::impl_swap_mtx_</definition>
+        <argsstring></argsstring>
+        <name>impl_swap_mtx_</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::impl_swap_mtx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="79" column="24" bodyfile="src/onnx_clip/onnx_clip_plugin.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9501dc23388131d4536a493c3e4c336e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Impl&gt; themis::plugins::image::ONNXClipPlugin::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="80" column="21" bodyfile="src/onnx_clip/onnx_clip_plugin.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a2665f4aa0dc5d0f5e28e7ef22c9c11a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::image::ONNXClipPlugin::ONNXClipPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>ONNXClipPlugin</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::ONNXClipPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="29" column="5" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="549" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a0d87b1e9831a8db21872b999ea428767" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::image::ONNXClipPlugin::~ONNXClipPlugin</definition>
+        <argsstring>() override</argsstring>
+        <name>~ONNXClipPlugin</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::~ONNXClipPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="30" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1acd9bde417ae381764a2e7b9efc76672d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>PluginInfo</type>
+        <definition>PluginInfo themis::plugins::image::ONNXClipPlugin::getInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::getInfo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="33" column="16" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="555" bodyend="579"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::ONNXClipPlugin::initialize</definition>
+        <argsstring>(const PluginConfig &amp;config, BackendType backend=BackendType::AUTO) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::initialize</qualifiedname>
+        <param>
+          <type>const PluginConfig &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>BackendType</type>
+          <declname>backend</declname>
+          <defval>BackendType::AUTO</defval>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), std::max(), empty(), sha256HexOfFile(), lk(), fn(), loadModelMmap(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="34" column="10" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="588" bodyend="673"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a2baaa69f3fc2f00f3304c80d5cc3bb42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::image::ONNXClipPlugin::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), cleanupMmap(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="35" column="10" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="679" bodyend="686"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a6ec89d6dc14e1d6eb0c0367d25501231" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::ONNXClipPlugin::isReady</definition>
+        <argsstring>() const override</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::isReady</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="36" column="10" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="688" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1adddb25ff94994e6acc8c915b2a7306b9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>BackendType</type>
+        <definition>BackendType themis::plugins::image::ONNXClipPlugin::getBackend</definition>
+        <argsstring>() const override</argsstring>
+        <name>getBackend</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::getBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="37" column="17" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="693" bodyend="696"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a057c3335fdfc139110c4ab374161f4f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>EmbeddingResult</type>
+        <definition>EmbeddingResult themis::plugins::image::ONNXClipPlugin::generateEmbedding</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, const ImageMetadata *metadata=nullptr) override</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::generateEmbedding</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>const ImageMetadata *</type>
+          <declname>metadata</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Generate Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">image_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), pg(), req_guard(), lock(), computeEmbedding(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="40" column="21" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="705" bodyend="745"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a79faf1a6557b341fb0add52c9a596a98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; EmbeddingResult &gt;</type>
+        <definition>std::vector&lt; EmbeddingResult &gt; themis::plugins::image::ONNXClipPlugin::generateEmbeddingBatch</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;images) override</argsstring>
+        <name>generateEmbeddingBatch</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::generateEmbeddingBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>images</declname>
+        </param>
+        <briefdescription>
+<para>Generate Embedding Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">images</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), pg(), req_guard(), lock(), <ref refid="bench__onnx__clip__cpu_8cpp_1a4bc8d3b68bcb967dc2f4ac8901e5f933" kindref="member">reserve()</ref>, size(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="45" column="17" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="753" bodyend="809"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a68460c9934ef9af34be9615fb033f8c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>EmbeddingResult</type>
+        <definition>EmbeddingResult themis::plugins::image::ONNXClipPlugin::generateTextEmbedding</definition>
+        <argsstring>(const std::string &amp;text) override</argsstring>
+        <name>generateTextEmbedding</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::generateTextEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Generate Text Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), pg(), req_guard(), lock(), computeTextEmbedding(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="49" column="21" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="822" bodyend="859"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1ac35848b861534e5c434a235a279943c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::ONNXClipPlugin::healthCheck</definition>
+        <argsstring>() const override</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::healthCheck</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="52" column="10" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="811" bodyend="814"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a8bd704d1aa4d28e3c7279b1918f7d68e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::plugins::image::ONNXClipPlugin::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="53" column="20" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="861" bodyend="884"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a5e480ca1db61aa9238e698def9a6464c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::image::ONNXClipPlugin::warmup</definition>
+        <argsstring>() override</argsstring>
+        <name>warmup</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::warmup</qualifiedname>
+        <briefdescription>
+<para>Warmup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), computeEmbedding(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="54" column="10" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="890" bodyend="904"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a0185edbaf82f57f15d2e70df67ff25d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::ONNXClipPlugin::reloadModel</definition>
+        <argsstring>(const PluginConfig &amp;new_config)</argsstring>
+        <name>reloadModel</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::reloadModel</qualifiedname>
+        <param>
+          <type>const PluginConfig &amp;</type>
+          <declname>new_config</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> Hot-Swap Model Reloading (Phase 3B) --------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reload Model.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::max(), empty(), sha256HexOfFile(), lk(), fn(), pg(), ol(), std::chrono::seconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="61" column="10" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="912" bodyend="1040"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a71acf2f6dcb5c226e59e3c731af3d3dc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::image::ONNXClipPlugin::setModelHashFn</definition>
+        <argsstring>(ModelHashFn fn)</argsstring>
+        <name>setModelHashFn</name>
+        <qualifiedname>themis::plugins::image::ONNXClipPlugin::setModelHashFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a132da7993522295abbe09e4b65eade1e" kindref="member">ModelHashFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Model Hash Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.h" line="72" column="17" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="55" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IImageAnalysisBackend</label>
+      </node>
+      <node id="1">
+        <label>themis::plugins::image::ONNXClipPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IImageAnalysisBackend</label>
+      </node>
+      <node id="1">
+        <label>themis::plugins::image::ONNXClipPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/onnx_clip/onnx_clip_plugin.h" line="27" column="1" bodyfile="src/onnx_clip/onnx_clip_plugin.h" bodystart="27" bodyend="81"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a057c3335fdfc139110c4ab374161f4f4" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a79faf1a6557b341fb0add52c9a596a98" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>generateEmbeddingBatch</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a68460c9934ef9af34be9615fb033f8c4" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>generateTextEmbedding</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1adddb25ff94994e6acc8c915b2a7306b9" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>getBackend</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1acd9bde417ae381764a2e7b9efc76672d" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>getInfo</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a8bd704d1aa4d28e3c7279b1918f7d68e" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1ac35848b861534e5c434a235a279943c4" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>healthCheck</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9501dc23388131d4536a493c3e4c336e" prot="private" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a34311953c1740dd2d15d415f5d6ee70a" prot="private" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>impl_swap_mtx_</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a6ec89d6dc14e1d6eb0c0367d25501231" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a132da7993522295abbe09e4b65eade1e" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>ModelHashFn</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a2665f4aa0dc5d0f5e28e7ef22c9c11a6" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>ONNXClipPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a0185edbaf82f57f15d2e70df67ff25d3" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>reloadModel</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a71acf2f6dcb5c226e59e3c731af3d3dc" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>setModelHashFn</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a2baaa69f3fc2f00f3304c80d5cc3bb42" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a5e480ca1db61aa9238e698def9a6464c" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>warmup</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a0d87b1e9831a8db21872b999ea428767" prot="public" virt="non-virtual"><scope>themis::plugins::image::ONNXClipPlugin</scope><name>~ONNXClipPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_tensor_deduplication_manager_test" kind="class" language="C++" prot="public">
+    <compoundname>TensorDeduplicationManagerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_tensor_deduplication_manager_test_1aab18df3c034c5cd6ab24eda97d39f51e" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; TensorNetworkStorageEngine &gt;</type>
+        <definition>std::shared_ptr&lt;TensorNetworkStorageEngine&gt; TensorDeduplicationManagerTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>TensorDeduplicationManagerTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_tensor_fingerprint_graph.cpp" line="650" column="21" bodyfile="tests/graph/test_tensor_fingerprint_graph.cpp" bodystart="650" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_tensor_deduplication_manager_test_1adf9c23ec990b4676158e757bc157032b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TensorFingerprintGraph&gt; TensorDeduplicationManagerTest::fp_graph_</definition>
+        <argsstring></argsstring>
+        <name>fp_graph_</name>
+        <qualifiedname>TensorDeduplicationManagerTest::fp_graph_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_tensor_fingerprint_graph.cpp" line="651" column="25" bodyfile="tests/graph/test_tensor_fingerprint_graph.cpp" bodystart="651" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_tensor_deduplication_manager_test_1a4703b37f92bee6ec48434c897aa0846f" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; TensorTrainDecomposer &gt;</type>
+        <definition>std::shared_ptr&lt;TensorTrainDecomposer&gt; TensorDeduplicationManagerTest::decomposer_</definition>
+        <argsstring></argsstring>
+        <name>decomposer_</name>
+        <qualifiedname>TensorDeduplicationManagerTest::decomposer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_tensor_fingerprint_graph.cpp" line="652" column="26" bodyfile="tests/graph/test_tensor_fingerprint_graph.cpp" bodystart="652" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_tensor_deduplication_manager_test_1acef606a5e436f70fb9932b3226e79bfc" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1graph_1_1_tensor_deduplication_manager" kindref="compound">TensorDeduplicationManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TensorDeduplicationManager&gt; TensorDeduplicationManagerTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>TensorDeduplicationManagerTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_tensor_fingerprint_graph.cpp" line="653" column="21" bodyfile="tests/graph/test_tensor_fingerprint_graph.cpp" bodystart="653" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_tensor_deduplication_manager_test_1a2d634de81e079692fd880de28a026870" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TensorDeduplicationManagerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TensorDeduplicationManagerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_tensor_fingerprint_graph.cpp" line="638" column="10" bodyfile="tests/graph/test_tensor_fingerprint_graph.cpp" bodystart="638" bodyend="648"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TensorDeduplicationManagerTest</label>
+        <link refid="class_tensor_deduplication_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TensorDeduplicationManagerTest</label>
+        <link refid="class_tensor_deduplication_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_tensor_fingerprint_graph.cpp" line="636" column="1" bodyfile="tests/graph/test_tensor_fingerprint_graph.cpp" bodystart="636" bodyend="654"/>
+    <listofallmembers>
+      <member refid="class_tensor_deduplication_manager_test_1a4703b37f92bee6ec48434c897aa0846f" prot="protected" virt="non-virtual"><scope>TensorDeduplicationManagerTest</scope><name>decomposer_</name></member>
+      <member refid="class_tensor_deduplication_manager_test_1aab18df3c034c5cd6ab24eda97d39f51e" prot="protected" virt="non-virtual"><scope>TensorDeduplicationManagerTest</scope><name>engine_</name></member>
+      <member refid="class_tensor_deduplication_manager_test_1adf9c23ec990b4676158e757bc157032b" prot="protected" virt="non-virtual"><scope>TensorDeduplicationManagerTest</scope><name>fp_graph_</name></member>
+      <member refid="class_tensor_deduplication_manager_test_1acef606a5e436f70fb9932b3226e79bfc" prot="protected" virt="non-virtual"><scope>TensorDeduplicationManagerTest</scope><name>mgr_</name></member>
+      <member refid="class_tensor_deduplication_manager_test_1a2d634de81e079692fd880de28a026870" prot="protected" virt="non-virtual"><scope>TensorDeduplicationManagerTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

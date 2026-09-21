@@ -1,0 +1,316 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="query__federation__timeout_8h" kind="file" language="C++">
+    <compoundname>query_federation_timeout.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">random</includes>
+    <includes local="yes">utils/retry_contract.h</includes>
+    <includedby refid="query__federation__timeout_8cpp" local="yes">src/query/query_federation_timeout.cpp</includedby>
+    <includedby refid="test__query__federation__hardness_8cpp" local="yes">tests/query/test_query_federation_hardness.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/query_federation_timeout.h</label>
+        <link refid="query__federation__timeout_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>random</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>utils/retry_contract.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/query_federation_timeout.h</label>
+        <link refid="query__federation__timeout_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/query/query_federation_timeout.cpp</label>
+        <link refid="query__federation__timeout_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/query/test_query_federation_hardness.cpp</label>
+        <link refid="test__query__federation__hardness_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1query_1_1_timeout_policy" prot="public">themis::query::TimeoutPolicy</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event" prot="public">themis::query::TimeoutPolicy::TimeoutEvent</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats" prot="public">themis::query::TimeoutPolicy::RetryStats</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" prot="public">themis::query::TimeoutPolicy::Builder</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_query_timeout_context" prot="public">themis::query::QueryTimeoutContext</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Timeout and retry infrastructure for federated query execution. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 BETA </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 95/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Beta - Ready for Phase 3 integration </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-05 </para>
+</simplesect>
+<simplesect kind="copyright"><para>Apache-2.0, (c) 2026 ThemisDB Contributors</para>
+</simplesect>
+SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/retry_contract.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1query_1_1_timeout_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_timeout_policy_1add7051f8e6083dd27df153f6c278906c" kindref="member">TimeoutPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event" kindref="compound">TimeoutEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0" kindref="member">Type</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0a85e8cb24e1d413ef772d0ef903955516" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0a85e8cb24e1d413ef772d0ef903955516" kindref="member">SHARD_TIMEOUT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Individual<sp/>shard<sp/>exceeded<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0a41fce2a5658ac31b59f71b6226fb2f72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0a41fce2a5658ac31b59f71b6226fb2f72" kindref="member">OVERALL_TIMEOUT</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>exceeded<sp/>overall<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0a3378f8c9888922c8fe1e737cf7d6e762" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0a3378f8c9888922c8fe1e737cf7d6e762" kindref="member">RETRY_BACKOFF</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backing<sp/>off<sp/>before<sp/>retry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0a7b2898093fb02be2c62d2cb18b7714c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0a7b2898093fb02be2c62d2cb18b7714c4" kindref="member">RETRY_EXHAUSTED</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>retries<sp/>exceeded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1aec6f6a6688009a537273119d04cd6b12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0" kindref="member">Type</ref><sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1aec6f6a6688009a537273119d04cd6b12" kindref="member">event_type</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a99b1f25134c7bc7656da3a6468a95c67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a99b1f25134c7bc7656da3a6468a95c67" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ad487fedae427923031e08266ad1b00c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ad487fedae427923031e08266ad1b00c1" kindref="member">elapsed</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a0e91c743cc85d783091a93994cd513b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a0e91c743cc85d783091a93994cd513b0" kindref="member">attempt_number</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a0e2522e7122aad0cc9533083383c5333" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a0e2522e7122aad0cc9533083383c5333" kindref="member">details</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a1a8a11090dcb2bf111c81afa617aa829" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::utils::RetryExhaustionReason<sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a1a8a11090dcb2bf111c81afa617aa829" kindref="member">exhaustion_reason</ref><sp/>=</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::utils::RetryExhaustionReason::NONE;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1aff31e27862fddc8d60a8926f780a41ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::utils::RetryTimeoutSource<sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1aff31e27862fddc8d60a8926f780a41ef" kindref="member">timeout_source</ref><sp/>=</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::utils::RetryTimeoutSource::NONE;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a2b844457f90515f101732082f2a260a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1a2b844457f90515f101732082f2a260a6" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats" kindref="compound">RetryStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1a88a945542d7a3bb9cb4106228b13e134" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1a88a945542d7a3bb9cb4106228b13e134" kindref="member">successful_attempt</ref><sp/>=<sp/>-1;<sp/><sp/></highlight><highlight class="comment">//<sp/>0-indexed,<sp/>-1<sp/>if<sp/>not<sp/>yet<sp/>successful</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1a4d374965bc33554f40db9f5a83361d68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1a4d374965bc33554f40db9f5a83361d68" kindref="member">total_attempts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1abd68070186290406c032afb037d4c56e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1abd68070186290406c032afb037d4c56e" kindref="member">total_elapsed</ref>{0};</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1a68cb130d652772cf6320a632504d6020" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::chrono::milliseconds&gt;<sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1a68cb130d652772cf6320a632504d6020" kindref="member">attempt_latencies</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1ae93328057531b3b3a4771bc88595c8e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1ae93328057531b3b3a4771bc88595c8e1" kindref="member">failure_reasons</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">Builder</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a03a0c32b46e6cfbd6040dce27bb6182e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">Builder</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a03a0c32b46e6cfbd6040dce27bb6182e" kindref="member">withPerShardTimeout</ref>(std::chrono::milliseconds<sp/>timeout)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>per_shard_timeout_<sp/>=<sp/>timeout;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a5b19605b760fb3376d584af63b385939" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">Builder</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a5b19605b760fb3376d584af63b385939" kindref="member">withOverallTimeout</ref>(std::chrono::milliseconds<sp/>timeout)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>overall_timeout_<sp/>=<sp/>timeout;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a9e0df505ff73f34eea1664706fb4fd06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">Builder</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a9e0df505ff73f34eea1664706fb4fd06" kindref="member">withMaxRetries</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_retries)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_retries_<sp/>=<sp/>max_retries;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a976d79f3802b8880df804bedf645d4af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">Builder</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a976d79f3802b8880df804bedf645d4af" kindref="member">withInitialBackoffMs</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>backoff_ms)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>initial_backoff_ms_<sp/>=<sp/>backoff_ms;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1ae0db5a6f050077e8c2712c4c67f8f290" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">Builder</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1ae0db5a6f050077e8c2712c4c67f8f290" kindref="member">withMaxBackoffMs</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_backoff_ms)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_backoff_ms_<sp/>=<sp/>max_backoff_ms;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a36602fd127dec759e24166d10cec7de0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">Builder</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a36602fd127dec759e24166d10cec7de0" kindref="member">withBackoffMultiplier</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>multiplier)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>backoff_multiplier_<sp/>=<sp/>multiplier;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a9802863d5b32bbae8f04535ccc81b045" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">Builder</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a9802863d5b32bbae8f04535ccc81b045" kindref="member">withJitterFraction</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>jitter)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jitter_fraction_<sp/>=<sp/>jitter;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1add7051f8e6083dd27df153f6c278906c" kindref="member">TimeoutPolicy</ref><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1ac0f2186d6cb7b9cd1b0c2a65a3c37017" kindref="member">build</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>per_shard_timeout_{5000};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>overall_timeout_{30000};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_retries_<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>initial_backoff_ms_<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_backoff_ms_<sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>backoff_multiplier_<sp/>=<sp/>2.0;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>jitter_fraction_<sp/>=<sp/>0.1;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deleted<sp/>copy<sp/>constructor<sp/>and<sp/>assignment<sp/>operator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1query_1_1_timeout_policy_1add7051f8e6083dd27df153f6c278906c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1add7051f8e6083dd27df153f6c278906c" kindref="member">TimeoutPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1add7051f8e6083dd27df153f6c278906c" kindref="member">TimeoutPolicy</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1query_1_1_timeout_policy_1ab76d5b60f8bc9fdbaa319f826c0817bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1add7051f8e6083dd27df153f6c278906c" kindref="member">TimeoutPolicy</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1ab76d5b60f8bc9fdbaa319f826c0817bc" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1add7051f8e6083dd27df153f6c278906c" kindref="member">TimeoutPolicy</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>move<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1query_1_1_timeout_policy_1acc256b11ca04c1540a3ece8e368a60c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1acc256b11ca04c1540a3ece8e368a60c7" kindref="member">TimeoutPolicy</ref>(<ref refid="classthemis_1_1query_1_1_timeout_policy_1add7051f8e6083dd27df153f6c278906c" kindref="member">TimeoutPolicy</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1query_1_1_timeout_policy_1a57cbd4bda3be35e6f3d86258503fc22c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1add7051f8e6083dd27df153f6c278906c" kindref="member">TimeoutPolicy</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1query_1_1_timeout_policy_1add7051f8e6083dd27df153f6c278906c" kindref="member">TimeoutPolicy</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1query_1_1_timeout_policy_1a129ab5f3f0b23128447d6e7e3e5ca2e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::chrono::milliseconds<sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1a129ab5f3f0b23128447d6e7e3e5ca2e6" kindref="member">getPerShardTimeout</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>per_shard_timeout_;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1query_1_1_timeout_policy_1aa6a8a42b1349b3f159314c1d0844c2e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::chrono::milliseconds<sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1aa6a8a42b1349b3f159314c1d0844c2e4" kindref="member">getOverallTimeout</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>overall_timeout_;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="classthemis_1_1query_1_1_timeout_policy_1a1953bf9cdb01d7388353ac5565c29a3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1a1953bf9cdb01d7388353ac5565c29a3f" kindref="member">getMaxRetries</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>max_retries_;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::chrono::milliseconds<sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1ad76f24b9360507e855dfd0ba99a3bb21" kindref="member">calculateBackoff</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>attempt)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1ac91f7da5202a623a8956adaadd18f514" kindref="member">shouldRetry</ref>(</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>elapsed,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>attempt)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1a1990ff274c4c9974dc84a81cd4edcad0" kindref="member">isOverallTimeoutExceeded</ref>(</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>total_elapsed)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1aa1b7bafe45a948b99e7f942da0c79d67" kindref="member">recordTimeoutEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TimeoutEvent&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1a0ec99f9d7b0c55015f6000a75d368da5" kindref="member">recordRetryStats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>RetryStats&amp;<sp/>stats);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;RetryStats&gt;<sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1a749bd971653f2a4f5a08aa33eac076ae" kindref="member">getRetryStats</ref>(</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;TimeoutEvent&gt;<sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1afb35c8665f261fcfb34399601f9b6230" kindref="member">getTimeoutEvents</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1ab710b4556a09cf89ad47f1766eab78dd" kindref="member">clearStatistics</ref>();</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1a2a392f35de7de92a81db5dae38f9539f" kindref="member">getStatisticsSummary</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Destructor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="classthemis_1_1query_1_1_timeout_policy_1ac1135ab6ec2f1cbaf3623cbd12729717" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1ac1135ab6ec2f1cbaf3623cbd12729717" kindref="member">~TimeoutPolicy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="212" refid="classthemis_1_1query_1_1_timeout_policy_1a870e4066b979b9cef642eb091f8f3d95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">Builder</ref>;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1add7051f8e6083dd27df153f6c278906c" kindref="member">TimeoutPolicy</ref>(</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>per_shard_timeout,</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>overall_timeout,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_retries,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>initial_backoff_ms,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_backoff_ms,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>backoff_multiplier,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>jitter_fraction);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>per_shard_timeout_;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>overall_timeout_;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_retries_;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>initial_backoff_ms_;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_backoff_ms_;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>backoff_multiplier_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>jitter_fraction_;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mt19937<sp/>rng_{std::random_device{}()};</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>RetryStats&gt;<sp/>shard_stats_;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::vector&lt;TimeoutEvent&gt;<sp/>timeout_events_;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="classthemis_1_1query_1_1_query_timeout_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_query_timeout_context_1a6de4db0087de48a4d9c8e0180f7a0bf8" kindref="member">QueryTimeoutContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_query_timeout_context_1a6de4db0087de48a4d9c8e0180f7a0bf8" kindref="member">QueryTimeoutContext</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy" kindref="compound">TimeoutPolicy</ref>&amp;<sp/>policy);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_query_timeout_context_1a13eb399e0ef013b791c8b857e309de16" kindref="member">startShardAttempt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>attempt);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_query_timeout_context_1ae823c3f7624c328b9f4ecd2e2d8bfdfb" kindref="member">endShardAttempt</ref>(</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>failure_reason<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_query_timeout_context_1a520bd2094a4602a50c5fff63a01c3428" kindref="member">shouldRetry</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_query_timeout_context_1ac4a129bb5e27ad8719541bd9ff8e9e89" kindref="member">isOverallTimeoutExceeded</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::chrono::milliseconds<sp/><ref refid="classthemis_1_1query_1_1_query_timeout_context_1afef58172f1ec22417801b763010512c4" kindref="member">getRemainingTime</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::chrono::milliseconds<sp/><ref refid="classthemis_1_1query_1_1_query_timeout_context_1a4a17316cc8ceb8afd9f337371881bea7" kindref="member">getRemainingShardTime</ref>(</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::chrono::milliseconds<sp/><ref refid="classthemis_1_1query_1_1_query_timeout_context_1ad28d186012d8bd39b6a72033e3634e85" kindref="member">getTotalElapsed</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;TimeoutPolicy::RetryStats&gt;<sp/><ref refid="classthemis_1_1query_1_1_query_timeout_context_1a9983f2dda53c07078635a39c4a8d30b6" kindref="member">getShardStats</ref>(</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>themis::utils::RetryMetadata<sp/><ref refid="classthemis_1_1query_1_1_query_timeout_context_1a520312a3a86b4feff9e32c8df8336132" kindref="member">getRetryMetadata</ref>(</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy" kindref="compound">TimeoutPolicy</ref>&amp;<sp/>policy_;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>query_start_;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>shard_attempt_start_;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>TimeoutPolicy::RetryStats&gt;<sp/>shard_stats_;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::query</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/query_federation_timeout.h"/>
+  </compounddef>
+</doxygen>

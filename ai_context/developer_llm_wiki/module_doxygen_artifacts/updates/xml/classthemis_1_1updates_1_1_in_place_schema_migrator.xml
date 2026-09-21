@@ -1,0 +1,528 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_in_place_schema_migrator" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::InPlaceSchemaMigrator</compoundname>
+    <includes refid="in__place__schema__migrator_8h" local="no">in_place_schema_migrator.h</includes>
+    <innerclass refid="structthemis_1_1updates_1_1_in_place_schema_migrator_1_1_config" prot="public">themis::updates::InPlaceSchemaMigrator::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_in_place_schema_migrator_1a0a88829ac30543f9c47eb0d77fb7b04c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1updates_1_1_in_place_schema_migrator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::updates::InPlaceSchemaMigrator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::updates::InPlaceSchemaMigrator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="201" column="12" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_in_place_schema_migrator_1a1fc37f49e2fa181aa5acac941592d0b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::InPlaceSchemaMigrator::InPlaceSchemaMigrator</definition>
+        <argsstring>()</argsstring>
+        <name>InPlaceSchemaMigrator</name>
+        <qualifiedname>themis::updates::InPlaceSchemaMigrator::InPlaceSchemaMigrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="130" column="5" bodyfile="src/updates/in_place_schema_migrator.cpp" bodystart="32" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_in_place_schema_migrator_1a57ff894555729503dc89af4a19d6e2b1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::InPlaceSchemaMigrator::InPlaceSchemaMigrator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>InPlaceSchemaMigrator</name>
+        <qualifiedname>themis::updates::InPlaceSchemaMigrator::InPlaceSchemaMigrator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_in_place_schema_migrator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="131" column="14" bodyfile="src/updates/in_place_schema_migrator.cpp" bodystart="37" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_in_place_schema_migrator_1a6d49a65b9f7fa06cbf814d0afd716cd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::InPlaceSchemaMigrator::~InPlaceSchemaMigrator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~InPlaceSchemaMigrator</name>
+        <qualifiedname>themis::updates::InPlaceSchemaMigrator::~InPlaceSchemaMigrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="132" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_in_place_schema_migrator_1a5b5e708297282068947c4d06502d041f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::InPlaceSchemaMigrator::InPlaceSchemaMigrator</definition>
+        <argsstring>(const InPlaceSchemaMigrator &amp;)=delete</argsstring>
+        <name>InPlaceSchemaMigrator</name>
+        <qualifiedname>themis::updates::InPlaceSchemaMigrator::InPlaceSchemaMigrator</qualifiedname>
+        <param>
+          <type>const InPlaceSchemaMigrator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="135" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_in_place_schema_migrator_1ab91cb6d1ae00531de29fa66e2975ba98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a1fc37f49e2fa181aa5acac941592d0b4" kindref="member">InPlaceSchemaMigrator</ref> &amp;</type>
+        <definition>InPlaceSchemaMigrator &amp; themis::updates::InPlaceSchemaMigrator::operator=</definition>
+        <argsstring>(const InPlaceSchemaMigrator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::InPlaceSchemaMigrator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a1fc37f49e2fa181aa5acac941592d0b4" kindref="member">InPlaceSchemaMigrator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="136" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_in_place_schema_migrator_1af9b6cdeb8a973f28e05352c5d15a1787" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::InPlaceSchemaMigrator::InPlaceSchemaMigrator</definition>
+        <argsstring>(InPlaceSchemaMigrator &amp;&amp;) noexcept=default</argsstring>
+        <name>InPlaceSchemaMigrator</name>
+        <qualifiedname>themis::updates::InPlaceSchemaMigrator::InPlaceSchemaMigrator</qualifiedname>
+        <param>
+          <type>InPlaceSchemaMigrator &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="137" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_in_place_schema_migrator_1ad2e48213525f8b311128afab9c9a1ad9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a1fc37f49e2fa181aa5acac941592d0b4" kindref="member">InPlaceSchemaMigrator</ref> &amp;</type>
+        <definition>InPlaceSchemaMigrator &amp; themis::updates::InPlaceSchemaMigrator::operator=</definition>
+        <argsstring>(InPlaceSchemaMigrator &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::InPlaceSchemaMigrator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a1fc37f49e2fa181aa5acac941592d0b4" kindref="member">InPlaceSchemaMigrator</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="138" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_in_place_schema_migrator_1a76ed86919131e7f4343c7406a286689a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_in_place_migration_result" kindref="compound">InPlaceMigrationResult</ref></type>
+        <definition>InPlaceMigrationResult themis::updates::InPlaceSchemaMigrator::apply</definition>
+        <argsstring>(const std::string &amp;table_name, const SchemaManager::TableSchema &amp;from_schema, const SchemaManager::TableSchema &amp;to_schema, SchemaManager &amp;schema_mgr, SchemaVersionManager &amp;version_mgr, const std::string &amp;author=&quot;&quot;)</argsstring>
+        <name>apply</name>
+        <qualifiedname>themis::updates::InPlaceSchemaMigrator::apply</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const SchemaManager::TableSchema &amp;</type>
+          <declname>from_schema</declname>
+        </param>
+        <param>
+          <type>const SchemaManager::TableSchema &amp;</type>
+          <declname>to_schema</declname>
+        </param>
+        <param>
+          <type>SchemaManager &amp;</type>
+          <declname>schema_mgr</declname>
+        </param>
+        <param>
+          <type>SchemaVersionManager &amp;</type>
+          <declname>version_mgr</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>author</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Apply an additive schema migration in-place (no data copy). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply.</para>
+<para>Validates that the migration is additive, updates <computeroutput>schema_mgr</computeroutput> with the new schema, and records the change in <computeroutput>version_mgr</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table being migrated. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>from_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current schema (used for additive validation). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New schema to apply. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>schema_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SchemaManager for the target database. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SchemaVersionManager for the target database. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>author</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identity of the person/system performing the migration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1updates_1_1_in_place_migration_result" kindref="compound">InPlaceMigrationResult</ref> describing the outcome.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">version_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">author</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="191" column="28" bodyfile="src/updates/in_place_schema_migrator.cpp" bodystart="223" bodyend="294"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_in_place_schema_migrator_1a42fb86fe1acc1080c58cf133a0e21973" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::InPlaceSchemaMigrator::isAdditiveMigration</definition>
+        <argsstring>(const SchemaManager::TableSchema &amp;from_schema, const SchemaManager::TableSchema &amp;to_schema)</argsstring>
+        <name>isAdditiveMigration</name>
+        <qualifiedname>themis::updates::InPlaceSchemaMigrator::isAdditiveMigration</qualifiedname>
+        <param>
+          <type>const SchemaManager::TableSchema &amp;</type>
+          <declname>from_schema</declname>
+        </param>
+        <param>
+          <type>const SchemaManager::TableSchema &amp;</type>
+          <declname>to_schema</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a schema migration is purely additive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Additive Migration.</para>
+<para>A migration is additive if:<itemizedlist>
+<listitem><para>Every column in <computeroutput>from_schema</computeroutput> is present in <computeroutput>to_schema</computeroutput> with the same name, type, and nullability.</para>
+</listitem><listitem><para><computeroutput>to_schema</computeroutput> contains at least one additional column.</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current schema. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Proposed new schema. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the migration is additive and can be applied in-place.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="152" column="17" bodyfile="src/updates/in_place_schema_migrator.cpp" bodystart="50" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_in_place_schema_migrator_1a7c965553b29b8a9052c2f0fdb3f8d733" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_migration_change_preview" kindref="compound">MigrationChangePreview</ref></type>
+        <definition>MigrationChangePreview themis::updates::InPlaceSchemaMigrator::preview</definition>
+        <argsstring>(const SchemaManager::TableSchema &amp;from_schema, const SchemaManager::TableSchema &amp;to_schema)</argsstring>
+        <name>preview</name>
+        <qualifiedname>themis::updates::InPlaceSchemaMigrator::preview</qualifiedname>
+        <param>
+          <type>const SchemaManager::TableSchema &amp;</type>
+          <declname>from_schema</declname>
+        </param>
+        <param>
+          <type>const SchemaManager::TableSchema &amp;</type>
+          <declname>to_schema</declname>
+        </param>
+        <briefdescription>
+<para>Dry-run: compute a detailed change preview without applying or persisting anything. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Preview.</para>
+<para>Unlike <ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a76ed86919131e7f4343c7406a286689a" kindref="member">apply()</ref>, <ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a7c965553b29b8a9052c2f0fdb3f8d733" kindref="member">preview()</ref> never modifies a SchemaManager or SchemaVersionManager. It may be called safely with any combination of schemas, including non-additive ones, to understand exactly what changes would be required before committing to an <ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a76ed86919131e7f4343c7406a286689a" kindref="member">apply()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current (baseline) schema. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Proposed new schema. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1updates_1_1_migration_change_preview" kindref="compound">MigrationChangePreview</ref> describing every change that would be performed, plus validation flags indicating whether <ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a76ed86919131e7f4343c7406a286689a" kindref="member">apply()</ref> would succeed in strict mode.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="172" column="35" bodyfile="src/updates/in_place_schema_migrator.cpp" bodystart="130" bodyend="207"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_in_place_schema_migrator_1ae38453c8e1294225449e7df36382727a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::updates::InPlaceSchemaMigrator::findAddedColumns</definition>
+        <argsstring>(const SchemaManager::TableSchema &amp;from_schema, const SchemaManager::TableSchema &amp;to_schema)</argsstring>
+        <name>findAddedColumns</name>
+        <qualifiedname>themis::updates::InPlaceSchemaMigrator::findAddedColumns</qualifiedname>
+        <param>
+          <type>const SchemaManager::TableSchema &amp;</type>
+          <declname>from_schema</declname>
+        </param>
+        <param>
+          <type>const SchemaManager::TableSchema &amp;</type>
+          <declname>to_schema</declname>
+        </param>
+        <briefdescription>
+<para>Collect columns present in <computeroutput>to_schema</computeroutput> but absent in <computeroutput>from_schema</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Find Added Columns.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="204" column="24" bodyfile="src/updates/in_place_schema_migrator.cpp" bodystart="97" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Applies additive schema migrations in-place without copying data. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Concept</heading>
+</para>
+<para>An <emphasis>additive</emphasis> migration adds one or more new columns to a table schema while leaving all existing columns untouched. Because no existing column is modified or removed, currently stored records remain valid under the new schema: they simply lack values for the newly added columns (treated as null/default). This means the schema metadata can be updated directly without any data-copy step.</para>
+<para><heading level="3">What counts as &quot;additive&quot;</heading>
+</para>
+<para>A migration from <computeroutput>from_schema</computeroutput> to <computeroutput>to_schema</computeroutput> is additive when:<itemizedlist>
+<listitem><para>Every column present in <computeroutput>from_schema</computeroutput> is still present in <computeroutput>to_schema</computeroutput> with the same name, type, and nullability.</para>
+</listitem><listitem><para><computeroutput>to_schema</computeroutput> contains at least one column not in <computeroutput>from_schema</computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">What is NOT supported (use <ref refid="classthemis_1_1updates_1_1_schema_migration_tester" kindref="compound">SchemaMigrationTester</ref> instead)</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Removing a column.</para>
+</listitem><listitem><para>Renaming a column.</para>
+</listitem><listitem><para>Changing a column&apos;s type or nullability.</para>
+</listitem><listitem><para>Any migration that requires transforming existing data.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Example</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a1fc37f49e2fa181aa5acac941592d0b4" kindref="member">InPlaceSchemaMigrator</ref><sp/>migrator;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>from<sp/>=<sp/>currentSchema;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>{&quot;id&quot;,<sp/>&quot;name&quot;}</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>to<sp/><sp/><sp/>=<sp/>newSchema;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>{&quot;id&quot;,<sp/>&quot;name&quot;,<sp/>&quot;email&quot;}</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a42fb86fe1acc1080c58cf133a0e21973" kindref="member">InPlaceSchemaMigrator::isAdditiveMigration</ref>(from,<sp/>to))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>migrator.apply(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>from,<sp/>to,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>schema_mgr,<sp/>version_mgr,<sp/></highlight><highlight class="stringliteral">&quot;ci-bot&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.success)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>schema<sp/>updated;<sp/>no<sp/>data<sp/>copy<sp/>performed</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Thread-safety</heading>
+</para>
+<para>Not thread-safe. The caller must ensure exclusive access to <computeroutput>schema_mgr</computeroutput> and <computeroutput>version_mgr</computeroutput> during <ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a76ed86919131e7f4343c7406a286689a" kindref="member">apply()</ref>.</para>
+<para><heading level="3">Constraints</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput><ref refid="structthemis_1_1updates_1_1_hot_reload_engine_1_1_config" kindref="compound">HotReloadEngine::Config</ref></computeroutput> is stable from v1.x; this class is additive.</para>
+</listitem><listitem><para>Migration version numbering is managed by SchemaVersionManager; no re-sequencing is performed. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/updates/in_place_schema_migrator.h" line="119" column="1" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="119" bodyend="208"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a76ed86919131e7f4343c7406a286689a" prot="public" virt="non-virtual"><scope>themis::updates::InPlaceSchemaMigrator</scope><name>apply</name></member>
+      <member refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a0a88829ac30543f9c47eb0d77fb7b04c" prot="private" virt="non-virtual"><scope>themis::updates::InPlaceSchemaMigrator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1ae38453c8e1294225449e7df36382727a" prot="private" virt="non-virtual"><scope>themis::updates::InPlaceSchemaMigrator</scope><name>findAddedColumns</name></member>
+      <member refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a1fc37f49e2fa181aa5acac941592d0b4" prot="public" virt="non-virtual"><scope>themis::updates::InPlaceSchemaMigrator</scope><name>InPlaceSchemaMigrator</name></member>
+      <member refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a57ff894555729503dc89af4a19d6e2b1" prot="public" virt="non-virtual"><scope>themis::updates::InPlaceSchemaMigrator</scope><name>InPlaceSchemaMigrator</name></member>
+      <member refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a5b5e708297282068947c4d06502d041f" prot="public" virt="non-virtual"><scope>themis::updates::InPlaceSchemaMigrator</scope><name>InPlaceSchemaMigrator</name></member>
+      <member refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1af9b6cdeb8a973f28e05352c5d15a1787" prot="public" virt="non-virtual"><scope>themis::updates::InPlaceSchemaMigrator</scope><name>InPlaceSchemaMigrator</name></member>
+      <member refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a42fb86fe1acc1080c58cf133a0e21973" prot="public" virt="non-virtual"><scope>themis::updates::InPlaceSchemaMigrator</scope><name>isAdditiveMigration</name></member>
+      <member refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1ab91cb6d1ae00531de29fa66e2975ba98" prot="public" virt="non-virtual"><scope>themis::updates::InPlaceSchemaMigrator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1ad2e48213525f8b311128afab9c9a1ad9" prot="public" virt="non-virtual"><scope>themis::updates::InPlaceSchemaMigrator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a7c965553b29b8a9052c2f0fdb3f8d733" prot="public" virt="non-virtual"><scope>themis::updates::InPlaceSchemaMigrator</scope><name>preview</name></member>
+      <member refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a6d49a65b9f7fa06cbf814d0afd716cd6" prot="public" virt="non-virtual"><scope>themis::updates::InPlaceSchemaMigrator</scope><name>~InPlaceSchemaMigrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

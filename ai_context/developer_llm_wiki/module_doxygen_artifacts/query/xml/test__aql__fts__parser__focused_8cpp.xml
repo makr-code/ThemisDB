@@ -1,0 +1,693 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__fts__parser__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_fts_parser_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="aql__parser_8h" local="yes">query/aql_parser.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>query/aql_parser.h</label>
+        <link refid="aql__parser_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/query/test_aql_fts_parser_focused.cpp</label>
+        <link refid="test__aql__fts__parser__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>set</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_set</label>
+      </node>
+      <node id="11">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="7">
+        <label>variant</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_fts_parser_test" prot="public">FtsParserTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__aql__fts__parser__focused_8cpp_1adf39296077321b2883816525cb62770e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FtsParserTest, FtsP01_SearchClausePresent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref></type>
+        </param>
+        <param>
+          <type>FtsP01_SearchClausePresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FTS-P-01: A query with a SEARCH clause must have query-&gt;search_clause != nullptr. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="67" column="1" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="67" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__fts__parser__focused_8cpp_1a7948e7130432b2f765ad6e55eab74889" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FtsParserTest, FtsP02_NoSearchClauseIsNull)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref></type>
+        </param>
+        <param>
+          <type>FtsP02_NoSearchClauseIsNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FTS-P-02: A plain FOR/FILTER/RETURN query must NOT set search_clause. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="83" column="1" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="83" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__fts__parser__focused_8cpp_1a708bdda4748c73e8a74d501d384367be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FtsParserTest, FtsP03_ImplicitTermPredicate)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref></type>
+        </param>
+        <param>
+          <type>FtsP03_ImplicitTermPredicate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FTS-P-03: SEARCH field == &quot;term&quot; → single TERM predicate with correct field/term. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="98" column="1" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="98" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__fts__parser__focused_8cpp_1a392e6d541f45fed04081621b9b176a26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FtsParserTest, FtsP04_PhrasePredicate)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref></type>
+        </param>
+        <param>
+          <type>FtsP04_PhrasePredicate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FTS-P-04: SEARCH PHRASE(doc.body, &quot;hello world&quot;) → PHRASE predicate. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="119" column="1" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="119" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__fts__parser__focused_8cpp_1a96d68c0e18c212228530e1de59c7f178" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FtsParserTest, FtsP05_PhraseWithAnalyzer)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref></type>
+        </param>
+        <param>
+          <type>FtsP05_PhraseWithAnalyzer</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FTS-P-05: SEARCH PHRASE(doc.body, &quot;hello world&quot;, &quot;text_en&quot;) → analyzer stored. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="139" column="1" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="139" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__fts__parser__focused_8cpp_1ae14c692b67d6f966399211429bfb050f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FtsParserTest, FtsP06_StartsWithPredicate)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref></type>
+        </param>
+        <param>
+          <type>FtsP06_StartsWithPredicate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FTS-P-06: SEARCH STARTS_WITH(doc.title, &quot;data&quot;) → PREFIX predicate. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="158" column="1" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="158" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__fts__parser__focused_8cpp_1af8d7b55e1e7b37fe0d151a2513b65125" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FtsParserTest, FtsP07_NearPredicateWithDistance)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref></type>
+        </param>
+        <param>
+          <type>FtsP07_NearPredicateWithDistance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FTS-P-07: SEARCH NEAR<ulink url="doc.body,">5</ulink> → PROXIMITY predicate with distance=5. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="178" column="1" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="178" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__fts__parser__focused_8cpp_1a63a3596050d67e2dc340bc2a3660a763" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FtsParserTest, FtsP08_NearPredicateWithoutDistance)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref></type>
+        </param>
+        <param>
+          <type>FtsP08_NearPredicateWithoutDistance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FTS-P-08: SEARCH NEAR(doc.body, &quot;graph&quot;) → PROXIMITY predicate, distance=0. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="198" column="1" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="198" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__fts__parser__focused_8cpp_1abd2769e6cc437e3eb507266c9d140087" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FtsParserTest, FtsP09_PerPredicateBoost)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref></type>
+        </param>
+        <param>
+          <type>FtsP09_PerPredicateBoost</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FTS-P-09: SEARCH PHRASE(doc, &quot;hello&quot;) BOOST 2.5 → boost stored on predicate. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="217" column="1" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="217" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__fts__parser__focused_8cpp_1ab45cebc3f5691d46d066e1a0d8d0c0f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FtsParserTest, FtsP10_PerPredicateAnalyzer)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref></type>
+        </param>
+        <param>
+          <type>FtsP10_PerPredicateAnalyzer</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FTS-P-10: SEARCH PHRASE(doc, &quot;hello&quot;) ANALYZER &quot;identity&quot; → analyzer stored. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="234" column="1" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="234" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__fts__parser__focused_8cpp_1a2d55079ce6af1e8756e97a6a86733bc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FtsParserTest, FtsP11_MultiplePredicatesCommaSeparated)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref></type>
+        </param>
+        <param>
+          <type>FtsP11_MultiplePredicatesCommaSeparated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FTS-P-11: SEARCH pred1, pred2 → two predicates in search_clause. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="251" column="1" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="251" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__fts__parser__focused_8cpp_1afc8455eac77af54b74648390172e7c06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FtsParserTest, FtsP12_InFieldClause)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref></type>
+        </param>
+        <param>
+          <type>FtsP12_InFieldClause</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FTS-P-12: SEARCH &quot;term&quot; IN body → in_field populated. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="269" column="1" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="269" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__fts__parser__focused_8cpp_1a4c45ac67b7f3b67b061ec5df4c4de0a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FtsParserTest, FtsP13_TopLevelAnalyzer)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref></type>
+        </param>
+        <param>
+          <type>FtsP13_TopLevelAnalyzer</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FTS-P-13: SEARCH ... ANALYZER &quot;text_de&quot; → default_analyzer set on <ref refid="structthemis_1_1query_1_1_search_clause_node" kindref="compound">SearchClauseNode</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="284" column="1" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="284" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__fts__parser__focused_8cpp_1a11934ecb93b6a5b1ec5a401d0bb505d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FtsParserTest, FtsP14_TopLevelBoost)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref></type>
+        </param>
+        <param>
+          <type>FtsP14_TopLevelBoost</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FTS-P-14: SEARCH ... BOOST 3 → top_boost set on <ref refid="structthemis_1_1query_1_1_search_clause_node" kindref="compound">SearchClauseNode</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="299" column="1" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="299" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__fts__parser__focused_8cpp_1aceeaa68108c04dd361b7ac053e6f5f54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FtsParserTest, FtsP15_SearchWithFilter)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref></type>
+        </param>
+        <param>
+          <type>FtsP15_SearchWithFilter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FTS-P-15: <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> with both FILTER and SEARCH → both parsed; search_clause != null. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="314" column="1" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="314" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__fts__parser__focused_8cpp_1a4cac07a1e7fe5d2b420d9f9e50f42873" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FtsParserTest, FtsP16_BareStringTermPredicate)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref></type>
+        </param>
+        <param>
+          <type>FtsP16_BareStringTermPredicate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FTS-P-16: SEARCH &quot;bare_term&quot; → TERM predicate with term=&quot;bare_term&quot;, field empty. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_fts_parser_focused.cpp" line="330" column="1" bodyfile="tests/query/test_aql_fts_parser_focused.cpp" bodystart="330" bodyend="342"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 6 FTS parser-layer focused tests (FTS-P-01..FTS-P-16). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates the SEARCH clause parsing infrastructure added in Phase 6:<itemizedlist>
+<listitem><para>Lexer recognition of SEARCH, PHRASE, NEAR, STARTS_WITH, BOOST, ANALYZER tokens.</para>
+</listitem><listitem><para><ref refid="structthemis_1_1query_1_1_fts_predicate_node" kindref="compound">FtsPredicateNode</ref> construction for each predicate type.</para>
+</listitem><listitem><para><ref refid="structthemis_1_1query_1_1_search_clause_node" kindref="compound">SearchClauseNode</ref> wired into <ref refid="structthemis_1_1query_1_1_query_1aac5d8addf1ba0bbfa077e2d9f5ec30c0" kindref="member">Query::search_clause</ref>.</para>
+</listitem><listitem><para>Modifier parsing: BOOST, ANALYZER (per-predicate and top-level).</para>
+</listitem><listitem><para>Multiple predicates via comma separation.</para>
+</listitem><listitem><para>Error reporting on malformed SEARCH clauses.</para>
+</listitem></itemizedlist>
+</para>
+<para>These tests exercise only the parser layer; no query executor or storage backend is required. Backend FTS execution is tested separately once executor wiring lands in Q4 2026.</para>
+<para><simplesect kind="see"><para><ref refid="aql__parser_8h" kindref="compound">include/query/aql_parser.h</ref> — <ref refid="structthemis_1_1query_1_1_fts_predicate_node" kindref="compound">FtsPredicateNode</ref>, <ref refid="structthemis_1_1query_1_1_search_clause_node" kindref="compound">SearchClauseNode</ref>, <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/query/ROADMAP.md — Phase 6 FTS </para>
+</simplesect>
+<simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: PRODUCTION-READY (parser layer) </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__parser_8h" kindref="compound">query/aql_parser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="class_fts_parser_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_a_q_l_parser" kindref="compound">AQLParser</ref><sp/><ref refid="class_fts_parser_test_1a482b03dede103cc71d1cd2c8c7a7585e" kindref="member">parser</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;Query&gt;<sp/><ref refid="class_fts_parser_test_1a99b5d26f6cd765c031327af6cd1aca79" kindref="member">parse_ok</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="class_fts_parser_test_1a482b03dede103cc71d1cd2c8c7a7585e" kindref="member">parser</ref>.parse(aql);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value())</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;parse()<sp/>failed<sp/>for:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>aql<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n<sp/><sp/>error:<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>(result.has_value()<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>result.error().message());</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result.value();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_fts_parser_test_1a7485283a5fef9999b75073a3b41d4904" kindref="member">parse_err</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="class_fts_parser_test_1a482b03dede103cc71d1cd2c8c7a7585e" kindref="member">parser</ref>.parse(aql);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value())</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>parse<sp/>error<sp/>for:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>aql;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FTS-P-01:<sp/>SEARCH<sp/>clause<sp/>present<sp/>→<sp/>Query::search_clause<sp/>populated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__aql__fts__parser__focused_8cpp_1adf39296077321b2883816525cb62770e" kindref="member">TEST_F</ref>(<ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref>,<sp/>FtsP01_SearchClausePresent)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>parse_ok(</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>doc<sp/>IN<sp/>articles<sp/>SEARCH<sp/>doc.title<sp/>==<sp/>&quot;hello&quot;<sp/>RETURN<sp/>doc)&quot;);</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NE(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(q-&gt;search_clause,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;search_clause<sp/>must<sp/>be<sp/>set<sp/>for<sp/>a<sp/>SEARCH<sp/>query&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(q-&gt;search_clause-&gt;getType(),<sp/>ASTNodeType::SearchClauseNode);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FTS-P-02:<sp/>No<sp/>SEARCH<sp/>clause<sp/>→<sp/>Query::search_clause<sp/>is<sp/>nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="test__aql__fts__parser__focused_8cpp_1adf39296077321b2883816525cb62770e" kindref="member">TEST_F</ref>(<ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref>,<sp/>FtsP02_NoSearchClauseIsNull)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>parse_ok(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>doc<sp/>IN<sp/>articles<sp/>FILTER<sp/>doc.age<sp/>&gt;<sp/>18<sp/>RETURN<sp/>doc)&quot;);</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NE(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(q-&gt;search_clause,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;search_clause<sp/>must<sp/>be<sp/>null<sp/>when<sp/>no<sp/>SEARCH<sp/>keyword<sp/>is<sp/>used&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FTS-P-03:<sp/>Implicit<sp/>TERM<sp/>predicate<sp/>via<sp/>field<sp/>==<sp/>&quot;term&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__aql__fts__parser__focused_8cpp_1adf39296077321b2883816525cb62770e" kindref="member">TEST_F</ref>(<ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref>,<sp/>FtsP03_ImplicitTermPredicate)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>parse_ok(</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>doc<sp/>IN<sp/>articles<sp/>SEARCH<sp/>doc.body<sp/>==<sp/>&quot;database&quot;<sp/>RETURN<sp/>doc)&quot;);</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NE(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(q-&gt;search_clause,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(q-&gt;search_clause-&gt;predicates.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>=<sp/>q-&gt;search_clause-&gt;predicates[0];</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.pred_type,<sp/><ref refid="namespacethemis_1_1query_1a88a6e955dabb55945d9721d82edbb6aba8baeec6d282f1791ea9954d0c514ed8d" kindref="member">FtsPredType::TERM</ref>);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.field,<sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">);<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>identifier<sp/>before<sp/>&apos;==&apos;<sp/>parsed<sp/>as<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.term,<sp/></highlight><highlight class="stringliteral">&quot;database&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(p.boost,<sp/>1.0);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FTS-P-04:<sp/>PHRASE()<sp/>predicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__aql__fts__parser__focused_8cpp_1adf39296077321b2883816525cb62770e" kindref="member">TEST_F</ref>(<ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref>,<sp/>FtsP04_PhrasePredicate)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>parse_ok(</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>doc<sp/>IN<sp/>articles<sp/>SEARCH<sp/>PHRASE(doc,<sp/>&quot;hello<sp/>world&quot;)<sp/>RETURN<sp/>doc)&quot;);</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NE(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(q-&gt;search_clause,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(q-&gt;search_clause-&gt;predicates.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>=<sp/>q-&gt;search_clause-&gt;predicates[0];</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.pred_type,<sp/><ref refid="namespacethemis_1_1query_1a88a6e955dabb55945d9721d82edbb6aba326989110ddd70abcc96d1e4bf40afc9" kindref="member">FtsPredType::PHRASE</ref>);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.field,<sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.term,<sp/></highlight><highlight class="stringliteral">&quot;hello<sp/>world&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FTS-P-05:<sp/>PHRASE()<sp/>with<sp/>analyzer<sp/>argument</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__aql__fts__parser__focused_8cpp_1adf39296077321b2883816525cb62770e" kindref="member">TEST_F</ref>(<ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref>,<sp/>FtsP05_PhraseWithAnalyzer)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>parse_ok(</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>doc<sp/>IN<sp/>articles<sp/>SEARCH<sp/>PHRASE(doc,<sp/>&quot;hello<sp/>world&quot;,<sp/>&quot;text_en&quot;)<sp/>RETURN<sp/>doc)&quot;);</highlight></codeline>
+<codeline lineno="142"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NE(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(q-&gt;search_clause,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(q-&gt;search_clause-&gt;predicates.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>=<sp/>q-&gt;search_clause-&gt;predicates[0];</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.pred_type,<sp/><ref refid="namespacethemis_1_1query_1a88a6e955dabb55945d9721d82edbb6aba326989110ddd70abcc96d1e4bf40afc9" kindref="member">FtsPredType::PHRASE</ref>);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.analyzer,<sp/></highlight><highlight class="stringliteral">&quot;text_en&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FTS-P-06:<sp/>STARTS_WITH()<sp/>predicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__aql__fts__parser__focused_8cpp_1adf39296077321b2883816525cb62770e" kindref="member">TEST_F</ref>(<ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref>,<sp/>FtsP06_StartsWithPredicate)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>parse_ok(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>doc<sp/>IN<sp/>articles<sp/>SEARCH<sp/>STARTS_WITH(doc,<sp/>&quot;data&quot;)<sp/>RETURN<sp/>doc)&quot;);</highlight></codeline>
+<codeline lineno="161"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NE(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(q-&gt;search_clause,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(q-&gt;search_clause-&gt;predicates.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>=<sp/>q-&gt;search_clause-&gt;predicates[0];</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.pred_type,<sp/><ref refid="namespacethemis_1_1query_1a88a6e955dabb55945d9721d82edbb6aba4e076080d87888ac96f19b271a6ee406" kindref="member">FtsPredType::PREFIX</ref>);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.field,<sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.term,<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FTS-P-07:<sp/>NEAR[n]()<sp/>predicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="test__aql__fts__parser__focused_8cpp_1adf39296077321b2883816525cb62770e" kindref="member">TEST_F</ref>(<ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref>,<sp/>FtsP07_NearPredicateWithDistance)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>parse_ok(</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>doc<sp/>IN<sp/>articles<sp/>SEARCH<sp/>NEAR[5](doc,<sp/>&quot;graph&quot;)<sp/>RETURN<sp/>doc)&quot;);</highlight></codeline>
+<codeline lineno="181"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NE(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(q-&gt;search_clause,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(q-&gt;search_clause-&gt;predicates.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>=<sp/>q-&gt;search_clause-&gt;predicates[0];</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.pred_type,<sp/><ref refid="namespacethemis_1_1query_1a88a6e955dabb55945d9721d82edbb6aba8bfe2c939b0bcce618c0fd634d77cc6b" kindref="member">FtsPredType::PROXIMITY</ref>);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.proximity_distance,<sp/>5u);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.term,<sp/></highlight><highlight class="stringliteral">&quot;graph&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FTS-P-08:<sp/>NEAR()<sp/>without<sp/>distance<sp/>bracket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><ref refid="test__aql__fts__parser__focused_8cpp_1adf39296077321b2883816525cb62770e" kindref="member">TEST_F</ref>(<ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref>,<sp/>FtsP08_NearPredicateWithoutDistance)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>parse_ok(</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>doc<sp/>IN<sp/>articles<sp/>SEARCH<sp/>NEAR(doc,<sp/>&quot;graph&quot;)<sp/>RETURN<sp/>doc)&quot;);</highlight></codeline>
+<codeline lineno="201"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NE(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(q-&gt;search_clause,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(q-&gt;search_clause-&gt;predicates.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>=<sp/>q-&gt;search_clause-&gt;predicates[0];</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.pred_type,<sp/><ref refid="namespacethemis_1_1query_1a88a6e955dabb55945d9721d82edbb6aba8bfe2c939b0bcce618c0fd634d77cc6b" kindref="member">FtsPredType::PROXIMITY</ref>);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.proximity_distance,<sp/>0u);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FTS-P-09:<sp/>Per-predicate<sp/>BOOST<sp/>modifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><ref refid="test__aql__fts__parser__focused_8cpp_1adf39296077321b2883816525cb62770e" kindref="member">TEST_F</ref>(<ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref>,<sp/>FtsP09_PerPredicateBoost)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>parse_ok(</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>doc<sp/>IN<sp/>articles<sp/>SEARCH<sp/>PHRASE(doc,<sp/>&quot;hello&quot;)<sp/>BOOST<sp/>2.5<sp/>RETURN<sp/>doc)&quot;);</highlight></codeline>
+<codeline lineno="220"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NE(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(q-&gt;search_clause,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(q-&gt;search_clause-&gt;predicates.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(q-&gt;search_clause-&gt;predicates[0].boost,<sp/>2.5);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FTS-P-10:<sp/>Per-predicate<sp/>ANALYZER<sp/>modifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="test__aql__fts__parser__focused_8cpp_1adf39296077321b2883816525cb62770e" kindref="member">TEST_F</ref>(<ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref>,<sp/>FtsP10_PerPredicateAnalyzer)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>parse_ok(</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>doc<sp/>IN<sp/>articles<sp/>SEARCH<sp/>PHRASE(doc,<sp/>&quot;hello&quot;)<sp/>ANALYZER<sp/>&quot;identity&quot;<sp/>RETURN<sp/>doc)&quot;);</highlight></codeline>
+<codeline lineno="237"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NE(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(q-&gt;search_clause,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(q-&gt;search_clause-&gt;predicates.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(q-&gt;search_clause-&gt;predicates[0].analyzer,<sp/></highlight><highlight class="stringliteral">&quot;identity&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FTS-P-11:<sp/>Multiple<sp/>predicates<sp/>(comma-separated)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><ref refid="test__aql__fts__parser__focused_8cpp_1adf39296077321b2883816525cb62770e" kindref="member">TEST_F</ref>(<ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref>,<sp/>FtsP11_MultiplePredicatesCommaSeparated)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>parse_ok(</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>doc<sp/>IN<sp/>articles<sp/>SEARCH<sp/>PHRASE(doc,<sp/>&quot;hello&quot;),<sp/>STARTS_WITH(doc,<sp/>&quot;world&quot;)<sp/>RETURN<sp/>doc)&quot;);</highlight></codeline>
+<codeline lineno="254"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NE(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(q-&gt;search_clause,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(q-&gt;search_clause-&gt;predicates.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(q-&gt;search_clause-&gt;predicates[0].pred_type,<sp/><ref refid="namespacethemis_1_1query_1a88a6e955dabb55945d9721d82edbb6aba326989110ddd70abcc96d1e4bf40afc9" kindref="member">FtsPredType::PHRASE</ref>);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(q-&gt;search_clause-&gt;predicates[1].pred_type,<sp/><ref refid="namespacethemis_1_1query_1a88a6e955dabb55945d9721d82edbb6aba4e076080d87888ac96f19b271a6ee406" kindref="member">FtsPredType::PREFIX</ref>);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FTS-P-12:<sp/>Top-level<sp/>IN<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><ref refid="test__aql__fts__parser__focused_8cpp_1adf39296077321b2883816525cb62770e" kindref="member">TEST_F</ref>(<ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref>,<sp/>FtsP12_InFieldClause)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>parse_ok(</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>doc<sp/>IN<sp/>articles<sp/>SEARCH<sp/>&quot;database&quot;<sp/>IN<sp/>body<sp/>RETURN<sp/>doc)&quot;);</highlight></codeline>
+<codeline lineno="272"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NE(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(q-&gt;search_clause,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(q-&gt;search_clause-&gt;in_field,<sp/></highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FTS-P-13:<sp/>Top-level<sp/>ANALYZER<sp/>clause</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><ref refid="test__aql__fts__parser__focused_8cpp_1adf39296077321b2883816525cb62770e" kindref="member">TEST_F</ref>(<ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref>,<sp/>FtsP13_TopLevelAnalyzer)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>parse_ok(</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>doc<sp/>IN<sp/>articles<sp/>SEARCH<sp/>PHRASE(doc,<sp/>&quot;hallo&quot;)<sp/>ANALYZER<sp/>&quot;text_de&quot;<sp/>RETURN<sp/>doc)&quot;);</highlight></codeline>
+<codeline lineno="287"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NE(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(q-&gt;search_clause,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(q-&gt;search_clause-&gt;default_analyzer,<sp/></highlight><highlight class="stringliteral">&quot;text_de&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FTS-P-14:<sp/>Top-level<sp/>BOOST<sp/>clause</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><ref refid="test__aql__fts__parser__focused_8cpp_1adf39296077321b2883816525cb62770e" kindref="member">TEST_F</ref>(<ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref>,<sp/>FtsP14_TopLevelBoost)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>parse_ok(</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>doc<sp/>IN<sp/>articles<sp/>SEARCH<sp/>PHRASE(doc,<sp/>&quot;data&quot;)<sp/>BOOST<sp/>3<sp/>RETURN<sp/>doc)&quot;);</highlight></codeline>
+<codeline lineno="302"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NE(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(q-&gt;search_clause,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(q-&gt;search_clause-&gt;top_boost,<sp/>3.0);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FTS-P-15:<sp/>SEARCH<sp/>coexists<sp/>with<sp/>FILTER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><ref refid="test__aql__fts__parser__focused_8cpp_1adf39296077321b2883816525cb62770e" kindref="member">TEST_F</ref>(<ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref>,<sp/>FtsP15_SearchWithFilter)<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>parse_ok(</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>doc<sp/>IN<sp/>articles<sp/>FILTER<sp/>doc.published<sp/>==<sp/>true<sp/>SEARCH<sp/>PHRASE(doc,<sp/>&quot;ml&quot;)<sp/>RETURN<sp/>doc)&quot;);</highlight></codeline>
+<codeline lineno="317"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NE(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(q-&gt;search_clause,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(q-&gt;filters.empty())</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;FILTER<sp/>clause<sp/>must<sp/>also<sp/>be<sp/>preserved&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FTS-P-16:<sp/>Bare<sp/>string<sp/>term<sp/>predicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><ref refid="test__aql__fts__parser__focused_8cpp_1adf39296077321b2883816525cb62770e" kindref="member">TEST_F</ref>(<ref refid="class_fts_parser_test" kindref="compound">FtsParserTest</ref>,<sp/>FtsP16_BareStringTermPredicate)<sp/>{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>parse_ok(</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(FOR<sp/>doc<sp/>IN<sp/>articles<sp/>SEARCH<sp/>&quot;bare_term&quot;<sp/>IN<sp/>title<sp/>RETURN<sp/>doc)&quot;);</highlight></codeline>
+<codeline lineno="333"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_NE(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(q-&gt;search_clause,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(q-&gt;search_clause-&gt;predicates.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>=<sp/>q-&gt;search_clause-&gt;predicates[0];</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.pred_type,<sp/><ref refid="namespacethemis_1_1query_1a88a6e955dabb55945d9721d82edbb6aba8baeec6d282f1791ea9954d0c514ed8d" kindref="member">FtsPredType::TERM</ref>);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p.term,<sp/></highlight><highlight class="stringliteral">&quot;bare_term&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.field.empty())</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Bare<sp/>term<sp/>predicate<sp/>field<sp/>should<sp/>be<sp/>empty<sp/>(resolved<sp/>from<sp/>IN<sp/>clause<sp/>at<sp/>executor<sp/>level)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/query/test_aql_fts_parser_focused.cpp"/>
+  </compounddef>
+</doxygen>

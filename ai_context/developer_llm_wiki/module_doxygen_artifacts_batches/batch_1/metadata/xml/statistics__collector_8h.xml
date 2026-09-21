@@ -1,0 +1,455 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="statistics__collector_8h" kind="file" language="C++">
+    <compoundname>statistics_collector.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="index__recommender_8cpp" local="yes">src/metadata/index_recommender.cpp</includedby>
+    <includedby refid="schema__consistency__checker_8cpp" local="yes">src/metadata/schema_consistency_checker.cpp</includedby>
+    <includedby refid="statistics__collector_8cpp" local="yes">src/metadata/statistics_collector.cpp</includedby>
+    <includedby refid="test__index__recommender_8cpp" local="yes">tests/metadata/test_index_recommender.cpp</includedby>
+    <includedby refid="test__schema__consistency__checker_8cpp" local="yes">tests/metadata/test_schema_consistency_checker.cpp</includedby>
+    <includedby refid="test__statistics__auto__refresh_8cpp" local="yes">tests/metadata/test_statistics_auto_refresh.cpp</includedby>
+    <includedby refid="test__statistics__collector_8cpp" local="yes">tests/metadata/test_statistics_collector.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/metadata/statistics_collector.h</label>
+        <link refid="statistics__collector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>algorithm</label>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cmath</label>
+      </node>
+      <node id="12">
+        <label>condition_variable</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="16">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>shared_mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+      <node id="15">
+        <label>thread</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/metadata/statistics_collector.h</label>
+        <link refid="statistics__collector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/metadata/index_recommender.cpp</label>
+        <link refid="index__recommender_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/metadata/schema_consistency_checker.cpp</label>
+        <link refid="schema__consistency__checker_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/metadata/statistics_collector.cpp</label>
+        <link refid="statistics__collector_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/metadata/test_index_recommender.cpp</label>
+        <link refid="test__index__recommender_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/metadata/test_schema_consistency_checker.cpp</label>
+        <link refid="test__schema__consistency__checker_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/metadata/test_statistics_auto_refresh.cpp</label>
+        <link refid="test__statistics__auto__refresh_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/metadata/test_statistics_collector.cpp</label>
+        <link refid="test__statistics__collector_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_histogram_bucket" prot="public">themis::HistogramBucket</innerclass>
+    <innerclass refid="structthemis_1_1_column_stats" prot="public">themis::ColumnStats</innerclass>
+    <innerclass refid="structthemis_1_1_index_stats" prot="public">themis::IndexStats</innerclass>
+    <innerclass refid="structthemis_1_1_table_stats" prot="public">themis::TableStats</innerclass>
+    <innerclass refid="structthemis_1_1_stats_result" prot="public">themis::StatsResult</innerclass>
+    <innerclass refid="classthemis_1_1_statistics_collector" prot="public">themis::StatisticsCollector</innerclass>
+    <innerclass refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook" prot="public">themis::StatisticsCollector::IMetricsHook</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RocksDBWrapper;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1_histogram_bucket" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_histogram_bucket" kindref="compound">HistogramBucket</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1_histogram_bucket_1a50d36c2f51e7794f94435eca23a219ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_histogram_bucket_1a50d36c2f51e7794f94435eca23a219ba" kindref="member">lower_bound</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1_histogram_bucket_1aecde9b10fec4cb657c6adec85f6936d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_histogram_bucket_1aecde9b10fec4cb657c6adec85f6936d6" kindref="member">upper_bound</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1_histogram_bucket_1a033b8145678a0cf55ab84a39777b7dae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_histogram_bucket_1a033b8145678a0cf55ab84a39777b7dae" kindref="member">frequency</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1_histogram_bucket_1a8fb69e6d18f273edfc8f02e6bf51f68f" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1ac56ac92c1123b54b19ce15c1de70a563" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1ac56ac92c1123b54b19ce15c1de70a563" kindref="member">kHistogramUpperBoundEpsilon</ref><sp/>=<sp/>1e-9;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1a9f3deb66f9b2364ff99c016886231640" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a9f3deb66f9b2364ff99c016886231640" kindref="member">kFloatingPointTolerance</ref><sp/>=<sp/>1e-12;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1_column_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_column_stats" kindref="compound">ColumnStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1_column_stats_1ae5be7fc5168aa79f972563f9c5fcfcaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_column_stats_1ae5be7fc5168aa79f972563f9c5fcfcaa" kindref="member">column_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1_column_stats_1a23d1e54045b589427abfab28a9e8e7a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_column_stats_1a23d1e54045b589427abfab28a9e8e7a8" kindref="member">distinct_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1_column_stats_1ac079d10a803da86434492839f6e575f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_column_stats_1ac079d10a803da86434492839f6e575f2" kindref="member">null_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1_column_stats_1a983ddb1f7f9ed8829cfb83cae6de05e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_column_stats_1a983ddb1f7f9ed8829cfb83cae6de05e2" kindref="member">total_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1_column_stats_1aa3ff90441eb7f2061a7c499f6602c99b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_column_stats_1aa3ff90441eb7f2061a7c499f6602c99b" kindref="member">selectivity</ref><sp/>=<sp/>1.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1_column_stats_1a788f0752b86b2bfff375e5cb503faf2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_column_stats_1a788f0752b86b2bfff375e5cb503faf2b" kindref="member">null_fraction</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1_column_stats_1a6b3f1e27b0f5b89a0f904beeb69ab62f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;HistogramBucket&gt;&gt;<sp/><ref refid="structthemis_1_1_column_stats_1a6b3f1e27b0f5b89a0f904beeb69ab62f" kindref="member">histogram</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1_column_stats_1a24e300d67053ec32019c80901796e467" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_column_stats_1a24e300d67053ec32019c80901796e467" kindref="member">most_common_value</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1_column_stats_1a66ec98fc9c8319b18dcc5176a6e5c241" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;double&gt;<sp/><ref refid="structthemis_1_1_column_stats_1a66ec98fc9c8319b18dcc5176a6e5c241" kindref="member">min_value</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1_column_stats_1a9cb69d47bff53e2018ec5070769c61b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;double&gt;<sp/><ref refid="structthemis_1_1_column_stats_1a9cb69d47bff53e2018ec5070769c61b9" kindref="member">max_value</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1_column_stats_1af99458298ad978922d4588b919d06e0c" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1_column_stats_1a8f5b52021e20f17370587e1d4c2c4e80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_column_stats_1a8f5b52021e20f17370587e1d4c2c4e80" kindref="member">estimateRangeSelectivity</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>low,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>high)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="structthemis_1_1_column_stats_1a6b3f1e27b0f5b89a0f904beeb69ab62f" kindref="member">histogram</ref>.has_value()<sp/>||<sp/><ref refid="structthemis_1_1_column_stats_1a6b3f1e27b0f5b89a0f904beeb69ab62f" kindref="member">histogram</ref>-&gt;empty())<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fallback:<sp/>uniform<sp/>distribution<sp/>over<sp/>[min_value,<sp/>max_value]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="structthemis_1_1_column_stats_1a66ec98fc9c8319b18dcc5176a6e5c241" kindref="member">min_value</ref>.has_value()<sp/>||<sp/>!<ref refid="structthemis_1_1_column_stats_1a9cb69d47bff53e2018ec5070769c61b9" kindref="member">max_value</ref>.has_value()<sp/>||</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::abs(*<ref refid="structthemis_1_1_column_stats_1a9cb69d47bff53e2018ec5070769c61b9" kindref="member">max_value</ref><sp/>-<sp/>*<ref refid="structthemis_1_1_column_stats_1a66ec98fc9c8319b18dcc5176a6e5c241" kindref="member">min_value</ref>)<sp/>&lt;<sp/><ref refid="namespacethemis_1a9f3deb66f9b2364ff99c016886231640" kindref="member">kFloatingPointTolerance</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_column_stats_1aa3ff90441eb7f2061a7c499f6602c99b" kindref="member">selectivity</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>range<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>*<ref refid="structthemis_1_1_column_stats_1a9cb69d47bff53e2018ec5070769c61b9" kindref="member">max_value</ref><sp/>-<sp/>*<ref refid="structthemis_1_1_column_stats_1a66ec98fc9c8319b18dcc5176a6e5c241" kindref="member">min_value</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>query_range<sp/>=<sp/>std::max(0.0,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::min(high,<sp/>*<ref refid="structthemis_1_1_column_stats_1a9cb69d47bff53e2018ec5070769c61b9" kindref="member">max_value</ref>)<sp/>-<sp/>std::max(low,<sp/>*<ref refid="structthemis_1_1_column_stats_1a66ec98fc9c8319b18dcc5176a6e5c241" kindref="member">min_value</ref>));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>query_range<sp/>/<sp/>range;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>total_freq<sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>matching_freq<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>b<sp/>:<sp/>*<ref refid="structthemis_1_1_column_stats_1a6b3f1e27b0f5b89a0f904beeb69ab62f" kindref="member">histogram</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_freq<sp/>+=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(b.frequency);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b_lo<sp/>=<sp/>b.lower_bound;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b_hi<sp/>=<sp/>b.upper_bound;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(b_hi<sp/>&lt;=<sp/>low<sp/>||<sp/>b_lo<sp/>&gt;=<sp/>high)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>No<sp/>overlap</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>overlap_lo<sp/><sp/><sp/>=<sp/>std::max(b_lo,<sp/>low);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>overlap_hi<sp/><sp/><sp/>=<sp/>std::min(b_hi,<sp/>high);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>bucket_width<sp/>=<sp/>b_hi<sp/>-<sp/>b_lo;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(bucket_width<sp/>&lt;<sp/><ref refid="namespacethemis_1a9f3deb66f9b2364ff99c016886231640" kindref="member">kFloatingPointTolerance</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>matching_freq<sp/>+=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(b.frequency);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>overlap_frac<sp/>=<sp/>(overlap_hi<sp/>-<sp/>overlap_lo)<sp/>/<sp/>bucket_width;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>matching_freq<sp/>+=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(b.frequency)<sp/>*<sp/>overlap_frac;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(total_freq<sp/>&lt;=<sp/>0.0)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_column_stats_1aa3ff90441eb7f2061a7c499f6602c99b" kindref="member">selectivity</ref>;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::max(0.0,<sp/>std::min(1.0,<sp/>matching_freq<sp/>/<sp/>total_freq));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1_index_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_index_stats" kindref="compound">IndexStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1_index_stats_1a53b8694e4054289dcde8a01fe67a7137" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_index_stats_1a53b8694e4054289dcde8a01fe67a7137" kindref="member">table</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1_index_stats_1a1e1d41bfa2343658a9a7eaf28bee19cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_index_stats_1a1e1d41bfa2343658a9a7eaf28bee19cc" kindref="member">column</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1_index_stats_1a115ff84f08edcee7c04e6f262a4ba527" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_index_stats_1a115ff84f08edcee7c04e6f262a4ba527" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1_index_stats_1a368ad9761a482fa1645aed472b4c6aac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_index_stats_1a368ad9761a482fa1645aed472b4c6aac" kindref="member">entry_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1_index_stats_1a2d76093fb38e7f5fb4f8e7578bca2ab8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_index_stats_1a2d76093fb38e7f5fb4f8e7578bca2ab8" kindref="member">estimated_size_bytes</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1_index_stats_1a6d5dfab35a81406ca7aa2eb7c6fc83a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_index_stats_1a6d5dfab35a81406ca7aa2eb7c6fc83a5" kindref="member">unique</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1_index_stats_1ae30ca0af0656df78ed931a38b306ef1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_index_stats_1ae30ca0af0656df78ed931a38b306ef1e" kindref="member">additional_info</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1_index_stats_1ad56e07eff9fcd92bbcdc14a1be73f629" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1_index_stats_1ad56e07eff9fcd92bbcdc14a1be73f629" kindref="member">last_updated</ref>;<sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1_index_stats_1aa5454615bf1c9cfcff8658c988f7be2a" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1_table_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_table_stats" kindref="compound">TableStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1_table_stats_1a13743a386be6a25230ee2762dc5c251e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_table_stats_1a13743a386be6a25230ee2762dc5c251e" kindref="member">table_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1_table_stats_1abae3a3c4d211e4597d55fadf370ea7c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_table_stats_1abae3a3c4d211e4597d55fadf370ea7c9" kindref="member">row_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1_table_stats_1a9db9a1e78f6c8dabeee4ee1acf055241" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_table_stats_1a9db9a1e78f6c8dabeee4ee1acf055241" kindref="member">total_size_bytes</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1_table_stats_1a178417f020267c6168a74ffa1cc6cbb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_table_stats_1a178417f020267c6168a74ffa1cc6cbb8" kindref="member">avg_row_size_bytes</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1_table_stats_1af3de1ba1d7cd6248c284b6848a3df2e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnStats&gt;<sp/><ref refid="structthemis_1_1_table_stats_1af3de1ba1d7cd6248c284b6848a3df2e1" kindref="member">column_stats</ref>;<sp/></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1_table_stats_1a850c53440979a28861962833317c235f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1_table_stats_1a850c53440979a28861962833317c235f" kindref="member">last_updated</ref>;<sp/></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1_table_stats_1a5b1d8bb46c70c28eef79b181562a0177" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_table_stats_1a5b1d8bb46c70c28eef79b181562a0177" kindref="member">sample_size</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1_table_stats_1a1dbc2c762a186df489b5d512f12a9cf3" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6de" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6de" kindref="member">StatsErrorCode</ref><sp/>{</highlight></codeline>
+<codeline lineno="141" refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6deae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2645671a6291b51f2c35f17db3549933ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="142" refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6dea114624845b74d3fb38bff06971fd77c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328a114624845b74d3fb38bff06971fd77c6" kindref="member">TABLE_NOT_FOUND</ref>,</highlight></codeline>
+<codeline lineno="143" refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6dea9a6b59eca8bc573b1886566101db363a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6dea9a6b59eca8bc573b1886566101db363a" kindref="member">COLLECTION_FAILED</ref>,</highlight></codeline>
+<codeline lineno="144" refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6dea7ae7f2a13f0d5a18b0db91af9c5aef34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328a7ae7f2a13f0d5a18b0db91af9c5aef34" kindref="member">STORAGE_ERROR</ref>,</highlight></codeline>
+<codeline lineno="145" refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6deaa5711618b227fab7a30fad683009bac1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6deaa5711618b227fab7a30fad683009bac1" kindref="member">ITERATOR_ERROR</ref>,</highlight></codeline>
+<codeline lineno="146" refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6dea6b03470e24be0d9a73494f9491575db3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328a6b03470e24be0d9a73494f9491575db3" kindref="member">SERIALIZATION_ERROR</ref>,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1_stats_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1_stats_result_1a4f186679fab6ac4f332594adc3f4acf1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_stats_result_1a4f186679fab6ac4f332594adc3f4acf1" kindref="member">ok</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1_stats_result_1aa55f091f23f201e89b524e38e0199ac4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>T<sp/><ref refid="structthemis_1_1_stats_result_1aa55f091f23f201e89b524e38e0199ac4" kindref="member">value</ref>{};</highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1_stats_result_1aeecf0aa201d79f5e83586ec7fa18f73b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6de" kindref="member">StatsErrorCode</ref><sp/><ref refid="structthemis_1_1_stats_result_1aeecf0aa201d79f5e83586ec7fa18f73b" kindref="member">error</ref><sp/>=<sp/><ref refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6deae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">StatsErrorCode::OK</ref>;</highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1_stats_result_1a037ad2f5ee9d8e3fff10dc04a70fbe94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_stats_result_1a037ad2f5ee9d8e3fff10dc04a70fbe94" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1_stats_result_1a58180c1b93dd13283c008259baca6353" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult&lt;T&gt;</ref><sp/><ref refid="structthemis_1_1_stats_result_1a58180c1b93dd13283c008259baca6353" kindref="member">success</ref>(T<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult&lt;T&gt;</ref><sp/>r;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_stats_result_1a4f186679fab6ac4f332594adc3f4acf1" kindref="member">ok</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_stats_result_1aa55f091f23f201e89b524e38e0199ac4" kindref="member">value</ref><sp/>=<sp/>std::move(v);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1_stats_result_1a67784c93a6a16f4c5851893248ed6316" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult&lt;T&gt;</ref><sp/><ref refid="structthemis_1_1_stats_result_1a67784c93a6a16f4c5851893248ed6316" kindref="member">failure</ref>(<ref refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6de" kindref="member">StatsErrorCode</ref><sp/>code,<sp/>std::string<sp/>msg)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult&lt;T&gt;</ref><sp/>r;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_stats_result_1a4f186679fab6ac4f332594adc3f4acf1" kindref="member">ok</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_stats_result_1aeecf0aa201d79f5e83586ec7fa18f73b" kindref="member">error</ref><sp/>=<sp/>code;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_stats_result_1a037ad2f5ee9d8e3fff10dc04a70fbe94" kindref="member">error_message</ref><sp/>=<sp/>std::move(msg);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="classthemis_1_1_statistics_collector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_statistics_collector_1ad2b7f7cdd51ef9718490eb19a7943e5c" kindref="member">StatisticsCollector</ref><sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="192" refid="classthemis_1_1_statistics_collector_1acc484b9ffb0466859ef54a4300e48ec3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_collector_1acc484b9ffb0466859ef54a4300e48ec3" kindref="member">kDefaultSampleSize</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1_statistics_collector_1a94531429f783fc0f0203e3a4e46a4e3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_collector_1a94531429f783fc0f0203e3a4e46a4e3c" kindref="member">kDefaultHistogramBuckets</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics<sp/>hook<sp/>interface<sp/>(Prometheus<sp/>/<sp/>OpenTelemetry<sp/>integration)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook" kindref="compound">IMetricsHook</ref><sp/>{</highlight></codeline>
+<codeline lineno="211" refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a08465128a8a3f6fbace8ca77da796027" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a08465128a8a3f6fbace8ca77da796027" kindref="member">~IMetricsHook</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1acc8d6c461561a276e41b2ffb14eb72b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1acc8d6c461561a276e41b2ffb14eb72b5" kindref="member">onCollect</ref>(std::string_view<sp/>table_name,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>duration_ms,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rows_sampled,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/>success)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1ab33d705fbddc7e950956cbca2a755f49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1ab33d705fbddc7e950956cbca2a755f49" kindref="member">onCacheHit</ref>(std::string_view<sp/>table_name)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a1b95477e11297258b7ced623a2cfc984" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a1b95477e11297258b7ced623a2cfc984" kindref="member">onCacheMiss</ref>(std::string_view<sp/>table_name)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a276791adc26a4b4d53eae2f3b5463090" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a276791adc26a4b4d53eae2f3b5463090" kindref="member">onError</ref>(std::string_view<sp/>table_name,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>error_code)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="classthemis_1_1_statistics_collector_1a8ee11e360cf8eab119ff9f712968b564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_collector_1a8ee11e360cf8eab119ff9f712968b564" kindref="member">setMetricsHook</ref>(<ref refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook" kindref="compound">IMetricsHook</ref>*<sp/>hook)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/>metrics_hook_<sp/>=<sp/>hook;<sp/>}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_collector_1ad2b7f7cdd51ef9718490eb19a7943e5c" kindref="member">StatisticsCollector</ref>(RocksDBWrapper&amp;<sp/>db);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_statistics_collector_1abb1550bf0df776d05c0456af2d0a1e73" kindref="member">~StatisticsCollector</ref>();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy<sp/>and<sp/>move<sp/>(mutex/condition_variable<sp/>are<sp/>not<sp/>movable)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246" refid="classthemis_1_1_statistics_collector_1a17f69854f5038aed4a3059f25dba73fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_statistics_collector_1a17f69854f5038aed4a3059f25dba73fb" kindref="member">StatisticsCollector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_collector_1ad2b7f7cdd51ef9718490eb19a7943e5c" kindref="member">StatisticsCollector</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247" refid="classthemis_1_1_statistics_collector_1ad175e3101bc4f366331839959e64bfbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_statistics_collector_1ad2b7f7cdd51ef9718490eb19a7943e5c" kindref="member">StatisticsCollector</ref>&amp;<sp/><ref refid="classthemis_1_1_statistics_collector_1ad175e3101bc4f366331839959e64bfbd" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_collector_1ad2b7f7cdd51ef9718490eb19a7943e5c" kindref="member">StatisticsCollector</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248" refid="classthemis_1_1_statistics_collector_1acb87abafafda8a00ee8afc427d8f8089" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_statistics_collector_1acb87abafafda8a00ee8afc427d8f8089" kindref="member">StatisticsCollector</ref>(<ref refid="classthemis_1_1_statistics_collector_1ad2b7f7cdd51ef9718490eb19a7943e5c" kindref="member">StatisticsCollector</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249" refid="classthemis_1_1_statistics_collector_1afcc6ea60eba4c8ac7d054c6aed57d134" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_statistics_collector_1ad2b7f7cdd51ef9718490eb19a7943e5c" kindref="member">StatisticsCollector</ref>&amp;<sp/><ref refid="classthemis_1_1_statistics_collector_1afcc6ea60eba4c8ac7d054c6aed57d134" kindref="member">operator=</ref>(<ref refid="classthemis_1_1_statistics_collector_1ad2b7f7cdd51ef9718490eb19a7943e5c" kindref="member">StatisticsCollector</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Auto-refresh</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_collector_1a912a8d08d393e88b6d06a0239852d8bd" kindref="member">setRefreshInterval</ref>(std::chrono::seconds<sp/>interval);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_collector_1ae8d56be7383d847606f47ab492863058" kindref="member">stopRefresh</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Public<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult</ref>&lt;<ref refid="structthemis_1_1_table_stats" kindref="compound">TableStats</ref>&gt;<sp/><ref refid="classthemis_1_1_statistics_collector_1ade03d1adc422992ef3f13c5faf2e329d" kindref="member">collectStats</ref>(</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table_name,</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>sample_size<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult</ref>&lt;<ref refid="structthemis_1_1_table_stats" kindref="compound">TableStats</ref>&gt;<sp/><ref refid="classthemis_1_1_statistics_collector_1a4839a90bbb2153d39a8ef80813ad026e" kindref="member">getStats</ref>(std::string_view<sp/>table_name);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult</ref>&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1_statistics_collector_1a337d096d09549d2e19f55324b246ea0e" kindref="member">updateStats</ref>(std::string_view<sp/>table_name);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult</ref>&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1_statistics_collector_1afdad4be67b25dd52913c93fb5bf59849" kindref="member">clearStats</ref>(std::string_view<sp/>table_name);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult</ref>&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1_statistics_collector_1a7a6e7e06361563a94cda0d3a35d9f2a3" kindref="member">importIndexStats</ref>(</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table_name,</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1_index_stats" kindref="compound">IndexStats</ref>&gt;&amp;<sp/>stats</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult</ref>&lt;std::vector&lt;<ref refid="structthemis_1_1_index_stats" kindref="compound">IndexStats</ref>&gt;&gt;<sp/><ref refid="classthemis_1_1_statistics_collector_1acd0133f7d178481570d6c587408a253f" kindref="member">getIndexStats</ref>(std::string_view<sp/>table_name);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_stats_result" kindref="compound">StatsResult</ref>&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1_statistics_collector_1a0f0b4fe0290b55bd2dc147d7a9ee509e" kindref="member">clearIndexStats</ref>(std::string_view<sp/>table_name);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="classthemis_1_1_statistics_collector_1ac1e929961695d9b09ce41e5a10c50d82" kindref="member">toJSON</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_stats" kindref="compound">ColumnStats</ref><sp/>buildColumnStats(</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>column_name,</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;&amp;<sp/>values,</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_histogram_buckets<sp/>=<sp/><ref refid="classthemis_1_1_statistics_collector_1a94531429f783fc0f0203e3a4e46a4e3c" kindref="member">kDefaultHistogramBuckets</ref></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1_histogram_bucket" kindref="compound">HistogramBucket</ref>&gt;<sp/>buildHistogram(</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;&amp;<sp/>sorted_values,</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_buckets</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>persistStats(const<sp/><ref refid="structthemis_1_1_table_stats" kindref="compound">TableStats</ref>&amp;<sp/>stats);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1_table_stats" kindref="compound">TableStats</ref>&gt;<sp/>loadStats(std::string_view<sp/>table_name);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>persistIndexStats(std::string_view<sp/>table_name,<sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1_index_stats" kindref="compound">IndexStats</ref>&gt;&amp;<sp/>stats);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;<ref refid="structthemis_1_1_index_stats" kindref="compound">IndexStats</ref>&gt;&gt;<sp/>loadIndexStats(std::string_view<sp/>table_name);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Member<sp/>variables</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper&amp;<sp/><sp/>db_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1_table_stats" kindref="compound">TableStats</ref>&gt;<sp/>stats_cache_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>std::vector&lt;<ref refid="structthemis_1_1_index_stats" kindref="compound">IndexStats</ref>&gt;&gt;<sp/>index_stats_cache_;<sp/></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::shared_mutex<sp/>cache_mutex_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook" kindref="compound">IMetricsHook</ref>*<sp/>metrics_hook_<sp/>=<sp/></highlight><highlight class="keywordtype">nullptr</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Auto-refresh<sp/>members</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><sp/><sp/>refresh_interval_{0};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>refresh_thread_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><sp/><sp/><sp/><sp/><sp/>stop_refresh_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>refresh_cv_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>refresh_mutex_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>refreshLoop_();</highlight></codeline>
+<codeline lineno="372"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/metadata/statistics_collector.h"/>
+  </compounddef>
+</doxygen>

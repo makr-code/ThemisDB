@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_few_shot_example" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::FewShotExample</compoundname>
+    <includes refid="prompt__templates_8h" local="no">prompt_templates.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_few_shot_example_1afe6160644b9b830ba83b67863e0dd8f8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::FewShotExample::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::rag::judge::FewShotExample::query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_templates.h" line="24" column="17" bodyfile="include/rag/prompt_templates.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_few_shot_example_1a54e5b483dff4e8398b94eeea5b9de3c4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::FewShotExample::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::rag::judge::FewShotExample::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_templates.h" line="25" column="17" bodyfile="include/rag/prompt_templates.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_few_shot_example_1a6efcb5df5ea10760d98fd85e2a6ef78d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::FewShotExample::answer</definition>
+        <argsstring></argsstring>
+        <name>answer</name>
+        <qualifiedname>themis::rag::judge::FewShotExample::answer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_templates.h" line="26" column="17" bodyfile="include/rag/prompt_templates.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_few_shot_example_1afa4e22ed641553721d16b1d0a457a70b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::FewShotExample::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::rag::judge::FewShotExample::score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_templates.h" line="27" column="12" bodyfile="include/rag/prompt_templates.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_few_shot_example_1abd2a0393d555cecf9a27baf119c79c1d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::FewShotExample::explanation</definition>
+        <argsstring></argsstring>
+        <name>explanation</name>
+        <qualifiedname>themis::rag::judge::FewShotExample::explanation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_templates.h" line="28" column="17" bodyfile="include/rag/prompt_templates.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Few-shot example for prompt templates. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/prompt_templates.h" line="23" column="1" bodyfile="include/rag/prompt_templates.h" bodystart="23" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_few_shot_example_1a6efcb5df5ea10760d98fd85e2a6ef78d" prot="public" virt="non-virtual"><scope>themis::rag::judge::FewShotExample</scope><name>answer</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_few_shot_example_1a54e5b483dff4e8398b94eeea5b9de3c4" prot="public" virt="non-virtual"><scope>themis::rag::judge::FewShotExample</scope><name>context</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_few_shot_example_1abd2a0393d555cecf9a27baf119c79c1d" prot="public" virt="non-virtual"><scope>themis::rag::judge::FewShotExample</scope><name>explanation</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_few_shot_example_1afe6160644b9b830ba83b67863e0dd8f8" prot="public" virt="non-virtual"><scope>themis::rag::judge::FewShotExample</scope><name>query</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_few_shot_example_1afa4e22ed641553721d16b1d0a457a70b" prot="public" virt="non-virtual"><scope>themis::rag::judge::FewShotExample</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

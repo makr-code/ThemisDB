@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_light_retrieval_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::LightRetrievalResult</compoundname>
+    <includes refid="process__light__retriever_8h" local="no">process_light_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_light_retrieval_result_1ae0079ec4bdb8300394fadf195ac325a3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a7928062cfe3d97550ff1320fbb86b95b" kindref="member">RetrievalMode</ref></type>
+        <definition>RetrievalMode themis::process::LightRetrievalResult::used_mode</definition>
+        <argsstring></argsstring>
+        <name>used_mode</name>
+        <qualifiedname>themis::process::LightRetrievalResult::used_mode</qualifiedname>
+        <briefdescription>
+<para>Effective mode used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="68" column="19" bodyfile="include/process/process_light_retriever.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_light_retrieval_result_1a08812dea4b460c86373cb7f9447e8a5c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::LightRetrievalResult::llm_context</definition>
+        <argsstring></argsstring>
+        <name>llm_context</name>
+        <qualifiedname>themis::process::LightRetrievalResult::llm_context</qualifiedname>
+        <briefdescription>
+<para>Assembled context for LLM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="69" column="17" bodyfile="include/process/process_light_retriever.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_light_retrieval_result_1a76c5538624215e11d36c6c6722e9b440" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::LightRetrievalResult::community_ids_used</definition>
+        <argsstring></argsstring>
+        <name>community_ids_used</name>
+        <qualifiedname>themis::process::LightRetrievalResult::community_ids_used</qualifiedname>
+        <briefdescription>
+<para>Community IDs (GLOBAL mode). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="70" column="17" bodyfile="include/process/process_light_retriever.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_light_retrieval_result_1a66b67d39fa9696263a0f9fda0cdd81f9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::LightRetrievalResult::instance_id_used</definition>
+        <argsstring></argsstring>
+        <name>instance_id_used</name>
+        <qualifiedname>themis::process::LightRetrievalResult::instance_id_used</qualifiedname>
+        <briefdescription>
+<para>Instance ID (LOCAL mode). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="71" column="17" bodyfile="include/process/process_light_retriever.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_light_retrieval_result_1a97891b511df120f876b4f92b50a6a78f" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::LightRetrievalResult::retrieval_time_ms</definition>
+        <argsstring></argsstring>
+        <name>retrieval_time_ms</name>
+        <qualifiedname>themis::process::LightRetrievalResult::retrieval_time_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Milliseconds spent in retrieve(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="74" column="13" bodyfile="include/process/process_light_retriever.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_light_retrieval_result_1ad5ca797ceb1f6af80eba141b7e324ca1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::process::LightRetrievalResult::context_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>context_size_bytes</name>
+        <qualifiedname>themis::process::LightRetrievalResult::context_size_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Actual byte size of llm_context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="75" column="12" bodyfile="include/process/process_light_retriever.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_light_retrieval_result_1a49d665bfb20aea4273ffbb5acc984253" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::LightRetrievalResult::degraded</definition>
+        <argsstring></argsstring>
+        <name>degraded</name>
+        <qualifiedname>themis::process::LightRetrievalResult::degraded</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true if graceful degradation occurred </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="76" column="10" bodyfile="include/process/process_light_retriever.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_light_retrieval_result_1a0d6955c43f96f5d89da4651707382d44" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::process::LightRetrievalResult::resource_exhaustion_reason</definition>
+        <argsstring></argsstring>
+        <name>resource_exhaustion_reason</name>
+        <qualifiedname>themis::process::LightRetrievalResult::resource_exhaustion_reason</qualifiedname>
+        <briefdescription>
+<para>Why degradation occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_light_retriever.h" line="77" column="19" bodyfile="include/process/process_light_retriever.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result produced by <computeroutput><ref refid="classthemis_1_1process_1_1_process_light_retriever_1a55b22d24c158d066cd647f2984820888" kindref="member">ProcessLightRetriever::retrieve()</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="structthemis_1_1process_1_1_light_retrieval_result_1resource_tracking">
+<title>Resource Tracking</title><para>The result includes metrics about resource consumption during retrieval:<itemizedlist>
+<listitem><para><computeroutput>retrieval_time_ms:</computeroutput> Time spent in retrieval operations.</para>
+</listitem><listitem><para><computeroutput>context_size_bytes:</computeroutput> Actual size of the assembled context.</para>
+</listitem><listitem><para><computeroutput>resource_exhaustion_reason:</computeroutput> If set, indicates graceful degradation occurred. Examples: &quot;max_context_size_exceeded&quot;, &quot;retrieval_timeout&quot;, &quot;no_results_found&quot;. </para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+    </detaileddescription>
+    <location file="include/process/process_light_retriever.h" line="67" column="1" bodyfile="include/process/process_light_retriever.h" bodystart="67" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_light_retrieval_result_1a76c5538624215e11d36c6c6722e9b440" prot="public" virt="non-virtual"><scope>themis::process::LightRetrievalResult</scope><name>community_ids_used</name></member>
+      <member refid="structthemis_1_1process_1_1_light_retrieval_result_1ad5ca797ceb1f6af80eba141b7e324ca1" prot="public" virt="non-virtual"><scope>themis::process::LightRetrievalResult</scope><name>context_size_bytes</name></member>
+      <member refid="structthemis_1_1process_1_1_light_retrieval_result_1a49d665bfb20aea4273ffbb5acc984253" prot="public" virt="non-virtual"><scope>themis::process::LightRetrievalResult</scope><name>degraded</name></member>
+      <member refid="structthemis_1_1process_1_1_light_retrieval_result_1a66b67d39fa9696263a0f9fda0cdd81f9" prot="public" virt="non-virtual"><scope>themis::process::LightRetrievalResult</scope><name>instance_id_used</name></member>
+      <member refid="structthemis_1_1process_1_1_light_retrieval_result_1a08812dea4b460c86373cb7f9447e8a5c" prot="public" virt="non-virtual"><scope>themis::process::LightRetrievalResult</scope><name>llm_context</name></member>
+      <member refid="structthemis_1_1process_1_1_light_retrieval_result_1a0d6955c43f96f5d89da4651707382d44" prot="public" virt="non-virtual"><scope>themis::process::LightRetrievalResult</scope><name>resource_exhaustion_reason</name></member>
+      <member refid="structthemis_1_1process_1_1_light_retrieval_result_1a97891b511df120f876b4f92b50a6a78f" prot="public" virt="non-virtual"><scope>themis::process::LightRetrievalResult</scope><name>retrieval_time_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_light_retrieval_result_1ae0079ec4bdb8300394fadf195ac325a3" prot="public" virt="non-virtual"><scope>themis::process::LightRetrievalResult</scope><name>used_mode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

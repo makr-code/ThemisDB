@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_h_k_d_f_cache_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::HKDFCache::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_k_d_f_cache_1_1_impl_1ad1252a5964e4da6c6f2dddabfd41377c" prot="public" static="no" mutable="no">
+        <type>std::array&lt; <ref refid="structthemis_1_1utils_1_1_shard" kindref="compound">Shard</ref>, kShards &gt;</type>
+        <definition>std::array&lt;Shard, kShards&gt; themis::utils::HKDFCache::Impl::shards</definition>
+        <argsstring></argsstring>
+        <name>shards</name>
+        <qualifiedname>themis::utils::HKDFCache::Impl::shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="119" column="16" bodyfile="src/utils/hkdf_cache.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_k_d_f_cache_1_1_impl_1a0f4a64d65ba09a204eb0c39e24b0952c" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a13350232a08e7d29a0f4aa594f99a00d" kindref="member">HKDFCache::Config</ref></type>
+        <definition>HKDFCache::Config themis::utils::HKDFCache::Impl::cfg</definition>
+        <argsstring></argsstring>
+        <name>cfg</name>
+        <qualifiedname>themis::utils::HKDFCache::Impl::cfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="120" column="23" bodyfile="src/utils/hkdf_cache.cpp" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_h_k_d_f_cache_1_1_impl_1a90bcb209d282af9696f458e1f6b20405" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::HKDFCache::Impl::Impl</definition>
+        <argsstring>(HKDFCache::Config c)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::utils::HKDFCache::Impl::Impl</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a13350232a08e7d29a0f4aa594f99a00d" kindref="member">HKDFCache::Config</ref></type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="122" column="14" bodyfile="src/utils/hkdf_cache.cpp" bodystart="122" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_h_k_d_f_cache_1_1_impl_1aca7b168dc89176f0cab456ee659bca9e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::utils::HKDFCache::Impl::make_key</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;ikm, const std::vector&lt; uint8_t &gt; &amp;salt, const std::string &amp;info, size_t outlen)</argsstring>
+        <name>make_key</name>
+        <qualifiedname>themis::utils::HKDFCache::Impl::make_key</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>ikm</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>salt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>info</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>outlen</declname>
+        </param>
+        <briefdescription>
+<para>Make key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ikm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">salt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">outlen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="137" column="24" bodyfile="src/utils/hkdf_cache.cpp" bodystart="137" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_h_k_d_f_cache_1_1_impl_1aab3e357e24749695735c21c3a1b3d858" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::utils::HKDFCache::Impl::shard_index</definition>
+        <argsstring>(const std::string &amp;k)</argsstring>
+        <name>shard_index</name>
+        <qualifiedname>themis::utils::HKDFCache::Impl::shard_index</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemis_1_1utils_1_1_shard" kindref="compound">Shard</ref> index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements shard_index without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="160" column="19" bodyfile="src/utils/hkdf_cache.cpp" bodystart="160" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_h_k_d_f_cache_1_1_impl_1ae6f56bb34878767bf0f9a97be94a7963" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::utils::HKDFCache::Impl::sha256_hex</definition>
+        <argsstring>(const uint8_t *data, size_t len)</argsstring>
+        <name>sha256_hex</name>
+        <qualifiedname>themis::utils::HKDFCache::Impl::sha256_hex</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Sha256 hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: SHA256(), std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/hkdf_cache.cpp" line="171" column="24" bodyfile="src/utils/hkdf_cache.cpp" bodystart="171" bodyend="180"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::utils::HKDFCache::Impl</label>
+        <link refid="structthemis_1_1utils_1_1_h_k_d_f_cache_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>cfg</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::utils::HKDFCacheConfig</label>
+        <link refid="structthemis_1_1utils_1_1_h_k_d_f_cache_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/utils/hkdf_cache.cpp" line="118" column="1" bodyfile="src/utils/hkdf_cache.cpp" bodystart="118" bodyend="181"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_h_k_d_f_cache_1_1_impl_1a0f4a64d65ba09a204eb0c39e24b0952c" prot="public" virt="non-virtual"><scope>themis::utils::HKDFCache::Impl</scope><name>cfg</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_k_d_f_cache_1_1_impl_1a90bcb209d282af9696f458e1f6b20405" prot="public" virt="non-virtual"><scope>themis::utils::HKDFCache::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_k_d_f_cache_1_1_impl_1aca7b168dc89176f0cab456ee659bca9e" prot="public" virt="non-virtual"><scope>themis::utils::HKDFCache::Impl</scope><name>make_key</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_k_d_f_cache_1_1_impl_1ae6f56bb34878767bf0f9a97be94a7963" prot="public" virt="non-virtual"><scope>themis::utils::HKDFCache::Impl</scope><name>sha256_hex</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_k_d_f_cache_1_1_impl_1aab3e357e24749695735c21c3a1b3d858" prot="public" virt="non-virtual"><scope>themis::utils::HKDFCache::Impl</scope><name>shard_index</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_k_d_f_cache_1_1_impl_1ad1252a5964e4da6c6f2dddabfd41377c" prot="public" virt="non-virtual"><scope>themis::utils::HKDFCache::Impl</scope><name>shards</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

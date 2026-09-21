@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ml__anomaly__detector_8h" kind="file" language="C++">
+    <compoundname>ml_anomaly_detector.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="yes">analytics/anomaly_detection.h</includes>
+    <includes local="yes">analytics/forecasting.h</includes>
+    <includedby refid="ml__anomaly__detector_8cpp" local="yes">src/observability/ml_anomaly_detector.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/ml_anomaly_detector.h</label>
+        <link refid="ml__anomaly__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>analytics/anomaly_detection.h</label>
+      </node>
+      <node id="9">
+        <label>analytics/forecasting.h</label>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>utility</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/observability/ml_anomaly_detector.h</label>
+        <link refid="ml__anomaly__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/observability/ml_anomaly_detector.cpp</label>
+        <link refid="ml__anomaly__detector_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_m_l_config" prot="public">themis::observability::MLConfig</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_anomaly" prot="public">themis::observability::Anomaly</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_anomaly_explanation" prot="public">themis::observability::AnomalyExplanation</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_m_l_anomaly_detector" prot="public">themis::observability::MLAnomalyDetector</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;analytics/anomaly_detection.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;analytics/forecasting.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1observability_1a930dc89af2ae5164e3e492005a6a3fb0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a930dc89af2ae5164e3e492005a6a3fb0" kindref="member">ForecastSeries</ref><sp/>=<sp/>themisdb::analytics::TimeSeries;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1observability_1af0ddc3c8c34e39690fb68ee1571c87a8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1af0ddc3c8c34e39690fb68ee1571c87a8" kindref="member">ForecastBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1observability_1af0ddc3c8c34e39690fb68ee1571c87a8a70ee30f9f425566bad73cd7a48e77384" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1af0ddc3c8c34e39690fb68ee1571c87a8a70ee30f9f425566bad73cd7a48e77384" kindref="member">ARIMA</ref>,</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1observability_1af0ddc3c8c34e39690fb68ee1571c87a8a1598c18d6d525cf744663e1edfdda27d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1af0ddc3c8c34e39690fb68ee1571c87a8a1598c18d6d525cf744663e1edfdda27d" kindref="member">PROPHET</ref><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1observability_1_1_m_l_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_m_l_config" kindref="compound">MLConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1observability_1_1_m_l_config_1af84c49c12cfefd22ba21e7274bfb639c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_m_l_config_1af84c49c12cfefd22ba21e7274bfb639c" kindref="member">metric_name</ref>{</highlight><highlight class="stringliteral">&quot;metric&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1observability_1_1_m_l_config_1a17c77eb55dd064b446577abbe5224891" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1af0ddc3c8c34e39690fb68ee1571c87a8" kindref="member">ForecastBackend</ref><sp/><ref refid="structthemis_1_1observability_1_1_m_l_config_1a17c77eb55dd064b446577abbe5224891" kindref="member">forecast_backend</ref>{<ref refid="namespacethemis_1_1observability_1af0ddc3c8c34e39690fb68ee1571c87a8a70ee30f9f425566bad73cd7a48e77384" kindref="member">ForecastBackend::ARIMA</ref>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1observability_1_1_m_l_config_1ae797a00e6d7f027276a81423a58c7e40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>themisdb::analytics::ForecastConfig<sp/><ref refid="structthemis_1_1observability_1_1_m_l_config_1ae797a00e6d7f027276a81423a58c7e40" kindref="member">forecast_config</ref>{};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1observability_1_1_m_l_config_1a3ae86f9b97935600c5fcf7b89afa1105" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>themisdb::analytics::DetectorConfig<sp/><ref refid="structthemis_1_1observability_1_1_m_l_config_1a3ae86f9b97935600c5fcf7b89afa1105" kindref="member">outlier_config</ref><sp/>=<sp/>[]<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themisdb::analytics::DetectorConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.method<sp/>=<sp/>themisdb::analytics::AnomalyMethod::ISOLATION_FOREST;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.threshold<sp/>=<sp/>0.6;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1observability_1_1_m_l_config_1adf4859a2b0eb735d0743246a99ae1de8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_m_l_config_1adf4859a2b0eb735d0743246a99ae1de8" kindref="member">anomaly_threshold</ref>{0.7};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1observability_1_1_m_l_config_1ad9de75ddcc1b862bced444661dd7448a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_m_l_config_1ad9de75ddcc1b862bced444661dd7448a" kindref="member">min_training_points</ref>{30};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1observability_1_1_m_l_config_1a0d875c5ef4a44e048c93741fb05e164e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_m_l_config_1a0d875c5ef4a44e048c93741fb05e164e" kindref="member">dbscan_eps</ref>{1.5};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1observability_1_1_m_l_config_1a7e443c6b26e1f4f352ac8db90bebbb1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_m_l_config_1a7e443c6b26e1f4f352ac8db90bebbb1f" kindref="member">dbscan_min_samples</ref>{4};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1observability_1_1_m_l_config_1abbb086d402713775f281f1831c1623b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_m_l_config_1abbb086d402713775f281f1831c1623b9" kindref="member">change_point_threshold</ref>{3.0};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1observability_1_1_m_l_config_1a9eab314bf91d98856d9c49037f44b619" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_m_l_config_1a9eab314bf91d98856d9c49037f44b619" kindref="member">seasonality_period</ref>{0};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1observability_1_1_anomaly" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_anomaly" kindref="compound">Anomaly</ref><sp/>{</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1observability_1_1_anomaly_1abc5cdc6965f5a0ff6e9b47f262c6617e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_anomaly_1abc5cdc6965f5a0ff6e9b47f262c6617e" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1observability_1_1_anomaly_1ace5c5e416bd30509da3892af30818745" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_anomaly_1ace5c5e416bd30509da3892af30818745" kindref="member">metric_name</ref>;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1observability_1_1_anomaly_1a72bc4543f99cdf0aaf01cef9362749f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_anomaly_1a72bc4543f99cdf0aaf01cef9362749f4" kindref="member">actual_value</ref>{0.0};</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1observability_1_1_anomaly_1aa0182bbead1d7c740dfb7d80b2228bbf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_anomaly_1aa0182bbead1d7c740dfb7d80b2228bbf" kindref="member">expected_value</ref>{0.0};</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1observability_1_1_anomaly_1a31568a7caf029bbffe45705ffac5f8c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_anomaly_1a31568a7caf029bbffe45705ffac5f8c5" kindref="member">confidence_score</ref>{0.0};<sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1observability_1_1_anomaly_1ae2756bbcdb84c59ea5ff39191f6f7147" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_anomaly_1ae2756bbcdb84c59ea5ff39191f6f7147" kindref="member">severity</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1observability_1_1_anomaly_1a188ce885272d6a7a6bee13d6fdc98a7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_anomaly_1a188ce885272d6a7a6bee13d6fdc98a7c" kindref="member">contributing_factors</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="structthemis_1_1observability_1_1_anomaly_1a48543d7fac853ed7f814a02a9d391ac2" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1observability_1_1_anomaly_explanation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_anomaly_explanation" kindref="compound">AnomalyExplanation</ref><sp/>{</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1observability_1_1_anomaly_explanation_1a9ba9afe0f31ab0b02754901928fbe26c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_anomaly_explanation_1a9ba9afe0f31ab0b02754901928fbe26c" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1observability_1_1_anomaly_explanation_1abc8e32230fc0e85bc99c074052420a2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_anomaly_explanation_1abc8e32230fc0e85bc99c074052420a2d" kindref="member">metric_name</ref>;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1observability_1_1_anomaly_explanation_1aff439856ee81f032ab294f1fb2d01f59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_anomaly_explanation_1aff439856ee81f032ab294f1fb2d01f59" kindref="member">confidence_score</ref>{0.0};</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1observability_1_1_anomaly_explanation_1a1df0f4c9ad90449df2b6111d56fd9e11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>double&gt;&gt;<sp/><ref refid="structthemis_1_1observability_1_1_anomaly_explanation_1a1df0f4c9ad90449df2b6111d56fd9e11" kindref="member">feature_importance</ref>;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1observability_1_1_anomaly_explanation_1ac3528ff027374d40f71ad3982b3edbcf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_anomaly_explanation_1ac3528ff027374d40f71ad3982b3edbcf" kindref="member">summary</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="structthemis_1_1observability_1_1_anomaly_explanation_1a0ae54affdbc34e58ca32251de421e714" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1observability_1_1_m_l_anomaly_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a244c539bb4d6d5b12c4cf9c01039e421" kindref="member">MLAnomalyDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a244c539bb4d6d5b12c4cf9c01039e421" kindref="member">MLAnomalyDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_m_l_config" kindref="compound">MLConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a54f64f7158a5a49d90d4e3a63f88623f" kindref="member">train</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ForecastSeries&gt;&amp;<sp/>training_data);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Anomaly&gt;<sp/><ref refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1ab730d537c79812de9d39608dc71fdfcb" kindref="member">detectAnomalies</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a930dc89af2ae5164e3e492005a6a3fb0" kindref="member">ForecastSeries</ref>&amp;<sp/>current_data)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a930dc89af2ae5164e3e492005a6a3fb0" kindref="member">ForecastSeries</ref><sp/><ref refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1aca22adbb37e3f449bd563248447586ea" kindref="member">forecast</ref>(std::chrono::hours<sp/>horizon)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_anomaly_explanation" kindref="compound">AnomalyExplanation</ref><sp/><ref refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1ae755fc4d6ae1fbd1f8fb4ff4be9c9e2b" kindref="member">explainAnomaly</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_anomaly" kindref="compound">Anomaly</ref>&amp;<sp/>anomaly)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a83de4136327735d9d1601f4733fc7a20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_m_l_anomaly_detector_1a83de4136327735d9d1601f4733fc7a20" kindref="member">isTrained</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>trained_;<sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_m_l_config" kindref="compound">MLConfig</ref><sp/>cfg_;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>themisdb::analytics::ForecastModel<sp/><sp/><sp/>forecast_model_;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>themisdb::analytics::AnomalyDetector<sp/>outlier_detector_;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a930dc89af2ae5164e3e492005a6a3fb0" kindref="member">ForecastSeries</ref><sp/>training_series_;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>baseline_values_;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>seasonal_template_;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>baseline_mean_{0.0};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>baseline_stddev_{0.0};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>trained_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>clamp01(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>v)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::chrono::system_clock::time_point<sp/>tsFromMs(int64_t<sp/>ms);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>toMs(std::chrono::system_clock::time_point<sp/>tp);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mean(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>v);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stddev(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>v,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mu);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>medianIntervalMs(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a930dc89af2ae5164e3e492005a6a3fb0" kindref="member">ForecastSeries</ref>&amp;<sp/>series)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>dbscanLabels(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>values)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>changePointScore(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>values)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>severityForScore(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>s)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>buildSeasonalTemplate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>themisdb::analytics::DecompositionResult&amp;<sp/>d)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>AnomalyExplanation<sp/>buildExplanation(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Anomaly&amp;<sp/>anomaly)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/ml_anomaly_detector.h"/>
+  </compounddef>
+</doxygen>

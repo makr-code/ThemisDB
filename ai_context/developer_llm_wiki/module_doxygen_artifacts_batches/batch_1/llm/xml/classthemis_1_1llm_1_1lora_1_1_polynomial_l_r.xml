@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::PolynomialLR</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler" prot="public" virt="non-virtual">themis::llm::lora::LRScheduler</basecompoundref>
+    <includes refid="lr__scheduler_8h" local="no">lr_scheduler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1af19a406038159ecdcb50ae0c8ea43962" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::PolynomialLR::start_lr_</definition>
+        <argsstring></argsstring>
+        <name>start_lr_</name>
+        <qualifiedname>themis::llm::lora::PolynomialLR::start_lr_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="241" column="11" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1a8d69bc5ba9ced68f61dc7fb3a4e9d1f6" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::PolynomialLR::end_lr_</definition>
+        <argsstring></argsstring>
+        <name>end_lr_</name>
+        <qualifiedname>themis::llm::lora::PolynomialLR::end_lr_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="242" column="11" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1a2704d6199740ca81e8a1207ae3d893c9" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::PolynomialLR::total_steps_</definition>
+        <argsstring></argsstring>
+        <name>total_steps_</name>
+        <qualifiedname>themis::llm::lora::PolynomialLR::total_steps_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="243" column="9" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1abed12d8d2023c31aba8522389f35d4c2" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::PolynomialLR::power_</definition>
+        <argsstring></argsstring>
+        <name>power_</name>
+        <qualifiedname>themis::llm::lora::PolynomialLR::power_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="244" column="11" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1a30929be5b95722763855dac1b04c1103" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::PolynomialLR::PolynomialLR</definition>
+        <argsstring>(float start_lr, float end_lr, int total_steps, float power=1.0f)</argsstring>
+        <name>PolynomialLR</name>
+        <qualifiedname>themis::llm::lora::PolynomialLR::PolynomialLR</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>start_lr</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>end_lr</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>total_steps</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>power</declname>
+          <defval>1.0f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="232" column="5" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="232" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1a659482eccf33fb8c63943ef85e3395f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::PolynomialLR::~PolynomialLR</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~PolynomialLR</name>
+        <qualifiedname>themis::llm::lora::PolynomialLR::~PolynomialLR</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="234" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1a41900610b9c7a189b4cec241f74989cd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::PolynomialLR::get_lr</definition>
+        <argsstring>(int step) const override</argsstring>
+        <name>get_lr</name>
+        <qualifiedname>themis::llm::lora::PolynomialLR::get_lr</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a905c0c3ee0eaac8261866f2e6bec5688">get_lr</reimplements>
+        <param>
+          <type>int</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+<para>Get lr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="236" column="11" bodyfile="src/llm/lora_framework/lr_scheduler.cpp" bodystart="108" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1a7acca2a9cd9f823d12715153630cc0c2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359" kindref="member">SchedulerType</ref></type>
+        <definition>SchedulerType themis::llm::lora::PolynomialLR::type</definition>
+        <argsstring>() const override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::llm::lora::PolynomialLR::type</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a7048b5e15ba36ca63863eac93bc1ca1e">type</reimplements>
+        <briefdescription>
+<para>Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="237" column="19" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="237" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1a22b69cb92316eaaabfce80f9338cdf30" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_l_r_scheduler_config" kindref="compound">LRSchedulerConfig</ref></type>
+        <definition>LRSchedulerConfig themis::llm::lora::PolynomialLR::config</definition>
+        <argsstring>() const override</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::lora::PolynomialLR::config</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a90c87567122b5d4efe777820ffa5109a">config</reimplements>
+        <briefdescription>
+<para>Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="238" column="23" bodyfile="src/llm/lora_framework/lr_scheduler.cpp" bodystart="118" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::lora::LRScheduler</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::PolynomialLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::lora::LRScheduler</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::PolynomialLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/lr_scheduler.h" line="230" column="1" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="230" bodyend="245"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1a22b69cb92316eaaabfce80f9338cdf30" prot="public" virt="virtual"><scope>themis::llm::lora::PolynomialLR</scope><name>config</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1a8d69bc5ba9ced68f61dc7fb3a4e9d1f6" prot="private" virt="non-virtual"><scope>themis::llm::lora::PolynomialLR</scope><name>end_lr_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1a41900610b9c7a189b4cec241f74989cd" prot="public" virt="virtual"><scope>themis::llm::lora::PolynomialLR</scope><name>get_lr</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1a30929be5b95722763855dac1b04c1103" prot="public" virt="non-virtual"><scope>themis::llm::lora::PolynomialLR</scope><name>PolynomialLR</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1abed12d8d2023c31aba8522389f35d4c2" prot="private" virt="non-virtual"><scope>themis::llm::lora::PolynomialLR</scope><name>power_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1af19a406038159ecdcb50ae0c8ea43962" prot="private" virt="non-virtual"><scope>themis::llm::lora::PolynomialLR</scope><name>start_lr_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1a2704d6199740ca81e8a1207ae3d893c9" prot="private" virt="non-virtual"><scope>themis::llm::lora::PolynomialLR</scope><name>total_steps_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1a7acca2a9cd9f823d12715153630cc0c2" prot="public" virt="virtual"><scope>themis::llm::lora::PolynomialLR</scope><name>type</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a55400958819352469981cae8a4cfc66d" prot="public" virt="virtual"><scope>themis::llm::lora::PolynomialLR</scope><name>~LRScheduler</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_polynomial_l_r_1a659482eccf33fb8c63943ef85e3395f3" prot="public" virt="non-virtual"><scope>themis::llm::lora::PolynomialLR</scope><name>~PolynomialLR</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

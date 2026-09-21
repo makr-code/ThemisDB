@@ -1,0 +1,720 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_telephony_bridge" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::TelephonyBridge</compoundname>
+    <includes refid="voice__telephony_8h" local="no">voice_telephony.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1voice_1_1_telephony_bridge_1a00d9277fdd2368920a0dbc5a9d41ce64" prot="public" static="no">
+        <type><ref refid="structthemis_1_1voice_1_1_telephony_bridge_config" kindref="compound">TelephonyBridgeConfig</ref></type>
+        <definition>using themis::voice::TelephonyBridge::Config = TelephonyBridgeConfig</definition>
+        <argsstring></argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::voice::TelephonyBridge::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="577" column="5" bodyfile="include/voice/voice_telephony.h" bodystart="577" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_telephony_bridge_1a7afcdbbc4f70be4571e111e374b36dab" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_telephony_bridge_1a00d9277fdd2368920a0dbc5a9d41ce64" kindref="member">Config</ref></type>
+        <definition>Config themis::voice::TelephonyBridge::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::voice::TelephonyBridge::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="672" column="12" bodyfile="include/voice/voice_telephony.h" bodystart="672" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_telephony_bridge_1ac60db977cc87850e221ae4909ed03d30" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::voice::TelephonyBridge::sip_mutex_</definition>
+        <argsstring></argsstring>
+        <name>sip_mutex_</name>
+        <qualifiedname>themis::voice::TelephonyBridge::sip_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="673" column="24" bodyfile="include/voice/voice_telephony.h" bodystart="673" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_telephony_bridge_1a074913bfbe944efaa2b9af2a06e61f58" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::voice::TelephonyBridge::webrtc_mutex_</definition>
+        <argsstring></argsstring>
+        <name>webrtc_mutex_</name>
+        <qualifiedname>themis::voice::TelephonyBridge::webrtc_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="674" column="24" bodyfile="include/voice/voice_telephony.h" bodystart="674" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_telephony_bridge_1a7f9b7640af872c0d2af74a838cdb7b55" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; <ref refid="classthemis_1_1voice_1_1_sip_call_session" kindref="compound">SipCallSession</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;SipCallSession&gt; &gt; themis::voice::TelephonyBridge::sip_calls_</definition>
+        <argsstring></argsstring>
+        <name>sip_calls_</name>
+        <qualifiedname>themis::voice::TelephonyBridge::sip_calls_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="676" column="27" bodyfile="include/voice/voice_telephony.h" bodystart="676" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_telephony_bridge_1a41ba58aaac64bb4b2cb78da8c683f7c2" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; <ref refid="classthemis_1_1voice_1_1_web_rtc_call_session" kindref="compound">WebRtcCallSession</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;WebRtcCallSession&gt; &gt; themis::voice::TelephonyBridge::webrtc_calls_</definition>
+        <argsstring></argsstring>
+        <name>webrtc_calls_</name>
+        <qualifiedname>themis::voice::TelephonyBridge::webrtc_calls_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="677" column="24" bodyfile="include/voice/voice_telephony.h" bodystart="677" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_bridge_1a7ac6f816139e56247e28b2d8f0181029" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::TelephonyBridge::TelephonyBridge</definition>
+        <argsstring>(Config config=Config{})</argsstring>
+        <name>TelephonyBridge</name>
+        <qualifiedname>themis::voice::TelephonyBridge::TelephonyBridge</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_telephony_bridge_1a00d9277fdd2368920a0dbc5a9d41ce64" kindref="member">Config</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="classthemis_1_1voice_1_1_telephony_bridge_1a00d9277fdd2368920a0dbc5a9d41ce64" kindref="member">Config</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="579" column="14" bodyfile="src/voice/voice_telephony.cpp" bodystart="1040" bodyend="1042"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_bridge_1ae8f2430910a20bf7de7336847ed2d63b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::TelephonyBridge::~TelephonyBridge</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TelephonyBridge</name>
+        <qualifiedname>themis::voice::TelephonyBridge::~TelephonyBridge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="580" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_bridge_1a8c9c5fa4eabd9742fcff093a632ac321" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::TelephonyBridge::TelephonyBridge</definition>
+        <argsstring>(const TelephonyBridge &amp;)=delete</argsstring>
+        <name>TelephonyBridge</name>
+        <qualifiedname>themis::voice::TelephonyBridge::TelephonyBridge</qualifiedname>
+        <param>
+          <type>const TelephonyBridge &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="583" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_bridge_1a77a1cafda739596f862b328239a64bea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1voice_1_1_telephony_bridge_1a7ac6f816139e56247e28b2d8f0181029" kindref="member">TelephonyBridge</ref> &amp;</type>
+        <definition>TelephonyBridge &amp; themis::voice::TelephonyBridge::operator=</definition>
+        <argsstring>(const TelephonyBridge &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::voice::TelephonyBridge::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1voice_1_1_telephony_bridge_1a7ac6f816139e56247e28b2d8f0181029" kindref="member">TelephonyBridge</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="584" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_bridge_1a56e2d8ca234a068abaa44416ba4ea61d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref></type>
+        <definition>CallID themis::voice::TelephonyBridge::acceptSipCall</definition>
+        <argsstring>(SipCallSession::Config config)</argsstring>
+        <name>acceptSipCall</name>
+        <qualifiedname>themis::voice::TelephonyBridge::acceptSipCall</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1voice_1_1_sip_call_session_1_1_config" kindref="compound">SipCallSession::Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Register an inbound SIP call and start its session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Accept Sip <ref refid="structthemis_1_1voice_1_1_call" kindref="compound">Call</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1voice_1_1_call" kindref="compound">Call</ref> configuration derived from the SIP INVITE. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref> of the new session, or empty string when the concurrency limit has been reached.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), size(), THEMIS_WARN(), <ref refid="classthemis_1_1voice_1_1_sip_call_session_1a3244c67db7ee895f513f011f6d1436d4" kindref="member">SipCallSession::create()</ref>, std::move(), start(), emplace(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="595" column="12" bodyfile="src/voice/voice_telephony.cpp" bodystart="1050" bodyend="1071"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_bridge_1a09b7fcdce1a3b72b458efa6bde60297d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref></type>
+        <definition>CallID themis::voice::TelephonyBridge::dialSip</definition>
+        <argsstring>(SipCallSession::Config config)</argsstring>
+        <name>dialSip</name>
+        <qualifiedname>themis::voice::TelephonyBridge::dialSip</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1voice_1_1_sip_call_session_1_1_config" kindref="compound">SipCallSession::Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initiate an outbound SIP call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Dial Sip.</para>
+<para><simplesect kind="return"><para><ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref> of the new session.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1voice_1_1_telephony_bridge_1a56e2d8ca234a068abaa44416ba4ea61d" kindref="member">acceptSipCall()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="601" column="12" bodyfile="src/voice/voice_telephony.cpp" bodystart="1079" bodyend="1082"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_bridge_1a604fa737acb4d1947410dfadd9fd7e6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_call_transcript" kindref="compound">CallTranscript</ref></type>
+        <definition>CallTranscript themis::voice::TelephonyBridge::routeSipRtp</definition>
+        <argsstring>(const CallID &amp;call_id, const std::vector&lt; uint8_t &gt; &amp;rtp_packet)</argsstring>
+        <name>routeSipRtp</name>
+        <qualifiedname>themis::voice::TelephonyBridge::routeSipRtp</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref> &amp;</type>
+          <declname>call_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>rtp_packet</declname>
+        </param>
+        <briefdescription>
+<para>Route an incoming RTP packet to the correct SIP session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Route Sip Rtp.</para>
+<para><simplesect kind="return"><para>Incremental transcript, or empty if call not found.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">call_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the call. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rtp_packet</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_WARN(), receiveRtpPacket(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="608" column="20" bodyfile="src/voice/voice_telephony.cpp" bodystart="1091" bodyend="1100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_bridge_1a1cd0e58e097169ddad54ea861ba505d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::TelephonyBridge::terminateSipCall</definition>
+        <argsstring>(const CallID &amp;call_id)</argsstring>
+        <name>terminateSipCall</name>
+        <qualifiedname>themis::voice::TelephonyBridge::terminateSipCall</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref> &amp;</type>
+          <declname>call_id</declname>
+        </param>
+        <briefdescription>
+<para>Terminate a SIP call by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Terminate Sip <ref refid="structthemis_1_1voice_1_1_call" kindref="compound">Call</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">call_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the call.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), erase(), THEMIS_INFO(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="614" column="10" bodyfile="src/voice/voice_telephony.cpp" bodystart="1107" bodyend="1117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_bridge_1a1098b02758cec8a80214b56a8f5ef229" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::TelephonyBridge::acceptWebRtcOffer</definition>
+        <argsstring>(WebRtcCallSession::Config config, const std::string &amp;sdp_offer, CallID &amp;out_call_id)</argsstring>
+        <name>acceptWebRtcOffer</name>
+        <qualifiedname>themis::voice::TelephonyBridge::acceptWebRtcOffer</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config" kindref="compound">WebRtcCallSession::Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sdp_offer</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref> &amp;</type>
+          <declname>out_call_id</declname>
+        </param>
+        <briefdescription>
+<para>Create a new WebRTC session and process the SDP offer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Accept Web Rtc Offer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session configuration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sdp_offer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SDP offer from the browser. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_call_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Set to the new <ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref> on success. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SDP answer string, or empty string on failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sdp_offer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_call_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the out call. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_WARN(), lock_sip(), lock_rtc(), size(), <ref refid="classthemis_1_1voice_1_1_web_rtc_call_session_1ae3d7bb8ea138bada6ec4c49061c0979b" kindref="member">WebRtcCallSession::create()</ref>, std::move(), processOffer(), start(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="626" column="17" bodyfile="src/voice/voice_telephony.cpp" bodystart="1127" bodyend="1157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_bridge_1a59265beceb869d3187533f2824827463" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::TelephonyBridge::routeIceCandidate</definition>
+        <argsstring>(const CallID &amp;call_id, const std::string &amp;candidate_json)</argsstring>
+        <name>routeIceCandidate</name>
+        <qualifiedname>themis::voice::TelephonyBridge::routeIceCandidate</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref> &amp;</type>
+          <declname>call_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>candidate_json</declname>
+        </param>
+        <briefdescription>
+<para>Forward a remote ICE candidate to the correct WebRTC session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Route Ice Candidate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">call_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the call. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">candidate_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), THEMIS_WARN(), addIceCandidate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="633" column="10" bodyfile="src/voice/voice_telephony.cpp" bodystart="1165" bodyend="1174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_bridge_1aa0a16f42c95174e58b2e88e1074ee26d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_call_transcript" kindref="compound">CallTranscript</ref></type>
+        <definition>CallTranscript themis::voice::TelephonyBridge::routeWebRtcAudio</definition>
+        <argsstring>(const CallID &amp;call_id, const std::vector&lt; int16_t &gt; &amp;pcm_samples)</argsstring>
+        <name>routeWebRtcAudio</name>
+        <qualifiedname>themis::voice::TelephonyBridge::routeWebRtcAudio</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref> &amp;</type>
+          <declname>call_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int16_t &gt; &amp;</type>
+          <declname>pcm_samples</declname>
+        </param>
+        <briefdescription>
+<para>Route a decoded audio frame to the correct WebRTC session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Route Web Rtc Audio.</para>
+<para><simplesect kind="return"><para>Incremental transcript, or empty if call not found.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">call_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the call. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pcm_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_WARN(), receiveAudioFrame(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="641" column="20" bodyfile="src/voice/voice_telephony.cpp" bodystart="1183" bodyend="1192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_bridge_1a74540f82e5c275137d7cca6d0e2afd9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::TelephonyBridge::terminateWebRtcCall</definition>
+        <argsstring>(const CallID &amp;call_id)</argsstring>
+        <name>terminateWebRtcCall</name>
+        <qualifiedname>themis::voice::TelephonyBridge::terminateWebRtcCall</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref> &amp;</type>
+          <declname>call_id</declname>
+        </param>
+        <briefdescription>
+<para>Terminate a WebRTC call by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Terminate Web Rtc <ref refid="structthemis_1_1voice_1_1_call" kindref="compound">Call</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">call_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the call.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), erase(), THEMIS_INFO(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="647" column="10" bodyfile="src/voice/voice_telephony.cpp" bodystart="1199" bodyend="1209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_bridge_1a1a7ca958a2bd3e9bf5689c8811211005" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::TelephonyBridge::terminateCall</definition>
+        <argsstring>(const CallID &amp;call_id)</argsstring>
+        <name>terminateCall</name>
+        <qualifiedname>themis::voice::TelephonyBridge::terminateCall</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref> &amp;</type>
+          <declname>call_id</declname>
+        </param>
+        <briefdescription>
+<para>Terminate any call (SIP or WebRTC) by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Terminate <ref refid="structthemis_1_1voice_1_1_call" kindref="compound">Call</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">call_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the call.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1voice_1_1_telephony_bridge_1a1cd0e58e097169ddad54ea861ba505d2" kindref="member">terminateSipCall()</ref>, <ref refid="classthemis_1_1voice_1_1_telephony_bridge_1a74540f82e5c275137d7cca6d0e2afd9d" kindref="member">terminateWebRtcCall()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="654" column="10" bodyfile="src/voice/voice_telephony.cpp" bodystart="1216" bodyend="1219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_bridge_1a2a93a1229f91cfdf55514a08ca648ef0" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::TelephonyBridge::activeCallCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>activeCallCount</name>
+        <qualifiedname>themis::voice::TelephonyBridge::activeCallCount</qualifiedname>
+        <briefdescription>
+<para>Total number of currently active calls (SIP + WebRTC). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock sip. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sip_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock rtc. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">webrtc_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="657" column="12" bodyfile="src/voice/voice_telephony.cpp" bodystart="1221" bodyend="1235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_bridge_1af3364f06dea10a99e252596a0acb0ec2" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::TelephonyBridge::activeSipCallCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>activeSipCallCount</name>
+        <qualifiedname>themis::voice::TelephonyBridge::activeSipCallCount</qualifiedname>
+        <briefdescription>
+<para>Number of active SIP calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sip_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="660" column="12" bodyfile="src/voice/voice_telephony.cpp" bodystart="1237" bodyend="1245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_bridge_1adddadefc6186af792a510fd255788e90" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::TelephonyBridge::activeWebRtcCallCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>activeWebRtcCallCount</name>
+        <qualifiedname>themis::voice::TelephonyBridge::activeWebRtcCallCount</qualifiedname>
+        <briefdescription>
+<para>Number of active WebRTC calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">webrtc_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="663" column="12" bodyfile="src/voice/voice_telephony.cpp" bodystart="1247" bodyend="1255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_telephony_bridge_1a31586f0bd2f0f83c053a0a39b68d35f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1af24c401441bb95b17f0893e73cc02c10" kindref="member">CallState</ref></type>
+        <definition>CallState themis::voice::TelephonyBridge::callState</definition>
+        <argsstring>(const CallID &amp;call_id) const</argsstring>
+        <name>callState</name>
+        <qualifiedname>themis::voice::TelephonyBridge::callState</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref> &amp;</type>
+          <declname>call_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the state of any call by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="namespacethemis_1_1voice_1af24c401441bb95b17f0893e73cc02c10aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">CallState::IDLE</ref> if the call is not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sip_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">webrtc_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="669" column="15" bodyfile="src/voice/voice_telephony.cpp" bodystart="1257" bodyend="1283"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Central coordinator for all telephony (SIP + WebRTC) call sessions. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages the pool of active <ref refid="classthemis_1_1voice_1_1_sip_call_session" kindref="compound">SipCallSession</ref> and <ref refid="classthemis_1_1voice_1_1_web_rtc_call_session" kindref="compound">WebRtcCallSession</ref> objects, enforces concurrency limits, and provides unified routing for audio and signalling events.</para>
+<para><simplesect kind="note"><para>Thread Safety: All public methods are thread-safe. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/voice/voice_telephony.h" line="575" column="1" bodyfile="include/voice/voice_telephony.h" bodystart="575" bodyend="678"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a56e2d8ca234a068abaa44416ba4ea61d" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>acceptSipCall</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a1098b02758cec8a80214b56a8f5ef229" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>acceptWebRtcOffer</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a2a93a1229f91cfdf55514a08ca648ef0" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>activeCallCount</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1af3364f06dea10a99e252596a0acb0ec2" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>activeSipCallCount</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1adddadefc6186af792a510fd255788e90" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>activeWebRtcCallCount</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a31586f0bd2f0f83c053a0a39b68d35f3" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>callState</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a00d9277fdd2368920a0dbc5a9d41ce64" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>Config</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a7afcdbbc4f70be4571e111e374b36dab" prot="private" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>config_</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a09b7fcdce1a3b72b458efa6bde60297d" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>dialSip</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a77a1cafda739596f862b328239a64bea" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a59265beceb869d3187533f2824827463" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>routeIceCandidate</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a604fa737acb4d1947410dfadd9fd7e6c" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>routeSipRtp</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1aa0a16f42c95174e58b2e88e1074ee26d" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>routeWebRtcAudio</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a7f9b7640af872c0d2af74a838cdb7b55" prot="private" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>sip_calls_</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1ac60db977cc87850e221ae4909ed03d30" prot="private" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>sip_mutex_</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a7ac6f816139e56247e28b2d8f0181029" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>TelephonyBridge</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a8c9c5fa4eabd9742fcff093a632ac321" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>TelephonyBridge</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a1a7ca958a2bd3e9bf5689c8811211005" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>terminateCall</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a1cd0e58e097169ddad54ea861ba505d2" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>terminateSipCall</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a74540f82e5c275137d7cca6d0e2afd9d" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>terminateWebRtcCall</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a41ba58aaac64bb4b2cb78da8c683f7c2" prot="private" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>webrtc_calls_</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1a074913bfbe944efaa2b9af2a06e61f58" prot="private" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>webrtc_mutex_</name></member>
+      <member refid="classthemis_1_1voice_1_1_telephony_bridge_1ae8f2430910a20bf7de7336847ed2d63b" prot="public" virt="non-virtual"><scope>themis::voice::TelephonyBridge</scope><name>~TelephonyBridge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

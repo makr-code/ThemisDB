@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="rtree__cursor_8h" kind="file" language="C++">
+    <compoundname>rtree_cursor.h</compoundname>
+    <includes local="yes">utils/geo/ewkb.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="rtree__cursor_8cpp" local="yes">src/geo/rtree_cursor.cpp</includedby>
+    <includedby refid="test__rtree__cursor_8cpp" local="yes">tests/geo/test_rtree_cursor.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/geo/rtree_cursor.h</label>
+        <link refid="rtree__cursor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/geo/rtree_cursor.h</label>
+        <link refid="rtree__cursor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/geo/rtree_cursor.cpp</label>
+        <link refid="rtree__cursor_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/geo/test_rtree_cursor.cpp</label>
+        <link refid="test__rtree__cursor_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_index_entry" prot="public">themis::geo::GeoIndexEntry</innerclass>
+    <innerclass refid="classthemis_1_1geo_1_1_i_r_tree_cursor" prot="public">themis::geo::IRTreeCursor</innerclass>
+    <innerclass refid="classthemis_1_1geo_1_1_i_geo_index" prot="public">themis::geo::IGeoIndex</innerclass>
+    <innerclass refid="classthemis_1_1geo_1_1_geo_r_tree_index" prot="public">themis::geo::GeoRTreeIndex</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1geo">themis::geo</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/geo/ewkb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">geo</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cursor<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5" kindref="member">CursorStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5ae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317dae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5ab1a326c06d88bf042f73d70f50197905" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5ab1a326c06d88bf042f73d70f50197905" kindref="member">END</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5a4d855a061b3066dc14a3b12ed26b5456" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5a4d855a061b3066dc14a3b12ed26b5456" kindref="member">STALE</ref>,<sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GeoIndexEntry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1geo_1_1_geo_index_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_geo_index_entry" kindref="compound">GeoIndexEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1geo_1_1_geo_index_entry_1a078ea3ba0844f5e961d843ab39363b0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_index_entry_1a078ea3ba0844f5e961d843ab39363b0b" kindref="member">key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1geo_1_1_geo_index_entry_1aea5442652b809551cca5906b7e52130b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/><ref refid="structthemis_1_1geo_1_1_geo_index_entry_1aea5442652b809551cca5906b7e52130b" kindref="member">geom</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1geo_1_1_geo_index_entry_1a1d64b3182834093c3f90846c1f5e9c3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_index_entry_1a1d64b3182834093c3f90846c1f5e9c3c" kindref="member">distance_m</ref>;<sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IRTreeCursor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1geo_1_1_i_r_tree_cursor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_i_r_tree_cursor" kindref="compound">IRTreeCursor</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1geo_1_1_i_r_tree_cursor_1a59e996785ad1fce496ed288d25a870a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_r_tree_cursor_1a59e996785ad1fce496ed288d25a870a7" kindref="member">~IRTreeCursor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1geo_1_1_i_r_tree_cursor_1abcbc562a754256a5646e3994a5412c36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5" kindref="member">CursorStatus</ref><sp/><ref refid="classthemis_1_1geo_1_1_i_r_tree_cursor_1abcbc562a754256a5646e3994a5412c36" kindref="member">next</ref>(<ref refid="structthemis_1_1geo_1_1_geo_index_entry" kindref="compound">GeoIndexEntry</ref>&amp;<sp/>entry)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="classthemis_1_1geo_1_1_i_r_tree_cursor_1a5e1134a254487ae8761267942e24d11d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1geo_1_1_i_r_tree_cursor_1a5e1134a254487ae8761267942e24d11d" kindref="member">estimatedResultCount</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IGeoIndex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1geo_1_1_i_geo_index" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1geo_1_1_i_geo_index" kindref="compound">IGeoIndex</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1geo_1_1_i_geo_index_1ac31b19e6df224c4a6dfb7bebbb19130d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_geo_index_1ac31b19e6df224c4a6dfb7bebbb19130d" kindref="member">~IGeoIndex</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1geo_1_1_i_geo_index_1a32698745c84f812c544d39343571ddf1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;IRTreeCursor&gt;<sp/><ref refid="classthemis_1_1geo_1_1_i_geo_index_1a32698745c84f812c544d39343571ddf1" kindref="member">openRangeCursor</ref>(</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR&amp;<sp/>bbox)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1geo_1_1_i_geo_index_1aaaf34ad24e77dff9c6213c208c904505" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;IRTreeCursor&gt;<sp/><ref refid="classthemis_1_1geo_1_1_i_geo_index_1aaaf34ad24e77dff9c6213c208c904505" kindref="member">openKNNCursor</ref>(</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Coordinate&amp;<sp/>query_point,<sp/>std::size_t<sp/>k)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1geo_1_1_i_geo_index_1a564f35ad35b499c4ee0a82d904cd6127" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1geo_1_1_i_geo_index_1a564f35ad35b499c4ee0a82d904cd6127" kindref="member">size</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1geo_1_1_i_geo_index_1a0dedcd426778a77877bcf49a65d67bb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_geo_index_1a0dedcd426778a77877bcf49a65d67bb1" kindref="member">insert</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>key,<sp/>const<sp/>GeometryInfo&amp;<sp/>geom)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1geo_1_1_i_geo_index_1a7f37dca8f398812883b5a7585b45d570" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_geo_index_1a7f37dca8f398812883b5a7585b45d570" kindref="member">bulkLoad</ref>(</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;std::pair&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>GeometryInfo&gt;&gt;&amp;<sp/>entries)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1geo_1_1_i_geo_index_1abeb6898af08712cbe0657bac1f3ee419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_geo_index_1abeb6898af08712cbe0657bac1f3ee419" kindref="member">clear</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GeoRTreeIndex<sp/>—<sp/>concrete<sp/>implementation<sp/>wrapping<sp/>GeoRTree</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1geo_1_1_geo_r_tree_index" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a0b45a3b82de57d4e888b178aa2869d5d" kindref="member">GeoRTreeIndex</ref><sp/>final<sp/>:<sp/>public<sp/><ref refid="classthemis_1_1geo_1_1_i_geo_index" kindref="compound">IGeoIndex</ref><sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a0b45a3b82de57d4e888b178aa2869d5d" kindref="member">GeoRTreeIndex</ref>();</highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a10319e931b5ca6bd6d4e708db73c555b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a10319e931b5ca6bd6d4e708db73c555b" kindref="member">~GeoRTreeIndex</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a5c9a89490492aacd13750b3bf3efb828" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a5c9a89490492aacd13750b3bf3efb828" kindref="member">GeoRTreeIndex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a0b45a3b82de57d4e888b178aa2869d5d" kindref="member">GeoRTreeIndex</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a23b3e0799cc1ff79f96b4233396a2c99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a0b45a3b82de57d4e888b178aa2869d5d" kindref="member">GeoRTreeIndex</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a23b3e0799cc1ff79f96b4233396a2c99" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a0b45a3b82de57d4e888b178aa2869d5d" kindref="member">GeoRTreeIndex</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a1287250f5f4251fd288f3da4a8df3e13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a1287250f5f4251fd288f3da4a8df3e13" kindref="member">GeoRTreeIndex</ref>(<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a0b45a3b82de57d4e888b178aa2869d5d" kindref="member">GeoRTreeIndex</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a501dee0c78b5683472f606eb74cba305" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a0b45a3b82de57d4e888b178aa2869d5d" kindref="member">GeoRTreeIndex</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a0b45a3b82de57d4e888b178aa2869d5d" kindref="member">GeoRTreeIndex</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1geo_1_1_i_r_tree_cursor" kindref="compound">IRTreeCursor</ref>&gt;<sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a67f526a34b5a622c70e81897df0b5d7e" kindref="member">openRangeCursor</ref>(</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>MBR&amp;<sp/>bbox)<sp/>override;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1geo_1_1_i_r_tree_cursor" kindref="compound">IRTreeCursor</ref>&gt;<sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a8e3382b6551cc72fa102ea4e866840e2" kindref="member">openKNNCursor</ref>(</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>Coordinate&amp;<sp/>query_point,<sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k)<sp/>override;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1ab83984cc4aed89915222dd96f9ff76d4" kindref="member">size</ref>()<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" kindref="member">insert</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>key,<sp/>const<sp/>GeometryInfo&amp;<sp/>geom)<sp/>override;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a10f448598a7edb6617ef630af1713a0d" kindref="member">bulkLoad</ref>(</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;std::pair&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>GeometryInfo&gt;&gt;&amp;<sp/>entries)<sp/>override;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a36334ab979c28c68472a5e1a16593ed0" kindref="member">clear</ref>()<sp/>override;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1geo_1_1_geo_r_tree_index_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="structthemis_1_1geo_1_1_geo_r_tree_index_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>geo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/geo/rtree_cursor.h"/>
+  </compounddef>
+</doxygen>

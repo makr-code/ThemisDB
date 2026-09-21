@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_i_llama_wrapper" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::ILlamaWrapper</compoundname>
+    <includes refid="llm__interfaces_8h" local="no">llm_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_llama_wrapper_1a8404992e1956010b41e737ade08c8491" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::ILlamaWrapper::~ILlamaWrapper</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILlamaWrapper</name>
+        <qualifiedname>themis::llm::ILlamaWrapper::~ILlamaWrapper</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="70" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_llama_wrapper_1a7478ebb735689e8ba05438f59f1b5938" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::ILlamaWrapper::loadModel</definition>
+        <argsstring>(const std::string &amp;path)=0</argsstring>
+        <name>loadModel</name>
+        <qualifiedname>themis::llm::ILlamaWrapper::loadModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="71" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_llama_wrapper_1ab683445e51f584b8f0642919660cd55b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::ILlamaWrapper::unloadModel</definition>
+        <argsstring>()=0</argsstring>
+        <name>unloadModel</name>
+        <qualifiedname>themis::llm::ILlamaWrapper::unloadModel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="72" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_llama_wrapper_1a46becbc78751ed8f5af5947e1116fd8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::ILlamaWrapper::formatAsMCPResponse</definition>
+        <argsstring>(const std::string &amp;raw)=0</argsstring>
+        <name>formatAsMCPResponse</name>
+        <qualifiedname>themis::llm::ILlamaWrapper::formatAsMCPResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>raw</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="73" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/llm/llm_interfaces.h" line="68" column="1" bodyfile="include/themis/llm/llm_interfaces.h" bodystart="68" bodyend="74"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_i_llama_wrapper_1a46becbc78751ed8f5af5947e1116fd8b" prot="public" virt="pure-virtual"><scope>themis::llm::ILlamaWrapper</scope><name>formatAsMCPResponse</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_llama_wrapper_1a7478ebb735689e8ba05438f59f1b5938" prot="public" virt="pure-virtual"><scope>themis::llm::ILlamaWrapper</scope><name>loadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_llama_wrapper_1ab683445e51f584b8f0642919660cd55b" prot="public" virt="pure-virtual"><scope>themis::llm::ILlamaWrapper</scope><name>unloadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_llama_wrapper_1a8404992e1956010b41e737ade08c8491" prot="public" virt="virtual"><scope>themis::llm::ILlamaWrapper</scope><name>~ILlamaWrapper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

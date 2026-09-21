@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_workload_profile" kind="struct" language="C++" prot="public">
+    <compoundname>WorkloadProfile</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_workload_profile_1a0402f20038952f9a64b7c06e61d9f3a9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string WorkloadProfile::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>WorkloadProfile::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="50" column="17" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_workload_profile_1af22812001fa36a29b720c9dee51a41a5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t WorkloadProfile::query_ratio</definition>
+        <argsstring></argsstring>
+        <name>query_ratio</name>
+        <qualifiedname>WorkloadProfile::query_ratio</qualifiedname>
+        <briefdescription>
+<para>Percentage of queries (0-100). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="51" column="17" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_workload_profile_1add88822be8c9f6a0bacae489bf0552b7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t WorkloadProfile::store_ratio</definition>
+        <argsstring></argsstring>
+        <name>store_ratio</name>
+        <qualifiedname>WorkloadProfile::store_ratio</qualifiedname>
+        <briefdescription>
+<para>Percentage of stores (0-100). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="52" column="17" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_workload_profile_1af55c7f25c0635c9ede098d8ff5b1137c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t WorkloadProfile::remove_ratio</definition>
+        <argsstring></argsstring>
+        <name>remove_ratio</name>
+        <qualifiedname>WorkloadProfile::remove_ratio</qualifiedname>
+        <briefdescription>
+<para>Percentage of removes (0-100). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="53" column="17" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_workload_profile_1a68677aabec97204fd36cc914627c59d4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t WorkloadProfile::num_threads</definition>
+        <argsstring></argsstring>
+        <name>num_threads</name>
+        <qualifiedname>WorkloadProfile::num_threads</qualifiedname>
+        <briefdescription>
+<para>Concurrent threads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="54" column="17" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_workload_profile_1ad80c4cdab062db3baf44b399e6bf4efd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t WorkloadProfile::operation_count</definition>
+        <argsstring></argsstring>
+        <name>operation_count</name>
+        <qualifiedname>WorkloadProfile::operation_count</qualifiedname>
+        <briefdescription>
+<para>Total operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="55" column="17" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_workload_profile_1ab13d5aa1272c69d5ce87ecb03343458a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool WorkloadProfile::enable_chaos</definition>
+        <argsstring></argsstring>
+        <name>enable_chaos</name>
+        <qualifiedname>WorkloadProfile::enable_chaos</qualifiedname>
+        <briefdescription>
+<para>Enable failure injection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="56" column="17" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_workload_profile_1afcb384fc3e214612dff334b065e240b6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string WorkloadProfile::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>WorkloadProfile::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="57" column="17" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Parametrized workload profile for stress testing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="49" column="1" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="49" bodyend="58"/>
+    <listofallmembers>
+      <member refid="struct_workload_profile_1afcb384fc3e214612dff334b065e240b6" prot="public" virt="non-virtual"><scope>WorkloadProfile</scope><name>description</name></member>
+      <member refid="struct_workload_profile_1ab13d5aa1272c69d5ce87ecb03343458a" prot="public" virt="non-virtual"><scope>WorkloadProfile</scope><name>enable_chaos</name></member>
+      <member refid="struct_workload_profile_1a0402f20038952f9a64b7c06e61d9f3a9" prot="public" virt="non-virtual"><scope>WorkloadProfile</scope><name>name</name></member>
+      <member refid="struct_workload_profile_1a68677aabec97204fd36cc914627c59d4" prot="public" virt="non-virtual"><scope>WorkloadProfile</scope><name>num_threads</name></member>
+      <member refid="struct_workload_profile_1ad80c4cdab062db3baf44b399e6bf4efd" prot="public" virt="non-virtual"><scope>WorkloadProfile</scope><name>operation_count</name></member>
+      <member refid="struct_workload_profile_1af22812001fa36a29b720c9dee51a41a5" prot="public" virt="non-virtual"><scope>WorkloadProfile</scope><name>query_ratio</name></member>
+      <member refid="struct_workload_profile_1af55c7f25c0635c9ede098d8ff5b1137c" prot="public" virt="non-virtual"><scope>WorkloadProfile</scope><name>remove_ratio</name></member>
+      <member refid="struct_workload_profile_1add88822be8c9f6a0bacae489bf0552b7" prot="public" virt="non-virtual"><scope>WorkloadProfile</scope><name>store_ratio</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

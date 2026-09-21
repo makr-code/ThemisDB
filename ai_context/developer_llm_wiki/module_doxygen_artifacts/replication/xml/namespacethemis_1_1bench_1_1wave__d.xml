@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1wave__d" kind="namespace" language="C++">
+    <compoundname>themis::bench::wave_d</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1wave__d_1a57d4ae2e67f33ef5300698ba31778e1d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::wave_d::kWaveDCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kWaveDCanonicalSeed</name>
+        <qualifiedname>themis::bench::wave_d::kWaveDCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all Wave D benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" line="56" column="27" bodyfile="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1wave__d_1a50673427eb5c3a235a479e09741641dc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::wave_d::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::wave_d::kWarmupIterations</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Warmup iterations before measurement window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" line="59" column="22" bodyfile="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1wave__d_1aafecc36ba9de9820524317b791e48565" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::wave_d::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::wave_d::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Repetitions per benchmark for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" line="62" column="22" bodyfile="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1wave__d_1a3b11c25c0efd748f430b3cb17be0959f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::wave_d::kGbEBandwidthMBps</definition>
+        <argsstring></argsstring>
+        <name>kGbEBandwidthMBps</name>
+        <qualifiedname>themis::bench::wave_d::kGbEBandwidthMBps</qualifiedname>
+        <initializer>= 125.0</initializer>
+        <briefdescription>
+<para>GbE link bandwidth capacity (theoretical). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" line="65" column="25" bodyfile="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1wave__d_1ae0d91138ddd11fa94f97c0323ba50a08" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::wave_d::kWalShippingThresholdMBps</definition>
+        <argsstring></argsstring>
+        <name>kWalShippingThresholdMBps</name>
+        <qualifiedname>themis::bench::wave_d::kWalShippingThresholdMBps</qualifiedname>
+        <initializer>= 80.0</initializer>
+        <briefdescription>
+<para>Acceptance threshold for WAL shipping: ≥80 MB/s. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" line="68" column="25" bodyfile="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1wave__d_1ab1bc95ea5d928fbb2eab4d26cef6ccd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::wave_d::GEO_BENCH_01_LeaderElectionWithConstraints</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>GEO_BENCH_01_LeaderElectionWithConstraints</name>
+        <qualifiedname>themis::bench::wave_d::GEO_BENCH_01_LeaderElectionWithConstraints</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" line="125" column="6" bodyfile="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" bodystart="125" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1wave__d_1a91ec135016dc8355574c713a297dd47e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::wave_d::Iterations</definition>
+        <argsstring>(100) -&gt; Name(&quot;GEO-BENCH-01: Leader Election (3-DC)&quot;) -&gt;Unit(benchmark::kMillisecond) -&gt;Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::bench::wave_d::Iterations</qualifiedname>
+        <param>
+          <type>100</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" line="143" column="5" declfile="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" declline="143" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1wave__d_1af0716a70011ba912847b57f66be81694" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::wave_d::GEO_BENCH_02_FailoverWithConstraint</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>GEO_BENCH_02_FailoverWithConstraint</name>
+        <qualifiedname>themis::bench::wave_d::GEO_BENCH_02_FailoverWithConstraint</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" line="153" column="6" bodyfile="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" bodystart="153" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1wave__d_1a56cf2a3e46fc3fcdfd43afebf475c3f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::wave_d::GEO_BENCH_03_PlacementValidation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>GEO_BENCH_03_PlacementValidation</name>
+        <qualifiedname>themis::bench::wave_d::GEO_BENCH_03_PlacementValidation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" line="181" column="6" bodyfile="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" bodystart="181" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1wave__d_1a02d820044caa162b606ec1b13259151a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::wave_d::WAL_BENCH_01_ShippingThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>WAL_BENCH_01_ShippingThroughput</name>
+        <qualifiedname>themis::bench::wave_d::WAL_BENCH_01_ShippingThroughput</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" line="208" column="6" bodyfile="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" bodystart="208" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1wave__d_1ab924b0f66294642199f92e975a26d454" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::wave_d::Iterations</definition>
+        <argsstring>(10000) -&gt; Name(&quot;WAL-BENCH-01: Shipping Throughput (1 KB segs)&quot;) -&gt;Unit(benchmark::kMillisecond) -&gt;Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::bench::wave_d::Iterations</qualifiedname>
+        <param>
+          <type>10000</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" line="256" column="5" declfile="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" declline="256" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1wave__d_1abcb2350e925b303da3ccbcc0b664f288" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::wave_d::WAL_BENCH_02_LagAlertLatency</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>WAL_BENCH_02_LagAlertLatency</name>
+        <qualifiedname>themis::bench::wave_d::WAL_BENCH_02_LagAlertLatency</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" line="266" column="6" bodyfile="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" bodystart="266" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1wave__d_1a3c1514582160eed8ce3aaa4c5827e777" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::wave_d::Iterations</definition>
+        <argsstring>(500) -&gt; Name(&quot;WAL-BENCH-02: Lag Alert Latency (backpressure)&quot;) -&gt;Unit(benchmark::kMillisecond) -&gt;Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::bench::wave_d::Iterations</qualifiedname>
+        <param>
+          <type>500</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" line="319" column="5" declfile="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" declline="319" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1wave__d_1a54b7199f6330d8d18b5b657e8cff42e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::wave_d::WAL_BENCH_03_StatsAccuracy</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>WAL_BENCH_03_StatsAccuracy</name>
+        <qualifiedname>themis::bench::wave_d::WAL_BENCH_03_StatsAccuracy</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" line="329" column="6" bodyfile="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" bodystart="329" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1wave__d_1ab0cc6e8622549f3292b6353377787b94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::wave_d::Iterations</definition>
+        <argsstring>(1000) -&gt; Name(&quot;WAL-BENCH-03: Stats Accuracy (load test)&quot;) -&gt;Unit(benchmark::kMillisecond) -&gt;Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::bench::wave_d::Iterations</qualifiedname>
+        <param>
+          <type>1000</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" line="362" column="5" declfile="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" declline="362" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1wave__d_1a446ca31d510d6e44996829da140e86c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::wave_d::WAL_BENCH_04_MetricsExport</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>WAL_BENCH_04_MetricsExport</name>
+        <qualifiedname>themis::bench::wave_d::WAL_BENCH_04_MetricsExport</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" line="372" column="6" bodyfile="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" bodystart="372" bodyend="394"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/replication/bench_geo_placement_wal_shipping.cpp" line="46" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_snapshot_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::SnapshotMetadata</compoundname>
+    <includes refid="snapshot__manager_8h" local="no">snapshot_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a26b724d7c01cdf77b8926f412e63f419" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_snapshot_handle" kindref="compound">SnapshotHandle</ref></type>
+        <definition>SnapshotHandle themisdb::temporal::SnapshotMetadata::handle</definition>
+        <argsstring></argsstring>
+        <name>handle</name>
+        <qualifiedname>themisdb::temporal::SnapshotMetadata::handle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/snapshot_manager.h" line="68" column="20" bodyfile="include/temporal/snapshot_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_snapshot_metadata_1ab8f4182b6dacfebbe183add3b9ca9ad1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::SnapshotMetadata::total_tables</definition>
+        <argsstring></argsstring>
+        <name>total_tables</name>
+        <qualifiedname>themisdb::temporal::SnapshotMetadata::total_tables</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/snapshot_manager.h" line="69" column="12" bodyfile="include/temporal/snapshot_manager.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a079038138df8368f4a90c06f992c803a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::SnapshotMetadata::total_rows</definition>
+        <argsstring></argsstring>
+        <name>total_rows</name>
+        <qualifiedname>themisdb::temporal::SnapshotMetadata::total_rows</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/snapshot_manager.h" line="70" column="12" bodyfile="include/temporal/snapshot_manager.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a17be05e83b81182c8c5ac64a1d06b4a7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::SnapshotMetadata::is_valid</definition>
+        <argsstring></argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themisdb::temporal::SnapshotMetadata::is_valid</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/snapshot_manager.h" line="71" column="10" bodyfile="include/temporal/snapshot_manager.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a5ae32f35d3c856f2b48cacd79fb28434" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::SnapshotMetadata::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::temporal::SnapshotMetadata::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/snapshot_manager.h" line="73" column="20" bodyfile="include/temporal/snapshot_manager.h" bodystart="73" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Metadata describing a live snapshot. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::temporal::SnapshotHandle</label>
+        <link refid="structthemisdb_1_1temporal_1_1_snapshot_handle"/>
+      </node>
+      <node id="1">
+        <label>themisdb::temporal::SnapshotMetadata</label>
+        <link refid="structthemisdb_1_1temporal_1_1_snapshot_metadata"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>handle</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/temporal/snapshot_manager.h" line="67" column="1" bodyfile="include/temporal/snapshot_manager.h" bodystart="67" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a26b724d7c01cdf77b8926f412e63f419" prot="public" virt="non-virtual"><scope>themisdb::temporal::SnapshotMetadata</scope><name>handle</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a17be05e83b81182c8c5ac64a1d06b4a7" prot="public" virt="non-virtual"><scope>themisdb::temporal::SnapshotMetadata</scope><name>is_valid</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a5ae32f35d3c856f2b48cacd79fb28434" prot="public" virt="non-virtual"><scope>themisdb::temporal::SnapshotMetadata</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1a079038138df8368f4a90c06f992c803a" prot="public" virt="non-virtual"><scope>themisdb::temporal::SnapshotMetadata</scope><name>total_rows</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_snapshot_metadata_1ab8f4182b6dacfebbe183add3b9ca9ad1" prot="public" virt="non-virtual"><scope>themisdb::temporal::SnapshotMetadata</scope><name>total_tables</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

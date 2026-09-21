@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_idempotent_recovery_operation" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::sharding::IdempotentRecoveryOperation</compoundname>
+    <derivedcompoundref refid="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation" prot="public" virt="non-virtual">themis::sharding::test::MockRecoveryOperation</derivedcompoundref>
+    <includes refid="sharding__error__recovery_8h" local="no">sharding_error_recovery.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_idempotent_recovery_operation_1ac119b5d89fed52c976b73ec3e6645563" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::sharding::IdempotentRecoveryOperation::~IdempotentRecoveryOperation</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IdempotentRecoveryOperation</name>
+        <qualifiedname>themis::sharding::IdempotentRecoveryOperation::~IdempotentRecoveryOperation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_error_recovery.h" line="152" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_idempotent_recovery_operation_1ac583e9dc96677d69ccaa779924a417e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::pair&lt; bool, std::string &gt;</type>
+        <definition>virtual std::pair&lt; bool, std::string &gt; themis::sharding::IdempotentRecoveryOperation::execute</definition>
+        <argsstring>()=0</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::sharding::IdempotentRecoveryOperation::execute</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1a00171f81fd24f522581014507b61952e">execute</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute the recovery operation. Safe to call multiple times. <simplesect kind="return"><para>Pair of (success, description). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_error_recovery.h" line="156" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_idempotent_recovery_operation_1a5c539439ace01812256ec7957d43572f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::sharding::IdempotentRecoveryOperation::getOperationId</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getOperationId</name>
+        <qualifiedname>themis::sharding::IdempotentRecoveryOperation::getOperationId</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1ac4a0f95ab48d53f8e9a5688204a0f889">getOperationId</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get a unique operation identifier (e.g., transaction-id). Used for deduplication and log tracking. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_error_recovery.h" line="160" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Marker interface for idempotent recovery operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Types implementing this interface guarantee that:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation_1ac583e9dc96677d69ccaa779924a417e8" kindref="member">execute()</ref> with the same input produces the same output on retry</para>
+</listitem><listitem><para>No side effects persist on repeated execution</para>
+</listitem><listitem><para>State is not duplicated (e.g., no duplicate WAL entries)</para>
+</listitem></itemizedlist>
+</para>
+<para>Implementations are responsible for:<itemizedlist>
+<listitem><para>Unique request/operation IDs (e.g., transaction-id, operation-id)</para>
+</listitem><listitem><para>Deduplication (checking if operation already completed)</para>
+</listitem><listitem><para>Immutable recovery state (no conflicting concurrent modifications) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::sharding::IdempotentRecoveryOperation</label>
+        <link refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation"/>
+      </node>
+      <node id="2">
+        <label>themis::sharding::test::MockRecoveryOperation</label>
+        <link refid="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/sharding/sharding_error_recovery.h" line="150" column="1" bodyfile="include/sharding/sharding_error_recovery.h" bodystart="150" bodyend="161"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation_1ac583e9dc96677d69ccaa779924a417e8" prot="public" virt="pure-virtual"><scope>themis::sharding::IdempotentRecoveryOperation</scope><name>execute</name></member>
+      <member refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation_1a5c539439ace01812256ec7957d43572f" prot="public" virt="pure-virtual"><scope>themis::sharding::IdempotentRecoveryOperation</scope><name>getOperationId</name></member>
+      <member refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation_1ac119b5d89fed52c976b73ec3e6645563" prot="public" virt="virtual"><scope>themis::sharding::IdempotentRecoveryOperation</scope><name>~IdempotentRecoveryOperation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

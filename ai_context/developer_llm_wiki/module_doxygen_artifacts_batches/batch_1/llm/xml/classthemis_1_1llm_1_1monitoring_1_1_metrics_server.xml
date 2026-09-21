@@ -1,0 +1,788 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::monitoring::MetricsServer</compoundname>
+    <includes refid="grafana__metrics_8h" local="no">grafana_metrics.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config" prot="public">themis::llm::monitoring::MetricsServer::ServerConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_impl" prot="public">themis::llm::monitoring::MetricsServer::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ab91b8b97832d7ff0ed3594fd9459a9a6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config" kindref="compound">ServerConfig</ref></type>
+        <definition>ServerConfig themis::llm::monitoring::MetricsServer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="687" column="18" bodyfile="include/llm/grafana_metrics.h" bodystart="687" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ab19c2d2cb6ebe09564d8545b8a6d37d2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter" kindref="compound">PrometheusExporter</ref> *</type>
+        <definition>PrometheusExporter* themis::llm::monitoring::MetricsServer::exporter_</definition>
+        <argsstring></argsstring>
+        <name>exporter_</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::exporter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="688" column="24" bodyfile="include/llm/grafana_metrics.h" bodystart="688" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a627fa45b478b556684ddc8101da2184f" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::monitoring::MetricsServer::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::running_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="689" column="10" bodyfile="include/llm/grafana_metrics.h" bodystart="689" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a77d8245a87851e15705ffc9bf744ba88" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::string()&gt;</type>
+        <definition>std::function&lt;std::string()&gt; themis::llm::monitoring::MetricsServer::model_info_cb_</definition>
+        <argsstring></argsstring>
+        <name>model_info_cb_</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::model_info_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="690" column="19" bodyfile="include/llm/grafana_metrics.h" bodystart="690" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a91f34aa51c830d9a08d127e370af49f6" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::string()&gt;</type>
+        <definition>std::function&lt;std::string()&gt; themis::llm::monitoring::MetricsServer::dashboard_cb_</definition>
+        <argsstring></argsstring>
+        <name>dashboard_cb_</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::dashboard_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="691" column="19" bodyfile="include/llm/grafana_metrics.h" bodystart="691" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1aaecfac5330655f20993de87e42f1beba" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp;)&gt; themis::llm::monitoring::MetricsServer::reload_cb_</definition>
+        <argsstring></argsstring>
+        <name>reload_cb_</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::reload_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="692" column="19" bodyfile="include/llm/grafana_metrics.h" bodystart="692" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ae2deee54c6b06254985550c92c2eecf2" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp;)&gt; themis::llm::monitoring::MetricsServer::simulate_cb_</definition>
+        <argsstring></argsstring>
+        <name>simulate_cb_</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::simulate_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="693" column="19" bodyfile="include/llm/grafana_metrics.h" bodystart="693" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ae1d30dd342d1733281acf39ab192105d" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::string()&gt;</type>
+        <definition>std::function&lt;std::string()&gt; themis::llm::monitoring::MetricsServer::session_list_cb_</definition>
+        <argsstring></argsstring>
+        <name>session_list_cb_</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::session_list_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="694" column="19" bodyfile="include/llm/grafana_metrics.h" bodystart="694" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ad21ce99877659c4cf399a6da88272e70" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp;)&gt; themis::llm::monitoring::MetricsServer::session_delete_cb_</definition>
+        <argsstring></argsstring>
+        <name>session_delete_cb_</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::session_delete_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="695" column="19" bodyfile="include/llm/grafana_metrics.h" bodystart="695" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1abbc5248858ad5be8e897834581795af8" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::monitoring::MetricsServer::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="700" column="21" bodyfile="include/llm/grafana_metrics.h" bodystart="700" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ab4ebbd7f753dd088acced46f27991fb1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::monitoring::MetricsServer::MetricsServer</definition>
+        <argsstring>(const ServerConfig &amp;config, PrometheusExporter *exporter)</argsstring>
+        <name>MetricsServer</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::MetricsServer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config" kindref="compound">ServerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter" kindref="compound">PrometheusExporter</ref> *</type>
+          <declname>exporter</declname>
+        </param>
+        <briefdescription>
+<para>Metrics Server. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">exporter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="579" column="14" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1619" bodyend="1623"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a7d9d6874f55389940f85b9f3b814d034" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::monitoring::MetricsServer::~MetricsServer</definition>
+        <argsstring>()</argsstring>
+        <name>~MetricsServer</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::~MetricsServer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="581" column="5" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1625" bodyend="1627"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ac900409667879cd56953485554ca07e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::monitoring::MetricsServer::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="588" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1783" bodyend="1786"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ade3232e6d147ae6ef21fc6619a6ea78a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::MetricsServer::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements stop without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="592" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1792" bodyend="1794"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1aa9ce2c5980d7585c813ccc132e461c67" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::monitoring::MetricsServer::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::isRunning</qualifiedname>
+        <briefdescription>
+<para>Is Running. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="597" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1798" bodyend="1800"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a6bbde58067af618ae9aae7a034e305c0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::monitoring::MetricsServer::getMetricsURL</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetricsURL</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::getMetricsURL</qualifiedname>
+        <briefdescription>
+<para>Get Metrics URL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="604" column="17" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1802" bodyend="1804"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1aed75fe75260eb2180f716709eaa7f051" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::monitoring::MetricsServer::getDashboardURL</definition>
+        <argsstring>() const</argsstring>
+        <name>getDashboardURL</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::getDashboardURL</qualifiedname>
+        <briefdescription>
+<para>Get Dashboard URL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="609" column="17" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1806" bodyend="1808"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a89246a92fc0e5e6bcc9f46760d782eed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::monitoring::MetricsServer::getHealthURL</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthURL</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::getHealthURL</qualifiedname>
+        <briefdescription>
+<para>Get Health URL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="614" column="17" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1810" bodyend="1812"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1aa8d264a0dedc63429076b5c557a964e3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::monitoring::MetricsServer::getReadyURL</definition>
+        <argsstring>() const</argsstring>
+        <name>getReadyURL</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::getReadyURL</qualifiedname>
+        <briefdescription>
+<para>Get Ready URL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="619" column="17" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1814" bodyend="1816"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1af27fe019f7532a450a464aa6671897d7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::monitoring::MetricsServer::getModelsURL</definition>
+        <argsstring>() const</argsstring>
+        <name>getModelsURL</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::getModelsURL</qualifiedname>
+        <briefdescription>
+<para>Get Models URL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="624" column="17" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1818" bodyend="1820"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a34b59293ceec507dfadf5f12bcd03a26" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::monitoring::MetricsServer::getAdminReloadURL</definition>
+        <argsstring>() const</argsstring>
+        <name>getAdminReloadURL</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::getAdminReloadURL</qualifiedname>
+        <briefdescription>
+<para>Get Admin Reload URL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="629" column="17" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1822" bodyend="1824"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a2fb10f376e64cb3a174071d945eedad4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::monitoring::MetricsServer::getAdminSimulateURL</definition>
+        <argsstring>() const</argsstring>
+        <name>getAdminSimulateURL</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::getAdminSimulateURL</qualifiedname>
+        <briefdescription>
+<para>Get Admin Simulate URL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="634" column="17" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1826" bodyend="1828"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1aefde9fc77728251036e16020da4aa6f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::monitoring::MetricsServer::getAdminSessionsURL</definition>
+        <argsstring>() const</argsstring>
+        <name>getAdminSessionsURL</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::getAdminSessionsURL</qualifiedname>
+        <briefdescription>
+<para>Get Admin Sessions URL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="639" column="17" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1830" bodyend="1832"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a7ab155aef0f63271141d4103ddd9c3d9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::MetricsServer::setModelInfoCallback</definition>
+        <argsstring>(std::function&lt; std::string()&gt; cb)</argsstring>
+        <name>setModelInfoCallback</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::setModelInfoCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string()&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="641" column="10" bodyfile="include/llm/grafana_metrics.h" bodystart="641" bodyend="643"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a2031df833764cb579aba75ee9d44616b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::MetricsServer::setDashboardCallback</definition>
+        <argsstring>(std::function&lt; std::string()&gt; cb)</argsstring>
+        <name>setDashboardCallback</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::setDashboardCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string()&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="645" column="10" bodyfile="include/llm/grafana_metrics.h" bodystart="645" bodyend="647"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a16a96ed7fc573dc1747f2fb1788fdcd6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::MetricsServer::setReloadCallback</definition>
+        <argsstring>(std::function&lt; std::string(const std::string &amp;)&gt; cb)</argsstring>
+        <name>setReloadCallback</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::setReloadCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="649" column="10" bodyfile="include/llm/grafana_metrics.h" bodystart="649" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a651c01694948c87c61891c71e6bde557" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::MetricsServer::setSimulateCallback</definition>
+        <argsstring>(std::function&lt; std::string(const std::string &amp;)&gt; cb)</argsstring>
+        <name>setSimulateCallback</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::setSimulateCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="653" column="10" bodyfile="include/llm/grafana_metrics.h" bodystart="653" bodyend="655"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ada67c7bf10a26d01875a96ff6dbe25c1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::MetricsServer::setSessionListCallback</definition>
+        <argsstring>(std::function&lt; std::string()&gt; cb)</argsstring>
+        <name>setSessionListCallback</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::setSessionListCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string()&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="657" column="10" bodyfile="include/llm/grafana_metrics.h" bodystart="657" bodyend="659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a9e0d41b8d13458cbce4c55ab745bc4b0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::MetricsServer::setSessionDeleteCallback</definition>
+        <argsstring>(std::function&lt; std::string(const std::string &amp;)&gt; cb)</argsstring>
+        <name>setSessionDeleteCallback</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::setSessionDeleteCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="661" column="10" bodyfile="include/llm/grafana_metrics.h" bodystart="661" bodyend="663"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a6ca2e9ddef6abaf65e769e102caeae84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::MetricsServer::handlePost</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;body, std::string &amp;response)</argsstring>
+        <name>handlePost</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::handlePost</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>── Test-accessible request dispatch ────────────────────────────────────── These methods are called from the httplib route handlers inside <ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle Post.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+They are exposed publicly so that unit tests can exercise the callback wiring without starting the HTTP listener.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a16a96ed7fc573dc1747f2fb1788fdcd6" kindref="member">setReloadCallback()</ref>, <ref refid="classthemis_1_1llm_1_1_llama_wrapper_1a93c7469a5590a3e617e6fe36a19d510b" kindref="member">LlamaWrapper::loadModel()</ref>, <ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a651c01694948c87c61891c71e6bde557" kindref="member">setSimulateCallback()</ref>, <ref refid="classthemis_1_1llm_1_1_prompt_policy_1a92eb1744a58134af68b01d4db93139c6" kindref="member">PromptPolicy::apply()</ref>, <ref refid="namespacethemis_1_1llm_1a1b58ad0b8f90ca7cb29fbcb4ab08cb69" kindref="member">estimateTokens()</ref>, reload_cb_(), simulate_cb_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="673" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1894" bodyend="1923"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a777357aca25dacd6c5a8eca1b911c25b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::MetricsServer::handleDelete</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;resource_id, std::string &amp;response)</argsstring>
+        <name>handleDelete</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::handleDelete</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_id</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Handle Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the resource. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the resource. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a9e0d41b8d13458cbce4c55ab745bc4b0" kindref="member">setSessionDeleteCallback()</ref>, <ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ae3fa29c88f189d63f9625dc3d4355bab" kindref="member">ContinuousBatchScheduler::cancelRequest()</ref>, empty(), session_delete_cb_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="681" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1932" bodyend="1952"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ac96c3915e0688d23e6944b7adcc7b654" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config" kindref="compound">ServerConfig</ref> &amp;</type>
+        <definition>const ServerConfig &amp; themis::llm::monitoring::MetricsServer::serverConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>serverConfig</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::serverConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="684" column="24" bodyfile="include/llm/grafana_metrics.h" bodystart="684" bodyend="684"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a07bb4c368bda213c4d779295a3a90a06" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::MetricsServer::handleRequest</definition>
+        <argsstring>(const std::string &amp;path, std::string &amp;response)</argsstring>
+        <name>handleRequest</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::handleRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>HTTP GET request handling (called from httplib route handlers inside <ref refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_impl" kindref="compound">Impl</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: handleMetricsRequest(), dashboard_cb_(), GrafanaDashboardGenerator(), generateUnifiedDashboard(), model_info_cb_(), session_list_cb_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="707" column="10" bodyfile="src/llm/grafana_metrics.cpp" bodystart="1840" bodyend="1885"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/grafana_metrics.h" line="557" column="1" bodyfile="include/llm/grafana_metrics.h" bodystart="557" bodyend="708"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ab91b8b97832d7ff0ed3594fd9459a9a6" prot="private" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a91f34aa51c830d9a08d127e370af49f6" prot="private" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>dashboard_cb_</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ab19c2d2cb6ebe09564d8545b8a6d37d2" prot="private" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>exporter_</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a34b59293ceec507dfadf5f12bcd03a26" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>getAdminReloadURL</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1aefde9fc77728251036e16020da4aa6f3" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>getAdminSessionsURL</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a2fb10f376e64cb3a174071d945eedad4" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>getAdminSimulateURL</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1aed75fe75260eb2180f716709eaa7f051" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>getDashboardURL</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a89246a92fc0e5e6bcc9f46760d782eed" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>getHealthURL</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a6bbde58067af618ae9aae7a034e305c0" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>getMetricsURL</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1af27fe019f7532a450a464aa6671897d7" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>getModelsURL</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1aa8d264a0dedc63429076b5c557a964e3" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>getReadyURL</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a777357aca25dacd6c5a8eca1b911c25b" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>handleDelete</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a6ca2e9ddef6abaf65e769e102caeae84" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>handlePost</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a07bb4c368bda213c4d779295a3a90a06" prot="private" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>handleRequest</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1abbc5248858ad5be8e897834581795af8" prot="private" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1aa9ce2c5980d7585c813ccc132e461c67" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ab4ebbd7f753dd088acced46f27991fb1" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>MetricsServer</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a77d8245a87851e15705ffc9bf744ba88" prot="private" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>model_info_cb_</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1aaecfac5330655f20993de87e42f1beba" prot="private" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>reload_cb_</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a627fa45b478b556684ddc8101da2184f" prot="private" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>running_</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ac96c3915e0688d23e6944b7adcc7b654" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>serverConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ad21ce99877659c4cf399a6da88272e70" prot="private" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>session_delete_cb_</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ae1d30dd342d1733281acf39ab192105d" prot="private" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>session_list_cb_</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a2031df833764cb579aba75ee9d44616b" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>setDashboardCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a7ab155aef0f63271141d4103ddd9c3d9" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>setModelInfoCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a16a96ed7fc573dc1747f2fb1788fdcd6" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>setReloadCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a9e0d41b8d13458cbce4c55ab745bc4b0" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>setSessionDeleteCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ada67c7bf10a26d01875a96ff6dbe25c1" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>setSessionListCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a651c01694948c87c61891c71e6bde557" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>setSimulateCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ae2deee54c6b06254985550c92c2eecf2" prot="private" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>simulate_cb_</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ac900409667879cd56953485554ca07e1" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>start</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1ade3232e6d147ae6ef21fc6619a6ea78a" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>stop</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server_1a7d9d6874f55389940f85b9f3b814d034" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer</scope><name>~MetricsServer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

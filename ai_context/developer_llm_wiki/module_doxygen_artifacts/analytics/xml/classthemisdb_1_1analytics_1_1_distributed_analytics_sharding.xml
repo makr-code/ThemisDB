@@ -1,0 +1,930 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::DistributedAnalyticsSharding</compoundname>
+    <includes refid="distributed__analytics_8h" local="no">distributed_analytics.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config" prot="public">themisdb::analytics::DistributedAnalyticsSharding::Config</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info" prot="public">themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_execution_info" prot="public">themisdb::analytics::DistributedAnalyticsSharding::ShardExecutionInfo</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result" prot="public">themisdb::analytics::DistributedAnalyticsSharding::DistributedResult</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry" prot="private">themisdb::analytics::DistributedAnalyticsSharding::ShardEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a71c4c933746b1be0da4b4a9a705f8798" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>CircuitBreakerState</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerState</qualifiedname>
+        <enumvalue id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a71c4c933746b1be0da4b4a9a705f8798a110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Normal operation, requests processed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a71c4c933746b1be0da4b4a9a705f8798aa38bd5138bf35514df41a1795ebbf5c3" prot="public">
+          <name>OPEN</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Too many failures, requests rejected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a71c4c933746b1be0da4b4a9a705f8798a5c1c0fca237f238d3c656d55a4db3ca4" prot="public">
+          <name>HALF_OPEN</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Attempting recovery, limited requests sent. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="161" column="5" bodyfile="include/analytics/distributed_analytics.h" bodystart="161" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1aa9ca9decbbf21af489a5f5ba2f96e581" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::analytics::DistributedAnalyticsSharding::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="344" column="12" bodyfile="include/analytics/distributed_analytics.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a08ef60420b47dd436f25ce6f7cc1e9dd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::analytics::DistributedAnalyticsSharding::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="345" column="24" bodyfile="include/analytics/distributed_analytics.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a760ea997f8fa69f0c0237ce98c197e68" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; ShardEntry &gt;</type>
+        <definition>std::vector&lt;ShardEntry&gt; themisdb::analytics::DistributedAnalyticsSharding::shards_</definition>
+        <argsstring></argsstring>
+        <name>shards_</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="362" column="17" bodyfile="include/analytics/distributed_analytics.h" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1adbdc2896e2206fecafa93bc53dd266a7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::analytics::DistributedAnalyticsSharding::stopping_</definition>
+        <argsstring></argsstring>
+        <name>stopping_</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::stopping_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="365" column="23" bodyfile="include/analytics/distributed_analytics.h" bodystart="365" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a05876b238d5f4238e7d92c51c64d024e" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::analytics::DistributedAnalyticsSharding::health_monitor_mutex_</definition>
+        <argsstring></argsstring>
+        <name>health_monitor_mutex_</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::health_monitor_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="366" column="29" bodyfile="include/analytics/distributed_analytics.h" bodystart="366" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a8de0f67fdb6de82e1155d77bc6b3fe92" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::analytics::DistributedAnalyticsSharding::health_monitor_cv_</definition>
+        <argsstring></argsstring>
+        <name>health_monitor_cv_</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::health_monitor_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="367" column="29" bodyfile="include/analytics/distributed_analytics.h" bodystart="367" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a6bb73cd0d8650a646626b289918369f8" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::analytics::DistributedAnalyticsSharding::health_monitor_thread_</definition>
+        <argsstring></argsstring>
+        <name>health_monitor_thread_</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::health_monitor_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="368" column="29" bodyfile="include/analytics/distributed_analytics.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a5c1a93e3d8414b0dbf0c57d19522c228" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::DistributedAnalyticsSharding::DistributedAnalyticsSharding</definition>
+        <argsstring>()</argsstring>
+        <name>DistributedAnalyticsSharding</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::DistributedAnalyticsSharding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="203" column="5" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="432" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a85b568a9221a41b82877f1877c7a1ad5" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::DistributedAnalyticsSharding::DistributedAnalyticsSharding</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>DistributedAnalyticsSharding</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::DistributedAnalyticsSharding</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Distributed Analytics Sharding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="209" column="14" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="436" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1acc0bfc61828aff44a54a1ee72e1923a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::DistributedAnalyticsSharding::~DistributedAnalyticsSharding</definition>
+        <argsstring>()</argsstring>
+        <name>~DistributedAnalyticsSharding</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::~DistributedAnalyticsSharding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="210" column="5" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="440" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a15d148392fd1d3b3b4b349a2d694e30f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::DistributedAnalyticsSharding::addShard</definition>
+        <argsstring>(const std::string &amp;shard_id, std::shared_ptr&lt; ShardQueryExecutor &gt; executor, const std::string &amp;tenant_id={})</argsstring>
+        <name>addShard</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::addShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_shard_query_executor" kindref="compound">ShardQueryExecutor</ref> &gt;</type>
+          <declname>executor</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Add Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">executor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isHealthy(), spdlog::debug(), what(), lock(), std::move(), store(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="216" column="10" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="520" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a4b88827e03f27483800d39fc0b93e0f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::DistributedAnalyticsSharding::removeShard</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>removeShard</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::removeShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), std::remove_if(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="224" column="10" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="560" bodyend="565"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1af1edb3ccbf51b50a29f7303213e966fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::DistributedAnalyticsSharding::getShardCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getShardCount</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::getShardCount</qualifiedname>
+        <briefdescription>
+<para>Get Shard Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="230" column="12" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="567" bodyend="575"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a098c58a0e44b4dc8b1b95f53207e125d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::DistributedAnalyticsSharding::getHealthyShardCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthyShardCount</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::getHealthyShardCount</qualifiedname>
+        <briefdescription>
+<para>Get Healthy Shard Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="236" column="12" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="577" bodyend="591"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a9e1435def7cfceeaae6f8e7b1697964f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; size_t &gt;</type>
+        <definition>std::future&lt; size_t &gt; themisdb::analytics::DistributedAnalyticsSharding::getHealthyShardCountAsync</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthyShardCountAsync</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::getHealthyShardCountAsync</qualifiedname>
+        <briefdescription>
+<para>Get Healthy Shard Count Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="242" column="17" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="593" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1abbd5fda10418f69aafa8211f5d638d91" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::analytics::DistributedAnalyticsSharding::getShardIds</definition>
+        <argsstring>() const</argsstring>
+        <name>getShardIds</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::getShardIds</qualifiedname>
+        <briefdescription>
+<para>Get Shard Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="248" column="17" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="624" bodyend="638"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a1064759a187e95bd44d56c3b743bed81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_distributed_result" kindref="compound">DistributedResult</ref></type>
+        <definition>DistributedAnalyticsSharding::DistributedResult themisdb::analytics::DistributedAnalyticsSharding::executeDistributed</definition>
+        <argsstring>(const themis::analytics::OLAPQuery &amp;query)</argsstring>
+        <name>executeDistributed</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::executeDistributed</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">themis::analytics::OLAPQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute Distributed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="259" column="23" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="876" bodyend="1259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1aa18ea3b1836e7911a87c788bed775ad7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">themis::analytics::OLAPResult</ref></type>
+        <definition>OLAPResult themisdb::analytics::DistributedAnalyticsSharding::execute</definition>
+        <argsstring>(const themis::analytics::OLAPQuery &amp;query)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::execute</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">themis::analytics::OLAPQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a1064759a187e95bd44d56c3b743bed81" kindref="member">executeDistributed()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="267" column="35" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="1271" bodyend="1273"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a6f39e04c33580c7f5aa845bc3881af4b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">themis::analytics::OLAPResult</ref></type>
+        <definition>OLAPResult themisdb::analytics::DistributedAnalyticsSharding::mergeResults</definition>
+        <argsstring>(const std::vector&lt; themis::analytics::OLAPResult &gt; &amp;partials, const themis::analytics::OLAPQuery &amp;query)</argsstring>
+        <name>mergeResults</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::mergeResults</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">themis::analytics::OLAPResult</ref> &gt; &amp;</type>
+          <declname>partials</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">themis::analytics::OLAPQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Merge Results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partials</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partials</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), reserve(), size(), rowGroupKey(), try_emplace(), clear(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="277" column="42" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="683" bodyend="869"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a0817cab1245e7ffdf5e88f84be499162" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::DistributedAnalyticsSharding::rowGroupKey</definition>
+        <argsstring>(const themis::analytics::OLAPResult::Row &amp;row, const std::vector&lt; themis::analytics::Dimension &gt; &amp;dims, int64_t grouping_id)</argsstring>
+        <name>rowGroupKey</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::rowGroupKey</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1_1_row" kindref="compound">themis::analytics::OLAPResult::Row</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_dimension" kindref="compound">themis::analytics::Dimension</ref> &gt; &amp;</type>
+          <declname>dims</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>grouping_id</declname>
+        </param>
+        <briefdescription>
+<para>Row Group Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dims</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grouping_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the grouping. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dims</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grouping_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the grouping. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), std::to_string(), find(), end(), valueToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="295" column="24" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="652" bodyend="670"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1ad793d0a82513a3e92438aadee4010d1a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::DistributedAnalyticsSharding::onShardSuccess</definition>
+        <argsstring>(ShardEntry &amp;entry)</argsstring>
+        <name>onShardSuccess</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::onShardSuccess</qualifiedname>
+        <param>
+          <type>ShardEntry &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>On Shard Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="305" column="10" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="1284" bodyend="1306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a7172c02ebf3f79d59a4a79ba08e4f85b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::DistributedAnalyticsSharding::onShardFailure</definition>
+        <argsstring>(ShardEntry &amp;entry, const std::string &amp;error_msg)</argsstring>
+        <name>onShardFailure</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::onShardFailure</qualifiedname>
+        <param>
+          <type>ShardEntry &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_msg</declname>
+        </param>
+        <briefdescription>
+<para>On Shard Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), spdlog::warn(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="313" column="10" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="1315" bodyend="1368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a95d25e6fac0ab02c73c679c0af747374" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a71c4c933746b1be0da4b4a9a705f8798" kindref="member">CircuitBreakerState</ref></type>
+        <definition>DistributedAnalyticsSharding::CircuitBreakerState themisdb::analytics::DistributedAnalyticsSharding::updateCircuitBreakerState</definition>
+        <argsstring>(ShardEntry &amp;entry)</argsstring>
+        <name>updateCircuitBreakerState</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::updateCircuitBreakerState</qualifiedname>
+        <param>
+          <type>ShardEntry &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Update Circuit Breaker State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::steady_clock::now(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="320" column="25" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="1376" bodyend="1399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a8edaaca640a6b613d50d9c4b908e8ec0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::DistributedAnalyticsSharding::tryEnqueueRequest</definition>
+        <argsstring>(ShardEntry &amp;entry, std::function&lt; void()&gt; task)</argsstring>
+        <name>tryEnqueueRequest</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::tryEnqueueRequest</qualifiedname>
+        <param>
+          <type>ShardEntry &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void()&gt;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="322" column="10" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="1401" bodyend="1433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a10281a99be3e9ec9df95d94cb7f09311" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::DistributedAnalyticsSharding::processQueuedRequests</definition>
+        <argsstring>(ShardEntry &amp;entry)</argsstring>
+        <name>processQueuedRequests</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::processQueuedRequests</qualifiedname>
+        <param>
+          <type>ShardEntry &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Process Queued Requests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: void(), lock(), empty(), std::move(), front(), pop(), notify_one(), next_task(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="328" column="10" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="1440" bodyend="1455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a73b268764cc74643cdd4547b1064d6ce" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::DistributedAnalyticsSharding::startHealthMonitor</definition>
+        <argsstring>()</argsstring>
+        <name>startHealthMonitor</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::startHealthMonitor</qualifiedname>
+        <briefdescription>
+<para>Start Health Monitor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: count(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="333" column="10" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="456" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1abb899945b7fe5f9e7025247f670f837f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::DistributedAnalyticsSharding::runHealthMonitor</definition>
+        <argsstring>()</argsstring>
+        <name>runHealthMonitor</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::runHealthMonitor</qualifiedname>
+        <briefdescription>
+<para>Run Health Monitor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), lock(), wait_for(), main_lock(), reserve(), size(), isHealthy(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="338" column="10" bodyfile="src/analytics/distributed_analytics.cpp" bodystart="466" bodyend="507"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/distributed_analytics.h" line="122" column="1" bodyfile="include/analytics/distributed_analytics.h" bodystart="122" bodyend="369"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a15d148392fd1d3b3b4b349a2d694e30f" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>addShard</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a71c4c933746b1be0da4b4a9a705f8798" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>CircuitBreakerState</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1aa9ca9decbbf21af489a5f5ba2f96e581" prot="private" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a5c1a93e3d8414b0dbf0c57d19522c228" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>DistributedAnalyticsSharding</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a85b568a9221a41b82877f1877c7a1ad5" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>DistributedAnalyticsSharding</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1aa18ea3b1836e7911a87c788bed775ad7" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a1064759a187e95bd44d56c3b743bed81" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>executeDistributed</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a098c58a0e44b4dc8b1b95f53207e125d" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>getHealthyShardCount</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a9e1435def7cfceeaae6f8e7b1697964f" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>getHealthyShardCountAsync</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1af1edb3ccbf51b50a29f7303213e966fc" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>getShardCount</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1abbd5fda10418f69aafa8211f5d638d91" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>getShardIds</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a8de0f67fdb6de82e1155d77bc6b3fe92" prot="private" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>health_monitor_cv_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a05876b238d5f4238e7d92c51c64d024e" prot="private" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>health_monitor_mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a6bb73cd0d8650a646626b289918369f8" prot="private" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>health_monitor_thread_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a6f39e04c33580c7f5aa845bc3881af4b" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>mergeResults</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a08ef60420b47dd436f25ce6f7cc1e9dd" prot="private" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a7172c02ebf3f79d59a4a79ba08e4f85b" prot="private" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>onShardFailure</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1ad793d0a82513a3e92438aadee4010d1a" prot="private" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>onShardSuccess</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a10281a99be3e9ec9df95d94cb7f09311" prot="private" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>processQueuedRequests</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a4b88827e03f27483800d39fc0b93e0f5" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>removeShard</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a0817cab1245e7ffdf5e88f84be499162" prot="private" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>rowGroupKey</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1abb899945b7fe5f9e7025247f670f837f" prot="private" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>runHealthMonitor</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a760ea997f8fa69f0c0237ce98c197e68" prot="private" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>shards_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a73b268764cc74643cdd4547b1064d6ce" prot="private" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>startHealthMonitor</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1adbdc2896e2206fecafa93bc53dd266a7" prot="private" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>stopping_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a8edaaca640a6b613d50d9c4b908e8ec0" prot="private" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>tryEnqueueRequest</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a95d25e6fac0ab02c73c679c0af747374" prot="private" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>updateCircuitBreakerState</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1acc0bfc61828aff44a54a1ee72e1923a7" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding</scope><name>~DistributedAnalyticsSharding</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

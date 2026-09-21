@@ -1,0 +1,632 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="process__mining_8h" kind="file" language="C++">
+    <compoundname>process_mining.h</compoundname>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">index/graph_analytics.h</includes>
+    <includes local="yes">index/process_graph.h</includes>
+    <includes refid="olap_8h" local="yes">analytics/olap.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">set</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">chrono</includes>
+    <includedby refid="process__pattern__matcher_8h" local="yes">include/analytics/process_pattern_matcher.h</includedby>
+    <includedby refid="process__mining_8cpp" local="yes">src/analytics/process_mining.cpp</includedby>
+    <includedby refid="test__analytics__gap__closure_8cpp" local="yes">tests/analytics/test_analytics_gap_closure.cpp</includedby>
+    <includedby refid="test__process__discovery__conformance_8cpp" local="yes">tests/analytics/test_process_discovery_conformance.cpp</includedby>
+    <includedby refid="test__process__mining__llm_8cpp" local="yes">tests/analytics/test_process_mining_llm.cpp</includedby>
+    <incdepgraph>
+      <node id="5">
+        <label>analytics/olap.h</label>
+        <link refid="olap_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/analytics/process_mining.h</label>
+        <link refid="process__mining_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>chrono</label>
+      </node>
+      <node id="14">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>index/graph_analytics.h</label>
+      </node>
+      <node id="2">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="4">
+        <label>index/process_graph.h</label>
+      </node>
+      <node id="18">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="17">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="19">
+        <label>set</label>
+      </node>
+      <node id="16">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>string_view</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="20">
+        <label>unordered_set</label>
+      </node>
+      <node id="12">
+        <label>variant</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/analytics/process_mining.h</label>
+        <link refid="process__mining_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/analytics/process_pattern_matcher.h</label>
+        <link refid="process__pattern__matcher_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/analytics/process_mining.cpp</label>
+        <link refid="process__mining_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/analytics/process_pattern_matcher.cpp</label>
+        <link refid="process__pattern__matcher_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/analytics/test_analytics_gap_closure.cpp</label>
+        <link refid="test__analytics__gap__closure_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/analytics/test_process_discovery_conformance.cpp</label>
+        <link refid="test__process__discovery__conformance_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/analytics/test_process_mining_llm.cpp</label>
+        <link refid="test__process__mining__llm_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/analytics/test_process_pattern_matcher.cpp</label>
+        <link refid="test__process__pattern__matcher_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_process_event" prot="public">themis::ProcessEvent</innerclass>
+    <innerclass refid="structthemis_1_1_process_trace" prot="public">themis::ProcessTrace</innerclass>
+    <innerclass refid="structthemis_1_1_event_log" prot="public">themis::EventLog</innerclass>
+    <innerclass refid="structthemis_1_1_directly_follows_graph" prot="public">themis::DirectlyFollowsGraph</innerclass>
+    <innerclass refid="structthemis_1_1_directly_follows_graph_1_1_edge" prot="public">themis::DirectlyFollowsGraph::Edge</innerclass>
+    <innerclass refid="structthemis_1_1_discovered_process" prot="public">themis::DiscoveredProcess</innerclass>
+    <innerclass refid="structthemis_1_1_discovered_process_1_1_node" prot="public">themis::DiscoveredProcess::Node</innerclass>
+    <innerclass refid="structthemis_1_1_discovered_process_1_1_edge" prot="public">themis::DiscoveredProcess::Edge</innerclass>
+    <innerclass refid="structthemis_1_1_event_log_config" prot="public">themis::EventLogConfig</innerclass>
+    <innerclass refid="structthemis_1_1_mining_config" prot="public">themis::MiningConfig</innerclass>
+    <innerclass refid="classthemis_1_1_process_mining" prot="public">themis::ProcessMining</innerclass>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_status" prot="public">themis::ProcessMining::Status</innerclass>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_variant_info" prot="public">themis::ProcessMining::VariantInfo</innerclass>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_conformance_result" prot="public">themis::ProcessMining::ConformanceResult</innerclass>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_alignment_result" prot="public">themis::ProcessMining::AlignmentResult</innerclass>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move" prot="public">themis::ProcessMining::AlignmentResult::Move</innerclass>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_enhanced_process" prot="public">themis::ProcessMining::EnhancedProcess</innerclass>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_similar_fragment" prot="public">themis::ProcessMining::SimilarFragment</innerclass>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_geo_process_cluster" prot="public">themis::ProcessMining::GeoProcessCluster</innerclass>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_process_evolution" prot="public">themis::ProcessMining::ProcessEvolution</innerclass>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot" prot="public">themis::ProcessMining::ProcessEvolution::Snapshot</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1_process_mining_functions">themis::ProcessMiningFunctions</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_analytics.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/process_graph.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="olap_8h" kindref="compound">analytics/olap.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Event<sp/>Log<sp/>Strukturen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1_process_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_process_event" kindref="compound">ProcessEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1_process_event_1a558c9c8ef5ff534638f287f112af3642" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_process_event_1a558c9c8ef5ff534638f287f112af3642" kindref="member">case_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1_process_event_1a54dc066656ae4f8431e844dfdd215543" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_process_event_1a54dc066656ae4f8431e844dfdd215543" kindref="member">activity</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1_process_event_1a6f4b31f8da38a19810a89495d60875b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_process_event_1a6f4b31f8da38a19810a89495d60875b6" kindref="member">timestamp_ms</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optionale<sp/>Attribute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1_process_event_1abc4a302a2d0dfdbef358f93f6c81d5ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_process_event_1abc4a302a2d0dfdbef358f93f6c81d5ca" kindref="member">resource</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1_process_event_1af875070ef1312c86efb697076d57bf5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_process_event_1af875070ef1312c86efb697076d57bf5c" kindref="member">lifecycle</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1_process_event_1a13101ee46255935198f76e21d6900a55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1_process_event_1a13101ee46255935198f76e21d6900a55" kindref="member">attributes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multi-Model-Erweiterungen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1_process_event_1a008a928c6c3cdbba5fb155020de4bba4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;float&gt;&gt;<sp/><ref refid="structthemis_1_1_process_event_1a008a928c6c3cdbba5fb155020de4bba4" kindref="member">embedding</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1_process_event_1a847b31517b4df8884a4fdda7177c4702" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_process_event_1a847b31517b4df8884a4fdda7177c4702" kindref="member">location</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1_process_trace" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_process_trace" kindref="compound">ProcessTrace</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1_process_trace_1ae3f34617d3364225219fa59a1ea50db3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_process_trace_1ae3f34617d3364225219fa59a1ea50db3" kindref="member">case_id</ref>;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1_process_trace_1a776a0141cc4d4b2201b9d23ec53eced2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ProcessEvent&gt;<sp/><ref refid="structthemis_1_1_process_trace_1a776a0141cc4d4b2201b9d23ec53eced2" kindref="member">events</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Abgeleitete<sp/>Attribute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1_process_trace_1a0e26f3a70ade6be6d010b90c009eaa9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_process_trace_1a0e26f3a70ade6be6d010b90c009eaa9a" kindref="member">start_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1_process_trace_1a9f920605f392775c7b005c3e8146e847" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_process_trace_1a9f920605f392775c7b005c3e8146e847" kindref="member">end_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1_process_trace_1a4d0eef13d4001cf87bb7e69e108be092" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_process_trace_1a4d0eef13d4001cf87bb7e69e108be092" kindref="member">duration_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1_process_trace_1a9e0fc310a2a4400b6fa340bbca37297d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_trace_1a9e0fc310a2a4400b6fa340bbca37297d" kindref="member">is_complete</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Varianten-Erkennung</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1_process_trace_1a4d4b3d15e98e9986a7f80ea5945ff340" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_process_trace_1a4d4b3d15e98e9986a7f80ea5945ff340" kindref="member">variant_signature</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1_process_trace_1a514d0813cde72275fd79d475f769744d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_trace_1a514d0813cde72275fd79d475f769744d" kindref="member">variant_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1_event_log" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref><sp/>{</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1_event_log_1acf382e7392a22a05aa29a00de88d739c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ProcessTrace&gt;<sp/><ref refid="structthemis_1_1_event_log_1acf382e7392a22a05aa29a00de88d739c" kindref="member">traces</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistiken</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1_event_log_1a0eb16a4c3d948d8a71c0181f68013fce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log_1a0eb16a4c3d948d8a71c0181f68013fce" kindref="member">total_events</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1_event_log_1a83785e1656c857d3447fba79fd997906" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log_1a83785e1656c857d3447fba79fd997906" kindref="member">unique_activities</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1_event_log_1aee7ac5b647c6acc7a1f0c94b1f0738e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log_1aee7ac5b647c6acc7a1f0c94b1f0738e9" kindref="member">unique_cases</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1_event_log_1af91d3b57b23c4d6929c76d412b93e3d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log_1af91d3b57b23c4d6929c76d412b93e3d6" kindref="member">unique_variants</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Aktivitäts-Mapping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1_event_log_1add5a3ee6b95987467371dc54798102b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>int&gt;<sp/><ref refid="structthemis_1_1_event_log_1add5a3ee6b95987467371dc54798102b8" kindref="member">activity_to_id</ref>;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1_event_log_1af3ac485123693acc65f2b26cbea25e92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_event_log_1af3ac485123693acc65f2b26cbea25e92" kindref="member">id_to_activity</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Zeitbereich</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1_event_log_1ac7b74f70961930dbb2dc7e411dd37b47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_event_log_1ac7b74f70961930dbb2dc7e411dd37b47" kindref="member">min_timestamp</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1_event_log_1ab06751868d3696134f326a8764895543" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_event_log_1ab06751868d3696134f326a8764895543" kindref="member">max_timestamp</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Extrahierte<sp/>Prozess-Strukturen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1_directly_follows_graph" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_directly_follows_graph" kindref="compound">DirectlyFollowsGraph</ref><sp/>{</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1_directly_follows_graph_1a99f645eb34976881f839dc10f3d5e62b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_directly_follows_graph_1a99f645eb34976881f839dc10f3d5e62b" kindref="member">activities</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1_directly_follows_graph_1_1_edge" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_directly_follows_graph_1_1_edge" kindref="compound">Edge</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1_directly_follows_graph_1_1_edge_1ad1a24838c62c24f528f392e4737fd8ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_directly_follows_graph_1_1_edge_1ad1a24838c62c24f528f392e4737fd8ed" kindref="member">from</ref>;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1_directly_follows_graph_1_1_edge_1a4dcba997e3a79e6ad3867508555ea8ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_directly_follows_graph_1_1_edge_1a4dcba997e3a79e6ad3867508555ea8ed" kindref="member">to</ref>;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1_directly_follows_graph_1_1_edge_1a6150af381c2ddebb8ca85ec1dd72d796" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_directly_follows_graph_1_1_edge_1a6150af381c2ddebb8ca85ec1dd72d796" kindref="member">frequency</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1_directly_follows_graph_1_1_edge_1afda2b3ce037e7543b2b2e7f85c6297a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_directly_follows_graph_1_1_edge_1afda2b3ce037e7543b2b2e7f85c6297a0" kindref="member">avg_duration_ms</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1_directly_follows_graph_1_1_edge_1aa3fb163caf9fe886cfbcf8e6ed65de3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_directly_follows_graph_1_1_edge_1aa3fb163caf9fe886cfbcf8e6ed65de3e" kindref="member">confidence</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1_directly_follows_graph_1ac58c0948feffd69fd32d17d12b5b8db8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Edge&gt;<sp/><ref refid="structthemis_1_1_directly_follows_graph_1ac58c0948feffd69fd32d17d12b5b8db8" kindref="member">edges</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Start-<sp/>und<sp/>End-Aktivitäten</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1_directly_follows_graph_1a6a46afa1efc415f1d6c7e2b010091bee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_directly_follows_graph_1a6a46afa1efc415f1d6c7e2b010091bee" kindref="member">start_activities</ref>;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1_directly_follows_graph_1a7ac68051c1590179d1554e8af07ff082" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_directly_follows_graph_1a7ac68051c1590179d1554e8af07ff082" kindref="member">end_activities</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Selbst-Schleifen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1_directly_follows_graph_1a17db742018dd4fa735d443d9735b4de3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>int&gt;<sp/><ref refid="structthemis_1_1_directly_follows_graph_1a17db742018dd4fa735d443d9735b4de3" kindref="member">self_loops</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1_discovered_process" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref><sp/>{</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1_discovered_process_1aaeeccf47a70dc7f466c3cf4cf039fe78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_discovered_process_1aaeeccf47a70dc7f466c3cf4cf039fe78" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1_discovered_process_1a37ce61a239a6e3f51b510c311fd678c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_discovered_process_1a37ce61a239a6e3f51b510c311fd678c4" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Modell-Struktur<sp/>(als<sp/>Graph)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1_discovered_process_1_1_node" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_discovered_process_1_1_node" kindref="compound">Node</ref><sp/>{</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1_discovered_process_1_1_node_1a4d4b7c5facebda10e5a1d2beb8930308" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_discovered_process_1_1_node_1a4d4b7c5facebda10e5a1d2beb8930308" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1_discovered_process_1_1_node_1aacf0a478c728dc9373b0ca661b81a6c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_discovered_process_1_1_node_1aacf0a478c728dc9373b0ca661b81a6c4" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1_discovered_process_1_1_node_1ac7907c0d0b1ca4abe8e3b0c9e0b97df3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_discovered_process_1_1_node_1ac7907c0d0b1ca4abe8e3b0c9e0b97df3" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1_discovered_process_1_1_node_1a65d63601cf751195b4f130ae4b8d6f34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_discovered_process_1_1_node_1a65d63601cf751195b4f130ae4b8d6f34" kindref="member">gateway_type</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistiken</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1_discovered_process_1_1_node_1acacc021f33ca8745c9b017c0f0fb4577" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_discovered_process_1_1_node_1acacc021f33ca8745c9b017c0f0fb4577" kindref="member">frequency</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1_discovered_process_1_1_node_1a720d3d7bc71fa80b7d6748b4a0f37db4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_discovered_process_1_1_node_1a720d3d7bc71fa80b7d6748b4a0f37db4" kindref="member">avg_duration_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1_discovered_process_1a74f1ac6c18a06e4037081bc5d2665007" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Node&gt;<sp/><ref refid="structthemis_1_1_discovered_process_1a74f1ac6c18a06e4037081bc5d2665007" kindref="member">nodes</ref>;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1_discovered_process_1_1_edge" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_discovered_process_1_1_edge" kindref="compound">Edge</ref><sp/>{</highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1_discovered_process_1_1_edge_1a28f79f467d13bbb9597a4bd518088823" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_discovered_process_1_1_edge_1a28f79f467d13bbb9597a4bd518088823" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1_discovered_process_1_1_edge_1afbab68c502e7e92f44f2dd8f8a9348e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_discovered_process_1_1_edge_1afbab68c502e7e92f44f2dd8f8a9348e1" kindref="member">from</ref>;</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1_discovered_process_1_1_edge_1ad022f41db7779b45cb2a76de10df1559" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_discovered_process_1_1_edge_1ad022f41db7779b45cb2a76de10df1559" kindref="member">to</ref>;</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1_discovered_process_1_1_edge_1aa9dad5d66d6470c39175a55ae7705ca6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_discovered_process_1_1_edge_1aa9dad5d66d6470c39175a55ae7705ca6" kindref="member">frequency</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1_discovered_process_1_1_edge_1ae8907e05c47dbfc5e2d0135d1aef66c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_discovered_process_1_1_edge_1ae8907e05c47dbfc5e2d0135d1aef66c8" kindref="member">probability</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1_discovered_process_1a615631dc12ea06e479ee3ee902020b63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Edge&gt;<sp/><ref refid="structthemis_1_1_discovered_process_1a615631dc12ea06e479ee3ee902020b63" kindref="member">edges</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Qualitätsmetriken</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1_discovered_process_1ab4209e98a5bdf5ed348ff21472b65b22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_discovered_process_1ab4209e98a5bdf5ed348ff21472b65b22" kindref="member">fitness</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1_discovered_process_1a8e287ded3238034a7e9a6fdbafebfe1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_discovered_process_1a8e287ded3238034a7e9a6fdbafebfe1b" kindref="member">precision</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1_discovered_process_1aa8a8b970285e366f15dfe8f66f4146cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_discovered_process_1aa8a8b970285e366f15dfe8f66f4146cf" kindref="member">generalization</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1_discovered_process_1a9939592ff071be72202887caf617714a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_discovered_process_1a9939592ff071be72202887caf617714a" kindref="member">simplicity</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mining-Algorithmen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91" kindref="member">MiningAlgorithm</ref><sp/>{</highlight></codeline>
+<codeline lineno="148" refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91a002101f8725e5c78d9f30d87f3fa4c87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91a002101f8725e5c78d9f30d87f3fa4c87" kindref="member">ALPHA</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149" refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91a215aa836a7cbd7367df95b07c8740b10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91a215aa836a7cbd7367df95b07c8740b10" kindref="member">ALPHA_PLUS</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150" refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91a589ab27e5d5232a3590c042c0dbe7818" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91a589ab27e5d5232a3590c042c0dbe7818" kindref="member">HEURISTIC</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151" refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91a2df32570aec81f469384fec8f77a9e4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91a2df32570aec81f469384fec8f77a9e4a" kindref="member">INDUCTIVE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152" refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91a913bcc607ae0d97776698d9ed424be6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91a913bcc607ae0d97776698d9ed424be6a" kindref="member">SPLIT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153" refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91ae04d0e1085b2661bb20fe9bec7b5c18f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91ae04d0e1085b2661bb20fe9bec7b5c18f" kindref="member">FUZZY</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1_event_log_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_event_log_config" kindref="compound">EventLogConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1_event_log_config_1a85a89c891445302bebb241c3859c78c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_event_log_config_1a85a89c891445302bebb241c3859c78c2" kindref="member">case_id_field</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1_event_log_config_1a4540f4725bb1fdf5379e12bd5f1d5684" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_event_log_config_1a4540f4725bb1fdf5379e12bd5f1d5684" kindref="member">activity_field</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1_event_log_config_1a5cb5b4a0ae53cbe0535b07dd8196e3c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_event_log_config_1a5cb5b4a0ae53cbe0535b07dd8196e3c9" kindref="member">timestamp_field</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optionale<sp/>Felder</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1_event_log_config_1a2fdbf1297737c348a206f31d8a783bd9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_event_log_config_1a2fdbf1297737c348a206f31d8a783bd9" kindref="member">resource_field</ref>;</highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1_event_log_config_1a04838ca5227a072831d685f9c26f51f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_event_log_config_1a04838ca5227a072831d685f9c26f51f9" kindref="member">lifecycle_field</ref>;</highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1_event_log_config_1a3c8391e98e54cd0fdc7b832948c10f59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_event_log_config_1a3c8391e98e54cd0fdc7b832948c10f59" kindref="member">embedding_field</ref>;</highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1_event_log_config_1acd90fa90530600ca883a3c1ea849fccc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_event_log_config_1acd90fa90530600ca883a3c1ea849fccc" kindref="member">location_field</ref>;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Filter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1_event_log_config_1a067fa6f160b98aca55d060aeccc7073e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1_event_log_config_1a067fa6f160b98aca55d060aeccc7073e" kindref="member">start_time</ref>;</highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1_event_log_config_1a5c4ede731b93d91f89db9c5808a206f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1_event_log_config_1a5c4ede731b93d91f89db9c5808a206f7" kindref="member">end_time</ref>;</highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1_event_log_config_1aca94289290c05dea31be389e9eb67cbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_event_log_config_1aca94289290c05dea31be389e9eb67cbc" kindref="member">include_activities</ref>;</highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1_event_log_config_1ad87126a915f45c22bbf7e86a951c7cdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_event_log_config_1ad87126a915f45c22bbf7e86a951c7cdf" kindref="member">exclude_activities</ref>;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1_mining_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_mining_config" kindref="compound">MiningConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="175" refid="structthemis_1_1_mining_config_1ae4a40430e46fde4be2ebb8a6e69de6ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91" kindref="member">MiningAlgorithm</ref><sp/><ref refid="structthemis_1_1_mining_config_1ae4a40430e46fde4be2ebb8a6e69de6ae" kindref="member">algorithm</ref><sp/>=<sp/><ref refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91a589ab27e5d5232a3590c042c0dbe7818" kindref="member">MiningAlgorithm::HEURISTIC</ref>;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Heuristic<sp/>Miner<sp/>Parameter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="structthemis_1_1_mining_config_1ad199e923b552e011363674b5b6e336df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_mining_config_1ad199e923b552e011363674b5b6e336df" kindref="member">dependency_threshold</ref><sp/>=<sp/>0.9;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179" refid="structthemis_1_1_mining_config_1a136900e8fadd769725616359fcc32930" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_mining_config_1a136900e8fadd769725616359fcc32930" kindref="member">positive_observations</ref><sp/>=<sp/>10;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1_mining_config_1a2d58843920fcd3b158013b596054c7cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_mining_config_1a2d58843920fcd3b158013b596054c7cd" kindref="member">relative_to_best</ref><sp/>=<sp/>0.05;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inductive<sp/>Miner<sp/>Parameter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1_mining_config_1adc64da49889b1813f1ff9477614ec117" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_mining_config_1adc64da49889b1813f1ff9477614ec117" kindref="member">noise_threshold</ref><sp/>=<sp/>0.2;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allgemeine<sp/>Parameter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1_mining_config_1a6814f3428b9df53330015d02d101b777" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_mining_config_1a6814f3428b9df53330015d02d101b777" kindref="member">detect_loops</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187" refid="structthemis_1_1_mining_config_1a0b92a3b917a797d6aca0c28090699888" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_mining_config_1a0b92a3b917a797d6aca0c28090699888" kindref="member">detect_parallelism</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1_mining_config_1a11981f1e32481ee95776a455e92536d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_mining_config_1a11981f1e32481ee95776a455e92536d7" kindref="member">max_activities</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Process<sp/>Mining<sp/>Engine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RocksDBWrapper;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="classthemis_1_1_process_mining" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_process_mining_1a264cf283339df01631caab5dfbc77b96" kindref="member">ProcessMining</ref><sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1_process_mining_1_1_status" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref><sp/>{</highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1_process_mining_1_1_status_1a978f3e2935c5938c30ff2980e8f6933a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_status_1a978f3e2935c5938c30ff2980e8f6933a" kindref="member">ok</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1_process_mining_1_1_status_1a79795541b0fe0d44e815fcd7df3116dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_process_mining_1_1_status_1a79795541b0fe0d44e815fcd7df3116dd" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="207" refid="structthemis_1_1_process_mining_1_1_status_1afdbb6916da051c0887b8f97f064ad37d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1_process_mining_1_1_status_1afdbb6916da051c0887b8f97f064ad37d" kindref="member">OK</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1_process_mining_1_1_status_1a2f20f08cc247816a4f1b70e9c99efae2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1_process_mining_1_1_status_1a2f20f08cc247816a4f1b70e9c99efae2" kindref="member">Error</ref>(std::string<sp/>msg)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::move(msg)};<sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_process_mining_1a264cf283339df01631caab5dfbc77b96" kindref="member">ProcessMining</ref>(RocksDBWrapper&amp;<sp/>db);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Event<sp/>Log<sp/>Extraktion<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>EventLog&gt;<sp/><ref refid="classthemis_1_1_process_mining_1aa7726d045e77cbe3acf9e116c6b365ac" kindref="member">extractEventLog</ref>(</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>collection,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log_config" kindref="compound">EventLogConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>EventLog&gt;<sp/><ref refid="classthemis_1_1_process_mining_1a5ca703d0cc62f23b9bab8cbbaed704ca" kindref="member">extractEventLogFromGraph</ref>(</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>edge_collection,</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>case_id_field<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;case_id&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>EventLog&gt;<sp/><ref refid="classthemis_1_1_process_mining_1a1a4e5eabb69cc4bf277d8148394febfd" kindref="member">extractEventLogFromReferences</ref>(</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>start_collection,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>reference_fields,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>activity_field<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Process<sp/>Discovery<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>DirectlyFollowsGraph&gt;<sp/><ref refid="classthemis_1_1_process_mining_1ac46d1341abf5025237f505c1477ec76b" kindref="member">createDFG</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref>&amp;<sp/>log);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>DiscoveredProcess&gt;<sp/><ref refid="classthemis_1_1_process_mining_1a00d6e46d5b930c9b0bb050e81b77cf67" kindref="member">discoverProcess</ref>(</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref>&amp;<sp/>log,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_mining_config" kindref="compound">MiningConfig</ref>&amp;<sp/>config<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>DiscoveredProcess&gt;<sp/><ref refid="classthemis_1_1_process_mining_1a2d8dc1b9cd0b0b2b73dc930f847b4601" kindref="member">discoverProcessFromCollection</ref>(</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>collection,</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EventLogConfig&amp;<sp/>log_config,</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MiningConfig&amp;<sp/>mining_config<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Varianten-Analyse<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259" refid="structthemis_1_1_process_mining_1_1_variant_info" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_process_mining_1_1_variant_info" kindref="compound">VariantInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="260" refid="structthemis_1_1_process_mining_1_1_variant_info_1acd1e74434df8fae8c2a706adfb328d96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_variant_info_1acd1e74434df8fae8c2a706adfb328d96" kindref="member">variant_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="261" refid="structthemis_1_1_process_mining_1_1_variant_info_1a00221e3b8d926df0a00a382327f6b604" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_process_mining_1_1_variant_info_1a00221e3b8d926df0a00a382327f6b604" kindref="member">activities</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="262" refid="structthemis_1_1_process_mining_1_1_variant_info_1aba856c33c34126df35f1cb813282f668" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_variant_info_1aba856c33c34126df35f1cb813282f668" kindref="member">frequency</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="263" refid="structthemis_1_1_process_mining_1_1_variant_info_1a2cfc315960625972dcc2002236047aed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_variant_info_1a2cfc315960625972dcc2002236047aed" kindref="member">percentage</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264" refid="structthemis_1_1_process_mining_1_1_variant_info_1acb04f017f0795791f24cac81169554b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_variant_info_1acb04f017f0795791f24cac81169554b6" kindref="member">avg_duration_ms</ref>;</highlight></codeline>
+<codeline lineno="265" refid="structthemis_1_1_process_mining_1_1_variant_info_1ae69aec5f58e048e809e2d1da9e293fb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_process_mining_1_1_variant_info_1ae69aec5f58e048e809e2d1da9e293fb7" kindref="member">case_ids</ref>;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::vector&lt;VariantInfo&gt;&gt;<sp/><ref refid="classthemis_1_1_process_mining_1ac2fd865c54caa7599d0275fc76ab8d9d" kindref="member">analyzeVariants</ref>(</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref>&amp;<sp/>log,</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>top_n<sp/>=<sp/>20</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::map&lt;int,<sp/>std::vector&lt;int&gt;&gt;&gt;<sp/><ref refid="classthemis_1_1_process_mining_1aab92bded32aa4e8ba32582e3702df78a" kindref="member">clusterVariants</ref>(</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref>&amp;<sp/>log,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_clusters<sp/>=<sp/>5</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Conformance<sp/>Checking<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="279" refid="structthemis_1_1_process_mining_1_1_conformance_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_process_mining_1_1_conformance_result" kindref="compound">ConformanceResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="280" refid="structthemis_1_1_process_mining_1_1_conformance_result_1a155da8789a43d2520651d9d1d6230b69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_conformance_result_1a155da8789a43d2520651d9d1d6230b69" kindref="member">fitness</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281" refid="structthemis_1_1_process_mining_1_1_conformance_result_1a7e9c531ee82d2040788a4ede3f9ab362" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_conformance_result_1a7e9c531ee82d2040788a4ede3f9ab362" kindref="member">precision</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282" refid="structthemis_1_1_process_mining_1_1_conformance_result_1ab1595ac4dd68ae2de5e9746c7e5f7284" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_conformance_result_1ab1595ac4dd68ae2de5e9746c7e5f7284" kindref="member">consumed_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="283" refid="structthemis_1_1_process_mining_1_1_conformance_result_1ac3a7e6fbfc366d334e7e5742a6bda6db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_conformance_result_1ac3a7e6fbfc366d334e7e5742a6bda6db" kindref="member">produced_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="284" refid="structthemis_1_1_process_mining_1_1_conformance_result_1a976b0317527c8f5401236b600581bf6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_conformance_result_1a976b0317527c8f5401236b600581bf6f" kindref="member">missing_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="285" refid="structthemis_1_1_process_mining_1_1_conformance_result_1ad00cfdf25fbad0a39d6f412ee3978f97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_conformance_result_1ad00cfdf25fbad0a39d6f412ee3978f97" kindref="member">remaining_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="287" refid="structthemis_1_1_process_mining_1_1_conformance_result_1a1d1c8e369fcda5d3405f2727f482fbf4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_process_mining_1_1_conformance_result_1a1d1c8e369fcda5d3405f2727f482fbf4" kindref="member">deviations</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>ConformanceResult&gt;<sp/><ref refid="classthemis_1_1_process_mining_1add3648ef6b181576b51e364459d6bd00" kindref="member">checkConformance</ref>(</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref>&amp;<sp/>log,</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref>&amp;<sp/>model</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="294" refid="structthemis_1_1_process_mining_1_1_alignment_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_process_mining_1_1_alignment_result" kindref="compound">AlignmentResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="295" refid="structthemis_1_1_process_mining_1_1_alignment_result_1a3b09742a520dd5e84f274fed9fddb33b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_alignment_result_1a3b09742a520dd5e84f274fed9fddb33b" kindref="member">fitness</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="296" refid="structthemis_1_1_process_mining_1_1_alignment_result_1a52414d30b2b36b38f1cded0303ed4b22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_alignment_result_1a52414d30b2b36b38f1cded0303ed4b22" kindref="member">precision</ref>;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="298" refid="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move" kindref="compound">Move</ref><sp/>{</highlight></codeline>
+<codeline lineno="299" refid="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move_1aa7813c2a176472d227dd737870a8e9b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move_1aa7813c2a176472d227dd737870a8e9b4" kindref="member">type</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300" refid="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move_1a68b13702931deedce34b54aee1d0eca2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move_1a68b13702931deedce34b54aee1d0eca2" kindref="member">activity</ref>;</highlight></codeline>
+<codeline lineno="301" refid="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move_1ae38caae4134b9a082e903944ff12fc53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move_1ae38caae4134b9a082e903944ff12fc53" kindref="member">cost</ref>;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="303" refid="structthemis_1_1_process_mining_1_1_alignment_result_1a0053d783c94c8ef337e45c8bcd29dca5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;Move&gt;&gt;<sp/><ref refid="structthemis_1_1_process_mining_1_1_alignment_result_1a0053d783c94c8ef337e45c8bcd29dca5" kindref="member">alignments</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>AlignmentResult&gt;<sp/><ref refid="classthemis_1_1_process_mining_1af518dabdaf135783928fe12165ec4692" kindref="member">computeAlignment</ref>(</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref>&amp;<sp/>log,</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref>&amp;<sp/>model</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Process<sp/>Enhancement<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="312" refid="structthemis_1_1_process_mining_1_1_enhanced_process" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_process_mining_1_1_enhanced_process" kindref="compound">EnhancedProcess</ref><sp/>{</highlight></codeline>
+<codeline lineno="313" refid="structthemis_1_1_process_mining_1_1_enhanced_process_1aaefa73d15b636fe2d84bf5f640f1ca59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref><sp/><ref refid="structthemis_1_1_process_mining_1_1_enhanced_process_1aaefa73d15b636fe2d84bf5f640f1ca59" kindref="member">model</ref>;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance-Overlay</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316" refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a96670d1221db0a2c61ee5005a0ef0b45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a96670d1221db0a2c61ee5005a0ef0b45" kindref="member">node_avg_duration</ref>;</highlight></codeline>
+<codeline lineno="317" refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a09a3ab7221a2d019678f4f6613174bc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a09a3ab7221a2d019678f4f6613174bc6" kindref="member">node_avg_waiting</ref>;</highlight></codeline>
+<codeline lineno="318" refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a00442052a26b2a74760d6f011770bf4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>int&gt;<sp/><ref refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a00442052a26b2a74760d6f011770bf4b" kindref="member">node_frequency</ref>;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="320" refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a406061b1fa44ff530d682cd9b0ecb8b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a406061b1fa44ff530d682cd9b0ecb8b8" kindref="member">edge_avg_duration</ref>;</highlight></codeline>
+<codeline lineno="321" refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a03a8666ceb0f63971b730e5c19ab7920" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a03a8666ceb0f63971b730e5c19ab7920" kindref="member">edge_probability</ref>;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bottlenecks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324" refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a5bf0361207186028258814dd9cef6465" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a5bf0361207186028258814dd9cef6465" kindref="member">bottleneck_nodes</ref>;</highlight></codeline>
+<codeline lineno="325" refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a0a0ec4bcd5b25732aca2246e7b914cdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a0a0ec4bcd5b25732aca2246e7b914cdd" kindref="member">rework_loops</ref>;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>EnhancedProcess&gt;<sp/><ref refid="classthemis_1_1_process_mining_1aeb82171f5a2fff80fac9bad72bec2193" kindref="member">enhanceWithPerformance</ref>(</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref>&amp;<sp/>model,</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref>&amp;<sp/>log</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::vector&lt;std::string&gt;&gt;<sp/><ref refid="classthemis_1_1_process_mining_1a7479d9e30200317aac8742d278046e6c" kindref="member">detectBottlenecks</ref>(</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_enhanced_process" kindref="compound">EnhancedProcess</ref>&amp;<sp/>process,</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>threshold_percentile<sp/>=<sp/>0.9</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Export<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::string&gt;<sp/><ref refid="classthemis_1_1_process_mining_1a4f2bbcf558fa892a7f2befe4ceaae215" kindref="member">exportToBPMN</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref>&amp;<sp/>model);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::string&gt;<sp/><ref refid="classthemis_1_1_process_mining_1ac259e708d54de11c52d329be08eea49b" kindref="member">exportToPNML</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref>&amp;<sp/>model);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1_process_mining_1a1a848dd90d7d70e5b0fb180965fd17f2" kindref="member">saveAsProcessDefinition</ref>(</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref>&amp;<sp/>model,</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>process_id</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Multi-Model<sp/>Process<sp/>Mining<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="356" refid="structthemis_1_1_process_mining_1_1_similar_fragment" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_process_mining_1_1_similar_fragment" kindref="compound">SimilarFragment</ref><sp/>{</highlight></codeline>
+<codeline lineno="357" refid="structthemis_1_1_process_mining_1_1_similar_fragment_1a9730e409039497ed1e76bf5f602516eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_process_mining_1_1_similar_fragment_1a9730e409039497ed1e76bf5f602516eb" kindref="member">activities</ref>;</highlight></codeline>
+<codeline lineno="358" refid="structthemis_1_1_process_mining_1_1_similar_fragment_1a5e1db9f61a66fce295ff7a553ea49d26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_similar_fragment_1a5e1db9f61a66fce295ff7a553ea49d26" kindref="member">similarity</ref>;</highlight></codeline>
+<codeline lineno="359" refid="structthemis_1_1_process_mining_1_1_similar_fragment_1ae6c547d4fcab995f88c7dc2fa593efeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_process_mining_1_1_similar_fragment_1ae6c547d4fcab995f88c7dc2fa593efeb" kindref="member">source_cases</ref>;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::vector&lt;SimilarFragment&gt;&gt;<sp/><ref refid="classthemis_1_1_process_mining_1a036cc252a164af69560200aa4a5e4ad7" kindref="member">findSimilarPatterns</ref>(</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>pattern,</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref>&amp;<sp/>log,</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k<sp/>=<sp/>10</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="367" refid="structthemis_1_1_process_mining_1_1_geo_process_cluster" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_process_mining_1_1_geo_process_cluster" kindref="compound">GeoProcessCluster</ref><sp/>{</highlight></codeline>
+<codeline lineno="368" refid="structthemis_1_1_process_mining_1_1_geo_process_cluster_1a22d449fde9c05fb0963e2cb9a2617cda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_process_mining_1_1_geo_process_cluster_1a22d449fde9c05fb0963e2cb9a2617cda" kindref="member">region</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="369" refid="structthemis_1_1_process_mining_1_1_geo_process_cluster_1a5d07df1c09e416dd01cd3d9a7af402f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_process_mining_1_1_geo_process_cluster_1a5d07df1c09e416dd01cd3d9a7af402f3" kindref="member">centroid_wkt</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="370" refid="structthemis_1_1_process_mining_1_1_geo_process_cluster_1a3630783953a43b64e260b837a1db4e6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref><sp/><ref refid="structthemis_1_1_process_mining_1_1_geo_process_cluster_1a3630783953a43b64e260b837a1db4e6b" kindref="member">local_model</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="371" refid="structthemis_1_1_process_mining_1_1_geo_process_cluster_1ac5ab40388e20362614290a3c89ecfa55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_geo_process_cluster_1ac5ab40388e20362614290a3c89ecfa55" kindref="member">case_count</ref>;</highlight></codeline>
+<codeline lineno="372" refid="structthemis_1_1_process_mining_1_1_geo_process_cluster_1ad11a75841823ecd03fedaed0091d027b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_process_mining_1_1_geo_process_cluster_1ad11a75841823ecd03fedaed0091d027b" kindref="member">deviations</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::vector&lt;GeoProcessCluster&gt;&gt;<sp/><ref refid="classthemis_1_1_process_mining_1a3dcd3038cd67ce7e4fa522efb8c4302c" kindref="member">discoverGeoVariants</ref>(</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref>&amp;<sp/>log,</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cluster_radius_km<sp/>=<sp/>50.0</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="379" refid="structthemis_1_1_process_mining_1_1_process_evolution" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_process_mining_1_1_process_evolution" kindref="compound">ProcessEvolution</ref><sp/>{</highlight></codeline>
+<codeline lineno="380" refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot" kindref="compound">Snapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="381" refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a4cbd6deab378000776eb1178988369ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a4cbd6deab378000776eb1178988369ad" kindref="member">period_start</ref>;</highlight></codeline>
+<codeline lineno="382" refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a6d021420c28b02a5bee074de32cd94c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a6d021420c28b02a5bee074de32cd94c4" kindref="member">period_end</ref>;</highlight></codeline>
+<codeline lineno="383" refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a4fe5f04c575f6ca5496f0ed33c281e1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref><sp/><ref refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a4fe5f04c575f6ca5496f0ed33c281e1a" kindref="member">model</ref>;</highlight></codeline>
+<codeline lineno="384" refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a4a51c9bb18ad548d8feebeadf39f04d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a4a51c9bb18ad548d8feebeadf39f04d2" kindref="member">fitness_vs_previous</ref>;</highlight></codeline>
+<codeline lineno="385" refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a3df26865d8ce39ace8788bc1fdd0e86b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a3df26865d8ce39ace8788bc1fdd0e86b" kindref="member">new_patterns</ref>;</highlight></codeline>
+<codeline lineno="386" refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1ac22a3aba261ed2a81a54970e1bf37ec6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1ac22a3aba261ed2a81a54970e1bf37ec6" kindref="member">removed_patterns</ref>;</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="388" refid="structthemis_1_1_process_mining_1_1_process_evolution_1a95fa6cfbeafc9dab1ea1f75d62d8f3fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Snapshot&gt;<sp/><ref refid="structthemis_1_1_process_mining_1_1_process_evolution_1a95fa6cfbeafc9dab1ea1f75d62d8f3fb" kindref="member">snapshots</ref>;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>ProcessEvolution&gt;<sp/><ref refid="classthemis_1_1_process_mining_1a8b164f65689a9840db0f073b4bb3ff92" kindref="member">analyzeEvolution</ref>(</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref>&amp;<sp/>log,</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_periods<sp/>=<sp/>12</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper&amp;<sp/>db_;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mining-Algorithmus-Implementierungen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref><sp/>runAlphaMiner(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref>&amp;<sp/>log,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_mining_config" kindref="compound">MiningConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref><sp/>runHeuristicMiner(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref>&amp;<sp/>log,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_mining_config" kindref="compound">MiningConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref><sp/>runInductiveMiner(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref>&amp;<sp/>log,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_mining_config" kindref="compound">MiningConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hilfsfunktionen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>computeVariantSignature(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>activities);</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>embedActivities(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>activities);</highlight></codeline>
+<codeline lineno="434"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AQL-Funktionen<sp/>für<sp/>Process<sp/>Mining</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"></highlight></codeline>
+<codeline lineno="440" refid="namespacethemis_1_1_process_mining_functions" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1_process_mining_functions" kindref="compound">ProcessMiningFunctions</ref><sp/>{</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Funktionsnamen<sp/>für<sp/>AQL-Integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="442" refid="namespacethemis_1_1_process_mining_functions_1aea0cd2ffa7295eb4b5295aff3a8af56b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1_process_mining_functions_1aea0cd2ffa7295eb4b5295aff3a8af56b" kindref="member">EXTRACT_EVENT_LOG</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;EXTRACT_EVENT_LOG&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="443" refid="namespacethemis_1_1_process_mining_functions_1a0171a5dc9b155af678e659c51de3ccbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1_process_mining_functions_1a0171a5dc9b155af678e659c51de3ccbb" kindref="member">DISCOVER_PROCESS</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;DISCOVER_PROCESS&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="444" refid="namespacethemis_1_1_process_mining_functions_1ac69fc261a06bb59f94b8d25784d608fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1_process_mining_functions_1ac69fc261a06bb59f94b8d25784d608fb" kindref="member">ANALYZE_VARIANTS</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ANALYZE_VARIANTS&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="445" refid="namespacethemis_1_1_process_mining_functions_1a038ae764df0cc15b4acc7b64814ce556" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1_process_mining_functions_1a038ae764df0cc15b4acc7b64814ce556" kindref="member">CHECK_CONFORMANCE</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CHECK_CONFORMANCE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="446" refid="namespacethemis_1_1_process_mining_functions_1a90e33005c8d041bf4dded12ccdef63b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1_process_mining_functions_1a90e33005c8d041bf4dded12ccdef63b5" kindref="member">DETECT_BOTTLENECKS</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;DETECT_BOTTLENECKS&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="447" refid="namespacethemis_1_1_process_mining_functions_1a22e15f63b0867d6987b3bffe5bddc40b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1_process_mining_functions_1a22e15f63b0867d6987b3bffe5bddc40b" kindref="member">EXPORT_BPMN</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;EXPORT_BPMN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="448" refid="namespacethemis_1_1_process_mining_functions_1af9ad21776f3705175c7ce329cc1159a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1_process_mining_functions_1af9ad21776f3705175c7ce329cc1159a5" kindref="member">FIND_SIMILAR_PATTERNS</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FIND_SIMILAR_PATTERNS&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="449" refid="namespacethemis_1_1_process_mining_functions_1afa1fae20917bed545b3902162b81d2e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1_process_mining_functions_1afa1fae20917bed545b3902162b81d2e3" kindref="member">PROCESS_EVOLUTION</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;PROCESS_EVOLUTION&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1_process_mining_functions_1a96a7d824d44182e4993d64b0e1a7051a" kindref="member">registerFunctions</ref>();</highlight></codeline>
+<codeline lineno="455"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/analytics/process_mining.h"/>
+  </compounddef>
+</doxygen>

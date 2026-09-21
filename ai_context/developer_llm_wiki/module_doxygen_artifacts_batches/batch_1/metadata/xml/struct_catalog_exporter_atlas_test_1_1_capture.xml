@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_catalog_exporter_atlas_test_1_1_capture" kind="struct" language="C++" prot="protected">
+    <compoundname>CatalogExporterAtlasTest::Capture</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_catalog_exporter_atlas_test_1_1_capture_1a814fda54101e1d82ba16dbaca7f91aa2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CatalogExporterAtlasTest::Capture::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>CatalogExporterAtlasTest::Capture::url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_catalog_exporter.cpp" line="75" column="21" bodyfile="tests/metadata/test_catalog_exporter.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_catalog_exporter_atlas_test_1_1_capture_1a55b4a9aa2de3615e7aced8118120b744" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CatalogExporterAtlasTest::Capture::body</definition>
+        <argsstring></argsstring>
+        <name>body</name>
+        <qualifiedname>CatalogExporterAtlasTest::Capture::body</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_catalog_exporter.cpp" line="76" column="21" bodyfile="tests/metadata/test_catalog_exporter.cpp" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_catalog_exporter_atlas_test_1_1_capture_1aaf8e697a1384ac60c5d6309afbe47aa6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CatalogExporterAtlasTest::Capture::auth_header</definition>
+        <argsstring></argsstring>
+        <name>auth_header</name>
+        <qualifiedname>CatalogExporterAtlasTest::Capture::auth_header</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_catalog_exporter.cpp" line="77" column="21" bodyfile="tests/metadata/test_catalog_exporter.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/metadata/test_catalog_exporter.cpp" line="74" column="5" bodyfile="tests/metadata/test_catalog_exporter.cpp" bodystart="74" bodyend="78"/>
+    <listofallmembers>
+      <member refid="struct_catalog_exporter_atlas_test_1_1_capture_1aaf8e697a1384ac60c5d6309afbe47aa6" prot="public" virt="non-virtual"><scope>CatalogExporterAtlasTest::Capture</scope><name>auth_header</name></member>
+      <member refid="struct_catalog_exporter_atlas_test_1_1_capture_1a55b4a9aa2de3615e7aced8118120b744" prot="public" virt="non-virtual"><scope>CatalogExporterAtlasTest::Capture</scope><name>body</name></member>
+      <member refid="struct_catalog_exporter_atlas_test_1_1_capture_1a814fda54101e1d82ba16dbaca7f91aa2" prot="public" virt="non-virtual"><scope>CatalogExporterAtlasTest::Capture</scope><name>url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptLibraryBundle</compoundname>
+    <includes refid="prompt__library__io_8h" local="no">prompt_library_io.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1abec129f66b468916e728928bfd523188" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptLibraryBundle::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryBundle::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable library name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="44" column="17" bodyfile="include/prompt_engineering/prompt_library_io.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1abded2ce8a97ef91d10bfc2a922982c90" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptLibraryBundle::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryBundle::description</qualifiedname>
+        <briefdescription>
+<para>Short description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="45" column="17" bodyfile="include/prompt_engineering/prompt_library_io.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1a3a7613ef7c3405dafb8b37009b5e791c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptLibraryBundle::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryBundle::version</qualifiedname>
+        <briefdescription>
+<para>Semver-style snapshot version (e.g. &quot;1.2.0&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="46" column="17" bodyfile="include/prompt_engineering/prompt_library_io.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1a505a57d0d1517d5ee10b7b08d2276801" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptLibraryBundle::format_version</definition>
+        <argsstring></argsstring>
+        <name>format_version</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryBundle::format_version</qualifiedname>
+        <initializer>= &quot;1.0&quot;</initializer>
+        <briefdescription>
+<para>Bundle schema version for forward-compat. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="47" column="17" bodyfile="include/prompt_engineering/prompt_library_io.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1ac5ffa9dea8bb7e04b21af47fc7a7a36c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::prompt_engineering::PromptLibraryBundle::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryBundle::created_at</qualifiedname>
+        <briefdescription>
+<para>Bundle creation timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="48" column="43" bodyfile="include/prompt_engineering/prompt_library_io.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1afc103c01c308940f2eea2bc8329fa6cc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptLibraryBundle::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryBundle::checksum</qualifiedname>
+        <briefdescription>
+<para>FNV-1a hex; computed by <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_library_i_o" kindref="compound">PromptLibraryIO</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="49" column="17" bodyfile="include/prompt_engineering/prompt_library_io.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1ace3d41a447d882cda123e2d4dd335377" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptManager::PromptTemplate</ref> &gt;</type>
+        <definition>std::vector&lt;PromptManager::PromptTemplate&gt; themis::prompt_engineering::PromptLibraryBundle::templates</definition>
+        <argsstring></argsstring>
+        <name>templates</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryBundle::templates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="50" column="17" bodyfile="include/prompt_engineering/prompt_library_io.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1a9aa968a82e49b382289e6cae9f92adaf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::PromptLibraryBundle::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryBundle::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialise to JSON (does NOT recompute checksum). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="53" column="20" bodyfile="src/prompt_engineering/prompt_library_io.cpp" bodystart="114" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1aa8966272238f4c44267ec3b33fd158e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle" kindref="compound">PromptLibraryBundle</ref></type>
+        <definition>PromptLibraryBundle themis::prompt_engineering::PromptLibraryBundle::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::prompt_engineering::PromptLibraryBundle::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Deserialise from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), fromUnixTime(), contains(), is_array(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_library_io.h" line="56" column="32" bodyfile="src/prompt_engineering/prompt_library_io.cpp" bodystart="137" bodyend="172"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A self-contained snapshot of a prompt template library. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The bundle is the unit of cross-environment transfer. It carries all <computeroutput>PromptTemplate</computeroutput> objects together with enough metadata to detect version mismatches and data corruption. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_library_io.h" line="43" column="1" bodyfile="include/prompt_engineering/prompt_library_io.h" bodystart="43" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1afc103c01c308940f2eea2bc8329fa6cc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryBundle</scope><name>checksum</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1ac5ffa9dea8bb7e04b21af47fc7a7a36c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryBundle</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1abded2ce8a97ef91d10bfc2a922982c90" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryBundle</scope><name>description</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1a505a57d0d1517d5ee10b7b08d2276801" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryBundle</scope><name>format_version</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1aa8966272238f4c44267ec3b33fd158e9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryBundle</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1abec129f66b468916e728928bfd523188" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryBundle</scope><name>name</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1ace3d41a447d882cda123e2d4dd335377" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryBundle</scope><name>templates</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1a9aa968a82e49b382289e6cae9f92adaf" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryBundle</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_library_bundle_1a3a7613ef7c3405dafb8b37009b5e791c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptLibraryBundle</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_request_handler" kind="class" language="C++" prot="public">
+    <compoundname>StubRequestHandler</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_stub_request_handler_1a1e9e472ad898c36132d649cbcb68b082" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Behaviour</name>
+        <qualifiedname>StubRequestHandler::Behaviour</qualifiedname>
+        <enumvalue id="class_stub_request_handler_1a1e9e472ad898c36132d649cbcb68b082a587089298d7e1be85a03c55119d317bb" prot="public">
+          <name>CompleteBeforeDeadline</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_stub_request_handler_1a1e9e472ad898c36132d649cbcb68b082a2a131d276a75e15bb9affe2a28fea704" prot="public">
+          <name>ExceedDeadline</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="126" column="5" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="126" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_request_handler_1a475c1091ef4f22f2e8420f1c36904c76" prot="private" static="no" mutable="no">
+        <type><ref refid="class_stub_request_handler_1a1e9e472ad898c36132d649cbcb68b082" kindref="member">Behaviour</ref></type>
+        <definition>Behaviour StubRequestHandler::behaviour_</definition>
+        <argsstring></argsstring>
+        <name>behaviour_</name>
+        <qualifiedname>StubRequestHandler::behaviour_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="139" column="15" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_request_handler_1a0320988d84321875323f88d43cb5c5f5" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds StubRequestHandler::handler_time_</definition>
+        <argsstring></argsstring>
+        <name>handler_time_</name>
+        <qualifiedname>StubRequestHandler::handler_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="140" column="31" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_request_handler_1aa10ea13fe86e682d1b1403a176e5a18a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubRequestHandler::StubRequestHandler</definition>
+        <argsstring>(Behaviour b, std::chrono::milliseconds handler_time=0ms)</argsstring>
+        <name>StubRequestHandler</name>
+        <qualifiedname>StubRequestHandler::StubRequestHandler</qualifiedname>
+        <param>
+          <type><ref refid="class_stub_request_handler_1a1e9e472ad898c36132d649cbcb68b082" kindref="member">Behaviour</ref></type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>handler_time</declname>
+          <defval>0ms</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="128" column="14" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="128" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_request_handler_1aaea5dc2e8f09fe0cd930db4e30940c36" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161" kindref="member">ServerErrorClass</ref></type>
+        <definition>ServerErrorClass StubRequestHandler::handle</definition>
+        <argsstring>(std::chrono::milliseconds deadline)</argsstring>
+        <name>handle</name>
+        <qualifiedname>StubRequestHandler::handle</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>deadline</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="131" column="22" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="131" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub request handler with configurable timeout behaviour. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_contract_hardening_focused.cpp" line="124" column="1" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="124" bodyend="141"/>
+    <listofallmembers>
+      <member refid="class_stub_request_handler_1a1e9e472ad898c36132d649cbcb68b082" prot="public" virt="non-virtual"><scope>StubRequestHandler</scope><name>Behaviour</name></member>
+      <member refid="class_stub_request_handler_1a475c1091ef4f22f2e8420f1c36904c76" prot="private" virt="non-virtual"><scope>StubRequestHandler</scope><name>behaviour_</name></member>
+      <member refid="class_stub_request_handler_1aaea5dc2e8f09fe0cd930db4e30940c36" prot="public" virt="non-virtual"><scope>StubRequestHandler</scope><name>handle</name></member>
+      <member refid="class_stub_request_handler_1a0320988d84321875323f88d43cb5c5f5" prot="private" virt="non-virtual"><scope>StubRequestHandler</scope><name>handler_time_</name></member>
+      <member refid="class_stub_request_handler_1aa10ea13fe86e682d1b1403a176e5a18a" prot="public" virt="non-virtual"><scope>StubRequestHandler</scope><name>StubRequestHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

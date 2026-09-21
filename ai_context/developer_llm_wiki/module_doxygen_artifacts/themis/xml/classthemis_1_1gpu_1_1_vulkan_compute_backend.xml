@@ -1,0 +1,464 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_vulkan_compute_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::VulkanComputeBackend</compoundname>
+    <includes refid="vulkan__backend_8h" local="no">vulkan_backend.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_result" prot="public">themis::gpu::VulkanComputeBackend::Result</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_stream_handle" prot="public">themis::gpu::VulkanComputeBackend::StreamHandle</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_stats" prot="public">themis::gpu::VulkanComputeBackend::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a2b98f9a782f1c9a840ffeba2dfbf1b01" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::VulkanComputeBackend::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="202" column="24" bodyfile="include/themis/gpu/vulkan_backend.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1ab327d523916a6e99fd8709b82b2bffa5" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_stream_handle" kindref="compound">StreamHandle</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, StreamHandle&gt; themis::gpu::VulkanComputeBackend::streams_</definition>
+        <argsstring></argsstring>
+        <name>streams_</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::streams_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="203" column="24" bodyfile="include/themis/gpu/vulkan_backend.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1af3e178261c00b9dcad1be00fe738334f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::gpu::VulkanComputeBackend::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="204" column="11" bodyfile="include/themis/gpu/vulkan_backend.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1aca3eeb9020f36b43acef29549d731022" prot="private" static="no" mutable="yes">
+        <type>int</type>
+        <definition>int themis::gpu::VulkanComputeBackend::cached_device_count_</definition>
+        <argsstring></argsstring>
+        <name>cached_device_count_</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::cached_device_count_</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="207" column="25" bodyfile="include/themis/gpu/vulkan_backend.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1aaaec9dd63905e87e22c285adf167c825" prot="private" static="no" mutable="yes">
+        <type>bool</type>
+        <definition>bool themis::gpu::VulkanComputeBackend::vulkan_initialized_</definition>
+        <argsstring></argsstring>
+        <name>vulkan_initialized_</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::vulkan_initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="208" column="25" bodyfile="include/themis/gpu/vulkan_backend.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a275e2617c036e3651a97d8ada565fd3d" prot="private" static="no" mutable="yes">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::VulkanComputeBackend::cached_vendor_name_</definition>
+        <argsstring></argsstring>
+        <name>cached_vendor_name_</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::cached_vendor_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="209" column="25" bodyfile="include/themis/gpu/vulkan_backend.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a9b09401c5b52e74c93b1225ffb8cedcf" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>VulkanComputeBackend &amp;</type>
+        <definition>static VulkanComputeBackend &amp; themis::gpu::VulkanComputeBackend::GetInstance</definition>
+        <argsstring>()</argsstring>
+        <name>GetInstance</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::GetInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="86" column="33" bodyfile="include/themis/gpu/vulkan_backend.h" bodystart="86" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1afa1a9a834688a9b3ffc56ce87c4f2cc5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::gpu::VulkanComputeBackend::deviceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>deviceCount</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::deviceCount</qualifiedname>
+        <briefdescription>
+<para>Number of Vulkan-capable physical devices visible to the process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns 0 when <computeroutput>THEMIS_ENABLE_VULKAN</computeroutput> is not defined or when no Vulkan device is detected at runtime. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="101" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a119a9504697c034aea388ae196ebff37" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::VulkanComputeBackend::isAvailable</definition>
+        <argsstring>() const</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::isAvailable</qualifiedname>
+        <briefdescription>
+<para>True when at least one Vulkan compute device is available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="106" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a016aaa73fdd0148d995bfe7afe0123bc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::VulkanComputeBackend::vendorName</definition>
+        <argsstring>() const</argsstring>
+        <name>vendorName</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::vendorName</qualifiedname>
+        <briefdescription>
+<para>Human-readable name of the vendor for the selected device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns &quot;Unknown&quot; when Vulkan is not available or the vendor cannot be determined from the PCI vendor ID. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="114" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a4d078591e8d8b367547bd39c3e0b2c1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">GPULauncher::BackendFn</ref></type>
+        <definition>GPULauncher::BackendFn themis::gpu::VulkanComputeBackend::createBackendFn</definition>
+        <argsstring>(int device_index=0)</argsstring>
+        <name>createBackendFn</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::createBackendFn</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_index</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Create a <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">GPULauncher::BackendFn</ref></computeroutput> backed by Vulkan compute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The returned function:<itemizedlist>
+<listitem><para>On systems <bold>with</bold> Vulkan: selects a compute-capable device and dispatches the work item through the Vulkan acceleration backend. Falls back to CPU when the Vulkan backend is not initialized.</para>
+</listitem><listitem><para>On systems <bold>without</bold> Vulkan: returns <computeroutput>true</computeroutput> immediately (CPU path).</para>
+</listitem></itemizedlist>
+</para>
+<para>The function is safe to move into <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher" kindref="compound">GPULauncher</ref></computeroutput> or <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a83dffcca0034f2aa1337b697ec83fbf8" kindref="member">GPUStreamManager::createStream()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>device_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vulkan physical device ordinal (0-based, ignored when Vulkan is unavailable). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="135" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1acabf392f56931900c348aba53ff3e3fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_result" kindref="compound">Result</ref></type>
+        <definition>Result themis::gpu::VulkanComputeBackend::createStream</definition>
+        <argsstring>(const std::string &amp;name, int device_index=0)</argsstring>
+        <name>createStream</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::createStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>device_index</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Register a named logical compute stream on <computeroutput>device_index</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On systems without Vulkan records a virtual stream entry so that <computeroutput><ref refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1ac4877dd94b26b173277e0c2058359d41" kindref="member">hasStream()</ref></computeroutput> / <computeroutput><ref refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a3e0f52ede09e8229610441d06000e90c" kindref="member">streamNames()</ref></computeroutput> still work correctly.</para>
+<para><simplesect kind="return"><para>ok == false when a stream with <computeroutput>name</computeroutput> already exists or <computeroutput>name</computeroutput> is empty. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="150" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1adcbb359158e27ee71cda8ec83975e37a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_result" kindref="compound">Result</ref></type>
+        <definition>Result themis::gpu::VulkanComputeBackend::destroyStream</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>destroyStream</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::destroyStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Unregister and release a named logical compute stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>ok == false when no stream with <computeroutput>name</computeroutput> exists. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="157" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a64281358202f85cb6539efdfb42cf866" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_result" kindref="compound">Result</ref></type>
+        <definition>Result themis::gpu::VulkanComputeBackend::synchronizeStream</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>synchronizeStream</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::synchronizeStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Block until all pending work on the named stream completes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On the CPU fallback path this is a no-op that returns ok == true. <simplesect kind="return"><para>ok == false when the stream does not exist. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="165" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a29afc81b8ff31c757991c603386da67e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_stream_handle" kindref="compound">StreamHandle</ref></type>
+        <definition>StreamHandle themis::gpu::VulkanComputeBackend::getStream</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getStream</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::getStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Return the handle for a named stream (invalid if not found). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="168" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1ac4877dd94b26b173277e0c2058359d41" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::VulkanComputeBackend::hasStream</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>hasStream</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::hasStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>True when a stream with <computeroutput>name</computeroutput> has been created. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="171" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a3e0f52ede09e8229610441d06000e90c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::gpu::VulkanComputeBackend::streamNames</definition>
+        <argsstring>() const</argsstring>
+        <name>streamNames</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::streamNames</qualifiedname>
+        <briefdescription>
+<para>Return all registered stream names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="174" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a6b82f116cba4eeb237bf3cf1faa1caa9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::gpu::VulkanComputeBackend::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="187" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a21560b6248be6018868d6520c7d72d68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::VulkanComputeBackend::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset all statistics counters (for testing). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does not affect existing streams. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="194" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a3043a5db875c435a8d34f4222d4d5e22" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::VulkanComputeBackend::VulkanComputeBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>VulkanComputeBackend</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::VulkanComputeBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="197" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a90188cb9ae322ed92fe89e0b37ff5461" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::VulkanComputeBackend::VulkanComputeBackend</definition>
+        <argsstring>(const VulkanComputeBackend &amp;)=delete</argsstring>
+        <name>VulkanComputeBackend</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::VulkanComputeBackend</qualifiedname>
+        <param>
+          <type>const VulkanComputeBackend &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="199" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a71ab400492bda2d4152a06522f86f3f3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>VulkanComputeBackend &amp;</type>
+        <definition>VulkanComputeBackend &amp; themis::gpu::VulkanComputeBackend::operator=</definition>
+        <argsstring>(const VulkanComputeBackend &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::operator=</qualifiedname>
+        <param>
+          <type>const VulkanComputeBackend &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="200" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a794492a730650bbd1d41eb1dae6d8b4f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::VulkanComputeBackend::probeDevices</definition>
+        <argsstring>() const</argsstring>
+        <name>probeDevices</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::probeDevices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="213" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Vulkan compute backend for cross-vendor GPU support. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides Vulkan-backed equivalents of the GPU compute features used by the GPU module, enabling cross-vendor acceleration on AMD, Intel, ARM, Qualcomm, and NVIDIA hardware without requiring vendor-specific drivers (CUDA/HIP).</para>
+<para><itemizedlist>
+<listitem><para>Compute dispatch via <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">GPULauncher::BackendFn</ref></computeroutput></para>
+</listitem><listitem><para>Named stream lifecycle (logical streams backed by Vulkan command queues)</para>
+</listitem><listitem><para>Device availability query</para>
+</listitem></itemizedlist>
+</para>
+<para>All real Vulkan calls are gated behind <computeroutput>THEMIS_ENABLE_VULKAN</computeroutput>. When the define is absent (e.g. CI without Vulkan SDK) the backend transparently falls back to CPU execution so that <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager" kindref="compound">GPUStreamManager</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher" kindref="compound">GPULauncher</ref></computeroutput> continue to work correctly. Fallback and gate denials emit structured <computeroutput>GPUBackendDispatchDiagnostics</computeroutput> events (<computeroutput>BACKEND_NOT_ENABLED</computeroutput>, <computeroutput>BACKEND_NO_DEVICE_AVAILABLE</computeroutput>, <computeroutput>FALLBACK_CPU_DEGRADED</computeroutput>).</para>
+<sect1 id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1autotoc_md53_1s1"><sect2 id="classthemis_1_1gpu_1_1_vulkan_compute_backend_1autotoc_md53">
+<title>Integration points</title><para><itemizedlist>
+<listitem><para><computeroutput>createBackendFn(device_index)</computeroutput> — returns a <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">GPULauncher::BackendFn</ref></computeroutput> that can be passed directly to <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a83dffcca0034f2aa1337b697ec83fbf8" kindref="member">GPUStreamManager::createStream()</ref></computeroutput> or <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher" kindref="compound">GPULauncher</ref></computeroutput>. On systems without Vulkan the returned function succeeds via the CPU path.</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread safety: all public methods are protected by an internal mutex. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/gpu/vulkan_backend.h" line="52" column="1" bodyfile="include/themis/gpu/vulkan_backend.h" bodystart="52" bodyend="214"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1aca3eeb9020f36b43acef29549d731022" prot="private" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>cached_device_count_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a275e2617c036e3651a97d8ada565fd3d" prot="private" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>cached_vendor_name_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a4d078591e8d8b367547bd39c3e0b2c1e" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>createBackendFn</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1acabf392f56931900c348aba53ff3e3fa" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>createStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1adcbb359158e27ee71cda8ec83975e37a" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>destroyStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1afa1a9a834688a9b3ffc56ce87c4f2cc5" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>deviceCount</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a9b09401c5b52e74c93b1225ffb8cedcf" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>GetInstance</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a6b82f116cba4eeb237bf3cf1faa1caa9" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a29afc81b8ff31c757991c603386da67e" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>getStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1ac4877dd94b26b173277e0c2058359d41" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>hasStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a119a9504697c034aea388ae196ebff37" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a2b98f9a782f1c9a840ffeba2dfbf1b01" prot="private" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a71ab400492bda2d4152a06522f86f3f3" prot="private" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a794492a730650bbd1d41eb1dae6d8b4f" prot="private" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>probeDevices</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a21560b6248be6018868d6520c7d72d68" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1af3e178261c00b9dcad1be00fe738334f" prot="private" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a3e0f52ede09e8229610441d06000e90c" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>streamNames</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1ab327d523916a6e99fd8709b82b2bffa5" prot="private" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>streams_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a64281358202f85cb6539efdfb42cf866" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>synchronizeStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a016aaa73fdd0148d995bfe7afe0123bc" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>vendorName</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1aaaec9dd63905e87e22c285adf167c825" prot="private" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>vulkan_initialized_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a3043a5db875c435a8d34f4222d4d5e22" prot="private" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>VulkanComputeBackend</name></member>
+      <member refid="classthemis_1_1gpu_1_1_vulkan_compute_backend_1a90188cb9ae322ed92fe89e0b37ff5461" prot="private" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend</scope><name>VulkanComputeBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

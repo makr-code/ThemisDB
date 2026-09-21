@@ -1,0 +1,522 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__sharding__operational__metrics_8cpp" kind="file" language="C++">
+    <compoundname>test_sharding_operational_metrics.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="operational__metrics_8h" local="yes">sharding/operational_metrics.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>sharding/operational_metrics.h</label>
+        <link refid="operational__metrics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/sharding/test_sharding_operational_metrics.cpp</label>
+        <link refid="test__sharding__operational__metrics_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>algorithm</label>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_operational_metrics_test" prot="public">OperationalMetricsTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__sharding__operational__metrics_8cpp_1a1bdd459882d8dbe97e5dfd9837411721" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OperationalMetricsTest, Construction_Succeeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>Construction_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_operational_metrics.cpp" line="38" column="1" bodyfile="tests/sharding/test_sharding_operational_metrics.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__operational__metrics_8cpp_1a78243f76223a90aa01c5f77fc0e73dc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OperationalMetricsTest, GetShardMetrics_AfterRegisterReturnsMetrics)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>GetShardMetrics_AfterRegisterReturnsMetrics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_operational_metrics.cpp" line="42" column="1" bodyfile="tests/sharding/test_sharding_operational_metrics.cpp" bodystart="42" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__operational__metrics_8cpp_1ac28297e9050ce6e44d73384a71ca52fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OperationalMetricsTest, GetShardMetrics_SameIdReturnsSamePointer)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>GetShardMetrics_SameIdReturnsSamePointer</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_operational_metrics.cpp" line="48" column="1" bodyfile="tests/sharding/test_sharding_operational_metrics.cpp" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__operational__metrics_8cpp_1a8391724e38a9afdd096d7714dfecc92b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OperationalMetricsTest, RecordRequest_SuccessRead_IncrementsTotals)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>RecordRequest_SuccessRead_IncrementsTotals</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_operational_metrics.cpp" line="59" column="1" bodyfile="tests/sharding/test_sharding_operational_metrics.cpp" bodystart="59" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__operational__metrics_8cpp_1ab0ea625f38b7b5c0900922317f246dc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OperationalMetricsTest, RecordRequest_SuccessWrite_IncrementsWriteCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>RecordRequest_SuccessWrite_IncrementsWriteCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_operational_metrics.cpp" line="70" column="1" bodyfile="tests/sharding/test_sharding_operational_metrics.cpp" bodystart="70" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__operational__metrics_8cpp_1afd912a75e5423e06ce0694b137058a99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OperationalMetricsTest, RecordRequest_Failure_IncrementsFailedCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>RecordRequest_Failure_IncrementsFailedCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_operational_metrics.cpp" line="79" column="1" bodyfile="tests/sharding/test_sharding_operational_metrics.cpp" bodystart="79" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__operational__metrics_8cpp_1a21b5b949643eadef7985e838c3e68eee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OperationalMetricsTest, RecordRequest_LatencyIsTracked)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>RecordRequest_LatencyIsTracked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_operational_metrics.cpp" line="88" column="1" bodyfile="tests/sharding/test_sharding_operational_metrics.cpp" bodystart="88" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__operational__metrics_8cpp_1aa121329f8dc0295ddbf492116346bed7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OperationalMetricsTest, GetShardIds_ReturnsRegisteredIds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>GetShardIds_ReturnsRegisteredIds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_operational_metrics.cpp" line="100" column="1" bodyfile="tests/sharding/test_sharding_operational_metrics.cpp" bodystart="100" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__operational__metrics_8cpp_1a1df6847f3993c3361406db951ee369c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OperationalMetricsTest, GetAggregatedMetrics_AggregatesAllShards)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>GetAggregatedMetrics_AggregatesAllShards</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_operational_metrics.cpp" line="117" column="1" bodyfile="tests/sharding/test_sharding_operational_metrics.cpp" bodystart="117" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__operational__metrics_8cpp_1a3c4fdfd7c0fd5191256c08f0fbb51c10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OperationalMetricsTest, GetClusterHealth_NoShards_DefaultState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>GetClusterHealth_NoShards_DefaultState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_operational_metrics.cpp" line="132" column="1" bodyfile="tests/sharding/test_sharding_operational_metrics.cpp" bodystart="132" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__operational__metrics_8cpp_1ac5a7e97d6aaab0f579250fc7e1fb2bf7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OperationalMetricsTest, UpdateShardHealth_HealthyState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>UpdateShardHealth_HealthyState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_operational_metrics.cpp" line="137" column="1" bodyfile="tests/sharding/test_sharding_operational_metrics.cpp" bodystart="137" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__operational__metrics_8cpp_1a769510c9baa06acdb3891646a53f1542" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OperationalMetricsTest, UpdateShardHealth_UnhealthyShard_DegradeCluster)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>UpdateShardHealth_UnhealthyShard_DegradeCluster</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_operational_metrics.cpp" line="143" column="1" bodyfile="tests/sharding/test_sharding_operational_metrics.cpp" bodystart="143" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__operational__metrics_8cpp_1a63e46f8eda533986908a9f60c259ea10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OperationalMetricsTest, UpdateResourceUsage_StoresValues)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>UpdateResourceUsage_StoresValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_operational_metrics.cpp" line="157" column="1" bodyfile="tests/sharding/test_sharding_operational_metrics.cpp" bodystart="157" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__operational__metrics_8cpp_1aff6c2c5ceee552f9128b85769f072fad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OperationalMetricsTest, RecordNetworkTraffic_UpdatesCounters)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>RecordNetworkTraffic_UpdatesCounters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_operational_metrics.cpp" line="172" column="1" bodyfile="tests/sharding/test_sharding_operational_metrics.cpp" bodystart="172" bodyend="179"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tests for <ref refid="classthemisdb_1_1sharding_1_1_operational_metrics" kindref="compound">OperationalMetrics</ref> (<ref refid="operational__metrics_8cpp" kindref="compound">src/sharding/operational_metrics.cpp</ref>). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers <ref refid="classthemisdb_1_1sharding_1_1_operational_metrics" kindref="compound">OperationalMetrics</ref>:<itemizedlist>
+<listitem><para>Default construction</para>
+</listitem><listitem><para>getShardMetrics (creates on first access)</para>
+</listitem><listitem><para>recordRequest (read and write, success and failure)</para>
+</listitem><listitem><para>getShardIds</para>
+</listitem><listitem><para>getAggregatedMetrics</para>
+</listitem><listitem><para>getClusterHealth (initial state → HEALTHY or DEGRADED)</para>
+</listitem><listitem><para>updateShardHealth</para>
+</listitem><listitem><para>recordNetworkTraffic</para>
+</listitem><listitem><para>updateResourceUsage </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="operational__metrics_8h" kindref="compound">sharding/operational_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding" kindref="compound">themisdb::sharding</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="class_operational_metrics_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_operational_metrics" kindref="compound">OperationalMetrics</ref><sp/><ref refid="class_operational_metrics_test_1abf0e2c9c595ca7863c576f0810066d35" kindref="member">metrics_</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref>,<sp/>Construction_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(metrics_.getShardIds().size(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(-1));</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref>,<sp/>GetShardMetrics_AfterRegisterReturnsMetrics)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.registerShard(</highlight><highlight class="stringliteral">&quot;shard_alpha&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>sm<sp/>=<sp/>metrics_.getShardMetrics(</highlight><highlight class="stringliteral">&quot;shard_alpha&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(sm,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref>,<sp/>GetShardMetrics_SameIdReturnsSamePointer)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.registerShard(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>a<sp/>=<sp/>metrics_.getShardMetrics(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>b<sp/>=<sp/>metrics_.getShardMetrics(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(a,<sp/>b);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>recordRequest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref>,<sp/>RecordRequest_SuccessRead_IncrementsTotals)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.registerShard(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.recordRequest(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*latency_us=*/</highlight><highlight class="normal">100,<sp/></highlight><highlight class="comment">/*success=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*is_write=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>sm<sp/>=<sp/>metrics_.getShardMetrics(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(sm,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm-&gt;total_requests.load(),<sp/>1u);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm-&gt;successful_requests.load(),<sp/>1u);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm-&gt;read_requests.load(),<sp/>1u);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm-&gt;write_requests.load(),<sp/>0u);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref>,<sp/>RecordRequest_SuccessWrite_IncrementsWriteCount)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.registerShard(</highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.recordRequest(</highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/>200,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*is_write=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>sm<sp/>=<sp/>metrics_.getShardMetrics(</highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(sm,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm-&gt;write_requests.load(),<sp/>1u);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm-&gt;read_requests.load(),<sp/>0u);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref>,<sp/>RecordRequest_Failure_IncrementsFailedCount)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.registerShard(</highlight><highlight class="stringliteral">&quot;s3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.recordRequest(</highlight><highlight class="stringliteral">&quot;s3&quot;</highlight><highlight class="normal">,<sp/>50,<sp/></highlight><highlight class="comment">/*success=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>sm<sp/>=<sp/>metrics_.getShardMetrics(</highlight><highlight class="stringliteral">&quot;s3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(sm,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm-&gt;failed_requests.load(),<sp/>1u);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm-&gt;successful_requests.load(),<sp/>0u);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref>,<sp/>RecordRequest_LatencyIsTracked)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.registerShard(</highlight><highlight class="stringliteral">&quot;s_lat&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.recordRequest(</highlight><highlight class="stringliteral">&quot;s_lat&quot;</highlight><highlight class="normal">,<sp/>1234,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>sm<sp/>=<sp/>metrics_.getShardMetrics(</highlight><highlight class="stringliteral">&quot;s_lat&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(sm,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(sm-&gt;total_latency_us.load(),<sp/>1234u);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getShardIds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref>,<sp/>GetShardIds_ReturnsRegisteredIds)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.registerShard(</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.registerShard(</highlight><highlight class="stringliteral">&quot;beta&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.recordRequest(</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">,<sp/>100,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.recordRequest(</highlight><highlight class="stringliteral">&quot;beta&quot;</highlight><highlight class="normal">,<sp/><sp/>200,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ids<sp/>=<sp/>metrics_.getShardIds();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_alpha<sp/>=<sp/>std::find(ids.begin(),<sp/>ids.end(),<sp/></highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>ids.end();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_beta<sp/><sp/>=<sp/>std::find(ids.begin(),<sp/>ids.end(),<sp/></highlight><highlight class="stringliteral">&quot;beta&quot;</highlight><highlight class="normal">)<sp/><sp/>!=<sp/>ids.end();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_alpha);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_beta);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getAggregatedMetrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref>,<sp/>GetAggregatedMetrics_AggregatesAllShards)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.registerShard(</highlight><highlight class="stringliteral">&quot;x1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.registerShard(</highlight><highlight class="stringliteral">&quot;x2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.recordRequest(</highlight><highlight class="stringliteral">&quot;x1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.recordRequest(</highlight><highlight class="stringliteral">&quot;x2&quot;</highlight><highlight class="normal">,<sp/>200,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_metrics" kindref="compound">ShardMetrics</ref><sp/>agg;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.getAggregatedMetrics(agg);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(agg.<ref refid="structthemisdb_1_1sharding_1_1_shard_metrics_1a5a5ffbdb93b94d4472086f7b808f3008" kindref="member">total_requests</ref>.load(),<sp/>2u);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>updateShardHealth<sp/>/<sp/>getClusterHealth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref>,<sp/>GetClusterHealth_NoShards_DefaultState)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>no<sp/>shards,<sp/>cluster<sp/>health<sp/>should<sp/>be<sp/>deterministic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics_.getClusterHealth());</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref>,<sp/>UpdateShardHealth_HealthyState)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.registerShard(</highlight><highlight class="stringliteral">&quot;shard_h&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(metrics_.updateShardHealth(</highlight><highlight class="stringliteral">&quot;shard_h&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1sharding_1abb445256cef6eac62d08dfa14e43b7cfaf068ebe4133e3e6563080836268ea979" kindref="member">HealthStatus::HEALTHY</ref>));</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics_.getClusterHealth(),<sp/><ref refid="namespacethemisdb_1_1sharding_1abb445256cef6eac62d08dfa14e43b7cfaf068ebe4133e3e6563080836268ea979" kindref="member">HealthStatus::HEALTHY</ref>);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref>,<sp/>UpdateShardHealth_UnhealthyShard_DegradeCluster)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.registerShard(</highlight><highlight class="stringliteral">&quot;shard_ok&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.registerShard(</highlight><highlight class="stringliteral">&quot;shard_bad&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.updateShardHealth(</highlight><highlight class="stringliteral">&quot;shard_ok&quot;</highlight><highlight class="normal">,<sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1abb445256cef6eac62d08dfa14e43b7cfaf068ebe4133e3e6563080836268ea979" kindref="member">HealthStatus::HEALTHY</ref>);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.updateShardHealth(</highlight><highlight class="stringliteral">&quot;shard_bad&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1sharding_1abb445256cef6eac62d08dfa14e43b7cfa7438a7e4e4f36f04fda32fa100121e47" kindref="member">HealthStatus::UNHEALTHY</ref>);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cluster<sp/>=<sp/>metrics_.getClusterHealth();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>one<sp/>unhealthy<sp/>shard<sp/>the<sp/>cluster<sp/>should<sp/>be<sp/>degraded<sp/>or<sp/>unhealthy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(cluster,<sp/><ref refid="namespacethemisdb_1_1sharding_1abb445256cef6eac62d08dfa14e43b7cfaf068ebe4133e3e6563080836268ea979" kindref="member">HealthStatus::HEALTHY</ref>);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>updateResourceUsage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref>,<sp/>UpdateResourceUsage_StoresValues)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.registerShard(</highlight><highlight class="stringliteral">&quot;rs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.updateResourceUsage(</highlight><highlight class="stringliteral">&quot;rs&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*memory_bytes=*/</highlight><highlight class="normal">1024<sp/>*<sp/>1024,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*disk_bytes=*/</highlight><highlight class="normal">512<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>sm<sp/>=<sp/>metrics_.getShardMetrics(</highlight><highlight class="stringliteral">&quot;rs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(sm,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm-&gt;memory_usage_bytes.load(),<sp/>1024u<sp/>*<sp/>1024u);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm-&gt;disk_usage_bytes.load(),<sp/><sp/><sp/>512u<sp/>*<sp/>1024u<sp/>*<sp/>1024u);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>recordNetworkTraffic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="class_operational_metrics_test" kindref="compound">OperationalMetricsTest</ref>,<sp/>RecordNetworkTraffic_UpdatesCounters)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.registerShard(</highlight><highlight class="stringliteral">&quot;net_shard&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics_.recordNetworkTraffic(</highlight><highlight class="stringliteral">&quot;net_shard&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*bytes_sent=*/</highlight><highlight class="normal">4096,<sp/></highlight><highlight class="comment">/*bytes_recv=*/</highlight><highlight class="normal">2048);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>sm<sp/>=<sp/>metrics_.getShardMetrics(</highlight><highlight class="stringliteral">&quot;net_shard&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(sm,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm-&gt;network_bytes_sent.load(),<sp/><sp/><sp/><sp/><sp/>4096u);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sm-&gt;network_bytes_received.load(),<sp/>2048u);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/sharding/test_sharding_operational_metrics.cpp"/>
+  </compounddef>
+</doxygen>

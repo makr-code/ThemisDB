@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tt__quantizer_8h" kind="file" language="C++">
+    <compoundname>tt_quantizer.h</compoundname>
+    <includes refid="tensor__train__decomposer_8h" local="yes">storage/tensor_train_decomposer.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="tensor__compaction__filter_8h" local="yes">include/storage/tensor_compaction_filter.h</includedby>
+    <includedby refid="tensor__network__storage__engine_8h" local="yes">include/storage/tensor_network_storage_engine.h</includedby>
+    <includedby refid="tt__quantizer_8cpp" local="yes">src/storage/tt_quantizer.cpp</includedby>
+    <includedby refid="test__tensor__train__decomposer_8cpp" local="yes">tests/storage/test_tensor_train_decomposer.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>storage/tensor_train_decomposer.h</label>
+        <link refid="tensor__train__decomposer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/storage/tt_quantizer.h</label>
+        <link refid="tt__quantizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/storage/tensor_compaction_filter.h</label>
+        <link refid="tensor__compaction__filter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/storage/tensor_network_storage_engine.h</label>
+        <link refid="tensor__network__storage__engine_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/storage/tensor_router.h</label>
+        <link refid="tensor__router_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/storage/tt_quantizer.h</label>
+        <link refid="tt__quantizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/storage/tensor_compaction_filter.cpp</label>
+        <link refid="tensor__compaction__filter_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/storage/tensor_network_storage_engine.cpp</label>
+        <link refid="tensor__network__storage__engine_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/storage/tensor_router.cpp</label>
+        <link refid="tensor__router_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/storage/tt_quantizer.cpp</label>
+        <link refid="tt__quantizer_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/storage/test_tensor_storage_observer.cpp</label>
+        <link refid="test__tensor__storage__observer_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/storage/test_tensor_train_decomposer.cpp</label>
+        <link refid="test__tensor__train__decomposer_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/storage/test_wave3a_critical_fixes.cpp</label>
+        <link refid="test__wave3a__critical__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1storage_1_1_quantized_core" prot="public">themis::storage::QuantizedCore</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_quantized_train" prot="public">themis::storage::QuantizedTrain</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_t_t_quantizer" prot="public">themis::storage::TTQuantizer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__train__decomposer_8h" kindref="compound">storage/tensor_train_decomposer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QuantizationType</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96db" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96db" kindref="member">QuantizationType</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a01c8e5f6b41952138ad7d33fa726f7c7ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref><sp/><sp/>=<sp/>0,<sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbaee9d73311ff0658494edfff14c3ec1e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbaee9d73311ff0658494edfff14c3ec1e3" kindref="member">INT8</ref><sp/><sp/>=<sp/>1,<sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dba167c795dd4cb725ea2c7da144e1f8e54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dba167c795dd4cb725ea2c7da144e1f8e54" kindref="member">NF4</ref><sp/><sp/><sp/>=<sp/>2,<sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QuantizedCore<sp/>—<sp/>one<sp/>quantised<sp/>TT-core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1storage_1_1_quantized_core" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_quantized_core" kindref="compound">QuantizedCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1storage_1_1_quantized_core_1a55863cc849df9113ad7009f0736042a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1storage_1_1_quantized_core_1a55863cc849df9113ad7009f0736042a4" kindref="member">r_left</ref><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1storage_1_1_quantized_core_1afcb1dbd9c244c00b69dac06a98a96814" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1storage_1_1_quantized_core_1afcb1dbd9c244c00b69dac06a98a96814" kindref="member">n</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1storage_1_1_quantized_core_1a9df7e68eb2725595718ebaaa9f8f6416" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1storage_1_1_quantized_core_1a9df7e68eb2725595718ebaaa9f8f6416" kindref="member">r_right</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1storage_1_1_quantized_core_1a0d4117bd92a40efa429b70b4fc6a4037" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96db" kindref="member">QuantizationType</ref><sp/><ref refid="structthemis_1_1storage_1_1_quantized_core_1a0d4117bd92a40efa429b70b4fc6a4037" kindref="member">quant_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbab50339a10e1de285ac99d4c3990b8693" kindref="member">QuantizationType::NONE</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1storage_1_1_quantized_core_1ad9a465ceae6946223cdcf14cb18286b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1storage_1_1_quantized_core_1ad9a465ceae6946223cdcf14cb18286b4" kindref="member">data</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1storage_1_1_quantized_core_1a05eaecbf402811ab3eeb0c01a379c924" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_quantized_core_1a05eaecbf402811ab3eeb0c01a379c924" kindref="member">scale</ref><sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1storage_1_1_quantized_core_1a1a65a97155fa913aae5beae6420037a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_quantized_core_1a1a65a97155fa913aae5beae6420037a3" kindref="member">mean</ref><sp/><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1storage_1_1_quantized_core_1a42300c1608867fc6202b6d9533954dfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1storage_1_1_quantized_core_1a42300c1608867fc6202b6d9533954dfe" kindref="member">numElements</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_quantized_core_1a55863cc849df9113ad7009f0736042a4" kindref="member">r_left</ref><sp/>*<sp/><ref refid="structthemis_1_1storage_1_1_quantized_core_1afcb1dbd9c244c00b69dac06a98a96814" kindref="member">n</ref><sp/>*<sp/><ref refid="structthemis_1_1storage_1_1_quantized_core_1a9df7e68eb2725595718ebaaa9f8f6416" kindref="member">r_right</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1storage_1_1_quantized_core_1a92c6ff9a3017cce5970b8a28b2106232" kindref="member">serialize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;QuantizedCore&gt;<sp/><ref refid="structthemis_1_1storage_1_1_quantized_core_1ac130f84044a2460e7e85a8ff4414b17a" kindref="member">deserialize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>bytes);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QuantizedTrain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1storage_1_1_quantized_train" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_quantized_train" kindref="compound">QuantizedTrain</ref><sp/>{</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1storage_1_1_quantized_train_1aebf6ba9f4a44b997563b67695e7d5f8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/><ref refid="structthemis_1_1storage_1_1_quantized_train_1aebf6ba9f4a44b997563b67695e7d5f8f" kindref="member">mode_sizes</ref>;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1storage_1_1_quantized_train_1a8735cf618b3c9aac474ade6435e58249" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QuantizedCore&gt;<sp/><ref refid="structthemis_1_1storage_1_1_quantized_train_1a8735cf618b3c9aac474ade6435e58249" kindref="member">cores</ref>;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1storage_1_1_quantized_train_1aee669ef2ba99ab076a457cffe2141d01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96db" kindref="member">QuantizationType</ref><sp/><ref refid="structthemis_1_1storage_1_1_quantized_train_1aee669ef2ba99ab076a457cffe2141d01" kindref="member">quant_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbab50339a10e1de285ac99d4c3990b8693" kindref="member">QuantizationType::NONE</ref>;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1storage_1_1_quantized_train_1aa5702251927b59e8f380527d45ea826a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_quantized_train_1aa5702251927b59e8f380527d45ea826a" kindref="member">original_norm</ref><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1storage_1_1_quantized_train_1af45e4a458c6feb52c6bd9d1a7c85db68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_quantized_train_1af45e4a458c6feb52c6bd9d1a7c85db68" kindref="member">achieved_eps</ref><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1storage_1_1_quantized_train_1a6ea669213ad49f8e5e13865c388ed3c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1storage_1_1_quantized_train_1a6ea669213ad49f8e5e13865c388ed3c0" kindref="member">order</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_quantized_train_1a8735cf618b3c9aac474ade6435e58249" kindref="member">cores</ref>.size();<sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1storage_1_1_quantized_train_1aa2d933372c9e79eb216d58cc14e40e19" kindref="member">totalBytes</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_quantized_train_1aadf450a10debd2b1ab69003771ccc8fc" kindref="member">compressionRatio</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1storage_1_1_quantized_train_1a69cdc23c803756721957eac356ba8077" kindref="member">serialize</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/><ref refid="namespacestd" kindref="compound">std</ref>::optional&lt;<ref refid="structthemis_1_1storage_1_1_quantized_train" kindref="compound">QuantizedTrain</ref>&gt;<sp/><ref refid="structthemis_1_1storage_1_1_quantized_train_1a46d2720ad29f2c03fe8cc862ae58d8fc" kindref="member">deserialize</ref>(const<sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;uint8_t&gt;&amp;<sp/>bytes);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTQuantizer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1storage_1_1_t_t_quantizer" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1storage_1_1_t_t_quantizer_1a3266e828672b3b9320aa49f7420e733b" kindref="member">TTQuantizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1storage_1_1_t_t_quantizer_1a3266e828672b3b9320aa49f7420e733b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_t_t_quantizer_1a3266e828672b3b9320aa49f7420e733b" kindref="member">TTQuantizer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1storage_1_1_t_t_quantizer_1a15ee3d4dd0af93d853b37035d44cb1ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_t_t_quantizer_1a15ee3d4dd0af93d853b37035d44cb1ab" kindref="member">~TTQuantizer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Quantisation<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_quantized_train" kindref="compound">QuantizedTrain</ref><sp/><ref refid="classthemis_1_1storage_1_1_t_t_quantizer_1a6f5be3238a81f7852105e41c7cca54e2" kindref="member">quantize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref>&amp;<sp/>train,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96db" kindref="member">QuantizationType</ref><sp/>type<sp/>=<sp/><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbaee9d73311ff0658494edfff14c3ec1e3" kindref="member">QuantizationType::INT8</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref><sp/><ref refid="classthemis_1_1storage_1_1_t_t_quantizer_1aa77a61960666c6aa08ccef971323f531" kindref="member">dequantize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_quantized_train" kindref="compound">QuantizedTrain</ref>&amp;<sp/>qtrain)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Helpers<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1storage_1_1_t_t_quantizer_1a8b5cad1c9b2f517dff38477048890f21" kindref="member">typeName</ref>(<ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96db" kindref="member">QuantizationType</ref><sp/>t)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_t_t_quantizer_1a228912f571793ac8b19bcb19769511c2" kindref="member">bytesPerElement</ref>(<ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96db" kindref="member">QuantizationType</ref><sp/>t)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>NF4<sp/>lookup<sp/>table<sp/>(16<sp/>quantiles<sp/>of<sp/>N(0,1)<sp/>mapped<sp/>to<sp/>[-1,1])<sp/>──────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Source:<sp/>Dettmers<sp/>et<sp/>al.<sp/>(2023),<sp/>Table<sp/>1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>kNF4Table[16]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-1.0f,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>-0.6961928f,<sp/>-0.5250730f,<sp/>-0.3949342f,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-0.2844073f,<sp/>-0.1848549f,<sp/>-0.0919652f,<sp/><sp/>0.0f,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.0796474f,<sp/><sp/>0.1609302f,<sp/><sp/>0.2461564f,<sp/><sp/>0.3379999f,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.4407302f,<sp/><sp/>0.5626170f,<sp/><sp/>0.7229568f,<sp/><sp/>1.0f</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_quantized_core" kindref="compound">QuantizedCore</ref><sp/>quantizeINT8(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_t_t_core" kindref="compound">TTCore</ref>&amp;<sp/>core)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_quantized_core" kindref="compound">QuantizedCore</ref><sp/>quantizeNF4<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_t_t_core" kindref="compound">TTCore</ref>&amp;<sp/>core)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_t_t_core" kindref="compound">TTCore</ref><sp/>dequantizeINT8(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_quantized_core" kindref="compound">QuantizedCore</ref>&amp;<sp/>qcore)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_t_t_core" kindref="compound">TTCore</ref><sp/>dequantizeNF4<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_quantized_core" kindref="compound">QuantizedCore</ref>&amp;<sp/>qcore)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint8_t<sp/>findNF4Index(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>v)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/tt_quantizer.h"/>
+  </compounddef>
+</doxygen>

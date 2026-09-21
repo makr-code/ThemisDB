@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1_crash_injector_1_1_crash_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::CrashInjector::CrashConfig</compoundname>
+    <basecompoundref refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config" prot="public" virt="non-virtual">themis::test::FaultInjector::InjectionConfig</basecompoundref>
+    <includes refid="fault__injector_8h" local="no">fault_injector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_crash_injector_1_1_crash_config_1af15f419caa2d6be2a442379b0c2b3af4" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1test_1_1_crash_injector_1afe5ae840ba41bfa3ce7e32e14bf03130" kindref="member">CrashPoint</ref></type>
+        <definition>CrashPoint themis::test::CrashInjector::CrashConfig::crash_point</definition>
+        <argsstring></argsstring>
+        <name>crash_point</name>
+        <qualifiedname>themis::test::CrashInjector::CrashConfig::crash_point</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1test_1_1_crash_injector_1afe5ae840ba41bfa3ce7e32e14bf03130ae35884a2445bc4ae2df52f188763273c" kindref="member">CrashPoint::IMMEDIATE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="267" column="20" bodyfile="tests/utils/fault_injector.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_crash_injector_1_1_crash_config_1a19954e5557f48fb2c28604aac76f2832" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::test::CrashInjector::CrashConfig::should_crash_flag</definition>
+        <argsstring></argsstring>
+        <name>should_crash_flag</name>
+        <qualifiedname>themis::test::CrashInjector::CrashConfig::should_crash_flag</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="268" column="14" bodyfile="tests/utils/fault_injector.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::test::CrashInjector::CrashConfig</label>
+        <link refid="structthemis_1_1test_1_1_crash_injector_1_1_crash_config"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::test::FaultInjector::InjectionConfig</label>
+        <link refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::test::CrashInjector::CrashConfig</label>
+        <link refid="structthemis_1_1test_1_1_crash_injector_1_1_crash_config"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::test::FaultInjector::InjectionConfig</label>
+        <link refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/fault_injector.h" line="266" column="5" bodyfile="tests/utils/fault_injector.h" bodystart="266" bodyend="269"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a6c02ff42238b1deab7d7c1a0183d5b15" prot="public" virt="non-virtual"><scope>themis::test::CrashInjector::CrashConfig</scope><name>auto_recover</name></member>
+      <member refid="structthemis_1_1test_1_1_crash_injector_1_1_crash_config_1af15f419caa2d6be2a442379b0c2b3af4" prot="public" virt="non-virtual"><scope>themis::test::CrashInjector::CrashConfig</scope><name>crash_point</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a58f9575692c545492473abaa8650a2da" prot="public" virt="non-virtual"><scope>themis::test::CrashInjector::CrashConfig</scope><name>description</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1ac3a0e223056675dc4ed0feea780bdd24" prot="public" virt="non-virtual"><scope>themis::test::CrashInjector::CrashConfig</scope><name>duration</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a30c2850dcd882ee4ab10bd0a292c5f42" prot="public" virt="non-virtual"><scope>themis::test::CrashInjector::CrashConfig</scope><name>probability</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a06b6f7bce1eebd47f3eb2647fad8c1c4" prot="public" virt="non-virtual"><scope>themis::test::CrashInjector::CrashConfig</scope><name>rng_seed</name></member>
+      <member refid="structthemis_1_1test_1_1_crash_injector_1_1_crash_config_1a19954e5557f48fb2c28604aac76f2832" prot="public" virt="non-virtual"><scope>themis::test::CrashInjector::CrashConfig</scope><name>should_crash_flag</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1ae5203201f0679ba59703f063e36598e9" prot="public" virt="non-virtual"><scope>themis::test::CrashInjector::CrashConfig</scope><name>target_component</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a38d8130f04a57247923de7ce01e540de" prot="public" virt="non-virtual"><scope>themis::test::CrashInjector::CrashConfig</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

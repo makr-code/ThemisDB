@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1security_1_1_c_r_l_checker_1_1_c_r_l_cache" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::security::CRLChecker::CRLCache</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1security_1_1_c_r_l_checker_1_1_c_r_l_cache_1ad0eb48874a4de3842519c050acf3f24f" prot="public" static="no" mutable="no">
+        <type>X509_CRL *</type>
+        <definition>X509_CRL* themis::llm::security::CRLChecker::CRLCache::crl</definition>
+        <argsstring></argsstring>
+        <name>crl</name>
+        <qualifiedname>themis::llm::security::CRLChecker::CRLCache::crl</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="221" column="18" bodyfile="include/llm/security/signature_verifier.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1security_1_1_c_r_l_checker_1_1_c_r_l_cache_1a38ffaabba9a9bf484daadf1bdcf5f565" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::llm::security::CRLChecker::CRLCache::expires_at</definition>
+        <argsstring></argsstring>
+        <name>expires_at</name>
+        <qualifiedname>themis::llm::security::CRLChecker::CRLCache::expires_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="222" column="47" bodyfile="include/llm/security/signature_verifier.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/security/signature_verifier.h" line="220" column="5" bodyfile="include/llm/security/signature_verifier.h" bodystart="220" bodyend="223"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1security_1_1_c_r_l_checker_1_1_c_r_l_cache_1ad0eb48874a4de3842519c050acf3f24f" prot="public" virt="non-virtual"><scope>themis::llm::security::CRLChecker::CRLCache</scope><name>crl</name></member>
+      <member refid="structthemis_1_1llm_1_1security_1_1_c_r_l_checker_1_1_c_r_l_cache_1a38ffaabba9a9bf484daadf1bdcf5f565" prot="public" virt="non-virtual"><scope>themis::llm::security::CRLChecker::CRLCache</scope><name>expires_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

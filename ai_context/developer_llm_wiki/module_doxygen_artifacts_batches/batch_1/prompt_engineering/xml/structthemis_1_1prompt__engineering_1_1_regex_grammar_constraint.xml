@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::RegexGrammarConstraint</compoundname>
+    <includes refid="structured__output_8h" local="no">structured_output.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint_1ae717d0d1c0a0f5d03e17977517f30a45" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RegexGrammarConstraint::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themis::prompt_engineering::RegexGrammarConstraint::pattern</qualifiedname>
+        <briefdescription>
+<para>ECMAScript-compatible regex pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="39" column="17" bodyfile="include/prompt_engineering/structured_output.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint_1a3d01f57a213a34bb93a14fbec6d52d94" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::RegexGrammarConstraint::full_match</definition>
+        <argsstring></argsstring>
+        <name>full_match</name>
+        <qualifiedname>themis::prompt_engineering::RegexGrammarConstraint::full_match</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>true → std::regex_match; false → std::regex_search. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="40" column="10" bodyfile="include/prompt_engineering/structured_output.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint_1a2245e1fb18da60dd5de66ed5930ceda7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::prompt_engineering::RegexGrammarConstraint::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::prompt_engineering::RegexGrammarConstraint::max_tokens</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Soft cap: warn if output exceeds this token estimate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="41" column="10" bodyfile="include/prompt_engineering/structured_output.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Regex grammar constraint applied to the (optionally stripped) output. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/structured_output.h" line="38" column="1" bodyfile="include/prompt_engineering/structured_output.h" bodystart="38" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint_1a3d01f57a213a34bb93a14fbec6d52d94" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RegexGrammarConstraint</scope><name>full_match</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint_1a2245e1fb18da60dd5de66ed5930ceda7" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RegexGrammarConstraint</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint_1ae717d0d1c0a0f5d03e17977517f30a45" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RegexGrammarConstraint</scope><name>pattern</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

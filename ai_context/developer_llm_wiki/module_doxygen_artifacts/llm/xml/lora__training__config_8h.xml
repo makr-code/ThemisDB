@@ -1,0 +1,279 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="lora__training__config_8h" kind="file" language="C++">
+    <compoundname>lora_training_config.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">yaml-cpp/yaml.h</includes>
+    <includes refid="lora__config_8h" local="yes">lora_config.h</includes>
+    <includes refid="feedback__plugin_8h" local="yes">feedback_plugin.h</includes>
+    <includedby refid="lora__training__config_8cpp" local="yes">src/llm/lora_framework/lora_training_config.cpp</includedby>
+    <incdepgraph>
+      <node id="11">
+        <label>feedback_plugin.h</label>
+        <link refid="feedback__plugin_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>lora_config.h</label>
+        <link refid="lora__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>lora_feedback.h</label>
+        <link refid="lora__feedback_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/lora_training_config.h</label>
+        <link refid="lora__training__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+      <node id="6">
+        <label>yaml-cpp/yaml.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/lora_training_config.h</label>
+        <link refid="lora__training__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/lora_framework/lora_training_config.cpp</label>
+        <link refid="lora__training__config_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config" prot="public">themis::llm::lora::LoRATrainingConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source" prot="public">themis::llm::lora::LoRATrainingConfig::TrainingDataSource</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting" prot="public">themis::llm::lora::LoRATrainingConfig::FeedbackWeighting</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger" prot="public">themis::llm::lora::LoRATrainingConfig::TrainingTrigger</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config" prot="public">themis::llm::lora::LoRATrainingConfig::QualityConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config" prot="public">themis::llm::lora::LoRATrainingConfig::AdapterConfig</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;yaml-cpp/yaml.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__config_8h" kindref="compound">lora_config.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="feedback__plugin_8h" kindref="compound">feedback_plugin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config" kindref="compound">LoRATrainingConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1a060ec5e3bce7d66046b847c33d60c4cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1a060ec5e3bce7d66046b847c33d60c4cd" kindref="member">~LoRATrainingConfig</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source" kindref="compound">TrainingDataSource</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source_1ad451077d72f7b35617092f60acc8c877" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source_1ad451077d72f7b35617092f60acc8c877" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source_1a1311d702d9fdff54c632b9d6f10460f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source_1a1311d702d9fdff54c632b9d6f10460f9" kindref="member">path</ref>;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source_1a8b77c285f6ff7b764c876c33d74cc908" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source_1a8b77c285f6ff7b764c876c33d74cc908" kindref="member">weight</ref><sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source_1a798bf51616b96fc5dd7a0164928ea792" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source_1a798bf51616b96fc5dd7a0164928ea792" kindref="member">preprocessing</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting" kindref="compound">FeedbackWeighting</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a643db30f824b440fa4b81c5164da3028" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a643db30f824b440fa4b81c5164da3028" kindref="member">direct_response_weight</ref><sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1aed50a2e95040b73813b54600a5f9466d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1aed50a2e95040b73813b54600a5f9466d" kindref="member">exact_cache_weight</ref><sp/>=<sp/>0.4f;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a3784a3ec0d266bacb9ffecec2a9b0442" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a3784a3ec0d266bacb9ffecec2a9b0442" kindref="member">semantic_cache_base_weight</ref><sp/>=<sp/>0.3f;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a7241cf48900aec10fe0586ca11a8e8fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a7241cf48900aec10fe0586ca11a8e8fb" kindref="member">similarity_weight_factor</ref><sp/>=<sp/>0.5f;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a14811d350a291ea3b8791b92885fd461" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a14811d350a291ea3b8791b92885fd461" kindref="member">disable_cache_training</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a650ee5aa18f70771005cc639b42bdb99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>float&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a650ee5aa18f70771005cc639b42bdb99" kindref="member">type_weights</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>positive,<sp/>negative,<sp/>neutral</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a53c5f965874a2a6af94cc263e32005f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;int,<sp/>float&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a53c5f965874a2a6af94cc263e32005f3" kindref="member">rating_weights</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1-5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger" kindref="compound">TrainingTrigger</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1ade577db68232414bab556b111a60b170" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1ade577db68232414bab556b111a60b170" kindref="member">automatic_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1a9c07c18622d00c67de84f7272a86834a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1a9c07c18622d00c67de84f7272a86834a" kindref="member">min_batch_size</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1a6f68fc442b059f9e5bc461351c190a51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1a6f68fc442b059f9e5bc461351c190a51" kindref="member">max_batch_size</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1a2f7ecbc8338fe58cc2d261832b054d6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1a2f7ecbc8338fe58cc2d261832b054d6f" kindref="member">use_effective_size</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1ae9de819aec7d0815a6975d2306067a09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1ae9de819aec7d0815a6975d2306067a09" kindref="member">max_wait_hours</ref><sp/>=<sp/>24;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1a955455a07af882f6ef472722ba3e31a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1a955455a07af882f6ef472722ba3e31a4" kindref="member">cron_schedule</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1afdb161008921d962cd7c750d824f55f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1afdb161008921d962cd7c750d824f55f1" kindref="member">min_avg_rating</ref><sp/>=<sp/>3.5f;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1afe5d9189c334344cd00483d9e6bce222" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger_1afe5d9189c334344cd00483d9e6bce222" kindref="member">min_positive_ratio</ref><sp/>=<sp/>0.6f;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config" kindref="compound">QualityConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A/B<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1a931f8f031cda1fcf28ed1539fdbbd168" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1a931f8f031cda1fcf28ed1539fdbbd168" kindref="member">ab_testing_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1a10586790163e125c3d298ef4a89c69e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1a10586790163e125c3d298ef4a89c69e0" kindref="member">traffic_split</ref><sp/>=<sp/>0.1f;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1a0488c966860ae9a9f1225f59cbe5f4f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1a0488c966860ae9a9f1225f59cbe5f4f2" kindref="member">duration_hours</ref><sp/>=<sp/>24;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1a60f851f2f74b34d9e5988b8b9b09e833" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1a60f851f2f74b34d9e5988b8b9b09e833" kindref="member">min_improvement</ref><sp/>=<sp/>0.05f;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Auto-rollback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1ab8104b4f0b969c7493c5bc4713692ffa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1ab8104b4f0b969c7493c5bc4713692ffa" kindref="member">auto_rollback_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1a43d8c047b5bf29bc9ede4a1dadc78c1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1a43d8c047b5bf29bc9ede4a1dadc78c1d" kindref="member">rollback_triggers</ref>;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1a62fc0c7a8aaa66f48bf1e43257ebb28f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1a62fc0c7a8aaa66f48bf1e43257ebb28f" kindref="member">cooldown_hours</ref><sp/>=<sp/>6;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thresholds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1a1837117295f47f40fce9ff3e494e7a58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1a1837117295f47f40fce9ff3e494e7a58" kindref="member">min_accuracy</ref><sp/>=<sp/>0.80f;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1a2a55d15087dc74adb2340c5f83b8f6ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config_1a2a55d15087dc74adb2340c5f83b8f6ca" kindref="member">max_perplexity</ref><sp/>=<sp/>50.0f;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config" kindref="compound">AdapterConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a07edc55fd7c49527de483dca26f94682" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a07edc55fd7c49527de483dca26f94682" kindref="member">adapter_id</ref>;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a6ab39193c9851b3719fe121846227130" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a6ab39193c9851b3719fe121846227130" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Base<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a4917b58262cccf85e25c2f2afdce9184" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a4917b58262cccf85e25c2f2afdce9184" kindref="member">base_model_name</ref>;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a6c1ff0d04143e800bed78824500b20e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a6c1ff0d04143e800bed78824500b20e1" kindref="member">base_model_path</ref>;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a4bb91357b6502959514a6424e45253e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a4bb91357b6502959514a6424e45253e4" kindref="member">base_model_type</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hyperparameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a2152c1ddfcc0d482d517e42ab93db5b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters" kindref="compound">LoRAHyperparameters</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a2152c1ddfcc0d482d517e42ab93db5b0" kindref="member">hyperparameters</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Training<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a84569ee458f67b9ec3afff4e2d005776" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>TrainingDataSource&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a84569ee458f67b9ec3afff4e2d005776" kindref="member">training_data</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Feedback<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a012cb6c2d784661cf9d024fde8ea1627" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting" kindref="compound">FeedbackWeighting</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a012cb6c2d784661cf9d024fde8ea1627" kindref="member">feedback_weighting</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Training<sp/>triggers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a5d26a52009b5d03fad954d48b0c77fe2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger" kindref="compound">TrainingTrigger</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a5d26a52009b5d03fad954d48b0c77fe2" kindref="member">triggers</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quality<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a0dc07a9100a457880cf9eac142ba1e6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config" kindref="compound">QualityConfig</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a0dc07a9100a457880cf9eac142ba1e6a" kindref="member">quality</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Device<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a706947d4666730fd82d193a4abbc829b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a706947d4666730fd82d193a4abbc829b" kindref="member">device</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cuda&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1ae3037834c8840c86e4b4aeda04a306ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1ae3037834c8840c86e4b4aeda04a306ae" kindref="member">device_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1aace3341d7a53e62f800bd7f689f831a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1aace3341d7a53e62f800bd7f689f831a3" kindref="member">mixed_precision</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a183361f599e49913f648e47e2d0edb3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config_1a183361f599e49913f648e47e2d0edb3d" kindref="member">gradient_accumulation_steps</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config" kindref="compound">LoRATrainingConfig</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1a2694e3f6902d34b7e4cd2ca7f0040174" kindref="member">loadFromFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>config_path);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config" kindref="compound">LoRATrainingConfig</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1ae52bc9c65f7d20c053aa06e1e227bf4b" kindref="member">loadFromString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>yaml_content);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;AdapterConfig&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1aa17f864c7dba96352ddf91e6f4da7496" kindref="member">getAdapterConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AdapterConfig&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1a50a10a8cab49e51aa4a6e0203e49cc62" kindref="member">getAllAdapterConfigs</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;CacheAwareWeightingPlugin&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1a1485215837c77765df972c9e2220ab7b" kindref="member">createCacheWeightingPlugin</ref>(</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TrainingTriggerPlugin&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1a9c20fab60d4f5bc9fccc559ec0f02592" kindref="member">createTrainingTriggerPlugin</ref>(</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1a7c15e304f364e5ab643dd54febba178f" kindref="member">validate</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1a35d2aa928c42e3ae9b55d0839a87602c" kindref="member">getValidationErrors</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>AdapterConfig&gt;<sp/>adapters_;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Global<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_concurrent_trainings_<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_retry_attempts_<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_adapter_config" kindref="compound">AdapterConfig</ref><sp/>parseAdapterConfig(</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>YAML::Node&amp;<sp/>node</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters" kindref="compound">LoRAHyperparameters</ref><sp/>parseHyperparameters(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>YAML::Node&amp;<sp/>node);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting" kindref="compound">FeedbackWeighting</ref><sp/>parseFeedbackWeighting(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>YAML::Node&amp;<sp/>node);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_trigger" kindref="compound">TrainingTrigger</ref><sp/>parseTrainingTrigger(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>YAML::Node&amp;<sp/>node);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_quality_config" kindref="compound">QualityConfig</ref><sp/>parseQualityConfig(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>YAML::Node&amp;<sp/>node);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source" kindref="compound">TrainingDataSource</ref><sp/>parseTrainingDataSource(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>YAML::Node&amp;<sp/>node);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/lora_training_config.h"/>
+  </compounddef>
+</doxygen>

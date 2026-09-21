@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__tensor__fingerprint__graph__critical1__diagnostics__focused_8cpp_1af8b24b9b5f98eaa3347bacd74c5b84c5" kindref="member">TEST_F</ref>  (<ref refid="class_tensor_fingerprint_graph_critical1_test" kindref="compound">TensorFingerprintGraphCritical1Test</ref>, InvalidQuerySelfInnerProductEmitsDiagnostic)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>P2-A2-01-1: Invalid query self inner product emits diagnostic </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__tensor__fingerprint__graph__critical1__diagnostics__focused_8cpp_1a3c5b42fc49fdb12360dd93fe4a740d8b" kindref="member">TEST_F</ref>  (<ref refid="class_tensor_fingerprint_graph_critical1_test" kindref="compound">TensorFingerprintGraphCritical1Test</ref>, ExceptionInSimilarityComputationEmitsDiagnostic)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>P2-A2-01-2: Exception in exact similarity computation emits diagnostic </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__tensor__fingerprint__graph__critical1__diagnostics__focused_8cpp_1ab87cede5d0cb67b286791bc717071e9f" kindref="member">TEST_F</ref>  (<ref refid="class_tensor_fingerprint_graph_critical1_test" kindref="compound">TensorFingerprintGraphCritical1Test</ref>, InvalidExactSimilarityScoreEmitsDiagnostic)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>P2-A2-01-3: Invalid exact similarity score emits diagnostic </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__tensor__fingerprint__graph__critical1__diagnostics__focused_8cpp_1aeb27c68c0763f6320c8cf6b99dd531c1" kindref="member">TEST_F</ref>  (<ref refid="class_tensor_fingerprint_graph_critical1_test" kindref="compound">TensorFingerprintGraphCritical1Test</ref>, ReferencedTrainNotFoundEmitsDiagnostic)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>P2-A2-01-4: Referenced tensor train not found emits diagnostic </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__tensor__fingerprint__graph__critical1__diagnostics__focused_8cpp_1a9a46039d5be988078058132e17097c84" kindref="member">TEST_F</ref>  (<ref refid="class_tensor_fingerprint_graph_critical1_test" kindref="compound">TensorFingerprintGraphCritical1Test</ref>, InvalidOtherSelfInnerProductEmitsDiagnostic)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>P2-A2-01-5: Invalid other self inner product emits diagnostic </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__tensor__fingerprint__graph__critical1__diagnostics__focused_8cpp_1ae3936e55d1ec35bba57f6c61b5d8bb84" kindref="member">TEST_F</ref>  (<ref refid="class_tensor_fingerprint_graph_critical1_test" kindref="compound">TensorFingerprintGraphCritical1Test</ref>, InvalidCrossInnerProductEmitsDiagnostic)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>P2-A2-01-6: Invalid cross inner product emits diagnostic </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__tensor__fingerprint__graph__critical1__diagnostics__focused_8cpp_1ada438910f9049845f82de36283befa8a" kindref="member">TEST_F</ref>  (<ref refid="class_tensor_fingerprint_graph_critical1_test" kindref="compound">TensorFingerprintGraphCritical1Test</ref>, InvalidDenominatorEmitsDiagnostic)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>P2-A2-01-7: Invalid denominator emits diagnostic </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__tensor__fingerprint__graph__critical1__diagnostics__focused_8cpp_1af7996305e57b362bc693c7a8715443ec" kindref="member">TEST_F</ref>  (<ref refid="class_tensor_fingerprint_graph_critical1_test" kindref="compound">TensorFingerprintGraphCritical1Test</ref>, NoSilentFailuresInFindSimilar)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>P2-A2-01-Regression: No silent failures in findSimilar</para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

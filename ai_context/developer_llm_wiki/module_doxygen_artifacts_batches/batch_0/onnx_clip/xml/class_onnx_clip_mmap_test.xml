@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_onnx_clip_mmap_test" kind="class" language="C++" prot="public">
+    <compoundname>OnnxClipMmapTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_onnx_clip_mmap_test_1a8d355f60576e757b1dfe0bf61bced64c" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OnnxClipMmapTest::small_model_path_</definition>
+        <argsstring></argsstring>
+        <name>small_model_path_</name>
+        <qualifiedname>OnnxClipMmapTest::small_model_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_mmap_focused.cpp" line="165" column="17" bodyfile="tests/onnx_clip/test_onnx_clip_mmap_focused.cpp" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_onnx_clip_mmap_test_1a3f89d9843554f09e27102ceb52d71c5d" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OnnxClipMmapTest::large_model_path_</definition>
+        <argsstring></argsstring>
+        <name>large_model_path_</name>
+        <qualifiedname>OnnxClipMmapTest::large_model_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_mmap_focused.cpp" line="166" column="17" bodyfile="tests/onnx_clip/test_onnx_clip_mmap_focused.cpp" bodystart="166" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_onnx_clip_mmap_test_1a5e38712e5f0d3aad3c205ba9b138b23c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OnnxClipMmapTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>OnnxClipMmapTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_mmap_focused.cpp" line="168" column="10" bodyfile="tests/onnx_clip/test_onnx_clip_mmap_focused.cpp" bodystart="168" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="class_onnx_clip_mmap_test_1a70a3aad589da7e2cfa123127bf266984" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OnnxClipMmapTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>OnnxClipMmapTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_mmap_focused.cpp" line="174" column="10" bodyfile="tests/onnx_clip/test_onnx_clip_mmap_focused.cpp" bodystart="174" bodyend="178"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>OnnxClipMmapTest</label>
+        <link refid="class_onnx_clip_mmap_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>OnnxClipMmapTest</label>
+        <link refid="class_onnx_clip_mmap_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/onnx_clip/test_onnx_clip_mmap_focused.cpp" line="163" column="1" bodyfile="tests/onnx_clip/test_onnx_clip_mmap_focused.cpp" bodystart="163" bodyend="179"/>
+    <listofallmembers>
+      <member refid="class_onnx_clip_mmap_test_1a3f89d9843554f09e27102ceb52d71c5d" prot="protected" virt="non-virtual"><scope>OnnxClipMmapTest</scope><name>large_model_path_</name></member>
+      <member refid="class_onnx_clip_mmap_test_1a5e38712e5f0d3aad3c205ba9b138b23c" prot="protected" virt="non-virtual"><scope>OnnxClipMmapTest</scope><name>SetUp</name></member>
+      <member refid="class_onnx_clip_mmap_test_1a8d355f60576e757b1dfe0bf61bced64c" prot="protected" virt="non-virtual"><scope>OnnxClipMmapTest</scope><name>small_model_path_</name></member>
+      <member refid="class_onnx_clip_mmap_test_1a70a3aad589da7e2cfa123127bf266984" prot="protected" virt="non-virtual"><scope>OnnxClipMmapTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

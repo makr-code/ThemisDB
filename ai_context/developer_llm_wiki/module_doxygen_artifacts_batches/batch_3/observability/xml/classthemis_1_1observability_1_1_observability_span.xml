@@ -1,0 +1,612 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_observability_span" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::ObservabilitySpan</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">core::concerns::ITracer::ISpan</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_observability_span_1adc7e92143486b8dfc9e851e2c4b83dfb" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ObservabilitySpan::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="167" column="17" bodyfile="src/observability/tracer.cpp" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_observability_span_1aa28443996a85a0b5f8a39eb54e9876b1" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ObservabilitySpan::trace_id_</definition>
+        <argsstring></argsstring>
+        <name>trace_id_</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::trace_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="168" column="17" bodyfile="src/observability/tracer.cpp" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_observability_span_1acb28636b1c83d0a3fc338f3e1d005b65" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ObservabilitySpan::span_id_</definition>
+        <argsstring></argsstring>
+        <name>span_id_</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::span_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="169" column="17" bodyfile="src/observability/tracer.cpp" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_observability_span_1a4a9419904a59b3c8117e3d40f2b641e5" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ObservabilitySpan::parent_span_id_</definition>
+        <argsstring></argsstring>
+        <name>parent_span_id_</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::parent_span_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="170" column="17" bodyfile="src/observability/tracer.cpp" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_observability_span_1a2d21cd22bcd452ba15950f7a0806a823" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1observability_1_1_span_record" kindref="compound">SpanRecord</ref> &gt; *</type>
+        <definition>std::deque&lt;SpanRecord&gt;* themis::observability::ObservabilitySpan::ring_buf_</definition>
+        <argsstring></argsstring>
+        <name>ring_buf_</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::ring_buf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="172" column="16" bodyfile="src/observability/tracer.cpp" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_observability_span_1a27962c33f7f89fab3bf60f0a0b6609f3" prot="private" static="no" mutable="no">
+        <type>std::mutex *</type>
+        <definition>std::mutex* themis::observability::ObservabilitySpan::ring_mu_</definition>
+        <argsstring></argsstring>
+        <name>ring_mu_</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::ring_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="173" column="28" bodyfile="src/observability/tracer.cpp" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_observability_span_1abd464dd357c72544912707cfe190202e" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::ObservabilitySpan::max_retained_</definition>
+        <argsstring></argsstring>
+        <name>max_retained_</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::max_retained_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="174" column="29" bodyfile="src/observability/tracer.cpp" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_observability_span_1a46524662f74dd598f633ebdfaaf7dda1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt; *</type>
+        <definition>std::atomic&lt;int64_t&gt;* themis::observability::ObservabilitySpan::active_count_</definition>
+        <argsstring></argsstring>
+        <name>active_count_</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::active_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="175" column="19" bodyfile="src/observability/tracer.cpp" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_observability_span_1a99d0e692dab018833e48a2afb3ecdea4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt; *</type>
+        <definition>std::atomic&lt;int64_t&gt;* themis::observability::ObservabilitySpan::total_count_</definition>
+        <argsstring></argsstring>
+        <name>total_count_</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::total_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="176" column="19" bodyfile="src/observability/tracer.cpp" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_observability_span_1a20704453b83bb75e71ec9822dd55e5eb" prot="private" static="no" mutable="no">
+        <type>std::weak_ptr&lt; <ref refid="classthemis_1_1observability_1_1_continuous_profiler" kindref="compound">ContinuousProfiler</ref> &gt;</type>
+        <definition>std::weak_ptr&lt;ContinuousProfiler&gt; themis::observability::ObservabilitySpan::profiler_</definition>
+        <argsstring></argsstring>
+        <name>profiler_</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::profiler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="178" column="22" bodyfile="src/observability/tracer.cpp" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_observability_span_1ade0ee80f2382067558f4547fba077a02" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::ObservabilitySpan::attach_profile_</definition>
+        <argsstring></argsstring>
+        <name>attach_profile_</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::attach_profile_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="179" column="42" bodyfile="src/observability/tracer.cpp" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_observability_span_1ac49b5e6ac78d9c015d49ff7341519179" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::ObservabilitySpan::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="180" column="43" bodyfile="src/observability/tracer.cpp" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_observability_span_1a031d903d52f4d35fbed0ebfecb4d928d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::observability::ObservabilitySpan::ended_</definition>
+        <argsstring></argsstring>
+        <name>ended_</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::ended_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="181" column="37" bodyfile="src/observability/tracer.cpp" bodystart="181" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_observability_span_1a7beccc98991b7262fe3f9cd0349dd691" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::ObservabilitySpan::ok_</definition>
+        <argsstring></argsstring>
+        <name>ok_</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::ok_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="182" column="43" bodyfile="src/observability/tracer.cpp" bodystart="182" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_observability_span_1a03495340f509e8977a766adf43bc3f74" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ObservabilitySpan::status_description_</definition>
+        <argsstring></argsstring>
+        <name>status_description_</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::status_description_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="183" column="43" bodyfile="src/observability/tracer.cpp" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_observability_span_1a28a3caaeee36123ae864cfb393c0dc63" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::observability::ObservabilitySpan::attr_mu_</definition>
+        <argsstring></argsstring>
+        <name>attr_mu_</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::attr_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="185" column="46" bodyfile="src/observability/tracer.cpp" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_observability_span_1a3f223d14408442c8de999de9c1fd9fd2" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::ObservabilitySpan::attributes_</definition>
+        <argsstring></argsstring>
+        <name>attributes_</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::attributes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="186" column="20" bodyfile="src/observability/tracer.cpp" bodystart="186" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_observability_span_1a89b2b824af42d6389229d26d19ba007c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::ObservabilitySpan::ObservabilitySpan</definition>
+        <argsstring>(std::string name, std::string trace_id, std::string span_id, std::string parent_span_id, std::deque&lt; SpanRecord &gt; *ring_buf, std::mutex *ring_mu, size_t max_retained, std::atomic&lt; int64_t &gt; *active_count, std::atomic&lt; int64_t &gt; *total_count, std::weak_ptr&lt; ContinuousProfiler &gt; profiler, bool attach_profile)</argsstring>
+        <name>ObservabilitySpan</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::ObservabilitySpan</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>trace_id</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>span_id</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>parent_span_id</declname>
+        </param>
+        <param>
+          <type>std::deque&lt; <ref refid="structthemis_1_1observability_1_1_span_record" kindref="compound">SpanRecord</ref> &gt; *</type>
+          <declname>ring_buf</declname>
+        </param>
+        <param>
+          <type>std::mutex *</type>
+          <declname>ring_mu</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_retained</declname>
+        </param>
+        <param>
+          <type>std::atomic&lt; int64_t &gt; *</type>
+          <declname>active_count</declname>
+        </param>
+        <param>
+          <type>std::atomic&lt; int64_t &gt; *</type>
+          <declname>total_count</declname>
+        </param>
+        <param>
+          <type>std::weak_ptr&lt; <ref refid="classthemis_1_1observability_1_1_continuous_profiler" kindref="compound">ContinuousProfiler</ref> &gt;</type>
+          <declname>profiler</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>attach_profile</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="38" column="5" bodyfile="src/observability/tracer.cpp" bodystart="38" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_observability_span_1a3fdc7e1f4648f3bce0597631457dcaf2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::ObservabilitySpan::~ObservabilitySpan</definition>
+        <argsstring>() override</argsstring>
+        <name>~ObservabilitySpan</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::~ObservabilitySpan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="70" column="5" bodyfile="src/observability/tracer.cpp" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_observability_span_1aad53b5e6c5262c736a2c85df8f018517" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ObservabilitySpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value) override</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">attr_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="74" column="10" bodyfile="src/observability/tracer.cpp" bodystart="74" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_observability_span_1aa3826467bb0265a9c81286e610c38f48" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ObservabilitySpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, int64_t value) override</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="84" column="10" bodyfile="src/observability/tracer.cpp" bodystart="84" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_observability_span_1a16a7427e59951fced39b8d6925c08f36" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ObservabilitySpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, double value) override</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="88" column="10" bodyfile="src/observability/tracer.cpp" bodystart="88" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_observability_span_1a779d892ac340d93eb230f2ea2ec6b45c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ObservabilitySpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, bool value) override</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="94" column="10" bodyfile="src/observability/tracer.cpp" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_observability_span_1ab8d71335a696827b102116b5acec1db4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ObservabilitySpan::recordError</definition>
+        <argsstring>(const std::string &amp;errorMessage) override</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::recordError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>errorMessage</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="98" column="10" bodyfile="src/observability/tracer.cpp" bodystart="98" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_observability_span_1a611bc429ad577ad698666efba619a562" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ObservabilitySpan::setStatus</definition>
+        <argsstring>(bool ok, const std::string &amp;description=&quot;&quot;) override</argsstring>
+        <name>setStatus</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::setStatus</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>ok</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="103" column="10" bodyfile="src/observability/tracer.cpp" bodystart="103" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_observability_span_1a34c5034aea5599b58fe0ea15e9c32016" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ObservabilitySpan::end</definition>
+        <argsstring>() override</argsstring>
+        <name>end</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="108" column="10" bodyfile="src/observability/tracer.cpp" bodystart="108" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_observability_span_1a1605ec6f7523eb22c62cdbd6dd33ed78" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::ObservabilitySpan::isValid</definition>
+        <argsstring>() const override</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="112" column="10" bodyfile="src/observability/tracer.cpp" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_observability_span_1af63e5cc05622d6b14afc39bc92e62967" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::observability::ObservabilitySpan::traceId</definition>
+        <argsstring>() const</argsstring>
+        <name>traceId</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::traceId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="115" column="23" bodyfile="src/observability/tracer.cpp" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_observability_span_1a5423e05164afc11940d166eab5cd0afd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::observability::ObservabilitySpan::spanId</definition>
+        <argsstring>() const</argsstring>
+        <name>spanId</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::spanId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="116" column="23" bodyfile="src/observability/tracer.cpp" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_observability_span_1a01e36d1541c8a2d638bd1eda4b21efe0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::observability::ObservabilitySpan::parentSpanId</definition>
+        <argsstring>() const</argsstring>
+        <name>parentSpanId</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::parentSpanId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="117" column="23" bodyfile="src/observability/tracer.cpp" bodystart="117" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_observability_span_1a0d1c2a466ee61b05ec8282331ff73b04" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ObservabilitySpan::endSpan</definition>
+        <argsstring>()</argsstring>
+        <name>endSpan</name>
+        <qualifiedname>themis::observability::ObservabilitySpan::endSpan</qualifiedname>
+        <briefdescription>
+<para>End Span. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), std::chrono::system_clock::now(), lk(), lock(), snapshot(), dataAsString(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/tracer.cpp" line="124" column="10" bodyfile="src/observability/tracer.cpp" bodystart="124" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>core::concerns::ITracer::ISpan</label>
+      </node>
+      <node id="1">
+        <label>themis::observability::ObservabilitySpan</label>
+        <link refid="classthemis_1_1observability_1_1_observability_span"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>core::concerns::ITracer::ISpan</label>
+      </node>
+      <node id="1">
+        <label>themis::observability::ObservabilitySpan</label>
+        <link refid="classthemis_1_1observability_1_1_observability_span"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/observability/tracer.cpp" line="36" column="1" bodyfile="src/observability/tracer.cpp" bodystart="36" bodyend="187"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a46524662f74dd598f633ebdfaaf7dda1" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>active_count_</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1ade0ee80f2382067558f4547fba077a02" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>attach_profile_</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a28a3caaeee36123ae864cfb393c0dc63" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>attr_mu_</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a3f223d14408442c8de999de9c1fd9fd2" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>attributes_</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a34c5034aea5599b58fe0ea15e9c32016" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>end</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a031d903d52f4d35fbed0ebfecb4d928d" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>ended_</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a0d1c2a466ee61b05ec8282331ff73b04" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>endSpan</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a1605ec6f7523eb22c62cdbd6dd33ed78" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1abd464dd357c72544912707cfe190202e" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>max_retained_</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1adc7e92143486b8dfc9e851e2c4b83dfb" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>name_</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a89b2b824af42d6389229d26d19ba007c" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>ObservabilitySpan</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a7beccc98991b7262fe3f9cd0349dd691" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>ok_</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a4a9419904a59b3c8117e3d40f2b641e5" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>parent_span_id_</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a01e36d1541c8a2d638bd1eda4b21efe0" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>parentSpanId</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a20704453b83bb75e71ec9822dd55e5eb" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>profiler_</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1ab8d71335a696827b102116b5acec1db4" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a2d21cd22bcd452ba15950f7a0806a823" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>ring_buf_</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a27962c33f7f89fab3bf60f0a0b6609f3" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>ring_mu_</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1aad53b5e6c5262c736a2c85df8f018517" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1aa3826467bb0265a9c81286e610c38f48" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a16a7427e59951fced39b8d6925c08f36" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a779d892ac340d93eb230f2ea2ec6b45c" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a611bc429ad577ad698666efba619a562" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>setStatus</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1acb28636b1c83d0a3fc338f3e1d005b65" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>span_id_</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a5423e05164afc11940d166eab5cd0afd" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>spanId</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1ac49b5e6ac78d9c015d49ff7341519179" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a03495340f509e8977a766adf43bc3f74" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>status_description_</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a99d0e692dab018833e48a2afb3ecdea4" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>total_count_</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1aa28443996a85a0b5f8a39eb54e9876b1" prot="private" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>trace_id_</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1af63e5cc05622d6b14afc39bc92e62967" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>traceId</name></member>
+      <member refid="classthemis_1_1observability_1_1_observability_span_1a3fdc7e1f4648f3bce0597631457dcaf2" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilitySpan</scope><name>~ObservabilitySpan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

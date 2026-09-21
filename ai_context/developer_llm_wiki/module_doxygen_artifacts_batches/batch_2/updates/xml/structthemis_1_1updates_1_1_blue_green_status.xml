@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_blue_green_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::BlueGreenStatus</compoundname>
+    <includes refid="blue__green__deployment_8h" local="no">blue_green_deployment.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_blue_green_status_1a73c338f042533c14752bc103951b9098" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" kindref="member">DeploymentSlot</ref></type>
+        <definition>DeploymentSlot themis::updates::BlueGreenStatus::active_slot</definition>
+        <argsstring></argsstring>
+        <name>active_slot</name>
+        <qualifiedname>themis::updates::BlueGreenStatus::active_slot</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a1b3e1ee9bff86431dea6b181365ba65f" kindref="member">DeploymentSlot::BLUE</ref></initializer>
+        <briefdescription>
+<para>Which slot is currently active (serving traffic). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="62" column="20" bodyfile="include/updates/blue_green_deployment.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_blue_green_status_1ad0996dfdc9e2f2aa2be9b1a6eb0522ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::BlueGreenStatus::blue_version</definition>
+        <argsstring></argsstring>
+        <name>blue_version</name>
+        <qualifiedname>themis::updates::BlueGreenStatus::blue_version</qualifiedname>
+        <briefdescription>
+<para>Version string deployed to the blue slot (empty if not yet deployed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="65" column="17" bodyfile="include/updates/blue_green_deployment.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_blue_green_status_1a44b0c197568b69652a2581f4944f7096" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::BlueGreenStatus::green_version</definition>
+        <argsstring></argsstring>
+        <name>green_version</name>
+        <qualifiedname>themis::updates::BlueGreenStatus::green_version</qualifiedname>
+        <briefdescription>
+<para>Version string deployed to the green slot (empty if not yet deployed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="68" column="17" bodyfile="include/updates/blue_green_deployment.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_blue_green_status_1ae2fc01f8c4e8b1a4425d8e6d989da0ea" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::BlueGreenStatus::standby_is_deployed</definition>
+        <argsstring></argsstring>
+        <name>standby_is_deployed</name>
+        <qualifiedname>themis::updates::BlueGreenStatus::standby_is_deployed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when the standby slot has had a version deployed to it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="71" column="10" bodyfile="include/updates/blue_green_deployment.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_blue_green_status_1ace95ec0396410cf6c5789687d5fb8387" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::BlueGreenStatus::is_promoted</definition>
+        <argsstring></argsstring>
+        <name>is_promoted</name>
+        <qualifiedname>themis::updates::BlueGreenStatus::is_promoted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when the standby slot has been promoted to active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="74" column="10" bodyfile="include/updates/blue_green_deployment.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_blue_green_status_1a40607f00f9e29bc05fe9709c44eb43ea" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::BlueGreenStatus::is_rolled_back</definition>
+        <argsstring></argsstring>
+        <name>is_rolled_back</name>
+        <qualifiedname>themis::updates::BlueGreenStatus::is_rolled_back</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when the deployment was rolled back. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="77" column="10" bodyfile="include/updates/blue_green_deployment.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_blue_green_status_1a8fb372bd1ae3ff4d0dcbfbc6d7b511d9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::BlueGreenStatus::rollback_reason</definition>
+        <argsstring></argsstring>
+        <name>rollback_reason</name>
+        <qualifiedname>themis::updates::BlueGreenStatus::rollback_reason</qualifiedname>
+        <briefdescription>
+<para>Reason supplied to the last rollback call (empty if no rollback). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="80" column="17" bodyfile="include/updates/blue_green_deployment.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_blue_green_status_1ab46b4356b0184f1b06976781c6d6591f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::BlueGreenStatus::rollback_id</definition>
+        <argsstring></argsstring>
+        <name>rollback_id</name>
+        <qualifiedname>themis::updates::BlueGreenStatus::rollback_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Rollback ID returned by <ref refid="classthemis_1_1updates_1_1_hot_reload_engine_1a035c22b0954f4d2bbc06536215bd034d" kindref="member">HotReloadEngine::applyHotReload</ref> for the standby deployment; used to undo via <ref refid="classthemis_1_1updates_1_1_hot_reload_engine_1a7edab47678434d4b06f8845fac42ee6a" kindref="member">HotReloadEngine::rollback</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="84" column="17" bodyfile="include/updates/blue_green_deployment.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_blue_green_status_1abc8ba7223b94a56bff6539797b3b231e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::updates::BlueGreenStatus::observed_error_rate</definition>
+        <argsstring></argsstring>
+        <name>observed_error_rate</name>
+        <qualifiedname>themis::updates::BlueGreenStatus::observed_error_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Observed error rate since the last promotion (0.0 – 1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="87" column="12" bodyfile="include/updates/blue_green_deployment.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_blue_green_status_1a9e46b36170f51fef3d2d924f7ec0b101" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::BlueGreenStatus::sample_count</definition>
+        <argsstring></argsstring>
+        <name>sample_count</name>
+        <qualifiedname>themis::updates::BlueGreenStatus::sample_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of health events (successes + errors) recorded since the last promotion. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="91" column="12" bodyfile="include/updates/blue_green_deployment.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot of a blue/green deployment&apos;s current state. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/blue_green_deployment.h" line="60" column="1" bodyfile="include/updates/blue_green_deployment.h" bodystart="60" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_blue_green_status_1a73c338f042533c14752bc103951b9098" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenStatus</scope><name>active_slot</name></member>
+      <member refid="structthemis_1_1updates_1_1_blue_green_status_1ad0996dfdc9e2f2aa2be9b1a6eb0522ec" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenStatus</scope><name>blue_version</name></member>
+      <member refid="structthemis_1_1updates_1_1_blue_green_status_1a44b0c197568b69652a2581f4944f7096" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenStatus</scope><name>green_version</name></member>
+      <member refid="structthemis_1_1updates_1_1_blue_green_status_1ace95ec0396410cf6c5789687d5fb8387" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenStatus</scope><name>is_promoted</name></member>
+      <member refid="structthemis_1_1updates_1_1_blue_green_status_1a40607f00f9e29bc05fe9709c44eb43ea" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenStatus</scope><name>is_rolled_back</name></member>
+      <member refid="structthemis_1_1updates_1_1_blue_green_status_1abc8ba7223b94a56bff6539797b3b231e" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenStatus</scope><name>observed_error_rate</name></member>
+      <member refid="structthemis_1_1updates_1_1_blue_green_status_1ab46b4356b0184f1b06976781c6d6591f" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenStatus</scope><name>rollback_id</name></member>
+      <member refid="structthemis_1_1updates_1_1_blue_green_status_1a8fb372bd1ae3ff4d0dcbfbc6d7b511d9" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenStatus</scope><name>rollback_reason</name></member>
+      <member refid="structthemis_1_1updates_1_1_blue_green_status_1a9e46b36170f51fef3d2d924f7ec0b101" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenStatus</scope><name>sample_count</name></member>
+      <member refid="structthemis_1_1updates_1_1_blue_green_status_1ae2fc01f8c4e8b1a4425d8e6d989da0ea" prot="public" virt="non-virtual"><scope>themis::updates::BlueGreenStatus</scope><name>standby_is_deployed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

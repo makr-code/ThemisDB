@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_union_merge_resolver" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::UnionMergeResolver</compoundname>
+    <basecompoundref refid="classthemisdb_1_1temporal_1_1_merge_resolver" prot="public" virt="non-virtual">themisdb::temporal::MergeResolver</basecompoundref>
+    <includes refid="temporal__conflict__resolver_8h" local="no">temporal_conflict_resolver.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_union_merge_resolver_1a3811d7357d968ff0c63c3d749708a4a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref></type>
+        <definition>TemporalSnapshot themisdb::temporal::UnionMergeResolver::merge</definition>
+        <argsstring>(const TemporalSnapshot &amp;local, const TemporalSnapshot &amp;remote) const override</argsstring>
+        <name>merge</name>
+        <qualifiedname>themisdb::temporal::UnionMergeResolver::merge</qualifiedname>
+        <reimplements refid="classthemisdb_1_1temporal_1_1_merge_resolver_1aaabb89741a85668c285c0585b7be664b">merge</reimplements>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <briefdescription>
+<para>Merge two conflicting snapshots into a single resolved snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The locally-held snapshot version. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The remotely-received snapshot version. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref></computeroutput> whose <computeroutput>data</computeroutput> represents the merged state. The metadata fields (snapshot_id, hlc, source_node_id, checksum) are set by the implementation — typically to those of the &quot;dominant&quot; input. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="174" column="22" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="770" bodyend="797"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Union merge: produces a snapshot whose <computeroutput>data</computeroutput> is the JSON-object union of both inputs. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><itemizedlist>
+<listitem><para>For fields present in both snapshots, the value from the snapshot with the higher HLC is kept (same tie-breaking as LWW).</para>
+</listitem><listitem><para>For fields present in only one snapshot, the single value is kept.</para>
+</listitem><listitem><para>For non-object payloads, falls back to LWW (higher HLC wins outright).</para>
+</listitem></itemizedlist>
+</para>
+<para>Compared to <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_l_w_w_field_merge_resolver" kindref="compound">LWWFieldMergeResolver</ref></computeroutput>, this resolver is identical for non-overlapping field sets. The distinction is conceptual: the name explicitly communicates OR-Set / union intent.</para>
+<para>Properties: commutative ✓, idempotent ✓. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::temporal::MergeResolver</label>
+        <link refid="classthemisdb_1_1temporal_1_1_merge_resolver"/>
+      </node>
+      <node id="1">
+        <label>themisdb::temporal::UnionMergeResolver</label>
+        <link refid="classthemisdb_1_1temporal_1_1_union_merge_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::temporal::MergeResolver</label>
+        <link refid="classthemisdb_1_1temporal_1_1_merge_resolver"/>
+      </node>
+      <node id="1">
+        <label>themisdb::temporal::UnionMergeResolver</label>
+        <link refid="classthemisdb_1_1temporal_1_1_union_merge_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/temporal/temporal_conflict_resolver.h" line="172" column="1" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="172" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_union_merge_resolver_1a3811d7357d968ff0c63c3d749708a4a3" prot="public" virt="virtual"><scope>themisdb::temporal::UnionMergeResolver</scope><name>merge</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_merge_resolver_1ada36d73ccee5159f595f61eb167a81b4" prot="public" virt="virtual"><scope>themisdb::temporal::UnionMergeResolver</scope><name>~MergeResolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

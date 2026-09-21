@@ -1,0 +1,882 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_plan_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::PlanCache</compoundname>
+    <includes refid="plan__cache_8h" local="no">plan_cache.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_plan_cache_1_1_statistics" prot="public">themis::query::PlanCache::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_plan_cache_1_1_parameter_info" prot="public">themis::query::PlanCache::ParameterInfo</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan" prot="public">themis::query::PlanCache::CachedPlan</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_plan_cache_1_1_config" prot="public">themis::query::PlanCache::Config</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats" prot="public">themis::query::PlanCache::CacheStats</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_plan_cache_1_1_entry" prot="private">themis::query::PlanCache::Entry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_plan_cache_1af4a454dc9fd7142c6e7ca1cdf82654f3" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_plan_cache_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::query::PlanCache::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::query::PlanCache::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="264" column="12" bodyfile="include/query/plan_cache.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_plan_cache_1a2fb1274c925c56ec0000c735feefe570" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::query::PlanCache::cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex_</name>
+        <qualifiedname>themis::query::PlanCache::cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="266" column="24" bodyfile="include/query/plan_cache.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_plan_cache_1a51d966e36f2d9e9fe7d35d4bada819a0" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, Entry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Entry&gt; themis::query::PlanCache::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::query::PlanCache::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="268" column="24" bodyfile="include/query/plan_cache.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_plan_cache_1a467eab8d8eed5f5641327e9fa08dc7fa" prot="private" static="no" mutable="no">
+        <type>std::list&lt; std::string &gt;</type>
+        <definition>std::list&lt;std::string&gt; themis::query::PlanCache::lru_list_</definition>
+        <argsstring></argsstring>
+        <name>lru_list_</name>
+        <qualifiedname>themis::query::PlanCache::lru_list_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="270" column="15" bodyfile="include/query/plan_cache.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_plan_cache_1a3fb088013c3d87951071edfa961c4750" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::query::PlanCache::table_index_</definition>
+        <argsstring></argsstring>
+        <name>table_index_</name>
+        <qualifiedname>themis::query::PlanCache::table_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="272" column="24" bodyfile="include/query/plan_cache.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_plan_cache_1a2ef2366c28c0e75ec204ecf43053365a" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>CacheStats themis::query::PlanCache::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::query::PlanCache::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="274" column="24" bodyfile="include/query/plan_cache.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1ab06ea41950e6358ff319db770ef5d7bf" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::PlanCache::PlanCache</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>PlanCache</name>
+        <qualifiedname>themis::query::PlanCache::PlanCache</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_plan_cache_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Plan Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="140" column="14" bodyfile="src/query/plan_cache.cpp" bodystart="30" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1adce2aa58e41ac537fe15ef1e865273b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::PlanCache::~PlanCache</definition>
+        <argsstring>()</argsstring>
+        <name>~PlanCache</name>
+        <qualifiedname>themis::query::PlanCache::~PlanCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="141" column="5" bodyfile="src/query/plan_cache.cpp" bodystart="38" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1af1ed35ec8e2e000f8070410e0888b7f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::PlanCache::PlanCache</definition>
+        <argsstring>(const PlanCache &amp;)=delete</argsstring>
+        <name>PlanCache</name>
+        <qualifiedname>themis::query::PlanCache::PlanCache</qualifiedname>
+        <param>
+          <type>const PlanCache &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="144" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1ada792bcb92739569358b7b5996526519" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_plan_cache_1ab06ea41950e6358ff319db770ef5d7bf" kindref="member">PlanCache</ref> &amp;</type>
+        <definition>PlanCache &amp; themis::query::PlanCache::operator=</definition>
+        <argsstring>(const PlanCache &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::PlanCache::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_plan_cache_1ab06ea41950e6358ff319db770ef5d7bf" kindref="member">PlanCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="145" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1aebd508987174940d634317f4475e4416" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::PlanCache::PlanCache</definition>
+        <argsstring>(PlanCache &amp;&amp;) noexcept=default</argsstring>
+        <name>PlanCache</name>
+        <qualifiedname>themis::query::PlanCache::PlanCache</qualifiedname>
+        <param>
+          <type>PlanCache &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="146" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1aff7ef70f4e608505c33e3eb2ce6683f4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_plan_cache_1ab06ea41950e6358ff319db770ef5d7bf" kindref="member">PlanCache</ref> &amp;</type>
+        <definition>PlanCache &amp; themis::query::PlanCache::operator=</definition>
+        <argsstring>(PlanCache &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::PlanCache::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_plan_cache_1ab06ea41950e6358ff319db770ef5d7bf" kindref="member">PlanCache</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="147" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1a896553d55a029f72aa1089023beec345" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan" kindref="compound">CachedPlan</ref> &gt;</type>
+        <definition>std::optional&lt; PlanCache::CachedPlan &gt; themis::query::PlanCache::get</definition>
+        <argsstring>(const std::string &amp;query, const Statistics &amp;current_stats=Statistics{}, const std::string &amp;topology_fingerprint={}, std::optional&lt; std::chrono::steady_clock::time_point &gt; deadline=std::nullopt)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::query::PlanCache::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_plan_cache_1_1_statistics" kindref="compound">Statistics</ref> &amp;</type>
+          <declname>current_stats</declname>
+          <defval><ref refid="structthemis_1_1query_1_1_plan_cache_1_1_statistics" kindref="compound">Statistics</ref>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>topology_fingerprint</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::chrono::steady_clock::time_point &gt;</type>
+          <declname>deadline</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="153" column="19" bodyfile="src/query/plan_cache.cpp" bodystart="201" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1a84e3c1b4c3f6041a6130827f88b4925c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::PlanCache::put</definition>
+        <argsstring>(const std::string &amp;query, const QueryOptimizer::Plan &amp;plan, const Statistics &amp;stats, const std::vector&lt; ParameterInfo &gt; &amp;params={}, const std::vector&lt; std::string &gt; &amp;tables={}, const std::string &amp;topology_fingerprint={}, std::optional&lt; std::chrono::steady_clock::time_point &gt; deadline=std::nullopt)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::query::PlanCache::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">QueryOptimizer::Plan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_plan_cache_1_1_statistics" kindref="compound">Statistics</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1query_1_1_plan_cache_1_1_parameter_info" kindref="compound">ParameterInfo</ref> &gt; &amp;</type>
+          <declname>params</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>tables</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>topology_fingerprint</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::chrono::steady_clock::time_point &gt;</type>
+          <declname>deadline</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tables</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deadline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="159" column="10" bodyfile="src/query/plan_cache.cpp" bodystart="278" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1a035c46b54bb9b2325b152d2bd92f71bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::PlanCache::recordExecutionFailure</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;topology_fingerprint={})</argsstring>
+        <name>recordExecutionFailure</name>
+        <qualifiedname>themis::query::PlanCache::recordExecutionFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>topology_fingerprint</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Record Execution Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: makeCacheKey(), lock(), find(), end(), removeEntry_locked(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="167" column="10" bodyfile="src/query/plan_cache.cpp" bodystart="369" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1a7d0bb00b3d06f26e7b847f8420cb17de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::PlanCache::invalidateTable</definition>
+        <argsstring>(const std::string &amp;table)</argsstring>
+        <name>invalidateTable</name>
+        <qualifiedname>themis::query::PlanCache::invalidateTable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate <ref refid="structthemis_1_1_table" kindref="compound">Table</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), std::sort(), begin(), removeEntry_locked(), erase(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="175" column="12" bodyfile="src/query/plan_cache.cpp" bodystart="398" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1a1c8e7a708acfa586dd39b3cea3a1aac1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::PlanCache::evictExpired</definition>
+        <argsstring>()</argsstring>
+        <name>evictExpired</name>
+        <qualifiedname>themis::query::PlanCache::evictExpired</qualifiedname>
+        <briefdescription>
+<para>Evict Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), begin(), end(), isExpired(), push_back(), removeEntry_locked(), fetch_add(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="181" column="12" bodyfile="src/query/plan_cache.cpp" bodystart="441" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1a30c7305c8b349a71206577f390e67353" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::PlanCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::query::PlanCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), store(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="186" column="10" bodyfile="src/query/plan_cache.cpp" bodystart="469" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1a30108c17c2b6c735737fd2679532eaf3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>PlanCache::CacheStats themis::query::PlanCache::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::query::PlanCache::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="196" column="16" bodyfile="src/query/plan_cache.cpp" bodystart="484" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1a4a2299eaa1fa31a9442ccfd88bb62166" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::PlanCache::estimateCurrentMemoryBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>estimateCurrentMemoryBytes</name>
+        <qualifiedname>themis::query::PlanCache::estimateCurrentMemoryBytes</qualifiedname>
+        <briefdescription>
+<para>Estimate Current Memory Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="202" column="12" bodyfile="src/query/plan_cache.cpp" bodystart="503" bodyend="506"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1ab85799435b39cfc0390f2998317d6919" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::PlanCache::fingerprint</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>fingerprint</name>
+        <qualifiedname>themis::query::PlanCache::fingerprint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1query_1_1_plan_cache_1ae6033faa608cad41eb6dd939ad4b6a38" kindref="member">normalizeQueryTemplate()</ref>, SHA256(), data(), size(), std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="209" column="24" bodyfile="src/query/plan_cache.cpp" bodystart="61" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1ae6033faa608cad41eb6dd939ad4b6a38" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::PlanCache::normalizeQueryTemplate</definition>
+        <argsstring>(std::string_view query)</argsstring>
+        <name>normalizeQueryTemplate</name>
+        <qualifiedname>themis::query::PlanCache::normalizeQueryTemplate</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Normalize <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Template. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(), std::isspace(), empty(), std::isalnum(), std::isdigit(), back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="216" column="24" bodyfile="src/query/plan_cache.cpp" bodystart="81" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1a0d8afa45f7fdef77a731d30b4b41e433" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::PlanCache::evictLRU_locked</definition>
+        <argsstring>()</argsstring>
+        <name>evictLRU_locked</name>
+        <qualifiedname>themis::query::PlanCache::evictLRU_locked</qualifiedname>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Helpers (caller must hold cache_mutex_) ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evict LRU locked.</para>
+<para>Calls: empty(), back(), find(), end(), removeEntry_locked(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="231" column="10" bodyfile="src/query/plan_cache.cpp" bodystart="513" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1a1492ad21f874ba6ce3c952b28d89032a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::PlanCache::removeEntry_locked</definition>
+        <argsstring>(std::unordered_map&lt; std::string, Entry &gt;::iterator it)</argsstring>
+        <name>removeEntry_locked</name>
+        <qualifiedname>themis::query::PlanCache::removeEntry_locked</qualifiedname>
+        <param>
+          <type>std::unordered_map&lt; std::string, Entry &gt;::iterator</type>
+          <declname>it</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="233" column="10" bodyfile="src/query/plan_cache.cpp" bodystart="527" bodyend="561"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1ad6634af3bd85ee7173b5e7b1e7345e04" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::PlanCache::isDriftExceeded</definition>
+        <argsstring>(const Statistics &amp;snapshot, const Statistics &amp;current) const</argsstring>
+        <name>isDriftExceeded</name>
+        <qualifiedname>themis::query::PlanCache::isDriftExceeded</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_plan_cache_1_1_statistics" kindref="compound">Statistics</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_plan_cache_1_1_statistics" kindref="compound">Statistics</ref> &amp;</type>
+          <declname>current</declname>
+        </param>
+        <briefdescription>
+<para>Is Drift Exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="242" column="10" bodyfile="src/query/plan_cache.cpp" bodystart="563" bodyend="593"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1a9107ade5aa5aaf437685d611dbae6388" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::PlanCache::makeCacheKey</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;topology_fingerprint) const</argsstring>
+        <name>makeCacheKey</name>
+        <qualifiedname>themis::query::PlanCache::makeCacheKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>topology_fingerprint</declname>
+        </param>
+        <briefdescription>
+<para>Make Cache Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">topology_fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="251" column="17" bodyfile="src/query/plan_cache.cpp" bodystart="595" bodyend="612"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_plan_cache_1a01cd2b13fb0aa2edd0d8b8a529e5121b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::PlanCache::estimatePlanSizeBytes</definition>
+        <argsstring>(const CachedPlan &amp;plan)</argsstring>
+        <name>estimatePlanSizeBytes</name>
+        <qualifiedname>themis::query::PlanCache::estimatePlanSizeBytes</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan" kindref="compound">CachedPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Plan Size Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="259" column="19" bodyfile="src/query/plan_cache.cpp" bodystart="620" bodyend="648"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/plan_cache.h" line="28" column="1" bodyfile="include/query/plan_cache.h" bodystart="28" bodyend="275"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1a51d966e36f2d9e9fe7d35d4bada819a0" prot="private" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1a2fb1274c925c56ec0000c735feefe570" prot="private" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>cache_mutex_</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1a30c7305c8b349a71206577f390e67353" prot="public" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1af4a454dc9fd7142c6e7ca1cdf82654f3" prot="private" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>config_</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1a4a2299eaa1fa31a9442ccfd88bb62166" prot="public" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>estimateCurrentMemoryBytes</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1a01cd2b13fb0aa2edd0d8b8a529e5121b" prot="private" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>estimatePlanSizeBytes</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1a1c8e7a708acfa586dd39b3cea3a1aac1" prot="public" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>evictExpired</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1a0d8afa45f7fdef77a731d30b4b41e433" prot="private" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>evictLRU_locked</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1ab85799435b39cfc0390f2998317d6919" prot="public" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>fingerprint</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1a896553d55a029f72aa1089023beec345" prot="public" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1a30108c17c2b6c735737fd2679532eaf3" prot="public" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1a7d0bb00b3d06f26e7b847f8420cb17de" prot="public" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>invalidateTable</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1ad6634af3bd85ee7173b5e7b1e7345e04" prot="private" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>isDriftExceeded</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1a467eab8d8eed5f5641327e9fa08dc7fa" prot="private" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>lru_list_</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1a9107ade5aa5aaf437685d611dbae6388" prot="private" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>makeCacheKey</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1ae6033faa608cad41eb6dd939ad4b6a38" prot="public" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>normalizeQueryTemplate</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1ada792bcb92739569358b7b5996526519" prot="public" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1aff7ef70f4e608505c33e3eb2ce6683f4" prot="public" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1ab06ea41950e6358ff319db770ef5d7bf" prot="public" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>PlanCache</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1af1ed35ec8e2e000f8070410e0888b7f3" prot="public" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>PlanCache</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1aebd508987174940d634317f4475e4416" prot="public" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>PlanCache</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1a84e3c1b4c3f6041a6130827f88b4925c" prot="public" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1a035c46b54bb9b2325b152d2bd92f71bd" prot="public" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>recordExecutionFailure</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1a1492ad21f874ba6ce3c952b28d89032a" prot="private" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>removeEntry_locked</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1a2ef2366c28c0e75ec204ecf43053365a" prot="private" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1a3fb088013c3d87951071edfa961c4750" prot="private" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>table_index_</name></member>
+      <member refid="classthemis_1_1query_1_1_plan_cache_1adce2aa58e41ac537fe15ef1e865273b8" prot="public" virt="non-virtual"><scope>themis::query::PlanCache</scope><name>~PlanCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

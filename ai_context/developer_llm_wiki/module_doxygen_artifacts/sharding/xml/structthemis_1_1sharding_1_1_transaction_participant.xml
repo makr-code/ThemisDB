@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_transaction_participant" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::TransactionParticipant</compoundname>
+    <includes refid="distributed__transaction_8h" local="no">distributed_transaction.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_transaction_participant_1a9c341b03712166694a9111b79ffd1e13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::TransactionParticipant::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::TransactionParticipant::shard_id</qualifiedname>
+        <briefdescription>
+<para>Target shard identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="59" column="17" bodyfile="include/sharding/distributed_transaction.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_transaction_participant_1a63d777c9cfef61f91c43ddd22d6f12e2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::TransactionParticipant::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themis::sharding::TransactionParticipant::endpoint</qualifiedname>
+        <briefdescription>
+<para>RPC endpoint for shard participant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="60" column="17" bodyfile="include/sharding/distributed_transaction.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_transaction_participant_1a570de381c249f4d407a8f78696988655" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::TransactionParticipant::prepared</definition>
+        <argsstring></argsstring>
+        <name>prepared</name>
+        <qualifiedname>themis::sharding::TransactionParticipant::prepared</qualifiedname>
+        <briefdescription>
+<para>True when participant voted/prepared. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="61" column="10" bodyfile="include/sharding/distributed_transaction.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_transaction_participant_1a277d04e6c3855f0ca821bef777ab7da6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::TransactionParticipant::committed</definition>
+        <argsstring></argsstring>
+        <name>committed</name>
+        <qualifiedname>themis::sharding::TransactionParticipant::committed</qualifiedname>
+        <briefdescription>
+<para>True when participant applied commit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="62" column="10" bodyfile="include/sharding/distributed_transaction.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_transaction_participant_1a35de2afeb7a23a6ef850e85166d58032" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::TransactionParticipant::error_msg</definition>
+        <argsstring></argsstring>
+        <name>error_msg</name>
+        <qualifiedname>themis::sharding::TransactionParticipant::error_msg</qualifiedname>
+        <briefdescription>
+<para>Participant-specific failure detail. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="63" column="17" bodyfile="include/sharding/distributed_transaction.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Participant in a distributed transaction. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/distributed_transaction.h" line="58" column="1" bodyfile="include/sharding/distributed_transaction.h" bodystart="58" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_transaction_participant_1a277d04e6c3855f0ca821bef777ab7da6" prot="public" virt="non-virtual"><scope>themis::sharding::TransactionParticipant</scope><name>committed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_transaction_participant_1a63d777c9cfef61f91c43ddd22d6f12e2" prot="public" virt="non-virtual"><scope>themis::sharding::TransactionParticipant</scope><name>endpoint</name></member>
+      <member refid="structthemis_1_1sharding_1_1_transaction_participant_1a35de2afeb7a23a6ef850e85166d58032" prot="public" virt="non-virtual"><scope>themis::sharding::TransactionParticipant</scope><name>error_msg</name></member>
+      <member refid="structthemis_1_1sharding_1_1_transaction_participant_1a570de381c249f4d407a8f78696988655" prot="public" virt="non-virtual"><scope>themis::sharding::TransactionParticipant</scope><name>prepared</name></member>
+      <member refid="structthemis_1_1sharding_1_1_transaction_participant_1a9c341b03712166694a9111b79ffd1e13" prot="public" virt="non-virtual"><scope>themis::sharding::TransactionParticipant</scope><name>shard_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

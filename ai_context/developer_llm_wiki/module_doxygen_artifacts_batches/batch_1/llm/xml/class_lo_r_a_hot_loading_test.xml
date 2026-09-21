@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_lo_r_a_hot_loading_test" kind="class" language="C++" prot="public">
+    <compoundname>LoRAHotLoadingTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_lo_r_a_hot_loading_test_1ac6f807febb9c3fb8b7fd47fd4de02c5b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;InferenceEngineEnhanced&gt; LoRAHotLoadingTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>LoRAHotLoadingTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="136" column="21" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_lo_r_a_hot_loading_test_1aa3e5c6f4a2ba2af9b892ba908204c352" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_lo_r_a_tracking_plugin" kindref="compound">LoRATrackingPlugin</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;LoRATrackingPlugin&gt; LoRAHotLoadingTest::plugin_</definition>
+        <argsstring></argsstring>
+        <name>plugin_</name>
+        <qualifiedname>LoRAHotLoadingTest::plugin_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="137" column="26" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_lo_r_a_hot_loading_test_1afadbf6aeddd221ac5a65794f9d483932" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LoRAHotLoadingTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LoRAHotLoadingTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="106" column="10" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="106" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lo_r_a_hot_loading_test_1a2f3f9d89e56fd18f4cbeaa61d64d67a5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LoRAHotLoadingTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LoRAHotLoadingTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="121" column="10" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="121" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_lo_r_a_hot_loading_test_1a3376f116d5671ad87d548b0eed25131b" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string LoRAHotLoadingTest::makeMockAdapterFile</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>makeMockAdapterFile</name>
+        <qualifiedname>LoRAHotLoadingTest::makeMockAdapterFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Helper: create a mock adapter file and return its path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_hot_loading.cpp" line="126" column="24" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="126" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixture that provides a running <ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref> with one mock model. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LoRAHotLoadingTest</label>
+        <link refid="class_lo_r_a_hot_loading_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LoRAHotLoadingTest</label>
+        <link refid="class_lo_r_a_hot_loading_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_lora_hot_loading.cpp" line="104" column="1" bodyfile="tests/llm/test_lora_hot_loading.cpp" bodystart="104" bodyend="138"/>
+    <listofallmembers>
+      <member refid="class_lo_r_a_hot_loading_test_1ac6f807febb9c3fb8b7fd47fd4de02c5b" prot="protected" virt="non-virtual"><scope>LoRAHotLoadingTest</scope><name>engine_</name></member>
+      <member refid="class_lo_r_a_hot_loading_test_1a3376f116d5671ad87d548b0eed25131b" prot="protected" virt="non-virtual"><scope>LoRAHotLoadingTest</scope><name>makeMockAdapterFile</name></member>
+      <member refid="class_lo_r_a_hot_loading_test_1aa3e5c6f4a2ba2af9b892ba908204c352" prot="protected" virt="non-virtual"><scope>LoRAHotLoadingTest</scope><name>plugin_</name></member>
+      <member refid="class_lo_r_a_hot_loading_test_1afadbf6aeddd221ac5a65794f9d483932" prot="protected" virt="non-virtual"><scope>LoRAHotLoadingTest</scope><name>SetUp</name></member>
+      <member refid="class_lo_r_a_hot_loading_test_1a2f3f9d89e56fd18f4cbeaa61d64d67a5" prot="protected" virt="non-virtual"><scope>LoRAHotLoadingTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1016 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_operator_remediation_engine_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::OperatorRemediationEngineImpl</compoundname>
+    <basecompoundref refid="classthemis_1_1observability_1_1_operator_remediation_engine" prot="public" virt="non-virtual">themis::observability::OperatorRemediationEngine</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1af6348386d5c619a2ba9bd29e6db9bb80" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::unique_ptr&lt; <ref refid="classthemis_1_1observability_1_1_remediation_pattern" kindref="compound">RemediationPattern</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::unique_ptr&lt;RemediationPattern&gt; &gt; themis::observability::OperatorRemediationEngineImpl::patterns_</definition>
+        <argsstring></argsstring>
+        <name>patterns_</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::patterns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="751" column="14" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="751" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1adbc4bc3d2a0875e4d4cc261346c38b6b" prot="private" static="no" mutable="no">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::observability::OperatorRemediationEngineImpl::patterns_mutex_</definition>
+        <argsstring></argsstring>
+        <name>patterns_mutex_</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::patterns_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="752" column="23" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="752" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a0b5fb978e3e1bc00fa0ac883c767521c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_remediation_hint" kindref="compound">RemediationHint</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;RemediationHint&gt; &gt; themis::observability::OperatorRemediationEngineImpl::active_hints_</definition>
+        <argsstring></argsstring>
+        <name>active_hints_</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::active_hints_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="754" column="17" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="754" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a89bc2562c260e5334b6a43d512c6083f" prot="private" static="no" mutable="no">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::observability::OperatorRemediationEngineImpl::hints_mutex_</definition>
+        <argsstring></argsstring>
+        <name>hints_mutex_</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::hints_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="755" column="23" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="755" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1ac33f3a6bb6eb3560c2a55dc313c041dd" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::weak_ptr&lt; <ref refid="classthemis_1_1observability_1_1_i_remediation_hint_listener" kindref="compound">IRemediationHintListener</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::weak_ptr&lt;IRemediationHintListener&gt; &gt; themis::observability::OperatorRemediationEngineImpl::listeners_</definition>
+        <argsstring></argsstring>
+        <name>listeners_</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::listeners_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="757" column="17" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="757" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1af1ef5dce12b7530d64e2e9edcc98b764" prot="private" static="no" mutable="no">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::observability::OperatorRemediationEngineImpl::listeners_mutex_</definition>
+        <argsstring></argsstring>
+        <name>listeners_mutex_</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::listeners_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="758" column="23" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="758" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1aec07a5a8494b43a66e38218867c5c3c9" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::OperatorRemediationEngineImpl::hint_generation_enabled_</definition>
+        <argsstring></argsstring>
+        <name>hint_generation_enabled_</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::hint_generation_enabled_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="760" column="10" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="760" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a9d569e2e956f38f38a6a11f038f7923c" prot="private" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::observability::OperatorRemediationEngineImpl::deduplication_window_</definition>
+        <argsstring></argsstring>
+        <name>deduplication_window_</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::deduplication_window_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="761" column="26" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="761" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1af3de073eeb13248aadf2e13317d60e9e" prot="private" static="no" mutable="no">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::observability::OperatorRemediationEngineImpl::config_mutex_</definition>
+        <argsstring></argsstring>
+        <name>config_mutex_</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::config_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="762" column="23" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="762" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a678d15c3a9c2458ff288c2d2c005a020" prot="private" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::observability::OperatorRemediationEngineImpl::hint_notification_count_</definition>
+        <argsstring></argsstring>
+        <name>hint_notification_count_</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::hint_notification_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="765" column="19" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="765" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1ab0fdab83f0790a2d9472727d77777410" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::OperatorRemediationEngineImpl::OperatorRemediationEngineImpl</definition>
+        <argsstring>()</argsstring>
+        <name>OperatorRemediationEngineImpl</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::OperatorRemediationEngineImpl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="356" column="5" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="356" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a44e1d404cc0b9d00eafb2e1240017825" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::OperatorRemediationEngineImpl::addListener</definition>
+        <argsstring>(const std::shared_ptr&lt; IRemediationHintListener &gt; &amp;listener) override</argsstring>
+        <name>addListener</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::addListener</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a4801783ecdf10debd1b0fa3a38734c82">addListener</reimplements>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_i_remediation_hint_listener" kindref="compound">IRemediationHintListener</ref> &gt; &amp;</type>
+          <declname>listener</declname>
+        </param>
+        <briefdescription>
+<para>Add a listener for remediation hint events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Registers a listener to receive notifications when hints are generated or resolved.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Listener implementation (stored as weak_ptr to prevent circular refs). Must not be null.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false if listener is null or listener count exceeds cap (default cap: 10k listeners, configured via memory pressure policy).</para>
+</simplesect>
+@thread_safety Thread-safe. Multiple threads can call this concurrently. Listener addition is atomic; either fully added or rejected.</para>
+<para><simplesect kind="note"><para>Weak pointer semantics: listener can be deallocated externally without explicitly calling <ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a477344b3bdbec8bfb0c1404924e6f7ad" kindref="member">removeListener()</ref>. Stale listeners will be silently skipped during onNewHint() notification (weak_ptr upgrade fails).</para>
+</simplesect>
+<simplesect kind="note"><para>If listener count exceeds cap due to memory pressure, the oldest listeners are evicted in FIFO order before adding the new listener. Evicted listeners are notified via onHintResolved() with a special eviction hint ID.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a477344b3bdbec8bfb0c1404924e6f7ad" kindref="member">removeListener</ref>, <ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a3c2957f2d84b0f72dd57ed6e7e5d6c4b" kindref="member">getStatistics</ref> (for listener count) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">listeners_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="387" column="10" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="387" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a477344b3bdbec8bfb0c1404924e6f7ad" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::OperatorRemediationEngineImpl::removeListener</definition>
+        <argsstring>(const std::shared_ptr&lt; IRemediationHintListener &gt; &amp;listener) override</argsstring>
+        <name>removeListener</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::removeListener</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_operator_remediation_engine_1ae622ce3cf9c123474f48a862b1e08a58">removeListener</reimplements>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_i_remediation_hint_listener" kindref="compound">IRemediationHintListener</ref> &gt; &amp;</type>
+          <declname>listener</declname>
+        </param>
+        <briefdescription>
+<para>Remove a listener. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Explicitly removes a listener from the active listener set.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Listener to remove.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if listener was found and removed, false otherwise. Returns false if listener is null or not in the active set.</para>
+</simplesect>
+@thread_safety Thread-safe. Multiple threads can call this concurrently. Removal is atomic; listener will not receive notifications after this call returns true.</para>
+<para><simplesect kind="note"><para>This is optional: listeners can be deallocated without calling <ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a477344b3bdbec8bfb0c1404924e6f7ad" kindref="member">removeListener()</ref>. The engine uses weak pointers so stale listeners are handled gracefully.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a44e1d404cc0b9d00eafb2e1240017825" kindref="member">addListener</ref>, <ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1abfc7572d4feba5c725593454cccd23fe" kindref="member">getActiveHints</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">listeners_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="408" column="10" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="408" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1aa97bd9a27d45652badeeaa791fc47e1f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::OperatorRemediationEngineImpl::registerPattern</definition>
+        <argsstring>(std::unique_ptr&lt; RemediationPattern &gt; pattern) override</argsstring>
+        <name>registerPattern</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::registerPattern</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a47658658004fdc1add05783e654b47a4">registerPattern</reimplements>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1observability_1_1_remediation_pattern" kindref="compound">RemediationPattern</ref> &gt;</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Register a custom remediation pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_pattern" kindref="compound">Pattern</ref> implementation (takes ownership). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false if pattern name already exists.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">patterns_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="440" column="10" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="440" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a6e0710c2dcd57a5195b89a306855dca8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::OperatorRemediationEngineImpl::unregisterPattern</definition>
+        <argsstring>(const std::string &amp;pattern_name) override</argsstring>
+        <name>unregisterPattern</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::unregisterPattern</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_operator_remediation_engine_1afed3ca11f767e7a9e2579aecd75fb05a">unregisterPattern</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern_name</declname>
+        </param>
+        <briefdescription>
+<para>Unregister a pattern by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pattern_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of pattern to remove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if pattern was found and removed, false otherwise.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">patterns_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="461" column="10" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="461" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a17d38cb6fe89bc74f2fac06e50c83091" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_remediation_hint" kindref="compound">RemediationHint</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::shared_ptr&lt; RemediationHint &gt; &gt; themis::observability::OperatorRemediationEngineImpl::analyzeAndGenerateHints</definition>
+        <argsstring>(const std::map&lt; std::string, double &gt; &amp;metrics) override</argsstring>
+        <name>analyzeAndGenerateHints</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::analyzeAndGenerateHints</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a4a5f19e87225e13e4c18df1d5e12776f">analyzeAndGenerateHints</reimplements>
+        <param>
+          <type>const std::map&lt; std::string, double &gt; &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Analyze current system metrics and generate remediation hints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs all registered patterns against the supplied metrics and generates hints for any patterns that match. Duplicate hints (same problem detected within deduplication window) are filtered; only new unique problems are emitted to listeners.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of metric name -&gt; current value. Can be empty (returns empty hints vector).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of newly-generated hints (empty if no problems detected or if hint generation is disabled via setHintGenerationEnabled(false)).</para>
+</simplesect>
+@thread_safety Thread-safe. Multiple threads can call this concurrently. <ref refid="structthemis_1_1observability_1_1_pattern" kindref="compound">Pattern</ref> matching and deduplication use reader locks.</para>
+<para><simplesect kind="note"><para>For each matching pattern:<orderedlist>
+<listitem><para>Pattern::match() is called (must complete in &lt; 10ms)</para>
+</listitem><listitem><para><ref refid="structthemis_1_1observability_1_1_hint" kindref="compound">Hint</ref> is checked against deduplication window</para>
+</listitem><listitem><para>If unique, hint is added to active set and listeners notified</para>
+</listitem><listitem><para>If duplicate, deduplication counter incremented (no listener notification)</para>
+</listitem></orderedlist>
+</para>
+</simplesect>
+<simplesect kind="note"><para>If any listener notification fails (listener deallocated or listener throws), error is logged but other listeners continue to be notified.</para>
+</simplesect>
+<simplesect kind="note"><para>Malformed input (null metric names, invalid categories) is rejected with ORE_INVALID_METRIC_DATA error code and skipped (no hint generated).</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1aa97bd9a27d45652badeeaa791fc47e1f" kindref="member">registerPattern</ref>, <ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1ac505d48b6355e5969d8802a814efaf71" kindref="member">setHintGenerationEnabled</ref>, <ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1ad420f41b99d8c99fd6f58399a3831349" kindref="member">setDeduplicationWindow</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Patterns lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">patterns_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Hints lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hints_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Hints lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hints_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Listeners lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">listeners_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="476" column="17" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="476" bodyend="557"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1abfc7572d4feba5c725593454cccd23fe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_remediation_hint" kindref="compound">RemediationHint</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::shared_ptr&lt; RemediationHint &gt; &gt; themis::observability::OperatorRemediationEngineImpl::getActiveHints</definition>
+        <argsstring>() override</argsstring>
+        <name>getActiveHints</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::getActiveHints</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_operator_remediation_engine_1aea805f1c017b5a659d430b15e6c2cc8b">getActiveHints</reimplements>
+        <briefdescription>
+<para>Get list of currently-active hints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a snapshot of all hints that have been generated and not yet resolved.</para>
+<para><simplesect kind="return"><para>Vector of active hints (empty if no active hints exist).</para>
+</simplesect>
+@thread_safety Thread-safe but results are snapshots. The returned vector is a point-in-time copy and may become stale immediately after the call returns (new hints may be generated, others resolved).</para>
+<para><simplesect kind="note"><para>For consistency with concurrent generation, prefer category or severity filtering methods (getHintsByCategory, getHintsBySeverity) when possible.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a36cf96019c6c87e0940dc9c7ca826e81" kindref="member">getHintById</ref>, <ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1aa4ff1efd311c0f6bdd87a3c66c99107d" kindref="member">getHintsByCategory</ref>, <ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a0b9526b1d4244a58f100a854c5d06845" kindref="member">getHintsBySeverity</ref>, <ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1ab2bfbee29d13402a12addd5329a56dbd" kindref="member">resolveHint</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hints_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="559" column="17" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="559" bodyend="567"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a36cf96019c6c87e0940dc9c7ca826e81" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_remediation_hint" kindref="compound">RemediationHint</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; RemediationHint &gt; themis::observability::OperatorRemediationEngineImpl::getHintById</definition>
+        <argsstring>(const std::string &amp;hint_id) override</argsstring>
+        <name>getHintById</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::getHintById</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_operator_remediation_engine_1abc6fd467a1095286c2b04d3ac529c92e">getHintById</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hint_id</declname>
+        </param>
+        <briefdescription>
+<para>Get a hint by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique hint identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The hint if found, nullptr otherwise.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hints_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="569" column="21" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="569" bodyend="582"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1ab2bfbee29d13402a12addd5329a56dbd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::OperatorRemediationEngineImpl::resolveHint</definition>
+        <argsstring>(const std::string &amp;hint_id) override</argsstring>
+        <name>resolveHint</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::resolveHint</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a4b03459297d68022a6c7cb8ba2784dfa">resolveHint</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hint_id</declname>
+        </param>
+        <briefdescription>
+<para>Mark a hint as resolved/dismissed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of hint to resolve. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if hint was found and marked resolved, false otherwise.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hints_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Listeners lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">listeners_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="584" column="10" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="584" bodyend="616"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1aa4ff1efd311c0f6bdd87a3c66c99107d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_remediation_hint" kindref="compound">RemediationHint</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::shared_ptr&lt; RemediationHint &gt; &gt; themis::observability::OperatorRemediationEngineImpl::getHintsByCategory</definition>
+        <argsstring>(ProblemCategory category) override</argsstring>
+        <name>getHintsByCategory</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::getHintsByCategory</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a217df7acc0e4ad0e52e2346f39e98632">getHintsByCategory</reimplements>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8" kindref="member">ProblemCategory</ref></type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+<para>Get hints filtered by category. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Problem category to filter by. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of hints matching the category.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe but results are snapshots and may become stale immediately after returning. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hints_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="618" column="17" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="618" bodyend="636"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a0b9526b1d4244a58f100a854c5d06845" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_remediation_hint" kindref="compound">RemediationHint</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::shared_ptr&lt; RemediationHint &gt; &gt; themis::observability::OperatorRemediationEngineImpl::getHintsBySeverity</definition>
+        <argsstring>(RemediationSeverity severity) override</argsstring>
+        <name>getHintsBySeverity</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::getHintsBySeverity</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a59a6b9418b5f5e06a6c28dadad3f1ae2">getHintsBySeverity</reimplements>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1a02c9e396e407655d28f41c1cb93b17b2" kindref="member">RemediationSeverity</ref></type>
+          <declname>severity</declname>
+        </param>
+        <briefdescription>
+<para>Get hints filtered by severity level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>severity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum severity level to return. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of hints at or above the specified severity.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe but results are snapshots and may become stale immediately after returning. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hints_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="638" column="17" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="638" bodyend="656"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1ac505d48b6355e5969d8802a814efaf71" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::observability::OperatorRemediationEngineImpl::setHintGenerationEnabled</definition>
+        <argsstring>(bool enabled) override</argsstring>
+        <name>setHintGenerationEnabled</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::setHintGenerationEnabled</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a59a6221c8c44c9a76d65c1cc392231b3">setHintGenerationEnabled</reimplements>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Enable/disable automatic hint generation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When disabled, <ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a17d38cb6fe89bc74f2fac06e50c83091" kindref="member">analyzeAndGenerateHints()</ref> returns empty vector.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true to enable hint generation, false to disable.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="658" column="10" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="658" bodyend="666"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a3a434e1573f606474705acd354ea31da" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::OperatorRemediationEngineImpl::isHintGenerationEnabled</definition>
+        <argsstring>() override</argsstring>
+        <name>isHintGenerationEnabled</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::isHintGenerationEnabled</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a506c4d16b6f68d91236364c9afddc500">isHintGenerationEnabled</reimplements>
+        <briefdescription>
+<para>Check whether hint generation is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if hint generation is enabled, false otherwise.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="668" column="10" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="668" bodyend="676"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1ad420f41b99d8c99fd6f58399a3831349" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::observability::OperatorRemediationEngineImpl::setDeduplicationWindow</definition>
+        <argsstring>(std::chrono::seconds window) override</argsstring>
+        <name>setDeduplicationWindow</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::setDeduplicationWindow</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a046fd4dbb93467d642db6cf61cf3e568">setDeduplicationWindow</reimplements>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>window</declname>
+        </param>
+        <briefdescription>
+<para>Set the deduplication time window for hints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Hints with the same category and title generated within this time window are considered duplicates and only the first is emitted to listeners.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time window duration. Recommended: 5 minutes (default). Must be &gt; 0. Edge cases:<itemizedlist>
+<listitem><para>Very short windows (&lt; 1s): high duplicate traffic</para>
+</listitem><listitem><para>Very long windows (&gt; 1h): alerts suppressed for too long</para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+@thread_safety Thread-safe. Window change applies to all future hints. In-flight deduplication checks may use old or new window (last-writer-wins semantics).</para>
+<para><simplesect kind="note"><para>Window rounding is done on hint generation timestamp: timestamp_rounded = floor(current_time / window_size) * window_size This ensures clock skew tolerance of ±(window_size/2) ≈ ±2.5 minutes for default 5-minute window.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a1bf7df889429346f950d490ca4d6ba7f" kindref="member">getDeduplicationWindow</ref>, <ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a17d38cb6fe89bc74f2fac06e50c83091" kindref="member">analyzeAndGenerateHints</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="678" column="10" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="678" bodyend="686"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a1bf7df889429346f950d490ca4d6ba7f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::observability::OperatorRemediationEngineImpl::getDeduplicationWindow</definition>
+        <argsstring>() override</argsstring>
+        <name>getDeduplicationWindow</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::getDeduplicationWindow</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a50f6d2e7bcfb45cbeb8367f8dfbb7b4f">getDeduplicationWindow</reimplements>
+        <briefdescription>
+<para>Get the current deduplication time window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current deduplication window duration.</para>
+</simplesect>
+<simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="688" column="26" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="688" bodyend="696"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a3809dbb269bfc6e8f92783b2d92675b7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::observability::OperatorRemediationEngineImpl::clearAllHints</definition>
+        <argsstring>() override</argsstring>
+        <name>clearAllHints</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::clearAllHints</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a5e2a8e066e97ab87fa2dda9298240ab2">clearAllHints</reimplements>
+        <briefdescription>
+<para>Clear all hint history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Removes all generated hints and resets deduplication tracking.</para>
+<para><simplesect kind="note"><para>This function is thread-safe. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hints_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="698" column="10" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="698" bodyend="706"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a3c2957f2d84b0f72dd57ed6e7e5d6c4b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt; std::string, double &gt; themis::observability::OperatorRemediationEngineImpl::getStatistics</definition>
+        <argsstring>() override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::getStatistics</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a2b0a7e7b7a04e797fbb093ff864ae7f2">getStatistics</reimplements>
+        <briefdescription>
+<para>Get statistics about hint generation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a snapshot of statistics including:<itemizedlist>
+<listitem><para>&quot;total_hints_generated&quot;: Total hints created (including duplicates)</para>
+</listitem><listitem><para>&quot;active_hints&quot;: Currently-active (unresolved) hints</para>
+</listitem><listitem><para>&quot;hints_by_severity_info&quot;: Count of INFO severity hints</para>
+</listitem><listitem><para>&quot;hints_by_severity_warning&quot;: Count of WARNING severity hints</para>
+</listitem><listitem><para>&quot;hints_by_severity_critical&quot;: Count of CRITICAL severity hints</para>
+</listitem><listitem><para>&quot;listener_count&quot;: Current active listener count</para>
+</listitem><listitem><para>&quot;listener_eviction_count&quot;: Total listeners evicted due to memory pressure</para>
+</listitem><listitem><para>&quot;duplicate_suppression_count&quot;: Total duplicates filtered by deduplication window</para>
+</listitem><listitem><para>&quot;pattern_registration_errors&quot;: Total failed pattern registrations</para>
+</listitem><listitem><para>&quot;listener_notification_failures&quot;: Total listener notification errors</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>Map with keys as above. Empty string keys are not included.</para>
+</simplesect>
+@thread_safety Thread-safe but results are snapshots. Counters are atomic but may change immediately after the call returns.</para>
+<para><simplesect kind="see"><para><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1abfc7572d4feba5c725593454cccd23fe" kindref="member">getActiveHints</ref>, <ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1ad420f41b99d8c99fd6f58399a3831349" kindref="member">setDeduplicationWindow</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Hints lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hints_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Patterns lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">patterns_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="708" column="14" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="708" bodyend="748"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1afe29a366b7c6684bce1158fa032802b3" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::OperatorRemediationEngineImpl::cleanupExpiredListeners</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupExpiredListeners</name>
+        <qualifiedname>themis::observability::OperatorRemediationEngineImpl::cleanupExpiredListeners</qualifiedname>
+        <briefdescription>
+<para>Cleanup Expired Listeners. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), erase(), std::remove_if(), begin(), end(), expired(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/operator_remediation_engine.cpp" line="375" column="10" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="375" bodyend="384"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::observability::OperatorRemediationEngine</label>
+        <link refid="classthemis_1_1observability_1_1_operator_remediation_engine"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::OperatorRemediationEngineImpl</label>
+        <link refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::observability::OperatorRemediationEngine</label>
+        <link refid="classthemis_1_1observability_1_1_operator_remediation_engine"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::OperatorRemediationEngineImpl</label>
+        <link refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/observability/operator_remediation_engine.cpp" line="354" column="1" bodyfile="src/observability/operator_remediation_engine.cpp" bodystart="354" bodyend="766"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a0b5fb978e3e1bc00fa0ac883c767521c" prot="private" virt="non-virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>active_hints_</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a44e1d404cc0b9d00eafb2e1240017825" prot="public" virt="virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>addListener</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a17d38cb6fe89bc74f2fac06e50c83091" prot="public" virt="virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>analyzeAndGenerateHints</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1afe29a366b7c6684bce1158fa032802b3" prot="private" virt="non-virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>cleanupExpiredListeners</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a3809dbb269bfc6e8f92783b2d92675b7" prot="public" virt="virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>clearAllHints</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1af3de073eeb13248aadf2e13317d60e9e" prot="private" virt="non-virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>config_mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a9d569e2e956f38f38a6a11f038f7923c" prot="private" virt="non-virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>deduplication_window_</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1abfc7572d4feba5c725593454cccd23fe" prot="public" virt="virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>getActiveHints</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a1bf7df889429346f950d490ca4d6ba7f" prot="public" virt="virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>getDeduplicationWindow</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a36cf96019c6c87e0940dc9c7ca826e81" prot="public" virt="virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>getHintById</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1aa4ff1efd311c0f6bdd87a3c66c99107d" prot="public" virt="virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>getHintsByCategory</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a0b9526b1d4244a58f100a854c5d06845" prot="public" virt="virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>getHintsBySeverity</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a3c2957f2d84b0f72dd57ed6e7e5d6c4b" prot="public" virt="virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1aec07a5a8494b43a66e38218867c5c3c9" prot="private" virt="non-virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>hint_generation_enabled_</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a678d15c3a9c2458ff288c2d2c005a020" prot="private" virt="non-virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>hint_notification_count_</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a89bc2562c260e5334b6a43d512c6083f" prot="private" virt="non-virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>hints_mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a3a434e1573f606474705acd354ea31da" prot="public" virt="virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>isHintGenerationEnabled</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1ac33f3a6bb6eb3560c2a55dc313c041dd" prot="private" virt="non-virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>listeners_</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1af1ef5dce12b7530d64e2e9edcc98b764" prot="private" virt="non-virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>listeners_mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a34ac9076b6a96b9815a039202ae1f681" prot="public" virt="non-virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>OperatorRemediationEngine</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1ab0fdab83f0790a2d9472727d77777410" prot="public" virt="non-virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>OperatorRemediationEngineImpl</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1af6348386d5c619a2ba9bd29e6db9bb80" prot="private" virt="non-virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>patterns_</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1adbc4bc3d2a0875e4d4cc261346c38b6b" prot="private" virt="non-virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>patterns_mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1aa97bd9a27d45652badeeaa791fc47e1f" prot="public" virt="virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>registerPattern</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a477344b3bdbec8bfb0c1404924e6f7ad" prot="public" virt="virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>removeListener</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1ab2bfbee29d13402a12addd5329a56dbd" prot="public" virt="virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>resolveHint</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1ad420f41b99d8c99fd6f58399a3831349" prot="public" virt="virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>setDeduplicationWindow</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1ac505d48b6355e5969d8802a814efaf71" prot="public" virt="virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>setHintGenerationEnabled</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_impl_1a6e0710c2dcd57a5195b89a306855dca8" prot="public" virt="virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>unregisterPattern</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_1aa8fd2bc945cd383e61f73a15ff0b9ace" prot="public" virt="virtual"><scope>themis::observability::OperatorRemediationEngineImpl</scope><name>~OperatorRemediationEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

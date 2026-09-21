@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1voice_1_1benchmark_1_1utils" kind="namespace" language="C++">
+    <compoundname>themis::voice::benchmark::utils</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a1502d960d8b8c7eb879d589b3ab8e687" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::utils::calculateP95</definition>
+        <argsstring>(const std::vector&lt; int64_t &gt; &amp;latencies)</argsstring>
+        <name>calculateP95</name>
+        <qualifiedname>themis::voice::benchmark::utils::calculateP95</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int64_t &gt; &amp;</type>
+          <declname>latencies</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate p95 from a sorted vector of latencies (in nanoseconds). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="362" column="20" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="362" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1benchmark_1_1utils_1a94dd1d73fa2675623d5fdc6fd34d8a35" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::utils::calculateP99</definition>
+        <argsstring>(const std::vector&lt; int64_t &gt; &amp;latencies)</argsstring>
+        <name>calculateP99</name>
+        <qualifiedname>themis::voice::benchmark::utils::calculateP99</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int64_t &gt; &amp;</type>
+          <declname>latencies</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate p99 from a sorted vector of latencies (in nanoseconds). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="376" column="20" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="376" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1voice_1_1benchmark_1_1utils_1aa0566013df79f79e35d6686a0506669d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::benchmark::utils::checkGate</definition>
+        <argsstring>(int64_t current_ns, int64_t threshold_ns, const char *gate_name)</argsstring>
+        <name>checkGate</name>
+        <qualifiedname>themis::voice::benchmark::utils::checkGate</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>current_ns</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>threshold_ns</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>gate_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if a latency gate passes. <simplesect kind="return"><para>true if current &lt;= threshold, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="391" column="17" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="391" bodyend="398"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/voice/benchmark_fixtures.h" line="357" column="1"/>
+  </compounddef>
+</doxygen>

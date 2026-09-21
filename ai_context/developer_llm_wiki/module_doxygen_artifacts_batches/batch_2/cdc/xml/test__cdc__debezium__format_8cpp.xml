@@ -1,0 +1,913 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__cdc__debezium__format_8cpp" kind="file" language="C++">
+    <compoundname>test_cdc_debezium_format.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="debezium__format_8h" local="yes">cdc/debezium_format.h</includes>
+    <includes refid="changefeed_8h" local="yes">cdc/changefeed.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>cdc/changefeed.h</label>
+        <link refid="changefeed_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cdc/debezium_format.h</label>
+        <link refid="debezium__format_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/cdc/test_cdc_debezium_format.cpp</label>
+        <link refid="test__cdc__debezium__format_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="15">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>condition_variable</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="17">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="16">
+        <label>set</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>thread</label>
+      </node>
+      <node id="18">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, PutWithoutBefore_MapsToCreate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>PutWithoutBefore_MapsToCreate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="77" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="77" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1a9baa638d53adb6e1a4925170ed76d022" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, PutWithBefore_MapsToUpdate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>PutWithBefore_MapsToUpdate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="86" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="86" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1a77e4eee2fed9d433baf13dcadbdded63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, Delete_MapsToDelete)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>Delete_MapsToDelete</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="98" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="98" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1a11b1be89dc6f529c939f252d41c34a7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, TransactionRollback_MapsToRead)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>TransactionRollback_MapsToRead</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="108" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="108" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1a92b4493f226fbfb037d4d5138563edd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, TransactionCommit_MapsToRead)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>TransactionCommit_MapsToRead</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="122" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="122" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1a41b3f6497b580799910107312b61bb76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, Create_NullBefore_AfterFromValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>Create_NullBefore_AfterFromValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="135" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="135" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1a485b2ac0cbbbd5fe04025d4140b46846" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, Update_BeforeAndAfterFromSnapshots)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>Update_BeforeAndAfterFromSnapshots</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="150" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="150" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1a0955378bda5d5bdd82957d9ce330a391" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, Delete_BeforeFromSnapshot_AfterIsNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>Delete_BeforeFromSnapshot_AfterIsNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="167" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="167" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1af11e963a24b4dccb55991181f37c48ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, CollectionDerivedFromKeyPrefix)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>CollectionDerivedFromKeyPrefix</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="185" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="185" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1a208e45ace25fbfafb05cc55751675c75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, ExplicitCollectionOverridesKeyPrefix)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>ExplicitCollectionOverridesKeyPrefix</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="191" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="191" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1a07d1f282b0fd48f5538fe1bd3405bc76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, KeyWithoutColonUsesFullKeyAsCollection)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>KeyWithoutColonUsesFullKeyAsCollection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="197" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="197" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1a0cb7e963764c2bf3d88ebe5c95a8c3ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, SourceBlock_DefaultConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>SourceBlock_DefaultConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="207" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="207" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1a9cc990521a362cc0183b613a2d8b4510" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, SourceBlock_CustomConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>SourceBlock_CustomConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="222" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="222" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1a5a453bc225eafd40407b1d2bb2e992cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, SourceBlock_SerializesToJson)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>SourceBlock_SerializesToJson</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="235" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="235" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1a07bc60c4cc2ec0f990bc6d3a7513262c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, TimestampPropagatedToPayloadAndSource)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>TimestampPropagatedToPayloadAndSource</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="252" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="252" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1a01883f5aa0e37cbef5a41b9ec2966643" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, PayloadOnly_NoSchemaKey)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>PayloadOnly_NoSchemaKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="266" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="266" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1a53c1618093e5e16af4941e7ca4c21fca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, WithSchema_ContainsSchemaAndPayload)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>WithSchema_ContainsSchemaAndPayload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="273" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="273" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1a661c3a6c48cca932ed86324cf6865d84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, SchemaBlock_ContainsEnvelopeName)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>SchemaBlock_ContainsEnvelopeName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="280" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="280" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1a44326d43048a7cb68137a22995fe4df9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, SchemaBlock_OpFieldPresent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>SchemaBlock_OpFieldPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="291" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="291" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1af931ff5ed0ffe72d3d22009a9187e148" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, InvalidSnapshotJson_FallsBackToRawKey)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>InvalidSnapshotJson_FallsBackToRawKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="310" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="310" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1aebbdf223932fec12f1e36f483c05241b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, RedactedEvent_SnapshotFieldReflectsRedaction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>RedactedEvent_SnapshotFieldReflectsRedaction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="328" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="328" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1af2ecbda21563d220e5e16a4d5016eb66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumFormatterTest, PayloadContainsNullTransactionField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumFormatterTest</type>
+        </param>
+        <param>
+          <type>PayloadContainsNullTransactionField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="343" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="343" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__debezium__format_8cpp_1ad57b6a77a8b20ad7722bd8e067250174" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DebeziumOpStringTest, AllOpCodes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DebeziumOpStringTest</type>
+        </param>
+        <param>
+          <type>AllOpCodes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_debezium_format.cpp" line="354" column="1" bodyfile="tests/cdc/test_cdc_debezium_format.cpp" bodystart="354" bodyend="359"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Tests<sp/>for<sp/>Debezium-compatible<sp/>change<sp/>event<sp/>envelope<sp/>format.</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Validates<sp/>that<sp/>DebeziumFormatter:</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/><sp/>1.<sp/>Maps<sp/>EVENT_PUT<sp/>(no<sp/>before_snapshot)<sp/><sp/>→<sp/>op<sp/>&apos;c&apos;<sp/>(CREATE)</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/><sp/>2.<sp/>Maps<sp/>EVENT_PUT<sp/>(with<sp/>before_snapshot)<sp/>→<sp/>op<sp/>&apos;u&apos;<sp/>(UPDATE)</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/><sp/>3.<sp/>Maps<sp/>EVENT_DELETE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>→<sp/>op<sp/>&apos;d&apos;<sp/>(DELETE)</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/><sp/>4.<sp/>Maps<sp/>EVENT_TRANSACTION_COMMIT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>→<sp/>op<sp/>&apos;r&apos;<sp/>(READ)</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/>5.<sp/>Populates<sp/>before/after<sp/>JSON<sp/>from<sp/>snapshot<sp/>fields</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/><sp/>6.<sp/>Falls<sp/>back<sp/>to<sp/>the<sp/>&apos;value&apos;<sp/>field<sp/>for<sp/>&apos;after&apos;<sp/>when<sp/>after_snapshot<sp/>absent</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/><sp/>7.<sp/>Derives<sp/>the<sp/>collection<sp/>name<sp/>from<sp/>the<sp/>event<sp/>key<sp/>prefix</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/><sp/>8.<sp/>Accepts<sp/>an<sp/>explicit<sp/>collection<sp/>name<sp/>override</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/><sp/>9.<sp/>Serializes<sp/>source<sp/>metadata<sp/>correctly</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>10.<sp/>Produces<sp/>a<sp/>schema<sp/>block<sp/>when<sp/>include_schema<sp/>=<sp/>true</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>11.<sp/>Handles<sp/>invalid<sp/>JSON<sp/>in<sp/>snapshot<sp/>fields<sp/>gracefully<sp/>(_raw<sp/>fallback)</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>12.<sp/>Preserves<sp/>the<sp/>redacted<sp/>state<sp/>in<sp/>the<sp/>source.snapshot<sp/>field</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="debezium__format_8h" kindref="compound">cdc/debezium_format.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="changefeed_8h" kindref="compound">cdc/changefeed.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cdc" kindref="compound">themis::cdc</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>makePutEvent(</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/>before_snap<sp/>=<sp/>std::nullopt,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/>after_snap<sp/><sp/>=<sp/>std::nullopt)</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" kindref="member">sequence</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">Changefeed::ChangeEventType::EVENT_PUT</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>key;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>value;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref><sp/><sp/><sp/><sp/>=<sp/>1740000000000LL;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a8cdedbb4b3efa725c6c5ad3cadf115e5" kindref="member">before_snapshot</ref><sp/>=<sp/>std::move(before_snap);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a59249b3094f85b3b51bc8f4dc024546a" kindref="member">after_snapshot</ref><sp/><sp/>=<sp/>std::move(after_snap);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ev;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>makeDeleteEvent(</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/>before_snap<sp/>=<sp/>std::nullopt)</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" kindref="member">sequence</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0abe731652dcbe388ce5fb20e99b57029f" kindref="member">Changefeed::ChangeEventType::EVENT_DELETE</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>key;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref><sp/><sp/><sp/><sp/>=<sp/>1740000000001LL;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a8cdedbb4b3efa725c6c5ad3cadf115e5" kindref="member">before_snapshot</ref><sp/>=<sp/>std::move(before_snap);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ev;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>makeTxCommitEvent()<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" kindref="member">sequence</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0ae3a8f40c30238b0e0b6d2f10b7582c91" kindref="member">Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;orders:99&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref><sp/>=<sp/>1740000000002LL;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ev;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Operation<sp/>code<sp/>mapping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>PutWithoutBefore_MapsToCreate)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>env<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(makePutEvent(</highlight><highlight class="stringliteral">&quot;orders:1&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;qty&quot;:5})&quot;));</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.op,<sp/><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da294ce20cdefa29be3be0735cb62e715d" kindref="member">DebeziumOp::CREATE</ref>);</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>env.toJson();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>PutWithBefore_MapsToUpdate)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>before<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;qty&quot;:3})&quot;;</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>after<sp/><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;qty&quot;:5})&quot;;</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>env<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makePutEvent(</highlight><highlight class="stringliteral">&quot;orders:1&quot;</highlight><highlight class="normal">,<sp/>after,<sp/>before,<sp/>after));</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.op,<sp/><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da15a8022d0ed9cd9c2a2e756822703eb4" kindref="member">DebeziumOp::UPDATE</ref>);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>env.toJson();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;u&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>Delete_MapsToDelete)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>before<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;qty&quot;:5})&quot;;</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>env<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(makeDeleteEvent(</highlight><highlight class="stringliteral">&quot;orders:1&quot;</highlight><highlight class="normal">,<sp/>before));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.op,<sp/><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da32f68a60cef40faedbc6af20298c1a1e" kindref="member">DebeziumOp::DELETE</ref>);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>env.toJson();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>TransactionRollback_MapsToRead)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" kindref="member">sequence</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a7c15e3e288d30b94ad4e66b23a0597e5" kindref="member">Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK</ref>;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;orders:99&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref><sp/>=<sp/>1740000000003LL;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>env<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(ev);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.op,<sp/><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da3466fab4975481651940ed328aa990e4" kindref="member">DebeziumOp::READ</ref>);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>env.toJson();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>TransactionCommit_MapsToRead)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>env<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(makeTxCommitEvent());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.op,<sp/><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da3466fab4975481651940ed328aa990e4" kindref="member">DebeziumOp::READ</ref>);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>env.toJson();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Before<sp/>/<sp/>after<sp/>document<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>Create_NullBefore_AfterFromValue)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>value<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;name&quot;:&quot;Alice&quot;})&quot;;</highlight></codeline>
+<codeline lineno="138"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>after_snapshot<sp/>provided:<sp/>formatter<sp/>falls<sp/>back<sp/>to<sp/>the<sp/>value<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>env<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(makePutEvent(</highlight><highlight class="stringliteral">&quot;users:1&quot;</highlight><highlight class="normal">,<sp/>value));</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(env.before.is_null());</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(env.after.is_null());</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.after[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>env.toJson();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;before&quot;</highlight><highlight class="normal">].is_null());</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;after&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>Update_BeforeAndAfterFromSnapshots)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>before_val<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;status&quot;:&quot;pending&quot;})&quot;;</highlight></codeline>
+<codeline lineno="153"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>after_val<sp/><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;status&quot;:&quot;active&quot;})&quot;;</highlight></codeline>
+<codeline lineno="154"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>env<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makePutEvent(</highlight><highlight class="stringliteral">&quot;orders:42&quot;</highlight><highlight class="normal">,<sp/>after_val,<sp/>before_val,<sp/>after_val));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(env.before.is_null());</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(env.after.is_null());</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.before[</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;pending&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.after[</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/><sp/></highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>env.toJson();</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;before&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;pending&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;after&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/><sp/></highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>Delete_BeforeFromSnapshot_AfterIsNull)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>before_val<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;qty&quot;:10})&quot;;</highlight></codeline>
+<codeline lineno="170"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>env<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(makeDeleteEvent(</highlight><highlight class="stringliteral">&quot;inventory:SKU-01&quot;</highlight><highlight class="normal">,<sp/>before_val));</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(env.before.is_null());</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.before[</highlight><highlight class="stringliteral">&quot;qty&quot;</highlight><highlight class="normal">].get&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&gt;(),<sp/>10);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(env.after.is_null());</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>env.toJson();</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;before&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;qty&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>10);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;after&quot;</highlight><highlight class="normal">].is_null());</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Collection<sp/>/<sp/>table<sp/>name<sp/>derivation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>CollectionDerivedFromKeyPrefix)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>env<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(makePutEvent(</highlight><highlight class="stringliteral">&quot;orders:42&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({})&quot;));</highlight></codeline>
+<codeline lineno="188"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.source.table,<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>ExplicitCollectionOverridesKeyPrefix)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>env<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(makePutEvent(</highlight><highlight class="stringliteral">&quot;orders:42&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({})&quot;),<sp/></highlight><highlight class="stringliteral">&quot;purchase_orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.source.table,<sp/></highlight><highlight class="stringliteral">&quot;purchase_orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>KeyWithoutColonUsesFullKeyAsCollection)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>env<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(makePutEvent(</highlight><highlight class="stringliteral">&quot;globalconfig&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({})&quot;));</highlight></codeline>
+<codeline lineno="200"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.source.table,<sp/></highlight><highlight class="stringliteral">&quot;globalconfig&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Source<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>SourceBlock_DefaultConfig)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/><sp/>=<sp/>makePutEvent(</highlight><highlight class="stringliteral">&quot;orders:1&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({})&quot;);</highlight></codeline>
+<codeline lineno="210"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" kindref="member">sequence</ref><sp/>=<sp/>77;</highlight></codeline>
+<codeline lineno="211"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>env<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(ev);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.source.connector,<sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.source.name,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;themis&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.source.db,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.source.table,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.source.ts_ms,<sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref>);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.source.sequence,<sp/><sp/>77ULL);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.source.snapshot,<sp/><sp/></highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>SourceBlock_CustomConfig)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config" kindref="compound">DebeziumFormatter::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a556035d0993db42ecd112eeb55ceaad1" kindref="member">server_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;prod-cluster&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a2869b9a62a674b70d4158be993efcd96" kindref="member">db_name</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;myapp&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a2fd9ab3d460ced0c18bcbfc2d3fd9a7b" kindref="member">version</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt(cfg);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>env<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(makePutEvent(</highlight><highlight class="stringliteral">&quot;users:1&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({})&quot;));</highlight></codeline>
+<codeline lineno="230"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.source.name,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;prod-cluster&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.source.db,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;myapp&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.source.version,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2.0.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>SourceBlock_SerializesToJson)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/>=<sp/>makePutEvent(</highlight><highlight class="stringliteral">&quot;orders:1&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({})&quot;);</highlight></codeline>
+<codeline lineno="238"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" kindref="member">sequence</ref><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="239"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a670a4e50985a73d22beb297d33e02787" kindref="member">toJson</ref>(ev);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>src<sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(src[</highlight><highlight class="stringliteral">&quot;connector&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(src[</highlight><highlight class="stringliteral">&quot;table&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(src[</highlight><highlight class="stringliteral">&quot;sequence&quot;</highlight><highlight class="normal">].get&lt;uint64_t&gt;(),<sp/><sp/><sp/><sp/><sp/>42ULL);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(src[</highlight><highlight class="stringliteral">&quot;ts_ms&quot;</highlight><highlight class="normal">].get&lt;int64_t&gt;(),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref>);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Timestamp<sp/>propagation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>TimestampPropagatedToPayloadAndSource)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/>=<sp/>makePutEvent(</highlight><highlight class="stringliteral">&quot;orders:1&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({})&quot;);</highlight></codeline>
+<codeline lineno="255"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref><sp/>=<sp/>9876543210LL;</highlight></codeline>
+<codeline lineno="256"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a670a4e50985a73d22beb297d33e02787" kindref="member">toJson</ref>(ev);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;ts_ms&quot;</highlight><highlight class="normal">].get&lt;int64_t&gt;(),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>9876543210LL);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;ts_ms&quot;</highlight><highlight class="normal">].get&lt;int64_t&gt;(),<sp/>9876543210LL);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Schema<sp/>block</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>PayloadOnly_NoSchemaKey)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a670a4e50985a73d22beb297d33e02787" kindref="member">toJson</ref>(makePutEvent(</highlight><highlight class="stringliteral">&quot;orders:1&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({})&quot;));</highlight></codeline>
+<codeline lineno="269"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_FALSE(j.contains(</highlight><highlight class="stringliteral">&quot;schema&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>WithSchema_ContainsSchemaAndPayload)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1acaf7883d867ac2ac63bd6b67c837744c" kindref="member">toJsonWithSchema</ref>(makePutEvent(</highlight><highlight class="stringliteral">&quot;orders:1&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({})&quot;));</highlight></codeline>
+<codeline lineno="276"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;schema&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="278"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>SchemaBlock_ContainsEnvelopeName)<sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1acaf7883d867ac2ac63bd6b67c837744c" kindref="member">toJsonWithSchema</ref>(</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makePutEvent(</highlight><highlight class="stringliteral">&quot;orders:1&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({})&quot;),<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>name<sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;schema&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(name.find(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;schema.name<sp/>should<sp/>reference<sp/>the<sp/>collection;<sp/>got:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>name;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(name.find(</highlight><highlight class="stringliteral">&quot;Envelope&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;schema.name<sp/>should<sp/>end<sp/>in<sp/>&apos;Envelope&apos;;<sp/>got:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>name;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>SchemaBlock_OpFieldPresent)<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1acaf7883d867ac2ac63bd6b67c837744c" kindref="member">toJsonWithSchema</ref>(makePutEvent(</highlight><highlight class="stringliteral">&quot;orders:1&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({})&quot;));</highlight></codeline>
+<codeline lineno="294"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_TRUE(j[</highlight><highlight class="stringliteral">&quot;schema&quot;</highlight><highlight class="normal">].contains(</highlight><highlight class="stringliteral">&quot;fields&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>fields<sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;schema&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;fields&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_op<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>f<sp/>:<sp/>fields)<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(f.value(</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_op<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(f[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_op)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;schema.fields<sp/>should<sp/>include<sp/>&apos;op&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Malformed<sp/>snapshot<sp/>JSON<sp/>–<sp/>graceful<sp/>degradation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>InvalidSnapshotJson_FallsBackToRawKey)<sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>bad_json<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;not<sp/>valid<sp/>json<sp/>{{{&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/>=<sp/>makePutEvent(</highlight><highlight class="stringliteral">&quot;orders:1&quot;</highlight><highlight class="normal">,<sp/>bad_json,</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::nullopt,<sp/>bad_json);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>env<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(ev);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>after<sp/>should<sp/>be<sp/>a<sp/>JSON<sp/>object<sp/>with<sp/>&quot;_raw&quot;<sp/>key,<sp/>not<sp/>a<sp/>parse<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(env.after.is_null());</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(env.after.contains(</highlight><highlight class="stringliteral">&quot;_raw&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;invalid<sp/>JSON<sp/>snapshot<sp/>should<sp/>produce<sp/>{\&quot;_raw\&quot;:<sp/>...}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.after[</highlight><highlight class="stringliteral">&quot;_raw&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/>bad_json);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Redacted<sp/>events</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>RedactedEvent_SnapshotFieldReflectsRedaction)<sp/>{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/>=<sp/>makePutEvent(</highlight><highlight class="stringliteral">&quot;users:42&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;[REDACTED]&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a8dfec24ed688e258491d681018b24945" kindref="member">redacted</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>env<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(ev);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(env.source.snapshot,<sp/></highlight><highlight class="stringliteral">&quot;redacted&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>env.toJson();</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;snapshot&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;redacted&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Transaction<sp/>field<sp/>is<sp/>always<sp/>present<sp/>(null)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumFormatterTest,<sp/>PayloadContainsNullTransactionField)<sp/>{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>fmt.<ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a670a4e50985a73d22beb297d33e02787" kindref="member">toJson</ref>(makePutEvent(</highlight><highlight class="stringliteral">&quot;orders:1&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({})&quot;));</highlight></codeline>
+<codeline lineno="346"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_TRUE(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">].contains(</highlight><highlight class="stringliteral">&quot;transaction&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;transaction&quot;</highlight><highlight class="normal">].is_null());</highlight></codeline>
+<codeline lineno="348"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight><highlight class="comment">//<sp/>debeziumOpString<sp/>helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><ref refid="test__cdc__debezium__format_8cpp_1ae289d822cbd45f1a2c388ff0de397e33" kindref="member">TEST</ref>(DebeziumOpStringTest,<sp/>AllOpCodes)<sp/>{</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1cdc_1ac3bfee44882ecc1ae76c6cd62f7a96f7" kindref="member">debeziumOpString</ref>(<ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da294ce20cdefa29be3be0735cb62e715d" kindref="member">DebeziumOp::CREATE</ref>),<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1cdc_1ac3bfee44882ecc1ae76c6cd62f7a96f7" kindref="member">debeziumOpString</ref>(<ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da15a8022d0ed9cd9c2a2e756822703eb4" kindref="member">DebeziumOp::UPDATE</ref>),<sp/></highlight><highlight class="stringliteral">&quot;u&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1cdc_1ac3bfee44882ecc1ae76c6cd62f7a96f7" kindref="member">debeziumOpString</ref>(<ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da32f68a60cef40faedbc6af20298c1a1e" kindref="member">DebeziumOp::DELETE</ref>),<sp/></highlight><highlight class="stringliteral">&quot;d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1cdc_1ac3bfee44882ecc1ae76c6cd62f7a96f7" kindref="member">debeziumOpString</ref>(<ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da3466fab4975481651940ed328aa990e4" kindref="member">DebeziumOp::READ</ref>),<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/cdc/test_cdc_debezium_format.cpp"/>
+  </compounddef>
+</doxygen>

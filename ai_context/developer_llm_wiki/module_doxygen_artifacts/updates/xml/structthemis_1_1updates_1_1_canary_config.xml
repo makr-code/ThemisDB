@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_canary_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::CanaryConfig</compoundname>
+    <includes refid="canary__rollout_8h" local="no">canary_rollout.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_config_1a558633ec442b90a4c303bd8886f0db9a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::CanaryConfig::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::updates::CanaryConfig::version</qualifiedname>
+        <briefdescription>
+<para>Target version string (e.g., &quot;1.5.0&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="56" column="17" bodyfile="include/updates/canary_rollout.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_config_1ac31965fd347993103bb0696c0b4c88c1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::CanaryConfig::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::updates::CanaryConfig::node_id</qualifiedname>
+        <briefdescription>
+<para>Stable identifier for this node (hostname, UUID, …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="59" column="17" bodyfile="include/updates/canary_rollout.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_config_1a7d378cd2f6d1cef7a077d483ad066e64" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_canary_stage" kindref="compound">CanaryStage</ref> &gt;</type>
+        <definition>std::vector&lt;CanaryStage&gt; themis::updates::CanaryConfig::stages</definition>
+        <argsstring></argsstring>
+        <name>stages</name>
+        <qualifiedname>themis::updates::CanaryConfig::stages</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Ordered list of rollout stages. The last stage must have percentage == 1.0 to guarantee full coverage. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="63" column="17" bodyfile="include/updates/canary_rollout.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_config_1ae56404c3aeb2f3fbdfabb6b9e31d240e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::updates::CanaryConfig::error_rate_threshold</definition>
+        <argsstring></argsstring>
+        <name>error_rate_threshold</name>
+        <qualifiedname>themis::updates::CanaryConfig::error_rate_threshold</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+<para>Error rate (0.0 – 1.0) above which an automatic rollback is triggered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="66" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_config_1af08fedcaa09f3859ce27a9d2c5591534" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::CanaryConfig::min_sample_count</definition>
+        <argsstring></argsstring>
+        <name>min_sample_count</name>
+        <qualifiedname>themis::updates::CanaryConfig::min_sample_count</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>Total number of events required before error_rate_threshold is evaluated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="69" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_canary_config_1a99c190ab2b492bbc366f837662a39808" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_canary_config" kindref="compound">CanaryConfig</ref></type>
+        <definition>CanaryConfig themis::updates::CanaryConfig::withDefaultStages</definition>
+        <argsstring>(const std::string &amp;version, const std::string &amp;node_id)</argsstring>
+        <name>withDefaultStages</name>
+        <qualifiedname>themis::updates::CanaryConfig::withDefaultStages</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Default: four canonical stages (1 % → 5 % → 25 % → 100 %). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With Default Stages.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withDefaultStages without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="72" column="25" bodyfile="src/updates/canary_rollout.cpp" bodystart="37" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for a canary rollout. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Constraints (from module ROADMAP):<itemizedlist>
+<listitem><para>Cross-node coordination is NOT implemented here; each node runs its own canary controller and the <computeroutput>node_id</computeroutput> hash determines membership.</para>
+</listitem><listitem><para><ref refid="classthemis_1_1updates_1_1_hot_reload_engine" kindref="compound">HotReloadEngine</ref> is used for the actual file-level update; callers must not run concurrent updates. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/updates/canary_rollout.h" line="54" column="1" bodyfile="include/updates/canary_rollout.h" bodystart="54" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_canary_config_1ae56404c3aeb2f3fbdfabb6b9e31d240e" prot="public" virt="non-virtual"><scope>themis::updates::CanaryConfig</scope><name>error_rate_threshold</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_config_1af08fedcaa09f3859ce27a9d2c5591534" prot="public" virt="non-virtual"><scope>themis::updates::CanaryConfig</scope><name>min_sample_count</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_config_1ac31965fd347993103bb0696c0b4c88c1" prot="public" virt="non-virtual"><scope>themis::updates::CanaryConfig</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_config_1a7d378cd2f6d1cef7a077d483ad066e64" prot="public" virt="non-virtual"><scope>themis::updates::CanaryConfig</scope><name>stages</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_config_1a558633ec442b90a4c303bd8886f0db9a" prot="public" virt="non-virtual"><scope>themis::updates::CanaryConfig</scope><name>version</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_config_1a99c190ab2b492bbc366f837662a39808" prot="public" virt="non-virtual"><scope>themis::updates::CanaryConfig</scope><name>withDefaultStages</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

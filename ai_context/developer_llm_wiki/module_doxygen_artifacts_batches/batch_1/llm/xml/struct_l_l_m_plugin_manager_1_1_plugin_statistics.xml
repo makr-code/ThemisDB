@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_l_l_m_plugin_manager_1_1_plugin_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>LLMPluginManager::PluginStatistics</compoundname>
+    <includes refid="llm__plugin__manager_8h" local="no">llm_plugin_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_l_l_m_plugin_manager_1_1_plugin_statistics_1a92c5a28d5271e3f31b895833f3981907" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LLMPluginManager::PluginStatistics::models_loaded</definition>
+        <argsstring></argsstring>
+        <name>models_loaded</name>
+        <qualifiedname>LLMPluginManager::PluginStatistics::models_loaded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="200" column="13" bodyfile="include/llm/llm_plugin_manager.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_l_l_m_plugin_manager_1_1_plugin_statistics_1a484d3cb8ba4e0ba0590366b5d2f28a71" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LLMPluginManager::PluginStatistics::loras_loaded</definition>
+        <argsstring></argsstring>
+        <name>loras_loaded</name>
+        <qualifiedname>LLMPluginManager::PluginStatistics::loras_loaded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="201" column="13" bodyfile="include/llm/llm_plugin_manager.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_l_l_m_plugin_manager_1_1_plugin_statistics_1ab479e23a982bffbbf4b667fd1f877e06" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::LLMPluginManager::PluginStatistics::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>LLMPluginManager::PluginStatistics::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="202" column="18" bodyfile="include/llm/llm_plugin_manager.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_l_l_m_plugin_manager_1_1_plugin_statistics_1abebfee16a901e8cdd3c2ea48e1c96695" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::LLMPluginManager::PluginStatistics::throughput</definition>
+        <argsstring></argsstring>
+        <name>throughput</name>
+        <qualifiedname>LLMPluginManager::PluginStatistics::throughput</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="203" column="16" bodyfile="include/llm/llm_plugin_manager.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_l_l_m_plugin_manager_1_1_plugin_statistics_1afa1317c0b8bbe556143e4deb87d2a85c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::LLMPluginManager::PluginStatistics::average_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>average_latency_ms</name>
+        <qualifiedname>LLMPluginManager::PluginStatistics::average_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="204" column="16" bodyfile="include/llm/llm_plugin_manager.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_l_l_m_plugin_manager_1_1_plugin_statistics_1a400b70b9fd01f7f3f89c8bd2b761f646" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::LLMPluginManager::PluginStatistics::cache_hit_rate</definition>
+        <argsstring></argsstring>
+        <name>cache_hit_rate</name>
+        <qualifiedname>LLMPluginManager::PluginStatistics::cache_hit_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="205" column="16" bodyfile="include/llm/llm_plugin_manager.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_l_l_m_plugin_manager_1_1_plugin_statistics_1aead8bd95e727b2525904080a490b9131" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LLMPluginManager::PluginStatistics::active_workers</definition>
+        <argsstring></argsstring>
+        <name>active_workers</name>
+        <qualifiedname>LLMPluginManager::PluginStatistics::active_workers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="206" column="13" bodyfile="include/llm/llm_plugin_manager.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_l_l_m_plugin_manager_1_1_plugin_statistics_1a233743374201717ed54e5066c7ee374e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LLMPluginManager::PluginStatistics::queue_depth</definition>
+        <argsstring></argsstring>
+        <name>queue_depth</name>
+        <qualifiedname>LLMPluginManager::PluginStatistics::queue_depth</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="207" column="13" bodyfile="include/llm/llm_plugin_manager.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_plugin_manager.h" line="199" column="5" bodyfile="include/llm/llm_plugin_manager.h" bodystart="199" bodyend="208"/>
+    <listofallmembers>
+      <member refid="struct_l_l_m_plugin_manager_1_1_plugin_statistics_1aead8bd95e727b2525904080a490b9131" prot="public" virt="non-virtual"><scope>LLMPluginManager::PluginStatistics</scope><name>active_workers</name></member>
+      <member refid="struct_l_l_m_plugin_manager_1_1_plugin_statistics_1afa1317c0b8bbe556143e4deb87d2a85c" prot="public" virt="non-virtual"><scope>LLMPluginManager::PluginStatistics</scope><name>average_latency_ms</name></member>
+      <member refid="struct_l_l_m_plugin_manager_1_1_plugin_statistics_1a400b70b9fd01f7f3f89c8bd2b761f646" prot="public" virt="non-virtual"><scope>LLMPluginManager::PluginStatistics</scope><name>cache_hit_rate</name></member>
+      <member refid="struct_l_l_m_plugin_manager_1_1_plugin_statistics_1a484d3cb8ba4e0ba0590366b5d2f28a71" prot="public" virt="non-virtual"><scope>LLMPluginManager::PluginStatistics</scope><name>loras_loaded</name></member>
+      <member refid="struct_l_l_m_plugin_manager_1_1_plugin_statistics_1a92c5a28d5271e3f31b895833f3981907" prot="public" virt="non-virtual"><scope>LLMPluginManager::PluginStatistics</scope><name>models_loaded</name></member>
+      <member refid="struct_l_l_m_plugin_manager_1_1_plugin_statistics_1a233743374201717ed54e5066c7ee374e" prot="public" virt="non-virtual"><scope>LLMPluginManager::PluginStatistics</scope><name>queue_depth</name></member>
+      <member refid="struct_l_l_m_plugin_manager_1_1_plugin_statistics_1abebfee16a901e8cdd3c2ea48e1c96695" prot="public" virt="non-virtual"><scope>LLMPluginManager::PluginStatistics</scope><name>throughput</name></member>
+      <member refid="struct_l_l_m_plugin_manager_1_1_plugin_statistics_1ab479e23a982bffbbf4b667fd1f877e06" prot="public" virt="non-virtual"><scope>LLMPluginManager::PluginStatistics</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

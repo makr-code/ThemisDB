@@ -1,0 +1,723 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__sharding__uncovered_8cpp" kind="file" language="C++">
+    <compoundname>test_sharding_uncovered.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="orphan__detector_8h" local="yes">sharding/orphan_detector.h</includes>
+    <includes refid="shard__load__detector_8h" local="yes">sharding/shard_load_detector.h</includes>
+    <includes refid="shard__topology_8h" local="yes">sharding/shard_topology.h</includes>
+    <includes local="no">memory</includes>
+    <incdepgraph>
+      <node id="9">
+        <label>sharding/consensus_module.h</label>
+        <link refid="consensus__module_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>sharding/cross_shard_fk_validator.h</label>
+        <link refid="cross__shard__fk__validator_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>sharding/cross_shard_ssi_manager.h</label>
+        <link refid="cross__shard__ssi__manager_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>cross_shard_transaction.h</label>
+        <link refid="cross__shard__transaction_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>sharding/distributed_transaction.h</label>
+        <link refid="distributed__transaction_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sharding/orphan_detector.h</label>
+        <link refid="orphan__detector_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>sharding/shard_capabilities.h</label>
+        <link refid="shard__capabilities_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>sharding/shard_load_detector.h</label>
+        <link refid="shard__load__detector_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>sharding/shard_topology.h</label>
+        <link refid="shard__topology_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>sharding/truetime.h</label>
+        <link refid="truetime_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>sharding/wal_manager.h</label>
+        <link refid="wal__manager_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/sharding/test_sharding_uncovered.cpp</label>
+        <link refid="test__sharding__uncovered_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>algorithm</label>
+      </node>
+      <node id="20">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="19">
+        <label>cstdint</label>
+      </node>
+      <node id="30">
+        <label>deque</label>
+      </node>
+      <node id="24">
+        <label>filesystem</label>
+      </node>
+      <node id="23">
+        <label>fstream</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="14">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="28">
+        <label>set</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="26">
+        <label>string_view</label>
+      </node>
+      <node id="21">
+        <label>thread</label>
+      </node>
+      <node id="25">
+        <label>transaction/recoverable_two_phase_coordinator.h</label>
+      </node>
+      <node id="27">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_shard_load_detector_test" prot="public">ShardLoadDetectorTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__sharding__uncovered_8cpp_1ad078d3fc00cb5b9a7e02b2ed34b6d15c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OrphanDetectorTest, DefaultConstruction_Succeeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OrphanDetectorTest</type>
+        </param>
+        <param>
+          <type>DefaultConstruction_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_uncovered.cpp" line="32" column="1" bodyfile="tests/sharding/test_sharding_uncovered.cpp" bodystart="32" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__uncovered_8cpp_1a99eba550596563a540f829a02667b71a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OrphanDetectorTest, ConfigDefaults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OrphanDetectorTest</type>
+        </param>
+        <param>
+          <type>ConfigDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_uncovered.cpp" line="37" column="1" bodyfile="tests/sharding/test_sharding_uncovered.cpp" bodystart="37" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__uncovered_8cpp_1a9dac3a5be2bcd3d1ec2c419eacdf8e07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OrphanDetectorTest, DetectOrphans_NullCoordinator_ReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OrphanDetectorTest</type>
+        </param>
+        <param>
+          <type>DetectOrphans_NullCoordinator_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_uncovered.cpp" line="46" column="1" bodyfile="tests/sharding/test_sharding_uncovered.cpp" bodystart="46" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__uncovered_8cpp_1a22871a071073faca8b82e7aefc5b9b6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OrphanDetectorTest, IsOrphaned_NullCoordinator_ReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OrphanDetectorTest</type>
+        </param>
+        <param>
+          <type>IsOrphaned_NullCoordinator_ReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_uncovered.cpp" line="54" column="1" bodyfile="tests/sharding/test_sharding_uncovered.cpp" bodystart="54" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__uncovered_8cpp_1a8353e17d3f90ae6f994c515dedb53adf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OrphanDetectorTest, CustomTimeout_IsStored)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OrphanDetectorTest</type>
+        </param>
+        <param>
+          <type>CustomTimeout_IsStored</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_uncovered.cpp" line="61" column="1" bodyfile="tests/sharding/test_sharding_uncovered.cpp" bodystart="61" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__uncovered_8cpp_1ae899a41982544f2de7553b0386ce5838" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardLoadDetectorTest, ConstructionSucceeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_shard_load_detector_test" kindref="compound">ShardLoadDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>ConstructionSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_uncovered.cpp" line="87" column="1" bodyfile="tests/sharding/test_sharding_uncovered.cpp" bodystart="87" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__uncovered_8cpp_1a41ac845490f9f2560585b3fed3b47e0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardLoadDetectorTest, DetectImbalance_NoShards_NoImbalance)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_shard_load_detector_test" kindref="compound">ShardLoadDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>DetectImbalance_NoShards_NoImbalance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_uncovered.cpp" line="91" column="1" bodyfile="tests/sharding/test_sharding_uncovered.cpp" bodystart="91" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__uncovered_8cpp_1a23fb54a3344b7e6af2e62e9e595fee86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardLoadDetectorTest, DetectImbalance_OneShardBelowMin_NoImbalance)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_shard_load_detector_test" kindref="compound">ShardLoadDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>DetectImbalance_OneShardBelowMin_NoImbalance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_uncovered.cpp" line="96" column="1" bodyfile="tests/sharding/test_sharding_uncovered.cpp" bodystart="96" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__uncovered_8cpp_1a55f3883fddfcd4ee30270924228d9032" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardLoadDetectorTest, DetectImbalance_BalancedShards_NoImbalance)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_shard_load_detector_test" kindref="compound">ShardLoadDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>DetectImbalance_BalancedShards_NoImbalance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_uncovered.cpp" line="108" column="1" bodyfile="tests/sharding/test_sharding_uncovered.cpp" bodystart="108" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__uncovered_8cpp_1a9fb8c5ea6f9ce52975572761b7cdedf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardLoadDetectorTest, DetectImbalance_HeavilyImbalancedShards_Detected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_shard_load_detector_test" kindref="compound">ShardLoadDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>DetectImbalance_HeavilyImbalancedShards_Detected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_uncovered.cpp" line="128" column="1" bodyfile="tests/sharding/test_sharding_uncovered.cpp" bodystart="128" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__uncovered_8cpp_1ad0c3eb0de64046193753fa8937e440e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardLoadDetectorTest, RecordRebalanceTriggered_DoesNotThrow)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_shard_load_detector_test" kindref="compound">ShardLoadDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>RecordRebalanceTriggered_DoesNotThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_uncovered.cpp" line="150" column="1" bodyfile="tests/sharding/test_sharding_uncovered.cpp" bodystart="150" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__uncovered_8cpp_1a37764a2921cbc1bfffd6f69434cdb971" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardLoadDetectorTest, UpdateShardLoad_OverwritesPreviousLoad)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_shard_load_detector_test" kindref="compound">ShardLoadDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>UpdateShardLoad_OverwritesPreviousLoad</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_uncovered.cpp" line="154" column="1" bodyfile="tests/sharding/test_sharding_uncovered.cpp" bodystart="154" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tests for OrphanDetector and <ref refid="classthemis_1_1sharding_1_1_shard_load_detector" kindref="compound">ShardLoadDetector</ref> (previously uncovered by the test suite). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers OrphanDetector:<itemizedlist>
+<listitem><para>Default construction + Config defaults</para>
+</listitem><listitem><para>detectOrphans with null coordinator (returns empty, no crash)</para>
+</listitem><listitem><para>isOrphaned with null coordinator (returns false, no crash)</para>
+</listitem><listitem><para>Config: custom timeout_seconds</para>
+</listitem></itemizedlist>
+</para>
+<para>Covers <ref refid="classthemis_1_1sharding_1_1_shard_load_detector" kindref="compound">ShardLoadDetector</ref>:<itemizedlist>
+<listitem><para>Construction (topology=nullptr, metrics=nullptr)</para>
+</listitem><listitem><para>updateShardLoad + detectImbalance (balanced set)</para>
+</listitem><listitem><para>updateShardLoad + detectImbalance (imbalanced set)</para>
+</listitem><listitem><para>detectImbalance with &lt; min_shards → no detection</para>
+</listitem><listitem><para>recordRebalanceTriggered (smoke test) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="orphan__detector_8h" kindref="compound">sharding/orphan_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="shard__load__detector_8h" kindref="compound">sharding/shard_load_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="shard__topology_8h" kindref="compound">sharding/shard_topology.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OrphanDetector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><ref refid="test__sharding__uncovered_8cpp_1ad078d3fc00cb5b9a7e02b2ed34b6d15c" kindref="member">TEST</ref>(OrphanDetectorTest,<sp/>DefaultConstruction_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsharding_1_1_orphan_detector_1_1_config" kindref="compound">sharding::OrphanDetector::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="classsharding_1_1_orphan_detector" kindref="compound">sharding::OrphanDetector</ref><sp/>det(cfg));</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="test__sharding__uncovered_8cpp_1ad078d3fc00cb5b9a7e02b2ed34b6d15c" kindref="member">TEST</ref>(OrphanDetectorTest,<sp/>ConfigDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsharding_1_1_orphan_detector_1_1_config" kindref="compound">sharding::OrphanDetector::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structsharding_1_1_orphan_detector_1_1_config_1a297ada32505a03c0c2405d48ce742aaf" kindref="member">timeout_seconds</ref>,<sp/>900u);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structsharding_1_1_orphan_detector_1_1_config_1ac29d2c8951c6d133102e1f041fda57d6" kindref="member">check_preparing</ref>);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structsharding_1_1_orphan_detector_1_1_config_1a7bdd3228eb85ac62a316a20ed0008b34" kindref="member">check_prepared</ref>);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structsharding_1_1_orphan_detector_1_1_config_1aeee05f9ca899bbba9144b66ebea91fc2" kindref="member">check_committing</ref>);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structsharding_1_1_orphan_detector_1_1_config_1ad38f861a7b5775a5bda9cd9db0b9c511" kindref="member">check_aborting</ref>);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__sharding__uncovered_8cpp_1ad078d3fc00cb5b9a7e02b2ed34b6d15c" kindref="member">TEST</ref>(OrphanDetectorTest,<sp/>DetectOrphans_NullCoordinator_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsharding_1_1_orphan_detector_1_1_config" kindref="compound">sharding::OrphanDetector::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classsharding_1_1_orphan_detector" kindref="compound">sharding::OrphanDetector</ref><sp/>det(cfg);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Passing<sp/>nullptr<sp/>should<sp/>not<sp/>crash<sp/>and<sp/>should<sp/>return<sp/>empty<sp/>list</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>orphans<sp/>=<sp/>det.detectOrphans(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orphans.empty());</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__sharding__uncovered_8cpp_1ad078d3fc00cb5b9a7e02b2ed34b6d15c" kindref="member">TEST</ref>(OrphanDetectorTest,<sp/>IsOrphaned_NullCoordinator_ReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsharding_1_1_orphan_detector_1_1_config" kindref="compound">sharding::OrphanDetector::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classsharding_1_1_orphan_detector" kindref="compound">sharding::OrphanDetector</ref><sp/>det(cfg);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>det.isOrphaned(</highlight><highlight class="stringliteral">&quot;txn_123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__sharding__uncovered_8cpp_1ad078d3fc00cb5b9a7e02b2ed34b6d15c" kindref="member">TEST</ref>(OrphanDetectorTest,<sp/>CustomTimeout_IsStored)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsharding_1_1_orphan_detector_1_1_config" kindref="compound">sharding::OrphanDetector::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structsharding_1_1_orphan_detector_1_1_config_1a297ada32505a03c0c2405d48ce742aaf" kindref="member">timeout_seconds</ref><sp/>=<sp/>300;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classsharding_1_1_orphan_detector" kindref="compound">sharding::OrphanDetector</ref><sp/>det(cfg);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction<sp/>succeeds<sp/>with<sp/>custom<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW((</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)det.detectOrphans(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ShardLoadDetector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="class_shard_load_detector_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_shard_load_detector_test" kindref="compound">ShardLoadDetectorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_shard_load_detector_test_1abb3c34dd19f91d887a72fb9ca2e070ea" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>topology<sp/>=<sp/>std::make_shared&lt;ShardTopology&gt;();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config" kindref="compound">ShardLoadDetector::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a3190289e408e619d2cde86290f21a794" kindref="member">min_shards_for_detection</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1aacf6679396664004f9e545c8daa7d702" kindref="member">storage_imbalance_threshold</ref><sp/>=<sp/>0.3;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1a11f9331446b2fe47946dfcf73c44d34b" kindref="member">request_imbalance_threshold</ref><sp/>=<sp/>0.3;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_shard_load_detector_test_1a80515ba66ae64ef2eacefae507881d98" kindref="member">detector_</ref><sp/>=<sp/>std::make_unique&lt;ShardLoadDetector&gt;(topology,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ShardLoadDetector&gt;<sp/><ref refid="class_shard_load_detector_test_1a80515ba66ae64ef2eacefae507881d98" kindref="member">detector_</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_shard_load_detector_test" kindref="compound">ShardLoadDetectorTest</ref>,<sp/>ConstructionSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(detector_,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_shard_load_detector_test" kindref="compound">ShardLoadDetectorTest</ref>,<sp/>DetectImbalance_NoShards_NoImbalance)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;detectImbalance();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.is_imbalanced);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_shard_load_detector_test" kindref="compound">ShardLoadDetectorTest</ref>,<sp/>DetectImbalance_OneShardBelowMin_NoImbalance)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a8b0f24070a61eed554a2b6ec6fe1b93e" kindref="member">shard_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1aa40b02fcab088dbca9d6651be864406e" kindref="member">total_records</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1ad12d67c98cc0fc1cc44af9ca77102c95" kindref="member">storage_usage_percent</ref><sp/>=<sp/>50.0;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a99d1f8b56a5d94ad0793a5dd7ad8e694" kindref="member">requests_per_sec</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;updateShardLoad(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>m);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;detectImbalance();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.is_imbalanced);<sp/></highlight><highlight class="comment">//<sp/>min_shards_for_detection<sp/>=<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_shard_load_detector_test" kindref="compound">ShardLoadDetectorTest</ref>,<sp/>DetectImbalance_BalancedShards_NoImbalance)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref><sp/>m1;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>m1.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a8b0f24070a61eed554a2b6ec6fe1b93e" kindref="member">shard_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>m1.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1aa40b02fcab088dbca9d6651be864406e" kindref="member">total_records</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>m1.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1ad12d67c98cc0fc1cc44af9ca77102c95" kindref="member">storage_usage_percent</ref><sp/>=<sp/>50.0;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>m1.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a99d1f8b56a5d94ad0793a5dd7ad8e694" kindref="member">requests_per_sec</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref><sp/>m2;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>m2.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a8b0f24070a61eed554a2b6ec6fe1b93e" kindref="member">shard_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>m2.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1aa40b02fcab088dbca9d6651be864406e" kindref="member">total_records</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>m2.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1ad12d67c98cc0fc1cc44af9ca77102c95" kindref="member">storage_usage_percent</ref><sp/>=<sp/>50.0;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>m2.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a99d1f8b56a5d94ad0793a5dd7ad8e694" kindref="member">requests_per_sec</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;updateShardLoad(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>m1);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;updateShardLoad(</highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">,<sp/>m2);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;detectImbalance();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.is_imbalanced);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_shard_load_detector_test" kindref="compound">ShardLoadDetectorTest</ref>,<sp/>DetectImbalance_HeavilyImbalancedShards_Detected)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>shard1<sp/>extremely<sp/>overloaded,<sp/>shard2<sp/>nearly<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref><sp/>hot;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>hot.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a8b0f24070a61eed554a2b6ec6fe1b93e" kindref="member">shard_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>hot.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1aa40b02fcab088dbca9d6651be864406e" kindref="member">total_records</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100000;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>hot.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1ad12d67c98cc0fc1cc44af9ca77102c95" kindref="member">storage_usage_percent</ref><sp/>=<sp/>95.0;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>hot.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a99d1f8b56a5d94ad0793a5dd7ad8e694" kindref="member">requests_per_sec</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref><sp/>cold;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>cold.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a8b0f24070a61eed554a2b6ec6fe1b93e" kindref="member">shard_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>cold.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1aa40b02fcab088dbca9d6651be864406e" kindref="member">total_records</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>cold.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1ad12d67c98cc0fc1cc44af9ca77102c95" kindref="member">storage_usage_percent</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>cold.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a99d1f8b56a5d94ad0793a5dd7ad8e694" kindref="member">requests_per_sec</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;updateShardLoad(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>hot);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;updateShardLoad(</highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">,<sp/>cold);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;detectImbalance();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.is_imbalanced);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.hotspot_shards.empty());</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_shard_load_detector_test" kindref="compound">ShardLoadDetectorTest</ref>,<sp/>RecordRebalanceTriggered_DoesNotThrow)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(detector_-&gt;recordRebalanceTriggered());</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_shard_load_detector_test" kindref="compound">ShardLoadDetectorTest</ref>,<sp/>UpdateShardLoad_OverwritesPreviousLoad)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref><sp/>m1;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>m1.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a8b0f24070a61eed554a2b6ec6fe1b93e" kindref="member">shard_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>m1.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1aa40b02fcab088dbca9d6651be864406e" kindref="member">total_records</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>m1.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1ad12d67c98cc0fc1cc44af9ca77102c95" kindref="member">storage_usage_percent</ref><sp/>=<sp/>50.0;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>m1.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a99d1f8b56a5d94ad0793a5dd7ad8e694" kindref="member">requests_per_sec</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref><sp/>m2;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>m2.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a8b0f24070a61eed554a2b6ec6fe1b93e" kindref="member">shard_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>m2.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1aa40b02fcab088dbca9d6651be864406e" kindref="member">total_records</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9999;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>m2.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1ad12d67c98cc0fc1cc44af9ca77102c95" kindref="member">storage_usage_percent</ref><sp/>=<sp/>99.0;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>m2.<ref refid="structthemis_1_1sharding_1_1_shard_load_metrics_1a99d1f8b56a5d94ad0793a5dd7ad8e694" kindref="member">requests_per_sec</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9999;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;updateShardLoad(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>m1);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;updateShardLoad(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>m2);<sp/></highlight><highlight class="comment">//<sp/>overwrite</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;updateShardLoad(</highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">,<sp/>m1);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>shard1<sp/>is<sp/>heavily<sp/>loaded,<sp/>shard2<sp/>is<sp/>light<sp/>→<sp/>should<sp/>detect<sp/>imbalance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;detectImbalance();</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.is_imbalanced);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/sharding/test_sharding_uncovered.cpp"/>
+  </compounddef>
+</doxygen>

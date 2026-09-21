@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_pattern_matcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::PatternMatcher</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_pattern_matcher_1ad671fde830a77d759fb2855cfe7bf53e" prot="private" static="no" mutable="yes">
+        <type>mutex</type>
+        <definition>mutex themis::observability::PatternMatcher::patterns_mutex_</definition>
+        <argsstring></argsstring>
+        <name>patterns_mutex_</name>
+        <qualifiedname>themis::observability::PatternMatcher::patterns_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="350" column="19" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_pattern_matcher_1a242d21c1bf507fd9a50dd00310939d03" prot="private" static="no" mutable="no">
+        <type>vector&lt; <ref refid="structthemis_1_1observability_1_1_pattern" kindref="compound">Pattern</ref> &gt;</type>
+        <definition>vector&lt;Pattern&gt; themis::observability::PatternMatcher::patterns_</definition>
+        <argsstring></argsstring>
+        <name>patterns_</name>
+        <qualifiedname>themis::observability::PatternMatcher::patterns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="351" column="12" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="351" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_pattern_matcher_1a90b7b1bc62571bc6deab97c27eb9349a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::PatternMatcher::addPattern</definition>
+        <argsstring>(const Pattern &amp;pattern)</argsstring>
+        <name>addPattern</name>
+        <qualifiedname>themis::observability::PatternMatcher::addPattern</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_pattern" kindref="compound">Pattern</ref> &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a pattern for matching </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="312" column="10" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="312" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_pattern_matcher_1af159c58e49b08c15b43ee6754d767815" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::PatternMatcher::matchMetric</definition>
+        <argsstring>(const string &amp;metric_name)</argsstring>
+        <name>matchMetric</name>
+        <qualifiedname>themis::observability::PatternMatcher::matchMetric</qualifiedname>
+        <param>
+          <type>const string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Match metric name against all patterns </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="320" column="12" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="320" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_pattern_matcher_1a0d9d27e183ce4e7d1c3517c37d064b7a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::PatternMatcher::getPatternCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getPatternCount</name>
+        <qualifiedname>themis::observability::PatternMatcher::getPatternCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get pattern count </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="336" column="12" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="336" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_pattern_matcher_1a2f9b7dcbb1be8e6f9ea3692abdffe5f4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::PatternMatcher::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::observability::PatternMatcher::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear all patterns </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="344" column="10" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="344" bodyend="347"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1observability_1_1_pattern" kindref="compound">Pattern</ref> matcher for metric filtering. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="307" column="1" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="307" bodyend="352"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_pattern_matcher_1a90b7b1bc62571bc6deab97c27eb9349a" prot="public" virt="non-virtual"><scope>themis::observability::PatternMatcher</scope><name>addPattern</name></member>
+      <member refid="classthemis_1_1observability_1_1_pattern_matcher_1a2f9b7dcbb1be8e6f9ea3692abdffe5f4" prot="public" virt="non-virtual"><scope>themis::observability::PatternMatcher</scope><name>clear</name></member>
+      <member refid="classthemis_1_1observability_1_1_pattern_matcher_1a0d9d27e183ce4e7d1c3517c37d064b7a" prot="public" virt="non-virtual"><scope>themis::observability::PatternMatcher</scope><name>getPatternCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_pattern_matcher_1af159c58e49b08c15b43ee6754d767815" prot="public" virt="non-virtual"><scope>themis::observability::PatternMatcher</scope><name>matchMetric</name></member>
+      <member refid="classthemis_1_1observability_1_1_pattern_matcher_1a242d21c1bf507fd9a50dd00310939d03" prot="private" virt="non-virtual"><scope>themis::observability::PatternMatcher</scope><name>patterns_</name></member>
+      <member refid="classthemis_1_1observability_1_1_pattern_matcher_1ad671fde830a77d759fb2855cfe7bf53e" prot="private" virt="non-virtual"><scope>themis::observability::PatternMatcher</scope><name>patterns_mutex_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

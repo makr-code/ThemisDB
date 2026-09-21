@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innerclass refid="classthemis_1_1_auth_middleware" prot="public">themis::AuthMiddleware</innerclass>
+    <innerclass refid="classthemis_1_1_opa_adapter" prot="public">themis::OpaAdapter</innerclass>
+    <innerclass refid="classthemis_1_1_policy_engine" prot="public">themis::PolicyEngine</innerclass>
+    <innerclass refid="structthemis_1_1_tenant_config" prot="public">themis::TenantConfig</innerclass>
+    <innerclass refid="structthemis_1_1_tenant_context" prot="public">themis::TenantContext</innerclass>
+    <innerclass refid="classthemis_1_1_tenant_context_guard" prot="public">themis::TenantContextGuard</innerclass>
+    <innerclass refid="classthemis_1_1_tenant_manager" prot="public">themis::TenantManager</innerclass>
+    <innerclass refid="structthemis_1_1_tenant_usage" prot="public">themis::TenantUsage</innerclass>
+    <innernamespace refid="namespacethemis_1_1analytics">themis::analytics</innernamespace>
+    <innernamespace refid="namespacethemis_1_1aql">themis::aql</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core">themis::core</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance">themis::governance</innernamespace>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1metadata">themis::metadata</innernamespace>
+    <innernamespace refid="namespacethemis_1_1modules">themis::modules</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <innernamespace refid="namespacethemis_1_1pitr">themis::pitr</innernamespace>
+    <innernamespace refid="namespacethemis_1_1prompt__engineering">themis::prompt_engineering</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rpc">themis::rpc</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server">themis::server</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <innernamespace refid="namespacethemis_1_1test">themis::test</innernamespace>
+    <innernamespace refid="namespacethemis_1_1transaction">themis::transaction</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" prot="public" static="no">
+        <type>query::QueryEngine</type>
+        <definition>using themis::QueryEngine = query::QueryEngine</definition>
+        <argsstring></argsstring>
+        <name>QueryEngine</name>
+        <qualifiedname>themis::QueryEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="28" column="1" bodyfile="include/server/ethics_api_handler.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a218b356babf260cc9c85dd14f96faf5d" prot="public" static="no">
+        <type>IQueryEngine</type>
+        <definition>using themis::AQLEngine = IQueryEngine</definition>
+        <argsstring></argsstring>
+        <name>AQLEngine</name>
+        <qualifiedname>themis::AQLEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/themis_core_grpc_service.h" line="26" column="5" bodyfile="include/server/themis_core_grpc_service.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/policy_engine.cpp" line="24" column="1" bodyfile="src/server/policy_engine.cpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1a6d19e4d1e47afcd27102dede13dfaf20" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::starts_with</definition>
+        <argsstring>(const std::string &amp;s, const std::string &amp;prefix)</argsstring>
+        <name>starts_with</name>
+        <qualifiedname>themis::starts_with</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Starts with. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), std::equal(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/policy_engine.cpp" line="33" column="13" bodyfile="src/server/policy_engine.cpp" bodystart="33" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a78011a9814b80a317ca1bfd9d3cfa41e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::emitPolicyAudit</definition>
+        <argsstring>(utils::AuditLogger *logger, const std::string &amp;action, const std::string &amp;policy_id, const std::string &amp;detail={})</argsstring>
+        <name>emitPolicyAudit</name>
+        <qualifiedname>themis::emitPolicyAudit</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/policy_engine.cpp" line="40" column="13" bodyfile="src/server/policy_engine.cpp" bodystart="40" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>GeoTopologyApiHandler — REST API for GEO_MIRROR topology config &amp; health</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ReplicationTopologyApiHandler</para>
+<para>REST API + embedded web UI for visualizing the live WAL-replication topology.</para>
+<para>Endpoints GET /api/v1/replication/topology – per-replica snapshot (JSON) GET /api/v1/replication/health – aggregated health summary (JSON) GET /ui/replication/topology – interactive SVG topology viewer (HTML)</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <location file="include/server/adaptive_rate_limiter.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

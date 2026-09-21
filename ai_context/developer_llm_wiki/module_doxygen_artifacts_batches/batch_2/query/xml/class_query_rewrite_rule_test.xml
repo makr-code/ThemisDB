@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_query_rewrite_rule_test" kind="class" language="C++" prot="public">
+    <compoundname>QueryRewriteRuleTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_query_rewrite_rule_test_1adf4f6f611deb2dec1bf1ab49c0c74fcc" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref></type>
+        <definition>RewriteContext QueryRewriteRuleTest::ctx_</definition>
+        <argsstring></argsstring>
+        <name>ctx_</name>
+        <qualifiedname>QueryRewriteRuleTest::ctx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_future_interfaces.cpp" line="20" column="20" bodyfile="tests/query/test_query_future_interfaces.cpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_query_rewrite_rule_test_1a5aa3c75a0d95ac4cf195ac5d43d18c53" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void QueryRewriteRuleTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>QueryRewriteRuleTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_future_interfaces.cpp" line="21" column="10" bodyfile="tests/query/test_query_future_interfaces.cpp" bodystart="21" bodyend="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>QueryRewriteRuleTest</label>
+        <link refid="class_query_rewrite_rule_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>QueryRewriteRuleTest</label>
+        <link refid="class_query_rewrite_rule_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>ctx_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::query::RewriteContext</label>
+        <link refid="structthemis_1_1query_1_1_rewrite_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_future_interfaces.cpp" line="18" column="1" bodyfile="tests/query/test_query_future_interfaces.cpp" bodystart="18" bodyend="26"/>
+    <listofallmembers>
+      <member refid="class_query_rewrite_rule_test_1adf4f6f611deb2dec1bf1ab49c0c74fcc" prot="protected" virt="non-virtual"><scope>QueryRewriteRuleTest</scope><name>ctx_</name></member>
+      <member refid="class_query_rewrite_rule_test_1a5aa3c75a0d95ac4cf195ac5d43d18c53" prot="protected" virt="non-virtual"><scope>QueryRewriteRuleTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

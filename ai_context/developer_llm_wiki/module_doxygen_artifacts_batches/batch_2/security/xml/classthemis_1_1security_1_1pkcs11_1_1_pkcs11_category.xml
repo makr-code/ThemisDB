@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_category" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::pkcs11::Pkcs11Category</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::error_category</basecompoundref>
+    <includes refid="pkcs11__wrapper_8h" local="no">pkcs11_wrapper.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_category_1ac349f38881bac1d2b46b679d0ddb0ca2" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::security::pkcs11::Pkcs11Category::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Category::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="118" column="16" bodyfile="include/security/pkcs11_wrapper.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_category_1a57a3a1a59e75c3f89ac6e286d24fb280" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::pkcs11::Pkcs11Category::message</definition>
+        <argsstring>(int condition) const override</argsstring>
+        <name>message</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Category::message</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>condition</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="120" column="17" bodyfile="include/security/pkcs11_wrapper.h" bodystart="120" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_category_1a8e71441c204cd64766505bd1ac705bab" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_category" kindref="compound">Pkcs11Category</ref> &amp;</type>
+        <definition>static const Pkcs11Category &amp; themis::security::pkcs11::Pkcs11Category::instance</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Category::instance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="124" column="33" bodyfile="include/security/pkcs11_wrapper.h" bodystart="124" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thin std::error_category implementation for PKCS#11 return values. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Allows PKCS#11 errors to integrate with standard C++ error-handling patterns (<computeroutput>std::error_code</computeroutput>, <computeroutput>std::system_error</computeroutput>). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::error_category</label>
+      </node>
+      <node id="1">
+        <label>themis::security::pkcs11::Pkcs11Category</label>
+        <link refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_category"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::error_category</label>
+      </node>
+      <node id="1">
+        <label>themis::security::pkcs11::Pkcs11Category</label>
+        <link refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_category"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/pkcs11_wrapper.h" line="116" column="1" bodyfile="include/security/pkcs11_wrapper.h" bodystart="116" bodyend="128"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_category_1a8e71441c204cd64766505bd1ac705bab" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Category</scope><name>instance</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_category_1a57a3a1a59e75c3f89ac6e286d24fb280" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Category</scope><name>message</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_category_1ac349f38881bac1d2b46b679d0ddb0ca2" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Category</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

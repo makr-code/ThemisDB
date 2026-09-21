@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespaceboost" kind="namespace" language="C++">
+    <compoundname>boost</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceboost_1ace19bb72dc928c61c1a2e801a7beb393" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void boost::throw_exception</definition>
+        <argsstring>(std::exception const &amp;e)</argsstring>
+        <name>throw_exception</name>
+        <qualifiedname>boost::throw_exception</qualifiedname>
+        <param>
+          <type>std::exception const &amp;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Throw exception. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements throw_exception without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/boost_throw_exception.cpp" line="26" column="6" bodyfile="src/utils/boost_throw_exception.cpp" bodystart="26" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceboost_1a4f3d180204efe8db665e0634fb5b3a9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void boost::throw_exception</definition>
+        <argsstring>(std::exception const &amp;e, boost::source_location const &amp;)</argsstring>
+        <name>throw_exception</name>
+        <qualifiedname>boost::throw_exception</qualifiedname>
+        <param>
+          <type>std::exception const &amp;</type>
+          <declname>e</declname>
+        </param>
+        <param>
+          <type>boost::source_location const &amp;</type>
+        </param>
+        <briefdescription>
+<para>Throw exception. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements throw_exception without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/boost_throw_exception.cpp" line="37" column="6" bodyfile="src/utils/boost_throw_exception.cpp" bodystart="37" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/utils/boost_throw_exception.cpp" line="18" column="1"/>
+  </compounddef>
+</doxygen>

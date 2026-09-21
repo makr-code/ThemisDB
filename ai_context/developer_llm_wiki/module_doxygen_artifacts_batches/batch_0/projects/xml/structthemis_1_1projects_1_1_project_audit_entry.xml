@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1projects_1_1_project_audit_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::projects::ProjectAuditEntry</compoundname>
+    <includes refid="project__audit__log_8h" local="no">project_audit_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_audit_entry_1a615991fa5d1c4f5c473b02f80a451223" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ProjectAuditEntry::entry_id</definition>
+        <argsstring></argsstring>
+        <name>entry_id</name>
+        <qualifiedname>themis::projects::ProjectAuditEntry::entry_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="33" column="17" bodyfile="include/projects/project_audit_log.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_audit_entry_1a5ae430b1539576f3a5ac163f3e92aefe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ProjectAuditEntry::project_id</definition>
+        <argsstring></argsstring>
+        <name>project_id</name>
+        <qualifiedname>themis::projects::ProjectAuditEntry::project_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="34" column="17" bodyfile="include/projects/project_audit_log.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_audit_entry_1ae8565236573276bbec12f0b4c6b1ef15" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317" kindref="member">ProjectAuditAction</ref></type>
+        <definition>ProjectAuditAction themis::projects::ProjectAuditEntry::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::projects::ProjectAuditEntry::action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="35" column="24" bodyfile="include/projects/project_audit_log.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_audit_entry_1a3ab82a7b3703666d3e9e7f38a0809714" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ProjectAuditEntry::actor_id</definition>
+        <argsstring></argsstring>
+        <name>actor_id</name>
+        <qualifiedname>themis::projects::ProjectAuditEntry::actor_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="36" column="17" bodyfile="include/projects/project_audit_log.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_audit_entry_1a53ea8c8d8ac2d1263f8d04f74f6ee9b6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ProjectAuditEntry::actor_type</definition>
+        <argsstring></argsstring>
+        <name>actor_type</name>
+        <qualifiedname>themis::projects::ProjectAuditEntry::actor_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="37" column="17" bodyfile="include/projects/project_audit_log.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_audit_entry_1a15bd16f7c67dde94151c065af89c923f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ProjectAuditEntry::resource_id</definition>
+        <argsstring></argsstring>
+        <name>resource_id</name>
+        <qualifiedname>themis::projects::ProjectAuditEntry::resource_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="38" column="17" bodyfile="include/projects/project_audit_log.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_audit_entry_1aedac9d2871a31d55baf469a73405c464" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ProjectAuditEntry::resource_type</definition>
+        <argsstring></argsstring>
+        <name>resource_type</name>
+        <qualifiedname>themis::projects::ProjectAuditEntry::resource_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="39" column="17" bodyfile="include/projects/project_audit_log.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_audit_entry_1a9a162677b7fba5c019e2bd6e495e1d6c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::projects::ProjectAuditEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::projects::ProjectAuditEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="40" column="43" bodyfile="include/projects/project_audit_log.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_audit_entry_1ad99d90419db5a1c8a504c1488d5c8da9" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::projects::ProjectAuditEntry::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::projects::ProjectAuditEntry::details</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="41" column="14" bodyfile="include/projects/project_audit_log.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_audit_entry_1a4088427743c041557ce69b9b08504a58" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ProjectAuditEntry::ip_address</definition>
+        <argsstring></argsstring>
+        <name>ip_address</name>
+        <qualifiedname>themis::projects::ProjectAuditEntry::ip_address</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="42" column="17" bodyfile="include/projects/project_audit_log.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_audit_entry_1aee191afc9c64d837857b322ca223a453" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ProjectAuditEntry::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::projects::ProjectAuditEntry::request_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="43" column="17" bodyfile="include/projects/project_audit_log.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/projects/project_audit_log.h" line="32" column="1" bodyfile="include/projects/project_audit_log.h" bodystart="32" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1projects_1_1_project_audit_entry_1ae8565236573276bbec12f0b4c6b1ef15" prot="public" virt="non-virtual"><scope>themis::projects::ProjectAuditEntry</scope><name>action</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_audit_entry_1a3ab82a7b3703666d3e9e7f38a0809714" prot="public" virt="non-virtual"><scope>themis::projects::ProjectAuditEntry</scope><name>actor_id</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_audit_entry_1a53ea8c8d8ac2d1263f8d04f74f6ee9b6" prot="public" virt="non-virtual"><scope>themis::projects::ProjectAuditEntry</scope><name>actor_type</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_audit_entry_1ad99d90419db5a1c8a504c1488d5c8da9" prot="public" virt="non-virtual"><scope>themis::projects::ProjectAuditEntry</scope><name>details</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_audit_entry_1a615991fa5d1c4f5c473b02f80a451223" prot="public" virt="non-virtual"><scope>themis::projects::ProjectAuditEntry</scope><name>entry_id</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_audit_entry_1a4088427743c041557ce69b9b08504a58" prot="public" virt="non-virtual"><scope>themis::projects::ProjectAuditEntry</scope><name>ip_address</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_audit_entry_1a5ae430b1539576f3a5ac163f3e92aefe" prot="public" virt="non-virtual"><scope>themis::projects::ProjectAuditEntry</scope><name>project_id</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_audit_entry_1aee191afc9c64d837857b322ca223a453" prot="public" virt="non-virtual"><scope>themis::projects::ProjectAuditEntry</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_audit_entry_1a15bd16f7c67dde94151c065af89c923f" prot="public" virt="non-virtual"><scope>themis::projects::ProjectAuditEntry</scope><name>resource_id</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_audit_entry_1aedac9d2871a31d55baf469a73405c464" prot="public" virt="non-virtual"><scope>themis::projects::ProjectAuditEntry</scope><name>resource_type</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_audit_entry_1a9a162677b7fba5c019e2bd6e495e1d6c" prot="public" virt="non-virtual"><scope>themis::projects::ProjectAuditEntry</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

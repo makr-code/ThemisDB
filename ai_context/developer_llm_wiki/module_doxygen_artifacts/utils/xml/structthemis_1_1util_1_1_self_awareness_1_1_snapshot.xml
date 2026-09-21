@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1util_1_1_self_awareness_1_1_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::util::SelfAwareness::Snapshot</compoundname>
+    <includes refid="self__awareness_8h" local="no">self_awareness.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1a949ee115fd66fcfc5432a06789f7b1f5" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::util::SelfAwareness::Snapshot::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::util::SelfAwareness::Snapshot::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="126" column="47" bodyfile="include/utils/self_awareness.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1a8b880641d3c66b2e1269ace5672ef119" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::util::SelfAwareness::Snapshot::triggered_by</definition>
+        <argsstring></argsstring>
+        <name>triggered_by</name>
+        <qualifiedname>themis::util::SelfAwareness::Snapshot::triggered_by</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="127" column="21" bodyfile="include/utils/self_awareness.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1a47241d4b34af0b1870d479ad616509c2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics" kindref="compound">HealthMetrics</ref></type>
+        <definition>HealthMetrics themis::util::SelfAwareness::Snapshot::health</definition>
+        <argsstring></argsstring>
+        <name>health</name>
+        <qualifiedname>themis::util::SelfAwareness::Snapshot::health</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="129" column="23" bodyfile="include/utils/self_awareness.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1afe7c906f7e7e1219f8a1c554a4600ed6" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1util_1_1_self_awareness_1_1_capability_state" kindref="compound">CapabilityState</ref></type>
+        <definition>CapabilityState themis::util::SelfAwareness::Snapshot::capabilities</definition>
+        <argsstring></argsstring>
+        <name>capabilities</name>
+        <qualifiedname>themis::util::SelfAwareness::Snapshot::capabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="130" column="25" bodyfile="include/utils/self_awareness.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1a11f3e93420d52dca7617614d38fade0b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1util_1_1_self_awareness_1_1_query_performance" kindref="compound">QueryPerformance</ref></type>
+        <definition>QueryPerformance themis::util::SelfAwareness::Snapshot::performance</definition>
+        <argsstring></argsstring>
+        <name>performance</name>
+        <qualifiedname>themis::util::SelfAwareness::Snapshot::performance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="131" column="26" bodyfile="include/utils/self_awareness.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1a911cbdf90e9f8f093d4357079e06451a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::util::SelfAwareness::Snapshot::anomalies</definition>
+        <argsstring></argsstring>
+        <name>anomalies</name>
+        <qualifiedname>themis::util::SelfAwareness::Snapshot::anomalies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="134" column="21" bodyfile="include/utils/self_awareness.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1a93bfa1ae23cf4f1a52e2646bb33e2579" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::util::SelfAwareness::Snapshot::overall_health_status</definition>
+        <argsstring></argsstring>
+        <name>overall_health_status</name>
+        <qualifiedname>themis::util::SelfAwareness::Snapshot::overall_health_status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="137" column="21" bodyfile="include/utils/self_awareness.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1abeeab4abdacf172ad1fa20671da34e1b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::Snapshot::confidence_score</definition>
+        <argsstring></argsstring>
+        <name>confidence_score</name>
+        <qualifiedname>themis::util::SelfAwareness::Snapshot::confidence_score</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="138" column="16" bodyfile="include/utils/self_awareness.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1a31eacb97c93af1fc5798a6ebee7d5814" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::util::SelfAwareness::Snapshot::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::util::SelfAwareness::Snapshot::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Convert snapshot to JSON </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="143" column="24" bodyfile="src/utils/self_awareness.cpp" bodystart="567" bodyend="655"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Self-awareness snapshot - complete state at a point in time </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::util::SelfAwareness::CapabilityState</label>
+        <link refid="structthemis_1_1util_1_1_self_awareness_1_1_capability_state"/>
+      </node>
+      <node id="2">
+        <label>themis::util::SelfAwareness::HealthMetrics</label>
+        <link refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics"/>
+      </node>
+      <node id="4">
+        <label>themis::util::SelfAwareness::QueryPerformance</label>
+        <link refid="structthemis_1_1util_1_1_self_awareness_1_1_query_performance"/>
+      </node>
+      <node id="1">
+        <label>themis::util::SelfAwareness::Snapshot</label>
+        <link refid="structthemis_1_1util_1_1_self_awareness_1_1_snapshot"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>health</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>capabilities</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>performance</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/self_awareness.h" line="125" column="5" bodyfile="include/utils/self_awareness.h" bodystart="125" bodyend="144"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1a911cbdf90e9f8f093d4357079e06451a" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Snapshot</scope><name>anomalies</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1afe7c906f7e7e1219f8a1c554a4600ed6" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Snapshot</scope><name>capabilities</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1abeeab4abdacf172ad1fa20671da34e1b" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Snapshot</scope><name>confidence_score</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1a47241d4b34af0b1870d479ad616509c2" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Snapshot</scope><name>health</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1a93bfa1ae23cf4f1a52e2646bb33e2579" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Snapshot</scope><name>overall_health_status</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1a11f3e93420d52dca7617614d38fade0b" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Snapshot</scope><name>performance</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1a949ee115fd66fcfc5432a06789f7b1f5" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Snapshot</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1a31eacb97c93af1fc5798a6ebee7d5814" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Snapshot</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_snapshot_1a8b880641d3c66b2e1269ace5672ef119" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::Snapshot</scope><name>triggered_by</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

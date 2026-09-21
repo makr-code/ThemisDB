@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_auth_metrics_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::AuthMetrics::Config</compoundname>
+    <includes refid="auth__metrics_8h" local="no">auth_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_metrics_1_1_config_1a472f135da9c16e32f51a8c928dc01b53" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthMetrics::Config::namespace_prefix</definition>
+        <argsstring></argsstring>
+        <name>namespace_prefix</name>
+        <qualifiedname>themis::auth::AuthMetrics::Config::namespace_prefix</qualifiedname>
+        <initializer>= &quot;themis_auth&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="55" column="21" bodyfile="include/auth/auth_metrics.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_metrics_1_1_config_1a13fc5f973753ebee5e20ed145b967377" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::AuthMetrics::Config::enable_histograms</definition>
+        <argsstring></argsstring>
+        <name>enable_histograms</name>
+        <qualifiedname>themis::auth::AuthMetrics::Config::enable_histograms</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="56" column="14" bodyfile="include/auth/auth_metrics.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_metrics_1_1_config_1a32cc4cfa9ac00a9cb86cf6527e4ef3de" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::AuthMetrics::Config::enable_detailed_metrics</definition>
+        <argsstring></argsstring>
+        <name>enable_detailed_metrics</name>
+        <qualifiedname>themis::auth::AuthMetrics::Config::enable_detailed_metrics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="57" column="14" bodyfile="include/auth/auth_metrics.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_metrics_1_1_config_1a3467aa7ee40062c9c36b0a7c4a3c5b7c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::auth::AuthMetrics::Config::latency_buckets</definition>
+        <argsstring></argsstring>
+        <name>latency_buckets</name>
+        <qualifiedname>themis::auth::AuthMetrics::Config::latency_buckets</qualifiedname>
+        <initializer>= {1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="60" column="21" bodyfile="include/auth/auth_metrics.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_auth_metrics_1_1_config_1a8b6c7be81f085b389421ca32417ebeb2" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_auth_metrics_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::auth::AuthMetrics::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::auth::AuthMetrics::Config::defaults</qualifiedname>
+        <briefdescription>
+<para>Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaults without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="67" column="23" bodyfile="include/auth/auth_metrics.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_metrics.h" line="54" column="5" bodyfile="include/auth/auth_metrics.h" bodystart="54" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_auth_metrics_1_1_config_1a8b6c7be81f085b389421ca32417ebeb2" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_metrics_1_1_config_1a32cc4cfa9ac00a9cb86cf6527e4ef3de" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics::Config</scope><name>enable_detailed_metrics</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_metrics_1_1_config_1a13fc5f973753ebee5e20ed145b967377" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics::Config</scope><name>enable_histograms</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_metrics_1_1_config_1a3467aa7ee40062c9c36b0a7c4a3c5b7c" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics::Config</scope><name>latency_buckets</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_metrics_1_1_config_1a472f135da9c16e32f51a8c928dc01b53" prot="public" virt="non-virtual"><scope>themis::auth::AuthMetrics::Config</scope><name>namespace_prefix</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

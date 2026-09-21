@@ -1,0 +1,861 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1_o_l_a_p_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::OLAPEngine</compoundname>
+    <includes refid="olap_8h" local="no">olap.h</includes>
+    <innerclass refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config" prot="public">themis::analytics::OLAPEngine::Config</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_window_result" prot="public">themis::analytics::OLAPEngine::WindowResult</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_query_plan" prot="public">themis::analytics::OLAPEngine::QueryPlan</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl" prot="public">themis::analytics::OLAPEngine::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ab787db2b971ff0eab909d5e43da071bf" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref> &amp;, const std::string &amp;, const std::string &amp;)&gt;</type>
+        <definition>using themis::analytics::OLAPEngine::ExportToParquetFn = std::function&lt;bool(const OLAPResult&amp;,
+                                                const std::string&amp;,
+                                                const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ExportToParquetFn</name>
+        <qualifiedname>themis::analytics::OLAPEngine::ExportToParquetFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="179" column="5" bodyfile="include/analytics/olap.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ac2a5cb998165f9cd2765cadc0ae5486a" prot="public" static="no">
+        <type>std::function&lt; bool(std::string_view, const std::string &amp;, const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_filter" kindref="compound">Filter</ref> &gt; &amp;, const std::string &amp;)&gt;</type>
+        <definition>using themis::analytics::OLAPEngine::ExportCollectionToParquetFn = std::function&lt;bool(std::string_view,
+                                                          const std::string&amp;,
+                                                          const std::vector&lt;Filter&gt;&amp;,
+                                                          const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ExportCollectionToParquetFn</name>
+        <qualifiedname>themis::analytics::OLAPEngine::ExportCollectionToParquetFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="182" column="5" bodyfile="include/analytics/olap.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a6563cc0c09666aace53ad15af0c1f89e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::analytics::OLAPEngine::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::analytics::OLAPEngine::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="325" column="21" bodyfile="include/analytics/olap.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a29010dc45cfe1fa479f91008e76eaa12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::OLAPEngine::OLAPEngine</definition>
+        <argsstring>()</argsstring>
+        <name>OLAPEngine</name>
+        <qualifiedname>themis::analytics::OLAPEngine::OLAPEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="196" column="5" bodyfile="src/analytics/olap.cpp" bodystart="336" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a491dfdbdb3dc1258ca9aff82073b9bcf" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::OLAPEngine::OLAPEngine</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>OLAPEngine</name>
+        <qualifiedname>themis::analytics::OLAPEngine::OLAPEngine</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine" kindref="compound">OLAPEngine</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="202" column="14" bodyfile="src/analytics/olap.cpp" bodystart="340" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a002fc3c944f2d0bdf3c325abe8b5588f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::OLAPEngine::~OLAPEngine</definition>
+        <argsstring>()</argsstring>
+        <name>~OLAPEngine</name>
+        <qualifiedname>themis::analytics::OLAPEngine::~OLAPEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="203" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a626c2e705215db25154b23a0884e6545" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref></type>
+        <definition>OLAPResult themis::analytics::OLAPEngine::execute</definition>
+        <argsstring>(const OLAPQuery &amp;query)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::analytics::OLAPEngine::execute</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::high_resolution_clock::now(), spdlog::debug(), size(), empty(), spdlog::warn(), lock(), computeOLAPCacheKey(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="211" column="16" bodyfile="src/analytics/olap.cpp" bodystart="442" bodyend="554"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ae1ba03f5b57585febabd30b8080c525c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_cube_cell" kindref="compound">CubeCell</ref> &gt;</type>
+        <definition>std::vector&lt; CubeCell &gt; themis::analytics::OLAPEngine::executeCube</definition>
+        <argsstring>(std::string_view collection, const std::vector&lt; Dimension &gt; &amp;dimensions, const std::vector&lt; Measure &gt; &amp;measures, const std::vector&lt; Filter &gt; &amp;filters={})</argsstring>
+        <name>executeCube</name>
+        <qualifiedname>themis::analytics::OLAPEngine::executeCube</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_dimension" kindref="compound">Dimension</ref> &gt; &amp;</type>
+          <declname>dimensions</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_measure" kindref="compound">Measure</ref> &gt; &amp;</type>
+          <declname>measures</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_filter" kindref="compound">Filter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Execute Cube. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimensions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">measures</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), <ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a626c2e705215db25154b23a0884e6545" kindref="member">execute()</ref>, find(), end(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="214" column="17" bodyfile="src/analytics/olap.cpp" bodystart="845" bodyend="889"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ac5001af29d9822622948b1be6229f296" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_rollup_row" kindref="compound">RollupRow</ref> &gt;</type>
+        <definition>std::vector&lt; RollupRow &gt; themis::analytics::OLAPEngine::executeRollup</definition>
+        <argsstring>(std::string_view collection, const std::vector&lt; Dimension &gt; &amp;dimensions, const std::vector&lt; Measure &gt; &amp;measures, const std::vector&lt; Filter &gt; &amp;filters={})</argsstring>
+        <name>executeRollup</name>
+        <qualifiedname>themis::analytics::OLAPEngine::executeRollup</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_dimension" kindref="compound">Dimension</ref> &gt; &amp;</type>
+          <declname>dimensions</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_measure" kindref="compound">Measure</ref> &gt; &amp;</type>
+          <declname>measures</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_filter" kindref="compound">Filter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Execute Rollup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimensions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">measures</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), <ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a626c2e705215db25154b23a0884e6545" kindref="member">execute()</ref>, find(), end(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="221" column="17" bodyfile="src/analytics/olap.cpp" bodystart="900" bodyend="954"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1adedfcf29db4f3c7d9a35e162c96a1e0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_window_result" kindref="compound">WindowResult</ref> &gt;</type>
+        <definition>std::vector&lt; OLAPEngine::WindowResult &gt; themis::analytics::OLAPEngine::evaluateWindowFunctions</definition>
+        <argsstring>(const std::vector&lt; std::unordered_map&lt; std::string, double &gt; &gt; &amp;data, const std::vector&lt; Measure &gt; &amp;measures, const OLAPQuery::WindowSpec &amp;window)</argsstring>
+        <name>evaluateWindowFunctions</name>
+        <qualifiedname>themis::analytics::OLAPEngine::evaluateWindowFunctions</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::unordered_map&lt; std::string, double &gt; &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_measure" kindref="compound">Measure</ref> &gt; &amp;</type>
+          <declname>measures</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1_1_window_spec" kindref="compound">OLAPQuery::WindowSpec</ref> &amp;</type>
+          <declname>window</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="235" column="17" bodyfile="src/analytics/olap.cpp" bodystart="957" bodyend="997"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a664502b90c4da6bcdf14b63453fe6e1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_query_plan" kindref="compound">QueryPlan</ref></type>
+        <definition>OLAPEngine::QueryPlan themis::analytics::OLAPEngine::explain</definition>
+        <argsstring>(const OLAPQuery &amp;query)</argsstring>
+        <name>explain</name>
+        <qualifiedname>themis::analytics::OLAPEngine::explain</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Explain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: max(), std::min(), lock(), find(), end(), to_plan_rows(), empty(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="257" column="15" bodyfile="src/analytics/olap.cpp" bodystart="1005" bodyend="1065"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a8b07b3d26952ae6b12cf8ebfc30627e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::OLAPEngine::collectStatistics</definition>
+        <argsstring>(std::string_view collection)</argsstring>
+        <name>collectStatistics</name>
+        <qualifiedname>themis::analytics::OLAPEngine::collectStatistics</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Collect Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: key(), lock(), find(), end(), size(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="263" column="10" bodyfile="src/analytics/olap.cpp" bodystart="1072" bodyend="1093"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a83e57a12e4232c8cb0183eba0c402739" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::OLAPEngine::exportToParquet</definition>
+        <argsstring>(const OLAPResult &amp;result, const std::string &amp;path, const std::string &amp;compression=&quot;snappy&quot;)</argsstring>
+        <name>exportToParquet</name>
+        <qualifiedname>themis::analytics::OLAPEngine::exportToParquet</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>compression</declname>
+          <defval>&quot;snappy&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Export To Parquet. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compression</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), fn(), spdlog::warn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="266" column="10" bodyfile="src/analytics/olap.cpp" bodystart="2389" bodyend="2408"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a6bc3f64afed86db3973146ab4eb7ac2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::OLAPEngine::exportCollectionToParquet</definition>
+        <argsstring>(std::string_view collection, const std::string &amp;path, const std::vector&lt; Filter &gt; &amp;filters={}, const std::string &amp;compression=&quot;snappy&quot;)</argsstring>
+        <name>exportCollectionToParquet</name>
+        <qualifiedname>themis::analytics::OLAPEngine::exportCollectionToParquet</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_filter" kindref="compound">Filter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>compression</declname>
+          <defval>&quot;snappy&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Export Collection To Parquet. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compression</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), fn(), spdlog::warn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="272" column="10" bodyfile="src/analytics/olap.cpp" bodystart="2419" bodyend="2439"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ac1a03cb296cd1ea4987d02281b5f300b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::OLAPEngine::setExportToParquetFn</definition>
+        <argsstring>(ExportToParquetFn fn)</argsstring>
+        <name>setExportToParquetFn</name>
+        <qualifiedname>themis::analytics::OLAPEngine::setExportToParquetFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ab787db2b971ff0eab909d5e43da071bf" kindref="member">ExportToParquetFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Export To Parquet Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="283" column="17" bodyfile="src/analytics/olap.cpp" bodystart="176" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ac1e9aabd864ce818af1ec59a3d47998e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::OLAPEngine::setExportCollectionToParquetFn</definition>
+        <argsstring>(ExportCollectionToParquetFn fn)</argsstring>
+        <name>setExportCollectionToParquetFn</name>
+        <qualifiedname>themis::analytics::OLAPEngine::setExportCollectionToParquetFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ac2a5cb998165f9cd2765cadc0ae5486a" kindref="member">ExportCollectionToParquetFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Export Collection To Parquet Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="288" column="17" bodyfile="src/analytics/olap.cpp" bodystart="186" bodyend="189"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ae37e8cc6a70cd27a7bcf2401db912e53" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref></type>
+        <definition>OLAPResult themis::analytics::OLAPEngine::executeSimpleGroupBy</definition>
+        <argsstring>(const OLAPQuery &amp;query)</argsstring>
+        <name>executeSimpleGroupBy</name>
+        <qualifiedname>themis::analytics::OLAPEngine::executeSimpleGroupBy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute Simple Group By. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), find(), end(), std::to_string(), size(), computeAggregate(), std::move(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="297" column="16" bodyfile="src/analytics/olap.cpp" bodystart="562" bodyend="684"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a96ec404049547834edf48ad2f82bb625" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref></type>
+        <definition>OLAPResult themis::analytics::OLAPEngine::executeCubeQuery</definition>
+        <argsstring>(const OLAPQuery &amp;query)</argsstring>
+        <name>executeCubeQuery</name>
+        <qualifiedname>themis::analytics::OLAPEngine::executeCubeQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute Cube Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), push_back(), clear(), executeSimpleGroupBy(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="303" column="16" bodyfile="src/analytics/olap.cpp" bodystart="692" bodyend="738"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1acd0fd8688e119d9750885ebf80e57e27" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref></type>
+        <definition>OLAPResult themis::analytics::OLAPEngine::executeRollupQuery</definition>
+        <argsstring>(const OLAPQuery &amp;query)</argsstring>
+        <name>executeRollupQuery</name>
+        <qualifiedname>themis::analytics::OLAPEngine::executeRollupQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute Rollup Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), push_back(), clear(), executeSimpleGroupBy(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="309" column="16" bodyfile="src/analytics/olap.cpp" bodystart="746" bodyend="786"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ac89abc29b10abdb15fd0755793f77bb7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">OLAPResult</ref></type>
+        <definition>OLAPResult themis::analytics::OLAPEngine::executeGroupingSetsQuery</definition>
+        <argsstring>(const OLAPQuery &amp;query)</argsstring>
+        <name>executeGroupingSetsQuery</name>
+        <qualifiedname>themis::analytics::OLAPEngine::executeGroupingSetsQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute Grouping Sets Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), clear(), setDimensions(), begin(), end(), count(), executeSimpleGroupBy(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="315" column="16" bodyfile="src/analytics/olap.cpp" bodystart="794" bodyend="834"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a0e751d0ead3f9db86f18a7d612429000" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::analytics::OLAPEngine::computeAggregate</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values, Measure::Function function, double percentile=0.0)</argsstring>
+        <name>computeAggregate</name>
+        <qualifiedname>themis::analytics::OLAPEngine::computeAggregate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2" kindref="member">Measure::Function</ref></type>
+          <declname>function</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>percentile</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+<para>Compute Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">function</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">percentile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), lock(), size(), get(), reserve(), resize(), std::memcpy(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="318" column="12" bodyfile="src/analytics/olap.cpp" bodystart="1103" bodyend="1243"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/olap.h" line="177" column="1" bodyfile="include/analytics/olap.h" bodystart="177" bodyend="326"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a8b07b3d26952ae6b12cf8ebfc30627e9" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>collectStatistics</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a0e751d0ead3f9db86f18a7d612429000" prot="private" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>computeAggregate</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1adedfcf29db4f3c7d9a35e162c96a1e0e" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>evaluateWindowFunctions</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a626c2e705215db25154b23a0884e6545" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>execute</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ae1ba03f5b57585febabd30b8080c525c" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>executeCube</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a96ec404049547834edf48ad2f82bb625" prot="private" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>executeCubeQuery</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ac89abc29b10abdb15fd0755793f77bb7" prot="private" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>executeGroupingSetsQuery</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ac5001af29d9822622948b1be6229f296" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>executeRollup</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1acd0fd8688e119d9750885ebf80e57e27" prot="private" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>executeRollupQuery</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ae37e8cc6a70cd27a7bcf2401db912e53" prot="private" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>executeSimpleGroupBy</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a664502b90c4da6bcdf14b63453fe6e1d" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>explain</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a6bc3f64afed86db3973146ab4eb7ac2e" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>exportCollectionToParquet</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ac2a5cb998165f9cd2765cadc0ae5486a" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>ExportCollectionToParquetFn</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a83e57a12e4232c8cb0183eba0c402739" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>exportToParquet</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ab787db2b971ff0eab909d5e43da071bf" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>ExportToParquetFn</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a6563cc0c09666aace53ad15af0c1f89e" prot="private" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a29010dc45cfe1fa479f91008e76eaa12" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>OLAPEngine</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a491dfdbdb3dc1258ca9aff82073b9bcf" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>OLAPEngine</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ac1e9aabd864ce818af1ec59a3d47998e" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>setExportCollectionToParquetFn</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1ac1a03cb296cd1ea4987d02281b5f300b" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>setExportToParquetFn</name></member>
+      <member refid="classthemis_1_1analytics_1_1_o_l_a_p_engine_1a002fc3c944f2d0bdf3c325abe8b5588f" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine</scope><name>~OLAPEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

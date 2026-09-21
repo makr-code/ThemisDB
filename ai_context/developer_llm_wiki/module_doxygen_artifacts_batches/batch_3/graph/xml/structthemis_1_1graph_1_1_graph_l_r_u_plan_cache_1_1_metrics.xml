@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphLRUPlanCache::Metrics</compoundname>
+    <includes refid="graph__plan__cache_8h" local="no">graph_plan_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_metrics_1a5f5c4b389caa12a32dd384c1e91f87f7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphLRUPlanCache&lt; K, V &gt;::Metrics::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::Metrics::hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total cache hits. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="41" column="18" bodyfile="include/graph/graph_plan_cache.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_metrics_1a53467dd64a64f62d087e8637d77d5cc0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphLRUPlanCache&lt; K, V &gt;::Metrics::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::Metrics::misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total cache misses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="42" column="18" bodyfile="include/graph/graph_plan_cache.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_metrics_1afa24c525def46b9603316792090e52b2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphLRUPlanCache&lt; K, V &gt;::Metrics::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::Metrics::evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Entries evicted due to LRU or TTL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="43" column="18" bodyfile="include/graph/graph_plan_cache.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_metrics_1a436be482def81867570f376658ad4f66" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphLRUPlanCache&lt; K, V &gt;::Metrics::inserts</definition>
+        <argsstring></argsstring>
+        <name>inserts</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::Metrics::inserts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total entries inserted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="44" column="18" bodyfile="include/graph/graph_plan_cache.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_metrics_1aac276bb52de413ba34985b4fd661a360" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graph::GraphLRUPlanCache&lt; K, V &gt;::Metrics::hitRatio</definition>
+        <argsstring>() const</argsstring>
+        <name>hitRatio</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::Metrics::hitRatio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="46" column="16" bodyfile="include/graph/graph_plan_cache.h" bodystart="46" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_plan_cache.h" line="40" column="5" bodyfile="include/graph/graph_plan_cache.h" bodystart="40" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_metrics_1afa24c525def46b9603316792090e52b2" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache::Metrics</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_metrics_1aac276bb52de413ba34985b4fd661a360" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache::Metrics</scope><name>hitRatio</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_metrics_1a5f5c4b389caa12a32dd384c1e91f87f7" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache::Metrics</scope><name>hits</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_metrics_1a436be482def81867570f376658ad4f66" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache::Metrics</scope><name>inserts</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_metrics_1a53467dd64a64f62d087e8637d77d5cc0" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache::Metrics</scope><name>misses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

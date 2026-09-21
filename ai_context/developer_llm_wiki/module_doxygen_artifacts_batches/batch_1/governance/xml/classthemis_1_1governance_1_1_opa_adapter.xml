@@ -1,0 +1,403 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_opa_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::OpaAdapter</compoundname>
+    <basecompoundref refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator" prot="public" virt="non-virtual">themis::governance::PolicyEngine::IPolicyEvaluator</basecompoundref>
+    <includes refid="opa__adapter_8h" local="no">opa_adapter.h</includes>
+    <innerclass refid="structthemis_1_1governance_1_1_opa_adapter_1_1_config" prot="public">themis::governance::OpaAdapter::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1governance_1_1_opa_adapter_1abd4eec35fe7e84ee9657b7a8f15fad4b" prot="public" static="no">
+        <type>std::function&lt; std::optional&lt; <ref refid="structthemis_1_1governance_1_1_policy_decision" kindref="compound">PolicyDecision</ref> &gt;( const std::unordered_map&lt; std::string, std::string &gt; &amp;headers, const std::string &amp;route)&gt;</type>
+        <definition>using themis::governance::OpaAdapter::WasmEvalFn = std::function&lt;std::optional&lt;PolicyDecision&gt;(
+       const std::unordered_map&lt;std::string, std::string&gt;&amp; headers,
+       const std::string&amp; route)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WasmEvalFn</name>
+        <qualifiedname>themis::governance::OpaAdapter::WasmEvalFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="64" column="5" bodyfile="include/governance/opa_adapter.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_opa_adapter_1a6f562a5368b2afa7e28abda8db00db61" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1governance_1_1_opa_adapter_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::governance::OpaAdapter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::governance::OpaAdapter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="81" column="12" bodyfile="include/governance/opa_adapter.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_opa_adapter_1a0d1ce09a8a8e6c4cf127f682633632d1" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1governance_1_1_opa_adapter_1abd4eec35fe7e84ee9657b7a8f15fad4b" kindref="member">WasmEvalFn</ref></type>
+        <definition>WasmEvalFn themis::governance::OpaAdapter::wasm_eval_fn_</definition>
+        <argsstring></argsstring>
+        <name>wasm_eval_fn_</name>
+        <qualifiedname>themis::governance::OpaAdapter::wasm_eval_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="82" column="16" bodyfile="include/governance/opa_adapter.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_opa_adapter_1a7a65f38ed2bbf70a8ef321c6dbe8c40b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::OpaAdapter::OpaAdapter</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>OpaAdapter</name>
+        <qualifiedname>themis::governance::OpaAdapter::OpaAdapter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_opa_adapter_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Opa Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="56" column="14" bodyfile="src/governance/opa_adapter.cpp" bodystart="76" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_opa_adapter_1a6484cda76c72bf4e403bd65f70334090" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::OpaAdapter::~OpaAdapter</definition>
+        <argsstring>() override</argsstring>
+        <name>~OpaAdapter</name>
+        <qualifiedname>themis::governance::OpaAdapter::~OpaAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="57" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_opa_adapter_1a9735f631b01cd0a65e7157f8cbe0dc4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::OpaAdapter::OpaAdapter</definition>
+        <argsstring>(const OpaAdapter &amp;)=delete</argsstring>
+        <name>OpaAdapter</name>
+        <qualifiedname>themis::governance::OpaAdapter::OpaAdapter</qualifiedname>
+        <param>
+          <type>const OpaAdapter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_opa_adapter_1a2854673dcb8859f6b40723da073117cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_opa_adapter_1a7a65f38ed2bbf70a8ef321c6dbe8c40b" kindref="member">OpaAdapter</ref> &amp;</type>
+        <definition>OpaAdapter &amp; themis::governance::OpaAdapter::operator=</definition>
+        <argsstring>(const OpaAdapter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::governance::OpaAdapter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_opa_adapter_1a7a65f38ed2bbf70a8ef321c6dbe8c40b" kindref="member">OpaAdapter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="60" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_opa_adapter_1a40c4a6f43996d763240c80bf17121f44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::OpaAdapter::OpaAdapter</definition>
+        <argsstring>(OpaAdapter &amp;&amp;)=delete</argsstring>
+        <name>OpaAdapter</name>
+        <qualifiedname>themis::governance::OpaAdapter::OpaAdapter</qualifiedname>
+        <param>
+          <type>OpaAdapter &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="61" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_opa_adapter_1ac1cf8dde08161839035353a312955e85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_opa_adapter_1a7a65f38ed2bbf70a8ef321c6dbe8c40b" kindref="member">OpaAdapter</ref> &amp;</type>
+        <definition>OpaAdapter &amp; themis::governance::OpaAdapter::operator=</definition>
+        <argsstring>(OpaAdapter &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::governance::OpaAdapter::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_opa_adapter_1a7a65f38ed2bbf70a8ef321c6dbe8c40b" kindref="member">OpaAdapter</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="62" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_opa_adapter_1a9c15d2bf0cd5bf4c6830142ccf8ed600" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::OpaAdapter::setWasmEvalFn</definition>
+        <argsstring>(WasmEvalFn fn)</argsstring>
+        <name>setWasmEvalFn</name>
+        <qualifiedname>themis::governance::OpaAdapter::setWasmEvalFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_opa_adapter_1abd4eec35fe7e84ee9657b7a8f15fad4b" kindref="member">WasmEvalFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Wasm Eval Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="72" column="10" bodyfile="src/governance/opa_adapter.cpp" bodystart="96" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_opa_adapter_1a07adb18357d127b92bae7419cd674938" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_policy_decision" kindref="compound">PolicyDecision</ref> &gt;</type>
+        <definition>std::optional&lt; PolicyDecision &gt; themis::governance::OpaAdapter::evaluate</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;headers, const std::string &amp;route) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::governance::OpaAdapter::evaluate</qualifiedname>
+        <reimplements refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator_1aeb1a647df9236310efc5e93e6a703364">evaluate</reimplements>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>route</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="74" column="19" bodyfile="src/governance/opa_adapter.cpp" bodystart="204" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_opa_adapter_1af5a18e6e387cd64d2099dde0b1fbda69" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1governance_1_1_opa_adapter_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::governance::OpaAdapter::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::governance::OpaAdapter::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="78" column="18" bodyfile="include/governance/opa_adapter.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_opa_adapter_1a7c71d5cdcf2daf3fc9db2faad591d102" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::OpaAdapter::buildUrl</definition>
+        <argsstring>() const</argsstring>
+        <name>buildUrl</name>
+        <qualifiedname>themis::governance::OpaAdapter::buildUrl</qualifiedname>
+        <briefdescription>
+<para>Build Url. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="88" column="17" bodyfile="src/governance/opa_adapter.cpp" bodystart="100" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_opa_adapter_1aba4af8a91303ab8ac6a5e566dea4331b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_policy_decision" kindref="compound">PolicyDecision</ref> &gt;</type>
+        <definition>std::optional&lt; PolicyDecision &gt; themis::governance::OpaAdapter::evaluateWasm</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;headers, const std::string &amp;route) const</argsstring>
+        <name>evaluateWasm</name>
+        <qualifiedname>themis::governance::OpaAdapter::evaluateWasm</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>route</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="110" column="19" bodyfile="src/governance/opa_adapter.cpp" bodystart="374" bodyend="417"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_opa_adapter_1a9f7e36705c0ec85a61aacc3b1c6acc05" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::OpaAdapter::buildRequestBody</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;headers, const std::string &amp;route)</argsstring>
+        <name>buildRequestBody</name>
+        <qualifiedname>themis::governance::OpaAdapter::buildRequestBody</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>route</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="90" column="24" bodyfile="src/governance/opa_adapter.cpp" bodystart="113" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_opa_adapter_1afaf660fbffa0ff4263bdf534a13d551e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_policy_decision" kindref="compound">PolicyDecision</ref> &gt;</type>
+        <definition>std::optional&lt; PolicyDecision &gt; themis::governance::OpaAdapter::parseOpaResponse</definition>
+        <argsstring>(const std::string &amp;body)</argsstring>
+        <name>parseOpaResponse</name>
+        <qualifiedname>themis::governance::OpaAdapter::parseOpaResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+          <defname>response_body</defname>
+        </param>
+        <briefdescription>
+<para>Parse Opa Response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response_body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nlohmann::json::parse(), contains(), is_boolean(), is_object(), value(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/opa_adapter.h" line="99" column="26" bodyfile="src/governance/opa_adapter.cpp" bodystart="135" bodyend="202"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::governance::OpaAdapter</label>
+        <link refid="classthemis_1_1governance_1_1_opa_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::PolicyEngine::IPolicyEvaluator</label>
+        <link refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::governance::OpaAdapter</label>
+        <link refid="classthemis_1_1governance_1_1_opa_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::PolicyEngine::IPolicyEvaluator</label>
+        <link refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/opa_adapter.h" line="38" column="1" bodyfile="include/governance/opa_adapter.h" bodystart="38" bodyend="113"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_opa_adapter_1a9f7e36705c0ec85a61aacc3b1c6acc05" prot="private" virt="non-virtual"><scope>themis::governance::OpaAdapter</scope><name>buildRequestBody</name></member>
+      <member refid="classthemis_1_1governance_1_1_opa_adapter_1a7c71d5cdcf2daf3fc9db2faad591d102" prot="private" virt="non-virtual"><scope>themis::governance::OpaAdapter</scope><name>buildUrl</name></member>
+      <member refid="classthemis_1_1governance_1_1_opa_adapter_1a6f562a5368b2afa7e28abda8db00db61" prot="private" virt="non-virtual"><scope>themis::governance::OpaAdapter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1governance_1_1_opa_adapter_1a07adb18357d127b92bae7419cd674938" prot="public" virt="virtual"><scope>themis::governance::OpaAdapter</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1governance_1_1_opa_adapter_1aba4af8a91303ab8ac6a5e566dea4331b" prot="private" virt="non-virtual"><scope>themis::governance::OpaAdapter</scope><name>evaluateWasm</name></member>
+      <member refid="classthemis_1_1governance_1_1_opa_adapter_1af5a18e6e387cd64d2099dde0b1fbda69" prot="public" virt="non-virtual"><scope>themis::governance::OpaAdapter</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1governance_1_1_opa_adapter_1a7a65f38ed2bbf70a8ef321c6dbe8c40b" prot="public" virt="non-virtual"><scope>themis::governance::OpaAdapter</scope><name>OpaAdapter</name></member>
+      <member refid="classthemis_1_1governance_1_1_opa_adapter_1a9735f631b01cd0a65e7157f8cbe0dc4a" prot="public" virt="non-virtual"><scope>themis::governance::OpaAdapter</scope><name>OpaAdapter</name></member>
+      <member refid="classthemis_1_1governance_1_1_opa_adapter_1a40c4a6f43996d763240c80bf17121f44" prot="public" virt="non-virtual"><scope>themis::governance::OpaAdapter</scope><name>OpaAdapter</name></member>
+      <member refid="classthemis_1_1governance_1_1_opa_adapter_1a2854673dcb8859f6b40723da073117cc" prot="public" virt="non-virtual"><scope>themis::governance::OpaAdapter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1governance_1_1_opa_adapter_1ac1cf8dde08161839035353a312955e85" prot="public" virt="non-virtual"><scope>themis::governance::OpaAdapter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1governance_1_1_opa_adapter_1afaf660fbffa0ff4263bdf534a13d551e" prot="private" virt="non-virtual"><scope>themis::governance::OpaAdapter</scope><name>parseOpaResponse</name></member>
+      <member refid="classthemis_1_1governance_1_1_opa_adapter_1a9c15d2bf0cd5bf4c6830142ccf8ed600" prot="public" virt="non-virtual"><scope>themis::governance::OpaAdapter</scope><name>setWasmEvalFn</name></member>
+      <member refid="classthemis_1_1governance_1_1_opa_adapter_1a0d1ce09a8a8e6c4cf127f682633632d1" prot="private" virt="non-virtual"><scope>themis::governance::OpaAdapter</scope><name>wasm_eval_fn_</name></member>
+      <member refid="classthemis_1_1governance_1_1_opa_adapter_1abd4eec35fe7e84ee9657b7a8f15fad4b" prot="public" virt="non-virtual"><scope>themis::governance::OpaAdapter</scope><name>WasmEvalFn</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator_1ae86099018349e7b645da68e03b3180ef" prot="public" virt="virtual"><scope>themis::governance::OpaAdapter</scope><name>~IPolicyEvaluator</name></member>
+      <member refid="classthemis_1_1governance_1_1_opa_adapter_1a6484cda76c72bf4e403bd65f70334090" prot="public" virt="non-virtual"><scope>themis::governance::OpaAdapter</scope><name>~OpaAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

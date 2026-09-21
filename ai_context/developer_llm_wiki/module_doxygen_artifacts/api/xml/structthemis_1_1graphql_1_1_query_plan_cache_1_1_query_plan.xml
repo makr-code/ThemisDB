@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::QueryPlanCache::QueryPlan</compoundname>
+    <includes refid="graphql__cache_8h" local="no">graphql_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1a4edb7f4f0f1f55f6c3a18521918c6a3b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::QueryPlanCache::QueryPlan::query_hash</definition>
+        <argsstring></argsstring>
+        <name>query_hash</name>
+        <qualifiedname>themis::graphql::QueryPlanCache::QueryPlan::query_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="254" column="21" bodyfile="include/api/graphql_cache.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1ac883364cf3f794108faaa232488f19e3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::QueryPlanCache::QueryPlan::depth</definition>
+        <argsstring></argsstring>
+        <name>depth</name>
+        <qualifiedname>themis::graphql::QueryPlanCache::QueryPlan::depth</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="255" column="16" bodyfile="include/api/graphql_cache.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1a0bb2693db6f176906328c3ad52ff2711" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::QueryPlanCache::QueryPlan::field_count</definition>
+        <argsstring></argsstring>
+        <name>field_count</name>
+        <qualifiedname>themis::graphql::QueryPlanCache::QueryPlan::field_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="256" column="16" bodyfile="include/api/graphql_cache.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1ae1b8695b316aaf650538c0c53541dfda" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::QueryPlanCache::QueryPlan::ast_node_count</definition>
+        <argsstring></argsstring>
+        <name>ast_node_count</name>
+        <qualifiedname>themis::graphql::QueryPlanCache::QueryPlan::ast_node_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="257" column="16" bodyfile="include/api/graphql_cache.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1a804684962111b661ebaa600fcf1762ee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graphql::QueryPlanCache::QueryPlan::validation_passed</definition>
+        <argsstring></argsstring>
+        <name>validation_passed</name>
+        <qualifiedname>themis::graphql::QueryPlanCache::QueryPlan::validation_passed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="258" column="14" bodyfile="include/api/graphql_cache.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1aa386dae73d45252f1e75349cfdb278e0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graphql_1_1_document" kindref="compound">Document</ref></type>
+        <definition>Document themis::graphql::QueryPlanCache::QueryPlan::parsed_document</definition>
+        <argsstring></argsstring>
+        <name>parsed_document</name>
+        <qualifiedname>themis::graphql::QueryPlanCache::QueryPlan::parsed_document</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="260" column="18" bodyfile="include/api/graphql_cache.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::graphql::Document</label>
+        <link refid="structthemis_1_1graphql_1_1_document"/>
+      </node>
+      <node id="1">
+        <label>themis::graphql::QueryPlanCache::QueryPlan</label>
+        <link refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>parsed_document</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/api/graphql_cache.h" line="253" column="5" bodyfile="include/api/graphql_cache.h" bodystart="253" bodyend="261"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1ae1b8695b316aaf650538c0c53541dfda" prot="public" virt="non-virtual"><scope>themis::graphql::QueryPlanCache::QueryPlan</scope><name>ast_node_count</name></member>
+      <member refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1ac883364cf3f794108faaa232488f19e3" prot="public" virt="non-virtual"><scope>themis::graphql::QueryPlanCache::QueryPlan</scope><name>depth</name></member>
+      <member refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1a0bb2693db6f176906328c3ad52ff2711" prot="public" virt="non-virtual"><scope>themis::graphql::QueryPlanCache::QueryPlan</scope><name>field_count</name></member>
+      <member refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1aa386dae73d45252f1e75349cfdb278e0" prot="public" virt="non-virtual"><scope>themis::graphql::QueryPlanCache::QueryPlan</scope><name>parsed_document</name></member>
+      <member refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1a4edb7f4f0f1f55f6c3a18521918c6a3b" prot="public" virt="non-virtual"><scope>themis::graphql::QueryPlanCache::QueryPlan</scope><name>query_hash</name></member>
+      <member refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan_1a804684962111b661ebaa600fcf1762ee" prot="public" virt="non-virtual"><scope>themis::graphql::QueryPlanCache::QueryPlan</scope><name>validation_passed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

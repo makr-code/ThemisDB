@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_document_summarizer_test" kind="class" language="C++" prot="public">
+    <compoundname>DocumentSummarizerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_document_summarizer_test_1ae13967747393d453cddfcc79cc3804f0" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_document_summarizer_config" kindref="compound">DocumentSummarizerConfig</ref></type>
+        <definition>DocumentSummarizerConfig DocumentSummarizerTest::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>DocumentSummarizerTest::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="91" column="30" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_document_summarizer_test_1ad950989d3c00cb1723383ba6a4e3d9ca" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DocumentSummarizerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DocumentSummarizerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="76" column="10" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="76" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="class_document_summarizer_test_1aedaa71eaf2697c9ad885e014dbd18ac7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DocumentSummarizerTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>DocumentSummarizerTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_document_summarizer.cpp" line="87" column="10" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="87" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DocumentSummarizerTest</label>
+        <link refid="class_document_summarizer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DocumentSummarizerTest</label>
+        <link refid="class_document_summarizer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::DocumentSummarizerConfig</label>
+        <link refid="structthemis_1_1rag_1_1_document_summarizer_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_document_summarizer.cpp" line="74" column="1" bodyfile="tests/rag/test_rag_document_summarizer.cpp" bodystart="74" bodyend="92"/>
+    <listofallmembers>
+      <member refid="class_document_summarizer_test_1ae13967747393d453cddfcc79cc3804f0" prot="protected" virt="non-virtual"><scope>DocumentSummarizerTest</scope><name>cfg_</name></member>
+      <member refid="class_document_summarizer_test_1ad950989d3c00cb1723383ba6a4e3d9ca" prot="protected" virt="non-virtual"><scope>DocumentSummarizerTest</scope><name>SetUp</name></member>
+      <member refid="class_document_summarizer_test_1aedaa71eaf2697c9ad885e014dbd18ac7" prot="protected" virt="non-virtual"><scope>DocumentSummarizerTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::PagedOptimizerState</compoundname>
+    <includes refid="paged__optimizer_8h" local="no">paged_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1a8fa6f752f74b5b75571c62d9bfa0f126" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_buffer" kindref="compound">PagedBuffer</ref></type>
+        <definition>PagedBuffer themis::llm::lora::PagedOptimizerState::momentum</definition>
+        <argsstring></argsstring>
+        <name>momentum</name>
+        <qualifiedname>themis::llm::lora::PagedOptimizerState::momentum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="52" column="17" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1a98b7bfd2fc71e8f9ca2c4ff6278cc67d" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_buffer" kindref="compound">PagedBuffer</ref></type>
+        <definition>PagedBuffer themis::llm::lora::PagedOptimizerState::variance</definition>
+        <argsstring></argsstring>
+        <name>variance</name>
+        <qualifiedname>themis::llm::lora::PagedOptimizerState::variance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="53" column="17" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1a8b74ea5b798169419adb7bce76b83c5d" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_buffer" kindref="compound">PagedBuffer</ref></type>
+        <definition>PagedBuffer themis::llm::lora::PagedOptimizerState::gradient</definition>
+        <argsstring></argsstring>
+        <name>gradient</name>
+        <qualifiedname>themis::llm::lora::PagedOptimizerState::gradient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="54" column="17" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1a5e5fb9e0857bb4840b7ba6df2f30e2f8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::PagedOptimizerState::momentum_on_gpu</definition>
+        <argsstring></argsstring>
+        <name>momentum_on_gpu</name>
+        <qualifiedname>themis::llm::lora::PagedOptimizerState::momentum_on_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="56" column="10" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1addacb661e5a379a61dd012f1563320b8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::PagedOptimizerState::variance_on_gpu</definition>
+        <argsstring></argsstring>
+        <name>variance_on_gpu</name>
+        <qualifiedname>themis::llm::lora::PagedOptimizerState::variance_on_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="57" column="10" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1aa655857743113931e4b60d3602bf94fc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::PagedOptimizerState::gradient_on_gpu</definition>
+        <argsstring></argsstring>
+        <name>gradient_on_gpu</name>
+        <qualifiedname>themis::llm::lora::PagedOptimizerState::gradient_on_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="58" column="10" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::llm::lora::Device</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_device"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::lora::PagedBuffer</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_paged_buffer"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>current_device</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::PagedOptimizerState</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>gradient</edgelabel>
+          <edgelabel>momentum</edgelabel>
+          <edgelabel>variance</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/paged_optimizer.h" line="51" column="1" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="51" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1a8b74ea5b798169419adb7bce76b83c5d" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedOptimizerState</scope><name>gradient</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1aa655857743113931e4b60d3602bf94fc" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedOptimizerState</scope><name>gradient_on_gpu</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1a8fa6f752f74b5b75571c62d9bfa0f126" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedOptimizerState</scope><name>momentum</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1a5e5fb9e0857bb4840b7ba6df2f30e2f8" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedOptimizerState</scope><name>momentum_on_gpu</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1a98b7bfd2fc71e8f9ca2c4ff6278cc67d" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedOptimizerState</scope><name>variance</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state_1addacb661e5a379a61dd012f1563320b8" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedOptimizerState</scope><name>variance_on_gpu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

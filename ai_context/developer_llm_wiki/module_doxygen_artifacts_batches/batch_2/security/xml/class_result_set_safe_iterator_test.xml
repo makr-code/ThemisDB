@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_result_set_safe_iterator_test" kind="class" language="C++" prot="public">
+    <compoundname>ResultSetSafeIteratorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_result_set_safe_iterator_test_1a1611f22e486c720aa8e161ce75684e7a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>themis::query::ResultSet</type>
+        <definition>themis::query::ResultSet ResultSetSafeIteratorTest::make_result</definition>
+        <argsstring>(std::size_t n_rows)</argsstring>
+        <name>make_result</name>
+        <qualifiedname>ResultSetSafeIteratorTest::make_result</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>n_rows</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="146" column="30" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="146" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ResultSetSafeIteratorTest</label>
+        <link refid="class_result_set_safe_iterator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ResultSetSafeIteratorTest</label>
+        <link refid="class_result_set_safe_iterator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="144" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="144" bodyend="154"/>
+    <listofallmembers>
+      <member refid="class_result_set_safe_iterator_test_1a1611f22e486c720aa8e161ce75684e7a" prot="protected" virt="non-virtual"><scope>ResultSetSafeIteratorTest</scope><name>make_result</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

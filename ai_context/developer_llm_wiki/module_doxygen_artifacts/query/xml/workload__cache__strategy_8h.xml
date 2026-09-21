@@ -1,0 +1,355 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="workload__cache__strategy_8h" kind="file" language="C++">
+    <compoundname>workload_cache_strategy.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="query__cache_8h" local="yes">query/query_cache.h</includes>
+    <includes local="yes">cache/adaptive_query_cache.h</includes>
+    <includedby refid="query__cache__manager_8h" local="yes">include/query/query_cache_manager.h</includedby>
+    <includedby refid="workload__cache__strategy_8cpp" local="yes">src/query/workload_cache_strategy.cpp</includedby>
+    <includedby refid="test__query__cache__manager_8cpp" local="yes">tests/query/test_query_cache_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="10">
+        <label>query/query_cache.h</label>
+        <link refid="query__cache_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/query/workload_cache_strategy.h</label>
+        <link refid="workload__cache__strategy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>algorithm</label>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="16">
+        <label>cache/adaptive_query_cache.h</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="15">
+        <label>list</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="11">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/query/query_cache_manager.h</label>
+        <link refid="query__cache__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/query/workload_cache_strategy.h</label>
+        <link refid="workload__cache__strategy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/query/query_cache_manager.cpp</label>
+        <link refid="query__cache__manager_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/query/workload_cache_strategy.cpp</label>
+        <link refid="workload__cache__strategy_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/query/test_move_semantics_query.cpp</label>
+        <link refid="test__move__semantics__query_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/query/test_query_cache_manager.cpp</label>
+        <link refid="test__query__cache__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_query_characteristics" prot="public">themis::query::QueryCharacteristics</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_workload_cache_config" prot="public">themis::query::WorkloadCacheConfig</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_workload_cache_strategy" prot="public">themis::query::WorkloadCacheStrategy</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config" prot="public">themis::query::WorkloadCacheStrategy::Config</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats" prot="public">themis::query::WorkloadCacheStrategy::WorkloadStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__cache_8h" kindref="compound">query/query_cache.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;cache/adaptive_query_cache.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416" kindref="member">WorkloadType</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416a3edb9cc3b98f151feb21dbde6323e82a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416a3edb9cc3b98f151feb21dbde6323e82a" kindref="member">OLTP</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Online<sp/>Transaction<sp/>Processing<sp/>-<sp/>frequent<sp/>small<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416ac9b0643ce6454d72f12fbe3475ed4899" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416ac9b0643ce6454d72f12fbe3475ed4899" kindref="member">OLAP</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Online<sp/>Analytical<sp/>Processing<sp/>-<sp/>infrequent<sp/>large<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416a516a2342953891f249b58ff1c3943723" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416a516a2342953891f249b58ff1c3943723" kindref="member">MIXED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mixed<sp/>workload<sp/>-<sp/>adaptive<sp/>strategy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416ab8f87bd0ae829f0fa0fcaa1a0a2bf91e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416ab8f87bd0ae829f0fa0fcaa1a0a2bf91e" kindref="member">STREAMING</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Streaming/real-time<sp/>-<sp/>minimal<sp/>or<sp/>no<sp/>caching</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416a696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>yet<sp/>classified</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1query_1_1_query_characteristics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_query_characteristics" kindref="compound">QueryCharacteristics</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1query_1_1_query_characteristics_1a2951546cbb3649527c9becf3821f286f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_characteristics_1a2951546cbb3649527c9becf3821f286f" kindref="member">result_size_bytes</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Size<sp/>of<sp/>query<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1query_1_1_query_characteristics_1ae9bb91e476ca0fb8482a107cbad3d339" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_characteristics_1ae9bb91e476ca0fb8482a107cbad3d339" kindref="member">rows_scanned</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>rows<sp/>scanned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1query_1_1_query_characteristics_1a66d6cfed1e35735f394f9ff5215fbee3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_characteristics_1a66d6cfed1e35735f394f9ff5215fbee3" kindref="member">rows_returned</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>rows<sp/>returned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1query_1_1_query_characteristics_1a30f334fb33306f2cbe65b5832ad82764" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1query_1_1_query_characteristics_1a30f334fb33306f2cbe65b5832ad82764" kindref="member">execution_time_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Execution<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1query_1_1_query_characteristics_1aaa58c1c10a0ed70c2013dad2a4fdf98f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1query_1_1_query_characteristics_1aaa58c1c10a0ed70c2013dad2a4fdf98f" kindref="member">access_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>How<sp/>often<sp/>this<sp/>query<sp/>pattern<sp/>seen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1query_1_1_query_characteristics_1ae7f66f9175f09aeb4e5d73c6313c6145" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1query_1_1_query_characteristics_1ae7f66f9175f09aeb4e5d73c6313c6145" kindref="member">first_seen</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1query_1_1_query_characteristics_1a3721b4bb8c21bcc8a1478a8a16fe191d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1query_1_1_query_characteristics_1a3721b4bb8c21bcc8a1478a8a16fe191d" kindref="member">last_accessed</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Derived<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1query_1_1_query_characteristics_1a89f206d9e5298a26f59e575d6595ce90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_characteristics_1a89f206d9e5298a26f59e575d6595ce90" kindref="member">selectivity</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_characteristics_1ae9bb91e476ca0fb8482a107cbad3d339" kindref="member">rows_scanned</ref><sp/>&gt;<sp/>0<sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1query_1_1_query_characteristics_1a66d6cfed1e35735f394f9ff5215fbee3" kindref="member">rows_returned</ref>)<sp/>/<sp/><ref refid="structthemis_1_1query_1_1_query_characteristics_1ae9bb91e476ca0fb8482a107cbad3d339" kindref="member">rows_scanned</ref><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>1.0;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1query_1_1_query_characteristics_1a417168fd95c91d07dc0a15c93fb39a63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_characteristics_1a417168fd95c91d07dc0a15c93fb39a63" kindref="member">frequency_per_minute</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>duration<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::minutes&gt;(</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_characteristics_1a3721b4bb8c21bcc8a1478a8a16fe191d" kindref="member">last_accessed</ref><sp/>-<sp/><ref refid="structthemis_1_1query_1_1_query_characteristics_1ae7f66f9175f09aeb4e5d73c6313c6145" kindref="member">first_seen</ref>);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Handle<sp/>case<sp/>where<sp/>query<sp/>was<sp/>just<sp/>added<sp/>(duration<sp/>~0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>minimum<sp/>duration<sp/>of<sp/>1<sp/>minute<sp/>to<sp/>avoid<sp/>division<sp/>by<sp/>zero</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>duration_min<sp/>=<sp/>std::max(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(duration.count()),<sp/>int64_t(1));</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1query_1_1_query_characteristics_1aaa58c1c10a0ed70c2013dad2a4fdf98f" kindref="member">access_count</ref>)<sp/>/<sp/>duration_min;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1query_1_1_workload_cache_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_workload_cache_config" kindref="compound">WorkloadCacheConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1query_1_1_workload_cache_config_1a97ef37643ea331ca16531f982d8e940c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416" kindref="member">WorkloadType</ref><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config_1a97ef37643ea331ca16531f982d8e940c" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">WorkloadType::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>size<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1query_1_1_workload_cache_config_1a41f4273dfa0d8d69cfdd17b544af85fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config_1a41f4273dfa0d8d69cfdd17b544af85fc" kindref="member">max_entries</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1query_1_1_workload_cache_config_1a75226dcd0d047cb1614fc48a8bd96631" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config_1a75226dcd0d047cb1614fc48a8bd96631" kindref="member">max_memory_bytes</ref><sp/>=<sp/>100<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>100MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1query_1_1_workload_cache_config_1a7628ec89ebc768d717106bf03cb3afe7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config_1a7628ec89ebc768d717106bf03cb3afe7" kindref="member">max_entry_size</ref><sp/>=<sp/>10<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10MB<sp/>per<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TTL<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1query_1_1_workload_cache_config_1ad51c019d30af7a7cd7e9feda028ee3dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config_1ad51c019d30af7a7cd7e9feda028ee3dc" kindref="member">default_ttl</ref>{3600};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>hour</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1query_1_1_workload_cache_config_1a53e098b5ebf71abdf1f19c73203b9d4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config_1a53e098b5ebf71abdf1f19c73203b9d4a" kindref="member">min_ttl</ref>{60};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>minute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1query_1_1_workload_cache_config_1ace55304656153e6a60bbe28e974c6cc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config_1ace55304656153e6a60bbe28e974c6cc1" kindref="member">max_ttl</ref>{86400};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>24<sp/>hours</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adaptive<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1query_1_1_workload_cache_config_1af2192ece070b5e0659ef7ef88f718b0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config_1af2192ece070b5e0659ef7ef88f718b0a" kindref="member">enable_adaptive_ttl</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1query_1_1_workload_cache_config_1a1ecb778a02851a26002b62c208e78819" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config_1a1ecb778a02851a26002b62c208e78819" kindref="member">enable_frequency_weighting</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Eviction<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1query_1_1_workload_cache_config_1a15812f8c8623376071b07f053ba0af7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_cache_1a25f959c1de80e402545f408da7cdce10" kindref="member">QueryCache::EvictionPolicy</ref><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config_1a15812f8c8623376071b07f053ba0af7e" kindref="member">eviction_policy</ref><sp/>=<sp/><ref refid="classthemis_1_1query_1_1_query_cache_1a25f959c1de80e402545f408da7cdce10a875ecb34f6d21d13d4b9fd4980a8b5af" kindref="member">QueryCache::EvictionPolicy::LRU</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Workload-specific<sp/>thresholds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1query_1_1_workload_cache_config_1aa6389ea768661309557a008b1eb32922" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config_1aa6389ea768661309557a008b1eb32922" kindref="member">high_frequency_threshold</ref><sp/>=<sp/>10.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>queries<sp/>per<sp/>minute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1query_1_1_workload_cache_config_1aed1896d5178fb5682fc53da051e7fe13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config_1aed1896d5178fb5682fc53da051e7fe13" kindref="member">low_frequency_threshold</ref><sp/>=<sp/>0.1;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>queries<sp/>per<sp/>minute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1query_1_1_workload_cache_config_1a333ecf31e46736a3bba232186f11c799" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config_1a333ecf31e46736a3bba232186f11c799" kindref="member">large_result_threshold</ref><sp/>=<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>1MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1query_1_1_workload_cache_config_1ae64ced67af8210cbd9302623b9ef85f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config_1ae64ced67af8210cbd9302623b9ef85f1" kindref="member">small_result_threshold</ref><sp/>=<sp/>10<sp/>*<sp/>1024;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10KB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config" kindref="compound">WorkloadCacheConfig</ref><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config_1ae9ac4fef914ac96d6ffb06b4fba1e33e" kindref="member">forWorkload</ref>(<ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416" kindref="member">WorkloadType</ref><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config_1a97ef37643ea331ca16531f982d8e940c" kindref="member">type</ref>);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1query_1_1_workload_cache_strategy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1aed0a088f3be672baa91b094604c869bd" kindref="member">WorkloadCacheStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1af567a923d923ae5203495f577cb48a9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1af567a923d923ae5203495f577cb48a9c" kindref="member">enable_workload_detection</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1adfcbb6a2ec4022fdaac8dc2830292ee9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1adfcbb6a2ec4022fdaac8dc2830292ee9" kindref="member">detection_sample_rate</ref><sp/>=<sp/>0.1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sample<sp/>10%<sp/>of<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1acf2c086472cbcf4e93fe87a8ad1c92c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1acf2c086472cbcf4e93fe87a8ad1c92c0" kindref="member">detection_window</ref>{300};<sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>minute<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1accea77edda1446ec330a1fc829cac058" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1accea77edda1446ec330a1fc829cac058" kindref="member">min_samples_for_detection</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Min<sp/>queries<sp/>before<sp/>classification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Workload<sp/>classification<sp/>thresholds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1a05b061f381bbcff8ce197c6fd9e41e36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1a05b061f381bbcff8ce197c6fd9e41e36" kindref="member">oltp_frequency_threshold</ref><sp/>=<sp/>10.0;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&gt;10<sp/>queries/min<sp/>=<sp/>OLTP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1a1153551dcfca96fab753193feea7c64d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1a1153551dcfca96fab753193feea7c64d" kindref="member">olap_frequency_threshold</ref><sp/>=<sp/>0.5;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&lt;0.5<sp/>queries/min<sp/>=<sp/>OLAP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1a1026b00aab6750ab161bf9944dc09525" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1a1026b00aab6750ab161bf9944dc09525" kindref="member">oltp_result_size_threshold</ref><sp/>=<sp/>50<sp/>*<sp/>1024;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&lt;50KB<sp/>=<sp/>OLTP-like</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1a9d88f2ea9c266180c3ece9027eda09e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config_1a9d88f2ea9c266180c3ece9027eda09e2" kindref="member">olap_result_size_threshold</ref><sp/>=<sp/>1024<sp/>*<sp/>1024;<sp/></highlight><highlight class="comment">//<sp/>&gt;1MB<sp/>=<sp/>OLAP-like</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats" kindref="compound">WorkloadStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1adbe5709b9e894188a7bbc2f867940fe5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416" kindref="member">WorkloadType</ref><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1adbe5709b9e894188a7bbc2f867940fe5" kindref="member">detected_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">WorkloadType::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a2472fcf792c4329f213ef4e60dbcb3f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a2472fcf792c4329f213ef4e60dbcb3f2" kindref="member">total_queries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a727d3e3e68de399af77318af4311075d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a727d3e3e68de399af77318af4311075d" kindref="member">cached_queries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1aa28da0fbce3d3848092a5929f365d8ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1aa28da0fbce3d3848092a5929f365d8ab" kindref="member">cache_hits</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a0981d76542ed4969febeb221b5e09fe2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a0981d76542ed4969febeb221b5e09fe2" kindref="member">cache_misses</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a22c060776d1442f73d4260050d585822" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a22c060776d1442f73d4260050d585822" kindref="member">avg_query_frequency</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1ac96126baa446151b5e9f791f90e247fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1ac96126baa446151b5e9f791f90e247fa" kindref="member">avg_result_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1aaf38ad5fbf583c4f9e2f44454d6f91df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1aaf38ad5fbf583c4f9e2f44454d6f91df" kindref="member">avg_execution_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a060a3bbed6580772e6dc7aacf2ec84e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a060a3bbed6580772e6dc7aacf2ec84e7" kindref="member">hit_rate</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1aa28da0fbce3d3848092a5929f365d8ab" kindref="member">cache_hits</ref><sp/>+<sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a0981d76542ed4969febeb221b5e09fe2" kindref="member">cache_misses</ref>)<sp/>&gt;<sp/>0<sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1aa28da0fbce3d3848092a5929f365d8ab" kindref="member">cache_hits</ref>)<sp/>/<sp/>(<ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1aa28da0fbce3d3848092a5929f365d8ab" kindref="member">cache_hits</ref><sp/>+<sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a0981d76542ed4969febeb221b5e09fe2" kindref="member">cache_misses</ref>)</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats_1a9fcfe6c438502ab6e1b760fafddf8fbe" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1aed0a088f3be672baa91b094604c869bd" kindref="member">WorkloadCacheStrategy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1query_1_1_workload_cache_strategy_1a1e516bd11d2d3df1dba5624e29b91eee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1a1e516bd11d2d3df1dba5624e29b91eee" kindref="member">~WorkloadCacheStrategy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>moveable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1query_1_1_workload_cache_strategy_1a3d9bfce63cdbc35c150a51273d6f3caa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1a3d9bfce63cdbc35c150a51273d6f3caa" kindref="member">WorkloadCacheStrategy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1aed0a088f3be672baa91b094604c869bd" kindref="member">WorkloadCacheStrategy</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1query_1_1_workload_cache_strategy_1abd1d8349969b8d870cb4994f8519d03b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1aed0a088f3be672baa91b094604c869bd" kindref="member">WorkloadCacheStrategy</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1abd1d8349969b8d870cb4994f8519d03b" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1aed0a088f3be672baa91b094604c869bd" kindref="member">WorkloadCacheStrategy</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1query_1_1_workload_cache_strategy_1a73671318e9b5a9b65633a55c54116c88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1a73671318e9b5a9b65633a55c54116c88" kindref="member">WorkloadCacheStrategy</ref>(<ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1aed0a088f3be672baa91b094604c869bd" kindref="member">WorkloadCacheStrategy</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1query_1_1_workload_cache_strategy_1a216d32f09bd18d708bca12c2293ec8f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1aed0a088f3be672baa91b094604c869bd" kindref="member">WorkloadCacheStrategy</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1aed0a088f3be672baa91b094604c869bd" kindref="member">WorkloadCacheStrategy</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1a27b0df34c320872ad5430deb62600b0a" kindref="member">recordQuery</ref>(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>query_fingerprint,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1query_1_1_query_characteristics" kindref="compound">QueryCharacteristics</ref>&amp;<sp/>characteristics</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416" kindref="member">WorkloadType</ref><sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1a51789910945bb1aeb176fc005b8c7564" kindref="member">detectWorkload</ref>();</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config" kindref="compound">WorkloadCacheConfig</ref><sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1a05bd84d19b970557ebd0b4c74b8a672d" kindref="member">getCacheConfig</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_config" kindref="compound">WorkloadCacheConfig</ref><sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1a26f07dbafaa78d1a6d5e336c8d565ca2" kindref="member">getCacheConfigForQuery</ref>(</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1query_1_1_query_characteristics" kindref="compound">QueryCharacteristics</ref>&amp;<sp/>characteristics</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1a1536890aa4495c89fe3f025bda010bb8" kindref="member">shouldCache</ref>(const<sp/><ref refid="structthemis_1_1query_1_1_query_characteristics" kindref="compound">QueryCharacteristics</ref>&amp;<sp/>characteristics)<sp/>const;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1ad328a1e38f8ca3a195c69bfc84b5e086" kindref="member">calculateTTL</ref>(</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1query_1_1_query_characteristics" kindref="compound">QueryCharacteristics</ref>&amp;<sp/>characteristics</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1a895c6f7028b37c6b05d101778f5520a9" kindref="member">getHotQueries</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>100)<sp/>const;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_workload_stats" kindref="compound">WorkloadStats</ref><sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1a72ba7cd07f483fcce05d5f5b46c4e534" kindref="member">getStats</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1a17fe0112768cd30fb6da4cc38b9329f5" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1a9843d21101f19f586a778deba23f03e8" kindref="member">setConfig</ref>(const<sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config" kindref="compound">Config</ref><sp/><ref refid="classthemis_1_1query_1_1_workload_cache_strategy_1abf9bacc037b7dd9b14f78611fdc95d38" kindref="member">getConfig</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_workload_cache_strategy_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>detected<sp/>workload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;<ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416" kindref="member">WorkloadType</ref>&gt;<sp/>current_workload_{<ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">WorkloadType::UNKNOWN</ref>};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>pattern<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>QueryCharacteristics&gt;<sp/>query_patterns_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Workload<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>WorkloadStats<sp/>stats_;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Last<sp/>detection<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>last_detection_;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416" kindref="member">WorkloadType</ref><sp/>classifyWorkload()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateStats();</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>shouldRunDetection()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/workload_cache_strategy.h"/>
+  </compounddef>
+</doxygen>

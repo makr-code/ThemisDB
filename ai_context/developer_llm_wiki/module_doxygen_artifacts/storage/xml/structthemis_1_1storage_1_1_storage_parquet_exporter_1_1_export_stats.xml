@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::StorageParquetExporter::ExportStats</compoundname>
+    <includes refid="storage__parquet__exporter_8h" local="no">storage_parquet_exporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1ae58a9ab7e9969343062665b1b1095f7e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::StorageParquetExporter::ExportStats::rows_written</definition>
+        <argsstring></argsstring>
+        <name>rows_written</name>
+        <qualifiedname>themis::storage::StorageParquetExporter::ExportStats::rows_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_parquet_exporter.h" line="105" column="16" bodyfile="include/storage/storage_parquet_exporter.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1a76603c0ca0e7a0b2497a08fb7ae70e33" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::StorageParquetExporter::ExportStats::columns_written</definition>
+        <argsstring></argsstring>
+        <name>columns_written</name>
+        <qualifiedname>themis::storage::StorageParquetExporter::ExportStats::columns_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_parquet_exporter.h" line="106" column="16" bodyfile="include/storage/storage_parquet_exporter.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1a69be528b30ecc757ae2d747b09ffa7d0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::StorageParquetExporter::ExportStats::bytes_written</definition>
+        <argsstring></argsstring>
+        <name>bytes_written</name>
+        <qualifiedname>themis::storage::StorageParquetExporter::ExportStats::bytes_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_parquet_exporter.h" line="107" column="16" bodyfile="include/storage/storage_parquet_exporter.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1a3cb9eabba444ceab1e1210109538c462" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::StorageParquetExporter::ExportStats::elapsed_us</definition>
+        <argsstring></argsstring>
+        <name>elapsed_us</name>
+        <qualifiedname>themis::storage::StorageParquetExporter::ExportStats::elapsed_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_parquet_exporter.h" line="108" column="16" bodyfile="include/storage/storage_parquet_exporter.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1a4e04c19511975deebc2d411ab8a7b404" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::StorageParquetExporter::ExportStats::arrow_used</definition>
+        <argsstring></argsstring>
+        <name>arrow_used</name>
+        <qualifiedname>themis::storage::StorageParquetExporter::ExportStats::arrow_used</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if Apache Arrow path was taken </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_parquet_exporter.h" line="109" column="16" bodyfile="include/storage/storage_parquet_exporter.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics from the most recent export operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/storage_parquet_exporter.h" line="104" column="5" bodyfile="include/storage/storage_parquet_exporter.h" bodystart="104" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1a4e04c19511975deebc2d411ab8a7b404" prot="public" virt="non-virtual"><scope>themis::storage::StorageParquetExporter::ExportStats</scope><name>arrow_used</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1a69be528b30ecc757ae2d747b09ffa7d0" prot="public" virt="non-virtual"><scope>themis::storage::StorageParquetExporter::ExportStats</scope><name>bytes_written</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1a76603c0ca0e7a0b2497a08fb7ae70e33" prot="public" virt="non-virtual"><scope>themis::storage::StorageParquetExporter::ExportStats</scope><name>columns_written</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1a3cb9eabba444ceab1e1210109538c462" prot="public" virt="non-virtual"><scope>themis::storage::StorageParquetExporter::ExportStats</scope><name>elapsed_us</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1ae58a9ab7e9969343062665b1b1095f7e" prot="public" virt="non-virtual"><scope>themis::storage::StorageParquetExporter::ExportStats</scope><name>rows_written</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

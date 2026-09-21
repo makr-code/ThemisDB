@@ -1,0 +1,400 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="storage__engine_8h" kind="file" language="C++">
+    <compoundname>storage_engine.h</compoundname>
+    <includes local="yes">themis/base/interfaces/storage_interface.h</includes>
+    <includes local="yes">themis/base/interfaces/query_interface.h</includes>
+    <includes local="yes">themis/base/interfaces/security_interface.h</includes>
+    <includes local="yes">themis/base/interfaces/index_interface.h</includes>
+    <includes refid="rocksdb__wrapper_8h" local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="schema__layout__advisor__example_8cpp" local="yes">include/storage/examples/schema_layout_advisor_example.cpp</includedby>
+    <includedby refid="storage__engine_8cpp" local="yes">src/storage/storage_engine.cpp</includedby>
+    <includedby refid="test__storage__engine__di_8cpp" local="yes">tests/storage/test_storage_engine_di.cpp</includedby>
+    <includedby refid="test__storage__engine__move__semantics_8cpp" local="yes">tests/storage/test_storage_engine_move_semantics.cpp</includedby>
+    <includedby refid="test__storage__engine__prod_8cpp" local="yes">tests/storage/test_storage_engine_prod.cpp</includedby>
+    <includedby refid="test__storage__latency__bench_8cpp" local="yes">tests/storage/test_storage_latency_bench.cpp</includedby>
+    <includedby refid="test__storage__query__index__explicit__di_8cpp" local="yes">tests/storage/test_storage_query_index_explicit_di.cpp</includedby>
+    <incdepgraph>
+      <node id="17">
+        <label>storage/nvme_manager.h</label>
+        <link refid="nvme__manager_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>storage/rocksdb_wrapper.h</label>
+        <link refid="rocksdb__wrapper_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/storage/storage_engine.h</label>
+        <link refid="storage__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="15">
+        <label>condition_variable</label>
+      </node>
+      <node id="18">
+        <label>cstddef</label>
+      </node>
+      <node id="19">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>string_view</label>
+      </node>
+      <node id="5">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+      <node id="3">
+        <label>themis/base/interfaces/query_interface.h</label>
+      </node>
+      <node id="4">
+        <label>themis/base/interfaces/security_interface.h</label>
+      </node>
+      <node id="2">
+        <label>themis/base/interfaces/storage_interface.h</label>
+      </node>
+      <node id="16">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/storage/examples/schema_layout_advisor_example.cpp</label>
+        <link refid="schema__layout__advisor__example_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/storage/storage_engine.h</label>
+        <link refid="storage__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/storage/storage_engine.cpp</label>
+        <link refid="storage__engine_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/storage/test_storage_engine_di.cpp</label>
+        <link refid="test__storage__engine__di_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/storage/test_storage_engine_move_semantics.cpp</label>
+        <link refid="test__storage__engine__move__semantics_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/storage/test_storage_engine_prod.cpp</label>
+        <link refid="test__storage__engine__prod_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/storage/test_storage_latency_bench.cpp</label>
+        <link refid="test__storage__latency__bench_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/storage/test_storage_query_index_explicit_di.cpp</label>
+        <link refid="test__storage__query__index__explicit__di_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_storage_engine" prot="public">themis::StorageEngine</innerclass>
+    <innerclass refid="structthemis_1_1_storage_engine_1_1_scan_counters" prot="public">themis::StorageEngine::ScanCounters</innerclass>
+    <innerclass refid="structthemis_1_1_storage_engine_1_1_i_o_metrics" prot="public">themis::StorageEngine::IOMetrics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/base/interfaces/storage_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/base/interfaces/query_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/base/interfaces/security_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/base/interfaces/index_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rocksdb__wrapper_8h" kindref="compound">storage/rocksdb_wrapper.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1_storage_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_storage_engine_1a9f48ad383b5ab13bad037f53a8cc3dc3" kindref="member">StorageEngine</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IStorageEngine<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Scan<sp/>performance<sp/>counters<sp/>─────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1_storage_engine_1_1_scan_counters" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_storage_engine_1_1_scan_counters" kindref="compound">ScanCounters</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1_storage_engine_1_1_scan_counters_1ad86c3043664265247070d782452059d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_scan_counters_1ad86c3043664265247070d782452059d8" kindref="member">scan_calls</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1_storage_engine_1_1_scan_counters_1a33a77867467cdd2c2c5b84f3c741efa1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_scan_counters_1a33a77867467cdd2c2c5b84f3c741efa1" kindref="member">keys_examined</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1_storage_engine_1_1_scan_counters_1a1c365dd9678cfe9f8e5965d2a8281892" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_scan_counters_1a1c365dd9678cfe9f8e5965d2a8281892" kindref="member">keys_returned</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1_storage_engine_1_1_scan_counters_1a59fecdb12236e5e1d61a895068ddb897" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_scan_counters_1a59fecdb12236e5e1d61a895068ddb897" kindref="member">early_stops</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1_storage_engine_1_1_scan_counters_1a41075bde734505574bddd4d23f5f5df9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_storage_engine_1_1_scan_counters_1a41075bde734505574bddd4d23f5f5df9" kindref="member">selectivity</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_storage_engine_1_1_scan_counters_1a33a77867467cdd2c2c5b84f3c741efa1" kindref="member">keys_examined</ref><sp/>==<sp/>0<sp/>?<sp/>1.0</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1_storage_engine_1_1_scan_counters_1a1c365dd9678cfe9f8e5965d2a8281892" kindref="member">keys_returned</ref>)<sp/>/<sp/><ref refid="structthemis_1_1_storage_engine_1_1_scan_counters_1a33a77867467cdd2c2c5b84f3c741efa1" kindref="member">keys_examined</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Storage<sp/>I/O<sp/>metrics<sp/>───────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics" kindref="compound">IOMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>put<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a63dc7326a72c6a2c74326b99bc0dbcab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a63dc7326a72c6a2c74326b99bc0dbcab" kindref="member">put_ops</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a1c37631d5b1554b9514f50e359f3526b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a1c37631d5b1554b9514f50e359f3526b" kindref="member">put_errors</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1aa3e603205c28231ee7702c6fe96a54c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1aa3e603205c28231ee7702c6fe96a54c1" kindref="member">put_latency_us</ref>{0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a2466e641d3f15029eafdd4f937e09dab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a2466e641d3f15029eafdd4f937e09dab" kindref="member">put_latency_min_us</ref>{UINT64_MAX};<sp/></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a78c6eff89adbfad1a67f135ebdf17c31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a78c6eff89adbfad1a67f135ebdf17c31" kindref="member">put_latency_max_us</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>get<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a23dd1a6a10ed4d3632f0522e90873329" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a23dd1a6a10ed4d3632f0522e90873329" kindref="member">get_ops</ref>{0};</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a3622b5df9a130095f2841578c883489e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a3622b5df9a130095f2841578c883489e" kindref="member">get_errors</ref>{0};</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a57fd07a151bbfbe87ebb789741f0a437" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a57fd07a151bbfbe87ebb789741f0a437" kindref="member">get_latency_us</ref>{0};</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a11a995089569a3f82d91875a48339551" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a11a995089569a3f82d91875a48339551" kindref="member">get_latency_min_us</ref>{UINT64_MAX};<sp/></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a3d8e1d53b1a506911c5599dd61fae07f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a3d8e1d53b1a506911c5599dd61fae07f" kindref="member">get_latency_max_us</ref>{0};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>del<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a96615f0b68639d9a7cd1b3e52cfbce7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a96615f0b68639d9a7cd1b3e52cfbce7b" kindref="member">del_ops</ref>{0};</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a55229882c2b8b3cf9f27bea002d59265" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a55229882c2b8b3cf9f27bea002d59265" kindref="member">del_errors</ref>{0};</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1ad78a6be44763c964d86eae932ec5d69b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1ad78a6be44763c964d86eae932ec5d69b" kindref="member">del_latency_us</ref>{0};</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1ae7292935775b5696ee878d668388ca15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1ae7292935775b5696ee878d668388ca15" kindref="member">del_latency_min_us</ref>{UINT64_MAX};<sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1abf70d2658781ea81a808060fb6ad54cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1abf70d2658781ea81a808060fb6ad54cc" kindref="member">del_latency_max_us</ref>{0};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1afe2d011733ec07c9b3aae2a539eb36c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1afe2d011733ec07c9b3aae2a539eb36c9" kindref="member">avg_put_latency_us</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a63dc7326a72c6a2c74326b99bc0dbcab" kindref="member">put_ops</ref><sp/>==<sp/>0<sp/>?<sp/>0.0</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1aa3e603205c28231ee7702c6fe96a54c1" kindref="member">put_latency_us</ref>)<sp/>/<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a63dc7326a72c6a2c74326b99bc0dbcab" kindref="member">put_ops</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a32be4e6d109533fc21de843503d99ac8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a32be4e6d109533fc21de843503d99ac8" kindref="member">avg_get_latency_us</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a23dd1a6a10ed4d3632f0522e90873329" kindref="member">get_ops</ref><sp/>==<sp/>0<sp/>?<sp/>0.0</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a57fd07a151bbfbe87ebb789741f0a437" kindref="member">get_latency_us</ref>)<sp/>/<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a23dd1a6a10ed4d3632f0522e90873329" kindref="member">get_ops</ref>;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a771aa2d8c992c4ea373e6c240fa834bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a771aa2d8c992c4ea373e6c240fa834bd" kindref="member">avg_del_latency_us</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a96615f0b68639d9a7cd1b3e52cfbce7b" kindref="member">del_ops</ref><sp/>==<sp/>0<sp/>?<sp/>0.0</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1ad78a6be44763c964d86eae932ec5d69b" kindref="member">del_latency_us</ref>)<sp/>/<sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a96615f0b68639d9a7cd1b3e52cfbce7b" kindref="member">del_ops</ref>;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_storage_engine_1a9f48ad383b5ab13bad037f53a8cc3dc3" kindref="member">StorageEngine</ref>(</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IExpressionEvaluatorPtr<sp/>evaluator,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IFieldEncryptionPtr<sp/>encryption,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IKeyProviderPtr<sp/>key_provider,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IIndexManagerPtr<sp/>index_manager<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>copy<sp/>and<sp/>move<sp/>operations<sp/>to<sp/>prevent<sp/>accidental<sp/>duplication<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>injected<sp/>dependencies,<sp/>locks,<sp/>and<sp/>live<sp/>storage<sp/>state.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1_storage_engine_1af01a9de0fc0e21d4cfcb0431d5ed1bea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_storage_engine_1af01a9de0fc0e21d4cfcb0431d5ed1bea" kindref="member">StorageEngine</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_storage_engine_1a9f48ad383b5ab13bad037f53a8cc3dc3" kindref="member">StorageEngine</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1_storage_engine_1af9380c3dbc088495e45fcd88bd9eb0c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_storage_engine_1a9f48ad383b5ab13bad037f53a8cc3dc3" kindref="member">StorageEngine</ref>&amp;<sp/><ref refid="classthemis_1_1_storage_engine_1af9380c3dbc088495e45fcd88bd9eb0c3" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_storage_engine_1a9f48ad383b5ab13bad037f53a8cc3dc3" kindref="member">StorageEngine</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1_storage_engine_1a6ef81ab54eaa2b1847df46dae2c58240" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_storage_engine_1a6ef81ab54eaa2b1847df46dae2c58240" kindref="member">StorageEngine</ref>(<ref refid="classthemis_1_1_storage_engine_1a9f48ad383b5ab13bad037f53a8cc3dc3" kindref="member">StorageEngine</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1_storage_engine_1add5410ee256560b5f23b37fb97785abf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_storage_engine_1a9f48ad383b5ab13bad037f53a8cc3dc3" kindref="member">StorageEngine</ref>&amp;<sp/><ref refid="classthemis_1_1_storage_engine_1add5410ee256560b5f23b37fb97785abf" kindref="member">operator=</ref>(<ref refid="classthemis_1_1_storage_engine_1a9f48ad383b5ab13bad037f53a8cc3dc3" kindref="member">StorageEngine</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;StorageEngine&gt;<sp/><ref refid="classthemis_1_1_storage_engine_1a0693d09f31d001e06bee6d1dae94f527" kindref="member">createDefault</ref>();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IStorageEngine<sp/>interface<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1_storage_engine_1aef06908aae7f8426a9361d5a9c8aac1c" kindref="member">open</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>db_path)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_storage_engine_1a297a3d4abbba4ce7ea024aefbed078de" kindref="member">close</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1_storage_engine_1a70d15024623c43df79a3a47b2824b16a" kindref="member">put</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::string&gt;<sp/><ref refid="classthemis_1_1_storage_engine_1a482e13ed33da6f2d35daa064c7eec65d" kindref="member">get</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1_storage_engine_1a1548d54a7ee80203c83df63cb1131df7" kindref="member">del</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1_storage_engine_1a76b958b59da33acb748434dac7f3d1ed" kindref="member">scanRange</ref>(</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>start_key,</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>end_key,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(std::string_view<sp/>key,<sp/>std::string_view<sp/>value)&gt;<sp/>callback</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1_storage_engine_1a427b5539a87e2331e2a00dbde60d091d" kindref="member">scanPrefix</ref>(</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>prefix,</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(std::string_view<sp/>key,<sp/>std::string_view<sp/>value)&gt;<sp/>callback</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1_storage_engine_1a3df7bc14ed08d2341075aaea12b5adba" kindref="member">scanPredicate</ref>(</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>start_key,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>end_key,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(std::string_view<sp/>key,<sp/>std::string_view<sp/>value)&gt;<sp/>predicate,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(std::string_view<sp/>key,<sp/>std::string_view<sp/>value)&gt;<sp/>callback</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_storage_engine_1_1_scan_counters" kindref="compound">ScanCounters</ref><sp/><ref refid="classthemis_1_1_storage_engine_1a70892bf72cbdf0fdf4a6444ac4568abc" kindref="member">scanCounters</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_storage_engine_1a6e814a5afb82fc42153d57406f2d2917" kindref="member">resetScanCounters</ref>();</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics" kindref="compound">IOMetrics</ref><sp/><ref refid="classthemis_1_1_storage_engine_1af82aa826781b07c4d16ff3e5895c5364" kindref="member">ioMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_storage_engine_1a93176e330dbbd32be49a3b8e5779fc83" kindref="member">resetIOMetrics</ref>();</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_storage_engine_1af97e23f8dbdae1b736fc79da69ed9aac" kindref="member">apply_filter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filter_expr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>context);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1_storage_engine_1a11fae151fe2a4dc86e9b50e07d5451e6" kindref="member">encrypt_field</ref>(</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field_name,</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>plaintext);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1_storage_engine_1a9efc1c1c9cdf25ba7db1913d6701037d" kindref="member">decrypt_field</ref>(</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field_name,</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>ciphertext);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>IExpressionEvaluatorPtr<sp/><ref refid="classthemis_1_1_storage_engine_1ae8f61f3d980527b21cf3bd110b54988c" kindref="member">createDefaultEvaluator</ref>();</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>IFieldEncryptionPtr<sp/><ref refid="classthemis_1_1_storage_engine_1a2279c7cda3328f51138971f73fe1308c" kindref="member">createDefaultEncryption</ref>();</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>IKeyProviderPtr<sp/><ref refid="classthemis_1_1_storage_engine_1a0bf73edb8c58a28f2db5b5c3f9719a71" kindref="member">createDefaultKeyProvider</ref>();</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>IIndexManagerPtr<sp/><ref refid="classthemis_1_1_storage_engine_1abbb97363374889df96bbf8c512457ff7" kindref="member">createDefaultIndexManager</ref>();</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331" refid="classthemis_1_1_storage_engine_1a5718ae584aeb41605de09d966eb10166" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref>*<sp/><ref refid="classthemis_1_1_storage_engine_1a5718ae584aeb41605de09d966eb10166" kindref="member">rawDB</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rocksdb_.<ref refid="classthemis_1_1_rocks_d_b_wrapper_1a4730728cdeb7946aa682568935426d80" kindref="member">get</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="336" refid="classthemis_1_1_storage_engine_1afd7d6ce9048d22e15a82a1c84cee1ddb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref>*<sp/><ref refid="classthemis_1_1_storage_engine_1afd7d6ce9048d22e15a82a1c84cee1ddb" kindref="member">rawDB</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rocksdb_.<ref refid="classthemis_1_1_rocks_d_b_wrapper_1a4730728cdeb7946aa682568935426d80" kindref="member">get</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Injected<sp/>dependencies<sp/>(interfaces,<sp/>not<sp/>concrete<sp/>implementations)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>IExpressionEvaluatorPtr<sp/>evaluator_;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>IFieldEncryptionPtr<sp/>encryption_;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>IKeyProviderPtr<sp/>key_provider_;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>IIndexManagerPtr<sp/>index_manager_;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Underlying<sp/>RocksDB<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/>rocksdb_;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>storage<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>db_path_;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_open_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scan<sp/>performance<sp/>counters<sp/>(lock-free<sp/>atomics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>sc_calls_{0};</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>sc_examined_{0};</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>sc_returned_{0};</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>sc_early_stops_{0};</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>I/O<sp/>latency<sp/>metrics<sp/>(lock-free<sp/>atomics,<sp/>latency<sp/>in<sp/>microseconds)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>io_put_ops_{0};</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>io_put_errors_{0};</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>io_put_latency_{0};</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>io_put_min_{UINT64_MAX};</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>io_put_max_{0};</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>io_get_ops_{0};</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>io_get_errors_{0};</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>io_get_latency_{0};</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>io_get_min_{UINT64_MAX};</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>io_get_max_{0};</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>io_del_ops_{0};</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>io_del_errors_{0};</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>io_del_latency_{0};</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>io_del_min_{UINT64_MAX};</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>io_del_max_{0};</highlight></codeline>
+<codeline lineno="376"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/storage_engine.h"/>
+  </compounddef>
+</doxygen>

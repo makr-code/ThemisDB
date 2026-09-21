@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_view_filter" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ViewFilter</compoundname>
+    <includes refid="incremental__view_8h" local="no">incremental_view.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Op</name>
+        <qualifiedname>themisdb::analytics::ViewFilter::Op</qualifiedname>
+        <enumvalue id="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0ca2dcbad7477fd40561e8b8198f173bd47" prot="public">
+          <name>EQ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0cadc33066c3993e0d50896e533fd692ce0" prot="public">
+          <name>NE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0cac562607189d77eb9dfb707464c1e7b0b" prot="public">
+          <name>LT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0cacfe6055d2e0503be378bb63449ec7ba6" prot="public">
+          <name>LE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0cacd6a9bd2a175104eed40f0d33a8b4020" prot="public">
+          <name>GT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0caf803729628adf4199f224c2a225038e9" prot="public">
+          <name>GE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0cadbd9c38e0339e6c34bd48cafc59be388" prot="public">
+          <name>IS_NULL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0ca05dd132ba23ff57c0ca5ec4100c31fdc" prot="public">
+          <name>IS_NOT_NULL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="114" column="5" bodyfile="include/analytics/incremental_view.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_filter_1a076cd6964d6375c73dad2aa6328f26ce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ViewFilter::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themisdb::analytics::ViewFilter::field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="115" column="17" bodyfile="include/analytics/incremental_view.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_filter_1ac1a8de6e2bb85daf577aa4be778d32bb" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0c" kindref="member">Op</ref></type>
+        <definition>Op themisdb::analytics::ViewFilter::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themisdb::analytics::ViewFilter::op</qualifiedname>
+        <initializer>= <ref refid="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0ca2dcbad7477fd40561e8b8198f173bd47" kindref="member">Op::EQ</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="116" column="8" bodyfile="include/analytics/incremental_view.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_filter_1af4690f16970432af045ab351dcf138e9" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a63765617898fada5424b164ba7fc2a86" kindref="member">FieldValue</ref></type>
+        <definition>FieldValue themisdb::analytics::ViewFilter::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themisdb::analytics::ViewFilter::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="117" column="16" bodyfile="include/analytics/incremental_view.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/incremental_view.h" line="113" column="1" bodyfile="include/analytics/incremental_view.h" bodystart="113" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_view_filter_1a076cd6964d6375c73dad2aa6328f26ce" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewFilter</scope><name>field</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_view_filter_1ad22fcee3bc6e1c36d0d45008a9c90b0c" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewFilter</scope><name>Op</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_view_filter_1ac1a8de6e2bb85daf577aa4be778d32bb" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewFilter</scope><name>op</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_view_filter_1af4690f16970432af045ab351dcf138e9" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewFilter</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

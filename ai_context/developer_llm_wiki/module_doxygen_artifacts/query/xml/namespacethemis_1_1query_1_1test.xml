@@ -1,0 +1,1641 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1query_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::query::test</compoundname>
+    <innerclass refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" prot="public">themis::query::test::AQLParserEdgeCasesTest</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" prot="public">themis::query::test::AQLParserServiceTest</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1test_1_1_query_optimizer_thread_safety_test" prot="public">themis::query::test::QueryOptimizerThreadSafetyTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ab3ee98c9e949a565c0bc3787a4606123" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, ParseSimpleForReturn)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>ParseSimpleForReturn</type>
+        </param>
+        <briefdescription>
+<para>Test 1: Parse simple FOR...RETURN query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="34" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="34" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a9d704460b3c92e656b2b06321895a672" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, ParseComplexQuery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>ParseComplexQuery</type>
+        </param>
+        <briefdescription>
+<para>Test 2: Parse complex query with FILTER, SORT, LIMIT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="46" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="46" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a21b0c9d9cd1b33cdc2f3e540b01ce0ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, ParseQueryWithLet)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>ParseQueryWithLet</type>
+        </param>
+        <briefdescription>
+<para>Test 3: Parse query with LET clause. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="56" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="56" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a8bdc864c27d38fb3e39566ab8cbf35c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, ParseQueryWithCollect)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>ParseQueryWithCollect</type>
+        </param>
+        <briefdescription>
+<para>Test 4: Parse query with COLLECT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="66" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="66" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a063a957b4ceac5e2efeb04872e1e9fc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, ParseGeospatialQuery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>ParseGeospatialQuery</type>
+        </param>
+        <briefdescription>
+<para>Test 5: Parse geospatial query with ST_Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="76" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="76" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a6b416ca9123409fce34807309ac6fd2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, ParseFailsMissingReturn)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>ParseFailsMissingReturn</type>
+        </param>
+        <briefdescription>
+<para>Test 6: Parse fails - missing RETURN clause. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="90" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="90" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1aa8764029af8858e0792795c7cd8d4475" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, ParseFailsUnknownKeyword)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>ParseFailsUnknownKeyword</type>
+        </param>
+        <briefdescription>
+<para>Test 7: Parse fails - unknown keyword. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="102" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="102" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a2ab3a30271ff9c5c8e15c619a867b6b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, ParseFailsMalformedFunction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>ParseFailsMalformedFunction</type>
+        </param>
+        <briefdescription>
+<para>Test 8: Parse fails - malformed function call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="113" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="113" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1afb3b2c357e64647a36609d6e8f0d759f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, ParseFailsEmptyQuery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>ParseFailsEmptyQuery</type>
+        </param>
+        <briefdescription>
+<para>Test 9: Parse fails - empty query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="127" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="127" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1acf3a8dffb8bf9eec0a652bcfc411d78c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, ParseFailsWhitespaceOnly)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>ParseFailsWhitespaceOnly</type>
+        </param>
+        <briefdescription>
+<para>Test 10: Parse fails - only whitespace. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="138" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="138" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ace43f60a49df8a4bb5ba4ab1bdec71bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, DiagnosticsPopulatedOnError)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>DiagnosticsPopulatedOnError</type>
+        </param>
+        <briefdescription>
+<para>Test 11: Diagnostics populated on error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="152" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="152" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ac9ad903fc271073a20c87814e26f0ef4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, DiagnosticsIncludeContext)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>DiagnosticsIncludeContext</type>
+        </param>
+        <briefdescription>
+<para>Test 12: Diagnostics include error context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="170" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="170" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a2c703f1756d739e4d63b779e9c8189e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, DiagnosticsIncludeSuggestions)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>DiagnosticsIncludeSuggestions</type>
+        </param>
+        <briefdescription>
+<para>Test 13: Diagnostics include suggestions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="185" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="185" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1aa7e88f87170bfd537a9282fe6164eecf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, VersionStringNonEmpty)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>VersionStringNonEmpty</type>
+        </param>
+        <briefdescription>
+<para>Test 14: Version string is non-empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="205" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="205" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a19dde95c06f7cb301869c9febde5074a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, SupportsCoreFeaturesAlways)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>SupportsCoreFeaturesAlways</type>
+        </param>
+        <briefdescription>
+<para>Test 15: supportsFeature - core features. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="213" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="213" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ac184c286460d65700f3c30c3e2327f89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, SupportsGeospatialByDefault)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>SupportsGeospatialByDefault</type>
+        </param>
+        <briefdescription>
+<para>Test 16: supportsFeature - geospatial default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="223" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="223" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ad6bebc7dd864f7b4826e0c35e500898c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, MutationsDisabledByDefault)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>MutationsDisabledByDefault</type>
+        </param>
+        <briefdescription>
+<para>Test 17: supportsFeature - mutations disabled by default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="229" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="229" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a8b3df329716a0466ee490743956fcd1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, DDLDisabledByDefault)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>DDLDisabledByDefault</type>
+        </param>
+        <briefdescription>
+<para>Test 18: supportsFeature - ddl disabled by default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="235" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="235" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a10cd8b0f9da0766ad82c4a327029723a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, CustomFeatureConfiguration)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>CustomFeatureConfiguration</type>
+        </param>
+        <briefdescription>
+<para>Test 19: supportsFeature with custom features. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="240" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="240" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a1f6a6a0f73fffb94d4f4487a5422c373" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, FactoryCreatesWorkingInstance)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>FactoryCreatesWorkingInstance</type>
+        </param>
+        <briefdescription>
+<para>Test 20: Factory creates working instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="257" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="257" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a7e8ef325601fda30be481f99dc7f3e29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, FactoryWithFeaturesConfigures)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>FactoryWithFeaturesConfigures</type>
+        </param>
+        <briefdescription>
+<para>Test 21: Factory with features creates configured instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="265" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="265" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a6667f90909e065b32b670909be2dc7de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, ConcurrentParseThreadSafe)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentParseThreadSafe</type>
+        </param>
+        <briefdescription>
+<para>Test 22: Concurrent parse calls are thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="278" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="278" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a6f1eaee3255c3a2d63e5325dc5ab47fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, ParseQueryWithSpecialChars)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>ParseQueryWithSpecialChars</type>
+        </param>
+        <briefdescription>
+<para>Test 23: Parse query with special characters in string literals. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="319" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="319" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a5425d513d99cc978d397982db2582078" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, ParseVeryLongQuery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>ParseVeryLongQuery</type>
+        </param>
+        <briefdescription>
+<para>Test 24: Parse very long query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="332" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="332" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1afbd45b5750ebc8943959a69dc50303b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserServiceTest, ParseNestedFunctionCalls)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_service_test" kindref="compound">AQLParserServiceTest</ref></type>
+        </param>
+        <param>
+          <type>ParseNestedFunctionCalls</type>
+        </param>
+        <briefdescription>
+<para>Test 25: Parse query with nested function calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_parser_service.cpp" line="352" column="1" bodyfile="tests/query/test_aql_parser_service.cpp" bodystart="352" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1aba5fcf6725e25742701a4e1c1a62f0ad" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">QueryOptimizer::Plan</ref></type>
+        <definition>static QueryOptimizer::Plan themis::query::test::makeTestPlan</definition>
+        <argsstring>()</argsstring>
+        <name>makeTestPlan</name>
+        <qualifiedname>themis::query::test::makeTestPlan</qualifiedname>
+        <briefdescription>
+<para>Create a minimal plan for testing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_thread_safety.cpp" line="42" column="29" bodyfile="tests/query/test_query_optimizer_thread_safety.cpp" bodystart="42" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a83d8299eaaffb5256a3c441880547ad9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_plan_cache_1_1_statistics" kindref="compound">PlanCache::Statistics</ref></type>
+        <definition>static PlanCache::Statistics themis::query::test::makeTestStats</definition>
+        <argsstring>(const std::string &amp;table, size_t rows)</argsstring>
+        <name>makeTestStats</name>
+        <qualifiedname>themis::query::test::makeTestStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+<para>Create test statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_thread_safety.cpp" line="49" column="30" bodyfile="tests/query/test_query_optimizer_thread_safety.cpp" bodystart="49" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a17ae9419eb43c7417f6fc5858d7d0d66" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_plan_cache_1_1_config" kindref="compound">PlanCache::Config</ref></type>
+        <definition>static PlanCache::Config themis::query::test::smallCacheConfig</definition>
+        <argsstring>()</argsstring>
+        <name>smallCacheConfig</name>
+        <qualifiedname>themis::query::test::smallCacheConfig</qualifiedname>
+        <briefdescription>
+<para>Create a small cache config for testing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_thread_safety.cpp" line="54" column="26" bodyfile="tests/query/test_query_optimizer_thread_safety.cpp" bodystart="54" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a4f1b79d51127e6a6ee68e2db62668b34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(QueryOptimizerThreadSafetyTest, ConcurrentCounterUpdates_HighContention_CountersAccurate)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_query_optimizer_thread_safety_test" kindref="compound">QueryOptimizerThreadSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentCounterUpdates_HighContention_CountersAccurate</type>
+        </param>
+        <briefdescription>
+<para>Multiple threads increment cache statistics simultaneously; final counters match total operations (no lost increments). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000040"><xreftitle>Test</xreftitle><xrefdescription><para>ConcurrentCounterUpdates_HighContention_CountersAccurate </para>
+</xrefdescription></xrefsect></para>
+<para>Thread Safety: Tests that atomic counter increments in <ref refid="classthemis_1_1query_1_1_plan_cache_1a896553d55a029f72aa1089023beec345" kindref="member">PlanCache::get()</ref> and <ref refid="classthemis_1_1query_1_1_plan_cache_1a84e3c1b4c3f6041a6130827f88b4925c" kindref="member">PlanCache::put()</ref> don&apos;t lose updates under high contention. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_thread_safety.cpp" line="87" column="1" bodyfile="tests/query/test_query_optimizer_thread_safety.cpp" bodystart="87" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a4093386569cd3a544f296a9153fbd270" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(QueryOptimizerThreadSafetyTest, ConcurrentPutAndGet_MixedWorkload_NoCrash)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_query_optimizer_thread_safety_test" kindref="compound">QueryOptimizerThreadSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentPutAndGet_MixedWorkload_NoCrash</type>
+        </param>
+        <briefdescription>
+<para>Multiple threads concurrently put and get plans without crashes or data races (verified by ThreadSanitizer). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000041"><xreftitle>Test</xreftitle><xrefdescription><para>ConcurrentPutAndGet_MixedWorkload_NoCrash </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_thread_safety.cpp" line="137" column="1" bodyfile="tests/query/test_query_optimizer_thread_safety.cpp" bodystart="137" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ae7e530a3b955065805e033c01fc8d5a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(QueryOptimizerThreadSafetyTest, PlanCacheGet_DeadlineExceeded_FailsFast)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_query_optimizer_thread_safety_test" kindref="compound">QueryOptimizerThreadSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>PlanCacheGet_DeadlineExceeded_FailsFast</type>
+        </param>
+        <briefdescription>
+<para>When deadline is in the past, get() fails immediately without acquiring lock or waiting. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000042"><xreftitle>Test</xreftitle><xrefdescription><para>PlanCacheGet_DeadlineExceeded_FailsFast </para>
+</xrefdescription></xrefsect></para>
+<para>Thread Safety: Tests deadline-aware fast-path (GAP-5) to prevent cascading timeouts in federated queries. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_thread_safety.cpp" line="190" column="1" bodyfile="tests/query/test_query_optimizer_thread_safety.cpp" bodystart="190" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ac932004014d905d8d41e3379fad428ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(QueryOptimizerThreadSafetyTest, PlanCachePut_DeadlineExceeded_SkipsCache)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_query_optimizer_thread_safety_test" kindref="compound">QueryOptimizerThreadSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>PlanCachePut_DeadlineExceeded_SkipsCache</type>
+        </param>
+        <briefdescription>
+<para>When deadline is exceeded, put() returns immediately without caching the plan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000043"><xreftitle>Test</xreftitle><xrefdescription><para>PlanCachePut_DeadlineExceeded_SkipsCache </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_thread_safety.cpp" line="209" column="1" bodyfile="tests/query/test_query_optimizer_thread_safety.cpp" bodystart="209" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ac8ff2b4389af5469ddeb0c7cc0b915d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(QueryOptimizerThreadSafetyTest, PlanCacheGet_DeadlineInFuture_Succeeds)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_query_optimizer_thread_safety_test" kindref="compound">QueryOptimizerThreadSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>PlanCacheGet_DeadlineInFuture_Succeeds</type>
+        </param>
+        <briefdescription>
+<para>When deadline is in the future, get() succeeds normally. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000044"><xreftitle>Test</xreftitle><xrefdescription><para>PlanCacheGet_DeadlineInFuture_Succeeds </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_thread_safety.cpp" line="227" column="1" bodyfile="tests/query/test_query_optimizer_thread_safety.cpp" bodystart="227" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1aa582496a1414aff8f3bc303b25af1ccc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(QueryOptimizerThreadSafetyTest, ConcurrentCacheOperations_Stress_NoDeadlock)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_query_optimizer_thread_safety_test" kindref="compound">QueryOptimizerThreadSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentCacheOperations_Stress_NoDeadlock</type>
+        </param>
+        <briefdescription>
+<para>Stress test with many concurrent operations; should complete without deadlock or hanging. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000045"><xreftitle>Test</xreftitle><xrefdescription><para>ConcurrentCacheOperations_Stress_NoDeadlock </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_thread_safety.cpp" line="249" column="1" bodyfile="tests/query/test_query_optimizer_thread_safety.cpp" bodystart="249" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a1bff5b6f538db9245379cbf6caeb8e24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(QueryOptimizerThreadSafetyTest, StatsDriftDetection_ConcurrentUpdates_Accurate)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_query_optimizer_thread_safety_test" kindref="compound">QueryOptimizerThreadSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>StatsDriftDetection_ConcurrentUpdates_Accurate</type>
+        </param>
+        <briefdescription>
+<para>Statistics drift counter should be accurate even under concurrent get/put operations that trigger drift detection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000046"><xreftitle>Test</xreftitle><xrefdescription><para>StatsDriftDetection_ConcurrentUpdates_Accurate </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_thread_safety.cpp" line="302" column="1" bodyfile="tests/query/test_query_optimizer_thread_safety.cpp" bodystart="302" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1afbb13ed417e3babe29e418c850013878" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(QueryOptimizerThreadSafetyTest, CacheMemoryTracking_ConcurrentPutEvict_Consistent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_query_optimizer_thread_safety_test" kindref="compound">QueryOptimizerThreadSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>CacheMemoryTracking_ConcurrentPutEvict_Consistent</type>
+        </param>
+        <briefdescription>
+<para>Cache memory counter should remain consistent even with concurrent put and evict operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000047"><xreftitle>Test</xreftitle><xrefdescription><para>CacheMemoryTracking_ConcurrentPutEvict_Consistent </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_optimizer_thread_safety.cpp" line="347" column="1" bodyfile="tests/query/test_query_optimizer_thread_safety.cpp" bodystart="347" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ad30bd5c96c1cf811950ec154df248259" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, EmptyQueryString)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyQueryString</type>
+        </param>
+        <briefdescription>
+<para>Test 1: Empty query string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="43" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="43" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1aeb34971ba9ac9c4fe97bd91c468db188" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, WhitespaceOnlyQuery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>WhitespaceOnlyQuery</type>
+        </param>
+        <briefdescription>
+<para>Test 2: Whitespace-only query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="51" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="51" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1af7133b9645d59cace33b6b6510bbe576" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, InvalidTokenAtStart)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidTokenAtStart</type>
+        </param>
+        <briefdescription>
+<para>Test 3: Invalid token at start. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="59" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="59" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a9b3d311852e3c153a3d15fcbf2c524f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, MissingCollectionName)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>MissingCollectionName</type>
+        </param>
+        <briefdescription>
+<para>Test 4: Missing collection name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="66" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="66" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a21fc72d67093651cab88169993c36354" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, UnclosedStringLiteral)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>UnclosedStringLiteral</type>
+        </param>
+        <briefdescription>
+<para>Test 5: Unclosed string literal. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="73" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="73" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1adee28da093a3abdad97b67bee42483ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, UnmatchedParentheses)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>UnmatchedParentheses</type>
+        </param>
+        <briefdescription>
+<para>Test 6: Unmatched parentheses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="80" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="80" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a549344a0ce3fd0fe87f7d45434454ec0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, UnmatchedBrackets)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>UnmatchedBrackets</type>
+        </param>
+        <briefdescription>
+<para>Test 7: Unmatched brackets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="87" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="87" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a8ccc4137d535e33fb3d7a551d6fbaa77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, UnmatchedBraces)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>UnmatchedBraces</type>
+        </param>
+        <briefdescription>
+<para>Test 8: Unmatched braces. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="94" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="94" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a1b218de0b8594f0ef74842443442ef91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, InvalidNumericLiteral)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidNumericLiteral</type>
+        </param>
+        <briefdescription>
+<para>Test 9: Invalid numeric literal (too large for int64). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="101" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="101" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a840f067123305aa9d33ad7dca939fa5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, InvalidFloatLiteral)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidFloatLiteral</type>
+        </param>
+        <briefdescription>
+<para>Test 10: Invalid float literal. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="110" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="110" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a05b931f734a86d4a432c3ec93da20a38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, DuplicateVariableBinding)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DuplicateVariableBinding</type>
+        </param>
+        <briefdescription>
+<para>Test 11: Duplicate variable binding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="117" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="117" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1aefa404b28b6b4218a29bf71afae67ab1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, InvalidOperatorSequence)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidOperatorSequence</type>
+        </param>
+        <briefdescription>
+<para>Test 12: Invalid operator sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="125" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="125" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ad8f30148fb6780368bb4fad9fbb0dc5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, ModeratelyNestedExpression)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ModeratelyNestedExpression</type>
+        </param>
+        <briefdescription>
+<para>Test 13: Moderately nested expression (should pass). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="136" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="136" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a0081bf365a01fc06e5ae1b87d8ac8183" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, DeeplyNestedExpression)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DeeplyNestedExpression</type>
+        </param>
+        <briefdescription>
+<para>Test 14: Deeply nested expression (may hit depth limit). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="145" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="145" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a52e9814227018c2ee8646f5ef301f3a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, NestedFunctionCalls)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>NestedFunctionCalls</type>
+        </param>
+        <briefdescription>
+<para>Test 15: Nested function calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="163" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="163" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a3f9b349087d94eb3f1cb770effa8d0be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, DeeplyNestedArrayConstruction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DeeplyNestedArrayConstruction</type>
+        </param>
+        <briefdescription>
+<para>Test 16: Deeply nested array construction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="173" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="173" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a377eada4d8de59abefb5bc7b647da418" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, MissingReturnClause)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>MissingReturnClause</type>
+        </param>
+        <briefdescription>
+<para>Test 17: Missing RETURN clause. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="185" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="185" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a52fbaa863b2b4dccbd6c236bc6ff9ac9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, MultipleReturnClauses)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleReturnClauses</type>
+        </param>
+        <briefdescription>
+<para>Test 18: Multiple RETURN clauses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="192" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="192" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1adf3f3589f8e128630e1ac1d755c328c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, FilterWithoutCondition)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>FilterWithoutCondition</type>
+        </param>
+        <briefdescription>
+<para>Test 19: FILTER with invalid condition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="199" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="199" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a50f110252063d71f0d2aecb9790eee5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, LetWithoutAssignment)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>LetWithoutAssignment</type>
+        </param>
+        <briefdescription>
+<para>Test 20: LET without assignment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="206" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="206" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a3cc40c88cc43cdecac6725f8f9433a7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, SortWithoutExpression)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>SortWithoutExpression</type>
+        </param>
+        <briefdescription>
+<para>Test 21: SORT without expression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="213" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="213" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a97efe0e7cdbf9a211b0d5c7a801ca156" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, LimitWithInvalidArguments)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>LimitWithInvalidArguments</type>
+        </param>
+        <briefdescription>
+<para>Test 22: LIMIT with invalid arguments. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="220" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="220" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a83b21220279367c889b17f219fbda9b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, IncompleteGraphTraversal)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>IncompleteGraphTraversal</type>
+        </param>
+        <briefdescription>
+<para>Test 23: Incomplete graph traversal. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="227" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="227" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ad29d4a781336902361ea45c6b1d380c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, NullCharacterInjectionDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>NullCharacterInjectionDetection</type>
+        </param>
+        <briefdescription>
+<para>Test 24: NUL character injection detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="238" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="238" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1aebc1b9ff5e1d2ba9498aebc8f844118e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, InsertMutationDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>InsertMutationDetection</type>
+        </param>
+        <briefdescription>
+<para>Test 25: INSERT mutation detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="250" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="250" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a209a2951c92dba88e13d23c366dfa614" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, UpdateMutationDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>UpdateMutationDetection</type>
+        </param>
+        <briefdescription>
+<para>Test 26: UPDATE mutation detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="260" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="260" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ade062d939eb5f8a586003455543f8cb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, RemoveMutationDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>RemoveMutationDetection</type>
+        </param>
+        <briefdescription>
+<para>Test 27: REMOVE mutation detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="270" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="270" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a57db2505366ecb34f049ea421257ba70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, DeleteMutationDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DeleteMutationDetection</type>
+        </param>
+        <briefdescription>
+<para>Test 28: DELETE mutation detection (SQL-style). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="280" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="280" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a5e1f1c42cefd49a4304ea36f7c35df28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, UpsertMutationDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>UpsertMutationDetection</type>
+        </param>
+        <briefdescription>
+<para>Test 29: UPSERT mutation detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="291" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="291" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a608dbd66b808cc645027ebc0a6af5222" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, ReplaceMutationDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ReplaceMutationDetection</type>
+        </param>
+        <briefdescription>
+<para>Test 30: REPLACE mutation detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="301" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="301" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a48b30cd1b56c6d373d1e23718c969951" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, DropMutationDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>DropMutationDetection</type>
+        </param>
+        <briefdescription>
+<para>Test 31: DROP mutation detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="311" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="311" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a83ad084e736dc5603ea014f92c29621b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, ReadQueryPassesSafetyValidation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ReadQueryPassesSafetyValidation</type>
+        </param>
+        <briefdescription>
+<para>Test 32: READ query passes safety validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="321" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="321" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a3a11cdf3e6595082d6119e4e18fb675f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, ValidSimpleQuery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ValidSimpleQuery</type>
+        </param>
+        <briefdescription>
+<para>Test 33: Valid simple query (should parse). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="332" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="332" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1aec7119a386d2ab65a36f2fd33099ac19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, CollectionNameWithSpecialCharacters)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>CollectionNameWithSpecialCharacters</type>
+        </param>
+        <briefdescription>
+<para>Test 34: Collection name with special characters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="339" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="339" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ac972949001d15e02d0382f73f6b461c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, VariableNameShadowing)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>VariableNameShadowing</type>
+        </param>
+        <briefdescription>
+<para>Test 35: Variable name shadowing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="346" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="346" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a0b304232b3a882e8a242814379c12cb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, ComplexFilterWithMultipleConditions)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>ComplexFilterWithMultipleConditions</type>
+        </param>
+        <briefdescription>
+<para>Test 36: Complex filter with multiple AND/OR conditions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="356" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="356" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a1195982d2e740348ec93594c68efc7b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, CollectWithAggregationFunctions)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>CollectWithAggregationFunctions</type>
+        </param>
+        <briefdescription>
+<para>Test 37: COLLECT with aggregation functions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="367" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="367" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a15219ff5c40c16355f9e1320a8629c4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, SubqueryInLetClause)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>SubqueryInLetClause</type>
+        </param>
+        <briefdescription>
+<para>Test 38: Subquery in LET clause. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="377" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="377" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ac107e7c0613b28334d34078024d3940c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, GraphTraversalWithDepthConstraints)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>GraphTraversalWithDepthConstraints</type>
+        </param>
+        <briefdescription>
+<para>Test 39: Graph traversal with depth constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="386" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="386" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1afd24998ecfe57b8f94a641f6bc2140fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, VeryLongQueryString)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>VeryLongQueryString</type>
+        </param>
+        <briefdescription>
+<para>Test 40: Very long query string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="398" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="398" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ab01d31fcfd8283203e19a1792dff8dfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(AQLParserEdgeCasesTest, LargeNumberOfFilterClauses)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kindref="compound">AQLParserEdgeCasesTest</ref></type>
+        </param>
+        <param>
+          <type>LargeNumberOfFilterClauses</type>
+        </param>
+        <briefdescription>
+<para>Test 41: Large number of FILTER clauses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="411" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="411" bodyend="421"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/query/test_aql_parser_service.cpp" line="19" column="30"/>
+  </compounddef>
+</doxygen>

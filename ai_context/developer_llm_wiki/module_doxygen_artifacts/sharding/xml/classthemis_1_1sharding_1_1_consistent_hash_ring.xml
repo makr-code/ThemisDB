@@ -1,0 +1,677 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_consistent_hash_ring" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::ConsistentHashRing</compoundname>
+    <includes refid="consistent__hash_8h" local="no">consistent_hash.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1a7da818aeb51a86d6ce66702fe25a0712" prot="private" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, std::string &gt;</type>
+        <definition>std::map&lt;uint64_t, std::string&gt; themis::sharding::ConsistentHashRing::ring_</definition>
+        <argsstring></argsstring>
+        <name>ring_</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="172" column="14" bodyfile="include/sharding/consistent_hash.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1a9b25834ad2f2a59f12a08e13feb7938c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; uint64_t &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;uint64_t&gt; &gt; themis::sharding::ConsistentHashRing::shard_tokens_</definition>
+        <argsstring></argsstring>
+        <name>shard_tokens_</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::shard_tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="176" column="14" bodyfile="include/sharding/consistent_hash.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1a1be6952810541e5bd291cbe141a19688" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::ConsistentHashRing::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="179" column="24" bodyfile="include/sharding/consistent_hash.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1a41ec184e6a065bc0a3693dc4a72ecaa4" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ConsistentHashRing::ConsistentHashRing</definition>
+        <argsstring>(size_t=150)</argsstring>
+        <name>ConsistentHashRing</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::ConsistentHashRing</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <defval>150</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="40" column="14" bodyfile="include/sharding/consistent_hash.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1aa5dde5754d463fef5f557a3f86c2b69f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ConsistentHashRing::addShard</definition>
+        <argsstring>(const std::string &amp;shard_id, size_t virtual_nodes=150)</argsstring>
+        <name>addShard</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::addShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>virtual_nodes</declname>
+          <defval>150</defval>
+        </param>
+        <briefdescription>
+<para>Add Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a shard to the ring with virtual nodes <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique shard identifier (e.g., &quot;shard_001&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>virtual_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of virtual nodes (higher = better balance, default 150)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">virtual_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), erase(), reserve(), size(), std::to_string(), hash(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="47" column="10" bodyfile="src/sharding/consistent_hash.cpp" bodystart="40" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1a2b81929f66949edaa76af5bb4c280297" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ConsistentHashRing::addNode</definition>
+        <argsstring>(const std::string &amp;shard_id, size_t virtual_nodes=150)</argsstring>
+        <name>addNode</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::addNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>virtual_nodes</declname>
+          <defval>150</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="50" column="10" bodyfile="include/sharding/consistent_hash.h" bodystart="50" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1af14bb9306a3d1b3ef1c58e2ced4c32c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ConsistentHashRing::removeShard</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>removeShard</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::removeShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove a shard from the ring <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier to remove</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="58" column="10" bodyfile="src/sharding/consistent_hash.cpp" bodystart="87" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1a745830a9c9b56083e8eb3a5f50c01395" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ConsistentHashRing::getShardForHash</definition>
+        <argsstring>(uint64_t hash) const</argsstring>
+        <name>getShardForHash</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::getShardForHash</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>hash</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get shard for a given key hash Uses clockwise search on the ring to find the first shard <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>64-bit hash value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shard ID, or empty string if ring is empty </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="66" column="17" bodyfile="src/sharding/consistent_hash.cpp" bodystart="103" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1aa2df0f153892f10e2889a6e02e41518c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ConsistentHashRing::getShardForURN</definition>
+        <argsstring>(const URN &amp;urn) const</argsstring>
+        <name>getShardForURN</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::getShardForURN</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> &amp;</type>
+          <declname>urn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get shard for a <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> Convenience method that hashes the <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> and finds the shard <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>urn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> to route </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shard ID, or empty string if ring is empty </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="74" column="17" bodyfile="src/sharding/consistent_hash.cpp" bodystart="126" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1a94d08cb3c7c50c17b4d22b5a154728ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::sharding::ConsistentHashRing::getNode</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>getNode</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::getNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get shard for an arbitrary key (wrapper returning optional) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="79" column="19" bodyfile="src/sharding/consistent_hash.cpp" bodystart="130" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1a982e741efc16bf0ee24834010df318fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::ConsistentHashRing::getReplicaNodes</definition>
+        <argsstring>(const std::string &amp;key, size_t count) const</argsstring>
+        <name>getReplicaNodes</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::getReplicaNodes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get replica shards following the primary for a key <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>partition key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>number of replicas to return </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="86" column="17" bodyfile="src/sharding/consistent_hash.cpp" bodystart="138" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1afc51d53c28027d84a0900d1df0d3a46b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::ConsistentHashRing::getSuccessors</definition>
+        <argsstring>(uint64_t hash, size_t count) const</argsstring>
+        <name>getSuccessors</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::getSuccessors</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>hash</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get N successor shards (for replication) Returns the next N distinct shards clockwise on the ring <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting hash position </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of successors to find </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of shard IDs (may be less than count if fewer shards exist) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="95" column="17" bodyfile="src/sharding/consistent_hash.cpp" bodystart="149" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1acfed5ebe2a5b1c983c4622516986a772" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; uint64_t, uint64_t &gt;</type>
+        <definition>std::pair&lt; uint64_t, uint64_t &gt; themis::sharding::ConsistentHashRing::getShardRange</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>getShardRange</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::getShardRange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get hash range for a shard (min, max) Returns the minimum and maximum hash values this shard is responsible for Note: In consistent hashing, a shard may have multiple ranges (one per virtual node) This returns the overall min/max across all virtual nodes <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of (min_hash, max_hash), or (0, 0) if shard not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="105" column="15" bodyfile="src/sharding/consistent_hash.cpp" bodystart="192" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1a0af1dac0140cf34164794ad00afcd4b9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::ConsistentHashRing::getAllShards</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllShards</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::getAllShards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all unique shards in the ring <simplesect kind="return"><para>List of unique shard IDs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="111" column="17" bodyfile="src/sharding/consistent_hash.cpp" bodystart="213" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1af559e552efa38012f64b832d543ab19c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::ConsistentHashRing::getShardsInRange</definition>
+        <argsstring>(uint64_t hash_start, uint64_t hash_end) const</argsstring>
+        <name>getShardsInRange</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::getShardsInRange</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>hash_start</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>hash_end</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all shards responsible for any key whose hash lies in [hash_start, hash_end].</para>
+<para>Performs a clockwise ring walk from hash_start to hash_end, collecting every distinct shard ID encountered. When hash_start &gt; hash_end the range wraps around the ring and all shards are returned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hash_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lower bound of the hash range (inclusive) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hash_end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Upper bound of the hash range (inclusive) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ordered, deduplicated list of shard IDs (may be all shards) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="124" column="17" bodyfile="src/sharding/consistent_hash.cpp" bodystart="232" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1ad6512ec4c4a26a4d7d63d409679977e7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ConsistentHashRing::hashKey</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>hashKey</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::hashKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Hash an arbitrary string key using the internal FNV-1a + mix function. Exposed so callers can compute consistent hash positions without duplicating the hash logic. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to hash </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>64-bit hash value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="133" column="14" bodyfile="include/sharding/consistent_hash.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1a33e4f5ec2f4658deaa153fa0e93b400d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::ConsistentHashRing::getBalanceFactor</definition>
+        <argsstring>() const</argsstring>
+        <name>getBalanceFactor</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::getBalanceFactor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate balance factor (standard deviation of virtual nodes per shard) Lower is better. &lt; 5% is considered well-balanced <simplesect kind="return"><para>Balance factor as percentage (0.0 to 100.0) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="140" column="12" bodyfile="src/sharding/consistent_hash.cpp" bodystart="285" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1add6a256592241ffaee84a58a86ce1823" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::ConsistentHashRing::getVirtualNodeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getVirtualNodeCount</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::getVirtualNodeCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get total number of virtual nodes in the ring <simplesect kind="return"><para>Total virtual node count </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="146" column="12" bodyfile="include/sharding/consistent_hash.h" bodystart="146" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1a09a4071e047563b74e52c5e8d5065776" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::ConsistentHashRing::getShardCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getShardCount</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::getShardCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get number of unique shards <simplesect kind="return"><para>Number of unique shards </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="155" column="12" bodyfile="include/sharding/consistent_hash.h" bodystart="155" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1ab71906e070b42950559d5cde7f84b8ac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ConsistentHashRing::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear all shards from the ring </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="163" column="10" bodyfile="include/sharding/consistent_hash.h" bodystart="163" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_ring_1a64eb6cdb60d78fe422beea3fc2530f59" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ConsistentHashRing::hash</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>hash</name>
+        <qualifiedname>themis::sharding::ConsistentHashRing::hash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Hash function for virtual node generation Combines shard_id and virtual_node_index to generate unique positions <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to hash </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>64-bit hash value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="187" column="14" bodyfile="src/sharding/consistent_hash.cpp" bodystart="315" bodyend="324"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Consistent Hashing Ring for even data distribution</para>
+<para>Uses virtual nodes to ensure balanced distribution even with uneven number of shards. Each shard gets multiple positions on the hash ring (virtual nodes) to improve balance.</para>
+<para>Benefits:<itemizedlist>
+<listitem><para>Minimal data movement on shard add/remove (only 1/N of data moves)</para>
+</listitem><listitem><para>Even distribution with virtual nodes</para>
+</listitem><listitem><para>Fast lookup O(log N) where N is number of virtual nodes </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/consistent_hash.h" line="38" column="1" bodyfile="include/sharding/consistent_hash.h" bodystart="38" bodyend="188"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a2b81929f66949edaa76af5bb4c280297" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>addNode</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1aa5dde5754d463fef5f557a3f86c2b69f" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>addShard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1ab71906e070b42950559d5cde7f84b8ac" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>clear</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a41ec184e6a065bc0a3693dc4a72ecaa4" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>ConsistentHashRing</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a0af1dac0140cf34164794ad00afcd4b9" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>getAllShards</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a33e4f5ec2f4658deaa153fa0e93b400d" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>getBalanceFactor</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a94d08cb3c7c50c17b4d22b5a154728ad" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>getNode</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a982e741efc16bf0ee24834010df318fa" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>getReplicaNodes</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a09a4071e047563b74e52c5e8d5065776" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>getShardCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a745830a9c9b56083e8eb3a5f50c01395" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>getShardForHash</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1aa2df0f153892f10e2889a6e02e41518c" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>getShardForURN</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1acfed5ebe2a5b1c983c4622516986a772" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>getShardRange</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1af559e552efa38012f64b832d543ab19c" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>getShardsInRange</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1afc51d53c28027d84a0900d1df0d3a46b" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>getSuccessors</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1add6a256592241ffaee84a58a86ce1823" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>getVirtualNodeCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a64eb6cdb60d78fe422beea3fc2530f59" prot="private" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>hash</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1ad6512ec4c4a26a4d7d63d409679977e7" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>hashKey</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a1be6952810541e5bd291cbe141a19688" prot="private" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1af14bb9306a3d1b3ef1c58e2ced4c32c3" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>removeShard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a7da818aeb51a86d6ce66702fe25a0712" prot="private" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>ring_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_ring_1a9b25834ad2f2a59f12a08e13feb7938c" prot="private" virt="non-virtual"><scope>themis::sharding::ConsistentHashRing</scope><name>shard_tokens_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

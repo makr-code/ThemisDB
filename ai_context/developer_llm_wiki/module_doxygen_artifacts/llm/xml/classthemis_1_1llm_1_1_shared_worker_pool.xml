@@ -1,0 +1,505 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_shared_worker_pool" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::SharedWorkerPool</compoundname>
+    <includes refid="shared__worker__pool_8h" local="no">shared_worker_pool.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_shared_worker_pool_1_1_config" prot="public">themis::llm::SharedWorkerPool::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_shared_worker_pool_1_1_task" prot="private">themis::llm::SharedWorkerPool::Task</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_shared_worker_pool_1_1_thread_local_queue" prot="private">themis::llm::SharedWorkerPool::ThreadLocalQueue</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_shared_worker_pool_1a3f45f671c5ac01a2bf39951c655df95b" prot="private" static="no" mutable="no">
+        <type>std::priority_queue&lt; Task &gt;</type>
+        <definition>std::priority_queue&lt;Task&gt; themis::llm::SharedWorkerPool::global_queue_</definition>
+        <argsstring></argsstring>
+        <name>global_queue_</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::global_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="96" column="25" bodyfile="include/llm/shared_worker_pool.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_shared_worker_pool_1a5c782a8cd13f89e00cb9b5dfbee53e0c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::SharedWorkerPool::global_queue_mutex_</definition>
+        <argsstring></argsstring>
+        <name>global_queue_mutex_</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::global_queue_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="97" column="31" bodyfile="include/llm/shared_worker_pool.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_shared_worker_pool_1ad51f601de3a38aaf861e2abd0f081d22" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::llm::SharedWorkerPool::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="98" column="31" bodyfile="include/llm/shared_worker_pool.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_shared_worker_pool_1ad0be29deef239bade900e4dc318848ee" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; ThreadLocalQueue &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;ThreadLocalQueue&gt; &gt; themis::llm::SharedWorkerPool::thread_queues_</definition>
+        <argsstring></argsstring>
+        <name>thread_queues_</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::thread_queues_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="105" column="17" bodyfile="include/llm/shared_worker_pool.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_shared_worker_pool_1ad0670a833e9de38175479372d929415a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::thread &gt;</type>
+        <definition>std::vector&lt;std::thread&gt; themis::llm::SharedWorkerPool::workers_</definition>
+        <argsstring></argsstring>
+        <name>workers_</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::workers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="108" column="17" bodyfile="include/llm/shared_worker_pool.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_shared_worker_pool_1a8cd73685ee60d6578a1d92bb72bd815b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::SharedWorkerPool::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::running_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="109" column="24" bodyfile="include/llm/shared_worker_pool.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_shared_worker_pool_1a3036285d1880d1234146760e74791212" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::llm::SharedWorkerPool::tasks_completed_</definition>
+        <argsstring></argsstring>
+        <name>tasks_completed_</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::tasks_completed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="110" column="20" bodyfile="include/llm/shared_worker_pool.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_shared_worker_pool_1a2893addabc00ff383138ddae65eca14e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_shared_worker_pool_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::SharedWorkerPool::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="112" column="12" bodyfile="include/llm/shared_worker_pool.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_shared_worker_pool_1a29a11644bc47140337a36224cc6fe69f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::SharedWorkerPool::SharedWorkerPool</definition>
+        <argsstring>()</argsstring>
+        <name>SharedWorkerPool</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::SharedWorkerPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="37" column="5" bodyfile="src/llm/shared_worker_pool.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_shared_worker_pool_1ad5553782aeb84f943fef88e81b548980" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::SharedWorkerPool::SharedWorkerPool</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>SharedWorkerPool</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::SharedWorkerPool</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_shared_worker_pool_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Shared Worker Pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="43" column="14" bodyfile="src/llm/shared_worker_pool.cpp" bodystart="29" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_shared_worker_pool_1a15d6c1f34af322abddd281cf39aa2842" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::SharedWorkerPool::~SharedWorkerPool</definition>
+        <argsstring>()</argsstring>
+        <name>~SharedWorkerPool</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::~SharedWorkerPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="44" column="5" bodyfile="src/llm/shared_worker_pool.cpp" bodystart="54" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_shared_worker_pool_1ad9df086794921f029406b14543710bf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::SharedWorkerPool::SharedWorkerPool</definition>
+        <argsstring>(const SharedWorkerPool &amp;)=delete</argsstring>
+        <name>SharedWorkerPool</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::SharedWorkerPool</qualifiedname>
+        <param>
+          <type>const SharedWorkerPool &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_shared_worker_pool_1a28c407269ba454a6f69b26f8a7d32aa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_shared_worker_pool_1a29a11644bc47140337a36224cc6fe69f" kindref="member">SharedWorkerPool</ref> &amp;</type>
+        <definition>SharedWorkerPool &amp; themis::llm::SharedWorkerPool::operator=</definition>
+        <argsstring>(const SharedWorkerPool &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_shared_worker_pool_1a29a11644bc47140337a36224cc6fe69f" kindref="member">SharedWorkerPool</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="47" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_shared_worker_pool_1a8f77f54f8df634b77c54ea3a21216929" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SharedWorkerPool::submit</definition>
+        <argsstring>(std::function&lt; void()&gt; task, int priority=0)</argsstring>
+        <name>submit</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::submit</qualifiedname>
+        <param>
+          <type>std::function&lt; void()&gt;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">global_queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="49" column="10" bodyfile="src/llm/shared_worker_pool.cpp" bodystart="62" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_shared_worker_pool_1aa947606ccae0e7a4613f089d85285753" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SharedWorkerPool::queueDepth</definition>
+        <argsstring>() const</argsstring>
+        <name>queueDepth</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::queueDepth</qualifiedname>
+        <briefdescription>
+<para>Queue Depth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Glock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">global_queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="55" column="14" bodyfile="src/llm/shared_worker_pool.cpp" bodystart="81" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_shared_worker_pool_1ad7609421bdca52f99c67418b82cf6372" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SharedWorkerPool::tasksCompleted</definition>
+        <argsstring>() const</argsstring>
+        <name>tasksCompleted</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::tasksCompleted</qualifiedname>
+        <briefdescription>
+<para>Tasks Completed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="60" column="14" bodyfile="src/llm/shared_worker_pool.cpp" bodystart="96" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_shared_worker_pool_1a1d86c50c486b4f7de92b270b1644b748" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SharedWorkerPool::numThreads</definition>
+        <argsstring>() const</argsstring>
+        <name>numThreads</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::numThreads</qualifiedname>
+        <briefdescription>
+<para>Num Threads. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="65" column="14" bodyfile="src/llm/shared_worker_pool.cpp" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_shared_worker_pool_1ab35e773dc8fa53b0a0eb1513ebb38dbd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::SharedWorkerPool::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="71" column="10" bodyfile="src/llm/shared_worker_pool.cpp" bodystart="104" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_shared_worker_pool_1a78d62a5b9711217ca1ba95bab3a0988c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::SharedWorkerPool::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), spdlog::info(), notify_all(), joinable(), themis::utils::joinThreadWithin(), THEMIS_WARN(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="76" column="10" bodyfile="src/llm/shared_worker_pool.cpp" bodystart="117" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_shared_worker_pool_1a9c4c2b831aad96a4fe87689b84768d99" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SharedWorkerPool::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::isRunning</qualifiedname>
+        <briefdescription>
+<para>Is Running. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="81" column="10" bodyfile="src/llm/shared_worker_pool.cpp" bodystart="138" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_shared_worker_pool_1af68ca578ff9adbead51608b5ae6e83ef" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::SharedWorkerPool::workerLoop</definition>
+        <argsstring>(size_t thread_id)</argsstring>
+        <name>workerLoop</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::workerLoop</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>thread_id</declname>
+        </param>
+        <briefdescription>
+<para>Worker Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Private — Worker Thread ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">thread_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the thread.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">thread_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the thread.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(), load(), lock(), empty(), std::move(), front(), pop_front(), glock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="118" column="10" bodyfile="src/llm/shared_worker_pool.cpp" bodystart="148" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_shared_worker_pool_1a13757573fe68df3517b621190382063a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SharedWorkerPool::trySteal</definition>
+        <argsstring>(size_t thread_id, Task &amp;out_task)</argsstring>
+        <name>trySteal</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::trySteal</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>thread_id</declname>
+        </param>
+        <param>
+          <type>Task &amp;</type>
+          <declname>out_task</declname>
+        </param>
+        <briefdescription>
+<para>Try Steal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">thread_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the thread. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">thread_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the thread. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), lock(), empty(), std::move(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="125" column="10" bodyfile="src/llm/shared_worker_pool.cpp" bodystart="227" bodyend="244"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/shared_worker_pool.h" line="30" column="1" bodyfile="include/llm/shared_worker_pool.h" bodystart="30" bodyend="126"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1a2893addabc00ff383138ddae65eca14e" prot="private" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1ad51f601de3a38aaf861e2abd0f081d22" prot="private" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1ab35e773dc8fa53b0a0eb1513ebb38dbd" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1a3f45f671c5ac01a2bf39951c655df95b" prot="private" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>global_queue_</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1a5c782a8cd13f89e00cb9b5dfbee53e0c" prot="private" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>global_queue_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1a9c4c2b831aad96a4fe87689b84768d99" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1a1d86c50c486b4f7de92b270b1644b748" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>numThreads</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1a28c407269ba454a6f69b26f8a7d32aa3" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1aa947606ccae0e7a4613f089d85285753" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>queueDepth</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1a8cd73685ee60d6578a1d92bb72bd815b" prot="private" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>running_</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1a29a11644bc47140337a36224cc6fe69f" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>SharedWorkerPool</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1ad5553782aeb84f943fef88e81b548980" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>SharedWorkerPool</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1ad9df086794921f029406b14543710bf4" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>SharedWorkerPool</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1a78d62a5b9711217ca1ba95bab3a0988c" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1a8f77f54f8df634b77c54ea3a21216929" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>submit</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1a3036285d1880d1234146760e74791212" prot="private" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>tasks_completed_</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1ad7609421bdca52f99c67418b82cf6372" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>tasksCompleted</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1ad0be29deef239bade900e4dc318848ee" prot="private" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>thread_queues_</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1a13757573fe68df3517b621190382063a" prot="private" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>trySteal</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1af68ca578ff9adbead51608b5ae6e83ef" prot="private" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>workerLoop</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1ad0670a833e9de38175479372d929415a" prot="private" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>workers_</name></member>
+      <member refid="classthemis_1_1llm_1_1_shared_worker_pool_1a15d6c1f34af322abddd281cf39aa2842" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool</scope><name>~SharedWorkerPool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_rated_document" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::RatedDocument</compoundname>
+    <includes refid="self__rag_8h" local="no">self_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_rated_document_1af25a7bcd4d2b54948b91b0c5248c7662" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_self_r_a_g_document" kindref="compound">SelfRAGDocument</ref></type>
+        <definition>SelfRAGDocument themis::rag::RatedDocument::document</definition>
+        <argsstring></argsstring>
+        <name>document</name>
+        <qualifiedname>themis::rag::RatedDocument::document</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="48" column="21" bodyfile="include/rag/self_rag.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_rated_document_1a7d50e363ac214c92fc164cf7e0ba0862" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1a34a7718bb220d05867d720d4e994da2c" kindref="member">CriticVerdict</ref></type>
+        <definition>CriticVerdict themis::rag::RatedDocument::verdict</definition>
+        <argsstring></argsstring>
+        <name>verdict</name>
+        <qualifiedname>themis::rag::RatedDocument::verdict</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1a34a7718bb220d05867d720d4e994da2ca027a5217b659e8bedb70978dea494d6b" kindref="member">CriticVerdict::Irrelevant</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="49" column="21" bodyfile="include/rag/self_rag.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_rated_document_1add14c1845d23ea9fa9d944189c53c745" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::RatedDocument::critic_score</definition>
+        <argsstring></argsstring>
+        <name>critic_score</name>
+        <qualifiedname>themis::rag::RatedDocument::critic_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Continuous rating in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="50" column="21" bodyfile="include/rag/self_rag.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A passage together with its critic rating. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::RatedDocument</label>
+        <link refid="structthemis_1_1rag_1_1_rated_document"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>document</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::SelfRAGDocument</label>
+        <link refid="structthemis_1_1rag_1_1_self_r_a_g_document"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/self_rag.h" line="47" column="1" bodyfile="include/rag/self_rag.h" bodystart="47" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_rated_document_1add14c1845d23ea9fa9d944189c53c745" prot="public" virt="non-virtual"><scope>themis::rag::RatedDocument</scope><name>critic_score</name></member>
+      <member refid="structthemis_1_1rag_1_1_rated_document_1af25a7bcd4d2b54948b91b0c5248c7662" prot="public" virt="non-virtual"><scope>themis::rag::RatedDocument</scope><name>document</name></member>
+      <member refid="structthemis_1_1rag_1_1_rated_document_1a7d50e363ac214c92fc164cf7e0ba0862" prot="public" virt="non-virtual"><scope>themis::rag::RatedDocument</scope><name>verdict</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

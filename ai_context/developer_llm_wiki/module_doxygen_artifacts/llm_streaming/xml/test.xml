@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__llm__streaming__highcardinality__stress_8cpp_1a3e30ec4a87ee803810856365cc4b0e28" kindref="member">TEST</ref>  (HighCardinalityStreamSession, ConcurrentSessions)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>HighCardinalityStreamSession Creates 1 000 streaming sessions distributed across 8 threads, sends tokens into each session, and verifies all sessions close cleanly.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__streaming__highcardinality__stress_8cpp_1a11889f2c3d722e48bd36c38d788cac75" kindref="member">TEST</ref>  (ConcurrentBackpressureStress, MultiThreadedPushPop)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>ConcurrentBackpressureStress Runs 8 concurrent producers against a single backpressure buffer and verifies no uncaught exceptions occur.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__llm__streaming__highcardinality__stress_8cpp_1a15dd0c0a65522703d16f9de81d1d8ea6" kindref="member">TEST</ref>  (ChunkAssemblyEdgeCaseStress, InOrderDelivery)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>ChunkAssemblyEdgeCaseStress Sends 100 000 in-order chunks to the assembler from 8 threads (serialised via mutex) and verifies zero order violations. </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

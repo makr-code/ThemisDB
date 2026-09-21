@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_masked_error" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::MaskedError</compoundname>
+    <includes refid="graphql_8h" local="no">graphql.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_masked_error_1ae77a7d14e0c0de97c6b724bf7034cbf3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::MaskedError::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::graphql::MaskedError::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="507" column="17" bodyfile="include/api/graphql.h" bodystart="507" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_masked_error_1aafa00ea97be3edd596112b15e3df919f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::MaskedError::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::graphql::MaskedError::code</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="508" column="17" bodyfile="include/api/graphql.h" bodystart="508" bodyend="508"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_masked_error_1abae45648e51b53f06925be88fdde4944" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graphql::MaskedError::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::graphql::MaskedError::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="509" column="17" bodyfile="include/api/graphql.h" bodystart="509" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_masked_error_1abafb5aa1f08f7cf3f126fecec88c679e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graphql_1_1_masked_error" kindref="compound">MaskedError</ref></type>
+        <definition>static MaskedError themis::graphql::MaskedError::fromInternalError</definition>
+        <argsstring>(const std::string &amp;internal_msg, const std::string &amp;error_code=&quot;INTERNAL_ERROR&quot;, bool mask=true)</argsstring>
+        <name>fromInternalError</name>
+        <qualifiedname>themis::graphql::MaskedError::fromInternalError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>internal_msg</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_code</declname>
+          <defval>&quot;INTERNAL_ERROR&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>mask</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="512" column="24" bodyfile="include/api/graphql.h" bodystart="512" bodyend="536"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_masked_error_1a5bdcd024e5180e50bc4ca3f4230eb838" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::MaskedError::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::graphql::MaskedError::toString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="538" column="17" bodyfile="include/api/graphql.h" bodystart="538" bodyend="550"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql.h" line="506" column="1" bodyfile="include/api/graphql.h" bodystart="506" bodyend="551"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_masked_error_1aafa00ea97be3edd596112b15e3df919f" prot="public" virt="non-virtual"><scope>themis::graphql::MaskedError</scope><name>code</name></member>
+      <member refid="structthemis_1_1graphql_1_1_masked_error_1abafb5aa1f08f7cf3f126fecec88c679e" prot="public" virt="non-virtual"><scope>themis::graphql::MaskedError</scope><name>fromInternalError</name></member>
+      <member refid="structthemis_1_1graphql_1_1_masked_error_1ae77a7d14e0c0de97c6b724bf7034cbf3" prot="public" virt="non-virtual"><scope>themis::graphql::MaskedError</scope><name>message</name></member>
+      <member refid="structthemis_1_1graphql_1_1_masked_error_1abae45648e51b53f06925be88fdde4944" prot="public" virt="non-virtual"><scope>themis::graphql::MaskedError</scope><name>path</name></member>
+      <member refid="structthemis_1_1graphql_1_1_masked_error_1a5bdcd024e5180e50bc4ca3f4230eb838" prot="public" virt="non-virtual"><scope>themis::graphql::MaskedError</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

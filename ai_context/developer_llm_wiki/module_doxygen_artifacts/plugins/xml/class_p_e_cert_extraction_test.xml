@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_p_e_cert_extraction_test" kind="class" language="C++" prot="public">
+    <compoundname>PECertExtractionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_p_e_cert_extraction_test_1a59f3baba6971adbd96c68ba5fd0a9003" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path PECertExtractionTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>PECertExtractionTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_pe_cert_extraction.cpp" line="150" column="27" bodyfile="tests/plugins/test_plugin_security_pe_cert_extraction.cpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_p_e_cert_extraction_test_1a7c46314dda28eafe5d10d97a0423dee5" prot="protected" static="no" mutable="no">
+        <type>PluginSecurityPolicy</type>
+        <definition>PluginSecurityPolicy PECertExtractionTest::policy_</definition>
+        <argsstring></argsstring>
+        <name>policy_</name>
+        <qualifiedname>PECertExtractionTest::policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_pe_cert_extraction.cpp" line="151" column="27" bodyfile="tests/plugins/test_plugin_security_pe_cert_extraction.cpp" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_p_e_cert_extraction_test_1aa67d8cf7475fb1ae1840444e1abb9529" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PECertExtractionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>PECertExtractionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_pe_cert_extraction.cpp" line="135" column="10" bodyfile="tests/plugins/test_plugin_security_pe_cert_extraction.cpp" bodystart="135" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_e_cert_extraction_test_1a01cfd4ca7f450117394556a34cc80beb" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PECertExtractionTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>PECertExtractionTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_pe_cert_extraction.cpp" line="142" column="10" bodyfile="tests/plugins/test_plugin_security_pe_cert_extraction.cpp" bodystart="142" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_e_cert_extraction_test_1a25ed267d193f042b1b4a84da83eb3e62" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>EnhancedPluginSecurityVerifier</type>
+        <definition>EnhancedPluginSecurityVerifier PECertExtractionTest::makeVerifier</definition>
+        <argsstring>() const</argsstring>
+        <name>makeVerifier</name>
+        <qualifiedname>PECertExtractionTest::makeVerifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_pe_cert_extraction.cpp" line="146" column="36" bodyfile="tests/plugins/test_plugin_security_pe_cert_extraction.cpp" bodystart="146" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PECertExtractionTest</label>
+        <link refid="class_p_e_cert_extraction_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PECertExtractionTest</label>
+        <link refid="class_p_e_cert_extraction_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_security_pe_cert_extraction.cpp" line="133" column="1" bodyfile="tests/plugins/test_plugin_security_pe_cert_extraction.cpp" bodystart="133" bodyend="152"/>
+    <listofallmembers>
+      <member refid="class_p_e_cert_extraction_test_1a25ed267d193f042b1b4a84da83eb3e62" prot="protected" virt="non-virtual"><scope>PECertExtractionTest</scope><name>makeVerifier</name></member>
+      <member refid="class_p_e_cert_extraction_test_1a7c46314dda28eafe5d10d97a0423dee5" prot="protected" virt="non-virtual"><scope>PECertExtractionTest</scope><name>policy_</name></member>
+      <member refid="class_p_e_cert_extraction_test_1aa67d8cf7475fb1ae1840444e1abb9529" prot="protected" virt="non-virtual"><scope>PECertExtractionTest</scope><name>SetUp</name></member>
+      <member refid="class_p_e_cert_extraction_test_1a01cfd4ca7f450117394556a34cc80beb" prot="protected" virt="non-virtual"><scope>PECertExtractionTest</scope><name>TearDown</name></member>
+      <member refid="class_p_e_cert_extraction_test_1a59f3baba6971adbd96c68ba5fd0a9003" prot="protected" virt="non-virtual"><scope>PECertExtractionTest</scope><name>test_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

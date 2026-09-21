@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_t_s_a_verify_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::TSAVerifyRequest</compoundname>
+    <includes refid="tsa__api_8h" local="no">tsa_api.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_t_s_a_verify_request_1a37ebff9e9dc41b92c8c6b5d1d5647f27" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::TSAVerifyRequest::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::security::TSAVerifyRequest::data</qualifiedname>
+        <briefdescription>
+<para>Original data (or pre-computed digest when data_is_hash = true). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="214" column="17" bodyfile="include/security/tsa_api.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_t_s_a_verify_request_1a3939af27a6f757ebfd5f6bb6bc25bc25" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::TSAVerifyRequest::data_is_hash</definition>
+        <argsstring></argsstring>
+        <name>data_is_hash</name>
+        <qualifiedname>themis::security::TSAVerifyRequest::data_is_hash</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>When true, <computeroutput><ref refid="structthemis_1_1security_1_1_t_s_a_verify_request_1a37ebff9e9dc41b92c8c6b5d1d5647f27" kindref="member">data</ref></computeroutput> is already a hash digest. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="217" column="10" bodyfile="include/security/tsa_api.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_t_s_a_verify_request_1a466ff84fccebaaccb2122b4e615e0e42" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::TSAVerifyRequest::token_der</definition>
+        <argsstring></argsstring>
+        <name>token_der</name>
+        <qualifiedname>themis::security::TSAVerifyRequest::token_der</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DER-encoded timestamp token to verify. Provide either token_der OR token_b64 (token_der takes precedence). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="221" column="17" bodyfile="include/security/tsa_api.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_t_s_a_verify_request_1a2b4968d2e59b752027c2527bc6798c48" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::TSAVerifyRequest::token_b64</definition>
+        <argsstring></argsstring>
+        <name>token_b64</name>
+        <qualifiedname>themis::security::TSAVerifyRequest::token_b64</qualifiedname>
+        <briefdescription>
+<para>Base64-encoded timestamp token (alternative to token_der). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="224" column="17" bodyfile="include/security/tsa_api.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="structthemis_1_1security_1_1_t_s_a_verify_request" kindref="compound">TSAVerifyRequest</ref> — parameters for verifying a stored timestamp token. </para>
+    </detaileddescription>
+    <location file="include/security/tsa_api.h" line="212" column="1" bodyfile="include/security/tsa_api.h" bodystart="212" bodyend="225"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_t_s_a_verify_request_1a37ebff9e9dc41b92c8c6b5d1d5647f27" prot="public" virt="non-virtual"><scope>themis::security::TSAVerifyRequest</scope><name>data</name></member>
+      <member refid="structthemis_1_1security_1_1_t_s_a_verify_request_1a3939af27a6f757ebfd5f6bb6bc25bc25" prot="public" virt="non-virtual"><scope>themis::security::TSAVerifyRequest</scope><name>data_is_hash</name></member>
+      <member refid="structthemis_1_1security_1_1_t_s_a_verify_request_1a2b4968d2e59b752027c2527bc6798c48" prot="public" virt="non-virtual"><scope>themis::security::TSAVerifyRequest</scope><name>token_b64</name></member>
+      <member refid="structthemis_1_1security_1_1_t_s_a_verify_request_1a466ff84fccebaaccb2122b4e615e0e42" prot="public" virt="non-virtual"><scope>themis::security::TSAVerifyRequest</scope><name>token_der</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

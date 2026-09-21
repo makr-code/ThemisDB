@@ -1,0 +1,857 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__rtree__cpu__integration_8cpp" kind="file" language="C++">
+    <compoundname>test_rtree_cpu_integration.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">index/spatial_index.h</includes>
+    <includes refid="spatial__backend_8h" local="yes">geo/spatial_backend.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">algorithm</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>geo/spatial_backend.h</label>
+        <link refid="spatial__backend_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/geo/test_rtree_cpu_integration.cpp</label>
+        <link refid="test__rtree__cpu__integration_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>algorithm</label>
+      </node>
+      <node id="13">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>filesystem</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>index/spatial_index.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_r_tree_cpu_integration_test" prot="public">RTreeCpuIntegrationTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, InsertAndSearch_SinglePoint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>InsertAndSearch_SinglePoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="93" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="93" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1af3edbcb2dc9b2579fb1ad2026f217cc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, InsertAndSearch_MissesOutsideBBox)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>InsertAndSearch_MissesOutsideBBox</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="101" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="101" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1ad769b7a7c8e3427754c7916cabe2b754" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, InsertAndSearch_MultiplePoints)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>InsertAndSearch_MultiplePoints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="109" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="109" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1a656319d1122ab11a09595b5a620dcc9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, Remove_EntryDisappearsFromResults)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>Remove_EntryDisappearsFromResults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="126" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="126" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1a471fa1b7d7b65a41c6a790ceb2fa2f21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, Remove_OtherEntriesUnaffected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>Remove_OtherEntriesUnaffected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="140" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="140" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1ab14b47f7e61c4fe698c29002ea1962ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, SearchContains_PointInsideBox)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>SearchContains_PointInsideBox</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="158" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="158" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1a8d4b4f011a5041c87a30197dde32df6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, SearchContains_PointOutside)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>SearchContains_PointOutside</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="168" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="168" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1a91f9c715d55e8d4e028570efe0009360" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, LazyRebuild_AfterReopenWithExistingData)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LazyRebuild_AfterReopenWithExistingData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="180" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="180" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1aadbf77df439641b474b91ea6a94310ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, LargeDataset_HundredPoints)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LargeDataset_HundredPoints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="202" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="202" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1a2560ebc692395e4d563917de4a0beec5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, InsertBatch_RTreeUpdated)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>InsertBatch_RTreeUpdated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="220" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="220" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1a86e95e2405ea0d86cf7f2cfffc544ff8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, RemoveBatch_RTreeUpdated)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>RemoveBatch_RTreeUpdated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="231" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="231" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1a1beef97a766beb765f693027bb045742" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, DropAndRecreate_StaleRTreeCleared)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>DropAndRecreate_StaleRTreeCleared</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="250" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="250" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1a5f3f926751d17de3fe243af5c213bf0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, BulkLoad_PopulatesIndexFromEntries)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>BulkLoad_PopulatesIndexFromEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="272" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="272" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1ae2cf006e520b6e420967f044407a5d69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, BulkLoad_ReplacesExistingContent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>BulkLoad_ReplacesExistingContent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="296" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="296" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1a09ce4234aa029c91db9acbd73a910e58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, BulkLoad_EmptyEntries_ClearsIndex)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>BulkLoad_EmptyEntries_ClearsIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="326" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="326" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1aa9c83f0ead3e5bca5046dba2a1a9d622" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, BulkLoad_PersistsAcrossManagerRestart)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>BulkLoad_PersistsAcrossManagerRestart</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="334" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="334" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1a8d8acfed75564d826b9702c82a4d1b53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, BulkLoad_ErrorOnMissingIndex)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>BulkLoad_ErrorOnMissingIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="355" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="355" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1af14e6bed36bd62408ca5925c29a84728" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, SearchContains_UsesRTreeDirectly)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>SearchContains_UsesRTreeDirectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="368" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="368" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cpu__integration_8cpp_1a29104957a7a34436f75e882937837c0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RTreeCpuIntegrationTest, SearchContains_PointOnMBRBoundary)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>SearchContains_PointOnMBRBoundary</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cpu_integration.cpp" line="381" column="1" bodyfile="tests/geo/test_rtree_cpu_integration.cpp" bodystart="381" bodyend="392"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/spatial_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="spatial__backend_8h" kindref="compound">geo/spatial_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::index;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">themis::geo</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture:<sp/>creates<sp/>a<sp/>temporary<sp/>RocksDB,<sp/>sets<sp/>up<sp/>a<sp/>SpatialIndexManager<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>wires<sp/>the<sp/>built-in<sp/>CPU<sp/>exact<sp/>backend<sp/>so<sp/>that<sp/>the<sp/>R-tree<sp/>integration<sp/>path<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>exercised<sp/>end-to-end.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="class_r_tree_cpu_integration_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="class_r_tree_cpu_integration_test_1a856919171ddb32fc5340793ff2401ece" kindref="member">kTable</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_rtree_table&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_r_tree_cpu_integration_test_1a5267921e591a298515eab4e3f7958af2" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Skipping<sp/>RTreeCpuIntegration<sp/>tests<sp/>on<sp/>Windows&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>unique_id<sp/>=<sp/>std::to_string(</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now().time_since_epoch().count());</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_tree_cpu_integration_test_1a8097560543478078db91c1af4067d53a" kindref="member">db_path_</ref><sp/>=<sp/>(std::filesystem::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;test_rtree_cpu_integration_db_&quot;</highlight><highlight class="normal"><sp/>+<sp/>unique_id)).string();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/><sp/>=<sp/><ref refid="class_r_tree_cpu_integration_test_1a8097560543478078db91c1af4067d53a" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.memtable_size_mb<sp/><sp/><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.block_cache_size_mb<sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_tree_cpu_integration_test_1a213071891cdac5008bf09b9102e06196" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_r_tree_cpu_integration_test_1a213071891cdac5008bf09b9102e06196" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_tree_cpu_integration_test_1a25537911a7c59dc0bf405765c535e67b" kindref="member">mgr_</ref><sp/>=<sp/>std::make_unique&lt;SpatialIndexManager&gt;(*<ref refid="class_r_tree_cpu_integration_test_1a213071891cdac5008bf09b9102e06196" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wire<sp/>the<sp/>CPU<sp/>exact<sp/>backend<sp/>so<sp/>Phase-2<sp/>exact<sp/>checks<sp/>can<sp/>run.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>cpu<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend</ref>();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_NE(cpu,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_tree_cpu_integration_test_1a25537911a7c59dc0bf405765c535e67b" kindref="member">mgr_</ref>-&gt;setExactBackend(cpu);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>spatial<sp/>index<sp/>with<sp/>world<sp/>bounds.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RTreeConfig<sp/>rtcfg;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rtcfg.total_bounds<sp/>=<sp/>MBR(-180.0,<sp/>-90.0,<sp/>180.0,<sp/>90.0);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_r_tree_cpu_integration_test_1a25537911a7c59dc0bf405765c535e67b" kindref="member">mgr_</ref>-&gt;createSpatialIndex(<ref refid="class_r_tree_cpu_integration_test_1a856919171ddb32fc5340793ff2401ece" kindref="member">kTable</ref>,<sp/></highlight><highlight class="stringliteral">&quot;geometry&quot;</highlight><highlight class="normal">,<sp/>rtcfg));</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_r_tree_cpu_integration_test_1a4f425bdc32858fbc1662ac083d179883" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_tree_cpu_integration_test_1a25537911a7c59dc0bf405765c535e67b" kindref="member">mgr_</ref>.reset();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_tree_cpu_integration_test_1a213071891cdac5008bf09b9102e06196" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_r_tree_cpu_integration_test_1a8097560543478078db91c1af4067d53a" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>a<sp/>point-sidecar.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GeoSidecar<sp/><ref refid="class_r_tree_cpu_integration_test_1a93a250826e349d5e70ef2eaab3151b94" kindref="member">pointSidecar</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GeoSidecar<sp/>sc;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.mbr<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>MBR(lon,<sp/>lat,<sp/>lon,<sp/>lat);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.centroid<sp/>=<sp/>Coordinate(lon,<sp/>lat);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sc;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>a<sp/>box-sidecar.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GeoSidecar<sp/><ref refid="class_r_tree_cpu_integration_test_1a203d51dab040d283ffced9356a2f5ede" kindref="member">boxSidecar</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>minx,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>miny,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>maxx,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>maxy)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GeoSidecar<sp/>sc;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.mbr<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>MBR(minx,<sp/>miny,<sp/>maxx,<sp/>maxy);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.centroid<sp/>=<sp/>Coordinate((minx<sp/>+<sp/>maxx)<sp/>*<sp/>0.5,<sp/>(miny<sp/>+<sp/>maxy)<sp/>*<sp/>0.5);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sc;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_r_tree_cpu_integration_test_1a8e172676af263989d1903584b002359a" kindref="member">hasKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;SpatialResult&gt;&amp;<sp/>v,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>k)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::any_of(v.begin(),<sp/>v.end(),</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SpatialResult&amp;<sp/>r){<sp/>return<sp/>r.primary_key<sp/>==<sp/>k;<sp/>});</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_tree_cpu_integration_test_1a213071891cdac5008bf09b9102e06196" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SpatialIndexManager&gt;<sp/><sp/><ref refid="class_r_tree_cpu_integration_test_1a25537911a7c59dc0bf405765c535e67b" kindref="member">mgr_</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_r_tree_cpu_integration_test_1a8097560543478078db91c1af4067d53a" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Basic<sp/>insert<sp/>+<sp/>search</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>InsertAndSearch_SinglePoint)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(13.4,<sp/>52.5)));</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(12.0,<sp/>51.0,<sp/>15.0,<sp/>54.0));</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res[0].primary_key,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>InsertAndSearch_MissesOutsideBBox)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(13.4,<sp/>52.5)));</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>box<sp/>does<sp/>not<sp/>cover<sp/>Berlin.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(0.0,<sp/>0.0,<sp/>5.0,<sp/>5.0));</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.empty());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>InsertAndSearch_MultiplePoints)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/><sp/>pointSidecar(13.4,<sp/><sp/>52.5)));</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>pointSidecar(<sp/>2.35,<sp/>48.85)));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;hamburg&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(10.0,<sp/><sp/>53.6)));</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Germany-ish<sp/>bbox</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(6.0,<sp/>47.0,<sp/>15.0,<sp/>55.0));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.size(),<sp/>2u);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Berlin<sp/>+<sp/>Hamburg</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;hamburg&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Remove</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>Remove_EntryDisappearsFromResults)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc<sp/>=<sp/>pointSidecar(13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>sc));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>it&apos;s<sp/>there.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr_-&gt;searchIntersects(kTable,<sp/>MBR(12.0,<sp/>51.0,<sp/>15.0,<sp/>54.0)).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remove<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;remove(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>sc));</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>no<sp/>longer<sp/>appear.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr_-&gt;searchIntersects(kTable,<sp/>MBR(12.0,<sp/>51.0,<sp/>15.0,<sp/>54.0)).empty());</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>Remove_OtherEntriesUnaffected)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc_b<sp/>=<sp/>pointSidecar(13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc_p<sp/>=<sp/>pointSidecar(2.35,<sp/>48.85);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>sc_b));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">,<sp/><sp/>sc_p));</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;remove(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>sc_b));</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>World<sp/>query:<sp/>only<sp/>Paris<sp/>remains.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(-180.0,<sp/>-90.0,<sp/>180.0,<sp/>90.0));</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>searchContains<sp/>(uses<sp/>searchIntersects<sp/>under<sp/>the<sp/>hood)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>SearchContains_PointInsideBox)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>a<sp/>box<sp/>that<sp/>covers<sp/>central<sp/>Germany.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;germany&quot;</highlight><highlight class="normal">,<sp/>boxSidecar(6.0,<sp/>47.0,<sp/>15.0,<sp/>55.0)));</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Berlin<sp/>(13.4,<sp/>52.5)<sp/>is<sp/>inside.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchContains(kTable,<sp/>13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;germany&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>SearchContains_PointOutside)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;germany&quot;</highlight><highlight class="normal">,<sp/>boxSidecar(6.0,<sp/>47.0,<sp/>15.0,<sp/>55.0)));</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tokyo<sp/>(139.7,<sp/>35.7)<sp/>is<sp/>outside.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchContains(kTable,<sp/>139.7,<sp/>35.7);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.empty());</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Lazy<sp/>rebuild<sp/>from<sp/>RocksDB<sp/>per-PK<sp/>keys<sp/>(simulates<sp/>data<sp/>surviving<sp/>a<sp/>restart)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>LazyRebuild_AfterReopenWithExistingData)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>data<sp/>via<sp/>the<sp/>first<sp/>manager<sp/>instance.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(13.4,<sp/>52.5)));</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">,<sp/><sp/>pointSidecar(2.35,<sp/>48.85)));</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Discard<sp/>the<sp/>manager<sp/>(simulates<sp/>process<sp/>restart<sp/>/<sp/>R-tree<sp/>lost<sp/>from<sp/>memory).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_.reset();</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-open<sp/>with<sp/>a<sp/>fresh<sp/>manager<sp/>—<sp/>R-tree<sp/>is<sp/>initially<sp/>empty.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_<sp/>=<sp/>std::make_unique&lt;SpatialIndexManager&gt;(*db_);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_-&gt;setExactBackend(<ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend</ref>());</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>query<sp/>triggers<sp/>lazy<sp/>rebuild<sp/>from<sp/>per-PK<sp/>RocksDB<sp/>keys.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(12.0,<sp/>51.0,<sp/>15.0,<sp/>54.0));</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Large-dataset:<sp/>verify<sp/>R-tree<sp/>path<sp/>handles<sp/>many<sp/>inserts<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>LargeDataset_HundredPoints)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>100<sp/>points<sp/>along<sp/>a<sp/>longitude<sp/>grid;<sp/>all<sp/>at<sp/>lat<sp/>0.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>-<sp/>50.0;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-50<sp/>..<sp/>49</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;pt_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>pointSidecar(lon,<sp/>0.0));</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>a<sp/>small<sp/>slice:<sp/>lon<sp/>∈<sp/>[-10,<sp/>10].</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(-10.0,<sp/>-1.0,<sp/>10.0,<sp/>1.0));</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expect<sp/>21<sp/>points:<sp/>-10,<sp/>-9,<sp/>...,<sp/>0,<sp/>...,<sp/>10.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.size(),<sp/>21u);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>insertBatch<sp/>/<sp/>removeBatch<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>InsertBatch_RTreeUpdated)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>wb<sp/>=<sp/>db_-&gt;createWriteBatch();</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc<sp/>=<sp/>pointSidecar(13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insertBatch(*wb,<sp/>kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin_batch&quot;</highlight><highlight class="normal">,<sp/>sc));</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(wb-&gt;commit());</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(12.0,<sp/>51.0,<sp/>15.0,<sp/>54.0));</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;berlin_batch&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>RemoveBatch_RTreeUpdated)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc<sp/>=<sp/>pointSidecar(13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>insert.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin_rb&quot;</highlight><highlight class="normal">,<sp/>sc));</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr_-&gt;searchIntersects(kTable,<sp/>MBR(12.0,<sp/>51.0,<sp/>15.0,<sp/>54.0)).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remove<sp/>via<sp/>batch.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>wb<sp/>=<sp/>db_-&gt;createWriteBatch();</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;removeBatch(*wb,<sp/>kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin_rb&quot;</highlight><highlight class="normal">,<sp/>sc));</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(wb-&gt;commit());</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(12.0,<sp/>51.0,<sp/>15.0,<sp/>54.0));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.empty());</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Drop<sp/>+<sp/>recreate:<sp/>stale<sp/>R-tree<sp/>must<sp/>not<sp/>leak<sp/>into<sp/>the<sp/>new<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>DropAndRecreate_StaleRTreeCleared)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>data<sp/>into<sp/>the<sp/>original<sp/>index.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(13.4,<sp/>52.5)));</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr_-&gt;searchIntersects(kTable,<sp/>MBR(12.0,<sp/>51.0,<sp/>15.0,<sp/>54.0)).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drop<sp/>the<sp/>index<sp/>—<sp/>must<sp/>clear<sp/>in-memory<sp/>R-tree.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;dropSpatialIndex(kTable));</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recreate<sp/>the<sp/>index<sp/>(empty)<sp/>and<sp/>query<sp/>without<sp/>inserting<sp/>any<sp/>new<sp/>data.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>RTreeConfig<sp/>rtcfg;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>rtcfg.total_bounds<sp/>=<sp/>MBR(-180.0,<sp/>-90.0,<sp/>180.0,<sp/>90.0);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;createSpatialIndex(kTable,<sp/></highlight><highlight class="stringliteral">&quot;geometry&quot;</highlight><highlight class="normal">,<sp/>rtcfg));</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>new<sp/>(empty)<sp/>index<sp/>must<sp/>return<sp/>no<sp/>results.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(12.0,<sp/>51.0,<sp/>15.0,<sp/>54.0));</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Stale<sp/>R-tree<sp/>entries<sp/>leaked<sp/>after<sp/>drop+recreate&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">//<sp/>bulkLoad:<sp/>cold-start<sp/>STR<sp/>packing<sp/>for<sp/>read-heavy<sp/>workloads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>BulkLoad_PopulatesIndexFromEntries)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prepare<sp/>a<sp/>batch<sp/>of<sp/>point<sp/>sidecars<sp/>covering<sp/>different<sp/>regions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>GeoSidecar&gt;&gt;<sp/>entries<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/><sp/>pointSidecar(13.4,<sp/><sp/><sp/>52.5)},</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>pointSidecar(<sp/>2.35,<sp/><sp/>48.85)},</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hamburg&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(10.0,<sp/><sp/><sp/>53.6)},</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;madrid&quot;</highlight><highlight class="normal">,<sp/><sp/>pointSidecar(-3.7,<sp/><sp/><sp/>40.4)},</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>bulkLoad<sp/>replaces<sp/>any<sp/>previously<sp/>cached<sp/>state.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;bulkLoad(kTable,<sp/>entries));</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>each<sp/>point<sp/>is<sp/>reachable<sp/>from<sp/>a<sp/>query.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>de_res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(6.0,<sp/>47.0,<sp/>15.0,<sp/>55.0));</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(de_res.size(),<sp/>2u);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>berlin<sp/>+<sp/>hamburg</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(de_res,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(de_res,<sp/></highlight><highlight class="stringliteral">&quot;hamburg&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hasKey(de_res,<sp/></highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>es_res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(-10.0,<sp/>35.0,<sp/>5.0,<sp/>45.0));</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(es_res.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(es_res[0].primary_key,<sp/></highlight><highlight class="stringliteral">&quot;madrid&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>BulkLoad_ReplacesExistingContent)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>a<sp/>point<sp/>that<sp/>should<sp/>be<sp/>absent<sp/>after<sp/>the<sp/>bulk<sp/>load.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;tokyo&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(139.7,<sp/>35.7)));</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr_-&gt;searchIntersects(kTable,<sp/>MBR(130.0,<sp/>30.0,<sp/>145.0,<sp/>40.0)).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>bulkLoad<sp/>with<sp/>entries<sp/>that<sp/>do<sp/>NOT<sp/>include<sp/>tokyo.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>GeoSidecar&gt;&gt;<sp/>entries<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(13.4,<sp/>52.5)},</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;bulkLoad(kTable,<sp/>entries));</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>tokyo<sp/>must<sp/>no<sp/>longer<sp/>be<sp/>in<sp/>the<sp/>in-memory<sp/>index.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr_-&gt;searchIntersects(kTable,<sp/>MBR(130.0,<sp/>30.0,<sp/>145.0,<sp/>40.0)).empty());</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>berlin<sp/>must<sp/>be<sp/>present.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr_-&gt;searchIntersects(kTable,<sp/>MBR(12.0,<sp/>51.0,<sp/>15.0,<sp/>54.0)).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>a<sp/>manager<sp/>restart<sp/>to<sp/>verify<sp/>stale<sp/>per-PK<sp/>RocksDB<sp/>keys<sp/>were<sp/>purged.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>bulkLoad<sp/>did<sp/>not<sp/>delete<sp/>the<sp/>old<sp/>per-PK<sp/>key<sp/>for<sp/>&quot;tokyo&quot;,<sp/>ensureRTree<sp/>would</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>resurrect<sp/>it<sp/>during<sp/>the<sp/>lazy<sp/>rebuild<sp/>after<sp/>restart.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_.reset();</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_<sp/>=<sp/>std::make_unique&lt;SpatialIndexManager&gt;(*db_);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_-&gt;setExactBackend(<ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend</ref>());</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>restart<sp/>+<sp/>lazy<sp/>rebuild,<sp/>tokyo<sp/>must<sp/>still<sp/>be<sp/>absent.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr_-&gt;searchIntersects(kTable,<sp/>MBR(130.0,<sp/>30.0,<sp/>145.0,<sp/>40.0)).empty())</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Stale<sp/>per-PK<sp/>RocksDB<sp/>key<sp/>for<sp/>&apos;tokyo&apos;<sp/>was<sp/>not<sp/>purged<sp/>by<sp/>bulkLoad&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>berlin<sp/>must<sp/>still<sp/>be<sp/>present.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr_-&gt;searchIntersects(kTable,<sp/>MBR(12.0,<sp/>51.0,<sp/>15.0,<sp/>54.0)).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>BulkLoad_EmptyEntries_ClearsIndex)<sp/>{</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(13.4,<sp/>52.5)));</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>bulkLoad<sp/>with<sp/>an<sp/>empty<sp/>list<sp/>must<sp/>clear<sp/>the<sp/>in-memory<sp/>index.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;bulkLoad(kTable,<sp/>{}));</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr_-&gt;searchIntersects(kTable,<sp/>MBR(-180.0,<sp/>-90.0,<sp/>180.0,<sp/>90.0)).empty());</highlight></codeline>
+<codeline lineno="332"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>BulkLoad_PersistsAcrossManagerRestart)<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bulk-load<sp/>two<sp/>points<sp/>into<sp/>the<sp/>index<sp/>via<sp/>the<sp/>current<sp/>manager.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>GeoSidecar&gt;&gt;<sp/>entries<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(13.4,<sp/><sp/>52.5)},</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">,<sp/><sp/>pointSidecar(<sp/>2.35,<sp/>48.85)},</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;bulkLoad(kTable,<sp/>entries));</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Discard<sp/>the<sp/>manager<sp/>(simulates<sp/>a<sp/>process<sp/>restart).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_.reset();</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-open<sp/>with<sp/>a<sp/>fresh<sp/>manager;<sp/>the<sp/>R-tree<sp/>is<sp/>initially<sp/>empty.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_<sp/>=<sp/>std::make_unique&lt;SpatialIndexManager&gt;(*db_);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_-&gt;setExactBackend(<ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend</ref>());</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>query<sp/>triggers<sp/>lazy<sp/>rebuild<sp/>from<sp/>the<sp/>per-PK<sp/>keys<sp/>written<sp/>by<sp/>bulkLoad.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(12.0,<sp/>51.0,<sp/>15.0,<sp/>54.0));</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="353"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>BulkLoad_ErrorOnMissingIndex)<sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>a<sp/>table<sp/>that<sp/>has<sp/>no<sp/>registered<sp/>spatial<sp/>index.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>GeoSidecar&gt;&gt;<sp/>entries<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(0.0,<sp/>0.0)},</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>mgr_-&gt;bulkLoad(</highlight><highlight class="stringliteral">&quot;nonexistent_table&quot;</highlight><highlight class="normal">,<sp/>entries);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(status.ok);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight><highlight class="comment">//<sp/>searchContains<sp/>uses<sp/>R-tree<sp/>contains(x,<sp/>y)<sp/>path<sp/>directly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>SearchContains_UsesRTreeDirectly)<sp/>{</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>a<sp/>bounding-box<sp/>region<sp/>for<sp/>central<sp/>Germany.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;germany&quot;</highlight><highlight class="normal">,<sp/>boxSidecar(6.0,<sp/>47.0,<sp/>15.0,<sp/>55.0)));</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Berlin<sp/>(13.4,<sp/>52.5)<sp/>is<sp/>inside.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>inside<sp/>=<sp/>mgr_-&gt;searchContains(kTable,<sp/>13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(inside.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(inside[0].primary_key,<sp/></highlight><highlight class="stringliteral">&quot;germany&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tokyo<sp/>(139.7,<sp/>35.7)<sp/>is<sp/>outside.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr_-&gt;searchContains(kTable,<sp/>139.7,<sp/>35.7).empty());</highlight></codeline>
+<codeline lineno="379"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><ref refid="test__rtree__cpu__integration_8cpp_1af90376f182abca02fd26a37c79ef7995" kindref="member">TEST_F</ref>(<ref refid="class_r_tree_cpu_integration_test" kindref="compound">RTreeCpuIntegrationTest</ref>,<sp/>SearchContains_PointOnMBRBoundary)<sp/>{</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>a<sp/>box<sp/>and<sp/>test<sp/>that<sp/>points<sp/>exactly<sp/>on<sp/>the<sp/>boundary<sp/>are<sp/>found.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;box&quot;</highlight><highlight class="normal">,<sp/>boxSidecar(0.0,<sp/>0.0,<sp/>10.0,<sp/>10.0)));</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corner<sp/>point:<sp/>on<sp/>the<sp/>boundary.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr_-&gt;searchContains(kTable,<sp/>0.0,<sp/>0.0).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr_-&gt;searchContains(kTable,<sp/>10.0,<sp/>10.0).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>mid-point.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr_-&gt;searchContains(kTable,<sp/>5.0,<sp/>0.0).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Outside.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr_-&gt;searchContains(kTable,<sp/>11.0,<sp/>5.0).empty());</highlight></codeline>
+<codeline lineno="392"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_rtree_cpu_integration.cpp"/>
+  </compounddef>
+</doxygen>

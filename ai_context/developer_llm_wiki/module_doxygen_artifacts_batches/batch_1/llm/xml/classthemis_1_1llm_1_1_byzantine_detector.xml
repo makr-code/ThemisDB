@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_byzantine_detector" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::ByzantineDetector</compoundname>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_bulyan_detector" prot="public" virt="non-virtual">themis::llm::BulyanDetector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_ensemble_detector" prot="public" virt="non-virtual">themis::llm::EnsembleDetector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_krum_detector" prot="public" virt="non-virtual">themis::llm::KrumDetector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_median_detector" prot="public" virt="non-virtual">themis::llm::MedianDetector</derivedcompoundref>
+    <includes refid="byzantine__detector_8h" local="no">byzantine_detector.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_byzantine_detector_1a4cc09740318777bbda9c4e689de03ad8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::ByzantineDetector::~ByzantineDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ByzantineDetector</name>
+        <qualifiedname>themis::llm::ByzantineDetector::~ByzantineDetector</qualifiedname>
+        <briefdescription>
+<para>Byzantine Detector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="106" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_byzantine_detector_1ac1f15db263cd4bbcab509b329551918c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>virtual DetectionResult themis::llm::ByzantineDetector::detectByzantineShards</definition>
+        <argsstring>(const std::map&lt; std::string, std::vector&lt; GradientTensor &gt; &gt; &amp;shard_gradients)=0</argsstring>
+        <name>detectByzantineShards</name>
+        <qualifiedname>themis::llm::ByzantineDetector::detectByzantineShards</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_bulyan_detector_1a36e37c578193aef05c5775d4c385724b">detectByzantineShards</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_ensemble_detector_1a62eaaefa258b0f2cec657701680cad85">detectByzantineShards</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_krum_detector_1a5dc57c8b5327f31c27236178c91f15c1">detectByzantineShards</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_median_detector_1a446cbb9ed8bcf47bbd192d321b99bb83">detectByzantineShards</reimplementedby>
+        <param>
+          <type>const std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &gt; &amp;</type>
+          <declname>shard_gradients</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="109" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_byzantine_detector_1a6a8bc0a1f7052f77f9cd5840c927e830" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_gradient_statistics" kindref="compound">GradientStatistics</ref></type>
+        <definition>virtual GradientStatistics themis::llm::ByzantineDetector::computeStatistics</definition>
+        <argsstring>(const std::map&lt; std::string, std::vector&lt; GradientTensor &gt; &gt; &amp;shard_gradients)=0</argsstring>
+        <name>computeStatistics</name>
+        <qualifiedname>themis::llm::ByzantineDetector::computeStatistics</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_bulyan_detector_1ac26d60aeae920b84cc2f4a12d3a6c323">computeStatistics</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_ensemble_detector_1a5b2b650b5ceea87409fc22008a82eac3">computeStatistics</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_krum_detector_1af09ab1ab945e4e4ee55f3dc535452d19">computeStatistics</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_median_detector_1a56614f4c678ea2c3be1f63a0d61546de">computeStatistics</reimplementedby>
+        <param>
+          <type>const std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &gt; &amp;</type>
+          <declname>shard_gradients</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="114" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_byzantine_detector_1a530eac2670dbff83051ce034e092037d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::ByzantineDetector::getName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::llm::ByzantineDetector::getName</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_bulyan_detector_1ad29a35df63d2160810697e8ba9215c02">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_ensemble_detector_1a46afbd56a0f1525c64c7013ef9c623b2">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_krum_detector_1a215d882b44a07ce50cf6827bf429df64">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_median_detector_1ab61a3ac3f5a14135967639f95709374d">getName</reimplementedby>
+        <briefdescription>
+<para>Get Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="123" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::BulyanDetector</label>
+        <link refid="classthemis_1_1llm_1_1_bulyan_detector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::ByzantineDetector</label>
+        <link refid="classthemis_1_1llm_1_1_byzantine_detector"/>
+      </node>
+      <node id="3">
+        <label>themis::llm::EnsembleDetector</label>
+        <link refid="classthemis_1_1llm_1_1_ensemble_detector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::llm::KrumDetector</label>
+        <link refid="classthemis_1_1llm_1_1_krum_detector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::llm::MedianDetector</label>
+        <link refid="classthemis_1_1llm_1_1_median_detector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/llm/byzantine_detector.h" line="100" column="1" bodyfile="include/llm/byzantine_detector.h" bodystart="100" bodyend="124"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_byzantine_detector_1a6a8bc0a1f7052f77f9cd5840c927e830" prot="public" virt="pure-virtual"><scope>themis::llm::ByzantineDetector</scope><name>computeStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_byzantine_detector_1ac1f15db263cd4bbcab509b329551918c" prot="public" virt="pure-virtual"><scope>themis::llm::ByzantineDetector</scope><name>detectByzantineShards</name></member>
+      <member refid="classthemis_1_1llm_1_1_byzantine_detector_1a530eac2670dbff83051ce034e092037d" prot="public" virt="pure-virtual"><scope>themis::llm::ByzantineDetector</scope><name>getName</name></member>
+      <member refid="classthemis_1_1llm_1_1_byzantine_detector_1a4cc09740318777bbda9c4e689de03ad8" prot="public" virt="virtual"><scope>themis::llm::ByzantineDetector</scope><name>~ByzantineDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1license_1_1_license_activation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::license::LicenseActivationResult</compoundname>
+    <includes refid="license__info_8h" local="no">license_info.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_activation_result_1ae5f5723d6ad0a605c79de554e5cbddcf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::license::LicenseActivationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::license::LicenseActivationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="110" column="17" bodyfile="include/themis/license_info.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_activation_result_1a9e5d4a572852cb477289fc88a4e09772" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::license::LicenseActivationResult::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::license::LicenseActivationResult::status</qualifiedname>
+        <briefdescription>
+<para>&quot;active&quot;, &quot;expired&quot;, &quot;invalid&quot;, &quot;grace&quot;, &quot;offline&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="111" column="17" bodyfile="include/themis/license_info.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_activation_result_1a97591df21f77bef363195f3663ab5551" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::license::LicenseActivationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::license::LicenseActivationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="112" column="17" bodyfile="include/themis/license_info.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_activation_result_1abf12d402ff62b50d460088d723e537a5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::license::LicenseActivationResult::grace_days_remaining</definition>
+        <argsstring></argsstring>
+        <name>grace_days_remaining</name>
+        <qualifiedname>themis::license::LicenseActivationResult::grace_days_remaining</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Days left in the grace period (0 = no grace). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="113" column="17" bodyfile="include/themis/license_info.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_activation_result_1a46f40ab6dae5f67ffd57307b4a050389" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref> &gt;</type>
+        <definition>std::optional&lt;LicenseData&gt; themis::license::LicenseActivationResult::refreshed_license</definition>
+        <argsstring></argsstring>
+        <name>refreshed_license</name>
+        <qualifiedname>themis::license::LicenseActivationResult::refreshed_license</qualifiedname>
+        <briefdescription>
+<para>Updated license if the server returned one. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="114" column="19" bodyfile="include/themis/license_info.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a license activation or validation request. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/license_info.h" line="109" column="1" bodyfile="include/themis/license_info.h" bodystart="109" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1license_1_1_license_activation_result_1a97591df21f77bef363195f3663ab5551" prot="public" virt="non-virtual"><scope>themis::license::LicenseActivationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1license_1_1_license_activation_result_1abf12d402ff62b50d460088d723e537a5" prot="public" virt="non-virtual"><scope>themis::license::LicenseActivationResult</scope><name>grace_days_remaining</name></member>
+      <member refid="structthemis_1_1license_1_1_license_activation_result_1a46f40ab6dae5f67ffd57307b4a050389" prot="public" virt="non-virtual"><scope>themis::license::LicenseActivationResult</scope><name>refreshed_license</name></member>
+      <member refid="structthemis_1_1license_1_1_license_activation_result_1a9e5d4a572852cb477289fc88a4e09772" prot="public" virt="non-virtual"><scope>themis::license::LicenseActivationResult</scope><name>status</name></member>
+      <member refid="structthemis_1_1license_1_1_license_activation_result_1ae5f5723d6ad0a605c79de554e5cbddcf" prot="public" virt="non-virtual"><scope>themis::license::LicenseActivationResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

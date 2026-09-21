@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_34cf23a437ea79b4b4de3e9c9d37a224" kind="dir">
+    <compoundname>include/whisper</compoundname>
+    <innerfile refid="audio__chunk__reader_8h">audio_chunk_reader.h</innerfile>
+    <innerfile refid="voice__activity__detector_8h">voice_activity_detector.h</innerfile>
+    <innerfile refid="whisper__config_8h">whisper_config.h</innerfile>
+    <innerfile refid="whisper__plugin_8h">whisper_plugin.h</innerfile>
+    <innerfile refid="whisper__plugin__registrar_8h">whisper_plugin_registrar.h</innerfile>
+    <innerfile refid="include_2whisper_2whisper__transcriber_8cpp">whisper_transcriber.cpp</innerfile>
+    <innerfile refid="whisper__transcriber_8h">whisper_transcriber.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/whisper/"/>
+  </compounddef>
+</doxygen>

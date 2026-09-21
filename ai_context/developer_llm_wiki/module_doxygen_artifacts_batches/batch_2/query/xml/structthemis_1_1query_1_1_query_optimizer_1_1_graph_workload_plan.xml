@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_optimizer_1_1_graph_workload_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryOptimizer::GraphWorkloadPlan</compoundname>
+    <includes refid="query__optimizer_8h" local="no">query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_graph_workload_plan_1afa15ceaff65574716921687b38b35f02" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryOptimizer::GraphWorkloadPlan::max_expansion_depth</definition>
+        <argsstring></argsstring>
+        <name>max_expansion_depth</name>
+        <qualifiedname>themis::query::QueryOptimizer::GraphWorkloadPlan::max_expansion_depth</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="265" column="16" bodyfile="include/query/query_optimizer.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_graph_workload_plan_1ab9c3e8b078073b967a5b7c3f4b88cd6f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryOptimizer::GraphWorkloadPlan::use_bidirectional_search</definition>
+        <argsstring></argsstring>
+        <name>use_bidirectional_search</name>
+        <qualifiedname>themis::query::QueryOptimizer::GraphWorkloadPlan::use_bidirectional_search</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="266" column="14" bodyfile="include/query/query_optimizer.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_graph_workload_plan_1aab3a3df38fefcb73059ba3904a7b9e78" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryOptimizer::GraphWorkloadPlan::enable_spatial_pruning</definition>
+        <argsstring></argsstring>
+        <name>enable_spatial_pruning</name>
+        <qualifiedname>themis::query::QueryOptimizer::GraphWorkloadPlan::enable_spatial_pruning</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="267" column="14" bodyfile="include/query/query_optimizer.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_graph_workload_plan_1a8f64dc13b667044fef9bf35b28d01848" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryOptimizer::GraphWorkloadPlan::recommended_parallelism</definition>
+        <argsstring></argsstring>
+        <name>recommended_parallelism</name>
+        <qualifiedname>themis::query::QueryOptimizer::GraphWorkloadPlan::recommended_parallelism</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="268" column="16" bodyfile="include/query/query_optimizer.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_optimizer.h" line="264" column="5" bodyfile="include/query/query_optimizer.h" bodystart="264" bodyend="269"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_graph_workload_plan_1aab3a3df38fefcb73059ba3904a7b9e78" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::GraphWorkloadPlan</scope><name>enable_spatial_pruning</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_graph_workload_plan_1afa15ceaff65574716921687b38b35f02" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::GraphWorkloadPlan</scope><name>max_expansion_depth</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_graph_workload_plan_1a8f64dc13b667044fef9bf35b28d01848" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::GraphWorkloadPlan</scope><name>recommended_parallelism</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_graph_workload_plan_1ab9c3e8b078073b967a5b7c3f4b88cd6f" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::GraphWorkloadPlan</scope><name>use_bidirectional_search</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

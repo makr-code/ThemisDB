@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8a6c31bbbfb30065ee9a683ead3fe21a" kind="dir">
+    <compoundname>src/security</compoundname>
+    <innerfile refid="access__control_8cpp">access_control.cpp</innerfile>
+    <innerfile refid="access__control__manager_8cpp">access_control_manager.cpp</innerfile>
+    <innerfile refid="ai__operation__guard_8cpp">ai_operation_guard.cpp</innerfile>
+    <innerfile refid="ai__snapshot__cleanup_8cpp">ai_snapshot_cleanup.cpp</innerfile>
+    <innerfile refid="aql__injection__detector_8cpp">aql_injection_detector.cpp</innerfile>
+    <innerfile refid="arrow__user__registration__plugin_8cpp">arrow_user_registration_plugin.cpp</innerfile>
+    <innerfile refid="behavioral__anomaly__detector_8cpp">behavioral_anomaly_detector.cpp</innerfile>
+    <innerfile refid="binary__manifest_8cpp">binary_manifest.cpp</innerfile>
+    <innerfile refid="cms__signing_8cpp">cms_signing.cpp</innerfile>
+    <innerfile refid="confidential__computing_8cpp">confidential_computing.cpp</innerfile>
+    <innerfile refid="embedded__user__registration__plugin_8cpp">embedded_user_registration_plugin.cpp</innerfile>
+    <innerfile refid="encrypted__field_8cpp">encrypted_field.cpp</innerfile>
+    <innerfile refid="src_2security_2encryption_8h">encryption.h</innerfile>
+    <innerfile refid="field__encryption_8cpp">field_encryption.cpp</innerfile>
+    <innerfile refid="fips__crypto__mode_8cpp">fips_crypto_mode.cpp</innerfile>
+    <innerfile refid="hsm__key__provider__adapter_8cpp">hsm_key_provider_adapter.cpp</innerfile>
+    <innerfile refid="hsm__provider_8cpp">hsm_provider.cpp</innerfile>
+    <innerfile refid="hsm__provider__pkcs11_8cpp">hsm_provider_pkcs11.cpp</innerfile>
+    <innerfile refid="hsm__signing_8cpp">hsm_signing.cpp</innerfile>
+    <innerfile refid="input__validation_8cpp">input_validation.cpp</innerfile>
+    <innerfile refid="input__validator_8cpp">input_validator.cpp</innerfile>
+    <innerfile refid="intent__classifier_8cpp">intent_classifier.cpp</innerfile>
+    <innerfile refid="key__cache_8cpp">key_cache.cpp</innerfile>
+    <innerfile refid="src_2security_2key__provider_8h">key_provider.h</innerfile>
+    <innerfile refid="keyprovider__signing_8cpp">keyprovider_signing.cpp</innerfile>
+    <innerfile refid="malware__scanner_8cpp">malware_scanner.cpp</innerfile>
+    <innerfile refid="manifest__signer_8cpp">manifest_signer.cpp</innerfile>
+    <innerfile refid="mock__key__provider_8cpp">mock_key_provider.cpp</innerfile>
+    <innerfile refid="pii__redaction__policy_8cpp">pii_redaction_policy.cpp</innerfile>
+    <innerfile refid="pki__key__provider_8cpp">pki_key_provider.cpp</innerfile>
+    <innerfile refid="post__quantum__crypto_8cpp">post_quantum_crypto.cpp</innerfile>
+    <innerfile refid="prompt__injection__pattern__registry_8cpp">prompt_injection_pattern_registry.cpp</innerfile>
+    <innerfile refid="query__masking__policy_8cpp">query_masking_policy.cpp</innerfile>
+    <innerfile refid="rbac_8cpp">rbac.cpp</innerfile>
+    <innerfile refid="row__level__security_8cpp">row_level_security.cpp</innerfile>
+    <innerfile refid="safe__iterator_8cpp">safe_iterator.cpp</innerfile>
+    <innerfile refid="safe__move_8cpp">safe_move.cpp</innerfile>
+    <innerfile refid="secret__manager_8cpp">secret_manager.cpp</innerfile>
+    <innerfile refid="security__evidence__collector_8cpp">security_evidence_collector.cpp</innerfile>
+    <innerfile refid="timestamp__authority_8cpp">timestamp_authority.cpp</innerfile>
+    <innerfile refid="timestamp__authority__openssl_8cpp">timestamp_authority_openssl.cpp</innerfile>
+    <innerfile refid="tsa__api_8cpp">tsa_api.cpp</innerfile>
+    <innerfile refid="usb__admin__authenticator_8cpp">usb_admin_authenticator.cpp</innerfile>
+    <innerfile refid="usb__volume__hardening_8cpp">usb_volume_hardening.cpp</innerfile>
+    <innerfile refid="user__registration__plugin_8cpp">user_registration_plugin.cpp</innerfile>
+    <innerfile refid="vault__key__provider_8cpp">vault_key_provider.cpp</innerfile>
+    <innerfile refid="vault__signing__provider_8cpp">vault_signing_provider.cpp</innerfile>
+    <innerfile refid="vcc__pki__client_8cpp">vcc_pki_client.cpp</innerfile>
+    <innerfile refid="vram__secure__clear_8cpp">vram_secure_clear.cpp</innerfile>
+    <innerfile refid="webdav__user__registration__plugin_8cpp">webdav_user_registration_plugin.cpp</innerfile>
+    <innerfile refid="xxe__safe__xml__parser_8cpp">xxe_safe_xml_parser.cpp</innerfile>
+    <innerfile refid="zero__trust__policy__enforcer_8cpp">zero_trust_policy_enforcer.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/security/"/>
+  </compounddef>
+</doxygen>

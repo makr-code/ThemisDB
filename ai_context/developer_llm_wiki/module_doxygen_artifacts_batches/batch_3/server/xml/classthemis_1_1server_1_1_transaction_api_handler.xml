@@ -1,0 +1,559 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_transaction_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::TransactionApiHandler</compoundname>
+    <includes refid="transaction__api__handler_8h" local="no">transaction_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_transaction_api_handler_1a42a0dcdbe2487bb8560f8f3cdc66d377" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::TransactionApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::TransactionApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/transaction_api_handler.h" line="89" column="21" bodyfile="include/server/transaction_api_handler.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_transaction_api_handler_1ae682d7a156a14065ab0dd58346fc2ab7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;TransactionManager&gt; themis::server::TransactionApiHandler::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>themis::server::TransactionApiHandler::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/transaction_api_handler.h" line="90" column="21" bodyfile="include/server/transaction_api_handler.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_transaction_api_handler_1a56d95f55ac3bb44c2d722accb4441c5c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::TransactionApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::TransactionApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/transaction_api_handler.h" line="91" column="21" bodyfile="include/server/transaction_api_handler.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_transaction_api_handler_1a8c53dff41a844444c61f78ac4ab6ed11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::TransactionApiHandler::TransactionApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; TransactionManager &gt; tx_manager, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth)</argsstring>
+        <name>TransactionApiHandler</name>
+        <qualifiedname>themis::server::TransactionApiHandler::TransactionApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; TransactionManager &gt;</type>
+          <declname>tx_manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/transaction_api_handler.h" line="33" column="5" bodyfile="src/server/transaction_api_handler.cpp" bodystart="105" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_transaction_api_handler_1a8ab19dc4744a026076e1986336ce8bfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TransactionApiHandler::handleTransaction</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleTransaction</name>
+        <qualifiedname>themis::server::TransactionApiHandler::handleTransaction</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), body(), empty(), setStatus(), makeErrorResponse(), validateBodySize(), json::parse(), parseIsolationLevel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/transaction_api_handler.h" line="44" column="20" bodyfile="src/server/transaction_api_handler.cpp" bodystart="122" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_transaction_api_handler_1a6745ad3bdd9e4cdb44b253578b33ac76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TransactionApiHandler::handleBegin</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleBegin</name>
+        <qualifiedname>themis::server::TransactionApiHandler::handleBegin</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Begin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), body(), empty(), validateBodySize(), setStatus(), makeErrorResponse(), json::parse(), parseIsolationLevel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/transaction_api_handler.h" line="51" column="20" bodyfile="src/server/transaction_api_handler.cpp" bodystart="311" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_transaction_api_handler_1a82c5edb2fa79dd388fdbc70e4959d2c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TransactionApiHandler::handleCommit</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleCommit</name>
+        <qualifiedname>themis::server::TransactionApiHandler::handleCommit</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Commit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), validateBodySize(), body(), setStatus(), makeErrorResponse(), json::parse(), contains(), setAttribute(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/transaction_api_handler.h" line="58" column="20" bodyfile="src/server/transaction_api_handler.cpp" bodystart="365" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_transaction_api_handler_1a0b66cbddb683f4ac3982c546793beacd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TransactionApiHandler::handleRollback</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRollback</name>
+        <qualifiedname>themis::server::TransactionApiHandler::handleRollback</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), validateBodySize(), body(), setStatus(), makeErrorResponse(), json::parse(), contains(), setAttribute(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/transaction_api_handler.h" line="65" column="20" bodyfile="src/server/transaction_api_handler.cpp" bodystart="422" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_transaction_api_handler_1ac106ee2cd7030219e63e0fab74b37409" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TransactionApiHandler::handleStats</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleStats</name>
+        <qualifiedname>themis::server::TransactionApiHandler::handleStats</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), getStats(), makeResponse(), dump(), makeErrorResponse(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/transaction_api_handler.h" line="72" column="20" bodyfile="src/server/transaction_api_handler.cpp" bodystart="470" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_transaction_api_handler_1a0b12eb7019497b8c71d9d88101693749" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TransactionApiHandler::handleGetVersion</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetVersion</name>
+        <qualifiedname>themis::server::TransactionApiHandler::handleGetVersion</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), body(), empty(), setStatus(), makeErrorResponse(), validateBodySize(), json::parse(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/transaction_api_handler.h" line="79" column="20" bodyfile="src/server/transaction_api_handler.cpp" bodystart="502" bodyend="590"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_transaction_api_handler_1ad98a3c41d6cfb7ce9826be56bb143eb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TransactionApiHandler::handleExplain</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleExplain</name>
+        <qualifiedname>themis::server::TransactionApiHandler::handleExplain</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Explain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), std::string(), target(), find(), substr(), size(), setStatus(), makeErrorResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/transaction_api_handler.h" line="86" column="20" bodyfile="src/server/transaction_api_handler.cpp" bodystart="598" bodyend="670"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_transaction_api_handler_1a9d36e9a98c0988b77a0c84e1f5493766" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TransactionApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::TransactionApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/transaction_api_handler.h" line="100" column="20" bodyfile="src/server/transaction_api_handler.cpp" bodystart="680" bodyend="690"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_transaction_api_handler_1a663508d00cbefc8bac548368d99ffaaa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::TransactionApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::TransactionApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/transaction_api_handler.h" line="109" column="20" bodyfile="src/server/transaction_api_handler.cpp" bodystart="700" bodyend="711"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/transaction_api_handler.h" line="31" column="1" bodyfile="include/server/transaction_api_handler.h" bodystart="31" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_transaction_api_handler_1a56d95f55ac3bb44c2d722accb4441c5c" prot="private" virt="non-virtual"><scope>themis::server::TransactionApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_transaction_api_handler_1a6745ad3bdd9e4cdb44b253578b33ac76" prot="public" virt="non-virtual"><scope>themis::server::TransactionApiHandler</scope><name>handleBegin</name></member>
+      <member refid="classthemis_1_1server_1_1_transaction_api_handler_1a82c5edb2fa79dd388fdbc70e4959d2c9" prot="public" virt="non-virtual"><scope>themis::server::TransactionApiHandler</scope><name>handleCommit</name></member>
+      <member refid="classthemis_1_1server_1_1_transaction_api_handler_1ad98a3c41d6cfb7ce9826be56bb143eb9" prot="public" virt="non-virtual"><scope>themis::server::TransactionApiHandler</scope><name>handleExplain</name></member>
+      <member refid="classthemis_1_1server_1_1_transaction_api_handler_1a0b12eb7019497b8c71d9d88101693749" prot="public" virt="non-virtual"><scope>themis::server::TransactionApiHandler</scope><name>handleGetVersion</name></member>
+      <member refid="classthemis_1_1server_1_1_transaction_api_handler_1a0b66cbddb683f4ac3982c546793beacd" prot="public" virt="non-virtual"><scope>themis::server::TransactionApiHandler</scope><name>handleRollback</name></member>
+      <member refid="classthemis_1_1server_1_1_transaction_api_handler_1ac106ee2cd7030219e63e0fab74b37409" prot="public" virt="non-virtual"><scope>themis::server::TransactionApiHandler</scope><name>handleStats</name></member>
+      <member refid="classthemis_1_1server_1_1_transaction_api_handler_1a8ab19dc4744a026076e1986336ce8bfd" prot="public" virt="non-virtual"><scope>themis::server::TransactionApiHandler</scope><name>handleTransaction</name></member>
+      <member refid="classthemis_1_1server_1_1_transaction_api_handler_1a9d36e9a98c0988b77a0c84e1f5493766" prot="private" virt="non-virtual"><scope>themis::server::TransactionApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_transaction_api_handler_1a663508d00cbefc8bac548368d99ffaaa" prot="private" virt="non-virtual"><scope>themis::server::TransactionApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_transaction_api_handler_1a42a0dcdbe2487bb8560f8f3cdc66d377" prot="private" virt="non-virtual"><scope>themis::server::TransactionApiHandler</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1server_1_1_transaction_api_handler_1a8c53dff41a844444c61f78ac4ab6ed11" prot="public" virt="non-virtual"><scope>themis::server::TransactionApiHandler</scope><name>TransactionApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_transaction_api_handler_1ae682d7a156a14065ab0dd58346fc2ab7" prot="private" virt="non-virtual"><scope>themis::server::TransactionApiHandler</scope><name>tx_manager_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

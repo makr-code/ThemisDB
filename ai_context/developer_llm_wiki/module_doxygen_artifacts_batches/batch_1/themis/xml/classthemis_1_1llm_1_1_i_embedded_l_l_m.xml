@@ -1,0 +1,320 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_i_embedded_l_l_m" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::IEmbeddedLLM</compoundname>
+    <includes refid="llm__interfaces_8h" local="no">llm_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a2c29e2a6bab521b19da56054cf372c58" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::IEmbeddedLLM::~IEmbeddedLLM</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IEmbeddedLLM</name>
+        <qualifiedname>themis::llm::IEmbeddedLLM::~IEmbeddedLLM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="40" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a284156910fe9292b616a9e9966c995be" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::IEmbeddedLLM::isReady</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::llm::IEmbeddedLLM::isReady</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="41" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a97533213845315c843fa6cd10359b063" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::IEmbeddedLLM::generate</definition>
+        <argsstring>(const std::string &amp;prompt)=0</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::llm::IEmbeddedLLM::generate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="42" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_embedded_l_l_m_1acf8972c80bb870d0112892a2300e958b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::llm::IEmbeddedLLM::generateStreaming</definition>
+        <argsstring>(const std::string &amp;prompt, const std::function&lt; void(const std::string &amp;)&gt; &amp;token_cb)=0</argsstring>
+        <name>generateStreaming</name>
+        <qualifiedname>themis::llm::IEmbeddedLLM::generateStreaming</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; void(const std::string &amp;)&gt; &amp;</type>
+          <declname>token_cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="43" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a59cbdc575058cc6c0f840ad9ce2201ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>virtual std::vector&lt; float &gt; themis::llm::IEmbeddedLLM::embed</definition>
+        <argsstring>(const std::string &amp;text)=0</argsstring>
+        <name>embed</name>
+        <qualifiedname>themis::llm::IEmbeddedLLM::embed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="44" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_embedded_l_l_m_1afa026d885e7cf53b1dccefe3fda4eb3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>virtual std::vector&lt; std::vector&lt; float &gt; &gt; themis::llm::IEmbeddedLLM::embedBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;texts)=0</argsstring>
+        <name>embedBatch</name>
+        <qualifiedname>themis::llm::IEmbeddedLLM::embedBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>texts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="45" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_embedded_l_l_m_1adbb8534af0f838d2ee9004cba95e44ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::IEmbeddedLLM::generateWithParams</definition>
+        <argsstring>(const std::string &amp;prompt, float temperature, float top_p, int max_tokens)=0</argsstring>
+        <name>generateWithParams</name>
+        <qualifiedname>themis::llm::IEmbeddedLLM::generateWithParams</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>temperature</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>top_p</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="46" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a10f829d5e7b0d950470854d001e35a1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::IEmbeddedLLM::chat</definition>
+        <argsstring>(const std::vector&lt; ChatMessage &gt; &amp;messages, ChatFormat format)=0</argsstring>
+        <name>chat</name>
+        <qualifiedname>themis::llm::IEmbeddedLLM::chat</qualifiedname>
+        <param>
+          <type>const std::vector&lt; ChatMessage &gt; &amp;</type>
+          <declname>messages</declname>
+        </param>
+        <param>
+          <type>ChatFormat</type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="47" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a577ed951f7ea5f5384be187015e1a0fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>nlohmann::json</type>
+        <definition>virtual nlohmann::json themis::llm::IEmbeddedLLM::generateAsMCP</definition>
+        <argsstring>(const std::string &amp;prompt, int max_tokens)=0</argsstring>
+        <name>generateAsMCP</name>
+        <qualifiedname>themis::llm::IEmbeddedLLM::generateAsMCP</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="48" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a82021a68000a0c7af72a697d52ad33f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>nlohmann::json</type>
+        <definition>virtual nlohmann::json themis::llm::IEmbeddedLLM::generateAsJsonMarkdown</definition>
+        <argsstring>(const std::string &amp;prompt, int max_tokens)=0</argsstring>
+        <name>generateAsJsonMarkdown</name>
+        <qualifiedname>themis::llm::IEmbeddedLLM::generateAsJsonMarkdown</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="49" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a2f021a73306408611b5bb8d22938dc96" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>InferenceResponse</type>
+        <definition>virtual InferenceResponse themis::llm::IEmbeddedLLM::generateFull</definition>
+        <argsstring>(const InferenceRequest &amp;request)=0</argsstring>
+        <name>generateFull</name>
+        <qualifiedname>themis::llm::IEmbeddedLLM::generateFull</qualifiedname>
+        <param>
+          <type>const InferenceRequest &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="50" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_embedded_l_l_m_1af26da6e80f95fa7dc2e32e0b11d7fd8d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::IEmbeddedLLM::hasEthicalGuidelines</definition>
+        <argsstring>() const =0</argsstring>
+        <name>hasEthicalGuidelines</name>
+        <qualifiedname>themis::llm::IEmbeddedLLM::hasEthicalGuidelines</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="51" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_embedded_l_l_m_1abe3d264751dc9728ae9e25f815874160" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>EthicalGuidelinesManager *</type>
+        <definition>virtual EthicalGuidelinesManager * themis::llm::IEmbeddedLLM::getEthicalGuidelines</definition>
+        <argsstring>()=0</argsstring>
+        <name>getEthicalGuidelines</name>
+        <qualifiedname>themis::llm::IEmbeddedLLM::getEthicalGuidelines</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="52" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a12fbb30ba81cf5cfcca4022a4d51b6c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>nlohmann::json</type>
+        <definition>virtual nlohmann::json themis::llm::IEmbeddedLLM::getStats</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::IEmbeddedLLM::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="53" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_embedded_l_l_m_1ac6fcdd21a3717a89deab8869a5f33f57" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::llm::IEmbeddedLLM::clearCache</definition>
+        <argsstring>()=0</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::llm::IEmbeddedLLM::clearCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="54" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_embedded_l_l_m_1aea10d43b61553c4916bb5cebf07f79a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::IEmbeddedLLM::getModelInfo</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getModelInfo</name>
+        <qualifiedname>themis::llm::IEmbeddedLLM::getModelInfo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="55" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/llm/llm_interfaces.h" line="38" column="1" bodyfile="include/themis/llm/llm_interfaces.h" bodystart="38" bodyend="56"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a10f829d5e7b0d950470854d001e35a1e" prot="public" virt="pure-virtual"><scope>themis::llm::IEmbeddedLLM</scope><name>chat</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_embedded_l_l_m_1ac6fcdd21a3717a89deab8869a5f33f57" prot="public" virt="pure-virtual"><scope>themis::llm::IEmbeddedLLM</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a59cbdc575058cc6c0f840ad9ce2201ec" prot="public" virt="pure-virtual"><scope>themis::llm::IEmbeddedLLM</scope><name>embed</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_embedded_l_l_m_1afa026d885e7cf53b1dccefe3fda4eb3f" prot="public" virt="pure-virtual"><scope>themis::llm::IEmbeddedLLM</scope><name>embedBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a97533213845315c843fa6cd10359b063" prot="public" virt="pure-virtual"><scope>themis::llm::IEmbeddedLLM</scope><name>generate</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a82021a68000a0c7af72a697d52ad33f0" prot="public" virt="pure-virtual"><scope>themis::llm::IEmbeddedLLM</scope><name>generateAsJsonMarkdown</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a577ed951f7ea5f5384be187015e1a0fc" prot="public" virt="pure-virtual"><scope>themis::llm::IEmbeddedLLM</scope><name>generateAsMCP</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a2f021a73306408611b5bb8d22938dc96" prot="public" virt="pure-virtual"><scope>themis::llm::IEmbeddedLLM</scope><name>generateFull</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_embedded_l_l_m_1acf8972c80bb870d0112892a2300e958b" prot="public" virt="pure-virtual"><scope>themis::llm::IEmbeddedLLM</scope><name>generateStreaming</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_embedded_l_l_m_1adbb8534af0f838d2ee9004cba95e44ee" prot="public" virt="pure-virtual"><scope>themis::llm::IEmbeddedLLM</scope><name>generateWithParams</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_embedded_l_l_m_1abe3d264751dc9728ae9e25f815874160" prot="public" virt="pure-virtual"><scope>themis::llm::IEmbeddedLLM</scope><name>getEthicalGuidelines</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_embedded_l_l_m_1aea10d43b61553c4916bb5cebf07f79a7" prot="public" virt="pure-virtual"><scope>themis::llm::IEmbeddedLLM</scope><name>getModelInfo</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a12fbb30ba81cf5cfcca4022a4d51b6c5" prot="public" virt="pure-virtual"><scope>themis::llm::IEmbeddedLLM</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_embedded_l_l_m_1af26da6e80f95fa7dc2e32e0b11d7fd8d" prot="public" virt="pure-virtual"><scope>themis::llm::IEmbeddedLLM</scope><name>hasEthicalGuidelines</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a284156910fe9292b616a9e9966c995be" prot="public" virt="pure-virtual"><scope>themis::llm::IEmbeddedLLM</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_embedded_l_l_m_1a2c29e2a6bab521b19da56054cf372c58" prot="public" virt="virtual"><scope>themis::llm::IEmbeddedLLM</scope><name>~IEmbeddedLLM</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

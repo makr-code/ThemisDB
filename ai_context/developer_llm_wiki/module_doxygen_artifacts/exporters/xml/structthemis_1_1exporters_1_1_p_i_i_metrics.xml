@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_p_i_i_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::PIIMetrics</compoundname>
+    <includes refid="pii__detector_8h" local="no">pii_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_p_i_i_metrics_1aed7cfc7cf209c043e396ef44f5d68eb5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::PIIMetrics::total_checks</definition>
+        <argsstring></argsstring>
+        <name>total_checks</name>
+        <qualifiedname>themis::exporters::PIIMetrics::total_checks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="152" column="12" bodyfile="include/exporters/pii_detector.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_p_i_i_metrics_1a3eb1746140146e71ecd40882e9d7d586" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::PIIMetrics::pii_detected</definition>
+        <argsstring></argsstring>
+        <name>pii_detected</name>
+        <qualifiedname>themis::exporters::PIIMetrics::pii_detected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="153" column="12" bodyfile="include/exporters/pii_detector.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_p_i_i_metrics_1ad6ff44eb637f0cb46202866f2ab0b4ef" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::PIIMetrics::pii_redacted</definition>
+        <argsstring></argsstring>
+        <name>pii_redacted</name>
+        <qualifiedname>themis::exporters::PIIMetrics::pii_redacted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="154" column="12" bodyfile="include/exporters/pii_detector.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_p_i_i_metrics_1a38c356c9c3da3f547a239aac62c96862" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="classthemis_1_1exporters_1_1_p_i_i_detector_1af9fb393a60a9a0b224e366db090dd446" kindref="member">PIIDetector::PIIType</ref>, size_t &gt;</type>
+        <definition>std::map&lt;PIIDetector::PIIType, size_t&gt; themis::exporters::PIIMetrics::detections_by_type</definition>
+        <argsstring></argsstring>
+        <name>detections_by_type</name>
+        <qualifiedname>themis::exporters::PIIMetrics::detections_by_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="155" column="14" bodyfile="include/exporters/pii_detector.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1exporters_1_1_p_i_i_metrics_1a96b936c4ca8e408f63ef5e7aa040c28e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::PIIMetrics::recordDetection</definition>
+        <argsstring>(PIIDetector::PIIType type)</argsstring>
+        <name>recordDetection</name>
+        <qualifiedname>themis::exporters::PIIMetrics::recordDetection</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1exporters_1_1_p_i_i_detector_1af9fb393a60a9a0b224e366db090dd446" kindref="member">PIIDetector::PIIType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Record Detection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordDetection without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="162" column="10" bodyfile="include/exporters/pii_detector.h" bodystart="162" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1exporters_1_1_p_i_i_metrics_1a1367e0a788650a4a74daafec2544468b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::PIIMetrics::recordRedaction</definition>
+        <argsstring>()</argsstring>
+        <name>recordRedaction</name>
+        <qualifiedname>themis::exporters::PIIMetrics::recordRedaction</qualifiedname>
+        <briefdescription>
+<para>Record Redaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements recordRedaction without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="172" column="10" bodyfile="include/exporters/pii_detector.h" bodystart="172" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/pii_detector.h" line="151" column="1" bodyfile="include/exporters/pii_detector.h" bodystart="151" bodyend="175"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_metrics_1a38c356c9c3da3f547a239aac62c96862" prot="public" virt="non-virtual"><scope>themis::exporters::PIIMetrics</scope><name>detections_by_type</name></member>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_metrics_1a3eb1746140146e71ecd40882e9d7d586" prot="public" virt="non-virtual"><scope>themis::exporters::PIIMetrics</scope><name>pii_detected</name></member>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_metrics_1ad6ff44eb637f0cb46202866f2ab0b4ef" prot="public" virt="non-virtual"><scope>themis::exporters::PIIMetrics</scope><name>pii_redacted</name></member>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_metrics_1a96b936c4ca8e408f63ef5e7aa040c28e" prot="public" virt="non-virtual"><scope>themis::exporters::PIIMetrics</scope><name>recordDetection</name></member>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_metrics_1a1367e0a788650a4a74daafec2544468b" prot="public" virt="non-virtual"><scope>themis::exporters::PIIMetrics</scope><name>recordRedaction</name></member>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_metrics_1aed7cfc7cf209c043e396ef44f5d68eb5" prot="public" virt="non-virtual"><scope>themis::exporters::PIIMetrics</scope><name>total_checks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

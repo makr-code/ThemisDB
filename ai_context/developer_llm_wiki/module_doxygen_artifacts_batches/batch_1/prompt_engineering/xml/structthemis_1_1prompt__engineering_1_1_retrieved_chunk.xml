@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_retrieved_chunk" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::RetrievedChunk</compoundname>
+    <includes refid="rag__prompt__builder_8h" local="no">rag_prompt_builder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_retrieved_chunk_1a95f48a79b8b285e8b6b17be7d64fe2af" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RetrievedChunk::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::prompt_engineering::RetrievedChunk::content</qualifiedname>
+        <briefdescription>
+<para>Chunk text content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="23" column="17" bodyfile="include/prompt_engineering/rag_prompt_builder.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_retrieved_chunk_1a9209854ddcf328dfb1c75d2a7215e12f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RetrievedChunk::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>themis::prompt_engineering::RetrievedChunk::source</qualifiedname>
+        <briefdescription>
+<para>Source document identifier (file, URL, …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="24" column="17" bodyfile="include/prompt_engineering/rag_prompt_builder.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_retrieved_chunk_1a5ab8c8332563bcb777dff03ce6f0d969" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::RetrievedChunk::relevance_score</definition>
+        <argsstring></argsstring>
+        <name>relevance_score</name>
+        <qualifiedname>themis::prompt_engineering::RetrievedChunk::relevance_score</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Relevance score in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="25" column="17" bodyfile="include/prompt_engineering/rag_prompt_builder.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_retrieved_chunk_1a8c0d5fcce1ba4093082261dee08e0dc7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RetrievedChunk::chunk_id</definition>
+        <argsstring></argsstring>
+        <name>chunk_id</name>
+        <qualifiedname>themis::prompt_engineering::RetrievedChunk::chunk_id</qualifiedname>
+        <briefdescription>
+<para>Unique chunk identifier (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_prompt_builder.h" line="26" column="17" bodyfile="include/prompt_engineering/rag_prompt_builder.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single retrieved document chunk with metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/rag_prompt_builder.h" line="22" column="1" bodyfile="include/prompt_engineering/rag_prompt_builder.h" bodystart="22" bodyend="27"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk_1a8c0d5fcce1ba4093082261dee08e0dc7" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RetrievedChunk</scope><name>chunk_id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk_1a95f48a79b8b285e8b6b17be7d64fe2af" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RetrievedChunk</scope><name>content</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk_1a5ab8c8332563bcb777dff03ce6f0d969" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RetrievedChunk</scope><name>relevance_score</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk_1a9209854ddcf328dfb1c75d2a7215e12f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RetrievedChunk</scope><name>source</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

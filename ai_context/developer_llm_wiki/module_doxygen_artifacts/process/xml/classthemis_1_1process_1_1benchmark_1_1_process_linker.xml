@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1benchmark_1_1_process_linker" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::ProcessLinker</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a8246726629b53b2b902403b8314da4cf" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1process_1_1benchmark_1_1_graph_node" kindref="compound">GraphNode</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, GraphNode&gt; themis::process::benchmark::ProcessLinker::graph_</definition>
+        <argsstring></argsstring>
+        <name>graph_</name>
+        <qualifiedname>themis::process::benchmark::ProcessLinker::graph_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="52" column="24" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a7af8211fd734ddb431424f5d2e932c0e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_link" kindref="compound">ProcessLink</ref> &gt;</type>
+        <definition>std::vector&lt;ProcessLink&gt; themis::process::benchmark::ProcessLinker::links_</definition>
+        <argsstring></argsstring>
+        <name>links_</name>
+        <qualifiedname>themis::process::benchmark::ProcessLinker::links_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="53" column="17" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a6f4d2c95813e599696a65e1955c90bb9" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::process::benchmark::ProcessLinker::visited_</definition>
+        <argsstring></argsstring>
+        <name>visited_</name>
+        <qualifiedname>themis::process::benchmark::ProcessLinker::visited_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="54" column="24" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a42ba28f2b0e7fbb5ae15a47970c57fe3" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::process::benchmark::ProcessLinker::rec_stack_</definition>
+        <argsstring></argsstring>
+        <name>rec_stack_</name>
+        <qualifiedname>themis::process::benchmark::ProcessLinker::rec_stack_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="55" column="24" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a170ef3a8255b6a8a95e95eb3f35dc133" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::ProcessLinker::ProcessLinker</definition>
+        <argsstring>()=default</argsstring>
+        <name>ProcessLinker</name>
+        <qualifiedname>themis::process::benchmark::ProcessLinker::ProcessLinker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="58" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a46e59d9c4e922b724ce9864cc2e7b37f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::benchmark::ProcessLinker::createLink</definition>
+        <argsstring>(const std::string &amp;source_id, const std::string &amp;target_id, const std::string &amp;link_type)</argsstring>
+        <name>createLink</name>
+        <qualifiedname>themis::process::benchmark::ProcessLinker::createLink</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>link_type</declname>
+        </param>
+        <briefdescription>
+<para>Create a link between two models. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="63" column="10" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="63" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a1ad600d1197e63b5d69b517075d777b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::benchmark::ProcessLinker::validateLink</definition>
+        <argsstring>(const std::string &amp;source_id, const std::string &amp;target_id)</argsstring>
+        <name>validateLink</name>
+        <qualifiedname>themis::process::benchmark::ProcessLinker::validateLink</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_id</declname>
+        </param>
+        <briefdescription>
+<para>Validate a link exists and is correct. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="98" column="10" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="98" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a0f366c765abef88c885d085b072ef6be" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::benchmark::ProcessLinker::hasCycle</definition>
+        <argsstring>()</argsstring>
+        <name>hasCycle</name>
+        <qualifiedname>themis::process::benchmark::ProcessLinker::hasCycle</qualifiedname>
+        <briefdescription>
+<para>Detect cycles using DFS. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="111" column="10" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="111" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_linker_1aa1fe3366c1e3d7eec5fe48640f495a47" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::process::benchmark::ProcessLinker::getReachableNodes</definition>
+        <argsstring>(const std::string &amp;start_id)</argsstring>
+        <name>getReachableNodes</name>
+        <qualifiedname>themis::process::benchmark::ProcessLinker::getReachableNodes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start_id</declname>
+        </param>
+        <briefdescription>
+<para>Get all nodes reachable from a starting node (graph traversal). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="129" column="17" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="129" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_linker_1ac2f9ad992fba271129db9085008de9b7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::process::benchmark::ProcessLinker::validateAllLinks</definition>
+        <argsstring>()</argsstring>
+        <name>validateAllLinks</name>
+        <qualifiedname>themis::process::benchmark::ProcessLinker::validateAllLinks</qualifiedname>
+        <briefdescription>
+<para>Validate all links in the graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="159" column="9" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="159" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_linker_1afc9255b9bab5deb8fc1161bf6a7058e6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::process::benchmark::ProcessLinker::linkCount</definition>
+        <argsstring>() const</argsstring>
+        <name>linkCount</name>
+        <qualifiedname>themis::process::benchmark::ProcessLinker::linkCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="169" column="12" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="169" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_linker_1ae6a8097f093aead2c7abfd3a2fce0d89" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::process::benchmark::ProcessLinker::nodeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>nodeCount</name>
+        <qualifiedname>themis::process::benchmark::ProcessLinker::nodeCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="170" column="12" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="170" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a04bed535623012f26d351276dfd4026f" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::benchmark::ProcessLinker::hasCycleDFS</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>hasCycleDFS</name>
+        <qualifiedname>themis::process::benchmark::ProcessLinker::hasCycleDFS</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>DFS helper for cycle detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_linker_gates.cpp" line="176" column="10" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="176" bodyend="196"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Process model linker with validation and cycle detection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_linker_gates.cpp" line="50" column="1" bodyfile="benchmarks/process/bench_process_linker_gates.cpp" bodystart="50" bodyend="197"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a46e59d9c4e922b724ce9864cc2e7b37f" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessLinker</scope><name>createLink</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_linker_1aa1fe3366c1e3d7eec5fe48640f495a47" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessLinker</scope><name>getReachableNodes</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a8246726629b53b2b902403b8314da4cf" prot="private" virt="non-virtual"><scope>themis::process::benchmark::ProcessLinker</scope><name>graph_</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a0f366c765abef88c885d085b072ef6be" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessLinker</scope><name>hasCycle</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a04bed535623012f26d351276dfd4026f" prot="private" virt="non-virtual"><scope>themis::process::benchmark::ProcessLinker</scope><name>hasCycleDFS</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_linker_1afc9255b9bab5deb8fc1161bf6a7058e6" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessLinker</scope><name>linkCount</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a7af8211fd734ddb431424f5d2e932c0e" prot="private" virt="non-virtual"><scope>themis::process::benchmark::ProcessLinker</scope><name>links_</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_linker_1ae6a8097f093aead2c7abfd3a2fce0d89" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessLinker</scope><name>nodeCount</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a170ef3a8255b6a8a95e95eb3f35dc133" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessLinker</scope><name>ProcessLinker</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a42ba28f2b0e7fbb5ae15a47970c57fe3" prot="private" virt="non-virtual"><scope>themis::process::benchmark::ProcessLinker</scope><name>rec_stack_</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_linker_1ac2f9ad992fba271129db9085008de9b7" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessLinker</scope><name>validateAllLinks</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a1ad600d1197e63b5d69b517075d777b6" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessLinker</scope><name>validateLink</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_linker_1a6f4d2c95813e599696a65e1955c90bb9" prot="private" virt="non-virtual"><scope>themis::process::benchmark::ProcessLinker</scope><name>visited_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

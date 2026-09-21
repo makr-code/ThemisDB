@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1test_1_1wave7_1_1_mock_model_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::test::wave7::MockModelEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1test_1_1wave7_1_1_mock_model_entry_1a7edc4e946bdeb056b6d8505efeea90f1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1server_1_1test_1_1wave7_1a720255a55c680eaa96d99aba5d18a1c8" kindref="member">ModelStatus</ref></type>
+        <definition>ModelStatus themis::server::test::wave7::MockModelEntry::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::server::test::wave7::MockModelEntry::status</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1server_1_1test_1_1wave7_1a720255a55c680eaa96d99aba5d18a1c8ac1a4d3eaa5e512053eb2894e21c4a2bf" kindref="member">ModelStatus::REGISTERED</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="151" column="38" bodyfile="tests/server/test_wave7_server_llm_hardening.cpp" bodystart="151" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1test_1_1wave7_1_1_mock_model_entry_1a841146440fdc123cd1a90547cd6c34a1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::server::test::wave7::MockModelEntry::instances</definition>
+        <argsstring></argsstring>
+        <name>instances</name>
+        <qualifiedname>themis::server::test::wave7::MockModelEntry::instances</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="152" column="25" bodyfile="tests/server/test_wave7_server_llm_hardening.cpp" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="150" column="1" bodyfile="tests/server/test_wave7_server_llm_hardening.cpp" bodystart="150" bodyend="153"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1test_1_1wave7_1_1_mock_model_entry_1a841146440fdc123cd1a90547cd6c34a1" prot="public" virt="non-virtual"><scope>themis::server::test::wave7::MockModelEntry</scope><name>instances</name></member>
+      <member refid="structthemis_1_1server_1_1test_1_1wave7_1_1_mock_model_entry_1a7edc4e946bdeb056b6d8505efeea90f1" prot="public" virt="non-virtual"><scope>themis::server::test::wave7::MockModelEntry</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_liveness_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::LivenessResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_result_1ac2c9d3333070ccb210953943b9cfecc0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::LivenessResult::is_live</definition>
+        <argsstring></argsstring>
+        <name>is_live</name>
+        <qualifiedname>themis::voice::LivenessResult::is_live</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wake_word_focused.cpp" line="46" column="10" bodyfile="tests/voice/test_voice_wake_word_focused.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_result_1afe6d23283ab874f3090b9b66ba547c2b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::LivenessResult::liveness_score</definition>
+        <argsstring></argsstring>
+        <name>liveness_score</name>
+        <qualifiedname>themis::voice::LivenessResult::liveness_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wake_word_focused.cpp" line="47" column="11" bodyfile="tests/voice/test_voice_wake_word_focused.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_liveness_result_1aa3d6fdfcdd6e7bd9ecda55182ade608e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::LivenessResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::voice::LivenessResult::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wake_word_focused.cpp" line="48" column="17" bodyfile="tests/voice/test_voice_wake_word_focused.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_wake_word_focused.cpp" line="45" column="1" bodyfile="tests/voice/test_voice_wake_word_focused.cpp" bodystart="45" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_liveness_result_1ac2c9d3333070ccb210953943b9cfecc0" prot="public" virt="non-virtual"><scope>themis::voice::LivenessResult</scope><name>is_live</name></member>
+      <member refid="structthemis_1_1voice_1_1_liveness_result_1afe6d23283ab874f3090b9b66ba547c2b" prot="public" virt="non-virtual"><scope>themis::voice::LivenessResult</scope><name>liveness_score</name></member>
+      <member refid="structthemis_1_1voice_1_1_liveness_result_1aa3d6fdfcdd6e7bd9ecda55182ade608e" prot="public" virt="non-virtual"><scope>themis::voice::LivenessResult</scope><name>reason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

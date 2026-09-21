@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::DistributedQueryCostModel::CrossShardJoinCost</compoundname>
+    <includes refid="adaptive__optimizer_8h" local="no">adaptive_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost_1ab441992daa265e985f66ad3b66680a61" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::DistributedQueryCostModel::CrossShardJoinCost::total_cost</definition>
+        <argsstring></argsstring>
+        <name>total_cost</name>
+        <qualifiedname>themis::query::DistributedQueryCostModel::CrossShardJoinCost::total_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="151" column="16" bodyfile="include/query/adaptive_optimizer.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost_1a052b0cf714460f576bd84d1c70b4b40e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::DistributedQueryCostModel::CrossShardJoinCost::network_cost</definition>
+        <argsstring></argsstring>
+        <name>network_cost</name>
+        <qualifiedname>themis::query::DistributedQueryCostModel::CrossShardJoinCost::network_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="152" column="16" bodyfile="include/query/adaptive_optimizer.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost_1a2d102a8ab63446863da7211de12d56e1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::DistributedQueryCostModel::CrossShardJoinCost::compute_cost</definition>
+        <argsstring></argsstring>
+        <name>compute_cost</name>
+        <qualifiedname>themis::query::DistributedQueryCostModel::CrossShardJoinCost::compute_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="153" column="16" bodyfile="include/query/adaptive_optimizer.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost_1adb4a8efd3aaf77de62e0e5afebc17f33" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::DistributedQueryCostModel::CrossShardJoinCost::recommended_strategy</definition>
+        <argsstring></argsstring>
+        <name>recommended_strategy</name>
+        <qualifiedname>themis::query::DistributedQueryCostModel::CrossShardJoinCost::recommended_strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="154" column="21" bodyfile="include/query/adaptive_optimizer.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/adaptive_optimizer.h" line="150" column="5" bodyfile="include/query/adaptive_optimizer.h" bodystart="150" bodyend="155"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost_1a2d102a8ab63446863da7211de12d56e1" prot="public" virt="non-virtual"><scope>themis::query::DistributedQueryCostModel::CrossShardJoinCost</scope><name>compute_cost</name></member>
+      <member refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost_1a052b0cf714460f576bd84d1c70b4b40e" prot="public" virt="non-virtual"><scope>themis::query::DistributedQueryCostModel::CrossShardJoinCost</scope><name>network_cost</name></member>
+      <member refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost_1adb4a8efd3aaf77de62e0e5afebc17f33" prot="public" virt="non-virtual"><scope>themis::query::DistributedQueryCostModel::CrossShardJoinCost</scope><name>recommended_strategy</name></member>
+      <member refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost_1ab441992daa265e985f66ad3b66680a61" prot="public" virt="non-virtual"><scope>themis::query::DistributedQueryCostModel::CrossShardJoinCost</scope><name>total_cost</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_987d8e3ce5b979d90f8b23ad69e96d85" kind="dir">
+    <compoundname>include/rag</compoundname>
+    <innerfile refid="ab__testing__framework_8h">ab_testing_framework.h</innerfile>
+    <innerfile refid="adaptive__retrieval_8h">adaptive_retrieval.h</innerfile>
+    <innerfile refid="adversarial__tester_8h">adversarial_tester.h</innerfile>
+    <innerfile refid="agentic__rag_8h">agentic_rag.h</innerfile>
+    <innerfile refid="batch__evaluator_8h">batch_evaluator.h</innerfile>
+    <innerfile refid="bayesian__optimizer_8h">bayesian_optimizer.h</innerfile>
+    <innerfile refid="bias__detector_8h">bias_detector.h</innerfile>
+    <innerfile refid="calibration__manager_8h">calibration_manager.h</innerfile>
+    <innerfile refid="citation__highlighter_8h">citation_highlighter.h</innerfile>
+    <innerfile refid="claim__extractor_8h">claim_extractor.h</innerfile>
+    <innerfile refid="coherence__evaluator_8h">coherence_evaluator.h</innerfile>
+    <innerfile refid="completeness__evaluator_8h">completeness_evaluator.h</innerfile>
+    <innerfile refid="continuous__learning__client_8h">continuous_learning_client.h</innerfile>
+    <innerfile refid="continuous__learning__orchestrator_8h">continuous_learning_orchestrator.h</innerfile>
+    <innerfile refid="cot__evaluator_8h">cot_evaluator.h</innerfile>
+    <innerfile refid="delegate__evaluator_8h">delegate_evaluator.h</innerfile>
+    <innerfile refid="distributed__rag__evaluator_8h">distributed_rag_evaluator.h</innerfile>
+    <innerfile refid="document__splitter_8h">document_splitter.h</innerfile>
+    <innerfile refid="document__summarizer_8h">document_summarizer.h</innerfile>
+    <innerfile refid="dpr__vectorizer_8h">dpr_vectorizer.h</innerfile>
+    <innerfile refid="evaluation__cache_8h">evaluation_cache.h</innerfile>
+    <innerfile refid="evaluation__report__exporter_8h">evaluation_report_exporter.h</innerfile>
+    <innerfile refid="explainability__reason__builder_8h">explainability_reason_builder.h</innerfile>
+    <innerfile refid="fairness__detector_8h">fairness_detector.h</innerfile>
+    <innerfile refid="faithfulness__evaluator_8h">faithfulness_evaluator.h</innerfile>
+    <innerfile refid="flare__retrieval_8h">flare_retrieval.h</innerfile>
+    <innerfile refid="geval__evaluator_8h">geval_evaluator.h</innerfile>
+    <innerfile refid="graph__truth__validator_8h">graph_truth_validator.h</innerfile>
+    <innerfile refid="hallucination__dashboard_8h">hallucination_dashboard.h</innerfile>
+    <innerfile refid="http__metrics__client_8h">http_metrics_client.h</innerfile>
+    <innerfile refid="hybrid__retriever_8h">hybrid_retriever.h</innerfile>
+    <innerfile refid="judge__config_8h">judge_config.h</innerfile>
+    <innerfile refid="judge__ensemble_8h">judge_ensemble.h</innerfile>
+    <innerfile refid="knowledge__gap__detector_8h">knowledge_gap_detector.h</innerfile>
+    <innerfile refid="knowledge__graph__retriever_8h">knowledge_graph_retriever.h</innerfile>
+    <innerfile refid="learning__metrics_8h">learning_metrics.h</innerfile>
+    <innerfile refid="llm__integration_8h">llm_integration.h</innerfile>
+    <innerfile refid="llm__judge__client_8h">llm_judge_client.h</innerfile>
+    <innerfile refid="llm__judge__integration_8h">llm_judge_integration.h</innerfile>
+    <innerfile refid="llm__meta__analyzer_8h">llm_meta_analyzer.h</innerfile>
+    <innerfile refid="lora__enhanced__retriever_8h">lora_enhanced_retriever.h</innerfile>
+    <innerfile refid="modular__rag__pipeline_8h">modular_rag_pipeline.h</innerfile>
+    <innerfile refid="multi__hop__reasoner_8h">multi_hop_reasoner.h</innerfile>
+    <innerfile refid="multi__step__rag_8h">multi_step_rag.h</innerfile>
+    <innerfile refid="multimodal__rag_8h">multimodal_rag.h</innerfile>
+    <innerfile refid="nli__faithfulness__verifier_8h">nli_faithfulness_verifier.h</innerfile>
+    <innerfile refid="onnx__model__loader_8h">onnx_model_loader.h</innerfile>
+    <innerfile refid="ontology__aware__retriever_8h">ontology_aware_retriever.h</innerfile>
+    <innerfile refid="pairwise__comparator_8h">pairwise_comparator.h</innerfile>
+    <innerfile refid="prompt__injection__detector_8h">prompt_injection_detector.h</innerfile>
+    <innerfile refid="prompt__templates_8h">prompt_templates.h</innerfile>
+    <innerfile refid="quality__control__factory_8h">quality_control_factory.h</innerfile>
+    <innerfile refid="quality__control__pipeline_8h">quality_control_pipeline.h</innerfile>
+    <innerfile refid="rag__context__assembler_8h">rag_context_assembler.h</innerfile>
+    <innerfile refid="rag__ingestion__bridge_8h">rag_ingestion_bridge.h</innerfile>
+    <innerfile refid="rag__integration__helpers_8h">rag_integration_helpers.h</innerfile>
+    <innerfile refid="rag__judge_8h">rag_judge.h</innerfile>
+    <innerfile refid="rag__quality__monitor_8h">rag_quality_monitor.h</innerfile>
+    <innerfile refid="relevance__evaluator_8h">relevance_evaluator.h</innerfile>
+    <innerfile refid="replug__retriever_8h">replug_retriever.h</innerfile>
+    <innerfile refid="reranker_8h">reranker.h</innerfile>
+    <innerfile refid="response__parser_8h">response_parser.h</innerfile>
+    <innerfile refid="retrieval__guardrail_8h">retrieval_guardrail.h</innerfile>
+    <innerfile refid="rlaif__trainer_8h">rlaif_trainer.h</innerfile>
+    <innerfile refid="rubric__evaluator_8h">rubric_evaluator.h</innerfile>
+    <innerfile refid="self__rag_8h">self_rag.h</innerfile>
+    <innerfile refid="streaming__retriever_8h">streaming_retriever.h</innerfile>
+    <innerfile refid="targ__retrieval_8h">targ_retrieval.h</innerfile>
+    <innerfile refid="tensor__rag__cost__model_8h">tensor_rag_cost_model.h</innerfile>
+    <innerfile refid="tensor__rag__pipeline_8h">tensor_rag_pipeline.h</innerfile>
+    <innerfile refid="vectorizer__interface_8h">vectorizer_interface.h</innerfile>
+    <innerfile refid="wiki__index__store_8h">wiki_index_store.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/"/>
+  </compounddef>
+</doxygen>

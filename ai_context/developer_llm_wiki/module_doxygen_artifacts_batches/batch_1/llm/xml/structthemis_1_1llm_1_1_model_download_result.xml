@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_model_download_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ModelDownloadResult</compoundname>
+    <includes refid="model__downloader_8h" local="no">model_downloader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_download_result_1a3215da7d0045110a0f55ceaa693e0e58" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelDownloadResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::llm::ModelDownloadResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="42" column="10" bodyfile="include/llm/model_downloader.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_download_result_1ac509f38bb25dc6649990869dbc0820c4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelDownloadResult::model_path</definition>
+        <argsstring></argsstring>
+        <name>model_path</name>
+        <qualifiedname>themis::llm::ModelDownloadResult::model_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="43" column="17" bodyfile="include/llm/model_downloader.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_download_result_1aa1c237fd9ff786bfc02b95d6a6761125" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelDownloadResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::llm::ModelDownloadResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="44" column="17" bodyfile="include/llm/model_downloader.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_download_result_1a1acfd77c3137583c9a108280d9f587c2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ModelDownloadResult::file_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>file_size_bytes</name>
+        <qualifiedname>themis::llm::ModelDownloadResult::file_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="45" column="12" bodyfile="include/llm/model_downloader.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_download_result_1a32d63537d4937738dbc1853472f51237" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::ModelDownloadResult::download_time_seconds</definition>
+        <argsstring></argsstring>
+        <name>download_time_seconds</name>
+        <qualifiedname>themis::llm::ModelDownloadResult::download_time_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="46" column="12" bodyfile="include/llm/model_downloader.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_model_download_result_1adbb4ea48aaf53f257cb39c2543be221c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::ModelDownloadResult::~ModelDownloadResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ModelDownloadResult</name>
+        <qualifiedname>themis::llm::ModelDownloadResult::~ModelDownloadResult</qualifiedname>
+        <briefdescription>
+<para>Model Download Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_downloader.h" line="41" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_downloader.h" line="36" column="1" bodyfile="include/llm/model_downloader.h" bodystart="36" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_model_download_result_1a32d63537d4937738dbc1853472f51237" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloadResult</scope><name>download_time_seconds</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_download_result_1aa1c237fd9ff786bfc02b95d6a6761125" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloadResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_download_result_1a1acfd77c3137583c9a108280d9f587c2" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloadResult</scope><name>file_size_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_download_result_1ac509f38bb25dc6649990869dbc0820c4" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloadResult</scope><name>model_path</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_download_result_1a3215da7d0045110a0f55ceaa693e0e58" prot="public" virt="non-virtual"><scope>themis::llm::ModelDownloadResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_download_result_1adbb4ea48aaf53f257cb39c2543be221c" prot="public" virt="virtual"><scope>themis::llm::ModelDownloadResult</scope><name>~ModelDownloadResult</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

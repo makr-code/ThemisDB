@@ -1,0 +1,839 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__streaming__join_8cpp" kind="file" language="C++">
+    <compoundname>test_streaming_join.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="streaming__join_8h" local="yes">analytics/streaming_join.h</includes>
+    <includes refid="columnar__execution_8h" local="yes">analytics/columnar_execution.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>analytics/columnar_execution.h</label>
+        <link refid="columnar__execution_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>detail/memory_pool.h</label>
+        <link refid="include_2analytics_2detail_2memory__pool_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>analytics/streaming_join.h</label>
+        <link refid="streaming__join_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/analytics/test_streaming_join.cpp</label>
+        <link refid="test__streaming__join_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>algorithm</label>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="17">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>memory_resource</label>
+      </node>
+      <node id="15">
+        <label>new</label>
+      </node>
+      <node id="18">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>variant</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__streaming__join_8cpp_1adcb8216a9612f89df75476f0ebd970ff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref></type>
+        <definition>static ColumnBatch makeIdNameBatch</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; int64_t, std::string &gt; &gt; &amp;rows)</argsstring>
+        <name>makeIdNameBatch</name>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; int64_t, std::string &gt; &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+<para>Build a <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> with int64 &quot;id&quot; and string &quot;name&quot; columns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="23" column="20" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="23" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__join_8cpp_1a3ef979f540badacab9e9485588d21c80" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref></type>
+        <definition>static ColumnBatch makeIdScoreBatch</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; int64_t, int64_t &gt; &gt; &amp;rows)</argsstring>
+        <name>makeIdScoreBatch</name>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; int64_t, int64_t &gt; &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+<para>Build a <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> with int64 &quot;id&quot; and int64 &quot;score&quot; columns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="37" column="20" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="37" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__join_8cpp_1a9de73d29d17924e0da2255502a15b62b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref></type>
+        <definition>static ColumnBatch makeTimestampBatch</definition>
+        <argsstring>(const std::vector&lt; std::tuple&lt; int64_t, int64_t, std::string &gt; &gt; &amp;rows)</argsstring>
+        <name>makeTimestampBatch</name>
+        <param>
+          <type>const std::vector&lt; std::tuple&lt; int64_t, int64_t, std::string &gt; &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+<para>Build a <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> with int64 &quot;id&quot;, int64 &quot;ts&quot;, and string &quot;val&quot; columns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="51" column="20" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="51" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__join_8cpp_1a7b214dcae604edc72f94936ea7e8ee75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingJoinTest, SJ01_HashJoinEmptyProbe)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingJoinTest</type>
+        </param>
+        <param>
+          <type>SJ01_HashJoinEmptyProbe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="72" column="1" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="72" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__join_8cpp_1a882e59a5809a59f31c331b687a1bd52a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingJoinTest, SJ02_HashJoinInnerBasic)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingJoinTest</type>
+        </param>
+        <param>
+          <type>SJ02_HashJoinInnerBasic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="87" column="1" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="87" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__join_8cpp_1aad972174069b2620bffb60075012ee67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingJoinTest, SJ03_HashJoinLeftOuter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingJoinTest</type>
+        </param>
+        <param>
+          <type>SJ03_HashJoinLeftOuter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="114" column="1" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="114" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__join_8cpp_1a66a2992c578ad5f26cb9d5d1be95b9fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingJoinTest, SJ04_HashJoinFanOut)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingJoinTest</type>
+        </param>
+        <param>
+          <type>SJ04_HashJoinFanOut</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="135" column="1" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="135" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__join_8cpp_1afbdab9c648aec4539fb290f83b992cdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingJoinTest, SJ05_HashJoinReset)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingJoinTest</type>
+        </param>
+        <param>
+          <type>SJ05_HashJoinReset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="156" column="1" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="156" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__join_8cpp_1a5b8861e28ded4abf5cb43f4e52fded60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingJoinTest, SJ06_HashJoinMultiBuildBatch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingJoinTest</type>
+        </param>
+        <param>
+          <type>SJ06_HashJoinMultiBuildBatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="175" column="1" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="175" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__join_8cpp_1a1422497f0480dee38e85fcb5d72528b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingJoinTest, SJ07_HashJoinMaxBuildRows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingJoinTest</type>
+        </param>
+        <param>
+          <type>SJ07_HashJoinMaxBuildRows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="191" column="1" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="191" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__join_8cpp_1ab9dea9745dd692a42a8c62122b6b4ef6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingJoinTest, SJ08_HashJoinEmptyKeysThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingJoinTest</type>
+        </param>
+        <param>
+          <type>SJ08_HashJoinEmptyKeysThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="206" column="1" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="206" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__join_8cpp_1a4c039274c8c5a96a82446680b9ba58b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingJoinTest, SJ09_IntervalJoinBasicInner)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingJoinTest</type>
+        </param>
+        <param>
+          <type>SJ09_IntervalJoinBasicInner</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="214" column="1" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="214" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__join_8cpp_1a2096df9d7e28baeec53b714781b42a35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingJoinTest, SJ10_IntervalJoinLeftOuter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingJoinTest</type>
+        </param>
+        <param>
+          <type>SJ10_IntervalJoinLeftOuter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="239" column="1" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="239" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__join_8cpp_1a0b2be0f5bbeeada7b6f7d4666902e13f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingJoinTest, SJ11_IntervalJoinAsymmetric)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingJoinTest</type>
+        </param>
+        <param>
+          <type>SJ11_IntervalJoinAsymmetric</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="258" column="1" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="258" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__join_8cpp_1a9823eca6fa2ae96e85dc7ecfeff0ae5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingJoinTest, SJ12_IntervalJoinReset)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingJoinTest</type>
+        </param>
+        <param>
+          <type>SJ12_IntervalJoinReset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="287" column="1" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="287" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__join_8cpp_1a6303465859f3bcede46eeaafdfbd2406" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingJoinTest, SJ13_IntervalJoinPruning)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingJoinTest</type>
+        </param>
+        <param>
+          <type>SJ13_IntervalJoinPruning</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="303" column="1" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="303" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__join_8cpp_1a8e540524b7237fc4b312ae67cbd2b1c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingJoinTest, SJ14_IntervalJoinMissingTimeColumnThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingJoinTest</type>
+        </param>
+        <param>
+          <type>SJ14_IntervalJoinMissingTimeColumnThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="334" column="1" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="334" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__join_8cpp_1a5e7c1d625192fbf424fe978e11909720" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamingJoinTest, SJ15_HashJoinSelectProjection)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamingJoinTest</type>
+        </param>
+        <param>
+          <type>SJ15_HashJoinSelectProjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_join.cpp" line="344" column="1" bodyfile="tests/analytics/test_streaming_join.cpp" bodystart="344" bodyend="369"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused unit tests for analytics::HashJoin and analytics::IntervalJoin. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs: SJ-01 … SJ-15 </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="streaming__join_8h" kindref="compound">analytics/streaming_join.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="columnar__execution_8h" kindref="compound">analytics/columnar_execution.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics" kindref="compound">themisdb::analytics</ref>;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref><sp/>makeIdNameBatch(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;int64_t,<sp/>std::string&gt;&gt;&amp;<sp/>rows)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id_col<sp/><sp/><sp/>=<sp/>std::make_shared&lt;Column&gt;(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efafbde23b11d7e59af7828e81144c8b487" kindref="member">ColumnType::Int64</ref>);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>name_col<sp/>=<sp/>std::make_shared&lt;Column&gt;(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efa27118326006d3829667a400ad23d5d98" kindref="member">ColumnType::String</ref>);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>name]<sp/>:<sp/>rows)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>id_col-&gt;appendInt64(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name_col-&gt;appendString(name);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref><sp/>batch(rows.size());</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>batch.addColumn(id_col);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>batch.addColumn(name_col);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>batch;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref><sp/>makeIdScoreBatch(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;int64_t,<sp/>int64_t&gt;&gt;&amp;<sp/>rows)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id_col<sp/><sp/><sp/><sp/>=<sp/>std::make_shared&lt;Column&gt;(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efafbde23b11d7e59af7828e81144c8b487" kindref="member">ColumnType::Int64</ref>);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>score_col<sp/>=<sp/>std::make_shared&lt;Column&gt;(</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efafbde23b11d7e59af7828e81144c8b487" kindref="member">ColumnType::Int64</ref>);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>score]<sp/>:<sp/>rows)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>id_col-&gt;appendInt64(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>score_col-&gt;appendInt64(score);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref><sp/>batch(rows.size());</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>batch.addColumn(id_col);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>batch.addColumn(score_col);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>batch;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref><sp/>makeTimestampBatch(</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::tuple&lt;int64_t,<sp/>int64_t,<sp/>std::string&gt;&gt;&amp;<sp/>rows)</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id_col<sp/><sp/>=<sp/>std::make_shared&lt;Column&gt;(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efafbde23b11d7e59af7828e81144c8b487" kindref="member">ColumnType::Int64</ref>);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts_col<sp/><sp/>=<sp/>std::make_shared&lt;Column&gt;(</highlight><highlight class="stringliteral">&quot;ts&quot;</highlight><highlight class="normal">,<sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efafbde23b11d7e59af7828e81144c8b487" kindref="member">ColumnType::Int64</ref>);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>val_col<sp/>=<sp/>std::make_shared&lt;Column&gt;(</highlight><highlight class="stringliteral">&quot;val&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efa27118326006d3829667a400ad23d5d98" kindref="member">ColumnType::String</ref>);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>ts,<sp/>val]<sp/>:<sp/>rows)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>id_col-&gt;appendInt64(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ts_col-&gt;appendInt64(ts);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val_col-&gt;appendString(val);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref><sp/>batch(rows.size());</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>batch.addColumn(id_col);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>batch.addColumn(ts_col);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>batch.addColumn(val_col);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>batch;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJ-01<sp/><sp/>HashJoin:<sp/>empty<sp/>probe<sp/>returns<sp/>empty<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__streaming__join_8cpp_1a7b214dcae604edc72f94936ea7e8ee75" kindref="member">TEST</ref>(StreamingJoinTest,<sp/>SJ01_HashJoinEmptyProbe)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_hash_join" kindref="compound">HashJoin</ref><sp/>join(<ref refid="structthemisdb_1_1analytics_1_1_hash_join_1_1_config" kindref="compound">HashJoin::Config</ref>{.join_keys<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>join.<ref refid="classthemisdb_1_1analytics_1_1_hash_join_1aa340323ec204d55f43f16af68428a4a5" kindref="member">addBuildBatch</ref>(makeIdNameBatch({{1,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">},<sp/>{2,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref><sp/>empty_probe(0);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id_col<sp/>=<sp/>std::make_shared&lt;Column&gt;(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efafbde23b11d7e59af7828e81144c8b487" kindref="member">ColumnType::Int64</ref>);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>empty_probe.addColumn(id_col);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>join.probe(empty_probe);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rowCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJ-02<sp/><sp/>HashJoin:<sp/>inner<sp/>join<sp/>basic<sp/>correctness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__streaming__join_8cpp_1a7b214dcae604edc72f94936ea7e8ee75" kindref="member">TEST</ref>(StreamingJoinTest,<sp/>SJ02_HashJoinInnerBasic)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_hash_join" kindref="compound">HashJoin</ref><sp/>join(<ref refid="structthemisdb_1_1analytics_1_1_hash_join_1_1_config" kindref="compound">HashJoin::Config</ref>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.join_keys<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.join_type<sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1ab5ef9b2994c0d26747607283a023754caa1684698ac3d8ffda353d0458c30b1e7" kindref="member">JoinType::Inner</ref>,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>join.<ref refid="classthemisdb_1_1analytics_1_1_hash_join_1aa340323ec204d55f43f16af68428a4a5" kindref="member">addBuildBatch</ref>(makeIdNameBatch({{1,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">},<sp/>{2,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">},<sp/>{3,<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>probe<sp/>=<sp/>makeIdScoreBatch({{1,<sp/>100},<sp/>{2,<sp/>200},<sp/>{4,<sp/>400}});</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>join.probe(probe);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>id=4<sp/>has<sp/>no<sp/>match<sp/>→<sp/>dropped<sp/>in<sp/>inner<sp/>join</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rowCount(),<sp/>2u);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id_out<sp/>=<sp/>result.getColumn(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(id_out,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(id_out-&gt;int64Data()[0],<sp/>1);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(id_out-&gt;int64Data()[1],<sp/>2);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>name_out<sp/>=<sp/>result.getColumn(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(name_out,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(name_out-&gt;stringData()[0],<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(name_out-&gt;stringData()[1],<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJ-03<sp/><sp/>HashJoin:<sp/>left-outer<sp/>join<sp/>preserves<sp/>unmatched<sp/>probe<sp/>rows</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="test__streaming__join_8cpp_1a7b214dcae604edc72f94936ea7e8ee75" kindref="member">TEST</ref>(StreamingJoinTest,<sp/>SJ03_HashJoinLeftOuter)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_hash_join" kindref="compound">HashJoin</ref><sp/>join(<ref refid="structthemisdb_1_1analytics_1_1_hash_join_1_1_config" kindref="compound">HashJoin::Config</ref>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.join_keys<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.join_type<sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1ab5ef9b2994c0d26747607283a023754ca041d4f8b374671b8696650eb4c3454a0" kindref="member">JoinType::LeftOuter</ref>,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>join.<ref refid="classthemisdb_1_1analytics_1_1_hash_join_1aa340323ec204d55f43f16af68428a4a5" kindref="member">addBuildBatch</ref>(makeIdNameBatch({{1,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>probe<sp/>=<sp/>makeIdScoreBatch({{1,<sp/>100},<sp/>{99,<sp/>999}});</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>join.probe(probe);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rowCount(),<sp/>2u);<sp/></highlight><highlight class="comment">//<sp/>both<sp/>probe<sp/>rows<sp/>kept</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>name_out<sp/>=<sp/>result.getColumn(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(name_out,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(name_out-&gt;isNull(0));<sp/></highlight><highlight class="comment">//<sp/>matched</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(name_out-&gt;isNull(1));<sp/><sp/></highlight><highlight class="comment">//<sp/>unmatched<sp/>→<sp/>null</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJ-04<sp/><sp/>HashJoin:<sp/>multiple<sp/>matches<sp/>per<sp/>key<sp/>(fan-out)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__streaming__join_8cpp_1a7b214dcae604edc72f94936ea7e8ee75" kindref="member">TEST</ref>(StreamingJoinTest,<sp/>SJ04_HashJoinFanOut)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_hash_join" kindref="compound">HashJoin</ref><sp/>join(<ref refid="structthemisdb_1_1analytics_1_1_hash_join_1_1_config" kindref="compound">HashJoin::Config</ref>{.join_keys<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">},<sp/>.join_type<sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1ab5ef9b2994c0d26747607283a023754caa1684698ac3d8ffda353d0458c30b1e7" kindref="member">JoinType::Inner</ref>});</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>side<sp/>has<sp/>two<sp/>rows<sp/>with<sp/>id=1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>join.<ref refid="classthemisdb_1_1analytics_1_1_hash_join_1aa340323ec204d55f43f16af68428a4a5" kindref="member">addBuildBatch</ref>(makeIdNameBatch({{1,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">},<sp/>{1,<sp/></highlight><highlight class="stringliteral">&quot;alex&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>probe<sp/>=<sp/>makeIdScoreBatch({{1,<sp/>42}});</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>join.probe(probe);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rowCount(),<sp/>2u);<sp/></highlight><highlight class="comment">//<sp/>fan-out:<sp/>one<sp/>probe<sp/>row<sp/>×<sp/>two<sp/>build<sp/>rows</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>name_out<sp/>=<sp/>result.getColumn(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(name_out,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>&quot;alice&quot;<sp/>and<sp/>&quot;alex&quot;<sp/>should<sp/>appear.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>names<sp/>=<sp/>name_out-&gt;stringData();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::find(names.begin(),<sp/>names.end(),<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>names.end());</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::find(names.begin(),<sp/>names.end(),<sp/></highlight><highlight class="stringliteral">&quot;alex&quot;</highlight><highlight class="normal">)<sp/><sp/>!=<sp/>names.end());</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJ-05<sp/><sp/>HashJoin:<sp/>reset<sp/>clears<sp/>build<sp/>side</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__streaming__join_8cpp_1a7b214dcae604edc72f94936ea7e8ee75" kindref="member">TEST</ref>(StreamingJoinTest,<sp/>SJ05_HashJoinReset)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_hash_join" kindref="compound">HashJoin</ref><sp/>join(<ref refid="structthemisdb_1_1analytics_1_1_hash_join_1_1_config" kindref="compound">HashJoin::Config</ref>{.join_keys<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">},<sp/>.join_type<sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1ab5ef9b2994c0d26747607283a023754caa1684698ac3d8ffda353d0458c30b1e7" kindref="member">JoinType::Inner</ref>});</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>join.<ref refid="classthemisdb_1_1analytics_1_1_hash_join_1aa340323ec204d55f43f16af68428a4a5" kindref="member">addBuildBatch</ref>(makeIdNameBatch({{1,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(join.buildSideSize(),<sp/>1u);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>join.reset();</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(join.buildSideSize(),<sp/>0u);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>reset,<sp/>probe<sp/>should<sp/>find<sp/>nothing<sp/>(build<sp/>is<sp/>empty<sp/>→<sp/>no<sp/>inner<sp/>matches).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-add<sp/>build.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>join.addBuildBatch(makeIdNameBatch({{2,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>probe<sp/>=<sp/>makeIdScoreBatch({{1,<sp/>10}});</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>join.probe(probe);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rowCount(),<sp/>0u);<sp/></highlight><highlight class="comment">//<sp/>id=1<sp/>not<sp/>in<sp/>build</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJ-06<sp/><sp/>HashJoin:<sp/>build<sp/>accumulation<sp/>across<sp/>multiple<sp/>batches</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="test__streaming__join_8cpp_1a7b214dcae604edc72f94936ea7e8ee75" kindref="member">TEST</ref>(StreamingJoinTest,<sp/>SJ06_HashJoinMultiBuildBatch)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_hash_join" kindref="compound">HashJoin</ref><sp/>join(<ref refid="structthemisdb_1_1analytics_1_1_hash_join_1_1_config" kindref="compound">HashJoin::Config</ref>{.join_keys<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">},<sp/>.join_type<sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1ab5ef9b2994c0d26747607283a023754caa1684698ac3d8ffda353d0458c30b1e7" kindref="member">JoinType::Inner</ref>});</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>join.<ref refid="classthemisdb_1_1analytics_1_1_hash_join_1aa340323ec204d55f43f16af68428a4a5" kindref="member">addBuildBatch</ref>(makeIdNameBatch({{1,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>join.addBuildBatch(makeIdNameBatch({{2,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>join.addBuildBatch(makeIdNameBatch({{3,<sp/></highlight><highlight class="stringliteral">&quot;charlie&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(join.buildSideSize(),<sp/>3u);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>probe<sp/>=<sp/>makeIdScoreBatch({{1,<sp/>10},<sp/>{2,<sp/>20},<sp/>{3,<sp/>30}});</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>join.probe(probe);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rowCount(),<sp/>3u);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJ-07<sp/><sp/>HashJoin:<sp/>max_build_rows<sp/>limit<sp/>respected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="test__streaming__join_8cpp_1a7b214dcae604edc72f94936ea7e8ee75" kindref="member">TEST</ref>(StreamingJoinTest,<sp/>SJ07_HashJoinMaxBuildRows)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_hash_join" kindref="compound">HashJoin</ref><sp/>join(<ref refid="structthemisdb_1_1analytics_1_1_hash_join_1_1_config" kindref="compound">HashJoin::Config</ref>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.join_keys<sp/><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.max_build_rows<sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(join.addBuildBatch(makeIdNameBatch({{1,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">},<sp/>{2,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">}})));</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adding<sp/>another<sp/>row<sp/>should<sp/>fail.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>join.<ref refid="classthemisdb_1_1analytics_1_1_hash_join_1aa340323ec204d55f43f16af68428a4a5" kindref="member">addBuildBatch</ref>(makeIdNameBatch({{3,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ok);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(join.buildSideSize(),<sp/>2u);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJ-08<sp/><sp/>HashJoin:<sp/>no-key<sp/>(empty<sp/>join_keys)<sp/>throws</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__streaming__join_8cpp_1a7b214dcae604edc72f94936ea7e8ee75" kindref="member">TEST</ref>(StreamingJoinTest,<sp/>SJ08_HashJoinEmptyKeysThrows)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="classthemisdb_1_1analytics_1_1_hash_join" kindref="compound">HashJoin</ref><sp/>join(<ref refid="structthemisdb_1_1analytics_1_1_hash_join_1_1_config" kindref="compound">HashJoin::Config</ref>{.join_keys<sp/>=<sp/>{}}),</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJ-09<sp/><sp/>IntervalJoin:<sp/>basic<sp/>time-interval<sp/>inner<sp/>join</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="test__streaming__join_8cpp_1a7b214dcae604edc72f94936ea7e8ee75" kindref="member">TEST</ref>(StreamingJoinTest,<sp/>SJ09_IntervalJoinBasicInner)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_interval_join" kindref="compound">IntervalJoin</ref><sp/>join(<ref refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_config" kindref="compound">IntervalJoin::Config</ref>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.join_keys<sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.time_column<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ts&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.before_ms<sp/><sp/><sp/>=<sp/>1000,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.after_ms<sp/><sp/><sp/><sp/>=<sp/>1000,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.join_type<sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1ab5ef9b2994c0d26747607283a023754caa1684698ac3d8ffda353d0458c30b1e7" kindref="member">JoinType::Inner</ref>,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>side:<sp/>id=1<sp/>at<sp/>ts=100,<sp/>id=2<sp/>at<sp/>ts=200.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>join.<ref refid="classthemisdb_1_1analytics_1_1_interval_join_1a4211d570e6a95f5279f5949aadae0135" kindref="member">addBuildBatch</ref>(makeTimestampBatch({{1,<sp/>100,<sp/></highlight><highlight class="stringliteral">&quot;build_A&quot;</highlight><highlight class="normal">},<sp/>{2,<sp/>200,<sp/></highlight><highlight class="stringliteral">&quot;build_B&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Probe:<sp/>id=1<sp/>at<sp/>ts=100<sp/>(match),<sp/>id=2<sp/>at<sp/>ts=5000<sp/>(no<sp/>match<sp/>—<sp/>too<sp/>far).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>probe<sp/>=<sp/>makeTimestampBatch({{1,<sp/>100,<sp/></highlight><highlight class="stringliteral">&quot;probe_A&quot;</highlight><highlight class="normal">},<sp/>{2,<sp/>5000,<sp/></highlight><highlight class="stringliteral">&quot;probe_B&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>join.probe(probe);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rowCount(),<sp/>1u);<sp/></highlight><highlight class="comment">//<sp/>only<sp/>id=1<sp/>matches</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id_out<sp/>=<sp/>result.getColumn(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(id_out,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(id_out-&gt;int64Data()[0],<sp/>1);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJ-10<sp/><sp/>IntervalJoin:<sp/>left-outer<sp/>preserves<sp/>unmatched<sp/>probe</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="test__streaming__join_8cpp_1a7b214dcae604edc72f94936ea7e8ee75" kindref="member">TEST</ref>(StreamingJoinTest,<sp/>SJ10_IntervalJoinLeftOuter)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_interval_join" kindref="compound">IntervalJoin</ref><sp/>join(<ref refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_config" kindref="compound">IntervalJoin::Config</ref>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.join_keys<sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.time_column<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ts&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.before_ms<sp/><sp/><sp/>=<sp/>500,</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.after_ms<sp/><sp/><sp/><sp/>=<sp/>500,</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.join_type<sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1ab5ef9b2994c0d26747607283a023754ca041d4f8b374671b8696650eb4c3454a0" kindref="member">JoinType::LeftOuter</ref>,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>join.<ref refid="classthemisdb_1_1analytics_1_1_interval_join_1a4211d570e6a95f5279f5949aadae0135" kindref="member">addBuildBatch</ref>(makeTimestampBatch({{1,<sp/>100,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>probe<sp/>=<sp/>makeTimestampBatch({{1,<sp/>100,<sp/></highlight><highlight class="stringliteral">&quot;P&quot;</highlight><highlight class="normal">},<sp/>{2,<sp/>100,<sp/></highlight><highlight class="stringliteral">&quot;Q&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>join.probe(probe);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rowCount(),<sp/>2u);<sp/></highlight><highlight class="comment">//<sp/>both<sp/>probe<sp/>rows<sp/>emitted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJ-11<sp/><sp/>IntervalJoin:<sp/>before/after<sp/>asymmetry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><ref refid="test__streaming__join_8cpp_1a7b214dcae604edc72f94936ea7e8ee75" kindref="member">TEST</ref>(StreamingJoinTest,<sp/>SJ11_IntervalJoinAsymmetric)<sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_interval_join" kindref="compound">IntervalJoin</ref><sp/>join(<ref refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_config" kindref="compound">IntervalJoin::Config</ref>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.join_keys<sp/><sp/><sp/>=<sp/>{},<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>key:<sp/>all<sp/>build<sp/>rows<sp/>in<sp/>window<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.time_column<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ts&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.before_ms<sp/><sp/><sp/>=<sp/>0,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>only<sp/>build<sp/>ts<sp/>==<sp/>probe<sp/>ts<sp/>or<sp/>later</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.after_ms<sp/><sp/><sp/><sp/>=<sp/>100,</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.join_type<sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1ab5ef9b2994c0d26747607283a023754caa1684698ac3d8ffda353d0458c30b1e7" kindref="member">JoinType::Inner</ref>,</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build:<sp/>ts=50<sp/>and<sp/>ts=200.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id_col<sp/><sp/>=<sp/>std::make_shared&lt;Column&gt;(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efafbde23b11d7e59af7828e81144c8b487" kindref="member">ColumnType::Int64</ref>);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts_col<sp/><sp/>=<sp/>std::make_shared&lt;Column&gt;(</highlight><highlight class="stringliteral">&quot;ts&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efafbde23b11d7e59af7828e81144c8b487" kindref="member">ColumnType::Int64</ref>);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>val_col<sp/>=<sp/>std::make_shared&lt;Column&gt;(</highlight><highlight class="stringliteral">&quot;val&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efa27118326006d3829667a400ad23d5d98" kindref="member">ColumnType::String</ref>);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>id_col-&gt;appendInt64(1);<sp/><sp/>ts_col-&gt;appendInt64(50);<sp/><sp/>val_col-&gt;appendString(</highlight><highlight class="stringliteral">&quot;B50&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>id_col-&gt;appendInt64(2);<sp/><sp/>ts_col-&gt;appendInt64(200);<sp/>val_col-&gt;appendString(</highlight><highlight class="stringliteral">&quot;B200&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref><sp/>build(2);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>build.addColumn(id_col);<sp/>build.addColumn(ts_col);<sp/>build.addColumn(val_col);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>join.addBuildBatch(build);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Probe<sp/>at<sp/>ts=100:<sp/>window<sp/>[100,<sp/>200].<sp/>Build<sp/>ts=50<sp/>is<sp/>BEFORE<sp/>100<sp/>→<sp/>no<sp/>match.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>ts=200<sp/>is<sp/>inside<sp/>[100,200]<sp/>→<sp/>match.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>probe<sp/>=<sp/>makeTimestampBatch({{99,<sp/>100,<sp/></highlight><highlight class="stringliteral">&quot;P&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>join.probe(probe);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rowCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJ-12<sp/><sp/>IntervalJoin:<sp/>reset<sp/>clears<sp/>build<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><ref refid="test__streaming__join_8cpp_1a7b214dcae604edc72f94936ea7e8ee75" kindref="member">TEST</ref>(StreamingJoinTest,<sp/>SJ12_IntervalJoinReset)<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_interval_join" kindref="compound">IntervalJoin</ref><sp/>join(<ref refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_config" kindref="compound">IntervalJoin::Config</ref>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.join_keys<sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.time_column<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ts&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.before_ms<sp/><sp/><sp/>=<sp/>1000,</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.after_ms<sp/><sp/><sp/><sp/>=<sp/>1000,</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>join.<ref refid="classthemisdb_1_1analytics_1_1_interval_join_1a4211d570e6a95f5279f5949aadae0135" kindref="member">addBuildBatch</ref>(makeTimestampBatch({{1,<sp/>100,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(join.buildSideSize(),<sp/>1u);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>join.reset();</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(join.buildSideSize(),<sp/>0u);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJ-13<sp/><sp/>IntervalJoin:<sp/>build<sp/>buffer<sp/>pruning<sp/>(old<sp/>events<sp/>discarded)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><ref refid="test__streaming__join_8cpp_1a7b214dcae604edc72f94936ea7e8ee75" kindref="member">TEST</ref>(StreamingJoinTest,<sp/>SJ13_IntervalJoinPruning)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_interval_join" kindref="compound">IntervalJoin</ref><sp/>join(<ref refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_config" kindref="compound">IntervalJoin::Config</ref>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.join_keys<sp/><sp/><sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.time_column<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ts&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.before_ms<sp/><sp/><sp/>=<sp/>500,</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.after_ms<sp/><sp/><sp/><sp/>=<sp/>500,</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.slack_ms<sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build:<sp/>events<sp/>from<sp/>ts=0<sp/>to<sp/>ts=100.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(int64_t<sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;=<sp/>100;<sp/>t<sp/>+=<sp/>10)<sp/>{</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts_col<sp/>=<sp/>std::make_shared&lt;Column&gt;(</highlight><highlight class="stringliteral">&quot;ts&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efafbde23b11d7e59af7828e81144c8b487" kindref="member">ColumnType::Int64</ref>);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ts_col-&gt;appendInt64(t);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref><sp/>b(1);<sp/>b.addColumn(ts_col);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>join.addBuildBatch(b);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(join.buildSideSize(),<sp/>11u);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Probe<sp/>at<sp/>ts=10000<sp/>(far<sp/>future).<sp/>After<sp/>this<sp/>probe<sp/>the<sp/>buffer<sp/>should<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pruned<sp/>to<sp/>only<sp/>events<sp/>&gt;=<sp/>10000<sp/>-<sp/>500<sp/>=<sp/>9500<sp/>→<sp/>all<sp/>old<sp/>events<sp/>removed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>probe_ts_col<sp/>=<sp/>std::make_shared&lt;Column&gt;(</highlight><highlight class="stringliteral">&quot;ts&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1analytics_1aa0a74b27a0ac173dbdbb1b00870786efafbde23b11d7e59af7828e81144c8b487" kindref="member">ColumnType::Int64</ref>);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>probe_ts_col-&gt;appendInt64(10000);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref><sp/>probe(1);<sp/>probe.addColumn(probe_ts_col);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>join.probe(probe);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(join.buildSideSize(),<sp/>0u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;All<sp/>old<sp/>build<sp/>events<sp/>should<sp/>have<sp/>been<sp/>pruned&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJ-14<sp/><sp/>IntervalJoin:<sp/>missing<sp/>time_column<sp/>config<sp/>throws</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><ref refid="test__streaming__join_8cpp_1a7b214dcae604edc72f94936ea7e8ee75" kindref="member">TEST</ref>(StreamingJoinTest,<sp/>SJ14_IntervalJoinMissingTimeColumnThrows)<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_interval_join" kindref="compound">IntervalJoin</ref><sp/>join(<ref refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_config" kindref="compound">IntervalJoin::Config</ref>{.join_keys<sp/>=<sp/>{},<sp/>.time_column<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">}),</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SJ-15<sp/><sp/>HashJoin:<sp/>project<sp/>build_select<sp/>and<sp/>probe_select</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><ref refid="test__streaming__join_8cpp_1a7b214dcae604edc72f94936ea7e8ee75" kindref="member">TEST</ref>(StreamingJoinTest,<sp/>SJ15_HashJoinSelectProjection)<sp/>{</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_hash_join" kindref="compound">HashJoin</ref><sp/>join(<ref refid="structthemisdb_1_1analytics_1_1_hash_join_1_1_config" kindref="compound">HashJoin::Config</ref>{</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.join_keys<sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.join_type<sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1ab5ef9b2994c0d26747607283a023754caa1684698ac3d8ffda353d0458c30b1e7" kindref="member">JoinType::Inner</ref>,</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.build_select<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>only<sp/>&quot;id&quot;<sp/>and<sp/>&quot;name&quot;<sp/>from<sp/>build</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.probe_select<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>only<sp/>&quot;id&quot;<sp/>and<sp/>&quot;score&quot;<sp/>from<sp/>probe</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>join.<ref refid="classthemisdb_1_1analytics_1_1_hash_join_1aa340323ec204d55f43f16af68428a4a5" kindref="member">addBuildBatch</ref>(makeIdNameBatch({{1,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">},<sp/>{2,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>probe<sp/>=<sp/>makeIdScoreBatch({{1,<sp/>99},<sp/>{2,<sp/>88}});</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>join.probe(probe);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rowCount(),<sp/>2u);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;score&quot;<sp/>should<sp/>be<sp/>present<sp/>(from<sp/>probe_select).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.getColumn(</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;name&quot;<sp/>should<sp/>be<sp/>present<sp/>(from<sp/>build_select,<sp/>non-key).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.getColumn(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;id&quot;<sp/>should<sp/>appear<sp/>once<sp/>(not<sp/>duplicated).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>id_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>result.columnCount();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.getColumnAt(i)-&gt;name()<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++id_count;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(id_count,<sp/>1u);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/analytics/test_streaming_join.cpp"/>
+  </compounddef>
+</doxygen>

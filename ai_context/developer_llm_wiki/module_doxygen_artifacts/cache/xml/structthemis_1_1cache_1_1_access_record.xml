@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_access_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::AccessRecord</compoundname>
+    <includes refid="adaptive__ttl__policy_8h" local="no">adaptive_ttl_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_access_record_1ac834e3decebe0ba61e3564e684b58824" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cache::AccessRecord::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::cache::AccessRecord::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock time of the access (ms since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="45" column="13" bodyfile="include/cache/adaptive_ttl_policy.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_access_record_1a79445f33e201c872e649652d43096e42" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::AccessRecord::is_hit</definition>
+        <argsstring></argsstring>
+        <name>is_hit</name>
+        <qualifiedname>themis::cache::AccessRecord::is_hit</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>true = cache hit; false = cache miss (new put). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="46" column="13" bodyfile="include/cache/adaptive_ttl_policy.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/adaptive_ttl_policy.h" line="44" column="1" bodyfile="include/cache/adaptive_ttl_policy.h" bodystart="44" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_access_record_1a79445f33e201c872e649652d43096e42" prot="public" virt="non-virtual"><scope>themis::cache::AccessRecord</scope><name>is_hit</name></member>
+      <member refid="structthemis_1_1cache_1_1_access_record_1ac834e3decebe0ba61e3564e684b58824" prot="public" virt="non-virtual"><scope>themis::cache::AccessRecord</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

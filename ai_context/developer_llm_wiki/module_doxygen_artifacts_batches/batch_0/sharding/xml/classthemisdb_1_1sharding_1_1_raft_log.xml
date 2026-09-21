@@ -1,0 +1,864 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_raft_log" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::RaftLog</compoundname>
+    <includes refid="raft__log_8h" local="no">raft_log.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_log_1a62f4c940fccfc323daaf0c35c812080b" prot="private" static="no" mutable="yes">
+        <type>std::timed_mutex</type>
+        <definition>std::timed_mutex themisdb::sharding::RaftLog::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::sharding::RaftLog::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="230" column="30" bodyfile="include/sharding/raft_log.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_log_1ae604f9d69bf0c464ca23054d963d5f14" prot="private" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, <ref refid="structthemisdb_1_1sharding_1_1_log_entry" kindref="compound">LogEntry</ref> &gt;</type>
+        <definition>std::map&lt;uint64_t, LogEntry&gt; themisdb::sharding::RaftLog::log_</definition>
+        <argsstring></argsstring>
+        <name>log_</name>
+        <qualifiedname>themisdb::sharding::RaftLog::log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="231" column="14" bodyfile="include/sharding/raft_log.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_log_1a4f8e6bdb708efdd387d8fc16b6576f2e" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftLog::commit_index_</definition>
+        <argsstring></argsstring>
+        <name>commit_index_</name>
+        <qualifiedname>themisdb::sharding::RaftLog::commit_index_</qualifiedname>
+        <briefdescription>
+<para>Highest committed log index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="232" column="14" bodyfile="include/sharding/raft_log.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_log_1aa35d20b0b89736883de8945d790aa8a3" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftLog::snapshot_index_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_index_</name>
+        <qualifiedname>themisdb::sharding::RaftLog::snapshot_index_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Index of the last installed snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="233" column="14" bodyfile="include/sharding/raft_log.h" bodystart="233" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_log_1a960bb89306da6719019cda21acbc01f4" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftLog::snapshot_term_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_term_</name>
+        <qualifiedname>themisdb::sharding::RaftLog::snapshot_term_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Term of the last installed snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="234" column="14" bodyfile="include/sharding/raft_log.h" bodystart="234" bodyend="234"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1a8efab9b084393e923b70e026fd369010" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::RaftLog::RaftLog</definition>
+        <argsstring>()</argsstring>
+        <name>RaftLog</name>
+        <qualifiedname>themisdb::sharding::RaftLog::RaftLog</qualifiedname>
+        <briefdescription>
+<para>Construct empty Raft log with commit index 0. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="95" column="5" bodyfile="src/sharding/raft_log.cpp" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1acb5fc1a2fecf96db02d6f96e34ea3647" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::RaftLog::~RaftLog</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RaftLog</name>
+        <qualifiedname>themisdb::sharding::RaftLog::~RaftLog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="96" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1aefea752644f84dcf6cbd9cdc983150c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::RaftLog::RaftLog</definition>
+        <argsstring>(const RaftLog &amp;)=delete</argsstring>
+        <name>RaftLog</name>
+        <qualifiedname>themisdb::sharding::RaftLog::RaftLog</qualifiedname>
+        <param>
+          <type>const RaftLog &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="99" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1adf7f692095a18d7956e2714920866f18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_raft_log_1a8efab9b084393e923b70e026fd369010" kindref="member">RaftLog</ref> &amp;</type>
+        <definition>RaftLog &amp; themisdb::sharding::RaftLog::operator=</definition>
+        <argsstring>(const RaftLog &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::RaftLog::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_raft_log_1a8efab9b084393e923b70e026fd369010" kindref="member">RaftLog</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="100" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1a1f39aaf50386dc5a8aa48e1c63cf8587" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftLog::append</definition>
+        <argsstring>(const LogEntry &amp;entry)</argsstring>
+        <name>append</name>
+        <qualifiedname>themisdb::sharding::RaftLog::append</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_log_entry" kindref="compound">LogEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Append a new entry to the log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Append.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The log entry to append </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The index at which the entry was appended</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), getConsensusTimeout(), try_lock_for(), std::to_string(), count(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="107" column="14" bodyfile="src/sharding/raft_log.cpp" bodystart="71" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1a3bf6f5b5981ded39f048e38edaf17905" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_log_entry" kindref="compound">LogEntry</ref> &gt;</type>
+        <definition>std::optional&lt; LogEntry &gt; themisdb::sharding::RaftLog::getEntry</definition>
+        <argsstring>(uint64_t index) const</argsstring>
+        <name>getEntry</name>
+        <qualifiedname>themisdb::sharding::RaftLog::getEntry</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Get a single log entry at the specified index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The log index (1-indexed) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The log entry if it exists, std::nullopt otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>TIMEOUT ENFORCEMENT: Use try_lock_for for consistent timeout behavior <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">defer_lock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="114" column="19" bodyfile="src/sharding/raft_log.cpp" bodystart="89" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1a88a61444b28f557703f64b827ca1bcc8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_log_entry" kindref="compound">LogEntry</ref> &gt;</type>
+        <definition>std::vector&lt; LogEntry &gt; themisdb::sharding::RaftLog::getEntries</definition>
+        <argsstring>(uint64_t start_index, uint64_t end_index) const</argsstring>
+        <name>getEntries</name>
+        <qualifiedname>themisdb::sharding::RaftLog::getEntries</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>start_index</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>end_index</declname>
+        </param>
+        <briefdescription>
+<para>Get a range of log entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start index (inclusive, 1-indexed) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End index (inclusive) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of log entries in the range </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>TIMEOUT ENFORCEMENT: Batch read operation with timeout <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">defer_lock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="122" column="17" bodyfile="src/sharding/raft_log.cpp" bodystart="112" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1aff9f417ccd0f81822b98de1be5b544ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftLog::hasEntry</definition>
+        <argsstring>(uint64_t index, uint64_t term) const</argsstring>
+        <name>hasEntry</name>
+        <qualifiedname>themisdb::sharding::RaftLog::hasEntry</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>term</declname>
+        </param>
+        <briefdescription>
+<para>Check if the log contains an entry at the given index with the given term. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The log index to check </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The expected term </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if log[index].term == term, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>TIMEOUT ENFORCEMENT: Consensus query with timeout <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">defer_lock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="130" column="10" bodyfile="src/sharding/raft_log.cpp" bodystart="154" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1ac245fc5f19b74564e62ee010a21ab711" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftLog::truncateFrom</definition>
+        <argsstring>(uint64_t index)</argsstring>
+        <name>truncateFrom</name>
+        <qualifiedname>themisdb::sharding::RaftLog::truncateFrom</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Truncate the log from the given index onward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Truncate From.</para>
+<para>Used when a follower detects a conflict with the leader&apos;s log. All entries from index onward are deleted.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The index from which to truncate (inclusive)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), getConsensusTimeout(), try_lock_for(), spdlog::error(), count(), lower_bound(), erase(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="140" column="10" bodyfile="src/sharding/raft_log.cpp" bodystart="193" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1af20dd3c1d049320c4393beadb2d724bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftLog::setCommitIndex</definition>
+        <argsstring>(uint64_t index)</argsstring>
+        <name>setCommitIndex</name>
+        <qualifiedname>themisdb::sharding::RaftLog::setCommitIndex</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Set the commit index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Commit Index.</para>
+<para>The commit index is the highest log entry known to be committed. Committed entries are safe to apply to the state machine.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new commit index</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), getConsensusTimeout(), try_lock_for(), spdlog::error(), count(), spdlog::warn(), empty(), rbegin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="150" column="10" bodyfile="src/sharding/raft_log.cpp" bodystart="219" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1aa5422ef7451abd121d9e74c96bb67dd1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftLog::getCommitIndex</definition>
+        <argsstring>() const</argsstring>
+        <name>getCommitIndex</name>
+        <qualifiedname>themisdb::sharding::RaftLog::getCommitIndex</qualifiedname>
+        <briefdescription>
+<para>Get the current commit index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The commit index </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>TIMEOUT ENFORCEMENT: Fast read with timeout <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">defer_lock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="156" column="14" bodyfile="src/sharding/raft_log.cpp" bodystart="245" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1af913153aeaf29f6e3cb3e49a17e67cf5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftLog::getLastLogIndex</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastLogIndex</name>
+        <qualifiedname>themisdb::sharding::RaftLog::getLastLogIndex</qualifiedname>
+        <briefdescription>
+<para>Get the index of the last log entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The last log index, or 0 if log is empty </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>TIMEOUT ENFORCEMENT: Fast read with timeout <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">defer_lock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="162" column="14" bodyfile="src/sharding/raft_log.cpp" bodystart="262" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1a5edf03ce44e00336c9f84619a1072a15" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftLog::getLastLogTerm</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastLogTerm</name>
+        <qualifiedname>themisdb::sharding::RaftLog::getLastLogTerm</qualifiedname>
+        <briefdescription>
+<para>Get the term of the last log entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The last log term, or 0 if log is empty </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="168" column="14" bodyfile="src/sharding/raft_log.cpp" bodystart="285" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1aca5bf83c8bc59f88381056dd575ed08a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::RaftLog::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themisdb::sharding::RaftLog::size</qualifiedname>
+        <briefdescription>
+<para>Get the total number of entries in the log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of log entries </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="174" column="12" bodyfile="src/sharding/raft_log.cpp" bodystart="298" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1aa05fa8affc6e26d0c2f05a06d94ed13e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::RaftLog::estimatedSizeBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>estimatedSizeBytes</name>
+        <qualifiedname>themisdb::sharding::RaftLog::estimatedSizeBytes</qualifiedname>
+        <briefdescription>
+<para>Estimate the current in-memory log size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Approximates each entry&apos;s size as the command length plus fixed overhead. Used by <ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager" kindref="compound">RaftSnapshotManager</ref> to decide when to compact.</para>
+<para><simplesect kind="return"><para>Estimated size in bytes </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="184" column="12" bodyfile="src/sharding/raft_log.cpp" bodystart="308" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1a08bd1f0cf2c8fe16c31ef4f1653a5e9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftLog::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themisdb::sharding::RaftLog::clear</qualifiedname>
+        <briefdescription>
+<para>Clear the entire log (for testing). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Resets commit index and snapshot anchor metadata to zero.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="191" column="10" bodyfile="src/sharding/raft_log.cpp" bodystart="390" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1a4f74a636b1ed9d2cfcee6b607c19806a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftLog::compactUpTo</definition>
+        <argsstring>(uint64_t snapshot_index, uint64_t snapshot_term)</argsstring>
+        <name>compactUpTo</name>
+        <qualifiedname>themisdb::sharding::RaftLog::compactUpTo</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_index</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_term</declname>
+        </param>
+        <briefdescription>
+<para>Compact (discard) committed entries up to and including snapshot_index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compact Up To.</para>
+<para>Entries at or below snapshot_index are subsumed by the snapshot and can be safely removed from the in-memory map to reclaim memory. The snapshot index and term recorded via <ref refid="classthemisdb_1_1sharding_1_1_raft_log_1a3fee957329d096bcae9120fc4c226878" kindref="member">setSnapshotMeta()</ref> serve as the virtual &quot;entry
+0&quot; anchor so that <computeroutput>hasEntry(snapshot_index, snapshot_term)</computeroutput> returns true.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Highest index covered by the snapshot </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>snapshot_term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Term of the entry at snapshot_index</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), spdlog::error(), upper_bound(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="204" column="10" bodyfile="src/sharding/raft_log.cpp" bodystart="330" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1a3fee957329d096bcae9120fc4c226878" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftLog::setSnapshotMeta</definition>
+        <argsstring>(uint64_t index, uint64_t term)</argsstring>
+        <name>setSnapshotMeta</name>
+        <qualifiedname>themisdb::sharding::RaftLog::setSnapshotMeta</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>term</declname>
+        </param>
+        <briefdescription>
+<para>Record the last snapshot&apos;s index and term. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Snapshot Meta.</para>
+<para>Called after a snapshot has been persisted so that the log can answer prevLogIndex/prevLogTerm queries even after entries have been discarded.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Snapshot index </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Snapshot term</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="215" column="10" bodyfile="src/sharding/raft_log.cpp" bodystart="360" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1a8973bacd546b9b1852ca16cf20ab3a4d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftLog::getSnapshotIndex</definition>
+        <argsstring>() const</argsstring>
+        <name>getSnapshotIndex</name>
+        <qualifiedname>themisdb::sharding::RaftLog::getSnapshotIndex</qualifiedname>
+        <briefdescription>
+<para>Get the last snapshot index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Snapshot index (0 if no snapshot has been taken) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="221" column="14" bodyfile="src/sharding/raft_log.cpp" bodystart="366" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_log_1ab692de4e99b70dc048c6b37360b98aff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RaftLog::getSnapshotTerm</definition>
+        <argsstring>() const</argsstring>
+        <name>getSnapshotTerm</name>
+        <qualifiedname>themisdb::sharding::RaftLog::getSnapshotTerm</qualifiedname>
+        <briefdescription>
+<para>Get the last snapshot term. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Snapshot term (0 if no snapshot has been taken) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="227" column="14" bodyfile="src/sharding/raft_log.cpp" bodystart="376" bodyend="384"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages the replicated log for Raft consensus. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The <ref refid="classthemisdb_1_1sharding_1_1_raft_log" kindref="compound">RaftLog</ref> maintains:<itemizedlist>
+<listitem><para>An ordered sequence of log entries</para>
+</listitem><listitem><para>The commit index (highest index known to be committed)</para>
+</listitem><listitem><para>Thread-safe access to log operations</para>
+</listitem></itemizedlist>
+</para>
+<para>Properties enforced:<itemizedlist>
+<listitem><para>Log Matching: If two logs contain an entry with the same index and term, then the logs are identical in all entries up through the given index</para>
+</listitem><listitem><para>Leader Completeness: If a log entry is committed in a given term, that entry will be present in the logs of the leaders for all higher-numbered terms </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/raft_log.h" line="92" column="1" bodyfile="include/sharding/raft_log.h" bodystart="92" bodyend="235"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1a1f39aaf50386dc5a8aa48e1c63cf8587" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>append</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1a08bd1f0cf2c8fe16c31ef4f1653a5e9c" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>clear</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1a4f8e6bdb708efdd387d8fc16b6576f2e" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>commit_index_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1a4f74a636b1ed9d2cfcee6b607c19806a" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>compactUpTo</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1aa05fa8affc6e26d0c2f05a06d94ed13e" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>estimatedSizeBytes</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1aa5422ef7451abd121d9e74c96bb67dd1" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>getCommitIndex</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1a88a61444b28f557703f64b827ca1bcc8" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>getEntries</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1a3bf6f5b5981ded39f048e38edaf17905" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>getEntry</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1af913153aeaf29f6e3cb3e49a17e67cf5" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>getLastLogIndex</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1a5edf03ce44e00336c9f84619a1072a15" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>getLastLogTerm</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1a8973bacd546b9b1852ca16cf20ab3a4d" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>getSnapshotIndex</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1ab692de4e99b70dc048c6b37360b98aff" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>getSnapshotTerm</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1aff9f417ccd0f81822b98de1be5b544ad" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>hasEntry</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1ae604f9d69bf0c464ca23054d963d5f14" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>log_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1a62f4c940fccfc323daaf0c35c812080b" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1adf7f692095a18d7956e2714920866f18" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1a8efab9b084393e923b70e026fd369010" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>RaftLog</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1aefea752644f84dcf6cbd9cdc983150c2" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>RaftLog</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1af20dd3c1d049320c4393beadb2d724bd" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>setCommitIndex</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1a3fee957329d096bcae9120fc4c226878" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>setSnapshotMeta</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1aca5bf83c8bc59f88381056dd575ed08a" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>size</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1aa35d20b0b89736883de8945d790aa8a3" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>snapshot_index_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1a960bb89306da6719019cda21acbc01f4" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>snapshot_term_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1ac245fc5f19b74564e62ee010a21ab711" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>truncateFrom</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_log_1acb5fc1a2fecf96db02d6f96e34ea3647" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftLog</scope><name>~RaftLog</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

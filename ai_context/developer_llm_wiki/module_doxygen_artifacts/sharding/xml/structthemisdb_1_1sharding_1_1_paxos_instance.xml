@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_paxos_instance" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::PaxosInstance</compoundname>
+    <includes refid="paxos__consensus_8h" local="no">paxos_consensus.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_paxos_instance_1a69d5c460734ae256a50d7134c58dbb66" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::PaxosInstance::slot</definition>
+        <argsstring></argsstring>
+        <name>slot</name>
+        <qualifiedname>themisdb::sharding::PaxosInstance::slot</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_consensus.h" line="67" column="14" bodyfile="include/sharding/paxos_consensus.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_paxos_instance_1a3c20000d7e5f026a440fa0bfcd24e992" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_proposal_number" kindref="compound">ProposalNumber</ref></type>
+        <definition>ProposalNumber themisdb::sharding::PaxosInstance::promised_proposal</definition>
+        <argsstring></argsstring>
+        <name>promised_proposal</name>
+        <qualifiedname>themisdb::sharding::PaxosInstance::promised_proposal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_consensus.h" line="68" column="20" bodyfile="include/sharding/paxos_consensus.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_paxos_instance_1a3083296c00e074b1019c795e090d2a32" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_proposal_number" kindref="compound">ProposalNumber</ref></type>
+        <definition>ProposalNumber themisdb::sharding::PaxosInstance::accepted_proposal</definition>
+        <argsstring></argsstring>
+        <name>accepted_proposal</name>
+        <qualifiedname>themisdb::sharding::PaxosInstance::accepted_proposal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_consensus.h" line="69" column="20" bodyfile="include/sharding/paxos_consensus.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_paxos_instance_1a77ea2bf7be0781d2a07ba98ca9608a93" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref></type>
+        <definition>ConsensusLogEntry themisdb::sharding::PaxosInstance::accepted_value</definition>
+        <argsstring></argsstring>
+        <name>accepted_value</name>
+        <qualifiedname>themisdb::sharding::PaxosInstance::accepted_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_consensus.h" line="70" column="23" bodyfile="include/sharding/paxos_consensus.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_paxos_instance_1ab621e183404a53f784523094b8f071b8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PaxosInstance::is_committed</definition>
+        <argsstring></argsstring>
+        <name>is_committed</name>
+        <qualifiedname>themisdb::sharding::PaxosInstance::is_committed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_consensus.h" line="71" column="10" bodyfile="include/sharding/paxos_consensus.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_paxos_instance_1ad1e29593c05da298a3b809d1fffde27d" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themisdb::sharding::PaxosInstance::prepare_promises</definition>
+        <argsstring></argsstring>
+        <name>prepare_promises</name>
+        <qualifiedname>themisdb::sharding::PaxosInstance::prepare_promises</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_consensus.h" line="74" column="14" bodyfile="include/sharding/paxos_consensus.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_paxos_instance_1a05e72d69a15e27fe559537b6ac21f3db" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themisdb::sharding::PaxosInstance::accept_acks</definition>
+        <argsstring></argsstring>
+        <name>accept_acks</name>
+        <qualifiedname>themisdb::sharding::PaxosInstance::accept_acks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_consensus.h" line="77" column="14" bodyfile="include/sharding/paxos_consensus.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_paxos_instance_1a191953a3cdca20537184a342cabb570e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::PaxosInstance::PaxosInstance</definition>
+        <argsstring>()</argsstring>
+        <name>PaxosInstance</name>
+        <qualifiedname>themisdb::sharding::PaxosInstance::PaxosInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_consensus.h" line="79" column="5" bodyfile="include/sharding/paxos_consensus.h" bodystart="79" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Paxos instance for a single log slot. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themisdb::sharding::ConsensusLogEntry</label>
+        <link refid="structthemisdb_1_1sharding_1_1_consensus_log_entry"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::PaxosInstance</label>
+        <link refid="structthemisdb_1_1sharding_1_1_paxos_instance"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>accepted_proposal</edgelabel>
+          <edgelabel>promised_proposal</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>accepted_value</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::sharding::ProposalNumber</label>
+        <link refid="structthemisdb_1_1sharding_1_1_proposal_number"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/paxos_consensus.h" line="66" column="1" bodyfile="include/sharding/paxos_consensus.h" bodystart="66" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_paxos_instance_1a05e72d69a15e27fe559537b6ac21f3db" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosInstance</scope><name>accept_acks</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_paxos_instance_1a3083296c00e074b1019c795e090d2a32" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosInstance</scope><name>accepted_proposal</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_paxos_instance_1a77ea2bf7be0781d2a07ba98ca9608a93" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosInstance</scope><name>accepted_value</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_paxos_instance_1ab621e183404a53f784523094b8f071b8" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosInstance</scope><name>is_committed</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_paxos_instance_1a191953a3cdca20537184a342cabb570e" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosInstance</scope><name>PaxosInstance</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_paxos_instance_1ad1e29593c05da298a3b809d1fffde27d" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosInstance</scope><name>prepare_promises</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_paxos_instance_1a3c20000d7e5f026a440fa0bfcd24e992" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosInstance</scope><name>promised_proposal</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_paxos_instance_1a69d5c460734ae256a50d7134c58dbb66" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosInstance</scope><name>slot</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

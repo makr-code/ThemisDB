@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::agentic::AgenticRAGResult</compoundname>
+    <includes refid="agentic__rag_8h" local="no">agentic_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a03e772a4001f8f22e8b7cd4e56ed415c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;judge::RetrievedDocument&gt; themis::rag::agentic::AgenticRAGResult::final_documents</definition>
+        <argsstring></argsstring>
+        <name>final_documents</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGResult::final_documents</qualifiedname>
+        <briefdescription>
+<para>Final consolidated set of documents (union of all iterations). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="67" column="17" bodyfile="include/rag/agentic_rag.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a2d8e1872e821fb71c93f8dad7162e2a4" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">judge::EvaluationResult</ref></type>
+        <definition>judge::EvaluationResult themis::rag::agentic::AgenticRAGResult::final_evaluation</definition>
+        <argsstring></argsstring>
+        <name>final_evaluation</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGResult::final_evaluation</qualifiedname>
+        <briefdescription>
+<para>Final evaluation result (from the last iteration). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="70" column="29" bodyfile="include/rag/agentic_rag.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a2a4846d11f1771e6fdcc9e1ddbefe367" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record" kindref="compound">IterationRecord</ref> &gt;</type>
+        <definition>std::vector&lt;IterationRecord&gt; themis::rag::agentic::AgenticRAGResult::iterations</definition>
+        <argsstring></argsstring>
+        <name>iterations</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGResult::iterations</qualifiedname>
+        <briefdescription>
+<para>Per-iteration history, oldest first. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="73" column="17" bodyfile="include/rag/agentic_rag.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a8f16097a066cd5887fef370f0f9c55ba" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975" kindref="member">StopReason</ref></type>
+        <definition>StopReason themis::rag::agentic::AgenticRAGResult::stop_reason</definition>
+        <argsstring></argsstring>
+        <name>stop_reason</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGResult::stop_reason</qualifiedname>
+        <briefdescription>
+<para>Reason the loop terminated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="76" column="16" bodyfile="include/rag/agentic_rag.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1aa66300633ef1bd84f6178b08a1b866e7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::agentic::AgenticRAGResult::total_iterations</definition>
+        <argsstring></argsstring>
+        <name>total_iterations</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGResult::total_iterations</qualifiedname>
+        <briefdescription>
+<para>Total number of iterations executed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="79" column="12" bodyfile="include/rag/agentic_rag.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1acb5371805bbfd61670b840ea7bd47153" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::agentic::AgenticRAGResult::total_elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>total_elapsed_ms</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGResult::total_elapsed_ms</qualifiedname>
+        <briefdescription>
+<para>Total wall-clock time across all iterations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="82" column="31" bodyfile="include/rag/agentic_rag.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1af7527c4dbc1126054eb28ee1d49b5707" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::agentic::AgenticRAGResult::quality_satisfied</definition>
+        <argsstring></argsstring>
+        <name>quality_satisfied</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGResult::quality_satisfied</qualifiedname>
+        <briefdescription>
+<para>True when the quality threshold was ultimately satisfied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="85" column="10" bodyfile="include/rag/agentic_rag.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a765b17383787aab6532e764a9da9a784" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result" kindref="compound">delegate_eval::RelayResult</ref> &gt;</type>
+        <definition>std::optional&lt;delegate_eval::RelayResult&gt; themis::rag::agentic::AgenticRAGResult::delegate_relay</definition>
+        <argsstring></argsstring>
+        <name>delegate_relay</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGResult::delegate_relay</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional relay result from the DELEGATE-52 safety-net check.</para>
+<para>Populated after <computeroutput>run()</computeroutput> when a <computeroutput>RelayGuardConfig</computeroutput> is set on <computeroutput><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config" kindref="compound">AgenticRAGConfig</ref></computeroutput>. Present as <computeroutput>std::nullopt</computeroutput> when no relay guard is configured or when the relay could not be executed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="92" column="19" bodyfile="include/rag/agentic_rag.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a70857213b675556f33c537e3fe1eddde" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::agentic::AgenticRAGResult::tokens_consumed</definition>
+        <argsstring></argsstring>
+        <name>tokens_consumed</name>
+        <qualifiedname>themis::rag::agentic::AgenticRAGResult::tokens_consumed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Cumulative token count consumed across all LLM calls in this session. Best-effort: summed from InferenceResponse::tokens_generated when available; may be 0 if the backend does not report token counts. Used for budget enforcement (Gap 4 — AI_ML_IMPACT_ASSESSMENT.md §7). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="98" column="12" bodyfile="include/rag/agentic_rag.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of the complete agentic retrieval loop. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::agentic::AgenticRAGResult</label>
+        <link refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>final_evaluation</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::judge::EvaluationResult</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/agentic_rag.h" line="65" column="1" bodyfile="include/rag/agentic_rag.h" bodystart="65" bodyend="99"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a765b17383787aab6532e764a9da9a784" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGResult</scope><name>delegate_relay</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a03e772a4001f8f22e8b7cd4e56ed415c" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGResult</scope><name>final_documents</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a2d8e1872e821fb71c93f8dad7162e2a4" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGResult</scope><name>final_evaluation</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a2a4846d11f1771e6fdcc9e1ddbefe367" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGResult</scope><name>iterations</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1af7527c4dbc1126054eb28ee1d49b5707" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGResult</scope><name>quality_satisfied</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a8f16097a066cd5887fef370f0f9c55ba" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGResult</scope><name>stop_reason</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a70857213b675556f33c537e3fe1eddde" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGResult</scope><name>tokens_consumed</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1acb5371805bbfd61670b840ea7bd47153" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGResult</scope><name>total_elapsed_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1aa66300633ef1bd84f6178b08a1b866e7" prot="public" virt="non-virtual"><scope>themis::rag::agentic::AgenticRAGResult</scope><name>total_iterations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

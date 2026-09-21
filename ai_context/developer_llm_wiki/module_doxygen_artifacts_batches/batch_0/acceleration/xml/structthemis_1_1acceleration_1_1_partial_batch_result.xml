@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_partial_batch_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::PartialBatchResult</compoundname>
+    <includes refid="compute__backend_8h" local="no">compute_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_partial_batch_result_1a31975c21ef83a7d681b260e39ccd1300" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1acceleration_1_1_knn_query_result" kindref="compound">KnnQueryResult</ref> &gt;</type>
+        <definition>std::vector&lt;KnnQueryResult&gt; themis::acceleration::PartialBatchResult::queryResults</definition>
+        <argsstring></argsstring>
+        <name>queryResults</name>
+        <qualifiedname>themis::acceleration::PartialBatchResult::queryResults</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="389" column="17" bodyfile="include/acceleration/compute_backend.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_partial_batch_result_1a669e8f1e937bd74bafb43321300bfb54" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::PartialBatchResult::successCount</definition>
+        <argsstring></argsstring>
+        <name>successCount</name>
+        <qualifiedname>themis::acceleration::PartialBatchResult::successCount</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="391" column="12" bodyfile="include/acceleration/compute_backend.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_partial_batch_result_1a129c08be97190025227f2826636a8667" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::PartialBatchResult::failureCount</definition>
+        <argsstring></argsstring>
+        <name>failureCount</name>
+        <qualifiedname>themis::acceleration::PartialBatchResult::failureCount</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="393" column="12" bodyfile="include/acceleration/compute_backend.h" bodystart="393" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_backend.h" line="388" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="388" bodyend="394"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_partial_batch_result_1a129c08be97190025227f2826636a8667" prot="public" virt="non-virtual"><scope>themis::acceleration::PartialBatchResult</scope><name>failureCount</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_partial_batch_result_1a31975c21ef83a7d681b260e39ccd1300" prot="public" virt="non-virtual"><scope>themis::acceleration::PartialBatchResult</scope><name>queryResults</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_partial_batch_result_1a669e8f1e937bd74bafb43321300bfb54" prot="public" virt="non-virtual"><scope>themis::acceleration::PartialBatchResult</scope><name>successCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

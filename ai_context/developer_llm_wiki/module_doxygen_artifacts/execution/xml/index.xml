@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="class_bounded_queue" kind="class"><name>BoundedQueue</name>
+    <member refid="class_bounded_queue_1a184f9588b62fc2d44328edecd1580304" kind="variable"><name>cap_</name></member>
+    <member refid="class_bounded_queue_1a6bc1e39e644a9c9787f17a307127c436" kind="variable"><name>mu_</name></member>
+    <member refid="class_bounded_queue_1ac950c9b37949993783c3258ee20ca4d9" kind="variable"><name>q_</name></member>
+    <member refid="class_bounded_queue_1a061aad326c517ce1c82c3b3df742581d" kind="function"><name>BoundedQueue</name></member>
+    <member refid="class_bounded_queue_1a6b5089770dbbb29cd828712ef6ea1c8a" kind="function"><name>enqueue</name></member>
+    <member refid="class_bounded_queue_1ab0230dad243c177ec09260456b903582" kind="function"><name>dequeue</name></member>
+    <member refid="class_bounded_queue_1aeb4dd2fe9749e73784531ac7fc92c97b" kind="function"><name>size</name></member>
+  </compound>
+  <compound refid="structthemis_1_1execution_1_1_query_scheduler_1_1_config" kind="struct"><name>themis::execution::QueryScheduler::Config</name>
+    <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_config_1ac9ed69ebf8ba1d393419c7a2b4b4ca5c" kind="variable"><name>max_queue_depth</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_config_1aeccc8b8c6e6942c81d21b92fa9f46613" kind="variable"><name>shed_threshold</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_config_1a9e8fa9b222beb801e3d6078bb7dd0868" kind="variable"><name>urgent_window_ms</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_config_1a316bd63b5b3c210f02b206ac6c207989" kind="variable"><name>default_sla_ms</name></member>
+  </compound>
+  <compound refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_config" kind="struct"><name>themis::resource::WorkStealingThreadPool::Config</name>
+    <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_config_1adb485cd5e809e646674d184487758de4" kind="variable"><name>min_threads</name></member>
+    <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_config_1a5c0dbbd77da3e6194b9c9d011c90a8fb" kind="variable"><name>max_threads</name></member>
+    <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_config_1a462fc0169d59eabf6af814d04c12dc33" kind="variable"><name>max_queue_depth</name></member>
+    <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_config_1ac4bcca152299f7644a348f9160f2ec28" kind="variable"><name>idle_timeout_ms</name></member>
+  </compound>
+  <compound refid="structthemis_1_1execution_1_1_query_scheduler_1_1_earliest_deadline_first" kind="struct"><name>themis::execution::QueryScheduler::EarliestDeadlineFirst</name>
+    <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_earliest_deadline_first_1a0f3844f94a15e7f6326ea9b9d5c68fad" kind="function"><name>operator()</name></member>
+  </compound>
+  <compound refid="class_execution_high_cardinality_stress" kind="class"><name>ExecutionHighCardinalityStress</name>
+    <member refid="class_execution_high_cardinality_stress_1a697f704e86b6eb3adc44d6cfc7860414" kind="variable"><name>kTasks</name></member>
+    <member refid="class_execution_high_cardinality_stress_1a7a0a8419b2f2d594312bccd0273f3736" kind="variable"><name>kThreads</name></member>
+  </compound>
+  <compound refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics" kind="struct"><name>themis::execution::QueryScheduler::Metrics</name>
+    <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1a83070729fd02a7bdd65c232b3a42e856" kind="variable"><name>queue_depth_high</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1a864c8d83cd81e5d5666439a0b251283c" kind="variable"><name>queue_depth_medium</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1ad88b5e062ee94b692b38625c47b457f7" kind="variable"><name>queue_depth_low</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1ac611c80fe0dbe9d1d408a5676f339de5" kind="variable"><name>total_enqueued</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1a4eb09c6e9107a9c5a58433d362de2ac0" kind="variable"><name>total_dequeued</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1af37d2431074e46ccd307a3268a6b8406" kind="variable"><name>total_shed</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1ad01e950bcdd34a0a796ca4022fe2ba90" kind="variable"><name>completed_in_sla</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1af400c6eeb582c66e729abde404ba3c99" kind="variable"><name>completed_total</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1aa58b87fdb57482586b720e443eddcb5a" kind="variable"><name>sla_compliance_pct</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1aee7b168e596cee0c03be4a0a1ba22fb3" kind="variable"><name>avg_enqueue_us</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1a73757445efa60468c28aec28d4b0f12b" kind="variable"><name>avg_dequeue_us</name></member>
+  </compound>
+  <compound refid="structthemis_1_1execution_1_1_query_entry" kind="struct"><name>themis::execution::QueryEntry</name>
+    <member refid="structthemis_1_1execution_1_1_query_entry_1ad6d013f26dd0be2d5b9c0599661b48c4" kind="typedef"><name>ExecuteFn</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_entry_1a2d23720cf336c00bc3d6ba93e038ff5e" kind="variable"><name>id</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_entry_1a9fd09b3a811edee20c9c9d8cc464cb0b" kind="variable"><name>priority</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_entry_1a7bc6121b0975d92ddb0bff372a08a7b4" kind="variable"><name>deadline</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_entry_1a02a456d6f699d506b7f7b29dad00527d" kind="variable"><name>enqueue_time</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_entry_1a2f4c3350ef354fe7a729d3294e52a14f" kind="variable"><name>execute</name></member>
+    <member refid="structthemis_1_1execution_1_1_query_entry_1a65eda371f6a1e24a059f9db14989792f" kind="variable"><name>name</name></member>
+  </compound>
+  <compound refid="classthemis_1_1execution_1_1_query_scheduler" kind="class"><name>themis::execution::QueryScheduler</name>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1a47ad55d13ff33014411aa8b93962cc89" kind="typedef"><name>PQueue</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1a26979535bf5d0f167dd4f2263480daca" kind="variable"><name>cfg_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1afab83e3e652de4659e48b2a5e3314051" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1a13ea094930aeb37b5191ad87c90082c7" kind="variable"><name>enqueue_cv_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1a670c95a07bdb1730bc868a0f2dc75dfa" kind="variable"><name>dequeue_cv_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1a1b3b7129daf40b0bdbab15a7c4ec0b7a" kind="variable"><name>queue_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1a023549b24abb364b7dfc88d3b653f2c7" kind="variable"><name>shutdown_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1a415679830a1c92d78df0d17ef1f9dd57" kind="variable"><name>next_id_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1ae4fffa2b9b729130865c4631fb6dc7ab" kind="variable"><name>total_enqueued_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1ad01c02ae1fb77b72bff69b7006258ca9" kind="variable"><name>total_dequeued_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1ad21cdc5320c16f3b00dcd6ea0179194f" kind="variable"><name>total_shed_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1ae5784629c390c8f92153e83f9979fb1e" kind="variable"><name>completed_in_sla_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1a6d0586550cfa97157962f248cd5b2ed2" kind="variable"><name>completed_total_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1a65870f005d61852ce53354cbc9c5c357" kind="variable"><name>enqueue_latency_sum_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1a7128039707cd365cd8d1a89357d86515" kind="variable"><name>dequeue_latency_sum_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1ad64e12fb3dd3d897cfccd1af94097833" kind="variable"><name>count_high_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1ac7f35f1017cb17589199a6264b08f1dc" kind="variable"><name>count_medium_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1aadc379f37ebee9480a625a3869ac21f7" kind="variable"><name>count_low_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1aaed155118cff19a4eb376192ab32e9a6" kind="variable"><name>pending_deadlines_</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1a65c60253b97c2355d9bf1eda37873afb" kind="function"><name>QueryScheduler</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1ad8b945ff5760400967431f881dce4857" kind="function"><name>QueryScheduler</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1a8571903e62571857c742efef3c2464ca" kind="function"><name>~QueryScheduler</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1aa6c0ed174016660d5e974085daf2492b" kind="function"><name>QueryScheduler</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1a55324021fff1dc305d22ed89e4f9fab8" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1aacb71b6f29bed583c3e3dd72c44c7928" kind="function"><name>enqueue</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1a13d1e7fbbe0db9cad1a8e39b7966ff36" kind="function"><name>dequeue</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1a05e64ba33ed676b06043834dadba53f4" kind="function"><name>reportCompletion</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1ab40f2ca17438050a2823b72dc66d3c57" kind="function"><name>metrics</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1aef7cb25672a86726982a7543bcf36769" kind="function"><name>size</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1a0c13bdc34ccbc3f00faa2d403e905f25" kind="function"><name>shutdown</name></member>
+    <member refid="classthemis_1_1execution_1_1_query_scheduler_1a5d40c2071402a6e0354381e79aa4ed36" kind="function"><name>is_shutdown</name></member>
+  </compound>
+  <compound refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_statistics" kind="struct"><name>themis::resource::WorkStealingThreadPool::Statistics</name>
+    <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_statistics_1aac623b41f60ae33c5c44391802ef4164" kind="variable"><name>active_threads</name></member>
+    <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_statistics_1a7683ea1ab169d1b9f3adb0c8cabf466f" kind="variable"><name>queued_items</name></member>
+    <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_statistics_1a7fd41dc36e4ae45cd092d68bd96c2587" kind="variable"><name>completed</name></member>
+    <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_statistics_1a1a801b0a5ec8c602ddb267bdc254aa9c" kind="variable"><name>failed</name></member>
+    <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_statistics_1ab84792b200bc33ec70aaaa0213351a13" kind="variable"><name>p50_latency_us</name></member>
+    <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_statistics_1ad0ac723fbd5d9702d844d30f3c51a6e6" kind="variable"><name>p99_latency_us</name></member>
+  </compound>
+  <compound refid="class_steal_pool" kind="class"><name>StealPool</name>
+    <member refid="class_steal_pool_1a6d3b8fe0254c83f586a806c5c5970571" kind="variable"><name>kMaxW</name></member>
+    <member refid="class_steal_pool_1a39d8a6d5f5f498b200883b9d81790896" kind="variable"><name>workers_</name></member>
+    <member refid="class_steal_pool_1a2d57488d00005cd333969258078bb65f" kind="variable"><name>queues_</name></member>
+    <member refid="class_steal_pool_1a8d2242dcf170838c29f0bf70de26f489" kind="variable"><name>mu_</name></member>
+    <member refid="class_steal_pool_1a0570b5720c4517c4deb129ac85c54492" kind="function"><name>StealPool</name></member>
+    <member refid="class_steal_pool_1af5e1013d45c2929ac2aab2ec3f9caaba" kind="function"><name>submit</name></member>
+    <member refid="class_steal_pool_1a08865ce1e4c096891a5999c58c08f55c" kind="function"><name>steal</name></member>
+  </compound>
+  <compound refid="class_stub_bounded_queue" kind="class"><name>StubBoundedQueue</name>
+    <member refid="class_stub_bounded_queue_1a4dc9a42e8459efa24df5c60e7c0df166" kind="variable"><name>capacity_</name></member>
+    <member refid="class_stub_bounded_queue_1aa59a740b964454708500ae60533cbf49" kind="variable"><name>mu_</name></member>
+    <member refid="class_stub_bounded_queue_1a1e7a9853b8b5a3e4c8bb69cb6826f363" kind="variable"><name>queue_</name></member>
+    <member refid="class_stub_bounded_queue_1a092ceee72a8ad3a1b74abf1c3e727929" kind="variable"><name>enqueued_</name></member>
+    <member refid="class_stub_bounded_queue_1a6a9173dc1c15f70e2980092352ab6046" kind="variable"><name>dequeued_</name></member>
+    <member refid="class_stub_bounded_queue_1a615992cf266e50a48ff756f9bab41494" kind="variable"><name>overflow_</name></member>
+    <member refid="class_stub_bounded_queue_1aa2c002eb78c0678d7ab34e4ee0d06c89" kind="function"><name>StubBoundedQueue</name></member>
+    <member refid="class_stub_bounded_queue_1a3bfe648cdeb1396e301093e9f07a48e7" kind="function"><name>enqueue</name></member>
+    <member refid="class_stub_bounded_queue_1afbb094be96f66a6005ae3de455982e33" kind="function"><name>dequeue</name></member>
+    <member refid="class_stub_bounded_queue_1a2abfbab71cdc297c154fbbef526a7749" kind="function"><name>size</name></member>
+    <member refid="class_stub_bounded_queue_1a691225b4b45816b2bc4e84645f373322" kind="function"><name>enqueued</name></member>
+    <member refid="class_stub_bounded_queue_1a9f1b17a8155ee5cedda7282de7d11287" kind="function"><name>dequeued</name></member>
+    <member refid="class_stub_bounded_queue_1af56a57ab2a02b30340cb10561c6b82f0" kind="function"><name>overflow</name></member>
+  </compound>
+  <compound refid="class_stub_work_steal_pool" kind="class"><name>StubWorkStealPool</name>
+    <member refid="class_stub_work_steal_pool_1a60966593f75439e72406b4eff0629ccd" kind="variable"><name>kMaxW</name></member>
+    <member refid="class_stub_work_steal_pool_1a89f98f2220f7d7d49afcc56517bdcc57" kind="variable"><name>workers_</name></member>
+    <member refid="class_stub_work_steal_pool_1af7cc41b4028dfef030a7cfe1ea22bdb4" kind="variable"><name>queues_</name></member>
+    <member refid="class_stub_work_steal_pool_1a2ef71aeff675472b494c0e6543d716b9" kind="variable"><name>mu_</name></member>
+    <member refid="class_stub_work_steal_pool_1a2f74a17625f052efb3cee2316d0c0157" kind="variable"><name>submitted_</name></member>
+    <member refid="class_stub_work_steal_pool_1a1d51f0ea8996e08cf129fe5b07b28e98" kind="variable"><name>processed_</name></member>
+    <member refid="class_stub_work_steal_pool_1aa2ac898bd1b5a6b9f1239bd05f028df5" kind="function"><name>StubWorkStealPool</name></member>
+    <member refid="class_stub_work_steal_pool_1acd5fa50bd3b13276a76e8dac58c60bb7" kind="function"><name>submit</name></member>
+    <member refid="class_stub_work_steal_pool_1af1e8b7f4c5fd4d842a8f6694cbf28ebe" kind="function"><name>drainStep</name></member>
+    <member refid="class_stub_work_steal_pool_1ae29234432b03af83966cb6cf9b64ebe8" kind="function"><name>submitted</name></member>
+    <member refid="class_stub_work_steal_pool_1aae57c1c3716dfb49d991db8d42944f61" kind="function"><name>processed</name></member>
+    <member refid="class_stub_work_steal_pool_1a07e0f640bdf9606263e67c7620aa77d9" kind="function"><name>remaining</name></member>
+  </compound>
+  <compound refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_thread_queue" kind="struct"><name>themis::resource::WorkStealingThreadPool::ThreadQueue</name>
+    <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_thread_queue_1a0dbb88b5014dd1f7bb353592db3f515d" kind="variable"><name>items</name></member>
+    <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_thread_queue_1a971f72132db951110506dd0eaaeecb83" kind="variable"><name>lock</name></member>
+    <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_thread_queue_1a7132ab87a27dc3095f03357afd135db9" kind="variable"><name>active</name></member>
+    <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_thread_queue_1a542b4203f3fd1f33504f7c3a3a4d56bd" kind="function"><name>trySteal</name></member>
+  </compound>
+  <compound refid="structthemis_1_1resource_1_1_work_item" kind="struct"><name>themis::resource::WorkItem</name>
+    <member refid="structthemis_1_1resource_1_1_work_item_1a5920aa4aa0ba9621b450647fd743c7f0" kind="typedef"><name>Fn</name></member>
+    <member refid="structthemis_1_1resource_1_1_work_item_1ac9b0d0077bd7236f0471e0cdea4a6e67" kind="variable"><name>fn</name></member>
+    <member refid="structthemis_1_1resource_1_1_work_item_1adc841e5c54075b981c15461ab061f16c" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1resource_1_1_work_item_1a7f0c82e77390675af065e1a786c887b2" kind="function"><name>WorkItem</name></member>
+  </compound>
+  <compound refid="classthemis_1_1resource_1_1_work_stealing_thread_pool" kind="class"><name>themis::resource::WorkStealingThreadPool</name>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a5ccbc25c6217eed45368e998dd08e141" kind="variable"><name>cfg_</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a965a3ea8b5e1f6d5676af1f669871527" kind="variable"><name>dispatch_queue_</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a08e08a186830b3eddcb686ecc47e60c1" kind="variable"><name>dispatch_mutex_</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a658eb5ddbe291b23fcf40f677bf81d85" kind="variable"><name>dispatch_cv_</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ac076967b096f2a7081d96e511860e748" kind="variable"><name>capacity_cv_</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ad86ab6cd2687bf392204ac8166834944" kind="variable"><name>queues_</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a55c92e4404d9a98578d528fc8cec615a" kind="variable"><name>queues_mutex_</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a841d7f391668ca5d1ceda581f22702ce" kind="variable"><name>workers_</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ae79272f9aa8cd9d010f4f248b9f67444" kind="variable"><name>workers_mutex_</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1abb2aef48f65103544ee4c5f8300341a7" kind="variable"><name>shutdown_</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a8f3b7b6a22541f8a2d6d1f6357f903e1" kind="variable"><name>active_threads_</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1af55ead05051d89aa74edf235ca346323" kind="variable"><name>queued_count_</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a842a7dbcd0b40fa27d4835026e8e227b" kind="variable"><name>completed_</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a30dd1e1384e04c8944d54ca346252119" kind="variable"><name>failed_</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1aafdaa1c9087d7d03d106d3d247205a48" kind="variable"><name>latency_mutex_</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ad04a23b2355a1501d6fe6eb069e2d183" kind="variable"><name>latency_samples_us_</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ae8b9db47ee2612a9344a95edd2ad97d0" kind="function"><name>WorkStealingThreadPool</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ada6f42ccf5985bf7829ff77e1fcabc3d" kind="function"><name>WorkStealingThreadPool</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a01a2cf9c5fa76f80051891bf349008ab" kind="function"><name>~WorkStealingThreadPool</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a2da919a0763cdbf24319dd87ec40057c" kind="function"><name>WorkStealingThreadPool</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ac32ce45cbbe82531f4e0ae3c1f19b099" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a867480718368cc26f5d50c75de922e12" kind="function"><name>submit</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a429a75181a81eb69661d3b5d632db475" kind="function"><name>submit</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1aafe8e684de31db481b528f65b93f5452" kind="function"><name>waitAll</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ad01ff5777adf35563586b691d1e5c52f" kind="function"><name>statistics</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1aa78f307962e49cc50c924999d51c24c8" kind="function"><name>shutdown</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a0893fb88e5f36a20fcda092dfebab210" kind="function"><name>is_shutdown</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a843283ce938ca4d1c64b1c07fc597868" kind="function"><name>thread_count</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ae4a99fa1f2624473191f3a2b1dedda16" kind="function"><name>workerLoop</name></member>
+    <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a9e82ef8f38c8564fae5482d78210ac28" kind="function"><name>tryGetWork</name></member>
+  </compound>
+  <compound refid="namespacetesting" kind="namespace"><name>testing</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1execution" kind="namespace"><name>themis::execution</name>
+    <member refid="namespacethemis_1_1execution_1ad77b308ef16821603c859aeb999ef738" kind="enum"><name>SLAPriority</name></member>
+    <member refid="namespacethemis_1_1execution_1ad77b308ef16821603c859aeb999ef738ab89de3b4b81c4facfac906edf29aec8c" kind="enumvalue"><name>HIGH</name></member>
+    <member refid="namespacethemis_1_1execution_1ad77b308ef16821603c859aeb999ef738ac87f3be66ffc3c0d4249f1c2cc5f3cce" kind="enumvalue"><name>MEDIUM</name></member>
+    <member refid="namespacethemis_1_1execution_1ad77b308ef16821603c859aeb999ef738a41bc94cbd8eebea13ce0491b2ac11b88" kind="enumvalue"><name>LOW</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1resource" kind="namespace"><name>themis::resource</name>
+  </compound>
+  <compound refid="bench__execution__dedicated__gates_8cpp" kind="file"><name>bench_execution_dedicated_gates.cpp</name>
+    <member refid="bench__execution__dedicated__gates_8cpp_1aa8ef704cb5dc208fbc3d573091872d72" kind="function"><name>BM_EX_BM_01_EnqueueP95</name></member>
+    <member refid="bench__execution__dedicated__gates_8cpp_1ad0fe54fd4f0e357b7758f4dfaafc355b" kind="function"><name>Name</name></member>
+    <member refid="bench__execution__dedicated__gates_8cpp_1aa0092b17783df6ab536362a304d7c5d7" kind="function"><name>BM_EX_BM_02_DequeueP95</name></member>
+    <member refid="bench__execution__dedicated__gates_8cpp_1abad20e2d30bd1924e8c86ff13c980b06" kind="function"><name>Name</name></member>
+    <member refid="bench__execution__dedicated__gates_8cpp_1ad68cdf934904365a4c0edb7717a18123" kind="function"><name>BM_EX_BM_03_WorkStealThroughput</name></member>
+    <member refid="bench__execution__dedicated__gates_8cpp_1ade854a2b902fbf415760c5cfcad0bb84" kind="function"><name>Name</name></member>
+    <member refid="bench__execution__dedicated__gates_8cpp_1a7af8d6c770254084d9527dde36125421" kind="function"><name>BM_EX_BM_04_ConcurrentDispatchThroughput</name></member>
+    <member refid="bench__execution__dedicated__gates_8cpp_1a5a593da2ea2244cec4fbbeb6651da809" kind="function"><name>Name</name></member>
+    <member refid="bench__execution__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="query__scheduler_8h" kind="file"><name>query_scheduler.h</name>
+  </compound>
+  <compound refid="thread__pool__manager_8h" kind="file"><name>thread_pool_manager.h</name>
+  </compound>
+  <compound refid="query__scheduler_8cpp" kind="file"><name>query_scheduler.cpp</name>
+  </compound>
+  <compound refid="thread__pool__manager_8cpp" kind="file"><name>thread_pool_manager.cpp</name>
+  </compound>
+  <compound refid="test__execution__highcardinality__stress_8cpp" kind="file"><name>test_execution_highcardinality_stress.cpp</name>
+    <member refid="test__execution__highcardinality__stress_8cpp_1aae9877d768be1b1a9e148e6f8071184b" kind="function"><name>TEST_F</name></member>
+    <member refid="test__execution__highcardinality__stress_8cpp_1a7ad14007f3c5c40e7f9510d2653e6426" kind="function"><name>TEST_F</name></member>
+    <member refid="test__execution__highcardinality__stress_8cpp_1a52eb7b6fce87c1c1630a5dcf79d470ad" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_6eef8732d71cb58206a9fc6f698e9cfa" kind="dir"><name>benchmarks/execution</name>
+  </compound>
+  <compound refid="dir_d2d2ad034c009fde261a3df6201fdd48" kind="dir"><name>include/execution</name>
+  </compound>
+  <compound refid="dir_bd0755c95a42e835fb06f38bbeb1d6ed" kind="dir"><name>src/execution</name>
+  </compound>
+  <compound refid="dir_c4ce8e3ddfa5fc601d8094d35fe07f4e" kind="dir"><name>tests/execution</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+</doxygenindex>

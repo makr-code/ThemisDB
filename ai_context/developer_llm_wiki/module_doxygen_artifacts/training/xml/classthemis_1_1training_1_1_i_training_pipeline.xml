@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_i_training_pipeline" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::training::ITrainingPipeline</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_training_pipeline_1a519446bbe9d722ca69bcd51494e78f45" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::training::ITrainingPipeline::~ITrainingPipeline</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ITrainingPipeline</name>
+        <qualifiedname>themis::training::ITrainingPipeline::~ITrainingPipeline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="409" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_training_pipeline_1a29058bd270f7d1eb98c5b0b5dc6b5d55" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1training_1_1_async_training_result" kindref="compound">AsyncTrainingResult</ref> &gt;</type>
+        <definition>virtual std::future&lt; AsyncTrainingResult &gt; themis::training::ITrainingPipeline::submit</definition>
+        <argsstring>(const TrainingJob &amp;job)=0</argsstring>
+        <name>submit</name>
+        <qualifiedname>themis::training::ITrainingPipeline::submit</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_training_job" kindref="compound">TrainingJob</ref> &amp;</type>
+          <declname>job</declname>
+        </param>
+        <briefdescription>
+<para>Submit a training job for asynchronous execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>job</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Job specification (dataset, model config, optional LoRA config). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Future resolving to the training result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="416" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_training_pipeline_1a435b1cab126e3225c70f9d2a79f4f6f8" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1training_1a91a723ad4f142cc5e4fd2515a9572392" kindref="member">CancelResult</ref></type>
+        <definition>virtual CancelResult themis::training::ITrainingPipeline::cancel</definition>
+        <argsstring>(const JobId &amp;job_id)=0</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::training::ITrainingPipeline::cancel</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1training_1af9303b21c4a7eee30c3598d37206795b" kindref="member">JobId</ref> &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Request cancellation of a running or queued job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier returned by submit (or job.job_id if set). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Cancelled, AlreadyCompleted, or NotFound. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="423" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_i_training_pipeline_1ab0194cce21035425095551c1e6df76c5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1training_1ac9f3ff49d8916723cffe63ddb9960104" kindref="member">JobStatus</ref></type>
+        <definition>virtual JobStatus themis::training::ITrainingPipeline::status</definition>
+        <argsstring>(const JobId &amp;job_id) const =0</argsstring>
+        <name>status</name>
+        <qualifiedname>themis::training::ITrainingPipeline::status</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1training_1af9303b21c4a7eee30c3598d37206795b" kindref="member">JobId</ref> &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Query the current lifecycle state of a job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Job identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Current <ref refid="namespacethemis_1_1training_1ac9f3ff49d8916723cffe63ddb9960104" kindref="member">JobStatus</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="430" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fully-async training job orchestration interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Design constraints:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1training_1_1_i_training_pipeline_1a29058bd270f7d1eb98c5b0b5dc6b5d55" kindref="member">submit()</ref> returns a future immediately; no blocking calls on the public API.</para>
+</listitem><listitem><para><ref refid="classthemis_1_1training_1_1_i_training_pipeline_1a435b1cab126e3225c70f9d2a79f4f6f8" kindref="member">cancel()</ref> is best-effort; returns AlreadyCompleted if the job has finished.</para>
+</listitem><listitem><para><ref refid="classthemis_1_1training_1_1_i_training_pipeline_1ab0194cce21035425095551c1e6df76c5" kindref="member">status()</ref> is safe to call from any thread.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="classthemis_1_1training_1_1_training_pipeline" kindref="compound">TrainingPipeline</ref> (concrete implementation) </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="407" column="1" bodyfile="include/training/training_interfaces.h" bodystart="407" bodyend="431"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_i_training_pipeline_1a435b1cab126e3225c70f9d2a79f4f6f8" prot="public" virt="pure-virtual"><scope>themis::training::ITrainingPipeline</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1training_1_1_i_training_pipeline_1ab0194cce21035425095551c1e6df76c5" prot="public" virt="pure-virtual"><scope>themis::training::ITrainingPipeline</scope><name>status</name></member>
+      <member refid="classthemis_1_1training_1_1_i_training_pipeline_1a29058bd270f7d1eb98c5b0b5dc6b5d55" prot="public" virt="pure-virtual"><scope>themis::training::ITrainingPipeline</scope><name>submit</name></member>
+      <member refid="classthemis_1_1training_1_1_i_training_pipeline_1a519446bbe9d722ca69bcd51494e78f45" prot="public" virt="virtual"><scope>themis::training::ITrainingPipeline</scope><name>~ITrainingPipeline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

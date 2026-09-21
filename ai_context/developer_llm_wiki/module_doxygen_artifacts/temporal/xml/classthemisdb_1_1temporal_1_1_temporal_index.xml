@@ -1,0 +1,385 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_temporal_index" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TemporalIndex</compoundname>
+    <includes refid="temporal__index_8h" local="no">temporal_index.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_index_1aea909e685c32d91910382bb8f6fa31af" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalIndex::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themisdb::temporal::TemporalIndex::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="124" column="17" bodyfile="include/temporal/temporal_index.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_index_1a9c0bf2f0fcf8c6490d3c506b249ac8d4" prot="private" static="no" mutable="no">
+        <type>std::multimap&lt; <ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref>, <ref refid="structthemisdb_1_1temporal_1_1_temporal_index_entry" kindref="compound">TemporalIndexEntry</ref> &gt;</type>
+        <definition>std::multimap&lt;Timestamp, TemporalIndexEntry&gt; themisdb::temporal::TemporalIndex::entries_by_start_</definition>
+        <argsstring></argsstring>
+        <name>entries_by_start_</name>
+        <qualifiedname>themisdb::temporal::TemporalIndex::entries_by_start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="128" column="19" bodyfile="include/temporal/temporal_index.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_index_1a15437f206982c3156e76385380d4554a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::temporal::TemporalIndex::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::temporal::TemporalIndex::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="130" column="24" bodyfile="include/temporal/temporal_index.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_index_1a16c9791b732979ba73faed90372c569e" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_index_stats" kindref="compound">TemporalIndexStats</ref></type>
+        <definition>TemporalIndexStats themisdb::temporal::TemporalIndex::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::temporal::TemporalIndex::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="131" column="32" bodyfile="include/temporal/temporal_index.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_index_1a3a6af59180b1d06ee2ac152961923fd9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalIndex::TemporalIndex</definition>
+        <argsstring>(std::string name)</argsstring>
+        <name>TemporalIndex</name>
+        <qualifiedname>themisdb::temporal::TemporalIndex::TemporalIndex</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="81" column="14" bodyfile="src/temporal/temporal_index.cpp" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_index_1a317ae4b70d33aeccd8800f1f91961763" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::TemporalIndex::insert</definition>
+        <argsstring>(const TemporalIndexEntry &amp;entry)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themisdb::temporal::TemporalIndex::insert</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_index_entry" kindref="compound">TemporalIndexEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Insert a new entry.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), emplace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="86" column="10" bodyfile="src/temporal/temporal_index.cpp" bodystart="41" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_index_1a115bcf375a716b50f83a206066d52e86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalIndex::remove</definition>
+        <argsstring>(const std::string &amp;key, const TimeRange &amp;range)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themisdb::temporal::TemporalIndex::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove entries matching the given key and range. Returns the number of entries removed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="92" column="12" bodyfile="src/temporal/temporal_index.cpp" bodystart="65" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_index_1acecfd818ccb5ca1fb784cb2b782a7954" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalIndex::removeKey</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>removeKey</name>
+        <qualifiedname>themisdb::temporal::TemporalIndex::removeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Remove Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove all entries for the given key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="95" column="12" bodyfile="src/temporal/temporal_index.cpp" bodystart="88" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_index_1ad63ccf6bec5f24d7ec4303d66f0c9722" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_temporal_index_entry" kindref="compound">TemporalIndexEntry</ref> &gt;</type>
+        <definition>std::vector&lt; TemporalIndexEntry &gt; themisdb::temporal::TemporalIndex::queryPoint</definition>
+        <argsstring>(Timestamp t) const</argsstring>
+        <name>queryPoint</name>
+        <qualifiedname>themisdb::temporal::TemporalIndex::queryPoint</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all entries that are valid at timestamp t (i.e., entry.range.contains(t) == true). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="103" column="17" bodyfile="src/temporal/temporal_index.cpp" bodystart="108" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_index_1a3872016041735d7290a797d2e17a768a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_temporal_index_entry" kindref="compound">TemporalIndexEntry</ref> &gt;</type>
+        <definition>std::vector&lt; TemporalIndexEntry &gt; themisdb::temporal::TemporalIndex::queryRange</definition>
+        <argsstring>(Timestamp from, Timestamp to) const</argsstring>
+        <name>queryRange</name>
+        <qualifiedname>themisdb::temporal::TemporalIndex::queryRange</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all entries whose range overlaps [from, to). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="108" column="17" bodyfile="src/temporal/temporal_index.cpp" bodystart="132" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_index_1a7099a026166bac9e8857f58d06a5407f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_temporal_index_entry" kindref="compound">TemporalIndexEntry</ref> &gt;</type>
+        <definition>std::vector&lt; TemporalIndexEntry &gt; themisdb::temporal::TemporalIndex::queryKey</definition>
+        <argsstring>(const std::string &amp;key, std::optional&lt; TimeRange &gt; range=std::nullopt) const</argsstring>
+        <name>queryKey</name>
+        <qualifiedname>themisdb::temporal::TemporalIndex::queryKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &gt;</type>
+          <declname>range</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all entries for a specific key, optionally filtered by range. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="113" column="17" bodyfile="src/temporal/temporal_index.cpp" bodystart="158" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_index_1a89cb8b23593ac8374d840696f0bb4a46" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themisdb::temporal::TemporalIndex::name</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>name</name>
+        <qualifiedname>themisdb::temporal::TemporalIndex::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="119" column="23" bodyfile="include/temporal/temporal_index.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_index_1a74498a562eaf358eed2b674b187e3542" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalIndex::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themisdb::temporal::TemporalIndex::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="120" column="12" bodyfile="src/temporal/temporal_index.cpp" bodystart="186" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_index_1acc8ad633878e562e12eab59e36cb3676" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_index_stats" kindref="compound">TemporalIndexStats</ref></type>
+        <definition>TemporalIndexStats themisdb::temporal::TemporalIndex::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themisdb::temporal::TemporalIndex::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_index.h" line="121" column="24" bodyfile="src/temporal/temporal_index.cpp" bodystart="196" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1temporal_1_1_temporal_index" kindref="compound">TemporalIndex</ref></para>
+<para>A sorted, interval-based secondary index that allows efficient answering of:</para>
+<para>• Point query: &quot;which entries are valid at timestamp T?&quot; • Range query: &quot;which entries overlap [from, to)?&quot;</para>
+<para>Implementation uses a std::map keyed by range.start for fast lower-bound queries, and linear filtering within candidate sets. For production use an augmented interval tree (max-end tracking) is recommended; this implementation provides the correct API and semantics.</para>
+<para>Thread-safety: all public methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_index.h" line="79" column="1" bodyfile="include/temporal/temporal_index.h" bodystart="79" bodyend="132"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_index_1a9c0bf2f0fcf8c6490d3c506b249ac8d4" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalIndex</scope><name>entries_by_start_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_index_1a317ae4b70d33aeccd8800f1f91961763" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndex</scope><name>insert</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_index_1a15437f206982c3156e76385380d4554a" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalIndex</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_index_1a89cb8b23593ac8374d840696f0bb4a46" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndex</scope><name>name</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_index_1aea909e685c32d91910382bb8f6fa31af" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalIndex</scope><name>name_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_index_1a7099a026166bac9e8857f58d06a5407f" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndex</scope><name>queryKey</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_index_1ad63ccf6bec5f24d7ec4303d66f0c9722" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndex</scope><name>queryPoint</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_index_1a3872016041735d7290a797d2e17a768a" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndex</scope><name>queryRange</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_index_1a115bcf375a716b50f83a206066d52e86" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndex</scope><name>remove</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_index_1acecfd818ccb5ca1fb784cb2b782a7954" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndex</scope><name>removeKey</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_index_1a74498a562eaf358eed2b674b187e3542" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndex</scope><name>size</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_index_1acc8ad633878e562e12eab59e36cb3676" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndex</scope><name>stats</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_index_1a16c9791b732979ba73faed90372c569e" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalIndex</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_index_1a3a6af59180b1d06ee2ac152961923fd9" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalIndex</scope><name>TemporalIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

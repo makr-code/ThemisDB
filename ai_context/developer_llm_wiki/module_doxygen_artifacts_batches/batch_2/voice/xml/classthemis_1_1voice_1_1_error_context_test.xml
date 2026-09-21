@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_error_context_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::ErrorContextTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_error_context_test_1a0421cd9741059414554f3095f5a9a20d" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_error_handler" kindref="compound">VoiceErrorHandler</ref></type>
+        <definition>VoiceErrorHandler themis::voice::ErrorContextTest::error_handler</definition>
+        <argsstring></argsstring>
+        <name>error_handler</name>
+        <qualifiedname>themis::voice::ErrorContextTest::error_handler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_phase3_error_handling.cpp" line="135" column="23" bodyfile="tests/voice/test_phase3_error_handling.cpp" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::ErrorContextTest</label>
+        <link refid="classthemis_1_1voice_1_1_error_context_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::ErrorContextTest</label>
+        <link refid="classthemis_1_1voice_1_1_error_context_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>error_handler</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::voice::VoiceErrorHandler</label>
+        <link refid="classthemis_1_1voice_1_1_voice_error_handler"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/voice/test_phase3_error_handling.cpp" line="133" column="1" bodyfile="tests/voice/test_phase3_error_handling.cpp" bodystart="133" bodyend="136"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_error_context_test_1a0421cd9741059414554f3095f5a9a20d" prot="protected" virt="non-virtual"><scope>themis::voice::ErrorContextTest</scope><name>error_handler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

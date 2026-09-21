@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1benchmarks">themis::benchmarks</innernamespace>
+    <innernamespace refid="namespacethemis_1_1maintenance">themis::maintenance</innernamespace>
+    <innernamespace refid="namespacethemis_1_1test">themis::test</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>Create a ReplicaValidationHandler wired to a ShardRepairEngine. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This free function is the canonical startup wiring that resolves the roadmap item &quot;Replica consistency check integration with sharding/replication
+module (v1.2.0)&quot; without introducing a compile-time dependency on the sharding module from the maintenance module itself.</para>
+<para>Typical startup usage (in the server or integration layer): <programlisting><codeline><highlight class="preprocessor">#include<sp/>&quot;<ref refid="maintenance__task__handler__impls_8h" kindref="compound">maintenance/maintenance_task_handler_impls.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/shard_repair_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>handler<sp/>=<sp/><ref refid="namespacethemis_1_1maintenance_1a20570d8dc02d8fae1930e2ac6e327858" kindref="member">themis::maintenance::makeReplicaValidationHandler</ref>(repair_engine);</highlight></codeline>
+<codeline><highlight class="normal">orchestrator.registerTaskHandler(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>MaintenanceTaskType::REPLICA_VALIDATION,<sp/>std::move(handler));</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to a live ShardRepairEngine. Must not be null. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A ReplicaValidationHandler that delegates to engine-&gt;runConsistencyCheck(). </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/maintenance/database_maintenance_orchestrator.h" line="33" column="1"/>
+  </compounddef>
+</doxygen>

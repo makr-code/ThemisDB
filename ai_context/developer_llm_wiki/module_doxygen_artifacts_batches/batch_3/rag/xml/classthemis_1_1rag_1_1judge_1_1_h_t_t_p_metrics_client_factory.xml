@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::HTTPMetricsClientFactory</compoundname>
+    <includes refid="http__metrics__client_8h" local="no">http_metrics_client.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_factory_1a28c5d7890aad4bc5810b2ead30a9208a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client" kindref="compound">HTTPMetricsClient</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; HTTPMetricsClient &gt; themis::rag::judge::HTTPMetricsClientFactory::createLocalClient</definition>
+        <argsstring>(const std::string &amp;endpoint=&quot;http://localhost:8080/metrics&quot;)</argsstring>
+        <name>createLocalClient</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClientFactory::createLocalClient</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+          <defval>&quot;http://localhost:8080/metrics&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create client for local development. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ HTTP Metrics Client Factory Implementation ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createLocalClient without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="209" column="28" bodyfile="src/rag/http_metrics_client.cpp" bodystart="433" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_factory_1a6e9f4475f51ef4d2cd02e7ff7999be35" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client" kindref="compound">HTTPMetricsClient</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; HTTPMetricsClient &gt; themis::rag::judge::HTTPMetricsClientFactory::createProductionClient</definition>
+        <argsstring>(const std::string &amp;endpoint, const std::string &amp;auth_token)</argsstring>
+        <name>createProductionClient</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClientFactory::createProductionClient</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>auth_token</declname>
+        </param>
+        <briefdescription>
+<para>Create client for production with authentication. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Production Client.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">auth_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createProductionClient without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="214" column="28" bodyfile="src/rag/http_metrics_client.cpp" bodystart="450" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_factory_1a0da22055eddbc3c6958ee7cd69f3da3c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client" kindref="compound">HTTPMetricsClient</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; HTTPMetricsClient &gt; themis::rag::judge::HTTPMetricsClientFactory::createCustomClient</definition>
+        <argsstring>(const HTTPMetricsClientConfig &amp;config)</argsstring>
+        <name>createCustomClient</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClientFactory::createCustomClient</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config" kindref="compound">HTTPMetricsClientConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create client with custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Custom Client.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createCustomClient without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="222" column="28" bodyfile="src/rag/http_metrics_client.cpp" bodystart="471" bodyend="473"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory for creating pre-configured HTTP clients. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/http_metrics_client.h" line="204" column="1" bodyfile="include/rag/http_metrics_client.h" bodystart="204" bodyend="223"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_factory_1a0da22055eddbc3c6958ee7cd69f3da3c" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClientFactory</scope><name>createCustomClient</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_factory_1a28c5d7890aad4bc5810b2ead30a9208a" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClientFactory</scope><name>createLocalClient</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_factory_1a6e9f4475f51ef4d2cd02e7ff7999be35" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClientFactory</scope><name>createProductionClient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

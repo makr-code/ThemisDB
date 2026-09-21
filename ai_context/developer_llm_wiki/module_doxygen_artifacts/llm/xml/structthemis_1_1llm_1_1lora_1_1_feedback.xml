@@ -1,0 +1,347 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_feedback" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::Feedback</compoundname>
+    <includes refid="lora__feedback_8h" local="no">lora_feedback.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_feedback_1a549fb60f3bae66287ced1569607a9ea7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::Feedback::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::llm::lora::Feedback::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="32" column="17" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_feedback_1aa2953c264898dca278636d2e46b0df13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::Feedback::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::lora::Feedback::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="33" column="17" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_feedback_1a78a6877ba0373c2ad5532c0094ba58c9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::Feedback::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::llm::lora::Feedback::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="34" column="17" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_feedback_1a43584bf76ba26ceb4df4dd737d33c180" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::Feedback::rating</definition>
+        <argsstring></argsstring>
+        <name>rating</name>
+        <qualifiedname>themis::llm::lora::Feedback::rating</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="37" column="9" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_feedback_1a048092dbcbb093cc7c4b9f9ad66e748e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::Feedback::feedback_text</definition>
+        <argsstring></argsstring>
+        <name>feedback_text</name>
+        <qualifiedname>themis::llm::lora::Feedback::feedback_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="38" column="17" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_feedback_1a1f589395666f8fb033b7b20e0df56500" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::Feedback::prompt</definition>
+        <argsstring></argsstring>
+        <name>prompt</name>
+        <qualifiedname>themis::llm::lora::Feedback::prompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="41" column="17" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_feedback_1ac86281d01fd5ab3a08dff455ce253fd5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::Feedback::response</definition>
+        <argsstring></argsstring>
+        <name>response</name>
+        <qualifiedname>themis::llm::lora::Feedback::response</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="42" column="17" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_feedback_1a2d9d232446708076a2dd48812659fc8d" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::lora::Feedback::model_response_id</definition>
+        <argsstring></argsstring>
+        <name>model_response_id</name>
+        <qualifiedname>themis::llm::lora::Feedback::model_response_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="43" column="19" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_feedback_1ae3efe9e05009b8d09d5d650f41e7fa4c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::Feedback::is_cached_response</definition>
+        <argsstring></argsstring>
+        <name>is_cached_response</name>
+        <qualifiedname>themis::llm::lora::Feedback::is_cached_response</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="46" column="10" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_feedback_1aab28fc23b262efcfe686ade810cbbf9b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::Feedback::is_training</definition>
+        <argsstring></argsstring>
+        <name>is_training</name>
+        <qualifiedname>themis::llm::lora::Feedback::is_training</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="47" column="10" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_feedback_1ad40829344d980de21d7e87bea0a653fb" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::lora::Feedback::cache_key</definition>
+        <argsstring></argsstring>
+        <name>cache_key</name>
+        <qualifiedname>themis::llm::lora::Feedback::cache_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="48" column="19" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_feedback_1a6f92de0eb6d1375e04bcfd6079549e04" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::Feedback::cache_similarity_score</definition>
+        <argsstring></argsstring>
+        <name>cache_similarity_score</name>
+        <qualifiedname>themis::llm::lora::Feedback::cache_similarity_score</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="49" column="11" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_feedback_1a78bea7849f5941d7ab08c1a5def57e89" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::Feedback::training_weight</definition>
+        <argsstring></argsstring>
+        <name>training_weight</name>
+        <qualifiedname>themis::llm::lora::Feedback::training_weight</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="52" column="11" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_feedback_1a3caec73f96243b3b79b152a8fe8b893e" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::lora::Feedback::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::llm::lora::Feedback::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="56" column="43" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_feedback_1ad9f85c9eeba264b5b5844815a989ae9b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::Feedback::flagged_for_training</definition>
+        <argsstring></argsstring>
+        <name>flagged_for_training</name>
+        <qualifiedname>themis::llm::lora::Feedback::flagged_for_training</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="57" column="10" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_feedback_1ac4b01be93b8686d6b90407988f2103d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::Feedback::training_category</definition>
+        <argsstring></argsstring>
+        <name>training_category</name>
+        <qualifiedname>themis::llm::lora::Feedback::training_category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="58" column="17" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_feedback_1acc8ec464eaab6fe809c564cc3be50a37" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::Feedback::custom_metadata</definition>
+        <argsstring></argsstring>
+        <name>custom_metadata</name>
+        <qualifiedname>themis::llm::lora::Feedback::custom_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="59" column="10" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_feedback_1a51f74e732dba7952a6314fd3664a331f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::Feedback::~Feedback</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Feedback</name>
+        <qualifiedname>themis::llm::lora::Feedback::~Feedback</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="31" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_feedback_1af5990710ddd5973bfd1d7a1e63f1f213" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::Feedback::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::Feedback::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="61" column="10" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="61" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_feedback_1a872e5068e09b6c1197963552c8049849" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref></type>
+        <definition>static Feedback themis::llm::lora::Feedback::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::lora::Feedback::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), std::chrono::system_clock::from_time_t(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_feedback.h" line="101" column="21" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="101" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_feedback.h" line="26" column="1" bodyfile="include/llm/lora_framework/lora_feedback.h" bodystart="26" bodyend="168"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1aa2953c264898dca278636d2e46b0df13" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ad40829344d980de21d7e87bea0a653fb" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>cache_key</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a6f92de0eb6d1375e04bcfd6079549e04" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>cache_similarity_score</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1acc8ec464eaab6fe809c564cc3be50a37" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>custom_metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a048092dbcbb093cc7c4b9f9ad66e748e" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>feedback_text</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ad9f85c9eeba264b5b5844815a989ae9b" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>flagged_for_training</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a872e5068e09b6c1197963552c8049849" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a549fb60f3bae66287ced1569607a9ea7" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ae3efe9e05009b8d09d5d650f41e7fa4c" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>is_cached_response</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1aab28fc23b262efcfe686ade810cbbf9b" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>is_training</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a2d9d232446708076a2dd48812659fc8d" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>model_response_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a1f589395666f8fb033b7b20e0df56500" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>prompt</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a43584bf76ba26ceb4df4dd737d33c180" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>rating</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ac86281d01fd5ab3a08dff455ce253fd5" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>response</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a3caec73f96243b3b79b152a8fe8b893e" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1af5990710ddd5973bfd1d7a1e63f1f213" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1ac4b01be93b8686d6b90407988f2103d3" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>training_category</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a78bea7849f5941d7ab08c1a5def57e89" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>training_weight</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a78a6877ba0373c2ad5532c0094ba58c9" prot="public" virt="non-virtual"><scope>themis::llm::lora::Feedback</scope><name>user_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a51f74e732dba7952a6314fd3664a331f" prot="public" virt="virtual"><scope>themis::llm::lora::Feedback</scope><name>~Feedback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

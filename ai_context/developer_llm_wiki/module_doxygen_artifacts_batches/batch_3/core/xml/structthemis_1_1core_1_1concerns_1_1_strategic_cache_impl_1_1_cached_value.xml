@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1_1_cached_value" kind="struct" language="C++" prot="private">
+    <compoundname>themis::core::concerns::StrategicCacheImpl::CachedValue</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1_1_cached_value_1a321cb5573cdfdf267c37c77a9954ffe1" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry" kindref="compound">CacheEntry</ref></type>
+        <definition>CacheEntry themis::core::concerns::StrategicCacheImpl::CachedValue::entry</definition>
+        <argsstring></argsstring>
+        <name>entry</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::CachedValue::entry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="249" column="20" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1_1_cached_value_1a0c19fa2ed837afffbb7f01b136d4abae" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::StrategicCacheImpl::CachedValue::ttl_ms</definition>
+        <argsstring></argsstring>
+        <name>ttl_ms</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::CachedValue::ttl_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="250" column="18" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::CacheEntry</label>
+        <link refid="structthemis_1_1core_1_1concerns_1_1_cache_entry"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::StrategicCacheImpl::CachedValue</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>entry</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/strategic_cache_impl.h" line="248" column="5" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="248" bodyend="251"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1_1_cached_value_1a321cb5573cdfdf267c37c77a9954ffe1" prot="public" virt="non-virtual"><scope>themis::core::concerns::StrategicCacheImpl::CachedValue</scope><name>entry</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1_1_cached_value_1a0c19fa2ed837afffbb7f01b136d4abae" prot="public" virt="non-virtual"><scope>themis::core::concerns::StrategicCacheImpl::CachedValue</scope><name>ttl_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

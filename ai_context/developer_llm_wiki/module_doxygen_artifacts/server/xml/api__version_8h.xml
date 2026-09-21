@@ -1,0 +1,320 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="api__version_8h" kind="file" language="C++">
+    <compoundname>api_version.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">chrono</includes>
+    <includedby refid="api__gateway_8h" local="yes">include/server/api_gateway.h</includedby>
+    <includedby refid="response__transformer_8h" local="yes">include/server/response_transformer.h</includedby>
+    <includedby refid="api__version_8cpp" local="yes">src/server/api_version.cpp</includedby>
+    <includedby refid="http__server_8cpp" local="yes">src/server/http_server.cpp</includedby>
+    <includedby refid="monitoring__api__handler_8cpp" local="yes">src/server/monitoring_api_handler.cpp</includedby>
+    <includedby refid="test__server__compat__contract__focused_8cpp" local="yes">tests/server/test_server_compat_contract_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/api_version.h</label>
+        <link refid="api__version_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/server/api_gateway.h</label>
+        <link refid="api__gateway_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/server/api_version.h</label>
+        <link refid="api__version_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/server/distributed_gateway.h</label>
+        <link refid="distributed__gateway_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/server/response_transformer.h</label>
+        <link refid="response__transformer_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/server/api_gateway.cpp</label>
+        <link refid="api__gateway_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/server/api_version.cpp</label>
+        <link refid="api__version_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/server/distributed_gateway.cpp</label>
+        <link refid="distributed__gateway_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/server/http_server.cpp</label>
+        <link refid="http__server_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/server/monitoring_api_handler.cpp</label>
+        <link refid="monitoring__api__handler_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/server/response_transformer.cpp</label>
+        <link refid="response__transformer_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/server/test_api_gateway.cpp</label>
+        <link refid="test__api__gateway_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/server/test_server_compat_contract_focused.cpp</label>
+        <link refid="test__server__compat__contract__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1server_1_1_a_p_i_version" prot="public">themis::server::APIVersion</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_a_p_i_deprecation_info" prot="public">themis::server::APIDeprecationInfo</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_a_p_i_version_range" prot="public">themis::server::APIVersionRange</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_breaking_change_info" prot="public">themis::server::BreakingChangeInfo</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_a_p_i_version_manager" prot="public">themis::server::APIVersionManager</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_schema_field_descriptor" prot="public">themis::server::SchemaFieldDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_compat_policy" prot="public">themis::server::CompatPolicy</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_compat_check_result" prot="public">themis::server::CompatCheckResult</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_compat_checker" prot="public">themis::server::CompatChecker</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server">themis::server</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server_1_1_a_p_i_headers">themis::server::APIHeaders</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">themis::server</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1server_1_1_a_p_i_version" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1server_1_1_a_p_i_version_1a71a8117cd915d5581aee23e1c2c202d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_1a71a8117cd915d5581aee23e1c2c202d7" kindref="member">major</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1server_1_1_a_p_i_version_1aadb3bbd872f8338afae410de3e93ef62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_1aadb3bbd872f8338afae410de3e93ef62" kindref="member">minor</ref>;</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1server_1_1_a_p_i_version_1a2107545ec4cb8987140ebf5f96a53b6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_1a2107545ec4cb8987140ebf5f96a53b6b" kindref="member">patch</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;APIVersion&gt;<sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_1a20854fb10e3153397983224141bbe96e" kindref="member">parse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version_str);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_1a4974247bf818d67135b9ce28bbb70b90" kindref="member">toString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_1ac48b1eedfcee335617aad39cf87fd9f3" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_1a4787bc5b886846e81d5184cde998d78c" kindref="member">operator!=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_1a65787b5b03c9a67b06145899403c5226" kindref="member">operator&lt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_1a380d9e2ce5fc863f3e2d9203edbb0b84" kindref="member">operator&lt;=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_1a326b78fbca8691b216559668b7aec033" kindref="member">operator&gt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_1a390a674f9368f142a5e49fdc362dbacd" kindref="member">operator&gt;=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1server_1_1_a_p_i_deprecation_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_a_p_i_deprecation_info" kindref="compound">APIDeprecationInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1adec6838e64a93f2548f8677b5b86563b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1adec6838e64a93f2548f8677b5b86563b" kindref="member">deprecated_in</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Version<sp/>when<sp/>feature<sp/>was<sp/>deprecated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a38cf5e37c14af4b61ad993657df7a1f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a38cf5e37c14af4b61ad993657df7a1f6" kindref="member">removed_in</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Version<sp/>when<sp/>feature<sp/>will<sp/>be<sp/>removed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a6f54e952dd5be2f5fa65aa120646aa24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a6f54e952dd5be2f5fa65aa120646aa24" kindref="member">deprecation_date</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a16cf574653047cf0075df853d5eb793c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a16cf574653047cf0075df853d5eb793c" kindref="member">removal_date</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a1300787bccf2683720f0c39182c955cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a1300787bccf2683720f0c39182c955cc" kindref="member">reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Why<sp/>it&apos;s<sp/>being<sp/>deprecated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1af6dae69b6cda2291dfd13cf61de36bae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1af6dae69b6cda2291dfd13cf61de36bae" kindref="member">migration_guide_url</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Link<sp/>to<sp/>migration<sp/>guide</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a067667ef3facfdfba65e80896382ae3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_a_p_i_deprecation_info_1a067667ef3facfdfba65e80896382ae3c" kindref="member">alternative</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Alternative<sp/>endpoint/feature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1server_1_1_a_p_i_version_range" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_a_p_i_version_range" kindref="compound">APIVersionRange</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1server_1_1_a_p_i_version_range_1addf4f7d36d80bb4dfb4e535bca599e58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_range_1addf4f7d36d80bb4dfb4e535bca599e58" kindref="member">min_version</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1server_1_1_a_p_i_version_range_1a8c1557c8b55fbf8f2f7eff665949e207" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_range_1a8c1557c8b55fbf8f2f7eff665949e207" kindref="member">max_version</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;APIVersionRange&gt;<sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_range_1ac4081e3c6c89823375097d057eb0b0f8" kindref="member">parse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>range_str);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_range_1ad0d5028df076d9c2ef39d8cd439e8aa7" kindref="member">contains</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref>&amp;<sp/>version)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1server_1_1_breaking_change_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_breaking_change_info" kindref="compound">BreakingChangeInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1server_1_1_breaking_change_info_1a2e8f70642bace6adc5b3cf2127970516" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref><sp/><ref refid="structthemis_1_1server_1_1_breaking_change_info_1a2e8f70642bace6adc5b3cf2127970516" kindref="member">introduced_in</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1server_1_1_breaking_change_info_1a184b350195d89aee0cb5475cae639e9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_breaking_change_info_1a184b350195d89aee0cb5475cae639e9a" kindref="member">endpoint</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1server_1_1_breaking_change_info_1a9550d6d3c9d267825977bc245d1ee781" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_breaking_change_info_1a9550d6d3c9d267825977bc245d1ee781" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1server_1_1_breaking_change_info_1a64c9e7ec5ee6ebed27804a00ff016370" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_breaking_change_info_1a64c9e7ec5ee6ebed27804a00ff016370" kindref="member">migration_guide_url</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1server_1_1_a_p_i_version_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1server_1_1_a_p_i_version_manager_1aabd42801744b8f0a8128ba4595717ed5" kindref="member">APIVersionManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_a_p_i_version_manager_1aabd42801744b8f0a8128ba4595717ed5" kindref="member">APIVersionManager</ref>();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1server_1_1_a_p_i_version_manager_1a2154edd90aef20cc2a636a1b90d407e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref><sp/><ref refid="classthemis_1_1server_1_1_a_p_i_version_manager_1a2154edd90aef20cc2a636a1b90d407e1" kindref="member">getCurrentVersion</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_version_;<sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1server_1_1_a_p_i_version_manager_1af77dce2d4591bda450d0a56e7c62aac1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref><sp/><ref refid="classthemis_1_1server_1_1_a_p_i_version_manager_1af77dce2d4591bda450d0a56e7c62aac1" kindref="member">getMinimumVersion</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>minimum_version_;<sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_a_p_i_version_manager_1a7ddf9e7583fdbfbdb15b490384cf5468" kindref="member">isVersionSupported</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref>&amp;<sp/>version)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref><sp/><ref refid="classthemis_1_1server_1_1_a_p_i_version_manager_1a18c6f3360d228f247b1c1eaccb63461f" kindref="member">resolveVersion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version_header)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;APIDeprecationInfo&gt;<sp/><ref refid="classthemis_1_1server_1_1_a_p_i_version_manager_1a50cd94ea50a3569267c5b816858a9479" kindref="member">getDeprecationInfo</ref>(</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint,<sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref>&amp;<sp/>version</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_a_p_i_version_manager_1a4c96e0ffdb7ff49f4bb604b2cd435d1b" kindref="member">registerDeprecation</ref>(</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_deprecation_info" kindref="compound">APIDeprecationInfo</ref>&amp;<sp/>info</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;APIVersion&gt;<sp/><ref refid="classthemis_1_1server_1_1_a_p_i_version_manager_1af3677756ea8a2d985d57d5ad7c47e3df" kindref="member">getSupportedVersions</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref><sp/><ref refid="classthemis_1_1server_1_1_a_p_i_version_manager_1aa268db57b40ac6c6291d849b4baebae5" kindref="member">resolveVersionRange</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version_range" kindref="compound">APIVersionRange</ref>&amp;<sp/>range)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;BreakingChangeInfo&gt;<sp/><ref refid="classthemis_1_1server_1_1_a_p_i_version_manager_1ac0b47c06a77ddc33c57a1c403dc9dc82" kindref="member">isBreakingChange</ref>(</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref>&amp;<sp/>from,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref>&amp;<sp/>to,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_a_p_i_version_manager_1a3fd53ce86eda16da80021e419792913f" kindref="member">registerBreakingChange</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_breaking_change_info" kindref="compound">BreakingChangeInfo</ref>&amp;<sp/>info);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref><sp/>current_version_;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_a_p_i_version" kindref="compound">APIVersion</ref><sp/>minimum_version_;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;APIVersion&gt;<sp/>supported_versions_;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Map<sp/>of<sp/>endpoint<sp/>to<sp/>deprecation<sp/>info</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>APIDeprecationInfo&gt;<sp/>deprecations_;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>List<sp/>of<sp/>registered<sp/>breaking<sp/>changes<sp/>(per<sp/>endpoint<sp/>or<sp/>global)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BreakingChangeInfo&gt;<sp/>breaking_changes_;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>24-month<sp/>deprecation<sp/>policy<sp/>in<sp/>seconds<sp/>(approximation:<sp/>730<sp/>days)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>Uses<sp/>730<sp/>days<sp/>as<sp/>approximation<sp/>of<sp/>24<sp/>months<sp/>for<sp/>consistency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int64_t<sp/>DEPRECATION_PERIOD_SECONDS<sp/>=<sp/>730<sp/>*<sp/>24<sp/>*<sp/>3600;<sp/></highlight><highlight class="comment">//<sp/>24<sp/>months<sp/>(~2<sp/>years)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="namespacethemis_1_1server_1_1_a_p_i_headers" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server_1_1_a_p_i_headers" kindref="compound">APIHeaders</ref><sp/>{</highlight></codeline>
+<codeline lineno="170" refid="namespacethemis_1_1server_1_1_a_p_i_headers_1a87ed5d9f10cfafa90adc9d32db5bb180" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1server_1_1_a_p_i_headers_1a87ed5d9f10cfafa90adc9d32db5bb180" kindref="member">ACCEPT_VERSION</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Accept-Version&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171" refid="namespacethemis_1_1server_1_1_a_p_i_headers_1a136c136537f4d01c6f8682333d5e6433" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1server_1_1_a_p_i_headers_1a136c136537f4d01c6f8682333d5e6433" kindref="member">API_VERSION</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;API-Version&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172" refid="namespacethemis_1_1server_1_1_a_p_i_headers_1a3bc2c435642bb07334b5170db68ba3fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1server_1_1_a_p_i_headers_1a3bc2c435642bb07334b5170db68ba3fd" kindref="member">ACCEPT_API_VERSION</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Accept-API-Version&quot;</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="173" refid="namespacethemis_1_1server_1_1_a_p_i_headers_1af595ffd1550d1120a584ef4e85d5f34d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1server_1_1_a_p_i_headers_1af595ffd1550d1120a584ef4e85d5f34d" kindref="member">API_DEPRECATED</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;API-Deprecated&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174" refid="namespacethemis_1_1server_1_1_a_p_i_headers_1a0f61f1ee476bb0ad9e569e2a812d2b36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1server_1_1_a_p_i_headers_1a0f61f1ee476bb0ad9e569e2a812d2b36" kindref="member">DEPRECATION_WARNING</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Deprecation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175" refid="namespacethemis_1_1server_1_1_a_p_i_headers_1a1c42d59f9079e5615ca6d1ad8c3a1ba4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1server_1_1_a_p_i_headers_1a1c42d59f9079e5615ca6d1ad8c3a1ba4" kindref="member">SUNSET</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Sunset&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>RFC<sp/>8594<sp/>-<sp/>Sunset<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="namespacethemis_1_1server_1_1_a_p_i_headers_1a44719c2d1a320d4ccf2b57d78c707a3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1server_1_1_a_p_i_headers_1a44719c2d1a320d4ccf2b57d78c707a3b" kindref="member">LINK</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Link&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Link<sp/>to<sp/>migration<sp/>guide</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Phase<sp/>3<sp/>Schema-Governance:<sp/>Backward-Compatibility<sp/>Contract<sp/>────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="structthemis_1_1server_1_1_schema_field_descriptor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_schema_field_descriptor" kindref="compound">SchemaFieldDescriptor</ref><sp/>{</highlight></codeline>
+<codeline lineno="182" refid="structthemis_1_1server_1_1_schema_field_descriptor_1a82e23be4ef897c42d5e21b6f55a5f96a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_schema_field_descriptor_1a82e23be4ef897c42d5e21b6f55a5f96a" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1server_1_1_schema_field_descriptor_1aa4fed647033c5f8c1ccd18f6b61aeff9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_schema_field_descriptor_1aa4fed647033c5f8c1ccd18f6b61aeff9" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1server_1_1_schema_field_descriptor_1a2909c7656eacd1efa2ed92e9c937b59b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_schema_field_descriptor_1a2909c7656eacd1efa2ed92e9c937b59b" kindref="member">required</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1server_1_1_schema_field_descriptor_1a8af35112df4599e52d90f50bde528b10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_schema_field_descriptor_1a8af35112df4599e52d90f50bde528b10" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_schema_field_descriptor" kindref="compound">SchemaFieldDescriptor</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_schema_field_descriptor_1a82e23be4ef897c42d5e21b6f55a5f96a" kindref="member">name</ref><sp/>==<sp/>other.name<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1server_1_1_schema_field_descriptor_1aa4fed647033c5f8c1ccd18f6b61aeff9" kindref="member">type</ref><sp/>==<sp/>other.type<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1server_1_1_schema_field_descriptor_1a2909c7656eacd1efa2ed92e9c937b59b" kindref="member">required</ref><sp/>==<sp/>other.required;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="structthemis_1_1server_1_1_compat_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_compat_policy" kindref="compound">CompatPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1server_1_1_compat_policy_1ad4231f52ff950d28fa7155852369a0ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_compat_policy_1ad4231f52ff950d28fa7155852369a0ef" kindref="member">allow_field_removal</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/></highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1server_1_1_compat_policy_1abe212c6f7b26ed1a58a417f508f39d0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_compat_policy_1abe212c6f7b26ed1a58a417f508f39d0d" kindref="member">allow_field_rename</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1server_1_1_compat_policy_1a5138108e0a405744fdff735c581e8e5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_compat_policy_1a5138108e0a405744fdff735c581e8e5e" kindref="member">allow_type_narrowing</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/></highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1server_1_1_compat_policy_1a2c695a693b00e5d5deaf3cde6b11f87f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_compat_policy_1a2c695a693b00e5d5deaf3cde6b11f87f" kindref="member">allow_path_rename</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1server_1_1_compat_check_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_compat_check_result" kindref="compound">CompatCheckResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1server_1_1_compat_check_result_1ad835f0a271003a2995ef1c8a4dd176ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_compat_check_result_1ad835f0a271003a2995ef1c8a4dd176ac" kindref="member">passed</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1server_1_1_compat_check_result_1a9875bafe16c9df6880b5508b046604ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_compat_check_result_1a9875bafe16c9df6880b5508b046604ea" kindref="member">violation_reason</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="structthemis_1_1server_1_1_compat_check_result_1a9402393d4f082c80f1183598fdb7c9aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_compat_check_result_1ad835f0a271003a2995ef1c8a4dd176ac" kindref="member">passed</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="classthemis_1_1server_1_1_compat_checker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1server_1_1_compat_checker_1a31c2b28c05fba8eaa8e20494964198a9" kindref="member">CompatChecker</ref><sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1server_1_1_compat_checker_1a31c2b28c05fba8eaa8e20494964198a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_compat_checker_1a31c2b28c05fba8eaa8e20494964198a9" kindref="member">CompatChecker</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1server_1_1_compat_check_result" kindref="compound">CompatCheckResult</ref><sp/><ref refid="classthemis_1_1server_1_1_compat_checker_1ac6947f94b27d2eecce6ce98efc358893" kindref="member">validate</ref>(</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_schema_field_descriptor" kindref="compound">SchemaFieldDescriptor</ref>&amp;<sp/>old_field,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_schema_field_descriptor" kindref="compound">SchemaFieldDescriptor</ref>&amp;<sp/>updated_field,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_compat_policy" kindref="compound">CompatPolicy</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>policy)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1server_1_1_compat_check_result" kindref="compound">CompatCheckResult</ref><sp/><ref refid="classthemis_1_1server_1_1_compat_checker_1af7e37cf1d833bbe77bab704256b73b9e" kindref="member">validateRemoval</ref>(</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_schema_field_descriptor" kindref="compound">SchemaFieldDescriptor</ref>&amp;<sp/>removed_field,</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_compat_policy" kindref="compound">CompatPolicy</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>policy)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1server_1_1_compat_check_result" kindref="compound">CompatCheckResult</ref><sp/><ref refid="classthemis_1_1server_1_1_compat_checker_1aca3b4dc4b066c0f582afa829f7af591a" kindref="member">validateEndpointRename</ref>(</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>old_path,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>new_path,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_compat_policy" kindref="compound">CompatPolicy</ref>&amp;<sp/>policy)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::server</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/api_version.h"/>
+  </compounddef>
+</doxygen>

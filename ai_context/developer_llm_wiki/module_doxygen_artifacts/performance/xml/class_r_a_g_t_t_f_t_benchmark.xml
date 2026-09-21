@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_r_a_g_t_t_f_t_benchmark" kind="class" language="C++" prot="public">
+    <compoundname>RAGTTFTBenchmark</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_r_a_g_t_t_f_t_benchmark_1a1184b4739f49a37427286c66d7e80c44" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double RAGTTFTBenchmark::kTTFT_P99_SLO_MS</definition>
+        <argsstring></argsstring>
+        <name>kTTFT_P99_SLO_MS</name>
+        <qualifiedname>RAGTTFTBenchmark::kTTFT_P99_SLO_MS</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_rag_ttft_benchmark.cpp" line="146" column="29" bodyfile="tests/performance/test_rag_ttft_benchmark.cpp" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_r_a_g_t_t_f_t_benchmark_1a6ba1ad71729770919609f1ca85790afa" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double RAGTTFTBenchmark::kTTFT_P95_GATE_MS</definition>
+        <argsstring></argsstring>
+        <name>kTTFT_P95_GATE_MS</name>
+        <qualifiedname>RAGTTFTBenchmark::kTTFT_P95_GATE_MS</qualifiedname>
+        <initializer>= 500.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_rag_ttft_benchmark.cpp" line="148" column="29" bodyfile="tests/performance/test_rag_ttft_benchmark.cpp" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_r_a_g_t_t_f_t_benchmark_1aa264ca2d32c9f11db80e0f3198667651" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; RAGTTFTBenchmark::collectSamples</definition>
+        <argsstring>(const std::string &amp;prompt, std::size_t context_tokens, bool cache_hint=false)</argsstring>
+        <name>collectSamples</name>
+        <qualifiedname>RAGTTFTBenchmark::collectSamples</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>context_tokens</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>cache_hint</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_rag_ttft_benchmark.cpp" line="151" column="17" bodyfile="tests/performance/test_rag_ttft_benchmark.cpp" bodystart="151" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="class_r_a_g_t_t_f_t_benchmark_1a63a83ebf3f4ea7f0378334329f619df4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RAGTTFTBenchmark::printMetrics</definition>
+        <argsstring>(const char *label, const std::vector&lt; double &gt; &amp;samples)</argsstring>
+        <name>printMetrics</name>
+        <qualifiedname>RAGTTFTBenchmark::printMetrics</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>label</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_rag_ttft_benchmark.cpp" line="171" column="10" bodyfile="tests/performance/test_rag_ttft_benchmark.cpp" bodystart="171" bodyend="177"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RAGTTFTBenchmark</label>
+        <link refid="class_r_a_g_t_t_f_t_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RAGTTFTBenchmark</label>
+        <link refid="class_r_a_g_t_t_f_t_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/performance/test_rag_ttft_benchmark.cpp" line="143" column="1" bodyfile="tests/performance/test_rag_ttft_benchmark.cpp" bodystart="143" bodyend="178"/>
+    <listofallmembers>
+      <member refid="class_r_a_g_t_t_f_t_benchmark_1aa264ca2d32c9f11db80e0f3198667651" prot="protected" virt="non-virtual"><scope>RAGTTFTBenchmark</scope><name>collectSamples</name></member>
+      <member refid="class_r_a_g_t_t_f_t_benchmark_1a6ba1ad71729770919609f1ca85790afa" prot="protected" virt="non-virtual"><scope>RAGTTFTBenchmark</scope><name>kTTFT_P95_GATE_MS</name></member>
+      <member refid="class_r_a_g_t_t_f_t_benchmark_1a1184b4739f49a37427286c66d7e80c44" prot="protected" virt="non-virtual"><scope>RAGTTFTBenchmark</scope><name>kTTFT_P99_SLO_MS</name></member>
+      <member refid="class_r_a_g_t_t_f_t_benchmark_1a63a83ebf3f4ea7f0378334329f619df4" prot="protected" virt="non-virtual"><scope>RAGTTFTBenchmark</scope><name>printMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

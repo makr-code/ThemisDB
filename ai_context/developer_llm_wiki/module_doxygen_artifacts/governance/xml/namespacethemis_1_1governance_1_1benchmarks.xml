@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1benchmarks" kind="namespace" language="C++">
+    <compoundname>themis::governance::benchmarks</compoundname>
+    <innerclass refid="classthemis_1_1governance_1_1benchmarks_1_1_audit_export_benchmark" prot="public">themis::governance::benchmarks::AuditExportBenchmark</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1benchmarks_1a312bc3b070117458c628252c3dc8e0ec" prot="public" static="no" mutable="no">
+        <type>benchmark::State &amp;</type>
+        <definition>benchmark::State &amp; themis::governance::benchmarks::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::governance::benchmarks::state</qualifiedname>
+        <initializer>{
+    int entry_counter = 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="89" column="18" bodyfile="benchmarks/governance/bench_audit_export_high_volume.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1benchmarks_1a2da15f10ec84847a9a2717559602b973" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::benchmarks::verified_entries</definition>
+        <argsstring></argsstring>
+        <name>verified_entries</name>
+        <qualifiedname>themis::governance::benchmarks::verified_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="213" column="9" bodyfile="benchmarks/governance/bench_audit_export_high_volume.cpp" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1benchmarks_1a5c9336719c11fadb3c1b336d8dd155cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::benchmarks::for</definition>
+        <argsstring>(auto _ :state)</argsstring>
+        <name>for</name>
+        <qualifiedname>themis::governance::benchmarks::for</qualifiedname>
+        <param>
+          <type>auto _ :<ref refid="namespacethemis_1_1governance_1_1benchmarks_1a312bc3b070117458c628252c3dc8e0ec" kindref="member">state</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="92" column="5" bodyfile="benchmarks/governance/bench_audit_export_high_volume.cpp" bodystart="92" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1benchmarks_1a675dc4543e0a0ba6a18febf1594c62b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1governance_1_1benchmarks_1a312bc3b070117458c628252c3dc8e0ec" kindref="member">state</ref></type>
+        <definition>state themis::governance::benchmarks::SetItemsProcessed</definition>
+        <argsstring>(entry_counter)</argsstring>
+        <name>SetItemsProcessed</name>
+        <qualifiedname>themis::governance::benchmarks::SetItemsProcessed</qualifiedname>
+        <param>
+          <type>entry_counter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="97" column="10" declfile="benchmarks/governance/bench_audit_export_high_volume.cpp" declline="97" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1benchmarks_1aeec3633f8ab6f3adfc040ba3ed3e8ed9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1governance_1_1benchmarks_1a312bc3b070117458c628252c3dc8e0ec" kindref="member">state</ref></type>
+        <definition>state themis::governance::benchmarks::SetItemsProcessed</definition>
+        <argsstring>(BATCH_SIZE)</argsstring>
+        <name>SetItemsProcessed</name>
+        <qualifiedname>themis::governance::benchmarks::SetItemsProcessed</qualifiedname>
+        <param>
+          <type>BATCH_SIZE</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="149" column="10" declfile="benchmarks/governance/bench_audit_export_high_volume.cpp" declline="149" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1benchmarks_1adfe5e8e1d194ae2bba8af7dd0303ce79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1governance_1_1benchmarks_1a312bc3b070117458c628252c3dc8e0ec" kindref="member">state</ref></type>
+        <definition>state themis::governance::benchmarks::SetItemsProcessed</definition>
+        <argsstring>(ENTRIES_PER_RECOVERY)</argsstring>
+        <name>SetItemsProcessed</name>
+        <qualifiedname>themis::governance::benchmarks::SetItemsProcessed</qualifiedname>
+        <param>
+          <type>ENTRIES_PER_RECOVERY</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="179" column="10" declfile="benchmarks/governance/bench_audit_export_high_volume.cpp" declline="179" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1benchmarks_1a9feadc279b9e80c2e01da9761aa855b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1governance_1_1benchmarks_1a312bc3b070117458c628252c3dc8e0ec" kindref="member">state</ref></type>
+        <definition>state themis::governance::benchmarks::SetItemsProcessed</definition>
+        <argsstring>(token_counter)</argsstring>
+        <name>SetItemsProcessed</name>
+        <qualifiedname>themis::governance::benchmarks::SetItemsProcessed</qualifiedname>
+        <param>
+          <type>token_counter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="203" column="10" declfile="benchmarks/governance/bench_audit_export_high_volume.cpp" declline="203" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1benchmarks_1ae17164bf7fa7b8ac4a39c84b1bbbfaf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1governance_1_1benchmarks_1a312bc3b070117458c628252c3dc8e0ec" kindref="member">state</ref></type>
+        <definition>state themis::governance::benchmarks::SetItemsProcessed</definition>
+        <argsstring>(TOTAL_ENTRIES)</argsstring>
+        <name>SetItemsProcessed</name>
+        <qualifiedname>themis::governance::benchmarks::SetItemsProcessed</qualifiedname>
+        <param>
+          <type>TOTAL_ENTRIES</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="236" column="10" declfile="benchmarks/governance/bench_audit_export_high_volume.cpp" declline="236" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1benchmarks_1af54939b550179912ac62f25785f3fd95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::benchmarks::BM_AuditExport_ContinuousLoad</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AuditExport_ContinuousLoad</name>
+        <qualifiedname>themis::governance::benchmarks::BM_AuditExport_ContinuousLoad</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Sustained load test for 10 seconds Measures throughput under continuous high-volume submission</para>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="243" column="6" bodyfile="benchmarks/governance/bench_audit_export_high_volume.cpp" bodystart="243" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1benchmarks_1a5b98f5d35b746dfb7e833fd5f34eddf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::benchmarks::Iterations</definition>
+        <argsstring>(100000) -&gt; Unit(benchmark::kMillisecond)</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::governance::benchmarks::Iterations</qualifiedname>
+        <param>
+          <type>100000</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="292" column="5" declfile="benchmarks/governance/bench_audit_export_high_volume.cpp" declline="292" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1benchmarks_1a3fb0ed47e78f2b9494a4fee7bda31a61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::benchmarks::BM_AuditExport_LatencyDistribution</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AuditExport_LatencyDistribution</name>
+        <qualifiedname>themis::governance::benchmarks::BM_AuditExport_LatencyDistribution</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Measure latency distribution for signing operations Generates histogram for p50/p95/p99 analysis</para>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="295" column="6" bodyfile="benchmarks/governance/bench_audit_export_high_volume.cpp" bodystart="295" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1governance_1_1benchmarks_1ad61240c5346b02b7e73498add1948af9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::benchmarks::Iterations</definition>
+        <argsstring>(10000) -&gt; Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::governance::benchmarks::Iterations</qualifiedname>
+        <param>
+          <type>10000</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="347" column="5" declfile="benchmarks/governance/bench_audit_export_high_volume.cpp" declline="347" declcolumn="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/governance/bench_audit_export_high_volume.cpp" line="29" column="1"/>
+  </compounddef>
+</doxygen>

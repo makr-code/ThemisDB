@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_eviction_policy" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>MockEvictionPolicy</compoundname>
+    <basecompoundref refid="structthemis_1_1cache_1_1_i_eviction_policy" prot="public" virt="non-virtual">themis::cache::IEvictionPolicy</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_mock_eviction_policy_1aeb9124b28771c4ea1c5aeaa08a331571" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; MockEvictionPolicy::access_log</definition>
+        <argsstring></argsstring>
+        <name>access_log</name>
+        <qualifiedname>MockEvictionPolicy::access_log</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="40" column="17" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_eviction_policy_1a4b453319fe69b8b0144ee5d014c1d2fd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; MockEvictionPolicy::insert_log</definition>
+        <argsstring></argsstring>
+        <name>insert_log</name>
+        <qualifiedname>MockEvictionPolicy::insert_log</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="41" column="17" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_eviction_policy_1a15f4dd2b6302fa866a78728ab53be9c0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; MockEvictionPolicy::remove_log</definition>
+        <argsstring></argsstring>
+        <name>remove_log</name>
+        <qualifiedname>MockEvictionPolicy::remove_log</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="42" column="17" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_eviction_policy_1a386ea9e5d515ee292f80005023138421" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; MockEvictionPolicy::key_order</definition>
+        <argsstring></argsstring>
+        <name>key_order</name>
+        <qualifiedname>MockEvictionPolicy::key_order</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="43" column="17" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_eviction_policy_1a5f05b6adf179be1b4a5ffae4f505ce68" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockEvictionPolicy::onAccess</definition>
+        <argsstring>(const std::string &amp;key) override</argsstring>
+        <name>onAccess</name>
+        <qualifiedname>MockEvictionPolicy::onAccess</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_eviction_policy_1a05dde49b956a0567ed3d969612a32ae7">onAccess</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>On Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="45" column="10" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="45" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_eviction_policy_1a212bd3fca8aa59cf4abdd2fba4f23e2c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockEvictionPolicy::onInsert</definition>
+        <argsstring>(const std::string &amp;key) override</argsstring>
+        <name>onInsert</name>
+        <qualifiedname>MockEvictionPolicy::onInsert</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_eviction_policy_1a0d224a2de57cbbf8602979be9b1624db">onInsert</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>On Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="49" column="10" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="49" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_eviction_policy_1a62be2270cedd6c006261be837f9291c5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockEvictionPolicy::onRemove</definition>
+        <argsstring>(const std::string &amp;key) override</argsstring>
+        <name>onRemove</name>
+        <qualifiedname>MockEvictionPolicy::onRemove</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_eviction_policy_1a7a17679ea89f3a76b7ef5c640e248bf9">onRemove</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>On Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="54" column="10" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="54" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_eviction_policy_1a2048bdab73283718a790101b665f0b77" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string MockEvictionPolicy::evict</definition>
+        <argsstring>() override</argsstring>
+        <name>evict</name>
+        <qualifiedname>MockEvictionPolicy::evict</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_eviction_policy_1adec449889a0c1b2baba7c659a6137055">evict</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="60" column="17" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="60" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_eviction_policy_1a5bc8995c99905a390026f4c6c92e7357" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view MockEvictionPolicy::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>MockEvictionPolicy::name</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_eviction_policy_1a6e2ac59abe561f3835aa21f598362d24">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="69" column="22" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simple FIFO eviction policy used to test <ref refid="structthemis_1_1cache_1_1_i_eviction_policy" kindref="compound">IEvictionPolicy</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockEvictionPolicy</label>
+        <link refid="class_mock_eviction_policy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::IEvictionPolicy</label>
+        <link refid="structthemis_1_1cache_1_1_i_eviction_policy"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockEvictionPolicy</label>
+        <link refid="class_mock_eviction_policy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::IEvictionPolicy</label>
+        <link refid="structthemis_1_1cache_1_1_i_eviction_policy"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_interfaces.cpp" line="38" column="1" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="38" bodyend="70"/>
+    <listofallmembers>
+      <member refid="class_mock_eviction_policy_1aeb9124b28771c4ea1c5aeaa08a331571" prot="public" virt="non-virtual"><scope>MockEvictionPolicy</scope><name>access_log</name></member>
+      <member refid="class_mock_eviction_policy_1a2048bdab73283718a790101b665f0b77" prot="public" virt="virtual"><scope>MockEvictionPolicy</scope><name>evict</name></member>
+      <member refid="class_mock_eviction_policy_1a4b453319fe69b8b0144ee5d014c1d2fd" prot="public" virt="non-virtual"><scope>MockEvictionPolicy</scope><name>insert_log</name></member>
+      <member refid="class_mock_eviction_policy_1a386ea9e5d515ee292f80005023138421" prot="public" virt="non-virtual"><scope>MockEvictionPolicy</scope><name>key_order</name></member>
+      <member refid="class_mock_eviction_policy_1a5bc8995c99905a390026f4c6c92e7357" prot="public" virt="virtual"><scope>MockEvictionPolicy</scope><name>name</name></member>
+      <member refid="class_mock_eviction_policy_1a5f05b6adf179be1b4a5ffae4f505ce68" prot="public" virt="virtual"><scope>MockEvictionPolicy</scope><name>onAccess</name></member>
+      <member refid="class_mock_eviction_policy_1a212bd3fca8aa59cf4abdd2fba4f23e2c" prot="public" virt="virtual"><scope>MockEvictionPolicy</scope><name>onInsert</name></member>
+      <member refid="class_mock_eviction_policy_1a62be2270cedd6c006261be837f9291c5" prot="public" virt="virtual"><scope>MockEvictionPolicy</scope><name>onRemove</name></member>
+      <member refid="class_mock_eviction_policy_1a15f4dd2b6302fa866a78728ab53be9c0" prot="public" virt="non-virtual"><scope>MockEvictionPolicy</scope><name>remove_log</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_eviction_policy_1a5a4669640f538c43964b8728975a3d85" prot="public" virt="virtual"><scope>MockEvictionPolicy</scope><name>~IEvictionPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

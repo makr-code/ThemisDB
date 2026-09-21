@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_wikipedia_dead_letter_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaDeadLetterRecord</compoundname>
+    <includes refid="wikipedia__types_8hpp" local="no">wikipedia_types.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dead_letter_record_1af14df1d05ae6275df8f180b302dff5e2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaDeadLetterRecord::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>themis::importers::WikipediaDeadLetterRecord::source</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="242" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dead_letter_record_1aaa7c1e245cef080f6de33dd4ec8ff76d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaDeadLetterRecord::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::importers::WikipediaDeadLetterRecord::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="243" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_dead_letter_record_1aa677fc5b4f7fddd6c433262c14fb6735" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaDeadLetterRecord::raw_snippet</definition>
+        <argsstring></argsstring>
+        <name>raw_snippet</name>
+        <qualifiedname>themis::importers::WikipediaDeadLetterRecord::raw_snippet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="244" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="244" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_wikipedia_dead_letter_record_1afb6054a4ee6803e0f2d30c12ca071857" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::WikipediaDeadLetterRecord::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::WikipediaDeadLetterRecord::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="246" column="11" bodyfile="include/importers/wikipedia_types.hpp" bodystart="246" bodyend="252"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Dead-letter/error-sink row retained for best-effort ingestion mode. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/wikipedia_types.hpp" line="241" column="1" bodyfile="include/importers/wikipedia_types.hpp" bodystart="241" bodyend="253"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dead_letter_record_1aa677fc5b4f7fddd6c433262c14fb6735" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDeadLetterRecord</scope><name>raw_snippet</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dead_letter_record_1aaa7c1e245cef080f6de33dd4ec8ff76d" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDeadLetterRecord</scope><name>reason</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dead_letter_record_1af14df1d05ae6275df8f180b302dff5e2" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDeadLetterRecord</scope><name>source</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_dead_letter_record_1afb6054a4ee6803e0f2d30c12ca071857" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaDeadLetterRecord</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

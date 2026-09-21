@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_api_security_audit_finding" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::ApiSecurityAuditFinding</compoundname>
+    <includes refid="api__security__audit_8h" local="no">api_security_audit.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_security_audit_finding_1a77cc8c457b359983d0c2f6546352b8f2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1server_1ae75ca711f0b9df391a9a7b69ed05d7dd" kindref="member">AuditSeverity</ref></type>
+        <definition>AuditSeverity themis::server::ApiSecurityAuditFinding::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::server::ApiSecurityAuditFinding::severity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="31" column="21" bodyfile="include/server/api_security_audit.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_security_audit_finding_1a10d4936d05e4382be5c900182784b305" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ApiSecurityAuditFinding::endpoint_pattern</definition>
+        <argsstring></argsstring>
+        <name>endpoint_pattern</name>
+        <qualifiedname>themis::server::ApiSecurityAuditFinding::endpoint_pattern</qualifiedname>
+        <briefdescription>
+<para>Empty string for global findings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="32" column="21" bodyfile="include/server/api_security_audit.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_security_audit_finding_1ab2d103fdf14ce9a7dd7967aab974c7a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ApiSecurityAuditFinding::http_method</definition>
+        <argsstring></argsstring>
+        <name>http_method</name>
+        <qualifiedname>themis::server::ApiSecurityAuditFinding::http_method</qualifiedname>
+        <briefdescription>
+<para>Empty string for global findings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="33" column="21" bodyfile="include/server/api_security_audit.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_security_audit_finding_1a2911b9fbdc52bee3e8c1e119fa620f26" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ApiSecurityAuditFinding::finding</definition>
+        <argsstring></argsstring>
+        <name>finding</name>
+        <qualifiedname>themis::server::ApiSecurityAuditFinding::finding</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of the issue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="34" column="21" bodyfile="include/server/api_security_audit.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_api_security_audit_finding_1aee4bda0ff6e03a3694f9cac900027efc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::ApiSecurityAuditFinding::recommendation</definition>
+        <argsstring></argsstring>
+        <name>recommendation</name>
+        <qualifiedname>themis::server::ApiSecurityAuditFinding::recommendation</qualifiedname>
+        <briefdescription>
+<para>Actionable remediation guidance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="35" column="21" bodyfile="include/server/api_security_audit.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/api_security_audit.h" line="30" column="1" bodyfile="include/server/api_security_audit.h" bodystart="30" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_api_security_audit_finding_1a10d4936d05e4382be5c900182784b305" prot="public" virt="non-virtual"><scope>themis::server::ApiSecurityAuditFinding</scope><name>endpoint_pattern</name></member>
+      <member refid="structthemis_1_1server_1_1_api_security_audit_finding_1a2911b9fbdc52bee3e8c1e119fa620f26" prot="public" virt="non-virtual"><scope>themis::server::ApiSecurityAuditFinding</scope><name>finding</name></member>
+      <member refid="structthemis_1_1server_1_1_api_security_audit_finding_1ab2d103fdf14ce9a7dd7967aab974c7a3" prot="public" virt="non-virtual"><scope>themis::server::ApiSecurityAuditFinding</scope><name>http_method</name></member>
+      <member refid="structthemis_1_1server_1_1_api_security_audit_finding_1aee4bda0ff6e03a3694f9cac900027efc" prot="public" virt="non-virtual"><scope>themis::server::ApiSecurityAuditFinding</scope><name>recommendation</name></member>
+      <member refid="structthemis_1_1server_1_1_api_security_audit_finding_1a77cc8c457b359983d0c2f6546352b8f2" prot="public" virt="non-virtual"><scope>themis::server::ApiSecurityAuditFinding</scope><name>severity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

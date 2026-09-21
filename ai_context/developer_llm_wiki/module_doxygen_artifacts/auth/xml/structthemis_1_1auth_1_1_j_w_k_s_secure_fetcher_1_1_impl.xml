@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::JWKSSecureFetcher::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_impl_1a9c9c269498c37b170e16ce75f68e1a1c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" kindref="compound">JWKSSecurityConfig::Config</ref></type>
+        <definition>JWKSSecurityConfig::Config themis::auth::JWKSSecureFetcher::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/jwks_security.cpp" line="225" column="32" bodyfile="src/auth/jwks_security.cpp" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_impl_1a69ac5e6a9ab6a91b16fa3a68cc9c2acf" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats" kindref="compound">FetchStats</ref></type>
+        <definition>FetchStats themis::auth::JWKSSecureFetcher::Impl::last_stats</definition>
+        <argsstring></argsstring>
+        <name>last_stats</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::Impl::last_stats</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats" kindref="compound">FetchStats</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/jwks_security.cpp" line="226" column="16" bodyfile="src/auth/jwks_security.cpp" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_impl_1a74ed3e85c9e1244b864b3935cf794ae6" prot="public" static="no" mutable="no">
+        <type>CURL *</type>
+        <definition>CURL* themis::auth::JWKSSecureFetcher::Impl::curl</definition>
+        <argsstring></argsstring>
+        <name>curl</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::Impl::curl</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/jwks_security.cpp" line="227" column="10" bodyfile="src/auth/jwks_security.cpp" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_impl_1a9a6ec94223712e798ae0b247d6b9e186" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::JWKSSecureFetcher::Impl::Impl</definition>
+        <argsstring>(const JWKSSecurityConfig::Config &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" kindref="compound">JWKSSecurityConfig::Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/jwks_security.cpp" line="229" column="14" bodyfile="src/auth/jwks_security.cpp" bodystart="229" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_impl_1a015245be48d668065d1d0a15f6600d52" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::JWKSSecureFetcher::Impl::~Impl</definition>
+        <argsstring>()</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/jwks_security.cpp" line="237" column="5" bodyfile="src/auth/jwks_security.cpp" bodystart="237" bodyend="251"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::auth::JWKSSecureFetcher::FetchStats</label>
+        <link refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats"/>
+      </node>
+      <node id="1">
+        <label>themis::auth::JWKSSecureFetcher::Impl</label>
+        <link refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>last_stats</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::auth::JWKSSecurityConfig::Config</label>
+        <link refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>client_key_password</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::auth::SecureString</label>
+        <link refid="classthemis_1_1auth_1_1_secure_string"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/auth/jwks_security.cpp" line="224" column="1" bodyfile="src/auth/jwks_security.cpp" bodystart="224" bodyend="252"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_impl_1a9c9c269498c37b170e16ce75f68e1a1c" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_impl_1a74ed3e85c9e1244b864b3935cf794ae6" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher::Impl</scope><name>curl</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_impl_1a9a6ec94223712e798ae0b247d6b9e186" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_impl_1a69ac5e6a9ab6a91b16fa3a68cc9c2acf" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher::Impl</scope><name>last_stats</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_impl_1a015245be48d668065d1d0a15f6600d52" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

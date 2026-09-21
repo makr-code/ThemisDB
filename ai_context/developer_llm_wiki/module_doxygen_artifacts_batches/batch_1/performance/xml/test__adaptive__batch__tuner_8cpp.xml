@@ -1,0 +1,726 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__adaptive__batch__tuner_8cpp" kind="file" language="C++">
+    <compoundname>test_adaptive_batch_tuner.cpp</compoundname>
+    <includes refid="adaptive__batch__tuner_8h" local="yes">performance/phase3/adaptive_batch_tuner.h</includes>
+    <includes refid="phase3_2feature__flags_8h" local="yes">performance/phase3/feature_flags.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">thread</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>performance/cycle_metrics.h</label>
+        <link refid="cycle__metrics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>performance/phase3/adaptive_batch_tuner.h</label>
+        <link refid="adaptive__batch__tuner_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>performance/phase3/feature_flags.h</label>
+        <link refid="phase3_2feature__flags_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/performance/phase3/test_adaptive_batch_tuner.cpp</label>
+        <link refid="test__adaptive__batch__tuner_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="13">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_adaptive_batch_tuner_test" prot="public">AdaptiveBatchTunerTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1a3f3894a99c3830534f2c043eae00032f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaptiveBatchTunerTest, DefaultConstruction)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref></type>
+        </param>
+        <param>
+          <type>DefaultConstruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="51" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="51" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1a3954fc5e6ae2c5e703b2d65c923fe6c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaptiveBatchTunerTest, InitialBatchSizeClamped)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref></type>
+        </param>
+        <param>
+          <type>InitialBatchSizeClamped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="62" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="62" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1adce0ff305aecc98f2c62f2f475143c2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaptiveBatchTunerTest, RecordBatchIncrementsCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref></type>
+        </param>
+        <param>
+          <type>RecordBatchIncrementsCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="78" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="78" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1a73cc39f23a151171e034957d39a18563" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaptiveBatchTunerTest, RecordBatchIgnoresZeroTokens)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref></type>
+        </param>
+        <param>
+          <type>RecordBatchIgnoresZeroTokens</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="84" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="84" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1aa83c4e29bbae34f5e9f4e02cf686c30b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaptiveBatchTunerTest, GetRecentRecordsLimit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref></type>
+        </param>
+        <param>
+          <type>GetRecentRecordsLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="92" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="92" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1a81ab036ffaa1a50199e8e2823ad3a86c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaptiveBatchTunerTest, GetRecentRecordsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref></type>
+        </param>
+        <param>
+          <type>GetRecentRecordsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="101" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="101" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1a8a7247fb62bf86a343fc23da8948375e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaptiveBatchTunerTest, BatchGuardRecordsOnDestruction)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref></type>
+        </param>
+        <param>
+          <type>BatchGuardRecordsOnDestruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="110" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="110" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1a80c4aa34e3bc9f479cdf9fcf21e7df85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaptiveBatchTunerTest, BatchGuardExplicitEnd)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref></type>
+        </param>
+        <param>
+          <type>BatchGuardExplicitEnd</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="127" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="127" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1ac418c40b289645cf5399d7e21a5dca48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaptiveBatchTunerTest, BatchGuardMovedFromDoesNotDoubleRecord)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref></type>
+        </param>
+        <param>
+          <type>BatchGuardMovedFromDoesNotDoubleRecord</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="138" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="138" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1a6575fef63a396dfd4002da324607aea3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaptiveBatchTunerTest, StatsAfterSeveralBatches)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref></type>
+        </param>
+        <param>
+          <type>StatsAfterSeveralBatches</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="152" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="152" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1aa426f1eba8f58a43954e91cab56d06ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaptiveBatchTunerTest, BatchSizeNeverExceedsMax)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref></type>
+        </param>
+        <param>
+          <type>BatchSizeNeverExceedsMax</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="168" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="168" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1a3eeea307df5b075543668f9f7e3fb13c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaptiveBatchTunerTest, BatchSizeNeverBelowMin)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref></type>
+        </param>
+        <param>
+          <type>BatchSizeNeverBelowMin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="177" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="177" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1ae1f4599914fb388701f40ca3d9486a3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaptiveBatchTunerTest, LatencyBudgetReducesBatchSize)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref></type>
+        </param>
+        <param>
+          <type>LatencyBudgetReducesBatchSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="191" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="191" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1a7a8fca45862f1320876acf57f5a1b7b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaptiveBatchTunerTest, ThroughputImprovementIncreasesBatchSize)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref></type>
+        </param>
+        <param>
+          <type>ThroughputImprovementIncreasesBatchSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="211" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="211" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1aad7050aaca4d9cb87e6e5b6b5a31e70d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaptiveBatchTunerTest, ResetClearsState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref></type>
+        </param>
+        <param>
+          <type>ResetClearsState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="230" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="230" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1ab67f207588c248fde934aadb7be80afa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdaptiveBatchTunerTest, SummaryNonEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref></type>
+        </param>
+        <param>
+          <type>SummaryNonEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="249" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="249" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1a898682c90c8429f3b9fd040b09ea7090" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdaptiveBatchTunerFeatureFlagTest, EnabledByDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdaptiveBatchTunerFeatureFlagTest</type>
+        </param>
+        <param>
+          <type>EnabledByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="259" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="259" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adaptive__batch__tuner_8cpp_1ae1bbe4cc6167a05a4735d8d82fae2073" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdaptiveBatchTunerFeatureFlagTest, MacroReflectsInstance)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdaptiveBatchTunerFeatureFlagTest</type>
+        </param>
+        <param>
+          <type>MacroReflectsInstance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp" line="264" column="1" bodyfile="tests/performance/phase3/test_adaptive_batch_tuner.cpp" bodystart="264" bodyend="273"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Unit<sp/>tests<sp/>for<sp/>LLMBatchTuner<sp/>(Phase<sp/>3,<sp/>Issue<sp/>#1996)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>cover:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Default<sp/>construction<sp/>and<sp/>initial<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>RAII<sp/>BatchGuard<sp/>records<sp/>a<sp/>measurement<sp/>on<sp/>destruction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Explicit<sp/>guard.end()<sp/>finalises<sp/>measurement;<sp/>double-end<sp/>is<sp/>a<sp/>no-op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>recordBatch()<sp/>path<sp/>(no<sp/>cycle<sp/>counter)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Batch<sp/>size<sp/>increases<sp/>when<sp/>throughput<sp/>is<sp/>improving<sp/>(low<sp/>latency)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Batch<sp/>size<sp/>decreases<sp/>when<sp/>latency<sp/>budget<sp/>is<sp/>breached</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Batch<sp/>size<sp/>stays<sp/>within<sp/>[min,<sp/>max]<sp/>bounds<sp/>at<sp/>all<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>reset()<sp/>clears<sp/>all<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>getStats()<sp/>returns<sp/>consistent<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>getRecentRecords()<sp/>limits<sp/>the<sp/>result<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>summary()<sp/>returns<sp/>a<sp/>non-empty<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Feature<sp/>flag<sp/>defaults<sp/>to<sp/>enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adaptive__batch__tuner_8h" kindref="compound">performance/phase3/adaptive_batch_tuner.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="phase3_2feature__flags_8h" kindref="compound">performance/phase3/feature_flags.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance_1_1phase3" kindref="compound">themis::performance::phase3</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="class_adaptive_batch_tuner_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tight<sp/>window<sp/>for<sp/>fast-reacting<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config" kindref="compound">LLMBatchTuner::Config</ref><sp/><ref refid="class_adaptive_batch_tuner_test_1ad22660c282f1be821c84d165a7ab7356" kindref="member">makeConfig</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>window<sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>max_lat<sp/>=<sp/>0.0)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config" kindref="compound">LLMBatchTuner::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1af7ab10b2b26f5f4630e81617f3b78d88" kindref="member">min_batch_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a8fc8c0b02e757a37868f459c59555767" kindref="member">max_batch_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1afb2eaa18a65821345b01877ed77eef0c" kindref="member">initial_batch_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a8a7627739eccf95ed7b4b004f6f77f4b" kindref="member">step_up</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a82eaa8a276959b3a52288a256f3d3eb9" kindref="member">step_down</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1ad8b60f5b527a6bd8946b5cf39299ae6b" kindref="member">window_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>window;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a399b61aa6efe8d033a2ca520b52fa694" kindref="member">max_latency_ms_per_token</ref><sp/><sp/><sp/>=<sp/>max_lat;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_config_1a55a6742e6912442c85acef7121f5d194" kindref="member">ema_alpha</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.5f;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Initial<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a3f3894a99c3830534f2c043eae00032f" kindref="member">TEST_F</ref>(<ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref>,<sp/>DefaultConstruction)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kindref="compound">LLMBatchTuner</ref><sp/>tuner;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afc551298d60ce16f47929a74b4954d84" kindref="member">recommendedBatchSize</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aeed19b3b01528bfe0a4cde8a56d26c65" kindref="member">totalBatches</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1af4f6fc28adaec4feb6c6986d93093afa" kindref="member">getStats</ref>();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_batches,<sp/>0u);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.tuning_events,<sp/>0u);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(stats.avg_latency_ms,<sp/>0.0);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a3f3894a99c3830534f2c043eae00032f" kindref="member">TEST_F</ref>(<ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref>,<sp/>InitialBatchSizeClamped)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.initial_batch_size<sp/>=<sp/>100;<sp/><sp/></highlight><highlight class="comment">//<sp/>above<sp/>max</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kindref="compound">LLMBatchTuner</ref><sp/>tuner(cfg);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afc551298d60ce16f47929a74b4954d84" kindref="member">recommendedBatchSize</ref>(),<sp/>32u);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg2<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg2.initial_batch_size<sp/>=<sp/>0;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>below<sp/>min</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kindref="compound">LLMBatchTuner</ref><sp/>tuner2(cfg2);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tuner2.recommendedBatchSize(),<sp/>1u);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>recordBatch<sp/>(no<sp/>RAII<sp/>guard)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a3f3894a99c3830534f2c043eae00032f" kindref="member">TEST_F</ref>(<ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref>,<sp/>RecordBatchIncrementsCount)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kindref="compound">LLMBatchTuner</ref><sp/>tuner(makeConfig());</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a4adfde7b05f694069be7ab24fedabca9" kindref="member">recordBatch</ref>(4,<sp/>256,<sp/>10.0);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aeed19b3b01528bfe0a4cde8a56d26c65" kindref="member">totalBatches</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a3f3894a99c3830534f2c043eae00032f" kindref="member">TEST_F</ref>(<ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref>,<sp/>RecordBatchIgnoresZeroTokens)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kindref="compound">LLMBatchTuner</ref><sp/>tuner(makeConfig());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a4adfde7b05f694069be7ab24fedabca9" kindref="member">recordBatch</ref>(4,<sp/>0,<sp/>10.0);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>total_tokens<sp/>==<sp/>0<sp/>→<sp/>ignored</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a4adfde7b05f694069be7ab24fedabca9" kindref="member">recordBatch</ref>(0,<sp/>256,<sp/>10.0);<sp/></highlight><highlight class="comment">//<sp/>batch_size<sp/>==<sp/>0<sp/><sp/>→<sp/>ignored</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a4adfde7b05f694069be7ab24fedabca9" kindref="member">recordBatch</ref>(4,<sp/>256,<sp/>0.0);<sp/><sp/></highlight><highlight class="comment">//<sp/>latency_ms<sp/>==<sp/>0<sp/><sp/>→<sp/>ignored</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aeed19b3b01528bfe0a4cde8a56d26c65" kindref="member">totalBatches</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a3f3894a99c3830534f2c043eae00032f" kindref="member">TEST_F</ref>(<ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref>,<sp/>GetRecentRecordsLimit)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kindref="compound">LLMBatchTuner</ref><sp/>tuner(makeConfig(</highlight><highlight class="comment">/*window=*/</highlight><highlight class="normal">8));</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a4adfde7b05f694069be7ab24fedabca9" kindref="member">recordBatch</ref>(4,<sp/>128,<sp/>5.0);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recent<sp/>=<sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afd8b6f1bcdb9bc960c88662b942a4a14" kindref="member">getRecentRecords</ref>(3);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(recent.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a3f3894a99c3830534f2c043eae00032f" kindref="member">TEST_F</ref>(<ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref>,<sp/>GetRecentRecordsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kindref="compound">LLMBatchTuner</ref><sp/>tuner(makeConfig());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afd8b6f1bcdb9bc960c88662b942a4a14" kindref="member">getRecentRecords</ref>(10).empty());</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BatchGuard<sp/>–<sp/>RAII<sp/>timing<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a3f3894a99c3830534f2c043eae00032f" kindref="member">TEST_F</ref>(<ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref>,<sp/>BatchGuardRecordsOnDestruction)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kindref="compound">LLMBatchTuner</ref><sp/>tuner(makeConfig());</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>guard<sp/>=<sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afbe27a2174ef455e9068461abc4e3afe" kindref="member">beginBatch</ref>(4,<sp/>256);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(1));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>destructor<sp/>fires<sp/>here</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aeed19b3b01528bfe0a4cde8a56d26c65" kindref="member">totalBatches</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>records<sp/>=<sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afd8b6f1bcdb9bc960c88662b942a4a14" kindref="member">getRecentRecords</ref>(5);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(records.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(records[0].batch_size,<sp/>4u);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(records[0].total_tokens,<sp/>256u);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(records[0].latency_ms,<sp/>0.0);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(records[0].tokens_per_s,<sp/>0.0);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a3f3894a99c3830534f2c043eae00032f" kindref="member">TEST_F</ref>(<ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref>,<sp/>BatchGuardExplicitEnd)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kindref="compound">LLMBatchTuner</ref><sp/>tuner(makeConfig());</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>guard<sp/>=<sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afbe27a2174ef455e9068461abc4e3afe" kindref="member">beginBatch</ref>(4,<sp/>128);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(1));</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>guard.end();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aeed19b3b01528bfe0a4cde8a56d26c65" kindref="member">totalBatches</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>end()<sp/>is<sp/>a<sp/>no-op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>guard.end();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aeed19b3b01528bfe0a4cde8a56d26c65" kindref="member">totalBatches</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a3f3894a99c3830534f2c043eae00032f" kindref="member">TEST_F</ref>(<ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref>,<sp/>BatchGuardMovedFromDoesNotDoubleRecord)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kindref="compound">LLMBatchTuner</ref><sp/>tuner(makeConfig());</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g1<sp/>=<sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afbe27a2174ef455e9068461abc4e3afe" kindref="member">beginBatch</ref>(4,<sp/>64);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g2<sp/>=<sp/>std::move(g1);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>g1<sp/>is<sp/>moved-from;<sp/>g2<sp/>records<sp/>on<sp/>destruction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aeed19b3b01528bfe0a4cde8a56d26c65" kindref="member">totalBatches</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a3f3894a99c3830534f2c043eae00032f" kindref="member">TEST_F</ref>(<ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref>,<sp/>StatsAfterSeveralBatches)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kindref="compound">LLMBatchTuner</ref><sp/>tuner(makeConfig(</highlight><highlight class="comment">/*window=*/</highlight><highlight class="normal">4));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>6;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a4adfde7b05f694069be7ab24fedabca9" kindref="member">recordBatch</ref>(4,<sp/>256,<sp/>10.0<sp/>+<sp/>i);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1af4f6fc28adaec4feb6c6986d93093afa" kindref="member">getStats</ref>();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.total_batches,<sp/>6u);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(s.ema_throughput,<sp/>0.0);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(s.avg_latency_ms,<sp/>0.0);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(s.p99_latency_ms,<sp/>s.avg_latency_ms);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Batch<sp/>size<sp/>bounds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a3f3894a99c3830534f2c043eae00032f" kindref="member">TEST_F</ref>(<ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref>,<sp/>BatchSizeNeverExceedsMax)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kindref="compound">LLMBatchTuner</ref><sp/>tuner(makeConfig(</highlight><highlight class="comment">/*window=*/</highlight><highlight class="normal">2));</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Feed<sp/>many<sp/>low-latency<sp/>batches<sp/>→<sp/>should<sp/>try<sp/>to<sp/>increase<sp/>batch<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a4adfde7b05f694069be7ab24fedabca9" kindref="member">recordBatch</ref>(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afc551298d60ce16f47929a74b4954d84" kindref="member">recommendedBatchSize</ref>(),<sp/>512,<sp/>1.0);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afc551298d60ce16f47929a74b4954d84" kindref="member">recommendedBatchSize</ref>(),<sp/>32u);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a3f3894a99c3830534f2c043eae00032f" kindref="member">TEST_F</ref>(<ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref>,<sp/>BatchSizeNeverBelowMin)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig(</highlight><highlight class="comment">/*window=*/</highlight><highlight class="normal">2,<sp/></highlight><highlight class="comment">/*max_lat=*/</highlight><highlight class="normal">0.001);<sp/><sp/></highlight><highlight class="comment">//<sp/>very<sp/>tight<sp/>budget</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kindref="compound">LLMBatchTuner</ref><sp/>tuner(cfg);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Feed<sp/>high-latency<sp/>batches<sp/>→<sp/>should<sp/>decrease<sp/>batch<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a4adfde7b05f694069be7ab24fedabca9" kindref="member">recordBatch</ref>(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afc551298d60ce16f47929a74b4954d84" kindref="member">recommendedBatchSize</ref>(),<sp/>1,<sp/>9999.0);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afc551298d60ce16f47929a74b4954d84" kindref="member">recommendedBatchSize</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Latency<sp/>budget<sp/>enforcement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a3f3894a99c3830534f2c043eae00032f" kindref="member">TEST_F</ref>(<ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref>,<sp/>LatencyBudgetReducesBatchSize)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>max_latency_ms_per_token<sp/>=<sp/>1.0<sp/>ms/token;<sp/>we&apos;ll<sp/>breach<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig(</highlight><highlight class="comment">/*window=*/</highlight><highlight class="normal">4,<sp/></highlight><highlight class="comment">/*max_lat=*/</highlight><highlight class="normal">1.0);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kindref="compound">LLMBatchTuner</ref><sp/>tuner(cfg);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>initial<sp/>=<sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afc551298d60ce16f47929a74b4954d84" kindref="member">recommendedBatchSize</ref>();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>batch:<sp/>1<sp/>token,<sp/>9999<sp/>ms<sp/>latency<sp/>→<sp/>9999<sp/>ms/token<sp/>&gt;&gt;<sp/>budget</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>static_cast&lt;int&gt;(cfg.window_size);<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a4adfde7b05f694069be7ab24fedabca9" kindref="member">recordBatch</ref>(cfg.initial_batch_size,<sp/>1,<sp/>9999.0);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>one<sp/>full<sp/>window,<sp/>the<sp/>tuner<sp/>should<sp/>have<sp/>reduced<sp/>the<sp/>batch<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afc551298d60ce16f47929a74b4954d84" kindref="member">recommendedBatchSize</ref>(),<sp/>initial);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Throughput<sp/>improvement<sp/>increases<sp/>batch<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a3f3894a99c3830534f2c043eae00032f" kindref="member">TEST_F</ref>(<ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref>,<sp/>ThroughputImprovementIncreasesBatchSize)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig(</highlight><highlight class="comment">/*window=*/</highlight><highlight class="normal">4,<sp/></highlight><highlight class="comment">/*max_lat=*/</highlight><highlight class="normal">0.0);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.initial_batch_size<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kindref="compound">LLMBatchTuner</ref><sp/>tuner(cfg);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>initial<sp/>=<sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afc551298d60ce16f47929a74b4954d84" kindref="member">recommendedBatchSize</ref>();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Low-latency<sp/>batches<sp/>→<sp/>EMA<sp/>throughput<sp/>grows<sp/>→<sp/>batch<sp/>size<sp/>should<sp/>increase</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>static_cast&lt;int&gt;(cfg.window_size)<sp/>*<sp/>2;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a4adfde7b05f694069be7ab24fedabca9" kindref="member">recordBatch</ref>(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afc551298d60ce16f47929a74b4954d84" kindref="member">recommendedBatchSize</ref>(),<sp/>512,<sp/>1.0);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afc551298d60ce16f47929a74b4954d84" kindref="member">recommendedBatchSize</ref>(),<sp/>initial);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>reset()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a3f3894a99c3830534f2c043eae00032f" kindref="member">TEST_F</ref>(<ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref>,<sp/>ResetClearsState)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kindref="compound">LLMBatchTuner</ref><sp/>tuner(makeConfig());</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a4adfde7b05f694069be7ab24fedabca9" kindref="member">recordBatch</ref>(4,<sp/>128,<sp/>5.0);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aeed19b3b01528bfe0a4cde8a56d26c65" kindref="member">totalBatches</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a64fe5f4ea4d349c92d4dc1cf77372b2d" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1aeed19b3b01528bfe0a4cde8a56d26c65" kindref="member">totalBatches</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1af4f6fc28adaec4feb6c6986d93093afa" kindref="member">getStats</ref>().<ref refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_stats_1aaedc1162416ac4c230d2c3be126e152c" kindref="member">total_batches</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afd8b6f1bcdb9bc960c88662b942a4a14" kindref="member">getRecentRecords</ref>().empty());</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1afc551298d60ce16f47929a74b4954d84" kindref="member">recommendedBatchSize</ref>(),<sp/>4u);<sp/><sp/></highlight><highlight class="comment">//<sp/>back<sp/>to<sp/>initial</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>summary()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a3f3894a99c3830534f2c043eae00032f" kindref="member">TEST_F</ref>(<ref refid="class_adaptive_batch_tuner_test" kindref="compound">AdaptiveBatchTunerTest</ref>,<sp/>SummaryNonEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner" kindref="compound">LLMBatchTuner</ref><sp/>tuner(makeConfig());</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a4adfde7b05f694069be7ab24fedabca9" kindref="member">recordBatch</ref>(4,<sp/>128,<sp/>5.0);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(tuner.<ref refid="classthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1a301c9244ae752c08014fd731eae114a1" kindref="member">summary</ref>().empty());</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a898682c90c8429f3b9fd040b09ea7090" kindref="member">TEST</ref>(AdaptiveBatchTunerFeatureFlagTest,<sp/>EnabledByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>adaptive_batch_tuner_enabled<sp/>flag<sp/>defaults<sp/>to<sp/>true.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a657592616ed937fb79ded7a9a00c5933" kindref="member">Phase3FeatureFlags::instance</ref>().adaptive_batch_tuner_enabled());</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><ref refid="test__adaptive__batch__tuner_8cpp_1a898682c90c8429f3b9fd040b09ea7090" kindref="member">TEST</ref>(AdaptiveBatchTunerFeatureFlagTest,<sp/>MacroReflectsInstance)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a657592616ed937fb79ded7a9a00c5933" kindref="member">Phase3FeatureFlags::instance</ref>().<ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a5872668a6af0aa759fa454c779f7721c" kindref="member">set_adaptive_batch_tuner_enabled</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="phase3_2feature__flags_8h_1a8e76ef97cd3af661f34069232f606ee9" kindref="member">THEMIS_PHASE3_ADAPTIVE_BATCH_TUNER_ENABLED</ref>());</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a657592616ed937fb79ded7a9a00c5933" kindref="member">Phase3FeatureFlags::instance</ref>().<ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a5872668a6af0aa759fa454c779f7721c" kindref="member">set_adaptive_batch_tuner_enabled</ref>(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="phase3_2feature__flags_8h_1a8e76ef97cd3af661f34069232f606ee9" kindref="member">THEMIS_PHASE3_ADAPTIVE_BATCH_TUNER_ENABLED</ref>());</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Restore<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a657592616ed937fb79ded7a9a00c5933" kindref="member">Phase3FeatureFlags::instance</ref>().<ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a5872668a6af0aa759fa454c779f7721c" kindref="member">set_adaptive_batch_tuner_enabled</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/performance/phase3/test_adaptive_batch_tuner.cpp"/>
+  </compounddef>
+</doxygen>

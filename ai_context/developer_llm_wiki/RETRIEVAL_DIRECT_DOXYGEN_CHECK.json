@@ -1,0 +1,324 @@
+{
+  "module": "retrieval",
+  "source_mode": "direct_doxygen_markers",
+  "source_graph_used": false,
+  "source_graph_path": "C:\\Projects\\ThemisDB\\ai_working\\sourcecode_graph.json",
+  "source_files_scanned": 8,
+  "source_symbols_total": 70,
+  "source_symbols_after_filter": 53,
+  "doxygen_members_total": 129,
+  "doxygen_members_after_filter": 95,
+  "source_symbol_names": 23,
+  "doxygen_symbol_names": 72,
+  "source_not_in_doxygen_count": 4,
+  "doxygen_not_in_source_count": 53,
+  "coverage": {
+    "symbol_presence_ratio": 0.8261,
+    "missing_symbol_count": 4,
+    "missing_brief_count": 67,
+    "missing_param_docs_count": 24,
+    "missing_return_docs_count": 28
+  },
+  "by_rule": {
+    "missing_symbol": 4,
+    "missing_brief": 67,
+    "missing_param_docs": 24,
+    "missing_return_docs": 28
+  },
+  "by_scope": {
+    "src": 42,
+    "tests": 61,
+    "benchmarks": 9,
+    "include": 0,
+    "other": 11
+  },
+  "samples": {
+    "source_not_in_doxygen": [
+      "AdapterTrustRegistry",
+      "isTrusted",
+      "lk",
+      "makePayload"
+    ],
+    "doxygen_not_in_source": [
+      "AdapterUsagePolicy",
+      "ArtifactIntegrity",
+      "HybridRetrieverParity",
+      "LoRAManifestStore",
+      "LoRAPackage",
+      "LoRAPackageProvenance",
+      "PortableAdapterProduct",
+      "addDocument",
+      "addVector",
+      "clearData",
+      "clearDocuments",
+      "clearVectors",
+      "computeDistance",
+      "computeSpearmanCorrelation",
+      "contains",
+      "corrupt",
+      "documentCount",
+      "exportPackages",
+      "exportProducts",
+      "getDocumentCount",
+      "getMode",
+      "heal",
+      "insert",
+      "listPackageIds",
+      "listPackagesByStatus"
+    ],
+    "findings": [
+      {
+        "rule": "missing_symbol",
+        "symbol": "AdapterTrustRegistry",
+        "count": 1,
+        "source_examples": [
+          {
+            "file": "C:\\Projects\\ThemisDB\\tests\\retrieval\\test_retrieval_lora_trust_boundary_focused.cpp",
+            "line": 47,
+            "kind": "class",
+            "name": "AdapterTrustRegistry",
+            "scope": "tests"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "isTrusted",
+        "count": 1,
+        "source_examples": [
+          {
+            "file": "C:\\Projects\\ThemisDB\\tests\\retrieval\\test_retrieval_lora_trust_boundary_focused.cpp",
+            "line": 64,
+            "kind": "function",
+            "name": "isTrusted",
+            "scope": "tests"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "lk",
+        "count": 13,
+        "source_examples": [
+          {
+            "file": "C:\\Projects\\ThemisDB\\src\\retrieval\\src\\lora_package.cc",
+            "line": 693,
+            "kind": "function",
+            "name": "lk",
+            "scope": "src"
+          },
+          {
+            "file": "C:\\Projects\\ThemisDB\\src\\retrieval\\src\\lora_package.cc",
+            "line": 718,
+            "kind": "function",
+            "name": "lk",
+            "scope": "src"
+          },
+          {
+            "file": "C:\\Projects\\ThemisDB\\src\\retrieval\\src\\lora_package.cc",
+            "line": 735,
+            "kind": "function",
+            "name": "lk",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "makePayload",
+        "count": 1,
+        "source_examples": [
+          {
+            "file": "C:\\Projects\\ThemisDB\\tests\\retrieval\\test_retrieval_lora_trust_boundary_focused.cpp",
+            "line": 89,
+            "kind": "function",
+            "name": "makePayload",
+            "scope": "tests"
+          }
+        ]
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "routeKey",
+        "kind": "function",
+        "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+        "line": 35,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "routeKey",
+        "kind": "function",
+        "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+        "line": 35,
+        "scope": "benchmarks",
+        "param_total": 2,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "routeKey",
+        "kind": "function",
+        "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+        "line": 35,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "stubGpuQuery",
+        "kind": "function",
+        "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+        "line": 78,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "stubGpuQuery",
+        "kind": "function",
+        "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+        "line": 78,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "stubGpuQuery",
+        "kind": "function",
+        "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+        "line": 78,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "stubCpuQuery",
+        "kind": "function",
+        "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+        "line": 85,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "stubCpuQuery",
+        "kind": "function",
+        "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+        "line": 85,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "stubCpuQuery",
+        "kind": "function",
+        "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
+        "line": 85,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "StubRoutingTable",
+        "kind": "function",
+        "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+        "line": 40,
+        "scope": "tests"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "StubRoutingTable",
+        "kind": "function",
+        "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+        "line": 40,
+        "scope": "tests",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "route",
+        "kind": "function",
+        "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+        "line": 42,
+        "scope": "tests"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "route",
+        "kind": "function",
+        "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+        "line": 42,
+        "scope": "tests",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "route",
+        "kind": "function",
+        "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+        "line": 42,
+        "scope": "tests"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "corrupt",
+        "kind": "function",
+        "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+        "line": 46,
+        "scope": "tests"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "corrupt",
+        "kind": "function",
+        "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+        "line": 46,
+        "scope": "tests",
+        "param_total": 2,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "heal",
+        "kind": "function",
+        "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+        "line": 51,
+        "scope": "tests"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "routeWithOverride",
+        "kind": "function",
+        "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+        "line": 56,
+        "scope": "tests"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "routeWithOverride",
+        "kind": "function",
+        "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+        "line": 56,
+        "scope": "tests",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "routeWithOverride",
+        "kind": "function",
+        "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+        "line": 56,
+        "scope": "tests"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "numShards",
+        "kind": "function",
+        "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
+        "line": 63,
+        "scope": "tests"
+      }
+    ]
+  }
+}

@@ -1,0 +1,345 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ethics__ai__discourse__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_ethics_ai_discourse_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="ethics__ai__types_8h" local="yes">ethics_ai/ethics_ai_types.h</includes>
+    <includes refid="ethics__selection__router_8h" local="yes">ethics_ai/ethics_selection_router.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>ethics_ai/ethics_ai_types.h</label>
+        <link refid="ethics__ai__types_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>ethics_ai/ethics_selection_router.h</label>
+        <link refid="ethics__selection__router_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp</label>
+        <link refid="test__ethics__ai__discourse__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>ethics_ai/ethics_profile_registry.h</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ethics__ai__discourse__hardening__focused_8cpp_1afa23b1ef95b6713d91f3e41b02f8d72b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DiscourseHardening, DefaultConflictThresholdRatioIs0_6)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DiscourseHardening</type>
+        </param>
+        <param>
+          <type>DefaultConflictThresholdRatioIs0_6</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para>DH-01: Default conflict_threshold_ratio is 0.6. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp" line="40" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__discourse__hardening__focused_8cpp_1abf78f3fc5cefd2e452a2f270a1bbbe7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DiscourseHardening, ZeroConflictThresholdIsAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DiscourseHardening</type>
+        </param>
+        <param>
+          <type>ZeroConflictThresholdIsAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000002"><xreftitle>Test</xreftitle><xrefdescription><para>DH-02: Zero conflict_threshold_ratio is accepted. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp" line="48" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp" bodystart="48" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__discourse__hardening__focused_8cpp_1a475062725e6f327e5ab702e594afedfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DiscourseHardening, ConflictThresholdOf1_0IsAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DiscourseHardening</type>
+        </param>
+        <param>
+          <type>ConflictThresholdOf1_0IsAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000003"><xreftitle>Test</xreftitle><xrefdescription><para>DH-03: conflict_threshold_ratio of 1.0 is accepted. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp" line="57" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp" bodystart="57" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__discourse__hardening__focused_8cpp_1add1820b383f540fa92eb6463d933df9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DiscourseHardening, RouterConfigWithHardeningFieldsCompiles)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DiscourseHardening</type>
+        </param>
+        <param>
+          <type>RouterConfigWithHardeningFieldsCompiles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para>DH-04: <ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref> with both LDM hardening fields compiles and is assignable. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp" line="66" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp" bodystart="66" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__discourse__hardening__focused_8cpp_1a5df7e47f4aed420d78f61885acecefb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DiscourseHardening, HighScoreYieldsClearConsensus)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DiscourseHardening</type>
+        </param>
+        <param>
+          <type>HighScoreYieldsClearConsensus</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000005"><xreftitle>Test</xreftitle><xrefdescription><para>DH-05: score &gt; 0.75 produces CLEAR_CONSENSUS. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp" line="81" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp" bodystart="81" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__discourse__hardening__focused_8cpp_1a7dc9136f2f45d4d63ef025ca580c43af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DiscourseHardening, BoundaryScoreAt0_60IsContested)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DiscourseHardening</type>
+        </param>
+        <param>
+          <type>BoundaryScoreAt0_60IsContested</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000006"><xreftitle>Test</xreftitle><xrefdescription><para>DH-06: score exactly 0.60 maps to CONTESTED (boundary check). </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp" line="91" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp" bodystart="91" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__discourse__hardening__focused_8cpp_1aab38da406d939c30a09946e7f9984c72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DiscourseHardening, ZeroScoreIsDissent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DiscourseHardening</type>
+        </param>
+        <param>
+          <type>ZeroScoreIsDissent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000007"><xreftitle>Test</xreftitle><xrefdescription><para>DH-07: score 0.0 maps to DISSENT. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp" line="100" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp" bodystart="100" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__discourse__hardening__focused_8cpp_1ae0b6e9107a228ee6513b86ab326a56b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DiscourseHardening, MetaVerdictThresholdIsDeterministic)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DiscourseHardening</type>
+        </param>
+        <param>
+          <type>MetaVerdictThresholdIsDeterministic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000008"><xreftitle>Test</xreftitle><xrefdescription><para>DH-08: MetaVerdictThreshold is deterministic for identical inputs. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp" line="108" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp" bodystart="108" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Discourse hardening: conflict/convergence semantics for extended debate rounds. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="test__ethics__ai__discourse__hardening__focused_8cpp_1autotoc_md3_1s1"><sect2 id="test__ethics__ai__discourse__hardening__focused_8cpp_1autotoc_md3">
+<title>Test families (DH-01..DH-08)</title><para><heading level="3">DH-01..04 — conflict_threshold_ratio in <ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref></heading>
+</para>
+<para>DH-01 Default conflict_threshold_ratio is 0.6 DH-02 Zero threshold disables conflict detection DH-03 Threshold value 1.0 classifies all rounds as conflict DH-04 <ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref> with conflict_threshold_ratio and snapshot flag compiles correctly</para>
+<para><heading level="3">DH-05..08 — MetaVerdictThreshold alignment</heading>
+</para>
+<para>DH-05 score &gt; 0.75 → CLEAR_CONSENSUS DH-06 score exactly 0.60 → CONTESTED (boundary) DH-07 score 0.0 → DISSENT DH-08 Determinism: same score → same verdict (idempotent)</para>
+<para><simplesect kind="see"><para><ref refid="ethics__selection__router_8h" kindref="compound">include/ethics_ai/ethics_selection_router.h</ref> — <ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref> extensions </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="ethics__ai__types_8h" kindref="compound">include/ethics_ai/ethics_ai_types.h</ref> — <ref refid="namespacethemis_1_1plugins_1_1ethics_1a0856d2f5d6a72f3434f3a7725fe1c5db" kindref="member">MetaVerdictThreshold</ref> </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ethics__ai__types_8h" kindref="compound">ethics_ai/ethics_ai_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ethics__selection__router_8h" kindref="compound">ethics_ai/ethics_selection_router.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1ethics" kindref="compound">themis::plugins::ethics</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DH-01..04<sp/>—<sp/>conflict_threshold_ratio</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><ref refid="test__ethics__ai__discourse__hardening__focused_8cpp_1afa23b1ef95b6713d91f3e41b02f8d72b" kindref="member">TEST</ref>(DiscourseHardening,<sp/>DefaultConflictThresholdRatioIs0_6)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" kindref="member">conflict_threshold_ratio</ref>,<sp/>0.6);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__ethics__ai__discourse__hardening__focused_8cpp_1afa23b1ef95b6713d91f3e41b02f8d72b" kindref="member">TEST</ref>(DiscourseHardening,<sp/>ZeroConflictThresholdIsAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" kindref="member">conflict_threshold_ratio</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" kindref="member">conflict_threshold_ratio</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__ethics__ai__discourse__hardening__focused_8cpp_1afa23b1ef95b6713d91f3e41b02f8d72b" kindref="member">TEST</ref>(DiscourseHardening,<sp/>ConflictThresholdOf1_0IsAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" kindref="member">conflict_threshold_ratio</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" kindref="member">conflict_threshold_ratio</ref>,<sp/>1.0);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="test__ethics__ai__discourse__hardening__focused_8cpp_1afa23b1ef95b6713d91f3e41b02f8d72b" kindref="member">TEST</ref>(DiscourseHardening,<sp/>RouterConfigWithHardeningFieldsCompiles)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" kindref="member">conflict_threshold_ratio</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.7;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a05834fc597e9632774af574aeb10f95b" kindref="member">snapshot_profile_on_round_start</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" kindref="member">conflict_threshold_ratio</ref>,<sp/>0.7);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a05834fc597e9632774af574aeb10f95b" kindref="member">snapshot_profile_on_round_start</ref>);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DH-05..08<sp/>—<sp/>MetaVerdictThreshold<sp/>determinism</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__ethics__ai__discourse__hardening__focused_8cpp_1afa23b1ef95b6713d91f3e41b02f8d72b" kindref="member">TEST</ref>(DiscourseHardening,<sp/>HighScoreYieldsClearConsensus)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1plugins_1_1ethics_1a0856d2f5d6a72f3434f3a7725fe1c5db" kindref="member">MetaVerdictThreshold</ref>(0.80),</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6ba3ecc0491ccb53bbed853e9b5580556a5" kindref="member">MetaVerdict::ConvergenceVerdict::CLEAR_CONSENSUS</ref>);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1plugins_1_1ethics_1a0856d2f5d6a72f3434f3a7725fe1c5db" kindref="member">MetaVerdictThreshold</ref>(1.00),</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6ba3ecc0491ccb53bbed853e9b5580556a5" kindref="member">MetaVerdict::ConvergenceVerdict::CLEAR_CONSENSUS</ref>);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__ethics__ai__discourse__hardening__focused_8cpp_1afa23b1ef95b6713d91f3e41b02f8d72b" kindref="member">TEST</ref>(DiscourseHardening,<sp/>BoundaryScoreAt0_60IsContested)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>score<sp/>&gt;<sp/>0.60<sp/>→<sp/>TENDENCY;<sp/>score<sp/>==<sp/>0.60<sp/>falls<sp/>into<sp/>CONTESTED<sp/>branch.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1plugins_1_1ethics_1a0856d2f5d6a72f3434f3a7725fe1c5db" kindref="member">MetaVerdictThreshold</ref>(0.60),</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6ba88b484a0c3c2776618e1178ff90a1b35" kindref="member">MetaVerdict::ConvergenceVerdict::CONTESTED</ref>);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__ethics__ai__discourse__hardening__focused_8cpp_1afa23b1ef95b6713d91f3e41b02f8d72b" kindref="member">TEST</ref>(DiscourseHardening,<sp/>ZeroScoreIsDissent)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1plugins_1_1ethics_1a0856d2f5d6a72f3434f3a7725fe1c5db" kindref="member">MetaVerdictThreshold</ref>(0.0),</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6ba2afabad12fb856249fd19dd680f0affe" kindref="member">MetaVerdict::ConvergenceVerdict::DISSENT</ref>);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="test__ethics__ai__discourse__hardening__focused_8cpp_1afa23b1ef95b6713d91f3e41b02f8d72b" kindref="member">TEST</ref>(DiscourseHardening,<sp/>MetaVerdictThresholdIsDeterministic)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>:<sp/>{0.0,<sp/>0.3,<sp/>0.5,<sp/>0.61,<sp/>0.76,<sp/>1.0})<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v1<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1_1ethics_1a0856d2f5d6a72f3434f3a7725fe1c5db" kindref="member">MetaVerdictThreshold</ref>(score);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v2<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1_1ethics_1a0856d2f5d6a72f3434f3a7725fe1c5db" kindref="member">MetaVerdictThreshold</ref>(score);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(v1,<sp/>v2)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Non-deterministic<sp/>result<sp/>for<sp/>score=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>score;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/ethics_ai/test_ethics_ai_discourse_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

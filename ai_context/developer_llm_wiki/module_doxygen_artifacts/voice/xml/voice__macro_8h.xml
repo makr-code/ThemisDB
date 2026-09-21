@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="voice__macro_8h" kind="file" language="C++">
+    <compoundname>voice_macro.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="voice__assistant_8h" local="yes">include/voice/voice_assistant.h</includedby>
+    <includedby refid="voice__macro__manager_8cpp" local="yes">src/voice/voice_macro_manager.cpp</includedby>
+    <includedby refid="test__voice__assistant_8cpp" local="yes">tests/voice/test_voice_assistant.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/voice/voice_macro.h</label>
+        <link refid="voice__macro_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/voice/bench_voice_assistant.cpp</label>
+        <link refid="bench__voice__assistant_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/voice/voice_assistant.h</label>
+        <link refid="voice__assistant_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/voice/voice_macro.h</label>
+        <link refid="voice__macro_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/voice/voice_assistant.cpp</label>
+        <link refid="voice__assistant_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/voice/voice_assistant_llm.cpp</label>
+        <link refid="voice__assistant__llm_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/voice/voice_macro_manager.cpp</label>
+        <link refid="voice__macro__manager_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/voice/test_voice_api_handler.cpp</label>
+        <link refid="test__voice__api__handler_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/voice/test_voice_assistant.cpp</label>
+        <link refid="test__voice__assistant_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp</label>
+        <link refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/voice/test_voice_assistant_verifyIdentify_qw38.cpp</label>
+        <link refid="test__voice__assistant__verify_identify__qw38_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1voice_1_1_macro_step" prot="public">themis::voice::MacroStep</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_macro_options" prot="public">themis::voice::MacroOptions</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_step_result" prot="public">themis::voice::StepResult</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_macro_result" prot="public">themis::voice::MacroResult</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_macro_info" prot="public">themis::voice::MacroInfo</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_macro_manager" prot="public">themis::voice::VoiceMacroManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">voice</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref><sp/>=<sp/>std::string;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Step<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1voice_1abf05ad80021f752519f9d294ae2d107b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1abf05ad80021f752519f9d294ae2d107b" kindref="member">StepType</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1voice_1abf05ad80021f752519f9d294ae2d107ba5662080872eece1e1ceeec5750198283" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4ba5662080872eece1e1ceeec5750198283" kindref="member">QUERY</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1voice_1abf05ad80021f752519f9d294ae2d107ba26097a57f572fe88a7cdf80543422cb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4ba26097a57f572fe88a7cdf80543422cb1" kindref="member">COMMAND</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1voice_1abf05ad80021f752519f9d294ae2d107ba9f768c0bb1c3e84ca086a85211e978ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1abf05ad80021f752519f9d294ae2d107ba9f768c0bb1c3e84ca086a85211e978ac" kindref="member">CONDITION</ref>,</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1voice_1abf05ad80021f752519f9d294ae2d107ba9159b3578e4e1eb31ffdf90acd6f6e40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1abf05ad80021f752519f9d294ae2d107ba9159b3578e4e1eb31ffdf90acd6f6e40" kindref="member">LOOP</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1voice_1abf05ad80021f752519f9d294ae2d107bad5cc6a0064b5c25ba37826aa3fda910c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1abf05ad80021f752519f9d294ae2d107bad5cc6a0064b5c25ba37826aa3fda910c" kindref="member">WAIT</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1voice_1abf05ad80021f752519f9d294ae2d107ba9d087bfb809874e1b3e9adcbae8ca761" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1abf05ad80021f752519f9d294ae2d107ba9d087bfb809874e1b3e9adcbae8ca761" kindref="member">NOTIFY</ref><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MacroStep</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1voice_1_1_macro_step" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_macro_step" kindref="compound">MacroStep</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1voice_1_1_macro_step_1afdce982509b3e97b404af7555386ee1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1abf05ad80021f752519f9d294ae2d107b" kindref="member">StepType</ref><sp/><ref refid="structthemis_1_1voice_1_1_macro_step_1afdce982509b3e97b404af7555386ee1e" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1voice_1abf05ad80021f752519f9d294ae2d107ba5662080872eece1e1ceeec5750198283" kindref="member">StepType::QUERY</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1voice_1_1_macro_step_1a3ad280a46683c7e66d47799ffe336375" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_macro_step_1a3ad280a46683c7e66d47799ffe336375" kindref="member">action</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1voice_1_1_macro_step_1adfe745b05c377479e648a7fa464b54bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1voice_1_1_macro_step_1adfe745b05c377479e648a7fa464b54bc" kindref="member">parameters</ref>;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1voice_1_1_macro_step_1a896f983e101a867aa61872b6a145103c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MacroStep&gt;<sp/><ref refid="structthemis_1_1voice_1_1_macro_step_1a896f983e101a867aa61872b6a145103c" kindref="member">sub_steps</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MacroOptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1voice_1a28a2f54807cfc95c297d29171d69df8a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a28a2f54807cfc95c297d29171d69df8a" kindref="member">Priority</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1voice_1a28a2f54807cfc95c297d29171d69df8aa41bc94cbd8eebea13ce0491b2ac11b88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a28a2f54807cfc95c297d29171d69df8aa41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">LOW</ref>,</highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1voice_1a28a2f54807cfc95c297d29171d69df8aa1e23852820b9154316c7c06e2b7ba051" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a28a2f54807cfc95c297d29171d69df8aa1e23852820b9154316c7c06e2b7ba051" kindref="member">NORMAL</ref>,</highlight></codeline>
+<codeline lineno="75" refid="namespacethemis_1_1voice_1a28a2f54807cfc95c297d29171d69df8aab89de3b4b81c4facfac906edf29aec8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a28a2f54807cfc95c297d29171d69df8aab89de3b4b81c4facfac906edf29aec8c" kindref="member">HIGH</ref>,</highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1voice_1a28a2f54807cfc95c297d29171d69df8aa99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a28a2f54807cfc95c297d29171d69df8aa99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref></highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1voice_1_1_macro_options" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_macro_options" kindref="compound">MacroOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1voice_1_1_macro_options_1aa0bd579771ca3aa2278405b64e7b123b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_macro_options_1aa0bd579771ca3aa2278405b64e7b123b" kindref="member">require_confirmation</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1voice_1_1_macro_options_1a57c9090137645b730346e75a0eaab2ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1voice_1_1_macro_options_1a57c9090137645b730346e75a0eaab2ec" kindref="member">required_permissions</ref>;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1voice_1_1_macro_options_1a7c44d70de0e0ad85fa53c8c3e1056385" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_macro_options_1a7c44d70de0e0ad85fa53c8c3e1056385" kindref="member">max_execution_time_ms</ref><sp/>=<sp/>30000;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1voice_1_1_macro_options_1a4ed16373edf85f554237c236bc4bf7c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_macro_options_1a4ed16373edf85f554237c236bc4bf7c6" kindref="member">log_execution</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1voice_1_1_macro_options_1afd67e0e238771130bbb188995727d7b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a28a2f54807cfc95c297d29171d69df8a" kindref="member">Priority</ref><sp/><ref refid="structthemis_1_1voice_1_1_macro_options_1afd67e0e238771130bbb188995727d7b3" kindref="member">priority</ref><sp/>=<sp/><ref refid="namespacethemis_1_1voice_1a28a2f54807cfc95c297d29171d69df8aa1e23852820b9154316c7c06e2b7ba051" kindref="member">Priority::NORMAL</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1voice_1_1_step_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_step_result" kindref="compound">StepResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1voice_1_1_step_result_1af5041533773e5006f8dac26ec1754f62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_step_result_1af5041533773e5006f8dac26ec1754f62" kindref="member">step_index</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1voice_1_1_step_result_1a914853d240e08abd76c6cd0f4520f7af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_step_result_1a914853d240e08abd76c6cd0f4520f7af" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1voice_1_1_step_result_1a72cb6e17a17843b62821085746a205a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_step_result_1a72cb6e17a17843b62821085746a205a7" kindref="member">output</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1voice_1_1_step_result_1a654c14bd4623f1ab31aae9c4ef7bcc1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_step_result_1a654c14bd4623f1ab31aae9c4ef7bcc1e" kindref="member">duration_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1voice_1_1_step_result_1a2d7cded50316c3a01ab757b16433dfeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_step_result_1a2d7cded50316c3a01ab757b16433dfeb" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1voice_1_1_macro_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_macro_result" kindref="compound">MacroResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1voice_1_1_macro_result_1a7cfae209c6da6465444b46984890fa15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref><sp/><ref refid="structthemis_1_1voice_1_1_macro_result_1a7cfae209c6da6465444b46984890fa15" kindref="member">macro_id</ref>;</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1voice_1_1_macro_result_1ac091c36c309b21ba56f88e7f13dbbf3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_macro_result_1ac091c36c309b21ba56f88e7f13dbbf3f" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1voice_1_1_macro_result_1a5b3a16014e74de81d64b7b400ed36b46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;StepResult&gt;<sp/><ref refid="structthemis_1_1voice_1_1_macro_result_1a5b3a16014e74de81d64b7b400ed36b46" kindref="member">step_results</ref>;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1voice_1_1_macro_result_1a1fdfb9cd236b13629047a5b59ae111ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_macro_result_1a1fdfb9cd236b13629047a5b59ae111ec" kindref="member">execution_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1voice_1_1_macro_result_1a3be48cc2bff708f9ad4dcada1dd3b10f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_macro_result_1a3be48cc2bff708f9ad4dcada1dd3b10f" kindref="member">output</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MacroInfo<sp/><sp/>(stored<sp/>metadata)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1voice_1_1_macro_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_macro_info" kindref="compound">MacroInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1voice_1_1_macro_info_1ac501517e3996d5e01aff24b2db15b0bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref><sp/><ref refid="structthemis_1_1voice_1_1_macro_info_1ac501517e3996d5e01aff24b2db15b0bb" kindref="member">macro_id</ref>;</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1voice_1_1_macro_info_1aa4b824ef3db2745150ef73a30d49a93e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_macro_info_1aa4b824ef3db2745150ef73a30d49a93e" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1voice_1_1_macro_info_1ac90641c70afe19bb0f79cabbb819eee5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_macro_info_1ac90641c70afe19bb0f79cabbb819eee5" kindref="member">trigger_phrase</ref>;<sp/></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1voice_1_1_macro_info_1aba20cb1de9c24f1b79bf7d1f8f2fc230" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_macro_info_1aba20cb1de9c24f1b79bf7d1f8f2fc230" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1voice_1_1_macro_info_1a1440ba16fa4e77b57eaf7a52918db97d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1voice_1_1_macro_info_1a1440ba16fa4e77b57eaf7a52918db97d" kindref="member">tags</ref>;</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1voice_1_1_macro_info_1a3f07080e51ed8c6cbb2053b72e11d96e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MacroStep&gt;<sp/><ref refid="structthemis_1_1voice_1_1_macro_info_1a3f07080e51ed8c6cbb2053b72e11d96e" kindref="member">steps</ref>;</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1voice_1_1_macro_info_1ab4cc7d59fd414b8e99150948dc6ff27f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_macro_options" kindref="compound">MacroOptions</ref><sp/><ref refid="structthemis_1_1voice_1_1_macro_info_1ab4cc7d59fd414b8e99150948dc6ff27f" kindref="member">options</ref>;</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1voice_1_1_macro_info_1a20967f95f616181097bf56353604afc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_macro_info_1a20967f95f616181097bf56353604afc9" kindref="member">created_at</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1voice_1_1_macro_info_1aaa2bda472ffdc3be160dd10395eb4ad1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_macro_info_1aaa2bda472ffdc3be160dd10395eb4ad1" kindref="member">last_used</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1voice_1_1_macro_info_1a6551365c1bb62852b9245a5a2353f038" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_macro_info_1a6551365c1bb62852b9245a5a2353f038" kindref="member">use_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1voice_1_1_macro_info_1a9686ecf61b2fd687e006ccc6a50a7b8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_macro_info_1a9686ecf61b2fd687e006ccc6a50a7b8d" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VoiceMacroManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1voice_1_1_voice_macro_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_macro_manager_1ade33bdd92c150648d8283f6e94ed32e3" kindref="member">VoiceMacroManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_macro_manager_1ade33bdd92c150648d8283f6e94ed32e3" kindref="member">VoiceMacroManager</ref>();</highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1voice_1_1_voice_macro_manager_1a5c20c43c91ea688ed11c7be0074f4243" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_macro_manager_1a5c20c43c91ea688ed11c7be0074f4243" kindref="member">~VoiceMacroManager</ref>();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CRUD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_macro_manager_1a062986ebc3b1c7b776b1f34393defb99" kindref="member">createMacro</ref>(</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>trigger_phrase,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;MacroStep&gt;&amp;<sp/>steps,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_macro_options" kindref="compound">MacroOptions</ref>&amp;<sp/>options<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;MacroInfo&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_macro_manager_1a6861fd73f47b68c563f94003ca47c9f8" kindref="member">getMacro</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref>&amp;<sp/>macro_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MacroInfo&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_macro_manager_1a776a69194e6332948eac6125991ca819" kindref="member">listMacros</ref>(</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>tags<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_macro_manager_1a4a8559872700cffcad56ed4847fd1cec" kindref="member">setMacroMeta</ref>(</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref>&amp;<sp/>macro_id,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>description,</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>tags,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_macro_manager_1affbaf7cf3dac25fd0469bb9b2a55bc78" kindref="member">updateMacro</ref>(</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref>&amp;<sp/>macro_id,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;MacroStep&gt;&amp;<sp/>steps,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MacroOptions&amp;<sp/>options);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_macro_manager_1a3917ece429d4d4e59cdd84386cfad942" kindref="member">deleteMacro</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref>&amp;<sp/>macro_id);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Execution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>MacroResult<sp/><ref refid="classthemis_1_1voice_1_1_voice_macro_manager_1a8f1e3e2df7ddbd5be5de75e486ab10d5" kindref="member">executeMacro</ref>(</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref>&amp;<sp/>macro_id,</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>parameters<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a337fd31679a4f183ba01c72ba6881047" kindref="member">MacroID</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_macro_manager_1af82893a6b0a96a9b0e4b58e1b52b78f6" kindref="member">matchTrigger</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>utterance)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Import<sp/>/<sp/>Export<sp/>(JSON)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1voice_1_1_voice_macro_manager_1a3f7cb9b0febdf4f4a7b2e224f711f403" kindref="member">exportMacros</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;MacroID&gt;&amp;<sp/>macro_ids<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MacroID&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_macro_manager_1af84fbdff6625705478adc31e663eec8a" kindref="member">importMacros</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>json_str);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_macro_manager_1a3ab2c0ee9adb8bc43a5e5eda34061430" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_voice_macro_manager_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>voice</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/voice/voice_macro.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,634 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_s3_connector" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::S3Connector</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_source_connector" prot="public" virt="non-virtual">themis::ingestion::ISourceConnector</basecompoundref>
+    <includes refid="s3__connector_8h" local="no">s3_connector.h</includes>
+    <innerclass refid="classthemis_1_1ingestion_1_1_s3_connector_1_1_impl" prot="public">themis::ingestion::S3Connector::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1ingestion_1_1_s3_connector_1a4744ae310d6f6907c01bf01e35edc3c9" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::string &gt;(const std::string &amp;start_after)&gt;</type>
+        <definition>using themis::ingestion::S3Connector::ObjectListFn = std::function&lt;
+       std::vector&lt;std::string&gt;(const std::string&amp; start_after)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ObjectListFn</name>
+        <qualifiedname>themis::ingestion::S3Connector::ObjectListFn</qualifiedname>
+        <briefdescription>
+<para>Object-list mock: returns one page of keys per call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Return an empty vector to signal end-of-listing. The second argument is the <computeroutput>start_after</computeroutput> marker (empty on the first call; set to the last key from the previous page for subsequent calls). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="167" column="5" bodyfile="include/ingestion/s3_connector.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1ingestion_1_1_s3_connector_1a91b927d38755f9ce5a049654ef75b228" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;key)&gt;</type>
+        <definition>using themis::ingestion::S3Connector::ObjectFetchFn = std::function&lt;std::string(const std::string&amp; key)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ObjectFetchFn</name>
+        <qualifiedname>themis::ingestion::S3Connector::ObjectFetchFn</qualifiedname>
+        <briefdescription>
+<para>Object-fetch mock: returns object body given a key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Return an empty string to simulate a fetch failure. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="175" column="5" bodyfile="include/ingestion/s3_connector.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1ingestion_1_1_s3_connector_1a1cbf2748d87ef62cf52c7e5197f6986a" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;key, const std::string &amp;text)&gt;</type>
+        <definition>using themis::ingestion::S3Connector::DocumentWriteFn = std::function&lt;void(const std::string&amp; key,
+                                              const std::string&amp; text)&gt;</definition>
+        <argsstring></argsstring>
+        <name>DocumentWriteFn</name>
+        <qualifiedname>themis::ingestion::S3Connector::DocumentWriteFn</qualifiedname>
+        <briefdescription>
+<para>Inject a document-write callback for unit testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, every successfully extracted document text is passed to this callback <bold>in addition to</bold> incrementing <computeroutput>documents_processed</computeroutput>. This allows tests to verify the actual extracted content (e.g. that the <computeroutput>text_field</computeroutput> was correctly extracted from a JSON object) without requiring a live database.</para>
+<para>The callback receives <computeroutput>(key, extracted_text)</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="198" column="5" bodyfile="include/ingestion/s3_connector.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_s3_connector_1a871330a757b6a20b68822be2622f6116" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_s3_connector_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::ingestion::S3Connector::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::ingestion::S3Connector::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="204" column="21" bodyfile="include/ingestion/s3_connector.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_s3_connector_1a88e98bcb33c4e0b41d84cbd97c04482e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::S3Connector::S3Connector</definition>
+        <argsstring>()</argsstring>
+        <name>S3Connector</name>
+        <qualifiedname>themis::ingestion::S3Connector::S3Connector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="99" column="5" bodyfile="src/ingestion/s3_connector.cpp" bodystart="830" bodyend="831"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_s3_connector_1a0ab7ec302ff237f3c202af2c8cabe6c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::S3Connector::~S3Connector</definition>
+        <argsstring>() override</argsstring>
+        <name>~S3Connector</name>
+        <qualifiedname>themis::ingestion::S3Connector::~S3Connector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="100" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_s3_connector_1a0d0913387a7691544330f978aa2cc919" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::S3Connector::S3Connector</definition>
+        <argsstring>(const S3Connector &amp;)=delete</argsstring>
+        <name>S3Connector</name>
+        <qualifiedname>themis::ingestion::S3Connector::S3Connector</qualifiedname>
+        <param>
+          <type>const S3Connector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="103" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_s3_connector_1a0ad349d6d36f1595ee0714af001c2430" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_s3_connector_1a88e98bcb33c4e0b41d84cbd97c04482e" kindref="member">S3Connector</ref> &amp;</type>
+        <definition>S3Connector &amp; themis::ingestion::S3Connector::operator=</definition>
+        <argsstring>(const S3Connector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::S3Connector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ingestion_1_1_s3_connector_1a88e98bcb33c4e0b41d84cbd97c04482e" kindref="member">S3Connector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="104" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_s3_connector_1ad610677d96e618f6deadde3f51d493c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::S3Connector::initialize</definition>
+        <argsstring>(const SourceConfig &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::ingestion::S3Connector::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1ab6a018a611fc4bcc353665f96b59bfd5">initialize</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the connector from a source configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><computeroutput>type</computeroutput> must be <computeroutput><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa92ac81a57898f56dd05e90483e0691b4" kindref="member">SourceType::OBJECT_STORAGE</ref></computeroutput>. <computeroutput>location</computeroutput> is used as the bucket name unless <computeroutput>options["bucket"]</computeroutput> is set. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="113" column="10" bodyfile="src/ingestion/s3_connector.cpp" bodystart="841" bodyend="843"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_s3_connector_1a04742be13ef0c4fb2be3085abd838290" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::S3Connector::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::ingestion::S3Connector::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1ae6d4963df23947b6546b6a943f8a7d2d">isAvailable</reimplements>
+        <briefdescription>
+<para>Check whether the bucket is reachable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With a mock injected, always returns true. Without a mock, requires <computeroutput>THEMIS_ENABLE_S3</computeroutput> at build time and valid credentials. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="121" column="10" bodyfile="src/ingestion/s3_connector.cpp" bodystart="845" bodyend="847"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_s3_connector_1abfef006582c83a09848f71323d668981" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::S3Connector::getDocumentCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>getDocumentCount</name>
+        <qualifiedname>themis::ingestion::S3Connector::getDocumentCount</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1a22a97b14d4935c62895fa668e021ab4e">getDocumentCount</reimplements>
+        <briefdescription>
+<para>Always returns 0 — object count requires a full bucket listing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="126" column="12" bodyfile="src/ingestion/s3_connector.cpp" bodystart="849" bodyend="851"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_s3_connector_1a6efdd523bf0559f72b88973411e06aa6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref></type>
+        <definition>IngestionStats themis::ingestion::S3Connector::ingest</definition>
+        <argsstring>(const std::string &amp;target_collection, ProgressCallback progress_callback) override</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themis::ingestion::S3Connector::ingest</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1add9fbbb52139b936dba9a2236a80edbb">ingest</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_collection</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a08c45a80d5fd20fa7f8af7fd52290e94" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+        </param>
+        <briefdescription>
+<para>List objects and ingest each one as a document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ingest.</para>
+<para>Pagination uses <computeroutput>ListObjectsV2</computeroutput> continuation tokens. Each listed object is downloaded (up to <computeroutput>max_concurrent_downloads</computeroutput> in parallel) and its content is extracted via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_file_system_ingester" kindref="compound">FileSystemIngester</ref></computeroutput>&apos;s format readers (for <computeroutput>.jsonl</computeroutput>, <computeroutput>.csv</computeroutput>, <computeroutput>.parquet</computeroutput>, <computeroutput>.<ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref></computeroutput>, <computeroutput>.txt</computeroutput>, etc.) or treated as raw text for unknown extensions.</para>
+<para>When <computeroutput>THEMIS_ENABLE_S3</computeroutput> is not defined and no mock is injected, returns immediately with a <computeroutput>CONNECTOR_NOT_SUPPORTED</computeroutput> error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements ingest without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="140" column="20" bodyfile="src/ingestion/s3_connector.cpp" bodystart="860" bodyend="863"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_s3_connector_1a78b3277eeb6a3ef3b72fcb617813014a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::S3Connector::setCheckpointStore</definition>
+        <argsstring>(std::shared_ptr&lt; CheckpointStore &gt; store)</argsstring>
+        <name>setCheckpointStore</name>
+        <qualifiedname>themis::ingestion::S3Connector::setCheckpointStore</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_checkpoint_store" kindref="compound">CheckpointStore</ref> &gt;</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+<para>Inject a <computeroutput><ref refid="classthemis_1_1ingestion_1_1_checkpoint_store" kindref="compound">CheckpointStore</ref></computeroutput> for incremental mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Checkpoint Store.</para>
+<para>When set, the connector reads the stored cursor on startup (used as <computeroutput>StartAfter</computeroutput>) and writes an updated cursor after each successful run.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="149" column="10" bodyfile="src/ingestion/s3_connector.cpp" bodystart="870" bodyend="872"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_s3_connector_1a39b53e9833526c5e1aa93a606c10a356" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::S3Connector::setRetryConfig</definition>
+        <argsstring>(const RetryConfig &amp;config)</argsstring>
+        <name>setRetryConfig</name>
+        <qualifiedname>themis::ingestion::S3Connector::setRetryConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure retry behaviour. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Retry Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRetryConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="154" column="10" bodyfile="src/ingestion/s3_connector.cpp" bodystart="879" bodyend="881"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_s3_connector_1ad4afe2f0eb57f24b6a74a6c634168ce2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::S3Connector::setObjectListProvider</definition>
+        <argsstring>(ObjectListFn list_fn)</argsstring>
+        <name>setObjectListProvider</name>
+        <qualifiedname>themis::ingestion::S3Connector::setObjectListProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_s3_connector_1a4744ae310d6f6907c01bf01e35edc3c9" kindref="member">ObjectListFn</ref></type>
+          <declname>list_fn</declname>
+          <defname>fn</defname>
+        </param>
+        <briefdescription>
+<para>Inject mock listing/fetch functions (replaces all AWS SDK calls). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Object List Provider.</para>
+<para>Pass empty functors to restore the real provider path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1ingestion_1_1_s3_connector_1a48bd2d1de837483778c75ae68688ca70" kindref="member">setObjectListForTesting()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="182" column="10" bodyfile="src/ingestion/s3_connector.cpp" bodystart="897" bodyend="899"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_s3_connector_1af5e63e92836d4b980f3996fce1d953f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::S3Connector::setObjectFetchProvider</definition>
+        <argsstring>(ObjectFetchFn fetch_fn)</argsstring>
+        <name>setObjectFetchProvider</name>
+        <qualifiedname>themis::ingestion::S3Connector::setObjectFetchProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_s3_connector_1a91b927d38755f9ce5a049654ef75b228" kindref="member">ObjectFetchFn</ref></type>
+          <declname>fetch_fn</declname>
+          <defname>fn</defname>
+        </param>
+        <briefdescription>
+<para>Set Object Fetch Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1ingestion_1_1_s3_connector_1a85665c939b31096ec240808cb87d273c" kindref="member">setObjectFetchForTesting()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="183" column="10" bodyfile="src/ingestion/s3_connector.cpp" bodystart="915" bodyend="917"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_s3_connector_1a48bd2d1de837483778c75ae68688ca70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::S3Connector::setObjectListForTesting</definition>
+        <argsstring>(ObjectListFn list_fn)</argsstring>
+        <name>setObjectListForTesting</name>
+        <qualifiedname>themis::ingestion::S3Connector::setObjectListForTesting</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_s3_connector_1a4744ae310d6f6907c01bf01e35edc3c9" kindref="member">ObjectListFn</ref></type>
+          <declname>list_fn</declname>
+          <defname>fn</defname>
+        </param>
+        <briefdescription>
+<para>Set Object List For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1ingestion_1_1_s3_connector_1ad4afe2f0eb57f24b6a74a6c634168ce2" kindref="member">setObjectListProvider()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="184" column="10" bodyfile="src/ingestion/s3_connector.cpp" bodystart="888" bodyend="890"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_s3_connector_1a85665c939b31096ec240808cb87d273c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::S3Connector::setObjectFetchForTesting</definition>
+        <argsstring>(ObjectFetchFn fetch_fn)</argsstring>
+        <name>setObjectFetchForTesting</name>
+        <qualifiedname>themis::ingestion::S3Connector::setObjectFetchForTesting</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_s3_connector_1a91b927d38755f9ce5a049654ef75b228" kindref="member">ObjectFetchFn</ref></type>
+          <declname>fetch_fn</declname>
+          <defname>fn</defname>
+        </param>
+        <briefdescription>
+<para>Set Object Fetch For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1ingestion_1_1_s3_connector_1af5e63e92836d4b980f3996fce1d953f6" kindref="member">setObjectFetchProvider()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="185" column="10" bodyfile="src/ingestion/s3_connector.cpp" bodystart="906" bodyend="908"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_s3_connector_1a1a09615f48a81c099dbbf17637424014" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::S3Connector::setDocumentWriteForTesting</definition>
+        <argsstring>(DocumentWriteFn fn)</argsstring>
+        <name>setDocumentWriteForTesting</name>
+        <qualifiedname>themis::ingestion::S3Connector::setDocumentWriteForTesting</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_s3_connector_1a1cbf2748d87ef62cf52c7e5197f6986a" kindref="member">DocumentWriteFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Document Write For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/s3_connector.h" line="200" column="10" bodyfile="src/ingestion/s3_connector.cpp" bodystart="924" bodyend="926"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Dedicated S3-compatible Object Storage Source Connector. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_source_connector" kindref="compound">ISourceConnector</ref></computeroutput> for AWS S3 and any S3-compatible endpoint (MinIO, GCS via S3 interop, DigitalOcean Spaces, etc.). Key differences from the generic <computeroutput><ref refid="classthemis_1_1ingestion_1_1_object_storage_connector" kindref="compound">ObjectStorageConnector</ref></computeroutput>:</para>
+<para><itemizedlist>
+<listitem><para><bold>Incremental mode</bold>: checkpoints the last processed object key; on restart uses <computeroutput>ListObjectsV2</computeroutput> with a <computeroutput>StartAfter</computeroutput> marker to skip already-ingested objects.</para>
+</listitem><listitem><para><bold>Flat-file format support</bold>: objects with <computeroutput>.jsonl</computeroutput>, <computeroutput>.csv</computeroutput>, <computeroutput>.parquet</computeroutput>, <computeroutput>.<ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref></computeroutput>, <computeroutput>.txt</computeroutput>, <computeroutput>.html</computeroutput>, <computeroutput>.xml</computeroutput> extensions are written to a temporary file and parsed by <computeroutput><ref refid="classthemis_1_1ingestion_1_1_file_system_ingester" kindref="compound">FileSystemIngester</ref></computeroutput>&apos;s format readers.</para>
+</listitem><listitem><para><bold>Concurrent downloads</bold>: up to <computeroutput>max_concurrent_downloads</computeroutput> (default 4) S3 <computeroutput>GetObject</computeroutput> requests are issued in parallel, maximising throughput on high-bandwidth connections.</para>
+</listitem><listitem><para><bold>Per-page listing</bold>: <computeroutput>max_keys_per_list</computeroutput> (default 1 000) controls the <computeroutput>MaxKeys</computeroutput> parameter of each <computeroutput>ListObjectsV2</computeroutput> call, keeping listing latency bounded.</para>
+</listitem></itemizedlist>
+</para>
+<para>When <computeroutput>THEMIS_ENABLE_S3</computeroutput> is <bold>not</bold> defined at compile time the connector still compiles and:<itemizedlist>
+<listitem><para>returns <computeroutput>CONNECTOR_NOT_SUPPORTED</computeroutput> for any live cloud call, OR</para>
+</listitem><listitem><para>uses injected mock functions (unit tests).</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Supported <computeroutput><ref refid="structthemis_1_1ingestion_1_1_source_config_1ac8e92308a83924d0cfa5df19281909e0" kindref="member">SourceConfig::options</ref></computeroutput> keys</heading>
+</para>
+<para><table rows="12" cols="3"><row>
+<entry thead="yes"><para>Key  </para>
+</entry><entry thead="yes"><para>Description  </para>
+</entry><entry thead="yes"><para>Default  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>bucket</computeroutput>  </para>
+</entry><entry thead="no"><para>Bucket name (overrides <computeroutput><ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">SourceConfig::location</ref></computeroutput>)  </para>
+</entry><entry thead="no"><para><computeroutput>location</computeroutput> field  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>prefix</computeroutput>  </para>
+</entry><entry thead="no"><para>Key prefix filter  </para>
+</entry><entry thead="no"><para>(none)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>region</computeroutput>  </para>
+</entry><entry thead="no"><para>AWS region (e.g. <computeroutput>us-east-1</computeroutput>)  </para>
+</entry><entry thead="no"><para><computeroutput>us-east-1</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>endpoint_url</computeroutput>  </para>
+</entry><entry thead="no"><para>Custom S3-compatible endpoint URL  </para>
+</entry><entry thead="no"><para>(AWS default)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>access_key</computeroutput>  </para>
+</entry><entry thead="no"><para>AWS access key ID (never logged)  </para>
+</entry><entry thead="no"><para>(env / IAM role)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>secret_key</computeroutput>  </para>
+</entry><entry thead="no"><para>AWS secret access key (never logged)  </para>
+</entry><entry thead="no"><para>(env / IAM role)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>max_keys_per_list</computeroutput>  </para>
+</entry><entry thead="no"><para><computeroutput>MaxKeys</computeroutput> per <computeroutput>ListObjectsV2</computeroutput> call  </para>
+</entry><entry thead="no"><para><computeroutput>1000</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>max_concurrent_downloads</computeroutput>  </para>
+</entry><entry thead="no"><para>Parallel <computeroutput>GetObject</computeroutput> requests  </para>
+</entry><entry thead="no"><para><computeroutput>4</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>start_after</computeroutput>  </para>
+</entry><entry thead="no"><para>Lexicographic start marker for first listing page  </para>
+</entry><entry thead="no"><para>(none)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>text_field</computeroutput>  </para>
+</entry><entry thead="no"><para>JSON key for document text in <computeroutput>.<ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref></computeroutput> objects  </para>
+</entry><entry thead="no"><para><computeroutput>text</computeroutput>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>path_style</computeroutput>  </para>
+</entry><entry thead="no"><para>Force path-style addressing (MinIO, Ceph)  </para>
+</entry><entry thead="no"><para><computeroutput>false</computeroutput>  </para>
+</entry></row>
+</table>
+</para>
+<para><heading level="3">Incremental checkpointing</heading>
+</para>
+<para>Inject a <computeroutput><ref refid="classthemis_1_1ingestion_1_1_checkpoint_store" kindref="compound">CheckpointStore</ref></computeroutput> via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_s3_connector_1a78b3277eeb6a3ef3b72fcb617813014a" kindref="member">setCheckpointStore()</ref></computeroutput> to enable incremental mode. The connector stores the last successfully processed object key in <computeroutput><ref refid="structthemis_1_1ingestion_1_1_ingestion_checkpoint_1aabfec99e46918d1e4df95e0d92abb828" kindref="member">IngestionCheckpoint::cursor</ref></computeroutput>; on the next run it is used as the <computeroutput>StartAfter</computeroutput> parameter of the first <computeroutput>ListObjectsV2</computeroutput> call.</para>
+<para><heading level="3">Example — direct use</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal">SourceConfig<sp/>cfg{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.source_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data_lake&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.type<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa92ac81a57898f56dd05e90483e0691b4" kindref="member">SourceType::OBJECT_STORAGE</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.location<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;my-bucket&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.options<sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;prefix&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;data/2026/&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;region&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;eu-west-1&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;max_keys_per_list&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;500&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;max_concurrent_downloads&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;8&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_s3_connector_1a88e98bcb33c4e0b41d84cbd97c04482e" kindref="member">S3Connector</ref><sp/>conn;</highlight></codeline>
+<codeline><highlight class="normal">conn.initialize(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>conn.ingest(</highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Example — via <ref refid="classthemis_1_1ingestion_1_1_ingestion_builder" kindref="compound">IngestionBuilder</ref></heading>
+</para>
+<para><programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mgr<sp/>=<sp/>IngestionBuilder(</highlight><highlight class="stringliteral">&quot;mydb&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.withObjectStorageSource(</highlight><highlight class="stringliteral">&quot;lake&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;my-bucket&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;provider&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;s3&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;prefix&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;data/&quot;</highlight><highlight class="normal">}})</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.build();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>mgr-&gt;ingestAll();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::ingestion::ISourceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_source_connector"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::S3Connector</label>
+        <link refid="classthemis_1_1ingestion_1_1_s3_connector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::ingestion::ISourceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_source_connector"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::S3Connector</label>
+        <link refid="classthemis_1_1ingestion_1_1_s3_connector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/s3_connector.h" line="97" column="1" bodyfile="include/ingestion/s3_connector.h" bodystart="97" bodyend="205"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1a1cbf2748d87ef62cf52c7e5197f6986a" prot="public" virt="non-virtual"><scope>themis::ingestion::S3Connector</scope><name>DocumentWriteFn</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1abfef006582c83a09848f71323d668981" prot="public" virt="virtual"><scope>themis::ingestion::S3Connector</scope><name>getDocumentCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1a871330a757b6a20b68822be2622f6116" prot="private" virt="non-virtual"><scope>themis::ingestion::S3Connector</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1a6efdd523bf0559f72b88973411e06aa6" prot="public" virt="virtual"><scope>themis::ingestion::S3Connector</scope><name>ingest</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1ad610677d96e618f6deadde3f51d493c5" prot="public" virt="virtual"><scope>themis::ingestion::S3Connector</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1a04742be13ef0c4fb2be3085abd838290" prot="public" virt="virtual"><scope>themis::ingestion::S3Connector</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1a91b927d38755f9ce5a049654ef75b228" prot="public" virt="non-virtual"><scope>themis::ingestion::S3Connector</scope><name>ObjectFetchFn</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1a4744ae310d6f6907c01bf01e35edc3c9" prot="public" virt="non-virtual"><scope>themis::ingestion::S3Connector</scope><name>ObjectListFn</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1a0ad349d6d36f1595ee0714af001c2430" prot="public" virt="non-virtual"><scope>themis::ingestion::S3Connector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1a88e98bcb33c4e0b41d84cbd97c04482e" prot="public" virt="non-virtual"><scope>themis::ingestion::S3Connector</scope><name>S3Connector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1a0d0913387a7691544330f978aa2cc919" prot="public" virt="non-virtual"><scope>themis::ingestion::S3Connector</scope><name>S3Connector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1a78b3277eeb6a3ef3b72fcb617813014a" prot="public" virt="non-virtual"><scope>themis::ingestion::S3Connector</scope><name>setCheckpointStore</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1a762b4b0305a9c2a3e466d00c6e05df84" prot="public" virt="virtual"><scope>themis::ingestion::S3Connector</scope><name>setDocumentValidator</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1a1a09615f48a81c099dbbf17637424014" prot="public" virt="non-virtual"><scope>themis::ingestion::S3Connector</scope><name>setDocumentWriteForTesting</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1a85665c939b31096ec240808cb87d273c" prot="public" virt="non-virtual"><scope>themis::ingestion::S3Connector</scope><name>setObjectFetchForTesting</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1af5e63e92836d4b980f3996fce1d953f6" prot="public" virt="non-virtual"><scope>themis::ingestion::S3Connector</scope><name>setObjectFetchProvider</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1a48bd2d1de837483778c75ae68688ca70" prot="public" virt="non-virtual"><scope>themis::ingestion::S3Connector</scope><name>setObjectListForTesting</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1ad4afe2f0eb57f24b6a74a6c634168ce2" prot="public" virt="non-virtual"><scope>themis::ingestion::S3Connector</scope><name>setObjectListProvider</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1a39b53e9833526c5e1aa93a606c10a356" prot="public" virt="non-virtual"><scope>themis::ingestion::S3Connector</scope><name>setRetryConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1af3935b3583056d092875221c07ecf7d4" prot="public" virt="virtual"><scope>themis::ingestion::S3Connector</scope><name>~ISourceConnector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_s3_connector_1a0ab7ec302ff237f3c202af2c8cabe6c5" prot="public" virt="non-virtual"><scope>themis::ingestion::S3Connector</scope><name>~S3Connector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

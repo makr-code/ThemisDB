@@ -1,0 +1,2019 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classchimera_1_1_mongo_d_b_adapter" kind="class" language="C++" prot="public">
+    <compoundname>chimera::MongoDBAdapter</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IDatabaseAdapter</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">ITransactionAdapter</basecompoundref>
+    <basecompoundref refid="classchimera_1_1_i_batch_adapter" prot="public" virt="non-virtual">chimera::IBatchAdapter</basecompoundref>
+    <includes refid="mongodb__adapter_8hpp" local="no">mongodb_adapter.hpp</includes>
+    <innerclass refid="structchimera_1_1_mongo_d_b_adapter_1_1_queued_operation" prot="private">chimera::MongoDBAdapter::QueuedOperation</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classchimera_1_1_mongo_d_b_adapter_1ab803da5ffedc65c2a185d994f8ac4a43" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; mongocxx::client &gt;</type>
+        <definition>std::unique_ptr&lt;mongocxx::client&gt; chimera::MongoDBAdapter::client_</definition>
+        <argsstring></argsstring>
+        <name>client_</name>
+        <qualifiedname>chimera::MongoDBAdapter::client_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="242" column="21" bodyfile="include/chimera/mongodb_adapter.hpp" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_mongo_d_b_adapter_1ab03db50efea7c4587e19c187ccda8aca" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; mongocxx::database &gt;</type>
+        <definition>std::unique_ptr&lt;mongocxx::database&gt; chimera::MongoDBAdapter::database_</definition>
+        <argsstring></argsstring>
+        <name>database_</name>
+        <qualifiedname>chimera::MongoDBAdapter::database_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="243" column="21" bodyfile="include/chimera/mongodb_adapter.hpp" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_mongo_d_b_adapter_1a689830b2b93215ecefc1521c49d71f2b" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool chimera::MongoDBAdapter::connected_</definition>
+        <argsstring></argsstring>
+        <name>connected_</name>
+        <qualifiedname>chimera::MongoDBAdapter::connected_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="244" column="10" bodyfile="include/chimera/mongodb_adapter.hpp" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_mongo_d_b_adapter_1a0fb4d9f4245bddcd5fe719f543078186" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::MongoDBAdapter::connection_string_</definition>
+        <argsstring></argsstring>
+        <name>connection_string_</name>
+        <qualifiedname>chimera::MongoDBAdapter::connection_string_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="245" column="17" bodyfile="include/chimera/mongodb_adapter.hpp" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_mongo_d_b_adapter_1af6c5d7dc750e673fb2a08a82018f7cc9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex chimera::MongoDBAdapter::batch_mutex_</definition>
+        <argsstring></argsstring>
+        <name>batch_mutex_</name>
+        <qualifiedname>chimera::MongoDBAdapter::batch_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="257" column="24" bodyfile="include/chimera/mongodb_adapter.hpp" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_mongo_d_b_adapter_1af12781b16522ed12b34e5c8f856003da" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; QueuedOperation &gt;</type>
+        <definition>std::vector&lt;QueuedOperation&gt; chimera::MongoDBAdapter::batch_queue_</definition>
+        <argsstring></argsstring>
+        <name>batch_queue_</name>
+        <qualifiedname>chimera::MongoDBAdapter::batch_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="258" column="17" bodyfile="include/chimera/mongodb_adapter.hpp" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_mongo_d_b_adapter_1ade44a2ec3082329da26897f78bb05bb4" prot="private" static="no" mutable="no">
+        <type><ref refid="structchimera_1_1_batch_config" kindref="compound">BatchConfig</ref></type>
+        <definition>BatchConfig chimera::MongoDBAdapter::batch_config_</definition>
+        <argsstring></argsstring>
+        <name>batch_config_</name>
+        <qualifiedname>chimera::MongoDBAdapter::batch_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="259" column="17" bodyfile="include/chimera/mongodb_adapter.hpp" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_mongo_d_b_adapter_1a2f8e36a9c914cbdf524caeb421812d8a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex chimera::MongoDBAdapter::txn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>txn_mutex_</name>
+        <qualifiedname>chimera::MongoDBAdapter::txn_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="265" column="24" bodyfile="include/chimera/mongodb_adapter.hpp" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_mongo_d_b_adapter_1a9e6f2b0d5844f2143fe29ee82bdab387" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; <ref refid="classchimera_1_1_transaction_context" kindref="compound">TransactionContext</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;TransactionContext&gt; &gt; chimera::MongoDBAdapter::active_transactions_</definition>
+        <argsstring></argsstring>
+        <name>active_transactions_</name>
+        <qualifiedname>chimera::MongoDBAdapter::active_transactions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="266" column="14" bodyfile="include/chimera/mongodb_adapter.hpp" bodystart="266" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a576d584a764d651030fe5c8d7e7d06bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>chimera::MongoDBAdapter::MongoDBAdapter</definition>
+        <argsstring>()</argsstring>
+        <name>MongoDBAdapter</name>
+        <qualifiedname>chimera::MongoDBAdapter::MongoDBAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="35" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a375a76c3f7a8f6723a219b05fb6a9979" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>chimera::MongoDBAdapter::~MongoDBAdapter</definition>
+        <argsstring>() override</argsstring>
+        <name>~MongoDBAdapter</name>
+        <qualifiedname>chimera::MongoDBAdapter::~MongoDBAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="37" column="5" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="36" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a95154c1931cfffc260108071ab13d1f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::MongoDBAdapter::connect</definition>
+        <argsstring>(const std::string &amp;connection_string, const std::map&lt; std::string, std::string &gt; &amp;options={}) override</argsstring>
+        <name>connect</name>
+        <qualifiedname>chimera::MongoDBAdapter::connect</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>connection_string</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="43" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="46" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1ab00ea12635698ca724a05af161da7daf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::MongoDBAdapter::disconnect</definition>
+        <argsstring>() override</argsstring>
+        <name>disconnect</name>
+        <qualifiedname>chimera::MongoDBAdapter::disconnect</qualifiedname>
+        <briefdescription>
+<para>Disconnect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: clear(), reset(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="48" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="90" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1ad887cf0a18e69b86b7e51bc4b2d604a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool chimera::MongoDBAdapter::is_connected</definition>
+        <argsstring>() const override</argsstring>
+        <name>is_connected</name>
+        <qualifiedname>chimera::MongoDBAdapter::is_connected</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="49" column="10" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="98" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a7d9391af46c0f5c318c8daa9899cc91b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structchimera_1_1_relational_table" kindref="compound">RelationalTable</ref> &gt;</type>
+        <definition>Result&lt; RelationalTable &gt; chimera::MongoDBAdapter::execute_query</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; Scalar &gt; &amp;params={}) override</argsstring>
+        <name>execute_query</name>
+        <qualifiedname>chimera::MongoDBAdapter::execute_query</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>params</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Execute query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), ok(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="52" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="113" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1acad514d772ffcf17dab2684874dcbf99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; chimera::MongoDBAdapter::insert_row</definition>
+        <argsstring>(const std::string &amp;table_name, const RelationalRow &amp;row) override</argsstring>
+        <name>insert_row</name>
+        <qualifiedname>chimera::MongoDBAdapter::insert_row</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+<para>Insert row. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="57" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="145" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1aa3750960ba8cbef8b9014c8ae2b79d3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; chimera::MongoDBAdapter::batch_insert</definition>
+        <argsstring>(const std::string &amp;table_name, const std::vector&lt; RelationalRow &gt; &amp;rows) override</argsstring>
+        <name>batch_insert</name>
+        <qualifiedname>chimera::MongoDBAdapter::batch_insert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+<para>Batch insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), ok(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="62" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="176" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a41c58f330ec2f38c5b6cbaae5be83bf1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structchimera_1_1_query_statistics" kindref="compound">QueryStatistics</ref> &gt;</type>
+        <definition>Result&lt; QueryStatistics &gt; chimera::MongoDBAdapter::get_query_statistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_query_statistics</name>
+        <qualifiedname>chimera::MongoDBAdapter::get_query_statistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="67" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="200" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1aa12333e7436d4521a0d3543912f022ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::MongoDBAdapter::insert_vector</definition>
+        <argsstring>(const std::string &amp;collection, const Vector &amp;vector) override</argsstring>
+        <name>insert_vector</name>
+        <qualifiedname>chimera::MongoDBAdapter::insert_vector</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const Vector &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+<para>Insert vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="70" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="220" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a62d70fbce9fc1feec50c1c9a5397f323" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; chimera::MongoDBAdapter::batch_insert_vectors</definition>
+        <argsstring>(const std::string &amp;collection, const std::vector&lt; Vector &gt; &amp;vectors) override</argsstring>
+        <name>batch_insert_vectors</name>
+        <qualifiedname>chimera::MongoDBAdapter::batch_insert_vectors</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; Vector &gt; &amp;</type>
+          <declname>vectors</declname>
+        </param>
+        <briefdescription>
+<para>Batch insert vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="75" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="237" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1aa31f186a6e6f9edf081c10521ab98237" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; std::pair&lt; Vector, double &gt; &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; std::pair&lt; Vector, double &gt; &gt; &gt; chimera::MongoDBAdapter::search_vectors</definition>
+        <argsstring>(const std::string &amp;collection, const Vector &amp;query_vector, size_t k, const std::map&lt; std::string, Scalar &gt; &amp;filters={}) override</argsstring>
+        <name>search_vectors</name>
+        <qualifiedname>chimera::MongoDBAdapter::search_vectors</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const Vector &amp;</type>
+          <declname>query_vector</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="80" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="247" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1af4768dc7334e67db31e067c2f1945aff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::MongoDBAdapter::create_index</definition>
+        <argsstring>(const std::string &amp;collection, size_t dimensions, const std::map&lt; std::string, Scalar &gt; &amp;index_params={}) override</argsstring>
+        <name>create_index</name>
+        <qualifiedname>chimera::MongoDBAdapter::create_index</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dimensions</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>index_params</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="87" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="259" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1ad9d12d5084e467948120e9afddd0b4b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::MongoDBAdapter::insert_node</definition>
+        <argsstring>(const GraphNode &amp;node) override</argsstring>
+        <name>insert_node</name>
+        <qualifiedname>chimera::MongoDBAdapter::insert_node</qualifiedname>
+        <param>
+          <type>const GraphNode &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Insert node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ok(), generate_id(), err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="94" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="280" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a7e88a437683ad4d4c7dc29d618877159" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::MongoDBAdapter::insert_edge</definition>
+        <argsstring>(const GraphEdge &amp;edge) override</argsstring>
+        <name>insert_edge</name>
+        <qualifiedname>chimera::MongoDBAdapter::insert_edge</qualifiedname>
+        <param>
+          <type>const GraphEdge &amp;</type>
+          <declname>edge</declname>
+        </param>
+        <briefdescription>
+<para>Insert edge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ok(), generate_id(), err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="95" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="300" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a113ecb86bccfa806c8062a5765675c13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; GraphPath &gt;</type>
+        <definition>Result&lt; GraphPath &gt; chimera::MongoDBAdapter::shortest_path</definition>
+        <argsstring>(const std::string &amp;source_id, const std::string &amp;target_id, size_t max_depth=10) override</argsstring>
+        <name>shortest_path</name>
+        <qualifiedname>chimera::MongoDBAdapter::shortest_path</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_depth</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Shortest path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="97" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="322" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a9057626aa4345fcfdfb7dbf3f993d379" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; GraphNode &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; GraphNode &gt; &gt; chimera::MongoDBAdapter::traverse</definition>
+        <argsstring>(const std::string &amp;start_id, size_t max_depth, const std::vector&lt; std::string &gt; &amp;edge_labels={}) override</argsstring>
+        <name>traverse</name>
+        <qualifiedname>chimera::MongoDBAdapter::traverse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>edge_labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Traverse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="103" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="341" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a136ec7afea086ff9c092212e2d14c0b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; GraphPath &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; GraphPath &gt; &gt; chimera::MongoDBAdapter::execute_graph_query</definition>
+        <argsstring>(const std::string &amp;query, const std::map&lt; std::string, Scalar &gt; &amp;params={}) override</argsstring>
+        <name>execute_graph_query</name>
+        <qualifiedname>chimera::MongoDBAdapter::execute_graph_query</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>params</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="109" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="352" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a5dcf6d7cdbebef86bc54bbf278aed32a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::MongoDBAdapter::insert_document</definition>
+        <argsstring>(const std::string &amp;collection, const Document &amp;doc) override</argsstring>
+        <name>insert_document</name>
+        <qualifiedname>chimera::MongoDBAdapter::insert_document</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const Document &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Insert document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), generate_id(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="115" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="373" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1aff400c011e32edfeccfdf25d7e665c07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; chimera::MongoDBAdapter::batch_insert_documents</definition>
+        <argsstring>(const std::string &amp;collection, const std::vector&lt; Document &gt; &amp;docs) override</argsstring>
+        <name>batch_insert_documents</name>
+        <qualifiedname>chimera::MongoDBAdapter::batch_insert_documents</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; Document &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <briefdescription>
+<para>Batch insert documents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), ok(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="120" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="405" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a05c8ee33c75dd2b7b4098070414960c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; Document &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; Document &gt; &gt; chimera::MongoDBAdapter::find_documents</definition>
+        <argsstring>(const std::string &amp;collection, const std::map&lt; std::string, Scalar &gt; &amp;filter, size_t limit=100) override</argsstring>
+        <name>find_documents</name>
+        <qualifiedname>chimera::MongoDBAdapter::find_documents</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="125" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="429" bodyend="453"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a12579c5401c72c17bac8904ee5f1208d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; chimera::MongoDBAdapter::update_documents</definition>
+        <argsstring>(const std::string &amp;collection, const std::map&lt; std::string, Scalar &gt; &amp;filter, const std::map&lt; std::string, Scalar &gt; &amp;updates) override</argsstring>
+        <name>update_documents</name>
+        <qualifiedname>chimera::MongoDBAdapter::update_documents</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>updates</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="131" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="455" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a4ab90b867309d2635cad3af2b0ac9434" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::MongoDBAdapter::begin_transaction</definition>
+        <argsstring>(const TransactionOptions &amp;options={}) override</argsstring>
+        <name>begin_transaction</name>
+        <qualifiedname>chimera::MongoDBAdapter::begin_transaction</qualifiedname>
+        <param>
+          <type>const TransactionOptions &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Begin transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="138" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="490" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1ac20c430237d234ba6daac8565763abe0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::MongoDBAdapter::commit_transaction</definition>
+        <argsstring>(const std::string &amp;transaction_id) override</argsstring>
+        <name>commit_transaction</name>
+        <qualifiedname>chimera::MongoDBAdapter::commit_transaction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Commit transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="142" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="505" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1ae3686e82de4f0dc9f8d2697c8b2a91d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::MongoDBAdapter::rollback_transaction</definition>
+        <argsstring>(const std::string &amp;transaction_id) override</argsstring>
+        <name>rollback_transaction</name>
+        <qualifiedname>chimera::MongoDBAdapter::rollback_transaction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Rollback transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="143" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="518" bodyend="523"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a12f3e5471839351bfd6492d75bacd6fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::MongoDBAdapter::create_savepoint</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;savepoint_name) override</argsstring>
+        <name>create_savepoint</name>
+        <qualifiedname>chimera::MongoDBAdapter::create_savepoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>savepoint_name</declname>
+        </param>
+        <briefdescription>
+<para>Create savepoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="145" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="532" bodyend="540"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a7dffb1ce8109ba7df605b1ed5c3c4b6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::MongoDBAdapter::rollback_to_savepoint</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;savepoint_name) override</argsstring>
+        <name>rollback_to_savepoint</name>
+        <qualifiedname>chimera::MongoDBAdapter::rollback_to_savepoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>savepoint_name</declname>
+        </param>
+        <briefdescription>
+<para>Rollback to savepoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="150" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="549" bodyend="557"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a23f10d792679458926cfaac231f40c2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::MongoDBAdapter::release_savepoint</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;savepoint_name) override</argsstring>
+        <name>release_savepoint</name>
+        <qualifiedname>chimera::MongoDBAdapter::release_savepoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>savepoint_name</declname>
+        </param>
+        <briefdescription>
+<para>Release savepoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="155" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="566" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a37f2349c489264520f4bf19b5c33ef54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; TransactionStats &gt;</type>
+        <definition>Result&lt; TransactionStats &gt; chimera::MongoDBAdapter::get_transaction_stats</definition>
+        <argsstring>(const std::string &amp;transaction_id) override</argsstring>
+        <name>get_transaction_stats</name>
+        <qualifiedname>chimera::MongoDBAdapter::get_transaction_stats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Get transaction stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="160" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="582" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a0c84cbfaf694aa7b67b0d2b1037c51cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16c" kindref="member">TransactionState</ref> &gt;</type>
+        <definition>Result&lt; TransactionState &gt; chimera::MongoDBAdapter::get_transaction_state</definition>
+        <argsstring>(const std::string &amp;transaction_id) override</argsstring>
+        <name>get_transaction_state</name>
+        <qualifiedname>chimera::MongoDBAdapter::get_transaction_state</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Get transaction state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="164" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="597" bodyend="604"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a24b8a69e4dab04ba25ae1810d8721aaa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; SystemInfo &gt;</type>
+        <definition>Result&lt; SystemInfo &gt; chimera::MongoDBAdapter::get_system_info</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_system_info</name>
+        <qualifiedname>chimera::MongoDBAdapter::get_system_info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="169" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="610" bodyend="616"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1aa716f4169025bf993fb3054beb4f5a32" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; SystemMetrics &gt;</type>
+        <definition>Result&lt; SystemMetrics &gt; chimera::MongoDBAdapter::get_metrics</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_metrics</name>
+        <qualifiedname>chimera::MongoDBAdapter::get_metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="170" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="618" bodyend="632"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a59f6f05623782e96657331eff993bdd7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool chimera::MongoDBAdapter::has_capability</definition>
+        <argsstring>(Capability cap) const override</argsstring>
+        <name>has_capability</name>
+        <qualifiedname>chimera::MongoDBAdapter::has_capability</qualifiedname>
+        <param>
+          <type>Capability</type>
+          <declname>cap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="171" column="10" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="634" bodyend="649"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1ab7ecb5850a802861bc888d9d761918ae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; Capability &gt;</type>
+        <definition>std::vector&lt; Capability &gt; chimera::MongoDBAdapter::get_capabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_capabilities</name>
+        <qualifiedname>chimera::MongoDBAdapter::get_capabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="172" column="17" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="651" bodyend="657"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a87d4ca6b78c99d2c25b54399d4bf4277" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="classchimera_1_1_transaction_handle" kindref="compound">TransactionHandle</ref> &gt;</type>
+        <definition>Result&lt; TransactionHandle &gt; chimera::MongoDBAdapter::begin_transaction</definition>
+        <argsstring>(IsolationLevel isolation_level=IsolationLevel::READ_COMMITTED) override</argsstring>
+        <name>begin_transaction</name>
+        <qualifiedname>chimera::MongoDBAdapter::begin_transaction</qualifiedname>
+        <param>
+          <type><ref refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81" kindref="member">IsolationLevel</ref></type>
+          <declname>isolation_level</declname>
+          <defval><ref refid="namespacechimera_1af60dde6e35ebe61bfef457662321dc81a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">IsolationLevel::READ_COMMITTED</ref></defval>
+        </param>
+        <briefdescription>
+<para>Begin transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">IsolationLevel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), generate_id(), mark_active(), lock(), ok(), TransactionHandle(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="178" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="669" bodyend="689"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1ab453517478e6203ccbebb73407140a71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::MongoDBAdapter::commit_transaction</definition>
+        <argsstring>(const TransactionHandle &amp;handle) override</argsstring>
+        <name>commit_transaction</name>
+        <qualifiedname>chimera::MongoDBAdapter::commit_transaction</qualifiedname>
+        <param>
+          <type>const <ref refid="classchimera_1_1_transaction_handle" kindref="compound">TransactionHandle</ref> &amp;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Commit transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), mark_committed(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="182" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="697" bodyend="710"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a9f053ab6c9f41e8e368a8a9b4ec0158b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::MongoDBAdapter::rollback_transaction</definition>
+        <argsstring>(const TransactionHandle &amp;handle) override</argsstring>
+        <name>rollback_transaction</name>
+        <qualifiedname>chimera::MongoDBAdapter::rollback_transaction</qualifiedname>
+        <param>
+          <type>const <ref refid="classchimera_1_1_transaction_handle" kindref="compound">TransactionHandle</ref> &amp;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Rollback transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), mark_aborted(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="186" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="718" bodyend="731"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a9b16d31814d0e197777f4d2fe056499e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::MongoDBAdapter::create_savepoint</definition>
+        <argsstring>(const TransactionHandle &amp;handle, const std::string &amp;savepoint_name) override</argsstring>
+        <name>create_savepoint</name>
+        <qualifiedname>chimera::MongoDBAdapter::create_savepoint</qualifiedname>
+        <param>
+          <type>const <ref refid="classchimera_1_1_transaction_handle" kindref="compound">TransactionHandle</ref> &amp;</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>savepoint_name</declname>
+        </param>
+        <briefdescription>
+<para>Create savepoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">savepoint_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the savepoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="190" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="740" bodyend="760"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a711a68ae4b4d7b397e7196026f278721" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::MongoDBAdapter::rollback_to_savepoint</definition>
+        <argsstring>(const TransactionHandle &amp;handle, const std::string &amp;savepoint_name) override</argsstring>
+        <name>rollback_to_savepoint</name>
+        <qualifiedname>chimera::MongoDBAdapter::rollback_to_savepoint</qualifiedname>
+        <param>
+          <type>const <ref refid="classchimera_1_1_transaction_handle" kindref="compound">TransactionHandle</ref> &amp;</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>savepoint_name</declname>
+        </param>
+        <briefdescription>
+<para>Rollback to savepoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="195" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="769" bodyend="793"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a8d27b31b2feeb9156f37507775303094" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16c" kindref="member">TransactionState</ref></type>
+        <definition>TransactionState chimera::MongoDBAdapter::get_transaction_state</definition>
+        <argsstring>(const TransactionHandle &amp;handle) const override</argsstring>
+        <name>get_transaction_state</name>
+        <qualifiedname>chimera::MongoDBAdapter::get_transaction_state</qualifiedname>
+        <param>
+          <type>const <ref refid="classchimera_1_1_transaction_handle" kindref="compound">TransactionHandle</ref> &amp;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="200" column="22" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="795" bodyend="802"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1afbf7499f841c78d6ff7f32f5c672bd86" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::MongoDBAdapter::queue_insert</definition>
+        <argsstring>(const std::string &amp;table_name, const RelationalRow &amp;row) override</argsstring>
+        <name>queue_insert</name>
+        <qualifiedname>chimera::MongoDBAdapter::queue_insert</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_batch_adapter_1a06a669ff9a00cbaf7add1d0b8675b497">queue_insert</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+<para>Queue insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), lock(), push_back(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="208" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="815" bodyend="832"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a610cfb4f858d2d87822c59280677eef8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::MongoDBAdapter::queue_insert_batch</definition>
+        <argsstring>(const std::string &amp;table_name, const std::vector&lt; RelationalRow &gt; &amp;rows) override</argsstring>
+        <name>queue_insert_batch</name>
+        <qualifiedname>chimera::MongoDBAdapter::queue_insert_batch</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_batch_adapter_1ac8c18ce7b1b88be91f753c76909a9891">queue_insert_batch</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+<para>Queue insert batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), lock(), size(), push_back(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="213" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="841" bodyend="860"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1ac1096953a282f1f2d39282e77c86266a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::MongoDBAdapter::queue_update</definition>
+        <argsstring>(const std::string &amp;table_name, const RelationalRow &amp;row, const std::string &amp;where_clause) override</argsstring>
+        <name>queue_update</name>
+        <qualifiedname>chimera::MongoDBAdapter::queue_update</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_batch_adapter_1a51edda8e8032b7cc1736da4b6a913347">queue_update</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>where_clause</declname>
+        </param>
+        <briefdescription>
+<para>Queue update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">where_clause</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), lock(), push_back(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="218" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="870" bodyend="888"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a9a397d3ab21cfb05df9d59eaa1b544a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::MongoDBAdapter::queue_delete</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;where_clause) override</argsstring>
+        <name>queue_delete</name>
+        <qualifiedname>chimera::MongoDBAdapter::queue_delete</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_batch_adapter_1a1e5db3984d63b99cda6c27af6869a936">queue_delete</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>where_clause</declname>
+        </param>
+        <briefdescription>
+<para>Queue delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">where_clause</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), lock(), push_back(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="224" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="897" bodyend="914"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a1f3a558e6b14f92f83ae024f93ae5ef4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structchimera_1_1_batch_statistics" kindref="compound">BatchStatistics</ref> &gt;</type>
+        <definition>Result&lt; BatchStatistics &gt; chimera::MongoDBAdapter::flush</definition>
+        <argsstring>() override</argsstring>
+        <name>flush</name>
+        <qualifiedname>chimera::MongoDBAdapter::flush</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_batch_adapter_1af9886ab465bca45b2a1e9b167fce345e">flush</reimplements>
+        <briefdescription>
+<para>Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), size(), clear(), ok(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="229" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="921" bodyend="930"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a6d97adad6412b3961a68e81f7f27d6a0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t chimera::MongoDBAdapter::get_pending_count</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_pending_count</name>
+        <qualifiedname>chimera::MongoDBAdapter::get_pending_count</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_batch_adapter_1afe84ae9ea2d76d718cf9f469323f51c3">get_pending_count</reimplements>
+        <briefdescription>
+<para>Get pending count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="231" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="932" bodyend="940"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a4c503811fd0345771b22bc9546004768" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::MongoDBAdapter::set_batch_config</definition>
+        <argsstring>(const BatchConfig &amp;config) override</argsstring>
+        <name>set_batch_config</name>
+        <qualifiedname>chimera::MongoDBAdapter::set_batch_config</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_batch_adapter_1abf33b0d9e45a4b4d96d4caa463e2f920">set_batch_config</reimplements>
+        <param>
+          <type>const <ref refid="structchimera_1_1_batch_config" kindref="compound">BatchConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set batch config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="233" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="948" bodyend="952"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1acd37b234bfcfbb7d3428cdcc033a09be" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>const <ref refid="structchimera_1_1_batch_config" kindref="compound">BatchConfig</ref> &amp;</type>
+        <definition>const BatchConfig &amp; chimera::MongoDBAdapter::get_batch_config</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_batch_config</name>
+        <qualifiedname>chimera::MongoDBAdapter::get_batch_config</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_batch_adapter_1a4072a7f9d05047ad5da5bf06d6e40599">get_batch_config</reimplements>
+        <briefdescription>
+<para>Get batch config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="235" column="23" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="954" bodyend="956"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a3391b1b1ef780f94bfb98e712b0d3354" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string chimera::MongoDBAdapter::generate_id</definition>
+        <argsstring>()</argsstring>
+        <name>generate_id</name>
+        <qualifiedname>chimera::MongoDBAdapter::generate_id</qualifiedname>
+        <briefdescription>
+<para>Generate id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: utils::generate_uuid_v4(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="276" column="24" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="967" bodyend="969"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a01ff2fa7942f288cb1e56be1adebd827" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool chimera::MongoDBAdapter::is_valid_connection_string</definition>
+        <argsstring>(const std::string &amp;cs)</argsstring>
+        <name>is_valid_connection_string</name>
+        <qualifiedname>chimera::MongoDBAdapter::is_valid_connection_string</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cs</declname>
+        </param>
+        <briefdescription>
+<para>Is valid connection string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="282" column="17" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="977" bodyend="979"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1aa0f5a4b34232ed9f5130c16d76a2771d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string chimera::MongoDBAdapter::mask_credentials</definition>
+        <argsstring>(const std::string &amp;cs)</argsstring>
+        <name>mask_credentials</name>
+        <qualifiedname>chimera::MongoDBAdapter::mask_credentials</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cs</declname>
+        </param>
+        <briefdescription>
+<para>Mask credentials. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements mask_credentials without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="288" column="24" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="987" bodyend="991"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1add8092bcef3b69d62a12d5724c4a26d3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string chimera::MongoDBAdapter::scalar_to_bson_string</definition>
+        <argsstring>(const Scalar &amp;scalar)</argsstring>
+        <name>scalar_to_bson_string</name>
+        <qualifiedname>chimera::MongoDBAdapter::scalar_to_bson_string</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &amp;</type>
+          <declname>scalar</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> to bson string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scalar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements scalar_to_bson_string without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="295" column="24" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="999" bodyend="1002"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a6f69bcf61404263ef1f1e47d9e92186f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string chimera::MongoDBAdapter::row_to_bson_document</definition>
+        <argsstring>(const RelationalRow &amp;row)</argsstring>
+        <name>row_to_bson_document</name>
+        <qualifiedname>chimera::MongoDBAdapter::row_to_bson_document</qualifiedname>
+        <param>
+          <type>const <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+<para>Row to bson document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements row_to_bson_document without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="302" column="24" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="1010" bodyend="1013"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classchimera_1_1_mongo_d_b_adapter_1a559048b24f61f32b52001528d02cb60a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::MongoDBAdapter::parse_query_to_mongo</definition>
+        <argsstring>(const std::string &amp;aql_query) const</argsstring>
+        <name>parse_query_to_mongo</name>
+        <qualifiedname>chimera::MongoDBAdapter::parse_query_to_mongo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <briefdescription>
+<para>Parse query to mongo. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/mongodb_adapter.hpp" line="309" column="12" bodyfile="src/chimera/mongodb_adapter.cpp" bodystart="1015" bodyend="1024"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IDatabaseAdapter</label>
+      </node>
+      <node id="3">
+        <label>ITransactionAdapter</label>
+      </node>
+      <node id="4">
+        <label>chimera::IBatchAdapter</label>
+        <link refid="classchimera_1_1_i_batch_adapter"/>
+      </node>
+      <node id="1">
+        <label>chimera::MongoDBAdapter</label>
+        <link refid="classchimera_1_1_mongo_d_b_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IDatabaseAdapter</label>
+      </node>
+      <node id="3">
+        <label>ITransactionAdapter</label>
+      </node>
+      <node id="4">
+        <label>chimera::IBatchAdapter</label>
+        <link refid="classchimera_1_1_i_batch_adapter"/>
+      </node>
+      <node id="1">
+        <label>chimera::MongoDBAdapter</label>
+        <link refid="classchimera_1_1_mongo_d_b_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/chimera/mongodb_adapter.hpp" line="31" column="1" bodyfile="include/chimera/mongodb_adapter.hpp" bodystart="33" bodyend="312"/>
+    <listofallmembers>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a9e6f2b0d5844f2143fe29ee82bdab387" prot="private" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>active_transactions_</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1ade44a2ec3082329da26897f78bb05bb4" prot="private" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>batch_config_</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1aa3750960ba8cbef8b9014c8ae2b79d3f" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>batch_insert</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1aff400c011e32edfeccfdf25d7e665c07" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>batch_insert_documents</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a62d70fbce9fc1feec50c1c9a5397f323" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>batch_insert_vectors</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1af6c5d7dc750e673fb2a08a82018f7cc9" prot="private" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>batch_mutex_</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1af12781b16522ed12b34e5c8f856003da" prot="private" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>batch_queue_</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a4ab90b867309d2635cad3af2b0ac9434" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>begin_transaction</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a87d4ca6b78c99d2c25b54399d4bf4277" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>begin_transaction</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1ab803da5ffedc65c2a185d994f8ac4a43" prot="private" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>client_</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1ac20c430237d234ba6daac8565763abe0" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>commit_transaction</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1ab453517478e6203ccbebb73407140a71" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>commit_transaction</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a95154c1931cfffc260108071ab13d1f1" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>connect</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a689830b2b93215ecefc1521c49d71f2b" prot="private" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>connected_</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a0fb4d9f4245bddcd5fe719f543078186" prot="private" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>connection_string_</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1af4768dc7334e67db31e067c2f1945aff" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>create_index</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a12f3e5471839351bfd6492d75bacd6fd" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>create_savepoint</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a9b16d31814d0e197777f4d2fe056499e" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>create_savepoint</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1ab03db50efea7c4587e19c187ccda8aca" prot="private" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>database_</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1ab00ea12635698ca724a05af161da7daf" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>disconnect</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a136ec7afea086ff9c092212e2d14c0b8" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>execute_graph_query</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a7d9391af46c0f5c318c8daa9899cc91b" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>execute_query</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a05c8ee33c75dd2b7b4098070414960c1" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>find_documents</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a1f3a558e6b14f92f83ae024f93ae5ef4" prot="public" virt="virtual"><scope>chimera::MongoDBAdapter</scope><name>flush</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a3391b1b1ef780f94bfb98e712b0d3354" prot="private" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>generate_id</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1acd37b234bfcfbb7d3428cdcc033a09be" prot="public" virt="virtual"><scope>chimera::MongoDBAdapter</scope><name>get_batch_config</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1ab7ecb5850a802861bc888d9d761918ae" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>get_capabilities</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1aa716f4169025bf993fb3054beb4f5a32" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>get_metrics</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a6d97adad6412b3961a68e81f7f27d6a0" prot="public" virt="virtual"><scope>chimera::MongoDBAdapter</scope><name>get_pending_count</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a41c58f330ec2f38c5b6cbaae5be83bf1" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>get_query_statistics</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a24b8a69e4dab04ba25ae1810d8721aaa" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>get_system_info</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a0c84cbfaf694aa7b67b0d2b1037c51cd" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>get_transaction_state</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a8d27b31b2feeb9156f37507775303094" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>get_transaction_state</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a37f2349c489264520f4bf19b5c33ef54" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>get_transaction_stats</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a59f6f05623782e96657331eff993bdd7" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>has_capability</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a5dcf6d7cdbebef86bc54bbf278aed32a" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>insert_document</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a7e88a437683ad4d4c7dc29d618877159" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>insert_edge</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1ad9d12d5084e467948120e9afddd0b4b2" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>insert_node</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1acad514d772ffcf17dab2684874dcbf99" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>insert_row</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1aa12333e7436d4521a0d3543912f022ee" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>insert_vector</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1ad887cf0a18e69b86b7e51bc4b2d604a9" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>is_connected</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a01ff2fa7942f288cb1e56be1adebd827" prot="private" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>is_valid_connection_string</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1aa0f5a4b34232ed9f5130c16d76a2771d" prot="private" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>mask_credentials</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a576d584a764d651030fe5c8d7e7d06bb" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>MongoDBAdapter</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a559048b24f61f32b52001528d02cb60a" prot="private" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>parse_query_to_mongo</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a9a397d3ab21cfb05df9d59eaa1b544a3" prot="public" virt="virtual"><scope>chimera::MongoDBAdapter</scope><name>queue_delete</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1afbf7499f841c78d6ff7f32f5c672bd86" prot="public" virt="virtual"><scope>chimera::MongoDBAdapter</scope><name>queue_insert</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a610cfb4f858d2d87822c59280677eef8" prot="public" virt="virtual"><scope>chimera::MongoDBAdapter</scope><name>queue_insert_batch</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1ac1096953a282f1f2d39282e77c86266a" prot="public" virt="virtual"><scope>chimera::MongoDBAdapter</scope><name>queue_update</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a23f10d792679458926cfaac231f40c2b" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>release_savepoint</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a7dffb1ce8109ba7df605b1ed5c3c4b6c" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>rollback_to_savepoint</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a711a68ae4b4d7b397e7196026f278721" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>rollback_to_savepoint</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1ae3686e82de4f0dc9f8d2697c8b2a91d2" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>rollback_transaction</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a9f053ab6c9f41e8e368a8a9b4ec0158b" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>rollback_transaction</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a6f69bcf61404263ef1f1e47d9e92186f" prot="private" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>row_to_bson_document</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1add8092bcef3b69d62a12d5724c4a26d3" prot="private" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>scalar_to_bson_string</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1aa31f186a6e6f9edf081c10521ab98237" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>search_vectors</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a4c503811fd0345771b22bc9546004768" prot="public" virt="virtual"><scope>chimera::MongoDBAdapter</scope><name>set_batch_config</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a113ecb86bccfa806c8062a5765675c13" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>shortest_path</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a9057626aa4345fcfdfb7dbf3f993d379" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>traverse</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a2f8e36a9c914cbdf524caeb421812d8a" prot="private" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>txn_mutex_</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a12579c5401c72c17bac8904ee5f1208d" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>update_documents</name></member>
+      <member refid="classchimera_1_1_i_batch_adapter_1a3b13094d4f2875c5682d37ad891c1a0d" prot="public" virt="virtual"><scope>chimera::MongoDBAdapter</scope><name>~IBatchAdapter</name></member>
+      <member refid="classchimera_1_1_mongo_d_b_adapter_1a375a76c3f7a8f6723a219b05fb6a9979" prot="public" virt="non-virtual"><scope>chimera::MongoDBAdapter</scope><name>~MongoDBAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

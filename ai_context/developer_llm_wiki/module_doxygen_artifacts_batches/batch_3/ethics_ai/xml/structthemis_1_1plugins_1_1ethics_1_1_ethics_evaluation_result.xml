@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::EthicsEvaluationResult</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1ab3c409f003ad5a912503c677ab4e094b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluationResult::overall_score</definition>
+        <argsstring></argsstring>
+        <name>overall_score</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluationResult::overall_score</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Overall score (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="154" column="12" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1ae29a3d99d4859ca86892489ec15e6103" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluationResult::decision_quality_score</definition>
+        <argsstring></argsstring>
+        <name>decision_quality_score</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluationResult::decision_quality_score</qualifiedname>
+        <briefdescription>
+<para>Decision quality dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="155" column="12" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1aff8ce6533a03e7d4e1e3b91bdc0a2461" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluationResult::consistency_score</definition>
+        <argsstring></argsstring>
+        <name>consistency_score</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluationResult::consistency_score</qualifiedname>
+        <briefdescription>
+<para>Consistency dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="156" column="12" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1af643de37de42e4e250cbb9f8ff51633e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluationResult::fairness_score</definition>
+        <argsstring></argsstring>
+        <name>fairness_score</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluationResult::fairness_score</qualifiedname>
+        <briefdescription>
+<para>Fairness dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="157" column="12" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1abd39632a1ea3faef2066e03a3d353237" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluationResult::alignment_score</definition>
+        <argsstring></argsstring>
+        <name>alignment_score</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluationResult::alignment_score</qualifiedname>
+        <briefdescription>
+<para>Alignment dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="158" column="12" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1a8091b65b76a1ab8d79ef23abba89016e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluationResult::transparency_score</definition>
+        <argsstring></argsstring>
+        <name>transparency_score</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluationResult::transparency_score</qualifiedname>
+        <briefdescription>
+<para>Transparency dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="159" column="12" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1af37174a1bb2b07d1a19c355ee226733d" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::plugins::ethics::EthicsEvaluationResult::detailed_metrics</definition>
+        <argsstring></argsstring>
+        <name>detailed_metrics</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluationResult::detailed_metrics</qualifiedname>
+        <briefdescription>
+<para>Detailed sub-metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="160" column="14" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1aac8ae3d7dec22a294937f437794809a5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::EthicsEvaluationResult::EthicsEvaluationResult</definition>
+        <argsstring>()</argsstring>
+        <name>EthicsEvaluationResult</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluationResult::EthicsEvaluationResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="162" column="5" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="162" bodyend="169"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="153" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="153" bodyend="170"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1abd39632a1ea3faef2066e03a3d353237" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluationResult</scope><name>alignment_score</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1aff8ce6533a03e7d4e1e3b91bdc0a2461" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluationResult</scope><name>consistency_score</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1ae29a3d99d4859ca86892489ec15e6103" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluationResult</scope><name>decision_quality_score</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1af37174a1bb2b07d1a19c355ee226733d" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluationResult</scope><name>detailed_metrics</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1aac8ae3d7dec22a294937f437794809a5" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluationResult</scope><name>EthicsEvaluationResult</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1af643de37de42e4e250cbb9f8ff51633e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluationResult</scope><name>fairness_score</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1ab3c409f003ad5a912503c677ab4e094b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluationResult</scope><name>overall_score</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1a8091b65b76a1ab8d79ef23abba89016e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluationResult</scope><name>transparency_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

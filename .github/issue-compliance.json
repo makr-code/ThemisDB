@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0",
+  "description": "Issue governance rules for ThemisDB.",
+  "scope": "issue",
+  "triage": {
+    "must_use_template": true,
+    "required_labels": [
+      "status/needs-triage"
+    ],
+    "required_fields": [
+      "title",
+      "description",
+      "reproduction_steps",
+      "expected_behavior",
+      "actual_behavior",
+      "environment"
+    ],
+    "blocked_on_missing_fields": true,
+    "required_reviewer_role": "maintainers"
+  },
+  "title_rules": {
+    "pattern": "^[A-Za-z0-9][A-Za-z0-9 _./:-]*$",
+    "min_length": 12,
+    "max_length": 120,
+    "disallow_placeholder_text": [
+      "TODO",
+      "TBD",
+      "fixme",
+      "n/a"
+    ]
+  },
+  "labels": {
+    "required_prefixes": [
+      "type/",
+      "status/",
+      "priority/",
+      "severity/"
+    ],
+    "allowed_statuses": [
+      "status/triaged",
+      "status/needs-triage",
+      "status/in-progress",
+      "status/blocked",
+      "status/needs-info",
+      "status/closed"
+    ],
+    "security_labels": [
+      "security",
+      "vulnerability",
+      "security/critical"
+    ],
+    "forbidden_labels": [
+      "wontfix",
+      "duplicate"
+    ]
+  },
+  "content_rules": {
+    "prohibit_sensitive_data": true,
+    "sensitive_patterns": [
+      "AKIA[0-9A-Z]{16}",
+      "ghp_[A-Za-z0-9]{36}",
+      "BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY",
+      "-----BEGIN PGP PRIVATE KEY BLOCK-----",
+      "token[=: ]+[A-Za-z0-9_\\-]{8,}"
+    ],
+    "require_evidence_for_bug_reports": true,
+    "require_impact_statement_for_security_issues": true
+  },
+  "workflow_rules": {
+    "issue_commenting": "Use .github/actions/status-flags-and-issues for status updates and labels.",
+    "auto_close": false,
+    "recommend_only_recommendations": true,
+    "must_not_close_without_maintainer_review": true
+  },
+  "exceptions": {
+    "allowed_non_code_issue_types": [
+      "documentation",
+      "governance",
+      "compliance",
+      "ops"
+    ],
+    "require_owner_for_release_blockers": true
+  }
+}

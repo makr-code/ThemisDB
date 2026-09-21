@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::AutoRebalancer::Config</compoundname>
+    <includes refid="auto__rebalancer_8h" local="no">auto_rebalancer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1af88249ed26ede3a6172ab3bc61ae6f3f" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::AutoRebalancer::Config::check_interval</definition>
+        <argsstring></argsstring>
+        <name>check_interval</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::Config::check_interval</qualifiedname>
+        <initializer>{std::chrono::minutes(5)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="205" column="35" bodyfile="include/sharding/auto_rebalancer.h" bodystart="205" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1af068f0ea8f6a2822a4d0436984ae4fd9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::AutoRebalancer::Config::max_concurrent_operations</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_operations</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::Config::max_concurrent_operations</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="208" column="16" bodyfile="include/sharding/auto_rebalancer.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1aa8f358662f354383b52595f186033f09" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::AutoRebalancer::Config::operator_cert_path</definition>
+        <argsstring></argsstring>
+        <name>operator_cert_path</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::Config::operator_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="211" column="21" bodyfile="include/sharding/auto_rebalancer.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1aed1350db24823e909a1588f3505a1432" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::AutoRebalancer::Config::operator_key_path</definition>
+        <argsstring></argsstring>
+        <name>operator_key_path</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::Config::operator_key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="212" column="21" bodyfile="include/sharding/auto_rebalancer.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1a1d97b2255ea254edc9114602b7b879a9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::AutoRebalancer::Config::ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>ca_cert_path</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::Config::ca_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="213" column="21" bodyfile="include/sharding/auto_rebalancer.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1aec3da517d6bcfcce6d7d589bb1927857" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::AutoRebalancer::Config::fail_closed_signing</definition>
+        <argsstring></argsstring>
+        <name>fail_closed_signing</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::Config::fail_closed_signing</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, signOperation() throws std::runtime_error instead of returning an UNSIGNED:* fallback token when key provisioning fails and no <ref refid="namespacethemis_1_1sharding_1a77065eabe23820330e4f91552683c9e9" kindref="member">SignOperationFn</ref> override is registered. Set to true in production environments that require cryptographic authenticity of rebalance intents. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="219" column="14" bodyfile="include/sharding/auto_rebalancer.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1a25bac2316a466e26b66a1a16693bb8e1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::AutoRebalancer::Config::auto_trigger_enabled</definition>
+        <argsstring></argsstring>
+        <name>auto_trigger_enabled</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::Config::auto_trigger_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="222" column="14" bodyfile="include/sharding/auto_rebalancer.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1ac17052d0314ce0b5e57f3b5a7e039bd2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::AutoRebalancer::Config::require_manual_approval</definition>
+        <argsstring></argsstring>
+        <name>require_manual_approval</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::Config::require_manual_approval</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="223" column="14" bodyfile="include/sharding/auto_rebalancer.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1aa4e32785c52ce679be80ae6e64260aae" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::AutoRebalancer::Config::max_operations_per_day</definition>
+        <argsstring></argsstring>
+        <name>max_operations_per_day</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::Config::max_operations_per_day</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="226" column="16" bodyfile="include/sharding/auto_rebalancer.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1ab9c9127c7be669de8f6fdaf1dcad5ea1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::AutoRebalancer::Config::max_data_movement_percent</definition>
+        <argsstring></argsstring>
+        <name>max_data_movement_percent</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::Config::max_data_movement_percent</qualifiedname>
+        <initializer>= 20.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="227" column="16" bodyfile="include/sharding/auto_rebalancer.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1a76343dc9251d6dbc7b13c8498c54cda7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::AutoRebalancer::Config::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::Config::batch_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="230" column="18" bodyfile="include/sharding/auto_rebalancer.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1a38fdfcb960cb43e67f1d144a78639135" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::AutoRebalancer::Config::verify_data</definition>
+        <argsstring></argsstring>
+        <name>verify_data</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::Config::verify_data</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="231" column="14" bodyfile="include/sharding/auto_rebalancer.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1a8338dc6c65c2cc05d1207d1cea019551" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::AutoRebalancer::Config::enable_rollback</definition>
+        <argsstring></argsstring>
+        <name>enable_rollback</name>
+        <qualifiedname>themis::sharding::AutoRebalancer::Config::enable_rollback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="232" column="14" bodyfile="include/sharding/auto_rebalancer.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime policy knobs for automatic rebalance coordination. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/auto_rebalancer.h" line="203" column="5" bodyfile="include/sharding/auto_rebalancer.h" bodystart="203" bodyend="233"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1a25bac2316a466e26b66a1a16693bb8e1" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer::Config</scope><name>auto_trigger_enabled</name></member>
+      <member refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1a76343dc9251d6dbc7b13c8498c54cda7" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer::Config</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1a1d97b2255ea254edc9114602b7b879a9" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer::Config</scope><name>ca_cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1af88249ed26ede3a6172ab3bc61ae6f3f" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer::Config</scope><name>check_interval</name></member>
+      <member refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1a8338dc6c65c2cc05d1207d1cea019551" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer::Config</scope><name>enable_rollback</name></member>
+      <member refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1aec3da517d6bcfcce6d7d589bb1927857" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer::Config</scope><name>fail_closed_signing</name></member>
+      <member refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1af068f0ea8f6a2822a4d0436984ae4fd9" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer::Config</scope><name>max_concurrent_operations</name></member>
+      <member refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1ab9c9127c7be669de8f6fdaf1dcad5ea1" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer::Config</scope><name>max_data_movement_percent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1aa4e32785c52ce679be80ae6e64260aae" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer::Config</scope><name>max_operations_per_day</name></member>
+      <member refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1aa8f358662f354383b52595f186033f09" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer::Config</scope><name>operator_cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1aed1350db24823e909a1588f3505a1432" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer::Config</scope><name>operator_key_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1ac17052d0314ce0b5e57f3b5a7e039bd2" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer::Config</scope><name>require_manual_approval</name></member>
+      <member refid="structthemis_1_1sharding_1_1_auto_rebalancer_1_1_config_1a38fdfcb960cb43e67f1d144a78639135" prot="public" virt="non-virtual"><scope>themis::sharding::AutoRebalancer::Config</scope><name>verify_data</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

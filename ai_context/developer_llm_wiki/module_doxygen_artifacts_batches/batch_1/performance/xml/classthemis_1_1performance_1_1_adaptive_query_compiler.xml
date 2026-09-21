@@ -1,0 +1,640 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_adaptive_query_compiler" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::AdaptiveQueryCompiler</compoundname>
+    <includes refid="adaptive__query__compiler_8h" local="no">adaptive_query_compiler.h</includes>
+    <innerclass refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config" prot="public">themis::performance::AdaptiveQueryCompiler::CompilationConfig</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compiled_query" prot="public">themis::performance::AdaptiveQueryCompiler::CompiledQuery</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats" prot="public">themis::performance::AdaptiveQueryCompiler::CompilationStats</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1_1_impl" prot="public">themis::performance::AdaptiveQueryCompiler::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1a48d266f214492b2b17867b1dec461c4b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>OptLevel</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::OptLevel</qualifiedname>
+        <enumvalue id="classthemis_1_1performance_1_1_adaptive_query_compiler_1a48d266f214492b2b17867b1dec461c4ba7e6bfed55985b52e9dbfc6df8f291186" prot="public">
+          <name>O0</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1performance_1_1_adaptive_query_compiler_1a48d266f214492b2b17867b1dec461c4ba00594a175ce5a58f286d91ca0a6f15a2" prot="public">
+          <name>O1</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1performance_1_1_adaptive_query_compiler_1a48d266f214492b2b17867b1dec461c4babfc60714f62f15e1e72e0b21454cc99e" prot="public">
+          <name>O2</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1performance_1_1_adaptive_query_compiler_1a48d266f214492b2b17867b1dec461c4ba9ee25ee8b4d0a573527fcd2f1e73f8c8" prot="public">
+          <name>O3</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>LLVM-style optimisation level hint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="285" column="5" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="285" bodyend="285"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1afb6fec7dfc828ae1a6693912b8c0966e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::performance::AdaptiveQueryCompiler::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="524" column="21" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="524" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1a3c19f28274199c4e836c11b130034fdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::AdaptiveQueryCompiler::AdaptiveQueryCompiler</definition>
+        <argsstring>()</argsstring>
+        <name>AdaptiveQueryCompiler</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::AdaptiveQueryCompiler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="400" column="5" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="1308" bodyend="1309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1ab6f306101f222cad091b512de625a7eb" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::AdaptiveQueryCompiler::AdaptiveQueryCompiler</definition>
+        <argsstring>(CompilationConfig config)</argsstring>
+        <name>AdaptiveQueryCompiler</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::AdaptiveQueryCompiler</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config" kindref="compound">CompilationConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="401" column="14" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="1311" bodyend="1312"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1ac25eefa61904fa4304fb1f8a9cc2803c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::AdaptiveQueryCompiler::~AdaptiveQueryCompiler</definition>
+        <argsstring>()</argsstring>
+        <name>~AdaptiveQueryCompiler</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::~AdaptiveQueryCompiler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="402" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1ab5b6fd060e12b0e9bf9dcf43bc3dc9af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::AdaptiveQueryCompiler::AdaptiveQueryCompiler</definition>
+        <argsstring>(const AdaptiveQueryCompiler &amp;)=delete</argsstring>
+        <name>AdaptiveQueryCompiler</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::AdaptiveQueryCompiler</qualifiedname>
+        <param>
+          <type>const AdaptiveQueryCompiler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="404" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1aeeb6371cd551acfbd08239f11e73bf7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a3c19f28274199c4e836c11b130034fdb" kindref="member">AdaptiveQueryCompiler</ref> &amp;</type>
+        <definition>AdaptiveQueryCompiler &amp; themis::performance::AdaptiveQueryCompiler::operator=</definition>
+        <argsstring>(const AdaptiveQueryCompiler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a3c19f28274199c4e836c11b130034fdb" kindref="member">AdaptiveQueryCompiler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="405" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1ad7e6f55f2d069b31ac4f09557f645ee0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::AdaptiveQueryCompiler::AdaptiveQueryCompiler</definition>
+        <argsstring>(AdaptiveQueryCompiler &amp;&amp;) noexcept=default</argsstring>
+        <name>AdaptiveQueryCompiler</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::AdaptiveQueryCompiler</qualifiedname>
+        <param>
+          <type>AdaptiveQueryCompiler &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="406" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1a9fe040ffdaa31726701b7b8239cafa69" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a3c19f28274199c4e836c11b130034fdb" kindref="member">AdaptiveQueryCompiler</ref> &amp;</type>
+        <definition>AdaptiveQueryCompiler &amp; themis::performance::AdaptiveQueryCompiler::operator=</definition>
+        <argsstring>(AdaptiveQueryCompiler &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a3c19f28274199c4e836c11b130034fdb" kindref="member">AdaptiveQueryCompiler</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="407" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1a7df22a4b850c99d84fec5fbca502348f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_query_result" kindref="compound">QueryResult</ref></type>
+        <definition>QueryResult themis::performance::AdaptiveQueryCompiler::execute</definition>
+        <argsstring>(const ParsedQuery &amp;query, const Schema &amp;schema, const QueryParams &amp;params)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::execute</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1_parsed_query" kindref="compound">ParsedQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1_schema" kindref="compound">Schema</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1_query_params" kindref="compound">QueryParams</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Execute a query, automatically switching to the compiled path once the hot-threshold has been crossed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute.</para>
+<para>On the Nth call where N == hot_threshold, the query is compiled and the result of that first compiled execution is returned. All subsequent calls go through the specialised path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parsed query descriptor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current schema snapshot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bind parameter values. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Query result (always populated; check result.ok and result.error for failure details).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements execute without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="427" column="17" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="1324" bodyend="1328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1a154d0b4ee92aae8dcca3abb393d927e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_query_result" kindref="compound">QueryResult</ref></type>
+        <definition>QueryResult themis::performance::AdaptiveQueryCompiler::execute</definition>
+        <argsstring>(const CompiledQuery &amp;compiled, const QueryParams &amp;params)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::execute</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compiled_query" kindref="compound">CompiledQuery</ref> &amp;</type>
+          <declname>compiled</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1_query_params" kindref="compound">QueryParams</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Execute a pre-compiled query specialisation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute.</para>
+<para>This overload allows callers that obtained a <computeroutput><ref refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compiled_query" kindref="compound">CompiledQuery</ref></computeroutput> via <computeroutput><ref refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a18d0b725289c13148720a957c9546cbf" kindref="member">compile()</ref></computeroutput> to invoke it directly, bypassing the hot-path detection layer entirely.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>compiled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid <ref refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compiled_query" kindref="compound">CompiledQuery</ref> (operator bool() must be true). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bind parameter values. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Query result; result.ok is false when compiled is invalid (null execute function).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">compiled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements execute without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="443" column="17" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="1337" bodyend="1346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1a18d0b725289c13148720a957c9546cbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compiled_query" kindref="compound">CompiledQuery</ref></type>
+        <definition>AdaptiveQueryCompiler::CompiledQuery themis::performance::AdaptiveQueryCompiler::compile</definition>
+        <argsstring>(const ParsedQuery &amp;query, const Schema &amp;schema, std::optional&lt; CompilationConfig &gt; config=std::nullopt)</argsstring>
+        <name>compile</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::compile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1_parsed_query" kindref="compound">ParsedQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1_schema" kindref="compound">Schema</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config" kindref="compound">CompilationConfig</ref> &gt;</type>
+          <declname>config</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Explicitly compile a query to a specialised execution function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>May be called proactively (before the hot threshold is reached) to pre-warm the compilation cache.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parsed query descriptor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current schema snapshot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-compile overrides (defaults to the instance config). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compiled_query" kindref="compound">CompiledQuery</ref> on success; operator bool() returns false and compilation_failures is incremented on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="458" column="19" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="1349" bodyend="1353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1a3ffc8225cca5ae48b294be5978ffbc84" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::AdaptiveQueryCompiler::is_compilable</definition>
+        <argsstring>(const ParsedQuery &amp;query) const noexcept</argsstring>
+        <name>is_compilable</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::is_compilable</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1_parsed_query" kindref="compound">ParsedQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Return true when the query structure is eligible for compilation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Queries with op_type == Unknown are not compilable. All other recognised op types are supported by the specialisation layer. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="468" column="10" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="1355" bodyend="1357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1ad860e1879e2176f3de223fa577aba526" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::AdaptiveQueryCompiler::invalidate</definition>
+        <argsstring>(const std::string &amp;fingerprint)</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::invalidate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <briefdescription>
+<para>Evict the compiled specialisation for one fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Invalidate.</para>
+<para>The query reverts to the cold path and will be recompiled after <computeroutput>hot_threshold</computeroutput> more executions.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements invalidate without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="480" column="10" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="1364" bodyend="1366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1a87ef3ec63d451ae73de7553ffff9dd18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::AdaptiveQueryCompiler::invalidateAll</definition>
+        <argsstring>()</argsstring>
+        <name>invalidateAll</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::invalidateAll</qualifiedname>
+        <briefdescription>
+<para>Evict all compiled specialisations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Invalidate All.</para>
+<para>Implements invalidateAll without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="483" column="10" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="1372" bodyend="1374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1a01b0d8615f45b4d7aaaad6a45e28dbd4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::AdaptiveQueryCompiler::executionCount</definition>
+        <argsstring>(const std::string &amp;fingerprint) const</argsstring>
+        <name>executionCount</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::executionCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <briefdescription>
+<para>Return the current execution count for a query fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns 0 when the fingerprint is unknown. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="490" column="12" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="1376" bodyend="1378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1aa97f2adbe60d0bbe827ee07f04197764" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::AdaptiveQueryCompiler::isCompiled</definition>
+        <argsstring>(const std::string &amp;fingerprint) const</argsstring>
+        <name>isCompiled</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::isCompiled</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <briefdescription>
+<para>Return true when a compiled specialisation exists for the given fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="496" column="10" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="1380" bodyend="1382"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1ac55e5c9d8dc1de6b20ac7c594b4d5232" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats" kindref="compound">CompilationStats</ref></type>
+        <definition>AdaptiveQueryCompiler::CompilationStats themis::performance::AdaptiveQueryCompiler::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::getStats</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of current compiler statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="503" column="22" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="1384" bodyend="1386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1a883cf240fd62fd2be3969bc08cfe56e4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_stats" kindref="compound">CompilationStats</ref></type>
+        <definition>CompilationStats themis::performance::AdaptiveQueryCompiler::get_stats</definition>
+        <argsstring>() const</argsstring>
+        <name>get_stats</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::get_stats</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of current compiler statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Alias for <computeroutput><ref refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1ac55e5c9d8dc1de6b20ac7c594b4d5232" kindref="member">getStats()</ref></computeroutput> matching the snake_case naming used in the roadmap architecture specification. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="511" column="22" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="511" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1a9013a11b4eb46e12104b04f333ca0dea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::AdaptiveQueryCompiler::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset all statistics counters without evicting compiled code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Stats.</para>
+<para>Implements resetStats without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="514" column="10" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="1392" bodyend="1394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_adaptive_query_compiler_1ae986e076dce2b218b97b4521efc57b4b" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config" kindref="compound">CompilationConfig</ref> &amp;</type>
+        <definition>const AdaptiveQueryCompiler::CompilationConfig &amp; themis::performance::AdaptiveQueryCompiler::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="520" column="29" bodyfile="src/performance/adaptive_query_compiler.cpp" bodystart="1397" bodyend="1399"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Adaptive JIT-style compiler for hot ThemisDB queries (v1.8.0). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements the &quot;Adaptive Query Compilation&quot; roadmap item (performance domain, milestone v1.8.0, roadmap row #86).</para>
+<sect1 id="classthemis_1_1performance_1_1_adaptive_query_compiler_1autotoc_md0_1s1"><sect2 id="classthemis_1_1performance_1_1_adaptive_query_compiler_1autotoc_md0">
+<title>Design</title><para>The compiler follows the warm-up/specialise pattern used in production JIT compilers:</para>
+<para><bold>Cold path</bold> (execution_count &lt; hot_threshold): Queries are executed through a generic interpreted dispatch path. Each call increments the per-fingerprint execution counter.</para>
+<para><bold>Compilation</bold> (execution_count == hot_threshold): When a query crosses the hot-threshold, <computeroutput>compileSpecialisation()</computeroutput> analyses the query structure and schema types to generate a type-specialised <computeroutput>std::function&lt;<ref refid="structthemis_1_1performance_1_1_query_result" kindref="compound">QueryResult</ref>(const <ref refid="structthemis_1_1performance_1_1_query_params" kindref="compound">QueryParams</ref>&amp;)&gt;</computeroutput>. The specialised closure:<itemizedlist>
+<listitem><para>Hard-codes the query operation type (no per-row virtual dispatch).</para>
+</listitem><listitem><para>Hard-codes predicate column types (type specialisation).</para>
+</listitem><listitem><para>Applies constant propagation / expression folding for literal predicates discovered at compile time.</para>
+</listitem><listitem><para>Emits simulated LLVM IR and assembly strings used for debugging and differential testing.</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Hot path</bold> (execution_count &gt; hot_threshold): The cached specialised function is invoked directly, bypassing the generic dispatch layer.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1performance_1_1_adaptive_query_compiler_1autotoc_md1_1s1"><sect2 id="classthemis_1_1performance_1_1_adaptive_query_compiler_1autotoc_md1">
+<title>Adaptive Recompilation</title><para>A background check after every <computeroutput>recompile_check_interval</computeroutput> executions compares the current runtime statistics (result-set cardinality, predicate selectivity) against the snapshot captured at compile time. If the cardinality has drifted by more than <computeroutput>recompile_drift_factor</computeroutput> the cached specialisation is evicted and the query is recompiled on the next hot-path invocation.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1performance_1_1_adaptive_query_compiler_1autotoc_md2_1s1"><sect2 id="classthemis_1_1performance_1_1_adaptive_query_compiler_1autotoc_md2">
+<title>LLVM Backend Guard</title><para>When the compile-time symbol <computeroutput>THEMIS_HAS_LLVM_JIT</computeroutput> is defined the compilation step may additionally emit real LLVM IR and invoke MCJIT to produce a function pointer to native machine code. The dispatch logic and all statistics remain identical in both modes.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1performance_1_1_adaptive_query_compiler_1autotoc_md3_1s1"><sect2 id="classthemis_1_1performance_1_1_adaptive_query_compiler_1autotoc_md3">
+<title>Thread Safety</title><para>All public methods are thread-safe. Internal state is guarded by a single <computeroutput>std::mutex</computeroutput>. Each call to <computeroutput><ref refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a7df22a4b850c99d84fec5fbca502348f" kindref="member">execute()</ref></computeroutput> acquires the lock only for the counter increment and optional compilation step; the hot-path function itself is invoked without holding the lock.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1performance_1_1_adaptive_query_compiler_1autotoc_md4_1s1"><sect2 id="classthemis_1_1performance_1_1_adaptive_query_compiler_1autotoc_md4">
+<title>Usage</title><para><programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a3c19f28274199c4e836c11b130034fdb" kindref="member">AdaptiveQueryCompiler</ref><sp/>compiler;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ParsedQuery<sp/>q;</highlight></codeline>
+<codeline><highlight class="normal">q.fingerprint<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;filter:users:age:GE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">q.table<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">q.op_type<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1performance_1ad25ff7098173e704b1a4674d7159f3f8ad7778d0c64b6ba21494c97f77a66885a" kindref="member">QueryOpType::Filter</ref>;</highlight></codeline>
+<codeline><highlight class="normal">q.predicates<sp/><sp/><sp/>=<sp/>{{<sp/></highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1performance_1_1_predicate_1a1fd2a22c794b9b36c9fe586533359f0baf803729628adf4199f224c2a225038e9" kindref="member">Predicate::Op::GE</ref>,<sp/>int64_t{18}<sp/>}};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">Schema<sp/>schema;</highlight></codeline>
+<codeline><highlight class="normal">schema.tables[</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>{{<sp/></highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1performance_1a1344dcc296fb0b3d28c0b5b17befec97afbde23b11d7e59af7828e81144c8b487" kindref="member">ColumnType::Int64</ref><sp/>}}<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>First<sp/>100<sp/>calls:<sp/>interpreted<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>compiler.execute(q,<sp/>schema,<sp/>{});</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Call<sp/>101+:<sp/>compiled<sp/>specialisation</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>compiler.execute(q,<sp/>schema,<sp/>{});</highlight></codeline>
+<codeline><highlight class="normal">assert(result.ok);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>compiler.getStats();</highlight></codeline>
+<codeline><highlight class="normal">assert(s.queries_compiled<sp/>&gt;=<sp/>1);</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/performance/adaptive_query_compiler.h" line="278" column="1" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="278" bodyend="525"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a3c19f28274199c4e836c11b130034fdb" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>AdaptiveQueryCompiler</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1ab6f306101f222cad091b512de625a7eb" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>AdaptiveQueryCompiler</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1ab5b6fd060e12b0e9bf9dcf43bc3dc9af" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>AdaptiveQueryCompiler</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1ad7e6f55f2d069b31ac4f09557f645ee0" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>AdaptiveQueryCompiler</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a18d0b725289c13148720a957c9546cbf" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>compile</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1ae986e076dce2b218b97b4521efc57b4b" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>config</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a7df22a4b850c99d84fec5fbca502348f" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>execute</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a154d0b4ee92aae8dcca3abb393d927e6" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>execute</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a01b0d8615f45b4d7aaaad6a45e28dbd4" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>executionCount</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a883cf240fd62fd2be3969bc08cfe56e4" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>get_stats</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1ac55e5c9d8dc1de6b20ac7c594b4d5232" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1afb6fec7dfc828ae1a6693912b8c0966e" prot="private" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1ad860e1879e2176f3de223fa577aba526" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a87ef3ec63d451ae73de7553ffff9dd18" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>invalidateAll</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a3ffc8225cca5ae48b294be5978ffbc84" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>is_compilable</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1aa97f2adbe60d0bbe827ee07f04197764" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>isCompiled</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1aeeb6371cd551acfbd08239f11e73bf7c" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a9fe040ffdaa31726701b7b8239cafa69" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a48d266f214492b2b17867b1dec461c4b" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>OptLevel</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a9013a11b4eb46e12104b04f333ca0dea" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1ac25eefa61904fa4304fb1f8a9cc2803c" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler</scope><name>~AdaptiveQueryCompiler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

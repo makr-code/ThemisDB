@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_subagent_policy_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SubagentPolicyConfig</compoundname>
+    <includes refid="subagent__config_8h" local="no">subagent_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_policy_config_1ac42c94b2260e151c073f949385a53771" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentPolicyConfig::prompt_policy_id</definition>
+        <argsstring></argsstring>
+        <name>prompt_policy_id</name>
+        <qualifiedname>themis::llm::SubagentPolicyConfig::prompt_policy_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="98" column="17" bodyfile="include/llm/subagent_config.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_policy_config_1af42639a7143827bd787b6333194e012c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentPolicyConfig::ethics_profile_id</definition>
+        <argsstring></argsstring>
+        <name>ethics_profile_id</name>
+        <qualifiedname>themis::llm::SubagentPolicyConfig::ethics_profile_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="100" column="17" bodyfile="include/llm/subagent_config.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_policy_config_1a946094153adcceec5b1db5bb36722830" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::SubagentPolicyConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::llm::SubagentPolicyConfig::max_retries</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="102" column="9" bodyfile="include/llm/subagent_config.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_policy_config_1a1a0a91cc72df5b58ef1466fd7e9f0fef" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SubagentPolicyConfig::block_on_policy_violation</definition>
+        <argsstring></argsstring>
+        <name>block_on_policy_violation</name>
+        <qualifiedname>themis::llm::SubagentPolicyConfig::block_on_policy_violation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="104" column="10" bodyfile="include/llm/subagent_config.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_policy_config_1a03c284a27d1d7da3fa3e295afceb5871" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SubagentPolicyConfig::block_on_quota_violation</definition>
+        <argsstring></argsstring>
+        <name>block_on_quota_violation</name>
+        <qualifiedname>themis::llm::SubagentPolicyConfig::block_on_quota_violation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="106" column="10" bodyfile="include/llm/subagent_config.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/subagent_config.h" line="97" column="1" bodyfile="include/llm/subagent_config.h" bodystart="97" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_subagent_policy_config_1a1a0a91cc72df5b58ef1466fd7e9f0fef" prot="public" virt="non-virtual"><scope>themis::llm::SubagentPolicyConfig</scope><name>block_on_policy_violation</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_policy_config_1a03c284a27d1d7da3fa3e295afceb5871" prot="public" virt="non-virtual"><scope>themis::llm::SubagentPolicyConfig</scope><name>block_on_quota_violation</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_policy_config_1af42639a7143827bd787b6333194e012c" prot="public" virt="non-virtual"><scope>themis::llm::SubagentPolicyConfig</scope><name>ethics_profile_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_policy_config_1a946094153adcceec5b1db5bb36722830" prot="public" virt="non-virtual"><scope>themis::llm::SubagentPolicyConfig</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_policy_config_1ac42c94b2260e151c073f949385a53771" prot="public" virt="non-virtual"><scope>themis::llm::SubagentPolicyConfig</scope><name>prompt_policy_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_alpha_schedule" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AlphaSchedule</compoundname>
+    <includes refid="multi__lora__manager_8h" local="no">multi_lora_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structthemis_1_1llm_1_1_alpha_schedule_1acaad6e552d4ed6edfd578007572d8846" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; float &gt;(double time_offset)&gt;</type>
+        <definition>using themis::llm::AlphaSchedule::ScheduleFunc = std::function&lt;std::vector&lt;float&gt;(double time_offset)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ScheduleFunc</name>
+        <qualifiedname>themis::llm::AlphaSchedule::ScheduleFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="151" column="5" bodyfile="include/llm/multi_lora_manager.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_alpha_schedule_1a0a75d052e0cb601f243828ef1719fefd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AlphaSchedule::schedule_id</definition>
+        <argsstring></argsstring>
+        <name>schedule_id</name>
+        <qualifiedname>themis::llm::AlphaSchedule::schedule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="127" column="17" bodyfile="include/llm/multi_lora_manager.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_alpha_schedule_1a381bb03dfb88f5931e28eb69debd8039" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a58fcc03a1ca91ebad70704f1247ac427" kindref="member">FusionStrategy</ref></type>
+        <definition>FusionStrategy themis::llm::AlphaSchedule::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::llm::AlphaSchedule::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1a58fcc03a1ca91ebad70704f1247ac427afe6f99ef1ec99efbdc19a9786cf1facc" kindref="member">FusionStrategy::STATIC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="128" column="20" bodyfile="include/llm/multi_lora_manager.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_alpha_schedule_1a58f850b85927b26f661339077afad166" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a666cecf25ab7c0ca564f666d87fa910e" kindref="member">SchedulingStrategy</ref></type>
+        <definition>SchedulingStrategy themis::llm::AlphaSchedule::scheduling_strategy</definition>
+        <argsstring></argsstring>
+        <name>scheduling_strategy</name>
+        <qualifiedname>themis::llm::AlphaSchedule::scheduling_strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1a666cecf25ab7c0ca564f666d87fa910eaaac544aacc3615aada24897a215f5046" kindref="member">SchedulingStrategy::LINEAR</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="129" column="24" bodyfile="include/llm/multi_lora_manager.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_alpha_schedule_1a781ede298977fa07dc33f7ac9b41ddd0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::AlphaSchedule::static_weights</definition>
+        <argsstring></argsstring>
+        <name>static_weights</name>
+        <qualifiedname>themis::llm::AlphaSchedule::static_weights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="132" column="17" bodyfile="include/llm/multi_lora_manager.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_alpha_schedule_1a4958c29a5eb8befa26d7c474e3239ed0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::AlphaSchedule::target_weights</definition>
+        <argsstring></argsstring>
+        <name>target_weights</name>
+        <qualifiedname>themis::llm::AlphaSchedule::target_weights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="135" column="17" bodyfile="include/llm/multi_lora_manager.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_alpha_schedule_1a19c9762dd20a631fbb9bebb3cdf22061" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::AlphaSchedule::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::llm::AlphaSchedule::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="138" column="43" bodyfile="include/llm/multi_lora_manager.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_alpha_schedule_1ab2da8ac3c6ef8788740358ea7191eaa6" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::AlphaSchedule::transition_duration</definition>
+        <argsstring></argsstring>
+        <name>transition_duration</name>
+        <qualifiedname>themis::llm::AlphaSchedule::transition_duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="139" column="26" bodyfile="include/llm/multi_lora_manager.h" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_alpha_schedule_1ad515c55304c805fd2b1ae433b7c8032f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::AlphaSchedule::exponential_base</definition>
+        <argsstring></argsstring>
+        <name>exponential_base</name>
+        <qualifiedname>themis::llm::AlphaSchedule::exponential_base</qualifiedname>
+        <initializer>= 2.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="142" column="11" bodyfile="include/llm/multi_lora_manager.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_alpha_schedule_1a7fbeb1b017f73c5378f02cb8761485a9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::AlphaSchedule::exponential_decay</definition>
+        <argsstring></argsstring>
+        <name>exponential_decay</name>
+        <qualifiedname>themis::llm::AlphaSchedule::exponential_decay</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="143" column="10" bodyfile="include/llm/multi_lora_manager.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_alpha_schedule_1ad64d40c8200d28d1d7ac323f494f845f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::llm::AlphaSchedule::step_times</definition>
+        <argsstring></argsstring>
+        <name>step_times</name>
+        <qualifiedname>themis::llm::AlphaSchedule::step_times</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="146" column="17" bodyfile="include/llm/multi_lora_manager.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_alpha_schedule_1a07578c75931d13b40ef4fda9ed7f5961" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; themis::llm::AlphaSchedule::step_weights</definition>
+        <argsstring></argsstring>
+        <name>step_weights</name>
+        <qualifiedname>themis::llm::AlphaSchedule::step_weights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="147" column="17" bodyfile="include/llm/multi_lora_manager.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_alpha_schedule_1a4284c82bae64ff95ea51d10a10a10c09" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_alpha_schedule_1acaad6e552d4ed6edfd578007572d8846" kindref="member">ScheduleFunc</ref></type>
+        <definition>ScheduleFunc themis::llm::AlphaSchedule::schedule_func</definition>
+        <argsstring></argsstring>
+        <name>schedule_func</name>
+        <qualifiedname>themis::llm::AlphaSchedule::schedule_func</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="152" column="18" bodyfile="include/llm/multi_lora_manager.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_alpha_schedule_1ab9c6417bb9b2d9154b30a43a283336af" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::AlphaSchedule::a_weight</definition>
+        <argsstring></argsstring>
+        <name>a_weight</name>
+        <qualifiedname>themis::llm::AlphaSchedule::a_weight</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="155" column="11" bodyfile="include/llm/multi_lora_manager.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_alpha_schedule_1a25608cc27b9751739079d72cbf5a8988" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::AlphaSchedule::b_weight</definition>
+        <argsstring></argsstring>
+        <name>b_weight</name>
+        <qualifiedname>themis::llm::AlphaSchedule::b_weight</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="156" column="11" bodyfile="include/llm/multi_lora_manager.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_alpha_schedule_1a0e9130537ab1bb0acb060199e774b911" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AlphaSchedule::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::llm::AlphaSchedule::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="159" column="12" bodyfile="include/llm/multi_lora_manager.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_alpha_schedule_1a56cefe1436b6746d30c0afa54c6b316d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::llm::AlphaSchedule::performance_scores</definition>
+        <argsstring></argsstring>
+        <name>performance_scores</name>
+        <qualifiedname>themis::llm::AlphaSchedule::performance_scores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="160" column="17" bodyfile="include/llm/multi_lora_manager.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_alpha_schedule_1ac5738db7a8657a2259407b331498b541" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::AlphaSchedule::~AlphaSchedule</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AlphaSchedule</name>
+        <qualifiedname>themis::llm::AlphaSchedule::~AlphaSchedule</qualifiedname>
+        <briefdescription>
+<para>Alpha Schedule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="126" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_lora_manager.h" line="121" column="1" bodyfile="include/llm/multi_lora_manager.h" bodystart="121" bodyend="161"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1ab9c6417bb9b2d9154b30a43a283336af" prot="public" virt="non-virtual"><scope>themis::llm::AlphaSchedule</scope><name>a_weight</name></member>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1a25608cc27b9751739079d72cbf5a8988" prot="public" virt="non-virtual"><scope>themis::llm::AlphaSchedule</scope><name>b_weight</name></member>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1ad515c55304c805fd2b1ae433b7c8032f" prot="public" virt="non-virtual"><scope>themis::llm::AlphaSchedule</scope><name>exponential_base</name></member>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1a7fbeb1b017f73c5378f02cb8761485a9" prot="public" virt="non-virtual"><scope>themis::llm::AlphaSchedule</scope><name>exponential_decay</name></member>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1a56cefe1436b6746d30c0afa54c6b316d" prot="public" virt="non-virtual"><scope>themis::llm::AlphaSchedule</scope><name>performance_scores</name></member>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1a4284c82bae64ff95ea51d10a10a10c09" prot="public" virt="non-virtual"><scope>themis::llm::AlphaSchedule</scope><name>schedule_func</name></member>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1a0a75d052e0cb601f243828ef1719fefd" prot="public" virt="non-virtual"><scope>themis::llm::AlphaSchedule</scope><name>schedule_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1acaad6e552d4ed6edfd578007572d8846" prot="public" virt="non-virtual"><scope>themis::llm::AlphaSchedule</scope><name>ScheduleFunc</name></member>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1a58f850b85927b26f661339077afad166" prot="public" virt="non-virtual"><scope>themis::llm::AlphaSchedule</scope><name>scheduling_strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1a19c9762dd20a631fbb9bebb3cdf22061" prot="public" virt="non-virtual"><scope>themis::llm::AlphaSchedule</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1a781ede298977fa07dc33f7ac9b41ddd0" prot="public" virt="non-virtual"><scope>themis::llm::AlphaSchedule</scope><name>static_weights</name></member>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1ad64d40c8200d28d1d7ac323f494f845f" prot="public" virt="non-virtual"><scope>themis::llm::AlphaSchedule</scope><name>step_times</name></member>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1a07578c75931d13b40ef4fda9ed7f5961" prot="public" virt="non-virtual"><scope>themis::llm::AlphaSchedule</scope><name>step_weights</name></member>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1a381bb03dfb88f5931e28eb69debd8039" prot="public" virt="non-virtual"><scope>themis::llm::AlphaSchedule</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1a4958c29a5eb8befa26d7c474e3239ed0" prot="public" virt="non-virtual"><scope>themis::llm::AlphaSchedule</scope><name>target_weights</name></member>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1a0e9130537ab1bb0acb060199e774b911" prot="public" virt="non-virtual"><scope>themis::llm::AlphaSchedule</scope><name>total_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1ab2da8ac3c6ef8788740358ea7191eaa6" prot="public" virt="non-virtual"><scope>themis::llm::AlphaSchedule</scope><name>transition_duration</name></member>
+      <member refid="structthemis_1_1llm_1_1_alpha_schedule_1ac5738db7a8657a2259407b331498b541" prot="public" virt="virtual"><scope>themis::llm::AlphaSchedule</scope><name>~AlphaSchedule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_model_history_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ModelHistoryConfig</compoundname>
+    <includes refid="model__history__contract_8h" local="no">model_history_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_history_config_1a28623d1a9b9ff81d7d5faaf2336d51de" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ModelHistoryConfig::enable_history</definition>
+        <argsstring></argsstring>
+        <name>enable_history</name>
+        <qualifiedname>themis::process::ModelHistoryConfig::enable_history</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>true to enable model history tracking </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="469" column="10" bodyfile="include/process/model_history_contract.h" bodystart="469" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_history_config_1a97e8eb21259f5fdc998e68262f14a6d9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::ModelHistoryConfig::snapshot_frequency</definition>
+        <argsstring></argsstring>
+        <name>snapshot_frequency</name>
+        <qualifiedname>themis::process::ModelHistoryConfig::snapshot_frequency</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para><ref refid="structthemis_1_1process_1_1_snapshot" kindref="compound">Snapshot</ref> frequency: create snapshot every N operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="472" column="14" bodyfile="include/process/model_history_contract.h" bodystart="472" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_history_config_1a6ff4ffa06fc3b89cca331e600fecf23f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ModelHistoryConfig::delta_encoding</definition>
+        <argsstring></argsstring>
+        <name>delta_encoding</name>
+        <qualifiedname>themis::process::ModelHistoryConfig::delta_encoding</qualifiedname>
+        <initializer>= &quot;auto&quot;</initializer>
+        <briefdescription>
+<para>Delta encoding strategy: &quot;operation_log&quot; | &quot;snapshot_diff&quot; | &quot;auto&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="475" column="17" bodyfile="include/process/model_history_contract.h" bodystart="475" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_history_config_1afd33f937a00dc0bdd9d6896778d8902f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ModelHistoryConfig::compression_algorithm</definition>
+        <argsstring></argsstring>
+        <name>compression_algorithm</name>
+        <qualifiedname>themis::process::ModelHistoryConfig::compression_algorithm</qualifiedname>
+        <initializer>= &quot;zstd&quot;</initializer>
+        <briefdescription>
+<para>Compression algorithm: &quot;none&quot; | &quot;zstd&quot; | &quot;lz4&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="478" column="17" bodyfile="include/process/model_history_contract.h" bodystart="478" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_history_config_1a9e94f4dcb3156c565b3304139a743135" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1process_1_1_audit_retention_policy" kindref="compound">AuditRetentionPolicy</ref></type>
+        <definition>AuditRetentionPolicy themis::process::ModelHistoryConfig::retention_policy</definition>
+        <argsstring></argsstring>
+        <name>retention_policy</name>
+        <qualifiedname>themis::process::ModelHistoryConfig::retention_policy</qualifiedname>
+        <briefdescription>
+<para>Audit trail retention policy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="481" column="26" bodyfile="include/process/model_history_contract.h" bodystart="481" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_history_config_1a759cd92dc43602d519e6658394798540" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::ModelHistoryConfig::cache_size_mb</definition>
+        <argsstring></argsstring>
+        <name>cache_size_mb</name>
+        <qualifiedname>themis::process::ModelHistoryConfig::cache_size_mb</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Maximum size of in-memory history cache (MB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="484" column="14" bodyfile="include/process/model_history_contract.h" bodystart="484" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_history_config_1a0a53e3161534c941a7bc8d4c985b5ba6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ModelHistoryConfig::audit_queries</definition>
+        <argsstring></argsstring>
+        <name>audit_queries</name>
+        <qualifiedname>themis::process::ModelHistoryConfig::audit_queries</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true to record all queries in audit trail (verbose) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="487" column="10" bodyfile="include/process/model_history_contract.h" bodystart="487" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_model_history_config_1a83c5a4e0fadb5f119c91982c81adbc31" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ModelHistoryConfig::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::process::ModelHistoryConfig::trace_id</qualifiedname>
+        <briefdescription>
+<para>Correlation ID for tracing history operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="490" column="17" bodyfile="include/process/model_history_contract.h" bodystart="490" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for model history and evolution tracking. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::process::AuditRetentionPolicy</label>
+        <link refid="structthemis_1_1process_1_1_audit_retention_policy"/>
+      </node>
+      <node id="1">
+        <label>themis::process::ModelHistoryConfig</label>
+        <link refid="structthemis_1_1process_1_1_model_history_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>retention_policy</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/process/model_history_contract.h" line="467" column="1" bodyfile="include/process/model_history_contract.h" bodystart="467" bodyend="491"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_model_history_config_1a0a53e3161534c941a7bc8d4c985b5ba6" prot="public" virt="non-virtual"><scope>themis::process::ModelHistoryConfig</scope><name>audit_queries</name></member>
+      <member refid="structthemis_1_1process_1_1_model_history_config_1a759cd92dc43602d519e6658394798540" prot="public" virt="non-virtual"><scope>themis::process::ModelHistoryConfig</scope><name>cache_size_mb</name></member>
+      <member refid="structthemis_1_1process_1_1_model_history_config_1afd33f937a00dc0bdd9d6896778d8902f" prot="public" virt="non-virtual"><scope>themis::process::ModelHistoryConfig</scope><name>compression_algorithm</name></member>
+      <member refid="structthemis_1_1process_1_1_model_history_config_1a6ff4ffa06fc3b89cca331e600fecf23f" prot="public" virt="non-virtual"><scope>themis::process::ModelHistoryConfig</scope><name>delta_encoding</name></member>
+      <member refid="structthemis_1_1process_1_1_model_history_config_1a28623d1a9b9ff81d7d5faaf2336d51de" prot="public" virt="non-virtual"><scope>themis::process::ModelHistoryConfig</scope><name>enable_history</name></member>
+      <member refid="structthemis_1_1process_1_1_model_history_config_1a9e94f4dcb3156c565b3304139a743135" prot="public" virt="non-virtual"><scope>themis::process::ModelHistoryConfig</scope><name>retention_policy</name></member>
+      <member refid="structthemis_1_1process_1_1_model_history_config_1a97e8eb21259f5fdc998e68262f14a6d9" prot="public" virt="non-virtual"><scope>themis::process::ModelHistoryConfig</scope><name>snapshot_frequency</name></member>
+      <member refid="structthemis_1_1process_1_1_model_history_config_1a83c5a4e0fadb5f119c91982c81adbc31" prot="public" virt="non-virtual"><scope>themis::process::ModelHistoryConfig</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

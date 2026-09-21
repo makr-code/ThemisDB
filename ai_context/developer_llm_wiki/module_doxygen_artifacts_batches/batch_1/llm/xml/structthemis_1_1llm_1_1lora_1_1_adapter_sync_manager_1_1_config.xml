@@ -1,0 +1,316 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::AdapterSyncManager::Config</compoundname>
+    <includes refid="adapter__sync__manager_8h" local="no">adapter_sync_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1af9e6023ba3f95f057b9139fb12ecdfb3" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::lora::AdapterSyncManager::Config::sync_interval</definition>
+        <argsstring></argsstring>
+        <name>sync_interval</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::sync_interval</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="79" column="30" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a7d04d5b2ab8db352ff717318c9d3eaac" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::AdapterSyncManager::Config::replication_factor</definition>
+        <argsstring></argsstring>
+        <name>replication_factor</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::replication_factor</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="82" column="13" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a770c212ce1b783fabdea9d564cab2212" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::AdapterSyncManager::Config::enable_auto_sync</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_sync</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::enable_auto_sync</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="83" column="14" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a991d58737a0c0ba097b131ec72389efa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::AdapterSyncManager::Config::enable_on_write_sync</definition>
+        <argsstring></argsstring>
+        <name>enable_on_write_sync</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::enable_on_write_sync</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="84" column="14" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a125c03aa96dd7af605d4266822318fb4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::AdapterSyncManager::Config::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="87" column="13" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a51e478b451ea989cbd2ff54bd8c97a12" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::lora::AdapterSyncManager::Config::retry_delay</definition>
+        <argsstring></argsstring>
+        <name>retry_delay</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::retry_delay</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="88" column="30" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a1e71bdac464fa75d3091518cd3138ab9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::AdapterSyncManager::Config::enable_exponential_backoff</definition>
+        <argsstring></argsstring>
+        <name>enable_exponential_backoff</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::enable_exponential_backoff</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="89" column="14" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a3db781f7936fbe726cffaf43914c7e01" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterSyncManager::Config::conflict_resolution</definition>
+        <argsstring></argsstring>
+        <name>conflict_resolution</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::conflict_resolution</qualifiedname>
+        <initializer>= &quot;newest_wins&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="92" column="21" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a272c9d00d5882595272da82831360e91" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::AdapterSyncManager::Config::max_concurrent_syncs</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_syncs</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::max_concurrent_syncs</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="95" column="13" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a1b9d48d17ee241e1c7d01ec2a3a9fc82" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::AdapterSyncManager::Config::max_transfer_rate_mbps</definition>
+        <argsstring></argsstring>
+        <name>max_transfer_rate_mbps</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::max_transfer_rate_mbps</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="96" column="13" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a93c63776285807f8874e6a69d13d7319" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::AdapterSyncManager::Config::enable_multi_llm</definition>
+        <argsstring></argsstring>
+        <name>enable_multi_llm</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::enable_multi_llm</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="99" column="14" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1acbf23bb0e5bd825bd3984c4a4bdbf05f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::lora::AdapterSyncManager::Config::llm_models</definition>
+        <argsstring></argsstring>
+        <name>llm_models</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::llm_models</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="100" column="21" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1ac9723b44566cedefab6722424bff3b20" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::AdapterSyncManager::Config::enable_metrics</definition>
+        <argsstring></argsstring>
+        <name>enable_metrics</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::enable_metrics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="103" column="14" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a5c74e6fe129548d091281bec3a1e57d4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterSyncManager::Config::metrics_namespace</definition>
+        <argsstring></argsstring>
+        <name>metrics_namespace</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::metrics_namespace</qualifiedname>
+        <initializer>= &quot;themis_lora_sync&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="104" column="21" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1aa9bb712c32f77b248c23760c6febeadf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterSyncManager::Config::cert_path</definition>
+        <argsstring></argsstring>
+        <name>cert_path</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="107" column="21" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a683f7ac0726682cf097314e4457c1a69" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterSyncManager::Config::key_path</definition>
+        <argsstring></argsstring>
+        <name>key_path</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="108" column="21" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a0b6f1e6ff91e21be0a32366436940a83" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterSyncManager::Config::ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>ca_cert_path</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::ca_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="109" column="21" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a5b9be259f98e240b0af4568f171fdc0f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::AdapterSyncManager::Config::enable_compression</definition>
+        <argsstring></argsstring>
+        <name>enable_compression</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::enable_compression</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="110" column="14" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a9345db3dcf850d5d489ec8cae132463f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::AdapterSyncManager::Config::compression_level</definition>
+        <argsstring></argsstring>
+        <name>compression_level</name>
+        <qualifiedname>themis::llm::lora::AdapterSyncManager::Config::compression_level</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adapter_sync_manager.h" line="111" column="13" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/adapter_sync_manager.h" line="77" column="5" bodyfile="include/llm/lora_framework/adapter_sync_manager.h" bodystart="77" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a0b6f1e6ff91e21be0a32366436940a83" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>ca_cert_path</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1aa9bb712c32f77b248c23760c6febeadf" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>cert_path</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a9345db3dcf850d5d489ec8cae132463f" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>compression_level</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a3db781f7936fbe726cffaf43914c7e01" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>conflict_resolution</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a770c212ce1b783fabdea9d564cab2212" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>enable_auto_sync</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a5b9be259f98e240b0af4568f171fdc0f" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>enable_compression</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a1e71bdac464fa75d3091518cd3138ab9" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>enable_exponential_backoff</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1ac9723b44566cedefab6722424bff3b20" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>enable_metrics</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a93c63776285807f8874e6a69d13d7319" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>enable_multi_llm</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a991d58737a0c0ba097b131ec72389efa" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>enable_on_write_sync</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a683f7ac0726682cf097314e4457c1a69" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>key_path</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1acbf23bb0e5bd825bd3984c4a4bdbf05f" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>llm_models</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a272c9d00d5882595272da82831360e91" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>max_concurrent_syncs</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a125c03aa96dd7af605d4266822318fb4" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a1b9d48d17ee241e1c7d01ec2a3a9fc82" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>max_transfer_rate_mbps</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a5c74e6fe129548d091281bec3a1e57d4" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>metrics_namespace</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a7d04d5b2ab8db352ff717318c9d3eaac" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>replication_factor</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1a51e478b451ea989cbd2ff54bd8c97a12" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>retry_delay</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_sync_manager_1_1_config_1af9e6023ba3f95f057b9139fb12ecdfb3" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSyncManager::Config</scope><name>sync_interval</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

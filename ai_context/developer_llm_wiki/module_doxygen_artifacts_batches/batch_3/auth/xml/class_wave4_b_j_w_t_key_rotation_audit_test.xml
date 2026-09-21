@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_wave4_b_j_w_t_key_rotation_audit_test" kind="class" language="C++" prot="public">
+    <compoundname>Wave4BJWTKeyRotationAuditTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_wave4_b_j_w_t_key_rotation_audit_test_1a213be6df6d8452e0d6844f346e11617c" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path Wave4BJWTKeyRotationAuditTest::log_path_</definition>
+        <argsstring></argsstring>
+        <name>log_path_</name>
+        <qualifiedname>Wave4BJWTKeyRotationAuditTest::log_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening.cpp" line="229" column="27" bodyfile="tests/auth/test_wave4b_auth_hardening.cpp" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wave4_b_j_w_t_key_rotation_audit_test_1ad4cd2588e4b9354c18010cdd9a90cdb6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; AuditLogger &gt;</type>
+        <definition>std::unique_ptr&lt;AuditLogger&gt; Wave4BJWTKeyRotationAuditTest::ul_</definition>
+        <argsstring></argsstring>
+        <name>ul_</name>
+        <qualifiedname>Wave4BJWTKeyRotationAuditTest::ul_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening.cpp" line="230" column="23" bodyfile="tests/auth/test_wave4b_auth_hardening.cpp" bodystart="230" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_wave4_b_j_w_t_key_rotation_audit_test_1afd4d35be1e9ccae8aeb126206a2deed2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Wave4BJWTKeyRotationAuditTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>Wave4BJWTKeyRotationAuditTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening.cpp" line="232" column="10" bodyfile="tests/auth/test_wave4b_auth_hardening.cpp" bodystart="232" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="class_wave4_b_j_w_t_key_rotation_audit_test_1a6566ed1a1a9fe37ed6e1d285c09ebe92" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Wave4BJWTKeyRotationAuditTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>Wave4BJWTKeyRotationAuditTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening.cpp" line="237" column="10" bodyfile="tests/auth/test_wave4b_auth_hardening.cpp" bodystart="237" bodyend="239"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Wave4BJWTKeyRotationAuditTest</label>
+        <link refid="class_wave4_b_j_w_t_key_rotation_audit_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Wave4BJWTKeyRotationAuditTest</label>
+        <link refid="class_wave4_b_j_w_t_key_rotation_audit_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_wave4b_auth_hardening.cpp" line="227" column="1" bodyfile="tests/auth/test_wave4b_auth_hardening.cpp" bodystart="227" bodyend="240"/>
+    <listofallmembers>
+      <member refid="class_wave4_b_j_w_t_key_rotation_audit_test_1a213be6df6d8452e0d6844f346e11617c" prot="protected" virt="non-virtual"><scope>Wave4BJWTKeyRotationAuditTest</scope><name>log_path_</name></member>
+      <member refid="class_wave4_b_j_w_t_key_rotation_audit_test_1afd4d35be1e9ccae8aeb126206a2deed2" prot="protected" virt="non-virtual"><scope>Wave4BJWTKeyRotationAuditTest</scope><name>SetUp</name></member>
+      <member refid="class_wave4_b_j_w_t_key_rotation_audit_test_1a6566ed1a1a9fe37ed6e1d285c09ebe92" prot="protected" virt="non-virtual"><scope>Wave4BJWTKeyRotationAuditTest</scope><name>TearDown</name></member>
+      <member refid="class_wave4_b_j_w_t_key_rotation_audit_test_1ad4cd2588e4b9354c18010cdd9a90cdb6" prot="protected" virt="non-virtual"><scope>Wave4BJWTKeyRotationAuditTest</scope><name>ul_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_primary_node_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::PrimaryNodeInfo</compoundname>
+    <includes refid="multi__primary__coordinator_8h" local="no">multi_primary_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_primary_node_info_1a91310cb24d353cf8f13dd4223b2bc7da" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::PrimaryNodeInfo::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::sharding::PrimaryNodeInfo::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="43" column="17" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_primary_node_info_1a5766a9b2e8c9716e34024027bd394141" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::PrimaryNodeInfo::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themis::sharding::PrimaryNodeInfo::endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="44" column="17" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_primary_node_info_1a7b951182dbaa52397bf16d12a4deb80b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a0dea1c5c179183c1f80e124202f1ad0b" kindref="member">PrimaryState</ref></type>
+        <definition>PrimaryState themis::sharding::PrimaryNodeInfo::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::sharding::PrimaryNodeInfo::state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1sharding_1a0dea1c5c179183c1f80e124202f1ad0baeea559d5c56d48e94e586f7fe000c0b1" kindref="member">PrimaryState::STANDBY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="45" column="18" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_primary_node_info_1a250c2b66d733947cbee834a0529c6e5a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::PrimaryNodeInfo::last_known_lsn</definition>
+        <argsstring></argsstring>
+        <name>last_known_lsn</name>
+        <qualifiedname>themis::sharding::PrimaryNodeInfo::last_known_lsn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="46" column="9" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_primary_node_info_1aeca3c878f4ad0393daee967459245ac6" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::sharding::PrimaryNodeInfo::last_heartbeat</definition>
+        <argsstring></argsstring>
+        <name>last_heartbeat</name>
+        <qualifiedname>themis::sharding::PrimaryNodeInfo::last_heartbeat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="47" column="43" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_primary_node_info_1ae57e6ec01cfa499571a98d2ddcac9140" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::PrimaryNodeInfo::write_count</definition>
+        <argsstring></argsstring>
+        <name>write_count</name>
+        <qualifiedname>themis::sharding::PrimaryNodeInfo::write_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="48" column="14" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_primary_node_info_1a953bce2f7146941e1487686e67ea9a33" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::PrimaryNodeInfo::is_current</definition>
+        <argsstring></argsstring>
+        <name>is_current</name>
+        <qualifiedname>themis::sharding::PrimaryNodeInfo::is_current</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="49" column="10" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_primary_node_info_1a9f7746799f91bb012cd974e0f91ea41e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::PrimaryNodeInfo::isHealthy</definition>
+        <argsstring>() const</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::sharding::PrimaryNodeInfo::isHealthy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="51" column="10" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="51" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_primary_node_info_1a676cb3a0b57dcfc4766161bbe46f29f5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::PrimaryNodeInfo::timeSinceLastHeartbeat</definition>
+        <argsstring>() const</argsstring>
+        <name>timeSinceLastHeartbeat</name>
+        <qualifiedname>themis::sharding::PrimaryNodeInfo::timeSinceLastHeartbeat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="55" column="31" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="55" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Primary Node Info </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::LSN</label>
+        <link refid="structthemis_1_1sharding_1_1_l_s_n"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::PrimaryNodeInfo</label>
+        <link refid="structthemis_1_1sharding_1_1_primary_node_info"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>last_known_lsn</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/multi_primary_coordinator.h" line="42" column="1" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="42" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_primary_node_info_1a5766a9b2e8c9716e34024027bd394141" prot="public" virt="non-virtual"><scope>themis::sharding::PrimaryNodeInfo</scope><name>endpoint</name></member>
+      <member refid="structthemis_1_1sharding_1_1_primary_node_info_1a953bce2f7146941e1487686e67ea9a33" prot="public" virt="non-virtual"><scope>themis::sharding::PrimaryNodeInfo</scope><name>is_current</name></member>
+      <member refid="structthemis_1_1sharding_1_1_primary_node_info_1a9f7746799f91bb012cd974e0f91ea41e" prot="public" virt="non-virtual"><scope>themis::sharding::PrimaryNodeInfo</scope><name>isHealthy</name></member>
+      <member refid="structthemis_1_1sharding_1_1_primary_node_info_1aeca3c878f4ad0393daee967459245ac6" prot="public" virt="non-virtual"><scope>themis::sharding::PrimaryNodeInfo</scope><name>last_heartbeat</name></member>
+      <member refid="structthemis_1_1sharding_1_1_primary_node_info_1a250c2b66d733947cbee834a0529c6e5a" prot="public" virt="non-virtual"><scope>themis::sharding::PrimaryNodeInfo</scope><name>last_known_lsn</name></member>
+      <member refid="structthemis_1_1sharding_1_1_primary_node_info_1a91310cb24d353cf8f13dd4223b2bc7da" prot="public" virt="non-virtual"><scope>themis::sharding::PrimaryNodeInfo</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_primary_node_info_1a7b951182dbaa52397bf16d12a4deb80b" prot="public" virt="non-virtual"><scope>themis::sharding::PrimaryNodeInfo</scope><name>state</name></member>
+      <member refid="structthemis_1_1sharding_1_1_primary_node_info_1a676cb3a0b57dcfc4766161bbe46f29f5" prot="public" virt="non-virtual"><scope>themis::sharding::PrimaryNodeInfo</scope><name>timeSinceLastHeartbeat</name></member>
+      <member refid="structthemis_1_1sharding_1_1_primary_node_info_1ae57e6ec01cfa499571a98d2ddcac9140" prot="public" virt="non-virtual"><scope>themis::sharding::PrimaryNodeInfo</scope><name>write_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,863 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_policy_version_history" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyVersionHistory</compoundname>
+    <includes refid="policy__version__history_8h" local="no">policy_version_history.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_version_history_1a6786595e6ba07f5f7d3115de8fecd977" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::PolicyVersionHistory::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="211" column="24" bodyfile="include/governance/policy_version_history.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_version_history_1a2bb1b6a36eda414741e2e7b26a2da853" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_rule_version" kindref="compound">PolicyRuleVersion</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;PolicyRuleVersion&gt; &gt; themis::governance::PolicyVersionHistory::versions_</definition>
+        <argsstring></argsstring>
+        <name>versions_</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::versions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="214" column="24" bodyfile="include/governance/policy_version_history.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_policy_version_history_1adfa2c8a592da45178e65cfa0b767c4e5" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref> &gt;</type>
+        <definition>std::vector&lt;AuditLogEntry&gt; themis::governance::PolicyVersionHistory::audit_log_</definition>
+        <argsstring></argsstring>
+        <name>audit_log_</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::audit_log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="217" column="17" bodyfile="include/governance/policy_version_history.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1afa73b735fa4030db43cab75b2cd534bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::PolicyVersionHistory::PolicyVersionHistory</definition>
+        <argsstring>()</argsstring>
+        <name>PolicyVersionHistory</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::PolicyVersionHistory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="87" column="5" bodyfile="src/governance/policy_version_history.cpp" bodystart="133" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1a5dcfa41bf79f4e34ffdfce51fd16204b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyVersionHistory::recordVersion</definition>
+        <argsstring>(const std::string &amp;rule_id, const PolicyRule &amp;rule, const std::string &amp;author, const std::string &amp;change_description)</argsstring>
+        <name>recordVersion</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::recordVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>author</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>change_description</declname>
+        </param>
+        <briefdescription>
+<para>Record Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">author</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">change_description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">author</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">change_description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1governance_1_1_policy_version_history_1a52bd57d73e2ece9835f3a308d9c80e3f" kindref="member">getLatestVersion()</ref>, incrementVersion(), std::chrono::system_clock::now(), time_since_epoch(), count(), toJson(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="97" column="17" bodyfile="src/governance/policy_version_history.cpp" bodystart="144" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1a6f474bc4d8823ddd1096a1bf401d3f16" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_rule_version" kindref="compound">PolicyRuleVersion</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyRuleVersion &gt; themis::governance::PolicyVersionHistory::getVersions</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>getVersions</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::getVersions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="109" column="17" bodyfile="src/governance/policy_version_history.cpp" bodystart="169" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1abb8c6f09042f1ce857c397f1a149e402" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_policy_rule_version" kindref="compound">PolicyRuleVersion</ref> &gt;</type>
+        <definition>std::optional&lt; PolicyRuleVersion &gt; themis::governance::PolicyVersionHistory::getVersion</definition>
+        <argsstring>(const std::string &amp;rule_id, const std::string &amp;version) const</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::getVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Get Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="117" column="19" bodyfile="src/governance/policy_version_history.cpp" bodystart="188" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1a52bd57d73e2ece9835f3a308d9c80e3f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyVersionHistory::getLatestVersion</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>getLatestVersion</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::getLatestVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Latest Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="127" column="17" bodyfile="src/governance/policy_version_history.cpp" bodystart="211" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1a3b4c20a854b214a0e017859984ac209a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::governance::PolicyVersionHistory::getPreviousVersion</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>getPreviousVersion</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::getPreviousVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Previous Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="134" column="19" bodyfile="src/governance/policy_version_history.cpp" bodystart="223" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1a02fac05c17ea4a484bf8c2767e76447e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyVersionHistory::getLastRecordedVersion</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>getLastRecordedVersion</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::getLastRecordedVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Last Recorded Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="141" column="17" bodyfile="src/governance/policy_version_history.cpp" bodystart="239" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1a226dbe26aeb26ca3c74a7778578bc6b3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_version_diff" kindref="compound">VersionDiff</ref></type>
+        <definition>VersionDiff themis::governance::PolicyVersionHistory::compareVersions</definition>
+        <argsstring>(const std::string &amp;rule_id, const std::string &amp;version1, const std::string &amp;version2) const</argsstring>
+        <name>compareVersions</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::compareVersions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version2</declname>
+        </param>
+        <briefdescription>
+<para>Compare Versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="150" column="17" bodyfile="src/governance/policy_version_history.cpp" bodystart="264" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1a6d1385ae89b8e17309e363190bc7eb17" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_version_diff" kindref="compound">VersionDiff</ref></type>
+        <definition>VersionDiff themis::governance::PolicyVersionHistory::compareRules</definition>
+        <argsstring>(const PolicyRule &amp;rule1, const PolicyRule &amp;rule2) const</argsstring>
+        <name>compareRules</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::compareRules</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule2</declname>
+        </param>
+        <briefdescription>
+<para>Compare Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="162" column="17" bodyfile="src/governance/policy_version_history.cpp" bodystart="255" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1abdb5ba23d4db6d9b31461dda08b346b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::PolicyVersionHistory::recordAudit</definition>
+        <argsstring>(const AuditLogEntry &amp;entry)</argsstring>
+        <name>recordAudit</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::recordAudit</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Record Audit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="168" column="10" bodyfile="src/governance/policy_version_history.cpp" bodystart="320" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1abe6e79ce749daca331ef720ec5b07469" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref> &gt;</type>
+        <definition>std::vector&lt; AuditLogEntry &gt; themis::governance::PolicyVersionHistory::queryAudit</definition>
+        <argsstring>(const std::optional&lt; std::string &gt; &amp;rule_id=std::nullopt, const std::optional&lt; std::string &gt; &amp;user=std::nullopt, const std::optional&lt; std::int64_t &gt; &amp;start_time=std::nullopt, const std::optional&lt; std::int64_t &gt; &amp;end_time=std::nullopt) const</argsstring>
+        <name>queryAudit</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::queryAudit</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>rule_id</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>user</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::int64_t &gt; &amp;</type>
+          <declname>start_time</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::int64_t &gt; &amp;</type>
+          <declname>end_time</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="170" column="17" bodyfile="src/governance/policy_version_history.cpp" bodystart="326" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1ad511ef9fb4f306a4ad8e7315947f3ef8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::PolicyVersionHistory::deleteVersionHistory</definition>
+        <argsstring>(const std::string &amp;rule_id)</argsstring>
+        <name>deleteVersionHistory</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::deleteVersionHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete Version History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="181" column="10" bodyfile="src/governance/policy_version_history.cpp" bodystart="365" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1a70424bced69988fafb8ab92d339b9275" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::PolicyVersionHistory::exportHistory</definition>
+        <argsstring>() const</argsstring>
+        <name>exportHistory</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::exportHistory</qualifiedname>
+        <briefdescription>
+<para>Export History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="187" column="20" bodyfile="src/governance/policy_version_history.cpp" bodystart="371" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1a6d94360b934b1c59caae170b8c3f21ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyVersionHistory::importHistory</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>importHistory</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::importHistory</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Import History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), contains(), is_object(), items(), push_back(), <ref refid="structthemis_1_1governance_1_1_policy_rule_version_1afc198a7026731d54ebb3da9b1c69c672" kindref="member">PolicyRuleVersion::fromJson()</ref>, is_array(), <ref refid="structthemis_1_1governance_1_1_audit_log_entry_1af52dc2ae5f700ba065425d5ced541ec8" kindref="member">AuditLogEntry::fromJson()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="194" column="10" bodyfile="src/governance/policy_version_history.cpp" bodystart="408" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1ae5e3e580268df0d39623277cdee98198" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyVersionHistory::saveToFile</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>saveToFile</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::saveToFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Save To File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="201" column="10" bodyfile="src/governance/policy_version_history.cpp" bodystart="438" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1a7e183dee936944a35aabb4d15776cb65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyVersionHistory::loadFromFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadFromFile</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::loadFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load From File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), is_open(), THEMIS_ERROR(), <ref refid="classthemis_1_1governance_1_1_policy_version_history_1a6d94360b934b1c59caae170b8c3f21ca" kindref="member">importHistory()</ref>, THEMIS_INFO(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="208" column="10" bodyfile="src/governance/policy_version_history.cpp" bodystart="466" bodyend="484"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1a02f0f6d27af5e08c6e215e753977e069" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyVersionHistory::incrementVersion</definition>
+        <argsstring>(const std::string &amp;current_version) const</argsstring>
+        <name>incrementVersion</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::incrementVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>current_version</declname>
+        </param>
+        <briefdescription>
+<para>Increment Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">current_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="224" column="17" bodyfile="src/governance/policy_version_history.cpp" bodystart="486" bodyend="505"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_version_history_1aa108a230df1f0a720ad69385e084f666" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::PolicyVersionHistory::identifyChanges</definition>
+        <argsstring>(const PolicyRule &amp;rule1, const PolicyRule &amp;rule2) const</argsstring>
+        <name>identifyChanges</name>
+        <qualifiedname>themis::governance::PolicyVersionHistory::identifyChanges</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule2</declname>
+        </param>
+        <briefdescription>
+<para>Identify Changes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_version_history.h" line="232" column="17" bodyfile="src/governance/policy_version_history.cpp" bodystart="507" bodyend="560"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_version_history.h" line="85" column="1" bodyfile="include/governance/policy_version_history.h" bodystart="85" bodyend="236"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1adfa2c8a592da45178e65cfa0b767c4e5" prot="private" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>audit_log_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1a6d1385ae89b8e17309e363190bc7eb17" prot="public" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>compareRules</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1a226dbe26aeb26ca3c74a7778578bc6b3" prot="public" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>compareVersions</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1ad511ef9fb4f306a4ad8e7315947f3ef8" prot="public" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>deleteVersionHistory</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1a70424bced69988fafb8ab92d339b9275" prot="public" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>exportHistory</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1a02fac05c17ea4a484bf8c2767e76447e" prot="public" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>getLastRecordedVersion</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1a52bd57d73e2ece9835f3a308d9c80e3f" prot="public" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>getLatestVersion</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1a3b4c20a854b214a0e017859984ac209a" prot="public" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>getPreviousVersion</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1abb8c6f09042f1ce857c397f1a149e402" prot="public" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1a6f474bc4d8823ddd1096a1bf401d3f16" prot="public" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>getVersions</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1aa108a230df1f0a720ad69385e084f666" prot="private" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>identifyChanges</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1a6d94360b934b1c59caae170b8c3f21ca" prot="public" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>importHistory</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1a02f0f6d27af5e08c6e215e753977e069" prot="private" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>incrementVersion</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1a7e183dee936944a35aabb4d15776cb65" prot="public" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>loadFromFile</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1a6786595e6ba07f5f7d3115de8fecd977" prot="private" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1afa73b735fa4030db43cab75b2cd534bb" prot="public" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>PolicyVersionHistory</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1abe6e79ce749daca331ef720ec5b07469" prot="public" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>queryAudit</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1abdb5ba23d4db6d9b31461dda08b346b5" prot="public" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>recordAudit</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1a5dcfa41bf79f4e34ffdfce51fd16204b" prot="public" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>recordVersion</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1ae5e3e580268df0d39623277cdee98198" prot="public" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>saveToFile</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_version_history_1a2bb1b6a36eda414741e2e7b26a2da853" prot="private" virt="non-virtual"><scope>themis::governance::PolicyVersionHistory</scope><name>versions_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

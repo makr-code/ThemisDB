@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_gossip_adapter_publisher_test" kind="class" language="C++" prot="public">
+    <compoundname>GossipAdapterPublisherTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_gossip_adapter_publisher_test_1aea64e2a8c9f161e41c050ad30e560aa0" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_l_l_m_plugin_manager" kindref="compound">LLMPluginManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LLMPluginManager&gt; GossipAdapterPublisherTest::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>GossipAdapterPublisherTest::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_gossip_adapter_publisher.cpp" line="114" column="21" bodyfile="tests/llm/test_llm_gossip_adapter_publisher.cpp" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_gossip_adapter_publisher_test_1aa7c9819622c77f3dc1f0568973faaeff" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_stub_l_l_m_plugin" kindref="compound">StubLLMPlugin</ref> *</type>
+        <definition>StubLLMPlugin* GossipAdapterPublisherTest::stub_raw_</definition>
+        <argsstring></argsstring>
+        <name>stub_raw_</name>
+        <qualifiedname>GossipAdapterPublisherTest::stub_raw_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_gossip_adapter_publisher.cpp" line="115" column="19" bodyfile="tests/llm/test_llm_gossip_adapter_publisher.cpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_gossip_adapter_publisher_test_1a633302b343b27a85696e8cd85f45dd20" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GossipAdapterPublisher &gt;</type>
+        <definition>std::unique_ptr&lt;GossipAdapterPublisher&gt; GossipAdapterPublisherTest::publisher_</definition>
+        <argsstring></argsstring>
+        <name>publisher_</name>
+        <qualifiedname>GossipAdapterPublisherTest::publisher_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_gossip_adapter_publisher.cpp" line="116" column="21" bodyfile="tests/llm/test_llm_gossip_adapter_publisher.cpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_gossip_adapter_publisher_test_1a5cfd7331f24cd55432f3d494e3f50da7" prot="protected" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; GossipAdapterPublisherTest::announce_call_count_</definition>
+        <argsstring></argsstring>
+        <name>announce_call_count_</name>
+        <qualifiedname>GossipAdapterPublisherTest::announce_call_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_gossip_adapter_publisher.cpp" line="117" column="17" bodyfile="tests/llm/test_llm_gossip_adapter_publisher.cpp" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_gossip_adapter_publisher_test_1a08718011440c4b00ea6f2e809a23221d" prot="protected" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json GossipAdapterPublisherTest::last_payload_</definition>
+        <argsstring></argsstring>
+        <name>last_payload_</name>
+        <qualifiedname>GossipAdapterPublisherTest::last_payload_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_gossip_adapter_publisher.cpp" line="118" column="20" bodyfile="tests/llm/test_llm_gossip_adapter_publisher.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_gossip_adapter_publisher_test_1a672b23406b3134886c57fd3ab6e029ce" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GossipAdapterPublisherTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GossipAdapterPublisherTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_gossip_adapter_publisher.cpp" line="95" column="10" bodyfile="tests/llm/test_llm_gossip_adapter_publisher.cpp" bodystart="95" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GossipAdapterPublisherTest</label>
+        <link refid="class_gossip_adapter_publisher_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GossipAdapterPublisherTest</label>
+        <link refid="class_gossip_adapter_publisher_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>stub_raw_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>StubLLMPlugin</label>
+        <link refid="class_stub_l_l_m_plugin"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_gossip_adapter_publisher.cpp" line="93" column="1" bodyfile="tests/llm/test_llm_gossip_adapter_publisher.cpp" bodystart="93" bodyend="119"/>
+    <listofallmembers>
+      <member refid="class_gossip_adapter_publisher_test_1a5cfd7331f24cd55432f3d494e3f50da7" prot="protected" virt="non-virtual"><scope>GossipAdapterPublisherTest</scope><name>announce_call_count_</name></member>
+      <member refid="class_gossip_adapter_publisher_test_1a08718011440c4b00ea6f2e809a23221d" prot="protected" virt="non-virtual"><scope>GossipAdapterPublisherTest</scope><name>last_payload_</name></member>
+      <member refid="class_gossip_adapter_publisher_test_1aea64e2a8c9f161e41c050ad30e560aa0" prot="protected" virt="non-virtual"><scope>GossipAdapterPublisherTest</scope><name>manager_</name></member>
+      <member refid="class_gossip_adapter_publisher_test_1a633302b343b27a85696e8cd85f45dd20" prot="protected" virt="non-virtual"><scope>GossipAdapterPublisherTest</scope><name>publisher_</name></member>
+      <member refid="class_gossip_adapter_publisher_test_1a672b23406b3134886c57fd3ab6e029ce" prot="protected" virt="non-virtual"><scope>GossipAdapterPublisherTest</scope><name>SetUp</name></member>
+      <member refid="class_gossip_adapter_publisher_test_1aa7c9819622c77f3dc1f0568973faaeff" prot="protected" virt="non-virtual"><scope>GossipAdapterPublisherTest</scope><name>stub_raw_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

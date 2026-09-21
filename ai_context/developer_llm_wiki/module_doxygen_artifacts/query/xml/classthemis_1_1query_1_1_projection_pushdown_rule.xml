@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_projection_pushdown_rule" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::ProjectionPushdownRule</compoundname>
+    <basecompoundref refid="classthemis_1_1query_1_1_i_query_rewrite_rule" prot="public" virt="non-virtual">themis::query::IQueryRewriteRule</basecompoundref>
+    <includes refid="query__rewrite__rule_8h" local="no">query_rewrite_rule.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_projection_pushdown_rule_1aedccd5b43e0d1e90f03a1cf1fb7c968a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::ProjectionPushdownRule::~ProjectionPushdownRule</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~ProjectionPushdownRule</name>
+        <qualifiedname>themis::query::ProjectionPushdownRule::~ProjectionPushdownRule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="69" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_projection_pushdown_rule_1a7b819e0b1642eb69d5f34b24094eeaf5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::ProjectionPushdownRule::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::ProjectionPushdownRule::name</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1a7188c91178e7a315f921bce09de1e456">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="70" column="17" bodyfile="include/query/query_rewrite_rule.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_projection_pushdown_rule_1a4654206bbb26d3f180c04d32517377e7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::query::ProjectionPushdownRule::applies</definition>
+        <argsstring>(const nlohmann::json &amp;plan, const RewriteContext &amp;ctx) const override</argsstring>
+        <name>applies</name>
+        <qualifiedname>themis::query::ProjectionPushdownRule::applies</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1aa5f40172d8eeecc21b3c66f936cda68d">applies</reimplements>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="71" column="10" bodyfile="src/query/query_rewrite_rule.cpp" bodystart="271" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_projection_pushdown_rule_1af25414f757b50cc4d29f15db5ceffab5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::ProjectionPushdownRule::apply</definition>
+        <argsstring>(nlohmann::json &amp;plan, const RewriteContext &amp;ctx) const override</argsstring>
+        <name>apply</name>
+        <qualifiedname>themis::query::ProjectionPushdownRule::apply</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1a9091b6186534bf99d50fc785ca8bf9a1">apply</reimplements>
+        <param>
+          <type>nlohmann::json &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_rewrite_context" kindref="compound">RewriteContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_rewrite_rule.h" line="72" column="12" bodyfile="src/query/query_rewrite_rule.cpp" bodystart="292" bodyend="327"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::IQueryRewriteRule</label>
+        <link refid="classthemis_1_1query_1_1_i_query_rewrite_rule"/>
+      </node>
+      <node id="1">
+        <label>themis::query::ProjectionPushdownRule</label>
+        <link refid="classthemis_1_1query_1_1_projection_pushdown_rule"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::IQueryRewriteRule</label>
+        <link refid="classthemis_1_1query_1_1_i_query_rewrite_rule"/>
+      </node>
+      <node id="1">
+        <label>themis::query::ProjectionPushdownRule</label>
+        <link refid="classthemis_1_1query_1_1_projection_pushdown_rule"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/query_rewrite_rule.h" line="67" column="1" bodyfile="include/query/query_rewrite_rule.h" bodystart="67" bodyend="73"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_projection_pushdown_rule_1a4654206bbb26d3f180c04d32517377e7" prot="public" virt="virtual"><scope>themis::query::ProjectionPushdownRule</scope><name>applies</name></member>
+      <member refid="classthemis_1_1query_1_1_projection_pushdown_rule_1af25414f757b50cc4d29f15db5ceffab5" prot="public" virt="virtual"><scope>themis::query::ProjectionPushdownRule</scope><name>apply</name></member>
+      <member refid="classthemis_1_1query_1_1_projection_pushdown_rule_1a7b819e0b1642eb69d5f34b24094eeaf5" prot="public" virt="virtual"><scope>themis::query::ProjectionPushdownRule</scope><name>name</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_rewrite_rule_1ae198d76b9e5f1ce78389e8af51f5636e" prot="public" virt="virtual"><scope>themis::query::ProjectionPushdownRule</scope><name>~IQueryRewriteRule</name></member>
+      <member refid="classthemis_1_1query_1_1_projection_pushdown_rule_1aedccd5b43e0d1e90f03a1cf1fb7c968a" prot="public" virt="non-virtual"><scope>themis::query::ProjectionPushdownRule</scope><name>~ProjectionPushdownRule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

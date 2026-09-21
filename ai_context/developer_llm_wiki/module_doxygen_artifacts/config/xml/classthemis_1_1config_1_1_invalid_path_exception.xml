@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1_invalid_path_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::InvalidPathException</compoundname>
+    <basecompoundref refid="classthemis_1_1config_1_1_config_exception" prot="public" virt="non-virtual">themis::config::ConfigException</basecompoundref>
+    <includes refid="config__errors_8h" local="no">config_errors.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_invalid_path_exception_1aebf1b1d83f48fc8741c034d2048470cc" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::config::InvalidPathException::invalid_path_</definition>
+        <argsstring></argsstring>
+        <name>invalid_path_</name>
+        <qualifiedname>themis::config::InvalidPathException::invalid_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_errors.h" line="93" column="17" bodyfile="include/config/config_errors.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_invalid_path_exception_1a844867c374b1555f93083e9a7c32aa2c" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::config::InvalidPathException::reason_</definition>
+        <argsstring></argsstring>
+        <name>reason_</name>
+        <qualifiedname>themis::config::InvalidPathException::reason_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_errors.h" line="94" column="17" bodyfile="include/config/config_errors.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1_invalid_path_exception_1adc21403252edf0eaffbbd4027d5eb9c4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::InvalidPathException::InvalidPathException</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;reason)</argsstring>
+        <name>InvalidPathException</name>
+        <qualifiedname>themis::config::InvalidPathException::InvalidPathException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_errors.h" line="84" column="5" bodyfile="include/config/config_errors.h" bodystart="84" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_invalid_path_exception_1acc08d4b973a0f2ec378577a0bd8d5e2f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::config::InvalidPathException::invalid_path</definition>
+        <argsstring>() const</argsstring>
+        <name>invalid_path</name>
+        <qualifiedname>themis::config::InvalidPathException::invalid_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_errors.h" line="89" column="23" bodyfile="include/config/config_errors.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_invalid_path_exception_1a8245b9e99d0fa01385c0d114ff9d6b9d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::config::InvalidPathException::reason</definition>
+        <argsstring>() const</argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::config::InvalidPathException::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_errors.h" line="90" column="23" bodyfile="include/config/config_errors.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>std::exception</label>
+      </node>
+      <node id="2">
+        <label>themis::config::ConfigException</label>
+        <link refid="classthemis_1_1config_1_1_config_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::config::InvalidPathException</label>
+        <link refid="classthemis_1_1config_1_1_invalid_path_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>std::exception</label>
+      </node>
+      <node id="2">
+        <label>themis::config::ConfigException</label>
+        <link refid="classthemis_1_1config_1_1_config_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::config::InvalidPathException</label>
+        <link refid="classthemis_1_1config_1_1_invalid_path_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/config/config_errors.h" line="82" column="1" bodyfile="include/config/config_errors.h" bodystart="82" bodyend="95"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1_config_exception_1a56f7a3624a61e29e784109994afcb56c" prot="public" virt="non-virtual"><scope>themis::config::InvalidPathException</scope><name>ConfigException</name></member>
+      <member refid="classthemis_1_1config_1_1_invalid_path_exception_1acc08d4b973a0f2ec378577a0bd8d5e2f" prot="public" virt="non-virtual"><scope>themis::config::InvalidPathException</scope><name>invalid_path</name></member>
+      <member refid="classthemis_1_1config_1_1_invalid_path_exception_1aebf1b1d83f48fc8741c034d2048470cc" prot="private" virt="non-virtual"><scope>themis::config::InvalidPathException</scope><name>invalid_path_</name></member>
+      <member refid="classthemis_1_1config_1_1_invalid_path_exception_1adc21403252edf0eaffbbd4027d5eb9c4" prot="public" virt="non-virtual"><scope>themis::config::InvalidPathException</scope><name>InvalidPathException</name></member>
+      <member refid="classthemis_1_1config_1_1_config_exception_1afc6d49065e72d36b1cedc527c69388b6" prot="protected" virt="non-virtual"><scope>themis::config::InvalidPathException</scope><name>message_</name></member>
+      <member refid="classthemis_1_1config_1_1_invalid_path_exception_1a8245b9e99d0fa01385c0d114ff9d6b9d" prot="public" virt="non-virtual"><scope>themis::config::InvalidPathException</scope><name>reason</name></member>
+      <member refid="classthemis_1_1config_1_1_invalid_path_exception_1a844867c374b1555f93083e9a7c32aa2c" prot="private" virt="non-virtual"><scope>themis::config::InvalidPathException</scope><name>reason_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_exception_1ac4a99ca1654cc6da57fb914c162bee1b" prot="public" virt="non-virtual"><scope>themis::config::InvalidPathException</scope><name>what</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

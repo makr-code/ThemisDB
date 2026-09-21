@@ -1,0 +1,1071 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1toolbox" kind="namespace" language="C++">
+    <compoundname>themis::toolbox</compoundname>
+    <innerclass refid="structthemis_1_1toolbox_1_1_content_fingerprint" prot="public">themis::toolbox::ContentFingerprint</innerclass>
+    <innerclass refid="classthemis_1_1toolbox_1_1_content_fingerprinter" prot="public">themis::toolbox::ContentFingerprinter</innerclass>
+    <innerclass refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge" prot="public">themis::toolbox::ContentToolboxBridge</innerclass>
+    <innerclass refid="classthemis_1_1toolbox_1_1_default_language_detector" prot="public">themis::toolbox::DefaultLanguageDetector</innerclass>
+    <innerclass refid="classthemis_1_1toolbox_1_1_i_language_detector" prot="public">themis::toolbox::ILanguageDetector</innerclass>
+    <innerclass refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" prot="public">themis::toolbox::IngestionToolbox</innerclass>
+    <innerclass refid="classthemis_1_1toolbox_1_1_text_chunker" prot="public">themis::toolbox::TextChunker</innerclass>
+    <innerclass refid="classthemis_1_1toolbox_1_1_text_normalizer" prot="public">themis::toolbox::TextNormalizer</innerclass>
+    <innerclass refid="structthemis_1_1toolbox_1_1_text_quality_score" prot="public">themis::toolbox::TextQualityScore</innerclass>
+    <innerclass refid="classthemis_1_1toolbox_1_1_text_quality_scorer" prot="public">themis::toolbox::TextQualityScorer</innerclass>
+    <innerclass refid="classthemis_1_1toolbox_1_1_toolbox_builder" prot="public">themis::toolbox::ToolboxBuilder</innerclass>
+    <innerclass refid="classthemis_1_1toolbox_1_1_toolbox_composite" prot="public">themis::toolbox::ToolboxComposite</innerclass>
+    <innerclass refid="classthemis_1_1toolbox_1_1_toolbox_composite_builder" prot="public">themis::toolbox::ToolboxCompositeBuilder</innerclass>
+    <innerclass refid="classthemis_1_1toolbox_1_1_toolbox_registry" prot="public">themis::toolbox::ToolboxRegistry</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>ToolboxError</name>
+        <qualifiedname>themis::toolbox::ToolboxError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0afb2ee636ad459e1dfe9bb4b5b80a0eb7" prot="public">
+          <name>kEmptyInput</name>
+          <initializer>= 7500</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0a012944a30eae324fe3f2960a2dc11e58" prot="public">
+          <name>kNoProcessor</name>
+          <initializer>= 7501</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0aae0c906a9b5bb20c5d805d703066ab71" prot="public">
+          <name>kProcessorFailed</name>
+          <initializer>= 7502</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0a05dc7201754c396a6809f06299467ad9" prot="public">
+          <name>kEncodingUnsupported</name>
+          <initializer>= 7503</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Error codes for the toolbox module. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_api_contract.h" line="51" column="1" bodyfile="include/toolbox/toolbox_api_contract.h" bodystart="51" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1toolbox_1a1578ba52bfd7a53bf13df76cca2cb666" prot="public" static="no">
+        <type>std::array&lt; uint8_t, 32 &gt;</type>
+        <definition>using themis::toolbox::Fingerprint = std::array&lt;uint8_t, 32&gt;</definition>
+        <argsstring></argsstring>
+        <name>Fingerprint</name>
+        <qualifiedname>themis::toolbox::Fingerprint</qualifiedname>
+        <briefdescription>
+<para>Fixed-size fingerprint (32 bytes = SHA-256). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_api_contract.h" line="59" column="1" bodyfile="include/toolbox/toolbox_api_contract.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1toolbox_1a6cb72b1b61c3c398420e86fadfc81125" prot="public" static="no">
+        <type>std::function&lt; void(const ingestion::BaseEntity &amp;)&gt;</type>
+        <definition>using themis::toolbox::EntityCallback = std::function&lt;void(const ingestion::BaseEntity&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EntityCallback</name>
+        <qualifiedname>themis::toolbox::EntityCallback</qualifiedname>
+        <briefdescription>
+<para>Callback invoked for each <computeroutput>BaseEntity</computeroutput> extracted from a chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_streaming.h" line="25" column="1" bodyfile="include/toolbox/toolbox_streaming.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1toolbox_1a87a60bb256f3d70e1e9d624304b7d100" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::toolbox::kMinTextSizeForValidation</definition>
+        <argsstring></argsstring>
+        <name>kMinTextSizeForValidation</name>
+        <qualifiedname>themis::toolbox::kMinTextSizeForValidation</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/ingestion_toolbox.cpp" line="195" column="30" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="195" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1a5aeb09f46cf41b7b6b90efd8ad1ca106" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint" kindref="compound">ContentFingerprint</ref></type>
+        <definition>ContentFingerprint themis::toolbox::fingerprint</definition>
+        <argsstring>(std::string_view text)</argsstring>
+        <name>fingerprint</name>
+        <qualifiedname>themis::toolbox::fingerprint</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Compute a content fingerprint for <computeroutput>text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="namespacethemis_1_1toolbox_1a1578ba52bfd7a53bf13df76cca2cb666" kindref="member">Fingerprint</ref>.</para>
+<para>Convenience free function. Equivalent to <computeroutput><ref refid="classthemis_1_1toolbox_1_1_content_fingerprinter" kindref="compound">ContentFingerprinter</ref>{}.compute(text)</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text or raw bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <computeroutput><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint" kindref="compound">ContentFingerprint</ref></computeroutput>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: compute(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/content_fingerprinter.cpp" line="106" column="20" bodyfile="src/toolbox/content_fingerprinter.cpp" bodystart="106" bodyend="108" declfile="include/toolbox/content_fingerprinter.h" declline="112" declcolumn="20"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1aba8dc3a8e9edc3223ac17422d6e56d80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::toolbox::detectLanguage</definition>
+        <argsstring>(std::string_view text)</argsstring>
+        <name>detectLanguage</name>
+        <qualifiedname>themis::toolbox::detectLanguage</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detect the primary language of <computeroutput>text</computeroutput> using the default heuristic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect Language.</para>
+<para>Convenience free function. Equivalent to <computeroutput><ref refid="classthemis_1_1toolbox_1_1_default_language_detector" kindref="compound">DefaultLanguageDetector</ref>{}.detect(text)</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text sample. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>ISO 639-1 language code (&quot;en&quot;, &quot;de&quot;) or &quot;und&quot; when undetermined.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: detect(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/language_detector.cpp" line="98" column="13" bodyfile="src/toolbox/language_detector.cpp" bodystart="98" bodyend="100" declfile="include/toolbox/language_detector.h" declline="119" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1a00d8815744183486ab8e128ac1985b32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::toolbox::chunkText</definition>
+        <argsstring>(const std::string &amp;text, std::size_t chunk_size=512, std::size_t overlap=64)</argsstring>
+        <name>chunkText</name>
+        <qualifiedname>themis::toolbox::chunkText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>chunk_size</declname>
+          <defval>512</defval>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>overlap</declname>
+          <defval>64</defval>
+        </param>
+        <briefdescription>
+<para>Split <computeroutput>text</computeroutput> into overlapping chunks using sentence-boundary strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Chunk Text.</para>
+<para>Convenience free function suitable for one-off chunking without managing a <computeroutput><ref refid="classthemis_1_1toolbox_1_1_text_chunker" kindref="compound">TextChunker</ref></computeroutput> instance.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text to split. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chunk_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target chunk size in estimated tokens (default: 512). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>overlap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Token overlap between consecutive chunks (default: 64). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ordered vector of chunk text strings.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">overlap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Chunker. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/toolbox/text_chunker.cpp" line="92" column="13" bodyfile="src/toolbox/text_chunker.cpp" bodystart="92" bodyend="108" declfile="include/toolbox/text_chunker.h" declline="118" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1a2da4734b0920e08d82ba984be788b07a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::toolbox::normalizeText</definition>
+        <argsstring>(std::string_view text)</argsstring>
+        <name>normalizeText</name>
+        <qualifiedname>themis::toolbox::normalizeText</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Normalise German umlauts and ß in <computeroutput>text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Normalize Text.</para>
+<para>Convenience free function that delegates to <computeroutput>utils::Normalizer::normalizeUmlauts</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 input text. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Normalised UTF-8 string (umlaut-folded to ASCII equivalents).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: utils::Normalizer::normalizeUmlauts(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/text_normalizer.cpp" line="47" column="13" bodyfile="src/toolbox/text_normalizer.cpp" bodystart="47" bodyend="49" declfile="include/toolbox/text_normalizer.h" declline="64" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1aac1d3b64825b424f1d15bdabeac41ff5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1toolbox_1_1_text_quality_score" kindref="compound">TextQualityScore</ref></type>
+        <definition>TextQualityScore themis::toolbox::scoreText</definition>
+        <argsstring>(std::string_view text)</argsstring>
+        <name>scoreText</name>
+        <qualifiedname>themis::toolbox::scoreText</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Compute a quality score for <computeroutput>text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Score Text.</para>
+<para>Convenience free function. Equivalent to <computeroutput><ref refid="classthemis_1_1toolbox_1_1_text_quality_scorer" kindref="compound">TextQualityScorer</ref>{}.score(text)</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text to evaluate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <computeroutput><ref refid="structthemis_1_1toolbox_1_1_text_quality_score" kindref="compound">TextQualityScore</ref></computeroutput>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: score(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/text_quality_scorer.cpp" line="130" column="18" bodyfile="src/toolbox/text_quality_scorer.cpp" bodystart="130" bodyend="132" declfile="include/toolbox/text_quality_scorer.h" declline="99" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1a2f8de32a2e3edab47975a212788d721d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::toolbox::initializeToolbox</definition>
+        <argsstring>(std::shared_ptr&lt; IngestionToolbox &gt; toolbox)</argsstring>
+        <name>initializeToolbox</name>
+        <qualifiedname>themis::toolbox::initializeToolbox</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &gt;</type>
+          <declname>toolbox</declname>
+        </param>
+        <briefdescription>
+<para>Register the process-global toolbox. Convenience alias for <computeroutput>ToolboxRegistry::initialize(toolbox)</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize Toolbox.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">toolbox</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1ac351bdd30bd3869f83420897d748733d" kindref="member">ToolboxRegistry::initialize()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/toolbox_registry.cpp" line="108" column="6" bodyfile="src/toolbox/toolbox_registry.cpp" bodystart="108" bodyend="110" declfile="include/toolbox/toolbox_registry.h" declline="157" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1a543ca62c58525ae8a1be5bb9cd5a7a2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IngestionToolbox &gt; themis::toolbox::globalToolbox</definition>
+        <argsstring>()</argsstring>
+        <name>globalToolbox</name>
+        <qualifiedname>themis::toolbox::globalToolbox</qualifiedname>
+        <briefdescription>
+<para>Return the process-global toolbox. Convenience alias for <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1a63324a8845db86eb485ef20c2ea0cb9f" kindref="member">ToolboxRegistry::instance()</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Global Toolbox.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1a63324a8845db86eb485ef20c2ea0cb9f" kindref="member">ToolboxRegistry::instance()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/toolbox_registry.cpp" line="117" column="17" bodyfile="src/toolbox/toolbox_registry.cpp" bodystart="117" bodyend="119" declfile="include/toolbox/toolbox_registry.h" declline="163" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1a49a1d9d4627444d7785c76abc2eedeb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; ingestion::BaseEntity &gt;</type>
+        <definition>std::vector&lt; ingestion::BaseEntity &gt; themis::toolbox::extractEntities</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;mime=&quot;text/plain&quot;, const std::string &amp;filename=&quot;input.txt&quot;)</argsstring>
+        <name>extractEntities</name>
+        <qualifiedname>themis::toolbox::extractEntities</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime</declname>
+          <defval>&quot;text/plain&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+          <defval>&quot;input.txt&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Extract entities from text using the global <computeroutput><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Entities.</para>
+<para>Delegates to <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1a63324a8845db86eb485ef20c2ea0cb9f" kindref="member">ToolboxRegistry::instance()</ref>-&gt;extractEntities(text, mime, filename)</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text to process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>MIME type hint (default: &quot;text/plain&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filename hint (default: &quot;input.txt&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Extracted entity nodes; empty on failure. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when the registry is not initialised.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/toolbox_registry.cpp" line="128" column="13" bodyfile="src/toolbox/toolbox_registry.cpp" bodystart="128" bodyend="134" declfile="include/toolbox/toolbox_registry.h" declline="176" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1ac2fb5e33b75d7b9a4910ce68df8a23cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ingestion::BaseEntitySet</type>
+        <definition>ingestion::BaseEntitySet themis::toolbox::extractEntitySet</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;mime=&quot;text/plain&quot;, const std::string &amp;filename=&quot;input.txt&quot;)</argsstring>
+        <name>extractEntitySet</name>
+        <qualifiedname>themis::toolbox::extractEntitySet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime</declname>
+          <defval>&quot;text/plain&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+          <defval>&quot;input.txt&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Extract the full <computeroutput>BaseEntitySet</computeroutput> from text using the global toolbox. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Entity Set.</para>
+<para>Delegates to <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1a63324a8845db86eb485ef20c2ea0cb9f" kindref="member">ToolboxRegistry::instance()</ref>-&gt;extractEntitySet(text, mime, filename)</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text to process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>MIME type hint (default: &quot;text/plain&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filename hint (default: &quot;input.txt&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Full entity set including nodes, edges, and vector chunks. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when the registry is not initialised.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/toolbox_registry.cpp" line="143" column="26" bodyfile="src/toolbox/toolbox_registry.cpp" bodystart="143" bodyend="149" declfile="include/toolbox/toolbox_registry.h" declline="192" declcolumn="26"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1a4cb625f10f049a5d0ad587483da76a95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::toolbox::getMetricsText</definition>
+        <argsstring>()</argsstring>
+        <name>getMetricsText</name>
+        <qualifiedname>themis::toolbox::getMetricsText</qualifiedname>
+        <briefdescription>
+<para>Produce Prometheus text-format metrics for the global toolbox. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Metrics Text.</para>
+<para>Delegates to <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1a63324a8845db86eb485ef20c2ea0cb9f" kindref="member">ToolboxRegistry::instance()</ref>-&gt;<ref refid="namespacethemis_1_1toolbox_1a4cb625f10f049a5d0ad587483da76a95" kindref="member">getMetricsText()</ref></computeroutput>.</para>
+<para><simplesect kind="return"><para>Prometheus text payload, or &quot;&quot; if no calls have been recorded. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when the registry is not initialised.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1a63324a8845db86eb485ef20c2ea0cb9f" kindref="member">ToolboxRegistry::instance()</ref>, load(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/toolbox_registry.cpp" line="156" column="13" bodyfile="src/toolbox/toolbox_registry.cpp" bodystart="156" bodyend="171" declfile="include/toolbox/toolbox_registry.h" declline="205" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1a7a6674276028803d1aba6aafab49ee04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::toolbox::extractEntitiesStream</definition>
+        <argsstring>(IngestionToolbox &amp;toolbox, const std::string &amp;text, const std::string &amp;mime, const std::string &amp;filename, const EntityCallback &amp;callback)</argsstring>
+        <name>extractEntitiesStream</name>
+        <qualifiedname>themis::toolbox::extractEntitiesStream</qualifiedname>
+        <param>
+          <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &amp;</type>
+          <declname>toolbox</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1toolbox_1a6cb72b1b61c3c398420e86fadfc81125" kindref="member">EntityCallback</ref> &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Chunk <computeroutput>text</computeroutput> and stream extracted entities to <computeroutput>callback</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Entities Stream.</para>
+<para>Algorithm:<orderedlist>
+<listitem><para>Split <computeroutput>text</computeroutput> with <computeroutput><ref refid="classthemis_1_1toolbox_1_1_text_chunker" kindref="compound">TextChunker</ref></computeroutput> (default config: chunk_size=512, overlap=64, strategy=Sentence).</para>
+</listitem><listitem><para>For each chunk, call <computeroutput>toolbox.extractEntities(chunk_text, mime, filename)</computeroutput>.</para>
+</listitem><listitem><para>Invoke <computeroutput>callback</computeroutput> once per extracted <computeroutput>BaseEntity</computeroutput>, in chunk order.</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>toolbox</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Injected <computeroutput><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></computeroutput> to use for extraction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text to process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>MIME type hint forwarded to the toolbox (default: &quot;text/plain&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filename hint forwarded to the toolbox (default: &quot;input.txt&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Called once per entity, never called on empty results. The callback must not throw; exceptions propagate to the caller but leave the streaming loop in an unspecified state.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">toolbox</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/toolbox_streaming.cpp" line="30" column="6" bodyfile="src/toolbox/toolbox_streaming.cpp" bodystart="30" bodyend="53" declfile="include/toolbox/toolbox_streaming.h" declline="48" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1a2c79f3b45a558eff45d281dbf4fe28a2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::toolbox::extractEntitiesStream</definition>
+        <argsstring>(IngestionToolbox &amp;toolbox, const std::string &amp;text, const EntityCallback &amp;callback)</argsstring>
+        <name>extractEntitiesStream</name>
+        <qualifiedname>themis::toolbox::extractEntitiesStream</qualifiedname>
+        <param>
+          <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &amp;</type>
+          <declname>toolbox</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1toolbox_1a6cb72b1b61c3c398420e86fadfc81125" kindref="member">EntityCallback</ref> &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Overload with default MIME / filename. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_streaming.h" line="58" column="13" bodyfile="include/toolbox/toolbox_streaming.h" bodystart="58" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1a16cda63b4988b74eb1bb3721cb26ffa5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::toolbox::extractEntitiesStream</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;mime, const std::string &amp;filename, const EntityCallback &amp;callback)</argsstring>
+        <name>extractEntitiesStream</name>
+        <qualifiedname>themis::toolbox::extractEntitiesStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1toolbox_1a6cb72b1b61c3c398420e86fadfc81125" kindref="member">EntityCallback</ref> &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Stream entities from <computeroutput>text</computeroutput> using the global <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry" kindref="compound">ToolboxRegistry</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Entities Stream.</para>
+<para>Delegates to <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1a63324a8845db86eb485ef20c2ea0cb9f" kindref="member">ToolboxRegistry::instance()</ref>-&gt;<ref refid="namespacethemis_1_1toolbox_1a49a1d9d4627444d7785c76abc2eedeb8" kindref="member">extractEntities()</ref></computeroutput> per chunk.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text to process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>MIME type hint (default: &quot;text/plain&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filename hint (default: &quot;input.txt&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Invoked once per extracted entity. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when the registry is not initialised.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/toolbox_streaming.cpp" line="66" column="6" bodyfile="src/toolbox/toolbox_streaming.cpp" bodystart="66" bodyend="74" declfile="include/toolbox/toolbox_streaming.h" declline="81" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1ae58692c9753712b0a34602d125069eb1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::toolbox::extractEntitiesStream</definition>
+        <argsstring>(const std::string &amp;text, const EntityCallback &amp;callback)</argsstring>
+        <name>extractEntitiesStream</name>
+        <qualifiedname>themis::toolbox::extractEntitiesStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1toolbox_1a6cb72b1b61c3c398420e86fadfc81125" kindref="member">EntityCallback</ref> &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Overload with default MIME / filename. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_streaming.h" line="92" column="13" bodyfile="include/toolbox/toolbox_streaming.h" bodystart="92" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1a0ddedeb0f2e769c1efb426e97a2852d3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ingestion::BaseEntitySet</type>
+        <definition>static ingestion::BaseEntitySet themis::toolbox::runWorkflow</definition>
+        <argsstring>(const std::shared_ptr&lt; ingestion::WorkflowEngine &gt; &amp;engine, const std::string &amp;text, const std::string &amp;mime, const std::string &amp;filename)</argsstring>
+        <name>runWorkflow</name>
+        <qualifiedname>themis::toolbox::runWorkflow</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; ingestion::WorkflowEngine &gt; &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Shared helper: build an ExtractionContext and run the workflow. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Returns the BaseEntitySet on success, empty set on failure. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/ingestion_toolbox.cpp" line="172" column="33" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="172" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1a4b478985d2b1cc597d5d363e07d36481" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::toolbox::getTextChunkerMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>getTextChunkerMetrics</name>
+        <qualifiedname>themis::toolbox::getTextChunkerMetrics</qualifiedname>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── Phase 3: Metrics export for helper diagnostics ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/text_chunker.cpp" line="116" column="13" bodyfile="src/toolbox/text_chunker.cpp" bodystart="116" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1a7029638f28402473fdd0b9e46886535e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::toolbox::getTextNormalizerMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>getTextNormalizerMetrics</name>
+        <qualifiedname>themis::toolbox::getTextNormalizerMetrics</qualifiedname>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── Phase 3: Metrics export for helper diagnostics ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/text_normalizer.cpp" line="57" column="13" bodyfile="src/toolbox/text_normalizer.cpp" bodystart="57" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1toolbox_1a6daca96293e5f600ebc7c031a98ba505" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::toolbox::getTextQualityScorerMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>getTextQualityScorerMetrics</name>
+        <qualifiedname>themis::toolbox::getTextQualityScorerMetrics</qualifiedname>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── Phase 3: Metrics export for helper diagnostics ───────────────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/text_quality_scorer.cpp" line="140" column="13" bodyfile="src/toolbox/text_quality_scorer.cpp" bodystart="140" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/toolbox/content_fingerprinter.h" line="17" column="1"/>
+  </compounddef>
+</doxygen>

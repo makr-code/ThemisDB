@@ -1,0 +1,711 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::AdaLoRAAdapter::Impl</compoundname>
+    <innerclass refid="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer" prot="public">themis::training::AdaLoRAAdapter::Impl::Layer</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1afec84e5351e55b903bbf841b99ec21ad" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::AdaLoRAAdapter::Impl::default_rank_</definition>
+        <argsstring></argsstring>
+        <name>default_rank_</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::default_rank_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="425" column="12" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="425" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1abce9927651841c9ea4e4e1bb48eea97c" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::AdaLoRAAdapter::Impl::default_alpha_</definition>
+        <argsstring></argsstring>
+        <name>default_alpha_</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::default_alpha_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="426" column="12" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="426" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a98664063e5555f343509008569ed76b4" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::AdaLoRAAdapter::Impl::rank_budget_</definition>
+        <argsstring></argsstring>
+        <name>rank_budget_</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::rank_budget_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="427" column="12" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="427" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a5225147365c5f4c21cee696d8357efa9" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer" kindref="compound">Layer</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Layer&gt; themis::training::AdaLoRAAdapter::Impl::layers_</definition>
+        <argsstring></argsstring>
+        <name>layers_</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::layers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="429" column="24" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="429" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a3c751202ac5305adef97dc2c6785369c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::training::AdaLoRAAdapter::Impl::insertion_order_</definition>
+        <argsstring></argsstring>
+        <name>insertion_order_</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::insertion_order_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="430" column="17" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="430" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a98f7aaaf248b100536753fbb6cb98c5a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::AdaLoRAAdapter::Impl::Impl</definition>
+        <argsstring>(size_t default_rank, float default_alpha, size_t rank_budget)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::Impl</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>default_rank</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>default_alpha</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rank_budget</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">default_rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">default_alpha</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank_budget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="91" column="14" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="91" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1aa55c02254e7c83c4a2e5373fb95737f1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::AdaLoRAAdapter::Impl::addLayer</definition>
+        <argsstring>(const std::string &amp;name, size_t in_dim, size_t out_dim, size_t max_rank, float alpha)</argsstring>
+        <name>addLayer</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::addLayer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>in_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>out_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_rank</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>alpha</declname>
+        </param>
+        <briefdescription>
+<para>Add <ref refid="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer" kindref="compound">Layer</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">in_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">out_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alpha</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), count(), kaimingUniform(), zeros(), std::move(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="111" column="10" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="111" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a90346574099200b775c6448d05f914e3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::AdaLoRAAdapter::Impl::removeLayer</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>removeLayer</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::removeLayer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Remove <ref refid="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer" kindref="compound">Layer</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), erase(), std::remove(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="146" column="10" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="146" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a6726706c646602f40697372ec0f1d863" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::AdaLoRAAdapter::Impl::hasLayer</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>hasLayer</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::hasLayer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="158" column="10" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="158" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a9040b6067dfe4fb06243806879f7475b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::training::AdaLoRAAdapter::Impl::layerNames</definition>
+        <argsstring>() const</argsstring>
+        <name>layerNames</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::layerNames</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="162" column="17" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="162" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1af15d5555e4e2e2d61f5d6d2eb2033d5a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::AdaLoRAAdapter::Impl::layerCount</definition>
+        <argsstring>() const</argsstring>
+        <name>layerCount</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::layerCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="166" column="12" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="166" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1abbee29fc52a5e5a1a8069132b24ad09c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::AdaLoRAAdapter::Impl::updateImportance</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>updateImportance</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::updateImportance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Importance ≈ mean_i( ||B[:,i]||_F^2 * ||A[i,:]||_F^2 ) for i in active_rank. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+This is a rank-component outer-product approximation to the nuclear-norm importance used in the original AdaLoRA paper. Calls: getLayer(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="177" column="10" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="177" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a021781f632e0ac3ca5ce729ad86315af" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::AdaLoRAAdapter::Impl::updateAllImportances</definition>
+        <argsstring>()</argsstring>
+        <name>updateAllImportances</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::updateAllImportances</qualifiedname>
+        <briefdescription>
+<para>Update All Importances. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1abbee29fc52a5e5a1a8069132b24ad09c" kindref="member">updateImportance()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="210" column="10" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="210" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a5e019af3e27faf3811f971e7f32bc08c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_realloc_result" kindref="compound">ReallocResult</ref></type>
+        <definition>ReallocResult themis::training::AdaLoRAAdapter::Impl::reallocateRanks</definition>
+        <argsstring>(size_t total_budget)</argsstring>
+        <name>reallocateRanks</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::reallocateRanks</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>total_budget</declname>
+        </param>
+        <briefdescription>
+<para>Reallocate Ranks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">total_budget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), size(), std::min(), allocs(), at(), std::round(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="227" column="19" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="227" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1aae5fd51367483742c25b59fad9629303" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::AdaLoRAAdapter::Impl::getActiveRank</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getActiveRank</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::getActiveRank</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="312" column="12" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="312" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a5787b70a13c92a320978d841c5814506" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::AdaLoRAAdapter::Impl::getMaxRank</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getMaxRank</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::getMaxRank</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="316" column="12" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="316" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1aab7c9bdb6c87cc24a8df10e7d9b42f81" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::training::AdaLoRAAdapter::Impl::getImportance</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getImportance</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::getImportance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="320" column="11" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="320" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a0dad4af5e603783b8080cf8d66f5fb2a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_ada_lo_r_a_layer_stats" kindref="compound">AdaLoRALayerStats</ref> &gt;</type>
+        <definition>std::vector&lt; AdaLoRALayerStats &gt; themis::training::AdaLoRAAdapter::Impl::getLayerStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getLayerStats</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::getLayerStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="324" column="17" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="324" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a2be6e76d89d0816208f5d9577e624d74" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::AdaLoRAAdapter::Impl::totalActiveParameterCount</definition>
+        <argsstring>() const</argsstring>
+        <name>totalActiveParameterCount</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::totalActiveParameterCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="340" column="12" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="340" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a733b972f3c01d4224a401d578542d4af" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::AdaLoRAAdapter::Impl::setWeights</definition>
+        <argsstring>(const std::string &amp;name, const std::vector&lt; float &gt; &amp;B, const std::vector&lt; float &gt; &amp;A)</argsstring>
+        <name>setWeights</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::setWeights</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>A</declname>
+        </param>
+        <briefdescription>
+<para>Set Weights. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getLayer(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="355" column="10" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="355" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1ac692a2c1a522d35f5a513e5e10ae2dc0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::pair&lt; std::vector&lt; float &gt;, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::pair&lt; std::vector&lt; float &gt;, std::vector&lt; float &gt; &gt; themis::training::AdaLoRAAdapter::Impl::getWeights</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getWeights</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::getWeights</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="368" column="5" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="368" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1afb1a8c9ef6698809cee4d1d53556c0cc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::training::AdaLoRAAdapter::Impl::forward</definition>
+        <argsstring>(const std::string &amp;name, const std::vector&lt; float &gt; &amp;input, size_t batch_size) const</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::forward</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="377" column="17" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="377" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1afcd4ed1154074d7f29ca0459f8a915ab" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::AdaLoRAAdapter::Impl::rankBudget</definition>
+        <argsstring>() const</argsstring>
+        <name>rankBudget</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::rankBudget</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="416" column="12" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="416" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a35ee1fd83e24e6636590d9312933809f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::AdaLoRAAdapter::Impl::setRankBudget</definition>
+        <argsstring>(size_t b)</argsstring>
+        <name>setRankBudget</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::setRankBudget</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Set Rank Budget. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRankBudget without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="422" column="10" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="422" bodyend="422"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1ac0418fddaa66e4474180cd05fbbc1363" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer" kindref="compound">Layer</ref> &amp;</type>
+        <definition>Layer &amp; themis::training::AdaLoRAAdapter::Impl::getLayer</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>getLayer</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::getLayer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer" kindref="compound">Layer</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="439" column="11" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="439" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a7c461da8b2a07aa395733374e0a448ea" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer" kindref="compound">Layer</ref> &amp;</type>
+        <definition>const Layer &amp; themis::training::AdaLoRAAdapter::Impl::getLayerConst</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getLayerConst</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::getLayerConst</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="446" column="17" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="446" bodyend="451"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/ada_lora_adapter.cpp" line="69" column="1" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="69" bodyend="452"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1aa55c02254e7c83c4a2e5373fb95737f1" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>addLayer</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1abce9927651841c9ea4e4e1bb48eea97c" prot="private" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>default_alpha_</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1afec84e5351e55b903bbf841b99ec21ad" prot="private" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>default_rank_</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1afb1a8c9ef6698809cee4d1d53556c0cc" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>forward</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1aae5fd51367483742c25b59fad9629303" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>getActiveRank</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1aab7c9bdb6c87cc24a8df10e7d9b42f81" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>getImportance</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1ac0418fddaa66e4474180cd05fbbc1363" prot="private" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>getLayer</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a7c461da8b2a07aa395733374e0a448ea" prot="private" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>getLayerConst</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a0dad4af5e603783b8080cf8d66f5fb2a" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>getLayerStats</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a5787b70a13c92a320978d841c5814506" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>getMaxRank</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1ac692a2c1a522d35f5a513e5e10ae2dc0" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>getWeights</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a6726706c646602f40697372ec0f1d863" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>hasLayer</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a98f7aaaf248b100536753fbb6cb98c5a" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a3c751202ac5305adef97dc2c6785369c" prot="private" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>insertion_order_</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1af15d5555e4e2e2d61f5d6d2eb2033d5a" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>layerCount</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a9040b6067dfe4fb06243806879f7475b" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>layerNames</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a5225147365c5f4c21cee696d8357efa9" prot="private" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>layers_</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a98664063e5555f343509008569ed76b4" prot="private" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>rank_budget_</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1afcd4ed1154074d7f29ca0459f8a915ab" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>rankBudget</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a5e019af3e27faf3811f971e7f32bc08c" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>reallocateRanks</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a90346574099200b775c6448d05f914e3" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>removeLayer</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a35ee1fd83e24e6636590d9312933809f" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>setRankBudget</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a733b972f3c01d4224a401d578542d4af" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>setWeights</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a2be6e76d89d0816208f5d9577e624d74" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>totalActiveParameterCount</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1a021781f632e0ac3ca5ce729ad86315af" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>updateAllImportances</name></member>
+      <member refid="classthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1abbee29fc52a5e5a1a8069132b24ad09c" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl</scope><name>updateImportance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

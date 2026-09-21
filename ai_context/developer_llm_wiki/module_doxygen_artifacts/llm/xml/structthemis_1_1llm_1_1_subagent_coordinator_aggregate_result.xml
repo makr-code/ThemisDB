@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SubagentCoordinatorAggregateResult</compoundname>
+    <includes refid="subagent__coordinator_8h" local="no">subagent_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1a3d2de7549a3eefe4dc873201d767dd9f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SubagentCoordinatorAggregateResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorAggregateResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="97" column="10" bodyfile="include/llm/subagent_coordinator.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1a35f87efd5a95337602dba52a06db4e36" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentCoordinatorAggregateResult::merged_output</definition>
+        <argsstring></argsstring>
+        <name>merged_output</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorAggregateResult::merged_output</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="99" column="17" bodyfile="include/llm/subagent_coordinator.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1aedaa327ee6413c59555e0f70312ee336" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentCoordinatorAggregateResult::summary</definition>
+        <argsstring></argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorAggregateResult::summary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="101" column="17" bodyfile="include/llm/subagent_coordinator.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1aab146ece65efc2502bc442600727aa0f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_subagent_coordinator_result" kindref="compound">SubagentCoordinatorResult</ref> &gt;</type>
+        <definition>std::vector&lt;SubagentCoordinatorResult&gt; themis::llm::SubagentCoordinatorAggregateResult::per_subagent_results</definition>
+        <argsstring></argsstring>
+        <name>per_subagent_results</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorAggregateResult::per_subagent_results</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="103" column="17" bodyfile="include/llm/subagent_coordinator.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1a3ce5680cd5bd60813d3c419ebff59b84" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SubagentCoordinatorAggregateResult::num_successful</definition>
+        <argsstring></argsstring>
+        <name>num_successful</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorAggregateResult::num_successful</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="105" column="12" bodyfile="include/llm/subagent_coordinator.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1a5a86b21e9d9c0ecd0f50aafb7ae1c956" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SubagentCoordinatorAggregateResult::num_failed</definition>
+        <argsstring></argsstring>
+        <name>num_failed</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorAggregateResult::num_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="107" column="12" bodyfile="include/llm/subagent_coordinator.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1abc4a16904746cfe4f3ea72023eaa43b5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SubagentCoordinatorAggregateResult::total_tokens_consumed</definition>
+        <argsstring></argsstring>
+        <name>total_tokens_consumed</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorAggregateResult::total_tokens_consumed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="109" column="12" bodyfile="include/llm/subagent_coordinator.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1a15d1333de0fba85b8af0ae4076704baa" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::SubagentCoordinatorAggregateResult::total_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>total_latency_ms</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorAggregateResult::total_latency_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="111" column="9" bodyfile="include/llm/subagent_coordinator.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1a2e655050d8ad95860bb033e067701b77" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ac2dfce769b2cc6b4594a035106db712a" kindref="member">SubagentMergeStrategy</ref></type>
+        <definition>SubagentMergeStrategy themis::llm::SubagentCoordinatorAggregateResult::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorAggregateResult::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1ac2dfce769b2cc6b4594a035106db712aa80b5fb550c8405be8d06e1184b53e3c0" kindref="member">SubagentMergeStrategy::FIRST_WIN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="113" column="27" bodyfile="include/llm/subagent_coordinator.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/subagent_coordinator.h" line="96" column="1" bodyfile="include/llm/subagent_coordinator.h" bodystart="96" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1a35f87efd5a95337602dba52a06db4e36" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorAggregateResult</scope><name>merged_output</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1a5a86b21e9d9c0ecd0f50aafb7ae1c956" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorAggregateResult</scope><name>num_failed</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1a3ce5680cd5bd60813d3c419ebff59b84" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorAggregateResult</scope><name>num_successful</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1aab146ece65efc2502bc442600727aa0f" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorAggregateResult</scope><name>per_subagent_results</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1a2e655050d8ad95860bb033e067701b77" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorAggregateResult</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1a3d2de7549a3eefe4dc873201d767dd9f" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorAggregateResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1aedaa327ee6413c59555e0f70312ee336" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorAggregateResult</scope><name>summary</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1a15d1333de0fba85b8af0ae4076704baa" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorAggregateResult</scope><name>total_latency_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result_1abc4a16904746cfe4f3ea72023eaa43b5" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorAggregateResult</scope><name>total_tokens_consumed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

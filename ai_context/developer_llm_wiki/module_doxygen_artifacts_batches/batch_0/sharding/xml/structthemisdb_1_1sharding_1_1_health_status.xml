@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_health_status" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::HealthStatus</compoundname>
+    <includes refid="auto__recovery__manager_8h" local="no">auto_recovery_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_health_status_1ad3b0c6044538936619d2d90e1167905f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::HealthStatus::total_documents</definition>
+        <argsstring></argsstring>
+        <name>total_documents</name>
+        <qualifiedname>themisdb::sharding::HealthStatus::total_documents</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="67" column="14" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_health_status_1a857052320f24b4ff63b2d6251cb46259" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::HealthStatus::healthy_documents</definition>
+        <argsstring></argsstring>
+        <name>healthy_documents</name>
+        <qualifiedname>themisdb::sharding::HealthStatus::healthy_documents</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="68" column="14" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_health_status_1afecbdb0a85f1ce5d7ab351dff7203192" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::HealthStatus::degraded_documents</definition>
+        <argsstring></argsstring>
+        <name>degraded_documents</name>
+        <qualifiedname>themisdb::sharding::HealthStatus::degraded_documents</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="69" column="14" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_health_status_1a6d3e48e0f1bef1c20657b54fc4800712" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::HealthStatus::critical_documents</definition>
+        <argsstring></argsstring>
+        <name>critical_documents</name>
+        <qualifiedname>themisdb::sharding::HealthStatus::critical_documents</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="70" column="14" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_health_status_1af2bf4aff426efaece7bd0a12db3732f2" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::sharding::HealthStatus::last_check</definition>
+        <argsstring></argsstring>
+        <name>last_check</name>
+        <qualifiedname>themisdb::sharding::HealthStatus::last_check</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="72" column="43" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_health_status_1aae5967272ad7519c74b3dd2fdc3aeb02" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themisdb::sharding::HealthStatus::getHealthPercentage</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthPercentage</name>
+        <qualifiedname>themisdb::sharding::HealthStatus::getHealthPercentage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="74" column="11" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="74" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_health_status_1ae931972742da881768ca9c532a6f11a9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themisdb::sharding::HealthStatus::getDegradedPercentage</definition>
+        <argsstring>() const</argsstring>
+        <name>getDegradedPercentage</name>
+        <qualifiedname>themisdb::sharding::HealthStatus::getDegradedPercentage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="81" column="11" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="81" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_health_status_1a0569ac1024d697302081c492987e4f03" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themisdb::sharding::HealthStatus::getCriticalPercentage</definition>
+        <argsstring>() const</argsstring>
+        <name>getCriticalPercentage</name>
+        <qualifiedname>themisdb::sharding::HealthStatus::getCriticalPercentage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="88" column="11" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="88" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/auto_recovery_manager.h" line="66" column="1" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="66" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_health_status_1a6d3e48e0f1bef1c20657b54fc4800712" prot="public" virt="non-virtual"><scope>themisdb::sharding::HealthStatus</scope><name>critical_documents</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_health_status_1afecbdb0a85f1ce5d7ab351dff7203192" prot="public" virt="non-virtual"><scope>themisdb::sharding::HealthStatus</scope><name>degraded_documents</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_health_status_1a0569ac1024d697302081c492987e4f03" prot="public" virt="non-virtual"><scope>themisdb::sharding::HealthStatus</scope><name>getCriticalPercentage</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_health_status_1ae931972742da881768ca9c532a6f11a9" prot="public" virt="non-virtual"><scope>themisdb::sharding::HealthStatus</scope><name>getDegradedPercentage</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_health_status_1aae5967272ad7519c74b3dd2fdc3aeb02" prot="public" virt="non-virtual"><scope>themisdb::sharding::HealthStatus</scope><name>getHealthPercentage</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_health_status_1a857052320f24b4ff63b2d6251cb46259" prot="public" virt="non-virtual"><scope>themisdb::sharding::HealthStatus</scope><name>healthy_documents</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_health_status_1af2bf4aff426efaece7bd0a12db3732f2" prot="public" virt="non-virtual"><scope>themisdb::sharding::HealthStatus</scope><name>last_check</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_health_status_1ad3b0c6044538936619d2d90e1167905f" prot="public" virt="non-virtual"><scope>themisdb::sharding::HealthStatus</scope><name>total_documents</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

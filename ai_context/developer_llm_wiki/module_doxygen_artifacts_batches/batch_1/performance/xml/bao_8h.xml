@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bao_8h" kind="file" language="C++">
+    <compoundname>bao.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">unordered_map</includes>
+    <includedby refid="bao_8cpp" local="yes">src/performance/phase3/bao.cpp</includedby>
+    <includedby refid="test__bao_8cpp" local="yes">tests/performance/phase3/test_bao.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/performance/phase3/bao.h</label>
+        <link refid="bao_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/performance/phase3/bao.h</label>
+        <link refid="bao_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/performance/phase3/bao.cpp</label>
+        <link refid="bao_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/performance/phase3/test_bao.cpp</label>
+        <link refid="test__bao_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_query_plan" prot="public">themis::performance::phase3::QueryPlan</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_query_result" prot="public">themis::performance::phase3::QueryResult</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer" prot="public">themis::performance::phase3::BaoOptimizer</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats" prot="public">themis::performance::phase3::BaoOptimizer::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance_1_1phase3">themis::performance::phase3</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Bao:<sp/>Making<sp/>Learned<sp/>Query<sp/>Optimization<sp/>Practical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Paper:<sp/>&quot;Bao:<sp/>Making<sp/>Learned<sp/>Query<sp/>Optimization<sp/>Practical&quot;<sp/>(SIGMOD&apos;21)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Ryan<sp/>Marcus<sp/>et<sp/>al.,<sp/>MIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Key<sp/>idea:<sp/>ML-based<sp/>query<sp/>optimizer<sp/>using<sp/>Thompson<sp/>Sampling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>+30-70%<sp/>query<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reference:<sp/>https://dl.acm.org/doi/10.1145/3448016.3452838</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">performance</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance_1_1phase3" kindref="compound">phase3</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1performance_1_1phase3_1_1_query_plan" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_plan" kindref="compound">QueryPlan</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1performance_1_1phase3_1_1_query_plan_1a73861bdb5175e23eab909d26d62d2bb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_plan_1a73861bdb5175e23eab909d26d62d2bb2" kindref="member">plan_id</ref>;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1performance_1_1phase3_1_1_query_plan_1a54817414b4cd16df0afb89e15dda18ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_plan_1a54817414b4cd16df0afb89e15dda18ec" kindref="member">operators</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>JOIN,<sp/>SCAN,<sp/>AGGREGATE,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1performance_1_1phase3_1_1_query_plan_1a01cb2dfc59db14c76a8bf062e572e229" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_plan_1a01cb2dfc59db14c76a8bf062e572e229" kindref="member">estimated_cost</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1performance_1_1phase3_1_1_query_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_result" kindref="compound">QueryResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1performance_1_1phase3_1_1_query_result_1a062cc3143432de2bfe5ee7321ee29d44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_result_1a062cc3143432de2bfe5ee7321ee29d44" kindref="member">execution_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1performance_1_1phase3_1_1_query_result_1adf087c2904db7b9798ef507789fff9a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_result_1adf087c2904db7b9798ef507789fff9a3" kindref="member">rows_returned</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1performance_1_1phase3_1_1_query_result_1ab75f9fc2062b863565772d00d51f246a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_result_1ab75f9fc2062b863565772d00d51f246a" kindref="member">success</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a455112c187f430f4051e35d4a1eb23ec" kindref="member">BaoOptimizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a455112c187f430f4051e35d4a1eb23ec" kindref="member">BaoOptimizer</ref>();</highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1aad2b4b0a52833a873c7b37bc04e7f22e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1aad2b4b0a52833a873c7b37bc04e7f22e" kindref="member">~BaoOptimizer</ref>();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>alternative<sp/>query<sp/>plans</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QueryPlan&gt;<sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1aa4253b6d0125e4e0e62657839cb8fa54" kindref="member">generate_plans</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Select<sp/>best<sp/>plan<sp/>using<sp/>Thompson<sp/>Sampling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_plan" kindref="compound">QueryPlan</ref><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1aa3d997eafbcc201914d26101aa927041" kindref="member">select_plan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;QueryPlan&gt;&amp;<sp/>plans);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>model<sp/>with<sp/>execution<sp/>feedback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a1419d1bcb7ac7704988984d4dddc01f9" kindref="member">update_model</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_plan" kindref="compound">QueryPlan</ref>&amp;<sp/>plan,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_result" kindref="compound">QueryResult</ref>&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>optimizer<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats_1a1a5d243790a49bc1b9321cef9bc182cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats_1a1a5d243790a49bc1b9321cef9bc182cd" kindref="member">queries_optimized</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats_1aeee753b6b4791972a0591f7e8cc8faed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats_1aeee753b6b4791972a0591f7e8cc8faed" kindref="member">avg_speedup</ref>;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats_1a7f7ea87916598cebdc0f0ccfee004f73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats_1a7f7ea87916598cebdc0f0ccfee004f73" kindref="member">model_updates</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a5b444f9c58c357e55aa8e4d3b506f539" kindref="member">get_stats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a605bccbb14f5447dc99ab2220490933c" kindref="member">getMissRate</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thompson<sp/>Sampling<sp/>arms<sp/>(one<sp/>per<sp/>query<sp/>plan<sp/>template)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::pair&lt;double,<sp/>double&gt;&gt;<sp/>arms_;<sp/><sp/></highlight><highlight class="comment">//<sp/>mean,<sp/>variance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>phase3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/performance/phase3/bao.h"/>
+  </compounddef>
+</doxygen>

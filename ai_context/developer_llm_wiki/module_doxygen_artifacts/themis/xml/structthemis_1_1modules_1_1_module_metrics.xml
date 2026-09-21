@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_module_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::ModuleMetrics</compoundname>
+    <includes refid="module__loader_8h" local="no">module_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_metrics_1a86c4655f8056c7a894f426163fb2ecbd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::ModuleMetrics::totalLoadAttempts</definition>
+        <argsstring></argsstring>
+        <name>totalLoadAttempts</name>
+        <qualifiedname>themis::modules::ModuleMetrics::totalLoadAttempts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="218" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_metrics_1a34257b34978c1b85c04f1e831bef9927" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::ModuleMetrics::successfulLoads</definition>
+        <argsstring></argsstring>
+        <name>successfulLoads</name>
+        <qualifiedname>themis::modules::ModuleMetrics::successfulLoads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="219" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_metrics_1ad4c34ff9ce42b98333078c64dd8b32e9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::ModuleMetrics::failedLoads</definition>
+        <argsstring></argsstring>
+        <name>failedLoads</name>
+        <qualifiedname>themis::modules::ModuleMetrics::failedLoads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="220" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_metrics_1aea4e7aecbb51e17bae57b0195b3d053c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::ModuleMetrics::totalUnloads</definition>
+        <argsstring></argsstring>
+        <name>totalUnloads</name>
+        <qualifiedname>themis::modules::ModuleMetrics::totalUnloads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="221" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_metrics_1a8ea431e3a7c1e78f6e43c8a83b579e01" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::ModuleMetrics::totalLoadDurationMs</definition>
+        <argsstring></argsstring>
+        <name>totalLoadDurationMs</name>
+        <qualifiedname>themis::modules::ModuleMetrics::totalLoadDurationMs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="224" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_metrics_1a36fe81077bbeb9d8e90554c7c183cf96" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::ModuleMetrics::minLoadDurationMs</definition>
+        <argsstring></argsstring>
+        <name>minLoadDurationMs</name>
+        <qualifiedname>themis::modules::ModuleMetrics::minLoadDurationMs</qualifiedname>
+        <initializer>= UINT64_MAX</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="225" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_metrics_1a6ef2b1694368fb1adc5a8b630e54aebd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::ModuleMetrics::maxLoadDurationMs</definition>
+        <argsstring></argsstring>
+        <name>maxLoadDurationMs</name>
+        <qualifiedname>themis::modules::ModuleMetrics::maxLoadDurationMs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="226" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_metrics_1a4492337f4867bfe243f075108a7aaf0c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::ModuleMetrics::verificationSuccesses</definition>
+        <argsstring></argsstring>
+        <name>verificationSuccesses</name>
+        <qualifiedname>themis::modules::ModuleMetrics::verificationSuccesses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="229" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_metrics_1a00e4fda1817ab36cefe2eaa83ae15c72" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::ModuleMetrics::verificationFailures</definition>
+        <argsstring></argsstring>
+        <name>verificationFailures</name>
+        <qualifiedname>themis::modules::ModuleMetrics::verificationFailures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="230" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_metrics_1a9e1bb5be82927f3cd371092e7305931b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::ModuleMetrics::quarantineEvents</definition>
+        <argsstring></argsstring>
+        <name>quarantineEvents</name>
+        <qualifiedname>themis::modules::ModuleMetrics::quarantineEvents</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="233" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_metrics_1a557cbd39106e5869052a058ce714f089" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::ModuleMetrics::quarantineReleases</definition>
+        <argsstring></argsstring>
+        <name>quarantineReleases</name>
+        <qualifiedname>themis::modules::ModuleMetrics::quarantineReleases</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="234" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_metrics_1a69a51b24d37a7453fa907590a688421b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::modules::ModuleMetrics::currentlyQuarantined</definition>
+        <argsstring></argsstring>
+        <name>currentlyQuarantined</name>
+        <qualifiedname>themis::modules::ModuleMetrics::currentlyQuarantined</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="235" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_metrics_1a8c9bbd35d59126c5a9eebebfa616e27f" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783" kindref="member">ModuleErrorCode</ref>, uint64_t &gt;</type>
+        <definition>std::map&lt;ModuleErrorCode, uint64_t&gt; themis::modules::ModuleMetrics::errorCounts</definition>
+        <argsstring></argsstring>
+        <name>errorCounts</name>
+        <qualifiedname>themis::modules::ModuleMetrics::errorCounts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="238" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_module_metrics_1a6a44d87bfc91ba0605796fd355594b94" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::modules::ModuleMetrics::getSuccessRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getSuccessRate</name>
+        <qualifiedname>themis::modules::ModuleMetrics::getSuccessRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="240" column="12" bodyfile="include/themis/base/module_loader.h" bodystart="240" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_module_metrics_1a2f0e177bd64256ec456e5af777e8fbeb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::modules::ModuleMetrics::getAverageLoadDurationMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getAverageLoadDurationMs</name>
+        <qualifiedname>themis::modules::ModuleMetrics::getAverageLoadDurationMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="246" column="12" bodyfile="include/themis/base/module_loader.h" bodystart="246" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Module metrics for observability. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/module_loader.h" line="216" column="1" bodyfile="include/themis/base/module_loader.h" bodystart="216" bodyend="251"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_module_metrics_1a69a51b24d37a7453fa907590a688421b" prot="public" virt="non-virtual"><scope>themis::modules::ModuleMetrics</scope><name>currentlyQuarantined</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_metrics_1a8c9bbd35d59126c5a9eebebfa616e27f" prot="public" virt="non-virtual"><scope>themis::modules::ModuleMetrics</scope><name>errorCounts</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_metrics_1ad4c34ff9ce42b98333078c64dd8b32e9" prot="public" virt="non-virtual"><scope>themis::modules::ModuleMetrics</scope><name>failedLoads</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_metrics_1a2f0e177bd64256ec456e5af777e8fbeb" prot="public" virt="non-virtual"><scope>themis::modules::ModuleMetrics</scope><name>getAverageLoadDurationMs</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_metrics_1a6a44d87bfc91ba0605796fd355594b94" prot="public" virt="non-virtual"><scope>themis::modules::ModuleMetrics</scope><name>getSuccessRate</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_metrics_1a6ef2b1694368fb1adc5a8b630e54aebd" prot="public" virt="non-virtual"><scope>themis::modules::ModuleMetrics</scope><name>maxLoadDurationMs</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_metrics_1a36fe81077bbeb9d8e90554c7c183cf96" prot="public" virt="non-virtual"><scope>themis::modules::ModuleMetrics</scope><name>minLoadDurationMs</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_metrics_1a9e1bb5be82927f3cd371092e7305931b" prot="public" virt="non-virtual"><scope>themis::modules::ModuleMetrics</scope><name>quarantineEvents</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_metrics_1a557cbd39106e5869052a058ce714f089" prot="public" virt="non-virtual"><scope>themis::modules::ModuleMetrics</scope><name>quarantineReleases</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_metrics_1a34257b34978c1b85c04f1e831bef9927" prot="public" virt="non-virtual"><scope>themis::modules::ModuleMetrics</scope><name>successfulLoads</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_metrics_1a86c4655f8056c7a894f426163fb2ecbd" prot="public" virt="non-virtual"><scope>themis::modules::ModuleMetrics</scope><name>totalLoadAttempts</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_metrics_1a8ea431e3a7c1e78f6e43c8a83b579e01" prot="public" virt="non-virtual"><scope>themis::modules::ModuleMetrics</scope><name>totalLoadDurationMs</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_metrics_1aea4e7aecbb51e17bae57b0195b3d053c" prot="public" virt="non-virtual"><scope>themis::modules::ModuleMetrics</scope><name>totalUnloads</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_metrics_1a00e4fda1817ab36cefe2eaa83ae15c72" prot="public" virt="non-virtual"><scope>themis::modules::ModuleMetrics</scope><name>verificationFailures</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_metrics_1a4492337f4867bfe243f075108a7aaf0c" prot="public" virt="non-virtual"><scope>themis::modules::ModuleMetrics</scope><name>verificationSuccesses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

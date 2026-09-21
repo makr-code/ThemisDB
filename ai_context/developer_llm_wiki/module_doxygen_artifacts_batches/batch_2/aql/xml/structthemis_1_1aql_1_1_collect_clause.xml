@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_collect_clause" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::CollectClause</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_collect_clause_1aa69c29b52bd5beb9841afb380e4ecc9e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::CollectClause::variable</definition>
+        <argsstring></argsstring>
+        <name>variable</name>
+        <qualifiedname>themis::aql::CollectClause::variable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="41" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_collect_clause_1a68787a69a3a958c39341b4775b65c023" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::CollectClause::expression</definition>
+        <argsstring></argsstring>
+        <name>expression</name>
+        <qualifiedname>themis::aql::CollectClause::expression</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/aql/aql_query_builder.cpp" line="42" column="17" bodyfile="src/aql/aql_query_builder.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/aql/aql_query_builder.cpp" line="40" column="1" bodyfile="src/aql/aql_query_builder.cpp" bodystart="40" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_collect_clause_1a68787a69a3a958c39341b4775b65c023" prot="public" virt="non-virtual"><scope>themis::aql::CollectClause</scope><name>expression</name></member>
+      <member refid="structthemis_1_1aql_1_1_collect_clause_1aa69c29b52bd5beb9841afb380e4ecc9e" prot="public" virt="non-virtual"><scope>themis::aql::CollectClause</scope><name>variable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

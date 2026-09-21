@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_batch_progress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::BatchProgress</compoundname>
+    <includes refid="batch__evaluator_8h" local="no">batch_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a738038eb0a02643647ff02669791b5c5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::BatchProgress::total_items</definition>
+        <argsstring></argsstring>
+        <name>total_items</name>
+        <qualifiedname>themis::rag::judge::BatchProgress::total_items</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="27" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a69b646e1eb65658d6d4d350235c0c22a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::BatchProgress::completed_items</definition>
+        <argsstring></argsstring>
+        <name>completed_items</name>
+        <qualifiedname>themis::rag::judge::BatchProgress::completed_items</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="28" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a12554727db3b3c00233bc3d536f0dbcb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::BatchProgress::failed_items</definition>
+        <argsstring></argsstring>
+        <name>failed_items</name>
+        <qualifiedname>themis::rag::judge::BatchProgress::failed_items</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="29" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_progress_1afb20fa22abcfea38c9b40b4cc8b8d040" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BatchProgress::progress_percentage</definition>
+        <argsstring></argsstring>
+        <name>progress_percentage</name>
+        <qualifiedname>themis::rag::judge::BatchProgress::progress_percentage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="30" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a6f1dc74b76ea855a2981589531fb4db0" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::judge::BatchProgress::elapsed_time</definition>
+        <argsstring></argsstring>
+        <name>elapsed_time</name>
+        <qualifiedname>themis::rag::judge::BatchProgress::elapsed_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="31" column="31" bodyfile="include/rag/batch_evaluator.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a43702be3768e19b406d7df9f8cdd12f4" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::judge::BatchProgress::estimated_time_remaining</definition>
+        <argsstring></argsstring>
+        <name>estimated_time_remaining</name>
+        <qualifiedname>themis::rag::judge::BatchProgress::estimated_time_remaining</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="32" column="31" bodyfile="include/rag/batch_evaluator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Batch evaluation progress. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/batch_evaluator.h" line="26" column="1" bodyfile="include/rag/batch_evaluator.h" bodystart="26" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a69b646e1eb65658d6d4d350235c0c22a" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchProgress</scope><name>completed_items</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a6f1dc74b76ea855a2981589531fb4db0" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchProgress</scope><name>elapsed_time</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a43702be3768e19b406d7df9f8cdd12f4" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchProgress</scope><name>estimated_time_remaining</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a12554727db3b3c00233bc3d536f0dbcb" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchProgress</scope><name>failed_items</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1afb20fa22abcfea38c9b40b4cc8b8d040" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchProgress</scope><name>progress_percentage</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_progress_1a738038eb0a02643647ff02669791b5c5" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchProgress</scope><name>total_items</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

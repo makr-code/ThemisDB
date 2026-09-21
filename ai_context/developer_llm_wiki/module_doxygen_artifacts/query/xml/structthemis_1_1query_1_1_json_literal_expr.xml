@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_json_literal_expr" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::JsonLiteralExpr</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_expression" prot="public" virt="non-virtual">themis::query::Expression</basecompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_expression_1_1_literal_expression" prot="public" virt="non-virtual">themis::query::Expression::LiteralExpression</derivedcompoundref>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_json_literal_expr_1adc87c79dd5d8bdcd9e24813f43754e4e" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::JsonLiteralExpr::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::query::JsonLiteralExpr::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1124" column="20" bodyfile="include/query/aql_parser.h" bodystart="1124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_json_literal_expr_1a323d491be36609fe847b8cf100241efa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::JsonLiteralExpr::JsonLiteralExpr</definition>
+        <argsstring>()=default</argsstring>
+        <name>JsonLiteralExpr</name>
+        <qualifiedname>themis::query::JsonLiteralExpr::JsonLiteralExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1125" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_json_literal_expr_1a3ae4c61e1c5ebd50a08846f99f3ae9d8" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::JsonLiteralExpr::JsonLiteralExpr</definition>
+        <argsstring>(const nlohmann::json &amp;v)</argsstring>
+        <name>JsonLiteralExpr</name>
+        <qualifiedname>themis::query::JsonLiteralExpr::JsonLiteralExpr</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1126" column="14" bodyfile="include/query/aql_parser.h" bodystart="1126" bodyend="1126"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_json_literal_expr_1a9c8c915adaca5294e37512be1cfc26b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8f" kindref="member">ASTNodeType</ref></type>
+        <definition>ASTNodeType themis::query::JsonLiteralExpr::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::query::JsonLiteralExpr::getType</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_expression_1aca4fd2bf776bf08dc9b0462450184d89">getType</reimplements>
+        <briefdescription>
+<para>Get Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1127" column="17" bodyfile="include/query/aql_parser.h" bodystart="1127" bodyend="1127"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_json_literal_expr_1af1ff4e201a71bcb03445078152d65e0d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::JsonLiteralExpr::toJSON</definition>
+        <argsstring>() const override</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::JsonLiteralExpr::toJSON</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_expression_1a50a0c87d39931ce188c1391b61794e20">toJSON</reimplements>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1128" column="20" bodyfile="include/query/aql_parser.h" bodystart="1128" bodyend="1130"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+      <node id="3">
+        <label>themis::query::Expression::LiteralExpression</label>
+        <link refid="structthemis_1_1query_1_1_expression_1_1_literal_expression"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::query::JsonLiteralExpr</label>
+        <link refid="structthemis_1_1query_1_1_json_literal_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+      <node id="1">
+        <label>themis::query::JsonLiteralExpr</label>
+        <link refid="structthemis_1_1query_1_1_json_literal_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_parser.h" line="1123" column="1" bodyfile="include/query/aql_parser.h" bodystart="1123" bodyend="1131"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_json_literal_expr_1a9c8c915adaca5294e37512be1cfc26b5" prot="public" virt="virtual"><scope>themis::query::JsonLiteralExpr</scope><name>getType</name></member>
+      <member refid="structthemis_1_1query_1_1_json_literal_expr_1a323d491be36609fe847b8cf100241efa" prot="public" virt="non-virtual"><scope>themis::query::JsonLiteralExpr</scope><name>JsonLiteralExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_json_literal_expr_1a3ae4c61e1c5ebd50a08846f99f3ae9d8" prot="public" virt="non-virtual"><scope>themis::query::JsonLiteralExpr</scope><name>JsonLiteralExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_json_literal_expr_1af1ff4e201a71bcb03445078152d65e0d" prot="public" virt="virtual"><scope>themis::query::JsonLiteralExpr</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1query_1_1_json_literal_expr_1adc87c79dd5d8bdcd9e24813f43754e4e" prot="public" virt="non-virtual"><scope>themis::query::JsonLiteralExpr</scope><name>value</name></member>
+      <member refid="structthemis_1_1query_1_1_expression_1ab3ecf845da63bc89b3c506c43c6afc78" prot="public" virt="virtual"><scope>themis::query::JsonLiteralExpr</scope><name>~Expression</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

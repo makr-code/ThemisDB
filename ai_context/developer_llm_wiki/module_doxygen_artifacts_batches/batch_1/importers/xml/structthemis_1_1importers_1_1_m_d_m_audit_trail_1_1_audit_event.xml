@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::MDMAuditTrail::AuditEvent</compoundname>
+    <includes refid="mdm__audit__trail_8h" local="no">mdm_audit_trail.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1afb31fe897fa0c1f076ce2a8095ae677f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MDMAuditTrail::AuditEvent::event_id</definition>
+        <argsstring></argsstring>
+        <name>event_id</name>
+        <qualifiedname>themis::importers::MDMAuditTrail::AuditEvent::event_id</qualifiedname>
+        <briefdescription>
+<para>UUID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_audit_trail.h" line="39" column="22" bodyfile="include/importers/mdm_audit_trail.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1adcf466121ebca3b0eaad7d4853ccac00" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1importers_1_1_m_d_m_audit_trail_1a24ca259d8e6b0cb6c170cc64d19cb38f" kindref="member">Operation</ref></type>
+        <definition>Operation themis::importers::MDMAuditTrail::AuditEvent::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::importers::MDMAuditTrail::AuditEvent::operation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_audit_trail.h" line="40" column="22" bodyfile="include/importers/mdm_audit_trail.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1ac8dda60169d3df5204f0e3036ca6b0a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MDMAuditTrail::AuditEvent::collection_name</definition>
+        <argsstring></argsstring>
+        <name>collection_name</name>
+        <qualifiedname>themis::importers::MDMAuditTrail::AuditEvent::collection_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_audit_trail.h" line="41" column="22" bodyfile="include/importers/mdm_audit_trail.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1aa72fe86ad85798596ea0d0fafd5b3dbd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MDMAuditTrail::AuditEvent::source_entity_id</definition>
+        <argsstring></argsstring>
+        <name>source_entity_id</name>
+        <qualifiedname>themis::importers::MDMAuditTrail::AuditEvent::source_entity_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_audit_trail.h" line="42" column="22" bodyfile="include/importers/mdm_audit_trail.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1a2b48fe1aad0c249bcf6838e97dddb312" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MDMAuditTrail::AuditEvent::target_entity_id</definition>
+        <argsstring></argsstring>
+        <name>target_entity_id</name>
+        <qualifiedname>themis::importers::MDMAuditTrail::AuditEvent::target_entity_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_audit_trail.h" line="43" column="22" bodyfile="include/importers/mdm_audit_trail.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1a4f53432490e17f9585b36b597f95c537" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::MDMAuditTrail::AuditEvent::confidence_score</definition>
+        <argsstring></argsstring>
+        <name>confidence_score</name>
+        <qualifiedname>themis::importers::MDMAuditTrail::AuditEvent::confidence_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_audit_trail.h" line="44" column="22" bodyfile="include/importers/mdm_audit_trail.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1a813c9d5104cf9e3c366d2e3da1a66707" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::MDMAuditTrail::AuditEvent::event_details</definition>
+        <argsstring></argsstring>
+        <name>event_details</name>
+        <qualifiedname>themis::importers::MDMAuditTrail::AuditEvent::event_details</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_audit_trail.h" line="45" column="22" bodyfile="include/importers/mdm_audit_trail.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1a6ffce63091c21ef1c2e25c9c4805b2db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MDMAuditTrail::AuditEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::importers::MDMAuditTrail::AuditEvent::timestamp</qualifiedname>
+        <briefdescription>
+<para>RFC 3339. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_audit_trail.h" line="46" column="22" bodyfile="include/importers/mdm_audit_trail.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1a5e67b8d6e1684ff5dd738bef375ee9ff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MDMAuditTrail::AuditEvent::initiated_by</definition>
+        <argsstring></argsstring>
+        <name>initiated_by</name>
+        <qualifiedname>themis::importers::MDMAuditTrail::AuditEvent::initiated_by</qualifiedname>
+        <briefdescription>
+<para>&quot;importer_v2.2&quot; or user identifier </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_audit_trail.h" line="47" column="22" bodyfile="include/importers/mdm_audit_trail.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1a0ec6a29ca46bed05450abb52e91cad64" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MDMAuditTrail::AuditEvent::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::importers::MDMAuditTrail::AuditEvent::status</qualifiedname>
+        <briefdescription>
+<para>&quot;pending&quot; | &quot;completed&quot; | &quot;failed&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_audit_trail.h" line="48" column="22" bodyfile="include/importers/mdm_audit_trail.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1a539d610880e102f2c9a77d823086af0c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MDMAuditTrail::AuditEvent::chain_hash</definition>
+        <argsstring></argsstring>
+        <name>chain_hash</name>
+        <qualifiedname>themis::importers::MDMAuditTrail::AuditEvent::chain_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_audit_trail.h" line="50" column="22" bodyfile="include/importers/mdm_audit_trail.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1a414946335dbad7e6c01de22c0eab641a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::MDMAuditTrail::AuditEvent::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::MDMAuditTrail::AuditEvent::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mdm_audit_trail.h" line="56" column="14" bodyfile="src/importers/mdm_audit_trail.cpp" bodystart="91" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/mdm_audit_trail.h" line="38" column="5" bodyfile="include/importers/mdm_audit_trail.h" bodystart="38" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1a539d610880e102f2c9a77d823086af0c" prot="public" virt="non-virtual"><scope>themis::importers::MDMAuditTrail::AuditEvent</scope><name>chain_hash</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1ac8dda60169d3df5204f0e3036ca6b0a7" prot="public" virt="non-virtual"><scope>themis::importers::MDMAuditTrail::AuditEvent</scope><name>collection_name</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1a4f53432490e17f9585b36b597f95c537" prot="public" virt="non-virtual"><scope>themis::importers::MDMAuditTrail::AuditEvent</scope><name>confidence_score</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1a813c9d5104cf9e3c366d2e3da1a66707" prot="public" virt="non-virtual"><scope>themis::importers::MDMAuditTrail::AuditEvent</scope><name>event_details</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1afb31fe897fa0c1f076ce2a8095ae677f" prot="public" virt="non-virtual"><scope>themis::importers::MDMAuditTrail::AuditEvent</scope><name>event_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1a5e67b8d6e1684ff5dd738bef375ee9ff" prot="public" virt="non-virtual"><scope>themis::importers::MDMAuditTrail::AuditEvent</scope><name>initiated_by</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1adcf466121ebca3b0eaad7d4853ccac00" prot="public" virt="non-virtual"><scope>themis::importers::MDMAuditTrail::AuditEvent</scope><name>operation</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1aa72fe86ad85798596ea0d0fafd5b3dbd" prot="public" virt="non-virtual"><scope>themis::importers::MDMAuditTrail::AuditEvent</scope><name>source_entity_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1a0ec6a29ca46bed05450abb52e91cad64" prot="public" virt="non-virtual"><scope>themis::importers::MDMAuditTrail::AuditEvent</scope><name>status</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1a2b48fe1aad0c249bcf6838e97dddb312" prot="public" virt="non-virtual"><scope>themis::importers::MDMAuditTrail::AuditEvent</scope><name>target_entity_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1a6ffce63091c21ef1c2e25c9c4805b2db" prot="public" virt="non-virtual"><scope>themis::importers::MDMAuditTrail::AuditEvent</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1importers_1_1_m_d_m_audit_trail_1_1_audit_event_1a414946335dbad7e6c01de22c0eab641a" prot="public" virt="non-virtual"><scope>themis::importers::MDMAuditTrail::AuditEvent</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

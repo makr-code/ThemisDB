@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_session_window_test" kind="class" language="C++" prot="public">
+    <compoundname>SessionWindowTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_session_window_test_1aaff56d8b5226b8b6ef4c7454266c03c4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_session_window_config" kindref="compound">SessionWindowConfig</ref></type>
+        <definition>SessionWindowConfig SessionWindowTest::cfg</definition>
+        <argsstring>(std::chrono::milliseconds gap)</argsstring>
+        <name>cfg</name>
+        <qualifiedname>SessionWindowTest::cfg</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>gap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_window.cpp" line="356" column="25" bodyfile="tests/analytics/test_streaming_window.cpp" bodystart="356" bodyend="360"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SessionWindowTest</label>
+        <link refid="class_session_window_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SessionWindowTest</label>
+        <link refid="class_session_window_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_streaming_window.cpp" line="354" column="1" bodyfile="tests/analytics/test_streaming_window.cpp" bodystart="354" bodyend="361"/>
+    <listofallmembers>
+      <member refid="class_session_window_test_1aaff56d8b5226b8b6ef4c7454266c03c4" prot="protected" virt="non-virtual"><scope>SessionWindowTest</scope><name>cfg</name></member>
+      <member refid="classtesting_1_1_test_1a57a4116f39f6636a80710ded7d42e889" prot="protected" virt="non-virtual"><scope>SessionWindowTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>SessionWindowTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

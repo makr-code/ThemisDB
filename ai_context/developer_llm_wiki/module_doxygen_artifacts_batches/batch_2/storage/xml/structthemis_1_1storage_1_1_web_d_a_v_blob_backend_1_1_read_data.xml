@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_web_d_a_v_blob_backend_1_1_read_data" kind="struct" language="C++" prot="private">
+    <compoundname>themis::storage::WebDAVBlobBackend::ReadData</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_web_d_a_v_blob_backend_1_1_read_data_1a47b8d88676e0d7a3d34144a14446e0b9" prot="public" static="no" mutable="no">
+        <type>const uint8_t *</type>
+        <definition>const uint8_t* themis::storage::WebDAVBlobBackend::ReadData::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::ReadData::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="58" column="23" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_web_d_a_v_blob_backend_1_1_read_data_1afff59b36ce14cc8acb58ef2d8f95ddf2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::WebDAVBlobBackend::ReadData::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::ReadData::size</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="59" column="16" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_web_d_a_v_blob_backend_1_1_read_data_1ac79aa7cd7b21c427f182075622150f32" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::WebDAVBlobBackend::ReadData::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::storage::WebDAVBlobBackend::ReadData::offset</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_webdav.cpp" line="60" column="16" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="60" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/storage/blob_backend_webdav.cpp" line="57" column="5" bodyfile="src/storage/blob_backend_webdav.cpp" bodystart="57" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_web_d_a_v_blob_backend_1_1_read_data_1a47b8d88676e0d7a3d34144a14446e0b9" prot="public" virt="non-virtual"><scope>themis::storage::WebDAVBlobBackend::ReadData</scope><name>data</name></member>
+      <member refid="structthemis_1_1storage_1_1_web_d_a_v_blob_backend_1_1_read_data_1ac79aa7cd7b21c427f182075622150f32" prot="public" virt="non-virtual"><scope>themis::storage::WebDAVBlobBackend::ReadData</scope><name>offset</name></member>
+      <member refid="structthemis_1_1storage_1_1_web_d_a_v_blob_backend_1_1_read_data_1afff59b36ce14cc8acb58ef2d8f95ddf2" prot="public" virt="non-virtual"><scope>themis::storage::WebDAVBlobBackend::ReadData</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

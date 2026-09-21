@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_lineage_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::LineageEvent</compoundname>
+    <includes refid="data__lineage_8h" local="no">data_lineage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_event_1a4f9b57d4c2226bc8ad68a970c7eef3f3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::LineageEvent::event_id</definition>
+        <argsstring></argsstring>
+        <name>event_id</name>
+        <qualifiedname>themis::governance::LineageEvent::event_id</qualifiedname>
+        <briefdescription>
+<para>Unique event identifier (UUID or sequence). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="49" column="17" bodyfile="include/governance/data_lineage.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_event_1a1fc59b8d43496116c41a8c0231d650fe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::LineageEvent::dataset_id</definition>
+        <argsstring></argsstring>
+        <name>dataset_id</name>
+        <qualifiedname>themis::governance::LineageEvent::dataset_id</qualifiedname>
+        <briefdescription>
+<para>The governed dataset this event belongs to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="50" column="17" bodyfile="include/governance/data_lineage.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_event_1aca0e0a3a0918380e5a57d85b92276801" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3" kindref="member">LineageEventType</ref></type>
+        <definition>LineageEventType themis::governance::LineageEvent::event_type</definition>
+        <argsstring></argsstring>
+        <name>event_type</name>
+        <qualifiedname>themis::governance::LineageEvent::event_type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1governance_1a493d488dd3176f381e697059970568c3ab943eabf1abeb8d7c6b3787604d74242" kindref="member">LineageEventType::INGESTION</ref>}</initializer>
+        <briefdescription>
+<para>Kind of operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="51" column="22" bodyfile="include/governance/data_lineage.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_event_1a048127a6b2ec96e0b0dbcc047f97a834" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::LineageEvent::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::governance::LineageEvent::timestamp_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Unix epoch time in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="52" column="13" bodyfile="include/governance/data_lineage.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_event_1ab5b9d93390e46045f2bb411e1a33fbd0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::LineageEvent::performed_by</definition>
+        <argsstring></argsstring>
+        <name>performed_by</name>
+        <qualifiedname>themis::governance::LineageEvent::performed_by</qualifiedname>
+        <briefdescription>
+<para>User or service that triggered the operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="54" column="17" bodyfile="include/governance/data_lineage.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_event_1a1708b1b11eec2d4bb43d237a621c92e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::LineageEvent::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::governance::LineageEvent::operation</qualifiedname>
+        <briefdescription>
+<para>Free-form operation description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="55" column="17" bodyfile="include/governance/data_lineage.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_event_1a41a3280fd11243ebc6155e07e4386018" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::LineageEvent::input_schema</definition>
+        <argsstring></argsstring>
+        <name>input_schema</name>
+        <qualifiedname>themis::governance::LineageEvent::input_schema</qualifiedname>
+        <briefdescription>
+<para>Schema / shape of input data (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="56" column="17" bodyfile="include/governance/data_lineage.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_event_1a034bb42f0345b24a12c4b5e85232358b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::LineageEvent::output_schema</definition>
+        <argsstring></argsstring>
+        <name>output_schema</name>
+        <qualifiedname>themis::governance::LineageEvent::output_schema</qualifiedname>
+        <briefdescription>
+<para>Schema / shape of output data (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="57" column="17" bodyfile="include/governance/data_lineage.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_event_1a8efe698b46adfb9f4579f005cc9acf64" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::LineageEvent::parent_event_id</definition>
+        <argsstring></argsstring>
+        <name>parent_event_id</name>
+        <qualifiedname>themis::governance::LineageEvent::parent_event_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="59" column="17" bodyfile="include/governance/data_lineage.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_event_1aa025b1d42763be8d00db4c9216cef2b7" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::LineageEvent::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::governance::LineageEvent::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="61" column="20" bodyfile="include/governance/data_lineage.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_lineage_event_1ace6b3383fafb6bae18bb3a82525dd02e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::LineageEvent::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::LineageEvent::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="67" column="20" bodyfile="src/governance/data_lineage.cpp" bodystart="57" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/data_lineage.h" line="48" column="1" bodyfile="include/governance/data_lineage.h" bodystart="48" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_lineage_event_1a1fc59b8d43496116c41a8c0231d650fe" prot="public" virt="non-virtual"><scope>themis::governance::LineageEvent</scope><name>dataset_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_event_1a4f9b57d4c2226bc8ad68a970c7eef3f3" prot="public" virt="non-virtual"><scope>themis::governance::LineageEvent</scope><name>event_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_event_1aca0e0a3a0918380e5a57d85b92276801" prot="public" virt="non-virtual"><scope>themis::governance::LineageEvent</scope><name>event_type</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_event_1a41a3280fd11243ebc6155e07e4386018" prot="public" virt="non-virtual"><scope>themis::governance::LineageEvent</scope><name>input_schema</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_event_1aa025b1d42763be8d00db4c9216cef2b7" prot="public" virt="non-virtual"><scope>themis::governance::LineageEvent</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_event_1a1708b1b11eec2d4bb43d237a621c92e7" prot="public" virt="non-virtual"><scope>themis::governance::LineageEvent</scope><name>operation</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_event_1a034bb42f0345b24a12c4b5e85232358b" prot="public" virt="non-virtual"><scope>themis::governance::LineageEvent</scope><name>output_schema</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_event_1a8efe698b46adfb9f4579f005cc9acf64" prot="public" virt="non-virtual"><scope>themis::governance::LineageEvent</scope><name>parent_event_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_event_1ab5b9d93390e46045f2bb411e1a33fbd0" prot="public" virt="non-virtual"><scope>themis::governance::LineageEvent</scope><name>performed_by</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_event_1a048127a6b2ec96e0b0dbcc047f97a834" prot="public" virt="non-virtual"><scope>themis::governance::LineageEvent</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_event_1ace6b3383fafb6bae18bb3a82525dd02e" prot="public" virt="non-virtual"><scope>themis::governance::LineageEvent</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

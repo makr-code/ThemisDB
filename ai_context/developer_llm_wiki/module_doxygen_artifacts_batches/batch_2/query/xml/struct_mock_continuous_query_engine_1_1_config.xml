@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_mock_continuous_query_engine_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>MockContinuousQueryEngine::Config</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_mock_continuous_query_engine_1_1_config_1a1b0e8e617b01bec394da838ae009c3b4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t MockContinuousQueryEngine::Config::max_queue_depth</definition>
+        <argsstring></argsstring>
+        <name>max_queue_depth</name>
+        <qualifiedname>MockContinuousQueryEngine::Config::max_queue_depth</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="42" column="16" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_continuous_query_engine_1_1_config_1ab76fef9dec7ebab21452e8c067c4de4e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockContinuousQueryEngine::Config::enable_backpressure</definition>
+        <argsstring></argsstring>
+        <name>enable_backpressure</name>
+        <qualifiedname>MockContinuousQueryEngine::Config::enable_backpressure</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="43" column="14" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_continuous_query_engine_1_1_config_1a232225d927e47661e8cf9914086a598c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockContinuousQueryEngine::Config::enable_persistence</definition>
+        <argsstring></argsstring>
+        <name>enable_persistence</name>
+        <qualifiedname>MockContinuousQueryEngine::Config::enable_persistence</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="44" column="14" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_continuous_query_engine_1_1_config_1a258acc29e686d746f8a73ccd7f9d9ca7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t MockContinuousQueryEngine::Config::checkpoint_interval</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_interval</name>
+        <qualifiedname>MockContinuousQueryEngine::Config::checkpoint_interval</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="45" column="16" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/query/test_continuous_query_hardening.cpp" line="41" column="5" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="41" bodyend="46"/>
+    <listofallmembers>
+      <member refid="struct_mock_continuous_query_engine_1_1_config_1a258acc29e686d746f8a73ccd7f9d9ca7" prot="public" virt="non-virtual"><scope>MockContinuousQueryEngine::Config</scope><name>checkpoint_interval</name></member>
+      <member refid="struct_mock_continuous_query_engine_1_1_config_1ab76fef9dec7ebab21452e8c067c4de4e" prot="public" virt="non-virtual"><scope>MockContinuousQueryEngine::Config</scope><name>enable_backpressure</name></member>
+      <member refid="struct_mock_continuous_query_engine_1_1_config_1a232225d927e47661e8cf9914086a598c" prot="public" virt="non-virtual"><scope>MockContinuousQueryEngine::Config</scope><name>enable_persistence</name></member>
+      <member refid="struct_mock_continuous_query_engine_1_1_config_1a1b0e8e617b01bec394da838ae009c3b4" prot="public" virt="non-virtual"><scope>MockContinuousQueryEngine::Config</scope><name>max_queue_depth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

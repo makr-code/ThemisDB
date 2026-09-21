@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_geo_kernel_params" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::GeoKernelParams</compoundname>
+    <includes refid="kernel__invocation_8h" local="no">kernel_invocation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_geo_kernel_params_1a3f676753a52a41b1287152c3f21174c2" prot="public" static="no" mutable="no">
+        <type>const double *</type>
+        <definition>const double* themis::acceleration::GeoKernelParams::latitudes1</definition>
+        <argsstring></argsstring>
+        <name>latitudes1</name>
+        <qualifiedname>themis::acceleration::GeoKernelParams::latitudes1</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>First latitudes [count]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="106" column="23" bodyfile="include/acceleration/kernel_invocation.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_geo_kernel_params_1a7d13c54a6805ebab96f27c82944c698f" prot="public" static="no" mutable="no">
+        <type>const double *</type>
+        <definition>const double* themis::acceleration::GeoKernelParams::longitudes1</definition>
+        <argsstring></argsstring>
+        <name>longitudes1</name>
+        <qualifiedname>themis::acceleration::GeoKernelParams::longitudes1</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>First longitudes [count]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="107" column="23" bodyfile="include/acceleration/kernel_invocation.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_geo_kernel_params_1a4021723dd4f7a4b45988964e2ed233e7" prot="public" static="no" mutable="no">
+        <type>const double *</type>
+        <definition>const double* themis::acceleration::GeoKernelParams::latitudes2</definition>
+        <argsstring></argsstring>
+        <name>latitudes2</name>
+        <qualifiedname>themis::acceleration::GeoKernelParams::latitudes2</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Second latitudes [count]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="108" column="23" bodyfile="include/acceleration/kernel_invocation.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_geo_kernel_params_1a2f4f32f0565c3c655a9200d5003f1333" prot="public" static="no" mutable="no">
+        <type>const double *</type>
+        <definition>const double* themis::acceleration::GeoKernelParams::longitudes2</definition>
+        <argsstring></argsstring>
+        <name>longitudes2</name>
+        <qualifiedname>themis::acceleration::GeoKernelParams::longitudes2</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Second longitudes [count]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="109" column="23" bodyfile="include/acceleration/kernel_invocation.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_geo_kernel_params_1afdd8ce7efe8429077c0d67140c19aed8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::GeoKernelParams::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::acceleration::GeoKernelParams::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of point pairs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="110" column="24" bodyfile="include/acceleration/kernel_invocation.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_geo_kernel_params_1aa4232ab87e53ba8cbceb7ceae5a442cb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1ad9eabbc5644f0e13cb01dce2e86e6cd8" kindref="member">GeoDistanceFormula</ref></type>
+        <definition>GeoDistanceFormula themis::acceleration::GeoKernelParams::formula</definition>
+        <argsstring></argsstring>
+        <name>formula</name>
+        <qualifiedname>themis::acceleration::GeoKernelParams::formula</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1ad9eabbc5644f0e13cb01dce2e86e6cd8a81c921de8f8e0770b86be8ad22767827" kindref="member">GeoDistanceFormula::HAVERSINE</ref></initializer>
+        <briefdescription>
+<para>Distance formula. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="111" column="24" bodyfile="include/acceleration/kernel_invocation.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes the input shape and formula for a batch-distance kernel call. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/kernel_invocation.h" line="105" column="1" bodyfile="include/acceleration/kernel_invocation.h" bodystart="105" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1afdd8ce7efe8429077c0d67140c19aed8" prot="public" virt="non-virtual"><scope>themis::acceleration::GeoKernelParams</scope><name>count</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1aa4232ab87e53ba8cbceb7ceae5a442cb" prot="public" virt="non-virtual"><scope>themis::acceleration::GeoKernelParams</scope><name>formula</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1a3f676753a52a41b1287152c3f21174c2" prot="public" virt="non-virtual"><scope>themis::acceleration::GeoKernelParams</scope><name>latitudes1</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1a4021723dd4f7a4b45988964e2ed233e7" prot="public" virt="non-virtual"><scope>themis::acceleration::GeoKernelParams</scope><name>latitudes2</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1a7d13c54a6805ebab96f27c82944c698f" prot="public" virt="non-virtual"><scope>themis::acceleration::GeoKernelParams</scope><name>longitudes1</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_geo_kernel_params_1a2f4f32f0565c3c655a9200d5003f1333" prot="public" virt="non-virtual"><scope>themis::acceleration::GeoKernelParams</scope><name>longitudes2</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

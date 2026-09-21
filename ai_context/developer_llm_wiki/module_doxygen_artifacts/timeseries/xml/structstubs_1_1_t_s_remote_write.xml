@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstubs_1_1_t_s_remote_write" kind="struct" language="C++" prot="public">
+    <compoundname>stubs::TSRemoteWrite</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstubs_1_1_t_s_remote_write_1a4aa0586275882f7edceb85d4ffdb95db" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::TSRemoteWrite::sent</definition>
+        <argsstring></argsstring>
+        <name>sent</name>
+        <qualifiedname>stubs::TSRemoteWrite::sent</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" line="50" column="17" bodyfile="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" bodystart="50" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstubs_1_1_t_s_remote_write_1aac18b3da3d2c86e325a11e0c660d1d2b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::TSRemoteWrite::write</definition>
+        <argsstring>(uint64_t batch_id, int batch_size)</argsstring>
+        <name>write</name>
+        <qualifiedname>stubs::TSRemoteWrite::write</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>batch_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>batch_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" line="51" column="10" bodyfile="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" bodystart="51" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" line="49" column="1" bodyfile="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" bodystart="49" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structstubs_1_1_t_s_remote_write_1a4aa0586275882f7edceb85d4ffdb95db" prot="public" virt="non-virtual"><scope>stubs::TSRemoteWrite</scope><name>sent</name></member>
+      <member refid="structstubs_1_1_t_s_remote_write_1aac18b3da3d2c86e325a11e0c660d1d2b" prot="public" virt="non-virtual"><scope>stubs::TSRemoteWrite</scope><name>write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

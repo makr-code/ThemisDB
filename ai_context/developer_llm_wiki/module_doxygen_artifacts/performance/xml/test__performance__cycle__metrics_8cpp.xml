@@ -1,0 +1,553 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__performance__cycle__metrics_8cpp" kind="file" language="C++">
+    <compoundname>test_performance_cycle_metrics.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="cycle__metrics_8h" local="yes">performance/cycle_metrics.h</includes>
+    <includes refid="lockfree__metrics__buffer_8h" local="yes">performance/lockfree_metrics_buffer.h</includes>
+    <includes local="no">boost/throw_exception.hpp</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>performance/cycle_metrics.h</label>
+        <link refid="cycle__metrics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>performance/lockfree_metrics_buffer.h</label>
+        <link refid="lockfree__metrics__buffer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/performance/test_performance_cycle_metrics.cpp</label>
+        <link refid="test__performance__cycle__metrics_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>array</label>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="13">
+        <label>boost/throw_exception.hpp</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="14">
+        <label>stdexcept</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>thread</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__performance__cycle__metrics_8cpp_1a4698c0d1b045d90e65333d5803d3259a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HardwareCycleCounterTest, CpuCycles_IsNonZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HardwareCycleCounterTest</type>
+        </param>
+        <param>
+          <type>CpuCycles_IsNonZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_cycle_metrics.cpp" line="35" column="1" bodyfile="tests/performance/test_performance_cycle_metrics.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__cycle__metrics_8cpp_1ab2d723fa90afd1e4585e870b67ce21ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HardwareCycleCounterTest, CpuCycles_IsMonotonicallyIncreasing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HardwareCycleCounterTest</type>
+        </param>
+        <param>
+          <type>CpuCycles_IsMonotonicallyIncreasing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_cycle_metrics.cpp" line="40" column="1" bodyfile="tests/performance/test_performance_cycle_metrics.cpp" bodystart="40" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__cycle__metrics_8cpp_1a1b7d98298aef892884a316784cc8f4a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HardwareCycleCounterTest, Rdtscp_IsNonZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HardwareCycleCounterTest</type>
+        </param>
+        <param>
+          <type>Rdtscp_IsNonZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_cycle_metrics.cpp" line="52" column="1" bodyfile="tests/performance/test_performance_cycle_metrics.cpp" bodystart="52" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__cycle__metrics_8cpp_1a4919a1858957312bd80d5a651cf4a1c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HardwareCycleCounterTest, CpuFrequency_IsPositive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HardwareCycleCounterTest</type>
+        </param>
+        <param>
+          <type>CpuFrequency_IsPositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_cycle_metrics.cpp" line="57" column="1" bodyfile="tests/performance/test_performance_cycle_metrics.cpp" bodystart="57" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__cycle__metrics_8cpp_1a15312e3341f3572d729bd7d610e88eb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HardwareCycleCounterTest, CpuCycles_IncreasesOverTime)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HardwareCycleCounterTest</type>
+        </param>
+        <param>
+          <type>CpuCycles_IncreasesOverTime</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_cycle_metrics.cpp" line="62" column="1" bodyfile="tests/performance/test_performance_cycle_metrics.cpp" bodystart="62" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__cycle__metrics_8cpp_1ad406c0b0e166896da7a3b2c94b2e1e77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CycleTimerTest, MeasuresElapsedCycles)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CycleTimerTest</type>
+        </param>
+        <param>
+          <type>MeasuresElapsedCycles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_cycle_metrics.cpp" line="91" column="1" bodyfile="tests/performance/test_performance_cycle_metrics.cpp" bodystart="91" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__cycle__metrics_8cpp_1a6f16c8b7e434eed821c5c58c57c58705" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CycleTimerTest, DestructorWritesOnlyOnce)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CycleTimerTest</type>
+        </param>
+        <param>
+          <type>DestructorWritesOnlyOnce</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_cycle_metrics.cpp" line="105" column="1" bodyfile="tests/performance/test_performance_cycle_metrics.cpp" bodystart="105" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__cycle__metrics_8cpp_1a7bd46e2eb75c9ab7750c20cfc2d87896" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OperationCycleMetricsTest, DefaultValues_AreZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OperationCycleMetricsTest</type>
+        </param>
+        <param>
+          <type>DefaultValues_AreZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_cycle_metrics.cpp" line="120" column="1" bodyfile="tests/performance/test_performance_cycle_metrics.cpp" bodystart="120" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__cycle__metrics_8cpp_1ac83c66be44e0bc81c3f25132d7098c6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OperationCycleMetricsTest, FieldAssignment)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OperationCycleMetricsTest</type>
+        </param>
+        <param>
+          <type>FieldAssignment</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_cycle_metrics.cpp" line="128" column="1" bodyfile="tests/performance/test_performance_cycle_metrics.cpp" bodystart="128" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__cycle__metrics_8cpp_1a5612b34a47462ea16765f15a90edb5b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetricsEntryTest, Construction_DefaultValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetricsEntryTest</type>
+        </param>
+        <param>
+          <type>Construction_DefaultValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_cycle_metrics.cpp" line="143" column="1" bodyfile="tests/performance/test_performance_cycle_metrics.cpp" bodystart="143" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__cycle__metrics_8cpp_1aafc957d72df4e9e1f6fef1011dafdaac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetricsEntryTest, FieldAssignment)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetricsEntryTest</type>
+        </param>
+        <param>
+          <type>FieldAssignment</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_cycle_metrics.cpp" line="149" column="1" bodyfile="tests/performance/test_performance_cycle_metrics.cpp" bodystart="149" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__cycle__metrics_8cpp_1ac9d66bb02fe432987c175967c37e891e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BoostThrowExceptionTest, ThrowsStdException)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BoostThrowExceptionTest</type>
+        </param>
+        <param>
+          <type>ThrowsStdException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_cycle_metrics.cpp" line="166" column="1" bodyfile="tests/performance/test_performance_cycle_metrics.cpp" bodystart="166" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__cycle__metrics_8cpp_1aa8ff3bc07d64917eca5971aa0fd83696" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BoostThrowExceptionTest, ThrownExceptionHasCorrectMessage)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BoostThrowExceptionTest</type>
+        </param>
+        <param>
+          <type>ThrownExceptionHasCorrectMessage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_cycle_metrics.cpp" line="173" column="1" bodyfile="tests/performance/test_performance_cycle_metrics.cpp" bodystart="173" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__cycle__metrics_8cpp_1acbc9df6617b8604036920372adff15b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BoostThrowExceptionTest, ThrowsLogicError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BoostThrowExceptionTest</type>
+        </param>
+        <param>
+          <type>ThrowsLogicError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_cycle_metrics.cpp" line="182" column="1" bodyfile="tests/performance/test_performance_cycle_metrics.cpp" bodystart="182" bodyend="187"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tests for the performance cycle metrics module that is covered by <ref refid="async__metrics__exporter_8cpp" kindref="compound">async_metrics_exporter.cpp</ref>, <ref refid="chimera__exporter_8cpp" kindref="compound">chimera_exporter.cpp</ref>, and <ref refid="prometheus__exporter_8cpp" kindref="compound">prometheus_exporter.cpp</ref> (all of which extend <ref refid="classthemis_1_1performance_1_1_cycle_metrics_collector" kindref="compound">CycleMetricsCollector</ref>). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The three exporter classes (<ref refid="classthemis_1_1performance_1_1_c_h_i_m_e_r_a_exporter" kindref="compound">CHIMERAExporter</ref>, <ref refid="classthemis_1_1performance_1_1_prometheus_exporter" kindref="compound">PrometheusExporter</ref>, <ref refid="classthemis_1_1performance_1_1_async_metrics_exporter" kindref="compound">AsyncMetricsExporter</ref>) are implementation-only (defined inside .cpp files with no public headers). Their production logic is exercised here through the public header API:</para>
+<para><itemizedlist>
+<listitem><para><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter" kindref="compound">HardwareCycleCounter</ref>: cpu_cycles(), rdtscp(), now_ns()</para>
+</listitem><listitem><para>CycleTimer RAII guard</para>
+</listitem><listitem><para><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics" kindref="compound">OperationCycleMetrics</ref>: field access, default values</para>
+</listitem><listitem><para><ref refid="structthemis_1_1performance_1_1_metrics_entry" kindref="compound">MetricsEntry</ref> (from <ref refid="lockfree__metrics__buffer_8h" kindref="compound">lockfree_metrics_buffer.h</ref>): construction</para>
+</listitem></itemizedlist>
+</para>
+<para>Additionally covers <computeroutput>utils/boost_throw_exception.cpp</computeroutput> by verifying that <computeroutput>boost::throw_exception()</computeroutput> correctly propagates a <computeroutput>std::exception</computeroutput>. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cycle__metrics_8h" kindref="compound">performance/cycle_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lockfree__metrics__buffer_8h" kindref="compound">performance/lockfree_metrics_buffer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/throw_exception.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">themis::performance</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HardwareCycleCounter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__performance__cycle__metrics_8cpp_1a4698c0d1b045d90e65333d5803d3259a" kindref="member">TEST</ref>(HardwareCycleCounterTest,<sp/>CpuCycles_IsNonZero)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>cycles<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1acd0718563b6df51d492083289737808a" kindref="member">HardwareCycleCounter::cpu_cycles</ref>();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cycles,<sp/>0u);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><ref refid="test__performance__cycle__metrics_8cpp_1a4698c0d1b045d90e65333d5803d3259a" kindref="member">TEST</ref>(HardwareCycleCounterTest,<sp/>CpuCycles_IsMonotonicallyIncreasing)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>c1<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1acd0718563b6df51d492083289737808a" kindref="member">HardwareCycleCounter::cpu_cycles</ref>();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Spin<sp/>briefly<sp/>to<sp/>advance<sp/>the<sp/>counter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/>uint64_t<sp/>sum<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>1000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>sum<sp/>+=<sp/>i;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)sum;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>c2<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1acd0718563b6df51d492083289737808a" kindref="member">HardwareCycleCounter::cpu_cycles</ref>();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(c2,<sp/>c1);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="test__performance__cycle__metrics_8cpp_1a4698c0d1b045d90e65333d5803d3259a" kindref="member">TEST</ref>(HardwareCycleCounterTest,<sp/>Rdtscp_IsNonZero)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>cycles<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1a5136a8e4aca5d9e101c86b7a3fe2b8c9" kindref="member">HardwareCycleCounter::rdtscp</ref>();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cycles,<sp/>0u);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__performance__cycle__metrics_8cpp_1a4698c0d1b045d90e65333d5803d3259a" kindref="member">TEST</ref>(HardwareCycleCounterTest,<sp/>CpuFrequency_IsPositive)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>freq<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1a108c9eefbcca61eda1b01905ac365c8b" kindref="member">HardwareCycleCounter::cpu_frequency_hz</ref>();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(freq,<sp/>0u);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__performance__cycle__metrics_8cpp_1a4698c0d1b045d90e65333d5803d3259a" kindref="member">TEST</ref>(HardwareCycleCounterTest,<sp/>CpuCycles_IncreasesOverTime)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>c1<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1acd0718563b6df51d492083289737808a" kindref="member">HardwareCycleCounter::cpu_cycles</ref>();</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(1));</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>c2<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1acd0718563b6df51d492083289737808a" kindref="member">HardwareCycleCounter::cpu_cycles</ref>();</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(c2,<sp/>c1);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_GPU_CYCLE_METRICS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__performance__cycle__metrics_8cpp_1a4698c0d1b045d90e65333d5803d3259a" kindref="member">TEST</ref>(HardwareCycleCounterTest,<sp/>GpuCycleCallbacks_AreUsedOnStubPath)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>HardwareCycleCounter::setGpuCyclesStartFn([]()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0x1234);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>HardwareCycleCounter::setGpuCyclesEndFn([](</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>event)<sp/>-&gt;<sp/>uint64_t<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal"><sp/>?<sp/>4242u<sp/>:<sp/>0u;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>evt<sp/>=<sp/>HardwareCycleCounter::gpu_cycles_start();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(evt,<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0x1234));</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(HardwareCycleCounter::gpu_cycles_end(evt),<sp/>4242u);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>HardwareCycleCounter::setGpuCyclesStartFn({});</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>HardwareCycleCounter::setGpuCyclesEndFn({});</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CycleTimer<sp/>RAII<sp/>guard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__performance__cycle__metrics_8cpp_1a4698c0d1b045d90e65333d5803d3259a" kindref="member">TEST</ref>(CycleTimerTest,<sp/>MeasuresElapsedCycles)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>elapsed<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_scoped_cycle_timer" kindref="compound">ScopedCycleTimer</ref><sp/>timer(&amp;elapsed);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Do<sp/>some<sp/>work<sp/>so<sp/>the<sp/>counter<sp/>advances</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/>uint64_t<sp/>sum<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sum<sp/>+=<sp/>i;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)sum;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="comment">//<sp/>destructor<sp/>writes<sp/>elapsed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(elapsed,<sp/>0u);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__performance__cycle__metrics_8cpp_1a4698c0d1b045d90e65333d5803d3259a" kindref="member">TEST</ref>(CycleTimerTest,<sp/>DestructorWritesOnlyOnce)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>elapsed<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_scoped_cycle_timer" kindref="compound">ScopedCycleTimer</ref><sp/>t(&amp;elapsed);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)t;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>first_value<sp/>=<sp/>elapsed;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Value<sp/>should<sp/>not<sp/>change<sp/>after<sp/>timer<sp/>has<sp/>been<sp/>destroyed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(elapsed,<sp/>first_value);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OperationCycleMetrics<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__performance__cycle__metrics_8cpp_1a4698c0d1b045d90e65333d5803d3259a" kindref="member">TEST</ref>(OperationCycleMetricsTest,<sp/>DefaultValues_AreZero)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics" kindref="compound">OperationCycleMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a5312e94dc3065af443a3a9341e7d6b83" kindref="member">hnsw_search_cycles</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a71ebc08687e57efd5ad39d8bcb761b00" kindref="member">pointer_passing_cycles</ref>,<sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a3d823b1b1d0e17fde0ad27326a68b59c" kindref="member">llm_inference_cycles</ref>,<sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1afa8efdc98a9b96a9a19a37587607dc7a" kindref="member">l1_cache_cycles</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="test__performance__cycle__metrics_8cpp_1a4698c0d1b045d90e65333d5803d3259a" kindref="member">TEST</ref>(OperationCycleMetricsTest,<sp/>FieldAssignment)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics" kindref="compound">OperationCycleMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a5312e94dc3065af443a3a9341e7d6b83" kindref="member">hnsw_search_cycles</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1234;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a71ebc08687e57efd5ad39d8bcb761b00" kindref="member">pointer_passing_cycles</ref><sp/>=<sp/>56;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a3d823b1b1d0e17fde0ad27326a68b59c" kindref="member">llm_inference_cycles</ref><sp/><sp/><sp/>=<sp/>789;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a5312e94dc3065af443a3a9341e7d6b83" kindref="member">hnsw_search_cycles</ref>,<sp/><sp/><sp/><sp/><sp/>1234u);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a71ebc08687e57efd5ad39d8bcb761b00" kindref="member">pointer_passing_cycles</ref>,<sp/><sp/><sp/>56u);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a3d823b1b1d0e17fde0ad27326a68b59c" kindref="member">llm_inference_cycles</ref>,<sp/><sp/><sp/><sp/>789u);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MetricsEntry<sp/>(bridges<sp/>to<sp/>CHIMERAExporter<sp/>/<sp/>PrometheusExporter)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="test__performance__cycle__metrics_8cpp_1a4698c0d1b045d90e65333d5803d3259a" kindref="member">TEST</ref>(MetricsEntryTest,<sp/>Construction_DefaultValues)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_metrics_entry" kindref="compound">MetricsEntry</ref><sp/>entry;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(entry.<ref refid="structthemis_1_1performance_1_1_metrics_entry_1a7749e9616f91bd8d49da65acec7059b3" kindref="member">operation_name</ref>.empty());</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry.<ref refid="structthemis_1_1performance_1_1_metrics_entry_1abdbd7ab90074359313034b3a11d6ed13" kindref="member">metrics</ref>.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a5312e94dc3065af443a3a9341e7d6b83" kindref="member">hnsw_search_cycles</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="test__performance__cycle__metrics_8cpp_1a4698c0d1b045d90e65333d5803d3259a" kindref="member">TEST</ref>(MetricsEntryTest,<sp/>FieldAssignment)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_metrics_entry" kindref="compound">MetricsEntry</ref><sp/>entry;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1performance_1_1_metrics_entry_1a7749e9616f91bd8d49da65acec7059b3" kindref="member">operation_name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_op&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1performance_1_1_metrics_entry_1abdbd7ab90074359313034b3a11d6ed13" kindref="member">metrics</ref>.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a5312e94dc3065af443a3a9341e7d6b83" kindref="member">hnsw_search_cycles</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>9999;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1performance_1_1_metrics_entry_1abdbd7ab90074359313034b3a11d6ed13" kindref="member">metrics</ref>.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a71ebc08687e57efd5ad39d8bcb761b00" kindref="member">pointer_passing_cycles</ref><sp/>=<sp/>123;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1performance_1_1_metrics_entry_1a86b5cdd6f35e7ca159f5e6b92ce126ea" kindref="member">timestamp</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>42000;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry.<ref refid="structthemis_1_1performance_1_1_metrics_entry_1a7749e9616f91bd8d49da65acec7059b3" kindref="member">operation_name</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test_op&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry.<ref refid="structthemis_1_1performance_1_1_metrics_entry_1abdbd7ab90074359313034b3a11d6ed13" kindref="member">metrics</ref>.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a5312e94dc3065af443a3a9341e7d6b83" kindref="member">hnsw_search_cycles</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>9999u);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry.<ref refid="structthemis_1_1performance_1_1_metrics_entry_1abdbd7ab90074359313034b3a11d6ed13" kindref="member">metrics</ref>.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a71ebc08687e57efd5ad39d8bcb761b00" kindref="member">pointer_passing_cycles</ref>,<sp/><sp/><sp/><sp/>123u);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry.<ref refid="structthemis_1_1performance_1_1_metrics_entry_1a86b5cdd6f35e7ca159f5e6b92ce126ea" kindref="member">timestamp</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>42000u);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>boost::throw_exception<sp/>(utils/boost_throw_exception.cpp)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="test__performance__cycle__metrics_8cpp_1a4698c0d1b045d90e65333d5803d3259a" kindref="member">TEST</ref>(BoostThrowExceptionTest,<sp/>ThrowsStdException)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>boost::throw_exception(std::runtime_error(</highlight><highlight class="stringliteral">&quot;test<sp/>error&quot;</highlight><highlight class="normal">)),</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::runtime_error</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="test__performance__cycle__metrics_8cpp_1a4698c0d1b045d90e65333d5803d3259a" kindref="member">TEST</ref>(BoostThrowExceptionTest,<sp/>ThrownExceptionHasCorrectMessage)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>boost::throw_exception(std::runtime_error(</highlight><highlight class="stringliteral">&quot;boom&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>exception<sp/>not<sp/>thrown&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::runtime_error&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_STREQ(e.what(),<sp/></highlight><highlight class="stringliteral">&quot;boom&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__performance__cycle__metrics_8cpp_1a4698c0d1b045d90e65333d5803d3259a" kindref="member">TEST</ref>(BoostThrowExceptionTest,<sp/>ThrowsLogicError)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>boost::throw_exception(std::logic_error(</highlight><highlight class="stringliteral">&quot;bad<sp/>state&quot;</highlight><highlight class="normal">)),</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::logic_error</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/performance/test_performance_cycle_metrics.cpp"/>
+  </compounddef>
+</doxygen>

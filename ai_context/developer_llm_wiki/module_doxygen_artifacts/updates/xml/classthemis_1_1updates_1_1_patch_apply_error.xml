@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_patch_apply_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::PatchApplyError</compoundname>
+    <basecompoundref refid="classthemis_1_1updates_1_1_update_incident" prot="public" virt="non-virtual">themis::updates::UpdateIncident</basecompoundref>
+    <includes refid="updates__diagnostics_8h" local="no">updates_diagnostics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_patch_apply_error_1a8ea1cd1c342bff9f7537dafe4e757361" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref></type>
+        <definition>DiagnosticErrorCode themis::updates::PatchApplyError::error_code_</definition>
+        <argsstring></argsstring>
+        <name>error_code_</name>
+        <qualifiedname>themis::updates::PatchApplyError::error_code_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="334" column="25" bodyfile="include/updates/updates_diagnostics.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_patch_apply_error_1a553b5213e5b21b6e1005752cab436204" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::PatchApplyError::patch_id_</definition>
+        <argsstring></argsstring>
+        <name>patch_id_</name>
+        <qualifiedname>themis::updates::PatchApplyError::patch_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="335" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_patch_apply_error_1a2d846dd1ada5f7c4d0fd27a976be7781" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::PatchApplyError::base_version_</definition>
+        <argsstring></argsstring>
+        <name>base_version_</name>
+        <qualifiedname>themis::updates::PatchApplyError::base_version_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="336" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_patch_apply_error_1a376a29198d519bf7274b30409f497207" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::PatchApplyError::target_version_</definition>
+        <argsstring></argsstring>
+        <name>target_version_</name>
+        <qualifiedname>themis::updates::PatchApplyError::target_version_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="337" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_patch_apply_error_1a60b7a13304e333972905f288b54d90d9" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::PatchApplyError::reason_</definition>
+        <argsstring></argsstring>
+        <name>reason_</name>
+        <qualifiedname>themis::updates::PatchApplyError::reason_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="338" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="338" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_patch_apply_error_1aae3b94a6f165a16a5c894daa5d62d2bb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::PatchApplyError::PatchApplyError</definition>
+        <argsstring>(DiagnosticErrorCode code, std::string patch_id, std::string base_version, std::string target_version, std::string reason)</argsstring>
+        <name>PatchApplyError</name>
+        <qualifiedname>themis::updates::PatchApplyError::PatchApplyError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>patch_id</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>base_version</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>target_version</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="341" column="5" bodyfile="include/updates/updates_diagnostics.h" bodystart="341" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_patch_apply_error_1a1a3d7e31f032e47e251010392b932af3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref></type>
+        <definition>DiagnosticErrorCode themis::updates::PatchApplyError::errorCode</definition>
+        <argsstring>() const override</argsstring>
+        <name>errorCode</name>
+        <qualifiedname>themis::updates::PatchApplyError::errorCode</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1a4393ffce81ca6200cc85e05c04470786">errorCode</reimplements>
+        <briefdescription>
+<para>Get the primary error code. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="351" column="25" bodyfile="include/updates/updates_diagnostics.h" bodystart="351" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_patch_apply_error_1a63067b4be1f2798a07fd19293e1bb2b3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1updates_1af6168213612402069ae83cc1231c7a7a" kindref="member">RootCauseClass</ref></type>
+        <definition>RootCauseClass themis::updates::PatchApplyError::rootCause</definition>
+        <argsstring>() const override</argsstring>
+        <name>rootCause</name>
+        <qualifiedname>themis::updates::PatchApplyError::rootCause</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1ad365305eb6fb912f5167d4ff33f20814">rootCause</reimplements>
+        <briefdescription>
+<para>Get the root cause. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="352" column="20" bodyfile="include/updates/updates_diagnostics.h" bodystart="352" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_patch_apply_error_1ab09de5a694a255006b8e860bc0da09ad" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57d" kindref="member">DiagnosticSeverity</ref></type>
+        <definition>DiagnosticSeverity themis::updates::PatchApplyError::severity</definition>
+        <argsstring>() const override</argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::updates::PatchApplyError::severity</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1ac10ab2dbbe11b905a6868ee61a68524a">severity</reimplements>
+        <briefdescription>
+<para>Get the severity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="353" column="24" bodyfile="include/updates/updates_diagnostics.h" bodystart="353" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_patch_apply_error_1afb99208ec34b9f39e13ca87e94388953" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::PatchApplyError::message</definition>
+        <argsstring>() const override</argsstring>
+        <name>message</name>
+        <qualifiedname>themis::updates::PatchApplyError::message</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1a02ca63e45939a24aad69384110833676">message</reimplements>
+        <briefdescription>
+<para>Get human-readable message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="354" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="354" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_patch_apply_error_1a370700e125aaed6998575e4bfec91805" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::PatchApplyError::operationContext</definition>
+        <argsstring>() const override</argsstring>
+        <name>operationContext</name>
+        <qualifiedname>themis::updates::PatchApplyError::operationContext</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1aec14a3dd0a687ecd8ddfe7f030c32599">operationContext</reimplements>
+        <briefdescription>
+<para>Get operation context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="355" column="17" bodyfile="include/updates/updates_diagnostics.h" bodystart="355" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_patch_apply_error_1a6be730bebaada0343e15c5650b41168e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref></type>
+        <definition>json themis::updates::PatchApplyError::toJson</definition>
+        <argsstring>() const override</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::updates::PatchApplyError::toJson</qualifiedname>
+        <reimplements refid="classthemis_1_1updates_1_1_update_incident_1a2d00f3951ecee42abad5b1c0389416e2">toJson</reimplements>
+        <briefdescription>
+<para>Convert to structured JSON for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="356" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Patch application error - delta/patch processing failures. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers checksum mismatches, incompatibilities, corruption, and timeouts. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::updates::PatchApplyError</label>
+        <link refid="classthemis_1_1updates_1_1_patch_apply_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::updates::UpdateIncident</label>
+        <link refid="classthemis_1_1updates_1_1_update_incident"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::updates::PatchApplyError</label>
+        <link refid="classthemis_1_1updates_1_1_patch_apply_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::updates::UpdateIncident</label>
+        <link refid="classthemis_1_1updates_1_1_update_incident"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/updates/updates_diagnostics.h" line="332" column="1" bodyfile="include/updates/updates_diagnostics.h" bodystart="332" bodyend="357"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_patch_apply_error_1a2d846dd1ada5f7c4d0fd27a976be7781" prot="private" virt="non-virtual"><scope>themis::updates::PatchApplyError</scope><name>base_version_</name></member>
+      <member refid="classthemis_1_1updates_1_1_patch_apply_error_1a8ea1cd1c342bff9f7537dafe4e757361" prot="private" virt="non-virtual"><scope>themis::updates::PatchApplyError</scope><name>error_code_</name></member>
+      <member refid="classthemis_1_1updates_1_1_patch_apply_error_1a1a3d7e31f032e47e251010392b932af3" prot="public" virt="virtual"><scope>themis::updates::PatchApplyError</scope><name>errorCode</name></member>
+      <member refid="classthemis_1_1updates_1_1_patch_apply_error_1afb99208ec34b9f39e13ca87e94388953" prot="public" virt="virtual"><scope>themis::updates::PatchApplyError</scope><name>message</name></member>
+      <member refid="classthemis_1_1updates_1_1_patch_apply_error_1a370700e125aaed6998575e4bfec91805" prot="public" virt="virtual"><scope>themis::updates::PatchApplyError</scope><name>operationContext</name></member>
+      <member refid="classthemis_1_1updates_1_1_patch_apply_error_1a553b5213e5b21b6e1005752cab436204" prot="private" virt="non-virtual"><scope>themis::updates::PatchApplyError</scope><name>patch_id_</name></member>
+      <member refid="classthemis_1_1updates_1_1_patch_apply_error_1aae3b94a6f165a16a5c894daa5d62d2bb" prot="public" virt="non-virtual"><scope>themis::updates::PatchApplyError</scope><name>PatchApplyError</name></member>
+      <member refid="classthemis_1_1updates_1_1_patch_apply_error_1a60b7a13304e333972905f288b54d90d9" prot="private" virt="non-virtual"><scope>themis::updates::PatchApplyError</scope><name>reason_</name></member>
+      <member refid="classthemis_1_1updates_1_1_patch_apply_error_1a63067b4be1f2798a07fd19293e1bb2b3" prot="public" virt="virtual"><scope>themis::updates::PatchApplyError</scope><name>rootCause</name></member>
+      <member refid="classthemis_1_1updates_1_1_patch_apply_error_1ab09de5a694a255006b8e860bc0da09ad" prot="public" virt="virtual"><scope>themis::updates::PatchApplyError</scope><name>severity</name></member>
+      <member refid="classthemis_1_1updates_1_1_patch_apply_error_1a376a29198d519bf7274b30409f497207" prot="private" virt="non-virtual"><scope>themis::updates::PatchApplyError</scope><name>target_version_</name></member>
+      <member refid="classthemis_1_1updates_1_1_patch_apply_error_1a6be730bebaada0343e15c5650b41168e" prot="public" virt="virtual"><scope>themis::updates::PatchApplyError</scope><name>toJson</name></member>
+      <member refid="classthemis_1_1updates_1_1_update_incident_1ab2f0f7a3da7b96172dc1864d79bafa04" prot="public" virt="virtual"><scope>themis::updates::PatchApplyError</scope><name>~UpdateIncident</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

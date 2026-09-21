@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_bench_peer_endpoint" kind="struct" language="C++" prot="public">
+    <compoundname>BenchPeerEndpoint</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_bench_peer_endpoint_1a7bb969ed9718a197ce0acb40092ab3ee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BenchPeerEndpoint::address</definition>
+        <argsstring></argsstring>
+        <name>address</name>
+        <qualifiedname>BenchPeerEndpoint::address</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_http3_gates.cpp" line="61" column="17" bodyfile="benchmarks/server/bench_server_http3_gates.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_bench_peer_endpoint_1a1863d9a1e31728ba65919cb91485a107" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t BenchPeerEndpoint::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>BenchPeerEndpoint::port</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_http3_gates.cpp" line="62" column="17" bodyfile="benchmarks/server/bench_server_http3_gates.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/server/bench_server_http3_gates.cpp" line="60" column="1" bodyfile="benchmarks/server/bench_server_http3_gates.cpp" bodystart="60" bodyend="63"/>
+    <listofallmembers>
+      <member refid="struct_bench_peer_endpoint_1a7bb969ed9718a197ce0acb40092ab3ee" prot="public" virt="non-virtual"><scope>BenchPeerEndpoint</scope><name>address</name></member>
+      <member refid="struct_bench_peer_endpoint_1a1863d9a1e31728ba65919cb91485a107" prot="public" virt="non-virtual"><scope>BenchPeerEndpoint</scope><name>port</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

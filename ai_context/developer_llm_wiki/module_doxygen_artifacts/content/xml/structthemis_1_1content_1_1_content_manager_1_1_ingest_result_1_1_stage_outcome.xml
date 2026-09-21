@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ContentManager::IngestResult::StageOutcome</compoundname>
+    <includes refid="content__manager_8h" local="no">content_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1a5cf8b23e1a22e3612d41c7b432e1d1b7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentManager::IngestResult::StageOutcome::stage_name</definition>
+        <argsstring></argsstring>
+        <name>stage_name</name>
+        <qualifiedname>themis::content::ContentManager::IngestResult::StageOutcome::stage_name</qualifiedname>
+        <briefdescription>
+<para>Name of the pipeline stage (e.g. &quot;extraction&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="189" column="25" bodyfile="include/content/content_manager.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1ad59a3751fbfe6598321d38fd77be8efe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentManager::IngestResult::StageOutcome::succeeded</definition>
+        <argsstring></argsstring>
+        <name>succeeded</name>
+        <qualifiedname>themis::content::ContentManager::IngestResult::StageOutcome::succeeded</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether the stage completed without error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="190" column="18" bodyfile="include/content/content_manager.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1ad4b3388e5047edb3c2f4f322c1ca1a00" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentManager::IngestResult::StageOutcome::skipped</definition>
+        <argsstring></argsstring>
+        <name>skipped</name>
+        <qualifiedname>themis::content::ContentManager::IngestResult::StageOutcome::skipped</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when continue_on_error was used and stage was degraded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="191" column="18" bodyfile="include/content/content_manager.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1aa1c1f51d27f155c1752004650ea2e830" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ContentManager::IngestResult::StageOutcome::attempts</definition>
+        <argsstring></argsstring>
+        <name>attempts</name>
+        <qualifiedname>themis::content::ContentManager::IngestResult::StageOutcome::attempts</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Total attempts made (1 = first try, no retries). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="192" column="17" bodyfile="include/content/content_manager.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1a8dee99b0fa96b51c893640c9dc9b8f52" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentManager::IngestResult::StageOutcome::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::content::ContentManager::IngestResult::StageOutcome::error_message</qualifiedname>
+        <briefdescription>
+<para>Error description (empty when succeeded). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="193" column="25" bodyfile="include/content/content_manager.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_manager.h" line="188" column="9" bodyfile="include/content/content_manager.h" bodystart="188" bodyend="194"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1aa1c1f51d27f155c1752004650ea2e830" prot="public" virt="non-virtual"><scope>themis::content::ContentManager::IngestResult::StageOutcome</scope><name>attempts</name></member>
+      <member refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1a8dee99b0fa96b51c893640c9dc9b8f52" prot="public" virt="non-virtual"><scope>themis::content::ContentManager::IngestResult::StageOutcome</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1ad4b3388e5047edb3c2f4f322c1ca1a00" prot="public" virt="non-virtual"><scope>themis::content::ContentManager::IngestResult::StageOutcome</scope><name>skipped</name></member>
+      <member refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1a5cf8b23e1a22e3612d41c7b432e1d1b7" prot="public" virt="non-virtual"><scope>themis::content::ContentManager::IngestResult::StageOutcome</scope><name>stage_name</name></member>
+      <member refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1ad59a3751fbfe6598321d38fd77be8efe" prot="public" virt="non-virtual"><scope>themis::content::ContentManager::IngestResult::StageOutcome</scope><name>succeeded</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

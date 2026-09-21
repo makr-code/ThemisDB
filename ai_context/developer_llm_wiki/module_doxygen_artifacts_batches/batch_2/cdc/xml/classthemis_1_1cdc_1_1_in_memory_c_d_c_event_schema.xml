@@ -1,0 +1,305 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::InMemoryCDCEventSchema</compoundname>
+    <basecompoundref refid="classthemis_1_1cdc_1_1_i_c_d_c_event_schema" prot="public" virt="non-virtual">themis::cdc::ICDCEventSchema</basecompoundref>
+    <includes refid="icdc__event__schema_8h" local="no">icdc_event_schema.h</includes>
+    <innerclass refid="structthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1_1_schema_entry" prot="private">themis::cdc::InMemoryCDCEventSchema::SchemaEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1aaa426f84a310d315d837341dfdd8dad6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cdc::InMemoryCDCEventSchema::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::cdc::InMemoryCDCEventSchema::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="252" column="24" bodyfile="include/cdc/icdc_event_schema.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1a1199f3364d2eb7e3e216e8b7d5d649e3" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_map&lt; int, SchemaEntry &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_map&lt;int, SchemaEntry&gt; &gt; themis::cdc::InMemoryCDCEventSchema::schemas_</definition>
+        <argsstring></argsstring>
+        <name>schemas_</name>
+        <qualifiedname>themis::cdc::InMemoryCDCEventSchema::schemas_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="255" column="2" bodyfile="include/cdc/icdc_event_schema.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1a4381e2d4229df86701b23ea9810671aa" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::cdc::InMemoryCDCEventSchema::latest_version_</definition>
+        <argsstring></argsstring>
+        <name>latest_version_</name>
+        <qualifiedname>themis::cdc::InMemoryCDCEventSchema::latest_version_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="257" column="24" bodyfile="include/cdc/icdc_event_schema.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1a0f5f26b0f134b56eeddd457f1847d07d" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_i_schema_evolution_callback" kindref="compound">ISchemaEvolutionCallback</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;ISchemaEvolutionCallback&gt; &gt; themis::cdc::InMemoryCDCEventSchema::callbacks_</definition>
+        <argsstring></argsstring>
+        <name>callbacks_</name>
+        <qualifiedname>themis::cdc::InMemoryCDCEventSchema::callbacks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="260" column="2" bodyfile="include/cdc/icdc_event_schema.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1a51b61fe7efa9cf8e39186096487d0e4f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::InMemoryCDCEventSchema::registerSchema</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;schema_def, SchemaFormat format, int version) override</argsstring>
+        <name>registerSchema</name>
+        <qualifiedname>themis::cdc::InMemoryCDCEventSchema::registerSchema</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_event_schema_1af919e8c4a44b0e4b88a5ab5eb89dcfb0">registerSchema</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_def</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3" kindref="member">SchemaFormat</ref></type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="156" column="10" bodyfile="include/cdc/icdc_event_schema.h" bodystart="156" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1ad0b0985384036ba5892d30c3e13ef992" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::InMemoryCDCEventSchema::getSchema</definition>
+        <argsstring>(const std::string &amp;collection, int version=-1) const override</argsstring>
+        <name>getSchema</name>
+        <qualifiedname>themis::cdc::InMemoryCDCEventSchema::getSchema</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_event_schema_1aef7d0cb9e4f0f78c8bd80602cfa256d9">getSchema</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>version</declname>
+          <defval>-1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="176" column="17" bodyfile="include/cdc/icdc_event_schema.h" bodystart="176" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1a20c77bf3f4ac2befc4f0d81fddb3ff7f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>int</type>
+        <definition>int themis::cdc::InMemoryCDCEventSchema::currentVersion</definition>
+        <argsstring>(const std::string &amp;collection) const override</argsstring>
+        <name>currentVersion</name>
+        <qualifiedname>themis::cdc::InMemoryCDCEventSchema::currentVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_event_schema_1ad673b5ecc86f4991e7eea4d311abc6cc">currentVersion</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="199" column="9" bodyfile="include/cdc/icdc_event_schema.h" bodystart="199" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1a8e7dbf2877bac40a2a17cd1b710e22fc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cdc::InMemoryCDCEventSchema::onSchemaEvolution</definition>
+        <argsstring>(const std::string &amp;collection, std::shared_ptr&lt; ISchemaEvolutionCallback &gt; callback) override</argsstring>
+        <name>onSchemaEvolution</name>
+        <qualifiedname>themis::cdc::InMemoryCDCEventSchema::onSchemaEvolution</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_event_schema_1aa5559a1dc081df3c062f9b68badf5864">onSchemaEvolution</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_i_schema_evolution_callback" kindref="compound">ISchemaEvolutionCallback</ref> &gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>On Schema Evolution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="210" column="10" bodyfile="include/cdc/icdc_event_schema.h" bodystart="210" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1aae368c502eeb7b8ee1116b40f83246a7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::InMemoryCDCEventSchema::triggerEvolution</definition>
+        <argsstring>(const SchemaEvolutionDescriptor &amp;descriptor) override</argsstring>
+        <name>triggerEvolution</name>
+        <qualifiedname>themis::cdc::InMemoryCDCEventSchema::triggerEvolution</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_event_schema_1af5db4d8eafa55d9cb04d086090e176e0">triggerEvolution</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor" kindref="compound">SchemaEvolutionDescriptor</ref> &amp;</type>
+          <declname>descriptor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="223" column="10" bodyfile="include/cdc/icdc_event_schema.h" bodystart="223" bodyend="244"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::cdc::ICDCEventSchema</label>
+        <link refid="classthemis_1_1cdc_1_1_i_c_d_c_event_schema"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::InMemoryCDCEventSchema</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::cdc::ICDCEventSchema</label>
+        <link refid="classthemis_1_1cdc_1_1_i_c_d_c_event_schema"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::InMemoryCDCEventSchema</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/icdc_event_schema.h" line="152" column="1" bodyfile="include/cdc/icdc_event_schema.h" bodystart="152" bodyend="261"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1a0f5f26b0f134b56eeddd457f1847d07d" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryCDCEventSchema</scope><name>callbacks_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1a20c77bf3f4ac2befc4f0d81fddb3ff7f" prot="public" virt="virtual"><scope>themis::cdc::InMemoryCDCEventSchema</scope><name>currentVersion</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1ad0b0985384036ba5892d30c3e13ef992" prot="public" virt="virtual"><scope>themis::cdc::InMemoryCDCEventSchema</scope><name>getSchema</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1a4381e2d4229df86701b23ea9810671aa" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryCDCEventSchema</scope><name>latest_version_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1aaa426f84a310d315d837341dfdd8dad6" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryCDCEventSchema</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1a8e7dbf2877bac40a2a17cd1b710e22fc" prot="public" virt="virtual"><scope>themis::cdc::InMemoryCDCEventSchema</scope><name>onSchemaEvolution</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1a51b61fe7efa9cf8e39186096487d0e4f" prot="public" virt="virtual"><scope>themis::cdc::InMemoryCDCEventSchema</scope><name>registerSchema</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1a1199f3364d2eb7e3e216e8b7d5d649e3" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryCDCEventSchema</scope><name>schemas_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1aae368c502eeb7b8ee1116b40f83246a7" prot="public" virt="virtual"><scope>themis::cdc::InMemoryCDCEventSchema</scope><name>triggerEvolution</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_event_schema_1a23ea0859f98917c2570c7e566443e5d1" prot="public" virt="virtual"><scope>themis::cdc::InMemoryCDCEventSchema</scope><name>~ICDCEventSchema</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

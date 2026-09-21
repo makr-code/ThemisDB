@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_input" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::adversarial::EvaluationInput</compoundname>
+    <includes refid="rag__judge_8h" local="no">rag_judge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_input_1a849582ad59a3799819474de93d26dc38" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::EvaluationInput::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationInput::query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="240" column="17" bodyfile="include/rag/rag_judge.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_input_1a815b2f596fd3f6be23dd6cc3261e5435" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;RetrievedDocument&gt; themis::rag::judge::EvaluationInput::documents</definition>
+        <argsstring></argsstring>
+        <name>documents</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationInput::documents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="241" column="17" bodyfile="include/rag/rag_judge.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_input_1a0ddb460259acfcbb554ba17511b16ba2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::EvaluationInput::generated_answer</definition>
+        <argsstring></argsstring>
+        <name>generated_answer</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationInput::generated_answer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="242" column="17" bodyfile="include/rag/rag_judge.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_input_1a558b76816c3395c101d6512c85e27e91" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::rag::judge::EvaluationInput::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationInput::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="243" column="24" bodyfile="include/rag/rag_judge.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_input_1a0433c781ee26ee76c71548aa8806ad98" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::EvaluationInput::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationInput::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Tenant identifier for cache isolation; empty means global/anonymous. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="244" column="17" bodyfile="include/rag/rag_judge.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Input for evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rag_judge.h" line="239" column="1" bodyfile="include/rag/rag_judge.h" bodystart="239" bodyend="245"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_input_1a815b2f596fd3f6be23dd6cc3261e5435" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationInput</scope><name>documents</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_input_1a0ddb460259acfcbb554ba17511b16ba2" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationInput</scope><name>generated_answer</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_input_1a558b76816c3395c101d6512c85e27e91" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationInput</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_input_1a849582ad59a3799819474de93d26dc38" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationInput</scope><name>query</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_input_1a0433c781ee26ee76c71548aa8806ad98" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationInput</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

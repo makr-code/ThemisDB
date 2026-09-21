@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1pitr_1_1_p_i_t_r_service_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::pitr::PITRServiceImpl</compoundname>
+    <includes refid="pitr__grpc__service_8h" local="no">pitr_grpc_service.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1pitr_1_1_p_i_t_r_service_impl_1afcc82d0ea6bd0451614c0d67d466e177" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; PITRManager &gt;</type>
+        <definition>std::shared_ptr&lt;PITRManager&gt; themis::pitr::PITRServiceImpl::pitr_manager_</definition>
+        <argsstring></argsstring>
+        <name>pitr_manager_</name>
+        <qualifiedname>themis::pitr::PITRServiceImpl::pitr_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_grpc_service.h" line="45" column="21" bodyfile="include/server/pitr_grpc_service.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1pitr_1_1_p_i_t_r_service_impl_1a5877599e597f83731543e20e022b1999" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; transaction::SnapshotManager &gt;</type>
+        <definition>std::shared_ptr&lt;transaction::SnapshotManager&gt; themis::pitr::PITRServiceImpl::snapshot_manager_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_manager_</name>
+        <qualifiedname>themis::pitr::PITRServiceImpl::snapshot_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_grpc_service.h" line="46" column="21" bodyfile="include/server/pitr_grpc_service.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1pitr_1_1_p_i_t_r_service_impl_1ac177dd881f85b2a7a609314cf300735e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::pitr::PITRServiceImpl::PITRServiceImpl</definition>
+        <argsstring>(std::shared_ptr&lt; PITRManager &gt; pitr_manager, std::shared_ptr&lt; transaction::SnapshotManager &gt; snapshot_manager)</argsstring>
+        <name>PITRServiceImpl</name>
+        <qualifiedname>themis::pitr::PITRServiceImpl::PITRServiceImpl</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; PITRManager &gt;</type>
+          <declname>pitr_manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; transaction::SnapshotManager &gt;</type>
+          <declname>snapshot_manager</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_grpc_service.h" line="31" column="5" bodyfile="src/server/pitr_grpc_service.cpp" bodystart="30" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1pitr_1_1_p_i_t_r_service_impl_1add9c160686b65e1b32f7ba6c3fe32d9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::pitr::PITRServiceImpl::~PITRServiceImpl</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PITRServiceImpl</name>
+        <qualifiedname>themis::pitr::PITRServiceImpl::~PITRServiceImpl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_grpc_service.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1pitr_1_1_p_i_t_r_service_impl_1ab3c7681e82e6aea5b880209cbcf1919e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::pitr::PITRServiceImpl::getServiceInstance</definition>
+        <argsstring>()</argsstring>
+        <name>getServiceInstance</name>
+        <qualifiedname>themis::pitr::PITRServiceImpl::getServiceInstance</qualifiedname>
+        <briefdescription>
+<para>Get Service Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_grpc_service.h" line="42" column="10" bodyfile="src/server/pitr_grpc_service.cpp" bodystart="51" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1pitr_1_1_p_i_t_r_service_impl_1a1dce0368d92ec61ce5f210da67a5e40d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::pitr::PITRServiceImpl::validateTagName</definition>
+        <argsstring>(const std::string &amp;tag_name)</argsstring>
+        <name>validateTagName</name>
+        <qualifiedname>themis::pitr::PITRServiceImpl::validateTagName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag_name</declname>
+        </param>
+        <briefdescription>
+<para>Validate Tag Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tag. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tag. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), length(), pattern(), std::regex_match(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_grpc_service.h" line="54" column="10" bodyfile="src/server/pitr_grpc_service.cpp" bodystart="64" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1pitr_1_1_p_i_t_r_service_impl_1ac5cbe06d00d1ac561a15dafdd626d13a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::pitr::PITRServiceImpl::validateDescription</definition>
+        <argsstring>(const std::string &amp;description)</argsstring>
+        <name>validateDescription</name>
+        <qualifiedname>themis::pitr::PITRServiceImpl::validateDescription</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+<para>Validate Description. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_grpc_service.h" line="60" column="10" bodyfile="src/server/pitr_grpc_service.cpp" bodystart="81" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/pitr_grpc_service.h" line="29" column="1" bodyfile="include/server/pitr_grpc_service.h" bodystart="29" bodyend="61"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1pitr_1_1_p_i_t_r_service_impl_1ab3c7681e82e6aea5b880209cbcf1919e" prot="public" virt="non-virtual"><scope>themis::pitr::PITRServiceImpl</scope><name>getServiceInstance</name></member>
+      <member refid="classthemis_1_1pitr_1_1_p_i_t_r_service_impl_1afcc82d0ea6bd0451614c0d67d466e177" prot="private" virt="non-virtual"><scope>themis::pitr::PITRServiceImpl</scope><name>pitr_manager_</name></member>
+      <member refid="classthemis_1_1pitr_1_1_p_i_t_r_service_impl_1ac177dd881f85b2a7a609314cf300735e" prot="public" virt="non-virtual"><scope>themis::pitr::PITRServiceImpl</scope><name>PITRServiceImpl</name></member>
+      <member refid="classthemis_1_1pitr_1_1_p_i_t_r_service_impl_1a5877599e597f83731543e20e022b1999" prot="private" virt="non-virtual"><scope>themis::pitr::PITRServiceImpl</scope><name>snapshot_manager_</name></member>
+      <member refid="classthemis_1_1pitr_1_1_p_i_t_r_service_impl_1ac5cbe06d00d1ac561a15dafdd626d13a" prot="private" virt="non-virtual"><scope>themis::pitr::PITRServiceImpl</scope><name>validateDescription</name></member>
+      <member refid="classthemis_1_1pitr_1_1_p_i_t_r_service_impl_1a1dce0368d92ec61ce5f210da67a5e40d" prot="private" virt="non-virtual"><scope>themis::pitr::PITRServiceImpl</scope><name>validateTagName</name></member>
+      <member refid="classthemis_1_1pitr_1_1_p_i_t_r_service_impl_1add9c160686b65e1b32f7ba6c3fe32d9d" prot="public" virt="non-virtual"><scope>themis::pitr::PITRServiceImpl</scope><name>~PITRServiceImpl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

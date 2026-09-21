@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_workflow_step" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::WorkflowStep</compoundname>
+    <includes refid="workflow__definition_8h" local="no">workflow_definition.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_workflow_step_1af4d992069fffc81eb6d0119dac9e2a7d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::WorkflowStep::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::llm::WorkflowStep::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="63" column="17" bodyfile="include/llm/workflow_definition.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_workflow_step_1ae145d7578a42ae291a1a874bfe8bd766" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::WorkflowStep::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::llm::WorkflowStep::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="65" column="17" bodyfile="include/llm/workflow_definition.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_workflow_step_1a439e3585bcaa4116fbe1e4401e1a3a81" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::WorkflowStep::prompt_template</definition>
+        <argsstring></argsstring>
+        <name>prompt_template</name>
+        <qualifiedname>themis::llm::WorkflowStep::prompt_template</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="67" column="17" bodyfile="include/llm/workflow_definition.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_workflow_step_1a6e7fd45fc9808987d9a966a3d6a955cd" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a82d95996aa65f57f864e26d44ba45796" kindref="member">WorkflowStepMode</ref></type>
+        <definition>WorkflowStepMode themis::llm::WorkflowStep::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::llm::WorkflowStep::mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1a82d95996aa65f57f864e26d44ba45796aa0b271a9d8aa8e7473922164d6a1c03c" kindref="member">WorkflowStepMode::Ask</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="69" column="22" bodyfile="include/llm/workflow_definition.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_workflow_step_1a35635f5c094a6f97707f6900d46221bd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::WorkflowStep::depends_on</definition>
+        <argsstring></argsstring>
+        <name>depends_on</name>
+        <qualifiedname>themis::llm::WorkflowStep::depends_on</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="71" column="17" bodyfile="include/llm/workflow_definition.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_workflow_step_1ab289d68dc54be097aa86f287f8c04c70" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::WorkflowStep::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::llm::WorkflowStep::max_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="73" column="9" bodyfile="include/llm/workflow_definition.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_workflow_step_1a900c38c70ab945773e38636eb7eb7516" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::WorkflowStep::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::llm::WorkflowStep::temperature</qualifiedname>
+        <initializer>= -1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="75" column="11" bodyfile="include/llm/workflow_definition.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_workflow_step_1acdbb3cc07a7d1bd8ac333fa055843de0" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &gt;</type>
+        <definition>std::optional&lt;json&gt; themis::llm::WorkflowStep::output_schema</definition>
+        <argsstring></argsstring>
+        <name>output_schema</name>
+        <qualifiedname>themis::llm::WorkflowStep::output_schema</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="77" column="19" bodyfile="include/llm/workflow_definition.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_workflow_step_1acc30ce2acb14350619672b8f5a20b7d4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::WorkflowStep::extensions</definition>
+        <argsstring></argsstring>
+        <name>extensions</name>
+        <qualifiedname>themis::llm::WorkflowStep::extensions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="79" column="10" bodyfile="include/llm/workflow_definition.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/workflow_definition.h" line="62" column="1" bodyfile="include/llm/workflow_definition.h" bodystart="62" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_workflow_step_1a35635f5c094a6f97707f6900d46221bd" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowStep</scope><name>depends_on</name></member>
+      <member refid="structthemis_1_1llm_1_1_workflow_step_1ae145d7578a42ae291a1a874bfe8bd766" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowStep</scope><name>description</name></member>
+      <member refid="structthemis_1_1llm_1_1_workflow_step_1acc30ce2acb14350619672b8f5a20b7d4" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowStep</scope><name>extensions</name></member>
+      <member refid="structthemis_1_1llm_1_1_workflow_step_1af4d992069fffc81eb6d0119dac9e2a7d" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowStep</scope><name>id</name></member>
+      <member refid="structthemis_1_1llm_1_1_workflow_step_1ab289d68dc54be097aa86f287f8c04c70" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowStep</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_workflow_step_1a6e7fd45fc9808987d9a966a3d6a955cd" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowStep</scope><name>mode</name></member>
+      <member refid="structthemis_1_1llm_1_1_workflow_step_1acdbb3cc07a7d1bd8ac333fa055843de0" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowStep</scope><name>output_schema</name></member>
+      <member refid="structthemis_1_1llm_1_1_workflow_step_1a439e3585bcaa4116fbe1e4401e1a3a81" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowStep</scope><name>prompt_template</name></member>
+      <member refid="structthemis_1_1llm_1_1_workflow_step_1a900c38c70ab945773e38636eb7eb7516" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowStep</scope><name>temperature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitor_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::auth::ZeroTrustAuthVerifier::MonitorEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitor_entry_1a327e5e2b5151e6b9a06c29dc9bc5472b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session" kindref="compound">MonitoredSession</ref></type>
+        <definition>MonitoredSession themis::auth::ZeroTrustAuthVerifier::MonitorEntry::session</definition>
+        <argsstring></argsstring>
+        <name>session</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::MonitorEntry::session</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="171" column="26" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitor_entry_1ab940f42798157b8c5a60d2bb53603aa5" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_session_manager" kindref="compound">SessionManager</ref> *</type>
+        <definition>SessionManager* themis::auth::ZeroTrustAuthVerifier::MonitorEntry::session_manager</definition>
+        <argsstring></argsstring>
+        <name>session_manager</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::MonitorEntry::session_manager</qualifiedname>
+        <briefdescription>
+<para>Non-owning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="172" column="25" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitor_entry_1ac86993903d822ac3b1abdba7620a72ff" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::auth::ZeroTrustAuthVerifier::MonitorEntry::next_eval</definition>
+        <argsstring></argsstring>
+        <name>next_eval</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::MonitorEntry::next_eval</qualifiedname>
+        <briefdescription>
+<para>Deadline for next check (steady_clock). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="173" column="47" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::auth::SessionManager</label>
+        <link refid="classthemis_1_1auth_1_1_session_manager"/>
+      </node>
+      <node id="1">
+        <label>themis::auth::ZeroTrustAuthVerifier::MonitorEntry</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>session</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>session_manager</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::auth::ZeroTrustAuthVerifier::MonitoredSession</label>
+        <link refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/auth/zero_trust_auth_verifier.h" line="170" column="5" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="170" bodyend="174"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitor_entry_1ac86993903d822ac3b1abdba7620a72ff" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::MonitorEntry</scope><name>next_eval</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitor_entry_1a327e5e2b5151e6b9a06c29dc9bc5472b" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::MonitorEntry</scope><name>session</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitor_entry_1ab940f42798157b8c5a60d2bb53603aa5" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::MonitorEntry</scope><name>session_manager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

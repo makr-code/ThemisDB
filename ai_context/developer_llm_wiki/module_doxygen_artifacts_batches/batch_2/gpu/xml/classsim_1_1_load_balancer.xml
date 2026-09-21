@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classsim_1_1_load_balancer" kind="class" language="C++" prot="public">
+    <compoundname>sim::LoadBalancer</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classsim_1_1_load_balancer_1af82269571da7d4060d9f33df5083c8b7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Strategy</name>
+        <qualifiedname>sim::LoadBalancer::Strategy</qualifiedname>
+        <enumvalue id="classsim_1_1_load_balancer_1af82269571da7d4060d9f33df5083c8b7a1ebd8dbf8c34e255f5cbf28f35860b71" prot="public">
+          <name>ROUND_ROBIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classsim_1_1_load_balancer_1af82269571da7d4060d9f33df5083c8b7a6e5249bcb29f2a8b79c3f1342577f5f3" prot="public">
+          <name>LEAST_LOADED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classsim_1_1_load_balancer_1af82269571da7d4060d9f33df5083c8b7afe78d2bea2bd8247566a292721a97570" prot="public">
+          <name>TOPOLOGY_AWARE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="208" column="5" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="208" bodyend="208"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classsim_1_1_load_balancer_1a5ca0c3300f9fb10b4b7d24269e38a79c" prot="private" static="no" mutable="no">
+        <type><ref refid="classsim_1_1_load_balancer_1af82269571da7d4060d9f33df5083c8b7" kindref="member">Strategy</ref></type>
+        <definition>Strategy sim::LoadBalancer::strategy_</definition>
+        <argsstring></argsstring>
+        <name>strategy_</name>
+        <qualifiedname>sim::LoadBalancer::strategy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="284" column="14" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsim_1_1_load_balancer_1aedb655a5f60ab28e8a0f04ac01b678b4" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structsim_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt;</type>
+        <definition>std::vector&lt;DeviceInfo&gt; sim::LoadBalancer::devs_</definition>
+        <argsstring></argsstring>
+        <name>devs_</name>
+        <qualifiedname>sim::LoadBalancer::devs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="285" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsim_1_1_load_balancer_1ad3e11ed091d4df593d130553d57ca231" prot="private" static="no" mutable="no">
+        <type><ref refid="structsim_1_1_topology" kindref="compound">Topology</ref></type>
+        <definition>Topology sim::LoadBalancer::topo_</definition>
+        <argsstring></argsstring>
+        <name>topo_</name>
+        <qualifiedname>sim::LoadBalancer::topo_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="286" column="14" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsim_1_1_load_balancer_1a923417019456b7459cbf033f260c4fc5" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t sim::LoadBalancer::cursor_</definition>
+        <argsstring></argsstring>
+        <name>cursor_</name>
+        <qualifiedname>sim::LoadBalancer::cursor_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="287" column="12" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsim_1_1_load_balancer_1a899435939e07fb3c44fa9ae3dda92b45" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex sim::LoadBalancer::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>sim::LoadBalancer::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="288" column="24" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="288" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsim_1_1_load_balancer_1a328310a203eaa3583e2f56e09300713e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sim::LoadBalancer::LoadBalancer</definition>
+        <argsstring>(Strategy s)</argsstring>
+        <name>LoadBalancer</name>
+        <qualifiedname>sim::LoadBalancer::LoadBalancer</qualifiedname>
+        <param>
+          <type><ref refid="classsim_1_1_load_balancer_1af82269571da7d4060d9f33df5083c8b7" kindref="member">Strategy</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="210" column="14" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classsim_1_1_load_balancer_1a924d5d73c55f6d52085b748366509927" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void sim::LoadBalancer::setDevices</definition>
+        <argsstring>(const std::vector&lt; DeviceInfo &gt; &amp;devs)</argsstring>
+        <name>setDevices</name>
+        <qualifiedname>sim::LoadBalancer::setDevices</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structsim_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt; &amp;</type>
+          <declname>devs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="212" column="10" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="212" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classsim_1_1_load_balancer_1a9e023d9aab068bccc3aba3855f93930a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void sim::LoadBalancer::setTopology</definition>
+        <argsstring>(const Topology &amp;topo)</argsstring>
+        <name>setTopology</name>
+        <qualifiedname>sim::LoadBalancer::setTopology</qualifiedname>
+        <param>
+          <type>const <ref refid="structsim_1_1_topology" kindref="compound">Topology</ref> &amp;</type>
+          <declname>topo</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="218" column="10" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="218" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classsim_1_1_load_balancer_1ab70d5eb909ccc163230b46d8ae66793b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structsim_1_1_device_info" kindref="compound">DeviceInfo</ref> *</type>
+        <definition>const DeviceInfo * sim::LoadBalancer::select</definition>
+        <argsstring>(uint64_t required_vram=0)</argsstring>
+        <name>select</name>
+        <qualifiedname>sim::LoadBalancer::select</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>required_vram</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="223" column="22" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="223" bodyend="281"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classsim_1_1_load_balancer_1afe3d6160fb520fc38deee02326a14124" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool sim::LoadBalancer::eligible</definition>
+        <argsstring>(const DeviceInfo &amp;d, uint64_t req_vram)</argsstring>
+        <name>eligible</name>
+        <qualifiedname>sim::LoadBalancer::eligible</qualifiedname>
+        <param>
+          <type>const <ref refid="structsim_1_1_device_info" kindref="compound">DeviceInfo</ref> &amp;</type>
+          <declname>d</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>req_vram</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="290" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="290" bodyend="293"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="206" column="1" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="206" bodyend="294"/>
+    <listofallmembers>
+      <member refid="classsim_1_1_load_balancer_1a923417019456b7459cbf033f260c4fc5" prot="private" virt="non-virtual"><scope>sim::LoadBalancer</scope><name>cursor_</name></member>
+      <member refid="classsim_1_1_load_balancer_1aedb655a5f60ab28e8a0f04ac01b678b4" prot="private" virt="non-virtual"><scope>sim::LoadBalancer</scope><name>devs_</name></member>
+      <member refid="classsim_1_1_load_balancer_1afe3d6160fb520fc38deee02326a14124" prot="private" virt="non-virtual"><scope>sim::LoadBalancer</scope><name>eligible</name></member>
+      <member refid="classsim_1_1_load_balancer_1a328310a203eaa3583e2f56e09300713e" prot="public" virt="non-virtual"><scope>sim::LoadBalancer</scope><name>LoadBalancer</name></member>
+      <member refid="classsim_1_1_load_balancer_1a899435939e07fb3c44fa9ae3dda92b45" prot="private" virt="non-virtual"><scope>sim::LoadBalancer</scope><name>mu_</name></member>
+      <member refid="classsim_1_1_load_balancer_1ab70d5eb909ccc163230b46d8ae66793b" prot="public" virt="non-virtual"><scope>sim::LoadBalancer</scope><name>select</name></member>
+      <member refid="classsim_1_1_load_balancer_1a924d5d73c55f6d52085b748366509927" prot="public" virt="non-virtual"><scope>sim::LoadBalancer</scope><name>setDevices</name></member>
+      <member refid="classsim_1_1_load_balancer_1a9e023d9aab068bccc3aba3855f93930a" prot="public" virt="non-virtual"><scope>sim::LoadBalancer</scope><name>setTopology</name></member>
+      <member refid="classsim_1_1_load_balancer_1af82269571da7d4060d9f33df5083c8b7" prot="public" virt="non-virtual"><scope>sim::LoadBalancer</scope><name>Strategy</name></member>
+      <member refid="classsim_1_1_load_balancer_1a5ca0c3300f9fb10b4b7d24269e38a79c" prot="private" virt="non-virtual"><scope>sim::LoadBalancer</scope><name>strategy_</name></member>
+      <member refid="classsim_1_1_load_balancer_1ad3e11ed091d4df593d130553d57ca231" prot="private" virt="non-virtual"><scope>sim::LoadBalancer</scope><name>topo_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

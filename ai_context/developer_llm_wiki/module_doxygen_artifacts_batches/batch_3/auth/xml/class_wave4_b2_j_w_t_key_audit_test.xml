@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_wave4_b2_j_w_t_key_audit_test" kind="class" language="C++" prot="public">
+    <compoundname>Wave4B2JWTKeyAuditTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_wave4_b2_j_w_t_key_audit_test_1a4692eb51ad7d3890058b1bffa8381150" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path Wave4B2JWTKeyAuditTest::log_path_</definition>
+        <argsstring></argsstring>
+        <name>log_path_</name>
+        <qualifiedname>Wave4B2JWTKeyAuditTest::log_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="351" column="27" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wave4_b2_j_w_t_key_audit_test_1a54d45b39f370aaa542aaf365c3255b30" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; AuditLogger &gt;</type>
+        <definition>std::unique_ptr&lt;AuditLogger&gt; Wave4B2JWTKeyAuditTest::ul_</definition>
+        <argsstring></argsstring>
+        <name>ul_</name>
+        <qualifiedname>Wave4B2JWTKeyAuditTest::ul_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="352" column="21" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="352" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_wave4_b2_j_w_t_key_audit_test_1a59971c40b13b2ce49ed50ac813922562" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Wave4B2JWTKeyAuditTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>Wave4B2JWTKeyAuditTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="354" column="10" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="354" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="class_wave4_b2_j_w_t_key_audit_test_1a4ad4b0716256e301b3050578316acf18" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Wave4B2JWTKeyAuditTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>Wave4B2JWTKeyAuditTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="359" column="10" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="359" bodyend="361"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Wave4B2JWTKeyAuditTest</label>
+        <link refid="class_wave4_b2_j_w_t_key_audit_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Wave4B2JWTKeyAuditTest</label>
+        <link refid="class_wave4_b2_j_w_t_key_audit_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="349" column="1" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="349" bodyend="362"/>
+    <listofallmembers>
+      <member refid="class_wave4_b2_j_w_t_key_audit_test_1a4692eb51ad7d3890058b1bffa8381150" prot="protected" virt="non-virtual"><scope>Wave4B2JWTKeyAuditTest</scope><name>log_path_</name></member>
+      <member refid="class_wave4_b2_j_w_t_key_audit_test_1a59971c40b13b2ce49ed50ac813922562" prot="protected" virt="non-virtual"><scope>Wave4B2JWTKeyAuditTest</scope><name>SetUp</name></member>
+      <member refid="class_wave4_b2_j_w_t_key_audit_test_1a4ad4b0716256e301b3050578316acf18" prot="protected" virt="non-virtual"><scope>Wave4B2JWTKeyAuditTest</scope><name>TearDown</name></member>
+      <member refid="class_wave4_b2_j_w_t_key_audit_test_1a54d45b39f370aaa542aaf365c3255b30" prot="protected" virt="non-virtual"><scope>Wave4B2JWTKeyAuditTest</scope><name>ul_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

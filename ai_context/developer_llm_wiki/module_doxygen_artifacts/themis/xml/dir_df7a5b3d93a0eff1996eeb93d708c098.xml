@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_df7a5b3d93a0eff1996eeb93d708c098" kind="dir">
+    <compoundname>include/themis</compoundname>
+    <innerdir refid="dir_2c70137f202dcd386aebb6abace314be">include/themis/base</innerdir>
+    <innerdir refid="dir_92732368fda6e84e6df6f5be7ade200b">include/themis/gpu</innerdir>
+    <innerdir refid="dir_737fedba96a8affe71c4f6846acc6285">include/themis/llm</innerdir>
+    <innerdir refid="dir_9a3e0b3a6b2a39b26bd5cb9ba59f9fbe">include/themis/network</innerdir>
+    <innerdir refid="dir_cad4417c73eb8c9214e645befc2cf5e0">include/themis/query</innerdir>
+    <innerdir refid="dir_e7b1dd4a8c0c798e15b77aa894db127c">include/themis/rag</innerdir>
+    <innerdir refid="dir_c3063eef96484b128f1aade88fa9145c">include/themis/ratelimit</innerdir>
+    <innerdir refid="dir_3e1b7f38e2fe659af99db351c1ad295e">include/themis/search</innerdir>
+    <innerdir refid="dir_3a1cffa5000a2bc2965684f5bfbbcc69">include/themis/sharding</innerdir>
+    <innerdir refid="dir_82997f0eb0dcd4f55d7f5af115f9f37f">include/themis/storage</innerdir>
+    <innerdir refid="dir_aa1aba69f78ee1ed0fed036df683999f">include/themis/tenant</innerdir>
+    <innerfile refid="build__info_8h">build_info.h</innerfile>
+    <innerfile refid="edition_8h">edition.h</innerfile>
+    <innerfile refid="edition__manager_8h">edition_manager.h</innerfile>
+    <innerfile refid="export_8h">export.h</innerfile>
+    <innerfile refid="license__info_8h">license_info.h</innerfile>
+    <innerfile refid="module__hash__verifier_8h">module_hash_verifier.h</innerfile>
+    <innerfile refid="module__signature__verifier_8h">module_signature_verifier.h</innerfile>
+    <innerfile refid="runtime__license__gate_8h">runtime_license_gate.h</innerfile>
+    <innerfile refid="themis__api__contract_8h">themis_api_contract.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/"/>
+  </compounddef>
+</doxygen>

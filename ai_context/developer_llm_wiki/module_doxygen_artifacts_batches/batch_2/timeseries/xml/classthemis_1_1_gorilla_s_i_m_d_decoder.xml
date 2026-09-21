@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_gorilla_s_i_m_d_decoder" kind="class" language="C++" prot="public">
+    <compoundname>themis::GorillaSIMDDecoder</compoundname>
+    <includes refid="gorilla__simd_8h" local="no">gorilla_simd.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_gorilla_s_i_m_d_decoder_1a3e2a85f3ddbefc996b00acd4d40f51d6" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::GorillaSIMDDecoder::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themis::GorillaSIMDDecoder::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla_simd.h" line="85" column="17" bodyfile="include/timeseries/gorilla_simd.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_gorilla_s_i_m_d_decoder_1a7a790f16e90fa8dea2759b5e79178911" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::GorillaSIMDDecoder::error_</definition>
+        <argsstring></argsstring>
+        <name>error_</name>
+        <qualifiedname>themis::GorillaSIMDDecoder::error_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla_simd.h" line="86" column="10" bodyfile="include/timeseries/gorilla_simd.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_gorilla_s_i_m_d_decoder_1adc597b75f43f884226849189c5336cbe" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::GorillaSIMDDecoder::decoded_count_</definition>
+        <argsstring></argsstring>
+        <name>decoded_count_</name>
+        <qualifiedname>themis::GorillaSIMDDecoder::decoded_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla_simd.h" line="87" column="12" bodyfile="include/timeseries/gorilla_simd.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_gorilla_s_i_m_d_decoder_1a6a3a9edbb2e362df1c25f603db618e59" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::GorillaSIMDDecoder::GorillaSIMDDecoder</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; data)</argsstring>
+        <name>GorillaSIMDDecoder</name>
+        <qualifiedname>themis::GorillaSIMDDecoder::GorillaSIMDDecoder</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Gorilla SIMDDecoder. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla_simd.h" line="70" column="14" bodyfile="src/timeseries/gorilla_simd.cpp" bodystart="231" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_gorilla_s_i_m_d_decoder_1a9f7a4fde8a3dadbf48a24bc91124c547" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::GorillaSIMDDecoder::decodeAll</definition>
+        <argsstring>(std::vector&lt; std::pair&lt; int64_t, double &gt; &gt; &amp;out)</argsstring>
+        <name>decodeAll</name>
+        <qualifiedname>themis::GorillaSIMDDecoder::decodeAll</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::pair&lt; int64_t, double &gt; &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Decode all points from the chunk and append them to <computeroutput>out</computeroutput>. <simplesect kind="return"><para>Number of newly decoded points appended. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Pass raw pointer+size directly — avoids an unnecessary heap allocation that would otherwise be needed just to strip the 3-byte header. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload_ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla_simd.h" line="76" column="12" bodyfile="src/timeseries/gorilla_simd.cpp" bodystart="234" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_gorilla_s_i_m_d_decoder_1a98c4214772c6a80c816b477442240cf4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::GorillaSIMDDecoder::hasError</definition>
+        <argsstring>() const</argsstring>
+        <name>hasError</name>
+        <qualifiedname>themis::GorillaSIMDDecoder::hasError</qualifiedname>
+        <briefdescription>
+<para>True if a decode error (truncated / corrupt data) was encountered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla_simd.h" line="79" column="10" bodyfile="include/timeseries/gorilla_simd.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_gorilla_s_i_m_d_decoder_1a20d58e280b0a7340b62f6a200325b2b9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::GorillaSIMDDecoder::decodedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>decodedCount</name>
+        <qualifiedname>themis::GorillaSIMDDecoder::decodedCount</qualifiedname>
+        <briefdescription>
+<para>Total number of successfully decoded points so far. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla_simd.h" line="82" column="12" bodyfile="include/timeseries/gorilla_simd.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_gorilla_s_i_m_d_decoder" kindref="compound">GorillaSIMDDecoder</ref> — Vectorised batch Gorilla chunk decoder.</para>
+<para>Decodes an entire Gorilla-compressed chunk in one call via a two-phase approach that uses SIMD intrinsics for the reconstruction phase:</para>
+<para>Phase 1 (scalar): Parse the bit-stream into flat intermediate arrays of delta-of-deltas (timestamps) and XOR values (double bit-patterns).</para>
+<para>Phase 2 (SIMD): Reconstruct timestamps with two SIMD prefix-sum passes (dod → Δt → t) and reconstruct double values with a SIMD prefix-XOR pass.</para>
+<para>Platform selection is performed at runtime: • AVX2 on x86-64 (checked via CPUID leaf 7, EBX bit 5) • NEON on AArch64 (always present on ARMv8-A and later) • Scalar fallback via <ref refid="classthemis_1_1_gorilla_decoder" kindref="compound">GorillaDecoder</ref> on all other platforms</para>
+<para>The output of <ref refid="classthemis_1_1_gorilla_s_i_m_d_decoder_1a9f7a4fde8a3dadbf48a24bc91124c547" kindref="member">decodeAll()</ref> is byte-for-byte identical to the output of <ref refid="classthemis_1_1_gorilla_decoder_1a4deed4b665a60270e3962020f9adcae6" kindref="member">GorillaDecoder::next()</ref> called in a loop.</para>
+<para>Input validation: <ref refid="classthemis_1_1_gorilla_s_i_m_d_decoder_1a9f7a4fde8a3dadbf48a24bc91124c547" kindref="member">decodeAll()</ref> sets <ref refid="classthemis_1_1_gorilla_s_i_m_d_decoder_1a98c4214772c6a80c816b477442240cf4" kindref="member">hasError()</ref> to true when a truncated or structurally corrupt chunk is encountered; partial results decoded before the error are still appended to <computeroutput>out</computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/timeseries/gorilla_simd.h" line="63" column="1" bodyfile="include/timeseries/gorilla_simd.h" bodystart="63" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_gorilla_s_i_m_d_decoder_1a3e2a85f3ddbefc996b00acd4d40f51d6" prot="private" virt="non-virtual"><scope>themis::GorillaSIMDDecoder</scope><name>data_</name></member>
+      <member refid="classthemis_1_1_gorilla_s_i_m_d_decoder_1a9f7a4fde8a3dadbf48a24bc91124c547" prot="public" virt="non-virtual"><scope>themis::GorillaSIMDDecoder</scope><name>decodeAll</name></member>
+      <member refid="classthemis_1_1_gorilla_s_i_m_d_decoder_1adc597b75f43f884226849189c5336cbe" prot="private" virt="non-virtual"><scope>themis::GorillaSIMDDecoder</scope><name>decoded_count_</name></member>
+      <member refid="classthemis_1_1_gorilla_s_i_m_d_decoder_1a20d58e280b0a7340b62f6a200325b2b9" prot="public" virt="non-virtual"><scope>themis::GorillaSIMDDecoder</scope><name>decodedCount</name></member>
+      <member refid="classthemis_1_1_gorilla_s_i_m_d_decoder_1a7a790f16e90fa8dea2759b5e79178911" prot="private" virt="non-virtual"><scope>themis::GorillaSIMDDecoder</scope><name>error_</name></member>
+      <member refid="classthemis_1_1_gorilla_s_i_m_d_decoder_1a6a3a9edbb2e362df1c25f603db618e59" prot="public" virt="non-virtual"><scope>themis::GorillaSIMDDecoder</scope><name>GorillaSIMDDecoder</name></member>
+      <member refid="classthemis_1_1_gorilla_s_i_m_d_decoder_1a98c4214772c6a80c816b477442240cf4" prot="public" virt="non-virtual"><scope>themis::GorillaSIMDDecoder</scope><name>hasError</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

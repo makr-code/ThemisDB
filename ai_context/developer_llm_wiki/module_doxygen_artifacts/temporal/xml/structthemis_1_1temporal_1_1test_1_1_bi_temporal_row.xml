@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row" kind="struct" language="C++" prot="public">
+    <compoundname>themis::temporal::test::BiTemporalRow</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row_1af636cfc206786bf4819597c80a3c6ae4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::temporal::test::BiTemporalRow::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::temporal::test::BiTemporalRow::id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="64" column="17" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row_1af1c9249f6730fbc749aa7c2efac3d2a7" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::temporal::test::BiTemporalRow::valid_start</definition>
+        <argsstring></argsstring>
+        <name>valid_start</name>
+        <qualifiedname>themis::temporal::test::BiTemporalRow::valid_start</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="65" column="18" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row_1accde511d342575dbf012460f37ff67aa" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::temporal::test::BiTemporalRow::valid_end</definition>
+        <argsstring></argsstring>
+        <name>valid_end</name>
+        <qualifiedname>themis::temporal::test::BiTemporalRow::valid_end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="66" column="18" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row_1a6d65b7095941dea8148be9f4e9926ea6" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::temporal::test::BiTemporalRow::tx_time</definition>
+        <argsstring></argsstring>
+        <name>tx_time</name>
+        <qualifiedname>themis::temporal::test::BiTemporalRow::tx_time</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="67" column="18" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row_1a8cf2648b3bbe97f305c60900d38f0dd9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::temporal::test::BiTemporalRow::soft_deleted</definition>
+        <argsstring></argsstring>
+        <name>soft_deleted</name>
+        <qualifiedname>themis::temporal::test::BiTemporalRow::soft_deleted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="68" column="17" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="63" column="1" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="63" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row_1af636cfc206786bf4819597c80a3c6ae4" prot="public" virt="non-virtual"><scope>themis::temporal::test::BiTemporalRow</scope><name>id</name></member>
+      <member refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row_1a8cf2648b3bbe97f305c60900d38f0dd9" prot="public" virt="non-virtual"><scope>themis::temporal::test::BiTemporalRow</scope><name>soft_deleted</name></member>
+      <member refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row_1a6d65b7095941dea8148be9f4e9926ea6" prot="public" virt="non-virtual"><scope>themis::temporal::test::BiTemporalRow</scope><name>tx_time</name></member>
+      <member refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row_1accde511d342575dbf012460f37ff67aa" prot="public" virt="non-virtual"><scope>themis::temporal::test::BiTemporalRow</scope><name>valid_end</name></member>
+      <member refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row_1af1c9249f6730fbc749aa7c2efac3d2a7" prot="public" virt="non-virtual"><scope>themis::temporal::test::BiTemporalRow</scope><name>valid_start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

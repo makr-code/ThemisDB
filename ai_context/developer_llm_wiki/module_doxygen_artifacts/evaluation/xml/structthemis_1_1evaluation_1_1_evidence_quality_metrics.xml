@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_evidence_quality_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::EvidenceQualityMetrics</compoundname>
+    <includes refid="retrieval__metrics_8h" local="no">retrieval_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_evidence_quality_metrics_1a0063a8a3676a1f1e4a496e83a37a4595" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::EvidenceQualityMetrics::coverage_rate</definition>
+        <argsstring></argsstring>
+        <name>coverage_rate</name>
+        <qualifiedname>themis::evaluation::EvidenceQualityMetrics::coverage_rate</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Fraction of required evidence facts covered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="117" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_evidence_quality_metrics_1a34706203625416154715f8ea489f11a7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::EvidenceQualityMetrics::evidence_precision</definition>
+        <argsstring></argsstring>
+        <name>evidence_precision</name>
+        <qualifiedname>themis::evaluation::EvidenceQualityMetrics::evidence_precision</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Fraction of returned evidence that is relevant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="118" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_evidence_quality_metrics_1a793951dd20f0b64c760f476ec4af1824" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::EvidenceQualityMetrics::multi_hop_support</definition>
+        <argsstring></argsstring>
+        <name>multi_hop_support</name>
+        <qualifiedname>themis::evaluation::EvidenceQualityMetrics::multi_hop_support</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Multi-hop evidence support score in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="119" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/retrieval_metrics.h" line="116" column="1" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="116" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics_1a0063a8a3676a1f1e4a496e83a37a4595" prot="public" virt="non-virtual"><scope>themis::evaluation::EvidenceQualityMetrics</scope><name>coverage_rate</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics_1a34706203625416154715f8ea489f11a7" prot="public" virt="non-virtual"><scope>themis::evaluation::EvidenceQualityMetrics</scope><name>evidence_precision</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics_1a793951dd20f0b64c760f476ec4af1824" prot="public" virt="non-virtual"><scope>themis::evaluation::EvidenceQualityMetrics</scope><name>multi_hop_support</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

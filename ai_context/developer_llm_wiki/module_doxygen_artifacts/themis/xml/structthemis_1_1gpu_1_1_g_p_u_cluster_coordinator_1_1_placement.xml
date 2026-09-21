@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_placement" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUClusterCoordinator::Placement</compoundname>
+    <includes refid="cluster__coordinator_8h" local="no">cluster_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_placement_1a3b41319f7f39428a9183eb49c250e1a1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUClusterCoordinator::Placement::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::gpu::GPUClusterCoordinator::Placement::node_id</qualifiedname>
+        <briefdescription>
+<para>Target node (empty = local). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_coordinator.h" line="87" column="26" bodyfile="include/themis/gpu/cluster_coordinator.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_placement_1a57fe0557ee90929cdd2693b4ad6cfd3b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::GPUClusterCoordinator::Placement::device_index</definition>
+        <argsstring></argsstring>
+        <name>device_index</name>
+        <qualifiedname>themis::gpu::GPUClusterCoordinator::Placement::device_index</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>Target GPU ordinal (-1 = CPU). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_coordinator.h" line="88" column="26" bodyfile="include/themis/gpu/cluster_coordinator.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_placement_1a2c66ea0bcaed9c3eb1468d400ff14e30" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1gpu_1a881a53e5711d7e5964bc051f1f346882" kindref="member">InterconnectType</ref></type>
+        <definition>InterconnectType themis::gpu::GPUClusterCoordinator::Placement::route</definition>
+        <argsstring></argsstring>
+        <name>route</name>
+        <qualifiedname>themis::gpu::GPUClusterCoordinator::Placement::route</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1gpu_1a881a53e5711d7e5964bc051f1f346882a2b55387dd066c5bac646ac61543d152d" kindref="member">InterconnectType::CPU</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_coordinator.h" line="89" column="26" bodyfile="include/themis/gpu/cluster_coordinator.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_placement_1a116fba0e40960468a1ab46d8e3784e8e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::GPUClusterCoordinator::Placement::bandwidth_gbps</definition>
+        <argsstring></argsstring>
+        <name>bandwidth_gbps</name>
+        <qualifiedname>themis::gpu::GPUClusterCoordinator::Placement::bandwidth_gbps</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_coordinator.h" line="90" column="26" bodyfile="include/themis/gpu/cluster_coordinator.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_placement_1aea706a722cdb87e43dcbd555d859c928" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUClusterCoordinator::Placement::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::gpu::GPUClusterCoordinator::Placement::reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable rationale. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_coordinator.h" line="91" column="26" bodyfile="include/themis/gpu/cluster_coordinator.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/cluster_coordinator.h" line="86" column="5" bodyfile="include/themis/gpu/cluster_coordinator.h" bodystart="86" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_placement_1a116fba0e40960468a1ab46d8e3784e8e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterCoordinator::Placement</scope><name>bandwidth_gbps</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_placement_1a57fe0557ee90929cdd2693b4ad6cfd3b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterCoordinator::Placement</scope><name>device_index</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_placement_1a3b41319f7f39428a9183eb49c250e1a1" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterCoordinator::Placement</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_placement_1aea706a722cdb87e43dcbd555d859c928" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterCoordinator::Placement</scope><name>reason</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_placement_1a2c66ea0bcaed9c3eb1468d400ff14e30" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterCoordinator::Placement</scope><name>route</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

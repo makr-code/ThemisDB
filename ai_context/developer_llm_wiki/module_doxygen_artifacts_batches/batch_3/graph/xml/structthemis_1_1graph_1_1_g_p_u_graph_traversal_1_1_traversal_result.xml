@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_traversal_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GPUGraphTraversal::TraversalResult</compoundname>
+    <includes refid="gpu__traversal_8h" local="no">gpu_traversal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_traversal_result_1afb16fff532dfa4e51cbf327c6f6a0f44" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::GPUGraphTraversal::TraversalResult::visited_vertices</definition>
+        <argsstring></argsstring>
+        <name>visited_vertices</name>
+        <qualifiedname>themis::graph::GPUGraphTraversal::TraversalResult::visited_vertices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/gpu_traversal.h" line="46" column="21" bodyfile="include/graph/gpu_traversal.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_traversal_result_1a655fa0d212089f06fe2eeed4301400ff" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::graph::GPUGraphTraversal::TraversalResult::distances</definition>
+        <argsstring></argsstring>
+        <name>distances</name>
+        <qualifiedname>themis::graph::GPUGraphTraversal::TraversalResult::distances</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/gpu_traversal.h" line="47" column="28" bodyfile="include/graph/gpu_traversal.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_traversal_result_1a91f5029138f5bd9a2ed2206b1fde6e86" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GPUGraphTraversal::TraversalResult::nodes_explored</definition>
+        <argsstring></argsstring>
+        <name>nodes_explored</name>
+        <qualifiedname>themis::graph::GPUGraphTraversal::TraversalResult::nodes_explored</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/gpu_traversal.h" line="48" column="16" bodyfile="include/graph/gpu_traversal.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_traversal_result_1a06dc6d50bea769028d018954c865d9c1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GPUGraphTraversal::TraversalResult::edges_traversed</definition>
+        <argsstring></argsstring>
+        <name>edges_traversed</name>
+        <qualifiedname>themis::graph::GPUGraphTraversal::TraversalResult::edges_traversed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/gpu_traversal.h" line="49" column="16" bodyfile="include/graph/gpu_traversal.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_traversal_result_1abb64cbea57b44bd382524621e4ec5e65" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GPUGraphTraversal::TraversalResult::used_cpu_fallback</definition>
+        <argsstring></argsstring>
+        <name>used_cpu_fallback</name>
+        <qualifiedname>themis::graph::GPUGraphTraversal::TraversalResult::used_cpu_fallback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/gpu_traversal.h" line="50" column="14" bodyfile="include/graph/gpu_traversal.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_traversal_result_1a58bb841b4ce1b886bee57996332bcd75" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GPUGraphTraversal::TraversalResult::truncated</definition>
+        <argsstring></argsstring>
+        <name>truncated</name>
+        <qualifiedname>themis::graph::GPUGraphTraversal::TraversalResult::truncated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/gpu_traversal.h" line="51" column="14" bodyfile="include/graph/gpu_traversal.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_traversal_result_1a0918b70ae9227af5e9a47ba2394c9d7c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GPUGraphTraversal::TraversalResult::execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>execution_time_ms</name>
+        <qualifiedname>themis::graph::GPUGraphTraversal::TraversalResult::execution_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/gpu_traversal.h" line="52" column="16" bodyfile="include/graph/gpu_traversal.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/gpu_traversal.h" line="45" column="5" bodyfile="include/graph/gpu_traversal.h" bodystart="45" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_traversal_result_1a655fa0d212089f06fe2eeed4301400ff" prot="public" virt="non-virtual"><scope>themis::graph::GPUGraphTraversal::TraversalResult</scope><name>distances</name></member>
+      <member refid="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_traversal_result_1a06dc6d50bea769028d018954c865d9c1" prot="public" virt="non-virtual"><scope>themis::graph::GPUGraphTraversal::TraversalResult</scope><name>edges_traversed</name></member>
+      <member refid="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_traversal_result_1a0918b70ae9227af5e9a47ba2394c9d7c" prot="public" virt="non-virtual"><scope>themis::graph::GPUGraphTraversal::TraversalResult</scope><name>execution_time_ms</name></member>
+      <member refid="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_traversal_result_1a91f5029138f5bd9a2ed2206b1fde6e86" prot="public" virt="non-virtual"><scope>themis::graph::GPUGraphTraversal::TraversalResult</scope><name>nodes_explored</name></member>
+      <member refid="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_traversal_result_1a58bb841b4ce1b886bee57996332bcd75" prot="public" virt="non-virtual"><scope>themis::graph::GPUGraphTraversal::TraversalResult</scope><name>truncated</name></member>
+      <member refid="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_traversal_result_1abb64cbea57b44bd382524621e4ec5e65" prot="public" virt="non-virtual"><scope>themis::graph::GPUGraphTraversal::TraversalResult</scope><name>used_cpu_fallback</name></member>
+      <member refid="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_traversal_result_1afb16fff532dfa4e51cbf327c6f6a0f44" prot="public" virt="non-virtual"><scope>themis::graph::GPUGraphTraversal::TraversalResult</scope><name>visited_vertices</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

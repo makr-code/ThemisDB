@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1query_1_1functions" kind="namespace" language="C++">
+    <compoundname>themisdb::query::functions</compoundname>
+    <innerclass refid="classthemisdb_1_1query_1_1functions_1_1_hybrid_search_function" prot="public">themisdb::query::functions::HybridSearchFunction</innerclass>
+    <innerclass refid="classthemisdb_1_1query_1_1functions_1_1_embed_function" prot="public">themisdb::query::functions::EmbedFunction</innerclass>
+    <innerclass refid="classthemisdb_1_1query_1_1functions_1_1_rerank_function" prot="public">themisdb::query::functions::RerankFunction</innerclass>
+    <innerclass refid="classthemisdb_1_1query_1_1functions_1_1_classify_function" prot="public">themisdb::query::functions::ClassifyFunction</innerclass>
+    <innerclass refid="classthemisdb_1_1query_1_1functions_1_1_extract_entities_function" prot="public">themisdb::query::functions::ExtractEntitiesFunction</innerclass>
+    <innerclass refid="classthemisdb_1_1query_1_1functions_1_1_summarize_function" prot="public">themisdb::query::functions::SummarizeFunction</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemisdb_1_1query_1_1functions_1a55d2f5866c6aacf460145bdf0390511d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::query::functions::registerAIMLFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;registry)</argsstring>
+        <name>registerAIMLFunctions</name>
+        <qualifiedname>themisdb::query::functions::registerAIMLFunctions</qualifiedname>
+        <param>
+          <type>FunctionRegistry &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Register AIMLFunctions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/ai_ml_functions.h" line="336" column="13" bodyfile="include/query/functions/ai_ml_functions.h" bodystart="336" bodyend="343"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/ai_ml_functions.h" line="21" column="1"/>
+  </compounddef>
+</doxygen>

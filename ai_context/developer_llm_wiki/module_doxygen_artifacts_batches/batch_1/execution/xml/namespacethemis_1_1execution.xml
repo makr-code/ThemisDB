@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1execution" kind="namespace" language="C++">
+    <compoundname>themis::execution</compoundname>
+    <innerclass refid="structthemis_1_1execution_1_1_query_entry" prot="public">themis::execution::QueryEntry</innerclass>
+    <innerclass refid="classthemis_1_1execution_1_1_query_scheduler" prot="public">themis::execution::QueryScheduler</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1execution_1ad77b308ef16821603c859aeb999ef738" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>SLAPriority</name>
+        <qualifiedname>themis::execution::SLAPriority</qualifiedname>
+        <enumvalue id="namespacethemis_1_1execution_1ad77b308ef16821603c859aeb999ef738ab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>SLA &lt; 10 ms. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1execution_1ad77b308ef16821603c859aeb999ef738ac87f3be66ffc3c0d4249f1c2cc5f3cce" prot="public">
+          <name>MEDIUM</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>10 ms ≤ SLA &lt; 100 ms </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1execution_1ad77b308ef16821603c859aeb999ef738a41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>SLA ≥ 100 ms. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="56" column="1" bodyfile="include/execution/query_scheduler.h" bodystart="56" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/execution/query_scheduler.h" line="50" column="1"/>
+  </compounddef>
+</doxygen>

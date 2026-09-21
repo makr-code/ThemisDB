@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_parallel_executor_1_1_parallel_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ParallelExecutor::ParallelConfig</compoundname>
+    <includes refid="parallel__executor_8h" local="no">parallel_executor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_parallel_executor_1_1_parallel_config_1a81c2350fba646e5aff90301dd4ff77bf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ParallelExecutor::ParallelConfig::max_threads</definition>
+        <argsstring></argsstring>
+        <name>max_threads</name>
+        <qualifiedname>themis::ParallelExecutor::ParallelConfig::max_threads</qualifiedname>
+        <initializer>= std::thread::hardware_concurrency()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="37" column="16" bodyfile="include/query/parallel_executor.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_parallel_executor_1_1_parallel_config_1accf468fedc5aa081c81c4dc4bd1e5b62" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ParallelExecutor::ParallelConfig::morsel_size</definition>
+        <argsstring></argsstring>
+        <name>morsel_size</name>
+        <qualifiedname>themis::ParallelExecutor::ParallelConfig::morsel_size</qualifiedname>
+        <initializer>= 1&apos;024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="39" column="16" bodyfile="include/query/parallel_executor.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_parallel_executor_1_1_parallel_config_1ad33c4933e678cce665b3dbcf87851d01" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ParallelExecutor::ParallelConfig::enable_parallel_scan</definition>
+        <argsstring></argsstring>
+        <name>enable_parallel_scan</name>
+        <qualifiedname>themis::ParallelExecutor::ParallelConfig::enable_parallel_scan</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="41" column="14" bodyfile="include/query/parallel_executor.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_parallel_executor_1_1_parallel_config_1ac6bde6b3c6b20edab9132d4c995e77ee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ParallelExecutor::ParallelConfig::enable_parallel_join</definition>
+        <argsstring></argsstring>
+        <name>enable_parallel_join</name>
+        <qualifiedname>themis::ParallelExecutor::ParallelConfig::enable_parallel_join</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="43" column="14" bodyfile="include/query/parallel_executor.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_parallel_executor_1_1_parallel_config_1a7a1c2bb78b290f139ac32c73dcc8bbbc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ParallelExecutor::ParallelConfig::enable_parallel_aggregate</definition>
+        <argsstring></argsstring>
+        <name>enable_parallel_aggregate</name>
+        <qualifiedname>themis::ParallelExecutor::ParallelConfig::enable_parallel_aggregate</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="45" column="14" bodyfile="include/query/parallel_executor.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/parallel_executor.h" line="36" column="5" bodyfile="include/query/parallel_executor.h" bodystart="36" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_parallel_executor_1_1_parallel_config_1a7a1c2bb78b290f139ac32c73dcc8bbbc" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor::ParallelConfig</scope><name>enable_parallel_aggregate</name></member>
+      <member refid="structthemis_1_1_parallel_executor_1_1_parallel_config_1ac6bde6b3c6b20edab9132d4c995e77ee" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor::ParallelConfig</scope><name>enable_parallel_join</name></member>
+      <member refid="structthemis_1_1_parallel_executor_1_1_parallel_config_1ad33c4933e678cce665b3dbcf87851d01" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor::ParallelConfig</scope><name>enable_parallel_scan</name></member>
+      <member refid="structthemis_1_1_parallel_executor_1_1_parallel_config_1a81c2350fba646e5aff90301dd4ff77bf" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor::ParallelConfig</scope><name>max_threads</name></member>
+      <member refid="structthemis_1_1_parallel_executor_1_1_parallel_config_1accf468fedc5aa081c81c4dc4bd1e5b62" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor::ParallelConfig</scope><name>morsel_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

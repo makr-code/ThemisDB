@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_schema_ddl_token" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SchemaDdlToken</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_schema_ddl_token_1aede534ba1c85fa658c9bd35b5f04c40f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SchemaDdlToken::upper</definition>
+        <argsstring></argsstring>
+        <name>upper</name>
+        <qualifiedname>themis::query::SchemaDdlToken::upper</qualifiedname>
+        <briefdescription>
+<para>Uppercased value — used for keyword comparison. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="2874" column="17" bodyfile="src/query/aql_parser.cpp" bodystart="2874" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_schema_ddl_token_1aa7956e583581ddd2c9699cfb3c655708" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SchemaDdlToken::original</definition>
+        <argsstring></argsstring>
+        <name>original</name>
+        <qualifiedname>themis::query::SchemaDdlToken::original</qualifiedname>
+        <briefdescription>
+<para>Original-case value — used for identifier names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="2875" column="17" bodyfile="src/query/aql_parser.cpp" bodystart="2875" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_schema_ddl_token_1a2cdf9b11209c8407fe614ccaf1bf3c5b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::SchemaDdlToken::start</definition>
+        <argsstring></argsstring>
+        <name>start</name>
+        <qualifiedname>themis::query::SchemaDdlToken::start</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Character offset in the source string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="2876" column="17" bodyfile="src/query/aql_parser.cpp" bodystart="2876" bodyend="2876"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/aql_parser.cpp" line="2873" column="1" bodyfile="src/query/aql_parser.cpp" bodystart="2873" bodyend="2877"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_schema_ddl_token_1aa7956e583581ddd2c9699cfb3c655708" prot="public" virt="non-virtual"><scope>themis::query::SchemaDdlToken</scope><name>original</name></member>
+      <member refid="structthemis_1_1query_1_1_schema_ddl_token_1a2cdf9b11209c8407fe614ccaf1bf3c5b" prot="public" virt="non-virtual"><scope>themis::query::SchemaDdlToken</scope><name>start</name></member>
+      <member refid="structthemis_1_1query_1_1_schema_ddl_token_1aede534ba1c85fa658c9bd35b5f04c40f" prot="public" virt="non-virtual"><scope>themis::query::SchemaDdlToken</scope><name>upper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

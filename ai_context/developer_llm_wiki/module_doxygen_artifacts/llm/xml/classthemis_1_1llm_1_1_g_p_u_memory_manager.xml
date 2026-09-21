@@ -1,0 +1,1947 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_g_p_u_memory_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::GPUMemoryManager</compoundname>
+    <includes refid="gpu__memory__manager_8h" local="no">gpu_memory_manager.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation" prot="public">themis::llm::GPUMemoryManager::MemoryAllocation</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config" prot="public">themis::llm::GPUMemoryManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats" prot="public">themis::llm::GPUMemoryManager::Stats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats" prot="public">themis::llm::GPUMemoryManager::GPUStats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health" prot="public">themis::llm::GPUMemoryManager::GPUHealth</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a387c2494da193743a44c857d4b378d47" prot="public" static="no">
+        <type>std::function&lt; bool(int gpu_device_id, float &amp;temperature_celsius)&gt;</type>
+        <definition>using themis::llm::GPUMemoryManager::GPUTemperatureProviderFn = std::function&lt;bool(int gpu_device_id, float&amp; temperature_celsius)&gt;</definition>
+        <argsstring></argsstring>
+        <name>GPUTemperatureProviderFn</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::GPUTemperatureProviderFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="34" column="5" bodyfile="include/llm/gpu_memory_manager.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a509ebb09058b91b19328afc3d6482d2f" prot="public" static="no">
+        <type>std::function&lt; float(int)&gt;</type>
+        <definition>using themis::llm::GPUMemoryManager::NvmlTemperatureFn = std::function&lt;float(int )&gt;</definition>
+        <argsstring></argsstring>
+        <name>NvmlTemperatureFn</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::NvmlTemperatureFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="72" column="5" bodyfile="include/llm/gpu_memory_manager.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aff9202390229804ffe17560cd64a5905" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::GPUMemoryManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="203" column="12" bodyfile="include/llm/gpu_memory_manager.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a77150e7a6f1bb0c4e7b654a415e09278" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation" kindref="compound">MemoryAllocation</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;MemoryAllocation&gt; &gt; themis::llm::GPUMemoryManager::allocations_</definition>
+        <argsstring></argsstring>
+        <name>allocations_</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::allocations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="205" column="24" bodyfile="include/llm/gpu_memory_manager.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1afccff96904c9c7ec562b432e5f58481c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::GPUMemoryManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="206" column="24" bodyfile="include/llm/gpu_memory_manager.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a21046b9e17723557a07997b6f76eb3db" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::GPUMemoryManager::total_vram_used_</definition>
+        <argsstring></argsstring>
+        <name>total_vram_used_</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::total_vram_used_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="208" column="17" bodyfile="include/llm/gpu_memory_manager.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a0348fc0f241891d8cafb4224edd2aa31" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::GPUMemoryManager::total_ram_used_</definition>
+        <argsstring></argsstring>
+        <name>total_ram_used_</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::total_ram_used_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="209" column="17" bodyfile="include/llm/gpu_memory_manager.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ae480ae73908b140bbfe8a2e238c86aca" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::GPUMemoryManager::gpu_device_id_</definition>
+        <argsstring></argsstring>
+        <name>gpu_device_id_</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::gpu_device_id_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="212" column="9" bodyfile="include/llm/gpu_memory_manager.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a376cc468a5ec06e1c3e4d46acfdf9ae5" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::gpu_available_</definition>
+        <argsstring></argsstring>
+        <name>gpu_available_</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::gpu_available_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="213" column="10" bodyfile="include/llm/gpu_memory_manager.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a09d24943364c283bf2f675bebb4d9ba4" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, size_t &gt;</type>
+        <definition>std::unordered_map&lt;int, size_t&gt; themis::llm::GPUMemoryManager::per_gpu_vram_used_</definition>
+        <argsstring></argsstring>
+        <name>per_gpu_vram_used_</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::per_gpu_vram_used_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="216" column="24" bodyfile="include/llm/gpu_memory_manager.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aac8f5f24c75bd3173f9e7a98431f4911" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, bool &gt;</type>
+        <definition>std::unordered_map&lt;int, bool&gt; themis::llm::GPUMemoryManager::gpu_health_status_</definition>
+        <argsstring></argsstring>
+        <name>gpu_health_status_</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::gpu_health_status_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="217" column="24" bodyfile="include/llm/gpu_memory_manager.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aceaa7daaefa3beb25ad50c61133c9a1b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::GPUMemoryManager::available_gpus_</definition>
+        <argsstring></argsstring>
+        <name>available_gpus_</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::available_gpus_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="218" column="17" bodyfile="include/llm/gpu_memory_manager.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ace621e873d3126f56f3fe5125e46d7d7" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, <ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health" kindref="compound">GPUHealth</ref> &gt;</type>
+        <definition>std::unordered_map&lt;int, GPUHealth&gt; themis::llm::GPUMemoryManager::gpu_health_data_</definition>
+        <argsstring></argsstring>
+        <name>gpu_health_data_</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::gpu_health_data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="221" column="24" bodyfile="include/llm/gpu_memory_manager.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1acf15c261c3100e6e9989fafb39545b23" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, float &gt;</type>
+        <definition>std::unordered_map&lt;int, float&gt; themis::llm::GPUMemoryManager::gpu_temperatures_</definition>
+        <argsstring></argsstring>
+        <name>gpu_temperatures_</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::gpu_temperatures_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="222" column="24" bodyfile="include/llm/gpu_memory_manager.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a03180a168a5c683f8997de0ec23c673c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, float &gt;</type>
+        <definition>std::unordered_map&lt;int, float&gt; themis::llm::GPUMemoryManager::gpu_utilizations_</definition>
+        <argsstring></argsstring>
+        <name>gpu_utilizations_</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::gpu_utilizations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="223" column="24" bodyfile="include/llm/gpu_memory_manager.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aee287f1ac1e430bb07165374d7dd0ea4" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, size_t &gt;</type>
+        <definition>std::unordered_map&lt;int, size_t&gt; themis::llm::GPUMemoryManager::gpu_error_counts_</definition>
+        <argsstring></argsstring>
+        <name>gpu_error_counts_</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::gpu_error_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="224" column="24" bodyfile="include/llm/gpu_memory_manager.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ad70d1102840949f34c1170cb3500278d" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a387c2494da193743a44c857d4b378d47" kindref="member">GPUTemperatureProviderFn</ref></type>
+        <definition>GPUTemperatureProviderFn themis::llm::GPUMemoryManager::temperature_provider_fn_</definition>
+        <argsstring></argsstring>
+        <name>temperature_provider_fn_</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::temperature_provider_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="225" column="30" bodyfile="include/llm/gpu_memory_manager.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a5a1e444dbebbbf1d8f2009bc8aad7a1f" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;int, std::vector&lt;std::string&gt; &gt; themis::llm::GPUMemoryManager::gpu_adapters_</definition>
+        <argsstring></argsstring>
+        <name>gpu_adapters_</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::gpu_adapters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="228" column="24" bodyfile="include/llm/gpu_memory_manager.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1abc2471fa242f98c082f535b23c4778ff" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;int, std::vector&lt;std::string&gt; &gt; themis::llm::GPUMemoryManager::gpu_models_</definition>
+        <argsstring></argsstring>
+        <name>gpu_models_</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::gpu_models_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="229" column="24" bodyfile="include/llm/gpu_memory_manager.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a7c1c4cab82bb14d9592a1c2fd3364f99" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::GPUMemoryManager::GPUMemoryManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>GPUMemoryManager</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::GPUMemoryManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>GPUMemory Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="69" column="14" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="397" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1af46b4c74f21d7e6d4c14337986dbae15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::GPUMemoryManager::~GPUMemoryManager</definition>
+        <argsstring>()</argsstring>
+        <name>~GPUMemoryManager</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::~GPUMemoryManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="70" column="5" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="407" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a31ef15fd28c68b9be80250c577a5f032" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::llm::GPUMemoryManager::allocateGPU</definition>
+        <argsstring>(const std::string &amp;model_id, size_t bytes)</argsstring>
+        <name>allocateGPU</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::allocateGPU</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Allocate GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: themis::gpu::GPUMemoryManager::GetInstance(), isGPUEnabled(), TryAllocateGPU(), spdlog::error(), lock(), max(), DeallocateGPU(), <ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aac36515084c3ed28ebe0b5e162ed1592" kindref="member">canAllocate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="81" column="11" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="636" bodyend="835"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a9c74a9fdc7f7a01a2355f706fcb54968" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::llm::GPUMemoryManager::allocateCPU</definition>
+        <argsstring>(const std::string &amp;model_id, size_t bytes, bool pinned=false)</argsstring>
+        <name>allocateCPU</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::allocateCPU</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>pinned</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Allocate CPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pinned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aac36515084c3ed28ebe0b5e162ed1592" kindref="member">canAllocate()</ref>, spdlog::error(), cudaMallocHost(), spdlog::warn(), cudaGetErrorString(), std::malloc(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="82" column="11" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="845" bodyend="919"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a854227cb7c0dd20e33b9ad1f6a6fbb1b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::llm::GPUMemoryManager::allocateGPU</definition>
+        <argsstring>(const std::string &amp;model_id, size_t bytes, int gpu_device_id)</argsstring>
+        <name>allocateGPU</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::allocateGPU</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+<para>Multi-GPU methods (v1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+4.0) Calls: themis::gpu::GPUMemoryManager::GetInstance(), isGPUEnabled(), TryAllocateGPU(), spdlog::error(), lock(), isGPUAvailableNoLock(), DeallocateGPU(), calculateAvailableBytes(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="85" column="11" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="1786" bodyend="1927"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a76fa01c884b57d2a7fefcdab59f200d9" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::freeGPU</definition>
+        <argsstring>(const std::string &amp;model_id, void *ptr)</argsstring>
+        <name>freeGPU</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::freeGPU</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Free GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), begin(), load(), spdlog::error(), store(), fetch_sub(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="88" column="11" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="928" bodyend="982"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ac57a454ff4c3d4a18fc5569aad0603c4" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::freeCPU</definition>
+        <argsstring>(const std::string &amp;model_id, void *ptr)</argsstring>
+        <name>freeCPU</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::freeCPU</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Free CPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), begin(), load(), spdlog::error(), store(), fetch_sub(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="89" column="11" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="991" bodyend="1026"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1abcabeb615efb1bf1ab759fb863da0c5c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::freeModel</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>freeModel</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::freeModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Free Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), load(), spdlog::error(), store(), fetch_sub(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="92" column="11" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="1034" bodyend="1082"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1af1eb8f6c5bb9fe92f9002933d2de3987" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::freeModel</definition>
+        <argsstring>(const std::string &amp;model_id, int gpu_device_id)</argsstring>
+        <name>freeModel</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::freeModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+<para>Free Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), begin(), tryAddSize(), spdlog::error(), max(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="95" column="11" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="1936" bodyend="2028"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1adad8aa534d8799f260e312f3ff34cf9d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::getModelVRAM</definition>
+        <argsstring>(const std::string &amp;model_id) const</argsstring>
+        <name>getModelVRAM</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getModelVRAM</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="98" column="13" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="1084" bodyend="1103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ab81a4d6c086251aeed14dfbe983fb5e2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::getModelRAM</definition>
+        <argsstring>(const std::string &amp;model_id) const</argsstring>
+        <name>getModelRAM</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getModelRAM</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="99" column="13" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="1105" bodyend="1124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a2cbd6b2d258deffc8078f011ef2fd1d3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::getTotalVRAM</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalVRAM</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getTotalVRAM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="100" column="13" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="1126" bodyend="1134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a41743b16f28f03cc1388220e36999a6c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::getTotalRAM</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalRAM</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getTotalRAM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="101" column="13" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="1136" bodyend="1144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1acf424d4ed6c45886031c5dddba10d211" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::getFreeVRAM</definition>
+        <argsstring>() const</argsstring>
+        <name>getFreeVRAM</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getFreeVRAM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="102" column="13" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="1146" bodyend="1159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ae56901322f99a1ee36c7d36483d4ad48" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::getFreeRAM</definition>
+        <argsstring>() const</argsstring>
+        <name>getFreeRAM</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getFreeRAM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="103" column="13" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="1161" bodyend="1174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a08ebb9744fd909e610b6a3d591bf6a0f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::getGPUVRAM</definition>
+        <argsstring>(int gpu_device_id) const</argsstring>
+        <name>getGPUVRAM</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getGPUVRAM</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="106" column="13" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2030" bodyend="2039"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a69bc3d5b39aac1de8aa609ba080c924d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::getFreeGPUVRAM</definition>
+        <argsstring>(int gpu_device_id) const</argsstring>
+        <name>getFreeGPUVRAM</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getFreeGPUVRAM</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="107" column="13" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2041" bodyend="2057"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a8848193c36b9b40dd4bddd1e3fff8e6f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::llm::GPUMemoryManager::getAvailableGPUs</definition>
+        <argsstring>() const</argsstring>
+        <name>getAvailableGPUs</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getAvailableGPUs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="108" column="18" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2059" bodyend="2075"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1adb037eb136423d0a16b3073fbb0c5893" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::isGPUAvailable</definition>
+        <argsstring>(int gpu_device_id) const</argsstring>
+        <name>isGPUAvailable</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::isGPUAvailable</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="109" column="11" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2077" bodyend="2085"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aac36515084c3ed28ebe0b5e162ed1592" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::canAllocate</definition>
+        <argsstring>(size_t vram_bytes, size_t ram_bytes) const</argsstring>
+        <name>canAllocate</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::canAllocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>vram_bytes</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>ram_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="112" column="11" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="1176" bodyend="1208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a0f5a7785b149a07fe404b80d3d66594e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::getMemoryFragmentation</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemoryFragmentation</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getMemoryFragmentation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="113" column="13" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="1210" bodyend="1240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1acf4145a27aab23ebff82c7f8e5b87bc4" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::defragment</definition>
+        <argsstring>()</argsstring>
+        <name>defragment</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::defragment</qualifiedname>
+        <briefdescription>
+<para>Defragment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), size(), std::min(), compute_fragmentation_unlocked(), spdlog::debug(), spdlog::info(), push_back(), defragmentModelGPU(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="116" column="11" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="1247" bodyend="1332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a5453e225d682af2cab639fcfee15c0ae" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>GPUMemoryManager::Stats themis::llm::GPUMemoryManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="157" column="12" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="1672" bodyend="1706"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aef290975587d514ce7edbdeff6bfb0f1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::GPUMemoryManager::getLoadedModels</definition>
+        <argsstring>() const</argsstring>
+        <name>getLoadedModels</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getLoadedModels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="158" column="18" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="1708" bodyend="1725"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a093ab69b7e30a113adc6f6abdeaaa160" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats" kindref="compound">GPUStats</ref></type>
+        <definition>GPUMemoryManager::GPUStats themis::llm::GPUMemoryManager::getGPUStats</definition>
+        <argsstring>(int gpu_device_id) const</argsstring>
+        <name>getGPUStats</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getGPUStats</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="161" column="15" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2246" bodyend="2311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a1f528d7ff0c7b13aee8e8cc393cea4c1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_stats" kindref="compound">GPUStats</ref> &gt;</type>
+        <definition>std::vector&lt; GPUMemoryManager::GPUStats &gt; themis::llm::GPUMemoryManager::getAllGPUStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllGPUStats</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getAllGPUStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="162" column="18" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2313" bodyend="2383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1af3507f3875053a5bfcd210d25a269008" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health" kindref="compound">GPUHealth</ref></type>
+        <definition>GPUMemoryManager::GPUHealth themis::llm::GPUMemoryManager::getGPUHealth</definition>
+        <argsstring>(int gpu_device_id) const</argsstring>
+        <name>getGPUHealth</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getGPUHealth</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="165" column="16" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2385" bodyend="2424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aa3853a30062159d80e593aa8886c42d6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health" kindref="compound">GPUHealth</ref> &gt;</type>
+        <definition>std::vector&lt; GPUMemoryManager::GPUHealth &gt; themis::llm::GPUMemoryManager::getAllGPUHealth</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllGPUHealth</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getAllGPUHealth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="166" column="18" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2426" bodyend="2466"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a1e04b3eab42528af1cda290e8dda548e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::isGPUHealthy</definition>
+        <argsstring>(int gpu_device_id) const</argsstring>
+        <name>isGPUHealthy</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::isGPUHealthy</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="167" column="11" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2468" bodyend="2482"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a0db91101e0c8527b45268d4a51a53995" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::GPUMemoryManager::markGPUUnhealthy</definition>
+        <argsstring>(int gpu_device_id, const std::string &amp;reason)</argsstring>
+        <name>markGPUUnhealthy</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::markGPUUnhealthy</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Mark GPUUnhealthy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), isTrackedGpuNoLock(), spdlog::warn(), isTrackedGpuHealthEntryNoLock(), find(), end(), std::chrono::system_clock::now(), time_since_epoch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="173" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2490" bodyend="2525"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ae87c90eda845b64d7307252d3f8939de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::GPUMemoryManager::markGPUHealthy</definition>
+        <argsstring>(int gpu_device_id)</argsstring>
+        <name>markGPUHealthy</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::markGPUHealthy</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+<para>Mark GPUHealthy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="178" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2527" bodyend="2557"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a8c985939790e778d5f1d984732542704" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::GPUMemoryManager::getLeastLoadedGPU</definition>
+        <argsstring>() const</argsstring>
+        <name>getLeastLoadedGPU</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getLeastLoadedGPU</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="181" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2561" bodyend="2613"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aabd0d9ed72c7f450169361ccd67d5854" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::llm::GPUMemoryManager::getHealthyGPUs</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthyGPUs</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getHealthyGPUs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="182" column="18" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2615" bodyend="2633"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a5bbeaf71b8607b10f9869c458dc76a49" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::GPUMemoryManager::getAverageGPULoad</definition>
+        <argsstring>() const</argsstring>
+        <name>getAverageGPULoad</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::getAverageGPULoad</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="183" column="12" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2635" bodyend="2668"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a554275eb6837505de5e428d1bac523d0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::needsLoadRebalancing</definition>
+        <argsstring>(float threshold) const</argsstring>
+        <name>needsLoadRebalancing</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::needsLoadRebalancing</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="184" column="11" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2670" bodyend="2722"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aa58ca38ceaa177ee0f04a2034cb8ab39" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::enablePeerAccess</definition>
+        <argsstring>(int src_gpu, int dst_gpu)</argsstring>
+        <name>enablePeerAccess</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::enablePeerAccess</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>src_gpu</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>dst_gpu</declname>
+        </param>
+        <briefdescription>
+<para>Enable Peer Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">src_gpu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dst_gpu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), spdlog::warn(), isGPUAvailableNoLock(), spdlog::error(), CUDA_CHECK_RETURN(), cudaDeviceCanAccessPeer(), cudaSetDevice(), cudaDeviceEnablePeerAccess(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="187" column="11" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2094" bodyend="2140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a1b4d482f25780eba07cd6635cfd397bf" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::disablePeerAccess</definition>
+        <argsstring>(int src_gpu, int dst_gpu)</argsstring>
+        <name>disablePeerAccess</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::disablePeerAccess</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>src_gpu</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>dst_gpu</declname>
+        </param>
+        <briefdescription>
+<para>Disable Peer Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">src_gpu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dst_gpu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), spdlog::warn(), isGPUAvailableNoLock(), CUDA_CHECK_RETURN(), cudaSetDevice(), cudaDeviceDisablePeerAccess(), cudaGetErrorString(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="188" column="11" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2149" bodyend="2184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ac408bab4173d6b2bc8d11a381a1cc0d4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::canAccessPeer</definition>
+        <argsstring>(int src_gpu, int dst_gpu) const</argsstring>
+        <name>canAccessPeer</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::canAccessPeer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>src_gpu</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>dst_gpu</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="189" column="11" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2186" bodyend="2223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ad2dda734691f1b16f48ffda57799742f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::GPUMemoryManager::setGPUTemperatureProviderFn</definition>
+        <argsstring>(GPUTemperatureProviderFn fn)</argsstring>
+        <name>setGPUTemperatureProviderFn</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::setGPUTemperatureProviderFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a387c2494da193743a44c857d4b378d47" kindref="member">GPUTemperatureProviderFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set GPUTemperature Provider Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="195" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2230" bodyend="2233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aa988b626ee1e313a1ef398eb4f5a4604" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::GPUMemoryManager::clearGPUTemperatureProviderFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearGPUTemperatureProviderFn</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::clearGPUTemperatureProviderFn</qualifiedname>
+        <briefdescription>
+<para>Clear GPUTemperature Provider Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="200" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2239" bodyend="2242"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1acf19ad34b166d85f310eaaddb7ce1042" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::GPUMemoryManager::setNvmlTemperatureFn</definition>
+        <argsstring>(NvmlTemperatureFn fn)</argsstring>
+        <name>setNvmlTemperatureFn</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::setNvmlTemperatureFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a509ebb09058b91b19328afc3d6482d2f" kindref="member">NvmlTemperatureFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Nvml Temperature Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="78" column="17" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="392" bodyend="395"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a4320e23ae5e4635c51ba6053a566f12a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::GPUMemoryManager::initializeGPU</definition>
+        <argsstring>()</argsstring>
+        <name>initializeGPU</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::initializeGPU</qualifiedname>
+        <briefdescription>
+<para>Initialize GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: cudaGetDeviceCount(), cudaGetDevice(), CUDA_CHECK(), cudaSetDevice(), cudaGetDeviceProperties(), spdlog::info(), empty(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="234" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="432" bodyend="583"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ae6e1fc0bf0237653945dfabf7961fdcd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::GPUMemoryManager::shutdownGPU</definition>
+        <argsstring>()</argsstring>
+        <name>shutdownGPU</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::shutdownGPU</qualifiedname>
+        <briefdescription>
+<para>Shutdown GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: size(), cudaSetDevice(), spdlog::warn(), cudaGetErrorString(), cudaDeviceDisablePeerAccess(), CUDA_CHECK(), cudaDeviceReset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="238" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="589" bodyend="627"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a46ae895156358d0de0f5c95abf02fae7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::GPUMemoryManager::updateMemoryStats</definition>
+        <argsstring>()</argsstring>
+        <name>updateMemoryStats</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::updateMemoryStats</qualifiedname>
+        <briefdescription>
+<para>Update Memory <ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), store(), tryAddSize(), load(), spdlog::error(), max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="242" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="1731" bodyend="1775"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a6dcb95cc9dde0cb7685b23894e888884" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::GPUMemoryManager::updateGPUHealth</definition>
+        <argsstring>(int gpu_device_id)</argsstring>
+        <name>updateGPUHealth</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::updateGPUHealth</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+<para>Update <ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health" kindref="compound">GPUHealth</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="247" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2724" bodyend="2903"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a5617c6c7bbf1e5ed57bacb8256d87347" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::GPUMemoryManager::checkGPUHealth</definition>
+        <argsstring>(int gpu_device_id)</argsstring>
+        <name>checkGPUHealth</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::checkGPUHealth</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+<para>Check <ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_g_p_u_health" kindref="compound">GPUHealth</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="252" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="2905" bodyend="2951"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a7ee3b830ba0eabdefee630e8d2b14547" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::defragmentModelGPU</definition>
+        <argsstring>(const std::string &amp;model_id, const std::vector&lt; MemoryAllocation &gt; &amp;gpu_allocs)</argsstring>
+        <name>defragmentModelGPU</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::defragmentModelGPU</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation" kindref="compound">MemoryAllocation</ref> &gt; &amp;</type>
+          <declname>gpu_allocs</declname>
+        </param>
+        <briefdescription>
+<para>Defragment Model GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_allocs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_allocs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: push_back(), size(), cudaSetDevice(), spdlog::warn(), cudaGetErrorString(), cudaMalloc(), spdlog::error(), cudaMemcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="261" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="1341" bodyend="1491"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a76d864d1076e23648f405b5785ca90a1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::defragmentModelCPU</definition>
+        <argsstring>(const std::string &amp;model_id, const std::vector&lt; MemoryAllocation &gt; &amp;cpu_allocs)</argsstring>
+        <name>defragmentModelCPU</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::defragmentModelCPU</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_memory_allocation" kindref="compound">MemoryAllocation</ref> &gt; &amp;</type>
+          <declname>cpu_allocs</declname>
+        </param>
+        <briefdescription>
+<para>Defragment Model CPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cpu_allocs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cpu_allocs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), push_back(), cudaMallocHost(), spdlog::warn(), cudaGetErrorString(), std::malloc(), spdlog::error(), std::memcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="268" column="10" bodyfile="src/llm/gpu_memory_manager.cpp" bodystart="1500" bodyend="1670"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/gpu_memory_manager.h" line="32" column="1" bodyfile="include/llm/gpu_memory_manager.h" bodystart="32" bodyend="270"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a9c74a9fdc7f7a01a2355f706fcb54968" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>allocateCPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a31ef15fd28c68b9be80250c577a5f032" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>allocateGPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a854227cb7c0dd20e33b9ad1f6a6fbb1b" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>allocateGPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a77150e7a6f1bb0c4e7b654a415e09278" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>allocations_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aceaa7daaefa3beb25ad50c61133c9a1b" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>available_gpus_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ac408bab4173d6b2bc8d11a381a1cc0d4" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>canAccessPeer</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aac36515084c3ed28ebe0b5e162ed1592" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>canAllocate</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a5617c6c7bbf1e5ed57bacb8256d87347" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>checkGPUHealth</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aa988b626ee1e313a1ef398eb4f5a4604" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>clearGPUTemperatureProviderFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aff9202390229804ffe17560cd64a5905" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1acf4145a27aab23ebff82c7f8e5b87bc4" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>defragment</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a76d864d1076e23648f405b5785ca90a1" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>defragmentModelCPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a7ee3b830ba0eabdefee630e8d2b14547" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>defragmentModelGPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a1b4d482f25780eba07cd6635cfd397bf" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>disablePeerAccess</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aa58ca38ceaa177ee0f04a2034cb8ab39" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>enablePeerAccess</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ac57a454ff4c3d4a18fc5569aad0603c4" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>freeCPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a76fa01c884b57d2a7fefcdab59f200d9" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>freeGPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1abcabeb615efb1bf1ab759fb863da0c5c" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>freeModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1af1eb8f6c5bb9fe92f9002933d2de3987" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>freeModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aa3853a30062159d80e593aa8886c42d6" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getAllGPUHealth</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a1f528d7ff0c7b13aee8e8cc393cea4c1" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getAllGPUStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a8848193c36b9b40dd4bddd1e3fff8e6f" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getAvailableGPUs</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a5bbeaf71b8607b10f9869c458dc76a49" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getAverageGPULoad</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a69bc3d5b39aac1de8aa609ba080c924d" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getFreeGPUVRAM</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ae56901322f99a1ee36c7d36483d4ad48" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getFreeRAM</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1acf424d4ed6c45886031c5dddba10d211" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getFreeVRAM</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1af3507f3875053a5bfcd210d25a269008" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getGPUHealth</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a093ab69b7e30a113adc6f6abdeaaa160" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getGPUStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a08ebb9744fd909e610b6a3d591bf6a0f" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getGPUVRAM</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aabd0d9ed72c7f450169361ccd67d5854" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getHealthyGPUs</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a8c985939790e778d5f1d984732542704" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getLeastLoadedGPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aef290975587d514ce7edbdeff6bfb0f1" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getLoadedModels</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a0f5a7785b149a07fe404b80d3d66594e" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getMemoryFragmentation</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ab81a4d6c086251aeed14dfbe983fb5e2" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getModelRAM</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1adad8aa534d8799f260e312f3ff34cf9d" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getModelVRAM</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a5453e225d682af2cab639fcfee15c0ae" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a41743b16f28f03cc1388220e36999a6c" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getTotalRAM</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a2cbd6b2d258deffc8078f011ef2fd1d3" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>getTotalVRAM</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a5a1e444dbebbbf1d8f2009bc8aad7a1f" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>gpu_adapters_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a376cc468a5ec06e1c3e4d46acfdf9ae5" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>gpu_available_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ae480ae73908b140bbfe8a2e238c86aca" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>gpu_device_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aee287f1ac1e430bb07165374d7dd0ea4" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>gpu_error_counts_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ace621e873d3126f56f3fe5125e46d7d7" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>gpu_health_data_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1aac8f5f24c75bd3173f9e7a98431f4911" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>gpu_health_status_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1abc2471fa242f98c082f535b23c4778ff" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>gpu_models_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1acf15c261c3100e6e9989fafb39545b23" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>gpu_temperatures_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a03180a168a5c683f8997de0ec23c673c" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>gpu_utilizations_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a7c1c4cab82bb14d9592a1c2fd3364f99" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>GPUMemoryManager</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a387c2494da193743a44c857d4b378d47" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>GPUTemperatureProviderFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a4320e23ae5e4635c51ba6053a566f12a" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>initializeGPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1adb037eb136423d0a16b3073fbb0c5893" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>isGPUAvailable</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a1e04b3eab42528af1cda290e8dda548e" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>isGPUHealthy</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ae87c90eda845b64d7307252d3f8939de" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>markGPUHealthy</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a0db91101e0c8527b45268d4a51a53995" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>markGPUUnhealthy</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1afccff96904c9c7ec562b432e5f58481c" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a554275eb6837505de5e428d1bac523d0" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>needsLoadRebalancing</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a509ebb09058b91b19328afc3d6482d2f" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>NvmlTemperatureFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a09d24943364c283bf2f675bebb4d9ba4" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>per_gpu_vram_used_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ad2dda734691f1b16f48ffda57799742f" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>setGPUTemperatureProviderFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1acf19ad34b166d85f310eaaddb7ce1042" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>setNvmlTemperatureFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ae6e1fc0bf0237653945dfabf7961fdcd" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>shutdownGPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1ad70d1102840949f34c1170cb3500278d" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>temperature_provider_fn_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a0348fc0f241891d8cafb4224edd2aa31" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>total_ram_used_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a21046b9e17723557a07997b6f76eb3db" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>total_vram_used_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a6dcb95cc9dde0cb7685b23894e888884" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>updateGPUHealth</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a46ae895156358d0de0f5c95abf02fae7" prot="private" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>updateMemoryStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1af46b4c74f21d7e6d4c14337986dbae15" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager</scope><name>~GPUMemoryManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

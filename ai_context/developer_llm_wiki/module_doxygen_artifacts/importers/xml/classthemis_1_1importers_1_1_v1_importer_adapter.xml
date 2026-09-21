@@ -1,0 +1,499 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_v1_importer_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::V1ImporterAdapter</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_importer" prot="public" virt="non-virtual">themis::importers::IImporter</basecompoundref>
+    <includes refid="importer__plugin__api_8h" local="no">importer_plugin_api.h</includes>
+    <innerclass refid="structthemis_1_1importers_1_1_v1_importer_adapter_1_1_alloc_context" prot="private">themis::importers::V1ImporterAdapter::AllocContext</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_v1_importer_adapter_1_1_alloc_header" prot="private">themis::importers::V1ImporterAdapter::AllocHeader</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_v1_importer_adapter_1a4602549313efa287da7dc2ff4dc6fd79" prot="private" static="no" mutable="no">
+        <type>const <ref refid="importer__plugin_8h_1a119f46b9b156de25d2e30732a216119b" kindref="member">THEMIS_IMPORTER_PLUGIN_V1</ref> *</type>
+        <definition>const THEMIS_IMPORTER_PLUGIN_V1* themis::importers::V1ImporterAdapter::desc_</definition>
+        <argsstring></argsstring>
+        <name>desc_</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::desc_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="353" column="37" bodyfile="include/importers/importer_plugin_api.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_v1_importer_adapter_1a4671981e0d870f0f7bacb4ffcc420642" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_plugin_sandbox_config" kindref="compound">PluginSandboxConfig</ref></type>
+        <definition>PluginSandboxConfig themis::importers::V1ImporterAdapter::sandbox_</definition>
+        <argsstring></argsstring>
+        <name>sandbox_</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::sandbox_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="354" column="38" bodyfile="include/importers/importer_plugin_api.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_v1_importer_adapter_1accb3729ab0e4680bf8c9740e6382c23c" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::importers::V1ImporterAdapter::instance_</definition>
+        <argsstring></argsstring>
+        <name>instance_</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::instance_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="355" column="37" bodyfile="include/importers/importer_plugin_api.h" bodystart="355" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_v1_importer_adapter_1a2a88ff79b42f9b85045389f8aa708504" prot="private" static="no" mutable="no">
+        <type>AllocContext</type>
+        <definition>AllocContext themis::importers::V1ImporterAdapter::alloc_ctx_</definition>
+        <argsstring></argsstring>
+        <name>alloc_ctx_</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::alloc_ctx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="356" column="38" bodyfile="include/importers/importer_plugin_api.h" bodystart="356" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_v1_importer_adapter_1aa6eb9861e26c06220f1113747229e850" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::V1ImporterAdapter::V1ImporterAdapter</definition>
+        <argsstring>(const THEMIS_IMPORTER_PLUGIN_V1 *desc, PluginSandboxConfig sandbox)</argsstring>
+        <name>V1ImporterAdapter</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::V1ImporterAdapter</qualifiedname>
+        <param>
+          <type>const <ref refid="importer__plugin_8h_1a119f46b9b156de25d2e30732a216119b" kindref="member">THEMIS_IMPORTER_PLUGIN_V1</ref> *</type>
+          <declname>desc</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1importers_1_1_plugin_sandbox_config" kindref="compound">PluginSandboxConfig</ref></type>
+          <declname>sandbox</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="112" column="5" bodyfile="include/importers/importer_plugin_api.h" bodystart="112" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_v1_importer_adapter_1a7e94933d517631303def571c10d1c501" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::V1ImporterAdapter::~V1ImporterAdapter</definition>
+        <argsstring>() override</argsstring>
+        <name>~V1ImporterAdapter</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::~V1ImporterAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="122" column="5" bodyfile="include/importers/importer_plugin_api.h" bodystart="122" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_v1_importer_adapter_1ad6c1157ce7a0791b058603aefb2e8ff4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::V1ImporterAdapter::V1ImporterAdapter</definition>
+        <argsstring>(const V1ImporterAdapter &amp;)=delete</argsstring>
+        <name>V1ImporterAdapter</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::V1ImporterAdapter</qualifiedname>
+        <param>
+          <type>const V1ImporterAdapter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="131" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_v1_importer_adapter_1afbd851b965530a5cfe05a6dc50e3e28a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1importers_1_1_v1_importer_adapter_1aa6eb9861e26c06220f1113747229e850" kindref="member">V1ImporterAdapter</ref> &amp;</type>
+        <definition>V1ImporterAdapter &amp; themis::importers::V1ImporterAdapter::operator=</definition>
+        <argsstring>(const V1ImporterAdapter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1importers_1_1_v1_importer_adapter_1aa6eb9861e26c06220f1113747229e850" kindref="member">V1ImporterAdapter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="132" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_v1_importer_adapter_1a1568c8a2338712de9d3e08ee712211f6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::importers::V1ImporterAdapter::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1aa17b5c532ea2e9928379e77fe1385212">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="138" column="16" bodyfile="include/importers/importer_plugin_api.h" bodystart="138" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_v1_importer_adapter_1af5917804499ac75f9b64938a1d786782" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::importers::V1ImporterAdapter::getSupportedTypes</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedTypes</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::getSupportedTypes</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a26a442906fade935ddfe41f8e91a15e6">getSupportedTypes</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="142" column="17" bodyfile="include/importers/importer_plugin_api.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_v1_importer_adapter_1a13c7a00f84ec7ac377db77ac91a3e68f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::V1ImporterAdapter::initialize</definition>
+        <argsstring>(const std::string &amp;config_json) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1ae57ccf0cf0c3b0dbe9647f43be339afc">initialize</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="144" column="10" bodyfile="include/importers/importer_plugin_api.h" bodystart="144" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_v1_importer_adapter_1aeb5d7a9b86ecb6472272c610a6c23130" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::V1ImporterAdapter::validateSource</definition>
+        <argsstring>(const std::string &amp;source_path, std::vector&lt; std::string &gt; &amp;errors) override</argsstring>
+        <name>validateSource</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::validateSource</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af2e09c4be51c0440e2ab1717ceeb2de5">validateSource</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="151" column="10" bodyfile="include/importers/importer_plugin_api.h" bodystart="151" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_v1_importer_adapter_1a30f7eb92180907084b10d041ceb0eba5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats themis::importers::V1ImporterAdapter::importData</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options, ProgressCallback=nullptr) override</argsstring>
+        <name>importData</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::importData</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a93d10ab9f3f1d941d17ac2a54a5ddc02">importData</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref></type>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="169" column="17" bodyfile="include/importers/importer_plugin_api.h" bodystart="169" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_v1_importer_adapter_1a65e6716f3de3ac6c3653af980e771d14" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ImportHandle &gt; themis::importers::V1ImporterAdapter::importDataAsync</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options) override</argsstring>
+        <name>importDataAsync</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::importDataAsync</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af837fb18957347a51357191ee61a04a8">importDataAsync</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="203" column="21" bodyfile="include/importers/importer_plugin_api.h" bodystart="203" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_v1_importer_adapter_1ac3b136f7457a3c4be52aef5dd706b5f4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::importers::V1ImporterAdapter::cancel</definition>
+        <argsstring>() override</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::cancel</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1abda4e925d1f832cbf0e07f294b96c526">cancel</reimplements>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="219" column="10" bodyfile="include/importers/importer_plugin_api.h" bodystart="219" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_v1_importer_adapter_1ae0668635cf32fe345f64d03151e06ea4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::V1ImporterAdapter::getSourceSchema</definition>
+        <argsstring>(const std::string &amp;source_path) override</argsstring>
+        <name>getSourceSchema</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::getSourceSchema</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a45b011aef76cd697e53d1e847dac430a">getSourceSchema</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="225" column="10" bodyfile="include/importers/importer_plugin_api.h" bodystart="225" bodyend="238"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_v1_importer_adapter_1af529e4daea65b9571cacb01b26c55a41" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>static void * themis::importers::V1ImporterAdapter::sandboxAlloc</definition>
+        <argsstring>(size_t bytes, void *user_data)</argsstring>
+        <name>sandboxAlloc</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::sandboxAlloc</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>user_data</declname>
+        </param>
+        <briefdescription>
+<para>Sandbox Alloc. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">user_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: load(), fetch_add(), fetch_sub(), store(), std::malloc(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="264" column="17" bodyfile="include/importers/importer_plugin_api.h" bodystart="264" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_v1_importer_adapter_1a8d8505e23c20e8a08aff86a940efdccb" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::importers::V1ImporterAdapter::sandboxFree</definition>
+        <argsstring>(void *ptr, void *user_data)</argsstring>
+        <name>sandboxFree</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::sandboxFree</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>user_data</declname>
+        </param>
+        <briefdescription>
+<para>Sandbox Free. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">user_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_sub(), std::free(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="295" column="17" bodyfile="include/importers/importer_plugin_api.h" bodystart="295" bodyend="305"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_v1_importer_adapter_1a1f078bc90f3001a3b67b183ea30be524" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_themis_importer_allocator" kindref="compound">ThemisImporterAllocator</ref></type>
+        <definition>ThemisImporterAllocator themis::importers::V1ImporterAdapter::makeAllocator</definition>
+        <argsstring>()</argsstring>
+        <name>makeAllocator</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::makeAllocator</qualifiedname>
+        <briefdescription>
+<para>Make Allocator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeAllocator without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="312" column="29" bodyfile="include/importers/importer_plugin_api.h" bodystart="312" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_v1_importer_adapter_1a3193972ea0d5e19ffec59fcadb7b21a9" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats themis::importers::V1ImporterAdapter::runImportV1</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;)</argsstring>
+        <name>runImportV1</name>
+        <qualifiedname>themis::importers::V1ImporterAdapter::runImportV1</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+        </param>
+        <briefdescription>
+<para>Run Import V1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeAllocator(), import_data(), c_str(), push_back(), std::to_string(), load(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin_api.h" line="327" column="17" bodyfile="include/importers/importer_plugin_api.h" bodystart="327" bodyend="348"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::V1ImporterAdapter</label>
+        <link refid="classthemis_1_1importers_1_1_v1_importer_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::V1ImporterAdapter</label>
+        <link refid="classthemis_1_1importers_1_1_v1_importer_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/importer_plugin_api.h" line="110" column="1" bodyfile="include/importers/importer_plugin_api.h" bodystart="110" bodyend="357"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1a2a88ff79b42f9b85045389f8aa708504" prot="private" virt="non-virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>alloc_ctx_</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1ac3b136f7457a3c4be52aef5dd706b5f4" prot="public" virt="virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1a4602549313efa287da7dc2ff4dc6fd79" prot="private" virt="non-virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>desc_</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1a1568c8a2338712de9d3e08ee712211f6" prot="public" virt="virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>getName</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1ae0668635cf32fe345f64d03151e06ea4" prot="public" virt="virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>getSourceSchema</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1af5917804499ac75f9b64938a1d786782" prot="public" virt="virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>getSupportedTypes</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1a30f7eb92180907084b10d041ceb0eba5" prot="public" virt="virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>importData</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1a65e6716f3de3ac6c3653af980e771d14" prot="public" virt="virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>importDataAsync</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a0790bcc7450b9294f9d9d7ae891eed52" prot="public" virt="virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>importDataStreaming</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1a13c7a00f84ec7ac377db77ac91a3e68f" prot="public" virt="virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1accb3729ab0e4680bf8c9740e6382c23c" prot="private" virt="non-virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>instance_</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1a1f078bc90f3001a3b67b183ea30be524" prot="private" virt="non-virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>makeAllocator</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1afbd851b965530a5cfe05a6dc50e3e28a" prot="public" virt="non-virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1a3193972ea0d5e19ffec59fcadb7b21a9" prot="private" virt="non-virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>runImportV1</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1a4671981e0d870f0f7bacb4ffcc420642" prot="private" virt="non-virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>sandbox_</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1af529e4daea65b9571cacb01b26c55a41" prot="private" virt="non-virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>sandboxAlloc</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1a8d8505e23c20e8a08aff86a940efdccb" prot="private" virt="non-virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>sandboxFree</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1aa6eb9861e26c06220f1113747229e850" prot="public" virt="non-virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>V1ImporterAdapter</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1ad6c1157ce7a0791b058603aefb2e8ff4" prot="public" virt="non-virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>V1ImporterAdapter</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1aeb5d7a9b86ecb6472272c610a6c23130" prot="public" virt="virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>validateSource</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a72b3cba1bf78aee41b2dfb19c8b91629" prot="public" virt="virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>~IImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_v1_importer_adapter_1a7e94933d517631303def571c10d1c501" prot="public" virt="non-virtual"><scope>themis::importers::V1ImporterAdapter</scope><name>~V1ImporterAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

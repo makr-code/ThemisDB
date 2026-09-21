@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_q_c_configurator" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::RAGJudgeQCConfigurator</compoundname>
+    <includes refid="quality__control__factory_8h" local="no">quality_control_factory.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_q_c_configurator_1a29faa89bf6feb9107d6f87e2963a1626" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref></type>
+        <definition>RAGJudgeConfig themis::rag::judge::RAGJudgeQCConfigurator::configure</definition>
+        <argsstring>(bool enable_nli=true, bool enable_geval=false, bool enable_full_pipeline=false)</argsstring>
+        <name>configure</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeQCConfigurator::configure</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable_nli</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enable_geval</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enable_full_pipeline</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Configure RAG Judge with quality control features. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_q_c_configurator" kindref="compound">RAGJudgeQCConfigurator</ref> Implementation ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>enable_nli</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Enable NLI verification </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enable_geval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Enable G-Eval scoring </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enable_full_pipeline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Use full QC pipeline instead of basic judge </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Configured RAG Judge config</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enable_nli</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enable_geval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enable_full_pipeline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="149" column="27" bodyfile="src/rag/quality_control_factory.cpp" bodystart="223" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_q_c_configurator_1a0ab687f66f4c02a35f7adf3633ee06f5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref></type>
+        <definition>RAGJudgeConfig themis::rag::judge::RAGJudgeQCConfigurator::getProductionConfig</definition>
+        <argsstring>()</argsstring>
+        <name>getProductionConfig</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeQCConfigurator::getProductionConfig</qualifiedname>
+        <briefdescription>
+<para>Get recommended configuration for production. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Production Config.</para>
+<para><simplesect kind="return"><para>Production-ready RAG Judge config</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="160" column="27" bodyfile="src/rag/quality_control_factory.cpp" bodystart="251" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_q_c_configurator_1abe3a6b7d0017d8b9ef7b20cc5601fb0b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref></type>
+        <definition>RAGJudgeConfig themis::rag::judge::RAGJudgeQCConfigurator::getDevelopmentConfig</definition>
+        <argsstring>()</argsstring>
+        <name>getDevelopmentConfig</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeQCConfigurator::getDevelopmentConfig</qualifiedname>
+        <briefdescription>
+<para>Get recommended configuration for development/testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Development Config.</para>
+<para><simplesect kind="return"><para>Development-friendly RAG Judge config</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="167" column="27" bodyfile="src/rag/quality_control_factory.cpp" bodystart="287" bodyend="315"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Helper class for configuring quality control in RAG Judge. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/quality_control_factory.h" line="139" column="1" bodyfile="include/rag/quality_control_factory.h" bodystart="139" bodyend="168"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_q_c_configurator_1a29faa89bf6feb9107d6f87e2963a1626" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeQCConfigurator</scope><name>configure</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_q_c_configurator_1abe3a6b7d0017d8b9ef7b20cc5601fb0b" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeQCConfigurator</scope><name>getDevelopmentConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_q_c_configurator_1a0ab687f66f4c02a35f7adf3633ee06f5" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeQCConfigurator</scope><name>getProductionConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

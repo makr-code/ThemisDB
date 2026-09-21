@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_q_l_similarity_dispatch_test" kind="class" language="C++" prot="public">
+    <compoundname>AQLSimilarityDispatchTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_q_l_similarity_dispatch_test_1a598d69c819017ddd445db33996e6605c" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AQLSimilarityDispatchTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>AQLSimilarityDispatchTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_similarity_dispatch.cpp" line="39" column="17" bodyfile="tests/aql/test_aql_similarity_dispatch.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_similarity_dispatch_test_1a2e9c75c738ec668992638ad2c4ac327d" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; AQLSimilarityDispatchTest::db</definition>
+        <argsstring></argsstring>
+        <name>db</name>
+        <qualifiedname>AQLSimilarityDispatchTest::db</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_similarity_dispatch.cpp" line="40" column="21" bodyfile="tests/aql/test_aql_similarity_dispatch.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_similarity_dispatch_test_1a1ec00a3b7000ebe876171cf497d56b1a" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; AQLSimilarityDispatchTest::sec</definition>
+        <argsstring></argsstring>
+        <name>sec</name>
+        <qualifiedname>AQLSimilarityDispatchTest::sec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_similarity_dispatch.cpp" line="40" column="40" bodyfile="tests/aql/test_aql_similarity_dispatch.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_similarity_dispatch_test_1aacc785bf40193c83f9c9678e165c9a50" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; QueryEngine &gt;</type>
+        <definition>std::unique_ptr&lt;QueryEngine&gt; AQLSimilarityDispatchTest::engine</definition>
+        <argsstring></argsstring>
+        <name>engine</name>
+        <qualifiedname>AQLSimilarityDispatchTest::engine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_similarity_dispatch.cpp" line="40" column="60" bodyfile="tests/aql/test_aql_similarity_dispatch.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_q_l_similarity_dispatch_test_1a2f9a3dfd2499885715bdc72b0b435bfb" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLSimilarityDispatchTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AQLSimilarityDispatchTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_similarity_dispatch.cpp" line="18" column="10" bodyfile="tests/aql/test_aql_similarity_dispatch.cpp" bodystart="18" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_q_l_similarity_dispatch_test_1a2aef84536e63dc1ad2952b4bc9baf883" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLSimilarityDispatchTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AQLSimilarityDispatchTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_similarity_dispatch.cpp" line="35" column="10" bodyfile="tests/aql/test_aql_similarity_dispatch.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AQLSimilarityDispatchTest</label>
+        <link refid="class_a_q_l_similarity_dispatch_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AQLSimilarityDispatchTest</label>
+        <link refid="class_a_q_l_similarity_dispatch_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_similarity_dispatch.cpp" line="16" column="1" bodyfile="tests/aql/test_aql_similarity_dispatch.cpp" bodystart="16" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_a_q_l_similarity_dispatch_test_1a2e9c75c738ec668992638ad2c4ac327d" prot="protected" virt="non-virtual"><scope>AQLSimilarityDispatchTest</scope><name>db</name></member>
+      <member refid="class_a_q_l_similarity_dispatch_test_1a598d69c819017ddd445db33996e6605c" prot="protected" virt="non-virtual"><scope>AQLSimilarityDispatchTest</scope><name>db_path_</name></member>
+      <member refid="class_a_q_l_similarity_dispatch_test_1aacc785bf40193c83f9c9678e165c9a50" prot="protected" virt="non-virtual"><scope>AQLSimilarityDispatchTest</scope><name>engine</name></member>
+      <member refid="class_a_q_l_similarity_dispatch_test_1a1ec00a3b7000ebe876171cf497d56b1a" prot="protected" virt="non-virtual"><scope>AQLSimilarityDispatchTest</scope><name>sec</name></member>
+      <member refid="class_a_q_l_similarity_dispatch_test_1a2f9a3dfd2499885715bdc72b0b435bfb" prot="protected" virt="non-virtual"><scope>AQLSimilarityDispatchTest</scope><name>SetUp</name></member>
+      <member refid="class_a_q_l_similarity_dispatch_test_1a2aef84536e63dc1ad2952b4bc9baf883" prot="protected" virt="non-virtual"><scope>AQLSimilarityDispatchTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_phase_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::RewriteMetrics::PerPhaseMetrics</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_phase_metrics_1aa0d34dd97e89c295fc1e43f5025f9c5f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteMetrics::PerPhaseMetrics::rules_evaluated</definition>
+        <argsstring></argsstring>
+        <name>rules_evaluated</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::PerPhaseMetrics::rules_evaluated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="28" column="18" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_phase_metrics_1a3a68ec1c06eea33ff478bacccd4b869f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteMetrics::PerPhaseMetrics::rules_applied</definition>
+        <argsstring></argsstring>
+        <name>rules_applied</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::PerPhaseMetrics::rules_applied</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="29" column="18" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_phase_metrics_1a1d7cfab5019fce3b2eb6586ee2c5daa3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteMetrics::PerPhaseMetrics::total_latency_micros</definition>
+        <argsstring></argsstring>
+        <name>total_latency_micros</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::PerPhaseMetrics::total_latency_micros</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="30" column="18" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_phase_metrics_1a95946f9fbb128b24a9f7fd87713ae3b9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteMetrics::PerPhaseMetrics::max_latency_micros</definition>
+        <argsstring></argsstring>
+        <name>max_latency_micros</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::PerPhaseMetrics::max_latency_micros</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="31" column="18" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_phase_metrics_1ac3ee367a93be692a27d202afa679de46" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteMetrics::PerPhaseMetrics::min_latency_micros</definition>
+        <argsstring></argsstring>
+        <name>min_latency_micros</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::PerPhaseMetrics::min_latency_micros</qualifiedname>
+        <initializer>= UINT64_MAX</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="32" column="18" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/prompt_engineering/rewrite_metrics.cpp" line="27" column="5" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="27" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_phase_metrics_1a95946f9fbb128b24a9f7fd87713ae3b9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics::PerPhaseMetrics</scope><name>max_latency_micros</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_phase_metrics_1ac3ee367a93be692a27d202afa679de46" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics::PerPhaseMetrics</scope><name>min_latency_micros</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_phase_metrics_1a3a68ec1c06eea33ff478bacccd4b869f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics::PerPhaseMetrics</scope><name>rules_applied</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_phase_metrics_1aa0d34dd97e89c295fc1e43f5025f9c5f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics::PerPhaseMetrics</scope><name>rules_evaluated</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_phase_metrics_1a1d7cfab5019fce3b2eb6586ee2c5daa3" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics::PerPhaseMetrics</scope><name>total_latency_micros</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

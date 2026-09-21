@@ -1,0 +1,1805 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_redis_cache" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::core::concerns::RedisCache</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_cache" prot="public" virt="non-virtual">themis::core::concerns::ICache</basecompoundref>
+    <includes refid="redis__cache_8h" local="no">redis_cache.h</includes>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_redis_cache_1_1_node_conn" prot="private">themis::core::concerns::RedisCache::NodeConn</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a24332c78a30b10dbb307c157ce4d5fef" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;key_or_pattern)&gt;</type>
+        <definition>using themis::core::concerns::RedisCache::InvalidationCallback = std::function&lt;void(const std::string&amp; key_or_pattern)&gt;</definition>
+        <argsstring></argsstring>
+        <name>InvalidationCallback</name>
+        <qualifiedname>themis::core::concerns::RedisCache::InvalidationCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="155" column="5" bodyfile="include/core/concerns/redis_cache.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ae0b3139c07422f608ee868aba780c35a" prot="private" static="no">
+        <type>int</type>
+        <definition>using themis::core::concerns::RedisCache::SocketFd = int</definition>
+        <argsstring></argsstring>
+        <name>SocketFd</name>
+        <qualifiedname>themis::core::concerns::RedisCache::SocketFd</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="200" column="5" bodyfile="include/core/concerns/redis_cache.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a0831bb4fd86425fdc139c58b323c7839" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>SocketFd</type>
+        <definition>SocketFd themis::core::concerns::RedisCache::kInvalidSocket</definition>
+        <argsstring></argsstring>
+        <name>kInvalidSocket</name>
+        <qualifiedname>themis::core::concerns::RedisCache::kInvalidSocket</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="201" column="31" bodyfile="include/core/concerns/redis_cache.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1aeb2f7b145ff205ac2dc7dd61fe3010bf" prot="private" static="no" mutable="no">
+        <type>std::map&lt; uint32_t, size_t &gt;</type>
+        <definition>std::map&lt;uint32_t, size_t&gt; themis::core::concerns::RedisCache::hash_ring_</definition>
+        <argsstring></argsstring>
+        <name>hash_ring_</name>
+        <qualifiedname>themis::core::concerns::RedisCache::hash_ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="229" column="14" bodyfile="include/core/concerns/redis_cache.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ae574ce0d761415c7598c7c2f98f75a1f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; NodeConn &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;NodeConn&gt; &gt; themis::core::concerns::RedisCache::nodes_</definition>
+        <argsstring></argsstring>
+        <name>nodes_</name>
+        <qualifiedname>themis::core::concerns::RedisCache::nodes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="243" column="17" bodyfile="include/core/concerns/redis_cache.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ae2a2fc46dd141789c1cf18e1838f512d" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::core::concerns::RedisCache::sub_thread_</definition>
+        <argsstring></argsstring>
+        <name>sub_thread_</name>
+        <qualifiedname>themis::core::concerns::RedisCache::sub_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="383" column="28" bodyfile="include/core/concerns/redis_cache.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1aa788535bbc948dc0667ddc7f4e6ecc7d" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::core::concerns::RedisCache::sub_thread_mutex_</definition>
+        <argsstring></argsstring>
+        <name>sub_thread_mutex_</name>
+        <qualifiedname>themis::core::concerns::RedisCache::sub_thread_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="384" column="28" bodyfile="include/core/concerns/redis_cache.h" bodystart="384" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1accd16294f63a5b25cc8f3019f3ad77e1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::core::concerns::RedisCache::sub_sleep_mutex_</definition>
+        <argsstring></argsstring>
+        <name>sub_sleep_mutex_</name>
+        <qualifiedname>themis::core::concerns::RedisCache::sub_sleep_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="385" column="28" bodyfile="include/core/concerns/redis_cache.h" bodystart="385" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a7ed2e43ba8e8136a391bb7e4d4d7d7a4" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::core::concerns::RedisCache::sub_sleep_cv_</definition>
+        <argsstring></argsstring>
+        <name>sub_sleep_cv_</name>
+        <qualifiedname>themis::core::concerns::RedisCache::sub_sleep_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="386" column="29" bodyfile="include/core/concerns/redis_cache.h" bodystart="386" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1afc9ead864b031a2eb91a29b09a59adcd" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::core::concerns::RedisCache::stop_</definition>
+        <argsstring></argsstring>
+        <name>stop_</name>
+        <qualifiedname>themis::core::concerns::RedisCache::stop_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="387" column="22" bodyfile="include/core/concerns/redis_cache.h" bodystart="387" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1aec1e0e4324331ce5f7d62854b40dd671" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::core::concerns::RedisCache::sub_connected_</definition>
+        <argsstring></argsstring>
+        <name>sub_connected_</name>
+        <qualifiedname>themis::core::concerns::RedisCache::sub_connected_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="388" column="22" bodyfile="include/core/concerns/redis_cache.h" bodystart="388" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a70f4ed2eac56e48605765c658b742741" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::core::concerns::RedisCache::inv_cb_mutex_</definition>
+        <argsstring></argsstring>
+        <name>inv_cb_mutex_</name>
+        <qualifiedname>themis::core::concerns::RedisCache::inv_cb_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="390" column="28" bodyfile="include/core/concerns/redis_cache.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a03471280fdd30c8c4971ae2237b25c3b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a24332c78a30b10dbb307c157ce4d5fef" kindref="member">InvalidationCallback</ref></type>
+        <definition>InvalidationCallback themis::core::concerns::RedisCache::inv_callback_</definition>
+        <argsstring></argsstring>
+        <name>inv_callback_</name>
+        <qualifiedname>themis::core::concerns::RedisCache::inv_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="391" column="28" bodyfile="include/core/concerns/redis_cache.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a111eab2c1019fba26d6d9ca0bd920572" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_redis_cache_config" kindref="compound">RedisCacheConfig</ref></type>
+        <definition>RedisCacheConfig themis::core::concerns::RedisCache::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::core::concerns::RedisCache::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="397" column="28" bodyfile="include/core/concerns/redis_cache.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1aacb05cd5f737f62eb5fe0ade7828a940" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::core::concerns::RedisCache::hits_</definition>
+        <argsstring></argsstring>
+        <name>hits_</name>
+        <qualifiedname>themis::core::concerns::RedisCache::hits_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="398" column="25" bodyfile="include/core/concerns/redis_cache.h" bodystart="398" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1aab062a6b15821c715e98403c72ded620" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::core::concerns::RedisCache::misses_</definition>
+        <argsstring></argsstring>
+        <name>misses_</name>
+        <qualifiedname>themis::core::concerns::RedisCache::misses_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="399" column="25" bodyfile="include/core/concerns/redis_cache.h" bodystart="399" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a26f2b57d5200c17fe837ac7f254e8a49" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::core::concerns::RedisCache::max_size_</definition>
+        <argsstring></argsstring>
+        <name>max_size_</name>
+        <qualifiedname>themis::core::concerns::RedisCache::max_size_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="400" column="19" bodyfile="include/core/concerns/redis_cache.h" bodystart="400" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ab8e275ca05a14d5c77d7fcd377f174d8" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::core::concerns::RedisCache::default_ttl_ms_</definition>
+        <argsstring></argsstring>
+        <name>default_ttl_ms_</name>
+        <qualifiedname>themis::core::concerns::RedisCache::default_ttl_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="401" column="17" bodyfile="include/core/concerns/redis_cache.h" bodystart="401" bodyend="401"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ae3b094d61cbfed17c2722626ce9a5e8e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a42c17faf82deffe2626b273ad416a6f9" kindref="member">RedisCache</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; RedisCache &gt; themis::core::concerns::RedisCache::create</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::core::concerns::RedisCache::create</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+<para>Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: parseRedisUrl(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="101" column="28" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="149" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1adfebb0e73f345833e20af44ee3260030" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a42c17faf82deffe2626b273ad416a6f9" kindref="member">RedisCache</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; RedisCache &gt; themis::core::concerns::RedisCache::create</definition>
+        <argsstring>(const RedisCacheConfig &amp;config)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::core::concerns::RedisCache::create</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1core_1_1concerns_1_1_redis_cache_config" kindref="compound">RedisCacheConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a42c17faf82deffe2626b273ad416a6f9" kindref="member">RedisCache()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="108" column="28" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="159" bodyend="161"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1af9163e404041a0202644b547acbc6990" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::RedisCache::~RedisCache</definition>
+        <argsstring>() override</argsstring>
+        <name>~RedisCache</name>
+        <qualifiedname>themis::core::concerns::RedisCache::~RedisCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="110" column="5" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="184" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a42c17faf82deffe2626b273ad416a6f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::RedisCache::RedisCache</definition>
+        <argsstring>(const RedisCache &amp;)=delete</argsstring>
+        <name>RedisCache</name>
+        <qualifiedname>themis::core::concerns::RedisCache::RedisCache</qualifiedname>
+        <param>
+          <type>const RedisCache &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="113" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a242c157aefe1dd4408e00112aba07164" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a42c17faf82deffe2626b273ad416a6f9" kindref="member">RedisCache</ref> &amp;</type>
+        <definition>RedisCache &amp; themis::core::concerns::RedisCache::operator=</definition>
+        <argsstring>(const RedisCache &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::core::concerns::RedisCache::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a42c17faf82deffe2626b273ad416a6f9" kindref="member">RedisCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="114" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1aa578dab460bb75e333c7654887748631" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::RedisCache::RedisCache</definition>
+        <argsstring>(RedisCache &amp;&amp;)=delete</argsstring>
+        <name>RedisCache</name>
+        <qualifiedname>themis::core::concerns::RedisCache::RedisCache</qualifiedname>
+        <param>
+          <type>RedisCache &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="115" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1acda634e14f657d8b3b1f20765b3561e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a42c17faf82deffe2626b273ad416a6f9" kindref="member">RedisCache</ref> &amp;</type>
+        <definition>RedisCache &amp; themis::core::concerns::RedisCache::operator=</definition>
+        <argsstring>(RedisCache &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::core::concerns::RedisCache::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a42c17faf82deffe2626b273ad416a6f9" kindref="member">RedisCache</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="116" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ac2cbb9a1a4f022cbf6aa6d8432acf534" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry" kindref="compound">CacheEntry</ref> &gt;</type>
+        <definition>std::optional&lt; CacheEntry &gt; themis::core::concerns::RedisCache::get</definition>
+        <argsstring>(std::string_view key) const override</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::core::concerns::RedisCache::get</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ada9afd8e5ee9f4621b796c58544d1bb3">get</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="122" column="19" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="661" bodyend="684"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a52160a041aa2d5051221c8ff807260ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::RedisCache::put</definition>
+        <argsstring>(std::string_view key, const CacheEntry &amp;entry, uint64_t ttl_ms=0) override</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::core::concerns::RedisCache::put</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ae4365dc4004cc33911011ebadd84feae">put</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry" kindref="compound">CacheEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>ttl_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), nodeIndexForKey(), std::string(), encodeEntry(), load(), sendCommand(), std::to_string(), has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="124" column="10" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="694" bodyend="715"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a4d6ee608f09f5290ae07f57913c548ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::RedisCache::invalidate</definition>
+        <argsstring>(std::string_view key) override</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themis::core::concerns::RedisCache::invalidate</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1adebcfb3ea7fb1ab1cfda88e7d0e6b64d">invalidate</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), nodeIndexForKey(), std::string(), sendCommand(), publishInvalidation(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="127" column="10" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="722" bodyend="734"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ac73dd03b3d23ea8c2728269c69a81a0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::RedisCache::clear</definition>
+        <argsstring>() override</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::core::concerns::RedisCache::clear</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a21a0dc70a856099f2240af11fcd4d810">clear</reimplements>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: sendCommand(), publishInvalidation(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="129" column="10" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="740" bodyend="746"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a09b6285dc303e617af1762ba87d18954" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::RedisCache::invalidatePattern</definition>
+        <argsstring>(std::string_view pattern) override</argsstring>
+        <name>invalidatePattern</name>
+        <qualifiedname>themis::core::concerns::RedisCache::invalidatePattern</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a423b02db998bc192f290913d0c511cda">invalidatePattern</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate Pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::string(), lock(), ensureConnected(), buildRespCommand(), sendAll(), closeSocket(), readLine(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="131" column="10" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="753" bodyend="823"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a1cc28116fa00860deb00d8ccbfd22eb9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::RedisCache::size</definition>
+        <argsstring>() const override</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::core::concerns::RedisCache::size</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1afef40e36373226997465ed09da520686">size</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="133" column="12" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="1006" bodyend="1022"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a5261df5fe5876c648a4094159529a564" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::RedisCache::hitCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>hitCount</name>
+        <qualifiedname>themis::core::concerns::RedisCache::hitCount</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a39f3a62b1ea790d4f0b962824ac4a755">hitCount</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="135" column="14" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="1024" bodyend="1026"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a07ba23274073703b261b8c92989a3a3f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::RedisCache::missCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>missCount</name>
+        <qualifiedname>themis::core::concerns::RedisCache::missCount</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1aec7d668e283b4e5c0f5a0fc71abcff4f">missCount</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="137" column="14" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="1027" bodyend="1029"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ad07b30ecc7ffd3cb10f1c6eabf365056" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double themis::core::concerns::RedisCache::hitRate</definition>
+        <argsstring>() const override</argsstring>
+        <name>hitRate</name>
+        <qualifiedname>themis::core::concerns::RedisCache::hitRate</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ada9baa4a92166aef4abdfb36f65798e7">hitRate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="139" column="12" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="1031" bodyend="1036"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ae084f0606bb7095e5f8ea2bf6ac478d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::RedisCache::setMaxSize</definition>
+        <argsstring>(size_t maxSize) override</argsstring>
+        <name>setMaxSize</name>
+        <qualifiedname>themis::core::concerns::RedisCache::setMaxSize</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a3c4b1a52af81c65319d391002a175e63">setMaxSize</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>maxSize</declname>
+        </param>
+        <briefdescription>
+<para>Set Max Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">maxSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="141" column="10" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="1047" bodyend="1050"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a3ec2e1dd0ede066e5309af1980990d10" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::RedisCache::setDefaultTTL</definition>
+        <argsstring>(uint64_t ttl_ms) override</argsstring>
+        <name>setDefaultTTL</name>
+        <qualifiedname>themis::core::concerns::RedisCache::setDefaultTTL</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ab7e027321593460c3fe5119daa928d94">setDefaultTTL</reimplements>
+        <param>
+          <type>uint64_t</type>
+          <declname>ttl_ms</declname>
+        </param>
+        <briefdescription>
+<para>Set Default TTL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="143" column="10" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="1057" bodyend="1060"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a31349d4edefe2450bb987824578a436d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::RedisCache::flush</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::core::concerns::RedisCache::flush</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a19c4449c6b947dca89fee7fd8078ba8c">flush</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="145" column="10" bodyfile="include/core/concerns/redis_cache.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ae650bc4c2863ed20875272a11ad0a2c7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::RedisCache::shutdown</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::core::concerns::RedisCache::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a4853aa0742f4edd55c73b97cf3c36274">shutdown</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="147" column="10" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="1066" bodyend="1077"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a04498966f7fb9aa2c71b6da9a1d9cc5c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::RedisCache::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::core::concerns::RedisCache::isHealthy</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a8c0af48ee34fc3c5eb315d4327cf5f23">isHealthy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="149" column="17" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="1079" bodyend="1090"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a77e7cff2737f54dbb1a20a8fd54d07ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::RedisCache::subscribeInvalidations</definition>
+        <argsstring>(InvalidationCallback cb)</argsstring>
+        <name>subscribeInvalidations</name>
+        <qualifiedname>themis::core::concerns::RedisCache::subscribeInvalidations</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a24332c78a30b10dbb307c157ce4d5fef" kindref="member">InvalidationCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Subscribe Invalidations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(), ensureSubscriberLoopStarted(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="161" column="10" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="852" bodyend="861"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ab277afff6142a45e8aa2d68c364e56bf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::RedisCache::isConnected</definition>
+        <argsstring>() const</argsstring>
+        <name>isConnected</name>
+        <qualifiedname>themis::core::concerns::RedisCache::isConnected</qualifiedname>
+        <briefdescription>
+<para>Is Connected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="167" column="10" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="1092" bodyend="1100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1af93bb96836529a9119e7fcef8f082e54" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::RedisCache::nodeForKey</definition>
+        <argsstring>(std::string_view key) const</argsstring>
+        <name>nodeForKey</name>
+        <qualifiedname>themis::core::concerns::RedisCache::nodeForKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Node For Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="174" column="17" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="230" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a69f1cd12cd868d6fdf77e2f9e0317e5c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::RedisCache::hashRingSize</definition>
+        <argsstring>() const</argsstring>
+        <name>hashRingSize</name>
+        <qualifiedname>themis::core::concerns::RedisCache::hashRingSize</qualifiedname>
+        <briefdescription>
+<para>Hash Ring Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="180" column="12" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="238" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a2d3ca0f86cd2f46db77f00299ece79ac" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::RedisCache::nodeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>nodeCount</name>
+        <qualifiedname>themis::core::concerns::RedisCache::nodeCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="182" column="12" bodyfile="include/core/concerns/redis_cache.h" bodystart="182" bodyend="182"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ab24c87401126b1855a58902c4f9fd0d8" prot="private" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::RedisCache::RedisCache</definition>
+        <argsstring>(const RedisCacheConfig &amp;config)</argsstring>
+        <name>RedisCache</name>
+        <qualifiedname>themis::core::concerns::RedisCache::RedisCache</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1core_1_1concerns_1_1_redis_cache_config" kindref="compound">RedisCacheConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Private constructor – use factory methods. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="190" column="14" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="167" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a08937f3e30a089b15c3469aa5a178e64" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::RedisCache::buildHashRing</definition>
+        <argsstring>()</argsstring>
+        <name>buildHashRing</name>
+        <qualifiedname>themis::core::concerns::RedisCache::buildHashRing</qualifiedname>
+        <briefdescription>
+<para>Build Hash Ring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ac73dd03b3d23ea8c2728269c69a81a0a" kindref="member">clear()</ref>, <ref refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a1cc28116fa00860deb00d8ccbfd22eb9" kindref="member">size()</ref>, std::to_string(), fnv1a32(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="220" column="10" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="201" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1aa170a6335b16342bfe64f9264b69fcde" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::RedisCache::nodeIndexForKey</definition>
+        <argsstring>(std::string_view key) const</argsstring>
+        <name>nodeIndexForKey</name>
+        <qualifiedname>themis::core::concerns::RedisCache::nodeIndexForKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Node Index For Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="227" column="12" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="212" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ad5faf9a0a3d16022294cb6a3f184e247" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>SocketFd</type>
+        <definition>RedisCache::SocketFd themis::core::concerns::RedisCache::tcpConnect</definition>
+        <argsstring>(const std::string &amp;host, uint16_t port) const</argsstring>
+        <name>tcpConnect</name>
+        <qualifiedname>themis::core::concerns::RedisCache::tcpConnect</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>port</declname>
+        </param>
+        <briefdescription>
+<para>Tcp Connect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">host</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="251" column="14" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="246" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a41b57ea36a7957b2dfa66217312676fd" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::RedisCache::redisHandshake</definition>
+        <argsstring>(SocketFd fd) const noexcept</argsstring>
+        <name>redisHandshake</name>
+        <qualifiedname>themis::core::concerns::RedisCache::redisHandshake</qualifiedname>
+        <param>
+          <type>SocketFd</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+<para>Redis Handshake. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="282" column="10" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="413" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a5468c09c4309822ef2fc5236ffa20d76" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::RedisCache::ensureConnected</definition>
+        <argsstring>(NodeConn &amp;nc) const noexcept</argsstring>
+        <name>ensureConnected</name>
+        <qualifiedname>themis::core::concerns::RedisCache::ensureConnected</qualifiedname>
+        <param>
+          <type>NodeConn &amp;</type>
+          <declname>nc</declname>
+        </param>
+        <briefdescription>
+<para>Ensure Connected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">nc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="297" column="10" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="466" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a2a10d0011720da0278766ee463f734f9" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::core::concerns::RedisCache::sendCommand</definition>
+        <argsstring>(NodeConn &amp;nc, const std::vector&lt; std::string &gt; &amp;args) const noexcept</argsstring>
+        <name>sendCommand</name>
+        <qualifiedname>themis::core::concerns::RedisCache::sendCommand</qualifiedname>
+        <param>
+          <type>NodeConn &amp;</type>
+          <declname>nc</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+<para>Send Command. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">nc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="306" column="19" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="569" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a0e4cbfdb19bd854d335ee32e7637d82f" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::core::concerns::RedisCache::sendCommandLocked</definition>
+        <argsstring>(NodeConn &amp;nc, const std::vector&lt; std::string &gt; &amp;args) const noexcept</argsstring>
+        <name>sendCommandLocked</name>
+        <qualifiedname>themis::core::concerns::RedisCache::sendCommandLocked</qualifiedname>
+        <param>
+          <type>NodeConn &amp;</type>
+          <declname>nc</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+<para>Send Command Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">nc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="316" column="19" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="591" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ab06a958c3284f880fe3c7fcedbbc0e07" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::RedisCache::publishInvalidation</definition>
+        <argsstring>(const std::string &amp;key_or_pattern)</argsstring>
+        <name>publishInvalidation</name>
+        <qualifiedname>themis::core::concerns::RedisCache::publishInvalidation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_or_pattern</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> Pub/sub subscriber (background thread) --------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Publish Invalidation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_or_pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_or_pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), sendCommand(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="351" column="10" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="834" bodyend="845"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ac2e00b8f31837ff27cb64e795ef78a20" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::RedisCache::ensureSubscriberLoopStarted</definition>
+        <argsstring>()</argsstring>
+        <name>ensureSubscriberLoopStarted</name>
+        <qualifiedname>themis::core::concerns::RedisCache::ensureSubscriberLoopStarted</qualifiedname>
+        <briefdescription>
+<para>Ensure Subscriber Loop Started. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), empty(), lock(), joinable(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="355" column="10" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="867" bodyend="876"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ae859f64b3c3994a73800d41461947445" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::RedisCache::subscriberLoop</definition>
+        <argsstring>()</argsstring>
+        <name>subscriberLoop</name>
+        <qualifiedname>themis::core::concerns::RedisCache::subscriberLoop</qualifiedname>
+        <briefdescription>
+<para>Subscriber Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::max(), lk(), wait_for(), std::chrono::milliseconds(), load(), empty(), sleepWithStop(), tcpConnect(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="360" column="10" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="886" bodyend="929"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ac118caeb5306ff7cf809483b56b0d231" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::RedisCache::subscriberSession</definition>
+        <argsstring>(SocketFd fd)</argsstring>
+        <name>subscriberSession</name>
+        <qualifiedname>themis::core::concerns::RedisCache::subscriberSession</qualifiedname>
+        <param>
+          <type>SocketFd</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+<para>Subscriber Session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: readPubSubMessage(), load(), <ref refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ac73dd03b3d23ea8c2728269c69a81a0a" kindref="member">clear()</ref>, empty(), dispatchInvalidation(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="365" column="10" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="936" bodyend="951"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a814c1a26cd8fdc30804ae260c9334e9f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::RedisCache::dispatchInvalidation</definition>
+        <argsstring>(const std::string &amp;payload)</argsstring>
+        <name>dispatchInvalidation</name>
+        <qualifiedname>themis::core::concerns::RedisCache::dispatchInvalidation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch Invalidation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), inv_callback_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="381" column="10" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="995" bodyend="1000"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a254403643e5c0f8d2bc8c6d6b8d4702b" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::core::concerns::RedisCache::fnv1a32</definition>
+        <argsstring>(const char *data, size_t len) noexcept</argsstring>
+        <name>fnv1a32</name>
+        <qualifiedname>themis::core::concerns::RedisCache::fnv1a32</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Fnv1a32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="215" column="21" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="193" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a20905b96a196dac8f94c531a9f3bb533" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::RedisCache::closeSocket</definition>
+        <argsstring>(SocketFd &amp;fd) noexcept</argsstring>
+        <name>closeSocket</name>
+        <qualifiedname>themis::core::concerns::RedisCache::closeSocket</qualifiedname>
+        <param>
+          <type>SocketFd &amp;</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+<para>Close Socket. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="257" column="17" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="365" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a245cb5c6daaf9a9c2437eafab69cdc10" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::RedisCache::sendAll</definition>
+        <argsstring>(SocketFd fd, const std::string &amp;buf) noexcept</argsstring>
+        <name>sendAll</name>
+        <qualifiedname>themis::core::concerns::RedisCache::sendAll</qualifiedname>
+        <param>
+          <type>SocketFd</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+<para>Send All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="265" column="17" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="370" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a0cb0077c381698821cb4fd8b926e664f" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::RedisCache::readLine</definition>
+        <argsstring>(SocketFd fd, std::string &amp;out) noexcept</argsstring>
+        <name>readLine</name>
+        <qualifiedname>themis::core::concerns::RedisCache::readLine</qualifiedname>
+        <param>
+          <type>SocketFd</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Read Line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="274" column="17" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="389" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1abbd0662f8c1cdf46fa19d4c33031b3fd" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::RedisCache::buildRespCommand</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;args)</argsstring>
+        <name>buildRespCommand</name>
+        <qualifiedname>themis::core::concerns::RedisCache::buildRespCommand</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+<para>Build Resp Command. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(), <ref refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a1cc28116fa00860deb00d8ccbfd22eb9" kindref="member">size()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="289" column="24" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="451" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a93444d99d602af8c4201d105816fef09" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::RedisCache::readReply</definition>
+        <argsstring>(SocketFd fd, std::string &amp;out) noexcept</argsstring>
+        <name>readReply</name>
+        <qualifiedname>themis::core::concerns::RedisCache::readReply</qualifiedname>
+        <param>
+          <type>SocketFd</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Read Reply. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="326" column="17" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="487" bodyend="567"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a53a6f7889e5b166ec4089842ab11cc08" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::RedisCache::encodeEntry</definition>
+        <argsstring>(const CacheEntry &amp;e)</argsstring>
+        <name>encodeEntry</name>
+        <qualifiedname>themis::core::concerns::RedisCache::encodeEntry</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry" kindref="compound">CacheEntry</ref> &amp;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Encode Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="337" column="24" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="624" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ac5a7ca7b5918f2d07c987abb6e46a3f4" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry" kindref="compound">CacheEntry</ref> &gt;</type>
+        <definition>std::optional&lt; CacheEntry &gt; themis::core::concerns::RedisCache::decodeEntry</definition>
+        <argsstring>(const std::string &amp;raw)</argsstring>
+        <name>decodeEntry</name>
+        <qualifiedname>themis::core::concerns::RedisCache::decodeEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>raw</declname>
+        </param>
+        <briefdescription>
+<para>Decode Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), std::stoull(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="344" column="26" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="634" bodyend="655"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_redis_cache_1aded50318010959f358f741326d59a9f1" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::RedisCache::readPubSubMessage</definition>
+        <argsstring>(SocketFd fd, std::string &amp;channel_out, std::string &amp;payload_out) noexcept</argsstring>
+        <name>readPubSubMessage</name>
+        <qualifiedname>themis::core::concerns::RedisCache::readPubSubMessage</qualifiedname>
+        <param>
+          <type>SocketFd</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>channel_out</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>payload_out</declname>
+        </param>
+        <briefdescription>
+<para>Read Pub Sub Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">channel_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">payload_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/redis_cache.h" line="374" column="17" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="954" bodyend="988"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::ICache</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_cache"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::RedisCache</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_redis_cache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::ICache</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_cache"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::RedisCache</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_redis_cache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/redis_cache.h" line="90" column="1" bodyfile="include/core/concerns/redis_cache.h" bodystart="90" bodyend="402"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a08937f3e30a089b15c3469aa5a178e64" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>buildHashRing</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1abbd0662f8c1cdf46fa19d4c33031b3fd" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>buildRespCommand</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ac73dd03b3d23ea8c2728269c69a81a0a" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a20905b96a196dac8f94c531a9f3bb533" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>closeSocket</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a111eab2c1019fba26d6d9ca0bd920572" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>config_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ae3b094d61cbfed17c2722626ce9a5e8e" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>create</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1adfebb0e73f345833e20af44ee3260030" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>create</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ac5a7ca7b5918f2d07c987abb6e46a3f4" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>decodeEntry</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ab8e275ca05a14d5c77d7fcd377f174d8" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>default_ttl_ms_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a814c1a26cd8fdc30804ae260c9334e9f" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>dispatchInvalidation</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a53a6f7889e5b166ec4089842ab11cc08" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>encodeEntry</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a5468c09c4309822ef2fc5236ffa20d76" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>ensureConnected</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ac2e00b8f31837ff27cb64e795ef78a20" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>ensureSubscriberLoopStarted</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a31349d4edefe2450bb987824578a436d" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a254403643e5c0f8d2bc8c6d6b8d4702b" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>fnv1a32</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ac2cbb9a1a4f022cbf6aa6d8432acf534" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ab84d955738a23363ba7646d37683ebb0" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>getEvictionStrategy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a663b74b791bfde5c264d6a688097dc60" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>getEvictionStrategy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a3c46dd5a19c9f1ebc0524853938f6fda" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1aeb2f7b145ff205ac2dc7dd61fe3010bf" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>hash_ring_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a69f1cd12cd868d6fdf77e2f9e0317e5c" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>hashRingSize</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a5261df5fe5876c648a4094159529a564" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>hitCount</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ad07b30ecc7ffd3cb10f1c6eabf365056" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>hitRate</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1aacb05cd5f737f62eb5fe0ade7828a940" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>hits_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a03471280fdd30c8c4971ae2237b25c3b" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>inv_callback_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a70f4ed2eac56e48605765c658b742741" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>inv_cb_mutex_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a4d6ee608f09f5290ae07f57913c548ba" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a09b6285dc303e617af1762ba87d18954" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>invalidatePattern</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a24332c78a30b10dbb307c157ce4d5fef" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>InvalidationCallback</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ab277afff6142a45e8aa2d68c364e56bf" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>isConnected</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a04498966f7fb9aa2c71b6da9a1d9cc5c" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a0831bb4fd86425fdc139c58b323c7839" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>kInvalidSocket</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a26f2b57d5200c17fe837ac7f254e8a49" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>max_size_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a07ba23274073703b261b8c92989a3a3f" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>missCount</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1aab062a6b15821c715e98403c72ded620" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>misses_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a2d3ca0f86cd2f46db77f00299ece79ac" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>nodeCount</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1af93bb96836529a9119e7fcef8f082e54" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>nodeForKey</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1aa170a6335b16342bfe64f9264b69fcde" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>nodeIndexForKey</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ae574ce0d761415c7598c7c2f98f75a1f" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>nodes_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a242c157aefe1dd4408e00112aba07164" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1acda634e14f657d8b3b1f20765b3561e5" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ab06a958c3284f880fe3c7fcedbbc0e07" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>publishInvalidation</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a52160a041aa2d5051221c8ff807260ad" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a0cb0077c381698821cb4fd8b926e664f" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>readLine</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1aded50318010959f358f741326d59a9f1" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>readPubSubMessage</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a93444d99d602af8c4201d105816fef09" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>readReply</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a42c17faf82deffe2626b273ad416a6f9" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>RedisCache</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1aa578dab460bb75e333c7654887748631" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>RedisCache</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ab24c87401126b1855a58902c4f9fd0d8" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>RedisCache</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a41b57ea36a7957b2dfa66217312676fd" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>redisHandshake</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a245cb5c6daaf9a9c2437eafab69cdc10" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>sendAll</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a2a10d0011720da0278766ee463f734f9" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>sendCommand</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a0e4cbfdb19bd854d335ee32e7637d82f" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>sendCommandLocked</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a3ec2e1dd0ede066e5309af1980990d10" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>setDefaultTTL</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ae084f0606bb7095e5f8ea2bf6ac478d0" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>setMaxSize</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ae650bc4c2863ed20875272a11ad0a2c7" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a1cc28116fa00860deb00d8ccbfd22eb9" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>size</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ae0b3139c07422f608ee868aba780c35a" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>SocketFd</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1afc9ead864b031a2eb91a29b09a59adcd" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>stop_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1aec1e0e4324331ce5f7d62854b40dd671" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>sub_connected_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a7ed2e43ba8e8136a391bb7e4d4d7d7a4" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>sub_sleep_cv_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1accd16294f63a5b25cc8f3019f3ad77e1" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>sub_sleep_mutex_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ae2a2fc46dd141789c1cf18e1838f512d" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>sub_thread_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1aa788535bbc948dc0667ddc7f4e6ecc7d" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>sub_thread_mutex_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1a77e7cff2737f54dbb1a20a8fd54d07ab" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>subscribeInvalidations</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ae859f64b3c3994a73800d41461947445" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>subscriberLoop</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ac118caeb5306ff7cf809483b56b0d231" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>subscriberSession</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1ad5faf9a0a3d16022294cb6a3f184e247" prot="private" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>tcpConnect</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a66b78d0f8e1b3c90aec75ce67ace3428" prot="public" virt="virtual"><scope>themis::core::concerns::RedisCache</scope><name>~ICache</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_redis_cache_1af9163e404041a0202644b547acbc6990" prot="public" virt="non-virtual"><scope>themis::core::concerns::RedisCache</scope><name>~RedisCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

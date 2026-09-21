@@ -1,0 +1,653 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__model__router_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_model_router.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="aql__model__router_8h" local="yes">aql/aql_model_router.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>aql/aql_model_router.h</label>
+        <link refid="aql__model__router_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/aql/test_aql_model_router.cpp</label>
+        <link refid="test__aql__model__router_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_a_q_l_model_router_test" prot="public">AQLModelRouterTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a16bcf91dfc19b8bd0620ba735366f27a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool hasType</definition>
+        <argsstring>(const std::vector&lt; QueryModelType &gt; &amp;types, QueryModelType t)</argsstring>
+        <name>hasType</name>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33" kindref="member">QueryModelType</ref> &gt; &amp;</type>
+          <declname>types</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33" kindref="member">QueryModelType</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="15" column="13" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="15" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a2398a5cb8208489264a07530acfbe792" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER01_VectorQuery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER01_VectorQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="34" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="34" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a6b77f9a3189b1bf824ff9bc8c0609c9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER02_GraphQuery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER02_GraphQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="42" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="42" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1aa6f7e4f30e9d463eb8f7094a790e8b17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER03_GeoQuery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER03_GeoQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="50" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="50" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a022373eab3ccd8622ce71ecfe42995bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER04_FulltextQuery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER04_FulltextQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="58" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="58" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a329f35bd9fd000068fd97f2241ca7725" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER05_TimeseriesQuery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER05_TimeseriesQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="66" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="66" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a31fa2ff5eab2bb32add35cc4d9be27a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER06_RelationalQuery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER06_RelationalQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="74" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="74" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a4ce198b067242e5487d5403b6d8899a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER07_EmptyQuery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER07_EmptyQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="82" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="82" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a613531aa48d516ff20c513eb3d71df72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER08_ClassifyMultipleTypes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER08_ClassifyMultipleTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="88" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="88" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a66186c17e03b291e33e9254c0d0e715e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER09_NoRoute)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER09_NoRoute</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="96" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="96" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1ab6574c1513065e9113f828dca3cb6a4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER10_FallbackRoute)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER10_FallbackRoute</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="103" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="103" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a739bae74cb3ce7285d6f273069e3557c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER11_RemoveRoute)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER11_RemoveRoute</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="115" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="115" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a5cde0dbfdd5dc7f78728f76429a1b943" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER12_ReplaceRoute)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER12_ReplaceRoute</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="123" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="123" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a5b8523a13ee54dec593d3a7258ed4247" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER13_DisabledRoute)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER13_DisabledRoute</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="131" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="131" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a4646be7215996dae8258d1d5218a544c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER14_ExplanationNotEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER14_ExplanationNotEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="143" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="143" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a4f0cf018555d4d160f491f6d7686dab7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER15_ANNKeyword)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER15_ANNKeyword</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="149" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="149" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a7eb59dd1e790ac2bc9ca82c3471567df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER16_TraverseKeyword)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER16_TraverseKeyword</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="155" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="155" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1aa77c72f1a99fca4bdb919f0ca4a37723" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER17_WithinKeyword)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER17_WithinKeyword</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="161" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="161" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a8daffd109da4192984c77604a6061403" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER18_RelationalAlwaysPresent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER18_RelationalAlwaysPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="167" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="167" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a634f6679d93ee58695aea2332c980afb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER19_PolymorphicAccess)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER19_PolymorphicAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="174" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="174" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__model__router_8cpp_1a06976ed69edfb537540517c76656ec16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLModelRouterTest, ROUTER20_RemoveNonExistent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref></type>
+        </param>
+        <param>
+          <type>ROUTER20_RemoveNonExistent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_model_router.cpp" line="182" column="1" bodyfile="tests/aql/test_aql_model_router.cpp" bodystart="182" bodyend="184"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1aql_1_1_a_q_l_model_router" kindref="compound">AQLModelRouter</ref> (ROUTER-01..20). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__model__router_8h" kindref="compound">aql/aql_model_router.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">themis::aql</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasType(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;QueryModelType&gt;&amp;<sp/>types,<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33" kindref="member">QueryModelType</ref><sp/>t)<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::find(types.begin(),<sp/>types.end(),<sp/>t)<sp/>!=<sp/>types.end();</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="class_a_q_l_model_router_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_model_router" kindref="compound">AQLModelRouter</ref><sp/><ref refid="class_a_q_l_model_router_test_1a89233a405e9b4728c9fa76c99244672b" kindref="member">router</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_q_l_model_router_test_1a45cd3c712a5bd0ed4c209c39b1a79cae" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_model_router_test_1a89233a405e9b4728c9fa76c99244672b" kindref="member">router</ref>.registerRoute({<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a87752381b583740610f1dfeb07fdad7e" kindref="member">QueryModelType::VECTOR</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;embed-model&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>200});</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_model_router_test_1a89233a405e9b4728c9fa76c99244672b" kindref="member">router</ref>.registerRoute({<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33ae27e2917b6444fcd3452d2d87046a487" kindref="member">QueryModelType::GRAPH</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;graph-model&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>150});</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_model_router_test_1a89233a405e9b4728c9fa76c99244672b" kindref="member">router</ref>.registerRoute({<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a4a221f74494f1ac7a498e6524292eaef" kindref="member">QueryModelType::GEO</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;geo-model&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>140});</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_model_router_test_1a89233a405e9b4728c9fa76c99244672b" kindref="member">router</ref>.registerRoute({<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33ace55d2310a16b80d5444c790ab6a32ac" kindref="member">QueryModelType::FULLTEXT</ref>,<sp/><sp/></highlight><highlight class="stringliteral">&quot;ft-model&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/>130});</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_model_router_test_1a89233a405e9b4728c9fa76c99244672b" kindref="member">router</ref>.registerRoute({<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a5eb907bdd20f7bdad174e0525e3c4097" kindref="member">QueryModelType::TIMESERIES</ref>,</highlight><highlight class="stringliteral">&quot;ts-model&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/>120});</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_model_router_test_1a89233a405e9b4728c9fa76c99244672b" kindref="member">router</ref>.registerRoute({<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a179518da8867f0b4237259ea3241a2ec" kindref="member">QueryModelType::RELATIONAL</ref>,</highlight><highlight class="stringliteral">&quot;generic-model&quot;</highlight><highlight class="normal">,<sp/>100});</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-01:<sp/>Vector<sp/>query<sp/>routes<sp/>to<sp/>vector<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER01_VectorQuery)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>router.route(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>KNN(d.embedding,<sp/>@q)<sp/>&lt;<sp/>0.5<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.primary_type,<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a87752381b583740610f1dfeb07fdad7e" kindref="member">QueryModelType::VECTOR</ref>);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(d.selected_route.has_value());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.selected_route-&gt;model_alias,<sp/></highlight><highlight class="stringliteral">&quot;embed-model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-02:<sp/>Graph<sp/>traversal<sp/>routes<sp/>to<sp/>graph<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER02_GraphQuery)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>router.route(</highlight><highlight class="stringliteral">&quot;FOR<sp/>v,<sp/>e<sp/>IN<sp/>1..3<sp/>OUTBOUND<sp/>@start<sp/>GRAPH<sp/>&apos;social&apos;<sp/>RETURN<sp/>v&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.primary_type,<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33ae27e2917b6444fcd3452d2d87046a487" kindref="member">QueryModelType::GRAPH</ref>);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(d.selected_route.has_value());</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.selected_route-&gt;model_alias,<sp/></highlight><highlight class="stringliteral">&quot;graph-model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-03:<sp/>Geo<sp/>query<sp/>routes<sp/>to<sp/>geo<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER03_GeoQuery)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>router.route(</highlight><highlight class="stringliteral">&quot;FOR<sp/>p<sp/>IN<sp/>places<sp/>FILTER<sp/>ST_WITHIN(p.geo,<sp/>@zone)<sp/>RETURN<sp/>p&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.primary_type,<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a4a221f74494f1ac7a498e6524292eaef" kindref="member">QueryModelType::GEO</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(d.selected_route.has_value());</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.selected_route-&gt;model_alias,<sp/></highlight><highlight class="stringliteral">&quot;geo-model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-04:<sp/>Full-text<sp/>query<sp/>routes<sp/>to<sp/>fulltext<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER04_FulltextQuery)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>router.route(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>BM25(d,<sp/>@terms)<sp/>&gt;<sp/>0.5<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.primary_type,<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33ace55d2310a16b80d5444c790ab6a32ac" kindref="member">QueryModelType::FULLTEXT</ref>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(d.selected_route.has_value());</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.selected_route-&gt;model_alias,<sp/></highlight><highlight class="stringliteral">&quot;ft-model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-05:<sp/>Timeseries<sp/>query<sp/>routes<sp/>to<sp/>ts<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER05_TimeseriesQuery)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>router.route(</highlight><highlight class="stringliteral">&quot;FOR<sp/>t<sp/>IN<sp/>metrics<sp/>FILTER<sp/>TIME_TRUNC(t.ts,<sp/>&apos;hour&apos;)<sp/>==<sp/>@h<sp/>RETURN<sp/>t&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.primary_type,<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a5eb907bdd20f7bdad174e0525e3c4097" kindref="member">QueryModelType::TIMESERIES</ref>);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(d.selected_route.has_value());</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.selected_route-&gt;model_alias,<sp/></highlight><highlight class="stringliteral">&quot;ts-model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-06:<sp/>Plain<sp/>relational<sp/>query<sp/>routes<sp/>to<sp/>generic<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER06_RelationalQuery)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>router.route(</highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>FILTER<sp/>u.active<sp/>==<sp/>true<sp/>RETURN<sp/>u.name&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.primary_type,<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a179518da8867f0b4237259ea3241a2ec" kindref="member">QueryModelType::RELATIONAL</ref>);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(d.selected_route.has_value());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.selected_route-&gt;model_alias,<sp/></highlight><highlight class="stringliteral">&quot;generic-model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-07:<sp/>Empty<sp/>query<sp/>→<sp/>UNKNOWN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER07_EmptyQuery)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>router.route(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.primary_type,<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">QueryModelType::UNKNOWN</ref>);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-08:<sp/>classify()<sp/>returns<sp/>all<sp/>matching<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER08_ClassifyMultipleTypes)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>KNN<sp/>+<sp/>BM25<sp/>→<sp/>should<sp/>detect<sp/>VECTOR<sp/>and<sp/>FULLTEXT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>types<sp/>=<sp/>router.classify(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>KNN(d.emb,<sp/>@q)<sp/>&lt;<sp/>0.1<sp/>AND<sp/>BM25(d,<sp/>@t)<sp/>&gt;<sp/>0.3<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasType(types,<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a87752381b583740610f1dfeb07fdad7e" kindref="member">QueryModelType::VECTOR</ref>));</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasType(types,<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33ace55d2310a16b80d5444c790ab6a32ac" kindref="member">QueryModelType::FULLTEXT</ref>));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-09:<sp/>No<sp/>routes<sp/>registered<sp/>→<sp/>selected_route<sp/>is<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER09_NoRoute)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_model_router" kindref="compound">AQLModelRouter</ref><sp/>empty_router;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>empty_router.<ref refid="classthemis_1_1aql_1_1_a_q_l_model_router_1a3fa69a0a88b32965b4d369ab07d5c286" kindref="member">route</ref>(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>KNN(d.emb,<sp/>@q)<sp/>&lt;<sp/>0.5<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(d.selected_route.has_value());</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-10:<sp/>Fallback<sp/>route<sp/>is<sp/>used<sp/>when<sp/>primary<sp/>type<sp/>has<sp/>no<sp/>route</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER10_FallbackRoute)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_model_router" kindref="compound">AQLModelRouter</ref><sp/>r;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="classthemis_1_1aql_1_1_a_q_l_model_router_1ab716d3d7e0936d1e616881419de7fd53" kindref="member">registerRoute</ref>({<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a179518da8867f0b4237259ea3241a2ec" kindref="member">QueryModelType::RELATIONAL</ref>,<sp/></highlight><highlight class="stringliteral">&quot;fallback-model&quot;</highlight><highlight class="normal">,<sp/>100});</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>VECTOR<sp/>route<sp/>not<sp/>registered;<sp/>should<sp/>fallback<sp/>to<sp/>RELATIONAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>r.<ref refid="classthemis_1_1aql_1_1_a_q_l_model_router_1a3fa69a0a88b32965b4d369ab07d5c286" kindref="member">route</ref>(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>KNN(d.emb,<sp/>@q)<sp/>&lt;<sp/>0.5<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.primary_type,<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a87752381b583740610f1dfeb07fdad7e" kindref="member">QueryModelType::VECTOR</ref>);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(d.selected_route.has_value());<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>VECTOR<sp/>route</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(d.fallback_route.has_value());</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.fallback_route-&gt;model_alias,<sp/></highlight><highlight class="stringliteral">&quot;fallback-model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-11:<sp/>removeRoute<sp/>removes<sp/>the<sp/>route</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER11_RemoveRoute)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>router.removeRoute(<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a87752381b583740610f1dfeb07fdad7e" kindref="member">QueryModelType::VECTOR</ref>);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>router.route(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>KNN(d.emb,<sp/>@q)<sp/>&lt;<sp/>0.5<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.primary_type,<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a87752381b583740610f1dfeb07fdad7e" kindref="member">QueryModelType::VECTOR</ref>);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(d.selected_route.has_value());</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-12:<sp/>registerRoute<sp/>replaces<sp/>existing<sp/>route<sp/>for<sp/>same<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER12_ReplaceRoute)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>router.registerRoute({<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a87752381b583740610f1dfeb07fdad7e" kindref="member">QueryModelType::VECTOR</ref>,<sp/></highlight><highlight class="stringliteral">&quot;new-embed-model&quot;</highlight><highlight class="normal">,<sp/>200});</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>router.route(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>KNN(d.emb,<sp/>@q)<sp/>&lt;<sp/>0.5<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(d.selected_route.has_value());</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.selected_route-&gt;model_alias,<sp/></highlight><highlight class="stringliteral">&quot;new-embed-model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-13:<sp/>Disabled<sp/>route<sp/>is<sp/>skipped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER13_DisabledRoute)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_model_route" kindref="compound">ModelRoute</ref><sp/>disabled_route{<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a87752381b583740610f1dfeb07fdad7e" kindref="member">QueryModelType::VECTOR</ref>,<sp/></highlight><highlight class="stringliteral">&quot;disabled-model&quot;</highlight><highlight class="normal">,<sp/>200};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>disabled_route.<ref refid="structthemis_1_1aql_1_1_model_route_1aa11bd860ba7d07bc13e051e799b22620" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_model_router" kindref="compound">AQLModelRouter</ref><sp/>r;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="classthemis_1_1aql_1_1_a_q_l_model_router_1ab716d3d7e0936d1e616881419de7fd53" kindref="member">registerRoute</ref>(disabled_route);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="classthemis_1_1aql_1_1_a_q_l_model_router_1ab716d3d7e0936d1e616881419de7fd53" kindref="member">registerRoute</ref>({<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a179518da8867f0b4237259ea3241a2ec" kindref="member">QueryModelType::RELATIONAL</ref>,<sp/></highlight><highlight class="stringliteral">&quot;generic-model&quot;</highlight><highlight class="normal">,<sp/>100});</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>r.<ref refid="classthemis_1_1aql_1_1_a_q_l_model_router_1a3fa69a0a88b32965b4d369ab07d5c286" kindref="member">route</ref>(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>KNN(d.emb,<sp/>@q)<sp/>&lt;<sp/>0.5<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>disabled<sp/>VECTOR<sp/>route<sp/>→<sp/>no<sp/>selected_route<sp/>for<sp/>VECTOR;<sp/>fallback<sp/>to<sp/>RELATIONAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(d.selected_route.has_value());</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-14:<sp/>explanation<sp/>is<sp/>not<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER14_ExplanationNotEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>router.route(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>KNN(d.emb,<sp/>@q)<sp/>&lt;<sp/>0.5<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(d.explanation.empty());</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-15:<sp/>ANN<sp/>keyword<sp/>detected<sp/>as<sp/>VECTOR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER15_ANNKeyword)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>types<sp/>=<sp/>router.classify(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>ANN(d.emb,<sp/>@q)<sp/>&lt;<sp/>0.3<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasType(types,<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a87752381b583740610f1dfeb07fdad7e" kindref="member">QueryModelType::VECTOR</ref>));</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-16:<sp/>TRAVERSE<sp/>keyword<sp/>detected<sp/>as<sp/>GRAPH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER16_TraverseKeyword)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>types<sp/>=<sp/>router.classify(</highlight><highlight class="stringliteral">&quot;FOR<sp/>v<sp/>IN<sp/>TRAVERSAL(startNode,<sp/>&apos;outbound&apos;)<sp/>RETURN<sp/>v&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasType(types,<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33ae27e2917b6444fcd3452d2d87046a487" kindref="member">QueryModelType::GRAPH</ref>));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-17:<sp/>WITHIN<sp/>keyword<sp/>detected<sp/>as<sp/>GEO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER17_WithinKeyword)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>types<sp/>=<sp/>router.classify(</highlight><highlight class="stringliteral">&quot;FOR<sp/>p<sp/>IN<sp/>places<sp/>FILTER<sp/>WITHIN(p.lat,<sp/>p.lon,<sp/>5000)<sp/>RETURN<sp/>p&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasType(types,<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a4a221f74494f1ac7a498e6524292eaef" kindref="member">QueryModelType::GEO</ref>));</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-18:<sp/>RELATIONAL<sp/>always<sp/>included<sp/>as<sp/>fallback<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER18_RelationalAlwaysPresent)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>GEO<sp/>query<sp/>should<sp/>still<sp/>have<sp/>RELATIONAL<sp/>as<sp/>last-resort<sp/>fallback<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>types<sp/>=<sp/>router.classify(</highlight><highlight class="stringliteral">&quot;FOR<sp/>p<sp/>IN<sp/>places<sp/>FILTER<sp/>ST_DISTANCE(p.geo,<sp/>@pt)<sp/>&lt;<sp/>100<sp/>RETURN<sp/>p&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasType(types,<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a179518da8867f0b4237259ea3241a2ec" kindref="member">QueryModelType::RELATIONAL</ref>));</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-19:<sp/>IModelRouter<sp/>interface<sp/>accessible<sp/>via<sp/>polymorphism</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER19_PolymorphicAccess)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;IModelRouter&gt;<sp/>iface<sp/>=<sp/>std::make_unique&lt;AQLModelRouter&gt;();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>iface-&gt;registerRoute({<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a87752381b583740610f1dfeb07fdad7e" kindref="member">QueryModelType::VECTOR</ref>,<sp/></highlight><highlight class="stringliteral">&quot;v-model&quot;</highlight><highlight class="normal">,<sp/>200});</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>iface-&gt;route(</highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>FILTER<sp/>KNN(d.emb,<sp/>@q)<sp/>&lt;<sp/>0.5<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.primary_type,<sp/><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a87752381b583740610f1dfeb07fdad7e" kindref="member">QueryModelType::VECTOR</ref>);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ROUTER-20:<sp/>removeRoute<sp/>on<sp/>non-existent<sp/>type<sp/>is<sp/>a<sp/>no-op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_model_router_test" kindref="compound">AQLModelRouterTest</ref>,<sp/>ROUTER20_RemoveNonExistent)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(router.removeRoute(<ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33ab93c13848c6490ae962feec15fbdd151" kindref="member">QueryModelType::PROCESS</ref>));</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/aql/test_aql_model_router.cpp"/>
+  </compounddef>
+</doxygen>

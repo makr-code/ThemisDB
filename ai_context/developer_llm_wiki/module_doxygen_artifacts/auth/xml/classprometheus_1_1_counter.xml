@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classprometheus_1_1_counter" kind="class" language="C++" prot="public">
+    <compoundname>prometheus::Counter</compoundname>
+    <includes refid="auth__metrics_8h" local="no">auth_metrics.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classprometheus_1_1_counter_1ad09a9229e5a5fefa13b28ddb423072dd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void prometheus::Counter::Increment</definition>
+        <argsstring>(double=1.0)</argsstring>
+        <name>Increment</name>
+        <qualifiedname>prometheus::Counter::Increment</qualifiedname>
+        <param>
+          <type>double</type>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="34" column="31" bodyfile="include/auth/auth_metrics.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_metrics.h" line="34" column="5" bodyfile="include/auth/auth_metrics.h" bodystart="34" bodyend="34"/>
+    <listofallmembers>
+      <member refid="classprometheus_1_1_counter_1ad09a9229e5a5fefa13b28ddb423072dd" prot="public" virt="non-virtual"><scope>prometheus::Counter</scope><name>Increment</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

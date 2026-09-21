@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_lo_r_a_federation_coordinator_test" kind="class" language="C++" prot="public">
+    <compoundname>LoRAFederationCoordinatorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_lo_r_a_federation_coordinator_test_1a63ce4a615e0883e6247653f326106e90" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_federation_config" kindref="compound">FederationConfig</ref></type>
+        <definition>FederationConfig LoRAFederationCoordinatorTest::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>LoRAFederationCoordinatorTest::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" line="43" column="22" bodyfile="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_lo_r_a_federation_coordinator_test_1a5e0ce3c1a639505d4f4d552155f01ae9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LoRAFederationCoordinatorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LoRAFederationCoordinatorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" line="34" column="10" bodyfile="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" bodystart="34" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_lo_r_a_federation_coordinator_test_1ac9becce27b970be8ef0189e2610f45a7" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient" kindref="compound">EncryptedGradient</ref></type>
+        <definition>static EncryptedGradient LoRAFederationCoordinatorTest::makeGradient</definition>
+        <argsstring>(const std::string &amp;shard_id, uint64_t round, size_t samples=100)</argsstring>
+        <name>makeGradient</name>
+        <qualifiedname>LoRAFederationCoordinatorTest::makeGradient</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>round</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>samples</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Build a minimal <ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient" kindref="compound">EncryptedGradient</ref> for a given shard/round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" line="46" column="30" bodyfile="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" bodystart="46" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LoRAFederationCoordinatorTest</label>
+        <link refid="class_lo_r_a_federation_coordinator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LoRAFederationCoordinatorTest</label>
+        <link refid="class_lo_r_a_federation_coordinator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::distributed_knowledge::FederationConfig</label>
+        <link refid="structthemis_1_1distributed__knowledge_1_1_federation_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" line="32" column="1" bodyfile="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" bodystart="32" bodyend="55"/>
+    <listofallmembers>
+      <member refid="class_lo_r_a_federation_coordinator_test_1a63ce4a615e0883e6247653f326106e90" prot="protected" virt="non-virtual"><scope>LoRAFederationCoordinatorTest</scope><name>cfg_</name></member>
+      <member refid="class_lo_r_a_federation_coordinator_test_1ac9becce27b970be8ef0189e2610f45a7" prot="protected" virt="non-virtual"><scope>LoRAFederationCoordinatorTest</scope><name>makeGradient</name></member>
+      <member refid="class_lo_r_a_federation_coordinator_test_1a5e0ce3c1a639505d4f4d552155f01ae9" prot="protected" virt="non-virtual"><scope>LoRAFederationCoordinatorTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

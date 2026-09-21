@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_write_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::WriteResult</compoundname>
+    <includes refid="result__aggregator_8h" local="no">result_aggregator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_write_result_1a673573ae0152a77c816b96887198fea8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::WriteResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themisdb::analytics::WriteResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Write succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="47" column="10" bodyfile="include/analytics/result_aggregator.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_write_result_1ac0e19c3700e3e646f853955b2ead0f9f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::WriteResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themisdb::analytics::WriteResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Error details if failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="48" column="17" bodyfile="include/analytics/result_aggregator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_write_result_1a741ffa4d6fe8eac3c9f2e09580b6b489" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::WriteResult::records_written</definition>
+        <argsstring></argsstring>
+        <name>records_written</name>
+        <qualifiedname>themisdb::analytics::WriteResult::records_written</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of records written. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="49" column="13" bodyfile="include/analytics/result_aggregator.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_write_result_1a2f6213dd58bee80fe4363957c496b563" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::WriteResult::records_failed</definition>
+        <argsstring></argsstring>
+        <name>records_failed</name>
+        <qualifiedname>themisdb::analytics::WriteResult::records_failed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of failed records. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="50" column="13" bodyfile="include/analytics/result_aggregator.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_write_result_1aa82bca8c42366362b4bd57322495e1b2" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::WriteResult::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <qualifiedname>themisdb::analytics::WriteResult::duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Write operation time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="51" column="31" bodyfile="include/analytics/result_aggregator.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/result_aggregator.h" line="46" column="1" bodyfile="include/analytics/result_aggregator.h" bodystart="46" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_write_result_1aa82bca8c42366362b4bd57322495e1b2" prot="public" virt="non-virtual"><scope>themisdb::analytics::WriteResult</scope><name>duration</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_write_result_1ac0e19c3700e3e646f853955b2ead0f9f" prot="public" virt="non-virtual"><scope>themisdb::analytics::WriteResult</scope><name>error_message</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_write_result_1a2f6213dd58bee80fe4363957c496b563" prot="public" virt="non-virtual"><scope>themisdb::analytics::WriteResult</scope><name>records_failed</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_write_result_1a741ffa4d6fe8eac3c9f2e09580b6b489" prot="public" virt="non-virtual"><scope>themisdb::analytics::WriteResult</scope><name>records_written</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_write_result_1a673573ae0152a77c816b96887198fea8" prot="public" virt="non-virtual"><scope>themisdb::analytics::WriteResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

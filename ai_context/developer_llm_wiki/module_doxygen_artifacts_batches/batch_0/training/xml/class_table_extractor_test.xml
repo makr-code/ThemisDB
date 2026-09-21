@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_table_extractor_test" kind="class" language="C++" prot="public">
+    <compoundname>TableExtractorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_table_extractor_test_1ae23e624322c64bafa5dcb637f4d8e80d" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref></type>
+        <definition>ModalityParserConfig TableExtractorTest::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>TableExtractorTest::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_convergence.cpp" line="289" column="26" bodyfile="tests/training/test_training_convergence.cpp" bodystart="289" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_table_extractor_test_1acb030706aa979023761a9b1dc507bf72" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TableExtractorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TableExtractorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_convergence.cpp" line="290" column="10" bodyfile="tests/training/test_training_convergence.cpp" bodystart="290" bodyend="293"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TableExtractorTest</label>
+        <link refid="class_table_extractor_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TableExtractorTest</label>
+        <link refid="class_table_extractor_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::training::ModalityParserConfig</label>
+        <link refid="structthemis_1_1training_1_1_modality_parser_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/training/test_training_convergence.cpp" line="287" column="1" bodyfile="tests/training/test_training_convergence.cpp" bodystart="287" bodyend="294"/>
+    <listofallmembers>
+      <member refid="class_table_extractor_test_1ae23e624322c64bafa5dcb637f4d8e80d" prot="protected" virt="non-virtual"><scope>TableExtractorTest</scope><name>cfg_</name></member>
+      <member refid="class_table_extractor_test_1acb030706aa979023761a9b1dc507bf72" prot="protected" virt="non-virtual"><scope>TableExtractorTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_rule" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::Rule</compoundname>
+    <includes refid="knowledge__graph__reasoner_8h" local="no">knowledge_graph_reasoner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rule_1a18ae32a795da3851ca9c74eb07a115c8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::Rule::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::graph::Rule::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="59" column="17" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rule_1a2f2ec260d64ba7c1eef2d85969008563" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> &gt;</type>
+        <definition>std::vector&lt;Triple&gt; themis::graph::Rule::conditions</definition>
+        <argsstring></argsstring>
+        <name>conditions</name>
+        <qualifiedname>themis::graph::Rule::conditions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="60" column="17" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rule_1a1c74d0c11908550c262d68c349bba37e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_triple" kindref="compound">Triple</ref> &gt;</type>
+        <definition>std::vector&lt;Triple&gt; themis::graph::Rule::conclusions</definition>
+        <argsstring></argsstring>
+        <name>conclusions</name>
+        <qualifiedname>themis::graph::Rule::conclusions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="61" column="17" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rule_1a1bd6a01f365b3a9022e2589730400bde" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::Rule::lora_adapter</definition>
+        <argsstring></argsstring>
+        <name>lora_adapter</name>
+        <qualifiedname>themis::graph::Rule::lora_adapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="62" column="17" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rule_1ae4831d1456329a73c40db3c9363be4cd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::Rule::min_lora_score</definition>
+        <argsstring></argsstring>
+        <name>min_lora_score</name>
+        <qualifiedname>themis::graph::Rule::min_lora_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="63" column="12" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/knowledge_graph_reasoner.h" line="58" column="1" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="58" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_rule_1a1c74d0c11908550c262d68c349bba37e" prot="public" virt="non-virtual"><scope>themis::graph::Rule</scope><name>conclusions</name></member>
+      <member refid="structthemis_1_1graph_1_1_rule_1a2f2ec260d64ba7c1eef2d85969008563" prot="public" virt="non-virtual"><scope>themis::graph::Rule</scope><name>conditions</name></member>
+      <member refid="structthemis_1_1graph_1_1_rule_1a18ae32a795da3851ca9c74eb07a115c8" prot="public" virt="non-virtual"><scope>themis::graph::Rule</scope><name>id</name></member>
+      <member refid="structthemis_1_1graph_1_1_rule_1a1bd6a01f365b3a9022e2589730400bde" prot="public" virt="non-virtual"><scope>themis::graph::Rule</scope><name>lora_adapter</name></member>
+      <member refid="structthemis_1_1graph_1_1_rule_1ae4831d1456329a73c40db3c9363be4cd" prot="public" virt="non-virtual"><scope>themis::graph::Rule</scope><name>min_lora_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

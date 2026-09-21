@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_i_xpdl_importer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::process::IXpdlImporter</compoundname>
+    <includes refid="xpdl__importer_8h" local="no">xpdl_importer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_xpdl_importer_1a4edbb4f1c52bee7fe6c467fb3c5783b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::process::IXpdlImporter::~IXpdlImporter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IXpdlImporter</name>
+        <qualifiedname>themis::process::IXpdlImporter::~IXpdlImporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="40" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_xpdl_importer_1a1b286c717dedea36d5d004066ca24cfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_xpdl_import_result" kindref="compound">XpdlImportResult</ref></type>
+        <definition>virtual XpdlImportResult themis::process::IXpdlImporter::importFromFile</definition>
+        <argsstring>(const std::string &amp;xpdl_path)=0</argsstring>
+        <name>importFromFile</name>
+        <qualifiedname>themis::process::IXpdlImporter::importFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>xpdl_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="41" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_xpdl_importer_1acd6f2fd370df59c70dbcfb36c2bf821a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_xpdl_import_result" kindref="compound">XpdlImportResult</ref></type>
+        <definition>virtual XpdlImportResult themis::process::IXpdlImporter::importFromString</definition>
+        <argsstring>(const std::string &amp;xpdl_xml)=0</argsstring>
+        <name>importFromString</name>
+        <qualifiedname>themis::process::IXpdlImporter::importFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>xpdl_xml</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="42" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_xpdl_importer_1a8458133874bfec0c75ac7ed57fc8923a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::process::IXpdlImporter::exportToXpdl</definition>
+        <argsstring>(const std::string &amp;package_id)=0</argsstring>
+        <name>exportToXpdl</name>
+        <qualifiedname>themis::process::IXpdlImporter::exportToXpdl</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>package_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="43" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_xpdl_importer_1a65e622a228a0d65258a4cab5bb3a7e8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::process::IXpdlImporter::validateXpdl</definition>
+        <argsstring>(const std::string &amp;xpdl_xml, std::vector&lt; std::string &gt; &amp;errors)=0</argsstring>
+        <name>validateXpdl</name>
+        <qualifiedname>themis::process::IXpdlImporter::validateXpdl</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>xpdl_xml</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="44" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_xpdl_importer_1a62464e42d5a79b9633495f21da5d9a3b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::process::IXpdlImporter::xpdlVersion</definition>
+        <argsstring>() const</argsstring>
+        <name>xpdlVersion</name>
+        <qualifiedname>themis::process::IXpdlImporter::xpdlVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="45" column="25" bodyfile="include/process/xpdl_importer.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>I xpdl importer component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/xpdl_importer.h" line="38" column="1" bodyfile="include/process/xpdl_importer.h" bodystart="38" bodyend="46"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_i_xpdl_importer_1a8458133874bfec0c75ac7ed57fc8923a" prot="public" virt="pure-virtual"><scope>themis::process::IXpdlImporter</scope><name>exportToXpdl</name></member>
+      <member refid="classthemis_1_1process_1_1_i_xpdl_importer_1a1b286c717dedea36d5d004066ca24cfc" prot="public" virt="pure-virtual"><scope>themis::process::IXpdlImporter</scope><name>importFromFile</name></member>
+      <member refid="classthemis_1_1process_1_1_i_xpdl_importer_1acd6f2fd370df59c70dbcfb36c2bf821a" prot="public" virt="pure-virtual"><scope>themis::process::IXpdlImporter</scope><name>importFromString</name></member>
+      <member refid="classthemis_1_1process_1_1_i_xpdl_importer_1a65e622a228a0d65258a4cab5bb3a7e8a" prot="public" virt="pure-virtual"><scope>themis::process::IXpdlImporter</scope><name>validateXpdl</name></member>
+      <member refid="classthemis_1_1process_1_1_i_xpdl_importer_1a62464e42d5a79b9633495f21da5d9a3b" prot="public" virt="virtual"><scope>themis::process::IXpdlImporter</scope><name>xpdlVersion</name></member>
+      <member refid="classthemis_1_1process_1_1_i_xpdl_importer_1a4edbb4f1c52bee7fe6c467fb3c5783b7" prot="public" virt="virtual"><scope>themis::process::IXpdlImporter</scope><name>~IXpdlImporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

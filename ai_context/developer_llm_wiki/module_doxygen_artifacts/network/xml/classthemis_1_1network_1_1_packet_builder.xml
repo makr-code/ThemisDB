@@ -1,0 +1,257 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_packet_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::PacketBuilder</compoundname>
+    <includes refid="wire__protocol_8h" local="no">wire_protocol.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_packet_builder_1aac5e78df561b360ca2788b9c8f45d252" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::network::PacketBuilder::build_error</definition>
+        <argsstring>(uint32_t code, std::string_view message)</argsstring>
+        <name>build_error</name>
+        <qualifiedname>themis::network::PacketBuilder::build_error</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Build an error response packet. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="classthemis_1_1network_1_1_packet_builder_1aac5e78df561b360ca2788b9c8f45d252" kindref="member">PacketBuilder::build_error</ref> ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Application-level error code. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable description (UTF-8, max 4096 bytes). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Fully framed packet bytes ready for transmission.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="210" column="24" bodyfile="src/network/wire_protocol.cpp" bodystart="236" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_packet_builder_1a5046c9332240266f46fc47c4e73be9b9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::network::PacketBuilder::build_pong</definition>
+        <argsstring>()</argsstring>
+        <name>build_pong</name>
+        <qualifiedname>themis::network::PacketBuilder::build_pong</qualifiedname>
+        <briefdescription>
+<para>Build a pong keep-alive response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="classthemis_1_1network_1_1_packet_builder_1a5046c9332240266f46fc47c4e73be9b9" kindref="member">PacketBuilder::build_pong</ref> ------------------------------------------------------------------------<mdash/></para>
+<para><simplesect kind="return"><para>Framed PONG packet (header only, no payload).</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="216" column="24" bodyfile="src/network/wire_protocol.cpp" bodystart="262" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_packet_builder_1a48b2da75a5631f06c24a7d2aa7a4c1d0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::network::PacketBuilder::build_query_result</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;rows)</argsstring>
+        <name>build_query_result</name>
+        <qualifiedname>themis::network::PacketBuilder::build_query_result</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+<para>Build a query-result packet from a row vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="classthemis_1_1network_1_1_packet_builder_1a48b2da75a5631f06c24a7d2aa7a4c1d0" kindref="member">PacketBuilder::build_query_result</ref> ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Serialised result rows; each element is one row&apos;s wire bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Framed packet with all rows concatenated in the payload. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::length_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if total payload would exceed <computeroutput><ref refid="namespacethemis_1_1network_1a9bdb4826801cf07211c3b84c8d18abb0" kindref="member">kWireProtocolMaxPayloadBytes</ref></computeroutput>.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="225" column="24" bodyfile="src/network/wire_protocol.cpp" bodystart="276" bodyend="313"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_packet_builder_1a6e233598253a64b7a23186720598f1f6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::PacketBuilder::append_be32</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;buf, uint32_t v)</argsstring>
+        <name>append_be32</name>
+        <qualifiedname>themis::network::PacketBuilder::append_be32</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Append a uint32_t in big-endian order to <computeroutput>buf</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Append be32.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="230" column="17" bodyfile="src/network/wire_protocol.cpp" bodystart="206" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_packet_builder_1a172bcfffa46b9f5d8106a8c4e228bdff" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::PacketBuilder::append_header</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;buf, PacketType type, uint32_t payload_len)</argsstring>
+        <name>append_header</name>
+        <qualifiedname>themis::network::PacketBuilder::append_header</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728" kindref="member">PacketType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>payload_len</declname>
+        </param>
+        <briefdescription>
+<para>Append the common 7-byte framing header. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Append header.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="233" column="17" bodyfile="src/network/wire_protocol.cpp" bodystart="220" bodyend="227"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Constructs outgoing wire packets with safe buffer appending. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides type-safe methods for emitting each <computeroutput><ref refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728" kindref="member">PacketType</ref></computeroutput>, handling big-endian encoding and payload length framing automatically. </para>
+    </detaileddescription>
+    <location file="include/network/wire_protocol.h" line="202" column="1" bodyfile="include/network/wire_protocol.h" bodystart="202" bodyend="235"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_packet_builder_1a6e233598253a64b7a23186720598f1f6" prot="private" virt="non-virtual"><scope>themis::network::PacketBuilder</scope><name>append_be32</name></member>
+      <member refid="classthemis_1_1network_1_1_packet_builder_1a172bcfffa46b9f5d8106a8c4e228bdff" prot="private" virt="non-virtual"><scope>themis::network::PacketBuilder</scope><name>append_header</name></member>
+      <member refid="classthemis_1_1network_1_1_packet_builder_1aac5e78df561b360ca2788b9c8f45d252" prot="public" virt="non-virtual"><scope>themis::network::PacketBuilder</scope><name>build_error</name></member>
+      <member refid="classthemis_1_1network_1_1_packet_builder_1a5046c9332240266f46fc47c4e73be9b9" prot="public" virt="non-virtual"><scope>themis::network::PacketBuilder</scope><name>build_pong</name></member>
+      <member refid="classthemis_1_1network_1_1_packet_builder_1a48b2da75a5631f06c24a7d2aa7a4c1d0" prot="public" virt="non-virtual"><scope>themis::network::PacketBuilder</scope><name>build_query_result</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

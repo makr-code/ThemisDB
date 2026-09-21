@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_transaction_batcher_test" kind="class" language="C++" prot="public">
+    <compoundname>TransactionBatcherTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_transaction_batcher_test_1aa8171b176e2d48be75c22aaf42ddefc1" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_transaction_batcher" kindref="compound">TransactionBatcher</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TransactionBatcher&gt; TransactionBatcherTest::batcher_</definition>
+        <argsstring></argsstring>
+        <name>batcher_</name>
+        <qualifiedname>TransactionBatcherTest::batcher_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_batcher.cpp" line="70" column="21" bodyfile="tests/transaction/test_transaction_batcher.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_transaction_batcher_test_1aa8a170050b0e6900c9f6e2613cd2fdcd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransactionBatcherTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TransactionBatcherTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_batcher.cpp" line="56" column="10" bodyfile="tests/transaction/test_transaction_batcher.cpp" bodystart="56" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="class_transaction_batcher_test_1a560ed1aeecc934fc19dc4903842ed547" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransactionBatcherTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TransactionBatcherTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_batcher.cpp" line="66" column="10" bodyfile="tests/transaction/test_transaction_batcher.cpp" bodystart="66" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TransactionBatcherTest</label>
+        <link refid="class_transaction_batcher_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TransactionBatcherTest</label>
+        <link refid="class_transaction_batcher_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_batcher.cpp" line="52" column="1" bodyfile="tests/transaction/test_transaction_batcher.cpp" bodystart="52" bodyend="71"/>
+    <listofallmembers>
+      <member refid="class_transaction_batcher_test_1aa8171b176e2d48be75c22aaf42ddefc1" prot="protected" virt="non-virtual"><scope>TransactionBatcherTest</scope><name>batcher_</name></member>
+      <member refid="class_transaction_batcher_test_1aa8a170050b0e6900c9f6e2613cd2fdcd" prot="protected" virt="non-virtual"><scope>TransactionBatcherTest</scope><name>SetUp</name></member>
+      <member refid="class_transaction_batcher_test_1a560ed1aeecc934fc19dc4903842ed547" prot="protected" virt="non-virtual"><scope>TransactionBatcherTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

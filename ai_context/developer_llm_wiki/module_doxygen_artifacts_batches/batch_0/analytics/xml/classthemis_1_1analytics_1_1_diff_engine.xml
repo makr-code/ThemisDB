@@ -1,0 +1,1066 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1_diff_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::DiffEngine</compoundname>
+    <includes refid="diff__engine_8h" local="no">diff_engine.h</includes>
+    <innerclass refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change" prot="public">themis::analytics::DiffEngine::Change</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats" prot="public">themis::analytics::DiffEngine::DiffStats</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" prot="public">themis::analytics::DiffEngine::DiffResult</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options" prot="public">themis::analytics::DiffEngine::DiffOptions</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_diff_engine_1_1_cached_diff" prot="private">themis::analytics::DiffEngine::CachedDiff</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_diff_engine_1_1_cache_key_hash" prot="private">themis::analytics::DiffEngine::CacheKeyHash</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1analytics_1_1_diff_engine_1a77371f23b27cca44aed293e93bbc11d5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ChangeType</name>
+        <qualifiedname>themis::analytics::DiffEngine::ChangeType</qualifiedname>
+        <enumvalue id="classthemis_1_1analytics_1_1_diff_engine_1a77371f23b27cca44aed293e93bbc11d5a55771bcb939a8afbf4d119d6e0099317" prot="public">
+          <name>ADDED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1analytics_1_1_diff_engine_1a77371f23b27cca44aed293e93bbc11d5a40e3819215b52841e19a7cac06b5f065" prot="public">
+          <name>MODIFIED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1analytics_1_1_diff_engine_1a77371f23b27cca44aed293e93bbc11d5a63c2867fdcae0e8e8413d7ac21b69b59" prot="public">
+          <name>DELETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="33" column="5" bodyfile="include/analytics/diff_engine.h" bodystart="33" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1analytics_1_1_diff_engine_1a987870783cb96e9cb7c2de6349d75be0" prot="private" static="no">
+        <type>std::pair&lt; uint64_t, uint64_t &gt;</type>
+        <definition>using themis::analytics::DiffEngine::CacheKey = std::pair&lt;uint64_t, uint64_t&gt;</definition>
+        <argsstring></argsstring>
+        <name>CacheKey</name>
+        <qualifiedname>themis::analytics::DiffEngine::CacheKey</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="232" column="5" bodyfile="include/analytics/diff_engine.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_diff_engine_1a081ce63b0cd103e92a543571b67bebec" prot="private" static="no" mutable="no">
+        <type>Changefeed &amp;</type>
+        <definition>Changefeed&amp; themis::analytics::DiffEngine::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>themis::analytics::DiffEngine::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="221" column="16" bodyfile="include/analytics/diff_engine.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_diff_engine_1a9a1ba55f9086eb2a197e8c07331d037f" prot="private" static="no" mutable="no">
+        <type>transaction::SnapshotManager *</type>
+        <definition>transaction::SnapshotManager* themis::analytics::DiffEngine::snapshot_manager_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_manager_</name>
+        <qualifiedname>themis::analytics::DiffEngine::snapshot_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="222" column="34" bodyfile="include/analytics/diff_engine.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_diff_engine_1af82dd85209db8c8bc6448981b4601f62" prot="private" static="no" mutable="yes">
+        <type>std::map&lt; CacheKey, CachedDiff &gt;</type>
+        <definition>std::map&lt;CacheKey, CachedDiff&gt; themis::analytics::DiffEngine::diff_cache_</definition>
+        <argsstring></argsstring>
+        <name>diff_cache_</name>
+        <qualifiedname>themis::analytics::DiffEngine::diff_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="244" column="22" bodyfile="include/analytics/diff_engine.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_diff_engine_1a39111838bf083b5d2b48afb420515be5" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::analytics::DiffEngine::cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex_</name>
+        <qualifiedname>themis::analytics::DiffEngine::cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="245" column="24" bodyfile="include/analytics/diff_engine.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_diff_engine_1a9aaa69ebb65c90ca55fdc04621f26b1c" prot="private" static="no" mutable="yes">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::analytics::DiffEngine::inflight_cv_</definition>
+        <argsstring></argsstring>
+        <name>inflight_cv_</name>
+        <qualifiedname>themis::analytics::DiffEngine::inflight_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="246" column="37" bodyfile="include/analytics/diff_engine.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_diff_engine_1aa1606ac84a5257716e126dd1a331fc28" prot="private" static="no" mutable="yes">
+        <type>std::unordered_set&lt; CacheKey, CacheKeyHash &gt;</type>
+        <definition>std::unordered_set&lt;CacheKey, CacheKeyHash&gt; themis::analytics::DiffEngine::inflight_keys_</definition>
+        <argsstring></argsstring>
+        <name>inflight_keys_</name>
+        <qualifiedname>themis::analytics::DiffEngine::inflight_keys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="247" column="32" bodyfile="include/analytics/diff_engine.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_diff_engine_1ae4ade77a0e96a20d48cda852eb1aafaf" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>std::function&lt;void()&gt; themis::analytics::DiffEngine::compute_hook_for_testing_</definition>
+        <argsstring></argsstring>
+        <name>compute_hook_for_testing_</name>
+        <qualifiedname>themis::analytics::DiffEngine::compute_hook_for_testing_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="253" column="19" bodyfile="include/analytics/diff_engine.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_diff_engine_1a105222c38a157ed7627446585d92d0fb" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::analytics::DiffEngine::CACHE_TTL</definition>
+        <argsstring></argsstring>
+        <name>CACHE_TTL</name>
+        <qualifiedname>themis::analytics::DiffEngine::CACHE_TTL</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="248" column="43" bodyfile="include/analytics/diff_engine.h" bodystart="248" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_diff_engine_1ab985824381a45c33b3cbda5e7c197f06" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::DiffEngine::MAX_CACHE_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_CACHE_SIZE</name>
+        <qualifiedname>themis::analytics::DiffEngine::MAX_CACHE_SIZE</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="249" column="29" bodyfile="include/analytics/diff_engine.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_diff_engine_1ac0bff2b4d374efcaf0bfdcf7cd6cae81" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::DiffEngine::MAX_DIFF_LIMIT</definition>
+        <argsstring></argsstring>
+        <name>MAX_DIFF_LIMIT</name>
+        <qualifiedname>themis::analytics::DiffEngine::MAX_DIFF_LIMIT</qualifiedname>
+        <initializer>= 1000000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="250" column="29" bodyfile="include/analytics/diff_engine.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1aac721bf4f9bc48c4203b15517933163d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::DiffEngine::DiffEngine</definition>
+        <argsstring>(Changefeed &amp;changefeed, transaction::SnapshotManager *snapshot_manager=nullptr)</argsstring>
+        <name>DiffEngine</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffEngine</qualifiedname>
+        <param>
+          <type>Changefeed &amp;</type>
+          <declname>changefeed</declname>
+        </param>
+        <param>
+          <type>transaction::SnapshotManager *</type>
+          <declname>snapshot_manager</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="112" column="14" bodyfile="src/analytics/diff_engine.cpp" bodystart="159" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1ad93634c0073bb2d1363c59721f399a88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::DiffEngine::~DiffEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DiffEngine</name>
+        <qualifiedname>themis::analytics::DiffEngine::~DiffEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="115" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1a3d5bdb58886dfd4b007e73baa81c9b0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::DiffEngine::DiffEngine</definition>
+        <argsstring>(const DiffEngine &amp;)=delete</argsstring>
+        <name>DiffEngine</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffEngine</qualifiedname>
+        <param>
+          <type>const DiffEngine &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="119" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1a85349783b5103df566baceb52a4c473c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1analytics_1_1_diff_engine_1aac721bf4f9bc48c4203b15517933163d" kindref="member">DiffEngine</ref> &amp;</type>
+        <definition>DiffEngine &amp; themis::analytics::DiffEngine::operator=</definition>
+        <argsstring>(const DiffEngine &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::analytics::DiffEngine::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1analytics_1_1_diff_engine_1aac721bf4f9bc48c4203b15517933163d" kindref="member">DiffEngine</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="120" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1a8a7b2acde8c1538ce4c4dde9968ce772" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::DiffEngine::DiffEngine</definition>
+        <argsstring>(DiffEngine &amp;&amp;)=delete</argsstring>
+        <name>DiffEngine</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffEngine</qualifiedname>
+        <param>
+          <type>DiffEngine &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="121" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1acc4763593aa29ac73d743ec657c347e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1analytics_1_1_diff_engine_1aac721bf4f9bc48c4203b15517933163d" kindref="member">DiffEngine</ref> &amp;</type>
+        <definition>DiffEngine &amp; themis::analytics::DiffEngine::operator=</definition>
+        <argsstring>(DiffEngine &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::analytics::DiffEngine::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1_diff_engine_1aac721bf4f9bc48c4203b15517933163d" kindref="member">DiffEngine</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="122" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1acd39f8be19500ea2947604ff323a2129" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" kindref="compound">DiffResult</ref></type>
+        <definition>DiffEngine::DiffResult themis::analytics::DiffEngine::computeDiff</definition>
+        <argsstring>(uint64_t from_sequence, uint64_t to_sequence, const DiffOptions &amp;options)</argsstring>
+        <name>computeDiff</name>
+        <qualifiedname>themis::analytics::DiffEngine::computeDiff</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>from_sequence</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>to_sequence</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options" kindref="compound">DiffOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Compute Diff. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute diff between sequences.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fmt::format(), spdlog::debug(), has_value(), lock(), count(), wait_for(), std::chrono::seconds(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="131" column="16" bodyfile="src/analytics/diff_engine.cpp" bodystart="171" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1af56e766c749423f3e47679e7d1c39b44" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" kindref="compound">DiffResult</ref></type>
+        <definition>DiffResult themis::analytics::DiffEngine::computeDiff</definition>
+        <argsstring>(uint64_t from_sequence, uint64_t to_sequence)</argsstring>
+        <name>computeDiff</name>
+        <qualifiedname>themis::analytics::DiffEngine::computeDiff</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>from_sequence</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>to_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Compute Diff. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements computeDiff without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="144" column="16" bodyfile="include/analytics/diff_engine.h" bodystart="144" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1a4591688a4d3bfb25ddb08be6e705b531" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" kindref="compound">DiffResult</ref></type>
+        <definition>DiffEngine::DiffResult themis::analytics::DiffEngine::computeDiffByTimestamp</definition>
+        <argsstring>(int64_t from_timestamp, int64_t to_timestamp, const DiffOptions &amp;options)</argsstring>
+        <name>computeDiffByTimestamp</name>
+        <qualifiedname>themis::analytics::DiffEngine::computeDiffByTimestamp</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>from_timestamp</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>to_timestamp</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options" kindref="compound">DiffOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Compute Diff By Timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute diff by timestamp.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fmt::format(), spdlog::debug(), findSequenceRange(), <ref refid="classthemis_1_1analytics_1_1_diff_engine_1acd39f8be19500ea2947604ff323a2129" kindref="member">computeDiff()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="158" column="16" bodyfile="src/analytics/diff_engine.cpp" bodystart="319" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1acfbeb9b72223b44214ac6b11656478d9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" kindref="compound">DiffResult</ref></type>
+        <definition>DiffResult themis::analytics::DiffEngine::computeDiffByTimestamp</definition>
+        <argsstring>(int64_t from_timestamp, int64_t to_timestamp)</argsstring>
+        <name>computeDiffByTimestamp</name>
+        <qualifiedname>themis::analytics::DiffEngine::computeDiffByTimestamp</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>from_timestamp</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>to_timestamp</declname>
+        </param>
+        <briefdescription>
+<para>Compute Diff By Timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements computeDiffByTimestamp without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="171" column="16" bodyfile="include/analytics/diff_engine.h" bodystart="171" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1a9ce36bcaac39b6ff358309337d69f3e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" kindref="compound">DiffResult</ref></type>
+        <definition>DiffEngine::DiffResult themis::analytics::DiffEngine::computeDiffByTag</definition>
+        <argsstring>(const std::string &amp;from_tag, const std::string &amp;to_tag, const DiffOptions &amp;options)</argsstring>
+        <name>computeDiffByTag</name>
+        <qualifiedname>themis::analytics::DiffEngine::computeDiffByTag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from_tag</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to_tag</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options" kindref="compound">DiffOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Compute Diff By Tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute diff by tag (now implemented with Phase 1).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(), getSequenceForTag(), has_value(), fmt::format(), <ref refid="classthemis_1_1analytics_1_1_diff_engine_1acd39f8be19500ea2947604ff323a2129" kindref="member">computeDiff()</ref>, getTimestampForTag(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="185" column="16" bodyfile="src/analytics/diff_engine.cpp" bodystart="361" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1ae35a545de893789aea1cfb71a25818e0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" kindref="compound">DiffResult</ref></type>
+        <definition>DiffResult themis::analytics::DiffEngine::computeDiffByTag</definition>
+        <argsstring>(const std::string &amp;from_tag, const std::string &amp;to_tag)</argsstring>
+        <name>computeDiffByTag</name>
+        <qualifiedname>themis::analytics::DiffEngine::computeDiffByTag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from_tag</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to_tag</declname>
+        </param>
+        <briefdescription>
+<para>Compute Diff By Tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements computeDiffByTag without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="198" column="16" bodyfile="include/analytics/diff_engine.h" bodystart="198" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1a4ad5b1cf5613065f3fa3932820dbcafb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::DiffEngine::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::analytics::DiffEngine::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="208" column="10" bodyfile="src/analytics/diff_engine.cpp" bodystart="402" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1a174b47e4f957854b888a1aabe5fcf41e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref></type>
+        <definition>json themis::analytics::DiffEngine::getCacheStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getCacheStats</name>
+        <qualifiedname>themis::analytics::DiffEngine::getCacheStats</qualifiedname>
+        <briefdescription>
+<para>Get Cache Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="214" column="10" bodyfile="src/analytics/diff_engine.cpp" bodystart="409" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1a47aeddffa2d2027225c862d7a9c8f7a0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::DiffEngine::setComputeHookForTesting</definition>
+        <argsstring>(std::function&lt; void()&gt; hook)</argsstring>
+        <name>setComputeHookForTesting</name>
+        <qualifiedname>themis::analytics::DiffEngine::setComputeHookForTesting</qualifiedname>
+        <param>
+          <type>std::function&lt; void()&gt;</type>
+          <declname>hook</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="216" column="10" bodyfile="include/analytics/diff_engine.h" bodystart="216" bodyend="218"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1ae3ba878a381d1aea9547b91e8e288dce" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" kindref="compound">DiffResult</ref></type>
+        <definition>DiffEngine::DiffResult themis::analytics::DiffEngine::processEvents</definition>
+        <argsstring>(const std::vector&lt; Changefeed::ChangeEvent &gt; &amp;events, const DiffOptions &amp;options, uint64_t from_sequence)</argsstring>
+        <name>processEvents</name>
+        <qualifiedname>themis::analytics::DiffEngine::processEvents</qualifiedname>
+        <param>
+          <type>const std::vector&lt; Changefeed::ChangeEvent &gt; &amp;</type>
+          <declname>events</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options" kindref="compound">DiffOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>from_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Process Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Process events and categorize them.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">events</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">events</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: shouldIncludeEvent(), push_back(), empty(), front(), back(), has_value(), size(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="262" column="16" bodyfile="src/analytics/diff_engine.cpp" bodystart="431" bodyend="576"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1a1e68fb1ea069cf2b6db55201c8a8d119" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::DiffEngine::shouldIncludeEvent</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event, const DiffOptions &amp;options) const</argsstring>
+        <name>shouldIncludeEvent</name>
+        <qualifiedname>themis::analytics::DiffEngine::shouldIncludeEvent</qualifiedname>
+        <param>
+          <type>const Changefeed::ChangeEvent &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options" kindref="compound">DiffOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Should Include Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="274" column="10" bodyfile="src/analytics/diff_engine.cpp" bodystart="579" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1a9eb063c49502184e8a379256e5f533f1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change" kindref="compound">Change</ref></type>
+        <definition>Change themis::analytics::DiffEngine::categorizeChange</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event, const std::map&lt; std::string, Changefeed::ChangeEvent &gt; &amp;key_history) const</argsstring>
+        <name>categorizeChange</name>
+        <qualifiedname>themis::analytics::DiffEngine::categorizeChange</qualifiedname>
+        <param>
+          <type>const Changefeed::ChangeEvent &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, Changefeed::ChangeEvent &gt; &amp;</type>
+          <declname>key_history</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="279" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1a862974210cc762b08b0fd990416e0d50" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, Changefeed::ChangeEvent &gt;</type>
+        <definition>std::map&lt; std::string, Changefeed::ChangeEvent &gt; themis::analytics::DiffEngine::buildKeyHistory</definition>
+        <argsstring>(const std::vector&lt; Changefeed::ChangeEvent &gt; &amp;events) const</argsstring>
+        <name>buildKeyHistory</name>
+        <qualifiedname>themis::analytics::DiffEngine::buildKeyHistory</qualifiedname>
+        <param>
+          <type>const std::vector&lt; Changefeed::ChangeEvent &gt; &amp;</type>
+          <declname>events</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="284" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1afc9b9a5e048964ff223686a05ba72fca" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; uint64_t, uint64_t &gt;</type>
+        <definition>std::pair&lt; uint64_t, uint64_t &gt; themis::analytics::DiffEngine::findSequenceRange</definition>
+        <argsstring>(int64_t from_timestamp, int64_t to_timestamp) const</argsstring>
+        <name>findSequenceRange</name>
+        <qualifiedname>themis::analytics::DiffEngine::findSequenceRange</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>from_timestamp</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>to_timestamp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="288" column="15" bodyfile="src/analytics/diff_engine.cpp" bodystart="600" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1a596488111ccb5ef09a9bcebbfdcb0b56" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::DiffEngine::isCacheValid</definition>
+        <argsstring>(const CachedDiff &amp;cached) const</argsstring>
+        <name>isCacheValid</name>
+        <qualifiedname>themis::analytics::DiffEngine::isCacheValid</qualifiedname>
+        <param>
+          <type>const CachedDiff &amp;</type>
+          <declname>cached</declname>
+        </param>
+        <briefdescription>
+<para>Is Cache Valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cached</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="298" column="10" bodyfile="src/analytics/diff_engine.cpp" bodystart="655" bodyend="659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_diff_engine_1a5dbf8e10151f9e1593efdffad158f4d0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::DiffEngine::evictOldCacheEntries</definition>
+        <argsstring>()</argsstring>
+        <name>evictOldCacheEntries</name>
+        <qualifiedname>themis::analytics::DiffEngine::evictOldCacheEntries</qualifiedname>
+        <briefdescription>
+<para>Evict Old Cache Entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evict oldest cache entries NOTE: This function must NOT be called while holding cache_mutex_.</para>
+<para>The copy-evict-then-lock pattern is implemented directly in <ref refid="classthemis_1_1analytics_1_1_diff_engine_1acd39f8be19500ea2947604ff323a2129" kindref="member">computeDiff()</ref>. This function is retained for external callers (e.g. clearCache stress tests) but is not used in the hot path. Calls: empty(), begin(), end(), spdlog::debug(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="303" column="10" bodyfile="src/analytics/diff_engine.cpp" bodystart="665" bodyend="680"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/diff_engine.h" line="31" column="1" bodyfile="include/analytics/diff_engine.h" bodystart="31" bodyend="304"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a862974210cc762b08b0fd990416e0d50" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>buildKeyHistory</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a39111838bf083b5d2b48afb420515be5" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>cache_mutex_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a105222c38a157ed7627446585d92d0fb" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>CACHE_TTL</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a987870783cb96e9cb7c2de6349d75be0" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>CacheKey</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a9eb063c49502184e8a379256e5f533f1" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>categorizeChange</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a081ce63b0cd103e92a543571b67bebec" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>changefeed_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a77371f23b27cca44aed293e93bbc11d5" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>ChangeType</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a4ad5b1cf5613065f3fa3932820dbcafb" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1ae4ade77a0e96a20d48cda852eb1aafaf" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>compute_hook_for_testing_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1acd39f8be19500ea2947604ff323a2129" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>computeDiff</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1af56e766c749423f3e47679e7d1c39b44" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>computeDiff</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a9ce36bcaac39b6ff358309337d69f3e4" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>computeDiffByTag</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1ae35a545de893789aea1cfb71a25818e0" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>computeDiffByTag</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a4591688a4d3bfb25ddb08be6e705b531" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>computeDiffByTimestamp</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1acfbeb9b72223b44214ac6b11656478d9" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>computeDiffByTimestamp</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1af82dd85209db8c8bc6448981b4601f62" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>diff_cache_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1aac721bf4f9bc48c4203b15517933163d" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>DiffEngine</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a3d5bdb58886dfd4b007e73baa81c9b0a" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>DiffEngine</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a8a7b2acde8c1538ce4c4dde9968ce772" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>DiffEngine</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a5dbf8e10151f9e1593efdffad158f4d0" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>evictOldCacheEntries</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1afc9b9a5e048964ff223686a05ba72fca" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>findSequenceRange</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a174b47e4f957854b888a1aabe5fcf41e" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>getCacheStats</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a9aaa69ebb65c90ca55fdc04621f26b1c" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>inflight_cv_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1aa1606ac84a5257716e126dd1a331fc28" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>inflight_keys_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a596488111ccb5ef09a9bcebbfdcb0b56" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>isCacheValid</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1ab985824381a45c33b3cbda5e7c197f06" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>MAX_CACHE_SIZE</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1ac0bff2b4d374efcaf0bfdcf7cd6cae81" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>MAX_DIFF_LIMIT</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a85349783b5103df566baceb52a4c473c" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1acc4763593aa29ac73d743ec657c347e2" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1ae3ba878a381d1aea9547b91e8e288dce" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>processEvents</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a47aeddffa2d2027225c862d7a9c8f7a0" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>setComputeHookForTesting</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a1e68fb1ea069cf2b6db55201c8a8d119" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>shouldIncludeEvent</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1a9a1ba55f9086eb2a197e8c07331d037f" prot="private" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>snapshot_manager_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_diff_engine_1ad93634c0073bb2d1363c59721f399a88" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine</scope><name>~DiffEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

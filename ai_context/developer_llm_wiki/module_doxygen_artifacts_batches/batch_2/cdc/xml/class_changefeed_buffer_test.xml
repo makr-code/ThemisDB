@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_changefeed_buffer_test" kind="class" language="C++" prot="public">
+    <compoundname>ChangefeedBufferTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_changefeed_buffer_test_1aab7893f50c32517a79aec0412761947a" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ChangefeedBufferTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>ChangefeedBufferTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_changefeed_buffer.cpp" line="67" column="39" bodyfile="tests/cdc/test_cdc_changefeed_buffer.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_changefeed_buffer_test_1a3efcf28b489ca67e10b18765f1ff7450" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; rocksdb::TransactionDB &gt;</type>
+        <definition>std::unique_ptr&lt;rocksdb::TransactionDB&gt; ChangefeedBufferTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ChangefeedBufferTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_changefeed_buffer.cpp" line="68" column="21" bodyfile="tests/cdc/test_cdc_changefeed_buffer.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_changefeed_buffer_test_1afa36661dde36cae2006577b25fe3ae21" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; ChangefeedBufferTest::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>ChangefeedBufferTest::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_changefeed_buffer.cpp" line="69" column="27" bodyfile="tests/cdc/test_cdc_changefeed_buffer.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_changefeed_buffer_test_1ae9d2bba720befa5dc08c152d22fbe9ae" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ChangefeedBufferTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ChangefeedBufferTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_changefeed_buffer.cpp" line="25" column="10" bodyfile="tests/cdc/test_cdc_changefeed_buffer.cpp" bodystart="25" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_changefeed_buffer_test_1afc5970c6be3ac5a0b19ef99ef6a99960" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ChangefeedBufferTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ChangefeedBufferTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_changefeed_buffer.cpp" line="45" column="10" bodyfile="tests/cdc/test_cdc_changefeed_buffer.cpp" bodystart="45" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_changefeed_buffer_test_1a2ba4bf1116144726462d270fd8af0066" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref></type>
+        <definition>Changefeed::ChangeEvent ChangefeedBufferTest::makePut</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value=&quot;{}&quot;)</argsstring>
+        <name>makePut</name>
+        <qualifiedname>ChangefeedBufferTest::makePut</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+          <defval>&quot;{}&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_changefeed_buffer.cpp" line="51" column="29" bodyfile="tests/cdc/test_cdc_changefeed_buffer.cpp" bodystart="51" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_changefeed_buffer_test_1aeee4bce1a027b0b58abbce3d8975ee98" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref></type>
+        <definition>Changefeed::ChangeEvent ChangefeedBufferTest::makeDelete</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>makeDelete</name>
+        <qualifiedname>ChangefeedBufferTest::makeDelete</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_changefeed_buffer.cpp" line="60" column="29" bodyfile="tests/cdc/test_cdc_changefeed_buffer.cpp" bodystart="60" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ChangefeedBufferTest</label>
+        <link refid="class_changefeed_buffer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ChangefeedBufferTest</label>
+        <link refid="class_changefeed_buffer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_changefeed_buffer.cpp" line="23" column="1" bodyfile="tests/cdc/test_cdc_changefeed_buffer.cpp" bodystart="23" bodyend="70"/>
+    <listofallmembers>
+      <member refid="class_changefeed_buffer_test_1afa36661dde36cae2006577b25fe3ae21" prot="protected" virt="non-virtual"><scope>ChangefeedBufferTest</scope><name>changefeed_</name></member>
+      <member refid="class_changefeed_buffer_test_1a3efcf28b489ca67e10b18765f1ff7450" prot="protected" virt="non-virtual"><scope>ChangefeedBufferTest</scope><name>db_</name></member>
+      <member refid="class_changefeed_buffer_test_1aeee4bce1a027b0b58abbce3d8975ee98" prot="protected" virt="non-virtual"><scope>ChangefeedBufferTest</scope><name>makeDelete</name></member>
+      <member refid="class_changefeed_buffer_test_1a2ba4bf1116144726462d270fd8af0066" prot="protected" virt="non-virtual"><scope>ChangefeedBufferTest</scope><name>makePut</name></member>
+      <member refid="class_changefeed_buffer_test_1ae9d2bba720befa5dc08c152d22fbe9ae" prot="protected" virt="non-virtual"><scope>ChangefeedBufferTest</scope><name>SetUp</name></member>
+      <member refid="class_changefeed_buffer_test_1afc5970c6be3ac5a0b19ef99ef6a99960" prot="protected" virt="non-virtual"><scope>ChangefeedBufferTest</scope><name>TearDown</name></member>
+      <member refid="class_changefeed_buffer_test_1aab7893f50c32517a79aec0412761947a" prot="protected" virt="non-virtual"><scope>ChangefeedBufferTest</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

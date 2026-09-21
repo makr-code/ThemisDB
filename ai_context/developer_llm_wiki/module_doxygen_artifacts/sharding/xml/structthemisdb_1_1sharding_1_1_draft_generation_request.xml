@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_draft_generation_request" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::DraftGenerationRequest</compoundname>
+    <includes refid="cross__shard__speculative__decoder_8h" local="no">cross_shard_speculative_decoder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_draft_generation_request_1a7b337209ece189344fb84fc0b9925e36" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::sharding::DraftGenerationRequest::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themisdb::sharding::DraftGenerationRequest::request_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="220" column="13" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_draft_generation_request_1a115ce950a321044741d6f6cdd56b2ef2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::DraftGenerationRequest::original_shard_id</definition>
+        <argsstring></argsstring>
+        <name>original_shard_id</name>
+        <qualifiedname>themisdb::sharding::DraftGenerationRequest::original_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="221" column="17" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_draft_generation_request_1a18b3dbc43f174f7246e200a0c4ed097e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themisdb::sharding::DraftGenerationRequest::input_token_ids</definition>
+        <argsstring></argsstring>
+        <name>input_token_ids</name>
+        <qualifiedname>themisdb::sharding::DraftGenerationRequest::input_token_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="222" column="17" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_draft_generation_request_1a158b7b69a7eb2033a7787e75ae3a2803" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::DraftGenerationRequest::max_draft_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_draft_tokens</name>
+        <qualifiedname>themisdb::sharding::DraftGenerationRequest::max_draft_tokens</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="223" column="14" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_draft_generation_request_1af307d204e201b71f88adfce7db91424f" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::sharding::DraftGenerationRequest::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themisdb::sharding::DraftGenerationRequest::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="224" column="43" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_draft_generation_request_1a2defcb4d131ab5378791f089788d7755" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(int64_t <ref refid="structthemisdb_1_1sharding_1_1_draft_generation_request_1a7b337209ece189344fb84fc0b9925e36" kindref="member">request_id</ref>, const std::vector&lt; int &gt; &amp;draft_tokens)&gt;</type>
+        <definition>std::function&lt;void(int64_t request_id, const std::vector&lt;int&gt;&amp; draft_tokens)&gt; themisdb::sharding::DraftGenerationRequest::on_success</definition>
+        <argsstring></argsstring>
+        <name>on_success</name>
+        <qualifiedname>themisdb::sharding::DraftGenerationRequest::on_success</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="227" column="19" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_draft_generation_request_1a923adf46a3245fa13f2dfc969ff5303d" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(int64_t <ref refid="structthemisdb_1_1sharding_1_1_draft_generation_request_1a7b337209ece189344fb84fc0b9925e36" kindref="member">request_id</ref>, const std::string &amp;error)&gt;</type>
+        <definition>std::function&lt;void(int64_t request_id, const std::string&amp; error)&gt; themisdb::sharding::DraftGenerationRequest::on_failure</definition>
+        <argsstring></argsstring>
+        <name>on_failure</name>
+        <qualifiedname>themisdb::sharding::DraftGenerationRequest::on_failure</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="228" column="19" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Draft generation request. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/cross_shard_speculative_decoder.h" line="219" column="1" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="219" bodyend="229"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_draft_generation_request_1a18b3dbc43f174f7246e200a0c4ed097e" prot="public" virt="non-virtual"><scope>themisdb::sharding::DraftGenerationRequest</scope><name>input_token_ids</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_draft_generation_request_1a158b7b69a7eb2033a7787e75ae3a2803" prot="public" virt="non-virtual"><scope>themisdb::sharding::DraftGenerationRequest</scope><name>max_draft_tokens</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_draft_generation_request_1a923adf46a3245fa13f2dfc969ff5303d" prot="public" virt="non-virtual"><scope>themisdb::sharding::DraftGenerationRequest</scope><name>on_failure</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_draft_generation_request_1a2defcb4d131ab5378791f089788d7755" prot="public" virt="non-virtual"><scope>themisdb::sharding::DraftGenerationRequest</scope><name>on_success</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_draft_generation_request_1a115ce950a321044741d6f6cdd56b2ef2" prot="public" virt="non-virtual"><scope>themisdb::sharding::DraftGenerationRequest</scope><name>original_shard_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_draft_generation_request_1a7b337209ece189344fb84fc0b9925e36" prot="public" virt="non-virtual"><scope>themisdb::sharding::DraftGenerationRequest</scope><name>request_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_draft_generation_request_1af307d204e201b71f88adfce7db91424f" prot="public" virt="non-virtual"><scope>themisdb::sharding::DraftGenerationRequest</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

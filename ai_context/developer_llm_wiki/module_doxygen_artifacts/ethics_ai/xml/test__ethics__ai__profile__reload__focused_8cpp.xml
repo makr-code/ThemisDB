@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ethics__ai__profile__reload__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_ethics_ai_profile_reload_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="ethics__selection__router_8h" local="yes">ethics_ai/ethics_selection_router.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>ethics_ai/ethics_selection_router.h</label>
+        <link refid="ethics__selection__router_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp</label>
+        <link refid="test__ethics__ai__profile__reload__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>ethics_ai/ethics_profile_registry.h</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ethics__ai__profile__reload__focused_8cpp_1accd840f13b71d9498bc5ded50983a621" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProfileReloadGuard, DefaultSnapshotFlagIsTrue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProfileReloadGuard</type>
+        </param>
+        <param>
+          <type>DefaultSnapshotFlagIsTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000024"><xreftitle>Test</xreftitle><xrefdescription><para>PR-01: Default value of snapshot_profile_on_round_start is true. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp" line="38" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__profile__reload__focused_8cpp_1a28a46b78d4497df69581c93e0a443351" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProfileReloadGuard, FlagCanBeSetToFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProfileReloadGuard</type>
+        </param>
+        <param>
+          <type>FlagCanBeSetToFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000025"><xreftitle>Test</xreftitle><xrefdescription><para>PR-02: Flag can be set to false (legacy/test mode). </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp" line="46" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp" bodystart="46" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__profile__reload__focused_8cpp_1a1c95b30923268a55fc6968243f9ff153" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProfileReloadGuard, FlagPreservedOnCopy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProfileReloadGuard</type>
+        </param>
+        <param>
+          <type>FlagPreservedOnCopy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000026"><xreftitle>Test</xreftitle><xrefdescription><para>PR-03: Flag is preserved through copy construction. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp" line="55" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp" bodystart="55" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__profile__reload__focused_8cpp_1aaa12d87b995626cf47a8ec8ed3c8e781" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProfileReloadGuard, CopiedConfigIsIndependent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProfileReloadGuard</type>
+        </param>
+        <param>
+          <type>CopiedConfigIsIndependent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000027"><xreftitle>Test</xreftitle><xrefdescription><para>PR-04: A copied <ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref> is independent of the original. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp" line="74" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp" bodystart="74" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__profile__reload__focused_8cpp_1ad6601b84572d7c5db2d9bd9c6d21289f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProfileReloadGuard, SnapshotCopiesConflictThreshold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProfileReloadGuard</type>
+        </param>
+        <param>
+          <type>SnapshotCopiesConflictThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000028"><xreftitle>Test</xreftitle><xrefdescription><para>PR-05: Copied config carries the same conflict_threshold_ratio. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp" line="90" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp" bodystart="90" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__profile__reload__focused_8cpp_1a7d8493a4a271d08f307c1c927a8e7f08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProfileReloadGuard, IndependentConfigsDoNotInterfere)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProfileReloadGuard</type>
+        </param>
+        <param>
+          <type>IndependentConfigsDoNotInterfere</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000029"><xreftitle>Test</xreftitle><xrefdescription><para>PR-06: Two configs with different thresholds do not interfere. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp" line="100" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp" bodystart="100" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__profile__reload__focused_8cpp_1ab9b8a78614406ad7cebcbf01f6c02cd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProfileReloadGuard, DefaultConstructedConfigIsUsable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProfileReloadGuard</type>
+        </param>
+        <param>
+          <type>DefaultConstructedConfigIsUsable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000030"><xreftitle>Test</xreftitle><xrefdescription><para>PR-07: Default-constructed <ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref> with snapshot=true is usable. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp" line="113" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp" bodystart="113" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ethics__ai__profile__reload__focused_8cpp_1af8fa5d6d77f333d0e4d45133de632e2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProfileReloadGuard, SchoolBiasCopyIsDeep)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProfileReloadGuard</type>
+        </param>
+        <param>
+          <type>SchoolBiasCopyIsDeep</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000031"><xreftitle>Test</xreftitle><xrefdescription><para>PR-08: Modifying school_bias on a copy does not affect the original. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp" line="123" column="1" bodyfile="tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp" bodystart="123" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Profile-reload + selection-router snapshot-guard regression tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="test__ethics__ai__profile__reload__focused_8cpp_1autotoc_md7_1s1"><sect2 id="test__ethics__ai__profile__reload__focused_8cpp_1autotoc_md7">
+<title>Test families (PR-01..PR-08)</title><para><heading level="3">PR-01..03 — snapshot_profile_on_round_start flag</heading>
+</para>
+<para>PR-01 Default value of snapshot_profile_on_round_start is true PR-02 Flag can be set to false (legacy mode) PR-03 Flag is preserved through copy construction of <ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref></para>
+<para><heading level="3">PR-04..08 — Snapshot guard semantics (contract-level)</heading>
+</para>
+<para>PR-04 With snapshot=true, a second <ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref> copy is independent of the first PR-05 <ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref> copy carries the same conflict_threshold_ratio PR-06 Two configs with different thresholds do not interfere PR-07 <ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref> default-constructed with snapshot=true is safe to use PR-08 Changing school_bias on a copy does not affect the original</para>
+<para><simplesect kind="see"><para><ref refid="ethics__selection__router_8h" kindref="compound">include/ethics_ai/ethics_selection_router.h</ref> — <ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a05834fc597e9632774af574aeb10f95b" kindref="member">RouterConfig.snapshot_profile_on_round_start</ref> </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ethics__selection__router_8h" kindref="compound">ethics_ai/ethics_selection_router.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1ethics" kindref="compound">themis::plugins::ethics</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PR-01..03<sp/>—<sp/>snapshot_profile_on_round_start<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="test__ethics__ai__profile__reload__focused_8cpp_1accd840f13b71d9498bc5ded50983a621" kindref="member">TEST</ref>(ProfileReloadGuard,<sp/>DefaultSnapshotFlagIsTrue)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a05834fc597e9632774af574aeb10f95b" kindref="member">snapshot_profile_on_round_start</ref>);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__ethics__ai__profile__reload__focused_8cpp_1accd840f13b71d9498bc5ded50983a621" kindref="member">TEST</ref>(ProfileReloadGuard,<sp/>FlagCanBeSetToFalse)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a05834fc597e9632774af574aeb10f95b" kindref="member">snapshot_profile_on_round_start</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a05834fc597e9632774af574aeb10f95b" kindref="member">snapshot_profile_on_round_start</ref>);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__ethics__ai__profile__reload__focused_8cpp_1accd840f13b71d9498bc5ded50983a621" kindref="member">TEST</ref>(ProfileReloadGuard,<sp/>FlagPreservedOnCopy)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>original;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a05834fc597e9632774af574aeb10f95b" kindref="member">snapshot_profile_on_round_start</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>copy<sp/>=<sp/>original;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(copy.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a05834fc597e9632774af574aeb10f95b" kindref="member">snapshot_profile_on_round_start</ref>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>copy2;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>copy2<sp/>=<sp/>original;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(copy2.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a05834fc597e9632774af574aeb10f95b" kindref="member">snapshot_profile_on_round_start</ref>);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PR-04..08<sp/>—<sp/>Snapshot<sp/>guard<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="test__ethics__ai__profile__reload__focused_8cpp_1accd840f13b71d9498bc5ded50983a621" kindref="member">TEST</ref>(ProfileReloadGuard,<sp/>CopiedConfigIsIndependent)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>original;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a9bd5967899748c93e59bb920bdfab357" kindref="member">top_n</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>snapshot<sp/>=<sp/>original;<sp/><sp/></highlight><highlight class="comment">//<sp/>simulates<sp/>snapshot<sp/>at<sp/>round<sp/>start</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Modify<sp/>the<sp/>original<sp/>after<sp/>snapshot<sp/>(simulates<sp/>mid-round<sp/>reload).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a9bd5967899748c93e59bb920bdfab357" kindref="member">top_n</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot<sp/>must<sp/>retain<sp/>the<sp/>pre-reload<sp/>value.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snapshot.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a9bd5967899748c93e59bb920bdfab357" kindref="member">top_n</ref>,<sp/>5u);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(original.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a9bd5967899748c93e59bb920bdfab357" kindref="member">top_n</ref>,<sp/>10u);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__ethics__ai__profile__reload__focused_8cpp_1accd840f13b71d9498bc5ded50983a621" kindref="member">TEST</ref>(ProfileReloadGuard,<sp/>SnapshotCopiesConflictThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>original;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" kindref="member">conflict_threshold_ratio</ref><sp/>=<sp/>0.75;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>snapshot<sp/>=<sp/>original;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(snapshot.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" kindref="member">conflict_threshold_ratio</ref>,<sp/>0.75);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__ethics__ai__profile__reload__focused_8cpp_1accd840f13b71d9498bc5ded50983a621" kindref="member">TEST</ref>(ProfileReloadGuard,<sp/>IndependentConfigsDoNotInterfere)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>cfg_a;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg_a.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" kindref="member">conflict_threshold_ratio</ref><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>cfg_b;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg_b.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" kindref="member">conflict_threshold_ratio</ref><sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg_a.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" kindref="member">conflict_threshold_ratio</ref>,<sp/>0.5);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg_b.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" kindref="member">conflict_threshold_ratio</ref>,<sp/>0.8);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__ethics__ai__profile__reload__focused_8cpp_1accd840f13b71d9498bc5ded50983a621" kindref="member">TEST</ref>(ProfileReloadGuard,<sp/>DefaultConstructedConfigIsUsable)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a05834fc597e9632774af574aeb10f95b" kindref="member">snapshot_profile_on_round_start</ref>);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a9bd5967899748c93e59bb920bdfab357" kindref="member">top_n</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" kindref="member">conflict_threshold_ratio</ref>,<sp/>0.6);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="test__ethics__ai__profile__reload__focused_8cpp_1accd840f13b71d9498bc5ded50983a621" kindref="member">TEST</ref>(ProfileReloadGuard,<sp/>SchoolBiasCopyIsDeep)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>original;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a4c5f5bfb8fc08dfb3dc57870f3fbab59" kindref="member">school_bias</ref>[</highlight><highlight class="stringliteral">&quot;kant&quot;</highlight><highlight class="normal">]<sp/>=<sp/>1.5;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kindref="compound">RouterConfig</ref><sp/>snapshot<sp/>=<sp/>original;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>reload:<sp/>add<sp/>a<sp/>new<sp/>school<sp/>to<sp/>the<sp/>original.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a4c5f5bfb8fc08dfb3dc57870f3fbab59" kindref="member">school_bias</ref>[</highlight><highlight class="stringliteral">&quot;utilitarianism&quot;</highlight><highlight class="normal">]<sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot<sp/>must<sp/>not<sp/>see<sp/>the<sp/>newly<sp/>added<sp/>school.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snapshot.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a4c5f5bfb8fc08dfb3dc57870f3fbab59" kindref="member">school_bias</ref>.count(</highlight><highlight class="stringliteral">&quot;utilitarianism&quot;</highlight><highlight class="normal">),<sp/>0u);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(original.<ref refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a4c5f5bfb8fc08dfb3dc57870f3fbab59" kindref="member">school_bias</ref>.count(</highlight><highlight class="stringliteral">&quot;utilitarianism&quot;</highlight><highlight class="normal">),<sp/>1u);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/ethics_ai/test_ethics_ai_profile_reload_focused.cpp"/>
+  </compounddef>
+</doxygen>

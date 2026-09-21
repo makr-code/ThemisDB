@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__replication__async__wal__lag__alerts_8cpp" kind="file" language="C++">
+    <compoundname>test_replication_async_wal_lag_alerts.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="async__wal__shipper_8h" local="yes">replication/async_wal_shipper.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>replication/async_wal_shipper.h</label>
+        <link refid="async__wal__shipper_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/replication/test_replication_async_wal_lag_alerts.cpp</label>
+        <link refid="test__replication__async__wal__lag__alerts_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>condition_variable</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>queue</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>thread</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__replication__async__wal__lag__alerts_8cpp_1af31987db18652570072774abf6ec1d83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AsyncWalShipperContract, ConstructAndStatsAreAccessible)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AsyncWalShipperContract</type>
+        </param>
+        <param>
+          <type>ConstructAndStatsAreAccessible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_async_wal_lag_alerts.cpp" line="12" column="1" bodyfile="tests/replication/test_replication_async_wal_lag_alerts.cpp" bodystart="12" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="test__replication__async__wal__lag__alerts_8cpp_1ae3e7118d4aa413d64697d6554cbb91b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AsyncWalShipperContract, EnqueueSegmentIncrementsCounter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AsyncWalShipperContract</type>
+        </param>
+        <param>
+          <type>EnqueueSegmentIncrementsCounter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_async_wal_lag_alerts.cpp" line="23" column="1" bodyfile="tests/replication/test_replication_async_wal_lag_alerts.cpp" bodystart="23" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Contract tests for <ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper" kindref="compound">AsyncWalShipper</ref> lag-alert API. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="async__wal__shipper_8h" kindref="compound">replication/async_wal_shipper.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1replication" kindref="compound">themisdb::replication</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><ref refid="test__replication__async__wal__lag__alerts_8cpp_1af31987db18652570072774abf6ec1d83" kindref="member">TEST</ref>(AsyncWalShipperContract,<sp/>ConstructAndStatsAreAccessible)<sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config" kindref="compound">WalShippingConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a5e6ef5fc70a41a1b25399db27aa165f6" kindref="member">remote_dc_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc-b:9000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1ab0b8a0c46398854e5182f9922002bf4a" kindref="member">local_dc_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc-a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a7a34969df00c23fcbc2540188713568c" kindref="member">max_lag_ms</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper" kindref="compound">AsyncWalShipper</ref><sp/>shipper(cfg);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>shipper.stats();</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.segments_enqueued,<sp/>0u);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><ref refid="test__replication__async__wal__lag__alerts_8cpp_1af31987db18652570072774abf6ec1d83" kindref="member">TEST</ref>(AsyncWalShipperContract,<sp/>EnqueueSegmentIncrementsCounter)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config" kindref="compound">WalShippingConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a5e6ef5fc70a41a1b25399db27aa165f6" kindref="member">remote_dc_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc-b:9000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1ab0b8a0c46398854e5182f9922002bf4a" kindref="member">local_dc_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc-a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper" kindref="compound">AsyncWalShipper</ref><sp/>shipper(cfg);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_segment" kindref="compound">WalSegment</ref><sp/>seg;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>seg.<ref refid="structthemisdb_1_1replication_1_1_wal_segment_1a8dd290d4009b2d2c4409043301b459ce" kindref="member">sequence_number</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>seg.<ref refid="structthemisdb_1_1replication_1_1_wal_segment_1a939571702b028842909921ab2867ad4d" kindref="member">data</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;abc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>seg.<ref refid="structthemisdb_1_1replication_1_1_wal_segment_1a5a06f06c66afa31e39380a3ad501c3af" kindref="member">enqueue_time</ref><sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>seg.<ref refid="structthemisdb_1_1replication_1_1_wal_segment_1afd6824264f4039d6de23c3c781df548b" kindref="member">target_dc</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc-b&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(shipper.enqueueSegment(std::move(seg)));</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(shipper.stats().segments_enqueued,<sp/>1u);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/replication/test_replication_async_wal_lag_alerts.cpp"/>
+  </compounddef>
+</doxygen>

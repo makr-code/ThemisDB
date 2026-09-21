@@ -1,0 +1,1073 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__graph__cache__efficiency__phase3_8cpp" kind="file" language="C++">
+    <compoundname>test_graph_cache_efficiency_phase3.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="graph__cache__manager_8h" local="yes">graph/graph_cache_manager.h</includes>
+    <includes refid="graph__plan__cache_8h" local="yes">graph/graph_plan_cache.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>graph/graph_cache_manager.h</label>
+        <link refid="graph__cache__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>graph/graph_plan_cache.h</label>
+        <link refid="graph__plan__cache_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/graph/test_graph_cache_efficiency_phase3.cpp</label>
+        <link refid="test__graph__cache__efficiency__phase3_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>algorithm</label>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>list</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>thread</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_multi_tier_cache_test" prot="public">MultiTierCacheTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, InitiallyEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>InitiallyEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="25" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="25" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a50ecbf5f7e78e2ab69816faa758f0376" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, PutAndGetHit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>PutAndGetHit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="30" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="30" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a084cfc864ff23a38f9a7d8b699de1274" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, MissReturnsNullopt)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>MissReturnsNullopt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="38" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a083e74e9e56b86570aff943ec5d3bb7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, SizeIncrementsOnInsert)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>SizeIncrementsOnInsert</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="43" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="43" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a78d6c14ef65f487994c879ae8c7eeec2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, DuplicatePutUpdatesValue)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>DuplicatePutUpdatesValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="50" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="50" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a5f8e485f05087fb9c5a7ac19203a0e16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, RemoveKnownKey)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>RemoveKnownKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="60" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="60" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a3a848c52dbe806dabd0793f9c2541593" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, RemoveUnknownKeyReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>RemoveUnknownKeyReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="67" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a9618a0d2b02c9f42be196db674790de5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, ClearEmptiesAllTiers)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>ClearEmptiesAllTiers</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="72" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="72" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a56e8ca4598bb17289af23cdf2eae8425" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, NewEntryEntersColdTier)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>NewEntryEntersColdTier</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="87" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="87" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a08eca62ca8b195af2c7526b316d7743d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, ColdHitPromotesToWarm)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>ColdHitPromotesToWarm</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="95" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="95" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a98af82375578e208edc3801e0e8952f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, WarmHitPromotesToHot)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>WarmHitPromotesToHot</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="103" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="103" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a0fd42b2734e92103639776430cfcb185" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, HotHitStaysHot)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>HotHitStaysHot</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="112" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="112" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a23db417425b1d18e4f2d05dfc64e29ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, ColdEvictsWhenFull)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>ColdEvictsWhenFull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="125" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="125" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a5fd83a68445c15c2422ba2ae69fe1869" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, HotEvictsToWarmWhenFull)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>HotEvictsToWarmWhenFull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="134" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="134" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a1e9ca73c1dcc7c93a5fd3d9dd3b5d359" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, HitRatioZeroWhenNoLookups)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>HitRatioZeroWhenNoLookups</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="152" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="152" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a48f42754edb29a8a101f43cb0907a2f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, HitRatioAfterPureHits)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>HitRatioAfterPureHits</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="157" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="157" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1acfccae16afae95ab0a7e79d4e187f6b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, HitRatioAbove85PercentOnRepeatedAccess)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>HitRatioAbove85PercentOnRepeatedAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="166" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="166" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1ab9e77fbbfd3ebb7f9bde81ecdf0332b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, MetricsTotalLookupsCorrect)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>MetricsTotalLookupsCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="177" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="177" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1adf0c0af88ea1acc970b3f57a00f5de1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, MetricsColdHitsCountedSeparately)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>MetricsColdHitsCountedSeparately</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="185" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="185" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a4541ff2ee82853844012cbf5495de70c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, MetricsWarmHitsCountedSeparately)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>MetricsWarmHitsCountedSeparately</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="194" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="194" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a869add19e728079ae867dfa0f96b942f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, MetricsHotHitsCountedSeparately)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>MetricsHotHitsCountedSeparately</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="202" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="202" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a624416ddad848719d41aa2864dd46bc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiTierCacheTest, ReconfigureShrinksHotTier)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref></type>
+        </param>
+        <param>
+          <type>ReconfigureShrinksHotTier</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="215" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="215" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a2512aeabab53265feb6b927cb18f22a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TraversalResultCacheTest, BFSKeyIsReproducible)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TraversalResultCacheTest</type>
+        </param>
+        <param>
+          <type>BFSKeyIsReproducible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="232" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="232" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1aefda785ba94fc1371ac53ee46d214114" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TraversalResultCacheTest, BFSKeyVariesByParams)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TraversalResultCacheTest</type>
+        </param>
+        <param>
+          <type>BFSKeyVariesByParams</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="238" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="238" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1aebc2d610872ef5bf02f9047c230fc7f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TraversalResultCacheTest, ShortestPathKeyIsReproducible)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TraversalResultCacheTest</type>
+        </param>
+        <param>
+          <type>ShortestPathKeyIsReproducible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="245" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="245" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a5afe951c2fa2489b39e11058f0ab0f68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TraversalResultCacheTest, PutAndGetResult)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TraversalResultCacheTest</type>
+        </param>
+        <param>
+          <type>PutAndGetResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="250" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="250" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a5c7cdc3171a9792ac8a1f7a9171e097d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TraversalResultCacheTest, MissReturnsNullopt)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TraversalResultCacheTest</type>
+        </param>
+        <param>
+          <type>MissReturnsNullopt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="259" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="259" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a150f77971f4aea07f0dff6fee6040858" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TraversalResultCacheTest, InvalidateRemovesEntry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TraversalResultCacheTest</type>
+        </param>
+        <param>
+          <type>InvalidateRemovesEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="264" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="264" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a37e25d3671358ad50caa51f76f0b9fc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TraversalResultCacheTest, HitRatioImprovesWith85PercentThreshold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TraversalResultCacheTest</type>
+        </param>
+        <param>
+          <type>HitRatioImprovesWith85PercentThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="272" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="272" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1ad4b7724e447514d748a0316dfd868981" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphCostHistogramTest, TotalStartsAtZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphCostHistogramTest</type>
+        </param>
+        <param>
+          <type>TotalStartsAtZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="288" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="288" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1afd05ec986cf0c50841c9df08cd8b7494" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphCostHistogramTest, RecordIncreasesTotal)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphCostHistogramTest</type>
+        </param>
+        <param>
+          <type>RecordIncreasesTotal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="293" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="293" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a87f4da6edb4f6e89266befa36a94b475" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphCostHistogramTest, P99BelowBoundAfterFastQueries)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphCostHistogramTest</type>
+        </param>
+        <param>
+          <type>P99BelowBoundAfterFastQueries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="300" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="300" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__cache__efficiency__phase3_8cpp_1a700f151aad1c8e0ed8e43f9825024a32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphCostHistogramTest, P99AboveP50)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphCostHistogramTest</type>
+        </param>
+        <param>
+          <type>P99AboveP50</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp" line="306" column="1" bodyfile="tests/graph/test_graph_cache_efficiency_phase3.cpp" bodystart="306" bodyend="315"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="graph__cache__manager_8h" kindref="compound">graph/graph_cache_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="graph__plan__cache_8h" kindref="compound">graph/graph_plan_cache.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">themis::graph</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture:<sp/>GraphMultiTierCache&lt;string,<sp/>int&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="class_multi_tier_cache_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_graph_multi_tier_cache_1_1_config" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;::Config</ref><sp/><ref refid="class_multi_tier_cache_test_1a5112529fe1519dea100e3036046f6f7e" kindref="member">small_cfg</ref>{2,<sp/>4,<sp/>8};</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-02<sp/>Group<sp/>1:<sp/>Basic<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>InitiallyEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>cache.<ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a291d4c08f165968c7ff184c0659b325d" kindref="member">size</ref>());</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>PutAndGetHit)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>42);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>cache.get(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(v.has_value());</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(42,<sp/>*v);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>MissReturnsNullopt)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cache.get(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>SizeIncrementsOnInsert)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>cache.size());</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>DuplicatePutUpdatesValue)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>cache.get(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(v.has_value());</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2,<sp/>*v);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>cache.size());</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>RemoveKnownKey)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">,<sp/>99);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cache.remove(</highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cache.get(</highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>RemoveUnknownKeyReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cache.remove(</highlight><highlight class="stringliteral">&quot;does_not_exist&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>ClearEmptiesAllTiers)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>i);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.clear();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>cache.size());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>cache.hotSize());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>cache.warmSize());</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>cache.coldSize());</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-02<sp/>Group<sp/>2:<sp/>Tier<sp/>placement<sp/>and<sp/>promotion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>NewEntryEntersColdTier)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/>10);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>cache.coldSize());</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>cache.warmSize());</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>cache.hotSize());</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>ColdHitPromotesToWarm)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/>10);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>promotes<sp/>cold<sp/>→<sp/>warm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>cache.coldSize());</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>cache.warmSize());</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>WarmHitPromotesToHot)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/>10);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>cold<sp/>→<sp/>warm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>warm<sp/>→<sp/>hot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>cache.warmSize());</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>cache.hotSize());</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>HotHitStaysHot)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/>10);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>→<sp/>warm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>→<sp/>hot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>stays<sp/>hot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>cache.hotSize());</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-02<sp/>Group<sp/>3:<sp/>Eviction<sp/>behaviour</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>ColdEvictsWhenFull)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cold_capacity<sp/>=<sp/>8,<sp/>insert<sp/>9<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>9;<sp/>++i)</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>i);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cold<sp/>tier<sp/>should<sp/>not<sp/>exceed<sp/>capacity;<sp/>overflow<sp/>demoted<sp/>to...<sp/>eviction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(cache.coldSize(),<sp/>8u);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>HotEvictsToWarmWhenFull)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>hot_capacity<sp/>=<sp/>2,<sp/>warm_capacity<sp/>=<sp/>4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>4<sp/>entries,<sp/>promote<sp/>them<sp/>all<sp/>to<sp/>Hot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>key<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.put(key,<sp/>i);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.get(key);<sp/></highlight><highlight class="comment">//<sp/>cold<sp/>→<sp/>warm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.get(key);<sp/></highlight><highlight class="comment">//<sp/>warm<sp/>→<sp/>hot<sp/>—<sp/>may<sp/>evict<sp/>from<sp/>hot<sp/>to<sp/>warm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hot<sp/>must<sp/>not<sp/>exceed<sp/>its<sp/>capacity<sp/>of<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(cache.hotSize(),<sp/>2u);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-02<sp/>Group<sp/>4:<sp/>Hit<sp/>ratio</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>HitRatioZeroWhenNoLookups)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0.0,<sp/>cache.metrics().hitRatio());</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>HitRatioAfterPureHits)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>ratio<sp/>=<sp/>cache.metrics().hitRatio();</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(ratio,<sp/>0.0);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>HitRatioAbove85PercentOnRepeatedAccess)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Populate<sp/>10<sp/>items,<sp/>access<sp/>them<sp/>10<sp/>times<sp/>each<sp/>→<sp/>100<sp/>hits,<sp/>10<sp/>initial<sp/>misses</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache({8,<sp/>32,<sp/>128});</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a8b9976d8a740061b7ad82bf2b018c8f6" kindref="member">put</ref>(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>i);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>round<sp/>=<sp/>0;<sp/>round<sp/>&lt;<sp/>10;<sp/>++round)</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(cache.metrics().hitRatio(),<sp/>0.85);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>MetricsTotalLookupsCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>hit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>miss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>cache.metrics().totalLookups());</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>MetricsColdHitsCountedSeparately)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>cold<sp/>hit<sp/>→<sp/>warm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>cache.metrics().cold_hits);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>cache.metrics().warm_hits);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>cache.metrics().hot_hits);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>MetricsWarmHitsCountedSeparately)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>cold<sp/>→<sp/>warm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>warm<sp/>hit<sp/>→<sp/>hot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>cache.metrics().warm_hits);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>MetricsHotHitsCountedSeparately)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache(small_cfg);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>cold<sp/>→<sp/>warm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>warm<sp/>→<sp/>hot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.get(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>hot<sp/>hit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>cache.metrics().hot_hits);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-02<sp/>Group<sp/>5:<sp/>Reconfigure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1ab8bbae87291db8405225e1a9c66a9daf" kindref="member">TEST_F</ref>(<ref refid="class_multi_tier_cache_test" kindref="compound">MultiTierCacheTest</ref>,<sp/>ReconfigureShrinksHotTier)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache" kindref="compound">GraphMultiTierCache&lt;std::string, int&gt;</ref><sp/>cache({10,<sp/>20,<sp/>40});</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>k<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.put(k,<sp/>i);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.get(k);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.get(k);<sp/></highlight><highlight class="comment">//<sp/>promote<sp/>to<sp/>hot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shrink<sp/>hot<sp/>to<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1graph_1_1_graph_multi_tier_cache_1a5ce66539fe65131db0e287812016bccc" kindref="member">reconfigure</ref>({2,<sp/>20,<sp/>40});</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(cache.hotSize(),<sp/>2u);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-02<sp/>Group<sp/>6:<sp/>GraphTraversalResultCache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1a2512aeabab53265feb6b927cb18f22a3" kindref="member">TEST</ref>(TraversalResultCacheTest,<sp/>BFSKeyIsReproducible)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>k1<sp/>=<sp/><ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1ac701519e7b71df4bf534553981804e1c" kindref="member">GraphTraversalResultCache::bfsKey</ref>(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>3,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>k2<sp/>=<sp/><ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1ac701519e7b71df4bf534553981804e1c" kindref="member">GraphTraversalResultCache::bfsKey</ref>(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>3,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(k1,<sp/>k2);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1a2512aeabab53265feb6b927cb18f22a3" kindref="member">TEST</ref>(TraversalResultCacheTest,<sp/>BFSKeyVariesByParams)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1ac701519e7b71df4bf534553981804e1c" kindref="member">GraphTraversalResultCache::bfsKey</ref>(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>3),</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1ac701519e7b71df4bf534553981804e1c" kindref="member">GraphTraversalResultCache::bfsKey</ref>(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>4));</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1ac701519e7b71df4bf534553981804e1c" kindref="member">GraphTraversalResultCache::bfsKey</ref>(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>3),</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1ac701519e7b71df4bf534553981804e1c" kindref="member">GraphTraversalResultCache::bfsKey</ref>(</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>3));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1a2512aeabab53265feb6b927cb18f22a3" kindref="member">TEST</ref>(TraversalResultCacheTest,<sp/>ShortestPathKeyIsReproducible)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1a29cf251db4a7ab8c39ff12d38687eba2" kindref="member">GraphTraversalResultCache::shortestPathKey</ref>(</highlight><highlight class="stringliteral">&quot;X&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Y&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1a29cf251db4a7ab8c39ff12d38687eba2" kindref="member">GraphTraversalResultCache::shortestPathKey</ref>(</highlight><highlight class="stringliteral">&quot;X&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Y&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1a2512aeabab53265feb6b927cb18f22a3" kindref="member">TEST</ref>(TraversalResultCacheTest,<sp/>PutAndGetResult)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache" kindref="compound">GraphTraversalResultCache</ref><sp/>tc;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>key<sp/>=<sp/><ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1ac701519e7b71df4bf534553981804e1c" kindref="member">GraphTraversalResultCache::bfsKey</ref>(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>tc.<ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1aa1885baaf393c96927071e6e8e460325" kindref="member">put</ref>(key,<sp/>{</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tc.<ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1a91163cc0235c51cb23324df50a8a23b8" kindref="member">get</ref>(key);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(3u,<sp/>res-&gt;size());</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1a2512aeabab53265feb6b927cb18f22a3" kindref="member">TEST</ref>(TraversalResultCacheTest,<sp/>MissReturnsNullopt)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache" kindref="compound">GraphTraversalResultCache</ref><sp/>tc;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(tc.<ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1a91163cc0235c51cb23324df50a8a23b8" kindref="member">get</ref>(</highlight><highlight class="stringliteral">&quot;ghost_key&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1a2512aeabab53265feb6b927cb18f22a3" kindref="member">TEST</ref>(TraversalResultCacheTest,<sp/>InvalidateRemovesEntry)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache" kindref="compound">GraphTraversalResultCache</ref><sp/>tc;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>key<sp/>=<sp/><ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1ac701519e7b71df4bf534553981804e1c" kindref="member">GraphTraversalResultCache::bfsKey</ref>(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>tc.<ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1aa1885baaf393c96927071e6e8e460325" kindref="member">put</ref>(key,<sp/>{</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tc.<ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1ae48b92bd0568c716ab7e930c3348a331" kindref="member">invalidate</ref>(key));</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(tc.<ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1a91163cc0235c51cb23324df50a8a23b8" kindref="member">get</ref>(key).has_value());</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1a2512aeabab53265feb6b927cb18f22a3" kindref="member">TEST</ref>(TraversalResultCacheTest,<sp/>HitRatioImprovesWith85PercentThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache" kindref="compound">GraphTraversalResultCache</ref><sp/>tc(8,<sp/>32,<sp/>128);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fill<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tc.<ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1aa1885baaf393c96927071e6e8e460325" kindref="member">put</ref>(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>{</highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Repeated<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>round<sp/>=<sp/>0;<sp/>round<sp/>&lt;<sp/>10;<sp/>++round)</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tc.<ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1a91163cc0235c51cb23324df50a8a23b8" kindref="member">get</ref>(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(tc.<ref refid="classthemis_1_1graph_1_1_graph_traversal_result_cache_1ad4775888de5527a805e1c5e3be3776ef" kindref="member">metrics</ref>().hitRatio(),<sp/>0.85);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-02<sp/>Group<sp/>7:<sp/>GraphCostHistogram</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1a2512aeabab53265feb6b927cb18f22a3" kindref="member">TEST</ref>(GraphCostHistogramTest,<sp/>TotalStartsAtZero)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_cost_histogram" kindref="compound">GraphCostHistogram</ref><sp/>h;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>h.<ref refid="classthemis_1_1graph_1_1_graph_cost_histogram_1a4aafef4deb4be69c0da9f380aebea70b" kindref="member">total</ref>());</highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1a2512aeabab53265feb6b927cb18f22a3" kindref="member">TEST</ref>(GraphCostHistogramTest,<sp/>RecordIncreasesTotal)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_cost_histogram" kindref="compound">GraphCostHistogram</ref><sp/>h;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>h.<ref refid="classthemis_1_1graph_1_1_graph_cost_histogram_1a0388a156d815438630a3c4e03b707af8" kindref="member">record</ref>(10);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>h.<ref refid="classthemis_1_1graph_1_1_graph_cost_histogram_1a0388a156d815438630a3c4e03b707af8" kindref="member">record</ref>(50);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>h.<ref refid="classthemis_1_1graph_1_1_graph_cost_histogram_1a4aafef4deb4be69c0da9f380aebea70b" kindref="member">total</ref>());</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1a2512aeabab53265feb6b927cb18f22a3" kindref="member">TEST</ref>(GraphCostHistogramTest,<sp/>P99BelowBoundAfterFastQueries)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_cost_histogram" kindref="compound">GraphCostHistogram</ref><sp/>h;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>h.<ref refid="classthemis_1_1graph_1_1_graph_cost_histogram_1a0388a156d815438630a3c4e03b707af8" kindref="member">record</ref>(5);<sp/></highlight><highlight class="comment">//<sp/>all<sp/>≤<sp/>5ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(h.<ref refid="classthemis_1_1graph_1_1_graph_cost_histogram_1a5d4a4a8e01b6352fda80e0190072e560" kindref="member">percentileMs</ref>(0.99),<sp/>5.0<sp/>+<sp/>1e-6);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><ref refid="test__graph__cache__efficiency__phase3_8cpp_1a2512aeabab53265feb6b927cb18f22a3" kindref="member">TEST</ref>(GraphCostHistogramTest,<sp/>P99AboveP50)<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_cost_histogram" kindref="compound">GraphCostHistogram</ref><sp/>h;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>90;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>h.<ref refid="classthemis_1_1graph_1_1_graph_cost_histogram_1a0388a156d815438630a3c4e03b707af8" kindref="member">record</ref>(1);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>h.<ref refid="classthemis_1_1graph_1_1_graph_cost_histogram_1a0388a156d815438630a3c4e03b707af8" kindref="member">record</ref>(500);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(h.<ref refid="classthemis_1_1graph_1_1_graph_cost_histogram_1a5d4a4a8e01b6352fda80e0190072e560" kindref="member">percentileMs</ref>(0.50),<sp/>h.<ref refid="classthemis_1_1graph_1_1_graph_cost_histogram_1a5d4a4a8e01b6352fda80e0190072e560" kindref="member">percentileMs</ref>(0.99)<sp/>+<sp/>1e-6);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/graph/test_graph_cache_efficiency_phase3.cpp"/>
+  </compounddef>
+</doxygen>

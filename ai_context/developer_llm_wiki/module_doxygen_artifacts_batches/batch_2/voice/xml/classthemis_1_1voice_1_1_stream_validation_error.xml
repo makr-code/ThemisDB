@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_stream_validation_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::StreamValidationError</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="voice__stream__validator_8h" local="no">voice_stream_validator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_stream_validation_error_1a9b7e42db22683da8aa26da54124d3786" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::StreamValidationError::chunk_size_</definition>
+        <argsstring></argsstring>
+        <name>chunk_size_</name>
+        <qualifiedname>themis::voice::StreamValidationError::chunk_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="52" column="12" bodyfile="include/voice/voice_stream_validator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_stream_validation_error_1a07cbe232f815714d1297fd726974e71e" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::StreamValidationError::line_</definition>
+        <argsstring></argsstring>
+        <name>line_</name>
+        <qualifiedname>themis::voice::StreamValidationError::line_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="53" column="9" bodyfile="include/voice/voice_stream_validator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_stream_validation_error_1ae2a813950099e7c6393a74eb3edb4927" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::StreamValidationError::StreamValidationError</definition>
+        <argsstring>(const std::string &amp;reason, size_t chunk_size, int line)</argsstring>
+        <name>StreamValidationError</name>
+        <qualifiedname>themis::voice::StreamValidationError::StreamValidationError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>chunk_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+<para>Construct validation error with reason and context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description of validation failure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chunk_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of invalid chunk </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source line where validation failed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="44" column="5" bodyfile="include/voice/voice_stream_validator.h" bodystart="44" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_stream_validation_error_1afcd2d496fda2e62a7d9c97cfe1f91d53" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::StreamValidationError::chunk_size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>chunk_size</name>
+        <qualifiedname>themis::voice::StreamValidationError::chunk_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="48" column="13" bodyfile="include/voice/voice_stream_validator.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_stream_validation_error_1a84c2ce9efe0c0a003e5b0f2288c6072b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::voice::StreamValidationError::line</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>line</name>
+        <qualifiedname>themis::voice::StreamValidationError::line</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="49" column="10" bodyfile="include/voice/voice_stream_validator.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_stream_validation_error_1a33d54131898f076ac7732c6fe24fc5a6" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::voice::StreamValidationError::build_message</definition>
+        <argsstring>(const std::string &amp;reason, size_t chunk_size, int line)</argsstring>
+        <name>build_message</name>
+        <qualifiedname>themis::voice::StreamValidationError::build_message</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>chunk_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_stream_validator.h" line="55" column="24" bodyfile="include/voice/voice_stream_validator.h" bodystart="55" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Exception thrown when stream validation fails. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures validation failure reason, invalid data type, and diagnostics. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::StreamValidationError</label>
+        <link refid="classthemis_1_1voice_1_1_stream_validation_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::StreamValidationError</label>
+        <link refid="classthemis_1_1voice_1_1_stream_validation_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/voice/voice_stream_validator.h" line="35" column="1" bodyfile="include/voice/voice_stream_validator.h" bodystart="35" bodyend="59"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_stream_validation_error_1a33d54131898f076ac7732c6fe24fc5a6" prot="private" virt="non-virtual"><scope>themis::voice::StreamValidationError</scope><name>build_message</name></member>
+      <member refid="classthemis_1_1voice_1_1_stream_validation_error_1afcd2d496fda2e62a7d9c97cfe1f91d53" prot="public" virt="non-virtual"><scope>themis::voice::StreamValidationError</scope><name>chunk_size</name></member>
+      <member refid="classthemis_1_1voice_1_1_stream_validation_error_1a9b7e42db22683da8aa26da54124d3786" prot="private" virt="non-virtual"><scope>themis::voice::StreamValidationError</scope><name>chunk_size_</name></member>
+      <member refid="classthemis_1_1voice_1_1_stream_validation_error_1a84c2ce9efe0c0a003e5b0f2288c6072b" prot="public" virt="non-virtual"><scope>themis::voice::StreamValidationError</scope><name>line</name></member>
+      <member refid="classthemis_1_1voice_1_1_stream_validation_error_1a07cbe232f815714d1297fd726974e71e" prot="private" virt="non-virtual"><scope>themis::voice::StreamValidationError</scope><name>line_</name></member>
+      <member refid="classthemis_1_1voice_1_1_stream_validation_error_1ae2a813950099e7c6393a74eb3edb4927" prot="public" virt="non-virtual"><scope>themis::voice::StreamValidationError</scope><name>StreamValidationError</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

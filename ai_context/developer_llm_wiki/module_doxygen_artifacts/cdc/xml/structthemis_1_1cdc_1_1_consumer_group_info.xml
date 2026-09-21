@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_consumer_group_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::ConsumerGroupInfo</compoundname>
+    <includes refid="consumer__group_8h" local="no">consumer_group.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_consumer_group_info_1a54fa288847f81fbdce9515d1f27ccd98" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cdc_1_1_consumer_group_config" kindref="compound">ConsumerGroupConfig</ref></type>
+        <definition>ConsumerGroupConfig themis::cdc::ConsumerGroupInfo::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::cdc::ConsumerGroupInfo::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="79" column="25" bodyfile="include/cdc/consumer_group.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_consumer_group_info_1a560bffcdc124b6f79862e2037d58c216" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::ConsumerGroupInfo::committed_sequence</definition>
+        <argsstring></argsstring>
+        <name>committed_sequence</name>
+        <qualifiedname>themis::cdc::ConsumerGroupInfo::committed_sequence</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Last acked sequence for the group. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="80" column="14" bodyfile="include/cdc/consumer_group.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_consumer_group_info_1a77ee1cc73be6a37cfe5939e5cd6e6929" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::ConsumerGroupInfo::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cdc::ConsumerGroupInfo::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="82" column="20" bodyfile="include/cdc/consumer_group.h" bodystart="82" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::cdc::ConsumerGroupConfig</label>
+        <link refid="structthemis_1_1cdc_1_1_consumer_group_config"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::ConsumerGroupInfo</label>
+        <link refid="structthemis_1_1cdc_1_1_consumer_group_info"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/consumer_group.h" line="78" column="1" bodyfile="include/cdc/consumer_group.h" bodystart="78" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_consumer_group_info_1a560bffcdc124b6f79862e2037d58c216" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupInfo</scope><name>committed_sequence</name></member>
+      <member refid="structthemis_1_1cdc_1_1_consumer_group_info_1a54fa288847f81fbdce9515d1f27ccd98" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupInfo</scope><name>config</name></member>
+      <member refid="structthemis_1_1cdc_1_1_consumer_group_info_1a77ee1cc73be6a37cfe5939e5cd6e6929" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupInfo</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

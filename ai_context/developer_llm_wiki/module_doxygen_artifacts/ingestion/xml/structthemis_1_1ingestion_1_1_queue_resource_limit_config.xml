@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_queue_resource_limit_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::QueueResourceLimitConfig</compoundname>
+    <includes refid="bounded__queue_8h" local="no">bounded_queue.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_queue_resource_limit_config_1afd5f0c559c3f5a129ca1b55848841eaf" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::QueueResourceLimitConfig::max_queue_size</definition>
+        <argsstring></argsstring>
+        <name>max_queue_size</name>
+        <qualifiedname>themis::ingestion::QueueResourceLimitConfig::max_queue_size</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Maximum number of items allowed in the queue. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When the queue reaches this size, attempts to enqueue additional items will block (if blocking mode is enabled) or return a saturation error. Default: 10,000 items. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="49" column="17" bodyfile="include/ingestion/bounded_queue.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_queue_resource_limit_config_1a2f7f3e8d158bb7f5a8fcb00cf30a9608" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::QueueResourceLimitConfig::max_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_memory_bytes</name>
+        <qualifiedname>themis::ingestion::QueueResourceLimitConfig::max_memory_bytes</qualifiedname>
+        <initializer>= 256 * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Maximum total memory (in bytes) for all items in the queue. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When the queue&apos;s total byte size reaches this limit, attempts to enqueue will block or return a saturation error. Default: 256 MB. Set to 0 to disable memory-based limits. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="58" column="17" bodyfile="include/ingestion/bounded_queue.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_queue_resource_limit_config_1a79d9e57a2f5e43271ee30860e40001eb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::QueueResourceLimitConfig::saturation_warning_threshold_percent</definition>
+        <argsstring></argsstring>
+        <name>saturation_warning_threshold_percent</name>
+        <qualifiedname>themis::ingestion::QueueResourceLimitConfig::saturation_warning_threshold_percent</qualifiedname>
+        <initializer>= 80</initializer>
+        <briefdescription>
+<para>Warning threshold for queue saturation (percentage of max capacity). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When the queue reaches this percentage of max_queue_size, a warning is generated. Useful for preemptive alerts. Range: 0-100. Default: 80%. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="66" column="9" bodyfile="include/ingestion/bounded_queue.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_queue_resource_limit_config_1a3871339a48d0715093fed735c7cb93f8" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::ingestion::QueueResourceLimitConfig::blocking_enqueue_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>blocking_enqueue_timeout_ms</name>
+        <qualifiedname>themis::ingestion::QueueResourceLimitConfig::blocking_enqueue_timeout_ms</qualifiedname>
+        <initializer>= std::chrono::seconds(5)</initializer>
+        <briefdescription>
+<para>Timeout for blocking enqueue operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If a blocking enqueue does not complete within this time, it returns with a timeout error instead of blocking indefinitely. Default: 5 seconds. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="75" column="31" bodyfile="include/ingestion/bounded_queue.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_queue_resource_limit_config_1a8919d6111982e2454b765f9cdf874b63" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::QueueResourceLimitConfig::blocking_on_saturation</definition>
+        <argsstring></argsstring>
+        <name>blocking_on_saturation</name>
+        <qualifiedname>themis::ingestion::QueueResourceLimitConfig::blocking_on_saturation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether to block on enqueue when saturated (vs returning immediately). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If true, enqueue operations block until space is available (up to the timeout). If false, enqueue operations return immediately with a saturation error. Default: true (blocking). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="85" column="10" bodyfile="include/ingestion/bounded_queue.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_queue_resource_limit_config_1a5848ccf45f013df6e5f3f5dfe72c709c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::QueueResourceLimitConfig::enable_memory_exhaustion_alerts</definition>
+        <argsstring></argsstring>
+        <name>enable_memory_exhaustion_alerts</name>
+        <qualifiedname>themis::ingestion::QueueResourceLimitConfig::enable_memory_exhaustion_alerts</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable memory exhaustion alerts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When enabled and memory usage exceeds max_memory_bytes, diagnostic alerts are generated and logged. Default: true. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="94" column="10" bodyfile="include/ingestion/bounded_queue.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for queue resource limits and backpressure behavior. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Controls how the bounded queue reacts to saturation and resource exhaustion. </para>
+    </detaileddescription>
+    <location file="include/ingestion/bounded_queue.h" line="41" column="1" bodyfile="include/ingestion/bounded_queue.h" bodystart="41" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_queue_resource_limit_config_1a3871339a48d0715093fed735c7cb93f8" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueResourceLimitConfig</scope><name>blocking_enqueue_timeout_ms</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_queue_resource_limit_config_1a8919d6111982e2454b765f9cdf874b63" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueResourceLimitConfig</scope><name>blocking_on_saturation</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_queue_resource_limit_config_1a5848ccf45f013df6e5f3f5dfe72c709c" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueResourceLimitConfig</scope><name>enable_memory_exhaustion_alerts</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_queue_resource_limit_config_1a2f7f3e8d158bb7f5a8fcb00cf30a9608" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueResourceLimitConfig</scope><name>max_memory_bytes</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_queue_resource_limit_config_1afd5f0c559c3f5a129ca1b55848841eaf" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueResourceLimitConfig</scope><name>max_queue_size</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_queue_resource_limit_config_1a79d9e57a2f5e43271ee30860e40001eb" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueResourceLimitConfig</scope><name>saturation_warning_threshold_percent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

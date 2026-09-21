@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_distributed_task_coordinator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DistributedTaskCoordinator::Config</compoundname>
+    <includes refid="distributed__task__coordinator_8h" local="no">distributed_task_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_distributed_task_coordinator_1_1_config_1abcf64c91ef65aab5cba73027b381ac67" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::DistributedTaskCoordinator::Config::auto_manage_scheduler</definition>
+        <argsstring></argsstring>
+        <name>auto_manage_scheduler</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::Config::auto_manage_scheduler</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true (default) the local <ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref> is started automatically whenever this node is elected leader, and stopped when leadership is transferred to another node.</para>
+<para>Set to false if you want manual control via <ref refid="classthemis_1_1_distributed_task_coordinator_1ae249522004964e58986761ca5c725c28" kindref="member">activateScheduler()</ref> / <ref refid="classthemis_1_1_distributed_task_coordinator_1a7df1c006cee4785c4d3044c9d1a11767" kindref="member">deactivateScheduler()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="69" column="14" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime configuration for the coordinator. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/distributed_task_coordinator.h" line="60" column="5" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="60" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_distributed_task_coordinator_1_1_config_1abcf64c91ef65aab5cba73027b381ac67" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator::Config</scope><name>auto_manage_scheduler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

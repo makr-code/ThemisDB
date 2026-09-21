@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1wave__d_1_1_stub_token_store" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::wave_d::StubTokenStore</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1ae89f6928d47d2869d3cdb77efadf8819" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::test::wave_d::StubTokenStore::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::test::wave_d::StubTokenStore::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="59" column="24" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1aedd6c13fab0eb4cb1dcb62be863eb70c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::test::wave_d::StubTokenStore::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::test::wave_d::StubTokenStore::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="60" column="24" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1a66bd6f5cb32abaafec4133923a884121" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubTokenStore::writes_</definition>
+        <argsstring></argsstring>
+        <name>writes_</name>
+        <qualifiedname>themis::test::wave_d::StubTokenStore::writes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="61" column="17" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1a9c4beeb6fe441de43fb7f831ffbcdd60" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::StubTokenStore::generate</definition>
+        <argsstring>(const std::string &amp;prompt, const std::string &amp;tokens)</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::test::wave_d::StubTokenStore::generate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tokens</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="44" column="10" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="44" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1a8ed1c704ffba33c908a0a301f5f51f69" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::test::wave_d::StubTokenStore::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::test::wave_d::StubTokenStore::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="51" column="17" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="51" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1a0cdac29254e928eaf883426271bf2e00" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubTokenStore::writes</definition>
+        <argsstring>() const</argsstring>
+        <name>writes</name>
+        <qualifiedname>themis::test::wave_d::StubTokenStore::writes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="56" column="10" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="43" column="1" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="43" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1a9c4beeb6fe441de43fb7f831ffbcdd60" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubTokenStore</scope><name>generate</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1ae89f6928d47d2869d3cdb77efadf8819" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubTokenStore</scope><name>mu_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1a8ed1c704ffba33c908a0a301f5f51f69" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubTokenStore</scope><name>size</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1aedd6c13fab0eb4cb1dcb62be863eb70c" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubTokenStore</scope><name>store_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1a0cdac29254e928eaf883426271bf2e00" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubTokenStore</scope><name>writes</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1a66bd6f5cb32abaafec4133923a884121" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubTokenStore</scope><name>writes_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_wikipedia_portable_export_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaPortableExportConfig</compoundname>
+    <includes refid="wikipedia__config_8hpp" local="no">wikipedia_config.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_portable_export_config_1afae2aecc2d756a6cc9420cd32a5be778" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaPortableExportConfig::database_path</definition>
+        <argsstring></argsstring>
+        <name>database_path</name>
+        <qualifiedname>themis::importers::WikipediaPortableExportConfig::database_path</qualifiedname>
+        <initializer>= &quot;wikipedia.db&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="38" column="17" bodyfile="include/importers/wikipedia_config.hpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_portable_export_config_1a38785c22245a44b1fee49887a61292f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaPortableExportConfig::manifest_path</definition>
+        <argsstring></argsstring>
+        <name>manifest_path</name>
+        <qualifiedname>themis::importers::WikipediaPortableExportConfig::manifest_path</qualifiedname>
+        <initializer>= &quot;manifest.json&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="39" column="17" bodyfile="include/importers/wikipedia_config.hpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_portable_export_config_1a3c9d062af4c64594378fa8c5ecb7be2a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::WikipediaPortableExportConfig::write_validation_report</definition>
+        <argsstring></argsstring>
+        <name>write_validation_report</name>
+        <qualifiedname>themis::importers::WikipediaPortableExportConfig::write_validation_report</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="40" column="10" bodyfile="include/importers/wikipedia_config.hpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_wikipedia_portable_export_config_1a7b68eb31fc7c01652de6d4bea781fc40" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::WikipediaPortableExportConfig::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::WikipediaPortableExportConfig::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="42" column="11" bodyfile="include/importers/wikipedia_config.hpp" bodystart="42" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_wikipedia_portable_export_config_1aff23b0424e2cf052687748a5b1baa99c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_portable_export_config" kindref="compound">WikipediaPortableExportConfig</ref></type>
+        <definition>static WikipediaPortableExportConfig themis::importers::WikipediaPortableExportConfig::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::importers::WikipediaPortableExportConfig::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="56" column="42" bodyfile="include/importers/wikipedia_config.hpp" bodystart="56" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/wikipedia_config.hpp" line="37" column="1" bodyfile="include/importers/wikipedia_config.hpp" bodystart="37" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_portable_export_config_1afae2aecc2d756a6cc9420cd32a5be778" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaPortableExportConfig</scope><name>database_path</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_portable_export_config_1aff23b0424e2cf052687748a5b1baa99c" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaPortableExportConfig</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_portable_export_config_1a38785c22245a44b1fee49887a61292f5" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaPortableExportConfig</scope><name>manifest_path</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_portable_export_config_1a7b68eb31fc7c01652de6d4bea781fc40" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaPortableExportConfig</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_portable_export_config_1a3c9d062af4c64594378fa8c5ecb7be2a" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaPortableExportConfig</scope><name>write_validation_report</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_i_vector_index_backend" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::storage::IVectorIndexBackend</compoundname>
+    <derivedcompoundref refid="classthemis_1_1storage_1_1_in_memory_vector_index" prot="public" virt="non-virtual">themis::storage::InMemoryVectorIndex</derivedcompoundref>
+    <includes refid="vector__index__backend_8h" local="no">vector_index_backend.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_vector_index_backend_1aff7fee6b2850d7d8e33e24b3b52f390b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::storage::IVectorIndexBackend::~IVectorIndexBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IVectorIndexBackend</name>
+        <qualifiedname>themis::storage::IVectorIndexBackend::~IVectorIndexBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/vector_index_backend.h" line="98" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_vector_index_backend_1ab8e463477df81a35eb2d5e81262727e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::storage::IVectorIndexBackend::add</definition>
+        <argsstring>(const std::string &amp;id, const std::vector&lt; float &gt; &amp;embedding)=0</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::storage::IVectorIndexBackend::add</qualifiedname>
+        <reimplementedby refid="classthemis_1_1storage_1_1_in_memory_vector_index_1a63baffa8aefbec6819313a868f0627c1">add</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+<para>Add (or replace) a vector in the index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If <computeroutput>id</computeroutput> already exists the entry is updated atomically.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique document identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Embedding vector; length must equal <computeroutput><ref refid="classthemis_1_1storage_1_1_i_vector_index_backend_1a3bad1c494ee390e02670306cf645d25a" kindref="member">config()</ref>.dim</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>embedding.size() != <ref refid="classthemis_1_1storage_1_1_i_vector_index_backend_1a3bad1c494ee390e02670306cf645d25a" kindref="member">config()</ref>.dim</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/vector_index_backend.h" line="109" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_vector_index_backend_1a3d376be4046e2c1e52e86998a97ac5d1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1storage_1_1_knn_result" kindref="compound">KnnResult</ref> &gt;</type>
+        <definition>virtual std::vector&lt; KnnResult &gt; themis::storage::IVectorIndexBackend::search</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query, std::size_t k) const =0</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::storage::IVectorIndexBackend::search</qualifiedname>
+        <reimplementedby refid="classthemis_1_1storage_1_1_in_memory_vector_index_1abdc736cedd05a25edf17caae9537c436">search</reimplementedby>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Query the index for the k nearest neighbours. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Embedding vector; length must equal <computeroutput><ref refid="classthemis_1_1storage_1_1_i_vector_index_backend_1a3bad1c494ee390e02670306cf645d25a" kindref="member">config()</ref>.dim</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of nearest neighbours to return (≥ 1). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Up to <computeroutput>min(k, size())</computeroutput> results, sorted by ascending distance. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>query.size() != <ref refid="classthemis_1_1storage_1_1_i_vector_index_backend_1a3bad1c494ee390e02670306cf645d25a" kindref="member">config()</ref>.dim</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/vector_index_backend.h" line="121" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_vector_index_backend_1aef221d8a3d8e944fdf72e0c5cb1abbf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::storage::IVectorIndexBackend::remove</definition>
+        <argsstring>(const std::string &amp;id)=0</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::storage::IVectorIndexBackend::remove</qualifiedname>
+        <reimplementedby refid="classthemis_1_1storage_1_1_in_memory_vector_index_1a0019d52b0285d7cdc27d97353f582cde">remove</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a vector from the index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Silently ignores non-existent ids.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Document identifier to remove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/vector_index_backend.h" line="130" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_vector_index_backend_1a0c5c0989374331c9df79da6cfe1ddf4f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t themis::storage::IVectorIndexBackend::size</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::storage::IVectorIndexBackend::size</qualifiedname>
+        <reimplementedby refid="classthemis_1_1storage_1_1_in_memory_vector_index_1a67b40d65dc1149ac209468ee4131f316">size</reimplementedby>
+        <briefdescription>
+<para>Number of vectors currently stored. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/vector_index_backend.h" line="135" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_vector_index_backend_1a3bad1c494ee390e02670306cf645d25a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>const <ref refid="structthemis_1_1storage_1_1_vector_index_config" kindref="compound">VectorIndexConfig</ref> &amp;</type>
+        <definition>virtual const VectorIndexConfig &amp; themis::storage::IVectorIndexBackend::config</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::storage::IVectorIndexBackend::config</qualifiedname>
+        <reimplementedby refid="classthemis_1_1storage_1_1_in_memory_vector_index_1a5bdc281c9d15a384f9329ddbc85aa75b">config</reimplementedby>
+        <briefdescription>
+<para>Configuration used when constructing this backend. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/vector_index_backend.h" line="140" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_i_vector_index_backend_1aad6dcc7a05f80b6551971a79ab1433fe" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::storage::IVectorIndexBackend::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::storage::IVectorIndexBackend::name</qualifiedname>
+        <reimplementedby refid="classthemis_1_1storage_1_1_in_memory_vector_index_1a92eac13d025ed1866a15937d0e139eb7">name</reimplementedby>
+        <briefdescription>
+<para>Human-readable backend name (e.g., &quot;in_memory&quot;, &quot;hnswlib&quot;, &quot;faiss&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/vector_index_backend.h" line="145" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract ANN vector index backend interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations are expected to be thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::storage::IVectorIndexBackend</label>
+        <link refid="classthemis_1_1storage_1_1_i_vector_index_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::storage::InMemoryVectorIndex</label>
+        <link refid="classthemis_1_1storage_1_1_in_memory_vector_index"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/storage/vector_index_backend.h" line="96" column="1" bodyfile="include/storage/vector_index_backend.h" bodystart="96" bodyend="146"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_i_vector_index_backend_1ab8e463477df81a35eb2d5e81262727e9" prot="public" virt="pure-virtual"><scope>themis::storage::IVectorIndexBackend</scope><name>add</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_vector_index_backend_1a3bad1c494ee390e02670306cf645d25a" prot="public" virt="pure-virtual"><scope>themis::storage::IVectorIndexBackend</scope><name>config</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_vector_index_backend_1aad6dcc7a05f80b6551971a79ab1433fe" prot="public" virt="pure-virtual"><scope>themis::storage::IVectorIndexBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_vector_index_backend_1aef221d8a3d8e944fdf72e0c5cb1abbf0" prot="public" virt="pure-virtual"><scope>themis::storage::IVectorIndexBackend</scope><name>remove</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_vector_index_backend_1a3d376be4046e2c1e52e86998a97ac5d1" prot="public" virt="pure-virtual"><scope>themis::storage::IVectorIndexBackend</scope><name>search</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_vector_index_backend_1a0c5c0989374331c9df79da6cfe1ddf4f" prot="public" virt="pure-virtual"><scope>themis::storage::IVectorIndexBackend</scope><name>size</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_vector_index_backend_1aff7fee6b2850d7d8e33e24b3b52f390b" prot="public" virt="virtual"><scope>themis::storage::IVectorIndexBackend</scope><name>~IVectorIndexBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

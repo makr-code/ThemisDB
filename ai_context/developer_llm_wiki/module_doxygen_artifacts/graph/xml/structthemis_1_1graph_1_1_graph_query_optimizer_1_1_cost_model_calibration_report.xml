@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_cost_model_calibration_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphQueryOptimizer::CostModelCalibrationReport</compoundname>
+    <includes refid="graph__query__optimizer_8h" local="no">graph_query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_cost_model_calibration_report_1aca9b8c41c9a551136350c81efec9c855" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56" kindref="member">TraversalAlgorithm</ref>, <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_algorithm_calibration_stats" kindref="compound">AlgorithmCalibrationStats</ref>, std::hash&lt; <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a8bc6cdb3932ab5ce8c4e96091c864b56" kindref="member">TraversalAlgorithm</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;TraversalAlgorithm, AlgorithmCalibrationStats, std::hash&lt;TraversalAlgorithm&gt; &gt; themis::graph::GraphQueryOptimizer::CostModelCalibrationReport::algorithm_stats</definition>
+        <argsstring></argsstring>
+        <name>algorithm_stats</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::CostModelCalibrationReport::algorithm_stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="768" column="2" bodyfile="include/graph/graph_query_optimizer.h" bodystart="768" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_cost_model_calibration_report_1aea6f61d773160f632f7ff12812da7f07" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::CostModelCalibrationReport::total_samples</definition>
+        <argsstring></argsstring>
+        <name>total_samples</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::CostModelCalibrationReport::total_samples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total execution records analysed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="770" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="770" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_cost_model_calibration_report_1ad29abcd81ab7bc03ed4cdf13ddcd1611" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::CostModelCalibrationReport::algorithms_calibrated</definition>
+        <argsstring></argsstring>
+        <name>algorithms_calibrated</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::CostModelCalibrationReport::algorithms_calibrated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of algorithm models re-seeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="771" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="771" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_optimizer.h" line="765" column="5" bodyfile="include/graph/graph_query_optimizer.h" bodystart="765" bodyend="772"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_cost_model_calibration_report_1aca9b8c41c9a551136350c81efec9c855" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::CostModelCalibrationReport</scope><name>algorithm_stats</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_cost_model_calibration_report_1ad29abcd81ab7bc03ed4cdf13ddcd1611" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::CostModelCalibrationReport</scope><name>algorithms_calibrated</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_cost_model_calibration_report_1aea6f61d773160f632f7ff12812da7f07" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::CostModelCalibrationReport</scope><name>total_samples</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

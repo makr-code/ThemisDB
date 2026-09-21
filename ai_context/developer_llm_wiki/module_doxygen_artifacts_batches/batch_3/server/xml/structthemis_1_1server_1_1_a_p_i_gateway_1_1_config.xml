@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::APIGateway::Config</compoundname>
+    <includes refid="api__gateway_8h" local="no">api_gateway.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1afc2691771a907d6626f6f4df13f35622" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::APIGateway::Config::gateway_id</definition>
+        <argsstring></argsstring>
+        <name>gateway_id</name>
+        <qualifiedname>themis::server::APIGateway::Config::gateway_id</qualifiedname>
+        <initializer>= &quot;gateway-001&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="41" column="21" bodyfile="include/server/api_gateway.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1ab161287dffa2b924806004dfe489c6b2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::APIGateway::Config::datacenter</definition>
+        <argsstring></argsstring>
+        <name>datacenter</name>
+        <qualifiedname>themis::server::APIGateway::Config::datacenter</qualifiedname>
+        <initializer>= &quot;dc1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="42" column="21" bodyfile="include/server/api_gateway.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1aaf6911c10f10a3e0ed08e093b0c4b537" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::APIGateway::Config::enable_sharding</definition>
+        <argsstring></argsstring>
+        <name>enable_sharding</name>
+        <qualifiedname>themis::server::APIGateway::Config::enable_sharding</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="45" column="14" bodyfile="include/server/api_gateway.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1adb34a9acf5b2b64d80ee3dd19bcb7024" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::APIGateway::Config::enable_rate_limiting</definition>
+        <argsstring></argsstring>
+        <name>enable_rate_limiting</name>
+        <qualifiedname>themis::server::APIGateway::Config::enable_rate_limiting</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="46" column="14" bodyfile="include/server/api_gateway.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a416867cbd9414746615d451b377d132a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::APIGateway::Config::enable_load_shedding</definition>
+        <argsstring></argsstring>
+        <name>enable_load_shedding</name>
+        <qualifiedname>themis::server::APIGateway::Config::enable_load_shedding</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="47" column="14" bodyfile="include/server/api_gateway.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1ab414ab4b8163c6126a0334fca26f3d94" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::APIGateway::Config::enable_circuit_breaker</definition>
+        <argsstring></argsstring>
+        <name>enable_circuit_breaker</name>
+        <qualifiedname>themis::server::APIGateway::Config::enable_circuit_breaker</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="48" column="14" bodyfile="include/server/api_gateway.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1aa4d7e6d692fd4ce5f7a5362e1ab10212" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::APIGateway::Config::enable_query_federation</definition>
+        <argsstring></argsstring>
+        <name>enable_query_federation</name>
+        <qualifiedname>themis::server::APIGateway::Config::enable_query_federation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="49" column="14" bodyfile="include/server/api_gateway.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1aee2098184491020fcaabae60c8162ac4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::APIGateway::Config::prefer_local_execution</definition>
+        <argsstring></argsstring>
+        <name>prefer_local_execution</name>
+        <qualifiedname>themis::server::APIGateway::Config::prefer_local_execution</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="52" column="14" bodyfile="include/server/api_gateway.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a0c373e257d0edb9a4dfdbe15d66ba5c0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::APIGateway::Config::max_concurrent_requests</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_requests</name>
+        <qualifiedname>themis::server::APIGateway::Config::max_concurrent_requests</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="53" column="18" bodyfile="include/server/api_gateway.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a384b01076f4ae343747eed5d7871d6f7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::APIGateway::Config::request_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>request_timeout_ms</name>
+        <qualifiedname>themis::server::APIGateway::Config::request_timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="54" column="18" bodyfile="include/server/api_gateway.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a7a8d96e856d213c583557cea1f731710" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::APIGateway::Config::load_shedding_threshold</definition>
+        <argsstring></argsstring>
+        <name>load_shedding_threshold</name>
+        <qualifiedname>themis::server::APIGateway::Config::load_shedding_threshold</qualifiedname>
+        <initializer>= 0.9</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="57" column="16" bodyfile="include/server/api_gateway.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1acbc1cd59320875a9b93ac7b6ecdcde45" prot="public" static="no" mutable="no">
+        <type>sharding::CircuitBreaker::Config</type>
+        <definition>sharding::CircuitBreaker::Config themis::server::APIGateway::Config::circuit_breaker_config</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_config</name>
+        <qualifiedname>themis::server::APIGateway::Config::circuit_breaker_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="60" column="42" bodyfile="include/server/api_gateway.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a5f13956674adfbb4a5cf696c5ac9ce27" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::APIGateway::Config::enable_metrics</definition>
+        <argsstring></argsstring>
+        <name>enable_metrics</name>
+        <qualifiedname>themis::server::APIGateway::Config::enable_metrics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="63" column="14" bodyfile="include/server/api_gateway.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a28f72de4918eb7ee53984041aa54874a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::APIGateway::Config::metrics_prefix</definition>
+        <argsstring></argsstring>
+        <name>metrics_prefix</name>
+        <qualifiedname>themis::server::APIGateway::Config::metrics_prefix</qualifiedname>
+        <initializer>= &quot;themis_gateway_&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="64" column="21" bodyfile="include/server/api_gateway.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a8ebe6289f02132205a20b4c216037b99" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::APIGateway::Config::enable_api_versioning</definition>
+        <argsstring></argsstring>
+        <name>enable_api_versioning</name>
+        <qualifiedname>themis::server::APIGateway::Config::enable_api_versioning</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="67" column="14" bodyfile="include/server/api_gateway.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a78eb0ec0e2db32290465bcb3bfd81969" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::APIGateway::Config::enforce_version_check</definition>
+        <argsstring></argsstring>
+        <name>enforce_version_check</name>
+        <qualifiedname>themis::server::APIGateway::Config::enforce_version_check</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="68" column="14" bodyfile="include/server/api_gateway.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a1041b97aa1291c5e502751bbdf04bf4c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::APIGateway::Config::enable_trusted_proxy_headers</definition>
+        <argsstring></argsstring>
+        <name>enable_trusted_proxy_headers</name>
+        <qualifiedname>themis::server::APIGateway::Config::enable_trusted_proxy_headers</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="71" column="14" bodyfile="include/server/api_gateway.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a054b730ff8a661fb2acc7f9ffada2bae" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::server::APIGateway::Config::trusted_proxies</definition>
+        <argsstring></argsstring>
+        <name>trusted_proxies</name>
+        <qualifiedname>themis::server::APIGateway::Config::trusted_proxies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="72" column="21" bodyfile="include/server/api_gateway.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/api_gateway.h" line="39" column="5" bodyfile="include/server/api_gateway.h" bodystart="39" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1acbc1cd59320875a9b93ac7b6ecdcde45" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>circuit_breaker_config</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1ab161287dffa2b924806004dfe489c6b2" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>datacenter</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a8ebe6289f02132205a20b4c216037b99" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>enable_api_versioning</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1ab414ab4b8163c6126a0334fca26f3d94" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>enable_circuit_breaker</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a416867cbd9414746615d451b377d132a" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>enable_load_shedding</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a5f13956674adfbb4a5cf696c5ac9ce27" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>enable_metrics</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1aa4d7e6d692fd4ce5f7a5362e1ab10212" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>enable_query_federation</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1adb34a9acf5b2b64d80ee3dd19bcb7024" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>enable_rate_limiting</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1aaf6911c10f10a3e0ed08e093b0c4b537" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>enable_sharding</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a1041b97aa1291c5e502751bbdf04bf4c" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>enable_trusted_proxy_headers</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a78eb0ec0e2db32290465bcb3bfd81969" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>enforce_version_check</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1afc2691771a907d6626f6f4df13f35622" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>gateway_id</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a7a8d96e856d213c583557cea1f731710" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>load_shedding_threshold</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a0c373e257d0edb9a4dfdbe15d66ba5c0" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>max_concurrent_requests</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a28f72de4918eb7ee53984041aa54874a" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>metrics_prefix</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1aee2098184491020fcaabae60c8162ac4" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>prefer_local_execution</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a384b01076f4ae343747eed5d7871d6f7" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>request_timeout_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_a_p_i_gateway_1_1_config_1a054b730ff8a661fb2acc7f9ffada2bae" prot="public" virt="non-virtual"><scope>themis::server::APIGateway::Config</scope><name>trusted_proxies</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_adapter_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::AdapterSummary</compoundname>
+    <basecompoundref refid="structthemis_1_1tensor_1_1_base_tensor_summary" prot="public" virt="non-virtual">themis::tensor::BaseTensorSummary</basecompoundref>
+    <includes refid="tensor__summary__types_8h" local="no">tensor_summary_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_adapter_summary_1ab66cc9233afb9f183bfd40bb659d912e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::AdapterSummary::adapter_key</definition>
+        <argsstring></argsstring>
+        <name>adapter_key</name>
+        <qualifiedname>themis::tensor::AdapterSummary::adapter_key</qualifiedname>
+        <briefdescription>
+<para>Adapter storage key (e.g., &quot;__adapters__:t1:legal:llama3&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="76" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_adapter_summary_1ae030a33bd477d17202303b19effb063c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::AdapterSummary::base_model_id</definition>
+        <argsstring></argsstring>
+        <name>base_model_id</name>
+        <qualifiedname>themis::tensor::AdapterSummary::base_model_id</qualifiedname>
+        <briefdescription>
+<para>Base model identifier (e.g., &quot;llama3-8b&quot;, &quot;gpt-4-turbo&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="79" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_adapter_summary_1a6f72b9b7471afbc43e8db5d8497fc50d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::AdapterSummary::param_count</definition>
+        <argsstring></argsstring>
+        <name>param_count</name>
+        <qualifiedname>themis::tensor::AdapterSummary::param_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total parameter count across all TT-cores. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="82" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_adapter_summary_1a2520f95f979696c69fdfdba913af5da2" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::AdapterSummary::avg_tt_rank</definition>
+        <argsstring></argsstring>
+        <name>avg_tt_rank</name>
+        <qualifiedname>themis::tensor::AdapterSummary::avg_tt_rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Average TT-rank across all cores. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="85" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_adapter_summary_1a5bbed9137786f996e54231e6c9aae7ba" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::AdapterSummary::adapter_norm</definition>
+        <argsstring></argsstring>
+        <name>adapter_norm</name>
+        <qualifiedname>themis::tensor::AdapterSummary::adapter_norm</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Frobenius norm of the adapter (for normalization). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="88" column="11" bodyfile="include/tensor/tensor_summary_types.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_adapter_summary_1a8b238eebef88bbc672d4e68d37356dbf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::tensor::AdapterSummary::fingerprint</definition>
+        <argsstring></argsstring>
+        <name>fingerprint</name>
+        <qualifiedname>themis::tensor::AdapterSummary::fingerprint</qualifiedname>
+        <briefdescription>
+<para>Fingerprint vector (first-core column means or LSH hash). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="91" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_adapter_summary_1abbadf10fa6b2b33cc839b3be920c206f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::AdapterSummary::adapter_metadata</definition>
+        <argsstring></argsstring>
+        <name>adapter_metadata</name>
+        <qualifiedname>themis::tensor::AdapterSummary::adapter_metadata</qualifiedname>
+        <briefdescription>
+<para>Metadata about the adapter (author, creation date, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="94" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_adapter_summary_1a75842c77f45e2752feffb856bf702b7a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::AdapterSummary::inference_ready</definition>
+        <argsstring></argsstring>
+        <name>inference_ready</name>
+        <qualifiedname>themis::tensor::AdapterSummary::inference_ready</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether this adapter is suitable for inference in the current query context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="97" column="10" bodyfile="include/tensor/tensor_summary_types.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tensor summary for a LoRA/PEFT adapter. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Represents an adapter in compressed form with metadata about its base model, parameter count, and fingerprint similarity. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::tensor::AdapterSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_adapter_summary"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::BaseTensorSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_base_tensor_summary"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::tensor::AdapterSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_adapter_summary"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::BaseTensorSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_base_tensor_summary"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>compression_info</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::tensor::CompressionResult</label>
+        <link refid="structthemis_1_1tensor_1_1_compression_result"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tensor_summary_types.h" line="74" column="1" bodyfile="include/tensor/tensor_summary_types.h" bodystart="74" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_adapter_summary_1ab66cc9233afb9f183bfd40bb659d912e" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>adapter_key</name></member>
+      <member refid="structthemis_1_1tensor_1_1_adapter_summary_1abbadf10fa6b2b33cc839b3be920c206f" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>adapter_metadata</name></member>
+      <member refid="structthemis_1_1tensor_1_1_adapter_summary_1a5bbed9137786f996e54231e6c9aae7ba" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>adapter_norm</name></member>
+      <member refid="structthemis_1_1tensor_1_1_adapter_summary_1a2520f95f979696c69fdfdba913af5da2" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>avg_tt_rank</name></member>
+      <member refid="structthemis_1_1tensor_1_1_adapter_summary_1ae030a33bd477d17202303b19effb063c" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>base_model_id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a262766ce8623272fd51a89243f694687" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>compression_info</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a161a274c6b0209c4704e776e1f3b7b39" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>compression_strategy</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1adcda9163e400eed8923e92b457c04057" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a642e98edb63b4c79f113cd07df747046" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a11d14d4114d5df375b2c948660e92ec2" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>domain</name></member>
+      <member refid="structthemis_1_1tensor_1_1_adapter_summary_1a8b238eebef88bbc672d4e68d37356dbf" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>fingerprint</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a64892e40aa70517d46e09e6d11842741" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_adapter_summary_1a75842c77f45e2752feffb856bf702b7a" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>inference_ready</name></member>
+      <member refid="structthemis_1_1tensor_1_1_adapter_summary_1a6f72b9b7471afbc43e8db5d8497fc50d" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>param_count</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a21d90f934dee6c82ea89128e9cd02570" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>routing_reason</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1af80994cc65277d71b3a6eca31ad4dfc2" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>similarity_score</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1ac6acd2dff1ca02aaf504b1d97c3163f2" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a8784066e1ff14eed769e135d36b06c2b" prot="public" virt="non-virtual"><scope>themis::tensor::AdapterSummary</scope><name>validated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

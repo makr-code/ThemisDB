@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1_0d300074244007302062350370360044362171241047234175" kind="namespace" language="C++">
+    <compoundname>themis::@300074244007302062350370360044362171241047234175</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/storage/rocksdb_wrapper.cpp" line="82" column="1"/>
+  </compounddef>
+</doxygen>

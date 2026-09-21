@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_m_v_c_c_fixture" kind="class" language="C++" prot="public">
+    <compoundname>MVCCFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_m_v_c_c_fixture_1ac65933aa4bf9fd9ab3429a30c1a55311" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; MVCCFixture::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>MVCCFixture::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_mvcc.cpp" line="47" column="21" bodyfile="benchmarks/storage/bench_mvcc.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_m_v_c_c_fixture_1af7c12b10471999be6ddfa183b669f379" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; MVCCFixture::secIdx_</definition>
+        <argsstring></argsstring>
+        <name>secIdx_</name>
+        <qualifiedname>MVCCFixture::secIdx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_mvcc.cpp" line="48" column="21" bodyfile="benchmarks/storage/bench_mvcc.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_m_v_c_c_fixture_1a3508791cf1ccc6905bffc2131d2559b0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MVCCFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MVCCFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_mvcc.cpp" line="15" column="10" bodyfile="benchmarks/storage/bench_mvcc.cpp" bodystart="15" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_m_v_c_c_fixture_1a9dec2dbf050bd4cb64ccdc81203388b8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MVCCFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>MVCCFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_mvcc.cpp" line="32" column="10" bodyfile="benchmarks/storage/bench_mvcc.cpp" bodystart="32" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="class_m_v_c_c_fixture_1af08ed3a0f8fc187e8f9601c02ca0bba0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_base_entity" kindref="compound">BaseEntity</ref></type>
+        <definition>BaseEntity MVCCFixture::createTestEntity</definition>
+        <argsstring>(const std::string &amp;pk, int age)</argsstring>
+        <name>createTestEntity</name>
+        <qualifiedname>MVCCFixture::createTestEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>age</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_mvcc.cpp" line="39" column="16" bodyfile="benchmarks/storage/bench_mvcc.cpp" bodystart="39" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MVCCFixture</label>
+        <link refid="class_m_v_c_c_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MVCCFixture</label>
+        <link refid="class_m_v_c_c_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/storage/bench_mvcc.cpp" line="13" column="1" bodyfile="benchmarks/storage/bench_mvcc.cpp" bodystart="13" bodyend="49"/>
+    <listofallmembers>
+      <member refid="class_m_v_c_c_fixture_1af08ed3a0f8fc187e8f9601c02ca0bba0" prot="public" virt="non-virtual"><scope>MVCCFixture</scope><name>createTestEntity</name></member>
+      <member refid="class_m_v_c_c_fixture_1ac65933aa4bf9fd9ab3429a30c1a55311" prot="public" virt="non-virtual"><scope>MVCCFixture</scope><name>db_</name></member>
+      <member refid="class_m_v_c_c_fixture_1af7c12b10471999be6ddfa183b669f379" prot="public" virt="non-virtual"><scope>MVCCFixture</scope><name>secIdx_</name></member>
+      <member refid="class_m_v_c_c_fixture_1a3508791cf1ccc6905bffc2131d2559b0" prot="public" virt="non-virtual"><scope>MVCCFixture</scope><name>SetUp</name></member>
+      <member refid="class_m_v_c_c_fixture_1a9dec2dbf050bd4cb64ccdc81203388b8" prot="public" virt="non-virtual"><scope>MVCCFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

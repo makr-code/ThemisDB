@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_measure" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::Measure</compoundname>
+    <includes refid="olap_8h" local="no">olap.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Function</name>
+        <qualifiedname>themis::analytics::Measure::Function</qualifiedname>
+        <enumvalue id="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2ae93f994f01c537c4e2f7d8528c3eb5e9" prot="public">
+          <name>Count</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2aa0ec87054b5e5b7847d0d8780a01a3d5" prot="public">
+          <name>Sum</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2a5c0c148daa2c67922abe6018b87a759f" prot="public">
+          <name>Avg</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2a78d811e98514cd165dda532286610fd2" prot="public">
+          <name>Min</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2a6a061313d22e51e0f25b7cd4dc065233" prot="public">
+          <name>Max</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2a4f4980768815c18dc864a87afd68cb17" prot="public">
+          <name>StdDev</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2a700bc90a2a50660ba168a0ecdc917606" prot="public">
+          <name>Variance</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2a66851a3adec6655a7bd563743e4a55a2" prot="public">
+          <name>Median</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2a915b56c00229b328af95134410779d20" prot="public">
+          <name>Percentile</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2af276fdc4c77204edf5f9a34f35d50dca" prot="public">
+          <name>CountDistinct</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2a7fb55ed0b7a30342ba6da306428cae04" prot="public">
+          <name>First</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2ad55b30607c2a9a2616347d6edb789f6b" prot="public">
+          <name>Last</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="35" column="5" bodyfile="include/analytics/olap.h" bodystart="35" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_measure_1a89f472b9c625c18c1de3ee7a90729efd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::Measure::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::analytics::Measure::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="50" column="17" bodyfile="include/analytics/olap.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_measure_1a4f018c3465506fa602cd686016a2e498" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::Measure::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::analytics::Measure::field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="51" column="17" bodyfile="include/analytics/olap.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_measure_1aba0bcfb20d39731c5f615ad0ee7249ee" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2" kindref="member">Function</ref></type>
+        <definition>Function themis::analytics::Measure::function</definition>
+        <argsstring></argsstring>
+        <name>function</name>
+        <qualifiedname>themis::analytics::Measure::function</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2aa0ec87054b5e5b7847d0d8780a01a3d5" kindref="member">Function::Sum</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="52" column="14" bodyfile="include/analytics/olap.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_measure_1a06f6c62c68808a8512ef0e58ba1ce1c4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::Measure::percentile_value</definition>
+        <argsstring></argsstring>
+        <name>percentile_value</name>
+        <qualifiedname>themis::analytics::Measure::percentile_value</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="53" column="12" bodyfile="include/analytics/olap.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_measure_1ae1a42de7539b57d9f821a6886089faf7" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::analytics::Measure::functionName</definition>
+        <argsstring>(Function f)</argsstring>
+        <name>functionName</name>
+        <qualifiedname>themis::analytics::Measure::functionName</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2" kindref="member">Function</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2" kindref="member">Function</ref> Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements functionName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="61" column="24" bodyfile="include/analytics/olap.h" bodystart="61" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/olap.h" line="34" column="1" bodyfile="include/analytics/olap.h" bodystart="34" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_measure_1a4f018c3465506fa602cd686016a2e498" prot="public" virt="non-virtual"><scope>themis::analytics::Measure</scope><name>field</name></member>
+      <member refid="structthemis_1_1analytics_1_1_measure_1a1f68caed395613ae677ae66afc6618c2" prot="public" virt="non-virtual"><scope>themis::analytics::Measure</scope><name>Function</name></member>
+      <member refid="structthemis_1_1analytics_1_1_measure_1aba0bcfb20d39731c5f615ad0ee7249ee" prot="public" virt="non-virtual"><scope>themis::analytics::Measure</scope><name>function</name></member>
+      <member refid="structthemis_1_1analytics_1_1_measure_1ae1a42de7539b57d9f821a6886089faf7" prot="public" virt="non-virtual"><scope>themis::analytics::Measure</scope><name>functionName</name></member>
+      <member refid="structthemis_1_1analytics_1_1_measure_1a89f472b9c625c18c1de3ee7a90729efd" prot="public" virt="non-virtual"><scope>themis::analytics::Measure</scope><name>name</name></member>
+      <member refid="structthemis_1_1analytics_1_1_measure_1a06f6c62c68808a8512ef0e58ba1ce1c4" prot="public" virt="non-virtual"><scope>themis::analytics::Measure</scope><name>percentile_value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

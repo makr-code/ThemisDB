@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_engine_1_1_radius_vector_search_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryEngine::RadiusVectorSearchResult</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_radius_vector_search_result_1a4f73d5b08e80a1986bf9f2ade1f0184c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryEngine::RadiusVectorSearchResult::pk</definition>
+        <argsstring></argsstring>
+        <name>pk</name>
+        <qualifiedname>themis::query::QueryEngine::RadiusVectorSearchResult::pk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="631" column="21" bodyfile="include/query/query_engine.h" bodystart="631" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_radius_vector_search_result_1a81662a75a9994c09be278d1f4545c366" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::query::QueryEngine::RadiusVectorSearchResult::vector_distance</definition>
+        <argsstring></argsstring>
+        <name>vector_distance</name>
+        <qualifiedname>themis::query::QueryEngine::RadiusVectorSearchResult::vector_distance</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="632" column="15" bodyfile="include/query/query_engine.h" bodystart="632" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_radius_vector_search_result_1ac0521d997f2d35ee57d392ef455e5ac2" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::QueryEngine::RadiusVectorSearchResult::entity</definition>
+        <argsstring></argsstring>
+        <name>entity</name>
+        <qualifiedname>themis::query::QueryEngine::RadiusVectorSearchResult::entity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="633" column="24" bodyfile="include/query/query_engine.h" bodystart="633" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="630" column="5" bodyfile="include/query/query_engine.h" bodystart="630" bodyend="634"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_radius_vector_search_result_1ac0521d997f2d35ee57d392ef455e5ac2" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::RadiusVectorSearchResult</scope><name>entity</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_radius_vector_search_result_1a4f73d5b08e80a1986bf9f2ade1f0184c" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::RadiusVectorSearchResult</scope><name>pk</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_radius_vector_search_result_1a81662a75a9994c09be278d1f4545c366" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::RadiusVectorSearchResult</scope><name>vector_distance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

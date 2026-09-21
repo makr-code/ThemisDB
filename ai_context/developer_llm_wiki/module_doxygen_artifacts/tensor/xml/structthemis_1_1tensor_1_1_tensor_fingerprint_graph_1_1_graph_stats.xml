@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_tensor_fingerprint_graph_1_1_graph_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorFingerprintGraph::GraphStats</compoundname>
+    <includes refid="tensor__fingerprint__graph_8h" local="no">tensor_fingerprint_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_fingerprint_graph_1_1_graph_stats_1a4ff16ba9f1e3ef3e1c63ed63db0e1075" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorFingerprintGraph::GraphStats::total_adapters</definition>
+        <argsstring></argsstring>
+        <name>total_adapters</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::GraphStats::total_adapters</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="182" column="21" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_fingerprint_graph_1_1_graph_stats_1a1c04a5cad4ad298a57ed4ef4af4ba25a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorFingerprintGraph::GraphStats::total_query_calls</definition>
+        <argsstring></argsstring>
+        <name>total_query_calls</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::GraphStats::total_query_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="183" column="21" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_fingerprint_graph_1_1_graph_stats_1ab25dbafb6ba00ef91963b3222ad857cb" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorFingerprintGraph::GraphStats::total_comparisons</definition>
+        <argsstring></argsstring>
+        <name>total_comparisons</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::GraphStats::total_comparisons</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total fingerprint dot-products. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="184" column="21" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_fingerprint_graph.h" line="181" column="5" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="181" bodyend="185"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_tensor_fingerprint_graph_1_1_graph_stats_1a4ff16ba9f1e3ef3e1c63ed63db0e1075" prot="public" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph::GraphStats</scope><name>total_adapters</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_fingerprint_graph_1_1_graph_stats_1ab25dbafb6ba00ef91963b3222ad857cb" prot="public" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph::GraphStats</scope><name>total_comparisons</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_fingerprint_graph_1_1_graph_stats_1a1c04a5cad4ad298a57ed4ef4af4ba25a" prot="public" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph::GraphStats</scope><name>total_query_calls</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

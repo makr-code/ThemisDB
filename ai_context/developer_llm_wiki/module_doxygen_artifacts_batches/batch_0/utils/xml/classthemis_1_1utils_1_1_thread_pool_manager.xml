@@ -1,0 +1,423 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_thread_pool_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::ThreadPoolManager</compoundname>
+    <includes refid="thread__pool__manager_8h" local="no">thread_pool_manager.h</includes>
+    <innerclass refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config" prot="public">themis::utils::ThreadPoolManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics" prot="public">themis::utils::ThreadPoolManager::GlobalStatistics</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PoolType</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::PoolType</qualifiedname>
+        <enumvalue id="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1acf3882f1c43ab22bff0bd9d82d83251b" prot="public">
+          <name>IO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1a2b55387dd066c5bac646ac61543d152d" prot="public">
+          <name>CPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1a72323e5457d8fb855145bfee934aa415" prot="public">
+          <name>BLOCKING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="193" column="5" bodyfile="include/utils/thread_pool_manager.h" bodystart="193" bodyend="197"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_thread_pool_manager_1afc880d071acb0da321bbf73a29ab2714" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::ThreadPoolManager::DEFAULT_QUEUE_DEPTH</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_QUEUE_DEPTH</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::DEFAULT_QUEUE_DEPTH</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="188" column="29" bodyfile="include/utils/thread_pool_manager.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_thread_pool_manager_1a2df2587d5d38590007d034cbbba32096" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::ThreadPoolManager::MAX_QUEUE_DEPTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_QUEUE_DEPTH</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::MAX_QUEUE_DEPTH</qualifiedname>
+        <initializer>= 100&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="189" column="29" bodyfile="include/utils/thread_pool_manager.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_thread_pool_manager_1ab622309ef7fc83a591ab2af6d278b88f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::ThreadPoolManager::MAX_THREAD_COUNT</definition>
+        <argsstring></argsstring>
+        <name>MAX_THREAD_COUNT</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::MAX_THREAD_COUNT</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="190" column="29" bodyfile="include/utils/thread_pool_manager.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_thread_pool_manager_1afb1f5bfdf8b2a672fe361bc2110e0fb2" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::ThreadPoolManager::DEFAULT_THREAD_COUNT</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_THREAD_COUNT</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::DEFAULT_THREAD_COUNT</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="191" column="29" bodyfile="include/utils/thread_pool_manager.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_thread_pool_manager_1a730a86e5bed93046fb68c312f81936cb" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1utils_1_1_thread_pool" kindref="compound">ThreadPool</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ThreadPool&gt; themis::utils::ThreadPoolManager::io_pool_</definition>
+        <argsstring></argsstring>
+        <name>io_pool_</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::io_pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="246" column="21" bodyfile="include/utils/thread_pool_manager.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_thread_pool_manager_1a524ea37a207336b50a9858bf8769a76e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1utils_1_1_thread_pool" kindref="compound">ThreadPool</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ThreadPool&gt; themis::utils::ThreadPoolManager::cpu_pool_</definition>
+        <argsstring></argsstring>
+        <name>cpu_pool_</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::cpu_pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="247" column="21" bodyfile="include/utils/thread_pool_manager.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_thread_pool_manager_1a2b0950bc351390a7974eb1119a79a1c2" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1utils_1_1_thread_pool" kindref="compound">ThreadPool</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ThreadPool&gt; themis::utils::ThreadPoolManager::blocking_pool_</definition>
+        <argsstring></argsstring>
+        <name>blocking_pool_</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::blocking_pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="248" column="21" bodyfile="include/utils/thread_pool_manager.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_thread_pool_manager_1a80d73e1791402df5829ebfa14e5d5e8e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::utils::ThreadPoolManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="250" column="12" bodyfile="include/utils/thread_pool_manager.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_thread_pool_manager_1a020f8a582630fb5a933873bc17471431" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::utils::ThreadPoolManager::metrics_thread_</definition>
+        <argsstring></argsstring>
+        <name>metrics_thread_</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::metrics_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="251" column="17" bodyfile="include/utils/thread_pool_manager.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_thread_pool_manager_1ada5e4184c54b654eb1f31078b0a53fd6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::utils::ThreadPoolManager::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="252" column="17" bodyfile="include/utils/thread_pool_manager.h" bodystart="252" bodyend="252"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_pool_manager_1a6d8af85c136016172cc67c3ee61cb6c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ThreadPoolManager::ThreadPoolManager</definition>
+        <argsstring>()</argsstring>
+        <name>ThreadPoolManager</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::ThreadPoolManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="208" column="5" bodyfile="src/utils/thread_pool_manager.cpp" bodystart="218" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_pool_manager_1a865cd78ae21a92bfbcfb9693b807f374" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ThreadPoolManager::ThreadPoolManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>ThreadPoolManager</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::ThreadPoolManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="209" column="14" bodyfile="src/utils/thread_pool_manager.cpp" bodystart="222" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_pool_manager_1a0e8b2e1f4889c0ab9f16f0089f2de05c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ThreadPoolManager::~ThreadPoolManager</definition>
+        <argsstring>()</argsstring>
+        <name>~ThreadPoolManager</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::~ThreadPoolManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="210" column="5" bodyfile="src/utils/thread_pool_manager.cpp" bodystart="270" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_pool_manager_1a9e70535dbc8b8d101b56a0b4911eecb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::ThreadPoolManager::submit</definition>
+        <argsstring>(PoolType pool, std::shared_ptr&lt; Task &gt; task, std::chrono::milliseconds timeout=std::chrono::seconds(5))</argsstring>
+        <name>submit</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::submit</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1" kindref="member">PoolType</ref></type>
+          <declname>pool</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_task" kindref="compound">Task</ref> &gt;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::seconds(5)</defval>
+        </param>
+        <briefdescription>
+<para>Submit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="213" column="10" bodyfile="src/utils/thread_pool_manager.cpp" bodystart="282" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_pool_manager_1a66578ae719748eb49a24dac5ce22a3c0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::ThreadPoolManager::submitTask</definition>
+        <argsstring>(PoolType pool, Task::Callback callback, const std::string &amp;name=&quot;&quot;, Task::Priority priority=Task::Priority::NORMAL)</argsstring>
+        <name>submitTask</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::submitTask</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1" kindref="member">PoolType</ref></type>
+          <declname>pool</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_task_1a81b721c170147c7c7da8d9c73e01174a" kindref="member">Task::Callback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2c" kindref="member">Task::Priority</ref></type>
+          <declname>priority</declname>
+          <defval><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2ca1e23852820b9154316c7c06e2b7ba051" kindref="member">Task::Priority::NORMAL</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="220" column="10" bodyfile="include/utils/thread_pool_manager.h" bodystart="220" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_pool_manager_1ab3f18dc03b6148f29191988472314c37" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics" kindref="compound">ThreadPool::Statistics</ref></type>
+        <definition>ThreadPool::Statistics themis::utils::ThreadPoolManager::getPoolStatistics</definition>
+        <argsstring>(PoolType pool) const</argsstring>
+        <name>getPoolStatistics</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::getPoolStatistics</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1" kindref="member">PoolType</ref></type>
+          <declname>pool</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="231" column="28" bodyfile="src/utils/thread_pool_manager.cpp" bodystart="300" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_pool_manager_1a893276098d80a639f9864474cd1f4473" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics" kindref="compound">GlobalStatistics</ref></type>
+        <definition>ThreadPoolManager::GlobalStatistics themis::utils::ThreadPoolManager::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="240" column="22" bodyfile="src/utils/thread_pool_manager.cpp" bodystart="313" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_pool_manager_1aeea1ee305f81ebcbcad1db1db251e557" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::ThreadPoolManager::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), spdlog::info(), joinable(), <ref refid="namespacethemis_1_1utils_1a18e96538d443c993a4d24b7df015b593" kindref="member">joinThreadWithin()</ref>, spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="243" column="10" bodyfile="src/utils/thread_pool_manager.cpp" bodystart="333" bodyend="358"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_thread_pool_manager_1af612ffd90d1dd816a9b7fa23da42f3eb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::ThreadPoolManager::metricsLoop</definition>
+        <argsstring>()</argsstring>
+        <name>metricsLoop</name>
+        <qualifiedname>themis::utils::ThreadPoolManager::metricsLoop</qualifiedname>
+        <briefdescription>
+<para>Metrics Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::this_thread::sleep_for(), <ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a893276098d80a639f9864474cd1f4473" kindref="member">getStatistics()</ref>, spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="254" column="10" bodyfile="src/utils/thread_pool_manager.cpp" bodystart="364" bodyend="393"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Global <ref refid="classthemis_1_1utils_1_1_thread_pool_manager" kindref="compound">ThreadPoolManager</ref> with different pool types. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/thread_pool_manager.h" line="185" column="1" bodyfile="include/utils/thread_pool_manager.h" bodystart="185" bodyend="255"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2b0950bc351390a7974eb1119a79a1c2" prot="private" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>blocking_pool_</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1a80d73e1791402df5829ebfa14e5d5e8e" prot="private" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1a524ea37a207336b50a9858bf8769a76e" prot="private" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>cpu_pool_</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1afc880d071acb0da321bbf73a29ab2714" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>DEFAULT_QUEUE_DEPTH</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1afb1f5bfdf8b2a672fe361bc2110e0fb2" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>DEFAULT_THREAD_COUNT</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1ab3f18dc03b6148f29191988472314c37" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>getPoolStatistics</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1a893276098d80a639f9864474cd1f4473" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1a730a86e5bed93046fb68c312f81936cb" prot="private" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>io_pool_</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2df2587d5d38590007d034cbbba32096" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>MAX_QUEUE_DEPTH</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1ab622309ef7fc83a591ab2af6d278b88f" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>MAX_THREAD_COUNT</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1a020f8a582630fb5a933873bc17471431" prot="private" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>metrics_thread_</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1af612ffd90d1dd816a9b7fa23da42f3eb" prot="private" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>metricsLoop</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>PoolType</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1ada5e4184c54b654eb1f31078b0a53fd6" prot="private" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>running_</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1aeea1ee305f81ebcbcad1db1db251e557" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1a9e70535dbc8b8d101b56a0b4911eecb7" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>submit</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1a66578ae719748eb49a24dac5ce22a3c0" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>submitTask</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1a6d8af85c136016172cc67c3ee61cb6c1" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>ThreadPoolManager</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1a865cd78ae21a92bfbcfb9693b807f374" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>ThreadPoolManager</name></member>
+      <member refid="classthemis_1_1utils_1_1_thread_pool_manager_1a0e8b2e1f4889c0ab9f16f0089f2de05c" prot="public" virt="non-virtual"><scope>themis::utils::ThreadPoolManager</scope><name>~ThreadPoolManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,672 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::AQLFewShotExampleLibrary</compoundname>
+    <includes refid="aql__fewshot__example__library_8h" local="no">aql_fewshot_example_library.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a8f446427122f9da0ea3bc92f7f2cbaf7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example" kindref="compound">AQLFewShotExample</ref> &gt;</type>
+        <definition>std::vector&lt;AQLFewShotExample&gt; themis::aql::AQLFewShotExampleLibrary::examples_</definition>
+        <argsstring></argsstring>
+        <name>examples_</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::examples_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="174" column="26" bodyfile="include/aql/aql_fewshot_example_library.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a6aaab3cf6ef52a78f26d6367804c6cf5" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::size_t&gt; themis::aql::AQLFewShotExampleLibrary::index_by_id_</definition>
+        <argsstring></argsstring>
+        <name>index_by_id_</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::index_by_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="175" column="24" bodyfile="include/aql/aql_fewshot_example_library.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ae8abcc76cd64d28447487be229ae98f9" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_i_embedding_provider" kindref="compound">IEmbeddingProvider</ref> *</type>
+        <definition>IEmbeddingProvider* themis::aql::AQLFewShotExampleLibrary::embedding_provider_</definition>
+        <argsstring></argsstring>
+        <name>embedding_provider_</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::embedding_provider_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="177" column="24" bodyfile="include/aql/aql_fewshot_example_library.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ac3667f23424a4336d52e057825b1a3b5" prot="private" static="no" mutable="yes">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; themis::aql::AQLFewShotExampleLibrary::embedding_cache_</definition>
+        <argsstring></argsstring>
+        <name>embedding_cache_</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::embedding_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="179" column="25" bodyfile="include/aql/aql_fewshot_example_library.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1af09be2bfc433432c4d1e32c0850b60f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLFewShotExampleLibrary::AQLFewShotExampleLibrary</definition>
+        <argsstring>()</argsstring>
+        <name>AQLFewShotExampleLibrary</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::AQLFewShotExampleLibrary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="75" column="5" bodyfile="src/aql/aql_fewshot_example_library.cpp" bodystart="24" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a7bcd9bc34ce9eaabcda454aba5ed6bc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLFewShotExampleLibrary::~AQLFewShotExampleLibrary</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AQLFewShotExampleLibrary</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::~AQLFewShotExampleLibrary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="76" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a6d580ee3eb21fd49cd5453fcb5175ef5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLFewShotExampleLibrary::registerExample</definition>
+        <argsstring>(const AQLFewShotExample &amp;example)</argsstring>
+        <name>registerExample</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::registerExample</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example" kindref="compound">AQLFewShotExample</ref> &amp;</type>
+          <declname>example</declname>
+        </param>
+        <briefdescription>
+<para>Register Example. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">example</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">example</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), count(), <ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ab6811d840918307df654fb277f7f131c" kindref="member">size()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="86" column="10" bodyfile="src/aql/aql_fewshot_example_library.cpp" bodystart="35" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ac26c697b586a161edfc8e3f78d835bd4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example" kindref="compound">AQLFewShotExample</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; AQLFewShotExample &gt; &amp; themis::aql::AQLFewShotExampleLibrary::all</definition>
+        <argsstring>() const</argsstring>
+        <name>all</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::all</qualifiedname>
+        <briefdescription>
+<para>All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="96" column="23" bodyfile="src/aql/aql_fewshot_example_library.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a341e23d53bb52c292d9590b70fd0624e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example" kindref="compound">AQLFewShotExample</ref> &gt;</type>
+        <definition>std::vector&lt; AQLFewShotExample &gt; themis::aql::AQLFewShotExampleLibrary::findByDomain</definition>
+        <argsstring>(AQLExampleDomain domain) const</argsstring>
+        <name>findByDomain</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::findByDomain</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40" kindref="member">AQLExampleDomain</ref></type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+<para>Find By Domain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="103" column="17" bodyfile="src/aql/aql_fewshot_example_library.cpp" bodystart="50" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1af31b5db43b12e6ac3c2ea2f6fcb2b533" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example" kindref="compound">AQLFewShotExample</ref> &gt;</type>
+        <definition>std::vector&lt; AQLFewShotExample &gt; themis::aql::AQLFewShotExampleLibrary::findByTag</definition>
+        <argsstring>(const std::string &amp;tag) const</argsstring>
+        <name>findByTag</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::findByTag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+        </param>
+        <briefdescription>
+<para>Find By Tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="110" column="17" bodyfile="src/aql/aql_fewshot_example_library.cpp" bodystart="61" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1afb86dfa0e6029b0ec2f4135ac06c037d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example" kindref="compound">AQLFewShotExample</ref> *</type>
+        <definition>const AQLFewShotExample * themis::aql::AQLFewShotExampleLibrary::findById</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>findById</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::findById</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Find By Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="117" column="29" bodyfile="src/aql/aql_fewshot_example_library.cpp" bodystart="80" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1adb3fb7272f9538026d421d2defb922a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example" kindref="compound">AQLFewShotExample</ref> &gt;</type>
+        <definition>std::vector&lt; AQLFewShotExample &gt; themis::aql::AQLFewShotExampleLibrary::findRelevant</definition>
+        <argsstring>(const std::string &amp;nl_query, std::size_t n=3, std::optional&lt; AQLExampleDomain &gt; domain=std::nullopt) const</argsstring>
+        <name>findRelevant</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::findRelevant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>nl_query</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+          <defval>3</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40" kindref="member">AQLExampleDomain</ref> &gt;</type>
+          <declname>domain</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="123" column="17" bodyfile="src/aql/aql_fewshot_example_library.cpp" bodystart="88" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ab0adbd0fc839d5b755947554267e6501" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLFewShotExampleLibrary::buildPromptSection</definition>
+        <argsstring>(const std::string &amp;nl_query, std::size_t n=3, std::optional&lt; AQLExampleDomain &gt; domain=std::nullopt) const</argsstring>
+        <name>buildPromptSection</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::buildPromptSection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>nl_query</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+          <defval>3</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1aql_1a2b64642dc48acad0d2169860b474ca40" kindref="member">AQLExampleDomain</ref> &gt;</type>
+          <declname>domain</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="142" column="17" bodyfile="src/aql/aql_fewshot_example_library.cpp" bodystart="164" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ab6811d840918307df654fb277f7f131c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::AQLFewShotExampleLibrary::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::size</qualifiedname>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="156" column="17" bodyfile="src/aql/aql_fewshot_example_library.cpp" bodystart="169" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ae6dfdb68aa14a35055e01938adb4eac9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLFewShotExampleLibrary::setEmbeddingProvider</definition>
+        <argsstring>(IEmbeddingProvider *provider)</argsstring>
+        <name>setEmbeddingProvider</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::setEmbeddingProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1_i_embedding_provider" kindref="compound">IEmbeddingProvider</ref> *</type>
+          <declname>provider</declname>
+        </param>
+        <briefdescription>
+<para>Set Embedding Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="166" column="10" bodyfile="src/aql/aql_fewshot_example_library.cpp" bodystart="182" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1accfc079c5c97a75f2401573d385abcbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLFewShotExampleLibrary::rebuildEmbeddingIndex</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildEmbeddingIndex</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::rebuildEmbeddingIndex</qualifiedname>
+        <briefdescription>
+<para>Rebuild Embedding Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: resize(), <ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ab6811d840918307df654fb277f7f131c" kindref="member">size()</ref>, embed(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="171" column="10" bodyfile="src/aql/aql_fewshot_example_library.cpp" bodystart="192" bodyend="201"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1aad28be6973d0e1980184e067457beaf0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLFewShotExampleLibrary::formatForPrompt</definition>
+        <argsstring>(const std::vector&lt; AQLFewShotExample &gt; &amp;examples)</argsstring>
+        <name>formatForPrompt</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::formatForPrompt</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example" kindref="compound">AQLFewShotExample</ref> &gt; &amp;</type>
+          <declname>examples</declname>
+        </param>
+        <briefdescription>
+<para>Format For Prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">examples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">examples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="138" column="24" bodyfile="src/aql/aql_fewshot_example_library.cpp" bodystart="151" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a8fce7f6257f6292096db3405852c9f14" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLFewShotExampleLibrary::registerBuiltins_</definition>
+        <argsstring>()</argsstring>
+        <name>registerBuiltins_</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::registerBuiltins_</qualifiedname>
+        <briefdescription>
+<para>Register Builtins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Built-in example registry (30+ curated NL-to-AQL pairs) ============================================================================</para>
+<para>Calls: push_back(), <ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ab6811d840918307df654fb277f7f131c" kindref="member">size()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="184" column="10" bodyfile="src/aql/aql_fewshot_example_library.cpp" bodystart="308" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a01ec858cd91071e5fea994f07ed1c824" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::aql::AQLFewShotExampleLibrary::computeRelevanceSemantic_</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query_embedding, std::size_t example_index) const</argsstring>
+        <name>computeRelevanceSemantic_</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::computeRelevanceSemantic_</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_embedding</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>example_index</declname>
+        </param>
+        <briefdescription>
+<para>Compute Relevance Semantic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">example_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="203" column="12" bodyfile="src/aql/aql_fewshot_example_library.cpp" bodystart="244" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a87cb26fbc705dd5f6bb42cb947043dbf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLFewShotExampleLibrary::ensureEmbedding_</definition>
+        <argsstring>(std::size_t idx) const</argsstring>
+        <name>ensureEmbedding_</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::ensureEmbedding_</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+<para>Ensure Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="213" column="10" bodyfile="src/aql/aql_fewshot_example_library.cpp" bodystart="203" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1abeb00f2c05d949914786ec2f9d23b10b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::aql::AQLFewShotExampleLibrary::computeRelevance_</definition>
+        <argsstring>(const std::string &amp;query, const AQLFewShotExample &amp;example)</argsstring>
+        <name>computeRelevance_</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::computeRelevance_</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_a_q_l_few_shot_example" kindref="compound">AQLFewShotExample</ref> &amp;</type>
+          <declname>example</declname>
+        </param>
+        <briefdescription>
+<para>Compute Relevance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">example</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">example</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: iss(), std::transform(), begin(), end(), empty(), std::isalnum(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="192" column="19" bodyfile="src/aql/aql_fewshot_example_library.cpp" bodystart="266" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ae3889526e701a190737d3796647259e8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::aql::AQLFewShotExampleLibrary::cosineSimilarity_</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, const std::vector&lt; float &gt; &amp;b)</argsstring>
+        <name>cosineSimilarity_</name>
+        <qualifiedname>themis::aql::AQLFewShotExampleLibrary::cosineSimilarity_</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Cosine Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ab6811d840918307df654fb277f7f131c" kindref="member">size()</ref>, empty(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_fewshot_example_library.h" line="221" column="19" bodyfile="src/aql/aql_fewshot_example_library.cpp" bodystart="229" bodyend="242"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_fewshot_example_library.h" line="73" column="1" bodyfile="include/aql/aql_fewshot_example_library.h" bodystart="73" bodyend="225"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ac26c697b586a161edfc8e3f78d835bd4" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>all</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1af09be2bfc433432c4d1e32c0850b60f6" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>AQLFewShotExampleLibrary</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ab0adbd0fc839d5b755947554267e6501" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>buildPromptSection</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1abeb00f2c05d949914786ec2f9d23b10b" prot="private" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>computeRelevance_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a01ec858cd91071e5fea994f07ed1c824" prot="private" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>computeRelevanceSemantic_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ae3889526e701a190737d3796647259e8" prot="private" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>cosineSimilarity_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ac3667f23424a4336d52e057825b1a3b5" prot="private" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>embedding_cache_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ae8abcc76cd64d28447487be229ae98f9" prot="private" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>embedding_provider_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a87cb26fbc705dd5f6bb42cb947043dbf" prot="private" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>ensureEmbedding_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a8f446427122f9da0ea3bc92f7f2cbaf7" prot="private" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>examples_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a341e23d53bb52c292d9590b70fd0624e" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>findByDomain</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1afb86dfa0e6029b0ec2f4135ac06c037d" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>findById</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1af31b5db43b12e6ac3c2ea2f6fcb2b533" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>findByTag</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1adb3fb7272f9538026d421d2defb922a4" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>findRelevant</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1aad28be6973d0e1980184e067457beaf0" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>formatForPrompt</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a6aaab3cf6ef52a78f26d6367804c6cf5" prot="private" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>index_by_id_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1accfc079c5c97a75f2401573d385abcbf" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>rebuildEmbeddingIndex</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a8fce7f6257f6292096db3405852c9f14" prot="private" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>registerBuiltins_</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a6d580ee3eb21fd49cd5453fcb5175ef5" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>registerExample</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ae6dfdb68aa14a35055e01938adb4eac9" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>setEmbeddingProvider</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1ab6811d840918307df654fb277f7f131c" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>size</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library_1a7bcd9bc34ce9eaabcda454aba5ed6bc9" prot="public" virt="non-virtual"><scope>themis::aql::AQLFewShotExampleLibrary</scope><name>~AQLFewShotExampleLibrary</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

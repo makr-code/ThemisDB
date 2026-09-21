@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::WireProtocolServer::CursorEntry</compoundname>
+    <includes refid="wire__protocol__server_8h" local="no">wire_protocol_server.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1afe4f55efafa62ecd4d0ed9df1c98a1aa" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::network::WireProtocolServer::CursorEntry::results</definition>
+        <argsstring></argsstring>
+        <name>results</name>
+        <qualifiedname>themis::network::WireProtocolServer::CursorEntry::results</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="469" column="24" bodyfile="include/network/wire_protocol_server.h" bodystart="469" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1a41132fe747f5f52429358473980a802a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolServer::CursorEntry::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::network::WireProtocolServer::CursorEntry::offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="470" column="24" bodyfile="include/network/wire_protocol_server.h" bodystart="470" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1a5907602afe5bbc37254555291351e23f" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::network::WireProtocolServer::CursorEntry::ttl_ms</definition>
+        <argsstring></argsstring>
+        <name>ttl_ms</name>
+        <qualifiedname>themis::network::WireProtocolServer::CursorEntry::ttl_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="471" column="24" bodyfile="include/network/wire_protocol_server.h" bodystart="471" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_server.h" line="468" column="5" bodyfile="include/network/wire_protocol_server.h" bodystart="468" bodyend="472"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1a41132fe747f5f52429358473980a802a" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::CursorEntry</scope><name>offset</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1afe4f55efafa62ecd4d0ed9df1c98a1aa" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::CursorEntry</scope><name>results</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1a5907602afe5bbc37254555291351e23f" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer::CursorEntry</scope><name>ttl_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

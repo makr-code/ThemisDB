@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_cache_1_1_internal_cache_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::query::QueryCache::InternalCacheEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_internal_cache_entry_1a7b5b7574054eafe9563ac817edd81919" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_query_cache_1_1_cache_entry" kindref="compound">CacheEntry</ref></type>
+        <definition>CacheEntry themis::query::QueryCache::InternalCacheEntry::entry</definition>
+        <argsstring></argsstring>
+        <name>entry</name>
+        <qualifiedname>themis::query::QueryCache::InternalCacheEntry::entry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="200" column="20" bodyfile="include/query/query_cache.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_internal_cache_entry_1a403a283a1e24648f3f8083aaa0a791de" prot="public" static="no" mutable="no">
+        <type>std::list&lt; std::string &gt;::iterator</type>
+        <definition>std::list&lt;std::string&gt;::iterator themis::query::QueryCache::InternalCacheEntry::lru_it</definition>
+        <argsstring></argsstring>
+        <name>lru_it</name>
+        <qualifiedname>themis::query::QueryCache::InternalCacheEntry::lru_it</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="201" column="30" bodyfile="include/query/query_cache.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_cache_1_1_internal_cache_entry_1a1ef7363b5bf1574fa7ca48884f1377b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCache::InternalCacheEntry::InternalCacheEntry</definition>
+        <argsstring>()=default</argsstring>
+        <name>InternalCacheEntry</name>
+        <qualifiedname>themis::query::QueryCache::InternalCacheEntry::InternalCacheEntry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="203" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_cache_1_1_internal_cache_entry_1a46931e6751260a2b89c0d8e12f1a5d9d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCache::InternalCacheEntry::InternalCacheEntry</definition>
+        <argsstring>(CacheEntry e)</argsstring>
+        <name>InternalCacheEntry</name>
+        <qualifiedname>themis::query::QueryCache::InternalCacheEntry::InternalCacheEntry</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_query_cache_1_1_cache_entry" kindref="compound">CacheEntry</ref></type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="204" column="9" bodyfile="include/query/query_cache.h" bodystart="204" bodyend="204"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::QueryCache::CacheEntry</label>
+        <link refid="structthemis_1_1query_1_1_query_cache_1_1_cache_entry"/>
+      </node>
+      <node id="1">
+        <label>themis::query::QueryCache::InternalCacheEntry</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>entry</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/query_cache.h" line="199" column="5" bodyfile="include/query/query_cache.h" bodystart="199" bodyend="205"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_internal_cache_entry_1a7b5b7574054eafe9563ac817edd81919" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::InternalCacheEntry</scope><name>entry</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_internal_cache_entry_1a1ef7363b5bf1574fa7ca48884f1377b0" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::InternalCacheEntry</scope><name>InternalCacheEntry</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_internal_cache_entry_1a46931e6751260a2b89c0d8e12f1a5d9d" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::InternalCacheEntry</scope><name>InternalCacheEntry</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_internal_cache_entry_1a403a283a1e24648f3f8083aaa0a791de" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::InternalCacheEntry</scope><name>lru_it</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

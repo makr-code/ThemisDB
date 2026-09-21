@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_tier_transition_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::TierTransitionResult</compoundname>
+    <includes refid="hardware__profile_8h" local="no">hardware_profile.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tier_transition_result_1a2c3cfce427da61565580a31674ce55cf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::evaluation::TierTransitionResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::evaluation::TierTransitionResult::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="105" column="17" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tier_transition_result_1a51abfc73a46c41b8f41d43c35bfc14fc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::evaluation::TierTransitionResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::evaluation::TierTransitionResult::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="106" column="17" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1evaluation_1_1_tier_transition_result_1a43e7eff104a81b4361b2095f7a66b5c5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::evaluation::TierTransitionResult::ok</definition>
+        <argsstring>() const</argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::evaluation::TierTransitionResult::ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="108" column="11" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/hardware_profile.h" line="104" column="1" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="104" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_tier_transition_result_1a2c3cfce427da61565580a31674ce55cf" prot="public" virt="non-virtual"><scope>themis::evaluation::TierTransitionResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tier_transition_result_1a43e7eff104a81b4361b2095f7a66b5c5" prot="public" virt="non-virtual"><scope>themis::evaluation::TierTransitionResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tier_transition_result_1a51abfc73a46c41b8f41d43c35bfc14fc" prot="public" virt="non-virtual"><scope>themis::evaluation::TierTransitionResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

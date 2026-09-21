@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_task_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::TaskConfig</compoundname>
+    <includes refid="multi__task__lora_8h" local="no">multi_task_lora.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_task_config_1a184b0c625911a6a5d8bf9137b82c2cce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::TaskConfig::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::training::TaskConfig::id</qualifiedname>
+        <briefdescription>
+<para>Unique task identifier (QW-41: non-empty guard). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="38" column="17" bodyfile="include/training/multi_task_lora.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_task_config_1a0723a713cc3fcd7cc993fbe858f5404e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::TaskConfig::loss_weight</definition>
+        <argsstring></argsstring>
+        <name>loss_weight</name>
+        <qualifiedname>themis::training::TaskConfig::loss_weight</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+<para>Relative loss weight in joint loss (QW-41: &gt;= 0 guard). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="39" column="17" bodyfile="include/training/multi_task_lora.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_task_config_1a49f95bd0c0c63ac4fa516b07991334d5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::TaskConfig::task_rank</definition>
+        <argsstring></argsstring>
+        <name>task_rank</name>
+        <qualifiedname>themis::training::TaskConfig::task_rank</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>Task-specific head LoRA rank (QW-41: &gt;= 1 guard). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="40" column="17" bodyfile="include/training/multi_task_lora.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_task_config_1a84cbfc54d92a511d82436646aaa1bc6b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::TaskConfig::learning_rate</definition>
+        <argsstring></argsstring>
+        <name>learning_rate</name>
+        <qualifiedname>themis::training::TaskConfig::learning_rate</qualifiedname>
+        <initializer>= 1e-3f</initializer>
+        <briefdescription>
+<para>Per-task learning rate override (QW-41: &gt; 0 guard). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="41" column="17" bodyfile="include/training/multi_task_lora.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-task configuration for Multi-Task LoRA training. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>QW-41: Configuration hardening with fail-closed guards:<itemizedlist>
+<listitem><para>id: must be non-empty (unique task identifier)</para>
+</listitem><listitem><para>task_rank: must be &gt;= 1 (LoRA rank cannot be zero)</para>
+</listitem><listitem><para>learning_rate: must be &gt; 0 (strictly positive)</para>
+</listitem><listitem><para>loss_weight: must be &gt;= 0 (non-negative for joint loss) All guards are enforced in <ref refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1ad548ca816fb57c6e5c2579ea5eefec27" kindref="member">MultiTaskLoRATrainer::addTask()</ref> by throwing std::invalid_argument on violation. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/training/multi_task_lora.h" line="37" column="1" bodyfile="include/training/multi_task_lora.h" bodystart="37" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_task_config_1a184b0c625911a6a5d8bf9137b82c2cce" prot="public" virt="non-virtual"><scope>themis::training::TaskConfig</scope><name>id</name></member>
+      <member refid="structthemis_1_1training_1_1_task_config_1a84cbfc54d92a511d82436646aaa1bc6b" prot="public" virt="non-virtual"><scope>themis::training::TaskConfig</scope><name>learning_rate</name></member>
+      <member refid="structthemis_1_1training_1_1_task_config_1a0723a713cc3fcd7cc993fbe858f5404e" prot="public" virt="non-virtual"><scope>themis::training::TaskConfig</scope><name>loss_weight</name></member>
+      <member refid="structthemis_1_1training_1_1_task_config_1a49f95bd0c0c63ac4fa516b07991334d5" prot="public" virt="non-virtual"><scope>themis::training::TaskConfig</scope><name>task_rank</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

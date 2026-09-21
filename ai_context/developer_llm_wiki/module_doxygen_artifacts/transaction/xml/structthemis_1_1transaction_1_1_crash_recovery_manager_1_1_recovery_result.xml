@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::CrashRecoveryManager::RecoveryResult</compoundname>
+    <includes refid="crash__recovery__manager_8h" local="no">crash_recovery_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result_1a1fb62c9ab1939b5877f80aa937734f3d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::CrashRecoveryManager::RecoveryResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::RecoveryResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="64" column="16" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result_1a075d2eeeb12f6f2ad10470e59e4ed2fd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::CrashRecoveryManager::RecoveryResult::in_flight_found</definition>
+        <argsstring></argsstring>
+        <name>in_flight_found</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::RecoveryResult::in_flight_found</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>In-flight txns detected in WAL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="65" column="16" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result_1ad931d7dbeba8c59d6e3323d208eecbc4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::CrashRecoveryManager::RecoveryResult::rolled_back</definition>
+        <argsstring></argsstring>
+        <name>rolled_back</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::RecoveryResult::rolled_back</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Transactions successfully rolled back. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="66" column="16" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result_1a03f64170a6a2c749873365bd8728aa20" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::CrashRecoveryManager::RecoveryResult::operations_undone</definition>
+        <argsstring></argsstring>
+        <name>operations_undone</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::RecoveryResult::operations_undone</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Individual operations undone. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="67" column="16" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result_1a1a419f7d65e15cf3f6a06844713789e7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt;uint64_t&gt; themis::transaction::CrashRecoveryManager::RecoveryResult::rolled_back_ids</definition>
+        <argsstring></argsstring>
+        <name>rolled_back_ids</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::RecoveryResult::rolled_back_ids</qualifiedname>
+        <briefdescription>
+<para>IDs of recovered transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="68" column="21" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result_1a00dacde0122a6825fb0b566953bb046a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::CrashRecoveryManager::RecoveryResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::RecoveryResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="69" column="21" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result_1a8baf0e62cda21c77c73d4f2a9e4707db" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::CrashRecoveryManager::RecoveryResult::hadWorkToDo</definition>
+        <argsstring>() const</argsstring>
+        <name>hadWorkToDo</name>
+        <qualifiedname>themis::transaction::CrashRecoveryManager::RecoveryResult::hadWorkToDo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/crash_recovery_manager.h" line="71" column="14" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/crash_recovery_manager.h" line="63" column="5" bodyfile="include/transaction/crash_recovery_manager.h" bodystart="63" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result_1a8baf0e62cda21c77c73d4f2a9e4707db" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager::RecoveryResult</scope><name>hadWorkToDo</name></member>
+      <member refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result_1a075d2eeeb12f6f2ad10470e59e4ed2fd" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager::RecoveryResult</scope><name>in_flight_found</name></member>
+      <member refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result_1a00dacde0122a6825fb0b566953bb046a" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager::RecoveryResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result_1a03f64170a6a2c749873365bd8728aa20" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager::RecoveryResult</scope><name>operations_undone</name></member>
+      <member refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result_1ad931d7dbeba8c59d6e3323d208eecbc4" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager::RecoveryResult</scope><name>rolled_back</name></member>
+      <member refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result_1a1a419f7d65e15cf3f6a06844713789e7" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager::RecoveryResult</scope><name>rolled_back_ids</name></member>
+      <member refid="structthemis_1_1transaction_1_1_crash_recovery_manager_1_1_recovery_result_1a1fb62c9ab1939b5877f80aa937734f3d" prot="public" virt="non-virtual"><scope>themis::transaction::CrashRecoveryManager::RecoveryResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

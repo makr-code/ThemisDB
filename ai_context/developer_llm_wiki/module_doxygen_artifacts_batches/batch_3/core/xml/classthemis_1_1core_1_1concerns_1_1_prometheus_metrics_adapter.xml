@@ -1,0 +1,390 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::PrometheusMetricsAdapter</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics" prot="public" virt="non-virtual">themis::core::concerns::IMetrics</basecompoundref>
+    <includes refid="prometheus__metrics__adapter_8h" local="no">prometheus_metrics_adapter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a4c79ab90771a9578eab162e54844df5b" prot="private" static="no" mutable="no">
+        <type>observability::MetricsCollector &amp;</type>
+        <definition>observability::MetricsCollector&amp; themis::core::concerns::PrometheusMetricsAdapter::collector_</definition>
+        <argsstring></argsstring>
+        <name>collector_</name>
+        <qualifiedname>themis::core::concerns::PrometheusMetricsAdapter::collector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/prometheus_metrics_adapter.h" line="140" column="37" bodyfile="include/core/concerns/prometheus_metrics_adapter.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a10bde3762d13bab09cc6566d1e42a084" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::PrometheusMetricsAdapter::PrometheusMetricsAdapter</definition>
+        <argsstring>()</argsstring>
+        <name>PrometheusMetricsAdapter</name>
+        <qualifiedname>themis::core::concerns::PrometheusMetricsAdapter::PrometheusMetricsAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/prometheus_metrics_adapter.h" line="35" column="5" bodyfile="include/core/concerns/prometheus_metrics_adapter.h" bodystart="35" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1ada55fc1367c815c788462d03a1244f06" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::PrometheusMetricsAdapter::incrementCounter</definition>
+        <argsstring>(const std::string &amp;name, int64_t value=1, const Labels &amp;labels={}) override</argsstring>
+        <name>incrementCounter</name>
+        <qualifiedname>themis::core::concerns::PrometheusMetricsAdapter::incrementCounter</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ab5e2da4141f1ef00cb1f204f1bdab514">incrementCounter</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/prometheus_metrics_adapter.h" line="42" column="10" bodyfile="include/core/concerns/prometheus_metrics_adapter.h" bodystart="42" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a2e7392a3243417010a309413baed7c02" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::PrometheusMetricsAdapter::setGauge</definition>
+        <argsstring>(const std::string &amp;name, double value, const Labels &amp;labels={}) override</argsstring>
+        <name>setGauge</name>
+        <qualifiedname>themis::core::concerns::PrometheusMetricsAdapter::setGauge</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ae92ea90ef8e492892b5472d6ec2f6c8e">setGauge</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/prometheus_metrics_adapter.h" line="51" column="10" bodyfile="include/core/concerns/prometheus_metrics_adapter.h" bodystart="51" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1abbd60dc96190ef5900f5f5683c8c68b4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::PrometheusMetricsAdapter::incrementGauge</definition>
+        <argsstring>(const std::string &amp;name, double delta, const Labels &amp;labels={}) override</argsstring>
+        <name>incrementGauge</name>
+        <qualifiedname>themis::core::concerns::PrometheusMetricsAdapter::incrementGauge</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1aa984519f2f0b13cef90250466ba68c47">incrementGauge</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/prometheus_metrics_adapter.h" line="56" column="10" bodyfile="include/core/concerns/prometheus_metrics_adapter.h" bodystart="56" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a62325b85c96e238545d3eb5b469a1df6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::PrometheusMetricsAdapter::decrementGauge</definition>
+        <argsstring>(const std::string &amp;name, double delta, const Labels &amp;labels={}) override</argsstring>
+        <name>decrementGauge</name>
+        <qualifiedname>themis::core::concerns::PrometheusMetricsAdapter::decrementGauge</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a5218ccd9b66d548de08758259a4ca7d6">decrementGauge</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/prometheus_metrics_adapter.h" line="61" column="10" bodyfile="include/core/concerns/prometheus_metrics_adapter.h" bodystart="61" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a45fd68c6db0b65adcf3229a2ce183649" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::PrometheusMetricsAdapter::observeHistogram</definition>
+        <argsstring>(const std::string &amp;name, double value, const Labels &amp;labels={}) override</argsstring>
+        <name>observeHistogram</name>
+        <qualifiedname>themis::core::concerns::PrometheusMetricsAdapter::observeHistogram</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1aee67ce101bf4545e6ff4602d0de166f9">observeHistogram</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/prometheus_metrics_adapter.h" line="70" column="10" bodyfile="include/core/concerns/prometheus_metrics_adapter.h" bodystart="70" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a1b25f3112a0b2ddea30aae910cc2040e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::PrometheusMetricsAdapter::recordLatency</definition>
+        <argsstring>(const std::string &amp;operation, double latencyMs, const Labels &amp;labels={}) override</argsstring>
+        <name>recordLatency</name>
+        <qualifiedname>themis::core::concerns::PrometheusMetricsAdapter::recordLatency</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a405b7ee2f1fdc763a21f76adabacbe36">recordLatency</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latencyMs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/prometheus_metrics_adapter.h" line="79" column="10" bodyfile="include/core/concerns/prometheus_metrics_adapter.h" bodystart="79" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a783afbcd6da10d7300e55fc6666e5039" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::PrometheusMetricsAdapter::recordError</definition>
+        <argsstring>(const std::string &amp;operation, const Labels &amp;labels={}) override</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::core::concerns::PrometheusMetricsAdapter::recordError</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ae470d0739b8826c44949bffca16e8d12">recordError</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/prometheus_metrics_adapter.h" line="84" column="10" bodyfile="include/core/concerns/prometheus_metrics_adapter.h" bodystart="84" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a98bce4db961eae56bf4dc70058fe558e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::PrometheusMetricsAdapter::recordSuccess</definition>
+        <argsstring>(const std::string &amp;operation, const Labels &amp;labels={}) override</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::core::concerns::PrometheusMetricsAdapter::recordSuccess</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1aa4737019b02468a24b15000746a332db">recordSuccess</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/prometheus_metrics_adapter.h" line="89" column="10" bodyfile="include/core/concerns/prometheus_metrics_adapter.h" bodystart="89" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1ade2f8f08fff1f19433bc053b0beebb9b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::PrometheusMetricsAdapter::exportMetrics</definition>
+        <argsstring>() const override</argsstring>
+        <name>exportMetrics</name>
+        <qualifiedname>themis::core::concerns::PrometheusMetricsAdapter::exportMetrics</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1afc76a2a81a190436f4b76a3c043759e4">exportMetrics</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/prometheus_metrics_adapter.h" line="98" column="17" bodyfile="include/core/concerns/prometheus_metrics_adapter.h" bodystart="98" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a9d75c12be80e1285b46e99996bc3771a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::PrometheusMetricsAdapter::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::core::concerns::PrometheusMetricsAdapter::reset</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ad161732b3c913ef087834614d4d0fc53">reset</reimplements>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/prometheus_metrics_adapter.h" line="102" column="10" bodyfile="include/core/concerns/prometheus_metrics_adapter.h" bodystart="102" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a8bc6bfe26eaa288d9ea0407e2734d55b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::PrometheusMetricsAdapter::flush</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::core::concerns::PrometheusMetricsAdapter::flush</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ad2d7aad28e18efff00caf672e7db042d">flush</reimplements>
+        <briefdescription>
+<para>Flush the adapter state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>MetricsCollector is pull-based (Prometheus scrapes); there is no network push to force here, so this is intentionally a no-op. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/prometheus_metrics_adapter.h" line="116" column="10" bodyfile="include/core/concerns/prometheus_metrics_adapter.h" bodystart="116" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1ab6a969a4cdb53c6725ceb8ba4bcf7eab" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::PrometheusMetricsAdapter::shutdown</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::core::concerns::PrometheusMetricsAdapter::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ac2a0a0c241a2d8e72930e8b9758a9f0b">shutdown</reimplements>
+        <briefdescription>
+<para>Reset the in-process collector and release adapter state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>After <ref refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1ab6a969a4cdb53c6725ceb8ba4bcf7eab" kindref="member">shutdown()</ref>, the collector is reset so subsequent scrapes start from an empty metric set unless the process recreates metrics first. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/prometheus_metrics_adapter.h" line="126" column="10" bodyfile="include/core/concerns/prometheus_metrics_adapter.h" bodystart="126" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1aa9eec4c3f2194954e72f3d879314efcc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::PrometheusMetricsAdapter::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::core::concerns::PrometheusMetricsAdapter::isHealthy</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a9e5fc304c04d9b4f302964ee36a31576">isHealthy</reimplements>
+        <briefdescription>
+<para>Report whether the in-process collector can be used. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The adapter is healthy as long as the singleton exists in-process. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/prometheus_metrics_adapter.h" line="135" column="17" bodyfile="include/core/concerns/prometheus_metrics_adapter.h" bodystart="135" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Prometheus/MetricsCollector adapter implementation of <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics" kindref="compound">IMetrics</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Bridges the generic <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics" kindref="compound">IMetrics</ref> interface to the ThemisDB MetricsCollector singleton, which exposes metrics in Prometheus text-exposition format suitable for scraping by a Prometheus server (e.g. inside a Kubernetes cluster via a ServiceMonitor or PodMonitor CRD).</para>
+<para>All <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics" kindref="compound">IMetrics</ref> operations are forwarded to the MetricsCollector; the adapter itself is stateless beyond holding a reference to the singleton. The adapter is therefore only as durable as the in-process collector; it does not persist metrics across process restarts. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::IMetrics</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_metrics"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::PrometheusMetricsAdapter</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::IMetrics</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_metrics"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::PrometheusMetricsAdapter</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/prometheus_metrics_adapter.h" line="33" column="1" bodyfile="include/core/concerns/prometheus_metrics_adapter.h" bodystart="33" bodyend="141"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a4c79ab90771a9578eab162e54844df5b" prot="private" virt="non-virtual"><scope>themis::core::concerns::PrometheusMetricsAdapter</scope><name>collector_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a62325b85c96e238545d3eb5b469a1df6" prot="public" virt="virtual"><scope>themis::core::concerns::PrometheusMetricsAdapter</scope><name>decrementGauge</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1ade2f8f08fff1f19433bc053b0beebb9b" prot="public" virt="virtual"><scope>themis::core::concerns::PrometheusMetricsAdapter</scope><name>exportMetrics</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a8bc6bfe26eaa288d9ea0407e2734d55b" prot="public" virt="virtual"><scope>themis::core::concerns::PrometheusMetricsAdapter</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1ada55fc1367c815c788462d03a1244f06" prot="public" virt="virtual"><scope>themis::core::concerns::PrometheusMetricsAdapter</scope><name>incrementCounter</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1abbd60dc96190ef5900f5f5683c8c68b4" prot="public" virt="virtual"><scope>themis::core::concerns::PrometheusMetricsAdapter</scope><name>incrementGauge</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1aa9eec4c3f2194954e72f3d879314efcc" prot="public" virt="virtual"><scope>themis::core::concerns::PrometheusMetricsAdapter</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" prot="public" virt="non-virtual"><scope>themis::core::concerns::PrometheusMetricsAdapter</scope><name>Labels</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a45fd68c6db0b65adcf3229a2ce183649" prot="public" virt="virtual"><scope>themis::core::concerns::PrometheusMetricsAdapter</scope><name>observeHistogram</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a10bde3762d13bab09cc6566d1e42a084" prot="public" virt="non-virtual"><scope>themis::core::concerns::PrometheusMetricsAdapter</scope><name>PrometheusMetricsAdapter</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a783afbcd6da10d7300e55fc6666e5039" prot="public" virt="virtual"><scope>themis::core::concerns::PrometheusMetricsAdapter</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a1b25f3112a0b2ddea30aae910cc2040e" prot="public" virt="virtual"><scope>themis::core::concerns::PrometheusMetricsAdapter</scope><name>recordLatency</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a98bce4db961eae56bf4dc70058fe558e" prot="public" virt="virtual"><scope>themis::core::concerns::PrometheusMetricsAdapter</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a9d75c12be80e1285b46e99996bc3771a" prot="public" virt="virtual"><scope>themis::core::concerns::PrometheusMetricsAdapter</scope><name>reset</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a2e7392a3243417010a309413baed7c02" prot="public" virt="virtual"><scope>themis::core::concerns::PrometheusMetricsAdapter</scope><name>setGauge</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1ab6a969a4cdb53c6725ceb8ba4bcf7eab" prot="public" virt="virtual"><scope>themis::core::concerns::PrometheusMetricsAdapter</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a675060462eaa14e716339b54f8358227" prot="public" virt="virtual"><scope>themis::core::concerns::PrometheusMetricsAdapter</scope><name>~IMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

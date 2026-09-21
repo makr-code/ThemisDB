@@ -1,0 +1,446 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="content__type_8h" kind="file" language="C++">
+    <compoundname>content_type.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="content__manager_8h" local="yes">include/content/content_manager.h</includedby>
+    <includedby refid="content__processor_8h" local="yes">include/content/content_processor.h</includedby>
+    <includedby refid="content__validator_8h" local="yes">include/content/content_validator.h</includedby>
+    <includedby refid="processor__chain__config_8h" local="yes">include/content/processor_chain_config.h</includedby>
+    <includedby refid="archive__extractor__adapter_8cpp" local="yes">src/content/adapters/archive_extractor_adapter.cpp</includedby>
+    <includedby refid="pdf__extractor__adapter_8cpp" local="yes">src/content/adapters/pdf_extractor_adapter.cpp</includedby>
+    <includedby refid="text__extractor__adapter_8cpp" local="yes">src/content/adapters/text_extractor_adapter.cpp</includedby>
+    <includedby refid="content__manager_8cpp" local="yes">src/content/content_manager.cpp</includedby>
+    <includedby refid="content__type_8cpp" local="yes">src/content/content_type.cpp</includedby>
+    <includedby refid="test__content__html__processor_8cpp" local="yes">tests/content/test_content_html_processor.cpp</includedby>
+    <includedby refid="test__content__language__detector_8cpp" local="yes">tests/content/test_content_language_detector.cpp</includedby>
+    <includedby refid="test__content__markdown__processor_8cpp" local="yes">tests/content/test_content_markdown_processor.cpp</includedby>
+    <includedby refid="test__content__pipeline__hardening_8cpp" local="yes">tests/content/test_content_pipeline_hardening.cpp</includedby>
+    <includedby refid="test__content__processor__chain_8cpp" local="yes">tests/content/test_content_processor_chain.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/content/content_type.h</label>
+        <link refid="content__type_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="11">
+        <label>include/content/archive_processor.h</label>
+        <link refid="archive__processor_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/content/content_manager.h</label>
+        <link refid="content__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/content/content_processor.h</label>
+        <link refid="content__processor_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/content/content_type.h</label>
+        <link refid="content__type_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>include/content/content_validator.h</label>
+        <link refid="content__validator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/content/html_processor.h</label>
+        <link refid="html__processor_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/content/markdown_processor.h</label>
+        <link refid="markdown__processor_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>include/content/mock_clip_processor.h</label>
+        <link refid="mock__clip__processor_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/content/ocr_processor.h</label>
+        <link refid="ocr__processor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/content/office_processor.h</label>
+        <link refid="office__processor_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/content/pdf_processor.h</label>
+        <link refid="pdf__processor_8h"/>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>include/content/processor_chain_config.h</label>
+        <link refid="processor__chain__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>src/content/adapters/archive_extractor_adapter.cpp</label>
+        <link refid="archive__extractor__adapter_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/content/adapters/pdf_extractor_adapter.cpp</label>
+        <link refid="pdf__extractor__adapter_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/content/adapters/text_extractor_adapter.cpp</label>
+        <link refid="text__extractor__adapter_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/content/archive_processor.cpp</label>
+        <link refid="archive__processor_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/content/archive_processor_enhancements.cpp</label>
+        <link refid="archive__processor__enhancements_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/content/async_ingestion_worker.cpp</label>
+        <link refid="async__ingestion__worker_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/content/content_manager.cpp</label>
+        <link refid="content__manager_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/content/content_manager_embedding.cpp</label>
+        <link refid="content__manager__embedding_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/content/content_manager_llm.cpp</label>
+        <link refid="content__manager__llm_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/content/content_type.cpp</label>
+        <link refid="content__type_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/content/content_validator.cpp</label>
+        <link refid="content__validator_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/content/html_processor.cpp</label>
+        <link refid="html__processor_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/content/markdown_processor.cpp</label>
+        <link refid="markdown__processor_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/content/mock_clip_processor.cpp</label>
+        <link refid="mock__clip__processor_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/content/ocr_processor.cpp</label>
+        <link refid="ocr__processor_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/content/office_processor.cpp</label>
+        <link refid="office__processor_8cpp"/>
+      </node>
+      <node id="31">
+        <label>src/content/pdf_processor.cpp</label>
+        <link refid="pdf__processor_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/content/text_processor.cpp</label>
+        <link refid="text__processor_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/content/test_archive_processor_validation.cpp</label>
+        <link refid="test__archive__processor__validation_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/content/test_content_deduplication.cpp</label>
+        <link refid="test__content__deduplication_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/content/test_content_fulltext_index.cpp</label>
+        <link refid="test__content__fulltext__index_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/content/test_content_html_processor.cpp</label>
+        <link refid="test__content__html__processor_8cpp"/>
+      </node>
+      <node id="33">
+        <label>tests/content/test_content_language_detector.cpp</label>
+        <link refid="test__content__language__detector_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/content/test_content_markdown_processor.cpp</label>
+        <link refid="test__content__markdown__processor_8cpp"/>
+      </node>
+      <node id="38">
+        <label>tests/content/test_content_pipeline_hardening.cpp</label>
+        <link refid="test__content__pipeline__hardening_8cpp"/>
+      </node>
+      <node id="39">
+        <label>tests/content/test_content_processor_chain.cpp</label>
+        <link refid="test__content__processor__chain_8cpp"/>
+      </node>
+      <node id="36">
+        <label>tests/content/test_content_streaming_ingestion.cpp</label>
+        <link refid="test__content__streaming__ingestion_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/content/test_content_toolbox_bridge.cpp</label>
+        <link refid="test__content__toolbox__bridge_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1content_1_1_content_type" prot="public">themis::content::ContentType</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_type_1_1_features" prot="public">themis::content::ContentType::Features</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_content_type_registry" prot="public">themis::content::ContentTypeRegistry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">TEXT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Documents,<sp/>code,<sp/>JSON,<sp/>XML,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a23a12f67f614b5518c7f1c2465bf95e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a23a12f67f614b5518c7f1c2465bf95e3" kindref="member">IMAGE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Photos,<sp/>diagrams,<sp/>screenshots</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5ae423b8bde9bfbfd7e9409b23b23aed91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5ae423b8bde9bfbfd7e9409b23b23aed91" kindref="member">AUDIO</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Music,<sp/>speech,<sp/>podcasts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5ae60ae31f67ab883c746bb71c7a145c18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5ae60ae31f67ab883c746bb71c7a145c18" kindref="member">VIDEO</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Movies,<sp/>tutorials,<sp/>recordings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a4a221f74494f1ac7a498e6524292eaef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a4a221f74494f1ac7a498e6524292eaef" kindref="member">GEO</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GIS<sp/>data,<sp/>maps,<sp/>GPS<sp/>tracks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5aeccb0954fca9f2005aea084605df5ee9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5aeccb0954fca9f2005aea084605df5ee9" kindref="member">CAD</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3D<sp/>models,<sp/>technical<sp/>drawings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a71f01f32e90440fd6039511dde69e995" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a46fad40779ffd0b8637a18e5160f912ba71f01f32e90440fd6039511dde69e995" kindref="member">ARCHIVE</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ZIP,<sp/>TAR,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5af3657f7b18c7809b92f317c5f3b53421" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5af3657f7b18c7809b92f317c5f3b53421" kindref="member">STRUCTURED</ref>,<sp/><sp/></highlight><highlight class="comment">//<sp/>CSV,<sp/>Parquet,<sp/>Arrow<sp/>tables</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a98ad0e8750ae10ad556ed7a62affb452" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a98ad0e8750ae10ad556ed7a62affb452" kindref="member">BINARY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generic<sp/>binary<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a058d7577898653642b076c9030195e2ca696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1content_1_1_content_type" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1content_1_1_content_type_1ae18d2d3e78edc0d366db09e231df930a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_type_1ae18d2d3e78edc0d366db09e231df930a" kindref="member">mime_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IANA<sp/>MIME<sp/>type<sp/>(e.g.,<sp/>&quot;text/plain&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1content_1_1_content_type_1a2fc801ba8a7841438c084812915b4a1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref><sp/><ref refid="structthemis_1_1content_1_1_content_type_1a2fc801ba8a7841438c084812915b4a1c" kindref="member">category</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>High-level<sp/>category</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1content_1_1_content_type_1abbc0f930ab79f004cc8e9b65041456dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_type_1abbc0f930ab79f004cc8e9b65041456dd" kindref="member">extensions</ref>;<sp/></highlight><highlight class="comment">//<sp/>File<sp/>extensions<sp/>(e.g.,<sp/>[&quot;.txt&quot;,<sp/>&quot;.md&quot;])</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1content_1_1_content_type_1ac31bb7afe11a22a701919c3cb2011b3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_type_1ac31bb7afe11a22a701919c3cb2011b3e" kindref="member">supports_text_extraction</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>extract<sp/>searchable<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1content_1_1_content_type_1a40c51560d3351270bed6624609efa42d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_type_1a40c51560d3351270bed6624609efa42d" kindref="member">supports_embedding</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>generate<sp/>embeddings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1content_1_1_content_type_1aac8b17562b969174b84cec1915f81e6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_type_1aac8b17562b969174b84cec1915f81e6a" kindref="member">supports_chunking</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>chunked<sp/>for<sp/>RAG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1content_1_1_content_type_1a82b0b0518c85f42c85d98a194371c3d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_type_1a82b0b0518c85f42c85d98a194371c3d4" kindref="member">supports_metadata_extraction</ref>;<sp/></highlight><highlight class="comment">//<sp/>Can<sp/>extract<sp/>structured<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1content_1_1_content_type_1ac97221155cf6acede25a68aa7256c0bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_type_1ac97221155cf6acede25a68aa7256c0bb" kindref="member">binary_storage_required</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Needs<sp/>blob<sp/>storage<sp/>vs.<sp/>can<sp/>be<sp/>stored<sp/>as<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Feature<sp/>flags<sp/>for<sp/>advanced<sp/>processing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1content_1_1_content_type_1_1_features" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_content_type_1_1_features" kindref="compound">Features</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1content_1_1_content_type_1_1_features_1a67653c8f82e2dd9cc2f71b763c6fc9bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_type_1_1_features_1a67653c8f82e2dd9cc2f71b763c6fc9bf" kindref="member">geospatial</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Has<sp/>lat/lon<sp/>coordinates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1content_1_1_content_type_1_1_features_1a73de92fdefd249c02c29eb741c7d2abd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_type_1_1_features_1a73de92fdefd249c02c29eb741c7d2abd" kindref="member">temporal</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Has<sp/>timestamps/duration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1content_1_1_content_type_1_1_features_1a681a6480dae92d14860769e98fd9bcb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_type_1_1_features_1a681a6480dae92d14860769e98fd9bcb2" kindref="member">hierarchical</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tree<sp/>structure<sp/>(e.g.,<sp/>CAD<sp/>assemblies)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1content_1_1_content_type_1_1_features_1a92d00f5321f0ce93a157756338225de3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_type_1_1_features_1a92d00f5321f0ce93a157756338225de3" kindref="member">versioned</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Supports<sp/>version<sp/>history</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1content_1_1_content_type_1_1_features_1a4fca4e6cd948deb6c3c1314ca9141c03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_type_1_1_features_1a4fca4e6cd948deb6c3c1314ca9141c03" kindref="member">multimodal</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multiple<sp/>data<sp/>types<sp/>(e.g.,<sp/>video<sp/>=<sp/>audio<sp/>+<sp/>images)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1content_1_1_content_type_1aa48894439cc730a27eeb97bece7acdb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><ref refid="structthemis_1_1content_1_1_content_type_1aa48894439cc730a27eeb97bece7acdb4" kindref="member">features</ref>{};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="structthemis_1_1content_1_1_content_type_1a18217ab8955966fe5b6f4e052da319f6" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>ContentType<sp/><ref refid="structthemis_1_1content_1_1_content_type_1a935028f0b59e381e73c712bea6311a3e" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1content_1_1_content_type_registry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ContentTypeRegistry<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>ContentTypeRegistry&amp;<sp/><ref refid="classthemis_1_1content_1_1_content_type_registry_1abbdd3453b667cf2d90cf8e3773255d0e" kindref="member">instance</ref>();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_type_registry_1a1bf34f1129b02651ea8b7df502a3f13b" kindref="member">registerType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref>&amp;<sp/>type);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ContentType&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_type_registry_1ac8309f52ce5f494459b5a210d405681d" kindref="member">getByMimeType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mime_type)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ContentType&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_type_registry_1ac16ef49d7f0c389f7b324cba79ff228d" kindref="member">getByExtension</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>extension)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ContentType&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_type_registry_1a5a68d09f829e1a8feac9eff6beb37ec5" kindref="member">detectFromBlob</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;const<sp/>ContentType*&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_type_registry_1a7210e0ef59691e1d9a01e0dba53a7c87" kindref="member">getByCategory</ref>(<ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref><sp/>category)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;const<sp/>ContentType*&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_type_registry_1a75b35babcea2d05e7da1118a77a3db17" kindref="member">getAllTypes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>ContentTypeRegistry();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>registerDefaultTypes();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ContentType&gt;<sp/>types_;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a65a28cbc820c183f28420b88ded2e7e0" kindref="member">initializeDefaultContentTypes</ref>();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/content/content_type.h"/>
+  </compounddef>
+</doxygen>

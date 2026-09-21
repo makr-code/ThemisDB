@@ -1,0 +1,910 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__cdc__gdpr__redaction_8cpp" kind="file" language="C++">
+    <compoundname>test_cdc_gdpr_redaction.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="changefeed_8h" local="yes">cdc/changefeed.h</includes>
+    <includes refid="cdc__admin_8h" local="yes">cdc/cdc_admin.h</includes>
+    <includes refid="icdc__transport_8h" local="yes">cdc/icdc_transport.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes refid="cdc__error_8h" local="yes">cdc/cdc_error.h</includes>
+    <includes local="no">rocksdb/options.h</includes>
+    <includes local="no">rocksdb/utilities/transaction_db.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">thread</includes>
+    <incdepgraph>
+      <node id="18">
+        <label>cdc/cdc_admin.h</label>
+        <link refid="cdc__admin_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>cdc/cdc_error.h</label>
+        <link refid="cdc__error_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>cdc/cdc_metrics.h</label>
+        <link refid="cdc__metrics_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cdc/changefeed.h</label>
+        <link refid="changefeed_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>cdc/icdc_transport.h</label>
+        <link refid="icdc__transport_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/cdc/test_cdc_gdpr_redaction.cpp</label>
+        <link refid="test__cdc__gdpr__redaction_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>algorithm</label>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="13">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>condition_variable</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="27">
+        <label>filesystem</label>
+      </node>
+      <node id="15">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="17">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="25">
+        <label>rocksdb/options.h</label>
+      </node>
+      <node id="26">
+        <label>rocksdb/utilities/transaction_db.h</label>
+      </node>
+      <node id="14">
+        <label>set</label>
+      </node>
+      <node id="24">
+        <label>stdexcept</label>
+      </node>
+      <node id="22">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="16">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_c_d_c_g_d_p_r_redaction_test" prot="public">CDCGDPRRedactionTest</innerclass>
+    <innerclass refid="class_capturing_transport" prot="public">CapturingTransport</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, RedactsMatchingEventValues)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>RedactsMatchingEventValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="85" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="85" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1a53ea9f4f436dd8ffe1bb533ddbbdb8f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, PreservesAuditFields)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>PreservesAuditFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="118" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="118" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1ac6d259bd4461719e968fb3586bf7165d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, SkipsNonMatchingKeys)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>SkipsNonMatchingKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="135" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="135" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1a444c675b14e31a480aaf844116e6f758" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, SkipsAlreadyRedactedEvents)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>SkipsAlreadyRedactedEvents</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="145" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="145" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1a0b532363520455df669c20e34d1a53d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, EmptyKeyPrefixThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyKeyPrefixThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="158" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="158" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1a9f82202e6c1b6d7da3b9be0436c4704c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, EmptyChangelogReturnsZeroCounts)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyChangelogReturnsZeroCounts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="162" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="162" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1aa03f02ac1430a1674f0cd9099f22fff3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, DeleteEventsAreAlsoRedacted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>DeleteEventsAreAlsoRedacted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="169" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="169" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1a489e6fa058e62a7fd2274d55820f41a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, AdminRedactByKeyPrefixReturnsCorrectCounts)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>AdminRedactByKeyPrefixReturnsCorrectCounts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="190" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="190" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1a5018db344e90843d88688fa9532a2472" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, AdminRedactByKeyPrefixJsonSerialization)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>AdminRedactByKeyPrefixJsonSerialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="205" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="205" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1a74059eea987ac7717d777e543a4bb68d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, AdminRedactEmptyKeyPrefixThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>AdminRedactEmptyKeyPrefixThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="224" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="224" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1a042e781c18005e8ffea2c008305df233" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, AdminRedactWithDefaultOperatorId)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>AdminRedactWithDefaultOperatorId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="228" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="228" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1ac397f96fbf0cde86aadad7692228dbf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, RedactedEventsNotReturnedWithOriginalValue)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>RedactedEventsNotReturnedWithOriginalValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="235" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="235" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1a105dfe22a6bbedb5b9717f243026221e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, AuditLogWrittenToCdcRedactionsCF)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>AuditLogWrittenToCdcRedactionsCF</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="257" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="257" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1a79e6b4ed8072f1ea9f248b4ecb31a924" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, AuditLogNotWrittenWhenStorageNotSet)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>AuditLogNotWrittenWhenStorageNotSet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="295" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="295" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1a7cd8b4417325b46d204a32692a640ac7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, TombstonesPublishedForEachAffectedKey)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>TombstonesPublishedForEachAffectedKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="319" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="319" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1ae4b4d3df3b57102cd01d3ed856f1a0bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, TombstonesDeduplicatedForMultipleEventsWithSameKey)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>TombstonesDeduplicatedForMultipleEventsWithSameKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="340" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="340" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1ad7e8d4b7eca88479793e71eaee89b465" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, NoTombstonesPublishedWhenTransportNotSet)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>NoTombstonesPublishedWhenTransportNotSet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="355" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="355" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__gdpr__redaction_8cpp_1a831be8e51594adf6982d08fd1699a098" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CDCGDPRRedactionTest, NoTombstonesPublishedWhenNoEventsMatched)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref></type>
+        </param>
+        <param>
+          <type>NoTombstonesPublishedWhenNoEventsMatched</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_gdpr_redaction.cpp" line="361" column="1" bodyfile="tests/cdc/test_cdc_gdpr_redaction.cpp" bodystart="361" bodyend="371"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Test:<sp/>CDC<sp/>GDPR-Aware<sp/>Change<sp/>Log<sp/>Redaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validates<sp/>Changefeed::redactByKeyPrefix()<sp/>and<sp/>CDCAdmin::redactByKeyPrefix()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>per<sp/>the<sp/>GDPR<sp/>&quot;right<sp/>to<sp/>erasure&quot;<sp/>requirement<sp/>for<sp/>the<sp/>CDC<sp/>change<sp/>log.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="changefeed_8h" kindref="compound">cdc/changefeed.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cdc__admin_8h" kindref="compound">cdc/cdc_admin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="icdc__transport_8h" kindref="compound">cdc/icdc_transport.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cdc__error_8h" kindref="compound">cdc/cdc_error.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;rocksdb/options.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;rocksdb/utilities/transaction_db.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cdc" kindref="compound">themis::cdc</ref>;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="class_c_d_c_g_d_p_r_redaction_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_c_d_c_g_d_p_r_redaction_test_1a90b7f06ed49a7aff234adf38c0810ce1" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Skipping<sp/>CDC<sp/>GDPR<sp/>redaction<sp/>focused<sp/>tests<sp/>on<sp/>Windows<sp/>due<sp/>to<sp/>fixture<sp/>crash<sp/>in<sp/>current<sp/>runtime.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tid<sp/>=<sp/>std::hash&lt;std::thread::id&gt;{}(std::this_thread::get_id());</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_d_c_g_d_p_r_redaction_test_1a7a6901bacb7ed4b13ea84d1833d9c8ac" kindref="member">test_db_path_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/themis_cdc_gdpr_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(tid)<sp/>+</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(time(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(<ref refid="class_c_d_c_g_d_p_r_redaction_test_1a7a6901bacb7ed4b13ea84d1833d9c8ac" kindref="member">test_db_path_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_c_d_c_g_d_p_r_redaction_test_1a7a6901bacb7ed4b13ea84d1833d9c8ac" kindref="member">test_db_path_</ref>);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>config;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.db_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_c_d_c_g_d_p_r_redaction_test_1a7a6901bacb7ed4b13ea84d1833d9c8ac" kindref="member">test_db_path_</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.memtable_size_mb<sp/><sp/><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.block_cache_size_mb<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_d_c_g_d_p_r_redaction_test_1a38cdda9ead1835cc7d134cdbe2e1e5a6" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(config);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_c_d_c_g_d_p_r_redaction_test_1a38cdda9ead1835cc7d134cdbe2e1e5a6" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>raw_db<sp/>=<sp/><ref refid="class_c_d_c_g_d_p_r_redaction_test_1a38cdda9ead1835cc7d134cdbe2e1e5a6" kindref="member">db_</ref>-&gt;getDB();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_NE(raw_db,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_retention_policy" kindref="compound">Changefeed::RetentionPolicy</ref><sp/>no_retention;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>no_retention.<ref refid="struct_changefeed_1_1_retention_policy_1adad3321cce00e385353ca28ad5b50398" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_d_c_g_d_p_r_redaction_test_1a4e78770e7c7faf0cf21ec4dc02d624a4" kindref="member">changefeed_</ref><sp/>=<sp/>std::make_unique&lt;Changefeed&gt;(raw_db,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>no_retention);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_d_c_g_d_p_r_redaction_test_1ae249a01c48aba38366a735151da95fc3" kindref="member">admin_</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;CDCAdmin&gt;(<ref refid="class_c_d_c_g_d_p_r_redaction_test_1a4e78770e7c7faf0cf21ec4dc02d624a4" kindref="member">changefeed_</ref>.get());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_c_d_c_g_d_p_r_redaction_test_1aefc3e97dc89e7b0bb1b2c57d28e010da" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_d_c_g_d_p_r_redaction_test_1ae249a01c48aba38366a735151da95fc3" kindref="member">admin_</ref>.reset();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_d_c_g_d_p_r_redaction_test_1a4e78770e7c7faf0cf21ec4dc02d624a4" kindref="member">changefeed_</ref>.reset();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_c_d_c_g_d_p_r_redaction_test_1a38cdda9ead1835cc7d134cdbe2e1e5a6" kindref="member">db_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_d_c_g_d_p_r_redaction_test_1a38cdda9ead1835cc7d134cdbe2e1e5a6" kindref="member">db_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_d_c_g_d_p_r_redaction_test_1a38cdda9ead1835cc7d134cdbe2e1e5a6" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(<ref refid="class_c_d_c_g_d_p_r_redaction_test_1a7a6901bacb7ed4b13ea84d1833d9c8ac" kindref="member">test_db_path_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_c_d_c_g_d_p_r_redaction_test_1a7a6901bacb7ed4b13ea84d1833d9c8ac" kindref="member">test_db_path_</ref>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/><ref refid="class_c_d_c_g_d_p_r_redaction_test_1ac93ddd7b03426568d3dc546045b6dd66" kindref="member">makePutEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">Changefeed::ChangeEventType::EVENT_PUT</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>key;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>value;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a8cdedbb4b3efa725c6c5ad3cadf115e5" kindref="member">before_snapshot</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;old\&quot;:\&quot;state\&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a59249b3094f85b3b51bc8f4dc024546a" kindref="member">after_snapshot</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;new\&quot;:\&quot;state\&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ev;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_c_d_c_g_d_p_r_redaction_test_1a7a6901bacb7ed4b13ea84d1833d9c8ac" kindref="member">test_db_path_</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><sp/><sp/><ref refid="class_c_d_c_g_d_p_r_redaction_test_1a38cdda9ead1835cc7d134cdbe2e1e5a6" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Changefeed&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_d_c_g_d_p_r_redaction_test_1a4e78770e7c7faf0cf21ec4dc02d624a4" kindref="member">changefeed_</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;CDCAdmin&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_d_c_g_d_p_r_redaction_test_1ae249a01c48aba38366a735151da95fc3" kindref="member">admin_</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Changefeed::redactByKeyPrefix<sp/>–<sp/>unit<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>RedactsMatchingEventValues)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;user:42:email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;user:42:phone&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;+1-800-555-0100&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;order:99:total&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;149.99&quot;</highlight><highlight class="normal">));<sp/><sp/></highlight><highlight class="comment">//<sp/>non-PII</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>changefeed_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;user:42&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.events_scanned,<sp/><sp/>3u);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.events_redacted,<sp/>2u);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-read<sp/>events<sp/>and<sp/>verify<sp/>redaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_list_options" kindref="compound">Changefeed::ListOptions</ref><sp/>opts;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>opts.<ref refid="struct_changefeed_1_1_list_options_1a70c448f6c82eddf4d74b2daa69e349f5" kindref="member">limit</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>changefeed_-&gt;listEvents(opts);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>redacted_count<sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>non_redacted_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ev<sp/>:<sp/>events)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ev.key.compare(0,<sp/>7,<sp/></highlight><highlight class="stringliteral">&quot;user:42&quot;</highlight><highlight class="normal">)<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(ev.redacted)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;user:42<sp/>event<sp/>must<sp/>be<sp/>redacted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.value,<sp/></highlight><highlight class="stringliteral">&quot;[REDACTED]&quot;</highlight><highlight class="normal">)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;value<sp/>must<sp/>be<sp/>[REDACTED]&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(ev.before_snapshot.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;before_snapshot<sp/>must<sp/>be<sp/>cleared&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(ev.after_snapshot.has_value())<sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;after_snapshot<sp/>must<sp/>be<sp/>cleared&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>redacted_count++;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(ev.redacted)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;non-matching<sp/>event<sp/>must<sp/>not<sp/>be<sp/>redacted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>non_redacted_count++;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(redacted_count,<sp/><sp/><sp/><sp/><sp/>2);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(non_redacted_count,<sp/>1);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>PreservesAuditFields)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stored<sp/>=<sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;user:7:name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>changefeed_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;user:7&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.events_redacted,<sp/>1u);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retrieve<sp/>the<sp/>redacted<sp/>event<sp/>and<sp/>verify<sp/>audit-critical<sp/>fields<sp/>are<sp/>intact</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/>=<sp/>changefeed_-&gt;getEvent(stored.sequence);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.sequence,<sp/><sp/><sp/><sp/>stored.sequence)<sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;sequence<sp/>must<sp/>be<sp/>preserved&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.key,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stored.key)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;key<sp/>must<sp/>be<sp/>preserved&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.timestamp_ms,<sp/>stored.timestamp_ms)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;timestamp_ms<sp/>must<sp/>be<sp/>preserved&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.type,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stored.type)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;type<sp/>must<sp/>be<sp/>preserved&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ev.redacted)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;redacted<sp/>flag<sp/>must<sp/>be<sp/>true&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.value,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;[REDACTED]&quot;</highlight><highlight class="normal">)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;value<sp/>must<sp/>be<sp/>[REDACTED]&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>SkipsNonMatchingKeys)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;order:1:amount&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;50.00&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;product:7:title&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Widget&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>changefeed_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;user:&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.events_scanned,<sp/><sp/>2u);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.events_redacted,<sp/>0u);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>SkipsAlreadyRedactedEvents)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;user:5:ssn&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;123-45-6789&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>redaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>changefeed_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;user:5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r1.events_redacted,<sp/>1u);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>redaction<sp/>–<sp/>must<sp/>not<sp/>count<sp/>already-redacted<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>changefeed_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;user:5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r2.events_redacted,<sp/>0u)</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Already-redacted<sp/>events<sp/>must<sp/>not<sp/>be<sp/>counted<sp/>a<sp/>second<sp/>time&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>EmptyKeyPrefixThrows)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(changefeed_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_exception" kindref="compound">CDCException</ref>);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>EmptyChangelogReturnsZeroCounts)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>changefeed_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;user:&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.events_scanned,<sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.events_redacted,<sp/>0u);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>DeleteEventsAreAlsoRedacted)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>del_ev;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>del_ev.<ref refid="struct_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/><sp/>=<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0abe731652dcbe388ce5fb20e99b57029f" kindref="member">Changefeed::ChangeEventType::EVENT_DELETE</ref>;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>del_ev.<ref refid="struct_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user:3:profile&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DELETE<sp/>events<sp/>have<sp/>no<sp/>value<sp/>(nullopt)<sp/>but<sp/>should<sp/>still<sp/>be<sp/>marked<sp/>redacted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(del_ev);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>changefeed_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;user:3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.events_redacted,<sp/>1u);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_list_options" kindref="compound">Changefeed::ListOptions</ref><sp/>opts;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>opts.<ref refid="struct_changefeed_1_1_list_options_1a70c448f6c82eddf4d74b2daa69e349f5" kindref="member">limit</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>changefeed_-&gt;listEvents(opts);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(events.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(events[0].redacted);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CDCAdmin::redactByKeyPrefix<sp/>–<sp/>integration<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>AdminRedactByKeyPrefixReturnsCorrectCounts)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;user:99:email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dave@example.com&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;user:99:phone&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;+44-20-1234-5678&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;session:abc&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result" kindref="compound">GDPRRedactionResult</ref><sp/>result<sp/>=<sp/>admin_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;acme&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user:99&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dpo@acme.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.<ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a095eaeba6731db3818e5d590809bc56d" kindref="member">events_scanned</ref>,<sp/><sp/>3u);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.<ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a70567a66df0b1fa52aa46a8117265a29" kindref="member">events_redacted</ref>,<sp/>2u);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.<ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a0e7fb3e80fc611e8a924c450b882feb4" kindref="member">key_prefix</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;user:99&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.<ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1aa7097ae877ce3f108dc551ac9bda246d" kindref="member">tenant_id</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;acme&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.<ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a0da8655f5721cb0b806267e36533c5c3" kindref="member">operator_id</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;dpo@acme.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.<ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a10ac01e2a9fcb38bd03828a234866a64" kindref="member">timestamp_ms</ref>,<sp/><sp/><sp/><sp/>0);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>AdminRedactByKeyPrefixJsonSerialization)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;user:1:name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>admin_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;tenant-x&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user:1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j<sp/>=<sp/>result.<ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a108d808a33bc7aef17ffbf5142011ad6" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;events_scanned&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;events_redacted&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;elapsed_time_ms&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;key_prefix&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;tenant_id&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;operator_id&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;timestamp_ms&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;key_prefix&quot;</highlight><highlight class="normal">],<sp/><sp/></highlight><highlight class="stringliteral">&quot;user:1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;tenant_id&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;tenant-x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;operator_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>AdminRedactEmptyKeyPrefixThrows)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(admin_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">),<sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_exception" kindref="compound">CDCException</ref>);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>AdminRedactWithDefaultOperatorId)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;user:2:data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>operator_id<sp/>defaults<sp/>to<sp/>&quot;&quot;<sp/>–<sp/>must<sp/>not<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(admin_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;tenant&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user:2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>RedactedEventsNotReturnedWithOriginalValue)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;user:10:email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;private@user.io&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>admin_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;corp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user:10&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;gdpr-bot&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_list_options" kindref="compound">Changefeed::ListOptions</ref><sp/>opts;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>opts.<ref refid="struct_changefeed_1_1_list_options_1a70c448f6c82eddf4d74b2daa69e349f5" kindref="member">limit</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>changefeed_-&gt;listEvents(opts);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(events.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(events[0].value.has_value())</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Redacted<sp/>event<sp/>must<sp/>carry<sp/>the<sp/>[REDACTED]<sp/>marker,<sp/>not<sp/>nullopt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*events[0].value,<sp/></highlight><highlight class="stringliteral">&quot;[REDACTED]&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Consumer<sp/>must<sp/>see<sp/>[REDACTED]<sp/>not<sp/>the<sp/>original<sp/>PII<sp/>value&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ensure<sp/>the<sp/>original<sp/>PII<sp/>is<sp/>gone</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events[0].value-&gt;find(</highlight><highlight class="stringliteral">&quot;private@user.io&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CDCAdmin<sp/>audit<sp/>log<sp/>(cdc_redactions<sp/>column<sp/>family)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>AuditLogWrittenToCdcRedactionsCF)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;user:77:email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;carol@example.com&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;user:77:phone&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;+1-555-0177&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>admin_-&gt;setAuditStorage(db_.get());</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>admin_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;acme&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user:77&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dpo@acme.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.<ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a70567a66df0b1fa52aa46a8117265a29" kindref="member">events_redacted</ref>,<sp/>2u);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retrieve<sp/>the<sp/>cdc_redactions<sp/>column<sp/>family<sp/>and<sp/>verify<sp/>a<sp/>record<sp/>was<sp/>written.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cf_result<sp/>=<sp/>db_-&gt;getOrCreateColumnFamily(</highlight><highlight class="stringliteral">&quot;cdc_redactions&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(cf_result.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;cdc_redactions<sp/>CF<sp/>must<sp/>exist<sp/>after<sp/>redaction&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scan<sp/>the<sp/>CF<sp/>for<sp/>any<sp/>entry<sp/>whose<sp/>value<sp/>JSON<sp/>matches<sp/>our<sp/>operation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>raw_db<sp/>=<sp/>db_-&gt;getDB();</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(raw_db,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>rocksdb::ReadOptions<sp/>read_opts;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;rocksdb::Iterator&gt;<sp/>it(</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>raw_db-&gt;NewIterator(read_opts,<sp/>cf_result.value()));</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>it-&gt;SeekToFirst();</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(;<sp/>it-&gt;Valid();<sp/>it-&gt;Next())<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>nlohmann::json::parse(it-&gt;value().ToString());</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.value(</highlight><highlight class="stringliteral">&quot;key_prefix&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;user:77&quot;</highlight><highlight class="normal"><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j.value(</highlight><highlight class="stringliteral">&quot;redacted_count&quot;</highlight><highlight class="normal">,<sp/>0u)<sp/>==<sp/>2u<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j.value(</highlight><highlight class="stringliteral">&quot;operator&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;dpo@acme.com&quot;</highlight><highlight class="normal"><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j.value(</highlight><highlight class="stringliteral">&quot;tenant_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;acme&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(j.value(</highlight><highlight class="stringliteral">&quot;timestamp_ms&quot;</highlight><highlight class="normal">,<sp/>0LL),<sp/>0LL);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{<sp/></highlight><highlight class="comment">/*<sp/>skip<sp/>non-JSON<sp/>entries<sp/>*/</highlight><highlight class="normal"><sp/>}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Audit<sp/>record<sp/>must<sp/>be<sp/>present<sp/>in<sp/>cdc_redactions<sp/>CF&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>AuditLogNotWrittenWhenStorageNotSet)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Without<sp/>setAuditStorage(),<sp/>no<sp/>audit<sp/>CF<sp/>must<sp/>be<sp/>created.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;user:88:data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(admin_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;tenant&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user:88&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>the<sp/>CF<sp/>was<sp/>not<sp/>created<sp/>(getOrCreateColumnFamily<sp/>would<sp/>create<sp/>it;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>we<sp/>just<sp/>check<sp/>the<sp/>operation<sp/>completed<sp/>without<sp/>error,<sp/>which<sp/>is<sp/>sufficient).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Kafka<sp/>tombstone<sp/>propagation<sp/>via<sp/>ICDCTransport</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308" refid="class_capturing_transport" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_capturing_transport" kindref="compound">CapturingTransport</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_i_c_d_c_transport" kindref="compound">ICDCTransport</ref><sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_capturing_transport_1aca1c188c288abaf2e1b59b358a6a263c" kindref="member">start</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_capturing_transport_1afc7e0e06f7c0789cf899001587e02629" kindref="member">stop</ref>()</highlight><highlight class="keyword"><sp/><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_capturing_transport_1acc0850818af8af5dd33baf0ea526146b" kindref="member">publish</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref>&amp;<sp/>ev)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_capturing_transport_1a3ea83ee1ca8fdb740baf7b33c858a586" kindref="member">published</ref>.push_back(ev);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Changefeed::ChangeEvent&gt;<sp/><ref refid="class_capturing_transport_1a3ea83ee1ca8fdb740baf7b33c858a586" kindref="member">published</ref>;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>TombstonesPublishedForEachAffectedKey)<sp/>{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;user:55:email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dave@example.com&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;user:55:phone&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;+1-555-0155&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;order:1:total&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;99.99&quot;</highlight><highlight class="normal">));<sp/><sp/></highlight><highlight class="comment">//<sp/>unaffected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_capturing_transport" kindref="compound">CapturingTransport</ref><sp/>transport;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>admin_-&gt;setTransport(&amp;transport);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>admin_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;corp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user:55&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;gdpr-bot&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.<ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a70567a66df0b1fa52aa46a8117265a29" kindref="member">events_redacted</ref>,<sp/>2u);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Two<sp/>distinct<sp/>keys:<sp/>user:55:email<sp/>and<sp/>user:55:phone</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(transport.<ref refid="class_capturing_transport_1a3ea83ee1ca8fdb740baf7b33c858a586" kindref="member">published</ref>.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ev<sp/>:<sp/>transport.<ref refid="class_capturing_transport_1a3ea83ee1ca8fdb740baf7b33c858a586" kindref="member">published</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ev.type,<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0abe731652dcbe388ce5fb20e99b57029f" kindref="member">Changefeed::ChangeEventType::EVENT_DELETE</ref>);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(ev.value.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Tombstone<sp/>must<sp/>have<sp/>null<sp/>value&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(ev.redacted);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(ev.key.compare(0,<sp/>7,<sp/></highlight><highlight class="stringliteral">&quot;user:55&quot;</highlight><highlight class="normal">)<sp/>==<sp/>0)</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Tombstone<sp/>key<sp/>must<sp/>start<sp/>with<sp/>&apos;user:55&apos;,<sp/>got:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>ev.key;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>TombstonesDeduplicatedForMultipleEventsWithSameKey)<sp/>{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Two<sp/>events<sp/>with<sp/>the<sp/>same<sp/>key<sp/>(e.g.,<sp/>two<sp/>updates<sp/>to<sp/>the<sp/>same<sp/>field).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;user:60:email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;first@example.com&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;user:60:email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;second@example.com&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_capturing_transport" kindref="compound">CapturingTransport</ref><sp/>transport;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>admin_-&gt;setTransport(&amp;transport);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>admin_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;corp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user:60&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.<ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a70567a66df0b1fa52aa46a8117265a29" kindref="member">events_redacted</ref>,<sp/>2u);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>one<sp/>tombstone<sp/>per<sp/>distinct<sp/>key.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(transport.<ref refid="class_capturing_transport_1a3ea83ee1ca8fdb740baf7b33c858a586" kindref="member">published</ref>.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(transport.<ref refid="class_capturing_transport_1a3ea83ee1ca8fdb740baf7b33c858a586" kindref="member">published</ref>[0].key,<sp/></highlight><highlight class="stringliteral">&quot;user:60:email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>NoTombstonesPublishedWhenTransportNotSet)<sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;user:70:data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>setTransport()<sp/>call<sp/>—<sp/>must<sp/>complete<sp/>without<sp/>crashing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(admin_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user:70&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="359"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><ref refid="test__cdc__gdpr__redaction_8cpp_1a55e1973aad8a46b418276aaa6bc00b98" kindref="member">TEST_F</ref>(<ref refid="class_c_d_c_g_d_p_r_redaction_test" kindref="compound">CDCGDPRRedactionTest</ref>,<sp/>NoTombstonesPublishedWhenNoEventsMatched)<sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>changefeed_-&gt;recordEvent(makePutEvent(</highlight><highlight class="stringliteral">&quot;order:1:total&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10.00&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_capturing_transport" kindref="compound">CapturingTransport</ref><sp/>transport;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>admin_-&gt;setTransport(&amp;transport);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>admin_-&gt;redactByKeyPrefix(</highlight><highlight class="stringliteral">&quot;corp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user:99&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.<ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a70567a66df0b1fa52aa46a8117265a29" kindref="member">events_redacted</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(transport.<ref refid="class_capturing_transport_1a3ea83ee1ca8fdb740baf7b33c858a586" kindref="member">published</ref>.empty())</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>tombstones<sp/>must<sp/>be<sp/>published<sp/>when<sp/>nothing<sp/>was<sp/>redacted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/cdc/test_cdc_gdpr_redaction.cpp"/>
+  </compounddef>
+</doxygen>

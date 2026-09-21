@@ -1,0 +1,1068 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_n_e_r_detection_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::NERDetectionEngine</compoundname>
+    <basecompoundref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine" prot="public" virt="non-virtual">themis::utils::IPIIDetectionEngine</basecompoundref>
+    <includes refid="ner__detection__engine_8h" local="no">ner_detection_engine.h</includes>
+    <innerclass refid="structthemis_1_1utils_1_1_n_e_r_detection_engine_1_1_token" prot="private">themis::utils::NERDetectionEngine::Token</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1ae877bc4d3614503f45be2d2714dfbfd2" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::NERDetectionEngine::MAX_GAZETTEER_ENTRIES</definition>
+        <argsstring></argsstring>
+        <name>MAX_GAZETTEER_ENTRIES</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::MAX_GAZETTEER_ENTRIES</qualifiedname>
+        <initializer>= 100&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="70" column="29" bodyfile="include/utils/ner_detection_engine.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a596ea89beaed554b7b017c26f38813cd" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::utils::NERDetectionEngine::DEFAULT_INFERENCE_TIMEOUT_MS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_INFERENCE_TIMEOUT_MS</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::DEFAULT_INFERENCE_TIMEOUT_MS</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="71" column="31" bodyfile="include/utils/ner_detection_engine.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a34d503da6bb9ac3906efa58c9c0e9e19" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::NERDetectionEngine::enabled_</definition>
+        <argsstring></argsstring>
+        <name>enabled_</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::enabled_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="117" column="10" bodyfile="include/utils/ner_detection_engine.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1ad89d2a282c20ab52b4782be25426579e" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::NERDetectionEngine::model_available_</definition>
+        <argsstring></argsstring>
+        <name>model_available_</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::model_available_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="118" column="10" bodyfile="include/utils/ner_detection_engine.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a35a0553a7631930fb868970744da7798" prot="private" static="no" mutable="yes">
+        <type>std::string</type>
+        <definition>std::string themis::utils::NERDetectionEngine::last_error_</definition>
+        <argsstring></argsstring>
+        <name>last_error_</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::last_error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="119" column="25" bodyfile="include/utils/ner_detection_engine.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a4186c1540418d2ce97c77f051bbf9220" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_plugin_signature" kindref="compound">PluginSignature</ref></type>
+        <definition>PluginSignature themis::utils::NERDetectionEngine::signature_</definition>
+        <argsstring></argsstring>
+        <name>signature_</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::signature_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="120" column="21" bodyfile="include/utils/ner_detection_engine.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1aa98fbc75f6aa2028d4ff802a2c58f274" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::NERDetectionEngine::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="121" column="24" bodyfile="include/utils/ner_detection_engine.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a7534c8d5262e7bf2d7d58e71bf4fe7c5" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::NERDetectionEngine::min_confidence_</definition>
+        <argsstring></argsstring>
+        <name>min_confidence_</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::min_confidence_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="124" column="12" bodyfile="include/utils/ner_detection_engine.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a6a77dc2eec5e6b08e309b6be8caa14d0" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::NERDetectionEngine::default_redaction_mode_</definition>
+        <argsstring></argsstring>
+        <name>default_redaction_mode_</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::default_redaction_mode_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="125" column="17" bodyfile="include/utils/ner_detection_engine.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1ae3d01c2071c1e4304f04d22b5966440c" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::utils::NERDetectionEngine::inference_timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>inference_timeout_ms_</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::inference_timeout_ms_</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a596ea89beaed554b7b017c26f38813cd" kindref="member">DEFAULT_INFERENCE_TIMEOUT_MS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="126" column="14" bodyfile="include/utils/ner_detection_engine.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a1fd3bf82858aee4210d69b03b1e186ec" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::utils::NERDetectionEngine::honorifics_</definition>
+        <argsstring></argsstring>
+        <name>honorifics_</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::honorifics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="129" column="24" bodyfile="include/utils/ner_detection_engine.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1ab8334f489cc88fe479b3211b354c5df5" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::utils::NERDetectionEngine::org_suffixes_</definition>
+        <argsstring></argsstring>
+        <name>org_suffixes_</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::org_suffixes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="132" column="24" bodyfile="include/utils/ner_detection_engine.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a0e3b6b502ad2fd1991e3d2ea174edfb7" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::utils::NERDetectionEngine::location_prepositions_</definition>
+        <argsstring></argsstring>
+        <name>location_prepositions_</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::location_prepositions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="135" column="24" bodyfile="include/utils/ner_detection_engine.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a1aed039a283ab7b2394737f57c8056ce" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PIIType&gt; themis::utils::NERDetectionEngine::field_name_hints_</definition>
+        <argsstring></argsstring>
+        <name>field_name_hints_</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::field_name_hints_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="138" column="24" bodyfile="include/utils/ner_detection_engine.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a7030d250920bb503d0f19ae1fb522959" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref>, std::string &gt;</type>
+        <definition>std::unordered_map&lt;PIIType, std::string&gt; themis::utils::NERDetectionEngine::redaction_modes_</definition>
+        <argsstring></argsstring>
+        <name>redaction_modes_</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::redaction_modes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="141" column="24" bodyfile="include/utils/ner_detection_engine.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1afeb9419c5d511ddc763ab636c883ad83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::NERDetectionEngine::NERDetectionEngine</definition>
+        <argsstring>()</argsstring>
+        <name>NERDetectionEngine</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::NERDetectionEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="73" column="5" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="26" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a0ac2cf19481582cc1faf04cf67f42f72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::NERDetectionEngine::~NERDetectionEngine</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~NERDetectionEngine</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::~NERDetectionEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="74" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1ae51e54df28139f6cc587da485e1ec1f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::NERDetectionEngine::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1aba1468a3b221ee881c456281c90de284">getName</reimplements>
+        <briefdescription>
+<para>Get engine name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Engine identifier (e.g., &quot;regex&quot;, &quot;ner&quot;, &quot;embedding&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="77" column="17" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a05fe2d11be2090198a259f4f56307116" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::NERDetectionEngine::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::getVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1afab9397e34d52f26b22a9817f162bc85">getVersion</reimplements>
+        <briefdescription>
+<para>Get engine version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Semantic version string (e.g., &quot;1.0.0&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="78" column="17" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a47a50f661c4c1fa2551ae0852913a79f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::NERDetectionEngine::isEnabled</definition>
+        <argsstring>() const override</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::isEnabled</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a65c5ebd21056e1fadcc9205d55eab38c">isEnabled</reimplements>
+        <briefdescription>
+<para>Check if engine is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if engine is active </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="79" column="10" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="50" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a25105b1268061e3c182c3288d552a257" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_plugin_signature" kindref="compound">PluginSignature</ref></type>
+        <definition>PluginSignature themis::utils::NERDetectionEngine::getSignature</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSignature</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::getSignature</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a25c15b7d10a9f91c34b70028d626c3d5">getSignature</reimplements>
+        <briefdescription>
+<para>Get engine&apos;s signature metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Plugin signature for PKI verification </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="80" column="21" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="60" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a931c5b0ccaa68897213a7f121a4a9deb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::NERDetectionEngine::initialize</definition>
+        <argsstring>(const nlohmann::json &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a49e533d40856a5a1b410a73a0e44c777">initialize</reimplements>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), clear(), value(), contains(), loadFromConfig(), rebuildFieldHints(), empty(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="81" column="10" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="76" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1adcf0d22265c06f02b1b5419b3673d469" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::NERDetectionEngine::reload</definition>
+        <argsstring>(const nlohmann::json &amp;config) override</argsstring>
+        <name>reload</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::reload</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1af5275b010649816fa13049ebb568eb19">reload</reimplements>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Reload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), clear(), loadFromConfig(), std::string(), spdlog::error(), <ref refid="namespacethemis_1_1utils_1a1d7488007dabd100fdd2536f837d44bf" kindref="member">logErrorWithContext()</ref>, <ref refid="namespacethemis_1_1utils_1aba772fbe54adf8b16188ebcadf696949" kindref="member">makeErrorContext()</ref>, rebuildFieldHints(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="82" column="10" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="132" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1af5dae14846dae5a3c913fc60d273e333" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1utils_1_1_p_i_i_finding" kindref="compound">PIIFinding</ref> &gt;</type>
+        <definition>std::vector&lt; PIIFinding &gt; themis::utils::NERDetectionEngine::detectInText</definition>
+        <argsstring>(const std::string &amp;text) const override</argsstring>
+        <name>detectInText</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::detectInText</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a1acee6e2fc58487211c005027d27e7f7">detectInText</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detects PII entities in unstructured text using NER. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text to scan (unstructured, may contain mixed content). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of <ref refid="structthemis_1_1utils_1_1_p_i_i_finding" kindref="compound">PIIFinding</ref> objects with detected entity spans.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If engine is enabled but no model/gazetteers are available. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If text is not valid UTF-8 (when validation enabled).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread-safe: Uses mutex for model state access. </para>
+</simplesect>
+<simplesect kind="note"><para>Fail-Closed: Returns empty findings if model_available_ is false (graceful degradation). </para>
+</simplesect>
+<simplesect kind="note"><para>Model Unavailability: If gazetteers fail to load during <ref refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a931c5b0ccaa68897213a7f121a4a9deb" kindref="member">initialize()</ref>, model_available_ = false; subsequent <ref refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1af5dae14846dae5a3c913fc60d273e333" kindref="member">detectInText()</ref> calls return empty findings rather than crashing. </para>
+</simplesect>
+<simplesect kind="note"><para>Graceful Degradation: If model becomes unavailable at runtime, detection stops safely; applications can fall back to regex-based detection or log warnings. </para>
+</simplesect>
+<simplesect kind="note"><para>Inference Timeout: Detection is bounded by inference_timeout_ms (default 5000ms). If timeout is exceeded, remaining patterns are skipped; partial results returned.</para>
+</simplesect>
+@error PRIVACY_DETECTION_TIMEOUT Inference exceeded time budget (returns empty findings) @error PRIVACY_ENGINE_LOAD_FAILED Model/gazetteers unavailable (fail-closed) @error PRIVACY_UNICODE_ERROR Invalid UTF-8 input (when validation enabled)</para>
+<para><simplesect kind="post"><para>model_available_ state determines whether detection proceeds. If false, returns {} immediately. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="108" column="17" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="180" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a9c6409ab6c7b48eb9c01ad6e20b258ae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref></type>
+        <definition>PIIType themis::utils::NERDetectionEngine::classifyFieldName</definition>
+        <argsstring>(const std::string &amp;field_name) const override</argsstring>
+        <name>classifyFieldName</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::classifyFieldName</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1af3ba446653e7b2ab99a7a06c09346a18">classifyFieldName</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Classify field name for PII type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses engine-specific heuristics (e.g., regex uses field hints, NER uses embeddings).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Field name to classify </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref> if field suggests PII, <ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea696b031073e74bf2cb98e5ef201d4aa3" kindref="member">PIIType::UNKNOWN</ref> otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="110" column="13" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="243" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1af705d213d03bddb9c83493c831523706" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::NERDetectionEngine::getRedactionRecommendation</definition>
+        <argsstring>(PIIType type) const override</argsstring>
+        <name>getRedactionRecommendation</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::getRedactionRecommendation</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a7ed6458bc59c839db088a8ced8fadb8b">getRedactionRecommendation</reimplements>
+        <param>
+          <type><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Get recommended redaction mode for PII type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PII type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>&quot;strict&quot;, &quot;partial&quot;, or &quot;none&quot; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="111" column="17" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="268" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a7ef29fbd2d8c0e2ea79b63eef9567c2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::NERDetectionEngine::getLastError</definition>
+        <argsstring>() const override</argsstring>
+        <name>getLastError</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::getLastError</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a98faa15356d71eee761f734a662b27c8">getLastError</reimplements>
+        <briefdescription>
+<para>Get last error message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="classthemis_1_1_error" kindref="compound">Error</ref> message from last failed operation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="112" column="17" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="283" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a99aa3d600ab880c4f61d04ec8faf2565" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::utils::NERDetectionEngine::getMetadata</definition>
+        <argsstring>() const override</argsstring>
+        <name>getMetadata</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::getMetadata</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a749aab70f6baef4f92ba1cf151ac1fdd">getMetadata</reimplements>
+        <briefdescription>
+<para>Get engine-specific metadata (pattern count, model info, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object with engine metadata </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="113" column="20" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="293" bodyend="312"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a065f60141a3077743ed492d13a84311e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::NERDetectionEngine::loadDefaults</definition>
+        <argsstring>()</argsstring>
+        <name>loadDefaults</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::loadDefaults</qualifiedname>
+        <briefdescription>
+<para>Load Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements loadDefaults without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="144" column="10" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="319" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1afab7285fbfd07f5b2cbe80dd44d46fba" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::NERDetectionEngine::loadFromConfig</definition>
+        <argsstring>(const nlohmann::json &amp;config)</argsstring>
+        <name>loadFromConfig</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::loadFromConfig</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Load From Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: contains(), value(), is_array(), clear(), size(), spdlog::error(), insert(), toLower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="145" column="10" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="350" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a331507a863748876c148787919835617" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::NERDetectionEngine::rebuildFieldHints</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildFieldHints</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::rebuildFieldHints</qualifiedname>
+        <briefdescription>
+<para>Rebuild Field Hints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="146" column="10" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="421" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1aeb613b149e8a9ce1dc60deef0c056f00" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::NERDetectionEngine::detectPersonNames</definition>
+        <argsstring>(const std::vector&lt; Token &gt; &amp;tokens, std::vector&lt; PIIFinding &gt; &amp;out) const</argsstring>
+        <name>detectPersonNames</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::detectPersonNames</qualifiedname>
+        <param>
+          <type>const std::vector&lt; Token &gt; &amp;</type>
+          <declname>tokens</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1utils_1_1_p_i_i_finding" kindref="compound">PIIFinding</ref> &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="156" column="10" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="485" bodyend="526"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a1e9094df4bfb8943029f783f637b331c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::NERDetectionEngine::detectOrganizations</definition>
+        <argsstring>(const std::vector&lt; Token &gt; &amp;tokens, std::vector&lt; PIIFinding &gt; &amp;out) const</argsstring>
+        <name>detectOrganizations</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::detectOrganizations</qualifiedname>
+        <param>
+          <type>const std::vector&lt; Token &gt; &amp;</type>
+          <declname>tokens</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1utils_1_1_p_i_i_finding" kindref="compound">PIIFinding</ref> &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="159" column="10" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="528" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1ad0aa9dddd19a0521e16fdbd9acb5477a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::NERDetectionEngine::detectLocations</definition>
+        <argsstring>(const std::vector&lt; Token &gt; &amp;tokens, std::vector&lt; PIIFinding &gt; &amp;out) const</argsstring>
+        <name>detectLocations</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::detectLocations</qualifiedname>
+        <param>
+          <type>const std::vector&lt; Token &gt; &amp;</type>
+          <declname>tokens</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1utils_1_1_p_i_i_finding" kindref="compound">PIIFinding</ref> &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="162" column="10" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="591" bodyend="634"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1af86768ba437cc2490285d7147f95df41" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; Token &gt;</type>
+        <definition>std::vector&lt; NERDetectionEngine::Token &gt; themis::utils::NERDetectionEngine::tokenise</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>tokenise</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::tokenise</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Tokenise. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::isspace(), substr(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="153" column="24" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="454" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a1d616728bbbf1eeac53c4c2e9a41dc56" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::NERDetectionEngine::isCapitalized</definition>
+        <argsstring>(const std::string &amp;word)</argsstring>
+        <name>isCapitalized</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::isCapitalized</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>word</declname>
+        </param>
+        <briefdescription>
+<para>Is Capitalized. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">word</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), std::isalpha(), std::isupper(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="167" column="17" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="643" bodyend="654"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a81928f267d2acde7033d1c0ccb2035d3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::NERDetectionEngine::toLower</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>toLower</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::toLower</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>To Lower. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), std::tolower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="168" column="24" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="662" bodyend="667"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_n_e_r_detection_engine_1aa33ffc1d291e65a3c81b1c2382b9d969" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_p_i_i_finding" kindref="compound">PIIFinding</ref></type>
+        <definition>PIIFinding themis::utils::NERDetectionEngine::makeSpan</definition>
+        <argsstring>(const std::vector&lt; Token &gt; &amp;tokens, size_t first, size_t last, PIIType type, double confidence, const std::string &amp;pattern_name)</argsstring>
+        <name>makeSpan</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::makeSpan</qualifiedname>
+        <param>
+          <type>const std::vector&lt; Token &gt; &amp;</type>
+          <declname>tokens</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>first</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>last</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>confidence</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern_name</declname>
+        </param>
+        <briefdescription>
+<para>Make Span. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">first</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">last</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the pattern. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="171" column="23" bodyfile="src/utils/ner_detection_engine.cpp" bodystart="680" bodyend="710"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Named Entity Recognition (NER) based PII detection engine. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Rule-based NER engine for detecting unstructured PII that regex cannot capture:<itemizedlist>
+<listitem><para>PERSON_NAME: detected via honorific prefixes (Mr., Dr., Prof., etc.) and capitalized name patterns, configurable first/last name gazetteers</para>
+</listitem><listitem><para>ORGANIZATION: detected via legal-entity suffixes (Inc., Corp., Ltd., GmbH, etc.) and configurable organization keyword lists</para>
+</listitem><listitem><para>LOCATION: detected via geographic preposition context (&quot;in Paris&quot;, &quot;at Geneva&quot;) and configurable city/country gazetteers</para>
+</listitem></itemizedlist>
+</para>
+<para>This engine complements <ref refid="classthemis_1_1utils_1_1_regex_detection_engine" kindref="compound">RegexDetectionEngine</ref> (which handles structured PII such as email, phone, SSN) with NER capabilities for free-form natural language text.</para>
+<para>Features:<itemizedlist>
+<listitem><para>No external ML-framework dependency (rule-based / gazetteer NER)</para>
+</listitem><listitem><para>YAML-configurable name lists, title prefixes, org suffixes, location hints</para>
+</listitem><listitem><para>Runtime reload with config rollback on failure</para>
+</listitem><listitem><para>Confidence scores per entity type based on detection signal strength</para>
+</listitem><listitem><para>Thread-safe for concurrent access</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Resource Limits (Phase 2.2c Hardening):</bold><itemizedlist>
+<listitem><para>Maximum inference timeout: 5000 ms (configurable)</para>
+</listitem><listitem><para>Maximum gazetteer entries: 100,000 per list (honorifics, org_suffixes, locations)</para>
+</listitem><listitem><para>Model validation: On load, gazetteers are checked for corruption (non-empty required)</para>
+</listitem></itemizedlist>
+</para>
+<para>Example YAML configuration: <programlisting filename=".yaml"><codeline><highlight class="normal">type:<sp/>&quot;ner&quot;</highlight></codeline>
+<codeline><highlight class="normal">enabled:<sp/>true</highlight></codeline>
+<codeline><highlight class="normal">settings:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>min_confidence:<sp/>0.70</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>default_redaction_mode:<sp/>&quot;strict&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>inference_timeout_ms:<sp/>5000</highlight></codeline>
+<codeline><highlight class="normal">honorifics:<sp/>[&quot;Mr.&quot;,<sp/>&quot;Mrs.&quot;,<sp/>&quot;Ms.&quot;,<sp/>&quot;Dr.&quot;,<sp/>&quot;Prof.&quot;,<sp/>&quot;Sir&quot;,<sp/>&quot;Dame&quot;]</highlight></codeline>
+<codeline><highlight class="normal">org_suffixes:<sp/>[&quot;Inc.&quot;,<sp/>&quot;Corp.&quot;,<sp/>&quot;Ltd.&quot;,<sp/>&quot;LLC&quot;,<sp/>&quot;GmbH&quot;,<sp/>&quot;AG&quot;,<sp/>&quot;plc&quot;]</highlight></codeline>
+<codeline><highlight class="normal">location_prepositions:<sp/>[&quot;in&quot;,<sp/>&quot;at&quot;,<sp/>&quot;from&quot;,<sp/>&quot;near&quot;,<sp/>&quot;to&quot;]</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para><bold>Degradation Contract (2.8e):</bold> If gazetteers fail to load or become corrupt, model_available_ is set to false; <ref refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1af5dae14846dae5a3c913fc60d273e333" kindref="member">detectInText()</ref> returns empty findings. This is a fail-closed degradation to prevent false negatives. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::utils::IPIIDetectionEngine</label>
+        <link refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::NERDetectionEngine</label>
+        <link refid="classthemis_1_1utils_1_1_n_e_r_detection_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::utils::IPIIDetectionEngine</label>
+        <link refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::NERDetectionEngine</label>
+        <link refid="classthemis_1_1utils_1_1_n_e_r_detection_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/ner_detection_engine.h" line="67" column="1" bodyfile="include/utils/ner_detection_engine.h" bodystart="67" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a9c6409ab6c7b48eb9c01ad6e20b258ae" prot="public" virt="virtual"><scope>themis::utils::NERDetectionEngine</scope><name>classifyFieldName</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a596ea89beaed554b7b017c26f38813cd" prot="public" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>DEFAULT_INFERENCE_TIMEOUT_MS</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a6a77dc2eec5e6b08e309b6be8caa14d0" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>default_redaction_mode_</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1af5dae14846dae5a3c913fc60d273e333" prot="public" virt="virtual"><scope>themis::utils::NERDetectionEngine</scope><name>detectInText</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1ad0aa9dddd19a0521e16fdbd9acb5477a" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>detectLocations</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a1e9094df4bfb8943029f783f637b331c" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>detectOrganizations</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1aeb613b149e8a9ce1dc60deef0c056f00" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>detectPersonNames</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a34d503da6bb9ac3906efa58c9c0e9e19" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>enabled_</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a1aed039a283ab7b2394737f57c8056ce" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>field_name_hints_</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a7ef29fbd2d8c0e2ea79b63eef9567c2b" prot="public" virt="virtual"><scope>themis::utils::NERDetectionEngine</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a99aa3d600ab880c4f61d04ec8faf2565" prot="public" virt="virtual"><scope>themis::utils::NERDetectionEngine</scope><name>getMetadata</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1ae51e54df28139f6cc587da485e1ec1f9" prot="public" virt="virtual"><scope>themis::utils::NERDetectionEngine</scope><name>getName</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1af705d213d03bddb9c83493c831523706" prot="public" virt="virtual"><scope>themis::utils::NERDetectionEngine</scope><name>getRedactionRecommendation</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a25105b1268061e3c182c3288d552a257" prot="public" virt="virtual"><scope>themis::utils::NERDetectionEngine</scope><name>getSignature</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a05fe2d11be2090198a259f4f56307116" prot="public" virt="virtual"><scope>themis::utils::NERDetectionEngine</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a1fd3bf82858aee4210d69b03b1e186ec" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>honorifics_</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1ae3d01c2071c1e4304f04d22b5966440c" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>inference_timeout_ms_</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a931c5b0ccaa68897213a7f121a4a9deb" prot="public" virt="virtual"><scope>themis::utils::NERDetectionEngine</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a1d616728bbbf1eeac53c4c2e9a41dc56" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>isCapitalized</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a47a50f661c4c1fa2551ae0852913a79f" prot="public" virt="virtual"><scope>themis::utils::NERDetectionEngine</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a35a0553a7631930fb868970744da7798" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>last_error_</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a065f60141a3077743ed492d13a84311e" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>loadDefaults</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1afab7285fbfd07f5b2cbe80dd44d46fba" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>loadFromConfig</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a0e3b6b502ad2fd1991e3d2ea174edfb7" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>location_prepositions_</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1aa33ffc1d291e65a3c81b1c2382b9d969" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>makeSpan</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1ae877bc4d3614503f45be2d2714dfbfd2" prot="public" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>MAX_GAZETTEER_ENTRIES</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1ade98ce1b95dea64affb40210a167e249" prot="public" virt="virtual"><scope>themis::utils::NERDetectionEngine</scope><name>maxPatternLength</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a7534c8d5262e7bf2d7d58e71bf4fe7c5" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>min_confidence_</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1ad89d2a282c20ab52b4782be25426579e" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>model_available_</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1aa98fbc75f6aa2028d4ff802a2c58f274" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1afeb9419c5d511ddc763ab636c883ad83" prot="public" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>NERDetectionEngine</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1ab8334f489cc88fe479b3211b354c5df5" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>org_suffixes_</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a331507a863748876c148787919835617" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>rebuildFieldHints</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a7030d250920bb503d0f19ae1fb522959" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>redaction_modes_</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1adcf0d22265c06f02b1b5419b3673d469" prot="public" virt="virtual"><scope>themis::utils::NERDetectionEngine</scope><name>reload</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a4186c1540418d2ce97c77f051bbf9220" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>signature_</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1af86768ba437cc2490285d7147f95df41" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>tokenise</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a81928f267d2acde7033d1c0ccb2035d3" prot="private" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>toLower</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a487a9425fb15d7696e0d01737e5775c0" prot="public" virt="virtual"><scope>themis::utils::NERDetectionEngine</scope><name>~IPIIDetectionEngine</name></member>
+      <member refid="classthemis_1_1utils_1_1_n_e_r_detection_engine_1a0ac2cf19481582cc1faf04cf67f42f72" prot="public" virt="non-virtual"><scope>themis::utils::NERDetectionEngine</scope><name>~NERDetectionEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

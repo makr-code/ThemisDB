@@ -1,0 +1,378 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cache__interfaces_8h" kind="file" language="C++">
+    <compoundname>cache_interfaces.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="adaptive__query__cache_8h" local="yes">include/cache/adaptive_query_cache.h</includedby>
+    <includedby refid="bounded__lru__cache_8h" local="yes">include/cache/bounded_lru_cache.h</includedby>
+    <includedby refid="test__cache__interfaces_8cpp" local="yes">tests/cache/test_cache_interfaces.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/cache/cache_interfaces.h</label>
+        <link refid="cache__interfaces_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>string_view</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/cache/adaptive_query_cache.h</label>
+        <link refid="adaptive__query__cache_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/cache/bounded_lru_cache.h</label>
+        <link refid="bounded__lru__cache_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/cache/cache_interfaces.h</label>
+        <link refid="cache__interfaces_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/cache/adaptive_query_cache.cpp</label>
+        <link refid="adaptive__query__cache_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/cache/bounded_lru_cache.cpp</label>
+        <link refid="bounded__lru__cache_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/cache/warmup.cpp</label>
+        <link refid="warmup_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/cache/test_cache_admin_api_handler.cpp</label>
+        <link refid="test__cache__admin__api__handler_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/cache/test_cache_contract_hardening.cpp</label>
+        <link refid="test__cache__contract__hardening_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/cache/test_cache_eviction_multilevel_hardening.cpp</label>
+        <link refid="test__cache__eviction__multilevel__hardening_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/cache/test_cache_interfaces.cpp</label>
+        <link refid="test__cache__interfaces_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/cache/test_cache_replication.cpp</label>
+        <link refid="test__cache__replication_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/cache/test_cache_tenant_isolation_hardening.cpp</label>
+        <link refid="test__cache__tenant__isolation__hardening_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/cache/test_cache_warmup.cpp</label>
+        <link refid="test__cache__warmup_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/cache/test_phase4_cache_hardening.cpp</label>
+        <link refid="test__phase4__cache__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1cache_1_1_eviction_event" prot="public">themis::cache::EvictionEvent</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_eviction_policy" prot="public">themis::cache::IEvictionPolicy</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_stats" prot="public">themis::cache::CacheStats</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_key_filter" prot="public">themis::cache::KeyFilter</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_cache_admin_ops" prot="public">themis::cache::ICacheAdminOps</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_entry" prot="public">themis::cache::CacheEntry</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_warmup_stats" prot="public">themis::cache::WarmupStats</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_warmup_result" prot="public">themis::cache::WarmupResult</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_warmup_source" prot="public">themis::cache::IWarmupSource</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_cache_warmup" prot="public">themis::cache::ICacheWarmup</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_purge_descriptor" prot="public">themis::cache::PurgeDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_purge_result" prot="public">themis::cache::PurgeResult</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook" prot="public">themis::cache::IGDPRPurgeHook</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_access_pattern" prot="public">themis::cache::AccessPattern</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_t_t_l_adapter_config" prot="public">themis::cache::TTLAdapterConfig</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_t_t_l_adapter" prot="public">themis::cache::ITTLAdapter</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_cache_backend" prot="public">themis::cache::ICacheBackend</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cache">themis::cache</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IEvictionPolicy<sp/>—<sp/>pluggable<sp/>eviction<sp/>strategy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1cache_1a2ab5c1e8c77352e8274a9caaf9767446" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cache_1a2ab5c1e8c77352e8274a9caaf9767446" kindref="member">EvictionEventType</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1cache_1a2ab5c1e8c77352e8274a9caaf9767446a0a3f43b00ddd148f64178deb155a9f45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a2ab5c1e8c77352e8274a9caaf9767446a0a3f43b00ddd148f64178deb155a9f45" kindref="member">ACCESS</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1cache_1a2ab5c1e8c77352e8274a9caaf9767446a61ee777e7f71dc466c3b2c685d8d313b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a2ab5c1e8c77352e8274a9caaf9767446a61ee777e7f71dc466c3b2c685d8d313b" kindref="member">INSERT</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1cache_1a2ab5c1e8c77352e8274a9caaf9767446a78baf367c4626442174307cdf41c6538" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a2ab5c1e8c77352e8274a9caaf9767446a78baf367c4626442174307cdf41c6538" kindref="member">REMOVE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1cache_1a2ab5c1e8c77352e8274a9caaf9767446ab737102a48b5eb1adc0a12385033af09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a2ab5c1e8c77352e8274a9caaf9767446ab737102a48b5eb1adc0a12385033af09" kindref="member">EXPIRY</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1cache_1_1_eviction_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_eviction_event" kindref="compound">EvictionEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1cache_1_1_eviction_event_1ad4c19364b78bb6809bf69dc977ead9a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a2ab5c1e8c77352e8274a9caaf9767446" kindref="member">EvictionEventType</ref><sp/><ref refid="structthemis_1_1cache_1_1_eviction_event_1ad4c19364b78bb6809bf69dc977ead9a7" kindref="member">type</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1cache_1_1_eviction_event_1a5869133bf3c349e57caac06e30288f37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_eviction_event_1a5869133bf3c349e57caac06e30288f37" kindref="member">key</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1cache_1_1_i_eviction_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_i_eviction_policy" kindref="compound">IEvictionPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1cache_1_1_i_eviction_policy_1a5a4669640f538c43964b8728975a3d85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_eviction_policy_1a5a4669640f538c43964b8728975a3d85" kindref="member">~IEvictionPolicy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1cache_1_1_i_eviction_policy_1a05dde49b956a0567ed3d969612a32ae7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_eviction_policy_1a05dde49b956a0567ed3d969612a32ae7" kindref="member">onAccess</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1cache_1_1_i_eviction_policy_1a0d224a2de57cbbf8602979be9b1624db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_eviction_policy_1a0d224a2de57cbbf8602979be9b1624db" kindref="member">onInsert</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1cache_1_1_i_eviction_policy_1a7a17679ea89f3a76b7ef5c640e248bf9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_eviction_policy_1a7a17679ea89f3a76b7ef5c640e248bf9" kindref="member">onRemove</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1cache_1_1_i_eviction_policy_1adec449889a0c1b2baba7c659a6137055" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="structthemis_1_1cache_1_1_i_eviction_policy_1adec449889a0c1b2baba7c659a6137055" kindref="member">evict</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1cache_1_1_i_eviction_policy_1a6e2ac59abe561f3835aa21f598362d24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1cache_1_1_i_eviction_policy_1a6e2ac59abe561f3835aa21f598362d24" kindref="member">name</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ICacheAdminOps<sp/>—<sp/>privileged<sp/>runtime<sp/>inspection<sp/>and<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1cache_1_1_cache_stats" refkind="compound"><highlight class="normal">struct<sp/><ref refid="structthemis_1_1cache_1_1_cache_stats" kindref="compound">CacheStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1cache_1_1_cache_stats_1a9372a212a2cb8b5ffb9fda73e854e355" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_stats_1a9372a212a2cb8b5ffb9fda73e854e355" kindref="member">hit_count</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1cache_1_1_cache_stats_1a4293fc7c6a2634c1e7cce77c1a3d0e4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_stats_1a4293fc7c6a2634c1e7cce77c1a3d0e4f" kindref="member">miss_count</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1cache_1_1_cache_stats_1ab0d9a3b9898f3424f4577350c2876ade" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_stats_1ab0d9a3b9898f3424f4577350c2876ade" kindref="member">eviction_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1cache_1_1_cache_stats_1ab7f1206ea23a7e904437969b748c0d42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_cache_stats_1ab7f1206ea23a7e904437969b748c0d42" kindref="member">current_size</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1cache_1_1_cache_stats_1a12e28521d28c6ac61c9e2f2fc5f7ae44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_cache_stats_1a12e28521d28c6ac61c9e2f2fc5f7ae44" kindref="member">capacity</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1cache_1_1_key_filter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_key_filter" kindref="compound">KeyFilter</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1cache_1_1_key_filter_1a5624aa5d271ed4b4512f99e02d29cbd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1cache_1_1_key_filter_1a5624aa5d271ed4b4512f99e02d29cbd3" kindref="member">prefix</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1cache_1_1_key_filter_1ad03210d1ace1b4d698f1a624b7f530c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1cache_1_1_key_filter_1ad03210d1ace1b4d698f1a624b7f530c0" kindref="member">pattern</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1cache_1_1_key_filter_1ab3339cfe4a5302c47310350435039381" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1cache_1_1_key_filter_1ab3339cfe4a5302c47310350435039381" kindref="member">ttl_max_seconds</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1cache_1_1_i_cache_admin_ops" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_i_cache_admin_ops" kindref="compound">ICacheAdminOps</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1a0a34ed6a522f9188c70181e467d3aeca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1a0a34ed6a522f9188c70181e467d3aeca" kindref="member">~ICacheAdminOps</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1ace8ae021fda99a6e682cfa1836b28937" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1ace8ae021fda99a6e682cfa1836b28937" kindref="member">flush</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1af64167e47513dca43a7e364d40f5c058" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_stats" kindref="compound">CacheStats</ref><sp/><ref refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1af64167e47513dca43a7e364d40f5c058" kindref="member">stats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1a8f41b3652fa1cfaf21a48a5418e254d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1a8f41b3652fa1cfaf21a48a5418e254d2" kindref="member">resize</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>new_capacity)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1a92c8f859d3fe8b9d888a8070e4e942e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1cache_1_1_i_cache_admin_ops_1a92c8f859d3fe8b9d888a8070e4e942e1" kindref="member">listKeys</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_key_filter" kindref="compound">KeyFilter</ref>&amp;<sp/>filter)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ICacheWarmup<sp/>—<sp/>batch<sp/>pre-population</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1cache_1_1_cache_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_cache_entry" kindref="compound">CacheEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1cache_1_1_cache_entry_1a91021e72c8ed5e644bce6936806b9789" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>K<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_cache_entry_1a91021e72c8ed5e644bce6936806b9789" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1cache_1_1_cache_entry_1a709b6c11effd652623cfe9a154f722bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>V<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_cache_entry_1a709b6c11effd652623cfe9a154f722bf" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1cache_1_1_cache_entry_1a044229fba7ad5ba79523cc92352acf48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_entry_1a044229fba7ad5ba79523cc92352acf48" kindref="member">ttl_seconds</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1cache_1_1_cache_entry_1afaee61a72e0dece46d762beb923f5a21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cache_1_1_cache_entry_1afaee61a72e0dece46d762beb923f5a21" kindref="member">tenant_id</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1cache_1_1_warmup_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_warmup_stats" kindref="compound">WarmupStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1cache_1_1_warmup_stats_1ad231762a591b653697c45a00e734bbbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_warmup_stats_1ad231762a591b653697c45a00e734bbbc" kindref="member">entries_inserted</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1cache_1_1_warmup_stats_1a1e3340478f567ec00359ab9ff44d71e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_warmup_stats_1a1e3340478f567ec00359ab9ff44d71e0" kindref="member">entries_skipped</ref><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1cache_1_1_warmup_stats_1ad805c48a6930b19d0d851a2e8be1902c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_warmup_stats_1ad805c48a6930b19d0d851a2e8be1902c" kindref="member">duration_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1cache_1_1_warmup_stats_1a5d7d01872abb5991f80e3eb1fc7faba5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_warmup_stats_1a5d7d01872abb5991f80e3eb1fc7faba5" kindref="member">error_count</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1cache_1_1_warmup_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_warmup_result" kindref="compound">WarmupResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1cache_1_1_warmup_result_1a079d00652b4289c86083b0a7609b9b6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_warmup_result_1a079d00652b4289c86083b0a7609b9b6f" kindref="member">ok</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1cache_1_1_warmup_result_1a7496572c7e35af98436efdad8df43620" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cache_1_1_warmup_result_1a7496572c7e35af98436efdad8df43620" kindref="member">error</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1cache_1_1_warmup_result_1aa7bada7c6f3460458bcf653a05c7b6c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_warmup_stats" kindref="compound">WarmupStats</ref><sp/><ref refid="structthemis_1_1cache_1_1_warmup_result_1aa7bada7c6f3460458bcf653a05c7b6c7" kindref="member">stats</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1cache_1_1_i_warmup_source" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_i_warmup_source" kindref="compound">IWarmupSource</ref><sp/>{</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1cache_1_1_i_warmup_source_1a644a7a9b831714bc66afc39ffd26962c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_warmup_source_1a644a7a9b831714bc66afc39ffd26962c" kindref="member">~IWarmupSource</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1cache_1_1_i_warmup_source_1ac0e09ff6c58b7fbc3cdc21ff9bd6ebba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;CacheEntry&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="structthemis_1_1cache_1_1_i_warmup_source_1ac0e09ff6c58b7fbc3cdc21ff9bd6ebba" kindref="member">nextBatch</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1cache_1_1_i_cache_warmup" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_i_cache_warmup" kindref="compound">ICacheWarmup</ref><sp/>{</highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1cache_1_1_i_cache_warmup_1a0593db9cc83c8de8d8ee3c3eb63d5448" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_cache_warmup_1a0593db9cc83c8de8d8ee3c3eb63d5448" kindref="member">~ICacheWarmup</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1cache_1_1_i_cache_warmup_1aa07974597a853ca59f05f43c1304100f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_warmup_result" kindref="compound">WarmupResult</ref><sp/><ref refid="structthemis_1_1cache_1_1_i_cache_warmup_1aa07974597a853ca59f05f43c1304100f" kindref="member">warm</ref>(<ref refid="structthemis_1_1cache_1_1_i_warmup_source" kindref="compound">IWarmupSource</ref>&amp;<sp/>source)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IGDPRPurgeHook<sp/>—<sp/>synchronous<sp/>GDPR<sp/>Art.<sp/>17<sp/>erasure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="namespacethemis_1_1cache_1a74662f04f973b9c18e730f9198c875ec" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cache_1a74662f04f973b9c18e730f9198c875ec" kindref="member">PurgeReason</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="162" refid="namespacethemis_1_1cache_1a74662f04f973b9c18e730f9198c875ecaca2e94daa9d43b931594e4d2fe42e3e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a74662f04f973b9c18e730f9198c875ecaca2e94daa9d43b931594e4d2fe42e3e4" kindref="member">RIGHT_TO_ERASURE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="163" refid="namespacethemis_1_1cache_1a74662f04f973b9c18e730f9198c875eca9c4fd5af7d236e9a899fd6b42e3de4a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a74662f04f973b9c18e730f9198c875eca9c4fd5af7d236e9a899fd6b42e3de4a8" kindref="member">RETENTION_EXPIRED</ref>,<sp/></highlight></codeline>
+<codeline lineno="164" refid="namespacethemis_1_1cache_1a74662f04f973b9c18e730f9198c875eca5d0feebedcf2daa52c247891fb33c670" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a74662f04f973b9c18e730f9198c875eca5d0feebedcf2daa52c247891fb33c670" kindref="member">CONSENT_WITHDRAWN</ref>,<sp/></highlight></codeline>
+<codeline lineno="165" refid="namespacethemis_1_1cache_1a74662f04f973b9c18e730f9198c875eca03570470bad94692ce93e32700d2e1cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a74662f04f973b9c18e730f9198c875eca03570470bad94692ce93e32700d2e1cb" kindref="member">OTHER</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1cache_1_1_purge_descriptor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_purge_descriptor" kindref="compound">PurgeDescriptor</ref><sp/>{</highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1cache_1_1_purge_descriptor_1ab3ad2430783389e0045906ae924e5fa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_purge_descriptor_1ab3ad2430783389e0045906ae924e5fa3" kindref="member">subject_id</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1cache_1_1_purge_descriptor_1ac87c210e77747e8f162a1800e68d7666" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1cache_1_1_purge_descriptor_1ac87c210e77747e8f162a1800e68d7666" kindref="member">key_patterns</ref>;<sp/></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1cache_1_1_purge_descriptor_1a884595c03f1f22efcf319a4ec3c31a34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a74662f04f973b9c18e730f9198c875ec" kindref="member">PurgeReason</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_purge_descriptor_1a884595c03f1f22efcf319a4ec3c31a34" kindref="member">reason</ref><sp/>=<sp/><ref refid="namespacethemis_1_1cache_1a74662f04f973b9c18e730f9198c875ecaca2e94daa9d43b931594e4d2fe42e3e4" kindref="member">PurgeReason::RIGHT_TO_ERASURE</ref>;</highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1cache_1_1_purge_descriptor_1a027bc5a1061ec2e2b2f87cc36ccc1e48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_purge_descriptor_1a027bc5a1061ec2e2b2f87cc36ccc1e48" kindref="member">notes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="structthemis_1_1cache_1_1_purge_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_purge_result" kindref="compound">PurgeResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1cache_1_1_purge_result_1a91dd4c70781cfd70bc397f3b1e842042" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_purge_result_1a91dd4c70781cfd70bc397f3b1e842042" kindref="member">purged_key_count</ref><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="177" refid="structthemis_1_1cache_1_1_purge_result_1a79c28a9566b5bc77d286d92c0c6229d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cache_1_1_purge_result_1a79c28a9566b5bc77d286d92c0c6229d6" kindref="member">audit_log_entry_id</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178" refid="structthemis_1_1cache_1_1_purge_result_1ab8e4b625c99b953d1b65a67e257242b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_purge_result_1ab8e4b625c99b953d1b65a67e257242b3" kindref="member">timestamp_utc_ms</ref><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook" kindref="compound">IGDPRPurgeHook</ref><sp/>{</highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook_1ad62fabe7fba5dd37aeb8c331ad7a1151" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook_1ad62fabe7fba5dd37aeb8c331ad7a1151" kindref="member">~IGDPRPurgeHook</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook_1a309076f0a837998098cad545a177a45e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_purge_result" kindref="compound">PurgeResult</ref><sp/><ref refid="structthemis_1_1cache_1_1_i_g_d_p_r_purge_hook_1a309076f0a837998098cad545a177a45e" kindref="member">purge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_purge_descriptor" kindref="compound">PurgeDescriptor</ref>&amp;<sp/>descriptor)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ITTLAdapter<sp/>—<sp/>workload-driven<sp/>adaptive<sp/>TTL<sp/>computation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1cache_1_1_access_pattern" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_access_pattern" kindref="compound">AccessPattern</ref><sp/>{</highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1cache_1_1_access_pattern_1a693979c2547ab1dcb31c926f220b7ba4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_access_pattern_1a693979c2547ab1dcb31c926f220b7ba4" kindref="member">access_frequency</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1cache_1_1_access_pattern_1a930bdc32ea6db42415a45996e592f432" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_access_pattern_1a930bdc32ea6db42415a45996e592f432" kindref="member">last_access_age_ms</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1cache_1_1_access_pattern_1a8df87da9b835cc9fe60a0287ad5084a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_access_pattern_1a8df87da9b835cc9fe60a0287ad5084a0" kindref="member">write_ratio</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1cache_1_1_t_t_l_adapter_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_t_t_l_adapter_config" kindref="compound">TTLAdapterConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="202" refid="structthemis_1_1cache_1_1_t_t_l_adapter_config_1a619ad9136e1cd7a2f42361e5512bc6b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1cache_1_1_t_t_l_adapter_config_1a619ad9136e1cd7a2f42361e5512bc6b6" kindref="member">minTTL</ref>{1&apos;000};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="203" refid="structthemis_1_1cache_1_1_t_t_l_adapter_config_1adcbc1e8e946fc00ebd6749d17776c994" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1cache_1_1_t_t_l_adapter_config_1adcbc1e8e946fc00ebd6749d17776c994" kindref="member">maxTTL</ref>{3&apos;600&apos;000};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204" refid="structthemis_1_1cache_1_1_t_t_l_adapter_config_1ab0feb44ee1d300f7aa26086e7bd9bfc2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_t_t_l_adapter_config_1ab0feb44ee1d300f7aa26086e7bd9bfc2" kindref="member">aggressiveness</ref><sp/>=<sp/>1.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="structthemis_1_1cache_1_1_i_t_t_l_adapter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_i_t_t_l_adapter" kindref="compound">ITTLAdapter</ref><sp/>{</highlight></codeline>
+<codeline lineno="212" refid="structthemis_1_1cache_1_1_i_t_t_l_adapter_1ad35f5d1472111f72818cb12376291b51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_t_t_l_adapter_1ad35f5d1472111f72818cb12376291b51" kindref="member">~ITTLAdapter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1cache_1_1_i_t_t_l_adapter_1aece9fcb2aa127e4af60a46d1a4125493" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1cache_1_1_i_t_t_l_adapter_1aece9fcb2aa127e4af60a46d1a4125493" kindref="member">computeTTL</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_access_pattern" kindref="compound">AccessPattern</ref>&amp;<sp/>pattern)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221" refid="structthemis_1_1cache_1_1_i_t_t_l_adapter_1a230d9e17cc5b2bf7e6460cf36bdeaea8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_t_t_l_adapter_1a230d9e17cc5b2bf7e6460cf36bdeaea8" kindref="member">configure</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_t_t_l_adapter_config" kindref="compound">TTLAdapterConfig</ref>&amp;<sp/>config)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ICacheBackend&lt;K,<sp/>V&gt;<sp/>—<sp/>common<sp/>read/write/management<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="229" refid="structthemis_1_1cache_1_1_i_cache_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_i_cache_backend" kindref="compound">ICacheBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="234" refid="structthemis_1_1cache_1_1_i_cache_backend_1a57aad9805255276152e57cbe1316433f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_cache_backend_1a57aad9805255276152e57cbe1316433f" kindref="member">~ICacheBackend</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="structthemis_1_1cache_1_1_i_cache_backend_1a685c75dea3805213ead4f7b6012fac76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;V&gt;<sp/><ref refid="structthemis_1_1cache_1_1_i_cache_backend_1a685c75dea3805213ead4f7b6012fac76" kindref="member">get</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243" refid="structthemis_1_1cache_1_1_i_cache_backend_1a6bacc96db167f50ab2c671cb1d6a84fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_cache_backend_1a6bacc96db167f50ab2c671cb1d6a84fc" kindref="member">put</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key,<sp/>V<sp/>value,<sp/>uint32_t<sp/>ttl_seconds<sp/>=<sp/>0)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250" refid="structthemis_1_1cache_1_1_i_cache_backend_1ae4896e628aafae2aea8e540648b1e7fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_cache_backend_1ae4896e628aafae2aea8e540648b1e7fe" kindref="member">remove</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257" refid="structthemis_1_1cache_1_1_i_cache_backend_1a77508b5c3ca52edaeffad4a703baa83d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_cache_backend_1a77508b5c3ca52edaeffad4a703baa83d" kindref="member">contains</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="structthemis_1_1cache_1_1_i_cache_backend_1ad729e3356e2407a80272cf0ba7e146e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_cache_backend_1ad729e3356e2407a80272cf0ba7e146e7" kindref="member">clear</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268" refid="structthemis_1_1cache_1_1_i_cache_backend_1a710034ab39cd48a815d173b189c6eee8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="structthemis_1_1cache_1_1_i_cache_backend_1a710034ab39cd48a815d173b189c6eee8" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cache/cache_interfaces.h"/>
+  </compounddef>
+</doxygen>

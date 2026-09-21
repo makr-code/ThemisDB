@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_fan_in_test" kind="class" language="C++" prot="public">
+    <compoundname>FanInTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_fan_in_test_1a1d2ad147b9b1ad1ebf290591ae84924c" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; FanInTest::orders_db_</definition>
+        <argsstring></argsstring>
+        <name>orders_db_</name>
+        <qualifiedname>FanInTest::orders_db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_fan_in.cpp" line="125" column="21" bodyfile="tests/cdc/test_cdc_fan_in.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_fan_in_test_1a21c31c75e2d2a8e233fd39b91da5d258" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; FanInTest::inventory_db_</definition>
+        <argsstring></argsstring>
+        <name>inventory_db_</name>
+        <qualifiedname>FanInTest::inventory_db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_fan_in.cpp" line="126" column="21" bodyfile="tests/cdc/test_cdc_fan_in.cpp" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_fan_in_test_1a0cd866e3cc9c9abba9c36ab37e82f0a8" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; FanInTest::users_db_</definition>
+        <argsstring></argsstring>
+        <name>users_db_</name>
+        <qualifiedname>FanInTest::users_db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_fan_in.cpp" line="127" column="21" bodyfile="tests/cdc/test_cdc_fan_in.cpp" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_fan_in_test_1a2c9ec6b2127e7fdbaf047a47cde7d9ea" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; FanInTest::orders_feed_</definition>
+        <argsstring></argsstring>
+        <name>orders_feed_</name>
+        <qualifiedname>FanInTest::orders_feed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_fan_in.cpp" line="129" column="21" bodyfile="tests/cdc/test_cdc_fan_in.cpp" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_fan_in_test_1a7c51300e97f35844809435061e1848fa" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; FanInTest::inventory_feed_</definition>
+        <argsstring></argsstring>
+        <name>inventory_feed_</name>
+        <qualifiedname>FanInTest::inventory_feed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_fan_in.cpp" line="130" column="21" bodyfile="tests/cdc/test_cdc_fan_in.cpp" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_fan_in_test_1a5b1c0f6c393ad6074f5ae6e39e76e295" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; FanInTest::users_feed_</definition>
+        <argsstring></argsstring>
+        <name>users_feed_</name>
+        <qualifiedname>FanInTest::users_feed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_fan_in.cpp" line="131" column="21" bodyfile="tests/cdc/test_cdc_fan_in.cpp" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_fan_in_test_1af7505ba34c609bb0637babbf58b226bd" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_in_memory_fan_in" kindref="compound">InMemoryFanIn</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;InMemoryFanIn&gt; FanInTest::fan_in_</definition>
+        <argsstring></argsstring>
+        <name>fan_in_</name>
+        <qualifiedname>FanInTest::fan_in_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_fan_in.cpp" line="133" column="21" bodyfile="tests/cdc/test_cdc_fan_in.cpp" bodystart="133" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_fan_in_test_1a9fde671a35d197f9e474f521bd49e64e" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>static std::unique_ptr&lt; RocksDBWrapper &gt; FanInTest::openDB</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>openDB</name>
+        <qualifiedname>FanInTest::openDB</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_fan_in.cpp" line="41" column="28" bodyfile="tests/cdc/test_cdc_fan_in.cpp" bodystart="41" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_fan_in_test_1aaf3d4a13a2ac9bf4d21f413641953e1a" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref></type>
+        <definition>static Changefeed::ChangeEvent FanInTest::makeEv</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value=&quot;v&quot;, int64_t ts_ms=0, Changefeed::ChangeEventType t=Changefeed::ChangeEventType::EVENT_PUT)</argsstring>
+        <name>makeEv</name>
+        <qualifiedname>FanInTest::makeEv</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+          <defval>&quot;v&quot;</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>ts_ms</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type><ref refid="class_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">Changefeed::ChangeEventType</ref></type>
+          <declname>t</declname>
+          <defval>Changefeed::ChangeEventType::EVENT_PUT</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_fan_in.cpp" line="103" column="36" bodyfile="tests/cdc/test_cdc_fan_in.cpp" bodystart="103" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="class_fan_in_test_1afa881305bff8f0e0c957962b5a5e6bd8" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void FanInTest::put</definition>
+        <argsstring>(Changefeed &amp;feed, const std::string &amp;key, const std::string &amp;value, int64_t timestamp_ms=0)</argsstring>
+        <name>put</name>
+        <qualifiedname>FanInTest::put</qualifiedname>
+        <param>
+          <type><ref refid="class_changefeed" kindref="compound">Changefeed</ref> &amp;</type>
+          <declname>feed</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_fan_in.cpp" line="117" column="17" bodyfile="tests/cdc/test_cdc_fan_in.cpp" bodystart="117" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_fan_in_test_1a1c4f49593510e0b26742c2beefd01fb3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FanInTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>FanInTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_fan_in.cpp" line="58" column="10" bodyfile="tests/cdc/test_cdc_fan_in.cpp" bodystart="58" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="class_fan_in_test_1a898f2eaf7619d5f89271ce5ded6f461b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FanInTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>FanInTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_fan_in.cpp" line="76" column="10" bodyfile="tests/cdc/test_cdc_fan_in.cpp" bodystart="76" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FanInTest</label>
+        <link refid="class_fan_in_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FanInTest</label>
+        <link refid="class_fan_in_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_fan_in.cpp" line="39" column="1" bodyfile="tests/cdc/test_cdc_fan_in.cpp" bodystart="39" bodyend="134"/>
+    <listofallmembers>
+      <member refid="class_fan_in_test_1af7505ba34c609bb0637babbf58b226bd" prot="protected" virt="non-virtual"><scope>FanInTest</scope><name>fan_in_</name></member>
+      <member refid="class_fan_in_test_1a21c31c75e2d2a8e233fd39b91da5d258" prot="protected" virt="non-virtual"><scope>FanInTest</scope><name>inventory_db_</name></member>
+      <member refid="class_fan_in_test_1a7c51300e97f35844809435061e1848fa" prot="protected" virt="non-virtual"><scope>FanInTest</scope><name>inventory_feed_</name></member>
+      <member refid="class_fan_in_test_1aaf3d4a13a2ac9bf4d21f413641953e1a" prot="protected" virt="non-virtual"><scope>FanInTest</scope><name>makeEv</name></member>
+      <member refid="class_fan_in_test_1a9fde671a35d197f9e474f521bd49e64e" prot="protected" virt="non-virtual"><scope>FanInTest</scope><name>openDB</name></member>
+      <member refid="class_fan_in_test_1a1d2ad147b9b1ad1ebf290591ae84924c" prot="protected" virt="non-virtual"><scope>FanInTest</scope><name>orders_db_</name></member>
+      <member refid="class_fan_in_test_1a2c9ec6b2127e7fdbaf047a47cde7d9ea" prot="protected" virt="non-virtual"><scope>FanInTest</scope><name>orders_feed_</name></member>
+      <member refid="class_fan_in_test_1afa881305bff8f0e0c957962b5a5e6bd8" prot="protected" virt="non-virtual"><scope>FanInTest</scope><name>put</name></member>
+      <member refid="class_fan_in_test_1a1c4f49593510e0b26742c2beefd01fb3" prot="protected" virt="non-virtual"><scope>FanInTest</scope><name>SetUp</name></member>
+      <member refid="class_fan_in_test_1a898f2eaf7619d5f89271ce5ded6f461b" prot="protected" virt="non-virtual"><scope>FanInTest</scope><name>TearDown</name></member>
+      <member refid="class_fan_in_test_1a0cd866e3cc9c9abba9c36ab37e82f0a8" prot="protected" virt="non-virtual"><scope>FanInTest</scope><name>users_db_</name></member>
+      <member refid="class_fan_in_test_1a5b1c0f6c393ad6074f5ae6e39e76e295" prot="protected" virt="non-virtual"><scope>FanInTest</scope><name>users_feed_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

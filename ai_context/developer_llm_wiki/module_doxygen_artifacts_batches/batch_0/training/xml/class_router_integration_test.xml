@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_router_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>RouterIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_router_integration_test_1a371fec1638078cd768f307f9723f694b" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer" kindref="compound">IncrementalLoRATrainer</ref></type>
+        <definition>IncrementalLoRATrainer RouterIntegrationTest::trainer_</definition>
+        <argsstring></argsstring>
+        <name>trainer_</name>
+        <qualifiedname>RouterIntegrationTest::trainer_</qualifiedname>
+        <initializer>{makeTrainer()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_phase2.cpp" line="180" column="28" bodyfile="tests/training/test_training_phase2.cpp" bodystart="180" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_router_integration_test_1a4dccdbd88bcfa1e7cc241cf29878941d" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_mock_l_l_m_router" kindref="compound">MockLLMRouter</ref></type>
+        <definition>MockLLMRouter RouterIntegrationTest::router_</definition>
+        <argsstring></argsstring>
+        <name>router_</name>
+        <qualifiedname>RouterIntegrationTest::router_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_phase2.cpp" line="181" column="19" bodyfile="tests/training/test_training_phase2.cpp" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RouterIntegrationTest</label>
+        <link refid="class_router_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>MockLLMRouter</label>
+        <link refid="class_mock_l_l_m_router"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>RouterIntegrationTest</label>
+        <link refid="class_router_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>trainer_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>router_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="5">
+        <label>themis::training::ILLMRouter</label>
+        <link refid="classthemis_1_1training_1_1_i_l_l_m_router"/>
+      </node>
+      <node id="3">
+        <label>themis::training::IncrementalLoRATrainer</label>
+        <link refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/training/test_training_phase2.cpp" line="178" column="1" bodyfile="tests/training/test_training_phase2.cpp" bodystart="178" bodyend="182"/>
+    <listofallmembers>
+      <member refid="class_router_integration_test_1a4dccdbd88bcfa1e7cc241cf29878941d" prot="protected" virt="non-virtual"><scope>RouterIntegrationTest</scope><name>router_</name></member>
+      <member refid="class_router_integration_test_1a371fec1638078cd768f307f9723f694b" prot="protected" virt="non-virtual"><scope>RouterIntegrationTest</scope><name>trainer_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

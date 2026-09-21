@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::EthicsAwareConfidenceDetector::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1aae48db050e5ce9a6643c357d959b87ca" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config" kindref="compound">EthicsAwareConfidenceConfig</ref></type>
+        <definition>EthicsAwareConfidenceConfig themis::llm::EthicsAwareConfidenceDetector::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/ethics_aware_confidence_detector.cpp" line="26" column="33" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1a7a529c7f00ae7e0d4f40a71635c3d752" prot="public" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themis::llm::EthicsAwareConfidenceDetector::Impl::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::Impl::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/ethics_aware_confidence_detector.cpp" line="27" column="24" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1aefea20c97799541e15cd6f5e5f4ba7fd" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::EthicsAwareConfidenceDetector::Impl::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::Impl::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/ethics_aware_confidence_detector.cpp" line="28" column="24" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1acc8e4ef0778d65f07f4e428b5d248740" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1_confidence_result" kindref="compound">ConfidenceResult</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ConfidenceResult&gt; themis::llm::EthicsAwareConfidenceDetector::Impl::cache</definition>
+        <argsstring></argsstring>
+        <name>cache</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::Impl::cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/ethics_aware_confidence_detector.cpp" line="31" column="24" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1a4d4fb49098b85424af5d53500b208c9e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::EthicsAwareConfidenceDetector::Impl::patronizing_patterns_en</definition>
+        <argsstring></argsstring>
+        <name>patronizing_patterns_en</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::Impl::patronizing_patterns_en</qualifiedname>
+        <initializer>                                    = {
+    &quot;you must&quot;, &quot;you should&quot;, &quot;you have to&quot;, &quot;you need to&quot;,
+    &quot;it is your duty&quot;, &quot;you are obliged&quot;, &quot;you are required&quot;,
+    &quot;obviously you&quot;, &quot;clearly you must&quot;, &quot;any reasonable person&quot;,
+    &quot;everyone knows&quot;, &quot;it&apos;s obvious that you&quot;, &quot;you can&apos;t possibly&quot;,
+    &quot;you obviously need&quot;, &quot;of course you should&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/ethics_aware_confidence_detector.cpp" line="34" column="17" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="34" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1a42f09686a870591ebdd945882af22866" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::EthicsAwareConfidenceDetector::Impl::patronizing_patterns_de</definition>
+        <argsstring></argsstring>
+        <name>patronizing_patterns_de</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::Impl::patronizing_patterns_de</qualifiedname>
+        <initializer>                                    = {
+    &quot;sie müssen&quot;, &quot;du musst&quot;, &quot;sie sollten&quot;, &quot;du solltest&quot;,
+    &quot;sie haben zu&quot;, &quot;du hast zu&quot;, &quot;es ist ihre pflicht&quot;,
+    &quot;es ist deine pflicht&quot;, &quot;offensichtlich müssen sie&quot;,
+    &quot;natürlich müssen sie&quot;, &quot;jeder vernünftige mensch&quot;,
+    &quot;es ist klar, dass sie&quot;, &quot;sie können unmöglich&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/ethics_aware_confidence_detector.cpp" line="42" column="17" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="42" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1a8202abc0ee3f9f25e1c59d863a5bf302" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::EthicsAwareConfidenceDetector::Impl::imperative_patterns_en</definition>
+        <argsstring></argsstring>
+        <name>imperative_patterns_en</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::Impl::imperative_patterns_en</qualifiedname>
+        <initializer>                                   = {
+    &quot;do this&quot;, &quot;don&apos;t do&quot;, &quot;you must do&quot;, &quot;make sure you&quot;,
+    &quot;ensure that you&quot;, &quot;it is imperative&quot;, &quot;you are required to&quot;,
+    &quot;the right thing is&quot;, &quot;the correct action is&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/ethics_aware_confidence_detector.cpp" line="51" column="17" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="51" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1adcd3841c6a4c119a6f85a5266537de0b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::EthicsAwareConfidenceDetector::Impl::imperative_patterns_de</definition>
+        <argsstring></argsstring>
+        <name>imperative_patterns_de</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::Impl::imperative_patterns_de</qualifiedname>
+        <initializer>                                   = {
+    &quot;tun sie das&quot;, &quot;machen sie&quot;, &quot;stellen sie sicher&quot;,
+    &quot;das richtige ist&quot;, &quot;die korrekte handlung&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/ethics_aware_confidence_detector.cpp" line="57" column="17" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="57" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1a457f4dbf7dd9b6e835c70e670fddb2b3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::EthicsAwareConfidenceDetector::Impl::hedge_words_en</definition>
+        <argsstring></argsstring>
+        <name>hedge_words_en</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::Impl::hedge_words_en</qualifiedname>
+        <initializer>                           = {
+    &quot;may&quot;, &quot;might&quot;, &quot;could&quot;, &quot;possibly&quot;, &quot;perhaps&quot;, &quot;probably&quot;,
+    &quot;likely&quot;, &quot;it seems&quot;, &quot;appears to&quot;, &quot;suggests&quot;, &quot;indicates&quot;,
+    &quot;in my understanding&quot;, &quot;based on available&quot;, &quot;uncertain&quot;,
+    &quot;not entirely clear&quot;, &quot;to the best of&quot;, &quot;it&apos;s possible&quot;,
+    &quot;one interpretation&quot;, &quot;could be interpreted&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/ethics_aware_confidence_detector.cpp" line="63" column="17" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="63" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1a99eda93be2807c39380948f5e0745799" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::EthicsAwareConfidenceDetector::Impl::hedge_words_de</definition>
+        <argsstring></argsstring>
+        <name>hedge_words_de</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::Impl::hedge_words_de</qualifiedname>
+        <initializer>                           = {
+    &quot;könnte&quot;, &quot;möglicherweise&quot;, &quot;vielleicht&quot;, &quot;wahrscheinlich&quot;,
+    &quot;vermutlich&quot;, &quot;es scheint&quot;, &quot;deutet darauf hin&quot;,
+    &quot;meines wissens&quot;, &quot;soweit ich weiß&quot;, &quot;nicht ganz klar&quot;,
+    &quot;es ist möglich&quot;, &quot;eine interpretation&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/ethics_aware_confidence_detector.cpp" line="71" column="17" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="71" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1a495673164619a20093eec675599f15c4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::EthicsAwareConfidenceDetector::Impl::choice_phrases_en</definition>
+        <argsstring></argsstring>
+        <name>choice_phrases_en</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::Impl::choice_phrases_en</qualifiedname>
+        <initializer>                              = {
+    &quot;you can decide&quot;, &quot;your choice&quot;, &quot;up to you&quot;, &quot;you may choose&quot;,
+    &quot;consider&quot;, &quot;options include&quot;, &quot;alternatives are&quot;, &quot;you might&quot;,
+    &quot;one option is&quot;, &quot;another approach&quot;, &quot;different perspectives&quot;,
+    &quot;various viewpoints&quot;, &quot;multiple ways&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/ethics_aware_confidence_detector.cpp" line="79" column="17" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="79" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1ad4b1633bdbbae1776fe7e31e979e8612" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::EthicsAwareConfidenceDetector::Impl::choice_phrases_de</definition>
+        <argsstring></argsstring>
+        <name>choice_phrases_de</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::Impl::choice_phrases_de</qualifiedname>
+        <initializer>                              = {
+    &quot;sie können entscheiden&quot;, &quot;ihre wahl&quot;, &quot;ihre entscheidung&quot;,
+    &quot;sie könnten&quot;, &quot;optionen sind&quot;, &quot;alternativen sind&quot;,
+    &quot;verschiedene perspektiven&quot;, &quot;verschiedene sichtweisen&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/ethics_aware_confidence_detector.cpp" line="86" column="17" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="86" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::EthicsAwareConfidenceConfig</label>
+        <link refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::EthicsAwareConfidenceDetector::Impl</label>
+        <link refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::EthicsAwareConfidenceDetector::Statistics</label>
+        <link refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_statistics"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/llm/ethics_aware_confidence_detector.cpp" line="25" column="1" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="25" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1acc8e4ef0778d65f07f4e428b5d248740" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector::Impl</scope><name>cache</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1ad4b1633bdbbae1776fe7e31e979e8612" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector::Impl</scope><name>choice_phrases_de</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1a495673164619a20093eec675599f15c4" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector::Impl</scope><name>choice_phrases_en</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1aae48db050e5ce9a6643c357d959b87ca" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1a99eda93be2807c39380948f5e0745799" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector::Impl</scope><name>hedge_words_de</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1a457f4dbf7dd9b6e835c70e670fddb2b3" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector::Impl</scope><name>hedge_words_en</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1adcd3841c6a4c119a6f85a5266537de0b" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector::Impl</scope><name>imperative_patterns_de</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1a8202abc0ee3f9f25e1c59d863a5bf302" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector::Impl</scope><name>imperative_patterns_en</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1aefea20c97799541e15cd6f5e5f4ba7fd" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector::Impl</scope><name>mutex</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1a42f09686a870591ebdd945882af22866" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector::Impl</scope><name>patronizing_patterns_de</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1a4d4fb49098b85424af5d53500b208c9e" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector::Impl</scope><name>patronizing_patterns_en</name></member>
+      <member refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl_1a7a529c7f00ae7e0d4f40a71635c3d752" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector::Impl</scope><name>stats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

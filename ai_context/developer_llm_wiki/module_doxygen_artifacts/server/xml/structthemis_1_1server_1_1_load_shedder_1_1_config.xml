@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_load_shedder_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::LoadShedder::Config</compoundname>
+    <includes refid="load__shedder_8h" local="no">load_shedder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_load_shedder_1_1_config_1acf9d3dec95b657916f7026e3ac41962f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::LoadShedder::Config::cpu_threshold</definition>
+        <argsstring></argsstring>
+        <name>cpu_threshold</name>
+        <qualifiedname>themis::server::LoadShedder::Config::cpu_threshold</qualifiedname>
+        <initializer>= 0.95</initializer>
+        <briefdescription>
+<para>CPU usage threshold (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/load_shedder.h" line="24" column="16" bodyfile="include/server/load_shedder.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_load_shedder_1_1_config_1ae2d1246d3b68bf3a3242081e6899a887" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::LoadShedder::Config::memory_threshold</definition>
+        <argsstring></argsstring>
+        <name>memory_threshold</name>
+        <qualifiedname>themis::server::LoadShedder::Config::memory_threshold</qualifiedname>
+        <initializer>= 0.90</initializer>
+        <briefdescription>
+<para>Memory usage threshold (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/load_shedder.h" line="25" column="16" bodyfile="include/server/load_shedder.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_load_shedder_1_1_config_1af936cc3654baf8bf56f404ed780a93cb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::LoadShedder::Config::queue_depth_threshold</definition>
+        <argsstring></argsstring>
+        <name>queue_depth_threshold</name>
+        <qualifiedname>themis::server::LoadShedder::Config::queue_depth_threshold</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para><ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref> queue depth limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/load_shedder.h" line="26" column="16" bodyfile="include/server/load_shedder.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_load_shedder_1_1_config_1a929216b2a2d3e3d954be357713172374" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::LoadShedder::Config::enable_shedding</definition>
+        <argsstring></argsstring>
+        <name>enable_shedding</name>
+        <qualifiedname>themis::server::LoadShedder::Config::enable_shedding</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable/disable load shedding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/load_shedder.h" line="27" column="14" bodyfile="include/server/load_shedder.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/load_shedder.h" line="23" column="5" bodyfile="include/server/load_shedder.h" bodystart="23" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_load_shedder_1_1_config_1acf9d3dec95b657916f7026e3ac41962f" prot="public" virt="non-virtual"><scope>themis::server::LoadShedder::Config</scope><name>cpu_threshold</name></member>
+      <member refid="structthemis_1_1server_1_1_load_shedder_1_1_config_1a929216b2a2d3e3d954be357713172374" prot="public" virt="non-virtual"><scope>themis::server::LoadShedder::Config</scope><name>enable_shedding</name></member>
+      <member refid="structthemis_1_1server_1_1_load_shedder_1_1_config_1ae2d1246d3b68bf3a3242081e6899a887" prot="public" virt="non-virtual"><scope>themis::server::LoadShedder::Config</scope><name>memory_threshold</name></member>
+      <member refid="structthemis_1_1server_1_1_load_shedder_1_1_config_1af936cc3654baf8bf56f404ed780a93cb" prot="public" virt="non-virtual"><scope>themis::server::LoadShedder::Config</scope><name>queue_depth_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

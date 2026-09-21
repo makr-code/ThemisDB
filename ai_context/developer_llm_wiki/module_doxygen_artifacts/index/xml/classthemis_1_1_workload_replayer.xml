@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_workload_replayer" kind="class" language="C++" prot="public">
+    <compoundname>themis::WorkloadReplayer</compoundname>
+    <includes refid="workload__replay_8h" local="no">workload_replay.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_workload_replayer_1ab9da86d33b74a3f9598e382cf1d83a79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::WorkloadReplayer::WorkloadReplayer</definition>
+        <argsstring>()=default</argsstring>
+        <name>WorkloadReplayer</name>
+        <qualifiedname>themis::WorkloadReplayer::WorkloadReplayer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="143" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_workload_replayer_1aaf87ee7d47b29001a23a164bb5cc9a88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::WorkloadReplayer::~WorkloadReplayer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~WorkloadReplayer</name>
+        <qualifiedname>themis::WorkloadReplayer::~WorkloadReplayer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="144" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_workload_replayer_1a6f02fc804d6b8b8157bcebf7669b2da7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; IndexRecommendation &gt;</type>
+        <definition>std::vector&lt; IndexRecommendation &gt; themis::WorkloadReplayer::replay</definition>
+        <argsstring>(const WorkloadCapture &amp;capture, std::string_view table_name, const std::vector&lt; std::string &gt; &amp;existing_indexes={}) const</argsstring>
+        <name>replay</name>
+        <qualifiedname>themis::WorkloadReplayer::replay</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_workload_capture" kindref="compound">WorkloadCapture</ref> &amp;</type>
+          <declname>capture</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>existing_indexes</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Replay the workload and return recommendations for one table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>capture</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Recorded workload to replay. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table to generate recommendations for. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>existing_indexes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Columns that already have an index (to detect DROP candidates). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recommendations sorted by benefit score (highest first). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="154" column="17" bodyfile="src/index/workload_replay.cpp" bodystart="209" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_workload_replayer_1a202cc1f05d968581f92c0f26cd6d59ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, std::vector&lt; IndexRecommendation &gt; &gt;</type>
+        <definition>std::map&lt; std::string, std::vector&lt; IndexRecommendation &gt; &gt; themis::WorkloadReplayer::replayAll</definition>
+        <argsstring>(const WorkloadCapture &amp;capture, const std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; &amp;existing_indexes={}) const</argsstring>
+        <name>replayAll</name>
+        <qualifiedname>themis::WorkloadReplayer::replayAll</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_workload_capture" kindref="compound">WorkloadCapture</ref> &amp;</type>
+          <declname>capture</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; &amp;</type>
+          <declname>existing_indexes</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Replay the workload and return recommendations for all tables. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>capture</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Recorded workload to replay. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>existing_indexes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-table map of already-indexed columns. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Map of table_name → sorted recommendation vector. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="166" column="14" bodyfile="src/index/workload_replay.cpp" bodystart="219" bodyend="226"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_workload_replayer_1a8306027223c0e9e1618fe30a4152e46e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WorkloadReplayer::feed</definition>
+        <argsstring>(const WorkloadCapture &amp;capture, IndexRecommender &amp;rec)</argsstring>
+        <name>feed</name>
+        <qualifiedname>themis::WorkloadReplayer::feed</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_workload_capture" kindref="compound">WorkloadCapture</ref> &amp;</type>
+          <declname>capture</declname>
+        </param>
+        <param>
+          <type>IndexRecommender &amp;</type>
+          <declname>rec</declname>
+        </param>
+        <briefdescription>
+<para>Feed all events from <computeroutput>capture</computeroutput> into <computeroutput>rec</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Feed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">capture</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">rec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: totalQueries(), recordQuery(), events(), recordAccess(), THEMIS_DEBUG(), eventCount(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="172" column="17" bodyfile="src/index/workload_replay.cpp" bodystart="197" bodyend="207"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Replays a captured workload through the index advisor. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Feeds the events from a <ref refid="classthemis_1_1_workload_capture" kindref="compound">WorkloadCapture</ref> into a fresh IndexRecommender and returns the resulting index recommendations.</para>
+<para>The replayer is stateless – each call to <computeroutput><ref refid="classthemis_1_1_workload_replayer_1a6f02fc804d6b8b8157bcebf7669b2da7" kindref="member">replay()</ref></computeroutput> / <computeroutput><ref refid="classthemis_1_1_workload_replayer_1a202cc1f05d968581f92c0f26cd6d59ab" kindref="member">replayAll()</ref></computeroutput> creates an isolated IndexRecommender so that previous replays do not affect subsequent ones.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1_workload_replayer_1ab9da86d33b74a3f9598e382cf1d83a79" kindref="member">WorkloadReplayer</ref><sp/>replayer;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recs<sp/>=<sp/>replayer.replay(capture,<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>recs)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;Suggestion:<sp/>{}<sp/>{}<sp/>on<sp/>{}.{}&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(r.action<sp/>==<sp/>IndexRecommendation::Action::ADD)<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;ADD&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;DROP&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.index_type,<sp/>r.table_name,<sp/>r.column_name);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/index/workload_replay.h" line="141" column="1" bodyfile="include/index/workload_replay.h" bodystart="141" bodyend="173"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_workload_replayer_1a8306027223c0e9e1618fe30a4152e46e" prot="private" virt="non-virtual"><scope>themis::WorkloadReplayer</scope><name>feed</name></member>
+      <member refid="classthemis_1_1_workload_replayer_1a6f02fc804d6b8b8157bcebf7669b2da7" prot="public" virt="non-virtual"><scope>themis::WorkloadReplayer</scope><name>replay</name></member>
+      <member refid="classthemis_1_1_workload_replayer_1a202cc1f05d968581f92c0f26cd6d59ab" prot="public" virt="non-virtual"><scope>themis::WorkloadReplayer</scope><name>replayAll</name></member>
+      <member refid="classthemis_1_1_workload_replayer_1ab9da86d33b74a3f9598e382cf1d83a79" prot="public" virt="non-virtual"><scope>themis::WorkloadReplayer</scope><name>WorkloadReplayer</name></member>
+      <member refid="classthemis_1_1_workload_replayer_1aaf87ee7d47b29001a23a164bb5cc9a88" prot="public" virt="non-virtual"><scope>themis::WorkloadReplayer</scope><name>~WorkloadReplayer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

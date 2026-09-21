@@ -1,0 +1,558 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_column_segment" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::ColumnSegment</compoundname>
+    <includes refid="columnar__cache_8h" local="no">columnar_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_segment_1aafeadb0923d6d81c64aa37a30675f960" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref></type>
+        <definition>SegmentKey themis::storage::ColumnSegment::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::storage::ColumnSegment::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="91" column="17" bodyfile="include/storage/columnar_cache.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_segment_1a4dd9e102103c0fe4d6109922a293a6fa" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9" kindref="member">SegmentDType</ref></type>
+        <definition>SegmentDType themis::storage::ColumnSegment::dtype</definition>
+        <argsstring></argsstring>
+        <name>dtype</name>
+        <qualifiedname>themis::storage::ColumnSegment::dtype</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9afbde23b11d7e59af7828e81144c8b487" kindref="member">SegmentDType::Int64</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="92" column="18" bodyfile="include/storage/columnar_cache.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_segment_1a33c9590521423d7f8c2ae7982d8b4554" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; themis::storage::ColumnSegment::int64_data</definition>
+        <argsstring></argsstring>
+        <name>int64_data</name>
+        <qualifiedname>themis::storage::ColumnSegment::int64_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="95" column="21" bodyfile="include/storage/columnar_cache.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_segment_1aa896cd9429d61a11cd98ff38f48493e3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::storage::ColumnSegment::double_data</definition>
+        <argsstring></argsstring>
+        <name>double_data</name>
+        <qualifiedname>themis::storage::ColumnSegment::double_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="96" column="22" bodyfile="include/storage/columnar_cache.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_segment_1af99345aae36e9815c99fe1206b6f5fa7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::storage::ColumnSegment::string_data</definition>
+        <argsstring></argsstring>
+        <name>string_data</name>
+        <qualifiedname>themis::storage::ColumnSegment::string_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="97" column="17" bodyfile="include/storage/columnar_cache.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_segment_1a7b95ef007bb9323d5f9ffc83a1c61586" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt;bool&gt; themis::storage::ColumnSegment::bool_data</definition>
+        <argsstring></argsstring>
+        <name>bool_data</name>
+        <qualifiedname>themis::storage::ColumnSegment::bool_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="98" column="24" bodyfile="include/storage/columnar_cache.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_segment_1a37d0b836c67938628ee569fadd3ceed3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt;bool&gt; themis::storage::ColumnSegment::null_bitmap</definition>
+        <argsstring></argsstring>
+        <name>null_bitmap</name>
+        <qualifiedname>themis::storage::ColumnSegment::null_bitmap</qualifiedname>
+        <briefdescription>
+<para>true = null; same length as data vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="100" column="17" bodyfile="include/storage/columnar_cache.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_segment_1ab4f4bc8561a7d0e3a098757942ce65c8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::ColumnSegment::row_count</definition>
+        <argsstring></argsstring>
+        <name>row_count</name>
+        <qualifiedname>themis::storage::ColumnSegment::row_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of rows in this segment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="102" column="14" bodyfile="include/storage/columnar_cache.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_segment_1aec2c41e71006a56e6233b3a528e67da3" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_column_metadata" kindref="compound">ColumnMetadata</ref></type>
+        <definition>ColumnMetadata themis::storage::ColumnSegment::metadata_</definition>
+        <argsstring></argsstring>
+        <name>metadata_</name>
+        <qualifiedname>themis::storage::ColumnSegment::metadata_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="218" column="20" bodyfile="include/storage/columnar_format.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_segment_1af5bcf53c10a8028df042c64a65802a5c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::storage::ColumnSegment::raw_data_</definition>
+        <argsstring></argsstring>
+        <name>raw_data_</name>
+        <qualifiedname>themis::storage::ColumnSegment::raw_data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="219" column="17" bodyfile="include/storage/columnar_format.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_segment_1ae35f142902cc7e56c902d8764a72e396" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::storage::ColumnSegment::encoded_data_</definition>
+        <argsstring></argsstring>
+        <name>encoded_data_</name>
+        <qualifiedname>themis::storage::ColumnSegment::encoded_data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="220" column="17" bodyfile="include/storage/columnar_format.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_column_segment_1a114129bb96aae1e121d25215356031b8" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::ColumnSegment::is_encoded_</definition>
+        <argsstring></argsstring>
+        <name>is_encoded_</name>
+        <qualifiedname>themis::storage::ColumnSegment::is_encoded_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="221" column="10" bodyfile="include/storage/columnar_format.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_column_segment_1a90fde1f2c812b750214ce725c2faae99" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ColumnSegment::byteSize</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>byteSize</name>
+        <qualifiedname>themis::storage::ColumnSegment::byteSize</qualifiedname>
+        <briefdescription>
+<para>Estimated memory footprint in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="105" column="12" bodyfile="src/storage/columnar_cache.cpp" bodystart="24" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_column_segment_1a256dbcc0024703f520c4231a08327abe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ColumnSegment::ColumnSegment</definition>
+        <argsstring>()=default</argsstring>
+        <name>ColumnSegment</name>
+        <qualifiedname>themis::storage::ColumnSegment::ColumnSegment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="187" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_column_segment_1a47cfaadf1ab934abb4fef4d096d9cd7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::storage::ColumnSegment::encode</definition>
+        <argsstring>()</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::storage::ColumnSegment::encode</qualifiedname>
+        <briefdescription>
+<para>Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::debug(), Ok(), data(), <ref refid="classthemis_1_1storage_1_1_r_l_e_codec_1a2196bb66cd1d005c294157991373c7eb" kindref="member">RLECodec::encodeInt32()</ref>, <ref refid="classthemis_1_1storage_1_1_r_l_e_codec_1ad494498ce9a0b12a7f94f2f983d87c3f" kindref="member">RLECodec::encodeInt64()</ref>, tl::unexpected(), Error(), <ref refid="classthemis_1_1storage_1_1_bit_packing_codec_1a818a008c935e08ec145e751b9e5c2e73" kindref="member">BitPackingCodec::encodeInt32()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="198" column="12" bodyfile="src/storage/columnar_format.cpp" bodystart="1331" bodyend="1423"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_column_segment_1add1a20689e4aca1a20d60e2868a84727" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::storage::ColumnSegment::decode</definition>
+        <argsstring>()</argsstring>
+        <name>decode</name>
+        <qualifiedname>themis::storage::ColumnSegment::decode</qualifiedname>
+        <briefdescription>
+<para>Decode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::debug(), <ref refid="classthemis_1_1storage_1_1_r_l_e_codec_1aa18fc78b4c4df52bcc5ef476dacf3379" kindref="member">RLECodec::decodeInt32()</ref>, tl::unexpected(), error(), resize(), size(), std::memcpy(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="201" column="12" bodyfile="src/storage/columnar_format.cpp" bodystart="1430" bodyend="1561"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_column_segment_1a35c71de56e1c17345c0e16728aa1a323" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::storage::ColumnSegment::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::storage::ColumnSegment::serialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="204" column="17" bodyfile="src/storage/columnar_format.cpp" bodystart="1563" bodyend="1586"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_column_segment_1aa5acc8e333842caf6fe32f64cd4d7ec7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1storage_1_1_column_metadata" kindref="compound">ColumnMetadata</ref> &amp;</type>
+        <definition>const ColumnMetadata &amp; themis::storage::ColumnSegment::metadata</definition>
+        <argsstring>() const</argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::storage::ColumnSegment::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="210" column="26" bodyfile="include/storage/columnar_format.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_column_segment_1a9ba89bf6bdb36cfc70fb0143a4dea86e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+        <definition>const std::vector&lt; uint8_t &gt; &amp; themis::storage::ColumnSegment::encodedData</definition>
+        <argsstring>() const</argsstring>
+        <name>encodedData</name>
+        <qualifiedname>themis::storage::ColumnSegment::encodedData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="211" column="23" bodyfile="include/storage/columnar_format.h" bodystart="211" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_column_segment_1ad4e675cf755386eb1ad3222677659b43" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+        <definition>const std::vector&lt; uint8_t &gt; &amp; themis::storage::ColumnSegment::rawData</definition>
+        <argsstring>() const</argsstring>
+        <name>rawData</name>
+        <qualifiedname>themis::storage::ColumnSegment::rawData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="212" column="23" bodyfile="include/storage/columnar_format.h" bodystart="212" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_column_segment_1ae9fcd818547634d3c0a7e3dbd1c9906e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::ColumnSegment::canSkipSegment</definition>
+        <argsstring>(const void *filter_value) const</argsstring>
+        <name>canSkipSegment</name>
+        <qualifiedname>themis::storage::ColumnSegment::canSkipSegment</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>filter_value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="215" column="10" bodyfile="src/storage/columnar_format.cpp" bodystart="1682" bodyend="1709"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_column_segment_1a894773c3e3442e902c5187732aa18245" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1storage_1_1_column_segment_1a256dbcc0024703f520c4231a08327abe" kindref="member">ColumnSegment</ref> &gt;</type>
+        <definition>Result&lt; ColumnSegment &gt; themis::storage::ColumnSegment::create</definition>
+        <argsstring>(ColumnType type, const void *data, size_t row_count, CompressionCodec codec=CompressionCodec::NONE)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::storage::ColumnSegment::create</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a57463fe268e434865fe09aee81ab29f0" kindref="member">ColumnType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>row_count</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a01c8e5f6b41952138ad7d33fa726f7c7" kindref="member">CompressionCodec</ref></type>
+          <declname>codec</declname>
+          <defval><ref refid="namespacethemis_1_1storage_1a01c8e5f6b41952138ad7d33fa726f7c7ab50339a10e1de285ac99d4c3990b8693" kindref="member">CompressionCodec::NONE</ref></defval>
+        </param>
+        <briefdescription>
+<para>Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">codec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: tl::unexpected(), Error(), assign(), buildZoneMap(), selectOptimalCodec(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="190" column="19" bodyfile="src/storage/columnar_format.cpp" bodystart="1273" bodyend="1324"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_column_segment_1a67641cd571d7da47fe73d6c7cba179d9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1storage_1_1_column_segment_1a256dbcc0024703f520c4231a08327abe" kindref="member">ColumnSegment</ref> &gt;</type>
+        <definition>Result&lt; ColumnSegment &gt; themis::storage::ColumnSegment::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::storage::ColumnSegment::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), tl::unexpected(), Error(), std::memcpy(), read_uint64(), assign(), begin(), calculateSegmentChecksum(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="207" column="19" bodyfile="src/storage/columnar_format.cpp" bodystart="1595" bodyend="1680"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_column_segment_1af41d4dc1ae9eccd01e640d72e7f39d6a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::ColumnSegment::buildZoneMap</definition>
+        <argsstring>()</argsstring>
+        <name>buildZoneMap</name>
+        <qualifiedname>themis::storage::ColumnSegment::buildZoneMap</qualifiedname>
+        <briefdescription>
+<para>Build Zone Map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: empty(), data(), max(), min(), std::min(), std::max(), lowest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="224" column="10" bodyfile="src/storage/columnar_format.cpp" bodystart="1152" bodyend="1226"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_column_segment_1a33968a49dc2c1257b1b5cf0142e68980" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1storage_1a01c8e5f6b41952138ad7d33fa726f7c7" kindref="member">CompressionCodec</ref></type>
+        <definition>CompressionCodec themis::storage::ColumnSegment::selectOptimalCodec</definition>
+        <argsstring>(ColumnType type, const void *data, size_t row_count)</argsstring>
+        <name>selectOptimalCodec</name>
+        <qualifiedname>themis::storage::ColumnSegment::selectOptimalCodec</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1storage_1a57463fe268e434865fe09aee81ab29f0" kindref="member">ColumnType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>row_count</declname>
+        </param>
+        <briefdescription>
+<para>Select Optimal Codec. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements selectOptimalCodec without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="227" column="29" bodyfile="src/storage/columnar_format.cpp" bodystart="1236" bodyend="1262"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A contiguous typed column buffer for one segment of a table column. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The buffers are plain <computeroutput>std::vector</computeroutput> objects and can be handed to <computeroutput>analytics::Column::appendXxx()</computeroutput> without copying.</para>
+<para><computeroutput><ref refid="structthemis_1_1storage_1_1_column_segment_1a37d0b836c67938628ee569fadd3ceed3" kindref="member">null_bitmap</ref>[i]</computeroutput> is <computeroutput>true</computeroutput> when row <computeroutput>i</computeroutput> within this segment is NULL. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::storage::ColumnSegment</label>
+        <link refid="structthemis_1_1storage_1_1_column_segment"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>key</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::storage::SegmentKey</label>
+        <link refid="structthemis_1_1storage_1_1_segment_key"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/columnar_cache.h" line="90" column="1" bodyfile="include/storage/columnar_cache.h" bodystart="90" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1a7b95ef007bb9323d5f9ffc83a1c61586" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>bool_data</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1af41d4dc1ae9eccd01e640d72e7f39d6a" prot="private" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>buildZoneMap</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1a90fde1f2c812b750214ce725c2faae99" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>byteSize</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1ae9fcd818547634d3c0a7e3dbd1c9906e" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>canSkipSegment</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1a256dbcc0024703f520c4231a08327abe" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>ColumnSegment</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1a894773c3e3442e902c5187732aa18245" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>create</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1add1a20689e4aca1a20d60e2868a84727" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>decode</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1a67641cd571d7da47fe73d6c7cba179d9" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>deserialize</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1aa896cd9429d61a11cd98ff38f48493e3" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>double_data</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1a4dd9e102103c0fe4d6109922a293a6fa" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>dtype</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1a47cfaadf1ab934abb4fef4d096d9cd7e" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>encode</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1ae35f142902cc7e56c902d8764a72e396" prot="private" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>encoded_data_</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1a9ba89bf6bdb36cfc70fb0143a4dea86e" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>encodedData</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1a33c9590521423d7f8c2ae7982d8b4554" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>int64_data</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1a114129bb96aae1e121d25215356031b8" prot="private" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>is_encoded_</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1aafeadb0923d6d81c64aa37a30675f960" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>key</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1aa5acc8e333842caf6fe32f64cd4d7ec7" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1aec2c41e71006a56e6233b3a528e67da3" prot="private" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>metadata_</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1a37d0b836c67938628ee569fadd3ceed3" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>null_bitmap</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1af5bcf53c10a8028df042c64a65802a5c" prot="private" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>raw_data_</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1ad4e675cf755386eb1ad3222677659b43" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>rawData</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1ab4f4bc8561a7d0e3a098757942ce65c8" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>row_count</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1a33968a49dc2c1257b1b5cf0142e68980" prot="private" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>selectOptimalCodec</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1a35c71de56e1c17345c0e16728aa1a323" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>serialize</name></member>
+      <member refid="structthemis_1_1storage_1_1_column_segment_1af99345aae36e9815c99fe1206b6f5fa7" prot="public" virt="non-virtual"><scope>themis::storage::ColumnSegment</scope><name>string_data</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

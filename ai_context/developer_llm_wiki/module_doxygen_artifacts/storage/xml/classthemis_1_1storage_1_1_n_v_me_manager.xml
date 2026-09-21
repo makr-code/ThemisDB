@@ -1,0 +1,807 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_n_v_me_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::NVMeManager</compoundname>
+    <includes refid="nvme__manager_8h" local="no">nvme_manager.h</includes>
+    <innerclass refid="structthemis_1_1storage_1_1_n_v_me_manager_1_1_io_uring_state" prot="public">themis::storage::NVMeManager::IoUringState</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_n_v_me_manager_1aa0bba37f642cbecd9adfaa1b38e3cff2" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_n_v_me_config" kindref="compound">NVMeConfig</ref></type>
+        <definition>NVMeConfig themis::storage::NVMeManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::storage::NVMeManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="281" column="16" bodyfile="include/storage/nvme_manager.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_n_v_me_manager_1aaa9ace7a3c8efa4457f59d597f465078" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1storage_1_1_n_v_me_manager_1_1_io_uring_state" kindref="compound">IoUringState</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;IoUringState&gt; themis::storage::NVMeManager::ring_</definition>
+        <argsstring></argsstring>
+        <name>ring_</name>
+        <qualifiedname>themis::storage::NVMeManager::ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="285" column="21" bodyfile="include/storage/nvme_manager.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_n_v_me_manager_1a1451611c85944826289199048def3607" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1storage_1_1_n_v_me_capabilities" kindref="compound">NVMeCapabilities</ref></type>
+        <definition>NVMeCapabilities themis::storage::NVMeManager::capabilities_</definition>
+        <argsstring></argsstring>
+        <name>capabilities_</name>
+        <qualifiedname>themis::storage::NVMeManager::capabilities_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="287" column="30" bodyfile="include/storage/nvme_manager.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_n_v_me_manager_1a106482a7e50cf2d59f75b6c15449a0b5" prot="private" static="no" mutable="yes">
+        <type>std::once_flag</type>
+        <definition>std::once_flag themis::storage::NVMeManager::capabilities_once_</definition>
+        <argsstring></argsstring>
+        <name>capabilities_once_</name>
+        <qualifiedname>themis::storage::NVMeManager::capabilities_once_</qualifiedname>
+        <briefdescription>
+<para>Guards one-time detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="288" column="30" bodyfile="include/storage/nvme_manager.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_n_v_me_manager_1a4b039b45ee42ad7d5fc5a5fefe7727fe" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::NVMeManager::state_mutex_</definition>
+        <argsstring></argsstring>
+        <name>state_mutex_</name>
+        <qualifiedname>themis::storage::NVMeManager::state_mutex_</qualifiedname>
+        <briefdescription>
+<para>Guards cached capabilities/config reads used across threads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="289" column="30" bodyfile="include/storage/nvme_manager.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_n_v_me_manager_1af1fe553f453aec14caa8596938b51c10" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::NVMeManager::zone_mutex_</definition>
+        <argsstring></argsstring>
+        <name>zone_mutex_</name>
+        <qualifiedname>themis::storage::NVMeManager::zone_mutex_</qualifiedname>
+        <briefdescription>
+<para>Serialises zone management calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="290" column="30" bodyfile="include/storage/nvme_manager.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_n_v_me_manager_1a7525939b6788fc9b3f6ac9723d842389" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::NVMeManager::ring_mutex_</definition>
+        <argsstring></argsstring>
+        <name>ring_mutex_</name>
+        <qualifiedname>themis::storage::NVMeManager::ring_mutex_</qualifiedname>
+        <briefdescription>
+<para>Serialises io_uring ring operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="291" column="30" bodyfile="include/storage/nvme_manager.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_n_v_me_manager_1adf00c51e13f2d83a96dfe8bb242452c0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::storage::NVMeManager::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::storage::NVMeManager::initialized_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="293" column="17" bodyfile="include/storage/nvme_manager.h" bodystart="293" bodyend="293"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1aeed25206b881c957f10199d5a82cfb11" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::NVMeManager::NVMeManager</definition>
+        <argsstring>(const NVMeConfig &amp;config={})</argsstring>
+        <name>NVMeManager</name>
+        <qualifiedname>themis::storage::NVMeManager::NVMeManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_n_v_me_config" kindref="compound">NVMeConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="156" column="14" bodyfile="src/storage/nvme_manager.cpp" bodystart="140" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1ae3f0386171db5e1d0a6387f2f7f236d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::NVMeManager::~NVMeManager</definition>
+        <argsstring>()</argsstring>
+        <name>~NVMeManager</name>
+        <qualifiedname>themis::storage::NVMeManager::~NVMeManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="157" column="5" bodyfile="src/storage/nvme_manager.cpp" bodystart="143" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1ae68acae9ab4f006c6923f6e1b76c2d17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::NVMeManager::NVMeManager</definition>
+        <argsstring>(const NVMeManager &amp;)=delete</argsstring>
+        <name>NVMeManager</name>
+        <qualifiedname>themis::storage::NVMeManager::NVMeManager</qualifiedname>
+        <param>
+          <type>const NVMeManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="159" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1abf0e1065adff2b62d8abc42b598802bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1aeed25206b881c957f10199d5a82cfb11" kindref="member">NVMeManager</ref> &amp;</type>
+        <definition>NVMeManager &amp; themis::storage::NVMeManager::operator=</definition>
+        <argsstring>(const NVMeManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::NVMeManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1aeed25206b881c957f10199d5a82cfb11" kindref="member">NVMeManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="160" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1a85edb7c0aa4d2590f9fadc47373ab4e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::NVMeManager::NVMeManager</definition>
+        <argsstring>(NVMeManager &amp;&amp;)=delete</argsstring>
+        <name>NVMeManager</name>
+        <qualifiedname>themis::storage::NVMeManager::NVMeManager</qualifiedname>
+        <param>
+          <type>NVMeManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="161" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1a87a07ded9b6a148fbf6d71cd218bc760" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1aeed25206b881c957f10199d5a82cfb11" kindref="member">NVMeManager</ref> &amp;</type>
+        <definition>NVMeManager &amp; themis::storage::NVMeManager::operator=</definition>
+        <argsstring>(NVMeManager &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::NVMeManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1aeed25206b881c957f10199d5a82cfb11" kindref="member">NVMeManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="162" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1a365e520c3a977067a8122e9b6a0db5fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeManager::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::storage::NVMeManager::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialise the manager and set up the io_uring ring if enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para>Always returns true. If io_uring or ZNS are requested but unavailable, those features are silently disabled (with a WARN log) and the manager continues operating in degraded mode.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), state_lock(), THEMIS_INFO(), <ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1ae2fdb9d57327925a3de61abd5a723a62" kindref="member">detectCapabilities()</ref>, THEMIS_WARN(), setupIoUring(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="173" column="10" bodyfile="src/storage/nvme_manager.cpp" bodystart="162" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1aca2780b917ca1d321b17293ff6dd8ec8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::NVMeManager::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::storage::NVMeManager::shutdown</qualifiedname>
+        <briefdescription>
+<para>Release all resources (io_uring ring, registered buffers/files). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Shutdown.</para>
+<para>Calls: load(), THEMIS_INFO(), teardownIoUring(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="178" column="10" bodyfile="src/storage/nvme_manager.cpp" bodystart="233" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1ae2fdb9d57327925a3de61abd5a723a62" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_n_v_me_capabilities" kindref="compound">NVMeCapabilities</ref></type>
+        <definition>NVMeCapabilities themis::storage::NVMeManager::detectCapabilities</definition>
+        <argsstring>() const</argsstring>
+        <name>detectCapabilities</name>
+        <qualifiedname>themis::storage::NVMeManager::detectCapabilities</qualifiedname>
+        <briefdescription>
+<para>Probe the host for NVMe / kernel capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Result is cached after the first call. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>State lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+State lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="187" column="22" bodyfile="src/storage/nvme_manager.cpp" bodystart="246" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1a9020052b226ffd616d228aa668a4e6ca" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeManager::isIoUringActive</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isIoUringActive</name>
+        <qualifiedname>themis::storage::NVMeManager::isIoUringActive</qualifiedname>
+        <briefdescription>
+<para>Return whether io_uring was successfully initialised. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="192" column="10" bodyfile="src/storage/nvme_manager.cpp" bodystart="363" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1a357af4e0e06a4a4591bea609b68cf8d4" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::NVMeManager::detectedQueueCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>detectedQueueCount</name>
+        <qualifiedname>themis::storage::NVMeManager::detectedQueueCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of hardware I/O queue pairs detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Returns hw_queue_count from capabilities_ (initialized via std::call_once in <ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1ae2fdb9d57327925a3de61abd5a723a62" kindref="member">detectCapabilities()</ref>; defaults to 1 until called). <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="197" column="14" bodyfile="src/storage/nvme_manager.cpp" bodystart="396" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1a9abbeb06e1208a758cd7ece4421f7718" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeManager::submitRead</definition>
+        <argsstring>(const NVMeIORequest &amp;req)</argsstring>
+        <name>submitRead</name>
+        <qualifiedname>themis::storage::NVMeManager::submitRead</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_n_v_me_i_o_request" kindref="compound">NVMeIORequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Submit an asynchronous read request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Submit Read.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I/O request descriptor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the request was enqueued; false on ring overflow or error.</para>
+</simplesect>
+<simplesect kind="note"><para>Falls back to synchronous pread() when io_uring is unavailable.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1a9020052b226ffd616d228aa668a4e6ca" kindref="member">isIoUringActive()</ref>, ring_lk(), get(), __atomic_load_n(), THEMIS_WARN(), std::memset(), __atomic_store_n(), themis_io_uring_enter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="209" column="10" bodyfile="src/storage/nvme_manager.cpp" bodystart="416" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1a698db8916d7ed437c9e61ac34dfff252" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeManager::submitWrite</definition>
+        <argsstring>(const NVMeIORequest &amp;req)</argsstring>
+        <name>submitWrite</name>
+        <qualifiedname>themis::storage::NVMeManager::submitWrite</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_n_v_me_i_o_request" kindref="compound">NVMeIORequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Submit an asynchronous write request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Submit Write.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I/O request descriptor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the request was enqueued; false on ring overflow or error.</para>
+</simplesect>
+<simplesect kind="note"><para>Falls back to synchronous pwrite() when io_uring is unavailable.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1a9020052b226ffd616d228aa668a4e6ca" kindref="member">isIoUringActive()</ref>, ring_lk(), get(), __atomic_load_n(), THEMIS_WARN(), std::memset(), __atomic_store_n(), themis_io_uring_enter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="219" column="10" bodyfile="src/storage/nvme_manager.cpp" bodystart="483" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1af8fed69e5aa38823c2fd8a73236b0263" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::storage::NVMeManager::pollCompletions</definition>
+        <argsstring>(std::vector&lt; NVMeIOResult &gt; &amp;results, uint32_t min_complete=0)</argsstring>
+        <name>pollCompletions</name>
+        <qualifiedname>themis::storage::NVMeManager::pollCompletions</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1storage_1_1_n_v_me_i_o_result" kindref="compound">NVMeIOResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>min_complete</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Flush pending submissions and collect completions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Poll Completions.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output vector populated with completed I/O results. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_complete</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum completions to wait for (0 = non-blocking). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of completions harvested, or -1 on error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">min_complete</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: clear(), <ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1a9020052b226ffd616d228aa668a4e6ca" kindref="member">isIoUringActive()</ref>, ring_lk(), get(), themis_io_uring_enter(), THEMIS_ERROR(), std::strerror(), __atomic_load_n(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="228" column="9" bodyfile="src/storage/nvme_manager.cpp" bodystart="550" bodyend="593"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1afb7f70a02c9e2bb886970c856a752433" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeManager::resetZone</definition>
+        <argsstring>(uint64_t zone_offset)</argsstring>
+        <name>resetZone</name>
+        <qualifiedname>themis::storage::NVMeManager::resetZone</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>zone_offset</declname>
+        </param>
+        <briefdescription>
+<para>Reset a zone (erase all data, mark zone as empty). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Zone.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>zone_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Byte offset of the zone start (must be zone-aligned). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">zone_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), THEMIS_WARN(), lock(), open(), c_str(), THEMIS_ERROR(), std::strerror(), ioctl(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="239" column="10" bodyfile="src/storage/nvme_manager.cpp" bodystart="605" bodyend="636"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1a4ef41a9ad1e296564298d50040a43da9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeManager::finishZone</definition>
+        <argsstring>(uint64_t zone_offset)</argsstring>
+        <name>finishZone</name>
+        <qualifiedname>themis::storage::NVMeManager::finishZone</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>zone_offset</declname>
+        </param>
+        <briefdescription>
+<para>Mark a zone as full (no further writes until reset). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Finish Zone.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>zone_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Byte offset of the zone start. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">zone_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), THEMIS_WARN(), lock(), open(), c_str(), THEMIS_ERROR(), std::strerror(), ioctl(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="247" column="10" bodyfile="src/storage/nvme_manager.cpp" bodystart="644" bodyend="675"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1a2687238d6660d9f5db27cf9504eb9982" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::NVMeManager::getZoneWritePointer</definition>
+        <argsstring>(uint64_t zone_offset) const</argsstring>
+        <name>getZoneWritePointer</name>
+        <qualifiedname>themis::storage::NVMeManager::getZoneWritePointer</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>zone_offset</declname>
+        </param>
+        <briefdescription>
+<para>Query the write pointer (current append position) of a zone. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>zone_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Byte offset of the zone start. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Write pointer byte offset, or UINT64_MAX on error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">zone_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="255" column="14" bodyfile="src/storage/nvme_manager.cpp" bodystart="677" bodyend="715"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1af4184b3579e386852b750c9439d2cf79" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; bool, bool &gt;</type>
+        <definition>std::pair&lt; bool, bool &gt; themis::storage::NVMeManager::recommendedDirectIOFlags</definition>
+        <argsstring>() const</argsstring>
+        <name>recommendedDirectIOFlags</name>
+        <qualifiedname>themis::storage::NVMeManager::recommendedDirectIOFlags</qualifiedname>
+        <briefdescription>
+<para>Populate a RocksDB-compatible Direct I/O flag summary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a pair of booleans representing { use_direct_reads, use_direct_io_for_flush_and_compaction } adjusted to reflect only the flags that the detected device supports. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>State lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="266" column="15" bodyfile="src/storage/nvme_manager.cpp" bodystart="721" bodyend="738"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1ab7f68921ec0b80120fc301a4c6d0b6ac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::NVMeManager::recommendedBackgroundThreads</definition>
+        <argsstring>() const</argsstring>
+        <name>recommendedBackgroundThreads</name>
+        <qualifiedname>themis::storage::NVMeManager::recommendedBackgroundThreads</qualifiedname>
+        <briefdescription>
+<para>Recommended number of RocksDB background I/O threads. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns min(detected_hw_queue_count * 2, 16) as a practical upper bound. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="273" column="14" bodyfile="src/storage/nvme_manager.cpp" bodystart="740" bodyend="747"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1a688735b4bbc8593bb088b419d5892b09" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1storage_1_1_n_v_me_config" kindref="compound">NVMeConfig</ref> &amp;</type>
+        <definition>const NVMeConfig &amp; themis::storage::NVMeManager::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::storage::NVMeManager::config</qualifiedname>
+        <briefdescription>
+<para>Return the active configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="278" column="22" bodyfile="include/storage/nvme_manager.h" bodystart="278" bodyend="278"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1a9e1bd4462377b117a63557720539086a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeManager::setupIoUring</definition>
+        <argsstring>()</argsstring>
+        <name>setupIoUring</name>
+        <qualifiedname>themis::storage::NVMeManager::setupIoUring</qualifiedname>
+        <briefdescription>
+<para>Setup Io Uring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: ring_lock(), get(), themis_io_uring_setup(), THEMIS_ERROR(), std::strerror(), mmap(), close(), munmap(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="296" column="13" bodyfile="src/storage/nvme_manager.cpp" bodystart="807" bodyend="898"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1a14a367e941b004df1b93233a544d11e3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::NVMeManager::teardownIoUring</definition>
+        <argsstring>()</argsstring>
+        <name>teardownIoUring</name>
+        <qualifiedname>themis::storage::NVMeManager::teardownIoUring</qualifiedname>
+        <briefdescription>
+<para>Teardown Io Uring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: ring_lock(), get(), munmap(), close(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="297" column="13" bodyfile="src/storage/nvme_manager.cpp" bodystart="904" bodyend="927"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1a12a65707f51a34f40c267cd26cbfaac9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeManager::probeIoUringKernel</definition>
+        <argsstring>() const</argsstring>
+        <name>probeIoUringKernel</name>
+        <qualifiedname>themis::storage::NVMeManager::probeIoUringKernel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="298" column="13" bodyfile="src/storage/nvme_manager.cpp" bodystart="753" bodyend="768"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_n_v_me_manager_1afc5a87710c44582cb702e4499d5aad76" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::NVMeManager::readHwQueueCount</definition>
+        <argsstring>() const</argsstring>
+        <name>readHwQueueCount</name>
+        <qualifiedname>themis::storage::NVMeManager::readHwQueueCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="299" column="14" bodyfile="src/storage/nvme_manager.cpp" bodystart="770" bodyend="800"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>NVMe-specific storage optimization manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides:<itemizedlist>
+<listitem><para>Runtime detection of io_uring, ZNS, and multi-queue capabilities.</para>
+</listitem><listitem><para>io_uring async I/O submission and completion polling.</para>
+</listitem><listitem><para>ZNS zone management helpers (reset, finish, query zone state).</para>
+</listitem><listitem><para>Helper to build the recommended RocksDB Direct I/O flags for the device.</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safety:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1ae2fdb9d57327925a3de61abd5a723a62" kindref="member">detectCapabilities()</ref> is safe to call concurrently from any thread; results are computed at most once and cached via std::call_once.</para>
+</listitem><listitem><para>submitRead / submitWrite / pollCompletions are thread-safe; they acquire an internal ring_mutex_ before accessing the shared io_uring ring.</para>
+</listitem><listitem><para>Zone management functions are serialised via an internal mutex. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/storage/nvme_manager.h" line="154" column="1" bodyfile="include/storage/nvme_manager.h" bodystart="154" bodyend="300"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1a1451611c85944826289199048def3607" prot="private" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>capabilities_</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1a106482a7e50cf2d59f75b6c15449a0b5" prot="private" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>capabilities_once_</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1a688735b4bbc8593bb088b419d5892b09" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>config</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1aa0bba37f642cbecd9adfaa1b38e3cff2" prot="private" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1ae2fdb9d57327925a3de61abd5a723a62" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>detectCapabilities</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1a357af4e0e06a4a4591bea609b68cf8d4" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>detectedQueueCount</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1a4ef41a9ad1e296564298d50040a43da9" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>finishZone</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1a2687238d6660d9f5db27cf9504eb9982" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>getZoneWritePointer</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1a365e520c3a977067a8122e9b6a0db5fc" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1adf00c51e13f2d83a96dfe8bb242452c0" prot="private" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1a9020052b226ffd616d228aa668a4e6ca" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>isIoUringActive</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1aeed25206b881c957f10199d5a82cfb11" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>NVMeManager</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1ae68acae9ab4f006c6923f6e1b76c2d17" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>NVMeManager</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1a85edb7c0aa4d2590f9fadc47373ab4e3" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>NVMeManager</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1abf0e1065adff2b62d8abc42b598802bd" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1a87a07ded9b6a148fbf6d71cd218bc760" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1af8fed69e5aa38823c2fd8a73236b0263" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>pollCompletions</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1a12a65707f51a34f40c267cd26cbfaac9" prot="private" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>probeIoUringKernel</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1afc5a87710c44582cb702e4499d5aad76" prot="private" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>readHwQueueCount</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1ab7f68921ec0b80120fc301a4c6d0b6ac" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>recommendedBackgroundThreads</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1af4184b3579e386852b750c9439d2cf79" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>recommendedDirectIOFlags</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1afb7f70a02c9e2bb886970c856a752433" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>resetZone</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1aaa9ace7a3c8efa4457f59d597f465078" prot="private" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>ring_</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1a7525939b6788fc9b3f6ac9723d842389" prot="private" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>ring_mutex_</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1a9e1bd4462377b117a63557720539086a" prot="private" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>setupIoUring</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1aca2780b917ca1d321b17293ff6dd8ec8" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1a4b039b45ee42ad7d5fc5a5fefe7727fe" prot="private" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>state_mutex_</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1a9abbeb06e1208a758cd7ece4421f7718" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>submitRead</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1a698db8916d7ed437c9e61ac34dfff252" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>submitWrite</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1a14a367e941b004df1b93233a544d11e3" prot="private" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>teardownIoUring</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1af1fe553f453aec14caa8596938b51c10" prot="private" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>zone_mutex_</name></member>
+      <member refid="classthemis_1_1storage_1_1_n_v_me_manager_1ae3f0386171db5e1d0a6387f2f7f236d0" prot="public" virt="non-virtual"><scope>themis::storage::NVMeManager</scope><name>~NVMeManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TemporalSnapshotManager::SnapshotDiff</compoundname>
+    <includes refid="snapshot__manager_8h" local="no">snapshot_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a0a032629d8e13d69477fc8c192f2f944" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;std::string , std::vector&lt;std::string &gt; &gt; themisdb::temporal::TemporalSnapshotManager::SnapshotDiff::modified</definition>
+        <argsstring></argsstring>
+        <name>modified</name>
+        <qualifiedname>themisdb::temporal::TemporalSnapshotManager::SnapshotDiff::modified</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Keys whose latest version has a different data map in <computeroutput>other</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/snapshot_manager.h" line="217" column="2" bodyfile="include/temporal/snapshot_manager.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a6585f18c64e1ecac588e7e17c3c9a5d5" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::string&gt; &gt; themisdb::temporal::TemporalSnapshotManager::SnapshotDiff::added</definition>
+        <argsstring></argsstring>
+        <name>added</name>
+        <qualifiedname>themisdb::temporal::TemporalSnapshotManager::SnapshotDiff::added</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Keys present in <computeroutput>other</computeroutput> but absent from <computeroutput>base</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/snapshot_manager.h" line="220" column="18" bodyfile="include/temporal/snapshot_manager.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a07d6478cf90f6a195fd6f7fae4b7b89e" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::string&gt; &gt; themisdb::temporal::TemporalSnapshotManager::SnapshotDiff::removed</definition>
+        <argsstring></argsstring>
+        <name>removed</name>
+        <qualifiedname>themisdb::temporal::TemporalSnapshotManager::SnapshotDiff::removed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Keys present in <computeroutput>base</computeroutput> but absent from <computeroutput>other</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/snapshot_manager.h" line="223" column="18" bodyfile="include/temporal/snapshot_manager.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a359c65010a3e0f770176d3421d1ff9b0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalSnapshotManager::SnapshotDiff::tables_examined</definition>
+        <argsstring></argsstring>
+        <name>tables_examined</name>
+        <qualifiedname>themisdb::temporal::TemporalSnapshotManager::SnapshotDiff::tables_examined</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total tables examined (intersection of both snapshots). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/snapshot_manager.h" line="226" column="16" bodyfile="include/temporal/snapshot_manager.h" bodystart="226" bodyend="226"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a499098d15d25921f117f5f5bc5f90525" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::TemporalSnapshotManager::SnapshotDiff::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themisdb::temporal::TemporalSnapshotManager::SnapshotDiff::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>true when base and other are identical across all shared tables. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/snapshot_manager.h" line="229" column="14" bodyfile="include/temporal/snapshot_manager.h" bodystart="229" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a709d35410d24c79cf37068bfc29296dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::TemporalSnapshotManager::SnapshotDiff::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::temporal::TemporalSnapshotManager::SnapshotDiff::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/snapshot_manager.h" line="233" column="24" bodyfile="src/temporal/snapshot_manager.cpp" bodystart="284" bodyend="298"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Result of comparing two snapshots.</para>
+<para>Describes the incremental difference between an older snapshot (base) and a newer snapshot (other) on a per-table, per-key basis. </para>
+    </detaileddescription>
+    <location file="include/temporal/snapshot_manager.h" line="214" column="5" bodyfile="include/temporal/snapshot_manager.h" bodystart="214" bodyend="234"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a6585f18c64e1ecac588e7e17c3c9a5d5" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalSnapshotManager::SnapshotDiff</scope><name>added</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a499098d15d25921f117f5f5bc5f90525" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalSnapshotManager::SnapshotDiff</scope><name>empty</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a0a032629d8e13d69477fc8c192f2f944" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalSnapshotManager::SnapshotDiff</scope><name>modified</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a07d6478cf90f6a195fd6f7fae4b7b89e" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalSnapshotManager::SnapshotDiff</scope><name>removed</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a359c65010a3e0f770176d3421d1ff9b0" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalSnapshotManager::SnapshotDiff</scope><name>tables_examined</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_manager_1_1_snapshot_diff_1a709d35410d24c79cf37068bfc29296dd" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalSnapshotManager::SnapshotDiff</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

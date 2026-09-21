@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AdvancedVectorIndex::StubCallbacks</compoundname>
+    <includes refid="advanced__vector__index_8h" local="no">advanced_vector_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1a99f64edb3100ee1f317374483af6e646" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(size_t dimension, const <ref refid="structthemis_1_1_advanced_vector_index_1_1_config" kindref="compound">Config</ref> &amp;config)&gt;</type>
+        <definition>std::function&lt;bool(size_t dimension, const Config&amp; config)&gt; themis::AdvancedVectorIndex::StubCallbacks::initialize</definition>
+        <argsstring></argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::AdvancedVectorIndex::StubCallbacks::initialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="145" column="23" bodyfile="include/index/advanced_vector_index.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1af733fc63d7988d7bb4486a1855f2a349" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const float *vectors, size_t count)&gt;</type>
+        <definition>std::function&lt;bool(const float* vectors, size_t count)&gt; themis::AdvancedVectorIndex::StubCallbacks::train</definition>
+        <argsstring></argsstring>
+        <name>train</name>
+        <qualifiedname>themis::AdvancedVectorIndex::StubCallbacks::train</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="146" column="23" bodyfile="include/index/advanced_vector_index.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1a525a924fef73fa27879366b017e3eada" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const float *vectors, size_t count)&gt;</type>
+        <definition>std::function&lt;bool(const float* vectors, size_t count)&gt; themis::AdvancedVectorIndex::StubCallbacks::add</definition>
+        <argsstring></argsstring>
+        <name>add</name>
+        <qualifiedname>themis::AdvancedVectorIndex::StubCallbacks::add</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="147" column="23" bodyfile="include/index/advanced_vector_index.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1ad026be357b1cabf2c3899b8423850c1c" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const float *vectors, const int64_t *ids, size_t count)&gt;</type>
+        <definition>std::function&lt;bool(const float* vectors, const int64_t* ids, size_t count)&gt; themis::AdvancedVectorIndex::StubCallbacks::add_with_ids</definition>
+        <argsstring></argsstring>
+        <name>add_with_ids</name>
+        <qualifiedname>themis::AdvancedVectorIndex::StubCallbacks::add_with_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="148" column="23" bodyfile="include/index/advanced_vector_index.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1a141bcf3cb218f24cf85e71a4ba5cda78" prot="public" static="no" mutable="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1_advanced_vector_index_1_1_search_result" kindref="compound">SearchResult</ref>(const float *query, size_t k)&gt;</type>
+        <definition>std::function&lt;SearchResult(const float* query, size_t k)&gt; themis::AdvancedVectorIndex::StubCallbacks::search</definition>
+        <argsstring></argsstring>
+        <name>search</name>
+        <qualifiedname>themis::AdvancedVectorIndex::StubCallbacks::search</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="149" column="23" bodyfile="include/index/advanced_vector_index.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1a196d4578cd428404fc789fdfdbbb863c" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::vector&lt; <ref refid="structthemis_1_1_advanced_vector_index_1_1_search_result" kindref="compound">SearchResult</ref> &gt;(const float *queries, size_t num_queries, size_t k)&gt;</type>
+        <definition>std::function&lt;std::vector&lt;SearchResult&gt;(const float* queries, size_t num_queries, size_t k)&gt; themis::AdvancedVectorIndex::StubCallbacks::search_batch</definition>
+        <argsstring></argsstring>
+        <name>search_batch</name>
+        <qualifiedname>themis::AdvancedVectorIndex::StubCallbacks::search_batch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="150" column="25" bodyfile="include/index/advanced_vector_index.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1a370933f8b1387f3b3e17db087e6a368c" prot="public" static="no" mutable="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1_advanced_vector_index_1_1_stats" kindref="compound">Stats</ref>()&gt;</type>
+        <definition>std::function&lt;Stats()&gt; themis::AdvancedVectorIndex::StubCallbacks::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::AdvancedVectorIndex::StubCallbacks::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="151" column="23" bodyfile="include/index/advanced_vector_index.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1ac7b7e08fd8bb25e65febc5f5ed9c2cb1" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const std::string &amp;path)&gt;</type>
+        <definition>std::function&lt;bool(const std::string&amp; path)&gt; themis::AdvancedVectorIndex::StubCallbacks::save</definition>
+        <argsstring></argsstring>
+        <name>save</name>
+        <qualifiedname>themis::AdvancedVectorIndex::StubCallbacks::save</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="152" column="23" bodyfile="include/index/advanced_vector_index.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1a4c6dba82a24d1b06dbd6d0cd83ea390b" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const std::string &amp;path)&gt;</type>
+        <definition>std::function&lt;bool(const std::string&amp; path)&gt; themis::AdvancedVectorIndex::StubCallbacks::load</definition>
+        <argsstring></argsstring>
+        <name>load</name>
+        <qualifiedname>themis::AdvancedVectorIndex::StubCallbacks::load</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/advanced_vector_index.h" line="153" column="23" bodyfile="include/index/advanced_vector_index.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/advanced_vector_index.h" line="144" column="5" bodyfile="include/index/advanced_vector_index.h" bodystart="144" bodyend="154"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1a525a924fef73fa27879366b017e3eada" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex::StubCallbacks</scope><name>add</name></member>
+      <member refid="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1ad026be357b1cabf2c3899b8423850c1c" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex::StubCallbacks</scope><name>add_with_ids</name></member>
+      <member refid="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1a99f64edb3100ee1f317374483af6e646" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex::StubCallbacks</scope><name>initialize</name></member>
+      <member refid="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1a4c6dba82a24d1b06dbd6d0cd83ea390b" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex::StubCallbacks</scope><name>load</name></member>
+      <member refid="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1ac7b7e08fd8bb25e65febc5f5ed9c2cb1" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex::StubCallbacks</scope><name>save</name></member>
+      <member refid="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1a141bcf3cb218f24cf85e71a4ba5cda78" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex::StubCallbacks</scope><name>search</name></member>
+      <member refid="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1a196d4578cd428404fc789fdfdbbb863c" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex::StubCallbacks</scope><name>search_batch</name></member>
+      <member refid="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1a370933f8b1387f3b3e17db087e6a368c" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex::StubCallbacks</scope><name>stats</name></member>
+      <member refid="structthemis_1_1_advanced_vector_index_1_1_stub_callbacks_1af733fc63d7988d7bb4486a1855f2a349" prot="public" virt="non-virtual"><scope>themis::AdvancedVectorIndex::StubCallbacks</scope><name>train</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

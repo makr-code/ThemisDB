@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUUnifiedMemoryAllocator::Stats</compoundname>
+    <includes refid="unified__memory_8h" local="no">unified_memory.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1ae5654515c5e884e3cab10689a417d2c2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUUnifiedMemoryAllocator::Stats::total_allocations</definition>
+        <argsstring></argsstring>
+        <name>total_allocations</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::Stats::total_allocations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Successful <ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a00e8dfa607f7c8ca7b7e6f0bbcb346b1" kindref="member">allocate()</ref> calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="94" column="18" bodyfile="include/themis/gpu/unified_memory.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1a531cbeb27053f529611247bc5eeed706" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUUnifiedMemoryAllocator::Stats::total_frees</definition>
+        <argsstring></argsstring>
+        <name>total_frees</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::Stats::total_frees</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Successful <ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1af618c466d7b4fa30416347723c39210e" kindref="member">free()</ref> calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="95" column="18" bodyfile="include/themis/gpu/unified_memory.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1ab23f1abf88ee2d578023849e73a666df" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUUnifiedMemoryAllocator::Stats::allocated_bytes</definition>
+        <argsstring></argsstring>
+        <name>allocated_bytes</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::Stats::allocated_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Currently live bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="96" column="18" bodyfile="include/themis/gpu/unified_memory.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1a9b8028681c1ed55810107cb7e9a7a560" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUUnifiedMemoryAllocator::Stats::peak_bytes</definition>
+        <argsstring></argsstring>
+        <name>peak_bytes</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::Stats::peak_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>High-water mark. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="97" column="18" bodyfile="include/themis/gpu/unified_memory.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1a60fb029f9fa1fc45e7d96eeb1430882c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUUnifiedMemoryAllocator::Stats::prefetch_calls</definition>
+        <argsstring></argsstring>
+        <name>prefetch_calls</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::Stats::prefetch_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1ad57798c05e84b1489238e2c2ebc2c403" kindref="member">prefetch()</ref> calls issued </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="98" column="18" bodyfile="include/themis/gpu/unified_memory.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1af19b7a295d32b611c9fdf887275c9dd0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUUnifiedMemoryAllocator::Stats::advise_calls</definition>
+        <argsstring></argsstring>
+        <name>advise_calls</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::Stats::advise_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para><ref refid="classthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1a895a23fe306b1fcc1711e1ea0d6962ef" kindref="member">advise()</ref> calls issued </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="99" column="18" bodyfile="include/themis/gpu/unified_memory.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1a86d1a079e5e595277d5a1fac783592f7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUUnifiedMemoryAllocator::Stats::hardware_unified</definition>
+        <argsstring></argsstring>
+        <name>hardware_unified</name>
+        <qualifiedname>themis::gpu::GPUUnifiedMemoryAllocator::Stats::hardware_unified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when real CUDA/HIP managed memory is used </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/unified_memory.h" line="100" column="18" bodyfile="include/themis/gpu/unified_memory.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/unified_memory.h" line="93" column="5" bodyfile="include/themis/gpu/unified_memory.h" bodystart="93" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1af19b7a295d32b611c9fdf887275c9dd0" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator::Stats</scope><name>advise_calls</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1ab23f1abf88ee2d578023849e73a666df" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator::Stats</scope><name>allocated_bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1a86d1a079e5e595277d5a1fac783592f7" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator::Stats</scope><name>hardware_unified</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1a9b8028681c1ed55810107cb7e9a7a560" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator::Stats</scope><name>peak_bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1a60fb029f9fa1fc45e7d96eeb1430882c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator::Stats</scope><name>prefetch_calls</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1ae5654515c5e884e3cab10689a417d2c2" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator::Stats</scope><name>total_allocations</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_unified_memory_allocator_1_1_stats_1a531cbeb27053f529611247bc5eeed706" prot="public" virt="non-virtual"><scope>themis::gpu::GPUUnifiedMemoryAllocator::Stats</scope><name>total_frees</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

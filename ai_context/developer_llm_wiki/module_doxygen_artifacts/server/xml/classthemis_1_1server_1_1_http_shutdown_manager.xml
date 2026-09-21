@@ -1,0 +1,486 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_http_shutdown_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::HttpShutdownManager</compoundname>
+    <includes refid="http__shutdown__manager_8h" local="no">http_shutdown_manager.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http_shutdown_manager_1a0435d3f9feb372deff3557a72aa85a87" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::server::HttpShutdownManager::kDrainPollMs</definition>
+        <argsstring></argsstring>
+        <name>kDrainPollMs</name>
+        <qualifiedname>themis::server::HttpShutdownManager::kDrainPollMs</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="48" column="30" bodyfile="include/server/http_shutdown_manager.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http_shutdown_manager_1a94cf487ded95d217e357e5ce9f5dc7d8" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::HttpShutdownManager::kDefaultForceCloseTimeoutMs</definition>
+        <argsstring></argsstring>
+        <name>kDefaultForceCloseTimeoutMs</name>
+        <qualifiedname>themis::server::HttpShutdownManager::kDefaultForceCloseTimeoutMs</qualifiedname>
+        <initializer>= 5&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="50" column="31" bodyfile="include/server/http_shutdown_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http_shutdown_manager_1ac0d5b1bfba43eaba110fa88fed8f5a62" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::HttpShutdownManager::drain_timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>drain_timeout_ms_</name>
+        <qualifiedname>themis::server::HttpShutdownManager::drain_timeout_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="116" column="31" bodyfile="include/server/http_shutdown_manager.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http_shutdown_manager_1a073fd5e86af3f3357665609acaa81de6" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::HttpShutdownManager::force_close_timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>force_close_timeout_ms_</name>
+        <qualifiedname>themis::server::HttpShutdownManager::force_close_timeout_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="117" column="31" bodyfile="include/server/http_shutdown_manager.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http_shutdown_manager_1a752bc0996aa0b8ca18e527110ab70784" prot="private" static="no" mutable="no">
+        <type>std::function&lt; uint64_t()&gt;</type>
+        <definition>std::function&lt;uint64_t()&gt; themis::server::HttpShutdownManager::query_in_flight_</definition>
+        <argsstring></argsstring>
+        <name>query_in_flight_</name>
+        <qualifiedname>themis::server::HttpShutdownManager::query_in_flight_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="118" column="19" bodyfile="include/server/http_shutdown_manager.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http_shutdown_manager_1a4cdbd6d0b27ed70824b6e9df2d427dec" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>std::function&lt;void()&gt; themis::server::HttpShutdownManager::force_close_sessions_</definition>
+        <argsstring></argsstring>
+        <name>force_close_sessions_</name>
+        <qualifiedname>themis::server::HttpShutdownManager::force_close_sessions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="119" column="23" bodyfile="include/server/http_shutdown_manager.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http_shutdown_manager_1a7e1f80fbc0321e53f5b75430bcd92bd8" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671" kindref="member">ShutdownPhase</ref> &gt;</type>
+        <definition>std::atomic&lt;ShutdownPhase&gt; themis::server::HttpShutdownManager::phase_</definition>
+        <argsstring></argsstring>
+        <name>phase_</name>
+        <qualifiedname>themis::server::HttpShutdownManager::phase_</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671af5137a026a4b2f3b1c8a21cfc60dd14b" kindref="member">ShutdownPhase::kIdle</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="121" column="17" bodyfile="include/server/http_shutdown_manager.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http_shutdown_manager_1a924d82551eebdc9fda4cccb331996e29" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::server::HttpShutdownManager::forced_count_</definition>
+        <argsstring></argsstring>
+        <name>forced_count_</name>
+        <qualifiedname>themis::server::HttpShutdownManager::forced_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="122" column="22" bodyfile="include/server/http_shutdown_manager.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_http_shutdown_manager_1af10b9d0193fa74505fd2ba7c5decb153" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::server::HttpShutdownManager::drain_elapsed_us_</definition>
+        <argsstring></argsstring>
+        <name>drain_elapsed_us_</name>
+        <qualifiedname>themis::server::HttpShutdownManager::drain_elapsed_us_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="123" column="23" bodyfile="include/server/http_shutdown_manager.h" bodystart="123" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_shutdown_manager_1a5b05240f827273586ec14fff63ca1400" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::HttpShutdownManager::HttpShutdownManager</definition>
+        <argsstring>(uint32_t drain_timeout_ms, uint32_t force_close_timeout_ms, std::function&lt; uint64_t()&gt; query_in_flight, std::function&lt; void()&gt; force_close_sessions={}) noexcept</argsstring>
+        <name>HttpShutdownManager</name>
+        <qualifiedname>themis::server::HttpShutdownManager::HttpShutdownManager</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>drain_timeout_ms</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>force_close_timeout_ms</declname>
+        </param>
+        <param>
+          <type>std::function&lt; uint64_t()&gt;</type>
+          <declname>query_in_flight</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void()&gt;</type>
+          <declname>force_close_sessions</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="52" column="5" bodyfile="src/server/http_shutdown_manager.cpp" bodystart="41" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_shutdown_manager_1a392d6d374afe6b5f62e4a2c5bcd5412d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::HttpShutdownManager::HttpShutdownManager</definition>
+        <argsstring>(const HttpShutdownManager &amp;)=delete</argsstring>
+        <name>HttpShutdownManager</name>
+        <qualifiedname>themis::server::HttpShutdownManager::HttpShutdownManager</qualifiedname>
+        <param>
+          <type>const HttpShutdownManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="58" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_shutdown_manager_1a2126441d0f6de055d50beb256a72c9f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a5b05240f827273586ec14fff63ca1400" kindref="member">HttpShutdownManager</ref> &amp;</type>
+        <definition>HttpShutdownManager &amp; themis::server::HttpShutdownManager::operator=</definition>
+        <argsstring>(const HttpShutdownManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::HttpShutdownManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a5b05240f827273586ec14fff63ca1400" kindref="member">HttpShutdownManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="59" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_shutdown_manager_1ae6fb5c3812a849886ff46b709fcf9476" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::HttpShutdownManager::HttpShutdownManager</definition>
+        <argsstring>(HttpShutdownManager &amp;&amp;)=delete</argsstring>
+        <name>HttpShutdownManager</name>
+        <qualifiedname>themis::server::HttpShutdownManager::HttpShutdownManager</qualifiedname>
+        <param>
+          <type>HttpShutdownManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="60" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_shutdown_manager_1a0f7af405ea893a5782902a5f9498e224" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a5b05240f827273586ec14fff63ca1400" kindref="member">HttpShutdownManager</ref> &amp;</type>
+        <definition>HttpShutdownManager &amp; themis::server::HttpShutdownManager::operator=</definition>
+        <argsstring>(HttpShutdownManager &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::HttpShutdownManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1a5b05240f827273586ec14fff63ca1400" kindref="member">HttpShutdownManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="61" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_shutdown_manager_1a857aa0c3c9b42553ed6e71176b4b4e91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::HttpShutdownManager::~HttpShutdownManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~HttpShutdownManager</name>
+        <qualifiedname>themis::server::HttpShutdownManager::~HttpShutdownManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="63" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_shutdown_manager_1ad069e842ca516fc3860bf2d73d153287" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HttpShutdownManager::run</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::server::HttpShutdownManager::run</qualifiedname>
+        <briefdescription>
+<para>Run. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="69" column="10" bodyfile="src/server/http_shutdown_manager.cpp" bodystart="58" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_shutdown_manager_1adaa48da5063cfda79595c4d05377c260" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671" kindref="member">ShutdownPhase</ref></type>
+        <definition>ShutdownPhase themis::server::HttpShutdownManager::phase</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>phase</name>
+        <qualifiedname>themis::server::HttpShutdownManager::phase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="71" column="20" bodyfile="include/server/http_shutdown_manager.h" bodystart="71" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_shutdown_manager_1aca70d020f90c3d70b7cfab45aa0dee64" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::HttpShutdownManager::isDone</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isDone</name>
+        <qualifiedname>themis::server::HttpShutdownManager::isDone</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="75" column="11" bodyfile="include/server/http_shutdown_manager.h" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_shutdown_manager_1a40ef7710efa1dceaa585ba46c0e9fd70" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::HttpShutdownManager::forcedCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>forcedCount</name>
+        <qualifiedname>themis::server::HttpShutdownManager::forcedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="79" column="15" bodyfile="include/server/http_shutdown_manager.h" bodystart="79" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_shutdown_manager_1a3ff06a0dd5fabab9797e3698e915bd85" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::server::HttpShutdownManager::drainElapsedUs</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>drainElapsedUs</name>
+        <qualifiedname>themis::server::HttpShutdownManager::drainElapsedUs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="83" column="14" bodyfile="include/server/http_shutdown_manager.h" bodystart="83" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_shutdown_manager_1ac1a4fd17a68ebf72d7af93e6ae530373" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HttpShutdownManager::enterDraining</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>enterDraining</name>
+        <qualifiedname>themis::server::HttpShutdownManager::enterDraining</qualifiedname>
+        <briefdescription>
+<para>Enter Draining. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Phase 1 — DRAINING.</para>
+<para><simplesect kind="note"><para>Exception safety: noexcept.</para>
+</simplesect>
+Closes the acceptor (caller&apos;s responsibility before calling <ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1ad069e842ca516fc3860bf2d73d153287" kindref="member">run()</ref>) and polls in-flight requests until the drain deadline expires or all requests complete.</para>
+<para><simplesect kind="post"><para>phase_ == kForceClose (or kDraining was skipped when drain_timeout_ms_==0). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="92" column="10" bodyfile="src/server/http_shutdown_manager.cpp" bodystart="94" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_shutdown_manager_1a2af263e87ef218606e407935396f27ba" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HttpShutdownManager::enterForceClose</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>enterForceClose</name>
+        <qualifiedname>themis::server::HttpShutdownManager::enterForceClose</qualifiedname>
+        <briefdescription>
+<para>Enter Force Close. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Phase 2 — FORCE_CLOSE.</para>
+<para><simplesect kind="note"><para>Exception safety: noexcept.</para>
+</simplesect>
+Invokes the optional force_close_sessions_ callback to hard-cancel any sessions that survived the drain phase. Waits up to force_close_timeout_ms_ for the in-flight count to reach zero. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="97" column="10" bodyfile="src/server/http_shutdown_manager.cpp" bodystart="138" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_shutdown_manager_1aa8b77aec05033b9426a5f07a1f77a8bd" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HttpShutdownManager::enterTeardown</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>enterTeardown</name>
+        <qualifiedname>themis::server::HttpShutdownManager::enterTeardown</qualifiedname>
+        <briefdescription>
+<para>Enter Teardown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Phase 3 — TEARDOWN.</para>
+<para><simplesect kind="note"><para>Exception safety: noexcept.</para>
+</simplesect>
+Placeholder phase hook for callers that need to interpose additional cleanup (e.g., flush subsystem state) between force-close and done. In the current implementation this is a logging-only transition. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="102" column="10" bodyfile="src/server/http_shutdown_manager.cpp" bodystart="190" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_shutdown_manager_1a59632b0bb30c143790fcd7d28fc2866e" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HttpShutdownManager::enterDone</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>enterDone</name>
+        <qualifiedname>themis::server::HttpShutdownManager::enterDone</qualifiedname>
+        <briefdescription>
+<para>Enter Done. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Phase 4 — DONE.</para>
+<para><simplesect kind="note"><para>Exception safety: noexcept.</para>
+</simplesect>
+Terminal phase; <ref refid="classthemis_1_1server_1_1_http_shutdown_manager_1ad069e842ca516fc3860bf2d73d153287" kindref="member">run()</ref> returns immediately after this transition. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="107" column="10" bodyfile="src/server/http_shutdown_manager.cpp" bodystart="200" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_http_shutdown_manager_1aad35af5c110762d347b557d755fa0dcb" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HttpShutdownManager::advanceTo</definition>
+        <argsstring>(ShutdownPhase next) noexcept</argsstring>
+        <name>advanceTo</name>
+        <qualifiedname>themis::server::HttpShutdownManager::advanceTo</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671" kindref="member">ShutdownPhase</ref></type>
+          <declname>next</declname>
+        </param>
+        <briefdescription>
+<para>Advance To. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Advance the phase_ atomic to <computeroutput>next</computeroutput> and log the transition.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">next</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept.</para>
+</simplesect>
+Only advances; attempting to move backwards is a no-op (assert in debug).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>next</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target phase (must be &gt; current phase). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="114" column="10" bodyfile="src/server/http_shutdown_manager.cpp" bodystart="76" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/http_shutdown_manager.h" line="46" column="1" bodyfile="include/server/http_shutdown_manager.h" bodystart="46" bodyend="124"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1aad35af5c110762d347b557d755fa0dcb" prot="private" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>advanceTo</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1af10b9d0193fa74505fd2ba7c5decb153" prot="private" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>drain_elapsed_us_</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1ac0d5b1bfba43eaba110fa88fed8f5a62" prot="private" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>drain_timeout_ms_</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1a3ff06a0dd5fabab9797e3698e915bd85" prot="public" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>drainElapsedUs</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1a59632b0bb30c143790fcd7d28fc2866e" prot="private" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>enterDone</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1ac1a4fd17a68ebf72d7af93e6ae530373" prot="private" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>enterDraining</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1a2af263e87ef218606e407935396f27ba" prot="private" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>enterForceClose</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1aa8b77aec05033b9426a5f07a1f77a8bd" prot="private" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>enterTeardown</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1a4cdbd6d0b27ed70824b6e9df2d427dec" prot="private" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>force_close_sessions_</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1a073fd5e86af3f3357665609acaa81de6" prot="private" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>force_close_timeout_ms_</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1a924d82551eebdc9fda4cccb331996e29" prot="private" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>forced_count_</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1a40ef7710efa1dceaa585ba46c0e9fd70" prot="public" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>forcedCount</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1a5b05240f827273586ec14fff63ca1400" prot="public" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>HttpShutdownManager</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1a392d6d374afe6b5f62e4a2c5bcd5412d" prot="public" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>HttpShutdownManager</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1ae6fb5c3812a849886ff46b709fcf9476" prot="public" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>HttpShutdownManager</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1aca70d020f90c3d70b7cfab45aa0dee64" prot="public" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>isDone</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1a94cf487ded95d217e357e5ce9f5dc7d8" prot="public" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>kDefaultForceCloseTimeoutMs</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1a0435d3f9feb372deff3557a72aa85a87" prot="public" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>kDrainPollMs</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1a2126441d0f6de055d50beb256a72c9f3" prot="public" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1a0f7af405ea893a5782902a5f9498e224" prot="public" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1adaa48da5063cfda79595c4d05377c260" prot="public" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>phase</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1a7e1f80fbc0321e53f5b75430bcd92bd8" prot="private" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>phase_</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1a752bc0996aa0b8ca18e527110ab70784" prot="private" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>query_in_flight_</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1ad069e842ca516fc3860bf2d73d153287" prot="public" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>run</name></member>
+      <member refid="classthemis_1_1server_1_1_http_shutdown_manager_1a857aa0c3c9b42553ed6e71176b4b4e91" prot="public" virt="non-virtual"><scope>themis::server::HttpShutdownManager</scope><name>~HttpShutdownManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

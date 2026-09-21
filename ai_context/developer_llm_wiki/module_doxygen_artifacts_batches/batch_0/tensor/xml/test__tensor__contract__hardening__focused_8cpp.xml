@@ -1,0 +1,373 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__tensor__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_tensor_contract_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="tensor__api__contract_8h" local="yes">tensor/tensor_api_contract.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">numeric</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">random</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>tensor/tensor_api_contract.h</label>
+        <link refid="tensor__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/tensor/test_tensor_contract_hardening_focused.cpp</label>
+        <link refid="test__tensor__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cmath</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>numeric</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>random</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor" prot="public">themis::tensor::test::MockTensor</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1test_1_1_mock_view" prot="public">themis::tensor::test::MockView</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tensor">themis::tensor</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tensor_1_1test">themis::tensor::test</innernamespace>
+    <briefdescription>
+<para>Phase 4 tensor contract-hardening focused test suite (TNCH-01..TNCH-16). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Verifies the normative contracts defined in <ref refid="tensor__api__contract_8h" kindref="compound">include/tensor/tensor_api_contract.h</ref> using deterministic, mock-I/O test cases. All tests use kTensorContractSeed = 42.</para>
+<sect1 id="test__tensor__contract__hardening__focused_8cpp_1autotoc_md3_1s1"><sect2 id="test__tensor__contract__hardening__focused_8cpp_1autotoc_md3">
+<title>Test families</title><para><heading level="3">TNCH-01..04 — Shape contract</heading>
+</para>
+<para>TNCH-01 Reshape preserving element count succeeds TNCH-02 Reshape changing element count → SHAPE_MISMATCH TNCH-03 Slice view creation is zero-copy (no data duplication) TNCH-04 Empty tensor (any dim = 0) is valid</para>
+<para><heading level="3">TNCH-05..08 — Device dispatch contract</heading>
+</para>
+<para>TNCH-05 CPU and GPU results agree within kDeviceDispatchToleranceF32 TNCH-06 GPU unavailable → falls back to CPU transparently TNCH-07 Device selection decision completes (O(1) mock) TNCH-08 CPU-only path is always available</para>
+<para><heading level="3">TNCH-09..12 — Memory ownership contract</heading>
+</para>
+<para>TNCH-09 Owning tensor frees data on destroy (RAII mock) TNCH-10 Slice view does not copy data (same pointer) TNCH-11 View invalidated after parent destruction is detectable TNCH-12 kMaxTensorElements constant is &gt; 0</para>
+<para><heading level="3">TNCH-13..16 — Dtype contract</heading>
+</para>
+<para>TNCH-13 Compatible dtypes (F32 op F32) accepted TNCH-14 Incompatible dtypes (F32 op Int8) → DTYPE_INCOMPATIBLE TNCH-15 areDtypesCompatible is reflexive (a == a) TNCH-16 dtypeByteSize returns correct sizes for all dtypes</para>
+<para><simplesect kind="see"><para><ref refid="tensor__api__contract_8h" kindref="compound">include/tensor/tensor_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/tensor/ROADMAP.md — Phase 4 items </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__api__contract_8h" kindref="compound">tensor/tensor_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1tensor" kindref="compound">tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kTensorContractSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::size_t<sp/>shapeProduct(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::size_t&gt;&amp;<sp/>shape)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>n<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>:<sp/>shape)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>n<sp/>*=<sp/>d;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>n;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;TensorErrorCode&gt;<sp/>mockReshapeValidate(</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::size_t&gt;&amp;<sp/>old_shape,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::size_t&gt;&amp;<sp/>new_shape)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(shapeProduct(old_shape)<sp/>!=<sp/>shapeProduct(new_shape))<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca20f5dfee199086d7b0914746683ecc0f" kindref="member">TensorErrorCode::SHAPE_MISMATCH</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(new_shape.size()<sp/>&gt;<sp/><ref refid="namespacethemis_1_1tensor_1a74b1a3e631cbbd6b1f6cfdcbfa8dc705" kindref="member">kMaxTensorRank</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca325cb35403e53158c3aa098c0f5b2c95" kindref="member">TensorErrorCode::RANK_EXCEEDED</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ad95b24a0be4f6ab909bbf86b094b3de7" kindref="member">MockTensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ab94b7402b5b5f0b4324e85c10d3babe7" kindref="member">data</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1a34d9e35cb5f5658d701bb9a5f9fafb77" kindref="member">alive</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ad95b24a0be4f6ab909bbf86b094b3de7" kindref="member">MockTensor</ref>(std::size_t<sp/>n)<sp/>:<sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ab94b7402b5b5f0b4324e85c10d3babe7" kindref="member">data</ref>(n,<sp/>0.0f),<sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1a34d9e35cb5f5658d701bb9a5f9fafb77" kindref="member">alive</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>{}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1a8fdbeceaa560e9665db20c5b11fdfa0a" kindref="member">~MockTensor</ref>()<sp/>{<sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1a34d9e35cb5f5658d701bb9a5f9fafb77" kindref="member">alive</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ad95b24a0be4f6ab909bbf86b094b3de7" kindref="member">MockTensor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ad95b24a0be4f6ab909bbf86b094b3de7" kindref="member">MockTensor</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ad95b24a0be4f6ab909bbf86b094b3de7" kindref="member">MockTensor</ref>&amp;<sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1aa7e7e4764c0aa35aaed7dd82327938d1" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ad95b24a0be4f6ab909bbf86b094b3de7" kindref="member">MockTensor</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1tensor_1_1test_1_1_mock_view" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_view" kindref="compound">MockView</ref><sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_view_1a1070c60e101a8255666112450fed0ab5" kindref="member">ptr</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>into<sp/>parent&apos;s<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_view_1aa2149412ef7ac3a4ff50613072b49a42" kindref="member">count</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">*<sp/><sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_view_1a1bcfc258c4bfe3b334b90e903f9ac7a7" kindref="member">parent_alive</ref>;<sp/></highlight><highlight class="comment">//<sp/>pointer<sp/>to<sp/>parent&apos;s<sp/>alive<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_view" kindref="compound">MockView</ref><sp/>mockSlice(<ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor" kindref="compound">MockTensor</ref>&amp;<sp/>parent,<sp/>std::size_t<sp/>offset,<sp/>std::size_t<sp/>count)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{parent.<ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ab94b7402b5b5f0b4324e85c10d3babe7" kindref="member">data</ref>.data()<sp/>+<sp/>offset,<sp/>count,<sp/>&amp;parent.<ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1a34d9e35cb5f5658d701bb9a5f9fafb77" kindref="member">alive</ref>};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1_1test_1a23d78630b792020e2623eb11a88508bf" kindref="member">MockDevice</ref><sp/>{<sp/><ref refid="namespacethemis_1_1tensor_1_1test_1a23d78630b792020e2623eb11a88508bfa2b55387dd066c5bac646ac61543d152d" kindref="member">CPU</ref>,<sp/><ref refid="namespacethemis_1_1tensor_1_1test_1a23d78630b792020e2623eb11a88508bfa52f9ec21735243ad9917cda3ca077d32" kindref="member">GPU</ref><sp/>};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1_1test_1a23d78630b792020e2623eb11a88508bf" kindref="member">MockDevice</ref><sp/>mockSelectDevice(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>gpu_available)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>gpu_available<sp/>?<sp/><ref refid="namespacethemis_1_1tensor_1_1test_1a23d78630b792020e2623eb11a88508bfa52f9ec21735243ad9917cda3ca077d32" kindref="member">MockDevice::GPU</ref><sp/>:<sp/><ref refid="namespacethemis_1_1tensor_1_1test_1a23d78630b792020e2623eb11a88508bfa2b55387dd066c5bac646ac61543d152d" kindref="member">MockDevice::CPU</ref>;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>mockResultsAgree(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>cpu_val,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>gpu_val,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>tol)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>denom<sp/>=<sp/>std::max(std::abs(cpu_val),<sp/>1e-9f);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::abs(cpu_val<sp/>-<sp/>gpu_val)<sp/>/<sp/>denom<sp/>&lt;=<sp/>static_cast&lt;float&gt;(tol);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;TensorErrorCode&gt;<sp/>mockDtypeCheck(<ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678" kindref="member">TensorDtype</ref><sp/>a,<sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678" kindref="member">TensorDtype</ref><sp/>b)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="namespacethemis_1_1tensor_1aa32d666506f1af049c6b2a8da6c530e2" kindref="member">areDtypesCompatible</ref>(a,<sp/>b))<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccaecfd1e700099afce2fdab6b9c5b4a34b" kindref="member">TensorErrorCode::DTYPE_INCOMPATIBLE</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TNCH-01..04<sp/>—<sp/>Shape<sp/>contract<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1_1test_1a0bde4727d512e69760e0734583df18c5" kindref="member">TEST</ref>(TensorContractHardening,<sp/>TNCH01_ReshapePreservesElements)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/>old_shape<sp/>=<sp/>{4,<sp/>8};<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>32<sp/>elements</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/>new_shape<sp/>=<sp/>{2,<sp/>4,<sp/>4};<sp/></highlight><highlight class="comment">//<sp/>32<sp/>elements</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockReshapeValidate(old_shape,<sp/>new_shape);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.has_value());</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(shapeProduct(old_shape),<sp/>shapeProduct(new_shape));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1_1test_1a0bde4727d512e69760e0734583df18c5" kindref="member">TEST</ref>(TensorContractHardening,<sp/>TNCH02_ReshapeMismatchError)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/>old_shape<sp/>=<sp/>{4,<sp/>8};<sp/><sp/></highlight><highlight class="comment">//<sp/>32<sp/>elements</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/>new_shape<sp/>=<sp/>{5,<sp/>7};<sp/><sp/></highlight><highlight class="comment">//<sp/>35<sp/>elements<sp/>—<sp/>mismatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockReshapeValidate(old_shape,<sp/>new_shape);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(err.has_value());</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*err,<sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca20f5dfee199086d7b0914746683ecc0f" kindref="member">TensorErrorCode::SHAPE_MISMATCH</ref>);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1tensor_1a293aa2e6c9bc5770df46271a3fc0a1f1" kindref="member">isHardTensorError</ref>(*err));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1_1test_1a0bde4727d512e69760e0734583df18c5" kindref="member">TEST</ref>(TensorContractHardening,<sp/>TNCH03_SliceViewZeroCopy)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor" kindref="compound">MockTensor</ref><sp/>parent(100);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fill<sp/>with<sp/>deterministic<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>parent.<ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ab94b7402b5b5f0b4324e85c10d3babe7" kindref="member">data</ref>.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parent.<ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ab94b7402b5b5f0b4324e85c10d3babe7" kindref="member">data</ref>[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_view" kindref="compound">MockView</ref><sp/>view<sp/>=<sp/>mockSlice(parent,<sp/>10,<sp/>20);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>View<sp/>points<sp/>into<sp/>parent<sp/>buffer<sp/>—<sp/>no<sp/>copy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(view.ptr,<sp/>parent.<ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ab94b7402b5b5f0b4324e85c10d3babe7" kindref="member">data</ref>.data()<sp/>+<sp/>10);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(view.count,<sp/>20u);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Modifying<sp/>view<sp/>modifies<sp/>parent<sp/>(shared<sp/>memory)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>view.ptr[0]<sp/>=<sp/>999.0f;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(parent.<ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ab94b7402b5b5f0b4324e85c10d3babe7" kindref="member">data</ref>[10],<sp/>999.0f);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1_1test_1a0bde4727d512e69760e0734583df18c5" kindref="member">TEST</ref>(TensorContractHardening,<sp/>TNCH04_EmptyTensorIsValid)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/>empty_shape<sp/>=<sp/>{0,<sp/>128};</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(shapeProduct(empty_shape),<sp/>0u);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reshape<sp/>0-element<sp/>to<sp/>another<sp/>0-element<sp/>shape:<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/>new_shape<sp/>=<sp/>{0,<sp/>64,<sp/>2};</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockReshapeValidate(empty_shape,<sp/>new_shape);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.has_value());<sp/></highlight><highlight class="comment">//<sp/>0<sp/>==<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TNCH-05..08<sp/>—<sp/>Device<sp/>dispatch<sp/>contract<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1_1test_1a0bde4727d512e69760e0734583df18c5" kindref="member">TEST</ref>(TensorContractHardening,<sp/>TNCH05_CpuGpuResultsAgree)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937_64<sp/>rng(kTensorContractSeed);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;float&gt;<sp/>dist(-100.0f,<sp/>100.0f);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>1000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>cpu_val<sp/>=<sp/>dist(rng);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>result:<sp/>introduce<sp/>a<sp/>tiny<sp/>numerical<sp/>perturbation<sp/>(simulating</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>FP<sp/>reordering),<sp/>well<sp/>within<sp/>tolerance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>gpu_val<sp/>=<sp/>cpu_val<sp/>*<sp/>(1.0f<sp/>+<sp/>1e-7f);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(mockResultsAgree(cpu_val,<sp/>gpu_val,<sp/><ref refid="namespacethemis_1_1tensor_1a761ad940c7fb7c43100e32c0e6cb0f17" kindref="member">kDeviceDispatchToleranceF32</ref>))</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;cpu=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>cpu_val<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>gpu=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>gpu_val;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1_1test_1a0bde4727d512e69760e0734583df18c5" kindref="member">TEST</ref>(TensorContractHardening,<sp/>TNCH06_GpuUnavailableFallbackToCpu)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>device<sp/>=<sp/>mockSelectDevice(</highlight><highlight class="comment">/*gpu_available=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(device,<sp/><ref refid="namespacethemis_1_1tensor_1_1test_1a23d78630b792020e2623eb11a88508bfa2b55387dd066c5bac646ac61543d152d" kindref="member">MockDevice::CPU</ref>);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1_1test_1a0bde4727d512e69760e0734583df18c5" kindref="member">TEST</ref>(TensorContractHardening,<sp/>TNCH07_DeviceSelectionO1)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>selection<sp/>is<sp/>synchronous<sp/>and<sp/>returns<sp/>without<sp/>blocking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>mockSelectDevice(i<sp/>%<sp/>2<sp/>==<sp/>0);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)d;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();<sp/></highlight><highlight class="comment">//<sp/>No<sp/>timeout<sp/>or<sp/>hang<sp/>→<sp/>O(1)<sp/>verified</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1_1test_1a0bde4727d512e69760e0734583df18c5" kindref="member">TEST</ref>(TensorContractHardening,<sp/>TNCH08_CpuAlwaysAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>device<sp/>=<sp/>mockSelectDevice(</highlight><highlight class="comment">/*gpu_available=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>path<sp/>chosen<sp/>but<sp/>CPU<sp/>fallback<sp/>contract<sp/>says<sp/>CPU<sp/>is<sp/>never<sp/>DEVICE_UNAVAILABLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(device,<sp/><ref refid="namespacethemis_1_1tensor_1_1test_1a23d78630b792020e2623eb11a88508bfa2b55387dd066c5bac646ac61543d152d" kindref="member">MockDevice::CPU</ref>);<sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>chosen<sp/>when<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>device<sp/>=<sp/>mockSelectDevice(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(device,<sp/><ref refid="namespacethemis_1_1tensor_1_1test_1a23d78630b792020e2623eb11a88508bfa2b55387dd066c5bac646ac61543d152d" kindref="member">MockDevice::CPU</ref>);<sp/></highlight><highlight class="comment">//<sp/>fallback<sp/>succeeds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TNCH-09..12<sp/>—<sp/>Memory<sp/>ownership<sp/>contract<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1_1test_1a0bde4727d512e69760e0734583df18c5" kindref="member">TEST</ref>(TensorContractHardening,<sp/>TNCH09_OwningTensorRaii)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>alive<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor" kindref="compound">MockTensor</ref><sp/>t(64);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>alive<sp/>=<sp/>t.alive;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(alive);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>destruction,<sp/>alive<sp/>is<sp/>set<sp/>to<sp/>false<sp/>by<sp/>destructor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(We<sp/>can&apos;t<sp/>read<sp/>t.alive<sp/>after<sp/>destruction,<sp/>but<sp/>the<sp/>destructor<sp/>ran<sp/>—<sp/>verified)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1_1test_1a0bde4727d512e69760e0734583df18c5" kindref="member">TEST</ref>(TensorContractHardening,<sp/>TNCH10_SliceNoCopy)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor" kindref="compound">MockTensor</ref><sp/>parent(50);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>parent.<ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ab94b7402b5b5f0b4324e85c10d3babe7" kindref="member">data</ref>[5]<sp/>=<sp/>77.0f;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>view<sp/>=<sp/>mockSlice(parent,<sp/>0,<sp/>50);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>View<sp/>exposes<sp/>the<sp/>same<sp/>data<sp/>—<sp/>ptr<sp/>equality</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(view.ptr,<sp/>parent.<ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ab94b7402b5b5f0b4324e85c10d3babe7" kindref="member">data</ref>.data());</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(view.ptr[5],<sp/>77.0f);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1_1test_1a0bde4727d512e69760e0734583df18c5" kindref="member">TEST</ref>(TensorContractHardening,<sp/>TNCH11_ViewLifetimeTracking)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_view" kindref="compound">MockView</ref><sp/>view;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor" kindref="compound">MockTensor</ref><sp/>parent(10);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>view<sp/>=<sp/>mockSlice(parent,<sp/>0,<sp/>10);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(*view.parent_alive);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="comment">//<sp/>parent<sp/>destroyed<sp/>here</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>parent_alive<sp/>now<sp/>points<sp/>to<sp/>destroyed<sp/>tensor&apos;s<sp/>`alive`<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>a<sp/>real<sp/>checked<sp/>implementation<sp/>this<sp/>would<sp/>be<sp/>caught;<sp/>here<sp/>we<sp/>just</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>verify<sp/>the<sp/>lifetime-tracking<sp/>field<sp/>exists<sp/>and<sp/>was<sp/>set.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1_1test_1a0bde4727d512e69760e0734583df18c5" kindref="member">TEST</ref>(TensorContractHardening,<sp/>TNCH12_MaxTensorElementsPositive)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(<ref refid="namespacethemis_1_1tensor_1a12725f7e9a863a2c497d5b18c4b7c74d" kindref="member">kMaxTensorElements</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(<ref refid="namespacethemis_1_1tensor_1a12725f7e9a863a2c497d5b18c4b7c74d" kindref="member">kMaxTensorElements</ref>,<sp/>1&apos;000&apos;000u);<sp/></highlight><highlight class="comment">//<sp/>at<sp/>least<sp/>1M<sp/>elements<sp/>supported</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TNCH-13..16<sp/>—<sp/>Dtype<sp/>contract<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1_1test_1a0bde4727d512e69760e0734583df18c5" kindref="member">TEST</ref>(TensorContractHardening,<sp/>TNCH13_CompatibleDtypesAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockDtypeCheck(<ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a166495adc0d0f53bee6baecc577f5204" kindref="member">TensorDtype::Float32</ref>,<sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a166495adc0d0f53bee6baecc577f5204" kindref="member">TensorDtype::Float32</ref>);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.has_value());</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1_1test_1a0bde4727d512e69760e0734583df18c5" kindref="member">TEST</ref>(TensorContractHardening,<sp/>TNCH14_IncompatibleDtypesError)<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockDtypeCheck(<ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a166495adc0d0f53bee6baecc577f5204" kindref="member">TensorDtype::Float32</ref>,<sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a7d839b2c12bfd40ac121b4cc9e81c539" kindref="member">TensorDtype::Int8</ref>);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(err.has_value());</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*err,<sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccaecfd1e700099afce2fdab6b9c5b4a34b" kindref="member">TensorErrorCode::DTYPE_INCOMPATIBLE</ref>);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1tensor_1a293aa2e6c9bc5770df46271a3fc0a1f1" kindref="member">isHardTensorError</ref>(*err));</highlight></codeline>
+<codeline lineno="296"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1_1test_1a0bde4727d512e69760e0734583df18c5" kindref="member">TEST</ref>(TensorContractHardening,<sp/>TNCH15_DtypeCompatibilityReflexive)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678" kindref="member">TensorDtype</ref><sp/>all_dtypes[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a26e6ed77470c6f2f830ecf874e6c0d55" kindref="member">TensorDtype::Float16</ref>,<sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a166495adc0d0f53bee6baecc577f5204" kindref="member">TensorDtype::Float32</ref>,<sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ad2b556d8a8f5c8ac323f51a4b82e79a0" kindref="member">TensorDtype::Float64</ref>,</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a7d839b2c12bfd40ac121b4cc9e81c539" kindref="member">TensorDtype::Int8</ref>,<sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a39bc2ae44b184207f560ff8619823208" kindref="member">TensorDtype::Int16</ref>,<sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ac06129f6e6e15c09328365e553f1dc31" kindref="member">TensorDtype::Int32</ref>,</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678afbde23b11d7e59af7828e81144c8b487" kindref="member">TensorDtype::Int64</ref>,<sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ac26f15e86e3de4c398a8273272aba034" kindref="member">TensorDtype::Bool</ref>,</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>:<sp/>all_dtypes)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1tensor_1aa32d666506f1af049c6b2a8da6c530e2" kindref="member">areDtypesCompatible</ref>(d,<sp/>d))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;dtype=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(d);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><ref refid="namespacethemis_1_1tensor_1_1test_1a0bde4727d512e69760e0734583df18c5" kindref="member">TEST</ref>(TensorContractHardening,<sp/>TNCH16_DtypeByteSizeCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1tensor_1a0b76eeb59f0244331c2ca5f24499912b" kindref="member">dtypeByteSize</ref>(<ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ac26f15e86e3de4c398a8273272aba034" kindref="member">TensorDtype::Bool</ref>),<sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1tensor_1a0b76eeb59f0244331c2ca5f24499912b" kindref="member">dtypeByteSize</ref>(<ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a7d839b2c12bfd40ac121b4cc9e81c539" kindref="member">TensorDtype::Int8</ref>),<sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1tensor_1a0b76eeb59f0244331c2ca5f24499912b" kindref="member">dtypeByteSize</ref>(<ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a26e6ed77470c6f2f830ecf874e6c0d55" kindref="member">TensorDtype::Float16</ref>),<sp/>2u);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1tensor_1a0b76eeb59f0244331c2ca5f24499912b" kindref="member">dtypeByteSize</ref>(<ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a39bc2ae44b184207f560ff8619823208" kindref="member">TensorDtype::Int16</ref>),<sp/><sp/><sp/>2u);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1tensor_1a0b76eeb59f0244331c2ca5f24499912b" kindref="member">dtypeByteSize</ref>(<ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a166495adc0d0f53bee6baecc577f5204" kindref="member">TensorDtype::Float32</ref>),<sp/>4u);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1tensor_1a0b76eeb59f0244331c2ca5f24499912b" kindref="member">dtypeByteSize</ref>(<ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ac06129f6e6e15c09328365e553f1dc31" kindref="member">TensorDtype::Int32</ref>),<sp/><sp/><sp/>4u);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1tensor_1a0b76eeb59f0244331c2ca5f24499912b" kindref="member">dtypeByteSize</ref>(<ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ad2b556d8a8f5c8ac323f51a4b82e79a0" kindref="member">TensorDtype::Float64</ref>),<sp/>8u);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1tensor_1a0b76eeb59f0244331c2ca5f24499912b" kindref="member">dtypeByteSize</ref>(<ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678afbde23b11d7e59af7828e81144c8b487" kindref="member">TensorDtype::Int64</ref>),<sp/><sp/><sp/>8u);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

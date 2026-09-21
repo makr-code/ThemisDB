@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::EmbeddingCacheStats</compoundname>
+    <includes refid="embedding__provider_8h" local="no">embedding_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1aadda92982413e4451688d11686b0a1c6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::EmbeddingCacheStats::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::llm::lora::EmbeddingCacheStats::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="55" column="12" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a7c3a7811869aa748c2365898f2dd9fd2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::EmbeddingCacheStats::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::llm::lora::EmbeddingCacheStats::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="56" column="12" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a582ebd68837de9b8170277dc07942e13" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::EmbeddingCacheStats::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::llm::lora::EmbeddingCacheStats::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="57" column="12" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1af1b55a4c2e56aad74816d79fd89c8221" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::EmbeddingCacheStats::total_entries</definition>
+        <argsstring></argsstring>
+        <name>total_entries</name>
+        <qualifiedname>themis::llm::lora::EmbeddingCacheStats::total_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="58" column="12" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a04a17b07d5a1bd4ea0e50cf2159eb74a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::EmbeddingCacheStats::memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::llm::lora::EmbeddingCacheStats::memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="59" column="12" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a861c13f64f91fc2e5b0c1f27cd846333" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::EmbeddingCacheStats::~EmbeddingCacheStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EmbeddingCacheStats</name>
+        <qualifiedname>themis::llm::lora::EmbeddingCacheStats::~EmbeddingCacheStats</qualifiedname>
+        <briefdescription>
+<para>Embedding Cache Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="54" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a7fdb6b43b33a7b98a408fe41399fa540" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::EmbeddingCacheStats::hitRate</definition>
+        <argsstring>() const</argsstring>
+        <name>hitRate</name>
+        <qualifiedname>themis::llm::lora::EmbeddingCacheStats::hitRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="61" column="11" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="61" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/embedding_provider.h" line="49" column="1" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="49" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a7c3a7811869aa748c2365898f2dd9fd2" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingCacheStats</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a582ebd68837de9b8170277dc07942e13" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingCacheStats</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a7fdb6b43b33a7b98a408fe41399fa540" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingCacheStats</scope><name>hitRate</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a04a17b07d5a1bd4ea0e50cf2159eb74a" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingCacheStats</scope><name>memory_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1af1b55a4c2e56aad74816d79fd89c8221" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingCacheStats</scope><name>total_entries</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1aadda92982413e4451688d11686b0a1c6" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingCacheStats</scope><name>total_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a861c13f64f91fc2e5b0c1f27cd846333" prot="public" virt="virtual"><scope>themis::llm::lora::EmbeddingCacheStats</scope><name>~EmbeddingCacheStats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_time_series_metrics_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TimeSeriesMetrics::Config</compoundname>
+    <includes refid="timeseries__metrics_8h" local="no">timeseries_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_time_series_metrics_1_1_config_1ae860430260c1ac176230c25e9518dd2d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TimeSeriesMetrics::Config::enable_histograms</definition>
+        <argsstring></argsstring>
+        <name>enable_histograms</name>
+        <qualifiedname>themis::TimeSeriesMetrics::Config::enable_histograms</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="40" column="14" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_time_series_metrics_1_1_config_1a1d183f2833e98ca2e0b3df04d5d1d7e0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TimeSeriesMetrics::Config::enable_per_metric_stats</definition>
+        <argsstring></argsstring>
+        <name>enable_per_metric_stats</name>
+        <qualifiedname>themis::TimeSeriesMetrics::Config::enable_per_metric_stats</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="41" column="14" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_time_series_metrics_1_1_config_1a7bced6090d6f27ac364c2f7d3383bcab" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::TimeSeriesMetrics::Config::histogram_buckets</definition>
+        <argsstring></argsstring>
+        <name>histogram_buckets</name>
+        <qualifiedname>themis::TimeSeriesMetrics::Config::histogram_buckets</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/timeseries_metrics.h" line="42" column="13" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/timeseries_metrics.h" line="39" column="5" bodyfile="include/timeseries/timeseries_metrics.h" bodystart="39" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_time_series_metrics_1_1_config_1ae860430260c1ac176230c25e9518dd2d" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics::Config</scope><name>enable_histograms</name></member>
+      <member refid="structthemis_1_1_time_series_metrics_1_1_config_1a1d183f2833e98ca2e0b3df04d5d1d7e0" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics::Config</scope><name>enable_per_metric_stats</name></member>
+      <member refid="structthemis_1_1_time_series_metrics_1_1_config_1a7bced6090d6f27ac364c2f7d3383bcab" prot="public" virt="non-virtual"><scope>themis::TimeSeriesMetrics::Config</scope><name>histogram_buckets</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

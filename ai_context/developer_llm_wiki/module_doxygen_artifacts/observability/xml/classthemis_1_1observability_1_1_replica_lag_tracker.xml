@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_replica_lag_tracker" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::ReplicaLagTracker</compoundname>
+    <includes refid="wave__d__high__cardinality__metrics_8h" local="no">wave_d_high_cardinality_metrics.h</includes>
+    <innerclass refid="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles" prot="public">themis::observability::ReplicaLagTracker::LagQuantiles</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_replica_lag_tracker_1afb2b3f84ef071bbf6267c3beb9126ce1" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::observability::ReplicaLagTracker::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::observability::ReplicaLagTracker::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="156" column="31" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_replica_lag_tracker_1a28a0ed0fa55aa4db90ceacd925cc8830" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; double &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;double&gt; &gt; themis::observability::ReplicaLagTracker::replica_lags_</definition>
+        <argsstring></argsstring>
+        <name>replica_lags_</name>
+        <qualifiedname>themis::observability::ReplicaLagTracker::replica_lags_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="159" column="14" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_replica_lag_tracker_1aaf71c3af40b1403e3ebb2800424df937" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::ReplicaLagTracker::kMaxReplicaCardinality</definition>
+        <argsstring></argsstring>
+        <name>kMaxReplicaCardinality</name>
+        <qualifiedname>themis::observability::ReplicaLagTracker::kMaxReplicaCardinality</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="162" column="29" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_replica_lag_tracker_1a5015566aca3cfc1cf3394e4772e2d4a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ReplicaLagTracker::recordLag</definition>
+        <argsstring>(const std::string &amp;replica_id, double lag_ms)</argsstring>
+        <name>recordLag</name>
+        <qualifiedname>themis::observability::ReplicaLagTracker::recordLag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lag_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record a replication lag observation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Lag.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replica identifier (e.g., &quot;replica_001&quot;, &quot;replica_us_west_2&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observed replication lag in milliseconds.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread-safe. </para>
+</simplesect>
+<simplesect kind="note"><para>Replica cardinality is enforced: max 32 replicas. </para>
+</simplesect>
+<simplesect kind="note"><para>Silent drop if cardinality limit exceeded.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the replica. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), size(), find(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="121" column="10" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="117" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_replica_lag_tracker_1abb4da4aa468f0cbd1054455949a36134" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles" kindref="compound">LagQuantiles</ref></type>
+        <definition>ReplicaLagTracker::LagQuantiles themis::observability::ReplicaLagTracker::getQuantiles</definition>
+        <argsstring>(const std::string &amp;replica_id) const</argsstring>
+        <name>getQuantiles</name>
+        <qualifiedname>themis::observability::ReplicaLagTracker::getQuantiles</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="136" column="18" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="133" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_replica_lag_tracker_1ab3ebfbfb0f90c6dd1f320764c460ab48" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::ReplicaLagTracker::getMaxLag</definition>
+        <argsstring>() const</argsstring>
+        <name>getMaxLag</name>
+        <qualifiedname>themis::observability::ReplicaLagTracker::getMaxLag</qualifiedname>
+        <briefdescription>
+<para>Get the maximum observed lag across all replicas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Maximum lag in milliseconds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="142" column="12" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="163" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_replica_lag_tracker_1a7072109c360bdf77d62a4bc5580b6c3b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::ReplicaLagTracker::getCardinality</definition>
+        <argsstring>() const</argsstring>
+        <name>getCardinality</name>
+        <qualifiedname>themis::observability::ReplicaLagTracker::getCardinality</qualifiedname>
+        <briefdescription>
+<para>Get the cardinality (unique replica IDs observed). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of unique replicas tracked. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="148" column="12" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="180" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_replica_lag_tracker_1a6071b98086edff5108e9b06a403fbe8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ReplicaLagTracker::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::observability::ReplicaLagTracker::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all collected lag data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="153" column="10" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="194" bodyend="197"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Replica-level lag tracker with quantile reporting. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks replication lag between primary and replicas. Useful for monitoring cross-region replication delay and failover readiness. </para>
+    </detaileddescription>
+    <location file="include/observability/wave_d_high_cardinality_metrics.h" line="109" column="1" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="109" bodyend="163"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_replica_lag_tracker_1a7072109c360bdf77d62a4bc5580b6c3b" prot="public" virt="non-virtual"><scope>themis::observability::ReplicaLagTracker</scope><name>getCardinality</name></member>
+      <member refid="classthemis_1_1observability_1_1_replica_lag_tracker_1ab3ebfbfb0f90c6dd1f320764c460ab48" prot="public" virt="non-virtual"><scope>themis::observability::ReplicaLagTracker</scope><name>getMaxLag</name></member>
+      <member refid="classthemis_1_1observability_1_1_replica_lag_tracker_1abb4da4aa468f0cbd1054455949a36134" prot="public" virt="non-virtual"><scope>themis::observability::ReplicaLagTracker</scope><name>getQuantiles</name></member>
+      <member refid="classthemis_1_1observability_1_1_replica_lag_tracker_1aaf71c3af40b1403e3ebb2800424df937" prot="private" virt="non-virtual"><scope>themis::observability::ReplicaLagTracker</scope><name>kMaxReplicaCardinality</name></member>
+      <member refid="classthemis_1_1observability_1_1_replica_lag_tracker_1afb2b3f84ef071bbf6267c3beb9126ce1" prot="private" virt="non-virtual"><scope>themis::observability::ReplicaLagTracker</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_replica_lag_tracker_1a5015566aca3cfc1cf3394e4772e2d4a4" prot="public" virt="non-virtual"><scope>themis::observability::ReplicaLagTracker</scope><name>recordLag</name></member>
+      <member refid="classthemis_1_1observability_1_1_replica_lag_tracker_1a28a0ed0fa55aa4db90ceacd925cc8830" prot="private" virt="non-virtual"><scope>themis::observability::ReplicaLagTracker</scope><name>replica_lags_</name></member>
+      <member refid="classthemis_1_1observability_1_1_replica_lag_tracker_1a6071b98086edff5108e9b06a403fbe8b" prot="public" virt="non-virtual"><scope>themis::observability::ReplicaLagTracker</scope><name>reset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

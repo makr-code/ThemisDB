@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::test</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1test_1ab013ce6c95f361b20bdc576d7bf3c155" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(GPUAdversarialTest, DeterministicCorruptionUsesSeededFaultInjector)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type>GPUAdversarialTest</type>
+        </param>
+        <param>
+          <type>DeterministicCorruptionUsesSeededFaultInjector</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_adversarial.cpp" line="28" column="1" bodyfile="tests/gpu/test_gpu_adversarial.cpp" bodystart="28" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a4c1f10de65c30eb68bc3eed9da66908c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(GPUAdversarialTest, TimeoutFaultFallsBackToCPU)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type>GPUAdversarialTest</type>
+        </param>
+        <param>
+          <type>TimeoutFaultFallsBackToCPU</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_adversarial.cpp" line="49" column="1" bodyfile="tests/gpu/test_gpu_adversarial.cpp" bodystart="49" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ab9cd48284e352ee483870145d6a6cc8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(GPUAdversarialTest, RepeatedAdversarialFailuresOpenCircuit)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type>GPUAdversarialTest</type>
+        </param>
+        <param>
+          <type>RepeatedAdversarialFailuresOpenCircuit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_adversarial.cpp" line="80" column="1" bodyfile="tests/gpu/test_gpu_adversarial.cpp" bodystart="80" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a1865664335d58a8505b1c27831cbceaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(GPUAdversarialTest, OpenCircuitSkipsGpuAndUsesCPUOnly)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type>GPUAdversarialTest</type>
+        </param>
+        <param>
+          <type>OpenCircuitSkipsGpuAndUsesCPUOnly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_adversarial.cpp" line="93" column="1" bodyfile="tests/gpu/test_gpu_adversarial.cpp" bodystart="93" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/gpu/test_gpu_adversarial.cpp" line="11" column="1"/>
+  </compounddef>
+</doxygen>

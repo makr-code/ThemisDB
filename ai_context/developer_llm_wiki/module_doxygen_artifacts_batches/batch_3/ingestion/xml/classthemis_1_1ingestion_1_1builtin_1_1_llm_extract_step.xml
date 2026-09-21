@@ -1,0 +1,468 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::builtin::LlmExtractStep</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" prot="public" virt="non-virtual">themis::ingestion::IIngestionStep</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1a6e74b408b30c5802d84b8b41e70bdd43" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ITextGenerationBackend&gt; themis::ingestion::builtin::LlmExtractStep::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::ingestion::builtin::LlmExtractStep::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/llm_extract_step.cpp" line="120" column="21" bodyfile="src/ingestion/steps/llm_extract_step.cpp" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1aa6840d5a5d8dd40cf2182abe98dc1b22" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::builtin::LlmExtractStep::LlmExtractStep</definition>
+        <argsstring>(std::shared_ptr&lt; ITextGenerationBackend &gt; backend=nullptr)</argsstring>
+        <name>LlmExtractStep</name>
+        <qualifiedname>themis::ingestion::builtin::LlmExtractStep::LlmExtractStep</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref> &gt;</type>
+          <declname>backend</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/llm_extract_step.cpp" line="32" column="14" bodyfile="src/ingestion/steps/llm_extract_step.cpp" bodystart="32" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1a1334559a98bba9bc2f3a77a3eda0e024" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::ingestion::builtin::LlmExtractStep::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::ingestion::builtin::LlmExtractStep::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/llm_extract_step.cpp" line="39" column="16" bodyfile="src/ingestion/steps/llm_extract_step.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1a74049683556959e4a1fa9f294146dc38" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::ingestion::builtin::LlmExtractStep::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::ingestion::builtin::LlmExtractStep::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/llm_extract_step.cpp" line="40" column="16" bodyfile="src/ingestion/steps/llm_extract_step.cpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1a43ac891e71d8211e715b9882b91d4406" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>plugins::PluginCapabilities</type>
+        <definition>plugins::PluginCapabilities themis::ingestion::builtin::LlmExtractStep::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::ingestion::builtin::LlmExtractStep::getCapabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/llm_extract_step.cpp" line="41" column="33" bodyfile="src/ingestion/steps/llm_extract_step.cpp" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1ad877629ad8d60f9ad282c332a698b9f5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::builtin::LlmExtractStep::initialize</definition>
+        <argsstring>(const char *) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::ingestion::builtin::LlmExtractStep::initialize</qualifiedname>
+        <param>
+          <type>const char *</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/llm_extract_step.cpp" line="42" column="11" bodyfile="src/ingestion/steps/llm_extract_step.cpp" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1a46d8358362e5523bdada80fee8fe5548" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::builtin::LlmExtractStep::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::ingestion::builtin::LlmExtractStep::shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/llm_extract_step.cpp" line="43" column="11" bodyfile="src/ingestion/steps/llm_extract_step.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1aed4caf8cd356ec1934af50964f9a7ca2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::ingestion::builtin::LlmExtractStep::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::ingestion::builtin::LlmExtractStep::getInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/llm_extract_step.cpp" line="44" column="10" bodyfile="src/ingestion/steps/llm_extract_step.cpp" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1aad0434662244d8abbe6a8c9aa81fb4cb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::ingestion::builtin::LlmExtractStep::supportedMimeTypes</definition>
+        <argsstring>() const override</argsstring>
+        <name>supportedMimeTypes</name>
+        <qualifiedname>themis::ingestion::builtin::LlmExtractStep::supportedMimeTypes</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1acd860b2bb15580a25ce67280f671f29a">supportedMimeTypes</reimplements>
+        <briefdescription>
+<para>Returns the MIME types this step can process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>An empty vector means &quot;any MIME type&quot;. Used by <computeroutput><ref refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1aade2dcee8a37bd6c371a86b4be591866" kindref="member">canHandle()</ref></computeroutput> default implementation. Override <computeroutput><ref refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1aade2dcee8a37bd6c371a86b4be591866" kindref="member">canHandle()</ref></computeroutput> directly for more complex logic. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/llm_extract_step.cpp" line="46" column="17" bodyfile="src/ingestion/steps/llm_extract_step.cpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1aade2dcee8a37bd6c371a86b4be591866" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::builtin::LlmExtractStep::canHandle</definition>
+        <argsstring>(const ExtractionContext &amp;ctx) const override</argsstring>
+        <name>canHandle</name>
+        <qualifiedname>themis::ingestion::builtin::LlmExtractStep::canHandle</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269">canHandle</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when this step can process the current context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default: returns true when <computeroutput><ref refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1aad0434662244d8abbe6a8c9aa81fb4cb" kindref="member">supportedMimeTypes()</ref></computeroutput> is empty (all MIMEs accepted) or when <computeroutput>ctx.manifest.detected_mime</computeroutput> matches any entry in <computeroutput><ref refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1aad0434662244d8abbe6a8c9aa81fb4cb" kindref="member">supportedMimeTypes()</ref></computeroutput>.</para>
+<para>Override for custom capability checks (e.g. &quot;only run if raw_text is
+empty&quot;, &quot;only run for files &lt; 10 MB&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/llm_extract_step.cpp" line="48" column="10" bodyfile="src/ingestion/steps/llm_extract_step.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1a64238362d20564e4ad62ebd677c6dca3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::builtin::LlmExtractStep::setBackend</definition>
+        <argsstring>(std::shared_ptr&lt; ITextGenerationBackend &gt; b)</argsstring>
+        <name>setBackend</name>
+        <qualifiedname>themis::ingestion::builtin::LlmExtractStep::setBackend</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref> &gt;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Set Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/llm_extract_step.cpp" line="58" column="10" bodyfile="src/ingestion/steps/llm_extract_step.cpp" bodystart="58" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1ae2668908f7c95a4bfd4cb0dd5c0b03dd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::ingestion::builtin::LlmExtractStep::execute</definition>
+        <argsstring>(ExtractionContext &amp;ctx, const StepConfig &amp;cfg) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::ingestion::builtin::LlmExtractStep::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1ae420e2b6ce844d288d51bea1d79955d8">execute</reimplements>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_step_config" kindref="compound">StepConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Execute the step, enriching <computeroutput>ctx</computeroutput> in-place. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The step reads any fields it needs from <computeroutput>ctx</computeroutput> and appends results to the appropriate collections (e.g. <computeroutput>ctx.entities</computeroutput>, <computeroutput>ctx.chunks</computeroutput>). It must not clear or overwrite data written by preceding steps.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pipeline context — modified in-place. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Step configuration parsed from the YAML profile. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> — success, or an error with an <computeroutput>ErrorCode</computeroutput> from the <computeroutput>ERR_WORKFLOW_*</computeroutput> range. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/llm_extract_step.cpp" line="62" column="12" bodyfile="src/ingestion/steps/llm_extract_step.cpp" bodystart="62" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1a387e6ba5bc4dc9bb3058665e3932b65f" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::ingestion::builtin::LlmExtractStep::replaceAll</definition>
+        <argsstring>(std::string str, const std::string &amp;from, const std::string &amp;to)</argsstring>
+        <name>replaceAll</name>
+        <qualifiedname>themis::ingestion::builtin::LlmExtractStep::replaceAll</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>str</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Replace All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), replace(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/llm_extract_step.cpp" line="130" column="24" bodyfile="src/ingestion/steps/llm_extract_step.cpp" bodystart="130" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1ac6577950571a4af1ca1bfadef78277e4" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1ingestion_1ae04298a858e7b070d9a53732876210ff" kindref="member">EntityType</ref></type>
+        <definition>static EntityType themis::ingestion::builtin::LlmExtractStep::entityTypeFromStr</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>entityTypeFromStr</name>
+        <qualifiedname>themis::ingestion::builtin::LlmExtractStep::entityTypeFromStr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Entity Type From Str. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements entityTypeFromStr without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/llm_extract_step.cpp" line="147" column="23" bodyfile="src/ingestion/steps/llm_extract_step.cpp" bodystart="147" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1a344ed915363917c43dbd835c56cdff5e" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::ingestion::builtin::LlmExtractStep::parseAndAppendEntities</definition>
+        <argsstring>(ExtractionContext &amp;ctx, const std::string &amp;response, const std::string &amp;default_etype, const std::string &amp;step_name, double min_conf)</argsstring>
+        <name>parseAndAppendEntities</name>
+        <qualifiedname>themis::ingestion::builtin::LlmExtractStep::parseAndAppendEntities</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>default_etype</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>step_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_conf</declname>
+        </param>
+        <briefdescription>
+<para>Parse And Append Entities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">default_etype</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the step. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">min_conf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: json::parse(), is_array(), value(), empty(), entityTypeFromStr(), std::to_string(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/llm_extract_step.cpp" line="187" column="17" bodyfile="src/ingestion/steps/llm_extract_step.cpp" bodystart="187" bodyend="223"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::ingestion::IIngestionStep</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_ingestion_step"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::builtin::LlmExtractStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::plugins::IThemisPlugin</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::ingestion::IIngestionStep</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_ingestion_step"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::builtin::LlmExtractStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::plugins::IThemisPlugin</label>
+      </node>
+    </collaborationgraph>
+    <location file="src/ingestion/steps/llm_extract_step.cpp" line="30" column="1" bodyfile="src/ingestion/steps/llm_extract_step.cpp" bodystart="30" bodyend="224"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1a6e74b408b30c5802d84b8b41e70bdd43" prot="private" virt="non-virtual"><scope>themis::ingestion::builtin::LlmExtractStep</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1aade2dcee8a37bd6c371a86b4be591866" prot="public" virt="virtual"><scope>themis::ingestion::builtin::LlmExtractStep</scope><name>canHandle</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1ac6577950571a4af1ca1bfadef78277e4" prot="private" virt="non-virtual"><scope>themis::ingestion::builtin::LlmExtractStep</scope><name>entityTypeFromStr</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1ae2668908f7c95a4bfd4cb0dd5c0b03dd" prot="public" virt="virtual"><scope>themis::ingestion::builtin::LlmExtractStep</scope><name>execute</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1a43ac891e71d8211e715b9882b91d4406" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LlmExtractStep</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1aed4caf8cd356ec1934af50964f9a7ca2" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LlmExtractStep</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1a1334559a98bba9bc2f3a77a3eda0e024" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LlmExtractStep</scope><name>getName</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1abee3ec226507c6c1038ef541caaee044" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LlmExtractStep</scope><name>getType</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1a74049683556959e4a1fa9f294146dc38" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LlmExtractStep</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1ad877629ad8d60f9ad282c332a698b9f5" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LlmExtractStep</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1aa6840d5a5d8dd40cf2182abe98dc1b22" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LlmExtractStep</scope><name>LlmExtractStep</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1a344ed915363917c43dbd835c56cdff5e" prot="private" virt="non-virtual"><scope>themis::ingestion::builtin::LlmExtractStep</scope><name>parseAndAppendEntities</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1a387e6ba5bc4dc9bb3058665e3932b65f" prot="private" virt="non-virtual"><scope>themis::ingestion::builtin::LlmExtractStep</scope><name>replaceAll</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1a64238362d20564e4ad62ebd677c6dca3" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LlmExtractStep</scope><name>setBackend</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1a46d8358362e5523bdada80fee8fe5548" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LlmExtractStep</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_llm_extract_step_1aad0434662244d8abbe6a8c9aa81fb4cb" prot="public" virt="virtual"><scope>themis::ingestion::builtin::LlmExtractStep</scope><name>supportedMimeTypes</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1ad350e511cf2ebd67ae0c5baf09f33060" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::LlmExtractStep</scope><name>~IIngestionStep</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

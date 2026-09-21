@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_controlled_executor" kind="class" language="C++" prot="public">
+    <compoundname>ControlledExecutor</compoundname>
+    <basecompoundref refid="classthemisdb_1_1analytics_1_1_shard_query_executor" prot="public" virt="non-virtual">themisdb::analytics::ShardQueryExecutor</basecompoundref>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Behavior</name>
+        <qualifiedname>ControlledExecutor::Behavior</qualifiedname>
+        <enumvalue id="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cac2759effffc94bb9acc71d69fe3e8a1f" prot="public">
+          <name>FAIL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1ca070a0fb40f6c308ab544b227660aadff" prot="public">
+          <name>TIMEOUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1ca84d47cc4c667c97e9cc26e4cf92072f8" prot="public">
+          <name>INTERMITTENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="41" column="5" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="41" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_controlled_executor_1a5ba6956fe8db295d09f31e106884b09c" prot="private" static="no" mutable="no">
+        <type><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1c" kindref="member">Behavior</ref></type>
+        <definition>Behavior ControlledExecutor::behavior_</definition>
+        <argsstring></argsstring>
+        <name>behavior_</name>
+        <qualifiedname>ControlledExecutor::behavior_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="85" column="14" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_controlled_executor_1afa8a06667a91e4698cddefc13798e792" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ControlledExecutor::fail_count_</definition>
+        <argsstring></argsstring>
+        <name>fail_count_</name>
+        <qualifiedname>ControlledExecutor::fail_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="86" column="14" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_controlled_executor_1a7b1627a871daff739034143b1ead752a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; ControlledExecutor::attempt_count_</definition>
+        <argsstring></argsstring>
+        <name>attempt_count_</name>
+        <qualifiedname>ControlledExecutor::attempt_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="87" column="17" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_controlled_executor_1a006a70bab8e24c8fe9ab867fc8b525bb" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>ControlledExecutor::ControlledExecutor</definition>
+        <argsstring>(Behavior behavior=Behavior::SUCCESS, uint32_t fail_count=0)</argsstring>
+        <name>ControlledExecutor</name>
+        <qualifiedname>ControlledExecutor::ControlledExecutor</qualifiedname>
+        <param>
+          <type><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1c" kindref="member">Behavior</ref></type>
+          <declname>behavior</declname>
+          <defval><ref refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1cad0749aaba8b833466dfcbb0428e4f89c" kindref="member">Behavior::SUCCESS</ref></defval>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>fail_count</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="48" column="14" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="48" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_controlled_executor_1a8c86036cf1731e31db5114a2396a338b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a3b88b9c5f1e8b9e1690589fe79feca45" kindref="member">OLAPResult</ref></type>
+        <definition>OLAPResult ControlledExecutor::execute</definition>
+        <argsstring>(const std::string &amp;shard_id, const OLAPQuery &amp;query) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>ControlledExecutor::execute</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1aa3986a26fa7b7ad3eb9355ec44917f2a">execute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a8b47afb9dc74d79e986abd7e2c8eb334" kindref="member">OLAPQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="52" column="16" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="52" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_controlled_executor_1a32ddf2d3d49763a401a51ecfe0549092" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool ControlledExecutor::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>ControlledExecutor::isHealthy</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1aa0c09cb8b04ecc18c5320ecdddab547b">isHealthy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="77" column="10" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="77" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="class_controlled_executor_1a091810266ed5eec702fad06f07abeeac" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ControlledExecutor::getAttemptCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getAttemptCount</name>
+        <qualifiedname>ControlledExecutor::getAttemptCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="81" column="14" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_controlled_executor_1a1945916db7791fd5b9fa45807aedd8a8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ControlledExecutor::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>ControlledExecutor::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="82" column="10" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Mock executor that can be configured to succeed, fail, or timeout. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ControlledExecutor</label>
+        <link refid="class_controlled_executor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::ShardQueryExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_shard_query_executor"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ControlledExecutor</label>
+        <link refid="class_controlled_executor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::ShardQueryExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_shard_query_executor"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="39" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="39" bodyend="88"/>
+    <listofallmembers>
+      <member refid="class_controlled_executor_1a7b1627a871daff739034143b1ead752a" prot="private" virt="non-virtual"><scope>ControlledExecutor</scope><name>attempt_count_</name></member>
+      <member refid="class_controlled_executor_1ac9e98e0b4991c032eb203a8720270e1c" prot="public" virt="non-virtual"><scope>ControlledExecutor</scope><name>Behavior</name></member>
+      <member refid="class_controlled_executor_1a5ba6956fe8db295d09f31e106884b09c" prot="private" virt="non-virtual"><scope>ControlledExecutor</scope><name>behavior_</name></member>
+      <member refid="class_controlled_executor_1a006a70bab8e24c8fe9ab867fc8b525bb" prot="public" virt="non-virtual"><scope>ControlledExecutor</scope><name>ControlledExecutor</name></member>
+      <member refid="class_controlled_executor_1a8c86036cf1731e31db5114a2396a338b" prot="public" virt="virtual"><scope>ControlledExecutor</scope><name>execute</name></member>
+      <member refid="class_controlled_executor_1afa8a06667a91e4698cddefc13798e792" prot="private" virt="non-virtual"><scope>ControlledExecutor</scope><name>fail_count_</name></member>
+      <member refid="class_controlled_executor_1a091810266ed5eec702fad06f07abeeac" prot="public" virt="non-virtual"><scope>ControlledExecutor</scope><name>getAttemptCount</name></member>
+      <member refid="class_controlled_executor_1a32ddf2d3d49763a401a51ecfe0549092" prot="public" virt="virtual"><scope>ControlledExecutor</scope><name>isHealthy</name></member>
+      <member refid="class_controlled_executor_1a1945916db7791fd5b9fa45807aedd8a8" prot="public" virt="non-virtual"><scope>ControlledExecutor</scope><name>reset</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1abaecd42838910a0fcc4d50d31eeb075e" prot="public" virt="virtual"><scope>ControlledExecutor</scope><name>~ShardQueryExecutor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

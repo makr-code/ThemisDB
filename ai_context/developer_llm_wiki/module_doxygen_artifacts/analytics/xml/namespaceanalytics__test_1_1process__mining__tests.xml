@@ -1,0 +1,391 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespaceanalytics__test_1_1process__mining__tests" kind="namespace" language="C++">
+    <compoundname>analytics_test::process_mining_tests</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1a5922ac87b09e26348ce03052c500a2f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_01_basic_dfg_creation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_01_basic_dfg_creation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-01: Basic DFG Creation Setup: Simple 2-activity log with 3 traces Expected: DFG nodes = {start, A, B, end}, edges = {start→A, A→B, B→end} </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="45" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="45" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1a99d21da75edd999fa5b5c11b07b336e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_02_large_event_log)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_02_large_event_log</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-02: Large <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> Log Performance Setup: 1M events, 100K traces, 50 activities Expected: Completes within time budget (&lt;5s) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="56" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="56" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1a8cddd4a3c524374a2a0b14766a13e83f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_03_dfg_self_loops)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_03_dfg_self_loops</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-03: DFG with Self-Loops Setup: Log with consecutive same activities Expected: Self-loop edges counted correctly </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="67" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="67" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1a421303218d6e39843459e6186ec6d0ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_04_alpha_miner_algorithm)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_04_alpha_miner_algorithm</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-04: Alpha-Miner Algorithm Setup: Standard structured process (sequence, choice, parallelism) Expected: Discovers correct process model </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="78" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="78" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1ae9fc3731ec19e95f76bb8f0c51329b82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_05_single_trace_discovery)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_05_single_trace_discovery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-05: Single Trace Process Discovery Setup: Log with 1 trace Expected: Trivial process model </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="89" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="89" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1a0e3088170d3f014c2de9ea10a0d92278" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_06_complex_parallelism)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_06_complex_parallelism</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-06: Complex Parallelism Setup: Log with parallel activities Expected: AND gateways identified correctly </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="100" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="100" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1ac7635bed9743707545c354fa2702f054" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_07_variant_identification)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_07_variant_identification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-07: Variant Identification Setup: Log with 3 distinct trace patterns Expected: Exactly 3 variants identified </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="111" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="111" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1a56e6b2e53e64407f43ef3630f15d6702" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_08_single_variant)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_08_single_variant</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-08: Single Variant Setup: All traces identical Expected: 1 variant with 100% frequency </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="122" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="122" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1af32f1d72d3df89a58ad9a6ff3c8825a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_09_variant_duration_metrics)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_09_variant_duration_metrics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-09: Variant Duration Metrics Setup: Log with varying trace durations Expected: Duration statistics (min, max, avg) correct </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="133" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="133" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1add81ee739cbf4341f8e8ad7c2915e6b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_10_kmeans_clustering)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_10_kmeans_clustering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-10: K-Means Clustering Setup: 10 variants with known similarity Expected: K-means converges to stable clusters </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="144" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="144" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1aa6c93a6684f67b5c2193f5a1b7994af0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_11_single_cluster)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_11_single_cluster</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-11: Single Cluster Setup: K=1 Expected: All variants in one cluster </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="155" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="155" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1a19e3d11ba9df6f08e46c5c5c989c1c82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_12_cluster_convergence)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_12_cluster_convergence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-12: Cluster Convergence Setup: K=3, multiple iterations Expected: Cluster centers stabilize </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="166" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="166" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1a8085ede6f7f0f6aa17d43e33a3cb456e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_13_perfect_conformance)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_13_perfect_conformance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-13: Perfect Conformance Setup: All traces conform to model perfectly Expected: Conformance score = 1.0 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="177" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="177" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1a6180962ef649bc9d2578ebc6541def51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_14_partial_conformance)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_14_partial_conformance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-14: Partial Conformance Setup: Some traces deviate from model Expected: 0.0 &lt; score &lt; 1.0 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="188" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="188" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1a1a7851c112e3b012210ebe7428b9adce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_15_non_conformant_traces)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_15_non_conformant_traces</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-15: Non-Conformant Traces Setup: Traces violate model logic Expected: Low conformance score </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="199" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="199" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1a3a69d2a7376eb899ca89002e9cf39181" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_16_variant_signatures)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_16_variant_signatures</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-16: Variant Signatures Verify: Trace variants correctly encoded as signatures </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="209" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="209" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1a34f471312925a4ee3f4ea204fb992869" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_17_scc_detection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_17_scc_detection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-17: Component Detection (SCC) Setup: DFG with cycles Expected: All cycles identified </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="220" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="220" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1process__mining__tests_1afcb42986c200f89afcfe77a951b36cda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::process_mining_tests::TEST</definition>
+        <argsstring>(ProcessMiningTests, PM_18_topological_sort)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::process_mining_tests::TEST</qualifiedname>
+        <param>
+          <type>ProcessMiningTests</type>
+        </param>
+        <param>
+          <type>PM_18_topological_sort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PM-18: Topological Sort Setup: DAG with dependencies Expected: Valid topological order </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="231" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="231" bodyend="235"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_gap_closure.cpp" line="38" column="1"/>
+  </compounddef>
+</doxygen>

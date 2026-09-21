@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::test::GPUMemoryPool</compoundname>
+    <innerclass refid="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1_1_g_p_u_allocation" prot="public">themis::llm::test::GPUMemoryPool::GPUAllocation</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1ae0633416c2cb8a47effdf44454cf283c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::test::GPUMemoryPool::allocated_</definition>
+        <argsstring></argsstring>
+        <name>allocated_</name>
+        <qualifiedname>themis::llm::test::GPUMemoryPool::allocated_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="91" column="15" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="91" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1ae0bb3afadca915714921ae3779b8256b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1_1_g_p_u_allocation" kindref="compound">GPUAllocation</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; GPUAllocation &gt; themis::llm::test::GPUMemoryPool::allocate</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::llm::test::GPUMemoryPool::allocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="79" column="19" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="79" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1a17acdc48b8f2aba7789e23eb9c9b3946" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::test::GPUMemoryPool::free</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>free</name>
+        <qualifiedname>themis::llm::test::GPUMemoryPool::free</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="84" column="8" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="84" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1a07f81a1fbbc5d851278a6dc941bde0c7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::test::GPUMemoryPool::getAllocated</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllocated</name>
+        <qualifiedname>themis::llm::test::GPUMemoryPool::getAllocated</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="88" column="10" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="88" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="54" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="54" bodyend="92"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1ae0bb3afadca915714921ae3779b8256b" prot="public" virt="non-virtual"><scope>themis::llm::test::GPUMemoryPool</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1ae0633416c2cb8a47effdf44454cf283c" prot="private" virt="non-virtual"><scope>themis::llm::test::GPUMemoryPool</scope><name>allocated_</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1a17acdc48b8f2aba7789e23eb9c9b3946" prot="public" virt="non-virtual"><scope>themis::llm::test::GPUMemoryPool</scope><name>free</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_g_p_u_memory_pool_1a07f81a1fbbc5d851278a6dc941bde0c7" prot="public" virt="non-virtual"><scope>themis::llm::test::GPUMemoryPool</scope><name>getAllocated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

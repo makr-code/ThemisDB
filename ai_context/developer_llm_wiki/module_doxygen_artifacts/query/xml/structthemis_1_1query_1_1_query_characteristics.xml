@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_characteristics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryCharacteristics</compoundname>
+    <includes refid="workload__cache__strategy_8h" local="no">workload_cache_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_characteristics_1a2951546cbb3649527c9becf3821f286f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCharacteristics::result_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>result_size_bytes</name>
+        <qualifiedname>themis::query::QueryCharacteristics::result_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="37" column="12" bodyfile="include/query/workload_cache_strategy.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_characteristics_1ae9bb91e476ca0fb8482a107cbad3d339" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCharacteristics::rows_scanned</definition>
+        <argsstring></argsstring>
+        <name>rows_scanned</name>
+        <qualifiedname>themis::query::QueryCharacteristics::rows_scanned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="38" column="12" bodyfile="include/query/workload_cache_strategy.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_characteristics_1a66d6cfed1e35735f394f9ff5215fbee3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCharacteristics::rows_returned</definition>
+        <argsstring></argsstring>
+        <name>rows_returned</name>
+        <qualifiedname>themis::query::QueryCharacteristics::rows_returned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="39" column="12" bodyfile="include/query/workload_cache_strategy.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_characteristics_1a30f334fb33306f2cbe65b5832ad82764" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::QueryCharacteristics::execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>execution_time_ms</name>
+        <qualifiedname>themis::query::QueryCharacteristics::execution_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="40" column="13" bodyfile="include/query/workload_cache_strategy.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_characteristics_1aaa58c1c10a0ed70c2013dad2a4fdf98f" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::QueryCharacteristics::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::query::QueryCharacteristics::access_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="41" column="13" bodyfile="include/query/workload_cache_strategy.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_characteristics_1ae7f66f9175f09aeb4e5d73c6313c6145" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::query::QueryCharacteristics::first_seen</definition>
+        <argsstring></argsstring>
+        <name>first_seen</name>
+        <qualifiedname>themis::query::QueryCharacteristics::first_seen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="42" column="43" bodyfile="include/query/workload_cache_strategy.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_characteristics_1a3721b4bb8c21bcc8a1478a8a16fe191d" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::query::QueryCharacteristics::last_accessed</definition>
+        <argsstring></argsstring>
+        <name>last_accessed</name>
+        <qualifiedname>themis::query::QueryCharacteristics::last_accessed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="43" column="43" bodyfile="include/query/workload_cache_strategy.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_characteristics_1a89f206d9e5298a26f59e575d6595ce90" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::QueryCharacteristics::selectivity</definition>
+        <argsstring>() const</argsstring>
+        <name>selectivity</name>
+        <qualifiedname>themis::query::QueryCharacteristics::selectivity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="46" column="12" bodyfile="include/query/workload_cache_strategy.h" bodystart="46" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_characteristics_1a417168fd95c91d07dc0a15c93fb39a63" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::QueryCharacteristics::frequency_per_minute</definition>
+        <argsstring>() const</argsstring>
+        <name>frequency_per_minute</name>
+        <qualifiedname>themis::query::QueryCharacteristics::frequency_per_minute</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="52" column="12" bodyfile="include/query/workload_cache_strategy.h" bodystart="52" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/workload_cache_strategy.h" line="36" column="1" bodyfile="include/query/workload_cache_strategy.h" bodystart="36" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_characteristics_1aaa58c1c10a0ed70c2013dad2a4fdf98f" prot="public" virt="non-virtual"><scope>themis::query::QueryCharacteristics</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1query_1_1_query_characteristics_1a30f334fb33306f2cbe65b5832ad82764" prot="public" virt="non-virtual"><scope>themis::query::QueryCharacteristics</scope><name>execution_time_ms</name></member>
+      <member refid="structthemis_1_1query_1_1_query_characteristics_1ae7f66f9175f09aeb4e5d73c6313c6145" prot="public" virt="non-virtual"><scope>themis::query::QueryCharacteristics</scope><name>first_seen</name></member>
+      <member refid="structthemis_1_1query_1_1_query_characteristics_1a417168fd95c91d07dc0a15c93fb39a63" prot="public" virt="non-virtual"><scope>themis::query::QueryCharacteristics</scope><name>frequency_per_minute</name></member>
+      <member refid="structthemis_1_1query_1_1_query_characteristics_1a3721b4bb8c21bcc8a1478a8a16fe191d" prot="public" virt="non-virtual"><scope>themis::query::QueryCharacteristics</scope><name>last_accessed</name></member>
+      <member refid="structthemis_1_1query_1_1_query_characteristics_1a2951546cbb3649527c9becf3821f286f" prot="public" virt="non-virtual"><scope>themis::query::QueryCharacteristics</scope><name>result_size_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_query_characteristics_1a66d6cfed1e35735f394f9ff5215fbee3" prot="public" virt="non-virtual"><scope>themis::query::QueryCharacteristics</scope><name>rows_returned</name></member>
+      <member refid="structthemis_1_1query_1_1_query_characteristics_1ae9bb91e476ca0fb8482a107cbad3d339" prot="public" virt="non-virtual"><scope>themis::query::QueryCharacteristics</scope><name>rows_scanned</name></member>
+      <member refid="structthemis_1_1query_1_1_query_characteristics_1a89f206d9e5298a26f59e575d6595ce90" prot="public" virt="non-virtual"><scope>themis::query::QueryCharacteristics</scope><name>selectivity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

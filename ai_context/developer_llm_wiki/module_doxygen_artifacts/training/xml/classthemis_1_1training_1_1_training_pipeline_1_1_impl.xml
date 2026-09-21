@@ -1,0 +1,689 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_training_pipeline_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::TrainingPipeline::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1ae9197fefed2f30600b6dacd1f7e2fcbb" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_pipeline_config" kindref="compound">PipelineConfig</ref></type>
+        <definition>PipelineConfig themis::training::TrainingPipeline::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="635" column="45" bodyfile="src/training/training_pipeline.cpp" bodystart="635" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a2fa862b439573bcbc8dcdeb26da84179" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::TrainingPipeline::Impl::db_connection_</definition>
+        <argsstring></argsstring>
+        <name>db_connection_</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::db_connection_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="636" column="45" bodyfile="src/training/training_pipeline.cpp" bodystart="636" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1ab311d6975d849892639a57d9b3fe73b7" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_legal_auto_labeler" kindref="compound">LegalAutoLabeler</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LegalAutoLabeler&gt; themis::training::TrainingPipeline::Impl::labeler_</definition>
+        <argsstring></argsstring>
+        <name>labeler_</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::labeler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="637" column="27" bodyfile="src/training/training_pipeline.cpp" bodystart="637" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a335a7a5e6f440f601a5232323a05a4af" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_knowledge_graph_enricher" kindref="compound">KnowledgeGraphEnricher</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;KnowledgeGraphEnricher&gt; themis::training::TrainingPipeline::Impl::enricher_</definition>
+        <argsstring></argsstring>
+        <name>enricher_</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::enricher_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="638" column="21" bodyfile="src/training/training_pipeline.cpp" bodystart="638" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1aca72f9dc075110b91ae4a3c4d941254f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer" kindref="compound">IncrementalLoRATrainer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;IncrementalLoRATrainer&gt; themis::training::TrainingPipeline::Impl::trainer_</definition>
+        <argsstring></argsstring>
+        <name>trainer_</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::trainer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="639" column="21" bodyfile="src/training/training_pipeline.cpp" bodystart="639" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1ab1aa6a43b00fa1c5b67155c968a8cae4" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_data_selection_pipeline" kindref="compound">DataSelectionPipeline</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DataSelectionPipeline&gt; themis::training::TrainingPipeline::Impl::data_selector_</definition>
+        <argsstring></argsstring>
+        <name>data_selector_</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::data_selector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="640" column="22" bodyfile="src/training/training_pipeline.cpp" bodystart="640" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a56fe7fb9b521aeef600a1de8240b124b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_provenance_tracker" kindref="compound">ProvenanceTracker</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ProvenanceTracker&gt; themis::training::TrainingPipeline::Impl::provenance_tracker_</definition>
+        <argsstring></argsstring>
+        <name>provenance_tracker_</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::provenance_tracker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="642" column="26" bodyfile="src/training/training_pipeline.cpp" bodystart="642" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1aa9a4eca21db190fb2803b578ba15f8cd" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" kindref="compound">LoRACheckpointManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LoRACheckpointManager&gt; themis::training::TrainingPipeline::Impl::checkpoint_manager_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_manager_</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::checkpoint_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="643" column="22" bodyfile="src/training/training_pipeline.cpp" bodystart="643" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1aff18789fd87d242e28f943c2ceb27fd6" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1training_1_1_confidence_calibrator" kindref="compound">ConfidenceCalibrator</ref></type>
+        <definition>ConfidenceCalibrator themis::training::TrainingPipeline::Impl::calibrator_</definition>
+        <argsstring></argsstring>
+        <name>calibrator_</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::calibrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="644" column="45" bodyfile="src/training/training_pipeline.cpp" bodystart="644" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1aff2509b287b50472a0be6ff79910614d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_pipeline_stats" kindref="compound">PipelineStats</ref></type>
+        <definition>PipelineStats themis::training::TrainingPipeline::Impl::last_stats_</definition>
+        <argsstring></argsstring>
+        <name>last_stats_</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::last_stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="645" column="45" bodyfile="src/training/training_pipeline.cpp" bodystart="645" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1aaeb92ab79698a98f1286c24c8c0e2caf" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::TrainingPipeline::Impl::scheduled_interval_hours_</definition>
+        <argsstring></argsstring>
+        <name>scheduled_interval_hours_</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::scheduled_interval_hours_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="646" column="45" bodyfile="src/training/training_pipeline.cpp" bodystart="646" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a4f794a12662bd3f0f28237deac474f4e" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1training_1a6b72290fe0e22756fdaaf857c0315ee9" kindref="member">PipelineCallback</ref></type>
+        <definition>PipelineCallback themis::training::TrainingPipeline::Impl::scheduled_callback_</definition>
+        <argsstring></argsstring>
+        <name>scheduled_callback_</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::scheduled_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="647" column="45" bodyfile="src/training/training_pipeline.cpp" bodystart="647" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1accceeeb94389fa025ca550f8fed95fcb" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::TrainingPipeline::Impl::Impl</definition>
+        <argsstring>(const PipelineConfig &amp;config, const std::string &amp;db_connection)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_pipeline_config" kindref="compound">PipelineConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>db_connection</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">db_connection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="103" column="14" bodyfile="src/training/training_pipeline.cpp" bodystart="103" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a931d100130a49aa4cbb8583fb0b6245c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::TrainingPipeline::Impl::~Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="123" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a3eeeed056b2c8104399b8d07d648ea9d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_pipeline_stats" kindref="compound">PipelineStats</ref></type>
+        <definition>PipelineStats themis::training::TrainingPipeline::Impl::run</definition>
+        <argsstring>(PipelineCallback callback)</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::run</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a6b72290fe0e22756fdaaf857c0315ee9" kindref="member">PipelineCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Phase 7: Full pipeline execution ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: PipelineStats(), PipelineMetrics(), std::chrono::steady_clock::now(), empty(), callback(), sanitizeTrainingPipelineMessage(), beginStage(), emitCallback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="131" column="19" bodyfile="src/training/training_pipeline.cpp" bodystart="131" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a149121a73c14254f4a3316c193ce00be" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_labeling_stats" kindref="compound">LabelingStats</ref></type>
+        <definition>LabelingStats themis::training::TrainingPipeline::Impl::runLabeling</definition>
+        <argsstring>(LabelingCallback callback)</argsstring>
+        <name>runLabeling</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::runLabeling</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1aa74730bdbe99bcd1d8f3268982e72465" kindref="member">LabelingCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Phase 7: Stage-specific entry points ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: labelAll(), callback(), sanitizeTrainingPipelineMessage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="332" column="19" bodyfile="src/training/training_pipeline.cpp" bodystart="332" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1ac38eb28640754dc224fba3bcac590668" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_enrichment_stats" kindref="compound">EnrichmentStats</ref></type>
+        <definition>EnrichmentStats themis::training::TrainingPipeline::Impl::runEnrichment</definition>
+        <argsstring>(EnrichmentCallback callback)</argsstring>
+        <name>runEnrichment</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::runEnrichment</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a4bbbc514a6d2387b8fb13ce2854cf50e" kindref="member">EnrichmentCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Run Enrichment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: enrichAll(), callback(), sanitizeTrainingPipelineMessage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="348" column="21" bodyfile="src/training/training_pipeline.cpp" bodystart="348" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a43fffb2c37ce8e02a8fef432066bb67c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_training_result" kindref="compound">TrainingResult</ref></type>
+        <definition>TrainingResult themis::training::TrainingPipeline::Impl::runTraining</definition>
+        <argsstring>(TrainingCallback callback)</argsstring>
+        <name>runTraining</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::runTraining</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1aef71c1e7bfba4652c7ba87452e1d4f9a" kindref="member">TrainingCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Run Training. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: train(), callback(), sanitizeTrainingPipelineMessage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="364" column="20" bodyfile="src/training/training_pipeline.cpp" bodystart="364" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a950bbd8eb800713fcbf98ed17053a049" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_data_selection_result" kindref="compound">DataSelectionResult</ref></type>
+        <definition>DataSelectionResult themis::training::TrainingPipeline::Impl::runDataSelection</definition>
+        <argsstring>(SelectionProgressCallback callback)</argsstring>
+        <name>runDataSelection</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::runDataSelection</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1ab62c68864316cf850af982b4c5370ee3" kindref="member">SelectionProgressCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Data selection stage (Quality &amp; Diversity Layer) ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: setConfig(), <ref refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a3eeeed056b2c8104399b8d07d648ea9d" kindref="member">run()</ref>, std::move(), callback(), sanitizeTrainingPipelineMessage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="381" column="25" bodyfile="src/training/training_pipeline.cpp" bodystart="381" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1adc667e4841c240af50de7ba205a1bc3a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_data_quality_report" kindref="compound">DataQualityReport</ref></type>
+        <definition>DataQualityReport themis::training::TrainingPipeline::Impl::checkDataQuality</definition>
+        <argsstring>(float min_confidence)</argsstring>
+        <name>checkDataQuality</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::checkDataQuality</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>min_confidence</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Phase 7: Data-quality checks ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">min_confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: DataQualityReport(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="410" column="23" bodyfile="src/training/training_pipeline.cpp" bodystart="410" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1aa227f9d5670b1fb7ba4f2044ac93dfd2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_drift_report" kindref="compound">DriftReport</ref></type>
+        <definition>DriftReport themis::training::TrainingPipeline::Impl::detectLabelDrift</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;reference_samples)</argsstring>
+        <name>detectLabelDrift</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::detectLabelDrift</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>reference_samples</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Phase 7: Label-drift detection ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reference_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: DriftReport(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="441" column="17" bodyfile="src/training/training_pipeline.cpp" bodystart="441" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a78a6318c548968296a199ae6c4a2cc35" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_pipeline_stats" kindref="compound">PipelineStats</ref></type>
+        <definition>PipelineStats themis::training::TrainingPipeline::Impl::getLastStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastStats</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::getLastStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="460" column="19" bodyfile="src/training/training_pipeline.cpp" bodystart="460" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1ae5fea06f4a0cddd2b0ec815f94867b3f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::TrainingPipeline::Impl::scheduleRetraining</definition>
+        <argsstring>(size_t interval_hours, PipelineCallback callback)</argsstring>
+        <name>scheduleRetraining</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::scheduleRetraining</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>interval_hours</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a6b72290fe0e22756fdaaf857c0315ee9" kindref="member">PipelineCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Phase 7: Schedule retraining (stored for reference; actual scheduling requires a thread/timer service in production). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">interval_hours</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements scheduleRetraining without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="470" column="10" bodyfile="src/training/training_pipeline.cpp" bodystart="470" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a71a6c4a451a7c049f0728dbbeace1cef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_calibration_result" kindref="compound">CalibrationResult</ref></type>
+        <definition>CalibrationResult themis::training::TrainingPipeline::Impl::runCalibration</definition>
+        <argsstring>()</argsstring>
+        <name>runCalibration</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::runCalibration</qualifiedname>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Phase 3: Calibration wrappers ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: calibrate(), empty(), serializeCalibrationResult(), saveCalibrationJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="481" column="23" bodyfile="src/training/training_pipeline.cpp" bodystart="481" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a43a2c7b1bc300c1fd1b30f33949e7afd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::TrainingPipeline::Impl::addCalibrationSample</definition>
+        <argsstring>(const std::string &amp;category, float confidence, bool correct)</argsstring>
+        <name>addCalibrationSample</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::addCalibrationSample</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>confidence</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>correct</declname>
+        </param>
+        <briefdescription>
+<para>Add Calibration Sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">confidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">correct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: addSample(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="502" column="10" bodyfile="src/training/training_pipeline.cpp" bodystart="502" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1ac3dd2e8ed3ff5ac6392233db2e517100" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_hyperparam_result" kindref="compound">HyperparamResult</ref></type>
+        <definition>HyperparamResult themis::training::TrainingPipeline::Impl::runHyperparamSearch</definition>
+        <argsstring>(const HyperparamSearchConfig &amp;cfg, HyperparamSearchCallback callback)</argsstring>
+        <name>runHyperparamSearch</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::runHyperparamSearch</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_hyperparam_search_config" kindref="compound">HyperparamSearchConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a6ede5cf06216649fc11faae8420b3dec" kindref="member">HyperparamSearchCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Phase 2: Automated hyperparameter search (rank × lr grid sweep) ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::chrono::steady_clock::now(), reserve(), size(), push_back(), std::swap(), shuffle_lcg(), resize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="513" column="22" bodyfile="src/training/training_pipeline.cpp" bodystart="513" bodyend="632"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1acfaf4c46f2d2ba78255a540b91e9a225" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::training::TrainingPipeline::Impl::serializeCalibrationResult</definition>
+        <argsstring>(const CalibrationResult &amp;r)</argsstring>
+        <name>serializeCalibrationResult</name>
+        <qualifiedname>themis::training::TrainingPipeline::Impl::serializeCalibrationResult</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_calibration_result" kindref="compound">CalibrationResult</ref> &amp;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+<para>Serialise a <ref refid="structthemis_1_1training_1_1_calibration_result" kindref="compound">CalibrationResult</ref> to a key=value text format (no JSON dep). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/training_pipeline.cpp" line="655" column="24" bodyfile="src/training/training_pipeline.cpp" bodystart="655" bodyend="667"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/training_pipeline.cpp" line="95" column="1" bodyfile="src/training/training_pipeline.cpp" bodystart="95" bodyend="668"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a43a2c7b1bc300c1fd1b30f33949e7afd" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>addCalibrationSample</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1aff18789fd87d242e28f943c2ceb27fd6" prot="private" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>calibrator_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1adc667e4841c240af50de7ba205a1bc3a" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>checkDataQuality</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1aa9a4eca21db190fb2803b578ba15f8cd" prot="private" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>checkpoint_manager_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1ae9197fefed2f30600b6dacd1f7e2fcbb" prot="private" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1ab1aa6a43b00fa1c5b67155c968a8cae4" prot="private" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>data_selector_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a2fa862b439573bcbc8dcdeb26da84179" prot="private" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>db_connection_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1aa227f9d5670b1fb7ba4f2044ac93dfd2" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>detectLabelDrift</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a335a7a5e6f440f601a5232323a05a4af" prot="private" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>enricher_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a78a6318c548968296a199ae6c4a2cc35" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>getLastStats</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1accceeeb94389fa025ca550f8fed95fcb" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1ab311d6975d849892639a57d9b3fe73b7" prot="private" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>labeler_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1aff2509b287b50472a0be6ff79910614d" prot="private" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>last_stats_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a56fe7fb9b521aeef600a1de8240b124b" prot="private" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>provenance_tracker_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a3eeeed056b2c8104399b8d07d648ea9d" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>run</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a71a6c4a451a7c049f0728dbbeace1cef" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>runCalibration</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a950bbd8eb800713fcbf98ed17053a049" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>runDataSelection</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1ac38eb28640754dc224fba3bcac590668" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>runEnrichment</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1ac3dd2e8ed3ff5ac6392233db2e517100" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>runHyperparamSearch</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a149121a73c14254f4a3316c193ce00be" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>runLabeling</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a43fffb2c37ce8e02a8fef432066bb67c" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>runTraining</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a4f794a12662bd3f0f28237deac474f4e" prot="private" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>scheduled_callback_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1aaeb92ab79698a98f1286c24c8c0e2caf" prot="private" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>scheduled_interval_hours_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1ae5fea06f4a0cddd2b0ec815f94867b3f" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>scheduleRetraining</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1acfaf4c46f2d2ba78255a540b91e9a225" prot="private" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>serializeCalibrationResult</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1aca72f9dc075110b91ae4a3c4d941254f" prot="private" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>trainer_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_pipeline_1_1_impl_1a931d100130a49aa4cbb8583fb0b6245c" prot="public" virt="non-virtual"><scope>themis::training::TrainingPipeline::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

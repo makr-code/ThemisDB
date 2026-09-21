@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_scope_enforcer_test" kind="class" language="C++" prot="public">
+    <compoundname>ScopeEnforcerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_scope_enforcer_test_1a14c4c2db60eeba7d2243708ae8cff1e2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1query_1_1_scope_enforcer" kindref="compound">ScopeEnforcer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ScopeEnforcer&gt; ScopeEnforcerTest::enforcer</definition>
+        <argsstring></argsstring>
+        <name>enforcer</name>
+        <qualifiedname>ScopeEnforcerTest::enforcer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_scope_safety.cpp" line="48" column="21" bodyfile="tests/query/test_query_federation_scope_safety.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_scope_enforcer_test_1a5f64656106aa0e5186aa07ff03a0fba7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ScopeEnforcerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ScopeEnforcerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_scope_safety.cpp" line="50" column="10" bodyfile="tests/query/test_query_federation_scope_safety.cpp" bodystart="50" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ScopeEnforcerTest</label>
+        <link refid="class_scope_enforcer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ScopeEnforcerTest</label>
+        <link refid="class_scope_enforcer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_federation_scope_safety.cpp" line="46" column="1" bodyfile="tests/query/test_query_federation_scope_safety.cpp" bodystart="46" bodyend="53"/>
+    <listofallmembers>
+      <member refid="class_scope_enforcer_test_1a14c4c2db60eeba7d2243708ae8cff1e2" prot="protected" virt="non-virtual"><scope>ScopeEnforcerTest</scope><name>enforcer</name></member>
+      <member refid="class_scope_enforcer_test_1a5f64656106aa0e5186aa07ff03a0fba7" prot="protected" virt="non-virtual"><scope>ScopeEnforcerTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

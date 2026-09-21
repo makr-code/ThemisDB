@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_graph_q_l_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::GraphQLApiHandler</compoundname>
+    <includes refid="graphql__api__handler_8h" local="no">graphql_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_graph_q_l_api_handler_1a82810bef906f8dd79543c3effe437381" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref> *</type>
+        <definition>QueryEngine* themis::server::GraphQLApiHandler::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::server::GraphQLApiHandler::engine_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graphql_api_handler.h" line="58" column="17" bodyfile="include/server/graphql_api_handler.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_q_l_api_handler_1a06b3844dc79770d5cd36798287402c75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::GraphQLApiHandler::GraphQLApiHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>GraphQLApiHandler</name>
+        <qualifiedname>themis::server::GraphQLApiHandler::GraphQLApiHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graphql_api_handler.h" line="30" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_q_l_api_handler_1ab939725ab0db7f077b2c3f0006b0d35f" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::GraphQLApiHandler::GraphQLApiHandler</definition>
+        <argsstring>(QueryEngine *engine)</argsstring>
+        <name>GraphQLApiHandler</name>
+        <qualifiedname>themis::server::GraphQLApiHandler::GraphQLApiHandler</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref> *</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graphql_api_handler.h" line="32" column="14" bodyfile="include/server/graphql_api_handler.h" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_q_l_api_handler_1a4d3c18e9c0c2a5749c08b8ec1186b259" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::GraphQLApiHandler::setQueryEngine</definition>
+        <argsstring>(QueryEngine *engine)</argsstring>
+        <name>setQueryEngine</name>
+        <qualifiedname>themis::server::GraphQLApiHandler::setQueryEngine</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref> *</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Set Query Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setQueryEngine without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graphql_api_handler.h" line="39" column="10" bodyfile="include/server/graphql_api_handler.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_q_l_api_handler_1a07d8046bf63e21343224a5c7ff6ac944" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphQLApiHandler::handlePost</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handlePost</name>
+        <qualifiedname>themis::server::GraphQLApiHandler::handlePost</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Post. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graphql_api_handler.h" line="46" column="20" bodyfile="src/server/graphql_api_handler.cpp" bodystart="111" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_q_l_api_handler_1a33b59341df1ac92018ca944d33895b5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphQLApiHandler::handleSchemaGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleSchemaGet</name>
+        <qualifiedname>themis::server::GraphQLApiHandler::handleSchemaGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Schema Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graphql_api_handler.h" line="54" column="20" bodyfile="src/server/graphql_api_handler.cpp" bodystart="252" bodyend="268"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_q_l_api_handler_1af8dc02bf53b845f9d942dd56b09a8179" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphQLApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::GraphQLApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graphql_api_handler.h" line="67" column="20" bodyfile="src/server/graphql_api_handler.cpp" bodystart="33" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_q_l_api_handler_1a5ae193364ecee434699bcfcfe85a7561" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::GraphQLApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::GraphQLApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graphql_api_handler.h" line="79" column="20" bodyfile="src/server/graphql_api_handler.cpp" bodystart="54" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_graph_q_l_api_handler_1a75272e190ec49aab346f8408543df4ba" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::GraphQLApiHandler::serializeValue</definition>
+        <argsstring>(const std::shared_ptr&lt; graphql::Value &gt; &amp;val) const</argsstring>
+        <name>serializeValue</name>
+        <qualifiedname>themis::server::GraphQLApiHandler::serializeValue</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; graphql::Value &gt; &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Serialize Value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/graphql_api_handler.h" line="89" column="20" bodyfile="src/server/graphql_api_handler.cpp" bodystart="66" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/graphql_api_handler.h" line="28" column="1" bodyfile="include/server/graphql_api_handler.h" bodystart="28" bodyend="91"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_graph_q_l_api_handler_1a82810bef906f8dd79543c3effe437381" prot="private" virt="non-virtual"><scope>themis::server::GraphQLApiHandler</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_q_l_api_handler_1a06b3844dc79770d5cd36798287402c75" prot="public" virt="non-virtual"><scope>themis::server::GraphQLApiHandler</scope><name>GraphQLApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_q_l_api_handler_1ab939725ab0db7f077b2c3f0006b0d35f" prot="public" virt="non-virtual"><scope>themis::server::GraphQLApiHandler</scope><name>GraphQLApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_q_l_api_handler_1a07d8046bf63e21343224a5c7ff6ac944" prot="public" virt="non-virtual"><scope>themis::server::GraphQLApiHandler</scope><name>handlePost</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_q_l_api_handler_1a33b59341df1ac92018ca944d33895b5f" prot="public" virt="non-virtual"><scope>themis::server::GraphQLApiHandler</scope><name>handleSchemaGet</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_q_l_api_handler_1a5ae193364ecee434699bcfcfe85a7561" prot="private" virt="non-virtual"><scope>themis::server::GraphQLApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_q_l_api_handler_1af8dc02bf53b845f9d942dd56b09a8179" prot="private" virt="non-virtual"><scope>themis::server::GraphQLApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_q_l_api_handler_1a75272e190ec49aab346f8408543df4ba" prot="private" virt="non-virtual"><scope>themis::server::GraphQLApiHandler</scope><name>serializeValue</name></member>
+      <member refid="classthemis_1_1server_1_1_graph_q_l_api_handler_1a4d3c18e9c0c2a5749c08b8ec1186b259" prot="public" virt="non-virtual"><scope>themis::server::GraphQLApiHandler</scope><name>setQueryEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

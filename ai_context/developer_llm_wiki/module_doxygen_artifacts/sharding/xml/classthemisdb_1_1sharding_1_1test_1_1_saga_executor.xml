@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1test_1_1_saga_executor" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::test::SagaExecutor</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_saga_executor_1aceb913a2e7ae4465862dcc5551e037ef" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> *</type>
+        <definition>SimWAL* themisdb::sharding::test::SagaExecutor::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themisdb::sharding::test::SagaExecutor::wal_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="621" column="12" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="621" bodyend="621"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_saga_executor_1a3ad2d1bc6b5d13f7da7bfc8f85b94f40" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::SagaExecutor::SagaExecutor</definition>
+        <argsstring>(SimWAL *wal)</argsstring>
+        <name>SagaExecutor</name>
+        <qualifiedname>themisdb::sharding::test::SagaExecutor::SagaExecutor</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> *</type>
+          <declname>wal</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="584" column="14" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="584" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_saga_executor_1a35134ef848efcc3477d5a5d9335e4126" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1test_1_1_saga_result" kindref="compound">SagaResult</ref></type>
+        <definition>SagaResult themisdb::sharding::test::SagaExecutor::execute</definition>
+        <argsstring>(const std::string &amp;txn_id, const std::vector&lt; SagaStep &gt; &amp;steps)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::sharding::test::SagaExecutor::execute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1test_1_1_saga_step" kindref="compound">SagaStep</ref> &gt; &amp;</type>
+          <declname>steps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="586" column="16" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="586" bodyend="618"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-process SAGA executor with reverse-order compensation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="582" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="582" bodyend="622"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_saga_executor_1a35134ef848efcc3477d5a5d9335e4126" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SagaExecutor</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_saga_executor_1a3ad2d1bc6b5d13f7da7bfc8f85b94f40" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SagaExecutor</scope><name>SagaExecutor</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_saga_executor_1aceb913a2e7ae4465862dcc5551e037ef" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::SagaExecutor</scope><name>wal_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

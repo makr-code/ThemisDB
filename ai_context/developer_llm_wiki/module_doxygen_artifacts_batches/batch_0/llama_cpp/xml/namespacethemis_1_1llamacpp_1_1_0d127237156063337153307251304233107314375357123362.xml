@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llamacpp_1_1_0d127237156063337153307251304233107314375357123362" kind="namespace" language="C++">
+    <compoundname>themis::llamacpp::@127237156063337153307251304233107314375357123362</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llama_cpp/llama_cpp_plugin.cpp" line="39" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="temporal__api__contract_8h" kind="file" language="C++">
+    <compoundname>temporal_api_contract.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="bench__temporal__release__gates_8cpp" local="yes">benchmarks/temporal/bench_temporal_release_gates.cpp</includedby>
+    <includedby refid="test__temporal__contract__hardening__focused_8cpp" local="yes">tests/temporal/test_temporal_contract_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/temporal/temporal_api_contract.h</label>
+        <link refid="temporal__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/temporal/bench_temporal_release_gates.cpp</label>
+        <link refid="bench__temporal__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/temporal/temporal_api_contract.h</label>
+        <link refid="temporal__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/temporal/test_temporal_contract_hardening_focused.cpp</label>
+        <link refid="test__temporal__contract__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1temporal">themis::temporal</innernamespace>
+    <briefdescription>
+<para>Frozen temporal runtime contract semantics for the active v1.x line. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative contract for the temporal module covering bi-temporal data management, interval-tree indexing, snapshot reads, data retention, and point-in-time recovery (PITR).</para>
+<sect1 id="temporal__api__contract_8h_1autotoc_md1_1s1"><sect2 id="temporal__api__contract_8h_1autotoc_md1">
+<title>Contract Scope</title><para>The contracts below are binding for all components in the ThemisDB temporal pipeline:<itemizedlist>
+<listitem><para>Bi-temporal insert / query (valid_time, transaction_time)</para>
+</listitem><listitem><para>Interval tree index (insert, query, delete complexity)</para>
+</listitem><listitem><para>Snapshot manager (consistent read at timestamp T)</para>
+</listitem><listitem><para>Retention manager (soft-delete, GC boundary)</para>
+</listitem><listitem><para>PITR restore (exact committed state recovery)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="temporal__api__contract_8h_1autotoc_md2_1s1"><sect2 id="temporal__api__contract_8h_1autotoc_md2">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
+<para><simplesect kind="see"><para>src/temporal/ROADMAP.md — Phase 1 contract item </para>
+</simplesect>
+<simplesect kind="see"><para>include/temporal/ROADMAP.md — Phase 6 documentation item </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1temporal" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1temporal" kindref="compound">temporal</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Bi-temporal<sp/>model<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Independence<sp/>guarantee:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>valid_time<sp/>and<sp/>transaction_time<sp/>are<sp/>independent<sp/>dimensions.<sp/><sp/>A<sp/>row&apos;s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>valid_time<sp/>range<sp/>represents<sp/>the<sp/>period<sp/>during<sp/>which<sp/>the<sp/>fact<sp/>is<sp/>true<sp/>in<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>modelled<sp/>world.<sp/><sp/>transaction_time<sp/>represents<sp/>when<sp/>the<sp/>database<sp/>recorded<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>fact.<sp/><sp/>Neither<sp/>dimension<sp/>is<sp/>ever<sp/>null;<sp/>storage<sp/>of<sp/>a<sp/>null<sp/>in<sp/>either<sp/>column</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>is<sp/>a<sp/>contract<sp/>violation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Overlap<sp/>semantics:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Two<sp/>bi-temporal<sp/>rows<sp/>overlap<sp/>when<sp/>their<sp/>valid_time<sp/>intervals<sp/>intersect<sp/>AND</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>their<sp/>transaction_time<sp/>intervals<sp/>intersect.<sp/><sp/>The<sp/>query<sp/>engine<sp/>must<sp/>surface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>all<sp/>overlapping<sp/>rows<sp/>for<sp/>a<sp/>given<sp/>(valid_time,<sp/>transaction_time)<sp/>probe<sp/>point.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1temporal_1a11f35fa1b4fddbcf5fd1203decf8fa86" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1temporal_1a11f35fa1b4fddbcf5fd1203decf8fa86" kindref="member">kTemporalOpenEnd</ref><sp/>=<sp/>INT64_MAX;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1temporal_1a28a27fde7f959c49abf21389dc820574" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1temporal_1a28a27fde7f959c49abf21389dc820574" kindref="member">kTemporalMinTimestampNs</ref><sp/>=<sp/>0LL;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Interval<sp/>tree<sp/>index<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Complexity<sp/>guarantees:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>insert():<sp/><sp/>amortised<sp/>O(log<sp/>n)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>query():<sp/><sp/><sp/>O(log<sp/>n<sp/>+<sp/>k)<sp/>where<sp/>k<sp/>=<sp/>result<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>delete():<sp/><sp/>amortised<sp/>O(log<sp/>n)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>No<sp/>stale<sp/>reads<sp/>after<sp/>delete:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>After<sp/>delete(key)<sp/>returns<sp/>successfully,<sp/>any<sp/>subsequent<sp/>query()<sp/>for<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>key&apos;s<sp/>interval<sp/>must<sp/>NOT<sp/>return<sp/>the<sp/>deleted<sp/>row.<sp/><sp/>Lazy<sp/>deletion<sp/>strategies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>that<sp/>allow<sp/>temporary<sp/>stale<sp/>reads<sp/>are<sp/>prohibited.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1temporal_1afca2df6398e073799804a8cf3cb01729" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1temporal_1afca2df6398e073799804a8cf3cb01729" kindref="member">kIntervalTreeMaxDepth</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Snapshot<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Consistency<sp/>guarantee:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>snapshot_at(T)<sp/>returns<sp/>all<sp/>rows<sp/>whose<sp/>valid_time<sp/>interval<sp/>contains<sp/>T</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>(i.e.,<sp/>valid_start<sp/>≤<sp/>T<sp/>≤<sp/>valid_end)<sp/>and<sp/>whose<sp/>transaction_time<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>also<sp/>contains<sp/>T.<sp/><sp/>The<sp/>result<sp/>set<sp/>is<sp/>a<sp/>point-in-time<sp/>consistent<sp/>view;<sp/>no</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>write<sp/>committed<sp/>after<sp/>the<sp/>snapshot<sp/>is<sp/>requested<sp/>is<sp/>visible.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Concurrent<sp/>write<sp/>isolation:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>write<sp/>that<sp/>begins<sp/>after<sp/>snapshot_at(T)<sp/>is<sp/>requested<sp/>must<sp/>not<sp/>affect<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>snapshot<sp/>result<sp/>even<sp/>if<sp/>it<sp/>commits<sp/>before<sp/>the<sp/>snapshot<sp/>read<sp/>completes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Retention<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Soft-delete<sp/>semantics:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Rows<sp/>whose<sp/>valid_time<sp/>end<sp/>has<sp/>passed<sp/>the<sp/>retention<sp/>boundary<sp/>are<sp/>soft-deleted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>by<sp/>setting<sp/>a<sp/>deletion<sp/>marker.<sp/><sp/>The<sp/>underlying<sp/>row<sp/>data<sp/>is<sp/>NOT<sp/>physically</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>removed<sp/>until<sp/>the<sp/>garbage<sp/>collector<sp/>(GC)<sp/>runs.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GC<sp/>boundary:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>GC<sp/>MUST<sp/>NOT<sp/>remove<sp/>any<sp/>row<sp/>whose<sp/>retention<sp/>boundary<sp/>has<sp/>not<sp/>yet<sp/>been</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>reached,<sp/>regardless<sp/>of<sp/>storage<sp/>pressure.<sp/><sp/>Early<sp/>physical<sp/>deletion<sp/>is<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>contract<sp/>violation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>PITR<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Exact<sp/>state<sp/>recovery:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>restore_to(T)<sp/>returns<sp/>the<sp/>exact<sp/>committed<sp/>database<sp/>state<sp/>as<sp/>of<sp/>timestamp<sp/>T.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>It<sp/>returns<sp/>no<sp/>more<sp/>(no<sp/>extra<sp/>rows<sp/>that<sp/>were<sp/>not<sp/>committed<sp/>at<sp/>T)<sp/>and<sp/>no<sp/>less</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>(no<sp/>rows<sp/>missing<sp/>that<sp/>were<sp/>committed<sp/>at<sp/>or<sp/>before<sp/>T).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Timestamp<sp/>range:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Requests<sp/>for<sp/>a<sp/>T<sp/>before<sp/>the<sp/>oldest<sp/>available<sp/>WAL/snapshot<sp/>anchor<sp/>return</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>PITR_TIMESTAMP_BEFORE_OLDEST.<sp/><sp/>No<sp/>partial<sp/>restore<sp/>is<sp/>attempted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Future<sp/>timestamp:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Requests<sp/>for<sp/>a<sp/>T<sp/>in<sp/>the<sp/>future<sp/>(T<sp/>&gt;<sp/>now)<sp/>also<sp/>return</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>PITR_TIMESTAMP_BEFORE_OLDEST<sp/>(i.e.,<sp/>the<sp/>error<sp/>is<sp/>the<sp/>same<sp/>as<sp/>requesting<sp/>an</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>unavailable<sp/>anchor,<sp/>not<sp/>a<sp/>distinct<sp/>&quot;future<sp/>timestamp&quot;<sp/>error).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1d" kindref="member">TemporalErrorCode</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="132" refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da40da9fc3a51ad1391af03ce450e603e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da40da9fc3a51ad1391af03ce450e603e1" kindref="member">TEMPORAL_RANGE_INVALID</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>300,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1daaa279fe27631220a8ca97bf68cd40249" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1daaa279fe27631220a8ca97bf68cd40249" kindref="member">SNAPSHOT_EXPIRED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>301,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da8570bbd815731ae6ee454e40d4958657" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da8570bbd815731ae6ee454e40d4958657" kindref="member">RETENTION_POLICY_CONFLICT</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>302,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da56791bbeab30edbbe2a7d15519b2c6dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da56791bbeab30edbbe2a7d15519b2c6dc" kindref="member">PITR_TIMESTAMP_BEFORE_OLDEST</ref><sp/><sp/>=<sp/>303,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da94764c90b73a4eb3afbcb293919188f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da94764c90b73a4eb3afbcb293919188f2" kindref="member">INTERVAL_TREE_INCONSISTENT</ref><sp/><sp/><sp/><sp/>=<sp/>304,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da8add034d2789187565326e05f7a2feeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da8add034d2789187565326e05f7a2feeb" kindref="member">NULL_TEMPORAL_DIMENSION</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>305,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1dae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1dae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>399,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="namespacethemis_1_1temporal_1a697bb58de45f39e2b42baeccece0df10" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1temporal_1a697bb58de45f39e2b42baeccece0df10" kindref="member">isHardTemporalError</ref>(<ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1d" kindref="member">TemporalErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da40da9fc3a51ad1391af03ce450e603e1" kindref="member">TemporalErrorCode::TEMPORAL_RANGE_INVALID</ref></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da8add034d2789187565326e05f7a2feeb" kindref="member">TemporalErrorCode::NULL_TEMPORAL_DIMENSION</ref></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da94764c90b73a4eb3afbcb293919188f2" kindref="member">TemporalErrorCode::INTERVAL_TREE_INCONSISTENT</ref></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1dae8c0c70879b5895c615677261d64a1ee" kindref="member">TemporalErrorCode::INTERNAL_ERROR</ref>;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="namespacethemis_1_1temporal_1a3cead857661ef4245eef4e283460e63e" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1temporal_1a3cead857661ef4245eef4e283460e63e" kindref="member">isLifecycleError</ref>(<ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1d" kindref="member">TemporalErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1daaa279fe27631220a8ca97bf68cd40249" kindref="member">TemporalErrorCode::SNAPSHOT_EXPIRED</ref></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da8570bbd815731ae6ee454e40d4958657" kindref="member">TemporalErrorCode::RETENTION_POLICY_CONFLICT</ref></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da56791bbeab30edbbe2a7d15519b2c6dc" kindref="member">TemporalErrorCode::PITR_TIMESTAMP_BEFORE_OLDEST</ref>;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>7<sp/><sp/>Retention<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="namespacethemis_1_1temporal_1a8491b23be20873e0f48a739c6ae61144" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1temporal_1a8491b23be20873e0f48a739c6ae61144" kindref="member">kDefaultRetentionSeconds</ref><sp/>=<sp/>90LL<sp/>*<sp/>24<sp/>*<sp/>3600;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="namespacethemis_1_1temporal_1afebb5d24c2f78bf2dce777098982b770" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1temporal_1afebb5d24c2f78bf2dce777098982b770" kindref="member">kMinRetentionSeconds</ref><sp/>=<sp/>3600LL;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="namespacethemis_1_1temporal_1a4037aea35684c8ab71f0e2407c613031" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1temporal_1a4037aea35684c8ab71f0e2407c613031" kindref="member">kMaxRetentionPoliciesPerTable</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>temporal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/temporal/temporal_api_contract.h"/>
+  </compounddef>
+</doxygen>

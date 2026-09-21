@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_cache_manager_1_1_cache_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::cache::CacheManager::CacheEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_manager_1_1_cache_entry_1a3246ecd331b50c731c476ae243fd31df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheManager::CacheEntry::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::cache::CacheManager::CacheEntry::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_manager.h" line="166" column="21" bodyfile="include/cache/cache_manager.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_manager_1_1_cache_entry_1acf978443c43c114e6e6787e998e6c579" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::CacheManager::CacheEntry::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::cache::CacheManager::CacheEntry::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_manager.h" line="167" column="16" bodyfile="include/cache/cache_manager.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_manager_1_1_cache_entry_1a0d41b5ae098e094fb00dd42b16f4968d" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cache_1_1_cache_eviction_policy" kindref="compound">CacheEvictionPolicy</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CacheEvictionPolicy&gt; themis::cache::CacheManager::CacheEntry::policy</definition>
+        <argsstring></argsstring>
+        <name>policy</name>
+        <qualifiedname>themis::cache::CacheManager::CacheEntry::policy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_manager.h" line="168" column="25" bodyfile="include/cache/cache_manager.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_manager.h" line="165" column="5" bodyfile="include/cache/cache_manager.h" bodystart="165" bodyend="169"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_entry_1a3246ecd331b50c731c476ae243fd31df" prot="public" virt="non-virtual"><scope>themis::cache::CacheManager::CacheEntry</scope><name>name</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_entry_1a0d41b5ae098e094fb00dd42b16f4968d" prot="public" virt="non-virtual"><scope>themis::cache::CacheManager::CacheEntry</scope><name>policy</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_entry_1acf978443c43c114e6e6787e998e6c579" prot="public" virt="non-virtual"><scope>themis::cache::CacheManager::CacheEntry</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

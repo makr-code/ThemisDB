@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1safety_1_1_prompt_guardian" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::safety::PromptGuardian</compoundname>
+    <includes refid="guardian_8h" local="no">guardian.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1safety_1_1_prompt_guardian_1ae9f7cbef3662afbe1c0c5238b4d88107" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1safety_1_1_guard_decision" kindref="compound">GuardDecision</ref></type>
+        <definition>GuardDecision themis::llm::safety::PromptGuardian::evaluate</definition>
+        <argsstring>(const std::string &amp;prompt) const</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::llm::safety::PromptGuardian::evaluate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/guardian.h" line="33" column="19" bodyfile="src/llm/safety/guardian.cpp" bodystart="140" bodyend="163"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1safety_1_1_prompt_guardian_1a22c3a9f22eaae82ed3591827a6b4b27a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::safety::PromptGuardian::normalize</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>normalize</name>
+        <qualifiedname>themis::llm::safety::PromptGuardian::normalize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Normalize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), std::tolower(), find(), end(), std::isalnum(), push_back(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/guardian.h" line="41" column="24" bodyfile="src/llm/safety/guardian.cpp" bodystart="171" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1safety_1_1_prompt_guardian_1a903b8ff3aa6fb95fcc8ec39d69fc24a4" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::safety::PromptGuardian::containsContextualRisk</definition>
+        <argsstring>(const std::string &amp;normalized, std::vector&lt; std::string &gt; &amp;matched_topics, std::string &amp;reason)</argsstring>
+        <name>containsContextualRisk</name>
+        <qualifiedname>themis::llm::safety::PromptGuardian::containsContextualRisk</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>normalized</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>matched_topics</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Contains Contextual Risk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">normalized</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">matched_topics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">normalized</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">matched_topics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: containsToken(), emplace_back(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/guardian.h" line="49" column="17" bodyfile="src/llm/safety/guardian.cpp" bodystart="217" bodyend="247"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/safety/guardian.h" line="26" column="1" bodyfile="include/llm/safety/guardian.h" bodystart="26" bodyend="52"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_prompt_guardian_1a903b8ff3aa6fb95fcc8ec39d69fc24a4" prot="private" virt="non-virtual"><scope>themis::llm::safety::PromptGuardian</scope><name>containsContextualRisk</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_prompt_guardian_1ae9f7cbef3662afbe1c0c5238b4d88107" prot="public" virt="non-virtual"><scope>themis::llm::safety::PromptGuardian</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1llm_1_1safety_1_1_prompt_guardian_1a22c3a9f22eaae82ed3591827a6b4b27a" prot="private" virt="non-virtual"><scope>themis::llm::safety::PromptGuardian</scope><name>normalize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,307 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::CompletenessEvaluator::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1a6cf44a30d6f43aa93af948e016f90176" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::rag::judge::CompletenessEvaluator::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/completeness_evaluator.cpp" line="28" column="12" bodyfile="src/rag/completeness_evaluator.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1ac1c9b897e36dc6379ff0cfe17b8f5bab" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration" kindref="compound">LLMJudgeIntegration</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LLMJudgeIntegration&gt; themis::rag::judge::CompletenessEvaluator::Impl::llm_integration</definition>
+        <argsstring></argsstring>
+        <name>llm_integration</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::Impl::llm_integration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/completeness_evaluator.cpp" line="29" column="21" bodyfile="src/rag/completeness_evaluator.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1acaf482d521ab69f6604e423033a622fb" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser" kindref="compound">ResponseParser</ref></type>
+        <definition>ResponseParser themis::rag::judge::CompletenessEvaluator::Impl::parser</definition>
+        <argsstring></argsstring>
+        <name>parser</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::Impl::parser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/completeness_evaluator.cpp" line="30" column="20" bodyfile="src/rag/completeness_evaluator.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1a0cbfc196a0033a371ea7f3af247ea218" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::judge::CompletenessEvaluator::Impl::state_mutex</definition>
+        <argsstring></argsstring>
+        <name>state_mutex</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::Impl::state_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/completeness_evaluator.cpp" line="31" column="24" bodyfile="src/rag/completeness_evaluator.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1ac8d7d94a500f302249abac17e966b816" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>static std::set&lt; std::string &gt; themis::rag::judge::CompletenessEvaluator::Impl::extractAnswerWords</definition>
+        <argsstring>(const std::string &amp;answer)</argsstring>
+        <name>extractAnswerWords</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::Impl::extractAnswerWords</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <briefdescription>
+<para>Optimization: Extract answer words once to avoid repeated parsing Builds a set of lowercase words from answer for O(log n) lookup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), stream(), empty(), std::isalnum(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/completeness_evaluator.cpp" line="39" column="21" bodyfile="src/rag/completeness_evaluator.cpp" bodystart="39" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1aeafa3e5d6a461d17fd3153e378780e74" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::CompletenessEvaluator::Impl::isAspectCoveredOptimized</definition>
+        <argsstring>(const std::string &amp;aspect, const std::set&lt; std::string &gt; &amp;answer_words)</argsstring>
+        <name>isAspectCoveredOptimized</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::Impl::isAspectCoveredOptimized</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aspect</declname>
+        </param>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+          <declname>answer_words</declname>
+        </param>
+        <briefdescription>
+<para>Check if aspect is covered in answer using pre-extracted words Complexity: O(n_terms × log n_words) instead of O(n_terms × n_answer_length). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aspect</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">answer_words</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), stream(), empty(), std::isalnum(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/completeness_evaluator.cpp" line="66" column="10" bodyfile="src/rag/completeness_evaluator.cpp" bodystart="66" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1a03320586c4b14b54c3f360397487473b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::CompletenessEvaluator::Impl::isAspectCovered</definition>
+        <argsstring>(const std::string &amp;aspect, const std::string &amp;answer)</argsstring>
+        <name>isAspectCovered</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::Impl::isAspectCovered</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aspect</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <briefdescription>
+<para>Check if aspect is covered in answer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aspect</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1ac8d7d94a500f302249abac17e966b816" kindref="member">extractAnswerWords()</ref>, <ref refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1aeafa3e5d6a461d17fd3153e378780e74" kindref="member">isAspectCoveredOptimized()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/completeness_evaluator.cpp" line="109" column="10" bodyfile="src/rag/completeness_evaluator.cpp" bodystart="109" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1aece5e77e2826d6eb3b97a9507bd6f45d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::CompletenessEvaluator::Impl::calculateCoverageScoreOptimized</definition>
+        <argsstring>(const std::string &amp;aspect, const std::set&lt; std::string &gt; &amp;answer_words)</argsstring>
+        <name>calculateCoverageScoreOptimized</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::Impl::calculateCoverageScoreOptimized</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aspect</declname>
+        </param>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+          <declname>answer_words</declname>
+        </param>
+        <briefdescription>
+<para>Calculate coverage score using pre-extracted words Complexity: O(n_terms × log n_words) instead of O(n_terms × n_answer_length). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aspect</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">answer_words</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), stream(), empty(), std::isalnum(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/completeness_evaluator.cpp" line="121" column="12" bodyfile="src/rag/completeness_evaluator.cpp" bodystart="121" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1af1655d0fc1714e6f804011409e88dadd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::CompletenessEvaluator::Impl::calculateCoverageScore</definition>
+        <argsstring>(const std::string &amp;aspect, const std::string &amp;answer)</argsstring>
+        <name>calculateCoverageScore</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::Impl::calculateCoverageScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aspect</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <briefdescription>
+<para>Calculate coverage score for an aspect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aspect</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1ac8d7d94a500f302249abac17e966b816" kindref="member">extractAnswerWords()</ref>, <ref refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1aece5e77e2826d6eb3b97a9507bd6f45d" kindref="member">calculateCoverageScoreOptimized()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/completeness_evaluator.cpp" line="162" column="12" bodyfile="src/rag/completeness_evaluator.cpp" bodystart="162" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::judge::CompletenessEvaluator::Config</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::judge::CompletenessEvaluator::Impl</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>parser</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::rag::judge::ResponseParser</label>
+        <link refid="classthemis_1_1rag_1_1judge_1_1_response_parser"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/completeness_evaluator.cpp" line="27" column="1" bodyfile="src/rag/completeness_evaluator.cpp" bodystart="27" bodyend="166"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1af1655d0fc1714e6f804011409e88dadd" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator::Impl</scope><name>calculateCoverageScore</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1aece5e77e2826d6eb3b97a9507bd6f45d" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator::Impl</scope><name>calculateCoverageScoreOptimized</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1a6cf44a30d6f43aa93af948e016f90176" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1ac8d7d94a500f302249abac17e966b816" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator::Impl</scope><name>extractAnswerWords</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1a03320586c4b14b54c3f360397487473b" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator::Impl</scope><name>isAspectCovered</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1aeafa3e5d6a461d17fd3153e378780e74" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator::Impl</scope><name>isAspectCoveredOptimized</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1ac1c9b897e36dc6379ff0cfe17b8f5bab" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator::Impl</scope><name>llm_integration</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1acaf482d521ab69f6604e423033a622fb" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator::Impl</scope><name>parser</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl_1a0cbfc196a0033a371ea7f3af247ea218" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator::Impl</scope><name>state_mutex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

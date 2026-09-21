@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::sharding::IDistributedTxCoordinator</compoundname>
+    <derivedcompoundref refid="class_mock_distributed_tx_coordinator" prot="public" virt="non-virtual">MockDistributedTxCoordinator</derivedcompoundref>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a2f715c2b070c03df0be83020b44f356d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::sharding::IDistributedTxCoordinator::~IDistributedTxCoordinator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IDistributedTxCoordinator</name>
+        <qualifiedname>themis::sharding::IDistributedTxCoordinator::~IDistributedTxCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="442" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1afdaeef254ee1ba3d0135057ca8122547" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref></type>
+        <definition>virtual TxHandle themis::sharding::IDistributedTxCoordinator::begin</definition>
+        <argsstring>()=0</argsstring>
+        <name>begin</name>
+        <qualifiedname>themis::sharding::IDistributedTxCoordinator::begin</qualifiedname>
+        <reimplementedby refid="class_mock_distributed_tx_coordinator_1af88435e968abbd1ca1a9d34af281e349">begin</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Begin a new distributed transaction. <simplesect kind="return"><para>A move-only <ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref> referencing the new transaction. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="446" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1abd86ac982a8dba892e75abe0de474f43" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1afeec61725edbf6962b56b0b094b5b721" kindref="member">PrepareResult</ref></type>
+        <definition>virtual PrepareResult themis::sharding::IDistributedTxCoordinator::prepare</definition>
+        <argsstring>(TxHandle &amp;handle)=0</argsstring>
+        <name>prepare</name>
+        <qualifiedname>themis::sharding::IDistributedTxCoordinator::prepare</qualifiedname>
+        <reimplementedby refid="class_mock_distributed_tx_coordinator_1a2e99c02f643d6c6243de3e5f00efc776">prepare</reimplementedby>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref> &amp;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Two-phase prepare: acquire locks and validate across all participants. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Active transaction handle (must satisfy isActive()). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_prepared" kindref="compound">Prepared</ref>, <ref refid="structthemis_1_1sharding_1_1_conflict_error" kindref="compound">ConflictError</ref>, or <ref refid="structthemis_1_1sharding_1_1_timeout_error" kindref="compound">TimeoutError</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="451" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a5ce071b9063878b5d6c8e0e64930eb5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::sharding::IDistributedTxCoordinator::commit</definition>
+        <argsstring>(TxHandle &amp;&amp;handle)=0</argsstring>
+        <name>commit</name>
+        <qualifiedname>themis::sharding::IDistributedTxCoordinator::commit</qualifiedname>
+        <reimplementedby refid="class_mock_distributed_tx_coordinator_1a9eed85ede1593a0e48a20e42887272a1">commit</reimplementedby>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref> &amp;&amp;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Commit the prepared transaction and release the handle. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Move-in handle; becomes invalid after this call. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="455" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a43a7e6f5dc3e0ac229db105741864dd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::sharding::IDistributedTxCoordinator::abort</definition>
+        <argsstring>(TxHandle &amp;&amp;handle)=0</argsstring>
+        <name>abort</name>
+        <qualifiedname>themis::sharding::IDistributedTxCoordinator::abort</qualifiedname>
+        <reimplementedby refid="class_mock_distributed_tx_coordinator_1a1a2834b81a0c79d3d17d5fff1df8a34f">abort</reimplementedby>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref> &amp;&amp;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Abort the transaction and release the handle. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Move-in handle; becomes invalid after this call. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="459" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a8a6374beda5530ece4bc91927fa0539b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::sharding::IDistributedTxCoordinator::maxConcurrentTx</definition>
+        <argsstring>() const =0</argsstring>
+        <name>maxConcurrentTx</name>
+        <qualifiedname>themis::sharding::IDistributedTxCoordinator::maxConcurrentTx</qualifiedname>
+        <reimplementedby refid="class_mock_distributed_tx_coordinator_1aa4523bcdc8bca4b105ec55a29aac9f74">maxConcurrentTx</reimplementedby>
+        <briefdescription>
+<para>Maximum number of concurrent transactions this coordinator will accept. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="462" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a228cd17df5c4b44a944d4492ff6c2a49" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::sharding::IDistributedTxCoordinator::activeTxCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>activeTxCount</name>
+        <qualifiedname>themis::sharding::IDistributedTxCoordinator::activeTxCount</qualifiedname>
+        <reimplementedby refid="class_mock_distributed_tx_coordinator_1a4df2c9e3159c11c0a25fdc45af84e82d">activeTxCount</reimplementedby>
+        <briefdescription>
+<para>Current number of active (<ref refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1afdaeef254ee1ba3d0135057ca8122547" kindref="member">begin()</ref>-but-not-committed/aborted) transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="465" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a047e10f56bb489e50b57c025c87acc48" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>virtual std::chrono::milliseconds themis::sharding::IDistributedTxCoordinator::transactionTimeoutMs</definition>
+        <argsstring>() const =0</argsstring>
+        <name>transactionTimeoutMs</name>
+        <qualifiedname>themis::sharding::IDistributedTxCoordinator::transactionTimeoutMs</qualifiedname>
+        <reimplementedby refid="class_mock_distributed_tx_coordinator_1a5c796067f1d824fbdecd7ffbb077b113">transactionTimeoutMs</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Configurable TTL for abandoned transactions. The coordinator must abort any <ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref> whose <ref refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1afdaeef254ee1ba3d0135057ca8122547" kindref="member">begin()</ref>-to-now duration exceeds this value, even if the handle was never explicitly committed or aborted. Returns zero duration if no TTL enforcement is applied (transactions are never forcibly timed out by the coordinator, relying solely on explicit <ref refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a43a7e6f5dc3e0ac229db105741864dd5" kindref="member">abort()</ref> or <ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref> destruction). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="473" column="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1acbcb87f993d0f15ee9a11cc369d5b283" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::IDistributedTxCoordinator::requiresMTLS</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>requiresMTLS</name>
+        <qualifiedname>themis::sharding::IDistributedTxCoordinator::requiresMTLS</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Always returns true: every cross-shard RPC must use mTLS. Non-virtual: the mTLS requirement cannot be relaxed by subclasses. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="477" column="10" bodyfile="include/sharding/sharding_interfaces.h" bodystart="477" bodyend="477"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a6ee0ef7b464bb1df5ed44ce793650dd6" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref></type>
+        <definition>static TxHandle themis::sharding::IDistributedTxCoordinator::makeTxHandle</definition>
+        <argsstring>(std::string tx_id, std::function&lt; void(const std::string &amp;)&gt; abort_fn)</argsstring>
+        <name>makeTxHandle</name>
+        <qualifiedname>themis::sharding::IDistributedTxCoordinator::makeTxHandle</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>tx_id</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+          <declname>abort_fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Helper for concrete implementations to create a <ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref>. The abort_fn is called by ~TxHandle() if the handle is not finalised. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="482" column="21" bodyfile="include/sharding/sharding_interfaces.h" bodystart="482" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a87699e6ac901646ee2b206f0a784b127" prot="protected" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::sharding::IDistributedTxCoordinator::finalizeTxHandle</definition>
+        <argsstring>(TxHandle &amp;handle) noexcept</argsstring>
+        <name>finalizeTxHandle</name>
+        <qualifiedname>themis::sharding::IDistributedTxCoordinator::finalizeTxHandle</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref> &amp;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Helper for concrete implementations to finalise (commit or abort) a handle so its destructor no longer issues a redundant abort. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="491" column="17" bodyfile="include/sharding/sharding_interfaces.h" bodystart="491" bodyend="493"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Percolator-style distributed transaction coordinator.</para>
+<para>Lifecycle: auto handle = coordinator.begin(); auto result = coordinator.prepare(handle); if (std::holds_alternative&lt;Prepared&gt;(result)) { coordinator.commit(std::move(handle)); } else { coordinator.abort(std::move(handle)); }</para>
+<para>RAII guarantee: if a <ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref> is destroyed without a <ref refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a5ce071b9063878b5d6c8e0e64930eb5c" kindref="member">commit()</ref> or <ref refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a43a7e6f5dc3e0ac229db105741864dd5" kindref="member">abort()</ref> the coordinator automatically aborts the transaction.</para>
+<para>Security: all underlying RPC calls use mTLS; <ref refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1acbcb87f993d0f15ee9a11cc369d5b283" kindref="member">requiresMTLS()</ref> always returns true.</para>
+<para>Performance contract: <ref refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1abd86ac982a8dba892e75abe0de474f43" kindref="member">prepare()</ref> under no contention ≤ 5 ms. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>MockDistributedTxCoordinator</label>
+        <link refid="class_mock_distributed_tx_coordinator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::sharding::IDistributedTxCoordinator</label>
+        <link refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/sharding/sharding_interfaces.h" line="440" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="440" bodyend="494"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a43a7e6f5dc3e0ac229db105741864dd5" prot="public" virt="pure-virtual"><scope>themis::sharding::IDistributedTxCoordinator</scope><name>abort</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a228cd17df5c4b44a944d4492ff6c2a49" prot="public" virt="pure-virtual"><scope>themis::sharding::IDistributedTxCoordinator</scope><name>activeTxCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1afdaeef254ee1ba3d0135057ca8122547" prot="public" virt="pure-virtual"><scope>themis::sharding::IDistributedTxCoordinator</scope><name>begin</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a5ce071b9063878b5d6c8e0e64930eb5c" prot="public" virt="pure-virtual"><scope>themis::sharding::IDistributedTxCoordinator</scope><name>commit</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a87699e6ac901646ee2b206f0a784b127" prot="protected" virt="non-virtual"><scope>themis::sharding::IDistributedTxCoordinator</scope><name>finalizeTxHandle</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a6ee0ef7b464bb1df5ed44ce793650dd6" prot="protected" virt="non-virtual"><scope>themis::sharding::IDistributedTxCoordinator</scope><name>makeTxHandle</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a8a6374beda5530ece4bc91927fa0539b" prot="public" virt="pure-virtual"><scope>themis::sharding::IDistributedTxCoordinator</scope><name>maxConcurrentTx</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1abd86ac982a8dba892e75abe0de474f43" prot="public" virt="pure-virtual"><scope>themis::sharding::IDistributedTxCoordinator</scope><name>prepare</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1acbcb87f993d0f15ee9a11cc369d5b283" prot="public" virt="non-virtual"><scope>themis::sharding::IDistributedTxCoordinator</scope><name>requiresMTLS</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a047e10f56bb489e50b57c025c87acc48" prot="public" virt="pure-virtual"><scope>themis::sharding::IDistributedTxCoordinator</scope><name>transactionTimeoutMs</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1a2f715c2b070c03df0be83020b44f356d" prot="public" virt="virtual"><scope>themis::sharding::IDistributedTxCoordinator</scope><name>~IDistributedTxCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

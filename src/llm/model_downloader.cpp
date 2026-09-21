@@ -108,7 +108,8 @@ int progress_callback_wrapper(void* clientp, curl_off_t dltotal, curl_off_t dlno
 
     // Reject credential injection: "******host/..."
     // The '@' character in the authority component signals embedded credentials.
-    const std::string_view authority_start = is_https ? url.substr(8) : url.substr(7);
+    const std::string_view url_view{url};
+    const std::string_view authority_start = is_https ? url_view.substr(8) : url_view.substr(7);
     const auto slash_pos = authority_start.find('/');
     const auto at_pos    = authority_start.find('@');
     if (at_pos != std::string_view::npos &&

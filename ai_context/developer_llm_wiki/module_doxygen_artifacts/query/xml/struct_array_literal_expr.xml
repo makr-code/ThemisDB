@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_array_literal_expr" kind="struct" language="C++" prot="public">
+    <compoundname>ArrayLiteralExpr</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_expression" prot="public" virt="non-virtual">themis::query::Expression</basecompoundref>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_array_literal_expr_1a62910d53db6d0dd40f40abc1d3b99b92" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;Expression&gt; &gt; themis::query::ArrayLiteralExpr::elements</definition>
+        <argsstring></argsstring>
+        <name>elements</name>
+        <qualifiedname>ArrayLiteralExpr::elements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="285" column="17" bodyfile="include/query/aql_parser.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_array_literal_expr_1ac9b5d412b74b9e7c4eb46599913f95f6" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::ArrayLiteralExpr::ArrayLiteralExpr</definition>
+        <argsstring>(std::vector&lt; std::shared_ptr&lt; Expression &gt; &gt; elems)</argsstring>
+        <name>ArrayLiteralExpr</name>
+        <qualifiedname>ArrayLiteralExpr::ArrayLiteralExpr</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt; &gt;</type>
+          <declname>elems</declname>
+        </param>
+        <briefdescription>
+<para>Array Literal Expr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">elems</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="292" column="14" bodyfile="include/query/aql_parser.h" bodystart="292" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_array_literal_expr_1a3e2f4eb91db46a1ac101ab4e89ea2fc2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>ASTNodeType</type>
+        <definition>ASTNodeType themis::query::ArrayLiteralExpr::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>ArrayLiteralExpr::getType</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_expression_1aca4fd2bf776bf08dc9b0462450184d89">getType</reimplements>
+        <briefdescription>
+<para>Get Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="295" column="17" bodyfile="include/query/aql_parser.h" bodystart="295" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_array_literal_expr_1a211e4efaeed0f5b2b4e6bbf81d2e2da4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::ArrayLiteralExpr::toJSON</definition>
+        <argsstring>() const override</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>ArrayLiteralExpr::toJSON</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_expression_1a50a0c87d39931ce188c1391b61794e20">toJSON</reimplements>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="296" column="20" bodyfile="src/query/aql_parser_json.cpp" bodystart="110" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ArrayLiteralExpr</label>
+        <link refid="struct_array_literal_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ArrayLiteralExpr</label>
+        <link refid="struct_array_literal_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_parser.h" line="284" column="1" bodyfile="include/query/aql_parser.h" bodystart="284" bodyend="297"/>
+    <listofallmembers>
+      <member refid="struct_array_literal_expr_1ac9b5d412b74b9e7c4eb46599913f95f6" prot="public" virt="non-virtual"><scope>ArrayLiteralExpr</scope><name>ArrayLiteralExpr</name></member>
+      <member refid="struct_array_literal_expr_1a62910d53db6d0dd40f40abc1d3b99b92" prot="public" virt="non-virtual"><scope>ArrayLiteralExpr</scope><name>elements</name></member>
+      <member refid="struct_array_literal_expr_1a3e2f4eb91db46a1ac101ab4e89ea2fc2" prot="public" virt="virtual"><scope>ArrayLiteralExpr</scope><name>getType</name></member>
+      <member refid="struct_array_literal_expr_1a211e4efaeed0f5b2b4e6bbf81d2e2da4" prot="public" virt="virtual"><scope>ArrayLiteralExpr</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1query_1_1_expression_1ab3ecf845da63bc89b3c506c43c6afc78" prot="public" virt="virtual"><scope>ArrayLiteralExpr</scope><name>~Expression</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

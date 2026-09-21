@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::ZeroTrustAuthVerifier::Request</compoundname>
+    <includes refid="zero__trust__auth__verifier_8h" local="no">zero_trust_auth_verifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1afd4793581e15567402063f5df1ffac68" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ZeroTrustAuthVerifier::Request::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::Request::request_id</qualifiedname>
+        <briefdescription>
+<para>Unique request identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="48" column="21" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1ab476f5f80678bfc1ec6bbb7785f693ce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ZeroTrustAuthVerifier::Request::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::Request::user_id</qualifiedname>
+        <briefdescription>
+<para>Claimed identity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="49" column="21" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1a7323677f7daacf2247b8ddf387e6d34f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ZeroTrustAuthVerifier::Request::token</definition>
+        <argsstring></argsstring>
+        <name>token</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::Request::token</qualifiedname>
+        <briefdescription>
+<para>Bearer token / API key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="50" column="21" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1a0f2949b3764ebb1756de62a94ff75f95" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ZeroTrustAuthVerifier::Request::client_ip</definition>
+        <argsstring></argsstring>
+        <name>client_ip</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::Request::client_ip</qualifiedname>
+        <briefdescription>
+<para>Source IPv4 address. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="51" column="21" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1a0e07231b668e39899f11a9c5b0b29a76" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ZeroTrustAuthVerifier::Request::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::Request::resource</qualifiedname>
+        <briefdescription>
+<para>Resource being accessed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="52" column="21" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1a8a854ddd484753b29e479c00b32f0654" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ZeroTrustAuthVerifier::Request::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::Request::action</qualifiedname>
+        <briefdescription>
+<para>Action (read / write / delete …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="53" column="21" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1aa0a659d1acf2b554451795517be959af" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::auth::ZeroTrustAuthVerifier::Request::device_id</definition>
+        <argsstring></argsstring>
+        <name>device_id</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::Request::device_id</qualifiedname>
+        <briefdescription>
+<para>Optional device identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="54" column="23" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/zero_trust_auth_verifier.h" line="47" column="5" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="47" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1a8a854ddd484753b29e479c00b32f0654" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::Request</scope><name>action</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1a0f2949b3764ebb1756de62a94ff75f95" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::Request</scope><name>client_ip</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1aa0a659d1acf2b554451795517be959af" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::Request</scope><name>device_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1afd4793581e15567402063f5df1ffac68" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::Request</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1a0e07231b668e39899f11a9c5b0b29a76" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::Request</scope><name>resource</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1a7323677f7daacf2247b8ddf387e6d34f" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::Request</scope><name>token</name></member>
+      <member refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1ab476f5f80678bfc1ec6bbb7785f693ce" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier::Request</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

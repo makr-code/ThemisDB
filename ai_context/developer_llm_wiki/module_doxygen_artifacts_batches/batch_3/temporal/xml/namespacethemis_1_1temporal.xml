@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1temporal" kind="namespace" language="C++">
+    <compoundname>themis::temporal</compoundname>
+    <innernamespace refid="namespacethemis_1_1temporal_1_1test">themis::temporal::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1d" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>TemporalErrorCode</name>
+        <qualifiedname>themis::temporal::TemporalErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da40da9fc3a51ad1391af03ce450e603e1" prot="public">
+          <name>TEMPORAL_RANGE_INVALID</name>
+          <initializer>= 300</initializer>
+          <briefdescription>
+<para>valid_time or transaction_time range is invalid (start &gt; end, null, etc). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1daaa279fe27631220a8ca97bf68cd40249" prot="public">
+          <name>SNAPSHOT_EXPIRED</name>
+          <initializer>= 301</initializer>
+          <briefdescription>
+<para>Requested snapshot timestamp is older than the retention horizon. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da8570bbd815731ae6ee454e40d4958657" prot="public">
+          <name>RETENTION_POLICY_CONFLICT</name>
+          <initializer>= 302</initializer>
+          <briefdescription>
+<para>Retention policy change would conflict with an existing retention window. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da56791bbeab30edbbe2a7d15519b2c6dc" prot="public">
+          <name>PITR_TIMESTAMP_BEFORE_OLDEST</name>
+          <initializer>= 303</initializer>
+          <briefdescription>
+<para>PITR restore timestamp is before the oldest available recovery point. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da94764c90b73a4eb3afbcb293919188f2" prot="public">
+          <name>INTERVAL_TREE_INCONSISTENT</name>
+          <initializer>= 304</initializer>
+          <briefdescription>
+<para>Interval tree operation failed due to internal state inconsistency. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da8add034d2789187565326e05f7a2feeb" prot="public">
+          <name>NULL_TEMPORAL_DIMENSION</name>
+          <initializer>= 305</initializer>
+          <briefdescription>
+<para>Bi-temporal row insert would create a null valid_time or transaction_time. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1dae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 399</initializer>
+          <briefdescription>
+<para>Unclassified temporal internal error; always treated as hard error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical temporal error codes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Codes in range [300, 399] are temporal-specific. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_api_contract.h" line="130" column="1" bodyfile="include/temporal/temporal_api_contract.h" bodystart="130" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1temporal_1a11f35fa1b4fddbcf5fd1203decf8fa86" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::temporal::kTemporalOpenEnd</definition>
+        <argsstring></argsstring>
+        <name>kTemporalOpenEnd</name>
+        <qualifiedname>themis::temporal::kTemporalOpenEnd</qualifiedname>
+        <initializer>= INT64_MAX</initializer>
+        <briefdescription>
+<para>Sentinel value for &quot;open&quot; end of a bi-temporal interval (maximum epoch ns). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_api_contract.h" line="53" column="31" bodyfile="include/temporal/temporal_api_contract.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1temporal_1a28a27fde7f959c49abf21389dc820574" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::temporal::kTemporalMinTimestampNs</definition>
+        <argsstring></argsstring>
+        <name>kTemporalMinTimestampNs</name>
+        <qualifiedname>themis::temporal::kTemporalMinTimestampNs</qualifiedname>
+        <initializer>= 0LL</initializer>
+        <briefdescription>
+<para>Minimum valid_time / transaction_time value accepted (Unix epoch, ns). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_api_contract.h" line="56" column="31" bodyfile="include/temporal/temporal_api_contract.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1temporal_1afca2df6398e073799804a8cf3cb01729" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::temporal::kIntervalTreeMaxDepth</definition>
+        <argsstring></argsstring>
+        <name>kIntervalTreeMaxDepth</name>
+        <qualifiedname>themis::temporal::kIntervalTreeMaxDepth</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Maximum interval tree depth before a rebalance is forced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_api_contract.h" line="73" column="30" bodyfile="include/temporal/temporal_api_contract.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1temporal_1a8491b23be20873e0f48a739c6ae61144" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::temporal::kDefaultRetentionSeconds</definition>
+        <argsstring></argsstring>
+        <name>kDefaultRetentionSeconds</name>
+        <qualifiedname>themis::temporal::kDefaultRetentionSeconds</qualifiedname>
+        <initializer>= 90LL * 24 * 3600</initializer>
+        <briefdescription>
+<para>Default retention period in seconds (90 days). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_api_contract.h" line="178" column="31" bodyfile="include/temporal/temporal_api_contract.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1temporal_1afebb5d24c2f78bf2dce777098982b770" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::temporal::kMinRetentionSeconds</definition>
+        <argsstring></argsstring>
+        <name>kMinRetentionSeconds</name>
+        <qualifiedname>themis::temporal::kMinRetentionSeconds</qualifiedname>
+        <initializer>= 3600LL</initializer>
+        <briefdescription>
+<para>Minimum allowed retention period in seconds (1 hour). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_api_contract.h" line="181" column="31" bodyfile="include/temporal/temporal_api_contract.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1temporal_1a4037aea35684c8ab71f0e2407c613031" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::temporal::kMaxRetentionPoliciesPerTable</definition>
+        <argsstring></argsstring>
+        <name>kMaxRetentionPoliciesPerTable</name>
+        <qualifiedname>themis::temporal::kMaxRetentionPoliciesPerTable</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>Maximum number of retention policies active simultaneously per table. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_api_contract.h" line="184" column="30" bodyfile="include/temporal/temporal_api_contract.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1a697bb58de45f39e2b42baeccece0df10" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::temporal::isHardTemporalError</definition>
+        <argsstring>(TemporalErrorCode code) noexcept</argsstring>
+        <name>isHardTemporalError</name>
+        <qualifiedname>themis::temporal::isHardTemporalError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1d" kindref="member">TemporalErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the error code is a non-retryable hard error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_api_contract.h" line="156" column="24" bodyfile="include/temporal/temporal_api_contract.h" bodystart="156" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1a3cead857661ef4245eef4e283460e63e" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::temporal::isLifecycleError</definition>
+        <argsstring>(TemporalErrorCode code) noexcept</argsstring>
+        <name>isLifecycleError</name>
+        <qualifiedname>themis::temporal::isLifecycleError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1d" kindref="member">TemporalErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the error code is a recoverable lifecycle error (e.g., expired snapshot, PITR anchor unavailable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_api_contract.h" line="167" column="24" bodyfile="include/temporal/temporal_api_contract.h" bodystart="167" bodyend="171"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/temporal/temporal_api_contract.h" line="34" column="1"/>
+  </compounddef>
+</doxygen>

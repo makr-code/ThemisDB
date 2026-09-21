@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="quorum__log_8h" kind="file" language="C++">
+    <compoundname>quorum_log.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__failover__wave__b__gates_8cpp" local="yes">benchmarks/failover/bench_failover_wave_b_gates.cpp</includedby>
+    <includedby refid="auto__failover__manager_8h" local="yes">include/failover/auto_failover_manager.h</includedby>
+    <includedby refid="auto__failover__manager_8cpp" local="yes">src/failover/auto_failover_manager.cpp</includedby>
+    <includedby refid="quorum__log_8cpp" local="yes">src/failover/quorum_log.cpp</includedby>
+    <includedby refid="test__failover__wave__a__quorum__persistence_8cpp" local="yes">tests/failover/test_failover_wave_a_quorum_persistence.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/failover/quorum_log.h</label>
+        <link refid="quorum__log_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>filesystem</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="4">
+        <label>benchmarks/failover/bench_failover_phase2_phase3_gates.cpp</label>
+        <link refid="bench__failover__phase2__phase3__gates_8cpp"/>
+      </node>
+      <node id="2">
+        <label>benchmarks/failover/bench_failover_wave_b_gates.cpp</label>
+        <link refid="bench__failover__wave__b__gates_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/failover/auto_failover_manager.h</label>
+        <link refid="auto__failover__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/failover/quorum_log.h</label>
+        <link refid="quorum__log_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/failover/auto_failover_manager.cpp</label>
+        <link refid="auto__failover__manager_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/failover/quorum_log.cpp</label>
+        <link refid="quorum__log_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/failover/test_failover_chaos_scenarios.cpp</label>
+        <link refid="test__failover__chaos__scenarios_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/failover/test_failover_phase2_phase3_focused.cpp</label>
+        <link refid="test__failover__phase2__phase3__focused_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/failover/test_failover_wave_a_quorum_persistence.cpp</label>
+        <link refid="test__failover__wave__a__quorum__persistence_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/failover/test_failover_wave_a_topology_versioning.cpp</label>
+        <link refid="test__failover__wave__a__topology__versioning_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1failover_1_1_quorum_entry" prot="public">themis::failover::QuorumEntry</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_quorum_state" prot="public">themis::failover::QuorumState</innerclass>
+    <innerclass refid="classthemis_1_1failover_1_1_quorum_log" prot="public">themis::failover::QuorumLog</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1failover">themis::failover</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1failover" kindref="compound">failover</ref><sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13" refid="structthemis_1_1failover_1_1_quorum_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1failover_1_1_quorum_entry" kindref="compound">QuorumEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="14" refid="structthemis_1_1failover_1_1_quorum_entry_1a2a21c2932cc9725928083daa0fd6b663" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_quorum_entry_1a2a21c2932cc9725928083daa0fd6b663" kindref="member">epoch</ref>{0};</highlight></codeline>
+<codeline lineno="15" refid="structthemis_1_1failover_1_1_quorum_entry_1a3d40640c5ddeb79fe0c8fe9f5a597903" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1failover_1_1_quorum_entry_1a3d40640c5ddeb79fe0c8fe9f5a597903" kindref="member">node_id</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="16" refid="structthemis_1_1failover_1_1_quorum_entry_1ab4cfbab7212d4f46b9fb7e148c8dce17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1failover_1_1_quorum_entry_1ab4cfbab7212d4f46b9fb7e148c8dce17" kindref="member">decision</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="17" refid="structthemis_1_1failover_1_1_quorum_entry_1aa8a3e601d1f5b608984095fd875bcf9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1failover_1_1_quorum_entry_1aa8a3e601d1f5b608984095fd875bcf9a" kindref="member">timestamp_ms</ref>{0};<sp/><sp/></highlight></codeline>
+<codeline lineno="18" refid="structthemis_1_1failover_1_1_quorum_entry_1a5ef595ddaffae3b72e171f9302d0bde7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1failover_1_1_quorum_entry_1a5ef595ddaffae3b72e171f9302d0bde7" kindref="member">crc32</ref>{0};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="structthemis_1_1failover_1_1_quorum_state" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1failover_1_1_quorum_state" kindref="compound">QuorumState</ref><sp/>{</highlight></codeline>
+<codeline lineno="22" refid="structthemis_1_1failover_1_1_quorum_state_1ad74317e17ba7eabc8c7dd371f1f18b6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_quorum_state_1ad74317e17ba7eabc8c7dd371f1f18b6a" kindref="member">last_epoch</ref>{0};</highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1failover_1_1_quorum_state_1aba7f71fcdb69bd93c4373cac401b08df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1failover_1_1_quorum_state_1aba7f71fcdb69bd93c4373cac401b08df" kindref="member">last_promoted_node</ref>;</highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1failover_1_1_quorum_state_1ade60ee35cab750de1df33bf90e161390" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1failover_1_1_quorum_state_1ade60ee35cab750de1df33bf90e161390" kindref="member">last_decision</ref>;</highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1failover_1_1_quorum_state_1afd951f803a7e82e886e338fd756354b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_quorum_state_1afd951f803a7e82e886e338fd756354b8" kindref="member">valid</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/></highlight></codeline>
+<codeline lineno="26"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1failover_1_1_quorum_log" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1failover_1_1_quorum_log_1ae56705f139300f7361f02c563ce77952" kindref="member">QuorumLog</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_quorum_log_1ae56705f139300f7361f02c563ce77952" kindref="member">QuorumLog</ref>(std::filesystem::path<sp/>log_path);</highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1failover_1_1_quorum_log_1a260e33b323a3afbc7f11b43957c5ebba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_quorum_log_1a260e33b323a3afbc7f11b43957c5ebba" kindref="member">~QuorumLog</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1failover_1_1_quorum_log_1a6e1fce2d43e7f457d2b1fa9c39ef27ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_quorum_log_1a6e1fce2d43e7f457d2b1fa9c39ef27ec" kindref="member">QuorumLog</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_quorum_log_1ae56705f139300f7361f02c563ce77952" kindref="member">QuorumLog</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1failover_1_1_quorum_log_1aaa5602952b43b43c52ef37f7a9114b2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_quorum_log_1ae56705f139300f7361f02c563ce77952" kindref="member">QuorumLog</ref>&amp;<sp/><ref refid="classthemis_1_1failover_1_1_quorum_log_1aaa5602952b43b43c52ef37f7a9114b2c" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_quorum_log_1ae56705f139300f7361f02c563ce77952" kindref="member">QuorumLog</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_quorum_log_1ac219d6d85bea2fce91cbe41e078d4a3d" kindref="member">append</ref>(uint64_t<sp/>epoch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>decision);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_quorum_state" kindref="compound">QuorumState</ref><sp/><ref refid="classthemis_1_1failover_1_1_quorum_log_1aa9e261c599e751f794c4a200f11bdc4f" kindref="member">recover</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1failover_1_1_quorum_log_1a958f8ecd6630e6f7139c44882971c96a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::filesystem::path&amp;<sp/><ref refid="classthemis_1_1failover_1_1_quorum_log_1a958f8ecd6630e6f7139c44882971c96a" kindref="member">path</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>log_path_;<sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint32_t<sp/>computeCrc32(uint64_t<sp/>epoch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>decision,<sp/>int64_t<sp/>ts_ms)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::path<sp/>log_path_;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>failover</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/failover/quorum_log.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_aggregated_metric" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::AggregatedMetric</compoundname>
+    <includes refid="metric__aggregator_8h" local="no">metric_aggregator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_aggregated_metric_1a6100e2707cc0632d9a4cc46d827868f1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::AggregatedMetric::metric_name</definition>
+        <argsstring></argsstring>
+        <name>metric_name</name>
+        <qualifiedname>themis::observability::AggregatedMetric::metric_name</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="75" column="17" bodyfile="include/observability/metric_aggregator.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_aggregated_metric_1ac3ee9806d44f261661fea6684ffc6036" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::AggregatedMetric::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::observability::AggregatedMetric::labels</qualifiedname>
+        <briefdescription>
+<para>Label set (after applying drop_labels / group_by_labels from the rule). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="77" column="14" bodyfile="include/observability/metric_aggregator.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_aggregated_metric_1a09bac658942da03c78480a257aecffb6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::AggregatedMetric::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::observability::AggregatedMetric::value</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Aggregated scalar value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="79" column="12" bodyfile="include/observability/metric_aggregator.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_aggregated_metric_1ab038bcf86fc266e689f6c0d10ed1043f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723" kindref="member">AggregationType</ref></type>
+        <definition>AggregationType themis::observability::AggregatedMetric::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::observability::AggregatedMetric::type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723afcefd647d6a866603c627b11347c707a" kindref="member">AggregationType::AVG</ref>}</initializer>
+        <briefdescription>
+<para>Which aggregation was applied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="81" column="21" bodyfile="include/observability/metric_aggregator.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_aggregated_metric_1a0970a5d3a54613a74129e535bd49ec99" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::AggregatedMetric::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::AggregatedMetric::timestamp</qualifiedname>
+        <initializer>{std::chrono::system_clock::now()}</initializer>
+        <briefdescription>
+<para>Timestamp of the result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="83" column="43" bodyfile="include/observability/metric_aggregator.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>The result of applying an aggregation operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/metric_aggregator.h" line="73" column="1" bodyfile="include/observability/metric_aggregator.h" bodystart="73" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_aggregated_metric_1ac3ee9806d44f261661fea6684ffc6036" prot="public" virt="non-virtual"><scope>themis::observability::AggregatedMetric</scope><name>labels</name></member>
+      <member refid="structthemis_1_1observability_1_1_aggregated_metric_1a6100e2707cc0632d9a4cc46d827868f1" prot="public" virt="non-virtual"><scope>themis::observability::AggregatedMetric</scope><name>metric_name</name></member>
+      <member refid="structthemis_1_1observability_1_1_aggregated_metric_1a0970a5d3a54613a74129e535bd49ec99" prot="public" virt="non-virtual"><scope>themis::observability::AggregatedMetric</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1observability_1_1_aggregated_metric_1ab038bcf86fc266e689f6c0d10ed1043f" prot="public" virt="non-virtual"><scope>themis::observability::AggregatedMetric</scope><name>type</name></member>
+      <member refid="structthemis_1_1observability_1_1_aggregated_metric_1a09bac658942da03c78480a257aecffb6" prot="public" virt="non-virtual"><scope>themis::observability::AggregatedMetric</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

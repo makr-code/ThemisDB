@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1_1lbs" kind="namespace" language="C++">
+    <compoundname>themisdb::graph::test::phase3::lbs</compoundname>
+    <innerclass refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_shard_metrics" prot="public">themisdb::graph::test::phase3::lbs::ShardMetrics</innerclass>
+    <innerclass refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_load_aware_shard_selector" prot="public">themisdb::graph::test::phase3::lbs::LoadAwareShardSelector</innerclass>
+    <innerclass refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_scheduled_query" prot="public">themisdb::graph::test::phase3::lbs::ScheduledQuery</innerclass>
+    <innerclass refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_query_scheduler" prot="public">themisdb::graph::test::phase3::lbs::QueryScheduler</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1977" column="1"/>
+  </compounddef>
+</doxygen>

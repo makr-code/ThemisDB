@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::rpc::RPCServerConfig</compoundname>
+    <includes refid="rpc__plugin__interface_8h" local="no">rpc_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a251eda308ec6531f1a64f0195115dd69" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::rpc::RPCServerConfig::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerConfig::host</qualifiedname>
+        <initializer>= &quot;0.0.0.0&quot;</initializer>
+        <briefdescription>
+<para>Bind address. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="57" column="17" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a13c42a1fb78a6c089b4a4968a12333e5" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::plugins::rpc::RPCServerConfig::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerConfig::port</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Listen port (0 = use default). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="58" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a2b466ff41f2cced8420d834907222f27" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::rpc::RPCServerConfig::tls_enabled</definition>
+        <argsstring></argsstring>
+        <name>tls_enabled</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerConfig::tls_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable TLS/SSL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="61" column="10" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a0e8b22672fbac4cd56b1219890d4e07a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::rpc::RPCServerConfig::tls_cert_path</definition>
+        <argsstring></argsstring>
+        <name>tls_cert_path</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerConfig::tls_cert_path</qualifiedname>
+        <briefdescription>
+<para>Path to server certificate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="62" column="17" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1aeb18d36dc4a5718b6c9b9fda89a6738f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::rpc::RPCServerConfig::tls_key_path</definition>
+        <argsstring></argsstring>
+        <name>tls_key_path</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerConfig::tls_key_path</qualifiedname>
+        <briefdescription>
+<para>Path to private key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="63" column="17" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a134b8e28e126e49a9828649f5da5f9b1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::rpc::RPCServerConfig::tls_ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>tls_ca_cert_path</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerConfig::tls_ca_cert_path</qualifiedname>
+        <briefdescription>
+<para>Path to CA certificate (for mutual TLS). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="64" column="17" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1aee4060157f9bc125ea47bc5b4dfc97b3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::rpc::RPCServerConfig::auth_required</definition>
+        <argsstring></argsstring>
+        <name>auth_required</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerConfig::auth_required</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Require authentication. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="67" column="10" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1aab1b2578932c284a71b3caed5b0e19f4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::rpc::RPCServerConfig::max_connections</definition>
+        <argsstring></argsstring>
+        <name>max_connections</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerConfig::max_connections</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Maximum concurrent connections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="70" column="12" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a05998b132e846c9e7b10c75420fce965" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::rpc::RPCServerConfig::thread_pool_size</definition>
+        <argsstring></argsstring>
+        <name>thread_pool_size</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerConfig::thread_pool_size</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+<para>Number of worker threads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="71" column="12" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1ac34e201cb797e425cff73dcf6836a393" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::rpc::RPCServerConfig::connection_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>connection_timeout_ms</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerConfig::connection_timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+<para>Connection timeout in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="74" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a2eb4eff5ac44f84d425cb282f266f90b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::rpc::RPCServerConfig::request_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>request_timeout_ms</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerConfig::request_timeout_ms</qualifiedname>
+        <initializer>= 60000</initializer>
+        <briefdescription>
+<para>Request timeout in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="75" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a563b5516e71e138aaa6cbcb73edc3e8e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::rpc::RPCServerConfig::namespace_default</definition>
+        <argsstring></argsstring>
+        <name>namespace_default</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerConfig::namespace_default</qualifiedname>
+        <initializer>= &quot;default&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="78" column="17" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a01dc5dee3d79c742edea561be13b3fac" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::rpc::RPCServerConfig::rate_limit_enabled</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_enabled</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerConfig::rate_limit_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="81" column="10" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a1b81223afd8d928339160401052c8bba" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::rpc::RPCServerConfig::rate_limit_requests_per_sec</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_requests_per_sec</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerConfig::rate_limit_requests_per_sec</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="82" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a56a8aa018f29e3ff5216962b7f30db33" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::rpc::RPCServerConfig::rate_limit_burst_size</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_burst_size</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerConfig::rate_limit_burst_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="83" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a43b81532838371bbd1b2bd4ed826f8ae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::rpc::RPCServerConfig::compression_enabled</definition>
+        <argsstring></argsstring>
+        <name>compression_enabled</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerConfig::compression_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="86" column="10" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a102f8af43377d3e419711ed5b7f2dd77" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::plugins::rpc::RPCServerConfig::extra_config</definition>
+        <argsstring></argsstring>
+        <name>extra_config</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerConfig::extra_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="89" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RPC Server Configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/rpc_plugin_interface.h" line="56" column="1" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="56" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1aee4060157f9bc125ea47bc5b4dfc97b3" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerConfig</scope><name>auth_required</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a43b81532838371bbd1b2bd4ed826f8ae" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerConfig</scope><name>compression_enabled</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1ac34e201cb797e425cff73dcf6836a393" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerConfig</scope><name>connection_timeout_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a102f8af43377d3e419711ed5b7f2dd77" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerConfig</scope><name>extra_config</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a251eda308ec6531f1a64f0195115dd69" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerConfig</scope><name>host</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1aab1b2578932c284a71b3caed5b0e19f4" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerConfig</scope><name>max_connections</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a563b5516e71e138aaa6cbcb73edc3e8e" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerConfig</scope><name>namespace_default</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a13c42a1fb78a6c089b4a4968a12333e5" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerConfig</scope><name>port</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a56a8aa018f29e3ff5216962b7f30db33" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerConfig</scope><name>rate_limit_burst_size</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a01dc5dee3d79c742edea561be13b3fac" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerConfig</scope><name>rate_limit_enabled</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a1b81223afd8d928339160401052c8bba" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerConfig</scope><name>rate_limit_requests_per_sec</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a2eb4eff5ac44f84d425cb282f266f90b" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerConfig</scope><name>request_timeout_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a05998b132e846c9e7b10c75420fce965" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerConfig</scope><name>thread_pool_size</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a134b8e28e126e49a9828649f5da5f9b1" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerConfig</scope><name>tls_ca_cert_path</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a0e8b22672fbac4cd56b1219890d4e07a" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerConfig</scope><name>tls_cert_path</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a2b466ff41f2cced8420d834907222f27" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerConfig</scope><name>tls_enabled</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1aeb18d36dc4a5718b6c9b9fda89a6738f" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerConfig</scope><name>tls_key_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

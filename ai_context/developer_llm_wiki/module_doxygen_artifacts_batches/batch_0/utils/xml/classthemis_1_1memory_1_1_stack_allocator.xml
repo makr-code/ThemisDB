@@ -1,0 +1,342 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1memory_1_1_stack_allocator" kind="class" language="C++" prot="public">
+    <compoundname>themis::memory::StackAllocator</compoundname>
+    <basecompoundref refid="classthemis_1_1memory_1_1_i_allocator" prot="public" virt="non-virtual">themis::memory::IAllocator</basecompoundref>
+    <includes refid="pool__allocator_8h" local="no">pool_allocator.h</includes>
+    <innerclass refid="structthemis_1_1memory_1_1_stack_allocator_1_1_impl" prot="public">themis::memory::StackAllocator::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1memory_1_1_stack_allocator_1aa39963bbd0892847dfa3e3cb4c2d87d2" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1memory_1_1_stack_allocator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::memory::StackAllocator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::memory::StackAllocator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="293" column="21" bodyfile="include/utils/memory/pool_allocator.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1memory_1_1_stack_allocator_1a1c7ad944e4dbdaf57940ff6d76846fc3" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1memory_1_1_allocation_stats" kindref="compound">AllocationStats</ref></type>
+        <definition>AllocationStats themis::memory::StackAllocator::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::memory::StackAllocator::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="294" column="21" bodyfile="include/utils/memory/pool_allocator.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_stack_allocator_1aefe060360eef5fe9b3b118c0e73464b5" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::memory::StackAllocator::StackAllocator</definition>
+        <argsstring>(size_t capacity)</argsstring>
+        <name>StackAllocator</name>
+        <qualifiedname>themis::memory::StackAllocator::StackAllocator</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <briefdescription>
+<para>Construct stack allocator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum stack size in bytes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="262" column="14" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="695" bodyend="697"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_stack_allocator_1a52f4245c9cc90a65b60832b51223a200" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::memory::StackAllocator::~StackAllocator</definition>
+        <argsstring>() override</argsstring>
+        <name>~StackAllocator</name>
+        <qualifiedname>themis::memory::StackAllocator::~StackAllocator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="263" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_stack_allocator_1a10864833fd6b02bfb8109047e59b74eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; void * &gt;</type>
+        <definition>Result&lt; void * &gt; themis::memory::StackAllocator::allocate</definition>
+        <argsstring>(size_t size, AllocationHint hint=AllocationHint::NONE) override</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::memory::StackAllocator::allocate</qualifiedname>
+        <reimplements refid="classthemis_1_1memory_1_1_i_allocator_1a586207145a8de22db97f4f68dc09d346">allocate</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6d" kindref="member">AllocationHint</ref></type>
+          <declname>hint</declname>
+          <defval><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6dab50339a10e1de285ac99d4c3990b8693" kindref="member">AllocationHint::NONE</ref></defval>
+        </param>
+        <briefdescription>
+<para>Allocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">AllocationHint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), alignSize(), fetch_add(), push_back(), getCurrentUsage(), load(), compare_exchange_weak(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="265" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="708" bodyend="744"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_stack_allocator_1a934f368661328a4a72d798dc94b78669" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::memory::StackAllocator::deallocate</definition>
+        <argsstring>(void *ptr) override</argsstring>
+        <name>deallocate</name>
+        <qualifiedname>themis::memory::StackAllocator::deallocate</qualifiedname>
+        <reimplements refid="classthemis_1_1memory_1_1_i_allocator_1a739b771f3225eac41cbcc380292db03e">deallocate</reimplements>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Deallocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1ab996532e6dd43674f9065849a5b0e4dc" kindref="member">OkVoid()</ref>, lock(), empty(), <ref refid="namespacethemis_1a9dfe4a621661bf7b1f585b7fef613b26" kindref="member">ErrVoid()</ref>, back(), pop_back(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="266" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="752" bodyend="784"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_stack_allocator_1a5b808b7adb7280605dace26def46461e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const <ref refid="structthemis_1_1memory_1_1_allocation_stats" kindref="compound">AllocationStats</ref> &amp;</type>
+        <definition>const AllocationStats &amp; themis::memory::StackAllocator::getStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::memory::StackAllocator::getStats</qualifiedname>
+        <reimplements refid="classthemis_1_1memory_1_1_i_allocator_1ad5efb1a9f351063579ea9333b317381b">getStats</reimplements>
+        <briefdescription>
+<para>Get allocator statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="267" column="27" bodyfile="include/utils/memory/pool_allocator.h" bodystart="267" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_stack_allocator_1a34cf9339e5ffc5662472ab9375f466e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::memory::StackAllocator::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::memory::StackAllocator::reset</qualifiedname>
+        <reimplements refid="classthemis_1_1memory_1_1_i_allocator_1a347423882a86bf16b43ede995dd22c1f">reset</reimplements>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None.</para>
+</simplesect>
+Calls: lock(), clear(), <ref refid="namespacethemis_1ab996532e6dd43674f9065849a5b0e4dc" kindref="member">OkVoid()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="268" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="791" bodyend="799"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_stack_allocator_1a7a400fa7b5004f234adeb9bdf6c83c1c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::memory::StackAllocator::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::memory::StackAllocator::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1memory_1_1_i_allocator_1ab00329da6b51d75fdafb232614452870">getName</reimplements>
+        <briefdescription>
+<para>Get allocator name for diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="269" column="16" bodyfile="include/utils/memory/pool_allocator.h" bodystart="269" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_stack_allocator_1ae15d10a90a2ec4d6fa4830ebc14ee627" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::memory::StackAllocator::getCurrentOffset</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentOffset</name>
+        <qualifiedname>themis::memory::StackAllocator::getCurrentOffset</qualifiedname>
+        <briefdescription>
+<para>Get current stack position. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="274" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="801" bodyend="804"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_stack_allocator_1aba3d3258b58c15ab74346c236b7a9943" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::memory::StackAllocator::getAvailableSpace</definition>
+        <argsstring>() const</argsstring>
+        <name>getAvailableSpace</name>
+        <qualifiedname>themis::memory::StackAllocator::getAvailableSpace</qualifiedname>
+        <briefdescription>
+<para>Get available space. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="279" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="806" bodyend="809"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_stack_allocator_1a5a035a6aa5bd40476b06c538e9830705" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::memory::StackAllocator::savePosition</definition>
+        <argsstring>() const</argsstring>
+        <name>savePosition</name>
+        <qualifiedname>themis::memory::StackAllocator::savePosition</qualifiedname>
+        <briefdescription>
+<para>Save current position (for nested scopes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="284" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="811" bodyend="814"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1memory_1_1_stack_allocator_1a68949cba904db7fb33da77d29637c486" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::memory::StackAllocator::restorePosition</definition>
+        <argsstring>(size_t position)</argsstring>
+        <name>restorePosition</name>
+        <qualifiedname>themis::memory::StackAllocator::restorePosition</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+<para>Restore to saved position (fast batch deallocation). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore Position.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="namespacethemis_1a9dfe4a621661bf7b1f585b7fef613b26" kindref="member">ErrVoid()</ref>, empty(), back(), pop_back(), fetch_add(), <ref refid="namespacethemis_1ab996532e6dd43674f9065849a5b0e4dc" kindref="member">OkVoid()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory/pool_allocator.h" line="289" column="12" bodyfile="src/utils/memory/pool_allocator.cpp" bodystart="822" bodyend="846"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stack Allocator - LIFO allocation pattern. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Features:<itemizedlist>
+<listitem><para>Allocation: O(1)</para>
+</listitem><listitem><para>Deallocation: O(1) (must be LIFO)</para>
+</listitem><listitem><para>Zero fragmentation (if LIFO respected)</para>
+</listitem><listitem><para>Best for: Temporary allocations in scope </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::memory::IAllocator</label>
+        <link refid="classthemis_1_1memory_1_1_i_allocator"/>
+      </node>
+      <node id="1">
+        <label>themis::memory::StackAllocator</label>
+        <link refid="classthemis_1_1memory_1_1_stack_allocator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::memory::IAllocator</label>
+        <link refid="classthemis_1_1memory_1_1_i_allocator"/>
+      </node>
+      <node id="1">
+        <label>themis::memory::StackAllocator</label>
+        <link refid="classthemis_1_1memory_1_1_stack_allocator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/memory/pool_allocator.h" line="256" column="1" bodyfile="include/utils/memory/pool_allocator.h" bodystart="256" bodyend="295"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1memory_1_1_stack_allocator_1a10864833fd6b02bfb8109047e59b74eb" prot="public" virt="virtual"><scope>themis::memory::StackAllocator</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1memory_1_1_stack_allocator_1a934f368661328a4a72d798dc94b78669" prot="public" virt="virtual"><scope>themis::memory::StackAllocator</scope><name>deallocate</name></member>
+      <member refid="classthemis_1_1memory_1_1_stack_allocator_1aba3d3258b58c15ab74346c236b7a9943" prot="public" virt="non-virtual"><scope>themis::memory::StackAllocator</scope><name>getAvailableSpace</name></member>
+      <member refid="classthemis_1_1memory_1_1_stack_allocator_1ae15d10a90a2ec4d6fa4830ebc14ee627" prot="public" virt="non-virtual"><scope>themis::memory::StackAllocator</scope><name>getCurrentOffset</name></member>
+      <member refid="classthemis_1_1memory_1_1_stack_allocator_1a7a400fa7b5004f234adeb9bdf6c83c1c" prot="public" virt="virtual"><scope>themis::memory::StackAllocator</scope><name>getName</name></member>
+      <member refid="classthemis_1_1memory_1_1_stack_allocator_1a5b808b7adb7280605dace26def46461e" prot="public" virt="virtual"><scope>themis::memory::StackAllocator</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1memory_1_1_stack_allocator_1aa39963bbd0892847dfa3e3cb4c2d87d2" prot="private" virt="non-virtual"><scope>themis::memory::StackAllocator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1memory_1_1_stack_allocator_1a34cf9339e5ffc5662472ab9375f466e3" prot="public" virt="virtual"><scope>themis::memory::StackAllocator</scope><name>reset</name></member>
+      <member refid="classthemis_1_1memory_1_1_stack_allocator_1a68949cba904db7fb33da77d29637c486" prot="public" virt="non-virtual"><scope>themis::memory::StackAllocator</scope><name>restorePosition</name></member>
+      <member refid="classthemis_1_1memory_1_1_stack_allocator_1a5a035a6aa5bd40476b06c538e9830705" prot="public" virt="non-virtual"><scope>themis::memory::StackAllocator</scope><name>savePosition</name></member>
+      <member refid="classthemis_1_1memory_1_1_stack_allocator_1aefe060360eef5fe9b3b118c0e73464b5" prot="public" virt="non-virtual"><scope>themis::memory::StackAllocator</scope><name>StackAllocator</name></member>
+      <member refid="classthemis_1_1memory_1_1_stack_allocator_1a1c7ad944e4dbdaf57940ff6d76846fc3" prot="private" virt="non-virtual"><scope>themis::memory::StackAllocator</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1memory_1_1_i_allocator_1a50e403c4abbfde7c52a9cb92f453469b" prot="public" virt="virtual"><scope>themis::memory::StackAllocator</scope><name>~IAllocator</name></member>
+      <member refid="classthemis_1_1memory_1_1_stack_allocator_1a52f4245c9cc90a65b60832b51223a200" prot="public" virt="non-virtual"><scope>themis::memory::StackAllocator</scope><name>~StackAllocator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

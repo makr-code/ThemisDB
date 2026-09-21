@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_hyperparam_search_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::HyperparamSearchConfig</compoundname>
+    <includes refid="training__pipeline_8h" local="no">training_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_hyperparam_search_config_1a5251f7dc102b44d93f12ff9134ead98e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::training::HyperparamSearchConfig::rank_candidates</definition>
+        <argsstring></argsstring>
+        <name>rank_candidates</name>
+        <qualifiedname>themis::training::HyperparamSearchConfig::rank_candidates</qualifiedname>
+        <briefdescription>
+<para>LoRA rank values to try. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="217" column="19" bodyfile="include/training/training_pipeline.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_hyperparam_search_config_1a64ac5c8107e328581850db4f9f593332" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::training::HyperparamSearchConfig::lr_candidates</definition>
+        <argsstring></argsstring>
+        <name>lr_candidates</name>
+        <qualifiedname>themis::training::HyperparamSearchConfig::lr_candidates</qualifiedname>
+        <briefdescription>
+<para>Learning-rate values to try. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="218" column="17" bodyfile="include/training/training_pipeline.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_hyperparam_search_config_1a532243709d84f2a365a4f6dc97737d97" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::HyperparamSearchConfig::max_trials</definition>
+        <argsstring></argsstring>
+        <name>max_trials</name>
+        <qualifiedname>themis::training::HyperparamSearchConfig::max_trials</qualifiedname>
+        <initializer>= 9</initializer>
+        <briefdescription>
+<para>Hard cap on number of trials. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="219" column="24" bodyfile="include/training/training_pipeline.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_hyperparam_search_config_1aaa122bcd453bb83e84e43299efb4b815" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::HyperparamSearchConfig::budget_seconds</definition>
+        <argsstring></argsstring>
+        <name>budget_seconds</name>
+        <qualifiedname>themis::training::HyperparamSearchConfig::budget_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Wall-clock budget (0 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="220" column="24" bodyfile="include/training/training_pipeline.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_hyperparam_search_config_1a1f38d1c9a6960679d7fc93ec86b89f99" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::HyperparamSearchConfig::validation_split</definition>
+        <argsstring></argsstring>
+        <name>validation_split</name>
+        <qualifiedname>themis::training::HyperparamSearchConfig::validation_split</qualifiedname>
+        <initializer>= 0.1f</initializer>
+        <briefdescription>
+<para>Validation fraction for each trial. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="221" column="24" bodyfile="include/training/training_pipeline.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_hyperparam_search_config_1a18bdc1a90b6ee17ea4e9a6c877b53fff" prot="public" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int themis::training::HyperparamSearchConfig::seed</definition>
+        <argsstring></argsstring>
+        <name>seed</name>
+        <qualifiedname>themis::training::HyperparamSearchConfig::seed</qualifiedname>
+        <initializer>= 42u</initializer>
+        <briefdescription>
+<para>RNG seed for deterministic ordering. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="222" column="24" bodyfile="include/training/training_pipeline.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_hyperparam_search_config_1ad8adaadb277d72e4cf800a0ddb0ecba3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::HyperparamSearchConfig::HyperparamSearchConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>HyperparamSearchConfig</name>
+        <qualifiedname>themis::training::HyperparamSearchConfig::HyperparamSearchConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="224" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for an automated hyperparameter search sweep. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The search performs a Cartesian grid of (rank, lr) trials using a deterministic, seeded random trial ordering. It is budget-aware: when <computeroutput><ref refid="structthemis_1_1training_1_1_hyperparam_search_config_1aaa122bcd453bb83e84e43299efb4b815" kindref="member">budget_seconds</ref></computeroutput> elapses the best result seen so far is returned.</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal"><ref refid="structthemis_1_1training_1_1_hyperparam_search_config_1ad8adaadb277d72e4cf800a0ddb0ecba3" kindref="member">HyperparamSearchConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.rank_candidates<sp/>=<sp/>{4,<sp/>8,<sp/>16};</highlight></codeline>
+<codeline><highlight class="normal">cfg.lr_candidates<sp/><sp/><sp/>=<sp/>{1e-4f,<sp/>3e-4f,<sp/>1e-3f};</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_trials<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>6;</highlight></codeline>
+<codeline><highlight class="normal">cfg.budget_seconds<sp/><sp/>=<sp/>120.0;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>pipeline.runHyperparamSearch(cfg);</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Best<sp/>rank=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>result.best_rank</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>lr=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>result.best_lr</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>val_loss=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>result.best_val_loss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/training/training_pipeline.h" line="216" column="1" bodyfile="include/training/training_pipeline.h" bodystart="216" bodyend="225"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_hyperparam_search_config_1aaa122bcd453bb83e84e43299efb4b815" prot="public" virt="non-virtual"><scope>themis::training::HyperparamSearchConfig</scope><name>budget_seconds</name></member>
+      <member refid="structthemis_1_1training_1_1_hyperparam_search_config_1ad8adaadb277d72e4cf800a0ddb0ecba3" prot="public" virt="non-virtual"><scope>themis::training::HyperparamSearchConfig</scope><name>HyperparamSearchConfig</name></member>
+      <member refid="structthemis_1_1training_1_1_hyperparam_search_config_1a64ac5c8107e328581850db4f9f593332" prot="public" virt="non-virtual"><scope>themis::training::HyperparamSearchConfig</scope><name>lr_candidates</name></member>
+      <member refid="structthemis_1_1training_1_1_hyperparam_search_config_1a532243709d84f2a365a4f6dc97737d97" prot="public" virt="non-virtual"><scope>themis::training::HyperparamSearchConfig</scope><name>max_trials</name></member>
+      <member refid="structthemis_1_1training_1_1_hyperparam_search_config_1a5251f7dc102b44d93f12ff9134ead98e" prot="public" virt="non-virtual"><scope>themis::training::HyperparamSearchConfig</scope><name>rank_candidates</name></member>
+      <member refid="structthemis_1_1training_1_1_hyperparam_search_config_1a18bdc1a90b6ee17ea4e9a6c877b53fff" prot="public" virt="non-virtual"><scope>themis::training::HyperparamSearchConfig</scope><name>seed</name></member>
+      <member refid="structthemis_1_1training_1_1_hyperparam_search_config_1a1f38d1c9a6960679d7fc93ec86b89f99" prot="public" virt="non-virtual"><scope>themis::training::HyperparamSearchConfig</scope><name>validation_split</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

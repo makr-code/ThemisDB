@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::graph::GraphLRUPlanCache::Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_entry_1a389aa989e4cda820700efc079caad354" prot="public" static="no" mutable="no">
+        <type>V</type>
+        <definition>V themis::graph::GraphLRUPlanCache&lt; K, V &gt;::Entry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::Entry::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="208" column="21" bodyfile="include/graph/graph_plan_cache.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_entry_1a2baf9eabac84b3c5846904639d83f447" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a020ce714c5ebaefd9b530b939c7c4bb0" kindref="member">TimePoint</ref></type>
+        <definition>TimePoint themis::graph::GraphLRUPlanCache&lt; K, V &gt;::Entry::inserted</definition>
+        <argsstring></argsstring>
+        <name>inserted</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::Entry::inserted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="209" column="21" bodyfile="include/graph/graph_plan_cache.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_entry_1afb304bda3c7b6651bbd792bae590f404" prot="public" static="no" mutable="no">
+        <type>std::list&lt; K &gt;::iterator</type>
+        <definition>std::list&lt;K&gt;::iterator themis::graph::GraphLRUPlanCache&lt; K, V &gt;::Entry::lru_it</definition>
+        <argsstring></argsstring>
+        <name>lru_it</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::Entry::lru_it</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="210" column="39" bodyfile="include/graph/graph_plan_cache.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_plan_cache.h" line="207" column="5" bodyfile="include/graph/graph_plan_cache.h" bodystart="207" bodyend="211"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_entry_1a2baf9eabac84b3c5846904639d83f447" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache::Entry</scope><name>inserted</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_entry_1afb304bda3c7b6651bbd792bae590f404" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache::Entry</scope><name>lru_it</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_entry_1a389aa989e4cda820700efc079caad354" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache::Entry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

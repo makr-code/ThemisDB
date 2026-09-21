@@ -1,0 +1,1184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_lazy_model_loader" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::LazyModelLoader</compoundname>
+    <includes refid="model__loader_8h" local="no">model_loader.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config" prot="public">themis::llm::LazyModelLoader::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_stats" prot="public">themis::llm::LazyModelLoader::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lazy_model_loader_1a5e242c16e8270ba94ae75696916cf56e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::LazyModelLoader::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::LazyModelLoader::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="228" column="12" bodyfile="include/llm/model_loader.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lazy_model_loader_1a5a79e77432a60edafc42a4369220381b" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="structthemis_1_1llm_1_1_cached_model" kindref="compound">CachedModel</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;CachedModel&gt; &gt; themis::llm::LazyModelLoader::models_</definition>
+        <argsstring></argsstring>
+        <name>models_</name>
+        <qualifiedname>themis::llm::LazyModelLoader::models_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="230" column="24" bodyfile="include/llm/model_loader.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lazy_model_loader_1aa4a443c0786f2c4af403bd8a0e1230d6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::LazyModelLoader::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::LazyModelLoader::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="231" column="24" bodyfile="include/llm/model_loader.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lazy_model_loader_1a66f5d4a57e100a84a2927acd83cf2a5f" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::future&lt; <ref refid="structthemis_1_1llm_1_1_cached_model" kindref="compound">CachedModel</ref> * &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::future&lt;CachedModel*&gt; &gt; themis::llm::LazyModelLoader::pending_loads_</definition>
+        <argsstring></argsstring>
+        <name>pending_loads_</name>
+        <qualifiedname>themis::llm::LazyModelLoader::pending_loads_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="234" column="24" bodyfile="include/llm/model_loader.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lazy_model_loader_1aebd52a1bdd35a142834bc3daca212517" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LazyModelLoader::total_vram_mb_</definition>
+        <argsstring></argsstring>
+        <name>total_vram_mb_</name>
+        <qualifiedname>themis::llm::LazyModelLoader::total_vram_mb_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="239" column="12" bodyfile="include/llm/model_loader.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lazy_model_loader_1a211b823aa846273b65565615a3c0be4e" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LazyModelLoader::total_ram_mb_</definition>
+        <argsstring></argsstring>
+        <name>total_ram_mb_</name>
+        <qualifiedname>themis::llm::LazyModelLoader::total_ram_mb_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="240" column="12" bodyfile="include/llm/model_loader.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lazy_model_loader_1ae60e61b596d4d49f53e669669be49316" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::LazyModelLoader::cache_hits_</definition>
+        <argsstring></argsstring>
+        <name>cache_hits_</name>
+        <qualifiedname>themis::llm::LazyModelLoader::cache_hits_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="243" column="17" bodyfile="include/llm/model_loader.h" bodystart="243" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lazy_model_loader_1acc80f84110bc2d90928c26c618539ab2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::LazyModelLoader::cache_misses_</definition>
+        <argsstring></argsstring>
+        <name>cache_misses_</name>
+        <qualifiedname>themis::llm::LazyModelLoader::cache_misses_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="244" column="17" bodyfile="include/llm/model_loader.h" bodystart="244" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lazy_model_loader_1a5dd5a22b6ab28ee1af66c8a2443272fa" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::LazyModelLoader::evictions_</definition>
+        <argsstring></argsstring>
+        <name>evictions_</name>
+        <qualifiedname>themis::llm::LazyModelLoader::evictions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="245" column="17" bodyfile="include/llm/model_loader.h" bodystart="245" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lazy_model_loader_1afea3b9673cfe2051a22a0387f4270e95" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::LazyModelLoader::models_loaded_</definition>
+        <argsstring></argsstring>
+        <name>models_loaded_</name>
+        <qualifiedname>themis::llm::LazyModelLoader::models_loaded_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="246" column="17" bodyfile="include/llm/model_loader.h" bodystart="246" bodyend="246"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1a9667550879ebb4d84694f062337e2bd7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LazyModelLoader::LazyModelLoader</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>LazyModelLoader</name>
+        <qualifiedname>themis::llm::LazyModelLoader::LazyModelLoader</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Lazy Model Loader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="122" column="14" bodyfile="src/llm/model_loader.cpp" bodystart="218" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1a29a04144fa0739efe1ad11cddffbbf3d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LazyModelLoader::~LazyModelLoader</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~LazyModelLoader</name>
+        <qualifiedname>themis::llm::LazyModelLoader::~LazyModelLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="123" column="5" bodyfile="src/llm/model_loader.cpp" bodystart="245" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1a63135eeacc0b2b05ff46a65253d9d743" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_cached_model" kindref="compound">CachedModel</ref> *</type>
+        <definition>CachedModel * themis::llm::LazyModelLoader::getOrLoadModel</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;model_path, const json &amp;load_config={})</argsstring>
+        <name>getOrLoadModel</name>
+        <qualifiedname>themis::llm::LazyModelLoader::getOrLoadModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>load_config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Get Or Load Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">load_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::debug(), fetch_add(), std::chrono::system_clock::now(), get(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="125" column="17" bodyfile="src/llm/model_loader.cpp" bodystart="287" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1a3090faf760e17f80c1b87b83bc733733" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1llm_1_1_cached_model" kindref="compound">CachedModel</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; CachedModel &gt; themis::llm::LazyModelLoader::getOrLoadModelShared</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;model_path, const json &amp;load_config={})</argsstring>
+        <name>getOrLoadModelShared</name>
+        <qualifiedname>themis::llm::LazyModelLoader::getOrLoadModelShared</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>load_config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Thread-safe version that returns shared_ptr for safe cross-thread access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">load_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), fetch_add(), std::chrono::system_clock::now(), loadModelInternal(), has_value(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="131" column="21" bodyfile="src/llm/model_loader.cpp" bodystart="1282" bodyend="1312"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1aff9482478da9efa0a67a05ac3a1ce4f8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_cached_model" kindref="compound">CachedModel</ref> *</type>
+        <definition>CachedModel * themis::llm::LazyModelLoader::getModel</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;model_path, const json &amp;load_config={})</argsstring>
+        <name>getModel</name>
+        <qualifiedname>themis::llm::LazyModelLoader::getModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>load_config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="137" column="17" bodyfile="include/llm/model_loader.h" bodystart="137" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1a377e80d13711df3ed2e885f76c0be64a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LazyModelLoader::preloadModel</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;model_path, const json &amp;load_config={})</argsstring>
+        <name>preloadModel</name>
+        <qualifiedname>themis::llm::LazyModelLoader::preloadModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>load_config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Preload Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">load_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::info(), std::async(), load_lock(), spdlog::debug(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="145" column="10" bodyfile="src/llm/model_loader.cpp" bodystart="382" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1a2c92e17d8c52cc6ebf8bd58b32034612" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1llm_1_1_cached_model" kindref="compound">CachedModel</ref> * &gt;</type>
+        <definition>std::future&lt; CachedModel * &gt; themis::llm::LazyModelLoader::loadAsync</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;model_path, ProgressCallback progress_cb=nullptr, CancellationToken cancel_token=CancellationToken(), const json &amp;load_config={})</argsstring>
+        <name>loadAsync</name>
+        <qualifiedname>themis::llm::LazyModelLoader::loadAsync</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a7888bd04814e95dcb5126af3be63d50e" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_cb</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_cancellation_token" kindref="compound">CancellationToken</ref></type>
+          <declname>cancel_token</declname>
+          <defval><ref refid="classthemis_1_1llm_1_1_cancellation_token" kindref="compound">CancellationToken</ref>()</defval>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>load_config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Load Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cancel_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">load_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::info(), set_value(), get(), get_future(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="151" column="17" bodyfile="src/llm/model_loader.cpp" bodystart="447" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1a41408f9a1cc0c763eb891a197b8a081e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LazyModelLoader::unloadModel</definition>
+        <argsstring>(const std::string &amp;model_id, bool force=false)</argsstring>
+        <name>unloadModel</name>
+        <qualifiedname>themis::llm::LazyModelLoader::unloadModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>force</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Unload Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">force</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), unloadModelUnlocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="159" column="10" bodyfile="src/llm/model_loader.cpp" bodystart="595" bodyend="600"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1af64813f9b44f9c79c6aaffa4aa794d83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LazyModelLoader::pinModel</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>pinModel</name>
+        <qualifiedname>themis::llm::LazyModelLoader::pinModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Pin Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="165" column="10" bodyfile="src/llm/model_loader.cpp" bodystart="638" bodyend="646"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1a52d656b90bff0749b4c736c0561df6ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LazyModelLoader::unpinModel</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>unpinModel</name>
+        <qualifiedname>themis::llm::LazyModelLoader::unpinModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Unpin Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="171" column="10" bodyfile="src/llm/model_loader.cpp" bodystart="653" bodyend="661"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1afd9d45015391a9906239d58e5bae4075" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LazyModelLoader::isModelLoaded</definition>
+        <argsstring>(const std::string &amp;model_id) const</argsstring>
+        <name>isModelLoaded</name>
+        <qualifiedname>themis::llm::LazyModelLoader::isModelLoaded</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Is Model Loaded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="178" column="10" bodyfile="src/llm/model_loader.cpp" bodystart="663" bodyend="671"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1ab9aedefed6de5a7516d3e5940f24e46f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_model_info" kindref="compound">ModelInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ModelInfo &gt; themis::llm::LazyModelLoader::getModelInfo</definition>
+        <argsstring>(const std::string &amp;model_id) const</argsstring>
+        <name>getModelInfo</name>
+        <qualifiedname>themis::llm::LazyModelLoader::getModelInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Model Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="185" column="19" bodyfile="src/llm/model_loader.cpp" bodystart="673" bodyend="687"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1ae3488b633eef5185b0352873adb022ef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::LazyModelLoader::listLoadedModels</definition>
+        <argsstring>() const</argsstring>
+        <name>listLoadedModels</name>
+        <qualifiedname>themis::llm::LazyModelLoader::listLoadedModels</qualifiedname>
+        <briefdescription>
+<para>List Loaded Models. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="191" column="17" bodyfile="src/llm/model_loader.cpp" bodystart="689" bodyend="706"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1a7856ae4544dc1aa2238322826d9b4717" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LazyModelLoader::evictLRU</definition>
+        <argsstring>(size_t target_vram_mb=0)</argsstring>
+        <name>evictLRU</name>
+        <qualifiedname>themis::llm::LazyModelLoader::evictLRU</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>target_vram_mb</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Evict LRU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), evictLRUUnlocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="193" column="12" bodyfile="src/llm/model_loader.cpp" bodystart="714" bodyend="717"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1a1766203b79a5b781382af395fa1fde9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LazyModelLoader::evictExpired</definition>
+        <argsstring>()</argsstring>
+        <name>evictExpired</name>
+        <qualifiedname>themis::llm::LazyModelLoader::evictExpired</qualifiedname>
+        <briefdescription>
+<para>Evict Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::system_clock::now(), push_back(), spdlog::info(), unloadModelUnlocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="199" column="12" bodyfile="src/llm/model_loader.cpp" bodystart="779" bodyend="809"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1aba5ac2130e41fad82be077d730abbc12" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::LazyModelLoader::getMemoryStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>themis::llm::LazyModelLoader::getMemoryStats</qualifiedname>
+        <briefdescription>
+<para>Get Memory <ref refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="205" column="10" bodyfile="src/llm/model_loader.cpp" bodystart="811" bodyend="832"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1aab7a27f5047942c0aa692401a3bec8a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::LazyModelLoader::getCacheStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getCacheStats</name>
+        <qualifiedname>themis::llm::LazyModelLoader::getCacheStats</qualifiedname>
+        <briefdescription>
+<para>Get Cache <ref refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="211" column="10" bodyfile="src/llm/model_loader.cpp" bodystart="834" bodyend="861"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1a5cf732e9d2e4166303095c02493be4b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>LazyModelLoader::Stats themis::llm::LazyModelLoader::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::llm::LazyModelLoader::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="225" column="11" bodyfile="src/llm/model_loader.cpp" bodystart="863" bodyend="876"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1a0ae6ed4c058e5b93d33e4b7134f4ee38" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1llm_1_1_cached_model" kindref="compound">CachedModel</ref> * &gt;</type>
+        <definition>Result&lt; CachedModel * &gt; themis::llm::LazyModelLoader::loadModelInternal</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;model_path, const json &amp;config)</argsstring>
+        <name>loadModelInternal</name>
+        <qualifiedname>themis::llm::LazyModelLoader::loadModelInternal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Load Model Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), json::object(), spdlog::info(), std::chrono::system_clock::now(), fs::absolute(), fs::path(), fs::exists(), fs::is_regular_file(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="256" column="12" bodyfile="src/llm/model_loader.cpp" bodystart="886" bodyend="1249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1a291825d58ec333737dce90680869417f" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LazyModelLoader::verifyModelChecksum</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;model_path, const json &amp;config) const</argsstring>
+        <name>verifyModelChecksum</name>
+        <qualifiedname>themis::llm::LazyModelLoader::verifyModelChecksum</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="261" column="11" bodyfile="src/llm/model_loader.cpp" bodystart="178" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1af36534aebf6f7212a92367b3c1ac35ed" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LazyModelLoader::hasCapacity</definition>
+        <argsstring>(size_t vram_mb, size_t ram_mb) const</argsstring>
+        <name>hasCapacity</name>
+        <qualifiedname>themis::llm::LazyModelLoader::hasCapacity</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>vram_mb</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>ram_mb</declname>
+        </param>
+        <briefdescription>
+<para>Has Capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="273" column="10" bodyfile="src/llm/model_loader.cpp" bodystart="1251" bodyend="1257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1abb92b6c6ab7c5bf280b1aca77761d727" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LazyModelLoader::updateMemoryUsage</definition>
+        <argsstring>()</argsstring>
+        <name>updateMemoryUsage</name>
+        <qualifiedname>themis::llm::LazyModelLoader::updateMemoryUsage</qualifiedname>
+        <briefdescription>
+<para>Update Memory Usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements updateMemoryUsage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="277" column="10" bodyfile="src/llm/model_loader.cpp" bodystart="1263" bodyend="1272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1a2e76af4fb461bb806bdb9cc7eff53434" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LazyModelLoader::unloadModelUnlocked</definition>
+        <argsstring>(const std::string &amp;model_id, bool force)</argsstring>
+        <name>unloadModelUnlocked</name>
+        <qualifiedname>themis::llm::LazyModelLoader::unloadModelUnlocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>force</declname>
+        </param>
+        <briefdescription>
+<para>Unload Model Unlocked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">force</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">force</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), spdlog::warn(), spdlog::info(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="284" column="10" bodyfile="src/llm/model_loader.cpp" bodystart="609" bodyend="631"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lazy_model_loader_1a95707ec81f6329805c3ef551cac7ea3f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LazyModelLoader::evictLRUUnlocked</definition>
+        <argsstring>(size_t target_vram_mb=0)</argsstring>
+        <name>evictLRUUnlocked</name>
+        <qualifiedname>themis::llm::LazyModelLoader::evictLRUUnlocked</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>target_vram_mb</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Evict LRUUnlocked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_vram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::chrono::system_clock::now(), get(), spdlog::warn(), spdlog::info(), fetch_add(), unloadModelUnlocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="285" column="12" bodyfile="src/llm/model_loader.cpp" bodystart="725" bodyend="772"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_loader.h" line="92" column="1" bodyfile="include/llm/model_loader.h" bodystart="92" bodyend="286"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1ae60e61b596d4d49f53e669669be49316" prot="private" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>cache_hits_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1acc80f84110bc2d90928c26c618539ab2" prot="private" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>cache_misses_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a5e242c16e8270ba94ae75696916cf56e" prot="private" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a1766203b79a5b781382af395fa1fde9a" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>evictExpired</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a5dd5a22b6ab28ee1af66c8a2443272fa" prot="private" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>evictions_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a7856ae4544dc1aa2238322826d9b4717" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>evictLRU</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a95707ec81f6329805c3ef551cac7ea3f" prot="private" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>evictLRUUnlocked</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1aab7a27f5047942c0aa692401a3bec8a3" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>getCacheStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1aba5ac2130e41fad82be077d730abbc12" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>getMemoryStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1aff9482478da9efa0a67a05ac3a1ce4f8" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>getModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1ab9aedefed6de5a7516d3e5940f24e46f" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>getModelInfo</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a63135eeacc0b2b05ff46a65253d9d743" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>getOrLoadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a3090faf760e17f80c1b87b83bc733733" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>getOrLoadModelShared</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a5cf732e9d2e4166303095c02493be4b8" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1af36534aebf6f7212a92367b3c1ac35ed" prot="private" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>hasCapacity</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1afd9d45015391a9906239d58e5bae4075" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>isModelLoaded</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a9667550879ebb4d84694f062337e2bd7" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>LazyModelLoader</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1ae3488b633eef5185b0352873adb022ef" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>listLoadedModels</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a2c92e17d8c52cc6ebf8bd58b32034612" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>loadAsync</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a0ae6ed4c058e5b93d33e4b7134f4ee38" prot="private" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>loadModelInternal</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a5a79e77432a60edafc42a4369220381b" prot="private" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>models_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1afea3b9673cfe2051a22a0387f4270e95" prot="private" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>models_loaded_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1aa4a443c0786f2c4af403bd8a0e1230d6" prot="private" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a66f5d4a57e100a84a2927acd83cf2a5f" prot="private" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>pending_loads_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1af64813f9b44f9c79c6aaffa4aa794d83" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>pinModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a377e80d13711df3ed2e885f76c0be64a" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>preloadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a211b823aa846273b65565615a3c0be4e" prot="private" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>total_ram_mb_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1aebd52a1bdd35a142834bc3daca212517" prot="private" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>total_vram_mb_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a41408f9a1cc0c763eb891a197b8a081e" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>unloadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a2e76af4fb461bb806bdb9cc7eff53434" prot="private" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>unloadModelUnlocked</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a52d656b90bff0749b4c736c0561df6ea" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>unpinModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1abb92b6c6ab7c5bf280b1aca77761d727" prot="private" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>updateMemoryUsage</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a291825d58ec333737dce90680869417f" prot="private" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>verifyModelChecksum</name></member>
+      <member refid="classthemis_1_1llm_1_1_lazy_model_loader_1a29a04144fa0739efe1ad11cddffbbf3d" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader</scope><name>~LazyModelLoader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

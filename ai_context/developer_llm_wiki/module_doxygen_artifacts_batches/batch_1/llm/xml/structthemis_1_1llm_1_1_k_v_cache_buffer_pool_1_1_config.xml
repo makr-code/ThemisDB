@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::KVCacheBufferPool::Config</compoundname>
+    <includes refid="kv__cache__buffer_8h" local="no">kv_cache_buffer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config_1aac0a5ac0ff848cda794a99949dcdda56" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::KVCacheBufferPool::Config::num_buffers</definition>
+        <argsstring></argsstring>
+        <name>num_buffers</name>
+        <qualifiedname>themis::llm::KVCacheBufferPool::Config::num_buffers</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="145" column="16" bodyfile="include/llm/kv_cache_buffer.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config_1a517274b4e9d8229860bc75d09f6cd0bc" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config" kindref="compound">KVCacheBuffer::Config</ref></type>
+        <definition>KVCacheBuffer::Config themis::llm::KVCacheBufferPool::Config::buffer_config</definition>
+        <argsstring></argsstring>
+        <name>buffer_config</name>
+        <qualifiedname>themis::llm::KVCacheBufferPool::Config::buffer_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="146" column="31" bodyfile="include/llm/kv_cache_buffer.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::KVCacheBuffer::Config</label>
+        <link refid="structthemis_1_1llm_1_1_k_v_cache_buffer_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::KVCacheBufferPool::Config</label>
+        <link refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>buffer_config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/kv_cache_buffer.h" line="144" column="5" bodyfile="include/llm/kv_cache_buffer.h" bodystart="144" bodyend="147"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config_1a517274b4e9d8229860bc75d09f6cd0bc" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBufferPool::Config</scope><name>buffer_config</name></member>
+      <member refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_config_1aac0a5ac0ff848cda794a99949dcdda56" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBufferPool::Config</scope><name>num_buffers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

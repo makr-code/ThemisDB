@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_log_notification_channel" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::LogNotificationChannel</compoundname>
+    <basecompoundref refid="classthemis_1_1observability_1_1_i_notification_channel" prot="public" virt="non-virtual">themis::observability::INotificationChannel</basecompoundref>
+    <includes refid="alerting__engine_8h" local="no">alerting_engine.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_log_notification_channel_1aaa1712c4d43a2efdf255618d3c113d49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::LogNotificationChannel::LogNotificationChannel</definition>
+        <argsstring>()=default</argsstring>
+        <name>LogNotificationChannel</name>
+        <qualifiedname>themis::observability::LogNotificationChannel::LogNotificationChannel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="71" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_log_notification_channel_1a22d37478371b4f03e62f870cbd3a8a76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::LogNotificationChannel::~LogNotificationChannel</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~LogNotificationChannel</name>
+        <qualifiedname>themis::observability::LogNotificationChannel::~LogNotificationChannel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="72" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_log_notification_channel_1a654a9477b4ba565330982f39af8e8a66" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::LogNotificationChannel::channelType</definition>
+        <argsstring>() const override</argsstring>
+        <name>channelType</name>
+        <qualifiedname>themis::observability::LogNotificationChannel::channelType</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_i_notification_channel_1a534c61b7a5fe13cf542afc79ed8397e4">channelType</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return a human-readable type identifier (e.g., &quot;log&quot;, &quot;webhook&quot;, &quot;slack&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="74" column="17" bodyfile="include/observability/alerting_engine.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_log_notification_channel_1a0eb5f0ad06bc63d66243a31c98832b38" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::observability::LogNotificationChannel::send</definition>
+        <argsstring>(const Alert &amp;alert) override</argsstring>
+        <name>send</name>
+        <qualifiedname>themis::observability::LogNotificationChannel::send</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_i_notification_channel_1aa78536f6012509d0d58600d2d9d37fdf">send</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref> &amp;</type>
+          <declname>alert</declname>
+        </param>
+        <briefdescription>
+<para>Send. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log the alert using the appropriate log level. Always returns success; logging failures are swallowed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: severityStr(), statusStr(), THEMIS_CRITICAL(), THEMIS_ERROR(), THEMIS_WARN(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="80" column="12" bodyfile="src/observability/alerting_engine.cpp" bodystart="124" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Notification channel that logs alert payloads via the ThemisDB logger.</para>
+<para>Severity mapping:<itemizedlist>
+<listitem><para><ref refid="namespacethemis_1_1observability_1a8ee1043d756365fbf3e4632ae5371c2fa551b723eafd6a31d444fcb2f5920fbd3" kindref="member">AlertSeverity::INFO</ref> → THEMIS_INFO</para>
+</listitem><listitem><para><ref refid="namespacethemis_1_1observability_1a8ee1043d756365fbf3e4632ae5371c2fa059e9861e0400dfbe05c98a841f3f96b" kindref="member">AlertSeverity::WARNING</ref> → THEMIS_WARN</para>
+</listitem><listitem><para><ref refid="namespacethemis_1_1observability_1a8ee1043d756365fbf3e4632ae5371c2fabb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">AlertSeverity::ERROR</ref> → THEMIS_ERROR</para>
+</listitem><listitem><para><ref refid="namespacethemis_1_1observability_1a8ee1043d756365fbf3e4632ae5371c2fa99cd1c61610c76a57cb8d10d6df6b870" kindref="member">AlertSeverity::CRITICAL</ref> → THEMIS_CRITICAL </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::observability::INotificationChannel</label>
+        <link refid="classthemis_1_1observability_1_1_i_notification_channel"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::LogNotificationChannel</label>
+        <link refid="classthemis_1_1observability_1_1_log_notification_channel"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::observability::INotificationChannel</label>
+        <link refid="classthemis_1_1observability_1_1_i_notification_channel"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::LogNotificationChannel</label>
+        <link refid="classthemis_1_1observability_1_1_log_notification_channel"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/observability/alerting_engine.h" line="69" column="1" bodyfile="include/observability/alerting_engine.h" bodystart="69" bodyend="81"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_log_notification_channel_1a654a9477b4ba565330982f39af8e8a66" prot="public" virt="virtual"><scope>themis::observability::LogNotificationChannel</scope><name>channelType</name></member>
+      <member refid="classthemis_1_1observability_1_1_log_notification_channel_1aaa1712c4d43a2efdf255618d3c113d49" prot="public" virt="non-virtual"><scope>themis::observability::LogNotificationChannel</scope><name>LogNotificationChannel</name></member>
+      <member refid="classthemis_1_1observability_1_1_log_notification_channel_1a0eb5f0ad06bc63d66243a31c98832b38" prot="public" virt="virtual"><scope>themis::observability::LogNotificationChannel</scope><name>send</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_notification_channel_1a17d4e3d8de4f15d4c63cf25475dfc314" prot="public" virt="virtual"><scope>themis::observability::LogNotificationChannel</scope><name>~INotificationChannel</name></member>
+      <member refid="classthemis_1_1observability_1_1_log_notification_channel_1a22d37478371b4f03e62f870cbd3a8a76" prot="public" virt="non-virtual"><scope>themis::observability::LogNotificationChannel</scope><name>~LogNotificationChannel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_w_a_l_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::WALEntry</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_entry_1a55d34db055495f6031b12825e9905cd4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::WALEntry::sequence_number</definition>
+        <argsstring></argsstring>
+        <name>sequence_number</name>
+        <qualifiedname>themisdb::replication::WALEntry::sequence_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="113" column="14" bodyfile="include/replication/replication_manager.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_entry_1a952dc837e7c6946e3a34b40c2782088d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::WALEntry::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themisdb::replication::WALEntry::term</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="114" column="14" bodyfile="include/replication/replication_manager.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_entry_1ad3ec898866fb198652e7670c9e4210be" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::replication::WALEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themisdb::replication::WALEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="115" column="43" bodyfile="include/replication/replication_manager.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_entry_1a2cf722298c8697743a39422ab40545fd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::WALEntry::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themisdb::replication::WALEntry::operation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="116" column="17" bodyfile="include/replication/replication_manager.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_entry_1aeb7d2663ea831baaee7af370049429a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::WALEntry::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themisdb::replication::WALEntry::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="117" column="17" bodyfile="include/replication/replication_manager.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_entry_1aa8bb3ddc90b14473c0e1d090d54bcb83" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::WALEntry::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themisdb::replication::WALEntry::document_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="118" column="17" bodyfile="include/replication/replication_manager.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_entry_1ae9097aba678ec4bc48ff5c160685b16a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::WALEntry::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themisdb::replication::WALEntry::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="119" column="17" bodyfile="include/replication/replication_manager.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_w_a_l_entry_1a9790e1220c6a76ab22739cd8c1e672ff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::WALEntry::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themisdb::replication::WALEntry::checksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="120" column="17" bodyfile="include/replication/replication_manager.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1replication_1_1_w_a_l_entry_1a063893ab4a81989ec3593c82ff2921f0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::replication::WALEntry::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themisdb::replication::WALEntry::serialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="123" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="172" bodyend="234"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1replication_1_1_w_a_l_entry_1aa800e3b3c4182375cd6106f268973724" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &gt;</type>
+        <definition>std::optional&lt; WALEntry &gt; themisdb::replication::WALEntry::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themisdb::replication::WALEntry::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), THEMIS_DEBUG(), THEMIS_ERROR(), s(), begin(), readUint64(), std::chrono::system_clock::time_point(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="126" column="26" bodyfile="src/replication/replication_manager.cpp" bodystart="243" bodyend="330"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Write-Ahead Log Entry </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="112" column="1" bodyfile="include/replication/replication_manager.h" bodystart="112" bodyend="127"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1a9790e1220c6a76ab22739cd8c1e672ff" prot="public" virt="non-virtual"><scope>themisdb::replication::WALEntry</scope><name>checksum</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1aeb7d2663ea831baaee7af370049429a3" prot="public" virt="non-virtual"><scope>themisdb::replication::WALEntry</scope><name>collection</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1ae9097aba678ec4bc48ff5c160685b16a" prot="public" virt="non-virtual"><scope>themisdb::replication::WALEntry</scope><name>data</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1aa800e3b3c4182375cd6106f268973724" prot="public" virt="non-virtual"><scope>themisdb::replication::WALEntry</scope><name>deserialize</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1aa8bb3ddc90b14473c0e1d090d54bcb83" prot="public" virt="non-virtual"><scope>themisdb::replication::WALEntry</scope><name>document_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1a2cf722298c8697743a39422ab40545fd" prot="public" virt="non-virtual"><scope>themisdb::replication::WALEntry</scope><name>operation</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1a55d34db055495f6031b12825e9905cd4" prot="public" virt="non-virtual"><scope>themisdb::replication::WALEntry</scope><name>sequence_number</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1a063893ab4a81989ec3593c82ff2921f0" prot="public" virt="non-virtual"><scope>themisdb::replication::WALEntry</scope><name>serialize</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1a952dc837e7c6946e3a34b40c2782088d" prot="public" virt="non-virtual"><scope>themisdb::replication::WALEntry</scope><name>term</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_w_a_l_entry_1ad3ec898866fb198652e7670c9e4210be" prot="public" virt="non-virtual"><scope>themisdb::replication::WALEntry</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

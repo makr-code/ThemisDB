@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_query_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardQueryResult</compoundname>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_query_result_1a687882ae65a4b8b886e6525d46000658" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a1b09ca5c4bcc56b5d53ab289dad7bdbd" kindref="member">ShardId</ref></type>
+        <definition>ShardId themis::sharding::ShardQueryResult::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::ShardQueryResult::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="329" column="13" bodyfile="include/sharding/sharding_interfaces.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_query_result_1a94b464b6edea27b7407b6c7d5194687e" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::ShardQueryResult::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>themis::sharding::ShardQueryResult::rows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="330" column="20" bodyfile="include/sharding/sharding_interfaces.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_query_result_1ae69657742b129449897df7b205295ccf" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardQueryResult::row_count</definition>
+        <argsstring></argsstring>
+        <name>row_count</name>
+        <qualifiedname>themis::sharding::ShardQueryResult::row_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="331" column="14" bodyfile="include/sharding/sharding_interfaces.h" bodystart="331" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_query_result_1a924323784c2d0ae124afcd49dad520e6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardQueryResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::ShardQueryResult::success</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="332" column="10" bodyfile="include/sharding/sharding_interfaces.h" bodystart="332" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_query_result_1a4d574fff7aff1bf32bdbb0b901240ded" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardQueryResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::sharding::ShardQueryResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="333" column="17" bodyfile="include/sharding/sharding_interfaces.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result rows returned by a single shard during a fan-out. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/sharding_interfaces.h" line="328" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="328" bodyend="334"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_query_result_1a4d574fff7aff1bf32bdbb0b901240ded" prot="public" virt="non-virtual"><scope>themis::sharding::ShardQueryResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_query_result_1ae69657742b129449897df7b205295ccf" prot="public" virt="non-virtual"><scope>themis::sharding::ShardQueryResult</scope><name>row_count</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_query_result_1a94b464b6edea27b7407b6c7d5194687e" prot="public" virt="non-virtual"><scope>themis::sharding::ShardQueryResult</scope><name>rows</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_query_result_1a687882ae65a4b8b886e6525d46000658" prot="public" virt="non-virtual"><scope>themis::sharding::ShardQueryResult</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_query_result_1a924323784c2d0ae124afcd49dad520e6" prot="public" virt="non-virtual"><scope>themis::sharding::ShardQueryResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

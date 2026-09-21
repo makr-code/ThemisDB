@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_fts_predicate_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::FtsPredicateNode</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_fts_predicate_node_1a410f4ebed868d80a97ae4ab0557fe5db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::FtsPredicateNode::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::query::FtsPredicateNode::field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="726" column="17" bodyfile="include/query/aql_parser.h" bodystart="726" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_fts_predicate_node_1a5ab6b615634858e0abbc740218c28b5d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::FtsPredicateNode::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themis::query::FtsPredicateNode::term</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="727" column="17" bodyfile="include/query/aql_parser.h" bodystart="727" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_fts_predicate_node_1a07e8e293224edc65d5bb5446eee4a3d4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a88a6e955dabb55945d9721d82edbb6ab" kindref="member">FtsPredType</ref></type>
+        <definition>FtsPredType themis::query::FtsPredicateNode::pred_type</definition>
+        <argsstring></argsstring>
+        <name>pred_type</name>
+        <qualifiedname>themis::query::FtsPredicateNode::pred_type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1query_1a88a6e955dabb55945d9721d82edbb6aba8baeec6d282f1791ea9954d0c514ed8d" kindref="member">FtsPredType::TERM</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="728" column="17" bodyfile="include/query/aql_parser.h" bodystart="728" bodyend="728"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_fts_predicate_node_1a45d61030845c8042f56f77c602c91f91" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::FtsPredicateNode::boost</definition>
+        <argsstring></argsstring>
+        <name>boost</name>
+        <qualifiedname>themis::query::FtsPredicateNode::boost</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="729" column="12" bodyfile="include/query/aql_parser.h" bodystart="729" bodyend="729"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_fts_predicate_node_1ad8145e6313cec5598f05fbb24f98510a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::FtsPredicateNode::analyzer</definition>
+        <argsstring></argsstring>
+        <name>analyzer</name>
+        <qualifiedname>themis::query::FtsPredicateNode::analyzer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="730" column="17" bodyfile="include/query/aql_parser.h" bodystart="730" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_fts_predicate_node_1ae78c80d372f57847e0c62494d3f8e876" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::FtsPredicateNode::proximity_distance</definition>
+        <argsstring></argsstring>
+        <name>proximity_distance</name>
+        <qualifiedname>themis::query::FtsPredicateNode::proximity_distance</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="731" column="14" bodyfile="include/query/aql_parser.h" bodystart="731" bodyend="731"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_parser.h" line="725" column="1" bodyfile="include/query/aql_parser.h" bodystart="725" bodyend="732"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_fts_predicate_node_1ad8145e6313cec5598f05fbb24f98510a" prot="public" virt="non-virtual"><scope>themis::query::FtsPredicateNode</scope><name>analyzer</name></member>
+      <member refid="structthemis_1_1query_1_1_fts_predicate_node_1a45d61030845c8042f56f77c602c91f91" prot="public" virt="non-virtual"><scope>themis::query::FtsPredicateNode</scope><name>boost</name></member>
+      <member refid="structthemis_1_1query_1_1_fts_predicate_node_1a410f4ebed868d80a97ae4ab0557fe5db" prot="public" virt="non-virtual"><scope>themis::query::FtsPredicateNode</scope><name>field</name></member>
+      <member refid="structthemis_1_1query_1_1_fts_predicate_node_1a07e8e293224edc65d5bb5446eee4a3d4" prot="public" virt="non-virtual"><scope>themis::query::FtsPredicateNode</scope><name>pred_type</name></member>
+      <member refid="structthemis_1_1query_1_1_fts_predicate_node_1ae78c80d372f57847e0c62494d3f8e876" prot="public" virt="non-virtual"><scope>themis::query::FtsPredicateNode</scope><name>proximity_distance</name></member>
+      <member refid="structthemis_1_1query_1_1_fts_predicate_node_1a5ab6b615634858e0abbc740218c28b5d" prot="public" virt="non-virtual"><scope>themis::query::FtsPredicateNode</scope><name>term</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

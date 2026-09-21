@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_in_memory_idempotent_listener" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::InMemoryIdempotentListener</compoundname>
+    <basecompoundref refid="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener" prot="public" virt="non-virtual">themis::cdc::IIdempotentCDCListener</basecompoundref>
+    <includes refid="idelivery__guarantee__config_8h" local="no">idelivery_guarantee_config.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a14434e466e36306a703f809692da653b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cdc::InMemoryIdempotentListener::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::cdc::InMemoryIdempotentListener::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="268" column="39" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a8851560e0ac4b79a3804cc3638e0a62f" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::cdc::InMemoryIdempotentListener::processed_</definition>
+        <argsstring></argsstring>
+        <name>processed_</name>
+        <qualifiedname>themis::cdc::InMemoryIdempotentListener::processed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="269" column="26" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a5c1e6771386640df065a3988b5e46946" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; std::string &gt;</type>
+        <definition>std::deque&lt;std::string&gt; themis::cdc::InMemoryIdempotentListener::fifo_</definition>
+        <argsstring></argsstring>
+        <name>fifo_</name>
+        <qualifiedname>themis::cdc::InMemoryIdempotentListener::fifo_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="270" column="26" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a54f8630e142366284fdbf60031d641c4" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::InMemoryIdempotentListener::max_window_size_</definition>
+        <argsstring></argsstring>
+        <name>max_window_size_</name>
+        <qualifiedname>themis::cdc::InMemoryIdempotentListener::max_window_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="271" column="39" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1ad6c2afa1950891a009b2e54b41ef78b3" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::InMemoryIdempotentListener::InMemoryIdempotentListener</definition>
+        <argsstring>(std::size_t max_window_size=100 &apos;000)</argsstring>
+        <name>InMemoryIdempotentListener</name>
+        <qualifiedname>themis::cdc::InMemoryIdempotentListener::InMemoryIdempotentListener</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_window_size</declname>
+          <defval>100 &apos;000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="211" column="14" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="211" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a580527cd66f20168b95620b09dfe29ee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::InMemoryIdempotentListener::isDuplicate</definition>
+        <argsstring>(const std::string &amp;collection, uint64_t sequence) const override</argsstring>
+        <name>isDuplicate</name>
+        <qualifiedname>themis::cdc::InMemoryIdempotentListener::isDuplicate</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener_1ae519fd50cd32fbd913c757a65d1c7a0b">isDuplicate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence</declname>
+        </param>
+        <briefdescription>
+<para>Is Duplicate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="214" column="10" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="214" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a8542f85d43e73d67d0c48928c4cf2fcb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cdc::InMemoryIdempotentListener::markProcessed</definition>
+        <argsstring>(const std::string &amp;collection, uint64_t sequence) override</argsstring>
+        <name>markProcessed</name>
+        <qualifiedname>themis::cdc::InMemoryIdempotentListener::markProcessed</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener_1a1c30d0d8bd0bec797a58b945d0fe5ee2">markProcessed</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence</declname>
+        </param>
+        <briefdescription>
+<para>Mark Processed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="226" column="10" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="226" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a0013fbc88b3781dae371e26dcf012eee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::InMemoryIdempotentListener::processedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>processedCount</name>
+        <qualifiedname>themis::cdc::InMemoryIdempotentListener::processedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="246" column="17" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="246" bodyend="254"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a83fe834a125dc1c53448bc5d966e43a8" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::cdc::InMemoryIdempotentListener::makeKey</definition>
+        <argsstring>(const std::string &amp;collection, uint64_t seq)</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::cdc::InMemoryIdempotentListener::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>seq</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/idelivery_guarantee_config.h" line="264" column="24" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="264" bodyend="266"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::cdc::IIdempotentCDCListener</label>
+        <link refid="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::InMemoryIdempotentListener</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::cdc::IIdempotentCDCListener</label>
+        <link refid="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::InMemoryIdempotentListener</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/idelivery_guarantee_config.h" line="209" column="1" bodyfile="include/cdc/idelivery_guarantee_config.h" bodystart="209" bodyend="272"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a5c1e6771386640df065a3988b5e46946" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryIdempotentListener</scope><name>fifo_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1ad6c2afa1950891a009b2e54b41ef78b3" prot="public" virt="non-virtual"><scope>themis::cdc::InMemoryIdempotentListener</scope><name>InMemoryIdempotentListener</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a580527cd66f20168b95620b09dfe29ee" prot="public" virt="virtual"><scope>themis::cdc::InMemoryIdempotentListener</scope><name>isDuplicate</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a83fe834a125dc1c53448bc5d966e43a8" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryIdempotentListener</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a8542f85d43e73d67d0c48928c4cf2fcb" prot="public" virt="virtual"><scope>themis::cdc::InMemoryIdempotentListener</scope><name>markProcessed</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a54f8630e142366284fdbf60031d641c4" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryIdempotentListener</scope><name>max_window_size_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a14434e466e36306a703f809692da653b" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryIdempotentListener</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a8851560e0ac4b79a3804cc3638e0a62f" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryIdempotentListener</scope><name>processed_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a0013fbc88b3781dae371e26dcf012eee" prot="public" virt="non-virtual"><scope>themis::cdc::InMemoryIdempotentListener</scope><name>processedCount</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_idempotent_c_d_c_listener_1a804edc88eca889fb7766ff9870b56270" prot="public" virt="virtual"><scope>themis::cdc::InMemoryIdempotentListener</scope><name>~IIdempotentCDCListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::AuthMiddleware::JWTConfig</compoundname>
+    <includes refid="auth__middleware_8h" local="no">auth_middleware.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1a80173e41d8e908b202cbf10c79f38c26" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AuthMiddleware::JWTConfig::jwks_url</definition>
+        <argsstring></argsstring>
+        <name>jwks_url</name>
+        <qualifiedname>themis::server::AuthMiddleware::JWTConfig::jwks_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="73" column="21" bodyfile="include/server/auth_middleware.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1acb3de4ea9218e6dec4a1a94f67635f97" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AuthMiddleware::JWTConfig::expected_issuer</definition>
+        <argsstring></argsstring>
+        <name>expected_issuer</name>
+        <qualifiedname>themis::server::AuthMiddleware::JWTConfig::expected_issuer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="74" column="21" bodyfile="include/server/auth_middleware.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1a9f74ee440d639310b9a02e599e733a99" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AuthMiddleware::JWTConfig::expected_audience</definition>
+        <argsstring></argsstring>
+        <name>expected_audience</name>
+        <qualifiedname>themis::server::AuthMiddleware::JWTConfig::expected_audience</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="75" column="21" bodyfile="include/server/auth_middleware.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1a20821f0c038b35ba2673c4bd8faa4f51" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::AuthMiddleware::JWTConfig::jwks_cache_ttl</definition>
+        <argsstring></argsstring>
+        <name>jwks_cache_ttl</name>
+        <qualifiedname>themis::server::AuthMiddleware::JWTConfig::jwks_cache_ttl</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="76" column="30" bodyfile="include/server/auth_middleware.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1a12a74321257ecc33e1809148686b7abc" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::AuthMiddleware::JWTConfig::clock_skew</definition>
+        <argsstring></argsstring>
+        <name>clock_skew</name>
+        <qualifiedname>themis::server::AuthMiddleware::JWTConfig::clock_skew</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="77" column="30" bodyfile="include/server/auth_middleware.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1ac6d7e24df9b1fb796c68835decdc6b18" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AuthMiddleware::JWTConfig::require_issuer_validation</definition>
+        <argsstring></argsstring>
+        <name>require_issuer_validation</name>
+        <qualifiedname>themis::server::AuthMiddleware::JWTConfig::require_issuer_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="78" column="14" bodyfile="include/server/auth_middleware.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1aa3c536505b93d9607eee02ccbc224154" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AuthMiddleware::JWTConfig::require_audience_validation</definition>
+        <argsstring></argsstring>
+        <name>require_audience_validation</name>
+        <qualifiedname>themis::server::AuthMiddleware::JWTConfig::require_audience_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="79" column="14" bodyfile="include/server/auth_middleware.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1a0f21dfd79dd03f974b794cf3c9993760" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AuthMiddleware::JWTConfig::scope_claim</definition>
+        <argsstring></argsstring>
+        <name>scope_claim</name>
+        <qualifiedname>themis::server::AuthMiddleware::JWTConfig::scope_claim</qualifiedname>
+        <initializer>= &quot;roles&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="82" column="21" bodyfile="include/server/auth_middleware.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1ae96068ee3db9fbc5fe05b0258cdb1903" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AuthMiddleware::JWTConfig::tenant_claim</definition>
+        <argsstring></argsstring>
+        <name>tenant_claim</name>
+        <qualifiedname>themis::server::AuthMiddleware::JWTConfig::tenant_claim</qualifiedname>
+        <initializer>= &quot;tenant_id&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="83" column="21" bodyfile="include/server/auth_middleware.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/auth_middleware.h" line="72" column="5" bodyfile="include/server/auth_middleware.h" bodystart="72" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1a12a74321257ecc33e1809148686b7abc" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::JWTConfig</scope><name>clock_skew</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1a9f74ee440d639310b9a02e599e733a99" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::JWTConfig</scope><name>expected_audience</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1acb3de4ea9218e6dec4a1a94f67635f97" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::JWTConfig</scope><name>expected_issuer</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1a20821f0c038b35ba2673c4bd8faa4f51" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::JWTConfig</scope><name>jwks_cache_ttl</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1a80173e41d8e908b202cbf10c79f38c26" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::JWTConfig</scope><name>jwks_url</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1aa3c536505b93d9607eee02ccbc224154" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::JWTConfig</scope><name>require_audience_validation</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1ac6d7e24df9b1fb796c68835decdc6b18" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::JWTConfig</scope><name>require_issuer_validation</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1a0f21dfd79dd03f974b794cf3c9993760" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::JWTConfig</scope><name>scope_claim</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_j_w_t_config_1ae96068ee3db9fbc5fe05b0258cdb1903" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::JWTConfig</scope><name>tenant_claim</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

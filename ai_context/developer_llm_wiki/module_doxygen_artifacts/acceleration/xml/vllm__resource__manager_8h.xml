@@ -1,0 +1,282 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="vllm__resource__manager_8h" kind="file" language="C++">
+    <compoundname>vllm_resource_manager.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">vector</includes>
+    <includes refid="kernel__invocation_8h" local="yes">acceleration/kernel_invocation.h</includes>
+    <includedby refid="vllm__resource__manager_8cpp" local="yes">src/acceleration/vllm_resource_manager.cpp</includedby>
+    <includedby refid="test__acceleration__vllm__resource__manager__focused_8cpp" local="yes">tests/acceleration/test_acceleration_vllm_resource_manager_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="10">
+        <label>acceleration/kernel_invocation.h</label>
+        <link refid="kernel__invocation_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/acceleration/vllm_resource_manager.h</label>
+        <link refid="vllm__resource__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/acceleration/vllm_resource_manager.h</label>
+        <link refid="vllm__resource__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/acceleration/vllm_resource_manager.cpp</label>
+        <link refid="vllm__resource__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/acceleration/test_acceleration_vllm_resource_manager_focused.cpp</label>
+        <link refid="test__acceleration__vllm__resource__manager__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager" prot="public">themis::acceleration::VLLMResourceManager</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config" prot="public">themis::acceleration::VLLMResourceManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats" prot="public">themis::acceleration::VLLMResourceManager::Stats</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result" prot="public">themis::acceleration::VLLMResourceManager::SimilarityDispatchResult</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_cpu_snapshot" prot="private">themis::acceleration::VLLMResourceManager::CpuSnapshot</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1acceleration">themis::acceleration</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="kernel__invocation_8h" kindref="compound">acceleration/kernel_invocation.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration" kindref="compound">acceleration</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a978a685aae825d5d601645aef4fa9e07" kindref="member">VLLMResourceManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>System<sp/>Resources</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a1a1d0b391e34fa571ad01dbbb15d3a72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a1a1d0b391e34fa571ad01dbbb15d3a72" kindref="member">total_cpu_cores</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1af2560566a7a50f6e9b24c1015c145fc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1af2560566a7a50f6e9b24c1015c145fc3" kindref="member">total_ram_gb</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a9d6b9ba24e8b4d6c5aee7ee839a44482" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a9d6b9ba24e8b4d6c5aee7ee839a44482" kindref="member">total_gpu_count</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>vLLM<sp/>Reservation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a5df732e06d9b0c16dafa69dc1a93f144" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a5df732e06d9b0c16dafa69dc1a93f144" kindref="member">vllm_cpu_cores</ref><sp/>=<sp/>14;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>vLLM<sp/>needs<sp/>minimal<sp/>CPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a1cfb154578e71c6c4e2f4d6577041b75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a1cfb154578e71c6c4e2f4d6577041b75" kindref="member">vllm_ram_gb</ref><sp/>=<sp/>56;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>loading<sp/>+<sp/>KV<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>Allocation<sp/>(auto-calculated<sp/>from<sp/>remaining)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a54af10f097523a3adefaea1e2a622328" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a54af10f097523a3adefaea1e2a622328" kindref="member">themis_cpu_cores</ref><sp/>=<sp/>50;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>50<sp/>of<sp/>64<sp/>cores</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a32ade0796932bd1be59c5fc6c1dbd8e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a32ade0796932bd1be59c5fc6c1dbd8e7" kindref="member">themis_ram_gb</ref><sp/>=<sp/>200;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>200<sp/>of<sp/>256<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>Internal<sp/>Allocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a7757a7c08e75ac98a972d73b0d7c58db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a7757a7c08e75ac98a972d73b0d7c58db" kindref="member">rocksdb_thread_ratio</ref><sp/>=<sp/>0.3;<sp/><sp/></highlight><highlight class="comment">//<sp/>30%<sp/>for<sp/>RocksDB<sp/>(15<sp/>cores)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1ac639fa737dd35b648959ca1ddb165c63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1ac639fa737dd35b648959ca1ddb165c63" kindref="member">tbb_thread_ratio</ref><sp/>=<sp/>0.6;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>60%<sp/>for<sp/>TBB<sp/>(30<sp/>cores)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a623015f6dc8af63dff3f5301e3a96bfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a623015f6dc8af63dff3f5301e3a96bfd" kindref="member">system_reserve_ratio</ref><sp/>=<sp/>0.1;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10%<sp/>reserve<sp/>(5<sp/>cores)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>Sharing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a0b46d3192072efe5e64fc3ef67ae18d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a0b46d3192072efe5e64fc3ef67ae18d0" kindref="member">max_gpu_vram_mb</ref><sp/>=<sp/>2048;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>GB<sp/>per<sp/>GPU<sp/>for<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a01093cf49f23c9777d80b36fc56513c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a01093cf49f23c9777d80b36fc56513c6" kindref="member">max_vector_batch_size</ref><sp/>=<sp/>1024;<sp/></highlight><highlight class="comment">//<sp/>Small<sp/>batches<sp/>to<sp/>avoid<sp/>blocking<sp/>vLLM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1ab88b477b2188ce85b25b6d17aea12690" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1ab88b477b2188ce85b25b6d17aea12690" kindref="member">gpu_priority</ref><sp/>=<sp/>-1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lower<sp/>priority<sp/>than<sp/>vLLM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>device<sp/>selection<sp/>for<sp/>NVML<sp/>monitoring.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>gpu_device_indices<sp/>is<sp/>non-empty<sp/>it<sp/>takes<sp/>precedence<sp/>over<sp/>gpu_device_index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>queryGPUUtilization()<sp/>returns<sp/>the<sp/>*maximum*<sp/>utilization<sp/>across<sp/>all<sp/>listed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>devices<sp/>(so<sp/>a<sp/>single<sp/>busy<sp/>GPU<sp/>blocks<sp/>new<sp/>ThemisDB<sp/>work<sp/>on<sp/>any<sp/>device).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Example<sp/>(4-GPU<sp/>node,<sp/>GPUs<sp/>0-1<sp/>reserved<sp/>for<sp/>vLLM,<sp/>2-3<sp/>for<sp/>ThemisDB):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>config.gpu_device_indices<sp/>=<sp/>{2,<sp/>3};</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>both<sp/>fields<sp/>are<sp/>at<sp/>their<sp/>defaults<sp/>the<sp/>manager<sp/>monitors<sp/>device<sp/>0<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(backward-compatible<sp/>behaviour).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1ae1406174639b6392bb05a304e6d48998" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1ae1406174639b6392bb05a304e6d48998" kindref="member">gpu_device_index</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1adcbce2820cd949c5224eadc6d25701a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1adcbce2820cd949c5224eadc6d25701a0" kindref="member">gpu_device_indices</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CPU<sp/>Usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1a962759c026867e330470bdee032dc6a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1a962759c026867e330470bdee032dc6a9" kindref="member">cpu_utilization</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0-100%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1ab81512cbc2ff0e0c619c6c59d29fd1f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1ab81512cbc2ff0e0c619c6c59d29fd1f0" kindref="member">active_threads</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAM<sp/>Usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1a8cbc25cc3a342d1f6c41c2107b50c8df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1a8cbc25cc3a342d1f6c41c2107b50c8df" kindref="member">ram_used_mb</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1a3f707148cc01c722d5615b79e1ae338a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1a3f707148cc01c722d5615b79e1ae338a" kindref="member">ram_utilization</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0-100%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>Usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1acbf669d665efd2ae2dcfb1a919aed60b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1acbf669d665efd2ae2dcfb1a919aed60b" kindref="member">gpu_vram_used_mb</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1a90d28067f145e0edd835d74ed830512c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1a90d28067f145e0edd835d74ed830512c" kindref="member">gpu_utilization</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0-100%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1aa9b74924d6f566ec6871103500cebf46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1aa9b74924d6f566ec6871103500cebf46" kindref="member">gpu_available</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>vLLM<sp/>Interference</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1a4d19aeeb178fba9bf93506282565e6af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1a4d19aeeb178fba9bf93506282565e6af" kindref="member">vllm_detected</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1a39999dcef7346b21b774293687e4524e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats_1a39999dcef7346b21b774293687e4524e" kindref="member">vllm_gpu_usage</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Estimated<sp/>vLLM<sp/>GPU<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result" kindref="compound">SimilarityDispatchResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1a8d60e60a9d30553616ccfa26523c16ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1a8d60e60a9d30553616ccfa26523c16ba" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1a493d1b9d8e1c8b1ade15fdca27b24e15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1a493d1b9d8e1c8b1ade15fdca27b24e15" kindref="member">used_gpu</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1a68b61c2463b2ba3831d64e173b43eceb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1a68b61c2463b2ba3831d64e173b43eceb" kindref="member">error</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1a8400bd4f6e8687d5ce31f69a78be5239" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1a8400bd4f6e8687d5ce31f69a78be5239" kindref="member">topk_indices</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1afe8debfebe9cd6f0abddb73f58626f76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1afe8debfebe9cd6f0abddb73f58626f76" kindref="member">topk_distances</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a978a685aae825d5d601645aef4fa9e07" kindref="member">VLLMResourceManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a5a94a2564dce59dfeadb4d0641cf0643" kindref="member">~VLLMResourceManager</ref>();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy<sp/>and<sp/>move<sp/>(std::mutex<sp/>member<sp/>is<sp/>not<sp/>movable/copyable)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a8421ad58d4d907a83c06ba5027cce402" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a8421ad58d4d907a83c06ba5027cce402" kindref="member">VLLMResourceManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a978a685aae825d5d601645aef4fa9e07" kindref="member">VLLMResourceManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1aa2bba26655f8d8dbf266cab3ad4d934f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a978a685aae825d5d601645aef4fa9e07" kindref="member">VLLMResourceManager</ref>&amp;<sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1aa2bba26655f8d8dbf266cab3ad4d934f" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a978a685aae825d5d601645aef4fa9e07" kindref="member">VLLMResourceManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a24e352765f909c28883011616c689c50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a24e352765f909c28883011616c689c50" kindref="member">VLLMResourceManager</ref>(<ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a978a685aae825d5d601645aef4fa9e07" kindref="member">VLLMResourceManager</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a24fe04aa9a7c9bd52ce5d263739cf9eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a978a685aae825d5d601645aef4fa9e07" kindref="member">VLLMResourceManager</ref>&amp;<sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a24fe04aa9a7c9bd52ce5d263739cf9eb" kindref="member">operator=</ref>(<ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a978a685aae825d5d601645aef4fa9e07" kindref="member">VLLMResourceManager</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1af9183ffb1717fa351b775b28e46ea4f5" kindref="member">initialize</ref>();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a2daf1eaced8e60bc7405e58b161450c1" kindref="member">shutdown</ref>();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a7698b538e249f84481677f58070e24cc" kindref="member">canUseGPU</ref>();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result" kindref="compound">SimilarityDispatchResult</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a23cf31422ff2c93c42fd9d218bb0848b" kindref="member">dispatchVectorSimilarity</ref>(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>queries,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_queries,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>vectors,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_vectors,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>top_k,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100" kindref="member">DistanceMetric</ref><sp/>metric<sp/>=<sp/><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100a7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">DistanceMetric::L2</ref></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a937def37f571a4e70de11b74b626e028" kindref="member">getRecommendedThreadCount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation_type)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1ad7d1e89e6f3efd5362322121dd0b4d77" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a7f1c040154a431c3960e70976d9b2e89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a7f1c040154a431c3960e70976d9b2e89" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a0087853675806c7cb1b24b6e028be216" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1a7256fd2f62799d28c67f132080fc25c5" kindref="member">setGpuUtilizationProviderForTesting</ref>(</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::optional&lt;double&gt;()&gt;<sp/>provider);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initialized_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CPU<sp/>snapshot<sp/>cache:<sp/>avoids<sp/>a<sp/>blocking<sp/>100<sp/>ms<sp/>sleep<sp/>when<sp/>getStats()<sp/>is<sp/>called</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>repeatedly<sp/>within<sp/>the<sp/>200<sp/>ms<sp/>TTL<sp/>window.<sp/><sp/>Three<sp/>uint64_t<sp/>fields<sp/>store<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>most<sp/>recent<sp/>raw<sp/>OS<sp/>counters<sp/>without<sp/>requiring<sp/>platform-specific<sp/>types:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>Linux<sp/><sp/><sp/>–<sp/>v0<sp/>=<sp/>total<sp/>jiffies,<sp/>v1<sp/>=<sp/>idle<sp/>jiffies,<sp/>v2<sp/>=<sp/>(unused)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>Windows<sp/>–<sp/>v0<sp/>=<sp/>idle<sp/>FILETIME,<sp/>v1<sp/>=<sp/>kernel<sp/>FILETIME,<sp/>v2<sp/>=<sp/>user<sp/>FILETIME</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">CpuSnapshot<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>v0<sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Linux:<sp/>total;<sp/>Windows:<sp/>idle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>v1<sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Linux:<sp/>idle;<sp/><sp/>Windows:<sp/>kernel</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>v2<sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Linux:<sp/>(unused);<sp/>Windows:<sp/>user</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>last_cpu_util<sp/>=<sp/>0.0;<sp/></highlight><highlight class="comment">//<sp/>last<sp/>successfully<sp/>computed<sp/>utilization<sp/>[0,100]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>ts;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>valid<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>CpuSnapshot<sp/>cpu_snapshot_cache_;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/>cpu_cache_mutex_;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test-only<sp/>GPU<sp/>utilization<sp/>override<sp/>(see<sp/>setGpuUtilizationProviderForTesting).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;std::optional&lt;double&gt;()&gt;<sp/>gpu_util_provider_for_testing_;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NVML<sp/>handles<sp/>for<sp/>GPU<sp/>monitoring<sp/>(opaque<sp/>pointers<sp/>to<sp/>nvmlDevice_t).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>nvml_devices_<sp/>is<sp/>the<sp/>authoritative<sp/>list;<sp/>nvml_device_<sp/>is<sp/>a<sp/>convenience</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>alias<sp/>to<sp/>nvml_devices_.front()<sp/>used<sp/>only<sp/>by<sp/>canUseGPU()<sp/>for<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>timeout-guarded<sp/>primary-device<sp/>utilization<sp/>query.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>fields<sp/>are<sp/>always<sp/>kept<sp/>in<sp/>sync<sp/>by<sp/>initializeNVML()/shutdownNVML().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>nvml_device_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;void*&gt;<sp/>nvml_devices_;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initializeNVML();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>shutdownNVML();</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;double&gt;<sp/>queryGPUUtilization();</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>acceleration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/acceleration/vllm_resource_manager.h"/>
+  </compounddef>
+</doxygen>

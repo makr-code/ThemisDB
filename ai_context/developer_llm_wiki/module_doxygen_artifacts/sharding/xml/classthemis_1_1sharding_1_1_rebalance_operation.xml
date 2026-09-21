@@ -1,0 +1,668 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_rebalance_operation" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::RebalanceOperation</compoundname>
+    <includes refid="rebalance__operation_8h" local="no">rebalance_operation.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_rebalance_operation_1a5d9e4ed0a50a2775ef77e2d4155ac3bc" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1sharding_1_1_rebalance_progress" kindref="compound">RebalanceProgress</ref> &amp;)&gt;</type>
+        <definition>using themis::sharding::RebalanceOperation::ProgressCallback = std::function&lt;void(const RebalanceProgress&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ProgressCallback</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::ProgressCallback</qualifiedname>
+        <briefdescription>
+<para>Optional callback notified after progress updates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="71" column="5" bodyfile="include/sharding/rebalance_operation.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_rebalance_operation_1ad6b8efe27af7f8a96dee79d4a3ae82bb" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_rebalance_operation_config" kindref="compound">RebalanceOperationConfig</ref></type>
+        <definition>RebalanceOperationConfig themis::sharding::RebalanceOperation::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="147" column="30" bodyfile="include/sharding/rebalance_operation.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_rebalance_operation_1a4f2a9d1f0f4c08a4515165d41a39890e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="namespacethemis_1_1sharding_1adb97eba8493f8d4ca29afb79147fa2d7" kindref="member">RebalanceState</ref> &gt;</type>
+        <definition>std::atomic&lt;RebalanceState&gt; themis::sharding::RebalanceOperation::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="148" column="17" bodyfile="include/sharding/rebalance_operation.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_rebalance_operation_1a669fe0e37ce1f866577b6084d63d0545" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::RebalanceOperation::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="149" column="24" bodyfile="include/sharding/rebalance_operation.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_rebalance_operation_1aa26b4e21da92e0190ffceeaaddb274d1" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_rebalance_progress" kindref="compound">RebalanceProgress</ref></type>
+        <definition>RebalanceProgress themis::sharding::RebalanceOperation::progress_</definition>
+        <argsstring></argsstring>
+        <name>progress_</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::progress_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="151" column="23" bodyfile="include/sharding/rebalance_operation.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_rebalance_operation_1a7e1d7ea9433442fb6e93126177008897" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1a5d9e4ed0a50a2775ef77e2d4155ac3bc" kindref="member">ProgressCallback</ref></type>
+        <definition>ProgressCallback themis::sharding::RebalanceOperation::progress_callback_</definition>
+        <argsstring></argsstring>
+        <name>progress_callback_</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::progress_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="152" column="22" bodyfile="include/sharding/rebalance_operation.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_rebalance_operation_1add1a3a4db4e4b43702258098daac6d5e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RebalanceOperation::error_message_</definition>
+        <argsstring></argsstring>
+        <name>error_message_</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::error_message_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="154" column="17" bodyfile="include/sharding/rebalance_operation.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_rebalance_operation_1a2e50764e9ff766b998bf501c3f79a8de" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::RebalanceOperation::operator_validated_</definition>
+        <argsstring></argsstring>
+        <name>operator_validated_</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::operator_validated_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="155" column="10" bodyfile="include/sharding/rebalance_operation.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_operation_1a692d98b9d7a493dea4bc7f1ea425a501" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::RebalanceOperation::RebalanceOperation</definition>
+        <argsstring>(const RebalanceOperationConfig &amp;config)</argsstring>
+        <name>RebalanceOperation</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::RebalanceOperation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_rebalance_operation_config" kindref="compound">RebalanceOperationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct operation and validate basic shard/token-range invariants. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="74" column="14" bodyfile="src/sharding/rebalance_operation.cpp" bodystart="19" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_operation_1aace40fe4a6f50fa2090e656ae05f4646" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::RebalanceOperation::~RebalanceOperation</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RebalanceOperation</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::~RebalanceOperation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="75" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_operation_1a18ace3a61116e0e60ce76b4dd3829ede" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::RebalanceOperation::start</definition>
+        <argsstring>(const std::string &amp;operator_signature)</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::start</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operator_signature</declname>
+        </param>
+        <briefdescription>
+<para>Start operation after operator signature validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operator_signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1a691a7d876fbd901691d7f229354a571c" kindref="member">validateOperator()</ref>, std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="78" column="10" bodyfile="src/sharding/rebalance_operation.cpp" bodystart="40" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_operation_1ae87fa1d2bd1046ee4b1545e1ebeb5da7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::RebalanceOperation::complete</definition>
+        <argsstring>()</argsstring>
+        <name>complete</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::complete</qualifiedname>
+        <briefdescription>
+<para>Mark operation as completed from IN_PROGRESS state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Complete.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: transitionState(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="81" column="10" bodyfile="src/sharding/rebalance_operation.cpp" bodystart="65" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_operation_1ad8c732981bf233410889a2e51b643838" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::RebalanceOperation::fail</definition>
+        <argsstring>(const std::string &amp;error_message)</argsstring>
+        <name>fail</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::fail</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_message</declname>
+        </param>
+        <briefdescription>
+<para>Mark operation as failed with terminal error message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fail.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="84" column="10" bodyfile="src/sharding/rebalance_operation.cpp" bodystart="75" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_operation_1ad32ce91fe7ad1256bafb8ad2636c8d1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::RebalanceOperation::rollback</definition>
+        <argsstring>()</argsstring>
+        <name>rollback</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::rollback</qualifiedname>
+        <briefdescription>
+<para>Transition failed operation into rolled-back state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rollback.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: transitionState(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="87" column="10" bodyfile="src/sharding/rebalance_operation.cpp" bodystart="98" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_operation_1a6d55801e94febcd98d58950fd0e55371" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1adb97eba8493f8d4ca29afb79147fa2d7" kindref="member">RebalanceState</ref></type>
+        <definition>RebalanceState themis::sharding::RebalanceOperation::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::getState</qualifiedname>
+        <briefdescription>
+<para>Return current atomic operation state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="90" column="20" bodyfile="src/sharding/rebalance_operation.cpp" bodystart="102" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_operation_1a0e5df6903538cb3eb7c265abad4bd478" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_rebalance_progress" kindref="compound">RebalanceProgress</ref></type>
+        <definition>RebalanceProgress themis::sharding::RebalanceOperation::getProgress</definition>
+        <argsstring>() const</argsstring>
+        <name>getProgress</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::getProgress</qualifiedname>
+        <briefdescription>
+<para>Return current progress snapshot copy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="93" column="23" bodyfile="src/sharding/rebalance_operation.cpp" bodystart="106" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_operation_1a3441e641d94b849bcd4001c88272398c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::RebalanceOperation::setProgressCallback</definition>
+        <argsstring>(ProgressCallback callback)</argsstring>
+        <name>setProgressCallback</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::setProgressCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1a5d9e4ed0a50a2775ef77e2d4155ac3bc" kindref="member">ProgressCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Install callback invoked after progress updates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Progress Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="96" column="10" bodyfile="src/sharding/rebalance_operation.cpp" bodystart="121" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_operation_1a1cfe2b9f4a7fad442d975f345bd27acd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::RebalanceOperation::updateProgress</definition>
+        <argsstring>(uint64_t records_migrated, uint64_t bytes_transferred)</argsstring>
+        <name>updateProgress</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::updateProgress</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>records_migrated</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes_transferred</declname>
+        </param>
+        <briefdescription>
+<para>Update migration counters and recompute completion estimate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Progress.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">records_migrated</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_transferred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::system_clock::now(), count(), std::chrono::seconds(), progress_callback_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="99" column="10" bodyfile="src/sharding/rebalance_operation.cpp" bodystart="132" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_operation_1a691a7d876fbd901691d7f229354a571c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::RebalanceOperation::validateOperator</definition>
+        <argsstring>(const std::string &amp;operator_signature)</argsstring>
+        <name>validateOperator</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::validateOperator</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operator_signature</declname>
+        </param>
+        <briefdescription>
+<para>Validate operator signature and authorization material. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Operator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operator_signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="102" column="10" bodyfile="src/sharding/rebalance_operation.cpp" bodystart="166" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_operation_1a6340a7ca670768926283df65bf72369f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::RebalanceOperation::executeWithThroughputGuarantee</definition>
+        <argsstring>(const std::function&lt; uint64_t()&gt; &amp;throughput_callback=nullptr)</argsstring>
+        <name>executeWithThroughputGuarantee</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::executeWithThroughputGuarantee</qualifiedname>
+        <param>
+          <type>const std::function&lt; uint64_t()&gt; &amp;</type>
+          <declname>throughput_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Execute rebalance with &gt;=80% throughput guarantee during migration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Executes the rebalance operation while monitoring throughput and maintaining minimum 80% of baseline throughput. Automatically adjusts batch size to meet throughput requirements without halting query execution.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>throughput_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional callback providing current throughput in bytes/sec. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success with throughput guarantee met, false on failure or throughput violation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="114" column="10" bodyfile="src/sharding/rebalance_operation.cpp" bodystart="200" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_operation_1ab6e6c812eae2d29432d5a12fd14844a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_rebalance_operation_config" kindref="compound">RebalanceOperationConfig</ref> &gt;</type>
+        <definition>std::vector&lt; RebalanceOperationConfig &gt; themis::sharding::RebalanceOperation::generateTopologyChangeRebalancePlan</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;old_topology, const std::vector&lt; std::string &gt; &amp;new_topology)</argsstring>
+        <name>generateTopologyChangeRebalancePlan</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::generateTopologyChangeRebalancePlan</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>old_topology</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>new_topology</declname>
+        </param>
+        <briefdescription>
+<para>Generate deterministic rebalance plan for automatic topology change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Topology Change Rebalance Plan.</para>
+<para>Creates a rebalance plan that redistributes shards to maintain target balance when a node joins or leaves the cluster. Plan ensures minimal data movement and deterministic behavior.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>old_topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Previous topology (node IDs). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New topology (node IDs). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of rebalance operation configs to execute sequentially.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">old_topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1sharding_1_1_rebalance_operation_1a5e409390556a82c2639cd580a69de4cc" kindref="member">isTopologyChangeRebalancingNeeded()</ref>, size(), std::find(), begin(), end(), empty(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="142" column="17" bodyfile="src/sharding/rebalance_operation.cpp" bodystart="272" bodyend="333"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_operation_1a5e409390556a82c2639cd580a69de4cc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::RebalanceOperation::isTopologyChangeRebalancingNeeded</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;old_topology, const std::vector&lt; std::string &gt; &amp;new_topology)</argsstring>
+        <name>isTopologyChangeRebalancingNeeded</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::isTopologyChangeRebalancingNeeded</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>old_topology</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>new_topology</declname>
+        </param>
+        <briefdescription>
+<para>Check if topology change requires automatic rebalancing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Topology Change Rebalancing Needed.</para>
+<para>Detects when a node joins or leaves the cluster and determines if rebalancing is necessary to restore target balance.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>old_topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Previous topology state (node IDs). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New topology state (node IDs). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if rebalancing is needed to restore balance, false if already balanced.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">old_topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="127" column="17" bodyfile="src/sharding/rebalance_operation.cpp" bodystart="249" bodyend="263"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_rebalance_operation_1ade52ae81c96ba0562a0e1cd0ebdb27e9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::RebalanceOperation::transitionState</definition>
+        <argsstring>(RebalanceState from, RebalanceState to)</argsstring>
+        <name>transitionState</name>
+        <qualifiedname>themis::sharding::RebalanceOperation::transitionState</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1adb97eba8493f8d4ca29afb79147fa2d7" kindref="member">RebalanceState</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1adb97eba8493f8d4ca29afb79147fa2d7" kindref="member">RebalanceState</ref></type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Perform guarded state transition using atomic compare-exchange. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transition State.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), compare_exchange_strong(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="158" column="10" bodyfile="src/sharding/rebalance_operation.cpp" bodystart="193" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages rebalance operations for shard data migration</para>
+<para>Handles:<itemizedlist>
+<listitem><para>Operator authorization via PKI certificates</para>
+</listitem><listitem><para>State machine for rebalance lifecycle</para>
+</listitem><listitem><para>Progress tracking</para>
+</listitem><listitem><para>Rollback support on failure</para>
+</listitem><listitem><para>Token range migration planning </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/rebalance_operation.h" line="68" column="1" bodyfile="include/sharding/rebalance_operation.h" bodystart="68" bodyend="159"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1ae87fa1d2bd1046ee4b1545e1ebeb5da7" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>complete</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1ad6b8efe27af7f8a96dee79d4a3ae82bb" prot="private" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1add1a3a4db4e4b43702258098daac6d5e" prot="private" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>error_message_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1a6340a7ca670768926283df65bf72369f" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>executeWithThroughputGuarantee</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1ad8c732981bf233410889a2e51b643838" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>fail</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1ab6e6c812eae2d29432d5a12fd14844a7" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>generateTopologyChangeRebalancePlan</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1a0e5df6903538cb3eb7c265abad4bd478" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>getProgress</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1a6d55801e94febcd98d58950fd0e55371" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>getState</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1a5e409390556a82c2639cd580a69de4cc" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>isTopologyChangeRebalancingNeeded</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1a669fe0e37ce1f866577b6084d63d0545" prot="private" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1a2e50764e9ff766b998bf501c3f79a8de" prot="private" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>operator_validated_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1aa26b4e21da92e0190ffceeaaddb274d1" prot="private" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>progress_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1a7e1d7ea9433442fb6e93126177008897" prot="private" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>progress_callback_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1a5d9e4ed0a50a2775ef77e2d4155ac3bc" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>ProgressCallback</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1a692d98b9d7a493dea4bc7f1ea425a501" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>RebalanceOperation</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1ad32ce91fe7ad1256bafb8ad2636c8d1f" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>rollback</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1a3441e641d94b849bcd4001c88272398c" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>setProgressCallback</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1a18ace3a61116e0e60ce76b4dd3829ede" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>start</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1a4f2a9d1f0f4c08a4515165d41a39890e" prot="private" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>state_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1ade52ae81c96ba0562a0e1cd0ebdb27e9" prot="private" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>transitionState</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1a1cfe2b9f4a7fad442d975f345bd27acd" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>updateProgress</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1a691a7d876fbd901691d7f229354a571c" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>validateOperator</name></member>
+      <member refid="classthemis_1_1sharding_1_1_rebalance_operation_1aace40fe4a6f50fa2090e656ae05f4646" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceOperation</scope><name>~RebalanceOperation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

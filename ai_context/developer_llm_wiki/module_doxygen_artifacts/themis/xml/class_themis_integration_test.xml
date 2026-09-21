@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_themis_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>ThemisIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_themis_integration_test_1a173079154d7c164394817a8148a4147f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ThemisIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ThemisIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_integration.cpp" line="47" column="10" bodyfile="tests/themis/test_themis_integration.cpp" bodystart="47" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_themis_integration_test_1ad7ec48c8c25a5598579d935d443a8b37" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ThemisIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ThemisIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_integration.cpp" line="55" column="10" bodyfile="tests/themis/test_themis_integration.cpp" bodystart="55" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_themis_integration_test_1a3f0b9e427ed0153c3636b609592a67d2" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1license_1_1_license_activation_result" kindref="compound">LicenseActivationResult</ref></type>
+        <definition>static LicenseActivationResult ThemisIntegrationTest::makeActivation</definition>
+        <argsstring>(bool success, std::string status, int grace_days=0, std::string error_msg=&quot;&quot;)</argsstring>
+        <name>makeActivation</name>
+        <qualifiedname>ThemisIntegrationTest::makeActivation</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>grace_days</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>error_msg</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_integration.cpp" line="64" column="36" bodyfile="tests/themis/test_themis_integration.cpp" bodystart="64" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_themis_integration_test_1ac49f49065139331d0a3a97f7d819d6e5" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref></type>
+        <definition>static LicenseData ThemisIntegrationTest::makeLicense</definition>
+        <argsstring>(const std::string &amp;edition_str=&quot;ENTERPRISE&quot;, const std::string &amp;contact_email=&quot;support@example.com&quot;)</argsstring>
+        <name>makeLicense</name>
+        <qualifiedname>ThemisIntegrationTest::makeLicense</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>edition_str</declname>
+          <defval>&quot;ENTERPRISE&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>contact_email</declname>
+          <defval>&quot;support@example.com&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_integration.cpp" line="77" column="24" bodyfile="tests/themis/test_themis_integration.cpp" bodystart="77" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="class_themis_integration_test_1a79e6b7e1d0b0b1a7e12cdf5437b210ee" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string ThemisIntegrationTest::tmpPath</definition>
+        <argsstring>(const std::string &amp;suffix)</argsstring>
+        <name>tmpPath</name>
+        <qualifiedname>ThemisIntegrationTest::tmpPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>suffix</declname>
+        </param>
+        <briefdescription>
+<para>Returns a unique temporary file path for this test. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_integration.cpp" line="93" column="24" bodyfile="tests/themis/test_themis_integration.cpp" bodystart="93" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="class_themis_integration_test_1a2b2c94e323154664bda4ddd7166d5e19" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string ThemisIntegrationTest::writeTempFile</definition>
+        <argsstring>(const std::string &amp;content, const std::string &amp;name)</argsstring>
+        <name>writeTempFile</name>
+        <qualifiedname>ThemisIntegrationTest::writeTempFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Write content to a temporary file and return the path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_integration.cpp" line="98" column="24" bodyfile="tests/themis/test_themis_integration.cpp" bodystart="98" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ThemisIntegrationTest</label>
+        <link refid="class_themis_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ThemisIntegrationTest</label>
+        <link refid="class_themis_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/themis/test_themis_integration.cpp" line="45" column="1" bodyfile="tests/themis/test_themis_integration.cpp" bodystart="45" bodyend="105"/>
+    <listofallmembers>
+      <member refid="class_themis_integration_test_1a3f0b9e427ed0153c3636b609592a67d2" prot="protected" virt="non-virtual"><scope>ThemisIntegrationTest</scope><name>makeActivation</name></member>
+      <member refid="class_themis_integration_test_1ac49f49065139331d0a3a97f7d819d6e5" prot="protected" virt="non-virtual"><scope>ThemisIntegrationTest</scope><name>makeLicense</name></member>
+      <member refid="class_themis_integration_test_1a173079154d7c164394817a8148a4147f" prot="protected" virt="non-virtual"><scope>ThemisIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="class_themis_integration_test_1ad7ec48c8c25a5598579d935d443a8b37" prot="protected" virt="non-virtual"><scope>ThemisIntegrationTest</scope><name>TearDown</name></member>
+      <member refid="class_themis_integration_test_1a79e6b7e1d0b0b1a7e12cdf5437b210ee" prot="protected" virt="non-virtual"><scope>ThemisIntegrationTest</scope><name>tmpPath</name></member>
+      <member refid="class_themis_integration_test_1a2b2c94e323154664bda4ddd7166d5e19" prot="protected" virt="non-virtual"><scope>ThemisIntegrationTest</scope><name>writeTempFile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

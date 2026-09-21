@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_stripe_transport" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::StripeTransport</compoundname>
+    <includes refid="tensor__infrastructure_8h" local="no">tensor_infrastructure.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a8f44cc9e7252642e2a3ed88a65cb9b45" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::StripeTransport::protocol</definition>
+        <argsstring></argsstring>
+        <name>protocol</name>
+        <qualifiedname>themis::distributed_tensor::StripeTransport::protocol</qualifiedname>
+        <initializer>= &quot;grpc&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="86" column="15" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stripe_transport_1ac5307e8d3040d937d6ffeaa6f8846561" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::StripeTransport::compression_enabled</definition>
+        <argsstring></argsstring>
+        <name>compression_enabled</name>
+        <qualifiedname>themis::distributed_tensor::StripeTransport::compression_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="88" column="8" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a5c0a2d0a7adbf91ebd60ceb2c2e70422" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::StripeTransport::compression_algorithm</definition>
+        <argsstring></argsstring>
+        <name>compression_algorithm</name>
+        <qualifiedname>themis::distributed_tensor::StripeTransport::compression_algorithm</qualifiedname>
+        <initializer>= &quot;zstd&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="90" column="15" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a8b97f43a3366f4dcfc22339b2bd8e6a3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::StripeTransport::encryption_enabled</definition>
+        <argsstring></argsstring>
+        <name>encryption_enabled</name>
+        <qualifiedname>themis::distributed_tensor::StripeTransport::encryption_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="92" column="8" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a52797075347a907391a0808f9ba83402" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::StripeTransport::encryption_algorithm</definition>
+        <argsstring></argsstring>
+        <name>encryption_algorithm</name>
+        <qualifiedname>themis::distributed_tensor::StripeTransport::encryption_algorithm</qualifiedname>
+        <initializer>= &quot;AES256&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="94" column="15" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stripe_transport_1aab33929ada4bfa3bf954b92487d2b0b4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::StripeTransport::parallel_streams</definition>
+        <argsstring></argsstring>
+        <name>parallel_streams</name>
+        <qualifiedname>themis::distributed_tensor::StripeTransport::parallel_streams</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="96" column="12" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a4dfba0d27af3571e574fa61b0def5ffe" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::StripeTransport::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::distributed_tensor::StripeTransport::timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="98" column="12" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a861a8c7a7fbbc85581f1933a82915dc8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::StripeTransport::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::distributed_tensor::StripeTransport::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="100" column="12" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a53152c5044688f67e771cf4c8e948176" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::StripeTransport::backoff_strategy</definition>
+        <argsstring></argsstring>
+        <name>backoff_strategy</name>
+        <qualifiedname>themis::distributed_tensor::StripeTransport::backoff_strategy</qualifiedname>
+        <initializer>= &quot;exponential&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="102" column="15" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a89bcced7fca4f673eaf08e373d0245ca" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::distributed_tensor::StripeTransport::custom_metadata</definition>
+        <argsstring></argsstring>
+        <name>custom_metadata</name>
+        <qualifiedname>themis::distributed_tensor::StripeTransport::custom_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="104" column="22" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/tensor_infrastructure.h" line="85" column="1" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="85" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a53152c5044688f67e771cf4c8e948176" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StripeTransport</scope><name>backoff_strategy</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a5c0a2d0a7adbf91ebd60ceb2c2e70422" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StripeTransport</scope><name>compression_algorithm</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1ac5307e8d3040d937d6ffeaa6f8846561" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StripeTransport</scope><name>compression_enabled</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a89bcced7fca4f673eaf08e373d0245ca" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StripeTransport</scope><name>custom_metadata</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a52797075347a907391a0808f9ba83402" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StripeTransport</scope><name>encryption_algorithm</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a8b97f43a3366f4dcfc22339b2bd8e6a3" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StripeTransport</scope><name>encryption_enabled</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a861a8c7a7fbbc85581f1933a82915dc8" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StripeTransport</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1aab33929ada4bfa3bf954b92487d2b0b4" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StripeTransport</scope><name>parallel_streams</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a8f44cc9e7252642e2a3ed88a65cb9b45" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StripeTransport</scope><name>protocol</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_stripe_transport_1a4dfba0d27af3571e574fa61b0def5ffe" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::StripeTransport</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

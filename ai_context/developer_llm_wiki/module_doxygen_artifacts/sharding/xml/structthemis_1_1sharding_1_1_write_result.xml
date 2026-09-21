@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_write_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::WriteResult</compoundname>
+    <includes refid="redundancy__strategy_8h" local="no">redundancy_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_write_result_1af109767d5324c60099d28134caebb724" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::WriteResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::WriteResult::success</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="274" column="10" bodyfile="include/sharding/redundancy_strategy.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_write_result_1a15d36087f572a57e709febf4d714d0b1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::WriteResult::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::sharding::WriteResult::document_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="275" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_write_result_1ad888b4ba966ec69083bcb9a99386b019" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::WriteResult::written_shards</definition>
+        <argsstring></argsstring>
+        <name>written_shards</name>
+        <qualifiedname>themis::sharding::WriteResult::written_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="276" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_write_result_1a6ecf1aea25a0ee994df8df7d3780de80" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::WriteResult::failed_shards</definition>
+        <argsstring></argsstring>
+        <name>failed_shards</name>
+        <qualifiedname>themis::sharding::WriteResult::failed_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="277" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_write_result_1a1b4228fbb6d7f7834538837528c45a59" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::WriteResult::acknowledgements</definition>
+        <argsstring></argsstring>
+        <name>acknowledgements</name>
+        <qualifiedname>themis::sharding::WriteResult::acknowledgements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="278" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_write_result_1a89688319986d8cb1111ed750a8b6458f" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::WriteResult::latency</definition>
+        <argsstring></argsstring>
+        <name>latency</name>
+        <qualifiedname>themis::sharding::WriteResult::latency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="279" column="31" bodyfile="include/sharding/redundancy_strategy.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_write_result_1a524e97e9ba92213f89f2365afd204d36" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::WriteResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::sharding::WriteResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="280" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_write_result_1a9739b66066b6d4e460ddd0dffbbd48dd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_write_result" kindref="compound">WriteResult</ref></type>
+        <definition>WriteResult themis::sharding::WriteResult::successful</definition>
+        <argsstring>(const std::string &amp;doc_id, const std::vector&lt; std::string &gt; &amp;shards, std::chrono::milliseconds lat)</argsstring>
+        <name>successful</name>
+        <qualifiedname>themis::sharding::WriteResult::successful</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shards</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>lat</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ <ref refid="structthemis_1_1sharding_1_1_write_result" kindref="compound">WriteResult</ref> Implementation ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the doc. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="282" column="24" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="292" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_write_result_1a63a7d3745bcb511dc2b38fd981028636" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_write_result" kindref="compound">WriteResult</ref></type>
+        <definition>WriteResult themis::sharding::WriteResult::failed</definition>
+        <argsstring>(const std::string &amp;doc_id, const std::string &amp;error)</argsstring>
+        <name>failed</name>
+        <qualifiedname>themis::sharding::WriteResult::failed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Failed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the doc. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements failed without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="285" column="24" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="311" bodyend="317"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result payload for write path with redundancy fanout metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/redundancy_strategy.h" line="273" column="1" bodyfile="include/sharding/redundancy_strategy.h" bodystart="273" bodyend="287"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_write_result_1a1b4228fbb6d7f7834538837528c45a59" prot="public" virt="non-virtual"><scope>themis::sharding::WriteResult</scope><name>acknowledgements</name></member>
+      <member refid="structthemis_1_1sharding_1_1_write_result_1a15d36087f572a57e709febf4d714d0b1" prot="public" virt="non-virtual"><scope>themis::sharding::WriteResult</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_write_result_1a524e97e9ba92213f89f2365afd204d36" prot="public" virt="non-virtual"><scope>themis::sharding::WriteResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1sharding_1_1_write_result_1a63a7d3745bcb511dc2b38fd981028636" prot="public" virt="non-virtual"><scope>themis::sharding::WriteResult</scope><name>failed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_write_result_1a6ecf1aea25a0ee994df8df7d3780de80" prot="public" virt="non-virtual"><scope>themis::sharding::WriteResult</scope><name>failed_shards</name></member>
+      <member refid="structthemis_1_1sharding_1_1_write_result_1a89688319986d8cb1111ed750a8b6458f" prot="public" virt="non-virtual"><scope>themis::sharding::WriteResult</scope><name>latency</name></member>
+      <member refid="structthemis_1_1sharding_1_1_write_result_1af109767d5324c60099d28134caebb724" prot="public" virt="non-virtual"><scope>themis::sharding::WriteResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1sharding_1_1_write_result_1a9739b66066b6d4e460ddd0dffbbd48dd" prot="public" virt="non-virtual"><scope>themis::sharding::WriteResult</scope><name>successful</name></member>
+      <member refid="structthemis_1_1sharding_1_1_write_result_1ad888b4ba966ec69083bcb9a99386b019" prot="public" virt="non-virtual"><scope>themis::sharding::WriteResult</scope><name>written_shards</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

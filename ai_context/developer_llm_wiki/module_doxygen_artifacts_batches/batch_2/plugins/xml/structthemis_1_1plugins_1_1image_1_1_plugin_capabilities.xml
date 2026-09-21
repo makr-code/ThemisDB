@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::image::PluginCapabilities</compoundname>
+    <includes refid="image__analysis__interface_8h" local="no">image_analysis_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a2c88a80fc35b3c6e24df2806e1a93e14" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::PluginCapabilities::supports_embedding</definition>
+        <argsstring></argsstring>
+        <name>supports_embedding</name>
+        <qualifiedname>themis::plugins::image::PluginCapabilities::supports_embedding</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="205" column="10" bodyfile="include/plugins/image_analysis_interface.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a7a2c0fe45335ce82d7563b4a487a2fdb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::PluginCapabilities::supports_captioning</definition>
+        <argsstring></argsstring>
+        <name>supports_captioning</name>
+        <qualifiedname>themis::plugins::image::PluginCapabilities::supports_captioning</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="206" column="10" bodyfile="include/plugins/image_analysis_interface.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a2abac8d087d5e94f5f9a7b76c6098807" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::PluginCapabilities::supports_detection</definition>
+        <argsstring></argsstring>
+        <name>supports_detection</name>
+        <qualifiedname>themis::plugins::image::PluginCapabilities::supports_detection</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="207" column="10" bodyfile="include/plugins/image_analysis_interface.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1ae83e0a764d4744b5e3b546c7b18cc2b9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::PluginCapabilities::supports_segmentation</definition>
+        <argsstring></argsstring>
+        <name>supports_segmentation</name>
+        <qualifiedname>themis::plugins::image::PluginCapabilities::supports_segmentation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="208" column="10" bodyfile="include/plugins/image_analysis_interface.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a8bbb9a1cbedeff22cbfacfe7665edb6e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::PluginCapabilities::supports_generation</definition>
+        <argsstring></argsstring>
+        <name>supports_generation</name>
+        <qualifiedname>themis::plugins::image::PluginCapabilities::supports_generation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="209" column="10" bodyfile="include/plugins/image_analysis_interface.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a2b831687661f04998942ab3671de7209" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::PluginCapabilities::supports_image_to_image</definition>
+        <argsstring></argsstring>
+        <name>supports_image_to_image</name>
+        <qualifiedname>themis::plugins::image::PluginCapabilities::supports_image_to_image</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="210" column="10" bodyfile="include/plugins/image_analysis_interface.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a311cb351f800eba6d3505b780cb106b2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::PluginCapabilities::supports_visual_qa</definition>
+        <argsstring></argsstring>
+        <name>supports_visual_qa</name>
+        <qualifiedname>themis::plugins::image::PluginCapabilities::supports_visual_qa</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="211" column="10" bodyfile="include/plugins/image_analysis_interface.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1ac832bb4cd7afadc1954e0ed8caacc192" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::PluginCapabilities::supports_batch_processing</definition>
+        <argsstring></argsstring>
+        <name>supports_batch_processing</name>
+        <qualifiedname>themis::plugins::image::PluginCapabilities::supports_batch_processing</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="214" column="10" bodyfile="include/plugins/image_analysis_interface.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a93fe2937f783c8bb58a87b4ad1a41aae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::PluginCapabilities::supports_streaming</definition>
+        <argsstring></argsstring>
+        <name>supports_streaming</name>
+        <qualifiedname>themis::plugins::image::PluginCapabilities::supports_streaming</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="215" column="10" bodyfile="include/plugins/image_analysis_interface.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1aac457202a91ff38e840978e4eba4749e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::PluginCapabilities::thread_safe</definition>
+        <argsstring></argsstring>
+        <name>thread_safe</name>
+        <qualifiedname>themis::plugins::image::PluginCapabilities::thread_safe</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="216" column="10" bodyfile="include/plugins/image_analysis_interface.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a6273606bdee31733940a0736fa32f4a2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3e" kindref="member">BackendType</ref> &gt;</type>
+        <definition>std::vector&lt;BackendType&gt; themis::plugins::image::PluginCapabilities::supported_backends</definition>
+        <argsstring></argsstring>
+        <name>supported_backends</name>
+        <qualifiedname>themis::plugins::image::PluginCapabilities::supported_backends</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="219" column="17" bodyfile="include/plugins/image_analysis_interface.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1ab2c71e67a2c7204f8f1931b0b49c558d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::image::PluginCapabilities::min_memory_mb</definition>
+        <argsstring></argsstring>
+        <name>min_memory_mb</name>
+        <qualifiedname>themis::plugins::image::PluginCapabilities::min_memory_mb</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="220" column="12" bodyfile="include/plugins/image_analysis_interface.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a843985fc27597b645b3e1704ba1dc726" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::image::PluginCapabilities::recommended_memory_mb</definition>
+        <argsstring></argsstring>
+        <name>recommended_memory_mb</name>
+        <qualifiedname>themis::plugins::image::PluginCapabilities::recommended_memory_mb</qualifiedname>
+        <initializer>= 8192</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="221" column="12" bodyfile="include/plugins/image_analysis_interface.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Plugin Capabilities. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/image_analysis_interface.h" line="204" column="1" bodyfile="include/plugins/image_analysis_interface.h" bodystart="204" bodyend="222"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1ab2c71e67a2c7204f8f1931b0b49c558d" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginCapabilities</scope><name>min_memory_mb</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a843985fc27597b645b3e1704ba1dc726" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginCapabilities</scope><name>recommended_memory_mb</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a6273606bdee31733940a0736fa32f4a2" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginCapabilities</scope><name>supported_backends</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1ac832bb4cd7afadc1954e0ed8caacc192" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginCapabilities</scope><name>supports_batch_processing</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a7a2c0fe45335ce82d7563b4a487a2fdb" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginCapabilities</scope><name>supports_captioning</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a2abac8d087d5e94f5f9a7b76c6098807" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginCapabilities</scope><name>supports_detection</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a2c88a80fc35b3c6e24df2806e1a93e14" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginCapabilities</scope><name>supports_embedding</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a8bbb9a1cbedeff22cbfacfe7665edb6e" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginCapabilities</scope><name>supports_generation</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a2b831687661f04998942ab3671de7209" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginCapabilities</scope><name>supports_image_to_image</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1ae83e0a764d4744b5e3b546c7b18cc2b9" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginCapabilities</scope><name>supports_segmentation</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a93fe2937f783c8bb58a87b4ad1a41aae" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginCapabilities</scope><name>supports_streaming</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1a311cb351f800eba6d3505b780cb106b2" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginCapabilities</scope><name>supports_visual_qa</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_plugin_capabilities_1aac457202a91ff38e840978e4eba4749e" prot="public" virt="non-virtual"><scope>themis::plugins::image::PluginCapabilities</scope><name>thread_safe</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

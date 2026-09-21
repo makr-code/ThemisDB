@@ -1,0 +1,937 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="changefeed_8h" kind="file" language="C++">
+    <compoundname>changefeed.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">set</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__cdc__delivery__gates_8cpp" local="yes">benchmarks/cdc/bench_cdc_delivery_gates.cpp</includedby>
+    <includedby refid="bench__cdc__pipeline_8cpp" local="yes">benchmarks/cdc/bench_cdc_pipeline.cpp</includedby>
+    <includedby refid="bench__changefeed__throughput_8cpp" local="yes">benchmarks/cdc/bench_changefeed_throughput.cpp</includedby>
+    <includedby refid="cdc__admin_8h" local="yes">include/cdc/cdc_admin.h</includedby>
+    <includedby refid="cdc__materialized__view_8h" local="yes">include/cdc/cdc_materialized_view.h</includedby>
+    <includedby refid="cdc__ws__handler_8h" local="yes">include/cdc/cdc_ws_handler.h</includedby>
+    <includedby refid="change__stream__compressor_8h" local="yes">include/cdc/change_stream_compressor.h</includedby>
+    <includedby refid="changefeed__buffer_8h" local="yes">include/cdc/changefeed_buffer.h</includedby>
+    <includedby refid="consumer__group_8h" local="yes">include/cdc/consumer_group.h</includedby>
+    <includedby refid="cross__collection__stream_8h" local="yes">include/cdc/cross_collection_stream.h</includedby>
+    <includedby refid="dead__letter__queue_8h" local="yes">include/cdc/dead_letter_queue.h</includedby>
+    <includedby refid="debezium__format_8h" local="yes">include/cdc/debezium_format.h</includedby>
+    <includedby refid="delivery__tracker_8h" local="yes">include/cdc/delivery_tracker.h</includedby>
+    <includedby refid="icdc__batch__commit__coordinator_8h" local="yes">include/cdc/icdc_batch_commit_coordinator.h</includedby>
+    <includedby refid="icdc__event__schema_8h" local="yes">include/cdc/icdc_event_schema.h</includedby>
+    <includedby refid="icdc__fan__in_8h" local="yes">include/cdc/icdc_fan_in.h</includedby>
+    <includedby refid="icdc__filter__pipeline_8h" local="yes">include/cdc/icdc_filter_pipeline.h</includedby>
+    <includedby refid="icdc__pause__control_8h" local="yes">include/cdc/icdc_pause_control.h</includedby>
+    <includedby refid="icdc__replay__controller_8h" local="yes">include/cdc/icdc_replay_controller.h</includedby>
+    <includedby refid="icdc__transport_8h" local="yes">include/cdc/icdc_transport.h</includedby>
+    <includedby refid="idelivery__guarantee__config_8h" local="yes">include/cdc/idelivery_guarantee_config.h</includedby>
+    <includedby refid="kafka__cdc__producer_8h" local="yes">include/cdc/kafka_cdc_producer.h</includedby>
+    <includedby refid="outbox_8h" local="yes">include/cdc/outbox.h</includedby>
+    <includedby refid="schema__registry_8h" local="yes">include/cdc/schema_registry.h</includedby>
+    <includedby refid="tenant__buffer__manager_8h" local="yes">include/cdc/tenant_buffer_manager.h</includedby>
+    <includedby refid="changefeed_8cpp" local="yes">src/cdc/changefeed.cpp</includedby>
+    <includedby refid="test__cdc__admin_8cpp" local="yes">tests/cdc/test_cdc_admin.cpp</includedby>
+    <includedby refid="test__cdc__batch__commit__coordinator_8cpp" local="yes">tests/cdc/test_cdc_batch_commit_coordinator.cpp</includedby>
+    <includedby refid="test__cdc__change__stream__compressor_8cpp" local="yes">tests/cdc/test_cdc_change_stream_compressor.cpp</includedby>
+    <includedby refid="test__cdc__changefeed__buffer_8cpp" local="yes">tests/cdc/test_cdc_changefeed_buffer.cpp</includedby>
+    <includedby refid="test__cdc__changefeed__core_8cpp" local="yes">tests/cdc/test_cdc_changefeed_core.cpp</includedby>
+    <includedby refid="test__cdc__changefeed__sequence__counter_8cpp" local="yes">tests/cdc/test_cdc_changefeed_sequence_counter.cpp</includedby>
+    <includedby refid="test__cdc__consumer__group_8cpp" local="yes">tests/cdc/test_cdc_consumer_group.cpp</includedby>
+    <includedby refid="test__cdc__cross__collection__stream_8cpp" local="yes">tests/cdc/test_cdc_cross_collection_stream.cpp</includedby>
+    <includedby refid="test__cdc__dead__letter__queue_8cpp" local="yes">tests/cdc/test_cdc_dead_letter_queue.cpp</includedby>
+    <includedby refid="test__cdc__debezium__format_8cpp" local="yes">tests/cdc/test_cdc_debezium_format.cpp</includedby>
+    <includedby refid="test__cdc__diagnostics__hardening_8cpp" local="yes">tests/cdc/test_cdc_diagnostics_hardening.cpp</includedby>
+    <includedby refid="test__cdc__event__enrichment_8cpp" local="yes">tests/cdc/test_cdc_event_enrichment.cpp</includedby>
+    <includedby refid="test__cdc__fan__in_8cpp" local="yes">tests/cdc/test_cdc_fan_in.cpp</includedby>
+    <includedby refid="test__cdc__filter__pipeline_8cpp" local="yes">tests/cdc/test_cdc_filter_pipeline.cpp</includedby>
+    <includedby refid="test__cdc__gdpr__redaction_8cpp" local="yes">tests/cdc/test_cdc_gdpr_redaction.cpp</includedby>
+    <includedby refid="test__cdc__operation__filter_8cpp" local="yes">tests/cdc/test_cdc_operation_filter.cpp</includedby>
+    <includedby refid="test__cdc__outbox_8cpp" local="yes">tests/cdc/test_cdc_outbox.cpp</includedby>
+    <includedby refid="test__cdc__pause__control_8cpp" local="yes">tests/cdc/test_cdc_pause_control.cpp</includedby>
+    <includedby refid="test__cdc__production__fixes_8cpp" local="yes">tests/cdc/test_cdc_production_fixes.cpp</includedby>
+    <includedby refid="test__cdc__replay__ack__hardening_8cpp" local="yes">tests/cdc/test_cdc_replay_ack_hardening.cpp</includedby>
+    <includedby refid="test__cdc__replay__controller_8cpp" local="yes">tests/cdc/test_cdc_replay_controller.cpp</includedby>
+    <includedby refid="test__cdc__retention_8cpp" local="yes">tests/cdc/test_cdc_retention.cpp</includedby>
+    <includedby refid="test__cdc__schema__registry_8cpp" local="yes">tests/cdc/test_cdc_schema_registry.cpp</includedby>
+    <includedby refid="test__cdc__subscription__auth_8cpp" local="yes">tests/cdc/test_cdc_subscription_auth.cpp</includedby>
+    <includedby refid="test__cdc__transport__degradation_8cpp" local="yes">tests/cdc/test_cdc_transport_degradation.cpp</includedby>
+    <includedby refid="test__cdc__ws__handler_8cpp" local="yes">tests/cdc/test_cdc_ws_handler.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/cdc/changefeed.h</label>
+        <link refid="changefeed_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>condition_variable</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>set</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/cdc/bench_cdc_delivery_gates.cpp</label>
+        <link refid="bench__cdc__delivery__gates_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/cdc/bench_cdc_pipeline.cpp</label>
+        <link refid="bench__cdc__pipeline_8cpp"/>
+      </node>
+      <node id="4">
+        <label>benchmarks/cdc/bench_changefeed_throughput.cpp</label>
+        <link refid="bench__changefeed__throughput_8cpp"/>
+      </node>
+      <node id="5">
+        <label>include/cdc/cdc_admin.h</label>
+        <link refid="cdc__admin_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/cdc/cdc_materialized_view.h</label>
+        <link refid="cdc__materialized__view_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/cdc/cdc_ws_handler.h</label>
+        <link refid="cdc__ws__handler_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/cdc/change_stream_compressor.h</label>
+        <link refid="change__stream__compressor_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/cdc/changefeed.h</label>
+        <link refid="changefeed_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/cdc/changefeed_buffer.h</label>
+        <link refid="changefeed__buffer_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>include/cdc/consumer_group.h</label>
+        <link refid="consumer__group_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>include/cdc/cross_collection_stream.h</label>
+        <link refid="cross__collection__stream_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>include/cdc/dead_letter_queue.h</label>
+        <link refid="dead__letter__queue_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>include/cdc/debezium_format.h</label>
+        <link refid="debezium__format_8h"/>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>include/cdc/delivery_tracker.h</label>
+        <link refid="delivery__tracker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>include/cdc/icdc_batch_commit_coordinator.h</label>
+        <link refid="icdc__batch__commit__coordinator_8h"/>
+        <childnode refid="44" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>include/cdc/icdc_event_schema.h</label>
+        <link refid="icdc__event__schema_8h"/>
+        <childnode refid="46" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>include/cdc/icdc_fan_in.h</label>
+        <link refid="icdc__fan__in_8h"/>
+        <childnode refid="48" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>include/cdc/icdc_filter_pipeline.h</label>
+        <link refid="icdc__filter__pipeline_8h"/>
+        <childnode refid="50" relation="include">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>include/cdc/icdc_pause_control.h</label>
+        <link refid="icdc__pause__control_8h"/>
+        <childnode refid="52" relation="include">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>include/cdc/icdc_replay_controller.h</label>
+        <link refid="icdc__replay__controller_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>include/cdc/icdc_transport.h</label>
+        <link refid="icdc__transport_8h"/>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="56">
+        <label>include/cdc/idelivery_guarantee_config.h</label>
+        <link refid="idelivery__guarantee__config_8h"/>
+        <childnode refid="57" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>include/cdc/kafka_cdc_producer.h</label>
+        <link refid="kafka__cdc__producer_8h"/>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="58">
+        <label>include/cdc/outbox.h</label>
+        <link refid="outbox_8h"/>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+      </node>
+      <node id="61">
+        <label>include/cdc/schema_registry.h</label>
+        <link refid="schema__registry_8h"/>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/cdc/tenant_buffer_manager.h</label>
+        <link refid="tenant__buffer__manager_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/cdc/cdc_admin.cpp</label>
+        <link refid="cdc__admin_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/cdc/cdc_materialized_view.cpp</label>
+        <link refid="cdc__materialized__view_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/cdc/cdc_ws_handler.cpp</label>
+        <link refid="cdc__ws__handler_8cpp"/>
+      </node>
+      <node id="63">
+        <label>src/cdc/changefeed.cpp</label>
+        <link refid="changefeed_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/cdc/changefeed_buffer.cpp</label>
+        <link refid="changefeed__buffer_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/cdc/consumer_group.cpp</label>
+        <link refid="consumer__group_8cpp"/>
+      </node>
+      <node id="31">
+        <label>src/cdc/cross_collection_stream.cpp</label>
+        <link refid="cross__collection__stream_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/cdc/dead_letter_queue.cpp</label>
+        <link refid="dead__letter__queue_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/cdc/delivery_tracker.cpp</label>
+        <link refid="delivery__tracker_8cpp"/>
+      </node>
+      <node id="59">
+        <label>src/cdc/outbox.cpp</label>
+        <link refid="outbox_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/cdc/tenant_buffer_manager.cpp</label>
+        <link refid="tenant__buffer__manager_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/cdc/test_cdc_admin.cpp</label>
+        <link refid="test__cdc__admin_8cpp"/>
+      </node>
+      <node id="44">
+        <label>tests/cdc/test_cdc_batch_commit_coordinator.cpp</label>
+        <link refid="test__cdc__batch__commit__coordinator_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/cdc/test_cdc_change_stream_compressor.cpp</label>
+        <link refid="test__cdc__change__stream__compressor_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/cdc/test_cdc_changefeed_buffer.cpp</label>
+        <link refid="test__cdc__changefeed__buffer_8cpp"/>
+      </node>
+      <node id="64">
+        <label>tests/cdc/test_cdc_changefeed_core.cpp</label>
+        <link refid="test__cdc__changefeed__core_8cpp"/>
+      </node>
+      <node id="65">
+        <label>tests/cdc/test_cdc_changefeed_sequence_counter.cpp</label>
+        <link refid="test__cdc__changefeed__sequence__counter_8cpp"/>
+      </node>
+      <node id="28">
+        <label>tests/cdc/test_cdc_consumer_group.cpp</label>
+        <link refid="test__cdc__consumer__group_8cpp"/>
+      </node>
+      <node id="32">
+        <label>tests/cdc/test_cdc_cross_collection_stream.cpp</label>
+        <link refid="test__cdc__cross__collection__stream_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/cdc/test_cdc_dead_letter_queue.cpp</label>
+        <link refid="test__cdc__dead__letter__queue_8cpp"/>
+      </node>
+      <node id="38">
+        <label>tests/cdc/test_cdc_debezium_format.cpp</label>
+        <link refid="test__cdc__debezium__format_8cpp"/>
+      </node>
+      <node id="57">
+        <label>tests/cdc/test_cdc_delivery_guarantee_config.cpp</label>
+        <link refid="test__cdc__delivery__guarantee__config_8cpp"/>
+      </node>
+      <node id="41">
+        <label>tests/cdc/test_cdc_delivery_tracker.cpp</label>
+        <link refid="test__cdc__delivery__tracker_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/cdc/test_cdc_diagnostics_hardening.cpp</label>
+        <link refid="test__cdc__diagnostics__hardening_8cpp"/>
+      </node>
+      <node id="66">
+        <label>tests/cdc/test_cdc_event_enrichment.cpp</label>
+        <link refid="test__cdc__event__enrichment_8cpp"/>
+      </node>
+      <node id="46">
+        <label>tests/cdc/test_cdc_event_schema.cpp</label>
+        <link refid="test__cdc__event__schema_8cpp"/>
+      </node>
+      <node id="48">
+        <label>tests/cdc/test_cdc_fan_in.cpp</label>
+        <link refid="test__cdc__fan__in_8cpp"/>
+      </node>
+      <node id="50">
+        <label>tests/cdc/test_cdc_filter_pipeline.cpp</label>
+        <link refid="test__cdc__filter__pipeline_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/cdc/test_cdc_gdpr_redaction.cpp</label>
+        <link refid="test__cdc__gdpr__redaction_8cpp"/>
+      </node>
+      <node id="37">
+        <label>tests/cdc/test_cdc_kafka_producer.cpp</label>
+        <link refid="test__cdc__kafka__producer_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/cdc/test_cdc_materialized_view.cpp</label>
+        <link refid="test__cdc__materialized__view_8cpp"/>
+      </node>
+      <node id="67">
+        <label>tests/cdc/test_cdc_operation_filter.cpp</label>
+        <link refid="test__cdc__operation__filter_8cpp"/>
+      </node>
+      <node id="60">
+        <label>tests/cdc/test_cdc_outbox.cpp</label>
+        <link refid="test__cdc__outbox_8cpp"/>
+      </node>
+      <node id="52">
+        <label>tests/cdc/test_cdc_pause_control.cpp</label>
+        <link refid="test__cdc__pause__control_8cpp"/>
+      </node>
+      <node id="25">
+        <label>tests/cdc/test_cdc_production_fixes.cpp</label>
+        <link refid="test__cdc__production__fixes_8cpp"/>
+      </node>
+      <node id="42">
+        <label>tests/cdc/test_cdc_replay_ack_hardening.cpp</label>
+        <link refid="test__cdc__replay__ack__hardening_8cpp"/>
+      </node>
+      <node id="54">
+        <label>tests/cdc/test_cdc_replay_controller.cpp</label>
+        <link refid="test__cdc__replay__controller_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/cdc/test_cdc_retention.cpp</label>
+        <link refid="test__cdc__retention_8cpp"/>
+      </node>
+      <node id="62">
+        <label>tests/cdc/test_cdc_schema_registry.cpp</label>
+        <link refid="test__cdc__schema__registry_8cpp"/>
+      </node>
+      <node id="68">
+        <label>tests/cdc/test_cdc_subscription_auth.cpp</label>
+        <link refid="test__cdc__subscription__auth_8cpp"/>
+      </node>
+      <node id="29">
+        <label>tests/cdc/test_cdc_transport_degradation.cpp</label>
+        <link refid="test__cdc__transport__degradation_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/cdc/test_cdc_ws_handler.cpp</label>
+        <link refid="test__cdc__ws__handler_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_changefeed" prot="public">themis::Changefeed</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_change_event" prot="public">themis::Changefeed::ChangeEvent</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_list_options" prot="public">themis::Changefeed::ListOptions</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_retention_policy" prot="public">themis::Changefeed::RetentionPolicy</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_watermarks" prot="public">themis::Changefeed::Watermarks</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_stats" prot="public">themis::Changefeed::Stats</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_compaction_result" prot="public">themis::Changefeed::CompactionResult</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_redaction_result" prot="public">themis::Changefeed::RedactionResult</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_subscription_filter" prot="public">themis::Changefeed::SubscriptionFilter</innerclass>
+    <innerclass refid="classthemis_1_1_changefeed_1_1_subscription_handle" prot="public">themis::Changefeed::SubscriptionHandle</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_subscription_entry" prot="private">themis::Changefeed::SubscriptionEntry</innerclass>
+    <innernamespace refid="namespacerocksdb">rocksdb</innernamespace>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations<sp/>for<sp/>RocksDB<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacerocksdb" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacerocksdb" kindref="compound">rocksdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">TransactionDB;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ColumnFamilyHandle;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MergeOperator;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="class_changefeed" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_changefeed_1ad9f4bf1aa8bbc297824091e744f3570d" kindref="member">Changefeed</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">ChangeEventType</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">EVENT_PUT</ref>,</highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0abe731652dcbe388ce5fb20e99b57029f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0abe731652dcbe388ce5fb20e99b57029f" kindref="member">EVENT_DELETE</ref>,</highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0ae3a8f40c30238b0e0b6d2f10b7582c91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0ae3a8f40c30238b0e0b6d2f10b7582c91" kindref="member">EVENT_TRANSACTION_COMMIT</ref>,</highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a7c15e3e288d30b94ad4e66b23a0597e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a7c15e3e288d30b94ad4e66b23a0597e5" kindref="member">EVENT_TRANSACTION_ROLLBACK</ref></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="struct_changefeed_1_1_change_event" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" kindref="member">sequence</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Monotonic<sp/>sequence<sp/>number<sp/>(0<sp/>=<sp/>not<sp/>persisted<sp/>yet)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">ChangeEventType</ref><sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/>=<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">ChangeEventType::EVENT_PUT</ref>;<sp/></highlight><highlight class="comment">//<sp/>Event<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Affected<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref>;<sp/></highlight><highlight class="comment">//<sp/>Value<sp/>(nullopt<sp/>for<sp/>DELETE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Event<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1_changefeed_1_1_change_event_1ac0f918082dd42e6b8837df0b13297286" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event_1ac0f918082dd42e6b8837df0b13297286" kindref="member">metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>metadata<sp/>(tx_id,<sp/>user,<sp/>etc.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Before/after<sp/>document<sp/>snapshots<sp/>for<sp/>change<sp/>event<sp/>enrichment.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>before_snapshot:<sp/>document<sp/>state<sp/>prior<sp/>to<sp/>this<sp/>change<sp/>(nullopt<sp/>for<sp/>INSERT).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>after_snapshot:<sp/><sp/>document<sp/>state<sp/>after<sp/>this<sp/>change<sp/><sp/>(nullopt<sp/>for<sp/>DELETE).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1_changefeed_1_1_change_event_1a8cdedbb4b3efa725c6c5ad3cadf115e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event_1a8cdedbb4b3efa725c6c5ad3cadf115e5" kindref="member">before_snapshot</ref>;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1_changefeed_1_1_change_event_1a59249b3094f85b3b51bc8f4dc024546a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event_1a59249b3094f85b3b51bc8f4dc024546a" kindref="member">after_snapshot</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>to<sp/>true<sp/>when<sp/>the<sp/>value<sp/>has<sp/>been<sp/>GDPR-redacted;<sp/>preserves</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>sequence,<sp/>type,<sp/>key,<sp/>and<sp/>timestamp_ms<sp/>for<sp/>audit-trail<sp/>integrity.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1_changefeed_1_1_change_event_1a8dfec24ed688e258491d681018b24945" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event_1a8dfec24ed688e258491d681018b24945" kindref="member">redacted</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event_1a21abbcfb7476b474927f5ef558e9a0af" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref><sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event_1a96792516ea522d6bc4ec5158c59e07f0" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="struct_changefeed_1_1_list_options" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_changefeed_1_1_list_options" kindref="compound">ListOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1_changefeed_1_1_list_options_1a24481ff2361fd65d75a7cddc945709b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_changefeed_1_1_list_options_1a24481ff2361fd65d75a7cddc945709b3" kindref="member">from_sequence</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>after<sp/>this<sp/>sequence<sp/>(exclusive)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1_changefeed_1_1_list_options_1a25c05ad81bd438fdb18a114036aa781a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_changefeed_1_1_list_options_1a25c05ad81bd438fdb18a114036aa781a" kindref="member">to_sequence</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stop<sp/>at<sp/>this<sp/>sequence<sp/>(inclusive,<sp/>0<sp/>=<sp/>no<sp/>upper<sp/>bound)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1_changefeed_1_1_list_options_1a70c448f6c82eddf4d74b2daa69e349f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_list_options_1a70c448f6c82eddf4d74b2daa69e349f5" kindref="member">limit</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>events<sp/>to<sp/>return<sp/>(std::numeric_limits&lt;size_t&gt;::max()<sp/>=<sp/>no<sp/>limit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1_changefeed_1_1_list_options_1aa6f215c6baffc1ba68ddae2b98567633" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1_changefeed_1_1_list_options_1aa6f215c6baffc1ba68ddae2b98567633" kindref="member">long_poll_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Long-poll<sp/>timeout<sp/>(0<sp/>=<sp/>immediate)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1_changefeed_1_1_list_options_1aafb764f79f83743df49f6bbba7529659" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_changefeed_1_1_list_options_1aafb764f79f83743df49f6bbba7529659" kindref="member">key_prefix</ref>;<sp/></highlight><highlight class="comment">//<sp/>Filter<sp/>by<sp/>key<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1_changefeed_1_1_list_options_1afb9c9764cc592b3c5956ea88cfc60ae2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;ChangeEventType&gt;<sp/><ref refid="structthemis_1_1_changefeed_1_1_list_options_1afb9c9764cc592b3c5956ea88cfc60ae2" kindref="member">event_type</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Filter<sp/>by<sp/>single<sp/>event<sp/>type<sp/>(legacy;<sp/>use<sp/>event_types<sp/>for<sp/>multi-type)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1_changefeed_1_1_list_options_1a3d199bca9e7a046e02bfde3e77efea1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::set&lt;ChangeEventType&gt;<sp/><ref refid="structthemis_1_1_changefeed_1_1_list_options_1a3d199bca9e7a046e02bfde3e77efea1c" kindref="member">event_types</ref>;<sp/></highlight><highlight class="comment">//<sp/>Filter<sp/>by<sp/>one<sp/>or<sp/>more<sp/>operation<sp/>types<sp/>(INSERT/UPDATE=PUT,<sp/>DELETE);<sp/>empty<sp/>=<sp/>no<sp/>filter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="struct_changefeed_1_1_retention_policy" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_changefeed_1_1_retention_policy" kindref="compound">RetentionPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1_changefeed_1_1_retention_policy_1adf35895bcc414f85378a690852d43702" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_retention_policy_1adf35895bcc414f85378a690852d43702" kindref="member">DEFAULT_MAX_SIZE_BYTES</ref><sp/>=<sp/>100ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>100GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1_changefeed_1_1_retention_policy_1adad3321cce00e385353ca28ad5b50398" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_retention_policy_1adad3321cce00e385353ca28ad5b50398" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>automatic<sp/>retention<sp/>cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1_changefeed_1_1_retention_policy_1a9e22c96b489a022722c5d817dcaed616" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::hours<sp/><ref refid="structthemis_1_1_changefeed_1_1_retention_policy_1a9e22c96b489a022722c5d817dcaed616" kindref="member">max_age_hours</ref>{168};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>age<sp/>(default:<sp/>7<sp/>days)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1_changefeed_1_1_retention_policy_1a4c9377fcb702e7fbdb07e303352d1c40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_changefeed_1_1_retention_policy_1a4c9377fcb702e7fbdb07e303352d1c40" kindref="member">max_event_count</ref><sp/>=<sp/>1000000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>events<sp/>(default:<sp/>1M)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1_changefeed_1_1_retention_policy_1a6eefb7fbc0b5cb7f116be4f1eb10d0c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_retention_policy_1a6eefb7fbc0b5cb7f116be4f1eb10d0c0" kindref="member">max_size_bytes</ref><sp/>=<sp/><ref refid="structthemis_1_1_changefeed_1_1_retention_policy_1adf35895bcc414f85378a690852d43702" kindref="member">DEFAULT_MAX_SIZE_BYTES</ref>;<sp/></highlight><highlight class="comment">//<sp/>Max<sp/>size<sp/>(default:<sp/>100GB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1_changefeed_1_1_retention_policy_1ad2a6bf4e05dc907c7f36dd7ab8b5f10c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::minutes<sp/><ref refid="structthemis_1_1_changefeed_1_1_retention_policy_1ad2a6bf4e05dc907c7f36dd7ab8b5f10c" kindref="member">cleanup_interval</ref>{60};<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup<sp/>interval<sp/>(default:<sp/>1<sp/>hour)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1_changefeed_1_1_retention_policy_1af6415a5adfa2c7d420e01356e0dab195" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_retention_policy_1af6415a5adfa2c7d420e01356e0dab195" kindref="member">compact_on_cleanup</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Run<sp/>key-based<sp/>compaction<sp/>after<sp/>each<sp/>cleanup<sp/>cycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1_changefeed_1_1_retention_policy_1a4a838fe42bfe3a4112fd01c50eb36bfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_retention_policy" kindref="compound">RetentionPolicy</ref><sp/><ref refid="structthemis_1_1_changefeed_1_1_retention_policy_1a4a838fe42bfe3a4112fd01c50eb36bfd" kindref="member">defaults</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107" refid="struct_changefeed_1_1_watermarks" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_changefeed_1_1_watermarks" kindref="compound">Watermarks</ref><sp/>{</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1_changefeed_1_1_watermarks_1a63405caf4be3a27ec301acb018d144ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_changefeed_1_1_watermarks_1a63405caf4be3a27ec301acb018d144ee" kindref="member">low_watermark</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Oldest<sp/>event<sp/>sequence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1_changefeed_1_1_watermarks_1a9376955c58cda80c2612a5d8254516a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_changefeed_1_1_watermarks_1a9376955c58cda80c2612a5d8254516a3" kindref="member">high_watermark</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Newest<sp/>event<sp/>sequence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1_changefeed_1_1_watermarks_1afb05b33a5cc4bc2aa2d6bcadb6c826df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_changefeed_1_1_watermarks_1afb05b33a5cc4bc2aa2d6bcadb6c826df" kindref="member">oldest_timestamp_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timestamp<sp/>of<sp/>oldest<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1_changefeed_1_1_watermarks_1a31e067303dcf224457144747c6f5e051" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_changefeed_1_1_watermarks_1a31e067303dcf224457144747c6f5e051" kindref="member">newest_timestamp_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timestamp<sp/>of<sp/>newest<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="struct_changefeed_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_changefeed_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1_changefeed_1_1_stats_1a6d59655c0c79551c0956951d8dfcdb99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_changefeed_1_1_stats_1a6d59655c0c79551c0956951d8dfcdb99" kindref="member">total_events</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1_changefeed_1_1_stats_1a004ae3a2d1a5c3a82edf337331ab9be0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_changefeed_1_1_stats_1a004ae3a2d1a5c3a82edf337331ab9be0" kindref="member">latest_sequence</ref>;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1_changefeed_1_1_stats_1a96e85b8940b7b819c54e8ea010a3ff91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_stats_1a96e85b8940b7b819c54e8ea010a3ff91" kindref="member">total_size_bytes</ref>;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1_changefeed_1_1_stats_1ae46bead9b53f3a49790a3b570bc537b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_1_1_watermarks" kindref="compound">Watermarks</ref><sp/><ref refid="structthemis_1_1_changefeed_1_1_stats_1ae46bead9b53f3a49790a3b570bc537b8" kindref="member">watermarks</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Watermark<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;rocksdb::MergeOperator&gt;<sp/><ref refid="classthemis_1_1_changefeed_1aab5fc25453511c099dca45a42b3388d0" kindref="member">makeSequenceMergeOperator</ref>();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1ad9f4bf1aa8bbc297824091e744f3570d" kindref="member">Changefeed</ref>(rocksdb::TransactionDB*<sp/>db,<sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rocksdb::ColumnFamilyHandle*<sp/>cf<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_1_1_retention_policy" kindref="compound">RetentionPolicy</ref><sp/>retention<sp/>=<sp/><ref refid="structthemis_1_1_changefeed_1_1_retention_policy_1a4a838fe42bfe3a4112fd01c50eb36bfd" kindref="member">RetentionPolicy::defaults</ref>());</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1a3809bbab20386e00db8ef7a688534935" kindref="member">~Changefeed</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref><sp/><ref refid="classthemis_1_1_changefeed_1a8a2e6f28d96d1e39c52bc71d45af855e" kindref="member">recordEvent</ref>(<ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref><sp/>event);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref>&gt;<sp/><ref refid="classthemis_1_1_changefeed_1af88538e78b7f5bcbeba82c25d56b3c61" kindref="member">listEvents</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref>&gt;<sp/><ref refid="classthemis_1_1_changefeed_1af88538e78b7f5bcbeba82c25d56b3c61" kindref="member">listEvents</ref>(const<sp/><ref refid="structthemis_1_1_changefeed_1_1_list_options" kindref="compound">ListOptions</ref>&amp;<sp/>options)<sp/>const;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1_changefeed_1abb8c9c7884844fcc90a3ff395e013cc4" kindref="member">getLatestSequence</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1_changefeed_1a9d10585232e82c77aa38b5f03402709f" kindref="member">getStats</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_1_1_watermarks" kindref="compound">Watermarks</ref><sp/><ref refid="classthemis_1_1_changefeed_1a320316054ef102dadef78ae2d1f61d9a" kindref="member">getWatermarks</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1a191ef97ec7c294d6ff985e975c65c3a7" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1a485983779a153b2bb8db35a5a2e69823" kindref="member">deleteOldEvents</ref>(uint64_t<sp/>before_sequence);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="classthemis_1_1_changefeed_1abd4e92b948b9a6511c9c4c5796dc15bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1abd4e92b948b9a6511c9c4c5796dc15bf" kindref="member">deleteOldEventsBySequence</ref>(uint64_t<sp/>before_sequence)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1a485983779a153b2bb8db35a5a2e69823" kindref="member">deleteOldEvents</ref>(before_sequence);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1af2ecd83da744cc8443b4290c8a66e609" kindref="member">deleteOldEventsByTimestamp</ref>(int64_t<sp/>before_timestamp_ms);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>ChangeEvent<sp/><ref refid="classthemis_1_1_changefeed_1a44728fee9c20a713eacf87412ebbbeaf" kindref="member">getEvent</ref>(uint64_t<sp/>sequence)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="struct_changefeed_1_1_compaction_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_changefeed_1_1_compaction_result" kindref="compound">CompactionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="207" refid="structthemis_1_1_changefeed_1_1_compaction_result_1a8c5742401062e65d61e2930b101e100b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_compaction_result_1a8c5742401062e65d61e2930b101e100b" kindref="member">events_scanned</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208" refid="structthemis_1_1_changefeed_1_1_compaction_result_1aff247cb6de7826aeb97ee665b7ac74dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_compaction_result_1aff247cb6de7826aeb97ee665b7ac74dc" kindref="member">events_deleted</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209" refid="structthemis_1_1_changefeed_1_1_compaction_result_1a813dd91f74c2a94c496e35a6b005a929" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_compaction_result_1a813dd91f74c2a94c496e35a6b005a929" kindref="member">keys_compacted</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210" refid="structthemis_1_1_changefeed_1_1_compaction_result_1a7934b56257c924281d78f23b62958c72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_compaction_result_1a7934b56257c924281d78f23b62958c72" kindref="member">events_retained</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213" refid="struct_changefeed_1_1_redaction_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_changefeed_1_1_redaction_result" kindref="compound">RedactionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1_changefeed_1_1_redaction_result_1a330c2b0e92b8d3fa9e065ff488d59a12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_redaction_result_1a330c2b0e92b8d3fa9e065ff488d59a12" kindref="member">events_scanned</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215" refid="structthemis_1_1_changefeed_1_1_redaction_result_1a8a5f2b29f3c8f364371408868a2c3345" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_redaction_result_1a8a5f2b29f3c8f364371408868a2c3345" kindref="member">events_redacted</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="216" refid="structthemis_1_1_changefeed_1_1_redaction_result_1ae0491e8993c2e2d043c0d4775761c1a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_changefeed_1_1_redaction_result_1ae0491e8993c2e2d043c0d4775761c1a7" kindref="member">affected_keys</ref>;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_1_1_compaction_result" kindref="compound">CompactionResult</ref><sp/><ref refid="classthemis_1_1_changefeed_1aace1d23916a9f1ab882aa1349bf5f161" kindref="member">compactByKey</ref>();</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_1_1_redaction_result" kindref="compound">RedactionResult</ref><sp/><ref refid="classthemis_1_1_changefeed_1a08adf9c802754b3c0383a1eb100bdd5f" kindref="member">redactByKeyPrefix</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_prefix);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1a265b7a0033b2198e1a39389fc02a7bdc" kindref="member">applyRetentionPolicy</ref>();</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1abe5d7454f12db9044859c9dbafc33838" kindref="member">updateRetentionPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_retention_policy" kindref="compound">RetentionPolicy</ref>&amp;<sp/>policy);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_1_1_retention_policy" kindref="compound">RetentionPolicy</ref><sp/><ref refid="classthemis_1_1_changefeed_1aa8a47653f833d8002e5fe33719c56a9d" kindref="member">getRetentionPolicy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1a7ca84a7a55578ff0c87e0d65b33b2ecd" kindref="member">startRetentionCleanup</ref>();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1ad534b70c25f90ed41db0a55d07f9806f" kindref="member">stopRetentionCleanup</ref>();</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1ab416fd2b299c7f834cbab8356efe95d7" kindref="member">isRetentionCleanupRunning</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Push-based<sp/>subscription<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271" refid="struct_changefeed_1_1_subscription_filter" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="struct_changefeed_1_1_subscription_filter" kindref="compound">SubscriptionFilter</ref><sp/>{</highlight></codeline>
+<codeline lineno="272" refid="structthemis_1_1_changefeed_1_1_subscription_filter_1a5e361c54ff600ac1151096f927b9bdeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_changefeed_1_1_subscription_filter_1a5e361c54ff600ac1151096f927b9bdeb" kindref="member">key_prefix</ref>;</highlight></codeline>
+<codeline lineno="273" refid="structthemis_1_1_changefeed_1_1_subscription_filter_1ae03041e4522637b90c56bafd7b15974e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::set&lt;ChangeEventType&gt;<sp/><ref refid="structthemis_1_1_changefeed_1_1_subscription_filter_1ae03041e4522637b90c56bafd7b15974e" kindref="member">event_types</ref>;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_subscription_filter_1a92109b5c4abb1b17956867190ffcfa3e" kindref="member">matches</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;<sp/>ev)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284" refid="class_changefeed_1_1_subscription_handle" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_changefeed_1_1_subscription_handle_1aeaa28fb1e1d0442488e0162e11952c95" kindref="member">SubscriptionHandle</ref><sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="286" refid="classthemis_1_1_changefeed_1_1_subscription_handle_1aeaa28fb1e1d0442488e0162e11952c95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1aeaa28fb1e1d0442488e0162e11952c95" kindref="member">SubscriptionHandle</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287" refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a9ad8eda83be8ada3aa0dbdc60030a79d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a9ad8eda83be8ada3aa0dbdc60030a79d" kindref="member">~SubscriptionHandle</ref>()<sp/>noexcept<sp/>{<sp/><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1ac0e35cd59d65c06fa6834449c74653ee" kindref="member">cancel</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289" refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a739ff3bd1b13f3a66efec5e98feefed4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a739ff3bd1b13f3a66efec5e98feefed4" kindref="member">SubscriptionHandle</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1aeaa28fb1e1d0442488e0162e11952c95" kindref="member">SubscriptionHandle</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="290" refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a5dae42c6bef01b53786d3ca87ee0d1c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1aeaa28fb1e1d0442488e0162e11952c95" kindref="member">SubscriptionHandle</ref>&amp;<sp/><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a5dae42c6bef01b53786d3ca87ee0d1c2" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1aeaa28fb1e1d0442488e0162e11952c95" kindref="member">SubscriptionHandle</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292" refid="classthemis_1_1_changefeed_1_1_subscription_handle_1ac108d2491523d3e13720f2788e14b6d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1ac108d2491523d3e13720f2788e14b6d4" kindref="member">SubscriptionHandle</ref>(<ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1aeaa28fb1e1d0442488e0162e11952c95" kindref="member">SubscriptionHandle</ref>&amp;&amp;<sp/>other)<sp/>noexcept</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>feed_(other.feed_),<sp/>id_(other.id_)</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other.feed_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other.id_<sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="298" refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a5fda4614e192516207b49ff07ab65a00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1aeaa28fb1e1d0442488e0162e11952c95" kindref="member">SubscriptionHandle</ref>&amp;<sp/><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a5fda4614e192516207b49ff07ab65a00" kindref="member">operator=</ref>(<ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1aeaa28fb1e1d0442488e0162e11952c95" kindref="member">SubscriptionHandle</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>!=<sp/>&amp;other)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1ac0e35cd59d65c06fa6834449c74653ee" kindref="member">cancel</ref>();</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feed_<sp/>=<sp/>other.feed_;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>id_<sp/><sp/><sp/>=<sp/>other.id_;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other.feed_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other.id_<sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1ac0e35cd59d65c06fa6834449c74653ee" kindref="member">cancel</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315" refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a16be6de8e1c4859862ec69556b6c4e93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a16be6de8e1c4859862ec69556b6c4e93" kindref="member">active</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>feed_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317" refid="classthemis_1_1_changefeed_1_1_subscription_handle_1ac55bc1c5927e62ebdbfc8fe34d9b0cc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1ac55bc1c5927e62ebdbfc8fe34d9b0cc3" kindref="member">id</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>id_;<sp/>}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="320" refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a66b4ca86f03a68d01849d08f6b216ef6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a66b4ca86f03a68d01849d08f6b216ef6" kindref="member">Changefeed</ref>;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1aeaa28fb1e1d0442488e0162e11952c95" kindref="member">SubscriptionHandle</ref>(<ref refid="classthemis_1_1_changefeed_1_1_subscription_handle_1a66b4ca86f03a68d01849d08f6b216ef6" kindref="member">Changefeed</ref>*<sp/>feed,<sp/>uint64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>noexcept</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>feed_(feed),<sp/>id_(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>{}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1ad9f4bf1aa8bbc297824091e744f3570d" kindref="member">Changefeed</ref>*<sp/>feed_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/>id_<sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328" refid="classthemis_1_1_changefeed_1aa38af7b02036b188d864a9eccdbbf919" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_changefeed_1aa38af7b02036b188d864a9eccdbbf919" kindref="member">SubscriptionCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle" kindref="compound">SubscriptionHandle</ref><sp/><ref refid="classthemis_1_1_changefeed_1a26f6907697ffd7105f7105daf333e6fa" kindref="member">subscribe</ref>(<ref refid="structthemis_1_1_changefeed_1_1_subscription_filter" kindref="compound">SubscriptionFilter</ref><sp/>filter,</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1aa38af7b02036b188d864a9eccdbbf919" kindref="member">SubscriptionCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1ad1de3ddcb0c259554c7e8f6c646d2b59" kindref="member">unsubscribe</ref>(uint64_t<sp/>subscription_id)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>rocksdb::TransactionDB*<sp/>db_;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>rocksdb::ColumnFamilyHandle*<sp/>cf_;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_1_1_retention_policy" kindref="compound">RetentionPolicy</ref><sp/>retention_policy_;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>KEY_PREFIX<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;changefeed:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>SEQUENCE_KEY<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;changefeed_sequence&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>makeKey(uint64_t<sp/>sequence)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>nextSequence();</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>loadInitialSequence()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>scanMaxSequence()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>waitForEvents(uint64_t<sp/>from_sequence,<sp/>uint32_t<sp/>timeout_ms)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In-process<sp/>atomic<sp/>sequence<sp/>counter.<sp/><sp/>Updated<sp/>by<sp/>fetch_add<sp/>on<sp/>every</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>nextSequence()<sp/>call;<sp/>persisted<sp/>to<sp/>RocksDB<sp/>via<sp/>Merge()<sp/>for<sp/>crash<sp/>recovery.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Eliminates<sp/>the<sp/>need<sp/>for<sp/>sequence_mutex_<sp/>and<sp/>a<sp/>Get+Put<sp/>round-trip<sp/>per<sp/>event.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>sequence_counter_{0};</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tracks<sp/>the<sp/>highest<sp/>sequence<sp/>known<sp/>to<sp/>be<sp/>durably<sp/>persisted.<sp/>When<sp/>RocksDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Merge()<sp/>is<sp/>unavailable<sp/>because<sp/>no<sp/>merge_operator<sp/>was<sp/>configured,<sp/>we<sp/>fall</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>back<sp/>to<sp/>a<sp/>monotonic<sp/>Put()<sp/>path<sp/>guarded<sp/>by<sp/>this<sp/>mutex.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>persisted_sequence_{0};</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>sequence_merge_supported_{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>sequence_persist_mutex_;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retention<sp/>cleanup<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>retention_thread_running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>retention_thread_;</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>retention_cv_;</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>retention_mutex_;<sp/><sp/></highlight><highlight class="comment">//<sp/>also<sp/>protects<sp/>retention_policy_<sp/>reads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>retentionCleanupThread();</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Push-based<sp/>subscriptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">SubscriptionEntry<sp/>{</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SubscriptionFilter<sp/><sp/><sp/>filter;</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_1aa38af7b02036b188d864a9eccdbbf919" kindref="member">SubscriptionCallback</ref><sp/>callback;</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;uint64_t,<sp/>SubscriptionEntry&gt;<sp/>subscriptions_;</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>subscriptions_mutex_;</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>next_subscription_id_{1};</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>subscription_count_{0};</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"></highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>notifySubscribers(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref>&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="426"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cdc/changefeed.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,617 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="deontic__extractor_8h" kind="file" language="C++">
+    <compoundname>deontic_extractor.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">unordered_map</includes>
+    <includedby refid="bench__ingestion__extraction_8cpp" local="yes">benchmarks/ingestion/bench_ingestion_extraction.cpp</includedby>
+    <includedby refid="llm__adapter_8h" local="yes">include/ingestion/llm_adapter.h</includedby>
+    <includedby refid="semantic__validator_8h" local="yes">include/ingestion/semantic_validator.h</includedby>
+    <includedby refid="deontic__extractor_8cpp" local="yes">src/ingestion/deontic_extractor.cpp</includedby>
+    <includedby refid="ingestion__manager_8cpp" local="yes">src/ingestion/ingestion_manager.cpp</includedby>
+    <includedby refid="deontic__step_8cpp" local="yes">src/ingestion/steps/deontic_step.cpp</includedby>
+    <includedby refid="test__ingestion__llm__adapter_8cpp" local="yes">tests/ingestion/test_ingestion_llm_adapter.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/ingestion/deontic_extractor.h</label>
+        <link refid="deontic__extractor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/ingestion/bench_ingestion_extraction.cpp</label>
+        <link refid="bench__ingestion__extraction_8cpp"/>
+      </node>
+      <node id="11">
+        <label>include/ingestion/api_connector.h</label>
+        <link refid="api__connector_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/ingestion/cdc_connector.h</label>
+        <link refid="cdc__connector_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/ingestion/database_connector.h</label>
+        <link refid="database__connector_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/ingestion/deontic_extractor.h</label>
+        <link refid="deontic__extractor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>include/ingestion/filesystem_ingester.h</label>
+        <link refid="filesystem__ingester_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/ingestion/huggingface_connector.h</label>
+        <link refid="huggingface__connector_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>include/ingestion/ingestion_coordinator.h</label>
+        <link refid="ingestion__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/ingestion/ingestion_manager.h</label>
+        <link refid="ingestion__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>include/ingestion/kafka_connector.h</label>
+        <link refid="kafka__connector_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/ingestion/llm_adapter.h</label>
+        <link refid="llm__adapter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>include/ingestion/oauth_token_manager.h</label>
+        <link refid="oauth__token__manager_8h"/>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>include/ingestion/object_storage_connector.h</label>
+        <link refid="object__storage__connector_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>include/ingestion/s3_connector.h</label>
+        <link refid="s3__connector_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/ingestion/semantic_validator.h</label>
+        <link refid="semantic__validator_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>include/ingestion/web_crawler_connector.h</label>
+        <link refid="web__crawler__connector_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>src/ingestion/api_connector.cpp</label>
+        <link refid="api__connector_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/ingestion/cdc_connector.cpp</label>
+        <link refid="cdc__connector_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/ingestion/database_connector.cpp</label>
+        <link refid="database__connector_8cpp"/>
+      </node>
+      <node id="53">
+        <label>src/ingestion/deontic_extractor.cpp</label>
+        <link refid="deontic__extractor_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/ingestion/filesystem_ingester.cpp</label>
+        <link refid="filesystem__ingester_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/ingestion/huggingface_connector.cpp</label>
+        <link refid="huggingface__connector_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/ingestion/ingestion_coordinator.cpp</label>
+        <link refid="ingestion__coordinator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/ingestion/ingestion_manager.cpp</label>
+        <link refid="ingestion__manager_8cpp"/>
+      </node>
+      <node id="37">
+        <label>src/ingestion/kafka_connector.cpp</label>
+        <link refid="kafka__connector_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/ingestion/llm_adapter.cpp</label>
+        <link refid="llm__adapter_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/ingestion/oauth_token_manager.cpp</label>
+        <link refid="oauth__token__manager_8cpp"/>
+      </node>
+      <node id="42">
+        <label>src/ingestion/object_storage_connector.cpp</label>
+        <link refid="object__storage__connector_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/ingestion/s3_connector.cpp</label>
+        <link refid="s3__connector_8cpp"/>
+      </node>
+      <node id="52">
+        <label>src/ingestion/semantic_validator.cpp</label>
+        <link refid="semantic__validator_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/ingestion/steps/deontic_step.cpp</label>
+        <link refid="deontic__step_8cpp"/>
+      </node>
+      <node id="46">
+        <label>src/ingestion/web_crawler_connector.cpp</label>
+        <link refid="web__crawler__connector_8cpp"/>
+      </node>
+      <node id="26">
+        <label>tests/ingestion/test_ingestion_builder.cpp</label>
+        <link refid="test__ingestion__builder_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/ingestion/test_ingestion_cdc.cpp</label>
+        <link refid="test__ingestion__cdc_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/ingestion/test_ingestion_checkpoint.cpp</label>
+        <link refid="test__ingestion__checkpoint_8cpp"/>
+      </node>
+      <node id="35">
+        <label>tests/ingestion/test_ingestion_coordinator.cpp</label>
+        <link refid="test__ingestion__coordinator_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/ingestion/test_ingestion_database.cpp</label>
+        <link refid="test__ingestion__database_8cpp"/>
+      </node>
+      <node id="27">
+        <label>tests/ingestion/test_ingestion_errors.cpp</label>
+        <link refid="test__ingestion__errors_8cpp"/>
+      </node>
+      <node id="28">
+        <label>tests/ingestion/test_ingestion_features.cpp</label>
+        <link refid="test__ingestion__features_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/ingestion/test_ingestion_inference_backend.cpp</label>
+        <link refid="test__ingestion__inference__backend_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/ingestion/test_ingestion_integration.cpp</label>
+        <link refid="test__ingestion__integration_8cpp"/>
+      </node>
+      <node id="38">
+        <label>tests/ingestion/test_ingestion_kafka.cpp</label>
+        <link refid="test__ingestion__kafka_8cpp"/>
+      </node>
+      <node id="48">
+        <label>tests/ingestion/test_ingestion_lineage.cpp</label>
+        <link refid="test__ingestion__lineage_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/ingestion/test_ingestion_llm_adapter.cpp</label>
+        <link refid="test__ingestion__llm__adapter_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/ingestion/test_ingestion_oauth.cpp</label>
+        <link refid="test__ingestion__oauth_8cpp"/>
+      </node>
+      <node id="43">
+        <label>tests/ingestion/test_ingestion_object_storage.cpp</label>
+        <link refid="test__ingestion__object__storage_8cpp"/>
+      </node>
+      <node id="49">
+        <label>tests/ingestion/test_ingestion_plugin_api.cpp</label>
+        <link refid="test__ingestion__plugin__api_8cpp"/>
+      </node>
+      <node id="50">
+        <label>tests/ingestion/test_ingestion_quality_judge.cpp</label>
+        <link refid="test__ingestion__quality__judge_8cpp"/>
+      </node>
+      <node id="51">
+        <label>tests/ingestion/test_ingestion_reconfig.cpp</label>
+        <link refid="test__ingestion__reconfig_8cpp"/>
+      </node>
+      <node id="29">
+        <label>tests/ingestion/test_ingestion_resilience.cpp</label>
+        <link refid="test__ingestion__resilience_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/ingestion/test_ingestion_schema_validation.cpp</label>
+        <link refid="test__ingestion__schema__validation_8cpp"/>
+      </node>
+      <node id="30">
+        <label>tests/ingestion/test_ingestion_security.cpp</label>
+        <link refid="test__ingestion__security_8cpp"/>
+      </node>
+      <node id="47">
+        <label>tests/ingestion/test_ingestion_web_crawler.cpp</label>
+        <link refid="test__ingestion__web__crawler_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1ingestion_1_1_extracted_entity" prot="public">themis::ingestion::ExtractedEntity</innerclass>
+    <innerclass refid="structthemis_1_1ingestion_1_1_deontic_obligation" prot="public">themis::ingestion::DeonticObligation</innerclass>
+    <innerclass refid="structthemis_1_1ingestion_1_1_deontic_extraction" prot="public">themis::ingestion::DeonticExtraction</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_deontic_extractor" prot="public">themis::ingestion::DeonticExtractor</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1ingestion">themis::ingestion</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">ingestion</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Deontic<sp/>categories<sp/>for<sp/>German<sp/>legal<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4" kindref="member">DeonticCategory</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a8587291654732439b2c96abaf82d719c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a8587291654732439b2c96abaf82d719c" kindref="member">OBLIGATION</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a673dc350025b72d155cfa0f7a03bf03f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a673dc350025b72d155cfa0f7a03bf03f" kindref="member">PERMISSION</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a2afdd9f7b2eb4f734bbdcfc14b7da9eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a2afdd9f7b2eb4f734bbdcfc14b7da9eb" kindref="member">PROHIBITION</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a52f90e03a4ea208d52475028ad0250ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a52f90e03a4ea208d52475028ad0250ef" kindref="member">DEFINITION</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a9f768c0bb1c3e84ca086a85211e978ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a9f768c0bb1c3e84ca086a85211e978ac" kindref="member">CONDITION</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4acccc265b14c17af799a1834f4fbbe7cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4acccc265b14c17af799a1834f4fbbe7cf" kindref="member">EXCEPTION</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4adcd320d017d7f3c317bc8b234287bc9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4adcd320d017d7f3c317bc8b234287bc9f" kindref="member">REFERENCE</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1ae04298a858e7b070d9a53732876210ffa696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1ingestion_1a38d0daef874e3b54968a4b7be2a393b4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1ingestion_1a38d0daef874e3b54968a4b7be2a393b4" kindref="member">deonticCategoryToString</ref>(<ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4" kindref="member">DeonticCategory</ref><sp/>c)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(c)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a8587291654732439b2c96abaf82d719c" kindref="member">DeonticCategory::OBLIGATION</ref>:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;obligation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a673dc350025b72d155cfa0f7a03bf03f" kindref="member">DeonticCategory::PERMISSION</ref>:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;permission&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a2afdd9f7b2eb4f734bbdcfc14b7da9eb" kindref="member">DeonticCategory::PROHIBITION</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;prohibition&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a52f90e03a4ea208d52475028ad0250ef" kindref="member">DeonticCategory::DEFINITION</ref>:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;definition&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a9f768c0bb1c3e84ca086a85211e978ac" kindref="member">DeonticCategory::CONDITION</ref>:<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;condition&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4acccc265b14c17af799a1834f4fbbe7cf" kindref="member">DeonticCategory::EXCEPTION</ref>:<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;exception&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4adcd320d017d7f3c317bc8b234287bc9f" kindref="member">DeonticCategory::REFERENCE</ref>:<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;reference&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1ingestion_1a15dd4184dcf6b39b311e03a813732a02" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4" kindref="member">DeonticCategory</ref><sp/><ref refid="namespacethemis_1_1ingestion_1a15dd4184dcf6b39b311e03a813732a02" kindref="member">deonticCategoryFromString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;obligation&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a8587291654732439b2c96abaf82d719c" kindref="member">DeonticCategory::OBLIGATION</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;permission&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a673dc350025b72d155cfa0f7a03bf03f" kindref="member">DeonticCategory::PERMISSION</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;prohibition&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a2afdd9f7b2eb4f734bbdcfc14b7da9eb" kindref="member">DeonticCategory::PROHIBITION</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;definition&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a52f90e03a4ea208d52475028ad0250ef" kindref="member">DeonticCategory::DEFINITION</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;condition&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a9f768c0bb1c3e84ca086a85211e978ac" kindref="member">DeonticCategory::CONDITION</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;exception&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4acccc265b14c17af799a1834f4fbbe7cf" kindref="member">DeonticCategory::EXCEPTION</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;reference&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4adcd320d017d7f3c317bc8b234287bc9f" kindref="member">DeonticCategory::REFERENCE</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">DeonticCategory::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Extracted<sp/>entity<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1ingestion_1_1_extracted_entity" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_extracted_entity_1ab35c8898d61f4a34366b37ec13b8121d" kindref="member">ExtractedEntity</ref><sp/>{</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1ingestion_1_1_extracted_entity_1a25ec18f403af1ee114abe54affdda5e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_extracted_entity_1a25ec18f403af1ee114abe54affdda5e5" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1ingestion_1_1_extracted_entity_1ad76509d2f0636e67fa08384bd66a88cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_extracted_entity_1ad76509d2f0636e67fa08384bd66a88cb" kindref="member">value</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1ingestion_1_1_extracted_entity_1a7290b558226c8fad348bf619c1c2a966" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_extracted_entity_1a7290b558226c8fad348bf619c1c2a966" kindref="member">text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1ingestion_1_1_extracted_entity_1a8db1fa89c54edf7f0995bf7d5fd2577f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_extracted_entity_1a8db1fa89c54edf7f0995bf7d5fd2577f" kindref="member">confidence</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1ingestion_1_1_extracted_entity_1ab35c8898d61f4a34366b37ec13b8121d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_extracted_entity_1ab35c8898d61f4a34366b37ec13b8121d" kindref="member">ExtractedEntity</ref>()<sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_extracted_entity_1a8db1fa89c54edf7f0995bf7d5fd2577f" kindref="member">confidence</ref>(1.0)<sp/>{}</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1ingestion_1_1_extracted_entity_1a8cfa7463d75c739082d04b059cba427f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_extracted_entity_1a8cfa7463d75c739082d04b059cba427f" kindref="member">ExtractedEntity</ref>(std::string<sp/>type_,<sp/>std::string<sp/>value_,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>text_,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>conf<sp/>=<sp/>1.0)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_extracted_entity_1a25ec18f403af1ee114abe54affdda5e5" kindref="member">type</ref>(std::move(type_)),<sp/><ref refid="structthemis_1_1ingestion_1_1_extracted_entity_1ad76509d2f0636e67fa08384bd66a88cb" kindref="member">value</ref>(std::move(value_)),</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_extracted_entity_1a7290b558226c8fad348bf619c1c2a966" kindref="member">text</ref>(std::move(text_)),<sp/><ref refid="structthemis_1_1ingestion_1_1_extracted_entity_1a8db1fa89c54edf7f0995bf7d5fd2577f" kindref="member">confidence</ref>(conf)<sp/>{}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Structured<sp/>obligation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1ingestion_1_1_deontic_obligation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_deontic_obligation_1a6faf3800893fb50d5c52f379de39efc6" kindref="member">DeonticObligation</ref><sp/>{</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1ingestion_1_1_deontic_obligation_1ade3bed93cce1eb4fd11070ee91fa79da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_obligation_1ade3bed93cce1eb4fd11070ee91fa79da" kindref="member">actor</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1ingestion_1_1_deontic_obligation_1a07b1583a7293ad0398d398d24c320635" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_obligation_1a07b1583a7293ad0398d398d24c320635" kindref="member">action</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1ingestion_1_1_deontic_obligation_1a1ebe040ec18bcf0a7f3ce62f0afbcf08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_obligation_1a1ebe040ec18bcf0a7f3ce62f0afbcf08" kindref="member">condition</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1ingestion_1_1_deontic_obligation_1ae71f781ecb40f14c0672cd00d80c7778" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_obligation_1ae71f781ecb40f14c0672cd00d80c7778" kindref="member">confidence</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1ingestion_1_1_deontic_obligation_1a6faf3800893fb50d5c52f379de39efc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_obligation_1a6faf3800893fb50d5c52f379de39efc6" kindref="member">DeonticObligation</ref>()<sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_obligation_1ae71f781ecb40f14c0672cd00d80c7778" kindref="member">confidence</ref>(1.0)<sp/>{}</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1ingestion_1_1_deontic_obligation_1a03dd7ecfb034cc8603032431d01ee328" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_obligation_1a03dd7ecfb034cc8603032431d01ee328" kindref="member">DeonticObligation</ref>(std::string<sp/>actor_,<sp/>std::string<sp/>action_,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>cond,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>conf<sp/>=<sp/>1.0)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_obligation_1ade3bed93cce1eb4fd11070ee91fa79da" kindref="member">actor</ref>(std::move(actor_)),<sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_obligation_1a07b1583a7293ad0398d398d24c320635" kindref="member">action</ref>(std::move(action_)),</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_obligation_1a1ebe040ec18bcf0a7f3ce62f0afbcf08" kindref="member">condition</ref>(std::move(cond)),<sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_obligation_1ae71f781ecb40f14c0672cd00d80c7778" kindref="member">confidence</ref>(conf)<sp/>{}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Extraction<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1ingestion_1_1_deontic_extraction" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction_1a5b088fec7ba29c0bc2f4ad6729132231" kindref="member">DeonticExtraction</ref><sp/>{</highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1ingestion_1_1_deontic_extraction_1a35de7c5508703f0d07c90baf5c2cdd64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeonticCategory&gt;<sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction_1a35de7c5508703f0d07c90baf5c2cdd64" kindref="member">deontic_categories</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1ingestion_1_1_deontic_extraction_1a510c5366baf6696e7e2f380b8ffd0861" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ExtractedEntity&gt;<sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction_1a510c5366baf6696e7e2f380b8ffd0861" kindref="member">entities</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1ingestion_1_1_deontic_extraction_1ab4b72f71453ef4e2dda6b6e7ba16118d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeonticObligation&gt;<sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction_1ab4b72f71453ef4e2dda6b6e7ba16118d" kindref="member">obligations</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1ingestion_1_1_deontic_extraction_1a04723af677c7f63773e563c292da411a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction_1a04723af677c7f63773e563c292da411a" kindref="member">overall_confidence</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1ingestion_1_1_deontic_extraction_1abe54ff8e85c6beb493354ecd0b7d04a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction_1abe54ff8e85c6beb493354ecd0b7d04a4" kindref="member">warnings</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1ingestion_1_1_deontic_extraction_1a5b088fec7ba29c0bc2f4ad6729132231" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction_1a5b088fec7ba29c0bc2f4ad6729132231" kindref="member">DeonticExtraction</ref>()<sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction_1a04723af677c7f63773e563c292da411a" kindref="member">overall_confidence</ref>(0.0)<sp/>{}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1ingestion_1_1_deontic_extraction_1a681f4ccf25f29478c8d3c6a7b2eb4c55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction_1a681f4ccf25f29478c8d3c6a7b2eb4c55" kindref="member">hasCategory</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!<ref refid="structthemis_1_1ingestion_1_1_deontic_extraction_1a35de7c5508703f0d07c90baf5c2cdd64" kindref="member">deontic_categories</ref>.empty();<sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1ingestion_1_1_deontic_extraction_1aea573a9a1294b2bf238ddb441b7c4952" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4" kindref="member">DeonticCategory</ref><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction_1aea573a9a1294b2bf238ddb441b7c4952" kindref="member">primaryCategory</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction_1a35de7c5508703f0d07c90baf5c2cdd64" kindref="member">deontic_categories</ref>.empty()</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">DeonticCategory::UNKNOWN</ref></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction_1a35de7c5508703f0d07c90baf5c2cdd64" kindref="member">deontic_categories</ref>.front();</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DeonticExtractor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="classthemis_1_1ingestion_1_1_deontic_extractor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a024d360944bd1a10344c470277a29c62" kindref="member">DeonticExtractor</ref><sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a90c47a450cd53b92ac564554ec2b02ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a90c47a450cd53b92ac564554ec2b02ab" kindref="member">ExtractorFn</ref><sp/>=<sp/>std::function&lt;<ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)&gt;;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a024d360944bd1a10344c470277a29c62" kindref="member">DeonticExtractor</ref>();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref><sp/><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a51576b6bf34cae9e76dd1da35fe0a31a" kindref="member">extract</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ExtractedEntity&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor_1aa13aac32fa9a2b000a6f3b077756a9ec" kindref="member">extractEntities</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor_1aeba20d4a81dd6522b60791d25049f91c" kindref="member">setConfidenceThreshold</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>threshold);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="classthemis_1_1ingestion_1_1_deontic_extractor_1ad775722634a35dbd5c6a14c6e737319c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor_1ad775722634a35dbd5c6a14c6e737319c" kindref="member">getConfidenceThreshold</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>confidence_threshold_;<sp/>}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a9650ade60a9b7a709d6c14b213eae508" kindref="member">setExtractorFn</ref>(<ref refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a90c47a450cd53b92ac564554ec2b02ab" kindref="member">ExtractorFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref><sp/>extractRegex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ExtractedEntity&gt;<sp/>extractEntitiesRegex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>confidence_threshold_;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a90c47a450cd53b92ac564554ec2b02ab" kindref="member">ExtractorFn</ref><sp/>extractor_fn_;<sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ingestion/deontic_extractor.h"/>
+  </compounddef>
+</doxygen>

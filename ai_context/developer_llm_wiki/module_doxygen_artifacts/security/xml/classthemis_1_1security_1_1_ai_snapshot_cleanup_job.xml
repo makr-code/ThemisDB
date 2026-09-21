@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_ai_snapshot_cleanup_job" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::AiSnapshotCleanupJob</compoundname>
+    <includes refid="ai__snapshot__cleanup_8h" local="no">ai_snapshot_cleanup.h</includes>
+    <innerclass refid="structthemis_1_1security_1_1_ai_snapshot_cleanup_job_1_1_config" prot="public">themis::security::AiSnapshotCleanupJob::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1a5013cb1ebd04a9085fb8c0b642eefea7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_ai_snapshot_cleanup_job_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::security::AiSnapshotCleanupJob::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::security::AiSnapshotCleanupJob::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_snapshot_cleanup.h" line="80" column="12" bodyfile="include/security/ai_snapshot_cleanup.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1ad816ef054c9fb60b7200458db541bfe7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::AiSnapshotCleanupJob::AiSnapshotCleanupJob</definition>
+        <argsstring>()</argsstring>
+        <name>AiSnapshotCleanupJob</name>
+        <qualifiedname>themis::security::AiSnapshotCleanupJob::AiSnapshotCleanupJob</qualifiedname>
+        <briefdescription>
+<para>Construct with default configuration values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_snapshot_cleanup.h" line="56" column="5" bodyfile="src/security/ai_snapshot_cleanup.cpp" bodystart="34" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1a4dfa0803db001877e63314413bf076c7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::AiSnapshotCleanupJob::AiSnapshotCleanupJob</definition>
+        <argsstring>(Config cfg)</argsstring>
+        <name>AiSnapshotCleanupJob</name>
+        <qualifiedname>themis::security::AiSnapshotCleanupJob::AiSnapshotCleanupJob</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1security_1_1_ai_snapshot_cleanup_job_1_1_config" kindref="compound">Config</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Construct with explicit configuration values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration to use for cleanup operations. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_snapshot_cleanup.h" line="64" column="14" bodyfile="src/security/ai_snapshot_cleanup.cpp" bodystart="37" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1a74068b7b85406e139e9488b4869bd910" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::security::AiSnapshotCleanupJob::runCleanup</definition>
+        <argsstring>()</argsstring>
+        <name>runCleanup</name>
+        <qualifiedname>themis::security::AiSnapshotCleanupJob::runCleanup</qualifiedname>
+        <briefdescription>
+<para>Run cleanup: remove expired and oversized snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Cleanup.</para>
+<para><simplesect kind="return"><para>Number of snapshot directories deleted.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1ab84d3e74da3cf61fa819c260d15c58dd" kindref="member">listSnapshots()</ref>, begin(), end(), isExpired(), spdlog::info(), removeDirectory(), erase(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_snapshot_cleanup.h" line="70" column="10" bodyfile="src/security/ai_snapshot_cleanup.cpp" bodystart="116" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1ab84d3e74da3cf61fa819c260d15c58dd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_ai_snapshot_info" kindref="compound">AiSnapshotInfo</ref> &gt;</type>
+        <definition>std::vector&lt; AiSnapshotInfo &gt; themis::security::AiSnapshotCleanupJob::listSnapshots</definition>
+        <argsstring>() const</argsstring>
+        <name>listSnapshots</name>
+        <qualifiedname>themis::security::AiSnapshotCleanupJob::listSnapshots</qualifiedname>
+        <briefdescription>
+<para>List all AI snapshots in the directory, sorted ascending by creation time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_snapshot_cleanup.h" line="75" column="18" bodyfile="src/security/ai_snapshot_cleanup.cpp" bodystart="44" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1a2b345d2e1260bd58e5c44741a4fe3b9e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1security_1_1_ai_snapshot_cleanup_job_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::security::AiSnapshotCleanupJob::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::security::AiSnapshotCleanupJob::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_snapshot_cleanup.h" line="77" column="19" bodyfile="include/security/ai_snapshot_cleanup.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1aaa11e1666564fc7507a3749149c0438c" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::security::AiSnapshotCleanupJob::totalSizeBytes</definition>
+        <argsstring>(const std::vector&lt; AiSnapshotInfo &gt; &amp;snaps) noexcept</argsstring>
+        <name>totalSizeBytes</name>
+        <qualifiedname>themis::security::AiSnapshotCleanupJob::totalSizeBytes</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_ai_snapshot_info" kindref="compound">AiSnapshotInfo</ref> &gt; &amp;</type>
+          <declname>snaps</declname>
+        </param>
+        <briefdescription>
+<para>Return total size of all snapshots in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_snapshot_cleanup.h" line="83" column="27" bodyfile="src/security/ai_snapshot_cleanup.cpp" bodystart="157" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1a5427b9028d7cd3819f63e3d04fd41e0d" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AiSnapshotCleanupJob::removeDirectory</definition>
+        <argsstring>(const std::string &amp;path) noexcept</argsstring>
+        <name>removeDirectory</name>
+        <qualifiedname>themis::security::AiSnapshotCleanupJob::removeDirectory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Recursively delete a directory; returns true on success. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_snapshot_cleanup.h" line="87" column="17" bodyfile="src/security/ai_snapshot_cleanup.cpp" bodystart="167" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1aebeb5bda6a29725e0ff2a788105be0d6" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AiSnapshotCleanupJob::isExpired</definition>
+        <argsstring>(const AiSnapshotInfo &amp;snap, int retention_days) noexcept</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::security::AiSnapshotCleanupJob::isExpired</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_ai_snapshot_info" kindref="compound">AiSnapshotInfo</ref> &amp;</type>
+          <declname>snap</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>retention_days</declname>
+        </param>
+        <briefdescription>
+<para>Return true if <computeroutput>snap</computeroutput> is older than <computeroutput>retention_days</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_snapshot_cleanup.h" line="90" column="18" bodyfile="src/security/ai_snapshot_cleanup.cpp" bodystart="180" bodyend="189"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>ASL-11: Snapshot retention-policy enforcer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Scans <computeroutput>config.snapshot_dir</computeroutput> for AI pre-operation snapshot directories (those whose name contains &quot;_pre_op&quot; or starts with &quot;op-&quot;) and removes entries that exceed the configured age or total-size limits.</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para><computeroutput><ref refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1a74068b7b85406e139e9488b4869bd910" kindref="member">runCleanup()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1ab84d3e74da3cf61fa819c260d15c58dd" kindref="member">listSnapshots()</ref></computeroutput> are stateless after construction; safe for concurrent invocation. </para>
+    </detaileddescription>
+    <location file="include/security/ai_snapshot_cleanup.h" line="47" column="1" bodyfile="include/security/ai_snapshot_cleanup.h" bodystart="47" bodyend="92"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1ad816ef054c9fb60b7200458db541bfe7" prot="public" virt="non-virtual"><scope>themis::security::AiSnapshotCleanupJob</scope><name>AiSnapshotCleanupJob</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1a4dfa0803db001877e63314413bf076c7" prot="public" virt="non-virtual"><scope>themis::security::AiSnapshotCleanupJob</scope><name>AiSnapshotCleanupJob</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1a2b345d2e1260bd58e5c44741a4fe3b9e" prot="public" virt="non-virtual"><scope>themis::security::AiSnapshotCleanupJob</scope><name>config</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1a5013cb1ebd04a9085fb8c0b642eefea7" prot="private" virt="non-virtual"><scope>themis::security::AiSnapshotCleanupJob</scope><name>config_</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1aebeb5bda6a29725e0ff2a788105be0d6" prot="private" virt="non-virtual"><scope>themis::security::AiSnapshotCleanupJob</scope><name>isExpired</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1ab84d3e74da3cf61fa819c260d15c58dd" prot="public" virt="non-virtual"><scope>themis::security::AiSnapshotCleanupJob</scope><name>listSnapshots</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1a5427b9028d7cd3819f63e3d04fd41e0d" prot="private" virt="non-virtual"><scope>themis::security::AiSnapshotCleanupJob</scope><name>removeDirectory</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1a74068b7b85406e139e9488b4869bd910" prot="public" virt="non-virtual"><scope>themis::security::AiSnapshotCleanupJob</scope><name>runCleanup</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1aaa11e1666564fc7507a3749149c0438c" prot="private" virt="non-virtual"><scope>themis::security::AiSnapshotCleanupJob</scope><name>totalSizeBytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_metric_exemplar" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::MetricExemplar</compoundname>
+    <includes refid="otlp__exemplar_8h" local="no">otlp_exemplar.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_exemplar_1aaeac5aee5f511ab9efcf1b4b3c4fc5fc" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context" kindref="compound">OTLPTraceContext</ref></type>
+        <definition>OTLPTraceContext themis::observability::MetricExemplar::trace_context</definition>
+        <argsstring></argsstring>
+        <name>trace_context</name>
+        <qualifiedname>themis::observability::MetricExemplar::trace_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="37" column="22" bodyfile="include/observability/otlp_exemplar.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_exemplar_1a152405c08c705e33aeda2c4b1e0344e9" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::MetricExemplar::filtered_attributes</definition>
+        <argsstring></argsstring>
+        <name>filtered_attributes</name>
+        <qualifiedname>themis::observability::MetricExemplar::filtered_attributes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="38" column="14" bodyfile="include/observability/otlp_exemplar.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_exemplar_1a46e91ba557b55c5799b820bdfa51f358" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::MetricExemplar::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::observability::MetricExemplar::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="39" column="12" bodyfile="include/observability/otlp_exemplar.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_exemplar_1a51c6bf0b655d3e5366365f44d32c0264" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::MetricExemplar::time_unix_nano</definition>
+        <argsstring></argsstring>
+        <name>time_unix_nano</name>
+        <qualifiedname>themis::observability::MetricExemplar::time_unix_nano</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="40" column="43" bodyfile="include/observability/otlp_exemplar.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::observability::MetricExemplar</label>
+        <link refid="structthemis_1_1observability_1_1_metric_exemplar"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>trace_context</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::observability::OTLPTraceContext</label>
+        <link refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/observability/otlp_exemplar.h" line="36" column="1" bodyfile="include/observability/otlp_exemplar.h" bodystart="36" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_metric_exemplar_1a152405c08c705e33aeda2c4b1e0344e9" prot="public" virt="non-virtual"><scope>themis::observability::MetricExemplar</scope><name>filtered_attributes</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_exemplar_1a51c6bf0b655d3e5366365f44d32c0264" prot="public" virt="non-virtual"><scope>themis::observability::MetricExemplar</scope><name>time_unix_nano</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_exemplar_1aaeac5aee5f511ab9efcf1b4b3c4fc5fc" prot="public" virt="non-virtual"><scope>themis::observability::MetricExemplar</scope><name>trace_context</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_exemplar_1a46e91ba557b55c5799b820bdfa51f358" prot="public" virt="non-virtual"><scope>themis::observability::MetricExemplar</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

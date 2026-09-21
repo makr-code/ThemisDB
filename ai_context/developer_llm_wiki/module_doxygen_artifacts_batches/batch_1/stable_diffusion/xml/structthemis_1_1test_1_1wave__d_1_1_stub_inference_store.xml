@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::wave_d::StubInferenceStore</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a6f7a0df00ed7d01e5b9fb4719da0d791" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::test::wave_d::StubInferenceStore::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::test::wave_d::StubInferenceStore::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="67" column="24" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1ae53b23428102116a15788c3115945bfa" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::test::wave_d::StubInferenceStore::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::test::wave_d::StubInferenceStore::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="68" column="24" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a65797c5efc4094c3c192569898cf5327" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubInferenceStore::writes_</definition>
+        <argsstring></argsstring>
+        <name>writes_</name>
+        <qualifiedname>themis::test::wave_d::StubInferenceStore::writes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="69" column="17" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a265446c7b656b65bfbbc506f28a8595d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::StubInferenceStore::submit</definition>
+        <argsstring>(const std::string &amp;prompt, const std::string &amp;result)</argsstring>
+        <name>submit</name>
+        <qualifiedname>themis::test::wave_d::StubInferenceStore::submit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="44" column="10" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="44" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a971495e70cf4da2d7802d21ef2c2c38a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::StubInferenceStore::fetch</definition>
+        <argsstring>(const std::string &amp;prompt, std::string *out) const</argsstring>
+        <name>fetch</name>
+        <qualifiedname>themis::test::wave_d::StubInferenceStore::fetch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="51" column="10" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="51" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a4cf661a64aec70a3bfc674804e19d760" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::test::wave_d::StubInferenceStore::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::test::wave_d::StubInferenceStore::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="59" column="17" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="59" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a81d434080dd0d2c560ea0e8595319088" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubInferenceStore::writes</definition>
+        <argsstring>() const</argsstring>
+        <name>writes</name>
+        <qualifiedname>themis::test::wave_d::StubInferenceStore::writes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="64" column="10" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="64" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" line="43" column="1" bodyfile="tests/stable_diffusion/test_stable_diffusion_highcardinality_stress.cpp" bodystart="43" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a971495e70cf4da2d7802d21ef2c2c38a" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubInferenceStore</scope><name>fetch</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a6f7a0df00ed7d01e5b9fb4719da0d791" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubInferenceStore</scope><name>mu_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a4cf661a64aec70a3bfc674804e19d760" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubInferenceStore</scope><name>size</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1ae53b23428102116a15788c3115945bfa" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubInferenceStore</scope><name>store_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a265446c7b656b65bfbbc506f28a8595d" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubInferenceStore</scope><name>submit</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a81d434080dd0d2c560ea0e8595319088" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubInferenceStore</scope><name>writes</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_inference_store_1a65797c5efc4094c3c192569898cf5327" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubInferenceStore</scope><name>writes_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

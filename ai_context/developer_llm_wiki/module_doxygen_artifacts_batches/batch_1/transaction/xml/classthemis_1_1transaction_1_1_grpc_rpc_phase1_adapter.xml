@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_grpc_rpc_phase1_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::GrpcRpcPhase1Adapter</compoundname>
+    <includes refid="grpc__rpc__adapter_8h" local="no">grpc_rpc_adapter.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_grpc_rpc_phase1_adapter_1a2f716e6a8509f6f1847b1e2852d5a59b" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a92aa1963812e16cd85ca4fd9279c3236" kindref="member">DistributedTransactionManager::RpcPhase1Fn</ref></type>
+        <definition>DistributedTransactionManager::RpcPhase1Fn themis::transaction::GrpcRpcPhase1Adapter::make</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;node_addresses, std::chrono::milliseconds timeout, std::optional&lt; MtlsConfig &gt; mtls=std::nullopt)</argsstring>
+        <name>make</name>
+        <qualifiedname>themis::transaction::GrpcRpcPhase1Adapter::make</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>node_addresses</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="structthemis_1_1transaction_1_1_mtls_config" kindref="compound">MtlsConfig</ref> &gt;</type>
+          <declname>mtls</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Create a <computeroutput>RpcPhase1Fn</computeroutput> callable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_addresses</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map from node_id → &quot;host:port&quot;. Unknown node_ids vote ABORT. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>gRPC deadline applied to every PREPARE call. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mtls</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional mTLS credential bundle. When present and all three PEM fields are non-empty, the channel is created with <computeroutput>grpc::SslCredentials</computeroutput>. Missing PEM material is rejected unless <computeroutput>allow_insecure</computeroutput> is explicitly set for a local test override. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Callable compatible with <computeroutput><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a92aa1963812e16cd85ca4fd9279c3236" kindref="member">DistributedTransactionManager::RpcPhase1Fn</ref></computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/grpc_rpc_adapter.h" line="124" column="56" bodyfile="src/transaction/grpc_rpc_adapter.cpp" bodystart="133" bodyend="235"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory for a <computeroutput>RpcPhase1Fn</computeroutput> that sends Phase-1 PREPARE over gRPC. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage: <programlisting><codeline><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_CORE_GRPC</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ad65b328c8a05c251b128ac80558bf0a6" kindref="member">DistributedTransactionManager::setRpcPhase1Fn</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_grpc_rpc_phase1_adapter_1a2f716e6a8509f6f1847b1e2852d5a59b" kindref="member">GrpcRpcPhase1Adapter::make</ref>(node_addresses,<sp/>500<ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref>));</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+</programlisting></para>
+<para>When <computeroutput>THEMIS_HAS_CORE_GRPC</computeroutput> is not defined, <computeroutput><ref refid="classthemis_1_1transaction_1_1_grpc_rpc_phase1_adapter_1a2f716e6a8509f6f1847b1e2852d5a59b" kindref="member">make()</ref></computeroutput> returns a callable that always votes ABORT and logs a warning, so test/headless builds fail-closed. </para>
+    </detaileddescription>
+    <location file="include/transaction/grpc_rpc_adapter.h" line="108" column="1" bodyfile="include/transaction/grpc_rpc_adapter.h" bodystart="108" bodyend="128"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_grpc_rpc_phase1_adapter_1a2f716e6a8509f6f1847b1e2852d5a59b" prot="public" virt="non-virtual"><scope>themis::transaction::GrpcRpcPhase1Adapter</scope><name>make</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

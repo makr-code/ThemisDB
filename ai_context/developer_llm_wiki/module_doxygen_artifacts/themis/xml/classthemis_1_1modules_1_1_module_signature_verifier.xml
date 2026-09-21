@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_module_signature_verifier" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::ModuleSignatureVerifier</compoundname>
+    <includes refid="module__signature__verifier_8h" local="no">module_signature_verifier.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_signature_verifier_1ad53afd2d2fc0eca91f49efc20a134e40" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_module_signature_verification_result" kindref="compound">ModuleSignatureVerificationResult</ref></type>
+        <definition>ModuleSignatureVerificationResult themis::modules::ModuleSignatureVerifier::verifySignature</definition>
+        <argsstring>(const std::string &amp;modulePath, const std::string &amp;signaturePath=&quot;&quot;)</argsstring>
+        <name>verifySignature</name>
+        <qualifiedname>themis::modules::ModuleSignatureVerifier::verifySignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modulePath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>signaturePath</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Verify the digital signature of a module file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Signature.</para>
+<para>Dispatches to verifyAuthenticodeSignature() on Windows or verifyGPGSignature() on Linux.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute path to the module file (.dll / .so). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>signaturePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to detached signature (Linux only; ignored on Windows). Pass an empty string to auto-detect. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result with success flag, signer info, and any error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signaturePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/module_signature_verifier.h" line="65" column="46" bodyfile="src/themis/module_signature_verifier.cpp" bodystart="50" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Standalone platform-specific signature verifier for ThemisDB modules. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>On Windows this uses the WinVerifyTrust / Wintrust API to validate the embedded Authenticode (PE) digital signature of a module DLL.</para>
+<para>On Linux this uses posix_spawn to invoke <computeroutput>gpg --verify</computeroutput> against a detached signature file (.asc, .sig, or .gpg) without going through a shell, avoiding the injection risk of popen().</para>
+<para>A cross-platform <ref refid="classthemis_1_1modules_1_1_module_signature_verifier_1ad53afd2d2fc0eca91f49efc20a134e40" kindref="member">verifySignature()</ref> dispatcher is always available; the platform-specific helpers are conditionally compiled.</para>
+<para>Thread-safety: all methods are stateless and thread-safe. </para>
+    </detaileddescription>
+    <location file="include/themis/module_signature_verifier.h" line="52" column="1" bodyfile="include/themis/module_signature_verifier.h" bodystart="52" bodyend="104"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_module_signature_verifier_1ad53afd2d2fc0eca91f49efc20a134e40" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSignatureVerifier</scope><name>verifySignature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

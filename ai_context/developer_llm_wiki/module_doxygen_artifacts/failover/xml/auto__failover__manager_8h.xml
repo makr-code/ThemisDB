@@ -1,0 +1,610 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="auto__failover__manager_8h" kind="file" language="C++">
+    <compoundname>auto_failover_manager.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">future</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes refid="failover__api__contract_8h" local="yes">failover/failover_api_contract.h</includes>
+    <includes refid="topology__snapshot_8h" local="yes">failover/topology_snapshot.h</includes>
+    <includes refid="quorum__log_8h" local="yes">failover/quorum_log.h</includes>
+    <includes local="yes">replication/replication_manager.h</includes>
+    <includes local="yes">sharding/epoch_fencing.h</includes>
+    <includes local="yes">sharding/health_monitor.h</includes>
+    <includes local="yes">sharding/hot_spare_manager.h</includes>
+    <includedby refid="bench__failover__phase2__phase3__gates_8cpp" local="yes">benchmarks/failover/bench_failover_phase2_phase3_gates.cpp</includedby>
+    <includedby refid="auto__failover__manager_8cpp" local="yes">src/failover/auto_failover_manager.cpp</includedby>
+    <includedby refid="test__failover__chaos__scenarios_8cpp" local="yes">tests/failover/test_failover_chaos_scenarios.cpp</includedby>
+    <includedby refid="test__failover__phase2__phase3__focused_8cpp" local="yes">tests/failover/test_failover_phase2_phase3_focused.cpp</includedby>
+    <includedby refid="test__failover__wave__a__quorum__persistence_8cpp" local="yes">tests/failover/test_failover_wave_a_quorum_persistence.cpp</includedby>
+    <includedby refid="test__failover__wave__a__topology__versioning_8cpp" local="yes">tests/failover/test_failover_wave_a_topology_versioning.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/failover/auto_failover_manager.h</label>
+        <link refid="auto__failover__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>failover/failover_api_contract.h</label>
+        <link refid="failover__api__contract_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>failover/quorum_log.h</label>
+        <link refid="quorum__log_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>failover/topology_snapshot.h</label>
+        <link refid="topology__snapshot_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>condition_variable</label>
+      </node>
+      <node id="18">
+        <label>cstdint</label>
+      </node>
+      <node id="22">
+        <label>filesystem</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>future</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>queue</label>
+      </node>
+      <node id="23">
+        <label>replication/replication_manager.h</label>
+      </node>
+      <node id="24">
+        <label>sharding/epoch_fencing.h</label>
+      </node>
+      <node id="25">
+        <label>sharding/health_monitor.h</label>
+      </node>
+      <node id="26">
+        <label>sharding/hot_spare_manager.h</label>
+      </node>
+      <node id="12">
+        <label>shared_mutex</label>
+      </node>
+      <node id="13">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="19">
+        <label>utils/retry_contract.h</label>
+      </node>
+      <node id="16">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/failover/bench_failover_phase2_phase3_gates.cpp</label>
+        <link refid="bench__failover__phase2__phase3__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/failover/auto_failover_manager.h</label>
+        <link refid="auto__failover__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/failover/auto_failover_manager.cpp</label>
+        <link refid="auto__failover__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/failover/test_failover_chaos_scenarios.cpp</label>
+        <link refid="test__failover__chaos__scenarios_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/failover/test_failover_phase2_phase3_focused.cpp</label>
+        <link refid="test__failover__phase2__phase3__focused_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/failover/test_failover_wave_a_quorum_persistence.cpp</label>
+        <link refid="test__failover__wave__a__quorum__persistence_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/failover/test_failover_wave_a_topology_versioning.cpp</label>
+        <link refid="test__failover__wave__a__topology__versioning_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1failover_1_1_auto_failover_config" prot="public">themis::failover::AutoFailoverConfig</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_failover_result" prot="public">themis::failover::FailoverResult</innerclass>
+    <innerclass refid="classthemis_1_1failover_1_1_auto_failover_manager" prot="public">themis::failover::AutoFailoverManager</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics" prot="public">themis::failover::AutoFailoverManager::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_failover_task" prot="private">themis::failover::AutoFailoverManager::FailoverTask</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1failover">themis::failover</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.11 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="failover__api__contract_8h" kindref="compound">failover/failover_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="topology__snapshot_8h" kindref="compound">failover/topology_snapshot.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="quorum__log_8h" kindref="compound">failover/quorum_log.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;replication/replication_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/epoch_fencing.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/health_monitor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/hot_spare_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1failover" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1failover" kindref="compound">failover</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6" kindref="member">FailoverEventType</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a525ea54cb438fa2c162f3a58807748f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a525ea54cb438fa2c162f3a58807748f5" kindref="member">NODE_FAILURE_DETECTED</ref>,</highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ac365a723376219ad542ea3eea431008e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ac365a723376219ad542ea3eea431008e" kindref="member">QUORUM_CHECK_PASSED</ref>,</highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a9950c183a921303acf8c812d08d2c938" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a9950c183a921303acf8c812d08d2c938" kindref="member">QUORUM_CHECK_FAILED</ref>,</highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ab732abb995b2ad026b080be1e6e07184" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ab732abb995b2ad026b080be1e6e07184" kindref="member">LEADER_ELECTION_STARTED</ref>,</highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a3154460e008063d518b5e659504c58e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a3154460e008063d518b5e659504c58e8" kindref="member">LEADER_ELECTED</ref>,</highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a666456c51d2f8c3ffe3a10a448d2de59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a666456c51d2f8c3ffe3a10a448d2de59" kindref="member">SPARE_ACTIVATED</ref>,</highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a33d285ab97e16d74291c1b8936019453" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a33d285ab97e16d74291c1b8936019453" kindref="member">SPARE_ACTIVATION_FAILED</ref>,</highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a3986ad9bab09619982e5b4fe230e93c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a3986ad9bab09619982e5b4fe230e93c0" kindref="member">FAILOVER_COMPLETED</ref>,</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a984b2dcdbfd219ee28ca3c0fa63549fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a984b2dcdbfd219ee28ca3c0fa63549fd" kindref="member">FAILOVER_CANCELLED</ref>,</highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a4b610a4613fcf11d25506c94d47f6d9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a4b610a4613fcf11d25506c94d47f6d9b" kindref="member">RECOVERY_STARTED</ref>,</highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ab5f7c8acadb75ff41d83c04da98ca895" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ab5f7c8acadb75ff41d83c04da98ca895" kindref="member">RECOVERY_COMPLETED</ref>,</highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a0dee95ae77d0baff6db0d5186a30704e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a0dee95ae77d0baff6db0d5186a30704e" kindref="member">NETWORK_PARTITION_DETECTED</ref>,</highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a96e55045ca31be4a17e285c280611f7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a96e55045ca31be4a17e285c280611f7a" kindref="member">QUEUE_PRESSURE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Emitted<sp/>when<sp/>queue<sp/>depth<sp/>exceeds<sp/>pressure<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ac3f8a1d7a36d4f74b5a5a7ec44204005" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ac3f8a1d7a36d4f74b5a5a7ec44204005" kindref="member">HEARTBEAT_MISSED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Emitted<sp/>when<sp/>a<sp/>health-check<sp/>call<sp/>times<sp/>out<sp/>(maps<sp/>from<sp/>FailoverErrorCode::HEARTBEAT_MISSED)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a14d0d4ad987868a4c16ba615f997caeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a14d0d4ad987868a4c16ba615f997caeb" kindref="member">SPLIT_BRAIN_RISK_DETECTED</ref>,<sp/></highlight><highlight class="comment">//<sp/>Emitted<sp/>when<sp/>split-brain<sp/>prevention<sp/>fails<sp/>(maps<sp/>from<sp/>SPLIT_BRAIN_DETECTED)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ad457aa9b34aaa594e96e83542c35e2e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ad457aa9b34aaa594e96e83542c35e2e1" kindref="member">NODE_REJOIN_FAILED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Emitted<sp/>when<sp/>a<sp/>node<sp/>exhausts<sp/>recovery<sp/>attempts<sp/>(maps<sp/>from<sp/>FailoverErrorCode::NODE_REJOIN_FAILED)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53d" kindref="member">FailoverOrchestratorState</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daa5daf7f2ebbba4975d61dab1c40188c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">IDLE</ref>,</highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dac5180bd8e8f315dd948c1dbffb071c50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dac5180bd8e8f315dd948c1dbffb071c50" kindref="member">DETECTING_FAILURE</ref>,</highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da26ddf4f9c20c57f6a9b3600c4c873200" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da26ddf4f9c20c57f6a9b3600c4c873200" kindref="member">VERIFYING_FAILURE</ref>,</highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daf50f9596dbf1dd4b173cd16568b9bc1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daf50f9596dbf1dd4b173cd16568b9bc1e" kindref="member">CHECKING_QUORUM</ref>,</highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da0f980f515b46f311a9b8098d53a57ada" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da0f980f515b46f311a9b8098d53a57ada" kindref="member">STARTING_LEADER_ELECTION</ref>,</highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dac4eb361ff95c6132ceff6bf164da6b0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dac4eb361ff95c6132ceff6bf164da6b0f" kindref="member">LEADER_ELECTION_IN_PROGRESS</ref>,</highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da5c8c2f6b4c9276b2010c0828e190b651" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da5c8c2f6b4c9276b2010c0828e190b651" kindref="member">ACTIVATING_SPARE</ref>,</highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daca0d5dcb6025fc537360dab45ceb0451" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daca0d5dcb6025fc537360dab45ceb0451" kindref="member">REDIRECTING_TRAFFIC</ref>,</highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da558880bde5fb36a0ff614b0519943c5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da558880bde5fb36a0ff614b0519943c5f" kindref="member">UPDATING_METADATA</ref>,</highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da1ef1f0400ad32b1fb2c6453cab26ccec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da1ef1f0400ad32b1fb2c6453cab26ccec" kindref="member">COMPLETING_FAILOVER</ref>,</highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref>,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1failover_1_1_auto_failover_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1failover_1_1_auto_failover_config" kindref="compound">AutoFailoverConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1failover_1_1_auto_failover_config_1a2d9746feb08e913c2b69798e1afd837f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a2d9746feb08e913c2b69798e1afd837f" kindref="member">failure_detection_interval</ref>{1000};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>second</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1failover_1_1_auto_failover_config_1ada819a254f1f9643cf3d26f477651ff7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1ada819a254f1f9643cf3d26f477651ff7" kindref="member">health_check_interval</ref>{500};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>500ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1failover_1_1_auto_failover_config_1a82989ec79e00bf809efeadfdc2d79e82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a82989ec79e00bf809efeadfdc2d79e82" kindref="member">failover_timeout</ref>{30000};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>30<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1failover_1_1_auto_failover_config_1abcae95609e0ea60a0eb5bec29011b5a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1abcae95609e0ea60a0eb5bec29011b5a8" kindref="member">spare_activation_timeout</ref>{10000};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1failover_1_1_auto_failover_config_1a67917a8f9f57244c0920d80a83e0e7a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a67917a8f9f57244c0920d80a83e0e7a5" kindref="member">leader_election_timeout</ref>{15000};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>15<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thresholds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1failover_1_1_auto_failover_config_1afee01a869543f74f02754c6340370392" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1afee01a869543f74f02754c6340370392" kindref="member">consecutive_failures_before_action</ref>{3};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3<sp/>consecutive<sp/>failures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1failover_1_1_auto_failover_config_1a9474de3184275d748e7a4e0bdead334f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a9474de3184275d748e7a4e0bdead334f" kindref="member">max_concurrent_failovers</ref>{2};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>2<sp/>failovers<sp/>at<sp/>same<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1failover_1_1_auto_failover_config_1a386ef7a169422c0915a973024f01e06f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a386ef7a169422c0915a973024f01e06f" kindref="member">queue_pressure_threshold</ref>{0.75f};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Emit<sp/>QUEUE_PRESSURE<sp/>when<sp/>queue<sp/>&gt;=<sp/>75%<sp/>full</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Behavior</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1failover_1_1_auto_failover_config_1a5b89572c8f79bf1d8b4648fbb700a007" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a5b89572c8f79bf1d8b4648fbb700a007" kindref="member">enable_automatic_failover</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1failover_1_1_auto_failover_config_1adbd67b21066c7ec4b71852ec0344a1b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1adbd67b21066c7ec4b71852ec0344a1b5" kindref="member">enable_spare_activation</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1failover_1_1_auto_failover_config_1ae00a39ae006c3b564a06e2304661f1fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1ae00a39ae006c3b564a06e2304661f1fc" kindref="member">enable_leader_election</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1failover_1_1_auto_failover_config_1af7cf88ddf1354576af7a1bd343eacee4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1af7cf88ddf1354576af7a1bd343eacee4" kindref="member">enable_network_partition_detection</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1failover_1_1_auto_failover_config_1a0c741950f92f3fb7bff4055cc5c81477" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a0c741950f92f3fb7bff4055cc5c81477" kindref="member">enable_split_brain_prevention</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1failover_1_1_auto_failover_config_1a5363390f015029236df58bde5cb9bcfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a5363390f015029236df58bde5cb9bcfd" kindref="member">enable_automatic_recovery</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1failover_1_1_auto_failover_config_1a3db2bc57410f8c0e793defca913db1ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a3db2bc57410f8c0e793defca913db1ed" kindref="member">recovery_retry_interval</ref>{5000};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>second<sp/>retry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1failover_1_1_auto_failover_config_1a6abdbaa8ff78af78d35f45d9fdc6e16f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a6abdbaa8ff78af78d35f45d9fdc6e16f" kindref="member">max_recovery_attempts</ref>{3};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1failover_1_1_auto_failover_config_1a7e845ed64e0c259fb75813c9167abfc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a7e845ed64e0c259fb75813c9167abfc6" kindref="member">health_check_call_timeout_ms</ref>{5000};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1failover_1_1_auto_failover_config_1a2290851b0a416bcfe8cfc499b20a9011" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a2290851b0a416bcfe8cfc499b20a9011" kindref="member">quorum_log_path</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Part<sp/>B1:<sp/>Adaptive<sp/>health-check<sp/>interval<sp/>──────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1failover_1_1_auto_failover_config_1a0c035165ca055a164a3c210bbb94f8d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a0c035165ca055a164a3c210bbb94f8d4" kindref="member">adaptive_check_interval</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1failover_1_1_auto_failover_config_1aebfec2beab143ae13544c8a193c63dfb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1aebfec2beab143ae13544c8a193c63dfb" kindref="member">adaptive_check_samples</ref>{20};</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1failover_1_1_auto_failover_config_1aba2b0283b15b8ba3c5e02af0f8a671be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1aba2b0283b15b8ba3c5e02af0f8a671be" kindref="member">adaptive_check_interval_min</ref>{100};</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1failover_1_1_auto_failover_config_1a59aa33bce62b3a31a92630470b9cd040" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a59aa33bce62b3a31a92630470b9cd040" kindref="member">adaptive_check_interval_max</ref>{5000};</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1failover_1_1_auto_failover_config_1a9af85ac11fae977f382c8c8dcefefc22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a9af85ac11fae977f382c8c8dcefefc22" kindref="member">gc_grace_failure_count</ref>{3};</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1failover_1_1_auto_failover_config_1ab1bd0728479360514c81ad367e31a060" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1ab1bd0728479360514c81ad367e31a060" kindref="member">gc_grace_window</ref>{1000};</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1failover_1_1_auto_failover_config_1a8a4a7072a083623c0425f4bc3388488c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a8a4a7072a083623c0425f4bc3388488c" kindref="member">gc_grace_period</ref>{2000};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Part<sp/>B2:<sp/>Consensus<sp/>quorum<sp/>hardening<sp/>──────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1failover_1_1_auto_failover_config_1a1c618e11af6783a96580f9235464ba25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a1c618e11af6783a96580f9235464ba25" kindref="member">quorum_timeout_ms</ref>{30000};</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1failover_1_1_auto_failover_config_1a981afc87d1dffcd1cb51d8d44b66f409" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a981afc87d1dffcd1cb51d8d44b66f409" kindref="member">deterministic_tie_breaking</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1failover_1_1_auto_failover_config_1aea60438b425a9d5f61ea87b5fbc0f1a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config_1aea60438b425a9d5f61ea87b5fbc0f1a8" kindref="member">max_heartbeats_per_second</ref>{5};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1failover_1_1_failover_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1failover_1_1_failover_result" kindref="compound">FailoverResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1failover_1_1_failover_result_1a676282ea1089c3112654bf7d07c324ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_failover_result_1a676282ea1089c3112654bf7d07c324ff" kindref="member">success</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1failover_1_1_failover_result_1a728c4b25d8c8f7aa18874bc4f08ef2de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1failover_1_1_failover_result_1a728c4b25d8c8f7aa18874bc4f08ef2de" kindref="member">failed_node_id</ref>;</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1failover_1_1_failover_result_1a168b3b9ae05850bc54d6e640ab27d804" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1failover_1_1_failover_result_1a168b3b9ae05850bc54d6e640ab27d804" kindref="member">promoted_node_id</ref>;</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1failover_1_1_failover_result_1a69e5fd5345b13ec8c2800da85205c2bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1failover_1_1_failover_result_1a69e5fd5345b13ec8c2800da85205c2bd" kindref="member">spare_node_id</ref>;</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1failover_1_1_failover_result_1a281a64bd8459013b531c816018eb849d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_failover_result_1a281a64bd8459013b531c816018eb849d" kindref="member">duration</ref>;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1failover_1_1_failover_result_1a3904fae41cbf979b866c62c6f71d6afd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1failover_1_1_failover_result_1a3904fae41cbf979b866c62c6f71d6afd" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1failover_1_1_auto_failover_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1a1f78707a7ba7bed4bcc20c4058bc683e" kindref="member">AutoFailoverManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1a1f78707a7ba7bed4bcc20c4058bc683e" kindref="member">AutoFailoverManager</ref>(</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config" kindref="compound">AutoFailoverConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themisdb::replication::ReplicationManager&gt;<sp/>replication_mgr,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::HealthMonitor&gt;<sp/>health_monitor,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::HotSpareManager&gt;<sp/>spare_manager,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::EpochFencingManager&gt;<sp/>fencing_manager</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1a814bf2bd52e3b6e44a42aa83f98de217" kindref="member">~AutoFailoverManager</ref>();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1ad3057625feddc42f242049975c1bb8fb" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1a78757a4d2251f5923727d6058895d9c9" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1ac04c22a9ce8dc4e8756751f26d58cfae" kindref="member">isRunning</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Manual<sp/>failover<sp/>trigger<sp/>(for<sp/>testing/ops)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1ac9cebd4ecd8a157c4d24516f3eb56256" kindref="member">triggerManualFailover</ref>(</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>failed_node_id,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_promote_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>current<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53d" kindref="member">FailoverOrchestratorState</ref><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1a31d122398d066b94de8f3eb05904be28" kindref="member">getState</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1a7088ec0ecc3a320b03b3e8223dcbed71" kindref="member">isFailoverInProgress</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1a59a416df84a1c5a820162b4ae2e17aea" kindref="member">getFailingNodes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;FailoverResult&gt;<sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1af3deb301bf6c1d07ea9709b4de93eddb" kindref="member">getLastFailoverResult</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1a0c248a17293d0ff9e2cbb5b26b51d064" kindref="member">updateConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config" kindref="compound">AutoFailoverConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config" kindref="compound">AutoFailoverConfig</ref><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1a413789173c2e2a929b680e861e82dc95" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>and<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="207" refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a3d7fff6585ef8762d1f2ff046850cfb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a3d7fff6585ef8762d1f2ff046850cfb7" kindref="member">total_failovers</ref>{0};</highlight></codeline>
+<codeline lineno="208" refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1af324c9892b9ec2c09f3da642bd03eb10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1af324c9892b9ec2c09f3da642bd03eb10" kindref="member">successful_failovers</ref>{0};</highlight></codeline>
+<codeline lineno="209" refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a5d5a1506bdfc4148473058c14eaf709e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a5d5a1506bdfc4148473058c14eaf709e" kindref="member">failed_failovers</ref>{0};</highlight></codeline>
+<codeline lineno="210" refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a46e46c6a991490471841bb4415ce6317" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a46e46c6a991490471841bb4415ce6317" kindref="member">network_partitions_detected</ref>{0};</highlight></codeline>
+<codeline lineno="211" refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a3c97ead0459f808294538c5eb04997d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a3c97ead0459f808294538c5eb04997d3" kindref="member">split_brain_preventions</ref>{0};</highlight></codeline>
+<codeline lineno="212" refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1aa3afe0854430c2af052f868db09ddd9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1aa3afe0854430c2af052f868db09ddd9d" kindref="member">avg_failover_time</ref>;</highlight></codeline>
+<codeline lineno="213" refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a02c28fa063df5aae5bb5635551aa2dd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a02c28fa063df5aae5bb5635551aa2dd3" kindref="member">min_failover_time</ref>;</highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8b0563091a1b9d77033b3f0b3766b134" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8b0563091a1b9d77033b3f0b3766b134" kindref="member">max_failover_time</ref>;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Queue-pressure<sp/>telemetry<sp/>(Phase<sp/>5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8a7d839a4291d6d25f96d3ed80cf0134" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8a7d839a4291d6d25f96d3ed80cf0134" kindref="member">current_queue_depth</ref>{0};</highlight></codeline>
+<codeline lineno="218" refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8f21f178ff2667bdae740177419e6753" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8f21f178ff2667bdae740177419e6753" kindref="member">max_queue_depth_observed</ref>{0};</highlight></codeline>
+<codeline lineno="219" refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a61b4eee73c784f186183557b7c7a848b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a61b4eee73c784f186183557b7c7a848b" kindref="member">tasks_dropped_queue_full</ref>{0};</highlight></codeline>
+<codeline lineno="220" refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a11e6b6e4ed42f7e3eee0f6cea6f1fb74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a11e6b6e4ed42f7e3eee0f6cea6f1fb74" kindref="member">queue_pressure_events</ref>{0};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retry<sp/>telemetry<sp/>(Phase<sp/>5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8dc4baf32c7c44019a73fef19b4ab80e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8dc4baf32c7c44019a73fef19b4ab80e" kindref="member">total_retry_attempts</ref>{0};</highlight></codeline>
+<codeline lineno="224" refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1aff4b588b4595d71102c6fa66e3871a5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1aff4b588b4595d71102c6fa66e3871a5e" kindref="member">successful_retries</ref>{0};</highlight></codeline>
+<codeline lineno="225" refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a036166a994a529348efd677db85c0773" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a036166a994a529348efd677db85c0773" kindref="member">failed_retries</ref>{0};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recovery<sp/>telemetry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1add24e44e6f207e02c7ee646149339970" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1add24e44e6f207e02c7ee646149339970" kindref="member">total_recovery_attempts</ref>{0};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>Statistics<sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1a3d3a739df9f18ad19bc0e72047ac166b" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1a18b1b0d1c43e06186e3c38c1e4e819f7" kindref="member">resetStatistics</ref>();</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Event<sp/>callback<sp/>registration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242" refid="classthemis_1_1failover_1_1_auto_failover_manager_1ace196c7fcd3e9e0f78a579f9800ee7d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1ace196c7fcd3e9e0f78a579f9800ee7d5" kindref="member">FailoverEventCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6" kindref="member">FailoverEventType</ref>,</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/><sp/></highlight><highlight class="comment">//<sp/>node_id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>detail<sp/>message</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>)&gt;;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1af8388238862d134f335381edddbd2120" kindref="member">registerEventCallback</ref>(<ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1ace196c7fcd3e9e0f78a579f9800ee7d5" kindref="member">FailoverEventCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1aa6e71037f52683f0dfedd16c81c26ff7" kindref="member">canTransition</ref>(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53d" kindref="member">FailoverOrchestratorState</ref><sp/>from,<sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53d" kindref="member">FailoverOrchestratorState</ref><sp/>to)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_TEST_BUILD</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>testPreventSplitBrain(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>preventSplitBrain(node_id);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>testAttemptRecovery(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id)<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>attemptRecovery(node_id);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>testEmitDiagnostic(<ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcc" kindref="member">FailoverErrorCode</ref><sp/>code,</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>detail)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>emitDiagnostic(code,<sp/>node_id,<sp/>detail);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>FailoverResult<sp/>testProcessFailover(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>failed_node_id)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FailoverTask<sp/>task;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.failed_node_id<sp/>=<sp/>failed_node_id;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>task.enqueued_at<sp/><sp/><sp/><sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>processFailover(task);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>testSetHealthCheckOverride(</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::map&lt;std::string,<sp/>bool&gt;()&gt;<sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>health_check_override_<sp/>=<sp/>std::move(fn);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1a1f78707a7ba7bed4bcc20c4058bc683e" kindref="member">AutoFailoverManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AutoFailoverConfig&amp;<sp/>config)</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1a1f78707a7ba7bed4bcc20c4058bc683e" kindref="member">AutoFailoverManager</ref>(config,<sp/>nullptr,<sp/>nullptr,<sp/>nullptr,<sp/>nullptr)<sp/>{}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>addCallback(<ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1ace196c7fcd3e9e0f78a579f9800ee7d5" kindref="member">FailoverEventCallback</ref><sp/>cb)<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager_1af8388238862d134f335381edddbd2120" kindref="member">registerEventCallback</ref>(std::move(cb));</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>addMonitoredNode(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*node_id*/</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3dda" kindref="member">NodeRole</ref><sp/></highlight><highlight class="comment">/*role*/</highlight><highlight class="normal">)<sp/>{}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>testCallPreventSplitBrain(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id)<sp/>{</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>preventSplitBrain(node_id);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>testTriggerHealthCheck()<sp/>{</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>performHealthChecks();</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>testTriggerRecovery(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id)<sp/>{</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>attemptRecovery(node_id);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>testSetRecoveryOverride(std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>recovery_override_<sp/>=<sp/>std::move(fn);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lock<sp/>order<sp/>(must<sp/>be<sp/>acquired<sp/>in<sp/>this<sp/>order<sp/>when<sp/>nesting):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>failover_mutex_<sp/>→<sp/>stats_mutex_<sp/>→<sp/>callbacks_mutex_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>tracking_mutex_<sp/>(exclusive)<sp/>→<sp/>monitor_mutex_<sp/><sp/>[only<sp/>in<sp/>checkAndApplyGcGrace]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Never<sp/>hold<sp/>monitor_mutex_<sp/>and<sp/>attempt<sp/>to<sp/>acquire<sp/>tracking_mutex_.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>and<sp/>managers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>AutoFailoverConfig<sp/>config_;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;QuorumLog&gt;<sp/>quorum_log_;<sp/><sp/></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themisdb::replication::ReplicationManager&gt;<sp/>replication_mgr_;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::HealthMonitor&gt;<sp/>health_monitor_;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::HotSpareManager&gt;<sp/>spare_manager_;</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::EpochFencingManager&gt;<sp/>fencing_manager_;</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>State<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;FailoverOrchestratorState&gt;<sp/>state_{<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">FailoverOrchestratorState::IDLE</ref>};</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>failover_in_progress_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Threading</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>monitoring_thread_;</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>failover_thread_;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>monitor_mutex_;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>failover_mutex_;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>failover_cv_;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failover<sp/>queue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">FailoverTask<sp/>{</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>failed_node_id;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>target_promote_id;<sp/><sp/></highlight><highlight class="comment">//<sp/>empty<sp/>=<sp/>auto-select</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>enqueued_at;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>std::queue&lt;FailoverTask&gt;<sp/>failover_queue_{};<sp/><sp/></highlight><highlight class="comment">//<sp/>RAII:<sp/>In-class<sp/>initializer<sp/>ensures<sp/>empty<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>int&gt;<sp/>consecutive_failures_;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>tracking_mutex_;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>topology_version_{0};</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/>TopologySnapshot<sp/>captureTopologySnapshot()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;FailoverResult&gt;<sp/>last_failover_result_;</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Part<sp/>B1:<sp/>Adaptive<sp/>interval<sp/>+<sp/>GC<sp/>grace<sp/>state<sp/>──────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::chrono::milliseconds&gt;<sp/>health_check_latency_samples_;</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::chrono::steady_clock::time_point&gt;<sp/>recent_failure_timestamps_;</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>gc_grace_expiry_{};</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>current_check_interval_{500};</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Part<sp/>B2:<sp/>Quorum-hardening<sp/>coalescing<sp/>state<sp/>────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>heartbeat_coalesce_window_start_{};</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>heartbeat_coalesce_count_{0};</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>stats_mutex_;</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics" kindref="compound">Statistics</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::chrono::milliseconds&gt;<sp/>failover_durations_;</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Event<sp/>callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>callbacks_mutex_;</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FailoverEventCallback&gt;<sp/>event_callbacks_;</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>monitoringLoop();</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>performHealthChecks();</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkForNetworkPartitions();</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>detectNodeFailures();</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateFailureTracking(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_healthy);</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>performBoundedHealthCheck(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateAdaptiveInterval(std::chrono::milliseconds<sp/>last_latency);</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkAndApplyGcGrace(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id);</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>failoverLoop();</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/>FailoverResult<sp/>processFailover(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>FailoverTask&amp;<sp/>task);</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkAndWaitForQuorum();</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>startLeaderElection(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>failed_node_id);</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>selectAndPromoteReplica(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>failed_node_id,<sp/>std::string&amp;<sp/>promoted_id);</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>activateSpareIfNeeded(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>failed_node_id);</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>updateMetadata(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>old_leader_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>new_leader_id);</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verifyFailoverCompletion(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>FailoverTask&amp;<sp/>task);</highlight></codeline>
+<codeline lineno="519"><highlight class="normal"></highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Split-brain<sp/>prevention</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>preventSplitBrain(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>failed_node_id);</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"></highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>resolveSplitVote(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>candidates)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"></highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Network<sp/>partition<sp/>handling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>handleNetworkPartition();</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isNetworkPartitionedFromQuorum()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="546"><highlight class="normal"></highlight></codeline>
+<codeline lineno="547"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recovery<sp/>after<sp/>failover</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>attemptRecovery(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>failed_node_id);</highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>waitForNodeRecovery(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,<sp/>uint32_t<sp/>max_attempts);</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"></highlight></codeline>
+<codeline lineno="562"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>State<sp/>machine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="567"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>transitionState(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53d" kindref="member">FailoverOrchestratorState</ref><sp/>new_state);</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"></highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>emitDiagnostic(<ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcc" kindref="member">FailoverErrorCode</ref><sp/>code,</highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="578"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>detail)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="579"><highlight class="normal"></highlight></codeline>
+<codeline lineno="587"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>emitEvent(<ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6" kindref="member">FailoverEventType</ref><sp/>type,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>detail)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="592"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateStatistics(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>FailoverResult&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="593"><highlight class="normal"></highlight></codeline>
+<codeline lineno="594"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;std::map&lt;std::string,<sp/>bool&gt;&gt;<sp/>abandoned_health_check_future_;</highlight></codeline>
+<codeline lineno="595"><highlight class="normal"></highlight></codeline>
+<codeline lineno="596"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_TEST_BUILD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="597"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;std::map&lt;std::string,<sp/>bool&gt;()&gt;<sp/>health_check_override_;</highlight></codeline>
+<codeline lineno="598"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>recovery_override_;</highlight></codeline>
+<codeline lineno="599"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="600"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="601"><highlight class="normal"></highlight></codeline>
+<codeline lineno="602"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>failover</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="603"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/failover/auto_failover_manager.h"/>
+  </compounddef>
+</doxygen>

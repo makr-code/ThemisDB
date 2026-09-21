@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="hybrid__retriever_8h" kind="file" language="C++">
+    <compoundname>hybrid_retriever.h</compoundname>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes refid="vectorizer__interface_8h" local="yes">rag/vectorizer_interface.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__rag__hybrid__retriever_8cpp" local="yes">benchmarks/rag/bench_rag_hybrid_retriever.cpp</includedby>
+    <includedby refid="hybrid__retriever_8cpp" local="yes">src/rag/hybrid_retriever.cpp</includedby>
+    <includedby refid="test__rag__hybrid__retriever_8cpp" local="yes">tests/rag/test_rag_hybrid_retriever.cpp</includedby>
+    <includedby refid="test__rag__phase__b__e2e_8cpp" local="yes">tests/rag/test_rag_phase_b_e2e.cpp</includedby>
+    <includedby refid="test__rag__pipeline__integration_8cpp" local="yes">tests/rag/test_rag_pipeline_integration.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/hybrid_retriever.h</label>
+        <link refid="hybrid__retriever_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>rag/vectorizer_interface.h</label>
+        <link refid="vectorizer__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/rag/bench_rag_hybrid_retriever.cpp</label>
+        <link refid="bench__rag__hybrid__retriever_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/rag/hybrid_retriever.h</label>
+        <link refid="hybrid__retriever_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/rag/hybrid_retriever.cpp</label>
+        <link refid="hybrid__retriever_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/rag/test_rag_hybrid_retriever.cpp</label>
+        <link refid="test__rag__hybrid__retriever_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/rag/test_rag_phase_b_e2e.cpp</label>
+        <link refid="test__rag__phase__b__e2e_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/rag/test_rag_pipeline_integration.cpp</label>
+        <link refid="test__rag__pipeline__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1_hybrid_retriever_config" prot="public">themis::rag::HybridRetrieverConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_hybrid_score" prot="public">themis::rag::HybridScore</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_hybrid_fusion_result" prot="public">themis::rag::HybridFusionResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_hybrid_retriever" prot="public">themis::rag::HybridRetriever</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_hybrid_retriever_factory" prot="public">themis::rag::HybridRetrieverFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="vectorizer__interface_8h" kindref="compound">rag/vectorizer_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1rag_1_1_hybrid_retriever_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config" kindref="compound">HybridRetrieverConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a888a351e07874bb45d8a1597b2d798de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a888a351e07874bb45d8a1597b2d798de" kindref="member">bm25_weight</ref><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a9e041f68eb21a73e4968bf097d0ca662" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a9e041f68eb21a73e4968bf097d0ca662" kindref="member">vector_weight</ref><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab51ad09871f49575d6aefaaa22bf47cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab51ad09871f49575d6aefaaa22bf47cf" kindref="member">use_rrf</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a8b9773c744e94bef02adf1f290bd5352" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1a8b9773c744e94bef02adf1f290bd5352" kindref="member">rrf_k</ref><sp/>=<sp/>60.0;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab7d876bb44777f61b44ffa5d9d67808e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab7d876bb44777f61b44ffa5d9d67808e" kindref="member">top_k</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab6de9f9661d6e7005f67f86dfcfe9350" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config_1ab6de9f9661d6e7005f67f86dfcfe9350" kindref="member">normalize_scores</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1rag_1_1_hybrid_score" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_hybrid_score" kindref="compound">HybridScore</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1rag_1_1_hybrid_score_1ab34f007972bea2964a87ac44cca409bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_hybrid_score_1ab34f007972bea2964a87ac44cca409bf" kindref="member">document_id</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1rag_1_1_hybrid_score_1a1a6c0a6891b49e542e7d3b763a90307e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_score_1a1a6c0a6891b49e542e7d3b763a90307e" kindref="member">bm25_score</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1rag_1_1_hybrid_score_1a46461a05168aa38f1dfeccef4cd8f647" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_score_1a46461a05168aa38f1dfeccef4cd8f647" kindref="member">vector_score</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1rag_1_1_hybrid_score_1a58ac9cfed5a0fee04c418fad33d17808" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_score_1a58ac9cfed5a0fee04c418fad33d17808" kindref="member">hybrid_score</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1rag_1_1_hybrid_score_1afa04cd6cfc792e1a137b7089cc9fbe17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_score_1afa04cd6cfc792e1a137b7089cc9fbe17" kindref="member">bm25_rank</ref><sp/><sp/><sp/><sp/>=<sp/>-1;<sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1rag_1_1_hybrid_score_1a62e1aa4823c915d5b4bebd3752e09de9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_score_1a62e1aa4823c915d5b4bebd3752e09de9" kindref="member">vector_rank</ref><sp/><sp/>=<sp/>-1;<sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1rag_1_1_hybrid_fusion_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_hybrid_fusion_result" kindref="compound">HybridFusionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1rag_1_1_hybrid_fusion_result_1a3e2ce8bbef703c08dced8447f793855d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;judge::RetrievedDocument&gt;<sp/><ref refid="structthemis_1_1rag_1_1_hybrid_fusion_result_1a3e2ce8bbef703c08dced8447f793855d" kindref="member">documents</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1rag_1_1_hybrid_fusion_result_1a1c70b8fa041d64bda1084d7dc2d673e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;HybridScore&gt;<sp/><ref refid="structthemis_1_1rag_1_1_hybrid_fusion_result_1a1c70b8fa041d64bda1084d7dc2d673e5" kindref="member">scores</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1rag_1_1_hybrid_fusion_result_1ab9f20cd372d3f5e8f8fbe981eb45cb3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_fusion_result_1ab9f20cd372d3f5e8f8fbe981eb45cb3f" kindref="member">total_candidates</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1rag_1_1_hybrid_fusion_result_1af40c46bd5dbecf0e47b48a2c8d13fb07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_fusion_result_1af40c46bd5dbecf0e47b48a2c8d13fb07" kindref="member">used_rrf</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1rag_1_1_hybrid_retriever" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1aa6aea77b1051e9e62af40c4733ef8b7c" kindref="member">HybridRetriever</ref><sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1aa6aea77b1051e9e62af40c4733ef8b7c" kindref="member">HybridRetriever</ref>();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1aa6aea77b1051e9e62af40c4733ef8b7c" kindref="member">HybridRetriever</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config" kindref="compound">HybridRetrieverConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1rag_1_1_hybrid_retriever_1a8d2dc6e69dc999dcdd518c636d0d9cfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a8d2dc6e69dc999dcdd518c636d0d9cfe" kindref="member">~HybridRetriever</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1rag_1_1_hybrid_retriever_1a5f1a3e8f749b0bba86f8b3188e9f3e03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a5f1a3e8f749b0bba86f8b3188e9f3e03" kindref="member">HybridRetriever</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1aa6aea77b1051e9e62af40c4733ef8b7c" kindref="member">HybridRetriever</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1rag_1_1_hybrid_retriever_1a3a9e764a97986f299ac90251537db53d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1aa6aea77b1051e9e62af40c4733ef8b7c" kindref="member">HybridRetriever</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a3a9e764a97986f299ac90251537db53d" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1aa6aea77b1051e9e62af40c4733ef8b7c" kindref="member">HybridRetriever</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1rag_1_1_hybrid_retriever_1ae54b330b1560601118a67fcf34738eb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1ae54b330b1560601118a67fcf34738eb3" kindref="member">HybridRetriever</ref>(<ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1aa6aea77b1051e9e62af40c4733ef8b7c" kindref="member">HybridRetriever</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1rag_1_1_hybrid_retriever_1adce4239e6c3868ccac5e85d44c3ed57d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1aa6aea77b1051e9e62af40c4733ef8b7c" kindref="member">HybridRetriever</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1aa6aea77b1051e9e62af40c4733ef8b7c" kindref="member">HybridRetriever</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_fusion_result" kindref="compound">HybridFusionResult</ref><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a59668eb561798fb677664fa616055c4c" kindref="member">fuse</ref>(</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::RetrievedDocument&gt;&amp;<sp/>bm25_candidates,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::RetrievedDocument&gt;&amp;<sp/>vector_candidates</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a4a1add9cf52904df5b0ee89795a7de27" kindref="member">setVectorizer</ref>(std::shared_ptr&lt;<ref refid="classthemis_1_1rag_1_1_i_vectorizer" kindref="compound">IVectorizer</ref>&gt;<sp/>vectorizer);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1rag_1_1_i_vectorizer" kindref="compound">IVectorizer</ref>&gt;<sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a3fe66a25d146a3553baf31b140863e5b" kindref="member">getVectorizer</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1rag_1_1_hybrid_fusion_result" kindref="compound">HybridFusionResult</ref><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1ad6ea8f1c460407cd63476b1a1318c377" kindref="member">retrieveWithVectorizer</ref>(</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::RetrievedDocument&gt;&amp;<sp/>bm25_candidates</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config" kindref="compound">HybridRetrieverConfig</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a923400d147601ef6091debdace71be8d" kindref="member">getConfig</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a74798579e2c26d14af8bd0424054abb8" kindref="member">setConfig</ref>(const<sp/><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config" kindref="compound">HybridRetrieverConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a0228d9d2dca51103f8b119409f402a4d" kindref="member">validateConfig</ref>(const<sp/><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config" kindref="compound">HybridRetrieverConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config" kindref="compound">HybridRetrieverConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1rag_1_1_i_vectorizer" kindref="compound">IVectorizer</ref>&gt;<sp/>vectorizer_;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_fusion_result" kindref="compound">HybridFusionResult</ref><sp/>fuseRRF(</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::RetrievedDocument&gt;&amp;<sp/>bm25_candidates,</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::RetrievedDocument&gt;&amp;<sp/>vector_candidates</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_hybrid_fusion_result" kindref="compound">HybridFusionResult</ref><sp/>fuseLinear(</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::RetrievedDocument&gt;&amp;<sp/>bm25_candidates,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::RetrievedDocument&gt;&amp;<sp/>vector_candidates</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="classthemis_1_1rag_1_1_hybrid_retriever_factory" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_factory" kindref="compound">HybridRetrieverFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_factory_1af2ea971964cb1af2de6cff32423dbdcd" kindref="member">createBalanced</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>top_k<sp/>=<sp/>10);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_factory_1a484e8a8355408c9634892fa6c9da5cdd" kindref="member">createSemanticFocused</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>top_k<sp/>=<sp/>10);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever" kindref="compound">HybridRetriever</ref><sp/><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_factory_1a159ed463fef1014f718b276f64df5d79" kindref="member">createKeywordFocused</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>top_k<sp/>=<sp/>10);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/hybrid_retriever.h"/>
+  </compounddef>
+</doxygen>

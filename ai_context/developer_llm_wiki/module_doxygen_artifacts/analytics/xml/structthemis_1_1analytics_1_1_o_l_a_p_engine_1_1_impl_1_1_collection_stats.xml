@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1_1_collection_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::OLAPEngine::Impl::CollectionStats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1_1_collection_stats_1a2f5c6954a8963afe062dcc4e378dbc1e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::OLAPEngine::Impl::CollectionStats::row_count</definition>
+        <argsstring></argsstring>
+        <name>row_count</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::CollectionStats::row_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="218" column="16" bodyfile="src/analytics/olap.cpp" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1_1_collection_stats_1a82ecca493407582be802031bb4e1ca6a" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::analytics::OLAPEngine::Impl::CollectionStats::updated</definition>
+        <argsstring></argsstring>
+        <name>updated</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::CollectionStats::updated</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="219" column="47" bodyfile="src/analytics/olap.cpp" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1_1_collection_stats_1ad7c8f63d0238172df8add9f65c5a30a0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::analytics::OLAPEngine::Impl::CollectionStats::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::analytics::OLAPEngine::Impl::CollectionStats::valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="220" column="14" bodyfile="src/analytics/olap.cpp" bodystart="220" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/analytics/olap.cpp" line="217" column="5" bodyfile="src/analytics/olap.cpp" bodystart="217" bodyend="221"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1_1_collection_stats_1a2f5c6954a8963afe062dcc4e378dbc1e" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl::CollectionStats</scope><name>row_count</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1_1_collection_stats_1a82ecca493407582be802031bb4e1ca6a" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl::CollectionStats</scope><name>updated</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_engine_1_1_impl_1_1_collection_stats_1ad7c8f63d0238172df8add9f65c5a30a0" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPEngine::Impl::CollectionStats</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

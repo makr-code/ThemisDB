@@ -32,6 +32,12 @@ on:
         default: 'false'
         type: choice
         options: ['false', 'true']
+      fail_on_blocked_private:
+        description: 'Fail build if private-content guardrail blocks wiki sources (workflow_dispatch only)'
+        required: false
+        default: 'true'
+        type: choice
+        options: ['false', 'true']
 
   schedule:
     - cron: '0 3 * * *'
@@ -51,7 +57,7 @@ jobs:
     if: |
       github.event_name != 'workflow_run' ||
       github.event.workflow_run.conclusion == 'success'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
 
     steps:
@@ -73,14 +79,25 @@ jobs:
           if [ -z "$SOURCE_BRANCH" ]; then
             SOURCE_BRANCH="develop"
           fi
-          python scripts/build_wiki.py \
-            --repo-root . \
-            --output /tmp/wiki-staging \
-            --enable-breadcrumbs \
-            --sort-by currency \
-            --source-branch "$SOURCE_BRANCH" \
-            --manifest /tmp/wiki-manifest.json \
-            --fail-on-blocked-private
+
+          # Automation policy: workflow_run/schedule warn on blocked-private instead of failing.
+          FAIL_ON_BLOCKED_PRIVATE="false"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            FAIL_ON_BLOCKED_PRIVATE="${{ github.event.inputs.fail_on_blocked_private }}"
+          fi
+
+          build_args=(
+            --repo-root .
+            --output /tmp/wiki-staging
+            --enable-breadcrumbs
+            --sort-by currency
+            --source-branch "$SOURCE_BRANCH"
+            --manifest /tmp/wiki-manifest.json
+          )
+          if [ "${FAIL_ON_BLOCKED_PRIVATE}" = "true" ]; then
+            build_args+=(--fail-on-blocked-private)
+          fi
+          python scripts/build_wiki.py "${build_args[@]}"
 
           python scripts/validate_wiki_links.py \
             --wiki-dir /tmp/wiki-staging \

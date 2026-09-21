@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="quorum__manager_8h" kind="file" language="C++">
+    <compoundname>quorum_manager.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">future</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includedby refid="quorum__manager_8cpp" local="yes">src/sharding/quorum_manager.cpp</includedby>
+    <includedby refid="test__sharding__phase2__hardening_8cpp" local="yes">tests/sharding/test_sharding_phase2_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/quorum_manager.h</label>
+        <link refid="quorum__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>future</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/sharding/quorum_manager.h</label>
+        <link refid="quorum__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/sharding/quorum_manager.cpp</label>
+        <link refid="quorum__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/sharding/test_sharding_phase2_hardening.cpp</label>
+        <link refid="test__sharding__phase2__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_quorum_result" prot="public">themisdb::sharding::QuorumResult</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_quorum_config" prot="public">themisdb::sharding::QuorumConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_quorum_manager" prot="public">themisdb::sharding::QuorumManager</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics" prot="public">themisdb::sharding::QuorumManager::Statistics</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1sharding">themisdb::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682d" kindref="member">QuorumType</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682dabc21e6484530fc9d0313cb816b733396" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682dabc21e6484530fc9d0313cb816b733396" kindref="member">ONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Acknowledge<sp/>after<sp/>one<sp/>node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682da28e6444341e60a10ed454a48de251aa9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682da28e6444341e60a10ed454a48de251aa9" kindref="member">MAJORITY</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>majority<sp/>(N/2<sp/>+<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682da5fb1f955b45e38e31789286a1790398d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682da5fb1f955b45e38e31789286a1790398d" kindref="member">ALL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>all<sp/>nodes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682da72baef04098f035e8a320b03ad197818" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682da72baef04098f035e8a320b03ad197818" kindref="member">CUSTOM</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Custom<sp/>quorum<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemisdb_1_1sharding_1_1_quorum_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_quorum_result" kindref="compound">QuorumResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemisdb_1_1sharding_1_1_quorum_result_1a0cb4910b71512ed4136f7a686d676a84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_result_1a0cb4910b71512ed4136f7a686d676a84" kindref="member">success</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemisdb_1_1sharding_1_1_quorum_result_1a63cfbfafcc4043c8b3466be7915e693a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_result_1a63cfbfafcc4043c8b3466be7915e693a" kindref="member">acks_received</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemisdb_1_1sharding_1_1_quorum_result_1a9e9ef73de5013937ddaf0e98ceb0dbe5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_result_1a9e9ef73de5013937ddaf0e98ceb0dbe5" kindref="member">acks_required</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemisdb_1_1sharding_1_1_quorum_result_1adbc1ebb1d25b74d26cd02ddbfb0b550f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_result_1adbc1ebb1d25b74d26cd02ddbfb0b550f" kindref="member">successful_nodes</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemisdb_1_1sharding_1_1_quorum_result_1a851c374a1b7f88403f72ee9c55474fd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_result_1a851c374a1b7f88403f72ee9c55474fd3" kindref="member">failed_nodes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemisdb_1_1sharding_1_1_quorum_result_1a395fee977a6f8183d313c3b9d921f494" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_result_1a395fee977a6f8183d313c3b9d921f494" kindref="member">latency</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemisdb_1_1sharding_1_1_quorum_result_1a83404848bae8c6845be60b984b19be6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_result_1a83404848bae8c6845be60b984b19be6f" kindref="member">error_message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_result" kindref="compound">QuorumResult</ref><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_result_1adefa371890a96cb7a6993cb7f18579b5" kindref="member">successful</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>acks,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>required,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>nodes,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>lat);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_result" kindref="compound">QuorumResult</ref><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_result_1a6730a6f79457baa80f41c050537f1e83" kindref="member">failed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemisdb_1_1sharding_1_1_quorum_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_quorum_config" kindref="compound">QuorumConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="75" refid="structthemisdb_1_1sharding_1_1_quorum_config_1a74e8f78bdcf7ed567f8871e7c1a1e3d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682d" kindref="member">QuorumType</ref><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_config_1a74e8f78bdcf7ed567f8871e7c1a1e3d6" kindref="member">write_quorum</ref>{<ref refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682da28e6444341e60a10ed454a48de251aa9" kindref="member">QuorumType::MAJORITY</ref>};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="structthemisdb_1_1sharding_1_1_quorum_config_1a6fadf44df2864e64e36dc163f240a88c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682d" kindref="member">QuorumType</ref><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_config_1a6fadf44df2864e64e36dc163f240a88c" kindref="member">read_quorum</ref>{<ref refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682dabc21e6484530fc9d0313cb816b733396" kindref="member">QuorumType::ONE</ref>};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemisdb_1_1sharding_1_1_quorum_config_1a7ffad5ed53e8ef785ad87c8b058753cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_config_1a7ffad5ed53e8ef785ad87c8b058753cc" kindref="member">custom_write_quorum</ref>{2};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemisdb_1_1sharding_1_1_quorum_config_1a8edc310ee8e5e89d585f71a0b2449412" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_config_1a8edc310ee8e5e89d585f71a0b2449412" kindref="member">custom_read_quorum</ref>{1};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemisdb_1_1sharding_1_1_quorum_config_1a06ea8a47dc740f58eb32deb4bbe8a4e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_config_1a06ea8a47dc740f58eb32deb4bbe8a4e2" kindref="member">operation_timeout</ref>{5000};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemisdb_1_1sharding_1_1_quorum_config_1aaf25d1256065bf2d05c2fd5299203a78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_config_1aaf25d1256065bf2d05c2fd5299203a78" kindref="member">fail_fast</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="structthemisdb_1_1sharding_1_1_quorum_config_1a05191171477f1d860565cf66f8abcc8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_config_1a05191171477f1d860565cf66f8abcc8b" kindref="member">enable_quorum_enforcement</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="classthemisdb_1_1sharding_1_1_quorum_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a6a4f37cfcb386d3c9c52e35d99726f1c" kindref="member">QuorumManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="93" refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a1f2cc58f58680418eadf08f8d1d8cacc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a1f2cc58f58680418eadf08f8d1d8cacc" kindref="member">WriteOperation</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id)&gt;;</highlight></codeline>
+<codeline lineno="95" refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a10071ed3abe9880840504fca74983951" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a10071ed3abe9880840504fca74983951" kindref="member">ReadOperation</ref><sp/>=<sp/>std::function&lt;std::optional&lt;std::string&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id)&gt;;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a6a4f37cfcb386d3c9c52e35d99726f1c" kindref="member">QuorumManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_config" kindref="compound">QuorumConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="102" refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a91b8ba64f946ec823b1806279356401c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a91b8ba64f946ec823b1806279356401c" kindref="member">~QuorumManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_result" kindref="compound">QuorumResult</ref><sp/><ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1ad8bcbaae36adf9c2617ce067d7dce84d" kindref="member">executeWrite</ref>(<ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a1f2cc58f58680418eadf08f8d1d8cacc" kindref="member">WriteOperation</ref><sp/>operation,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>target_nodes);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_result" kindref="compound">QuorumResult</ref><sp/><ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a9367697ff5c61869560bd6a5408c8f73" kindref="member">executeRead</ref>(<ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a10071ed3abe9880840504fca74983951" kindref="member">ReadOperation</ref><sp/>operation,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>target_nodes);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1ada432dd8136802c2e4b839f134f46e86" kindref="member">getWriteQuorumSize</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_nodes)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1adbe8ad7b05d26422ecefa26b69878e7d" kindref="member">getReadQuorumSize</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_nodes)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1ab3315828b950526e6029c1b005461ea4" kindref="member">isQuorumAchievable</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>available_nodes,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_write)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a2e1ad6025624c2619fcb0fcccd1fc6a8" kindref="member">updateConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_config" kindref="compound">QuorumConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154" refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a17bb13ea65c276b0e8db8f0db5918f32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_config" kindref="compound">QuorumConfig</ref>&amp;<sp/><ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a17bb13ea65c276b0e8db8f0db5918f32" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159" refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="160" refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1a05123f40908a261af436ae755ab7d0d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1a05123f40908a261af436ae755ab7d0d3" kindref="member">total_writes</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161" refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1af1e753ea9dfb2ed779861bc599ce84a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1af1e753ea9dfb2ed779861bc599ce84a1" kindref="member">successful_writes</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162" refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1a46e080404ff2c79a4d7f7cd0d777c136" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1a46e080404ff2c79a4d7f7cd0d777c136" kindref="member">failed_writes</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163" refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1a7758569c59836b83fc5cff0603fcc3e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1a7758569c59836b83fc5cff0603fcc3e2" kindref="member">total_reads</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164" refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1a0b482840b317d3473b339aa5ed057931" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1a0b482840b317d3473b339aa5ed057931" kindref="member">successful_reads</ref>{0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165" refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1abf4252dc1a2eb94be06ba277720841c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1abf4252dc1a2eb94be06ba277720841c3" kindref="member">failed_reads</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166" refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1ad6129de6582f0b7a7bba1b0341fcac1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics_1ad6129de6582f0b7a7bba1b0341fcac1c" kindref="member">quorum_timeouts</ref>{0};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a81df08be02f6acc4ac908a353d099681" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics" kindref="compound">Statistics</ref>&amp;<sp/><ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a81df08be02f6acc4ac908a353d099681" kindref="member">getStatistics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a4109d63978aa3a8274ad8d84ccbe86d9" kindref="member">resetStatistics</ref>();</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_quorum_config" kindref="compound">QuorumConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>config_mutex_;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>Statistics<sp/>stats_;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>calculateQuorumSize(<ref refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682d" kindref="member">QuorumType</ref><sp/>type,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>custom_size,<sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_nodes)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>T&gt;&gt;<sp/>waitForOperations(</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::future&lt;T&gt;&gt;&gt;&amp;<sp/>futures,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>required_acks,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/quorum_manager.h"/>
+  </compounddef>
+</doxygen>
